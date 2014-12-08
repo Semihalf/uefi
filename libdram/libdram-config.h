@@ -46,11 +46,12 @@ typedef struct {
 } dimm_config_t;
 
 typedef struct {
-    uint8_t odt_ena;
-    uint64_t odt_mask;
+    uint8_t odt_ena;   /* FIX: dqx_ctl for Octeon 3 DDR4 */
+    uint64_t odt_mask; /* FIX: wodt_mask for Octeon 3 */
     bdk_lmcx_modereg_params1_t odt_mask1;
-    uint8_t qs_dic;
-    uint64_t rodt_ctl;
+    bdk_lmcx_modereg_params2_t odt_mask2; /* FIX: needed for DDR4 */
+    uint8_t qs_dic;    /* FIX: rodt_ctl for Octeon 3 */
+    uint64_t rodt_ctl; /* FIX: rodt_mask for Octeon 3 */
     uint8_t dic;
 } dimm_odt_config_t;
 
@@ -184,7 +185,7 @@ typedef struct {
     uint8_t max_rtt_nom_idx;
     uint8_t min_rodt_ctl;
     uint8_t max_rodt_ctl;
-    uint8_t dqx_ctl;
+    //uint8_t dqx_ctl;
     uint8_t ck_ctl;
     uint8_t cmd_ctl;
     uint8_t ctl_ctl;

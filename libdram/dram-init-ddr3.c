@@ -647,11 +647,13 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
             "Init Register Control Words",
             "Mode Register Write",
             "MPR Register Access",
+#ifdef DDR3_ENHANCE_PRINT
+            "LMC Deskew/Internal Vref training",
+#else
             "Vref internal training",
+#endif
             "Offset Training"
 	};
-
-        extern dram_verbosity_t dram_verbosity;
 
 	bdk_lmcx_seq_ctl_t seq_ctl;
 	bdk_lmcx_config_t  lmc_config;
@@ -665,9 +667,9 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
 	seq_ctl.s.init_start  = 1;
         seq_ctl.s.seq_sel    = sequence;
 
-        if (dram_verbosity >= TRACE_SEQUENCES)
-            ddr_print("Performing LMC sequence: rank_mask=0x%02x, sequence=%d, %s\n",
-                      rank_mask, sequence, sequence_str[sequence]);
+        if (dram_is_verbose(TRACE_SEQUENCES))
+            printf("Performing LMC sequence: rank_mask=0x%02x, sequence=%d, %s\n",
+		   rank_mask, sequence, sequence_str[sequence]);
 
 	if ((s = lookup_env_parameter("ddr_trigger_sequence%d", sequence)) != NULL) {
 		int trigger = strtoul(s, NULL, 0);
@@ -685,9 +687,120 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
 			rank_mask, sequence, sequence_str[sequence]);
 	}
         else
-            if (dram_verbosity >= TRACE_SEQUENCES)
-                ddr_print("           LMC sequence: Completed.\n");
+            if (dram_is_verbose(TRACE_SEQUENCES))
+                printf("           LMC sequence: Completed.\n");
 }
+
+void ddr4_mpr_read(bdk_node_t node, int ddr_interface_num, int rank,
+		   int page, int location, uint64_t *mpr_data)
+{
+    bdk_lmcx_mr_mpr_ctl_t lmc_mr_mpr_ctl;
+
+    lmc_mr_mpr_ctl.u = BDK_CSR_READ(node, BDK_LMCX_MR_MPR_CTL(ddr_interface_num));
+
+    lmc_mr_mpr_ctl.s.mr_wr_addr               = 0;
+    lmc_mr_mpr_ctl.s.mr_wr_sel                = page; /* Page */
+    lmc_mr_mpr_ctl.s.mr_wr_rank               = rank;
+    //lmc_mr_mpr_ctl.cn70xx.mr_wr_pda_mask           =
+    //lmc_mr_mpr_ctl.cn70xx.mr_wr_pda_enable         =
+    lmc_mr_mpr_ctl.s.mpr_loc                  = location;
+    lmc_mr_mpr_ctl.s.mpr_wr                   = 0; /* Read=0, Write=1 */
+    //lmc_mr_mpr_ctl.cn70xx.mpr_bit_select           =
+    //lmc_mr_mpr_ctl.cn70xx.mpr_byte_select          =
+    //lmc_mr_mpr_ctl.cn70xx.mpr_whole_byte_enable    =
+    //lmc_mr_mpr_ctl.cn70xx.mr_wr_use_default_value  =
+    //lmc_mr_mpr_ctl.cn70xx.mr_wr_bg1                =
+
+    DRAM_CSR_WRITE(node, BDK_LMCX_MR_MPR_CTL(ddr_interface_num), lmc_mr_mpr_ctl.u);
+
+    /* MPR register access sequence */
+    perform_octeon3_ddr3_sequence(node, 1 << rank, ddr_interface_num, 0x9);
+
+    debug_print("LMC_MR_MPR_CTL                  : 0x%016llx\n", lmc_mr_mpr_ctl.u);
+    debug_print("lmc_mr_mpr_ctl.cn70xx.mr_wr_addr: 0x%02x\n", lmc_mr_mpr_ctl.s.mr_wr_addr);
+    debug_print("lmc_mr_mpr_ctl.cn70xx.mr_wr_sel : 0x%02x\n", lmc_mr_mpr_ctl.s.mr_wr_sel);
+    debug_print("lmc_mr_mpr_ctl.cn70xx.mpr_loc   : 0x%02x\n", lmc_mr_mpr_ctl.s.mpr_loc);
+    debug_print("lmc_mr_mpr_ctl.cn70xx.mpr_wr    : 0x%02x\n", lmc_mr_mpr_ctl.s.mpr_wr);
+
+    mpr_data[0] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA0(ddr_interface_num));
+    debug_print("mpr_data0: 0x%016llx\n", mpr_data[0]);
+    mpr_data[1] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA1(ddr_interface_num));
+    debug_print("mpr_data1: 0x%016llx\n", mpr_data[1]);
+    mpr_data[2] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA2(ddr_interface_num));
+    debug_print("mpr_data2: 0x%016llx\n", mpr_data[2]);
+}
+
+void set_vref(bdk_node_t node, int ddr_interface_num, int rank,
+	      int range, int value)
+{
+    bdk_lmcx_mr_mpr_ctl_t lmc_mr_mpr_ctl;
+    bdk_lmcx_modereg_params3_t lmc_modereg_params3;
+    int mr_wr_addr = 0;
+
+    lmc_mr_mpr_ctl.u = 0;
+    lmc_modereg_params3.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS3(ddr_interface_num));
+
+    mr_wr_addr |= lmc_modereg_params3.s.tccd_l<<10; /* A12:A10 tCCD_L */
+    mr_wr_addr |= 1<<7;         /* A7 1 = Enable(Training Mode) */
+    mr_wr_addr |= range<<6;     /* A6 VrefDQ Training Range */
+    mr_wr_addr |= value<<0;     /* A5:A0 VrefDQ Training Value */
+
+    lmc_mr_mpr_ctl.s.mr_wr_addr               = mr_wr_addr;
+    lmc_mr_mpr_ctl.s.mr_wr_sel                = 6; /* Write MR6 */
+    lmc_mr_mpr_ctl.s.mr_wr_rank               = rank;
+    //lmc_mr_mpr_ctl.cn70xx.mr_wr_pda_mask           =
+    //lmc_mr_mpr_ctl.cn70xx.mr_wr_pda_enable         =
+    //lmc_mr_mpr_ctl.cn70xx.mpr_loc                  = location;
+    //lmc_mr_mpr_ctl.cn70xx.mpr_wr                   = 0; /* Read=0, Write=1 */
+    //lmc_mr_mpr_ctl.cn70xx.mpr_bit_select           =
+    //lmc_mr_mpr_ctl.cn70xx.mpr_byte_select          =
+    //lmc_mr_mpr_ctl.cn70xx.mpr_whole_byte_enable    =
+    //lmc_mr_mpr_ctl.cn70xx.mr_wr_use_default_value  =
+    //lmc_mr_mpr_ctl.cn70xx.mr_wr_bg1                =
+    DRAM_CSR_WRITE(node, BDK_LMCX_MR_MPR_CTL(ddr_interface_num), lmc_mr_mpr_ctl.u);
+
+    /* 0x8 = Mode Register Write */
+    perform_octeon3_ddr3_sequence(node, 1<<rank, ddr_interface_num, 0x8);
+
+    /* It is vendor specific whether Vref_value is captured with A7=1.
+       A subsequent MRS might be necessary. */
+    perform_octeon3_ddr3_sequence(node, 1<<rank, ddr_interface_num, 0x8);
+
+    mr_wr_addr &= ~(1<<7);         /* A7 0 = Disable(Training Mode) */
+    lmc_mr_mpr_ctl.s.mr_wr_addr               = mr_wr_addr;
+    DRAM_CSR_WRITE(node, BDK_LMCX_MR_MPR_CTL(ddr_interface_num), lmc_mr_mpr_ctl.u);
+}
+
+static unsigned char ddr4_rodt_ohms     [RODT_OHMS_COUNT     ] = {  0,  40,  60, 80, 120, 240, 34, 48 };
+static unsigned char ddr4_rtt_nom_ohms  [RTT_NOM_OHMS_COUNT  ] = {  0,  60, 120, 40, 240,  48, 80, 34 };
+static unsigned char ddr4_rtt_nom_table [RTT_NOM_TABLE_COUNT ] = {  0,   4,   2,  6,   1,   5,  3,  7 };
+static unsigned char ddr4_rtt_wr_ohms   [RTT_WR_OHMS_COUNT   ] = {  0, 120,  40 };
+static unsigned char ddr4_dic_ohms      [DIC_OHMS_COUNT      ] = { 34,  48 };
+static short         ddr4_drive_strength[DRIVE_STRENGTH_COUNT] = {  0,   0,  26, 30,  34,  40, 48, 68, 0,0,0,0,0,0,0 };
+static impedence_values_t ddr4_impedence_values = {
+    .rodt_ohms             =  ddr4_rodt_ohms     ,
+    .rtt_nom_ohms          =  ddr4_rtt_nom_ohms  ,
+    .rtt_nom_table         =  ddr4_rtt_nom_table ,
+    .rtt_wr_ohms           =  ddr4_rtt_wr_ohms   ,
+    .dic_ohms              =  ddr4_dic_ohms      ,
+    .drive_strength        =  ddr4_drive_strength,
+};
+
+static unsigned char ddr3_rodt_ohms     [RODT_OHMS_COUNT     ] = { 0, 20, 30, 40, 60, 120, 0, 0 };
+static unsigned char ddr3_rtt_nom_ohms  [RTT_NOM_OHMS_COUNT  ] = { 0, 60, 120, 40, 20, 30, 0, 0 };
+static unsigned char ddr3_rtt_nom_table [RTT_NOM_TABLE_COUNT ] = { 0, 2, 1, 3, 5, 4, 0, 0 };
+static unsigned char ddr3_rtt_wr_ohms   [RTT_WR_OHMS_COUNT   ] = { 0, 60, 120 };
+static unsigned char ddr3_dic_ohms      [DIC_OHMS_COUNT      ] = { 40, 34 };
+static short         ddr3_drive_strength[DRIVE_STRENGTH_COUNT] = { 0, 24, 27, 30, 34, 40, 48, 60, 0,0,0,0,0,0,0 };
+static impedence_values_t ddr3_impedence_values = {
+    .rodt_ohms             =  ddr3_rodt_ohms     ,
+    .rtt_nom_ohms          =  ddr3_rtt_nom_ohms  ,
+    .rtt_nom_table         =  ddr3_rtt_nom_table ,
+    .rtt_wr_ohms           =  ddr3_rtt_wr_ohms   ,
+    .dic_ohms              =  ddr3_dic_ohms      ,
+    .drive_strength        =  ddr3_drive_strength,
+};
+
 
 int init_octeon3_ddr3_interface(bdk_node_t node,
                                const ddr_configuration_t *ddr_configuration,
@@ -733,7 +846,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int row_lsb;
     int pbank_lsb;
     int use_ecc = 1;
-    int mtb_psec;
+    int mtb_psec = 0; /* quiet */
     short ftb_Dividend;
     short ftb_Divisor;
     int tAAmin;
@@ -744,10 +857,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     int spd_addr;
     int spd_org;
+    int spd_banks;
     int spd_rdimm;
     int spd_dimm_type;
     int spd_ecc;
-    int spd_cas_latency;
+    uint32_t spd_cas_latency;
     int spd_mtb_dividend;
     int spd_mtb_divisor;
     int spd_tck_min;
@@ -775,7 +889,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int trc;
     int trfc;
     int twtr;
-    int trtp;
+    int trtp = 0;  /* quiet */
     int tfaw;
 
     int wlevel_bitmask_errors = 0;
@@ -783,9 +897,35 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int default_rtt_nom[4];
     int dyn_rtt_nom_mask = 0;
 
+    ddr_type_t ddr_type;
+    int ddr4_tCKAVGmin = 0; /* quiet */
+    int ddr4_tCKAVGmax = 0; /* quiet */
+    int ddr4_tRCDmin = 0; /* quiet */
+    int ddr4_tRPmin = 0; /* quiet */
+    int ddr4_tRASmin = 0; /* quiet */
+    int ddr4_tRCmin = 0; /* quiet */
+    int ddr4_tRFC1min = 0; /* quiet */
+    int ddr4_tRFC2min = 0; /* quiet */
+    int ddr4_tRFC4min = 0; /* quiet */
+    int ddr4_tFAWmin = 0; /* quiet */
+    int ddr4_tRRD_Smin = 0; /* quiet */
+    int ddr4_tRRD_Lmin;
+    int ddr4_tCCD_Lmin;
+    impedence_values_t *imp_values;
 
+    /* Initialize these to shut up the compiler. They are configured
+       and used only for DDR4  */
+    ddr4_tRRD_Lmin = 6000;
+    ddr4_tCCD_Lmin = 6000;
+
+
+#ifdef DDR3_ENHANCE_PRINT
+    ddr_print("\nInitializing node %d DDR interface %d, DDR Clock %d, DDR Reference Clock %d\n",
+              node, ddr_interface_num, ddr_hertz, ddr_ref_hertz);
+#else
     ddr_print("\nInitializing DDR interface %d, DDR Clock %d, DDR Reference Clock %d\n",
               ddr_interface_num, ddr_hertz, ddr_ref_hertz);
+#endif
 
     if (dimm_config_table[0].spd_addrs[0] == 0 && !dimm_config_table[0].spd_ptrs[0]) {
         error_print("ERROR: No dimms specified in the dimm_config_table.\n");
@@ -811,7 +951,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         /* Check for lower DIMM socket populated */
         if (validate_dimm(node, &dimm_config_table[didx], 0)) {
             if (dram_is_verbose(NORMAL))
-                report_ddr3_dimm(node, &dimm_config_table[didx], 0, dimm_count);
+                report_dimm(node, &dimm_config_table[didx], 0, dimm_count);
             ++dimm_count;
         } else { break; }       /* Finished when there is no lower DIMM */
     }
@@ -833,7 +973,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         odt_4rank_config = disable_odt_config;
 
     if ((s = getenv("ddr_safe")) != NULL) {
-        safe_ddr_flag = strtoul(s, NULL, 0);
+        safe_ddr_flag = !!strtoul(s, NULL, 0);
         error_print("Parameter found in environment. ddr_safe = %d\n", safe_ddr_flag);
     }
 
@@ -847,7 +987,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ddr_interface_64b = 0;
 
     if ((s = lookup_env_parameter("ddr_interface_64b")) != NULL) {
-        ddr_interface_64b = strtoul(s, NULL, 0);
+        ddr_interface_64b = !!strtoul(s, NULL, 0);
     }
 
     if (ddr_interface_64b == 0) {
@@ -855,17 +995,41 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ++fatal_error;
     }
 
-    spd_addr = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_ADDRESSING_ROW_COL_BITS);
+    /* ddr_type only indicates DDR4 or DDR3 */
+    ddr_type = (read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_KEY_BYTE_DEVICE_TYPE) == 0x0C)
+	? DDR4_DRAM : DDR3_DRAM;
+    debug_print("DRAM Device Type: DDR%d\n", ddr_type);
+
+    if (ddr_type == DDR4_DRAM) {
+        imp_values = &ddr4_impedence_values;
+
+        spd_addr = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_ADDRESSING_ROW_COL_BITS);
+        spd_org = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MODULE_ORGANIZATION);
+        spd_banks = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_DENSITY_BANKS) & 0xff;
+
+        bank_bits = (2 + ((spd_banks >> 4) & 0x3)) + ((spd_banks >> 6) & 0x3);
+        bank_bits = min((int)bank_bits, 4); /* Controller can only address 4 bits. */
+    } else {
+        imp_values = &ddr3_impedence_values;
+
+        spd_addr = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_ADDRESSING_ROW_COL_BITS);
+        spd_org = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MODULE_ORGANIZATION);
+        spd_banks = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_DENSITY_BANKS) & 0xff;
+
+        bank_bits = 3 + ((spd_banks >> 4) & 0x7);
+        bank_bits = min((int)bank_bits, 3); /* Controller can only address 3 bits. */
+    }
+
     debug_print("spd_addr        : %#06x\n", spd_addr );
+    debug_print("spd_org         : %#06x\n", spd_org );
+    debug_print("spd_banks       : %#06x\n", spd_banks );
+
     row_bits = 12 + ((spd_addr >> 3) & 0x7);
     col_bits =  9 + ((spd_addr >> 0) & 0x7);
 
-    num_banks = 1 << (3+((read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_DENSITY_BANKS) >> 4) & 0x7));
-
-    spd_org = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MODULE_ORGANIZATION);
-    debug_print("spd_org         : %#06x\n", spd_org );
     num_ranks =  1 + ((spd_org >> 3) & 0x7);
     dram_width = 4 << ((spd_org >> 0) & 0x7);
+    num_banks = 1 << bank_bits;
 
     if ((s = lookup_env_parameter("ddr_num_ranks")) != NULL) {
         num_ranks = strtoul(s, NULL, 0);
@@ -893,18 +1057,16 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ++fatal_error;
     }
 
-    if (num_banks == 8)
-        bank_bits = 3;
-    else if (num_banks == 4)
-        bank_bits = 2;
-
-
-
-    spd_dimm_type   = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_KEY_BYTE_MODULE_TYPE);
-    spd_rdimm       = (spd_dimm_type == 1) || (spd_dimm_type == 5) || (spd_dimm_type == 9);
+    if (ddr_type == DDR4_DRAM) {
+        spd_dimm_type   = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_KEY_BYTE_MODULE_TYPE);
+        spd_rdimm       = (spd_dimm_type == 1);
+    } else {
+        spd_dimm_type   = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_KEY_BYTE_MODULE_TYPE);
+        spd_rdimm       = (spd_dimm_type == 1) || (spd_dimm_type == 5) || (spd_dimm_type == 9);
+    }
 
     if ((s = lookup_env_parameter("ddr_rdimm_ena")) != NULL) {
-        spd_rdimm = strtoul(s, NULL, 0);
+        spd_rdimm = !!strtoul(s, NULL, 0);
     }
 
     wlevel_loops = 1;
@@ -958,6 +1120,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 #ifdef CAVIUM_ONLY
     /* Special request: mismatched DIMM support. Slot 0: 2-Rank, Slot 1: 1-Rank */
+    if (0)
     {
         /*
         ** Calculate the total memory size in terms of the total
@@ -993,38 +1156,167 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     ddr_print("row bits: %d, col bits: %d, banks: %d, ranks: %d, dram width: %d, size: %d MB\n",
               row_bits, col_bits, num_banks, num_ranks, dram_width, mem_size_mbytes);
 
-    spd_ecc         = !!(read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MEMORY_BUS_WIDTH) & 8);
+    if (ddr_type == DDR4_DRAM) {
+      spd_ecc          = !!(read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MODULE_MEMORY_BUS_WIDTH) & 8);
+      spd_cas_latency  = ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_CAS_LATENCIES_BYTE0)) <<  0);
+      spd_cas_latency |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_CAS_LATENCIES_BYTE1)) <<  8);
+      spd_cas_latency |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_CAS_LATENCIES_BYTE2)) << 16);
+      spd_cas_latency |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_CAS_LATENCIES_BYTE3)) << 24);
+    } else {
+      spd_ecc          = !!(read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MEMORY_BUS_WIDTH) & 8);
+      spd_cas_latency  = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_CAS_LATENCIES_LSB);
+      spd_cas_latency |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_CAS_LATENCIES_MSB)) << 8);
+    }
+    debug_print("spd_cas_latency : %#06x\n", spd_cas_latency );
 
-    spd_cas_latency  = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_CAS_LATENCIES_LSB);
-    spd_cas_latency |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_CAS_LATENCIES_MSB)) << 8);
+    if (ddr_type == DDR4_DRAM) {
 
-    spd_mtb_dividend = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MEDIUM_TIMEBASE_DIVIDEND);
-    spd_mtb_divisor  = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MEDIUM_TIMEBASE_DIVISOR);
-    spd_tck_min      = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MINIMUM_CYCLE_TIME_TCKMIN);
-    spd_taa_min      = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_CAS_LATENCY_TAAMIN);
+        /* No other values for DDR4 MTB and FTB are specified at the
+         * current time so don't bother reading them. Can't speculate how
+         * new values will be represented.
+         */
+        int spdMTB = 125;
+        int spdFTB = 1;
 
-    spd_twr          = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_WRITE_RECOVERY_TWRMIN);
-    spd_trcd         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_RAS_CAS_DELAY_TRCDMIN);
-    spd_trrd         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ROW_ACTIVE_DELAY_TRRDMIN);
-    spd_trp          = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ROW_PRECHARGE_DELAY_TRPMIN);
-    spd_tras         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ACTIVE_PRECHARGE_LSB_TRASMIN);
-    spd_tras        |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLES_TRAS_TRC)&0xf) << 8);
-    spd_trc          = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ACTIVE_REFRESH_LSB_TRCMIN);
-    spd_trc         |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLES_TRAS_TRC)&0xf0) << 4);
-    spd_trfc         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_REFRESH_RECOVERY_LSB_TRFCMIN);
-    spd_trfc        |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_REFRESH_RECOVERY_MSB_TRFCMIN)) << 8);
-    spd_twtr         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_INTERNAL_WRITE_READ_CMD_TWTRMIN);
-    spd_trtp         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_INTERNAL_READ_PRECHARGE_CMD_TRTPMIN);
-    spd_tfaw         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_FOUR_ACTIVE_WINDOW_TFAWMIN);
-    spd_tfaw        |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLE_TFAW)&0xf) << 8);
-    spd_addr_mirror  = 0xff & read_spd(node, &dimm_config_table[0], 0,DDR3_SPD_ADDRESS_MAPPING) & 0x1;
-    spd_addr_mirror  = spd_addr_mirror && !spd_rdimm; /* Only address mirror unbuffered dimms.  */
-    ftb_Dividend     = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_FINE_TIMEBASE_DIVIDEND_DIVISOR) >> 4;
-    ftb_Divisor      = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_FINE_TIMEBASE_DIVIDEND_DIVISOR) & 0xf;
-    ftb_Divisor      = (ftb_Divisor == 0) ? 1 : ftb_Divisor; /* Make sure that it is not 0 */
+        tAAmin
+	  = spdMTB *        read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_CAS_LATENCY_TAAMIN)
+	  + spdFTB * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_CAS_LATENCY_FINE_TAAMIN);
+
+        ddr4_tCKAVGmin
+	  = spdMTB *        read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MINIMUM_CYCLE_TIME_TCKAVGMIN)
+	  + spdFTB * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_CYCLE_TIME_FINE_TCKAVGMIN);
+
+        ddr4_tCKAVGmax
+	  = spdMTB *        read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MAXIMUM_CYCLE_TIME_TCKAVGMAX)
+	  + spdFTB * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MAX_CYCLE_TIME_FINE_TCKAVGMAX);
+
+        ddr4_tRCDmin
+	  = spdMTB *        read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_RAS_CAS_DELAY_TRCDMIN)
+	  + spdFTB * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_RAS_TO_CAS_DELAY_FINE_TRCDMIN);
+
+        ddr4_tRPmin
+	  = spdMTB *        read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_ROW_PRECHARGE_DELAY_TRPMIN)
+	  + spdFTB * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_ROW_PRECHARGE_DELAY_FINE_TRPMIN);
+
+        ddr4_tRASmin
+	  = spdMTB * (((read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_UPPER_NIBBLES_TRAS_TRC) & 0xf) << 8) +
+		      ( read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_ACTIVE_PRECHARGE_LSB_TRASMIN) & 0xff));
+
+        ddr4_tRCmin
+	  = spdMTB * ((((read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_UPPER_NIBBLES_TRAS_TRC) >> 4) & 0xf) << 8) +
+		      (  read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_ACTIVE_REFRESH_LSB_TRCMIN) & 0xff))
+	  + spdFTB * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_ACT_TO_ACT_REFRESH_DELAY_FINE_TRCMIN);
+
+        ddr4_tRFC1min
+	  = spdMTB * (((read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_REFRESH_RECOVERY_MSB_TRFC1MIN) & 0xff) << 8) +
+		      ( read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_REFRESH_RECOVERY_LSB_TRFC1MIN) & 0xff));
+
+        ddr4_tRFC2min
+            = spdMTB * (((read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_REFRESH_RECOVERY_MSB_TRFC2MIN) & 0xff) << 8) +
+                        ( read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_REFRESH_RECOVERY_LSB_TRFC2MIN) & 0xff));
+
+        ddr4_tRFC4min
+            = spdMTB * (((read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_REFRESH_RECOVERY_MSB_TRFC4MIN) & 0xff) << 8) +
+                        ( read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_REFRESH_RECOVERY_LSB_TRFC4MIN) & 0xff));
+
+        ddr4_tFAWmin
+            = spdMTB * (((read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_FOUR_ACTIVE_WINDOW_MSN_TFAWMIN) & 0xf) << 8) +
+                        ( read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_FOUR_ACTIVE_WINDOW_LSB_TFAWMIN) & 0xff));
+
+        ddr4_tRRD_Smin
+            = spdMTB *        read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_ROW_ACTIVE_DELAY_SAME_TRRD_SMIN)
+            + spdFTB * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_ACT_TO_ACT_DELAY_DIFF_FINE_TRRD_SMIN);
+
+        ddr4_tRRD_Lmin
+            = spdMTB *        read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_ROW_ACTIVE_DELAY_DIFF_TRRD_LMIN)
+            + spdFTB * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_ACT_TO_ACT_DELAY_SAME_FINE_TRRD_LMIN);
+
+        ddr4_tCCD_Lmin
+            = spdMTB *        read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_CAS_TO_CAS_DELAY_TCCD_LMIN)
+            + spdFTB * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MIN_CAS_TO_CAS_DELAY_FINE_TCCD_LMIN);
+
+        ddr_print("%-45s : %6d ps\n", "Medium Timebase (MTB)",          		   spdMTB);
+        ddr_print("%-45s : %6d ps\n", "Fine Timebase   (FTB)",          		   spdFTB);
+
+    #define DDR4_TWR 15000
+    #define DDR4_TWTR_S 2500
+
+
+        tCKmin	        = ddr4_tCKAVGmin;
+        twr             = DDR4_TWR;
+        trcd            = ddr4_tRCDmin;
+        trrd            = ddr4_tRRD_Smin;
+        trp             = ddr4_tRPmin;
+        tras            = ddr4_tRASmin;
+        trc             = ddr4_tRCmin;
+        trfc            = ddr4_tRFC1min;
+        twtr            = DDR4_TWTR_S;
+        tfaw            = ddr4_tFAWmin;
+
+        spd_addr_mirror  = read_spd(node, &dimm_config_table[0], 0,DDR4_SPD_UDIMM_ADDR_MAPPING_FROM_EDGE) & 0x1;
+        debug_print("spd_addr_mirror : %#06x\n", spd_addr_mirror );
+        spd_addr_mirror  = spd_addr_mirror && !spd_rdimm; /* Only address mirror unbuffered dimms.  */
+        debug_print("spd_addr_mirror : %#06x\n", spd_addr_mirror );
+
+    } else {
+        spd_mtb_dividend = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MEDIUM_TIMEBASE_DIVIDEND);
+        spd_mtb_divisor  = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MEDIUM_TIMEBASE_DIVISOR);
+        spd_tck_min      = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MINIMUM_CYCLE_TIME_TCKMIN);
+        spd_taa_min      = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_CAS_LATENCY_TAAMIN);
+
+        spd_twr          = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_WRITE_RECOVERY_TWRMIN);
+        spd_trcd         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_RAS_CAS_DELAY_TRCDMIN);
+        spd_trrd         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ROW_ACTIVE_DELAY_TRRDMIN);
+        spd_trp          = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ROW_PRECHARGE_DELAY_TRPMIN);
+        spd_tras         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ACTIVE_PRECHARGE_LSB_TRASMIN);
+        spd_tras        |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLES_TRAS_TRC)&0xf) << 8);
+        spd_trc          = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ACTIVE_REFRESH_LSB_TRCMIN);
+        spd_trc         |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLES_TRAS_TRC)&0xf0) << 4);
+        spd_trfc         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_REFRESH_RECOVERY_LSB_TRFCMIN);
+        spd_trfc        |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_REFRESH_RECOVERY_MSB_TRFCMIN)) << 8);
+        spd_twtr         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_INTERNAL_WRITE_READ_CMD_TWTRMIN);
+        spd_trtp         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_INTERNAL_READ_PRECHARGE_CMD_TRTPMIN);
+        spd_tfaw         = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_FOUR_ACTIVE_WINDOW_TFAWMIN);
+        spd_tfaw        |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_UPPER_NIBBLE_TFAW)&0xf) << 8);
+        spd_addr_mirror  = 0xff & read_spd(node, &dimm_config_table[0], 0,DDR3_SPD_ADDRESS_MAPPING) & 0x1;
+        spd_addr_mirror  = spd_addr_mirror && !spd_rdimm; /* Only address mirror unbuffered dimms.  */
+        ftb_Dividend     = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_FINE_TIMEBASE_DIVIDEND_DIVISOR) >> 4;
+        ftb_Divisor      = read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_FINE_TIMEBASE_DIVIDEND_DIVISOR) & 0xf;
+        ftb_Divisor      = (ftb_Divisor == 0) ? 1 : ftb_Divisor; /* Make sure that it is not 0 */
+
+        debug_print("spd_twr         : %#06x\n", spd_twr );
+        debug_print("spd_trcd        : %#06x\n", spd_trcd);
+        debug_print("spd_trrd        : %#06x\n", spd_trrd);
+        debug_print("spd_trp         : %#06x\n", spd_trp );
+        debug_print("spd_tras        : %#06x\n", spd_tras);
+        debug_print("spd_trc         : %#06x\n", spd_trc );
+        debug_print("spd_trfc        : %#06x\n", spd_trfc);
+        debug_print("spd_twtr        : %#06x\n", spd_twtr);
+        debug_print("spd_trtp        : %#06x\n", spd_trtp);
+        debug_print("spd_tfaw        : %#06x\n", spd_tfaw);
+        debug_print("spd_addr_mirror : %#06x\n", spd_addr_mirror);
+
+        mtb_psec        = spd_mtb_dividend * 1000 / spd_mtb_divisor;
+        tAAmin          = mtb_psec * spd_taa_min;
+        tAAmin         += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_CAS_LATENCY_FINE_TAAMIN) / ftb_Divisor;
+        tCKmin          = mtb_psec * spd_tck_min;
+        tCKmin         += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MINIMUM_CYCLE_TIME_FINE_TCKMIN) / ftb_Divisor;
+
+        twr             = spd_twr  * mtb_psec;
+        trcd            = spd_trcd * mtb_psec;
+        trrd            = spd_trrd * mtb_psec;
+        trp             = spd_trp  * mtb_psec;
+        tras            = spd_tras * mtb_psec;
+        trc             = spd_trc  * mtb_psec;
+        trfc            = spd_trfc * mtb_psec;
+        twtr            = spd_twtr * mtb_psec;
+        trtp            = spd_trtp * mtb_psec;
+        tfaw            = spd_tfaw * mtb_psec;
+
+    }
 
     if ((s = getenv("ddr_use_ecc")) != NULL) {
-        use_ecc = strtoul(s, NULL, 0);
+        use_ecc = !!strtoul(s, NULL, 0);
         error_print("Parameter found in environment. ddr_use_ecc = %d\n", use_ecc);
     }
     use_ecc = use_ecc && spd_ecc;
@@ -1036,29 +1328,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     ddr_print("DRAM Interface width: %d bits %s\n",
               ddr_interface_64b ? 64 : 32, use_ecc ? "+ECC" : "");
 
-
-    debug_print("spd_cas_latency : %#06x\n", spd_cas_latency );
-    debug_print("spd_twr         : %#06x\n", spd_twr );
-    debug_print("spd_trcd        : %#06x\n", spd_trcd);
-    debug_print("spd_trrd        : %#06x\n", spd_trrd);
-    debug_print("spd_trp         : %#06x\n", spd_trp );
-    debug_print("spd_tras        : %#06x\n", spd_tras);
-    debug_print("spd_trc         : %#06x\n", spd_trc );
-    debug_print("spd_trfc        : %#06x\n", spd_trfc);
-    debug_print("spd_twtr        : %#06x\n", spd_twtr);
-    debug_print("spd_trtp        : %#06x\n", spd_trtp);
-    debug_print("spd_tfaw        : %#06x\n", spd_tfaw);
-    debug_print("spd_addr_mirror : %#06x\n", spd_addr_mirror);
-
     ddr_print("\n------ Board Custom Configuration Settings ------\n");
     ddr_print("%-45s : %d\n", "MIN_RTT_NOM_IDX   ", custom_lmc_config->min_rtt_nom_idx);
     ddr_print("%-45s : %d\n", "MAX_RTT_NOM_IDX   ", custom_lmc_config->max_rtt_nom_idx);
     ddr_print("%-45s : %d\n", "MIN_RODT_CTL      ", custom_lmc_config->min_rodt_ctl);
     ddr_print("%-45s : %d\n", "MAX_RODT_CTL      ", custom_lmc_config->max_rodt_ctl);
-    ddr_print("%-45s : %d\n", "DQX_CTL           ", custom_lmc_config->dqx_ctl);
+#ifndef DDR3_ENHANCE_PRINT
+    ddr_print("%-45s : %d\n", "DQX_CTL           ", 4); /* hack to match original fixed value */
     ddr_print("%-45s : %d\n", "CK_CTL            ", custom_lmc_config->ck_ctl);
     ddr_print("%-45s : %d\n", "CMD_CTL           ", custom_lmc_config->cmd_ctl);
     ddr_print("%-45s : %d\n", "CONTROL_CTL       ", custom_lmc_config->ctl_ctl);
+#endif
     ddr_print("%-45s : %d\n", "MIN_CAS_LATENCY   ", custom_lmc_config->min_cas_latency);
     ddr_print("%-45s : %d\n", "OFFSET_EN         ", custom_lmc_config->offset_en);
     ddr_print("%-45s : %d\n", "OFFSET_UDIMM      ", custom_lmc_config->offset_udimm);
@@ -1075,11 +1355,23 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     ddr_print("%-45s : %d\n", "FPRCH2            ", custom_lmc_config->fprch2);
     ddr_print("-------------------------------------------------\n");
 
-    mtb_psec        = spd_mtb_dividend * 1000 / spd_mtb_divisor;
-    tAAmin          = mtb_psec * spd_taa_min;
-    tAAmin         += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_CAS_LATENCY_FINE_TAAMIN) / ftb_Divisor;
-    tCKmin          = mtb_psec * spd_tck_min;
-    tCKmin         += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MINIMUM_CYCLE_TIME_FINE_TCKMIN) / ftb_Divisor;
+
+    /* This needs checking now, before we start depending on tclk_psecs
+     * for a number of calculations, so that we can do some fixup...
+     */
+    if (tclk_psecs < (uint64_t)tCKmin) {
+	int percent = 100 - (int)(tclk_psecs * 100 / (uint64_t)tCKmin);
+	/* if within 1% of the specified rate, just set it to tCKmin, else complain more */
+	if (percent <= 1) {
+	    printf("NOTE: DDR Clock Rate (tCLK: %ld) within 1%% of DIMM specifications (tCKmin: %ld).\n",
+			tclk_psecs, (uint64_t)tCKmin);
+	    printf("NOTE: the DIMM specification rate will be used.\n");
+	    tclk_psecs = (uint64_t)tCKmin;
+	} else {
+	    error_print("WARNING!!!!: DDR Clock Rate (tCLK: %ld) exceeds DIMM specifications (tCKmin: %ld)!!!!\n",
+			tclk_psecs, (uint64_t)tCKmin);
+	}
+    }
 
     CL              = divide_roundup(tAAmin, tclk_psecs);
 
@@ -1092,39 +1384,42 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         min_cas_latency = strtoul(s, NULL, 0);
     }
 
-    ddr_print("CAS Latencies supported in DIMM               :");
-    for (i=0; i<16; ++i) {
-        if ((spd_cas_latency >> i) & 1) {
-            ddr_print(" %d", i+4);
-            max_cas_latency = i+4;
-            if (min_cas_latency == 0)
-                min_cas_latency = i+4;
+    {
+        int base_CL;
+        ddr_print("CAS Latencies supported in DIMM               :");
+        base_CL = (ddr_type == DDR4_DRAM) ? 7 : 4;
+        for (i=0; i<32; ++i) {
+            if ((spd_cas_latency >> i) & 1) {
+                ddr_print(" %d", i+base_CL);
+                max_cas_latency = i+base_CL;
+                if (min_cas_latency == 0)
+                    min_cas_latency = i+base_CL;
+            }
         }
-    }
-    ddr_print("\n");
+        ddr_print("\n");
 
+        /* Use relaxed timing when running slower than the minimum
+           supported speed.  Adjust timing to match the smallest supported
+           CAS Latency. */
+        if (CL < min_cas_latency) {
+            ulong adjusted_tclk = tAAmin / min_cas_latency;
+            CL = min_cas_latency;
+            ddr_print("Slow clock speed. Adjusting timing: tClk = %lu, Adjusted tClk = %ld\n",
+                      tclk_psecs, adjusted_tclk);
+            tclk_psecs = adjusted_tclk;
+        }
 
-    /* Use relaxed timing when running slower than the minimum
-       supported speed.  Adjust timing to match the smallest supported
-       CAS Latency. */
-    if (CL < min_cas_latency) {
-        uint64_t adjusted_tclk = tAAmin / min_cas_latency;
-        CL = min_cas_latency;
-        ddr_print("Slow clock speed. Adjusting timing: tClk = %lu, Adjusted tClk = %lu\n",
-                  tclk_psecs, adjusted_tclk);
-        tclk_psecs = adjusted_tclk;
-    }
+        if ((s = getenv("ddr_cas_latency")) != NULL) {
+            override_cas_latency = strtoul(s, NULL, 0);
+            error_print("Parameter found in environment. ddr_cas_latency = %d\n", override_cas_latency);
+        }
 
-    if ((s = getenv("ddr_cas_latency")) != NULL) {
-        override_cas_latency = strtoul(s, NULL, 0);
-        error_print("Parameter found in environment. ddr_cas_latency = %d\n", override_cas_latency);
-    }
-
-    /* Make sure that the selected cas latency is legal */
-    for (i=(CL-4); i<16; ++i) {
-        if ((spd_cas_latency >> i) & 1) {
-            CL = i+4;
-            break;
+        /* Make sure that the selected cas latency is legal */
+        for (i=(CL-base_CL); i<32; ++i) {
+            if ((spd_cas_latency >> i) & 1) {
+                CL = i+base_CL;
+                break;
+            }
         }
     }
 
@@ -1142,45 +1437,45 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ddr_print("(CLactual * tCKmin) = %d exceeds 20 ns\n", (CL * tCKmin));
     }
 
-    if (tclk_psecs < (uint64_t)tCKmin)
-        error_print("WARNING!!!!!!: DDR3 Clock Rate (tCLK: %ld) exceeds DIMM specifications (tCKmin:%ld)!!!!!!!!\n",
-                    tclk_psecs, (uint64_t)tCKmin);
 
-    twr             = spd_twr  * mtb_psec;
-    trcd            = spd_trcd * mtb_psec;
-    trcd           += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_RAS_CAS_DELAY_FINE_TRCDMIN) / ftb_Divisor;
-    trrd            = spd_trrd * mtb_psec;
-    trp             = spd_trp  * mtb_psec;
-    trp            += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ROW_PRECHARGE_DELAY_FINE_TRPMIN) / ftb_Divisor;
-    tras            = spd_tras * mtb_psec;
-    trc             = spd_trc  * mtb_psec;
-    trc            += ftb_Dividend * (SC_t) read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MIN_ACTIVE_REFRESH_LSB_FINE_TRCMIN) / ftb_Divisor;
-    trfc            = spd_trfc * mtb_psec;
-    twtr            = spd_twtr * mtb_psec;
-    trtp            = spd_trtp * mtb_psec;
-    tfaw            = spd_tfaw * mtb_psec;
+    if (ddr_type == DDR4_DRAM) {
+	ddr_print("DDR Clock Rate (tCLK)                         : %6lu ps\n", tclk_psecs);
+	ddr_print("Core Clock Rate (eCLK)                        : %6lu ps\n", eclk_psecs);
+        ddr_print("%-45s : %6d ps\n", "SDRAM Minimum Cycle Time (tCKAVGmin)",          ddr4_tCKAVGmin);
+        ddr_print("%-45s : %6d ps\n", "SDRAM Maximum Cycle Time (tCKAVGmax)",          ddr4_tCKAVGmax);
+        ddr_print("%-45s : %6d ps\n", "Minimum CAS Latency Time (tAAmin)",             tAAmin);
+        ddr_print("%-45s : %6d ps\n", "Minimum RAS to CAS Delay Time (tRCDmin)",       ddr4_tRCDmin);
+        ddr_print("%-45s : %6d ps\n", "Minimum Row Precharge Delay Time (tRPmin)",     ddr4_tRPmin);
+        ddr_print("%-45s : %6d ps\n", "Minimum Active to Precharge Delay (tRASmin)",   ddr4_tRASmin);
+        ddr_print("%-45s : %6d ps\n", "Minimum Active to Active/Refr. Delay (tRCmin)", ddr4_tRCmin);
+        ddr_print("%-45s : %6d ps\n", "Minimum Refresh Recovery Delay (tRFC1min)",     ddr4_tRFC1min);
+        ddr_print("%-45s : %6d ps\n", "Minimum Refresh Recovery Delay (tRFC2min)",     ddr4_tRFC2min);
+        ddr_print("%-45s : %6d ps\n", "Minimum Refresh Recovery Delay (tRFC4min)",     ddr4_tRFC4min);
+        ddr_print("%-45s : %6d ps\n", "Minimum Four Activate Window Time (tFAWmin)",   ddr4_tFAWmin);
+        ddr_print("%-45s : %6d ps\n", "Minimum Act. to Act. Delay (tRRD_Smin)",        ddr4_tRRD_Smin);
+        ddr_print("%-45s : %6d ps\n", "Minimum Act. to Act. Delay (tRRD_Lmin)",        ddr4_tRRD_Lmin);
+        ddr_print("%-45s : %6d ps\n", "Minimum CAS to CAS Delay Time (tCCD_Lmin)",     ddr4_tCCD_Lmin);
+    } else {
+	ddr_print("DDR Clock Rate (tCLK)                         : %6lu ps\n", tclk_psecs);
+	ddr_print("Core Clock Rate (eCLK)                        : %6lu ps\n", eclk_psecs);
+	ddr_print("Medium Timebase (MTB)                         : %6d ps\n", mtb_psec);
+	ddr_print("Minimum Cycle Time (tCKmin)                   : %6d ps\n", tCKmin);
+	ddr_print("Minimum CAS Latency Time (tAAmin)             : %6d ps\n", tAAmin);
+	ddr_print("Write Recovery Time (tWR)                     : %6d ps\n", twr);
+	ddr_print("Minimum RAS to CAS delay (tRCD)               : %6d ps\n", trcd);
+	ddr_print("Minimum Row Active to Row Active delay (tRRD) : %6d ps\n", trrd);
+	ddr_print("Minimum Row Precharge Delay (tRP)             : %6d ps\n", trp);
+	ddr_print("Minimum Active to Precharge (tRAS)            : %6d ps\n", tras);
+	ddr_print("Minimum Active to Active/Refresh Delay (tRC)  : %6d ps\n", trc);
+	ddr_print("Minimum Refresh Recovery Delay (tRFC)         : %6d ps\n", trfc);
+	ddr_print("Internal write to read command delay (tWTR)   : %6d ps\n", twtr);
+	ddr_print("Min Internal Rd to Precharge Cmd Delay (tRTP) : %6d ps\n", trtp);
+	ddr_print("Minimum Four Activate Window Delay (tFAW)     : %6d ps\n", tfaw);
+    }
 
-
-    ddr_print("DDR Clock Rate (tCLK)                         : %6lu ps\n", tclk_psecs);
-    ddr_print("Core Clock Rate (eCLK)                        : %6lu ps\n", eclk_psecs);
-    ddr_print("Medium Timebase (MTB)                         : %6d ps\n", mtb_psec);
-    ddr_print("Minimum Cycle Time (tCKmin)                   : %6d ps\n", tCKmin);
-    ddr_print("Minimum CAS Latency Time (tAAmin)             : %6d ps\n", tAAmin);
-    ddr_print("Write Recovery Time (tWR)                     : %6d ps\n", twr);
-    ddr_print("Minimum RAS to CAS delay (tRCD)               : %6d ps\n", trcd);
-    ddr_print("Minimum Row Active to Row Active delay (tRRD) : %6d ps\n", trrd);
-    ddr_print("Minimum Row Precharge Delay (tRP)             : %6d ps\n", trp);
-    ddr_print("Minimum Active to Precharge (tRAS)            : %6d ps\n", tras);
-    ddr_print("Minimum Active to Active/Refresh Delay (tRC)  : %6d ps\n", trc);
-    ddr_print("Minimum Refresh Recovery Delay (tRFC)         : %6d ps\n", trfc);
-    ddr_print("Internal write to read command delay (tWTR)   : %6d ps\n", twtr);
-    ddr_print("Min Internal Rd to Precharge Cmd Delay (tRTP) : %6d ps\n", trtp);
-    ddr_print("Minimum Four Activate Window Delay (tFAW)     : %6d ps\n", tfaw);
-
-
-    if ((num_banks != 4) && (num_banks != 8))
+    if ((num_banks != 4) && (num_banks != 8) && (num_banks != 16))
     {
-        error_print("Unsupported number of banks %d. Must be 4 or 8.\n", num_banks);
+        error_print("Unsupported number of banks %d. Must be 4 or 8 or 16.\n", num_banks);
         ++fatal_error;
     }
 
@@ -1266,7 +1561,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #define DDR3_tWLMRD        40         /* 40 nCK */
 #define DDR3_tWLDQSEN      25         /* 25 nCK */
 
-    /*
+    /* Parameters from DDR4 Specifications */
+#define DDR4_tMRD          8          /* 8 nCK */
+#define DDR4_tDLLK         768        /* 768 nCK */
+
+     /*
      * 4.8.5 Early LMC Initialization
      * 
      * All of DDR PLL, LMC CK, and LMC DRESET initializations must be
@@ -1343,7 +1642,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmcx_config.s.early_unload_d1_r1   = 0;
         lmcx_config.s.scrz                 = 0;
         lmcx_config.s.mode_x4dev           = (dram_width == 4) ? 1 : 0;
-        lmcx_config.s.bg2_enable           = 0;
+        lmcx_config.s.bg2_enable	   = ((ddr_type == DDR4_DRAM) && (dram_width != 4)) ? 1 : 0;
 
         if ((s = lookup_env_parameter_ull("ddr_config")) != NULL) {
             lmcx_config.u    = strtoull(s, NULL, 0);
@@ -1431,14 +1730,22 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             + divide_roundup(max(4*tclk_psecs, 7500ull), tclk_psecs) - 5;
 
         lmc_timing_params0.s.tzqcs    = divide_roundup(max(64*tclk_psecs, DDR3_ZQCS), (16*tclk_psecs));
-        lmc_timing_params0.s.tcke     = divide_roundup(DDR3_tCKE, tclk_psecs) - 1;
         lmc_timing_params0.s.txpr     = divide_roundup(max(5*tclk_psecs, trfc+10000ull), 16*tclk_psecs);
-        lmc_timing_params0.s.tmrd     = divide_roundup((DDR3_tMRD*tclk_psecs), tclk_psecs) - 1;
-        lmc_timing_params0.s.tmod     = divide_roundup(max(12*tclk_psecs, 15000ull), tclk_psecs) - 1;
-        lmc_timing_params0.s.tdllk    = divide_roundup(DDR3_tDLLK, 256);
         lmc_timing_params0.s.tzqinit  = divide_roundup(max(512*tclk_psecs, 640000ull), (256*tclk_psecs));
         lmc_timing_params0.s.trp      = trp_value & 0x1f;
         lmc_timing_params0.s.tcksre   = divide_roundup(max(5*tclk_psecs, 10000ull), tclk_psecs) - 1;
+
+        if (ddr_type == DDR4_DRAM) {
+	    lmc_timing_params0.s.tcke     = divide_roundup(max(3*tclk_psecs, (ulong) DDR3_tCKE), tclk_psecs) - 1;
+	    lmc_timing_params0.s.tmrd     = divide_roundup((DDR4_tMRD*tclk_psecs), tclk_psecs) - 1;
+	    lmc_timing_params0.s.tmod     = divide_roundup(max(24*tclk_psecs, 15000ull), tclk_psecs) - 1;
+	    lmc_timing_params0.s.tdllk    = divide_roundup(DDR4_tDLLK, 256);
+        } else {
+	    lmc_timing_params0.s.tcke     = divide_roundup(DDR3_tCKE, tclk_psecs) - 1;
+	    lmc_timing_params0.s.tmrd     = divide_roundup((DDR3_tMRD*tclk_psecs), tclk_psecs) - 1;
+	    lmc_timing_params0.s.tmod     = divide_roundup(max(12*tclk_psecs, 15000ull), tclk_psecs) - 1;
+	    lmc_timing_params0.s.tdllk    = divide_roundup(DDR3_tDLLK, 256);
+        }
 
         if ((s = lookup_env_parameter_ull("ddr_timing_params0")) != NULL) {
             lmc_timing_params0.u    = strtoull(s, NULL, 0);
@@ -1485,6 +1792,21 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         DRAM_CSR_WRITE(node, BDK_LMCX_TIMING_PARAMS1(ddr_interface_num), lmc_timing_params1.u);
     }
 
+    /* LMC(0)_TIMING_PARAMS2 */
+    if (ddr_type == DDR4_DRAM) {
+        bdk_lmcx_timing_params2_t lmc_timing_params2;
+        lmc_timing_params2.u = BDK_CSR_READ(node, BDK_LMCX_TIMING_PARAMS2(ddr_interface_num));
+        ddr_print("TIMING_PARAMS2                                : 0x%016lx\n", lmc_timing_params2.u);
+
+        lmc_timing_params2.s.trrd_l = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 1;
+        lmc_timing_params2.s.twtr_l = divide_roundup(max(4*tclk_psecs, 7500ull), tclk_psecs) - 1;
+        lmc_timing_params2.s.t_rw_op_max = 7;
+        lmc_timing_params2.s.trtp = divide_roundup(max(4*tclk_psecs, 7500ull), tclk_psecs) - 1;
+
+        ddr_print("TIMING_PARAMS2                                : 0x%016lx\n", lmc_timing_params2.u);
+        DRAM_CSR_WRITE(node, BDK_LMCX_TIMING_PARAMS2(ddr_interface_num), lmc_timing_params2.u);
+    }
+
     /* LMC(0)_MODEREG_PARAMS0 */
     {
         /* .s. */
@@ -1493,7 +1815,19 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
 
-
+        if (ddr_type == DDR4_DRAM) {
+	    lmc_modereg_params0.s.cwl     = 0; /* 1600 (1250ps) */
+	    if (tclk_psecs < 1250)
+	        lmc_modereg_params0.s.cwl = 1; /* 1866 (1072ps) */
+	    if (tclk_psecs < 1072)
+	        lmc_modereg_params0.s.cwl = 2; /* 2133 (938ps) */
+	    if (tclk_psecs < 938)
+	        lmc_modereg_params0.s.cwl = 3; /* 2400 (833ps) */
+	    if (tclk_psecs < 833)
+	        lmc_modereg_params0.s.cwl = 4; /* 2666 (750ps) */
+	    if (tclk_psecs < 750)
+	        lmc_modereg_params0.s.cwl = 5; /* 3200 (625ps) */
+        } else {
         /*
         ** CSR   CWL         CAS write Latency
         ** ===   ===   =================================
@@ -1522,16 +1856,30 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             lmc_modereg_params0.s.cwl = 6;
         if (tclk_psecs <  833)
             lmc_modereg_params0.s.cwl = 7;
+	}
 
         if ((s = lookup_env_parameter("ddr_cwl")) != NULL) {
             lmc_modereg_params0.s.cwl = strtoul(s, NULL, 0) - 5;
         }
 
-        ddr_print("CAS Write Latency                             : %6d\n", lmc_modereg_params0.s.cwl + 5);
+        if (ddr_type == DDR4_DRAM) {
+            ddr_print("%-45s : %d, [0x%x]\n", "CAS Write Latency CWL, [CSR]",
+                      lmc_modereg_params0.s.cwl + 9
+                      + ((lmc_modereg_params0.s.cwl>2) ? (lmc_modereg_params0.s.cwl-3) * 2 : 0),
+                      lmc_modereg_params0.s.cwl);
+        } else {
+#ifdef DDR3_ENHANCE_PRINT
+            ddr_print("%-45s : %d, [0x%x]\n", "CAS Write Latency CWL, [CSR]",
+                      lmc_modereg_params0.s.cwl + 5,
+                      lmc_modereg_params0.s.cwl);
+#else
+	    ddr_print("CAS Write Latency                             : %6d\n", lmc_modereg_params0.s.cwl + 5);
+#endif
+        }
 
         lmc_modereg_params0.s.mprloc  = 0;
         lmc_modereg_params0.s.mpr     = 0;
-        lmc_modereg_params0.s.dll     = 0;
+        lmc_modereg_params0.s.dll     = (ddr_type == DDR4_DRAM); /* 0 for DDR3 and 1 for DDR4 */
         lmc_modereg_params0.s.al      = 0;
         lmc_modereg_params0.s.wlev    = 0; /* Read Only */
         lmc_modereg_params0.s.tdqs    = 1;
@@ -1543,6 +1891,31 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             ddr_print("CAS Latency                                   : %6d\n", CL);
         }
 
+        if (ddr_type == DDR4_DRAM) {
+	    lmc_modereg_params0.s.cl      = 0x0;
+	    if (CL > 9)
+	        lmc_modereg_params0.s.cl  = 0x1;
+	    if (CL > 10)
+	        lmc_modereg_params0.s.cl  = 0x2;
+	    if (CL > 11)
+	        lmc_modereg_params0.s.cl  = 0x3;
+	    if (CL > 12)
+	        lmc_modereg_params0.s.cl  = 0x4;
+	    if (CL > 13)
+	        lmc_modereg_params0.s.cl  = 0x5;
+	    if (CL > 14)
+	        lmc_modereg_params0.s.cl  = 0x6;
+	    if (CL > 15)
+	        lmc_modereg_params0.s.cl  = 0x7;
+	    if (CL > 16)
+	        lmc_modereg_params0.s.cl  = 0x8;
+	    if (CL > 18)
+	        lmc_modereg_params0.s.cl  = 0x9;
+	    if (CL > 20)
+	        lmc_modereg_params0.s.cl  = 0xA;
+	    if (CL > 24)
+	        lmc_modereg_params0.s.cl  = 0xB;
+        } else {
         lmc_modereg_params0.s.cl      = 0x2;
         if (CL > 5)
             lmc_modereg_params0.s.cl  = 0x4;
@@ -1566,12 +1939,29 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             lmc_modereg_params0.s.cl  = 0x7;
         if (CL > 15)
             lmc_modereg_params0.s.cl  = 0x9;
+	}
 
         lmc_modereg_params0.s.rbt     = 0; /* Read Only. */
         lmc_modereg_params0.s.tm      = 0;
         lmc_modereg_params0.s.dllr    = 0;
 
         param = divide_roundup(twr, tclk_psecs);
+
+        if (ddr_type == DDR4_DRAM) {    /* DDR4 */
+	    lmc_modereg_params0.s.wrp     = 1;
+	    if (param > 12)
+	        lmc_modereg_params0.s.wrp = 2;
+	    if (param > 14)
+	        lmc_modereg_params0.s.wrp = 3;
+	    if (param > 16)
+	        lmc_modereg_params0.s.wrp = 4;
+	    if (param > 18)
+	        lmc_modereg_params0.s.wrp = 5;
+	    if (param > 20)
+	        lmc_modereg_params0.s.wrp = 6;
+	    if (param > 24)         /* RESERVED in DDR4 spec */
+	        lmc_modereg_params0.s.wrp = 7;
+        } else {                /* DDR3 */
         lmc_modereg_params0.s.wrp     = 1;
         if (param > 5)
             lmc_modereg_params0.s.wrp = 2;
@@ -1585,6 +1975,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             lmc_modereg_params0.s.wrp = 6;
         if (param > 12)
             lmc_modereg_params0.s.wrp = 7;
+	}
 
         lmc_modereg_params0.s.ppd     = 0;
 
@@ -1605,11 +1996,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     {
         /* .s. */
         bdk_lmcx_modereg_params1_t lmc_modereg_params1;
-        static const unsigned char rtt_nom_ohms[] = { 0, 60, 120, 40, 20, 30, 0, 0};
-        static const unsigned char rtt_wr_ohms[]  = { 0, 60, 120, 0};
-        static const unsigned char dic_ohms[]     = { 40, 34, 0, 0 };
+        bdk_lmcx_modereg_params2_t lmc_modereg_params2;
 
         lmc_modereg_params1.u = odt_config[odt_idx].odt_mask1.u;
+        lmc_modereg_params2.u = odt_config[odt_idx].odt_mask2.u;
 
 #ifdef CAVIUM_ONLY
         /* Special request: mismatched DIMM support. Slot 0: 2-Rank, Slot 1: 1-Rank */
@@ -1714,37 +2104,121 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
 
         ddr_print("RTT_NOM     %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                  rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11],
-                  rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10],
-                  rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01],
-                  rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00],
+                  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11],
+                  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10],
+                  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01],
+                  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00],
                   lmc_modereg_params1.s.rtt_nom_11,
                   lmc_modereg_params1.s.rtt_nom_10,
                   lmc_modereg_params1.s.rtt_nom_01,
                   lmc_modereg_params1.s.rtt_nom_00);
 
         ddr_print("RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                  rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11],
-                  rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10],
-                  rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_01],
-                  rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_00],
+                  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11],
+                  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10],
+                  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_01],
+                  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_00],
                   lmc_modereg_params1.s.rtt_wr_11,
                   lmc_modereg_params1.s.rtt_wr_10,
                   lmc_modereg_params1.s.rtt_wr_01,
                   lmc_modereg_params1.s.rtt_wr_00);
 
         ddr_print("DIC         %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                  dic_ohms[lmc_modereg_params1.s.dic_11],
-                  dic_ohms[lmc_modereg_params1.s.dic_10],
-                  dic_ohms[lmc_modereg_params1.s.dic_01],
-                  dic_ohms[lmc_modereg_params1.s.dic_00],
+                  imp_values->dic_ohms[lmc_modereg_params1.s.dic_11],
+                  imp_values->dic_ohms[lmc_modereg_params1.s.dic_10],
+                  imp_values->dic_ohms[lmc_modereg_params1.s.dic_01],
+                  imp_values->dic_ohms[lmc_modereg_params1.s.dic_00],
                   lmc_modereg_params1.s.dic_11,
                   lmc_modereg_params1.s.dic_10,
                   lmc_modereg_params1.s.dic_01,
                   lmc_modereg_params1.s.dic_00);
 
+        if (ddr_type == DDR4_DRAM) {
+
+        for (i=0; i<4; ++i) {
+            uint64_t value;
+            if ((s = lookup_env_parameter("ddr_vref_value_%1d%1d", !!(i&2), !!(i&1))) != NULL) {
+                value = strtoul(s, NULL, 0);
+                lmc_modereg_params2.u &= ~((uint64_t)0x3f  << (i*10+3));
+                lmc_modereg_params2.u |=  ( (value & 0x3f) << (i*10+3));
+            }
+        }
+
+        for (i=0; i<4; ++i) {
+            uint64_t value;
+            if ((s = lookup_env_parameter("ddr_rtt_park_%1d%1d", !!(i&2), !!(i&1))) != NULL) {
+                value = strtoul(s, NULL, 0);
+                lmc_modereg_params2.u &= ~((uint64_t)0x7  << (i*10+0));
+                lmc_modereg_params2.u |=  ( (value & 0x7) << (i*10+0));
+            }
+        }
+
+        if ((s = lookup_env_parameter_ull("ddr_modereg_params2")) != NULL) {
+            lmc_modereg_params2.u    = strtoull(s, NULL, 0);
+        }
+
+            ddr_print("RTT_PARK    %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
+                  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_11],
+                  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_10],
+                  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_01],
+                  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_00],
+                  lmc_modereg_params2.s.rtt_park_11,
+                  lmc_modereg_params2.s.rtt_park_10,
+                  lmc_modereg_params2.s.rtt_park_01,
+                  lmc_modereg_params2.s.rtt_park_00);
+
+            ddr_print("%-45s :  0x%x,0x%x,0x%x,0x%x\n", "VREF_RANGE",
+                      lmc_modereg_params2.s.vref_range_11,
+                      lmc_modereg_params2.s.vref_range_10,
+                      lmc_modereg_params2.s.vref_range_01,
+                      lmc_modereg_params2.s.vref_range_00);
+
+            ddr_print("%-45s :  0x%x,0x%x,0x%x,0x%x\n", "VREF_VALUE",
+                      lmc_modereg_params2.s.vref_value_11,
+                      lmc_modereg_params2.s.vref_value_10,
+                      lmc_modereg_params2.s.vref_value_01,
+                      lmc_modereg_params2.s.vref_value_00);
+        }
+
         ddr_print("MODEREG_PARAMS1                               : 0x%016lx\n", lmc_modereg_params1.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num), lmc_modereg_params1.u);
+
+        if (ddr_type == DDR4_DRAM) {
+	    ddr_print("MODEREG_PARAMS2                               : 0x%016lx\n", lmc_modereg_params2.u);
+	    DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS2(ddr_interface_num), lmc_modereg_params2.u);
+	}
+    }
+
+    /* LMC(0)_MODEREG_PARAMS3 */
+    if (ddr_type == DDR4_DRAM) {
+        bdk_lmcx_modereg_params3_t lmc_modereg_params3;
+
+        lmc_modereg_params3.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS3(ddr_interface_num));
+
+        //lmc_modereg_params3.s.max_pd          =
+        //lmc_modereg_params3.s.tc_ref          =
+        //lmc_modereg_params3.s.vref_mon        =
+        //lmc_modereg_params3.s.cal             =
+        //lmc_modereg_params3.s.sre_abort       =
+        //lmc_modereg_params3.s.rd_preamble     =
+        //lmc_modereg_params3.s.wr_preamble     =
+        //lmc_modereg_params3.s.par_lat_mode    =
+        //lmc_modereg_params3.s.odt_pd          =
+        //lmc_modereg_params3.s.ca_par_pers     =
+        //lmc_modereg_params3.s.dm              =
+        //lmc_modereg_params3.s.wr_dbi          =
+        //lmc_modereg_params3.s.rd_dbi          =
+        lmc_modereg_params3.s.tccd_l            = divide_roundup(ddr4_tCCD_Lmin, tclk_psecs) - 4;
+        //lmc_modereg_params3.s.lpasr           =
+        //lmc_modereg_params3.s.crc             =
+        //lmc_modereg_params3.s.gd              =
+        //lmc_modereg_params3.s.pda             =
+        //lmc_modereg_params3.s.temp_sense      =
+        //lmc_modereg_params3.s.fgrm            =
+        //lmc_modereg_params3.s.wr_cmd_lat      =
+        //lmc_modereg_params3.s.mpr_fmt         =
+
+        DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS3(ddr_interface_num), lmc_modereg_params3.u);
     }
 
     /* LMC(0)_NXM */
@@ -1795,7 +2269,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
 
         ddr_print("%-45s : 0x%016lx\n", "RODT_MASK", lmc_rodt_mask.u);
-       DRAM_CSR_WRITE(node, BDK_LMCX_RODT_MASK(ddr_interface_num), lmc_rodt_mask.u);
+	DRAM_CSR_WRITE(node, BDK_LMCX_RODT_MASK(ddr_interface_num), lmc_rodt_mask.u);
 
         dyn_rtt_nom_mask = 0;
         for (rankx = 0; rankx < dimm_count * 4;rankx++) {
@@ -1824,15 +2298,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
 
-        comp_ctl2.s.dqx_ctl	= (custom_lmc_config->dqx_ctl == 0) ? 4 : custom_lmc_config->dqx_ctl; /* Default 4=34.3 ohm */
-        comp_ctl2.s.ck_ctl		= (custom_lmc_config->ck_ctl  == 0) ? 4 : custom_lmc_config->ck_ctl;  /* Default 4=34.3 ohm */
+        comp_ctl2.s.dqx_ctl	= odt_config[odt_idx].odt_ena;
+        comp_ctl2.s.ck_ctl	= (custom_lmc_config->ck_ctl  == 0) ? 4 : custom_lmc_config->ck_ctl;  /* Default 4=34.3 ohm */
         comp_ctl2.s.cmd_ctl	= (custom_lmc_config->cmd_ctl == 0) ? 4 : custom_lmc_config->cmd_ctl; /* Default 4=34.3 ohm */
         comp_ctl2.s.control_ctl	= (custom_lmc_config->ctl_ctl == 0) ? 4 : custom_lmc_config->ctl_ctl; /* Default 4=34.3 ohm */
 
         comp_ctl2.s.ntune_offset    = 0;
         comp_ctl2.s.ptune_offset    = 0;
 
-        comp_ctl2.s.rodt_ctl           = 0x4; /* 60 ohm */
+        comp_ctl2.s.rodt_ctl = odt_config[odt_idx].qs_dic;
 
         if ((s = lookup_env_parameter("ddr_clk_ctl")) != NULL) {
             comp_ctl2.s.ck_ctl  = strtoul(s, NULL, 0);
@@ -1846,6 +2320,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             comp_ctl2.s.cmd_ctl  = strtoul(s, NULL, 0);
         }
 
+        if ((s = lookup_env_parameter("ddr_control_ctl")) != NULL) {
+	    comp_ctl2.s.control_ctl  = strtoul(s, NULL, 0);
+        }
+
         if ((s = lookup_env_parameter("ddr_dqx_ctl")) != NULL) {
             comp_ctl2.s.dqx_ctl  = strtoul(s, NULL, 0);
         }
@@ -1854,6 +2332,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             comp_ctl2.s.control_ctl  = strtoul(s, NULL, 0);
         }
 
+#ifdef DDR3_ENHANCE_PRINT
+        ddr_print("%-45s : %d, %d ohms\n", "DQX_CTL           ", comp_ctl2.s.dqx_ctl    , imp_values->drive_strength[comp_ctl2.s.dqx_ctl    ]);
+        ddr_print("%-45s : %d, %d ohms\n", "CK_CTL            ", comp_ctl2.s.ck_ctl     , imp_values->drive_strength[comp_ctl2.s.ck_ctl     ]);
+        ddr_print("%-45s : %d, %d ohms\n", "CMD_CTL           ", comp_ctl2.s.cmd_ctl    , imp_values->drive_strength[comp_ctl2.s.cmd_ctl    ]);
+        ddr_print("%-45s : %d, %d ohms\n", "CONTROL_CTL       ", comp_ctl2.s.control_ctl, imp_values->drive_strength[comp_ctl2.s.control_ctl]);
+#endif
         DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), comp_ctl2.u);
     }
 
@@ -1874,167 +2358,271 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     /* LMC(0)_DIMM0/1_PARAMS */
     if (spd_rdimm) {
-        for (didx=0; didx<(unsigned)dimm_count; ++didx) {
-        bdk_lmcx_dimmx_params_t lmc_dimmx_params;
         bdk_lmcx_dimm_ctl_t lmc_dimm_ctl;
-        int dimm = didx;
-        int rc;
 
-        lmc_dimmx_params.u = BDK_CSR_READ(node, BDK_LMCX_DIMMX_PARAMS(ddr_interface_num, dimm));
+        for (didx=0; didx<(unsigned)dimm_count; ++didx) {
+	    bdk_lmcx_dimmx_params_t lmc_dimmx_params;
+	    int dimm = didx;
+	    int rc;
 
-        rc = read_spd(node, &dimm_config_table[didx], 0, 69);
-        lmc_dimmx_params.s.rc0         = (rc >> 0) & 0xf;
-        lmc_dimmx_params.s.rc1         = (rc >> 4) & 0xf;
-
-        rc = read_spd(node, &dimm_config_table[didx], 0, 70);
-        lmc_dimmx_params.s.rc2         = (rc >> 0) & 0xf;
-        lmc_dimmx_params.s.rc3         = (rc >> 4) & 0xf;
-
-        rc = read_spd(node, &dimm_config_table[didx], 0, 71);
-        lmc_dimmx_params.s.rc4         = (rc >> 0) & 0xf;
-        lmc_dimmx_params.s.rc5         = (rc >> 4) & 0xf;
-
-        rc = read_spd(node, &dimm_config_table[didx], 0, 72);
-        lmc_dimmx_params.s.rc6         = (rc >> 0) & 0xf;
-        lmc_dimmx_params.s.rc7         = (rc >> 4) & 0xf;
-
-        rc = read_spd(node, &dimm_config_table[didx], 0, 73);
-        lmc_dimmx_params.s.rc8         = (rc >> 0) & 0xf;
-        lmc_dimmx_params.s.rc9         = (rc >> 4) & 0xf;
-
-        rc = read_spd(node, &dimm_config_table[didx], 0, 74);
-        lmc_dimmx_params.s.rc10        = (rc >> 0) & 0xf;
-        lmc_dimmx_params.s.rc11        = (rc >> 4) & 0xf;
-
-        rc = read_spd(node, &dimm_config_table[didx], 0, 75);
-        lmc_dimmx_params.s.rc12        = (rc >> 0) & 0xf;
-        lmc_dimmx_params.s.rc13        = (rc >> 4) & 0xf;
-
-        rc = read_spd(node, &dimm_config_table[didx], 0, 76);
-        lmc_dimmx_params.s.rc14        = (rc >> 0) & 0xf;
-        lmc_dimmx_params.s.rc15        = (rc >> 4) & 0xf;
+	    lmc_dimmx_params.u = BDK_CSR_READ(node, BDK_LMCX_DIMMX_PARAMS(ddr_interface_num, dimm));
 
 
-        if ((s = getenv("ddr_clk_drive")) != NULL) {
-            if (strcmp(s,"light") == 0) {
-                lmc_dimmx_params.s.rc5         = 0x0; /* Light Drive */
-            }
-            if (strcmp(s,"moderate") == 0) {
-                lmc_dimmx_params.s.rc5         = 0x5; /* Moderate Drive */
-            }
-            if (strcmp(s,"strong") == 0) {
-                lmc_dimmx_params.s.rc5         = 0xA; /* Strong Drive */
-            }
-            error_print("Parameter found in environment. ddr_clk_drive = %s\n", s);
-        }
+            if (ddr_type == DDR4_DRAM) {
 
-        if ((s = getenv("ddr_cmd_drive")) != NULL) {
-            if (strcmp(s,"light") == 0) {
-                lmc_dimmx_params.s.rc3         = 0x0; /* Light Drive */
-            }
-            if (strcmp(s,"moderate") == 0) {
-                lmc_dimmx_params.s.rc3         = 0x5; /* Moderate Drive */
-            }
-            if (strcmp(s,"strong") == 0) {
-                lmc_dimmx_params.s.rc3         = 0xA; /* Strong Drive */
-            }
-            error_print("Parameter found in environment. ddr_cmd_drive = %s\n", s);
-        }
+                bdk_lmcx_dimmx_ddr4_params0_t lmc_dimmx_ddr4_params0;
+                bdk_lmcx_dimmx_ddr4_params1_t lmc_dimmx_ddr4_params1;
+                bdk_lmcx_ddr4_dimm_ctl_t lmc_ddr4_dimm_ctl;
 
-        if ((s = getenv("ddr_ctl_drive")) != NULL) {
-            if (strcmp(s,"light") == 0) {
-                lmc_dimmx_params.s.rc4         = 0x0; /* Light Drive */
-            }
-            if (strcmp(s,"moderate") == 0) {
-                lmc_dimmx_params.s.rc4         = 0x5; /* Moderate Drive */
-            }
-            error_print("Parameter found in environment. ddr_ctl_drive = %s\n", s);
-        }
+                lmc_dimmx_params.s.rc0  = 0;
+                lmc_dimmx_params.s.rc1  = 0;
+                lmc_dimmx_params.s.rc2  = 0;
+
+                rc = read_spd(node, &dimm_config_table[didx], 0, DDR4_SPD_RDIMM_REGISTER_DRIVE_STRENGTH_CTL);
+                lmc_dimmx_params.s.rc3  = (rc >> 4) & 0xf;
+                lmc_dimmx_params.s.rc4  = ((rc >> 0) & 0x3) << 2;
+                lmc_dimmx_params.s.rc4 |= ((rc >> 2) & 0x3) << 0;
+
+                rc = read_spd(node, &dimm_config_table[didx], 0, DDR4_SPD_RDIMM_REGISTER_DRIVE_STRENGTH_CK);
+                lmc_dimmx_params.s.rc5  = ((rc >> 0) & 0x3) << 2;
+                lmc_dimmx_params.s.rc5 |= ((rc >> 2) & 0x3) << 0;
+
+                lmc_dimmx_params.s.rc6  = 0;
+                lmc_dimmx_params.s.rc7  = 0;
+                lmc_dimmx_params.s.rc8  = 0;
+                lmc_dimmx_params.s.rc9  = 0;
+
+                /*
+                ** rc10               RDIMM Operating Speed
+                ** ====   =========================================================
+                **  0                 tclk_psecs > 1250 psec DDR4-1600 (1250 ps)
+                **  1     1250 psec > tclk_psecs > 1071 psec DDR4-1866 (1071 ps)
+                **  2     1071 psec > tclk_psecs >  938 psec DDR4-2133 ( 938 ps)
+                **  3      938 psec > tclk_psecs >  833 psec DDR4-2400 ( 833 ps)
+                **  4      833 psec > tclk_psecs >  750 psec DDR4-2666 ( 750 ps)
+                **  5      750 psec > tclk_psecs >  625 psec DDR4-3200 ( 625 ps)
+                */
+                lmc_dimmx_params.s.rc10        = 0;
+                if (tclk_psecs <= 1250)
+                    lmc_dimmx_params.s.rc10    = 1;
+                if (tclk_psecs <= 1071)
+                    lmc_dimmx_params.s.rc10    = 2;
+                if (tclk_psecs <=  938)
+                    lmc_dimmx_params.s.rc10    = 3;
+                if (tclk_psecs <=  833)
+                    lmc_dimmx_params.s.rc10    = 4;
+                if (tclk_psecs <=  750)
+                    lmc_dimmx_params.s.rc10    = 5;
+
+                lmc_dimmx_params.s.rc11 = 0;
+                lmc_dimmx_params.s.rc12 = 0;
+		lmc_dimmx_params.s.rc13 = (spd_dimm_type == 4) ? 0 : 4; /* 0=LRDIMM, 1=RDIMM */
+		lmc_dimmx_params.s.rc13 |= (ddr_type == DDR4_DRAM) ? (spd_addr_mirror << 3) : 0;
+                lmc_dimmx_params.s.rc14 = 0;
+                lmc_dimmx_params.s.rc15 = 4; /* 0 nCK latency adder */
+
+                lmc_dimmx_ddr4_params0.u = 0;
+
+                lmc_dimmx_ddr4_params0.s.rc8x = 0;
+                lmc_dimmx_ddr4_params0.s.rc7x = 0;
+                lmc_dimmx_ddr4_params0.s.rc6x = 0;
+                lmc_dimmx_ddr4_params0.s.rc5x = 0;
+                lmc_dimmx_ddr4_params0.s.rc4x = 0;
+
+#define DIVIDEND_SCALE 100      /* Scale by 100 to avoid rounding error. */
+#define ENCODING_BASE 1240
+
+                lmc_dimmx_ddr4_params0.s.rc3x = divide_nint((((2 * 1000000 * DIVIDEND_SCALE) /
+                                                              (tclk_psecs * DIVIDEND_SCALE)) - ENCODING_BASE), 20);
+
+                lmc_dimmx_ddr4_params0.s.rc2x = 0;
+                lmc_dimmx_ddr4_params0.s.rc1x = 0;
+
+                DRAM_CSR_WRITE(node, BDK_LMCX_DIMMX_DDR4_PARAMS0(ddr_interface_num, dimm), lmc_dimmx_ddr4_params0.u);
+
+                lmc_dimmx_ddr4_params1.u = 0;
+
+                lmc_dimmx_ddr4_params1.s.rcbx = 0;
+                lmc_dimmx_ddr4_params1.s.rcax = 0;
+                lmc_dimmx_ddr4_params1.s.rc9x = 0;
+
+                lmc_ddr4_dimm_ctl.u = 0;
+                lmc_ddr4_dimm_ctl.s.ddr4_dimm0_wmask = 0x7ff;
+                lmc_ddr4_dimm_ctl.s.ddr4_dimm1_wmask = (dimm_count > 1) ? 0x7ff : 0x0000;
+                DRAM_CSR_WRITE(node, BDK_LMCX_DDR4_DIMM_CTL(ddr_interface_num), lmc_ddr4_dimm_ctl.u);
+
+                DRAM_CSR_WRITE(node, BDK_LMCX_DIMMX_DDR4_PARAMS1(ddr_interface_num, dimm), lmc_dimmx_ddr4_params1.u);
+
+                ddr_print("DIMM%d Register Control Words       RCBx:RC1x : %x %x %x %x %x %x %x %x %x %x %x\n",
+                          dimm,
+                          lmc_dimmx_ddr4_params1.s.rcbx,
+                          lmc_dimmx_ddr4_params1.s.rcax,
+                          lmc_dimmx_ddr4_params1.s.rc9x,
+                          lmc_dimmx_ddr4_params0.s.rc8x,
+                          lmc_dimmx_ddr4_params0.s.rc7x,
+                          lmc_dimmx_ddr4_params0.s.rc6x,
+                          lmc_dimmx_ddr4_params0.s.rc5x,
+                          lmc_dimmx_ddr4_params0.s.rc4x,
+                          lmc_dimmx_ddr4_params0.s.rc3x,
+                          lmc_dimmx_ddr4_params0.s.rc2x,
+                          lmc_dimmx_ddr4_params0.s.rc1x );
+
+            } else { /* if (ddr_type == DDR4_DRAM) */
+		rc = read_spd(node, &dimm_config_table[didx], 0, 69);
+		lmc_dimmx_params.s.rc0         = (rc >> 0) & 0xf;
+		lmc_dimmx_params.s.rc1         = (rc >> 4) & 0xf;
+
+		rc = read_spd(node, &dimm_config_table[didx], 0, 70);
+		lmc_dimmx_params.s.rc2         = (rc >> 0) & 0xf;
+		lmc_dimmx_params.s.rc3         = (rc >> 4) & 0xf;
+
+		rc = read_spd(node, &dimm_config_table[didx], 0, 71);
+		lmc_dimmx_params.s.rc4         = (rc >> 0) & 0xf;
+		lmc_dimmx_params.s.rc5         = (rc >> 4) & 0xf;
+
+		rc = read_spd(node, &dimm_config_table[didx], 0, 72);
+		lmc_dimmx_params.s.rc6         = (rc >> 0) & 0xf;
+		lmc_dimmx_params.s.rc7         = (rc >> 4) & 0xf;
+
+		rc = read_spd(node, &dimm_config_table[didx], 0, 73);
+		lmc_dimmx_params.s.rc8         = (rc >> 0) & 0xf;
+		lmc_dimmx_params.s.rc9         = (rc >> 4) & 0xf;
+
+		rc = read_spd(node, &dimm_config_table[didx], 0, 74);
+		lmc_dimmx_params.s.rc10        = (rc >> 0) & 0xf;
+		lmc_dimmx_params.s.rc11        = (rc >> 4) & 0xf;
+
+		rc = read_spd(node, &dimm_config_table[didx], 0, 75);
+		lmc_dimmx_params.s.rc12        = (rc >> 0) & 0xf;
+		lmc_dimmx_params.s.rc13        = (rc >> 4) & 0xf;
+
+		rc = read_spd(node, &dimm_config_table[didx], 0, 76);
+		lmc_dimmx_params.s.rc14        = (rc >> 0) & 0xf;
+		lmc_dimmx_params.s.rc15        = (rc >> 4) & 0xf;
 
 
-        /*
-        ** rc10               RDIMM Operating Speed
-        ** ====   =========================================================
-        **  0                 tclk_psecs > 2500 psec DDR3/DDR3L-800 (default)
-        **  1     2500 psec > tclk_psecs > 1875 psec DDR3/DDR3L-1066
-        **  2     1875 psec > tclk_psecs > 1500 psec DDR3/DDR3L-1333
-        **  3     1500 psec > tclk_psecs > 1250 psec DDR3/DDR3L-1600
-        */
-        lmc_dimmx_params.s.rc10        = 3;
-        if (tclk_psecs >= 1250)
-            lmc_dimmx_params.s.rc10    = 3;
-        if (tclk_psecs >= 1500)
-            lmc_dimmx_params.s.rc10    = 2;
-        if (tclk_psecs >= 1875)
-            lmc_dimmx_params.s.rc10    = 1;
-        if (tclk_psecs >= 2500)
-            lmc_dimmx_params.s.rc10    = 0;
+		if ((s = getenv("ddr_clk_drive")) != NULL) {
+		    if (strcmp(s,"light") == 0) {
+			lmc_dimmx_params.s.rc5         = 0x0; /* Light Drive */
+		    }
+		    if (strcmp(s,"moderate") == 0) {
+			lmc_dimmx_params.s.rc5         = 0x5; /* Moderate Drive */
+		    }
+		    if (strcmp(s,"strong") == 0) {
+			lmc_dimmx_params.s.rc5         = 0xA; /* Strong Drive */
+		    }
+		    error_print("Parameter found in environment. ddr_clk_drive = %s\n", s);
+		}
 
-        for (i=0; i<16; ++i) {
-            uint64_t value;
-            if ((s = lookup_env_parameter("ddr_rc%d", i)) != NULL) {
-                value = strtoul(s, NULL, 0);
-                lmc_dimmx_params.u &= ~((uint64_t)0xf << (i*4));
-                lmc_dimmx_params.u |=           (  value << (i*4));
-            }
-        }
+		if ((s = getenv("ddr_cmd_drive")) != NULL) {
+		    if (strcmp(s,"light") == 0) {
+			lmc_dimmx_params.s.rc3         = 0x0; /* Light Drive */
+		    }
+		    if (strcmp(s,"moderate") == 0) {
+			lmc_dimmx_params.s.rc3         = 0x5; /* Moderate Drive */
+		    }
+		    if (strcmp(s,"strong") == 0) {
+			lmc_dimmx_params.s.rc3         = 0xA; /* Strong Drive */
+		    }
+		    error_print("Parameter found in environment. ddr_cmd_drive = %s\n", s);
+		}
 
-        DRAM_CSR_WRITE(node, BDK_LMCX_DIMMX_PARAMS(ddr_interface_num, dimm), lmc_dimmx_params.u);
-
-        ddr_print("DIMM%d Register Control Words         RC15:RC0 : %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x\n",
-                  dimm,
-                  lmc_dimmx_params.s.rc15,
-                  lmc_dimmx_params.s.rc14,
-                  lmc_dimmx_params.s.rc13,
-                  lmc_dimmx_params.s.rc12,
-                  lmc_dimmx_params.s.rc11,
-                  lmc_dimmx_params.s.rc10,
-                  lmc_dimmx_params.s.rc9 ,
-                  lmc_dimmx_params.s.rc8 ,
-                  lmc_dimmx_params.s.rc7 ,
-                  lmc_dimmx_params.s.rc6 ,
-                  lmc_dimmx_params.s.rc5 ,
-                  lmc_dimmx_params.s.rc4 ,
-                  lmc_dimmx_params.s.rc3 ,
-                  lmc_dimmx_params.s.rc2 ,
-                  lmc_dimmx_params.s.rc1 ,
-                  lmc_dimmx_params.s.rc0 );
+		if ((s = getenv("ddr_ctl_drive")) != NULL) {
+		    if (strcmp(s,"light") == 0) {
+			lmc_dimmx_params.s.rc4         = 0x0; /* Light Drive */
+		    }
+		    if (strcmp(s,"moderate") == 0) {
+			lmc_dimmx_params.s.rc4         = 0x5; /* Moderate Drive */
+		    }
+		    error_print("Parameter found in environment. ddr_ctl_drive = %s\n", s);
+		}
 
 
-        /* LMC0_DIMM_CTL */
-        lmc_dimm_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DIMM_CTL(ddr_interface_num));
-        lmc_dimm_ctl.s.dimm0_wmask         = 0xffff;
-        lmc_dimm_ctl.s.dimm1_wmask         = (dimm_count > 1) ? 0xffff : 0x0000;
-        lmc_dimm_ctl.s.tcws                = 0x4e0;
-        lmc_dimm_ctl.s.parity              = custom_lmc_config->parity;
+		/*
+		** rc10               RDIMM Operating Speed
+		** ====   =========================================================
+		**  0                 tclk_psecs > 2500 psec DDR3/DDR3L-800 (default)
+		**  1     2500 psec > tclk_psecs > 1875 psec DDR3/DDR3L-1066
+		**  2     1875 psec > tclk_psecs > 1500 psec DDR3/DDR3L-1333
+		**  3     1500 psec > tclk_psecs > 1250 psec DDR3/DDR3L-1600
+		**  4     1250 psec > tclk_psecs > 1071 psec DDR3-1866
+		*/
+		lmc_dimmx_params.s.rc10        = 4;
+		if (tclk_psecs >= 1250)
+		    lmc_dimmx_params.s.rc10    = 3;
+		if (tclk_psecs >= 1500)
+		    lmc_dimmx_params.s.rc10    = 2;
+		if (tclk_psecs >= 1875)
+		    lmc_dimmx_params.s.rc10    = 1;
+		if (tclk_psecs >= 2500)
+		    lmc_dimmx_params.s.rc10    = 0;
 
-        if ((s = lookup_env_parameter("ddr_dimm0_wmask")) != NULL) {
-            lmc_dimm_ctl.s.dimm0_wmask    = strtoul(s, NULL, 0);
-        }
+	    } /* if (ddr_type == DDR4_DRAM) */
 
-        if ((s = lookup_env_parameter("ddr_dimm1_wmask")) != NULL) {
-            lmc_dimm_ctl.s.dimm1_wmask    = strtoul(s, NULL, 0);
-        }
+	    for (i=0; i<16; ++i) {
+		uint64_t value;
+		if ((s = lookup_env_parameter("ddr_rc%d", i)) != NULL) {
+		    value = strtoul(s, NULL, 0);
+		    lmc_dimmx_params.u &= ~((uint64_t)0xf << (i*4));
+		    lmc_dimmx_params.u |=           (  value << (i*4));
+		}
+	    }
 
-        if ((s = lookup_env_parameter("ddr_dimm_ctl_parity")) != NULL) {
-            lmc_dimm_ctl.s.parity = strtoul(s, NULL, 0);
-        }
+	    DRAM_CSR_WRITE(node, BDK_LMCX_DIMMX_PARAMS(ddr_interface_num, dimm), lmc_dimmx_params.u);
 
-        if ((s = lookup_env_parameter("ddr_dimm_ctl_tcws")) != NULL) {
-            lmc_dimm_ctl.s.tcws = strtoul(s, NULL, 0);
-        }
+	    ddr_print("DIMM%d Register Control Words         RC15:RC0 : %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x %x\n",
+		      dimm,
+		      lmc_dimmx_params.s.rc15,
+		      lmc_dimmx_params.s.rc14,
+		      lmc_dimmx_params.s.rc13,
+		      lmc_dimmx_params.s.rc12,
+		      lmc_dimmx_params.s.rc11,
+		      lmc_dimmx_params.s.rc10,
+		      lmc_dimmx_params.s.rc9 ,
+		      lmc_dimmx_params.s.rc8 ,
+		      lmc_dimmx_params.s.rc7 ,
+		      lmc_dimmx_params.s.rc6 ,
+		      lmc_dimmx_params.s.rc5 ,
+		      lmc_dimmx_params.s.rc4 ,
+		      lmc_dimmx_params.s.rc3 ,
+		      lmc_dimmx_params.s.rc2 ,
+		      lmc_dimmx_params.s.rc1 ,
+		      lmc_dimmx_params.s.rc0 );
 
-        ddr_print("DIMM%d DIMM_CTL                                : 0x%016lx\n", dimm, lmc_dimm_ctl.u);
-        DRAM_CSR_WRITE(node, BDK_LMCX_DIMM_CTL(ddr_interface_num), lmc_dimm_ctl.u);
-    }
-    } else {
+	    /* LMC0_DIMM_CTL */
+	    lmc_dimm_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DIMM_CTL(ddr_interface_num));
+	    lmc_dimm_ctl.s.dimm0_wmask         = 0xffff;
+	    lmc_dimm_ctl.s.dimm1_wmask         = (dimm_count > 1) ? 0xffff : 0x0000;
+	    lmc_dimm_ctl.s.tcws                = 0x4e0;
+	    lmc_dimm_ctl.s.parity              = custom_lmc_config->parity;
+
+	    if ((s = lookup_env_parameter("ddr_dimm0_wmask")) != NULL) {
+		lmc_dimm_ctl.s.dimm0_wmask    = strtoul(s, NULL, 0);
+	    }
+
+	    if ((s = lookup_env_parameter("ddr_dimm1_wmask")) != NULL) {
+		lmc_dimm_ctl.s.dimm1_wmask    = strtoul(s, NULL, 0);
+	    }
+
+	    if ((s = lookup_env_parameter("ddr_dimm_ctl_parity")) != NULL) {
+		lmc_dimm_ctl.s.parity = strtoul(s, NULL, 0);
+	    }
+
+	    if ((s = lookup_env_parameter("ddr_dimm_ctl_tcws")) != NULL) {
+		lmc_dimm_ctl.s.tcws = strtoul(s, NULL, 0);
+	    }
+
+	    ddr_print("DIMM%d DIMM_CTL                                : 0x%016lx\n", dimm, lmc_dimm_ctl.u);
+	    DRAM_CSR_WRITE(node, BDK_LMCX_DIMM_CTL(ddr_interface_num), lmc_dimm_ctl.u);
+	} /* for didx */
+    } else { /* if (spd_rdimm) */
         /* Disable register control writes for unbuffered */
         bdk_lmcx_dimm_ctl_t lmc_dimm_ctl;
         lmc_dimm_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DIMM_CTL(ddr_interface_num));
         lmc_dimm_ctl.s.dimm0_wmask         = 0;
         lmc_dimm_ctl.s.dimm1_wmask         = 0;
         DRAM_CSR_WRITE(node, BDK_LMCX_DIMM_CTL(ddr_interface_num), lmc_dimm_ctl.u);
-    }
+    } /* if (spd_rdimm) */
 
     /*
      * Comments (steps 3 through 5) continue in perform_octeon3_ddr3_sequence()
@@ -2064,8 +2652,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      * 
      * 3. Wait for LMC(0)_SEQ_CTL[SEQ_COMPLETE] to be set to 1.
      */
-
-    perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0B); /* Offset training sequence */
+    {
+#ifdef DDR3_ENHANCE_PRINT
+        bdk_lmcx_comp_ctl2_t lmc_comp_ctl2;
+        lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+        ddr_print("Read ODT_CTL                                  : 0x%x (%d ohms)\n",
+                  lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
+#endif
+	perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0B); /* Offset training sequence */
+    }
 
     /*
      * 4.8.7 LMC Internal Vref Training
@@ -2079,6 +2674,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         bdk_lmcx_ext_config_t ext_config;
         ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
         ext_config.s.vrefint_seq_deskew = 0;
+#ifdef DDR3_ENHANCE_PRINT
+        ddr_print("Performing LMC sequence: vrefint_seq_deskew = %d\n",
+                  ext_config.s.vrefint_seq_deskew);
+#endif
         DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
     }
 
@@ -2089,7 +2688,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      * 3. Wait for LMC(0)_SEQ_CTL[SEQ_COMPLETE] to be set to 1.
      */
 
-    perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* Vref internal training sequence */
+    perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Internal Vref Training */
 
     /*
      * 4.8.8 LMC Deskew Training
@@ -2103,6 +2702,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         bdk_lmcx_ext_config_t ext_config;
         ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
         ext_config.s.vrefint_seq_deskew = 1;
+#ifdef DDR3_ENHANCE_PRINT
+        ddr_print("Performing LMC sequence: vrefint_seq_deskew = %d\n",
+                  ext_config.s.vrefint_seq_deskew);
+#endif
         DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
     }
 
@@ -2113,7 +2716,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      * 3. Wait for LMC(0)_SEQ_CTL[SEQ_COMPLETE] to be set to 1.
      */
 
-    perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* Vref internal training sequence */
+    perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
 
 
     /* LMC(0)_EXT_CONFIG */
@@ -2274,9 +2877,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         if (wlevel_loops)
             ddr_print("Performing Write-Leveling\n");
-        else
+        else {
             wlevel_bitmask_errors = 1; /* Force software write-leveling to run */
-
+#ifdef DDR3_ENHANCE_PRINT
+            ddr_print("Forcing software Write-Leveling\n");
+#endif
+	}
         lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
         save_mode32b = lmc_config.s.mode32b;
         lmc_config.s.mode32b         = (! ddr_interface_64b);
@@ -2284,116 +2890,115 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ddr_print("%-45s : %d\n", "MODE32B", lmc_config.s.mode32b);
 
         while(wlevel_loops--) {
-        if ((s = lookup_env_parameter("ddr_wlevel_roundup")) != NULL) {
-            ddr_wlevel_roundup = strtoul(s, NULL, 0);
-        }
-        for (rankx = 0; rankx < dimm_count * 4;rankx++) {
-            if (!(rank_mask & (1 << rankx)))
-                continue;
+	    if ((s = lookup_env_parameter("ddr_wlevel_roundup")) != NULL) {
+		ddr_wlevel_roundup = strtoul(s, NULL, 0);
+	    }
+	    for (rankx = 0; rankx < dimm_count * 4;rankx++) {
+		if (!(rank_mask & (1 << rankx)))
+		    continue;
 
-            wlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num));
-            lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
-            ecc_ena = lmc_config.s.ecc_ena;
+		wlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num));
+		lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
+		ecc_ena = lmc_config.s.ecc_ena;
 
-            if ((s = lookup_env_parameter("ddr_wlevel_rtt_nom")) != NULL) {
-                wlevel_ctl.s.rtt_nom   = strtoul(s, NULL, 0);
-            }
+		if ((s = lookup_env_parameter("ddr_wlevel_rtt_nom")) != NULL) {
+		    wlevel_ctl.s.rtt_nom   = strtoul(s, NULL, 0);
+		}
 
-            DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), 0); /* Clear write-level delays */
+		DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), 0); /* Clear write-level delays */
+		wlevel_bitmask_errors = 0; /* Reset error counter */
 
-            wlevel_bitmask_errors = 0; /* Reset error counter */
+		for (byte_idx=0; byte_idx<9; ++byte_idx) {
+		    wlevel_bitmask[byte_idx] = 0; /* Reset bitmasks */
+		}
 
-            for (byte_idx=0; byte_idx<9; ++byte_idx) {
-                wlevel_bitmask[byte_idx] = 0; /* Reset bitmasks */
-            }
+		/* Make separate passes for each byte to reduce power. */
+		for (passx=0; passx<(8+ecc_ena); ++passx) {
 
-            /* Make separate passes for each byte to reduce power. */
-            for (passx=0; passx<(8+ecc_ena); ++passx) {
+		    if (!(ddr_interface_bytemask&(1<<passx)))
+			continue;
 
-                if (!(ddr_interface_bytemask&(1<<passx)))
-                    continue;
+		    wlevel_ctl.s.lanemask = (1<<passx);
 
-                wlevel_ctl.s.lanemask = (1<<passx);
+		    DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num), wlevel_ctl.u);
 
-                DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_CTL(ddr_interface_num), wlevel_ctl.u);
+		    /* Read and write values back in order to update the
+		       status field. This insurs that we read the updated
+		       values after write-leveling has completed. */
+		    DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx),
+				   BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx)));
 
-                /* Read and write values back in order to update the
-                   status field. This insurs that we read the updated
-                   values after write-leveling has completed. */
-                DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx),
-                               BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx)));
+		    perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 6); /* write-leveling */
 
-                perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 6); /* write-leveling */
+		    /* Wait 100ms for wlevel to complete */
+		    if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx),
+								       status, ==, 3, 1000000)) {
+			error_print("ERROR: Timeout waiting for WLEVEL\n");
+		    }
+		    lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
-                /* Wait 100ms for wlevel to complete */
-                if (!bdk_is_simulation() && BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx),
-                    status, ==, 3, 1000000)) {
-                    error_print("ERROR: Timeout waiting for WLEVEL\n");
-                }
-                lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
+		    wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
+		    if (wlevel_bitmask[passx] == 0)
+			++wlevel_bitmask_errors;
+		} /* for (passx=0; passx<(8+ecc_ena); ++passx) */
 
-                wlevel_bitmask[passx] = octeon_read_lmcx_ddr3_wlevel_dbg(node, ddr_interface_num, passx);
-                if (wlevel_bitmask[passx] == 0)
-                    ++wlevel_bitmask_errors;
-            } /* for (passx=0; passx<(8+ecc_ena); ++passx) */
+		ddr_print("Rank(%d) Wlevel Debug Results                  : %05x %05x %05x %05x %05x %05x %05x %05x %05x\n",
+			  rankx,
+			  wlevel_bitmask[8],
+			  wlevel_bitmask[7],
+			  wlevel_bitmask[6],
+			  wlevel_bitmask[5],
+			  wlevel_bitmask[4],
+			  wlevel_bitmask[3],
+			  wlevel_bitmask[2],
+			  wlevel_bitmask[1],
+			  wlevel_bitmask[0]
+			  );
 
-            ddr_print("Rank(%d) Wlevel Debug Results                  : %05x %05x %05x %05x %05x %05x %05x %05x %05x\n",
-                      rankx,
-                      wlevel_bitmask[8],
-                      wlevel_bitmask[7],
-                      wlevel_bitmask[6],
-                      wlevel_bitmask[5],
-                      wlevel_bitmask[4],
-                      wlevel_bitmask[3],
-                      wlevel_bitmask[2],
-                      wlevel_bitmask[1],
-                      wlevel_bitmask[0]
-                      );
+		ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+			  rankx,
+			  lmc_wlevel_rank.s.status,
+			  lmc_wlevel_rank.u,
+			  lmc_wlevel_rank.s.byte8,
+			  lmc_wlevel_rank.s.byte7,
+			  lmc_wlevel_rank.s.byte6,
+			  lmc_wlevel_rank.s.byte5,
+			  lmc_wlevel_rank.s.byte4,
+			  lmc_wlevel_rank.s.byte3,
+			  lmc_wlevel_rank.s.byte2,
+			  lmc_wlevel_rank.s.byte1,
+			  lmc_wlevel_rank.s.byte0
+			  );
 
-            ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
-                      rankx,
-                      lmc_wlevel_rank.s.status,
-                      lmc_wlevel_rank.u,
-                      lmc_wlevel_rank.s.byte8,
-                      lmc_wlevel_rank.s.byte7,
-                      lmc_wlevel_rank.s.byte6,
-                      lmc_wlevel_rank.s.byte5,
-                      lmc_wlevel_rank.s.byte4,
-                      lmc_wlevel_rank.s.byte3,
-                      lmc_wlevel_rank.s.byte2,
-                      lmc_wlevel_rank.s.byte1,
-                      lmc_wlevel_rank.s.byte0
-                      );
+		if (ddr_wlevel_roundup) { /* Round up odd bitmask delays */
+		    for (byte_idx=0; byte_idx<(8+ecc_ena); ++byte_idx) {
+			if (!(ddr_interface_bytemask&(1<<byte_idx)))
+			    continue;
+			update_wlevel_rank_struct(&lmc_wlevel_rank,
+						  byte_idx,
+						  roundup_ddr3_wlevel_bitmask(wlevel_bitmask[byte_idx]));
+		    }
+		    DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
+		    ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+			      rankx,
+			      lmc_wlevel_rank.s.status,
+			      lmc_wlevel_rank.u,
+			      lmc_wlevel_rank.s.byte8,
+			      lmc_wlevel_rank.s.byte7,
+			      lmc_wlevel_rank.s.byte6,
+			      lmc_wlevel_rank.s.byte5,
+			      lmc_wlevel_rank.s.byte4,
+			      lmc_wlevel_rank.s.byte3,
+			      lmc_wlevel_rank.s.byte2,
+			      lmc_wlevel_rank.s.byte1,
+			      lmc_wlevel_rank.s.byte0
+			      );
+		}
 
-            if (ddr_wlevel_roundup) { /* Round up odd bitmask delays */
-                for (byte_idx=0; byte_idx<(8+ecc_ena); ++byte_idx) {
-                    if (!(ddr_interface_bytemask&(1<<byte_idx)))
-                        continue;
-                    update_wlevel_rank_struct(&lmc_wlevel_rank,
-                                           byte_idx,
-                                           roundup_ddr3_wlevel_bitmask(wlevel_bitmask[byte_idx]));
-                }
-                DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
-                ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
-                          rankx,
-                          lmc_wlevel_rank.s.status,
-                          lmc_wlevel_rank.u,
-                          lmc_wlevel_rank.s.byte8,
-                          lmc_wlevel_rank.s.byte7,
-                          lmc_wlevel_rank.s.byte6,
-                          lmc_wlevel_rank.s.byte5,
-                          lmc_wlevel_rank.s.byte4,
-                          lmc_wlevel_rank.s.byte3,
-                          lmc_wlevel_rank.s.byte2,
-                          lmc_wlevel_rank.s.byte1,
-                          lmc_wlevel_rank.s.byte0
-                          );
-            }
-
-            if (wlevel_bitmask_errors != 0) {
-                ddr_print("Rank(%d) Write-Leveling Failed: %d Bitmask errors\n", rankx, wlevel_bitmask_errors);
-            }
-        } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
+		if (wlevel_bitmask_errors != 0) {
+		    ddr_print("Rank(%d) Write-Leveling Failed: %d Bitmask errors\n", rankx, wlevel_bitmask_errors);
+		}
+	    } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
         } /* while(wlevel_loops--) */
 
         lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
@@ -2514,11 +3119,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int max_rtt_nom_idx;
         int min_rodt_ctl;
         int max_rodt_ctl;
-        static const unsigned char rodt_ohms[] = { 0, 20, 30, 40, 60, 120 };
-        static const unsigned char rtt_nom_ohms[] = { 0, 60, 120, 40, 20, 30 };
-        static const unsigned char rtt_nom_table[] = { 0, 2, 1, 3, 5, 4 };
-        static const unsigned char rtt_wr_ohms[]  = { 0, 60, 120 };
-        static const unsigned char dic_ohms[]     = { 40, 34 };
         int rlevel_debug_loops = 1;
         int default_rodt_ctl;
         unsigned char save_ddr2t;
@@ -2531,7 +3131,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         struct {
             uint64_t setting;
             int      score;
-        } rlevel_scoreboard[sizeof(rtt_nom_ohms)][sizeof(rodt_ohms)][4];
+        } rlevel_scoreboard[RTT_NOM_OHMS_COUNT][RODT_OHMS_COUNT][4];
 #pragma pack(pop)
 
         default_rodt_ctl = odt_config[odt_idx].qs_dic;
@@ -2552,7 +3152,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                stabilized before read-leveling occurs. */
             save_ref_zqcs_int         = lmc_config.s.ref_zqcs_int;
             lmc_config.s.ref_zqcs_int = 1 | (32<<7); /* set smallest interval */
+#ifdef DDR3_ENHANCE_PRINT
+            DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+#else
             BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+#endif
             BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
 
             /* Compute an appropriate delay based on the current ZQCS
@@ -2569,7 +3173,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             bdk_wait_usec(temp_delay_usecs);
 
             lmc_config.s.ref_zqcs_int = save_ref_zqcs_int; /* Restore computed interval */
+#ifdef DDR3_ENHANCE_PRINT
+            DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+#else
             BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+#endif
             BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
         }
 
@@ -2636,7 +3244,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
 
         if ((s = lookup_env_parameter("ddr_rtt_nom_auto")) != NULL) {
-            ddr_rtt_nom_auto = strtoul(s, NULL, 0);
+            ddr_rtt_nom_auto = !!strtoul(s, NULL, 0);
         }
 
         if ((s = lookup_env_parameter("ddr_rodt_ctl")) == NULL)
@@ -2647,7 +3255,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
 
         if ((s = lookup_env_parameter("ddr_rodt_ctl_auto")) != NULL) {
-            ddr_rodt_ctl_auto = strtoul(s, NULL, 0);
+            ddr_rodt_ctl_auto = !!strtoul(s, NULL, 0);
         }
 
         if ((s = lookup_env_parameter("ddr_rlevel_average")) != NULL) {
@@ -2687,9 +3295,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         while(rlevel_debug_loops--) {
         /* Initialize the error scoreboard */
-        for ( rtt_idx=1; rtt_idx<6; ++rtt_idx) {
-            rtt_nom = rtt_nom_table[rtt_idx];
-        for (rodt_ctl=5; rodt_ctl>0; --rodt_ctl) {
+        for ( rtt_idx=1; rtt_idx<RTT_NOM_OHMS_COUNT; ++rtt_idx) {
+            rtt_nom = imp_values->rtt_nom_table[rtt_idx];
+        for (rodt_ctl=RODT_OHMS_COUNT-1; rodt_ctl>0; --rodt_ctl) {
             for (rankx = 0; rankx < dimm_count*4; rankx++) {
                 if (!(rank_mask & (1 << rankx)))
                     continue;
@@ -2744,7 +3352,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmc_modereg_params1.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num));
 
         for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) {
-            rtt_nom = rtt_nom_table[rtt_idx];
+            rtt_nom = imp_values->rtt_nom_table[rtt_idx];
 
             /* When the read ODT mask is zero the dyn_rtt_nom_mask is
                zero than RTT_NOM will not be changing during
@@ -2761,10 +3369,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num), lmc_modereg_params1.u);
             ddr_print("\n");
             ddr_print("RTT_NOM     %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                      rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11],
-                      rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10],
-                      rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01],
-                      rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00],
+                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11],
+                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10],
+                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01],
+                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00],
                       lmc_modereg_params1.s.rtt_nom_11,
                       lmc_modereg_params1.s.rtt_nom_10,
                       lmc_modereg_params1.s.rtt_nom_01,
@@ -2779,7 +3387,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
             lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
             ddr_print("Read ODT_CTL                                  : 0x%x (%d ohms)\n",
-                      lmc_comp_ctl2.s.rodt_ctl, rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
+                      lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
 
             for (rankx = 0; rankx < dimm_count*4; rankx++) {
                 int byte_idx;
@@ -3038,7 +3646,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].setting = lmc_rlevel_rank.u;
             } /* for (rankx = 0; rankx < dimm_count*4; rankx++) */
         } /* for (rodt_ctl=odt_config[odt_idx].qs_dic; rodt_ctl>0; --rodt_ctl) */
-        } /*  for ( rtt_idx=1; rtt_idx<6; ++rtt_idx) */
+        } /*  for ( rtt_idx=min_rtt_nom_idx; rtt_idx<max_rtt_nom_idx; ++rtt_idx) */
 
 
         /* Re-enable dynamic compensation settings. */
@@ -3098,7 +3706,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
             ddr_print("Evaluating Read-Leveling Scoreboard.\n");
             for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) {
-                rtt_nom = rtt_nom_table[rtt_idx];
+                rtt_nom = imp_values->rtt_nom_table[rtt_idx];
 
                 /* When the read ODT mask is zero the dyn_rtt_nom_mask is
                    zero than RTT_NOM will not be changing during
@@ -3147,34 +3755,60 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
             DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num), lmc_modereg_params1.u);
             ddr_print("RTT_NOM     %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                      rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11],
-                      rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10],
-                      rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01],
-                      rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00],
+                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11],
+                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10],
+                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01],
+                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00],
                       lmc_modereg_params1.s.rtt_nom_11,
                       lmc_modereg_params1.s.rtt_nom_10,
                       lmc_modereg_params1.s.rtt_nom_01,
                       lmc_modereg_params1.s.rtt_nom_00);
 
             ddr_print("RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                      rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11],
-                      rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10],
-                      rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_01],
-                      rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_00],
+                      imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11],
+                      imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10],
+                      imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_01],
+                      imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_00],
                       lmc_modereg_params1.s.rtt_wr_11,
                       lmc_modereg_params1.s.rtt_wr_10,
                       lmc_modereg_params1.s.rtt_wr_01,
                       lmc_modereg_params1.s.rtt_wr_00);
 
             ddr_print("DIC         %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                      dic_ohms[lmc_modereg_params1.s.dic_11],
-                      dic_ohms[lmc_modereg_params1.s.dic_10],
-                      dic_ohms[lmc_modereg_params1.s.dic_01],
-                      dic_ohms[lmc_modereg_params1.s.dic_00],
+                      imp_values->dic_ohms[lmc_modereg_params1.s.dic_11],
+                      imp_values->dic_ohms[lmc_modereg_params1.s.dic_10],
+                      imp_values->dic_ohms[lmc_modereg_params1.s.dic_01],
+                      imp_values->dic_ohms[lmc_modereg_params1.s.dic_00],
                       lmc_modereg_params1.s.dic_11,
                       lmc_modereg_params1.s.dic_10,
                       lmc_modereg_params1.s.dic_01,
                       lmc_modereg_params1.s.dic_00);
+
+            if (ddr_type == DDR4_DRAM) {
+		bdk_lmcx_modereg_params2_t lmc_modereg_params2;
+		lmc_modereg_params2.u = odt_config[odt_idx].odt_mask2.u;
+		ddr_print("RTT_PARK    %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
+			  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_11],
+			  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_10],
+			  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_01],
+			  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_00],
+			  lmc_modereg_params2.s.rtt_park_11,
+			  lmc_modereg_params2.s.rtt_park_10,
+			  lmc_modereg_params2.s.rtt_park_01,
+			  lmc_modereg_params2.s.rtt_park_00);
+
+		ddr_print("%-45s :  0x%x,0x%x,0x%x,0x%x\n", "VREF_RANGE",
+			  lmc_modereg_params2.s.vref_range_11,
+			  lmc_modereg_params2.s.vref_range_10,
+			  lmc_modereg_params2.s.vref_range_01,
+			  lmc_modereg_params2.s.vref_range_00);
+
+		ddr_print("%-45s :  0x%x,0x%x,0x%x,0x%x\n", "VREF_VALUE",
+			  lmc_modereg_params2.s.vref_value_11,
+			  lmc_modereg_params2.s.vref_value_10,
+			  lmc_modereg_params2.s.vref_value_01,
+			  lmc_modereg_params2.s.vref_value_00);
+            }
 
             lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
             if (ddr_rodt_ctl_auto)
@@ -3184,7 +3818,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
             lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
             ddr_print("Read ODT_CTL                                  : 0x%x (%d ohms)\n",
-                      lmc_comp_ctl2.s.rodt_ctl, rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
+                      lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
 
             /* Use the delays associated with the best score for each individual rank */
             for (rankx = 0; rankx < dimm_count * 4;rankx++) {
@@ -3193,7 +3827,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     continue;
 
                 for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) {
-                    rtt_nom = rtt_nom_table[rtt_idx];
+                    rtt_nom = imp_values->rtt_nom_table[rtt_idx];
 
                     /* When the read ODT mask is zero the dyn_rtt_nom_mask is
                        zero than RTT_NOM will not be changing during
@@ -3310,6 +3944,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     {
         /* Try to determine/optimize write-level delays experimentally. */
         bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank;
+        bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank_hw_results;
         bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank;
         bdk_lmcx_config_t lmc_config;
         int byte;
@@ -3350,7 +3985,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         save_ecc_ena = lmc_config.s.ecc_ena;
         lmc_config.s.ecc_ena = 0;
         DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+#ifdef DDR3_ENHANCE_PRINT
+        limit_l2_ways(node, 0, 1);       /* Disable l2 sets for DRAM testing */
+#else
         limit_l2_ways(node, 0, 0);       /* Disable l2 sets for DRAM testing */
+#endif
 
 
         /* We need to track absolute rank number, as well as how many
@@ -3358,20 +3997,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ** ranks 0 and 2, but only 2 ranks are active. */
         active_rank = 0;
 
-        interfaces = 0;
-        {
-            int i;
-            for (i=ddr_interface_mask; i; i>>=1) {
-                ++interfaces;
-            }
-        }
+        interfaces = __builtin_popcount(ddr_interface_mask);
 
-        for (rankx = 0; rankx < dimm_count * 4;rankx++) {
+        for (rankx = 0; rankx < dimm_count * 4; rankx++) {
             uint64_t rank_addr;
+            int vref_value, final_vref_value;
+            char best_vref_values_count, vref_values_count;
+            char best_vref_values_start, vref_values_start;
 
-            sw_wl_status_t byte_test_status[9] = {WL_ESTIMATED};
+            int bytes_failed;
+            sw_wl_status_t byte_test_status[9];
             sw_wl_status_t sw_wl_rank_status = WL_HARDWARE;
-            int bytes_failed = 0;
 
             if (!sw_wlevel_enable)
                 break;
@@ -3380,81 +4016,157 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 continue;
 
 
-            lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
-            if (wlevel_bitmask_errors == 0) {
-                /* Determine address of DRAM to test for software write leveling. */
-                rank_addr  = active_rank * ((1ull << (pbank_lsb+interfaces/2))/(1+bunk_enable));
-                rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
+            /* Save off the h/w wl results */
+            lmc_wlevel_rank_hw_results.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
-                rank_addr = bdk_numa_get_address(node, rank_addr);
-                debug_print("Rank Address: 0x%lx\n", rank_addr);
+            vref_values_count = 0;
+            vref_values_start = 0;
+            best_vref_values_count = 0;
+            best_vref_values_start = 0;
 
-                for (byte=0; byte<8; ++byte) {
-                    uint64_t byte_bitmask = 0xff;
-                    if (!(ddr_interface_bytemask&(1<<byte)))
-                        continue;
-
-                    /* If we will be switching to 32bit mode only test 4 ECC bits.  */
-                    if ((! ddr_interface_64b) && (byte == 4))
-                        byte_bitmask = 0x0f;
-
-                    /* If h/w write-leveling had no errors then use
-                    ** s/w write-leveling to fixup only the upper bits
-                    ** of the delays. */
-                    for (delay=get_wlevel_rank_struct(&lmc_wlevel_rank, byte); delay<32; delay+=8) {
-                        update_wlevel_rank_struct(&lmc_wlevel_rank, byte, delay);
-                        debug_print("Testing byte %d delay %2d\n", byte, delay);
-                        DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
-                        lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
-
-                        if (!test_dram_byte(rank_addr, 2048, byte, byte_bitmask)) {
-                            debug_print("        byte %d(0x%lx) delay %2d Passed\n", byte, rank_addr, delay);
-                            byte_test_status[byte] = WL_HARDWARE;
-                            break;
+            debug_print("Rank(%d)", rankx);
+            for (vref_value=0; vref_value<(0x33); ++vref_value) {
+                debug_print(" %02x", vref_value);
+            }
+            debug_print("\nRank(%d)", rankx);
+            /* Loop one extra time using the Final Vref value. */
+            for (vref_value=0; vref_value<(0x33+1); ++vref_value) {
+                if (ddr_type == DDR4_DRAM) {
+                    if (vref_value < 0x33) {
+		        set_vref(node, ddr_interface_num, rankx, 0, vref_value);
+                    } else {
+                        /* Set the final Vref value. */
+                        if (best_vref_values_count > 0) {
+                            best_vref_values_count = max(best_vref_values_count, 2);
+                            final_vref_value = best_vref_values_start + divide_roundup((best_vref_values_count-1)*5,10);
                         } else {
-                            debug_print("        byte %d delay %2d Errors\n", byte, delay);
+                            /* If nothing passed use the default Vref value for this rank */
+                            bdk_lmcx_modereg_params2_t lmc_modereg_params2;
+
+                            lmc_modereg_params2.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS2(ddr_interface_num));
+
+                            switch (rankx) {
+                            case 0:
+                                final_vref_value = lmc_modereg_params2.s.vref_value_00;
+                                break;
+                            case 1:
+                                final_vref_value = lmc_modereg_params2.s.vref_value_01;
+                                break;
+                            case 2:
+                                final_vref_value = lmc_modereg_params2.s.vref_value_10;
+                                break;
+                            case 3:
+                                final_vref_value = lmc_modereg_params2.s.vref_value_11;
+                                break;
+                            }
+                        }
+                        debug_print(" (0x%02x)\n", final_vref_value);
+                        ddr_print("Rank(%d) Vref Training Summary                 :    0x%02x <----- 0x%02x -----> 0x%02x\n",
+                                  rankx, best_vref_values_start, final_vref_value,
+                                  best_vref_values_start+best_vref_values_count-1);
+                        set_vref(node, ddr_interface_num, rankx, 0,
+			         final_vref_value);
+                    }
+                } /* if (ddr_type == DDR4_DRAM) */
+                lmc_wlevel_rank.u = lmc_wlevel_rank_hw_results.u; /* Restore the saved value */
+
+		for (byte = 0; byte < 8; ++byte)
+		    byte_test_status[byte] = WL_ESTIMATED;
+
+                if (wlevel_bitmask_errors == 0) {
+                    /* Determine address of DRAM to test for software write leveling. */
+                    rank_addr  = active_rank * ((1ull << (pbank_lsb+interfaces/2))/(1+bunk_enable));
+                    rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
+                    rank_addr = bdk_numa_get_address(node, rank_addr);
+                    debug_print("Rank Address: 0x%llx\n", rank_addr);
+
+                    for (byte = 0; byte < 8; ++byte) {
+                        uint64_t byte_bitmask = 0xff;
+                        if (!(ddr_interface_bytemask&(1<<byte)))
+                            continue;
+
+                        /* If we will be switching to 32bit mode only test 4 ECC bits.  */
+                        if ((! ddr_interface_64b) && (byte == 4))
+                            byte_bitmask = 0x0f;
+
+                        /* If h/w write-leveling had no errors then use
+                        ** s/w write-leveling to fixup only the upper bits
+                        ** of the delays. */
+                        for (delay = get_wlevel_rank_struct(&lmc_wlevel_rank, byte); delay < 32; delay += 8) {
+                            update_wlevel_rank_struct(&lmc_wlevel_rank, byte, delay);
+			    debug_print("Testing byte %d delay %2d\n", byte, delay);
+                            DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
+                            lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
+
+                            if (!test_dram_byte(rank_addr, 2048, byte, byte_bitmask)) {
+                                debug_print("        byte %d(0x%llx) delay %2d Passed\n", byte, rank_addr, delay);
+                                byte_test_status[byte] = WL_HARDWARE;
+                                break;
+                            } else {
+                                debug_print("        byte %d delay %2d Errors\n", byte, delay);
+                            }
                         }
                     }
-                }
 
-                if ((ddr_interface_bytemask&0xff) == 0xff) {
-                    if (save_ecc_ena) {
-                        int save_byte8 = lmc_wlevel_rank.s.byte8;
-                        byte_test_status[8] = WL_HARDWARE; /* H/W delay value */
+                    if ((ddr_interface_bytemask & 0xff) == 0xff) {
+                        if (save_ecc_ena) {
+                            int save_byte8 = lmc_wlevel_rank.s.byte8;
+                            byte_test_status[8] = WL_HARDWARE; /* H/W delay value */
 
-                        if ((save_byte8 != lmc_wlevel_rank.s.byte3) &&
-                            (save_byte8 != lmc_wlevel_rank.s.byte4))
-                        {
-                            int test_byte8 = divide_nint(lmc_wlevel_rank.s.byte3
-                                                         + lmc_wlevel_rank.s.byte4
-                                                         + 2 /* round-up*/ , 2);
-                            lmc_wlevel_rank.s.byte8 = test_byte8 & ~1; /* Use only even settings */
-                        }
+                            if ((save_byte8 != lmc_wlevel_rank.s.byte3) &&
+                                (save_byte8 != lmc_wlevel_rank.s.byte4)) {
+                                int test_byte8 = divide_nint(lmc_wlevel_rank.s.byte3
+                                                             + lmc_wlevel_rank.s.byte4
+                                                             + 2 /* round-up*/ , 2);
+                                lmc_wlevel_rank.s.byte8 = test_byte8 & ~1; /* Use only even settings */
+                            }
 
-                        if (lmc_wlevel_rank.s.byte8 != save_byte8) {
-                            /* Change the status if s/w adjusted the delay */
-                            byte_test_status[8] = WL_SOFTWARE; /* Estimated delay */
+                            if (lmc_wlevel_rank.s.byte8 != save_byte8) {
+                                /* Change the status if s/w adjusted the delay */
+                                byte_test_status[8] = WL_SOFTWARE; /* Estimated delay */
+                            }
+                        } else {
+                            lmc_wlevel_rank.s.byte8 = lmc_wlevel_rank.s.byte0; /* ECC is not used */
                         }
                     } else {
-                        lmc_wlevel_rank.s.byte8 = lmc_wlevel_rank.s.byte0; /* ECC is not used */
+                        if (save_ecc_ena) {
+                            /* Estimate the ECC byte delay  */
+                            if (lmc_wlevel_rank.s.byte4 < lmc_wlevel_rank.s.byte3)
+                               lmc_wlevel_rank.s.byte4 = lmc_wlevel_rank.s.byte3;
+                        } else {
+                            lmc_wlevel_rank.s.byte4 = lmc_wlevel_rank.s.byte0; /* ECC is not used */
+                        }
+                    }
+                } /* if (wlevel_bitmask_errors == 0) */
+
+                bytes_failed = 0;
+                for (byte = 0; byte < 8; ++byte) {
+                    /* Don't accumulate errors for untested bytes. */
+                    if (!(ddr_interface_bytemask & (1 << byte)))
+                        continue;
+                    bytes_failed += (byte_test_status[byte] == WL_ESTIMATED);
+                }
+
+                 /* Vref training loop is only used for DDR4  */
+                if (ddr_type != DDR4_DRAM)
+			break;
+
+                if (vref_value < 0x33) {
+                    debug_print(" %2d", bytes_failed);
+                }
+                if (bytes_failed == 0) {
+                    if (vref_values_count == 0) {
+                        vref_values_start = vref_value;
+                    }
+                    ++vref_values_count;
+                    if (vref_values_count > best_vref_values_count) {
+                        best_vref_values_count = vref_values_count;
+                        best_vref_values_start = vref_values_start;
                     }
                 } else {
-                    if (save_ecc_ena) {
-                        /* Estimate the ECC byte delay  */
-                        if (lmc_wlevel_rank.s.byte4 < lmc_wlevel_rank.s.byte3)
-                           lmc_wlevel_rank.s.byte4 = lmc_wlevel_rank.s.byte3;
-                    } else {
-                        lmc_wlevel_rank.s.byte4 = lmc_wlevel_rank.s.byte0; /* ECC is not used */
-                    }
+                    vref_values_count = 0;
                 }
-            }
-
-            for (byte=0; byte<8; ++byte) {
-                /* Don't accumulate errors for untested bytes. */
-                if (!(ddr_interface_bytemask&(1<<byte)))
-                    continue;
-                bytes_failed += (byte_test_status[byte]==WL_ESTIMATED);
-            }
+            } /* for (vref_value=0; vref_value<0x33; ++vref_value) */
 
             if (bytes_failed) {
                 uint64_t rank_addr;
@@ -3464,12 +4176,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     /* h/w succeeded but s/w fixups failed. So retry s/w. */
                     debug_print("Rank(%d) Retrying software Write-Leveling.\n", rankx);
                 }
-                for (byte=0; byte<8; ++byte) {
+                for (byte = 0; byte < 8; ++byte) {
                     int passed = 0;
                     int wl_offset;
                     uint64_t byte_bitmask = 0xff;
 
-                    if (!(ddr_interface_bytemask&(1<<byte)))
+                    if (!(ddr_interface_bytemask & (1 << byte)))
                         continue;
 
                     /* If we will be switching to 32bit mode only test 4 ECC bits.  */
@@ -3479,45 +4191,44 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     /* Determine address of DRAM to test for software write leveling. */
                     rank_addr  = active_rank * ((1ull << (pbank_lsb+interfaces/2))/(1+bunk_enable));
                     rank_addr |= (ddr_interface_num<<7); /* Map address into proper interface */
-
                     rank_addr = bdk_numa_get_address(node, rank_addr);
                     debug_print("Rank Address: 0x%lx\n", rank_addr);
 
                     for (wl_offset = sw_wlevel_offset; wl_offset >= 0; --wl_offset) {
                     //for (delay=30; delay>=0; delay-=2) { /* Top-Down */
-                    for (delay=0; delay<32; delay+=2) {  /* Bottom-UP */
-                        update_wlevel_rank_struct(&lmc_wlevel_rank, byte, delay);
-                        debug_print("Testing byte %d delay %2d\n", byte, delay);
-                        DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
-                        lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
+                        for (delay = 0; delay < 32; delay += 2) {  /* Bottom-UP */
+                            update_wlevel_rank_struct(&lmc_wlevel_rank, byte, delay);
+                            debug_print("Testing byte %d delay %2d\n", byte, delay);
+                            DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
+                            lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
-                        if (!test_dram_byte(rank_addr, 2048, byte, byte_bitmask)) {
-                            ++passed;
-                            if (passed == (1+wl_offset)) { /* Look for consecutive working settings */
-                                debug_print("        byte %d(0x%lx) delay %2d Passed\n", byte, rank_addr, delay);
-                                if (wl_offset == 1) {
-                                    byte_test_status[byte] = WL_SOFTWARE;
-                                } else if (wl_offset == 0) {
-                                    byte_test_status[byte] = WL_SOFTWARE1;
+                            if (!test_dram_byte(rank_addr, 2048, byte, byte_bitmask)) {
+                                ++passed;
+                                if (passed == (1 + wl_offset)) { /* Look for consecutive working settings */
+                                    debug_print("        byte %d(0x%lx) delay %2d Passed\n", byte, rank_addr, delay);
+                                    if (wl_offset == 1) {
+                                        byte_test_status[byte] = WL_SOFTWARE;
+                                    } else if (wl_offset == 0) {
+                                        byte_test_status[byte] = WL_SOFTWARE1;
+                                    }
+                                    break;
                                 }
-                                break;
+                            } else {
+                                debug_print("        byte %d delay %2d Errors\n", byte, delay);
+                                passed = 0;
                             }
-                        } else {
-                            debug_print("        byte %d delay %2d Errors\n", byte, delay);
-                            passed = 0;
+                        } /* for (delay = 0; delay < 32; delay += 2) */
+                        if (passed == (1 + wl_offset)) { /* Look for consecutive working settings */
+                            break;
                         }
-                    }
-                    if (passed == (1+wl_offset)) { /* Look for consecutive working settings */
-                        break;
-                    }
-                    }
+                    } /* for (wl_offset = sw_wlevel_offset; wl_offset >= 0; --wl_offset) */
                     if (passed == 0) {
                         /* Last resort. Use Rlevel settings to estimate
                            Wlevel if software write-leveling fails */
                         lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
                         rlevel_to_wlevel(&lmc_rlevel_rank, &lmc_wlevel_rank, byte);
                     }
-                }
+                } /* for (byte = 0; byte < 8; ++byte) */
 
                 if (save_ecc_ena) {
                     /* ECC byte has to be estimated. Take the average of the two surrounding bytes. */
@@ -3532,13 +4243,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                 /* Set delays for unused bytes to match byte 0. */
                 for (byte=0; byte<8; ++byte) {
-                    if ((ddr_interface_bytemask&(1<<byte)))
+                    if ((ddr_interface_bytemask & (1 << byte)))
                         continue;
-                    update_wlevel_rank_struct(&lmc_wlevel_rank, byte, lmc_wlevel_rank.s.byte0);
+                    update_wlevel_rank_struct(&lmc_wlevel_rank, byte,
+					      lmc_wlevel_rank.s.byte0);
                     byte_test_status[byte] = WL_SOFTWARE;
                 }
 
-            }
+            } /* if (bytes_failed) */
 
             DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
             lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
@@ -3560,8 +4272,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                       );
 
             active_rank++;
-        }
-
+        } /* for (rankx = 0; rankx < dimm_count * 4; rankx++) */
 
         for (rankx = 0; rankx < dimm_count * 4;rankx++) {
             uint64_t value;
@@ -3619,15 +4330,46 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                           lmc_wlevel_rank.s.byte0
                           );
             }
-        }
+        } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
+
+        /* Display MPR values for Page 2 */
+        if (ddr_type == DDR4_DRAM) {
+	    for (rankx = 0; rankx < dimm_count * 4;rankx++) {
+		uint64_t mpr_data[3];
+		if (!(rank_mask & (1 << rankx)))
+		    continue;
+
+		ddr_print("Rank %d: MPR values for Page 2\n", rankx);
+		ddr4_mpr_read(node, ddr_interface_num, rankx,
+			      /* page */ 2, /* location */ 0, &mpr_data[0]);
+		ddr_print("MPR Page 2, Loc 0 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
+
+		ddr4_mpr_read(node, ddr_interface_num, rankx, /* page */ 2,
+			      /* location */ 1, &mpr_data[0]);
+		ddr_print("MPR Page 2, Loc 1 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
+
+		ddr4_mpr_read(node, ddr_interface_num, rankx, /* page */ 2,
+			      /* location */ 2, &mpr_data[0]);
+		ddr_print("MPR Page 2, Loc 2 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
+
+		ddr4_mpr_read(node, ddr_interface_num, rankx, /* page */ 2,
+			      /* location */ 3, &mpr_data[0]);
+		ddr_print("MPR Page 2, Loc 3 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
+	    } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
+        } /* if (ddr_type == DDR4_DRAM) */
 
         /* Enable 32-bit mode if required. */
         lmc_config.s.mode32b         = (! ddr_interface_64b);
+#ifndef DDR3_ENHANCE_PRINT
         ddr_print("%-45s : %d\n", "MODE32B", lmc_config.s.mode32b);
+#endif
 
         /* Restore the ECC configuration */
         lmc_config.s.ecc_ena = save_ecc_ena;
         DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+#ifdef DDR3_ENHANCE_PRINT
+        ddr_print("%-45s : %d\n", "MODE32B", lmc_config.s.mode32b);
+#endif
 
         /* Restore the l2 set configuration */
         eptr = getenv("limit_l2_ways");
@@ -3648,7 +4390,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         for (i=0; i<9; ++i) {
 	    SET_DDR_DLL_CTL3(dll90_byte_sel, ENCODE_DLL90_BYTE_SEL(i));
+#ifdef DDR3_ENHANCE_PRINT
+            DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+#else
             BDK_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+#endif
             BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
             ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
 	    setting[i] = GET_DDR_DLL_CTL3(dll90_setting);
@@ -3777,8 +4523,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int tad;
 
         DRAM_CSR_WRITE(node, BDK_LMCX_INT(ddr_interface_num), -1ULL);
+        BDK_CSR_READ(node, BDK_LMCX_INT(ddr_interface_num));
+
         for (tad=0; tad<num_tads; tad++)
             BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(tad), BDK_CSR_READ(node, BDK_L2C_TADX_INT_W1C(tad)));
+
+#ifdef DDR3_ENHANCE_PRINT
+        ddr_print("%-45s : 0x%08lx\n", "LMC_INT",
+                  BDK_CSR_READ(node, BDK_LMCX_INT(ddr_interface_num)));
+#endif
     }
 
     return(mem_size_mbytes);

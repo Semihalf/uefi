@@ -3,6 +3,15 @@
 
 #define USE_INTERNAL_SPD 0 /* Change to 1 for compiled in SPDs */
 
+#define DEFAULT_INTERNAL_SPD TS512MLK72V8N_SPD
+//#define DEFAULT_INTERNAL_SPD WD3UN802G13LSD_SPD
+
+#define DEFAULT_NAME   "ebb8800"
+#define DEFAULT_SPEED  933333333
+
+#define DEFAULT_LMC_MASK   TWO_LMC_MASK
+#define DEFAULT_DIMM_MASK  ONE_DIMM_MASK
+
 static const uint8_t WD3UN802G13LSD_SPD[] = {
     0x92, 0x11, 0x0b, 0x02, 0x03, 0x19, 0x00, 0x01, 0x03, 0x11, 0x01, 0x08, 0x0c, 0x00, 0x3c, 0x00,
     0x69, 0x78, 0x69, 0x30, 0x69, 0x11, 0x20, 0x89, 0x00, 0x05, 0x3c, 0x3c, 0x00, 0xf0, 0x83, 0x01,
@@ -173,7 +182,7 @@ static void setup_modereg_params1_4rank_1slot(bdk_lmcx_modereg_params1_t *modere
 static void setup_dram_odt_1rank_configuration(dimm_odt_config_t odt[4])
 {
     int dimm = 0;
-    odt[dimm].odt_ena = 0; /* Reserved */
+    odt[dimm].odt_ena = 4; /* DQX_CTL now supplied on a per DIMM basis */
     odt[dimm].odt_mask = 0x00000001ULL; /* WODT_MASK */
     setup_modereg_params1_1rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     odt[dimm].qs_dic = 2; /* RODT_CTL */
@@ -181,7 +190,7 @@ static void setup_dram_odt_1rank_configuration(dimm_odt_config_t odt[4])
     odt[dimm].dic = 0; /* Reserved */
 
     dimm = 1;
-    odt[dimm].odt_ena = 0; /* Reserved */
+    odt[dimm].odt_ena = 4; /* DQX_CTL now supplied on a per DIMM basis */
     odt[dimm].odt_mask = 0x00050005ULL; /* WODT_MASK */
     setup_modereg_params1_1rank_2slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     odt[dimm].qs_dic = 3; /* RODT_CTL */
@@ -192,7 +201,7 @@ static void setup_dram_odt_1rank_configuration(dimm_odt_config_t odt[4])
 static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
 {
     int dimm = 0;
-    odt[dimm].odt_ena = 0; /* Reserved */
+    odt[dimm].odt_ena = 4; /* DQX_CTL now supplied on a per DIMM basis */
     odt[dimm].odt_mask = 0x00000101ULL; /* WODT_MASK */
     setup_modereg_params1_2rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     odt[dimm].qs_dic = 3; /* RODT_CTL */
@@ -200,7 +209,7 @@ static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
     odt[dimm].dic = 0; /* Reserved */
 
     dimm = 1;
-    odt[dimm].odt_ena = 0; /* Reserved */
+    odt[dimm].odt_ena = 4; /* DQX_CTL now supplied on a per DIMM basis */
     odt[dimm].odt_mask = 0x09090606ULL; /* WODT_MASK */
     setup_modereg_params1_2rank_2slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     odt[dimm].qs_dic = 3; /* RODT_CTL */
@@ -211,7 +220,7 @@ static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
 static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
 {
     int dimm = 0;
-    odt[dimm].odt_ena = 0; /* Reserved */
+    odt[dimm].odt_ena = 4; /* DQX_CTL now supplied on a per DIMM basis */
     odt[dimm].odt_mask = 0x01030203ULL; /* WODT_MASK */
     setup_modereg_params1_4rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     odt[dimm].qs_dic = 3; /* RODT_CTL */
@@ -225,7 +234,6 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     cfg->max_rtt_nom_idx        = 5;
     cfg->min_rodt_ctl           = 1;
     cfg->max_rodt_ctl           = 5;
-    cfg->dqx_ctl                = 4;
     cfg->ck_ctl                 = 4;
     cfg->cmd_ctl                = 4;
     cfg->ctl_ctl                = 4;
@@ -255,8 +263,8 @@ const dram_config_t *dram_get_config_ebb8800(void)
     memset(&cfg, 0, sizeof(cfg));
 
     /* Set the config name and the default frequency */
-    cfg.name = "ebb8800";
-    cfg.ddr_clock_hertz = 933333333;
+    cfg.name = DEFAULT_NAME;
+    cfg.ddr_clock_hertz = DEFAULT_SPEED;
 
     /* Load the defaults for DIMMs on all four controllers */
     for (int lmc = 0; lmc < 4; lmc++)
@@ -269,8 +277,8 @@ const dram_config_t *dram_get_config_ebb8800(void)
 
     if (USE_INTERNAL_SPD || bdk_is_simulation())
     {
-        int lmc_mask  = 0x3;            /* Two LMCs */
-        int dimm_mask = 0x1;            /* One DIMM */
+        int lmc_mask  = DEFAULT_LMC_MASK;
+        int dimm_mask = DEFAULT_DIMM_MASK;
         for (int lmc = 0; lmc < 4; lmc++)
         {
             if (! (lmc_mask & (1 << lmc))) /* Could use the testbit macro */
@@ -281,7 +289,7 @@ const dram_config_t *dram_get_config_ebb8800(void)
                 if (! (dimm_mask & (1 << dimm))) /* Could use the testbit macro */
                     continue;
 
-                cfg.config[lmc].dimm_config_table[dimm].spd_ptrs[0] = TS512MLK72V8N_SPD;
+                cfg.config[lmc].dimm_config_table[dimm].spd_ptrs[0] = DEFAULT_INTERNAL_SPD;
             }
         }
     }
@@ -300,4 +308,5 @@ const dram_config_t *dram_get_config_ebb8800(void)
 
     return &cfg;
 };
+
 

@@ -44,6 +44,11 @@ typedef struct {
 #define RLEVEL_NONSEQUENTIAL_DELAY_ERROR        50
 #define RLEVEL_ADJACENT_DELAY_ERROR             30
 
+#define TWO_LMC_MASK  0x03
+#define FOUR_LMC_MASK 0x0f
+#define ONE_DIMM_MASK 0x01
+#define TWO_DIMM_MASK 0x03
+
 extern int initialize_ddr_clock(bdk_node_t node,
     const ddr_configuration_t *ddr_configuration, uint32_t cpu_hertz,
     uint32_t ddr_hertz, uint32_t ddr_ref_hertz, int ddr_interface_num,

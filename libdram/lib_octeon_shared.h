@@ -55,3 +55,29 @@ extern const dimm_odt_config_t disable_odt_config[];
 #define dic_40ohm     0         /* RZQ/6  = 240/6  =  40 ohms */
 #define dic_34ohm     1         /* RZQ/7  = 240/7  =  34 ohms */
 
+#define ddr4_rttnom_none   0         /* Rtt_Nom disabled */
+#define ddr4_rttnom_60ohm  1         /* RZQ/4  = 240/4  =  60 ohms */
+#define ddr4_rttnom_120ohm 2         /* RZQ/2  = 240/2  = 120 ohms */
+#define ddr4_rttnom_40ohm  3         /* RZQ/6  = 240/6  =  40 ohms */
+#define ddr4_rttnom_240ohm 4         /* RZQ/1  = 240/1  = 240 ohms */
+#define ddr4_rttnom_48ohm  5         /* RZQ/5  = 240/5  =  48 ohms */
+#define ddr4_rttnom_80ohm  6         /* RZQ/3  = 240/3  =  80 ohms */
+#define ddr4_rttnom_34ohm  7         /* RZQ/7  = 240/7  =  34 ohms */
+
+#define ddr4_rttwr_none    0         /* Dynamic ODT off */
+#define ddr4_rttwr_120ohm  1         /* RZQ/2  = 240/2  = 120 ohms */
+#define ddr4_rttwr_240ohm  2         /* RZQ/1  = 240/1  = 240 ohms */
+#define ddr4_rttwr_HiZ     3         /* HiZ */
+
+#define ddr4_dic_34ohm     0         /* RZQ/7  = 240/7  =  34 ohms */
+#define ddr4_dic_48ohm     1         /* RZQ/5  = 240/5  =  48 ohms */
+
+#define ddr4_rttpark_none   0         /* Rtt_Park disabled */
+#define ddr4_rttpark_60ohm  1         /* RZQ/4  = 240/4  =  60 ohms */
+#define ddr4_rttpark_120ohm 2         /* RZQ/2  = 240/2  = 120 ohms */
+#define ddr4_rttpark_40ohm  3         /* RZQ/6  = 240/6  =  40 ohms */
+#define ddr4_rttpark_240ohm 4         /* RZQ/1  = 240/1  = 240 ohms */
+#define ddr4_rttpark_48ohm  5         /* RZQ/5  = 240/5  =  48 ohms */
+#define ddr4_rttpark_80ohm  6         /* RZQ/3  = 240/3  =  80 ohms */
+#define ddr4_rttpark_34ohm  7         /* RZQ/7  = 240/7  =  34 ohms */
+

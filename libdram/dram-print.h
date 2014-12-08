@@ -29,3 +29,13 @@ static inline int dram_is_verbose(dram_verbosity_t level)
     #define debug_print(format, ...) do {} while (0)
 #endif
 
+/**
+ * Port some enhanced DDR3 printing from a recent O78 SDK
+ *
+ * define this to identify the ported code/data
+ * and do it before any of the other headers,
+ * just to be sure...
+ */
+//#define DDR3_ENHANCE_PRINT
+#undef DDR3_ENHANCE_PRINT
+
