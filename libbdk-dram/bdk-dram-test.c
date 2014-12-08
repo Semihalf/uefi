@@ -243,7 +243,8 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
        all nodes. The same number of cores are used on each node to test
        its local memory */
     uint64_t work_address = start_address;
-    while (work_address < end_address)
+    bdk_atomic_set64(&dram_test_thread_errors, 0);
+    while ((work_address < end_address) && (dram_test_thread_errors == 0))
     {
         /* Check at most MAX_CHUNK_SIZE across each iteration. We only report
            progress between chunks, so keep them reasonably small */
@@ -273,7 +274,6 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         /* Start threads for all the cores */
         int total_count = 0;
         bdk_atomic_set64(&dram_test_thread_done, 0);
-        bdk_atomic_set64(&dram_test_thread_errors, 0);
         for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
         {
             if (bdk_numa_exists(node))
