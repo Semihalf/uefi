@@ -2393,25 +2393,25 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 lmc_dimmx_params.s.rc9  = 0;
 
                 /*
-                ** rc10               RDIMM Operating Speed
+                ** rc10               DDR4 RDIMM Operating Speed
                 ** ====   =========================================================
-                **  0                 tclk_psecs > 1250 psec DDR4-1600 (1250 ps)
-                **  1     1250 psec > tclk_psecs > 1071 psec DDR4-1866 (1071 ps)
-                **  2     1071 psec > tclk_psecs >  938 psec DDR4-2133 ( 938 ps)
-                **  3      938 psec > tclk_psecs >  833 psec DDR4-2400 ( 833 ps)
-                **  4      833 psec > tclk_psecs >  750 psec DDR4-2666 ( 750 ps)
-                **  5      750 psec > tclk_psecs >  625 psec DDR4-3200 ( 625 ps)
+                **  0                 tclk_psecs >= 1250 psec DDR4-1600 (1250 ps)
+                **  1     1250 psec > tclk_psecs >= 1071 psec DDR4-1866 (1071 ps)
+                **  2     1071 psec > tclk_psecs >=  938 psec DDR4-2133 ( 938 ps)
+                **  3      938 psec > tclk_psecs >=  833 psec DDR4-2400 ( 833 ps)
+                **  4      833 psec > tclk_psecs >=  750 psec DDR4-2666 ( 750 ps)
+                **  5      750 psec > tclk_psecs >=  625 psec DDR4-3200 ( 625 ps)
                 */
                 lmc_dimmx_params.s.rc10        = 0;
-                if (tclk_psecs <= 1250)
+                if (1250 > tclk_psecs)
                     lmc_dimmx_params.s.rc10    = 1;
-                if (tclk_psecs <= 1071)
+                if (1071 > tclk_psecs)
                     lmc_dimmx_params.s.rc10    = 2;
-                if (tclk_psecs <=  938)
+                if (938 > tclk_psecs)
                     lmc_dimmx_params.s.rc10    = 3;
-                if (tclk_psecs <=  833)
+                if (833 > tclk_psecs)
                     lmc_dimmx_params.s.rc10    = 4;
-                if (tclk_psecs <=  750)
+                if (750 > tclk_psecs)
                     lmc_dimmx_params.s.rc10    = 5;
 
                 lmc_dimmx_params.s.rc11 = 0;
@@ -2538,24 +2538,24 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		}
 
 
-		/*
-		** rc10               RDIMM Operating Speed
-		** ====   =========================================================
-		**  0                 tclk_psecs > 2500 psec DDR3/DDR3L-800 (default)
-		**  1     2500 psec > tclk_psecs > 1875 psec DDR3/DDR3L-1066
-		**  2     1875 psec > tclk_psecs > 1500 psec DDR3/DDR3L-1333
-		**  3     1500 psec > tclk_psecs > 1250 psec DDR3/DDR3L-1600
-		**  4     1250 psec > tclk_psecs > 1071 psec DDR3-1866
-		*/
-		lmc_dimmx_params.s.rc10        = 4;
-		if (tclk_psecs >= 1250)
-		    lmc_dimmx_params.s.rc10    = 3;
-		if (tclk_psecs >= 1500)
-		    lmc_dimmx_params.s.rc10    = 2;
-		if (tclk_psecs >= 1875)
-		    lmc_dimmx_params.s.rc10    = 1;
-		if (tclk_psecs >= 2500)
-		    lmc_dimmx_params.s.rc10    = 0;
+                /*
+                ** rc10               DDR3 RDIMM Operating Speed
+                ** ====   =========================================================
+                **  0                 tclk_psecs >= 2500 psec DDR3/DDR3L-800 (default)
+                **  1     2500 psec > tclk_psecs >= 1875 psec DDR3/DDR3L-1066
+                **  2     1875 psec > tclk_psecs >= 1500 psec DDR3/DDR3L-1333
+                **  3     1500 psec > tclk_psecs >= 1250 psec DDR3/DDR3L-1600
+                **  4     1250 psec > tclk_psecs >= 1071 psec DDR3-1866
+                */
+                lmc_dimmx_params.s.rc10        = 0;
+                if (2500 > tclk_psecs)
+                    lmc_dimmx_params.s.rc10    = 1;
+                if (1875 > tclk_psecs)
+                    lmc_dimmx_params.s.rc10    = 2;
+                if (1500 > tclk_psecs)
+                    lmc_dimmx_params.s.rc10    = 3;
+                if (1250 > tclk_psecs)
+                    lmc_dimmx_params.s.rc10    = 4;
 
 	    } /* if (ddr_type == DDR4_DRAM) */
 
