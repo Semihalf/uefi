@@ -885,7 +885,7 @@ int bdk_readline_getkey(uint64_t timeout_us)
         char c;
         if (read(0, &c, 1) == 1)
             return 0xff & c;
-        bdk_thread_yield();
+        bdk_wait_usec(100);
     } while (gettime() < stop_time);
     return -1;
 #endif
