@@ -22,7 +22,7 @@ int __bdk_dram_test_mem_address_bus(uint64_t area, uint64_t max_address, int bur
     /* Clear our work area. Checking for aliases later could get false
        positives if it matched stale data */
     void *ptr = (area) ? bdk_phys_to_ptr(area) : NULL;
-    bdk_zero_memory(ptr, max_address - area + 1);
+    bdk_zero_memory(ptr, max_address - area);
     __bdk_dram_flush_to_mem_range(area, max_address);
 
     /* Each time we write, we'll write this pattern xored the address it is
