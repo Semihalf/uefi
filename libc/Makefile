@@ -30,5 +30,5 @@ build/Makefile:
 	cd build && CC=$(CROSS)-gcc CFLAGS="-D__FILENAME_MAX__=64 -D__BUFSIZ__=512 -g -Os -fno-asynchronous-unwind-tables -ffunction-sections" ../newlib-2.1.0/newlib/configure  $(NEWLIB_CONFIG)
 
 clean:
-	rm -rf build ${CROSS}
+	rm -rf share build ${CROSS}
 
