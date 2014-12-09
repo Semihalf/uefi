@@ -93,23 +93,6 @@ int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
         return -1;
     }
 
-    BDK_TRACE(DRAM, "N%d: Clearing DRAM\n", node);
-    uint64_t skip = 0;
-    if ((bdk_node_t)node == bdk_numa_master())
-        skip = bdk_dram_get_top_of_bdk();
-    if (!bdk_is_simulation())
-        bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
-        ((uint64_t)mbytes << 20) - skip);
-    BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);
-
-    /* Clear any DRAM errors set during init */
-    BDK_TRACE(DRAM, "N%d: Clearing LMC errors\n", node);
-    int num_lmc = __bdk_dram_get_num_lmc(node);
-    for (int lmc = 0; lmc < num_lmc; lmc++)
-    {
-        BDK_CSR_WRITE(node, BDK_LMCX_INT(lmc), BDK_CSR_READ(node, BDK_LMCX_INT(lmc)));
-    }
-
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : config->ddr_clock_hertz;
     printf("BDK DRAM: %d MB, %d MHz\n", mbytes, ((ddr_clock_hertz + 500000) /1000000));
     return mbytes;
