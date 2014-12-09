@@ -151,8 +151,12 @@ void __bdk_init(uint32_t image_crc)
     {
         /* Shut off cores in reset to save power. It is optional, but probably
             good practice */
-        // FIXME: Core power control disabled as it causes issues with JTAG
-        //BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -1);
+        BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -2);
+
+        /* Errata TBD: The DAP has an issue where its state isn't cleared for
+           cores in reset. Put the DAPs in reset as their associated cores are
+           also in reset */
+        BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, BDK_CSR_READ(node, BDK_RST_PP_RESET));
 
         /* Initialize the is_simulation flag */
         BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
@@ -264,6 +268,10 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     {
         BDK_TRACE(INIT, "N%d: Taking cores out of reset (0x%lx)\n", node, need_reset_off);
         BDK_CSR_WRITE(node, BDK_RST_PP_RESET, reset & ~need_reset_off);
+        /* Errata TBD: The DAP has an issue where its state isn't cleared for
+           cores in reset. Put the DAPs in reset as their associated cores are
+           also in reset */
+        BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, reset & ~need_reset_off);
     }
 
     BDK_TRACE(INIT, "N%d: Wait up to 1s for the cores to boot\n", node);
@@ -334,6 +342,10 @@ int bdk_reset_cores(bdk_node_t node, uint64_t coremask)
             break;
         bdk_thread_yield();
     }
+    /* Errata TBD: The DAP has an issue where its state isn't cleared for
+       cores in reset. Put the DAPs in reset as their associated cores are
+       also in reset */
+    BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, BDK_CSR_READ(node, BDK_RST_PP_RESET));
 
     BDK_TRACE(INIT, "N%d: Cores now in reset: 0x%lx\n", node, reset);
 
