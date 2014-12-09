@@ -144,8 +144,8 @@ enum mio_ptp_int_vec_e {
 /**
  * NCB - mio_ptp_ckout_hi_incr
  *
- * This register contains the high bytes of the PTP clock out increment.
- *
+ * This register contains the PTP CKOUT threshold increment on pre-inverted PTP_CKOUT rising
+ * edge. See MIO_PTP_CKOUT_THRESH_HI for details.
  */
 typedef union bdk_mio_ptp_ckout_hi_incr {
 	uint64_t u;
@@ -178,8 +178,8 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_HI_INCR_FUNC(void)
 /**
  * NCB - mio_ptp_ckout_lo_incr
  *
- * This register contains the low bytes of the PTP clock out increment.
- *
+ * This register contains the PTP CKOUTthreshold increment on pre-inverted PTP_CKOUT falling
+ * edge. See MIO_PTP_CKOUT_THRESH_HI for details.
  */
 typedef union bdk_mio_ptp_ckout_lo_incr {
 	uint64_t u;
@@ -212,9 +212,17 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_LO_INCR_FUNC(void)
 /**
  * NCB - mio_ptp_ckout_thresh_hi
  *
- * This register contains the high bytes of the PTP clock out. Writes to MIO_PTP_CKOUT_THRESH_HI
- * also clear MIO_PTP_CKOUT_THRESH_LO; to update all 96 bits, write MIO_PTP_CKOUT_THRESH_HI
- * followed by MIO_PTP_CKOUT_THRESH_LO.
+ * This register contains the high bytes of the PTP CKOUT threshold.
+ * Writes to MIO_PTP_CKOUT_THRESH_HI also clear MIO_PTP_CKOUT_THRESH_LO; in order to update all
+ * 96 bits, writes MIO_PTP_CKOUT_THRESH_HI followed by MIO_PTP_CKOUT_THRESH_LO.
+ * This threshold {MIO_PTP_CKOUT_THRESH_HI,  MIO_PTP_CKOUT_THRESH_LO} is a rolling threshold that
+ * will be updated by hardware:
+ *   When current PTP_CKOUT before inversion (defined by MIO_PTP_CLOCK_CFG[CKOUT_INV]) is zero,
+ *   and {MIO_PTP_CLOCK_HI/LO} \>= {MIO_PTP_CKOUT_THRESH_HI/LO}, the pre-inverted PTP_CKOUT will
+ *   update to one, and {MIO_PTP_CKOUT_THRESH_HI/LO} will increment by MIO_PTP_CKOUT_HI_INCR.
+ *   When current PTP_CKOUT before inversion (defined by MIO_PTP_CLOCK_CFG[CKOUT_INV]) is one,
+ *   and {MIO_PTP_CLOCK_HI/LO} \>= {MIO_PTP_CKOUT_THRESH_HI/LO}, the pre-inverted PTP_CKOUT will
+ *   update to zero, and {MIO_PTP_CKOUT_THRESH_HI/LO} will increment by MIO_PTP_CKOUT_LO_INCR.
  */
 typedef union bdk_mio_ptp_ckout_thresh_hi {
 	uint64_t u;
@@ -245,8 +253,8 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_THRESH_HI_FUNC(void)
 /**
  * NCB - mio_ptp_ckout_thresh_lo
  *
- * This register contains the low bytes of the PTP clock out.
- *
+ * This register contains the low bytes of the PTP CKOUT threshold,
+ * See MIO_PTP_CKOUT_THRESH_HI for details.
  */
 typedef union bdk_mio_ptp_ckout_thresh_lo {
 	uint64_t u;
@@ -287,8 +295,8 @@ typedef union bdk_mio_ptp_clock_cfg {
 	struct bdk_mio_ptp_clock_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_42_63              : 22;
+		uint64_t ckout                       : 1;  /**< RO/H - PTP CKOUT; reflects ptp__ckout after CKOUT_INV inverter. */
 		uint64_t pps                         : 1;  /**< RO/H - PTP PPS output; reflects ptp__pps after PPS_INV inverter. */
-		uint64_t ckout                       : 1;  /**< RO/H - PTP clock output; reflects ptp__ckout after CKOUT_INV inverter. */
 		uint64_t ext_clk_edge                : 2;  /**< R/W - External clock input edge:
                                                                  00 = Rising edge.
                                                                  01 = Falling edge.
@@ -300,10 +308,10 @@ typedef union bdk_mio_ptp_clock_cfg {
                                                                  1 = Invert. */
 		uint64_t pps_en                      : 1;  /**< R/W - Enable PTP PPS. (For output pin selection see GPIO_BIT_CFG.) */
 		uint64_t reserved_26_29              : 4;
-		uint64_t ckout_inv                   : 1;  /**< R/W - Invert PTP clock out.
+		uint64_t ckout_inv                   : 1;  /**< R/W - Invert PTP CKOUT.
                                                                  0 = Don't invert.
                                                                  1 = Invert. */
-		uint64_t ckout_en                    : 1;  /**< R/W - Enable PTP clock out. (For output pin selection see GPIO_BIT_CFG.) */
+		uint64_t ckout_en                    : 1;  /**< R/W - Enable PTP CKOUT. (For output pin selection see GPIO_BIT_CFG.) */
 		uint64_t evcnt_in                    : 6;  /**< R/W - Source for event counter input:
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
 		uint64_t evcnt_edge                  : 1;  /**< R/W - Event counter input edge: 0 = falling edge, 1 = rising edge */
@@ -333,8 +341,8 @@ typedef union bdk_mio_ptp_clock_cfg {
 		uint64_t pps_inv                     : 1;
 		uint64_t reserved_32_37              : 6;
 		uint64_t ext_clk_edge                : 2;
-		uint64_t ckout                       : 1;
 		uint64_t pps                         : 1;
+		uint64_t ckout                       : 1;
 		uint64_t reserved_42_63              : 22;
 #endif
 	} s;
@@ -358,8 +366,10 @@ static inline uint64_t BDK_MIO_PTP_CLOCK_CFG_FUNC(void)
 /**
  * NCB - mio_ptp_clock_comp
  *
- * This register provides the compensation value the PTP clock. MIO_PTP_CLOCK_CFG[PTP_EN] needs
- * to be enabled before writing this register.
+ * This register provides the amount to increment the PTP clock {MIO_PTP_CLOCK_HI,
+ * MIO_PTP_CLOCK_LO}
+ * on PTP events defined by MIO_PTP_CLOCK_CFG[EXT_CLK_EN/EXT_CLK_IN/EXT_CLK_EDGE].
+ * MIO_PTP_CLOCK_CFG[PTP_EN] needs to be enabled before writing this register.
  */
 typedef union bdk_mio_ptp_clock_comp {
 	uint64_t u;
@@ -466,7 +476,8 @@ typedef union bdk_mio_ptp_dpll_err_int {
 	uint64_t u;
 	struct bdk_mio_ptp_dpll_err_int_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t n_sclk                      : 32; /**< RO/H - Latest number of Digital PLL coprocessor clocks in one compensation period. */
+		uint64_t n_sclk                      : 32; /**< RO/H - Latest number of coprocessor clocks in one external reference signal compensation period
+                                                                 (MIO_PTP_CLOCK_COMP). */
 		uint64_t reserved_0_31               : 32;
 #else
 		uint64_t reserved_0_31               : 32;
@@ -527,8 +538,8 @@ static inline uint64_t BDK_MIO_PTP_DPLL_ERR_THRESH_FUNC(void)
 /**
  * NCB - mio_ptp_dpll_incr
  *
- * This register contains the Digital PLL increment. Zero disables the digital PLL.
- *
+ * This register contains the Digital PLL increment on each coprocessor clock rising edge.
+ * Zero disables the digital PLL.
  */
 typedef union bdk_mio_ptp_dpll_incr {
 	uint64_t u;
@@ -568,9 +579,11 @@ typedef union bdk_mio_ptp_evt_cnt {
 	uint64_t u;
 	struct bdk_mio_ptp_evt_cnt_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t cntr                        : 64; /**< R/W/H - Count nanoseconds. Writing to this register increments this register by the value of the
+		uint64_t cntr                        : 64; /**< R/W/H - PTP event counter. Writing to this register increments this register by the value of the
                                                                  write data. The register counts down by 1 for every MIO_PTP_CLOCK_CFG[EVCNT_EDGE] edge of
-                                                                 MIO_PTP_CLOCK_CFG[EVCNT_IN]. When this register equals 0, an interrupt is generated. */
+                                                                 MIO_PTP_CLOCK_CFG[EVCNT_IN]. When this register equals 0, an interrupt is generated.
+                                                                 When this register equals 0 and PTP Event still enabled (MIO_PTP_CLOCK_CFG[EVCNT_EN]),
+                                                                 the counter will rollover to negative to continue counting down whenever new event comes. */
 #else
 		uint64_t cntr                        : 64;
 #endif
@@ -604,7 +617,7 @@ typedef union bdk_mio_ptp_int {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
 		uint64_t dpll_int                    : 1;  /**< R/W1C/H - Digital PLL error. */
-		uint64_t evt_int                     : 1;  /**< R/W1C/H - PTP event observed. */
+		uint64_t evt_int                     : 1;  /**< R/W1C/H - PTP event observed. See MIO_PTP_EVT_CNT for details. */
 #else
 		uint64_t evt_int                     : 1;
 		uint64_t dpll_int                    : 1;
@@ -637,7 +650,7 @@ typedef union bdk_mio_ptp_int_ena_w1c {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
 		uint64_t dpll_int                    : 1;  /**< R/W1C/H - Digital PLL error. */
-		uint64_t evt_int                     : 1;  /**< R/W1C/H - PTP event observed. */
+		uint64_t evt_int                     : 1;  /**< R/W1C/H - PTP event observed. See MIO_PTP_EVT_CNT for details. */
 #else
 		uint64_t evt_int                     : 1;
 		uint64_t dpll_int                    : 1;
@@ -670,7 +683,7 @@ typedef union bdk_mio_ptp_int_ena_w1s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
 		uint64_t dpll_int                    : 1;  /**< R/W1C/H - Digital PLL error. */
-		uint64_t evt_int                     : 1;  /**< R/W1C/H - PTP event observed. */
+		uint64_t evt_int                     : 1;  /**< R/W1C/H - PTP event observed. See MIO_PTP_EVT_CNT for details. */
 #else
 		uint64_t evt_int                     : 1;
 		uint64_t dpll_int                    : 1;
@@ -703,7 +716,7 @@ typedef union bdk_mio_ptp_int_w1s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
 		uint64_t dpll_int                    : 1;  /**< R/W1C/H - Digital PLL error. */
-		uint64_t evt_int                     : 1;  /**< R/W1C/H - PTP event observed. */
+		uint64_t evt_int                     : 1;  /**< R/W1C/H - PTP event observed. See MIO_PTP_EVT_CNT for details. */
 #else
 		uint64_t evt_int                     : 1;
 		uint64_t dpll_int                    : 1;
@@ -781,7 +794,6 @@ typedef union bdk_mio_ptp_msix_vecx_addr {
                                                                  corresponding
                                                                  bit of MIO_PTP_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world.
-
                                                                  If PCCPF_MIO_PTP_VSEC_SCTL[MSIX_SEC] (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
@@ -852,8 +864,8 @@ static inline uint64_t BDK_MIO_PTP_MSIX_VECX_CTL(unsigned long param1)
 /**
  * NCB - mio_ptp_pps_hi_incr
  *
- * This register contains the high bytes of the PTP PPS increment.
- *
+ * This register contains the PTP PPS threshold increment on pre-inverted PTP_PPS rising edge.
+ * See MIO_PTP_PPS_THRESH_HI for details.
  */
 typedef union bdk_mio_ptp_pps_hi_incr {
 	uint64_t u;
@@ -886,8 +898,8 @@ static inline uint64_t BDK_MIO_PTP_PPS_HI_INCR_FUNC(void)
 /**
  * NCB - mio_ptp_pps_lo_incr
  *
- * This register contains the low bytes of the PTP PPS increment.
- *
+ * This register contains the PTP PPS threshold increment on pre-inverted PTP_PPS falling edge.
+ * See MIO_PTP_PPS_THRESH_HI for details.
  */
 typedef union bdk_mio_ptp_pps_lo_incr {
 	uint64_t u;
@@ -920,15 +932,23 @@ static inline uint64_t BDK_MIO_PTP_PPS_LO_INCR_FUNC(void)
 /**
  * NCB - mio_ptp_pps_thresh_hi
  *
- * This register contains the high bytes of the PTP PPS. Writes to MIO_PTP_PPS_THRESH_HI also
- * clear MIO_PTP_PPS_THRESH_LO; to update all 96 bits write MIO_PTP_PPS_THRESH_HI followed by
- * MIO_PTP_PPS_THRESH_LO.
+ * This register contains the high bytes of the PTP PPS threshold.
+ * Writes to MIO_PTP_PPS_THRESH_HI also clear MIO_PTP_PPS_THRESH_LO; in order to update all 96
+ * bits, writes MIO_PTP_PPS_THRESH_HI followed by MIO_PTP_PPS_THRESH_LO.
+ * This threshold {MIO_PTP_PPS_THRESH_HI, MIO_PTP_PPS_THRESH_LO}  is a rolling threshold that
+ * will be updated by hardware:
+ *   When current PTP_PPS before inversion (defined by MIO_PTP_CLOCK_CFG[PPS_INV]) is zero,
+ *   and {MIO_PTP_CLOCK_HI/LO} \>=  {MIO_PTP_PPS_THRESH_HI/LO}, the pre-inverted PTP_PPS will
+ *   update to one, and {MIO_PTP_PPS_THRESH_HI/LO} will increment by MIO_PTP_PPS_HI_INCR.
+ *   When current PTP_PPS before inversion (defined by MIO_PTP_CLOCK_CFG[PPS_INV]) is one,
+ *   and {MIO_PTP_CLOCK_HI/LO} \>=  {MIO_PTP_PPS_THRESH_HI/LO}, the pre-inverted PTP_PPS will
+ *   update to zero, and {MIO_PTP_PPS_THRESH_HI/LO} will increment by MIO_PTP_PPS_LO_INCR.
  */
 typedef union bdk_mio_ptp_pps_thresh_hi {
 	uint64_t u;
 	struct bdk_mio_ptp_pps_thresh_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t nanosec                     : 64; /**< R/W - Nanoseconds. */
+		uint64_t nanosec                     : 64; /**< R/W/H - Nanoseconds. */
 #else
 		uint64_t nanosec                     : 64;
 #endif
@@ -953,15 +973,15 @@ static inline uint64_t BDK_MIO_PTP_PPS_THRESH_HI_FUNC(void)
 /**
  * NCB - mio_ptp_pps_thresh_lo
  *
- * This register contains the low bytes of the PTP PPS.
- *
+ * This register contains the low bytes of the PTP PPS threshold.
+ * See MIO_PTP_PPS_THRESH_HI for details.
  */
 typedef union bdk_mio_ptp_pps_thresh_lo {
 	uint64_t u;
 	struct bdk_mio_ptp_pps_thresh_lo_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
-		uint64_t frnanosec                   : 32; /**< R/W - Fractions of nanoseconds. */
+		uint64_t frnanosec                   : 32; /**< R/W/H - Fractions of nanoseconds. */
 #else
 		uint64_t frnanosec                   : 32;
 		uint64_t reserved_32_63              : 32;

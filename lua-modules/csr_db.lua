@@ -16070,8 +16070,8 @@ local csr_db = {
             address = 0x807000000f00,
             fields = {
                 {name = "RESERVED_42_63", start = 42, stop = 63},
-                {name = "PPS", start = 41, stop = 41},
-                {name = "CKOUT", start = 40, stop = 40},
+                {name = "CKOUT", start = 41, stop = 41},
+                {name = "PPS", start = 40, stop = 40},
                 {name = "EXT_CLK_EDGE", start = 38, stop = 39},
                 {name = "RESERVED_32_37", start = 32, stop = 37},
                 {name = "PPS_INV", start = 31, stop = 31},
@@ -66407,8 +66407,8 @@ local csr_db = {
             address = 0x807000000f00,
             fields = {
                 {name = "RESERVED_42_63", start = 42, stop = 63},
-                {name = "PPS", start = 41, stop = 41},
-                {name = "CKOUT", start = 40, stop = 40},
+                {name = "CKOUT", start = 41, stop = 41},
+                {name = "PPS", start = 40, stop = 40},
                 {name = "EXT_CLK_EDGE", start = 38, stop = 39},
                 {name = "RESERVED_32_37", start = 32, stop = 37},
                 {name = "PPS_INV", start = 31, stop = 31},
