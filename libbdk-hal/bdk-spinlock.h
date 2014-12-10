@@ -56,12 +56,27 @@ static inline void bdk_spinlock_unlock(bdk_spinlock_t *lock)
 static inline void bdk_spinlock_lock(bdk_spinlock_t *lock) __attribute__ ((pure, always_inline));
 static inline void bdk_spinlock_lock(bdk_spinlock_t *lock)
 {
-    uint64_t combined = __atomic_fetch_add(&lock->combined, 1ull<<32, __ATOMIC_ACQUIRE);
-    uint32_t ticket = combined >> 32;
-    uint32_t serving = (uint32_t)combined;
+    uint64_t combined;
+    uint32_t ticket;
+    uint32_t serving;
 
-    while (bdk_unlikely(serving != ticket))
-        serving = __atomic_load_4(&lock->s.serving, __ATOMIC_RELAXED);
+    asm volatile (
+        "mov %[serving], 1<<32                      \n"
+        "ldadda %[serving], %[combined], [%[ptr]]   \n"
+        "and %[serving], %[combined], 0xffffffff    \n"
+        "lsr %[ticket], %[combined], 32             \n"
+        "cmp %[ticket], %[serving]                  \n"
+        "b.eq 1f                                    \n"
+        "sevl                                       \n"
+     "2: wfe                                        \n"
+        "ldxr %w[serving], [%[ptr]]                 \n"
+        "cmp %[ticket], %[serving]                  \n"
+        "b.ne 2b                                    \n"
+     "1:                                            \n"
+        : [serving] "=&r" (serving), [ticket] "=&r" (ticket), [combined] "=&r" (combined), "+m" (lock->combined)
+        : [ptr] "r" (&lock->combined)
+        : "memory"
+    );
 }
 
 /**
