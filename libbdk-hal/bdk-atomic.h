@@ -22,7 +22,11 @@
  */
 static inline void bdk_atomic_add32_nosync(int32_t *ptr, int32_t incr)
 {
-    __atomic_fetch_add(ptr, incr, __ATOMIC_RELAXED);
+    /* Atomic add with no ordering */
+    asm volatile ("ldadd %w[i], wzr, [%[b]]"
+                  : [r] "+m" (*ptr)
+                  : [i] "r" (incr), [b] "r" (ptr)
+                  : "memory");
 }
 
 /**
@@ -37,7 +41,11 @@ static inline void bdk_atomic_add32_nosync(int32_t *ptr, int32_t incr)
  */
 static inline void bdk_atomic_add32(int32_t *ptr, int32_t incr)
 {
-    __atomic_fetch_add(ptr, incr, __ATOMIC_ACQ_REL);
+    /* Atomic add with acquire and release */
+    asm volatile ("ldaddal %w[i], wzr, [%[b]]"
+                  : "+m" (*ptr)
+                  : [i] "r" (incr), [b] "r" (ptr)
+                  : "memory");
 }
 
 /**
@@ -76,7 +84,11 @@ static inline int32_t bdk_atomic_get32(int32_t *ptr)
  */
 static inline void bdk_atomic_add64_nosync(int64_t *ptr, int64_t incr)
 {
-    __atomic_fetch_add(ptr, incr, __ATOMIC_RELAXED);
+    /* Atomic add with no ordering */
+    asm volatile ("ldadd %x[i], xzr, [%[b]]"
+                  : [r] "+m" (*ptr)
+                  : [i] "r" (incr), [b] "r" (ptr)
+                  : "memory");
 }
 
 /**
@@ -91,7 +103,11 @@ static inline void bdk_atomic_add64_nosync(int64_t *ptr, int64_t incr)
  */
 static inline void bdk_atomic_add64(int64_t *ptr, int64_t incr)
 {
-    __atomic_fetch_add(ptr, incr, __ATOMIC_ACQ_REL);
+    /* Atomic add with acquire and release */
+    asm volatile ("ldaddal %x[i], xzr, [%[b]]"
+                  : [r] "+m" (*ptr)
+                  : [i] "r" (incr), [b] "r" (ptr)
+                  : "memory");
 }
 
 /**
