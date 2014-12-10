@@ -117,7 +117,8 @@ void __bdk_init(uint32_t image_crc)
     BDK_MSR(VBAR_EL1, __bdk_exception_current_el_sync_sp0);
 
     /* Use Cavium specific function to change memory to normal instead of
-       device attributes */
+       device attributes. DCVA47=1 makes unmapped addresses behave as
+       non-shared memory (not inner or outer shared in ARM speak) */
     bdk_sys_cvmmemctl0_el1_t cvmmemctl0_el1;
     BDK_MRS(s3_0_c11_c0_4, cvmmemctl0_el1.u);
     cvmmemctl0_el1.s.dcva47 = 1;
