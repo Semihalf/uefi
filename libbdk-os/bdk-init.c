@@ -330,7 +330,7 @@ int bdk_reset_cores(bdk_node_t node, uint64_t coremask)
             continue;
         }
         /* Clear the core in the alive mask */
-        __atomic_fetch_and(&__bdk_alive_coremask[node], ~my_mask, __ATOMIC_ACQ_REL);
+        bdk_atomic_fetch_and_bclr64_nosync((uint64_t*)&__bdk_alive_coremask[node], my_mask);
     }
 
     BDK_TRACE(INIT, "N%d: Waiting for all reset bits to be set\n", node);
