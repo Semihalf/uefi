@@ -507,8 +507,9 @@ int initialize_ddr_clock(bdk_node_t node,
                 DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL2(loop_interface_num), dll_ctl2.u);
             }
 
-	    /* Now set INTF_EN for all LMCs that are to be active */
-            for (loop_interface_num = 0; loop_interface_num < 4; ++loop_interface_num) {
+	    /* Now set INTF_EN for *ONLY* LMC2/3 if they are to be active */
+	    /* Do *NOT* touch LMC0/1 INTF_EN setting */
+            for (loop_interface_num = 2; loop_interface_num < 4; ++loop_interface_num) {
                 if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
                     continue;
 
