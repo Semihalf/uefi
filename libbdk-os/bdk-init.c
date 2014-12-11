@@ -269,6 +269,10 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
     {
         BDK_TRACE(INIT, "N%d: Taking cores out of reset (0x%lx)\n", node, need_reset_off);
         BDK_CSR_WRITE(node, BDK_RST_PP_RESET, reset & ~need_reset_off);
+        /* Wait for cores to finish coming out of reset */
+        bdk_wait_usec(1);
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_RST_PP_PENDING, pend, ==, 0, 100000))
+            bdk_error("Timeout wating for reset pending to clear");
         /* Errata TBD: The DAP has an issue where its state isn't cleared for
            cores in reset. Put the DAPs in reset as their associated cores are
            also in reset */
