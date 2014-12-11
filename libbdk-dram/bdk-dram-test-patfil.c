@@ -84,11 +84,17 @@ int __bdk_dram_test_mem_self_addr(uint64_t area, uint64_t max_address, int burst
         /* Read by ascending address the written memory and confirm that it
          * has the expected data pattern.
          */
-        for (uint64_t address = area; address < max_address; address+=8)
+        for (uint64_t address = area; address < max_address; )
         {
-            uint64_t data = READ64(address);
-            if (bdk_unlikely(data != address))
-                failures += retry_failure(burst, address, data, address);
+            if (address + 256 < max_address)
+                BDK_PREFETCH(address + 256, 0);
+            for (int i=0; i<16; i++)
+            {
+                uint64_t data = READ64(address);
+                if (bdk_unlikely(data != address))
+                    failures += retry_failure(burst, address, data, address);
+                address += 8;
+            }
         }
         __bdk_dram_flush_to_mem_range(area, max_address);
         BDK_DCACHE_INVALIDATE;
@@ -97,23 +103,39 @@ int __bdk_dram_test_mem_self_addr(uint64_t area, uint64_t max_address, int burst
          * has the expected data pattern.
          */
         uint64_t end = max_address - sizeof(uint64_t);
-        for (uint64_t address = end; address >= area; address-=8)
+        for (uint64_t address = end; address >= area; )
         {
-            uint64_t data = READ64(address);
-            if (bdk_unlikely(data != address))
-                failures += retry_failure(burst, address, data, address);
+            if (address - 256 >= area)
+                BDK_PREFETCH(address - 256, 0);
+            for (int i=0; i<16; i++)
+            {
+                uint64_t data = READ64(address);
+                if (bdk_unlikely(data != address))
+                    failures += retry_failure(burst, address, data, address);
+                address -= 8;
+            }
         }
         __bdk_dram_flush_to_mem_range(area, max_address);
         BDK_DCACHE_INVALIDATE;
 
         /* Read from random addresses within the memory area.
          */
-        uint64_t probes = (max_address - area) / 8;
+        uint64_t probes = (max_address - area) / 128;
+        uint64_t address_ahead1 = area;
+        uint64_t address_ahead2 = area;
         for (uint64_t i = 0; i < probes; i++)
         {
-            uint64_t address = bdk_rng_get_random64() % (max_address - area);
-            address += area;
-            address &= -8;
+            /* Create a pipeline of prefetches:
+               address = address read this loop
+               address_ahead1 = prefetch started last loop
+               address_ahead2 = prefetch started this loop */
+            uint64_t address = address_ahead1;
+            address_ahead1 = address_ahead2;
+            address_ahead2 = bdk_rng_get_random64() % (max_address - area);
+            address_ahead2 += area;
+            address_ahead2 &= -8;
+            BDK_PREFETCH(address_ahead2, 0);
+
             uint64_t data = READ64(address);
             if (bdk_unlikely(data != address))
                 failures += retry_failure(burst, address, data, address);
