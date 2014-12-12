@@ -720,9 +720,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             {
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
                     c.s.pcie_refclk125 = 0);
-                if (flags & BDK_QLM_MODE_FLAG_GEN1)
+                if (baud_mhz == 2500)
                     lane_mode = GSER_LMODE_E_R_25G_REFCLK100;
-                else if (flags & BDK_QLM_MODE_FLAG_GEN2)
+                else if (baud_mhz == 5000)
                     lane_mode = GSER_LMODE_E_R_5G_REFCLK100;
                 else
                     lane_mode = GSER_LMODE_E_R_8G_REFCLK100;
@@ -731,9 +731,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             {
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
                     c.s.pcie_refclk125 = 1);
-                if (flags & BDK_QLM_MODE_FLAG_GEN1)
+                if (baud_mhz == 2500)
                     lane_mode = GSER_LMODE_E_R_25G_REFCLK125;
-                else if (flags & BDK_QLM_MODE_FLAG_GEN2)
+                else if (baud_mhz == 5000)
                     lane_mode = GSER_LMODE_E_R_5G_REFCLK125;
                 else
                     lane_mode = GSER_LMODE_E_R_8G_REFCLK125;
@@ -744,9 +744,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 return -1;
             }
             int cfg_md;
-            if (flags & BDK_QLM_MODE_FLAG_GEN1)
+            if (baud_mhz == 2500)
                 cfg_md = 0; /* Gen1 Speed */
-            else if (flags & BDK_QLM_MODE_FLAG_GEN2)
+            else if (baud_mhz == 5000)
                 cfg_md = 1; /* Gen2 Speed */
             else
                 cfg_md = 2; /* Gen3 Speed */
@@ -1424,9 +1424,9 @@ int qlm_auto_config(bdk_node_t node)
         printf("QLM Config: Configuring QLMs for a sample setup\n");
         bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_SGMII, 1250, 0);
         bdk_qlm_set_mode(node, 1, BDK_QLM_MODE_XAUI_1X4, 6250, 0);
-        bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_PCIE_1X8, 8000, BDK_QLM_MODE_FLAG_GEN3);
-        bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_PCIE_1X4, 5000, BDK_QLM_MODE_FLAG_GEN2);
-        bdk_qlm_set_mode(node, 5, BDK_QLM_MODE_PCIE_1X4, 2500, BDK_QLM_MODE_FLAG_GEN1);
+        bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
+        bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_PCIE_1X4, 5000, 0);
+        bdk_qlm_set_mode(node, 5, BDK_QLM_MODE_PCIE_1X4, 2500, 0);
         bdk_qlm_set_mode(node, 6, BDK_QLM_MODE_SATA_4X1, 6000, 0);
         bdk_qlm_set_mode(node, 7, BDK_QLM_MODE_SATA_4X1, 3000, 0);
         return 0;
@@ -1500,18 +1500,6 @@ int qlm_auto_config(bdk_node_t node)
                 break;
             case 0x0101: /* PCIe Host */
                 qlm_mode = (width == 8) ? BDK_QLM_MODE_PCIE_1X8 : BDK_QLM_MODE_PCIE_1X4;
-                switch (qlm_speed)
-                {
-                    case 2500:
-                        qlm_flags = BDK_QLM_MODE_FLAG_GEN1;
-                        break;
-                    case 5000:
-                        qlm_flags = BDK_QLM_MODE_FLAG_GEN2;
-                        break;
-                    default:
-                        qlm_flags = BDK_QLM_MODE_FLAG_GEN3;
-                        break;
-                }
                 break;
             case 0x1000: /* SGMII */
                 qlm_mode = BDK_QLM_MODE_SGMII;

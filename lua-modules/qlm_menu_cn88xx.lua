@@ -22,39 +22,39 @@ qlm_modes[0] = {
 }
 qlm_modes[1] = qlm_modes[0]
 qlm_modes[2] = {
-    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1},
-    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2},
-    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3},
-    {"PCIe x8 - GEN 1", cavium.QLM_MODE_PCIE_1X8, 2500, cavium.QLM_MODE_FLAG_GEN1},
-    {"PCIe x8 - GEN 2", cavium.QLM_MODE_PCIE_1X8, 5000, cavium.QLM_MODE_FLAG_GEN2},
-    {"PCIe x8 - GEN 3", cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3},
+    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, 0},
+    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, 0},
+    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, 0},
+    {"PCIe x8 - GEN 1", cavium.QLM_MODE_PCIE_1X8, 2500, 0},
+    {"PCIe x8 - GEN 2", cavium.QLM_MODE_PCIE_1X8, 5000, 0},
+    {"PCIe x8 - GEN 3", cavium.QLM_MODE_PCIE_1X8, 8000, 0},
     {"SATA    @ 1.500 Gbps", cavium.QLM_MODE_SATA_4X1, 1500, 0},
     {"SATA    @ 3.000 Gbps", cavium.QLM_MODE_SATA_4X1, 3000, 0},
     {"SATA    @ 6.000 Gbps", cavium.QLM_MODE_SATA_4X1, 6000, 0},
     {"Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
 }
 qlm_modes[3] = {
-    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1},
-    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2},
-    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3},
+    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, 0},
+    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, 0},
+    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, 0},
     {"SATA    @ 1.500 Gbps", cavium.QLM_MODE_SATA_4X1, 1500, 0},
     {"SATA    @ 3.000 Gbps", cavium.QLM_MODE_SATA_4X1, 3000, 0},
     {"SATA    @ 6.000 Gbps", cavium.QLM_MODE_SATA_4X1, 6000, 0},
     {"Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
 }
 qlm_modes[4] = {
-    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1},
-    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2},
-    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3},
-    {"PCIe x8 - GEN 1", cavium.QLM_MODE_PCIE_1X8, 2500, cavium.QLM_MODE_FLAG_GEN1},
-    {"PCIe x8 - GEN 2", cavium.QLM_MODE_PCIE_1X8, 5000, cavium.QLM_MODE_FLAG_GEN2},
-    {"PCIe x8 - GEN 3", cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3},
+    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, 0},
+    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, 0},
+    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, 0},
+    {"PCIe x8 - GEN 1", cavium.QLM_MODE_PCIE_1X8, 2500, 0},
+    {"PCIe x8 - GEN 2", cavium.QLM_MODE_PCIE_1X8, 5000, 0},
+    {"PCIe x8 - GEN 3", cavium.QLM_MODE_PCIE_1X8, 8000, 0},
     {"Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
 }
 qlm_modes[5] = {
-    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1},
-    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2},
-    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3},
+    {"PCIe x4 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, 0},
+    {"PCIe x4 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, 0},
+    {"PCIe x4 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, 0},
     {"Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
 }
 qlm_modes[6] = qlm_modes[2]

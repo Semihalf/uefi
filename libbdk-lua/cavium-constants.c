@@ -60,9 +60,6 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_QLM_MODE_40G_KR4_1X4);
 
     push_bdk_enum(BDK_QLM_MODE_FLAG_ENDPOINT);
-    push_bdk_enum(BDK_QLM_MODE_FLAG_GEN1);
-    push_bdk_enum(BDK_QLM_MODE_FLAG_GEN2);
-    push_bdk_enum(BDK_QLM_MODE_FLAG_GEN3);
 
     push_bdk_enum(BDK_QLM_LOOP_DISABLED);
 

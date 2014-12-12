@@ -35,9 +35,6 @@ typedef enum
 typedef enum
 {
     BDK_QLM_MODE_FLAG_ENDPOINT = 1, /* PCIe in EP instead of RC */
-    BDK_QLM_MODE_FLAG_GEN1 = 2,     /* Limit PCIe to gen1 speeds */
-    BDK_QLM_MODE_FLAG_GEN2 = 4,     /* Limit PCIe to gen2 speeds */
-    BDK_QLM_MODE_FLAG_GEN3 = 8,     /* Limit PCIe to gen3 speeds */
 } bdk_qlm_mode_flags_t;
 
 typedef enum

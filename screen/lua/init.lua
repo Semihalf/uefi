@@ -127,17 +127,17 @@ cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_40G_KR4_1X4, 10312, 0)
 cavium.csr.GSERX_REFCLK_SEL(2).COM_CLK_SEL = 1
 cavium.csr.GSERX_REFCLK_SEL(2).USE_COM1 = 0
 cavium.c.bdk_qlm_reset(node, 2)
-cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
+cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, 0)
 
 cavium.csr.GSERX_REFCLK_SEL(4).COM_CLK_SEL = 1
 cavium.csr.GSERX_REFCLK_SEL(4).USE_COM1 = 0
 cavium.c.bdk_qlm_reset(node, 4)
-cavium.c.bdk_qlm_set_mode(node, 4, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
+cavium.c.bdk_qlm_set_mode(node, 4, cavium.QLM_MODE_PCIE_1X8, 8000, 0)
 
 cavium.csr.GSERX_REFCLK_SEL(6).COM_CLK_SEL = 1
 cavium.csr.GSERX_REFCLK_SEL(6).USE_COM1 = 0
 cavium.c.bdk_qlm_reset(node, 6)
-cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
+cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_PCIE_1X8, 8000, 0)
 
 
 

@@ -91,15 +91,15 @@ end
 -- Choosing QLM modes for PCIe (QLMs 2-7)
 --------------------------------------------------------------
 -- PCIe x4 modes (QLMs 2-7)
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X4, 2500, cavium.QLM_MODE_FLAG_GEN1)
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X4, 5000, cavium.QLM_MODE_FLAG_GEN2)
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X4, 8000, cavium.QLM_MODE_FLAG_GEN3)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X4, 2500, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X4, 5000, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X4, 8000, 0)
 
 -- PCIe x8 modes (QLMs 2&3, 4&5, 6&7)
 -- Only call for the first QLM of the pair
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X8, 2500, cavium.QLM_MODE_FLAG_GEN1)
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X8, 5000, cavium.QLM_MODE_FLAG_GEN2)
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X8, 8000, cavium.QLM_MODE_FLAG_GEN3)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X8, 2500, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X8, 5000, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_PCIE_1X8, 8000, 0)
 
 -- End of QLM examples
 
