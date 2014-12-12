@@ -42,7 +42,7 @@ __bdk_thread_switch:
     stp     q26, q27,[x10, FPR_OFFSET(26)]
     stp     q28, q29,[x10, FPR_OFFSET(28)]
     stp     q30, q31,[x10, FPR_OFFSET(30)]
-    dmb     ishst /* We're done with the old context, push writes out */
+    dmb     st /* We're done with the old context, push writes out */
 
 skip_save:
     /* Switch to the new thread stack so we can call C functions */
