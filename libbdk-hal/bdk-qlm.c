@@ -13,9 +13,6 @@ static const bdk_qlm_ops_t *qlm_ops_list[] = {
     NULL
 };
 static const bdk_qlm_ops_t *qlm_ops;
-/* This caches the last value measured for the reference clock
-   Index [node][qlm] */
-static int ref_clock[4][16] = {{0,}};
 
 /**
  * Return the number of QLMs supported for the chip
@@ -150,7 +147,6 @@ bdk_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm)
  */
 int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
-    ref_clock[node][qlm] = 0; /* Clear cache on mode change */
     return qlm_ops->set_mode(node, qlm, mode, baud_mhz, flags);
 }
 
@@ -175,18 +171,15 @@ int bdk_qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
  */
 int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
 {
-    if (ref_clock[node][qlm])
-        return ref_clock[node][qlm];
-
     if (bdk_is_simulation())
     {
         /* Force the reference to 156.25Mhz when running in simulation.
             This supports the most speeds */
         return 156250000;
     }
-    ref_clock[node][qlm] = qlm_ops->measure_refclock(node, qlm);
-    BDK_TRACE(QLM, "QLM%d: Ref clock %d Hz\n", qlm, ref_clock[node][qlm]);
-    return ref_clock[node][qlm];
+    int ref_clock = qlm_ops->measure_refclock(node, qlm);
+    BDK_TRACE(QLM, "QLM%d: Ref clock %d Hz\n", qlm, ref_clock);
+    return ref_clock;
 }
 
 
@@ -200,7 +193,6 @@ int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
  */
 int bdk_qlm_reset(bdk_node_t node, int qlm)
 {
-    ref_clock[node][qlm] = 0; /* Clear cache on QLM reset */
     return qlm_ops->reset(node, qlm);
 }
 
