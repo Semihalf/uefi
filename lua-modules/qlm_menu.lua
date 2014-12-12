@@ -25,12 +25,14 @@ repeat
         local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_num)
         local label = (num_lanes == 2) and "DLM" or "QLM"
         local ref_clock = cavium.c.bdk_qlm_measure_clock(menu.node, qlm_num)
+        -- Round ref clock to the nearest KHz and change to Khz
+        ref_clock = (ref_clock + 500) / 1000
         local option
         if config_speed == 0 then
             option = "%s %d - Disabled" % {label, qlm_num}
-            option = "%s %d - Disabled, ref %3d.%03d Mhz" % {label, qlm_num, ref_clock / 1000000, ref_clock / 1000 % 1000}
+            option = "%s %d - Disabled, ref %3d.%03d Mhz" % {label, qlm_num, ref_clock / 1000, ref_clock % 1000}
         else
-            option = "%s %d - %s @%2d.%03d GBaud, ref %3d.%03d Mhz" % {label, qlm_num, config_mode, config_speed / 1000, config_speed % 1000, ref_clock / 1000000, ref_clock / 1000 % 1000}
+            option = "%s %d - %s @%2d.%03d GBaud, ref %3d.%03d Mhz" % {label, qlm_num, config_mode, config_speed / 1000, config_speed % 1000, ref_clock / 1000, ref_clock % 1000}
         end
         m:item("qlm" .. qlm_num, option)
     end
