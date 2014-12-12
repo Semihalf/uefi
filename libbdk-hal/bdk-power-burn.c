@@ -6,12 +6,12 @@ BDK_REQUIRE_DEFINE(POWER_BURN);
 
 static void power_thread(int unused1, void *unused2)
 {
-    extern int __bdk_power_burn_dp(void);
+    extern int __bdk_power_burn(void);
     BDK_TRACE(INIT, "N%d.%d: Thread burning power\n", bdk_numa_local(), bdk_get_core_num());
     bdk_wait_usec(100000);
     while (1)
     {
-        __bdk_power_burn_dp();
+        __bdk_power_burn();
         bdk_thread_yield();
     }
 }

@@ -1,154 +1,177 @@
     .section .text
-    .global __bdk_power_burn_dp
+    .global __bdk_power_burn
 
-__bdk_power_burn_dp:
-    sub     sp, sp, 34 * 8
-    stp     x10, x11, [sp]
-    stp     d0, d1, [sp, 16 * 1]
-    stp     d2, d3, [sp, 16 * 2]
-    stp     d4, d5, [sp, 16 * 3]
-    stp     d6, d7, [sp, 16 * 4]
-    stp     d8, d9, [sp, 16 * 5]
-    stp     d10, d11, [sp, 16 * 6]
-    stp     d12, d13, [sp, 16 * 7]
-    stp     d14, d15, [sp, 16 * 8]
-    stp     d16, d17, [sp, 16 * 9]
-    stp     d18, d19, [sp, 16 * 10]
-    stp     d20, d21, [sp, 16 * 11]
-    stp     d22, d23, [sp, 16 * 12]
-    stp     d24, d25, [sp, 16 * 13]
-    stp     d26, d27, [sp, 16 * 14]
-    stp     d28, d29, [sp, 16 * 15]
-    stp     d30, d31, [sp, 16 * 16]
 
-    fmov d0, #1.0
-    fmov d1, #1.0
-    fmov d2, #1.0
-    fmov d3, #1.0
-    fmov d4, #1.0
-    fmov d5, #1.0
-    fmov d6, #1.0
-    fmov d7, #1.0
-    fmov d8, #1.0
-    fmov d9, #1.0
-    fmov d10, #1.0
-    fmov d11, #1.0
-    fmov d12, #1.0
-    fmov d13, #1.0
-    fmov d14, #1.0
-    fmov d15, #1.0
-    fmov d16, #1.0
-    fmov d17, #1.0
-    fmov d18, #1.0
-    fmov d19, #1.0
-    fmov d20, #1.0
-    fmov d21, #1.0
-    fmov d22, #1.0
-    fmov d23, #1.0
-    fmov d24, #1.0
-    fmov d25, #1.0
-    fmov d26, #1.0
-    fmov d27, #1.0
-    fmov d28, #1.0
-    fmov d29, #1.0
-    fmov d30, #1.0
-    fmov d31, #1.0
-    mov         x0, 1<<23
 
-loop:
-    adr         x11, data
-    fmadd       d11, d1, d2, d13
-    ldr         d0, [x11], #8
-    fmadd       d12, d2, d3, d4
-    ldr         d1, [x11], #8
-    fmadd       d13, d3, d4, d5
-    ldr         d2, [x11], #8
-    fmadd       d14, d4, d5, d6
-    ldr         d3, [x11], #8
-    fmadd       d15, d5, d6, d7
-    ldr         d4, [x11], #8
-    fmadd       d16, d10, d7, d8
-    ldr         d5, [x11], #8
-    fmadd       d17, d7, d11, d6
-    ldr         d6, [x11], #8
-    fmadd       d10, d0, d1, d12
-    ldr         d7, [x11], #8
 
-    fmadd       d11, d1, d2, d13
-    ldr         d0, [x11], #8
-    fmadd       d12, d2, d3, d4
-    ldr         d1, [x11], #8
-    fmadd       d13, d3, d4, d5
-    ldr         d2, [x11], #8
-    fmadd       d14, d4, d5, d6
-    ldr         d3, [x11], #8
-    fmadd       d15, d5, d6, d7
-    ldr         d4, [x11], #8
-    fmadd       d16, d10, d7, d8
-    ldr         d5, [x11], #8
-    fmadd       d17, d7, d11, d6
-    ldr         d6, [x11], #8
-    fmadd       d10, d0, d1, d12
-    ldr         d7, [x11], #8
+__bdk_power_burn:
+    stp     d30, d31, [sp, #-16]!
+    stp     d28, d29, [sp, #-16]!
+    stp     d26, d27, [sp, #-16]!
+    stp     d24, d25, [sp, #-16]!
+    stp     d22, d23, [sp, #-16]!
+    stp     d20, d21, [sp, #-16]!
+    stp     d18, d19, [sp, #-16]!
+    stp     d16, d17, [sp, #-16]!
+    stp     d14, d15, [sp, #-16]!
+    stp     d12, d13, [sp, #-16]!
+    stp     d10, d11, [sp, #-16]!
+    stp     d8, d9, [sp, #-16]!
+    stp     d6, d7, [sp, #-16]!
+    stp     d4, d5, [sp, #-16]!
+    stp     d2, d3, [sp, #-16]!
+    stp     d0, d1, [sp, #-16]!
+    stp     x20, x21, [sp, #-16]!
+    stp     x10, x11, [sp, #-16]!
+    stp     x12, x13, [sp, #-16]!
+    sub	    sp, sp, 8192
 
-    fmadd       d11, d1, d2, d13
-    ldr         d0, [x11], #8
-    fmadd       d12, d2, d3, d4
-    ldr         d1, [x11], #8
-    fmadd       d13, d3, d4, d5
-    ldr         d2, [x11], #8
-    fmadd       d14, d4, d5, d6
-    ldr         d3, [x11], #8
-    fmadd       d15, d5, d6, d7
-    ldr         d4, [x11], #8
-    fmadd       d16, d10, d7, d8
-    ldr         d5, [x11], #8
-    fmadd       d17, d7, d11, d6
-    ldr         d6, [x11], #8
-    fmadd       d10, d0, d1, d12
-    ldr         d7, [x11], #8
+    adr		x20, data
+    mov		x0, 1<<31
 
-    fmadd       d11, d1, d2, d13
-    ldr         d0, [x11], #8
-    fmadd       d12, d2, d3, d4
-    ldr         d1, [x11], #8
-    fmadd       d13, d3, d4, d5
-    ldr         d2, [x11], #8
-    fmadd       d14, d4, d5, d6
-    ldr         d3, [x11], #8
-    fmadd       d15, d5, d6, d7
-    ldr         d4, [x11], #8
-    fmadd       d16, d10, d7, d8
-    ldr         d5, [x11], #8
-    fmadd       d17, d7, d11, d6
-    ldr         d6, [x11], #8
-    fmadd       d10, d0, d1, d12
-    ldr         d7, [x11], #8
+    ldr		q0, [x20], #16
+    ldr		q1, [x20], #16
+    ldr		q2, [x20], #16
+    ldr		q3, [x20], #16
+    ldr		q4, [x20], #16
+    ldr		q5, [x20], #16
+    ldr		q6, [x20], #16
+    ldr		q7, [x20], #16
+    ldr		q8, [x20], #16
+    ldr		q9, [x20], #16
+    ldr		q10, [x20], #16
+    ldr		q11, [x20], #16
+    ldr		q12, [x20], #16
+    ldr		q13, [x20], #16
+    ldr		q14, [x20], #16
+    ldr		q15, [x20], #16
+    str		d0, [sp,#0]
+    str		d1, [sp,#8]
+    str		d2, [sp,#16]
+    str		d3, [sp,#24]
+    ldr		x10, [sp,#0]
+    ldr		x11, [sp,#8]
+    ldr		x12, [sp,#16]
+    ldr		x13, [sp,#24]
 
-    subs        x0, x0, #1
-    b.gt        loop
 
-    ldp     x10, x11, [sp]
-    ldp     d0, d1, [sp, 16 * 1]
-    ldp     d2, d3, [sp, 16 * 2]
-    ldp     d4, d5, [sp, 16 * 3]
-    ldp     d6, d7, [sp, 16 * 4]
-    ldp     d8, d9, [sp, 16 * 5]
-    ldp     d10, d11, [sp, 16 * 6]
-    ldp     d12, d13, [sp, 16 * 7]
-    ldp     d14, d15, [sp, 16 * 8]
-    ldp     d16, d17, [sp, 16 * 9]
-    ldp     d18, d19, [sp, 16 * 10]
-    ldp     d20, d21, [sp, 16 * 11]
-    ldp     d22, d23, [sp, 16 * 12]
-    ldp     d24, d25, [sp, 16 * 13]
-    ldp     d26, d27, [sp, 16 * 14]
-    ldp     d28, d29, [sp, 16 * 15]
-    ldp     d30, d31, [sp, 16 * 16]
-    add     sp, sp, 34 * 8
+.align 5
+loop2:
+
+    fmul	v20.2d, v0.2d, v1.2d
+    ldr		d28, [x20], #8
+    eor         x10, x10, x0, ASR #3
+    str		x11, [sp,#8]
+
+    fmul	v21.2d, v1.2d, v2.2d
+    ldr		d29, [x20], #8
+    add         x11, x11, x12, ASR #7
+    str		x12, [sp,#128]
+
+    fmul	v22.2d, v2.2d, v3.2d
+    ldr		d30, [x20], #8
+    eor         x12, x12, x13, ASR #5
+    str		x13, [sp,#272]
+
+    fmul	v23.2d, v3.2d, v4.2d
+    ldr		d31, [x20], #8
+    add         x13, x13, x10, ASR #1
+    str		x10, [sp,#408]
+
+    fmul	v20.2d, v4.2d, v5.2d
+    ldr		d28, [x20], #8
+    eor         x10, x10, x0, ASR #3
+    str		x11, [sp,#544]
+
+    fmul	v21.2d, v5.2d, v6.2d
+    ldr		d29, [x20], #8
+    add         x11, x11, x12, ASR #7
+    str		x12, [sp,#680]
+
+    fmul	v22.2d, v6.2d, v7.2d
+    ldr		d30, [x20], #8
+    eor         x12, x12, x13, ASR #5
+    str		x13, [sp,#816]
+
+    fmul	v23.2d, v7.2d, v8.2d
+    ldr		d31, [x20], #8
+    add         x13, x13, x10, ASR #1
+    str		x10, [sp,#952]
+
+    fmul	v20.2d, v8.2d, v9.2d
+    ldr		d28, [x20], #8
+    eor         x10, x10, x0, ASR #3
+    str		x11, [sp,#1088]
+
+    fmul	v21.2d, v9.2d, v10.2d
+    ldr		d29, [x20], #8
+    add         x11, x11, x12, ASR #7
+    str		x12, [sp,#1224]
+
+    fmul	v22.2d, v10.2d, v11.2d
+    ldr		d30, [x20], #8
+    eor         x12, x12, x13, ASR #5
+    str		x13, [sp,#1360]
+
+    fmul	v23.2d, v11.2d, v12.2d
+    ldr		d31, [x20], #8
+    add         x13, x13, x10, ASR #1
+    str		x10, [sp,#1496]
+
+    fmul	v20.2d, v12.2d, v13.2d
+    ldr		d28, [x20], #8
+    eor         x10, x10, x0, ASR #3
+    str		x11, [sp,#1632]
+
+    fmul	v21.2d, v13.2d, v14.2d
+    ldr		d29, [x20], #8
+    add         x11, x11, x12, ASR #7
+    str		x12, [sp,#24]
+
+    fmul	v22.2d, v14.2d, v15.2d
+    ldr		d30, [x20], #8
+    eor         x12, x12, x13, ASR #5
+    str		x13, [sp,#24]
+
+    fmul	v23.2d, v15.2d, v0.2d
+    ldr		d31, [x20], #8
+    add         x13, x13, x10, ASR #1
+    str		x10, [sp,#24]
+
+
+    adr		x20, data
+    subs	x0, x0, #1
+    b.ne	loop2
+    mrs		x0, s3_0_c11_c0_2
+
+    add	    sp, sp, 8192
+    ldp     x12, x13, [sp], #16
+    ldp     x10, x11, [sp], #16
+    ldp     x20, x21, [sp], #16
+    ldp     d0, d1, [sp], #16
+    ldp     d2, d3, [sp], #16
+    ldp     d4, d5, [sp], #16
+    ldp     d6, d7, [sp], #16
+    ldp     d8, d9, [sp], #16
+    ldp     d10, d11, [sp], #16
+    ldp     d12, d13, [sp], #16
+    ldp     d14, d15, [sp], #16
+    ldp     d16, d17, [sp], #16
+    ldp     d18, d19, [sp], #16
+    ldp     d20, d21, [sp], #16
+    ldp     d22, d23, [sp], #16
+    ldp     d24, d25, [sp], #16
+    ldp     d26, d27, [sp], #16
+    ldp     d28, d29, [sp], #16
+    ldp     d30, d31, [sp], #16
+
 
     ret
- 
+
+
+
+
+
 .align 7
  data:
 .dword 0x42D473508C9FF7F3
@@ -407,4 +430,5 @@ loop:
 .dword 0x4101CCB8F6A7F4FD
 .dword 0xC2402DB651DA5E86
 .dword 0x40C56DC8D0F71F27
+
 
