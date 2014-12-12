@@ -29,7 +29,7 @@ LUALIB_API int luaopen_cavium(lua_State* L)
     REGISTER(L, cavium_c);
     REGISTER(L, cavium_config);
     REGISTER(L, cavium_constants);
-    //REGISTER(L, cavium_perf);
+    REGISTER(L, cavium_perf);
     REGISTER(L, cavium_mmc);
 
     if (BDK_IS_REQUIRED(TRAFFIC_GEN))

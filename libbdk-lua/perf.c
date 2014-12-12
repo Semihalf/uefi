@@ -1,297 +1,384 @@
 #include <bdk.h>
 // Module for interfacing with performance counters
 
-#if 0
+/* L2 has two logical groups of counters that are of interest:
+    1) CBC Bus utilization counters in:
+        L2C_CBCX_XMCX_PFC(row, col)
+        L2C_CBCX_XMDX_PFC(row, col)
+        L2C_CBCX_RSCX_PFC(row, col)
+        L2C_CBCX_RSDX_PFC(row, col)
+        L2C_CBCX_IOCX_PFC(row, 0)
+        L2C_CBCX_IORX_PFC(row, 0)
+        L2C_CBCX_INVX_PFC(row, 0-1)
+    2) TAD statistics from BDK_L2C_TADX_PFCX(tad, counter). There are
+        fewer counters than interesting statistics, so we need to change
+        counter setups over time to get all stats.
+    The Lua output table format:
+    {
+        "cmb" = {
+            "cmb0" = {
+                "xmc(add) %" = (percent utilization)
+                "xmd(store) %" = (percent utilization)
+                "rsc(commit) %" = (percent utilization)
+                "rsd(fill) %" = (percent utilization)
+                "num invalidates" = (percent utilization)
+            }
+            "cmb1" = {...}
+            "cmb2" = {...}
+            ...
+            "cmbX" = {...} # X=9 for CN88XX
+        }
+        "io" = {
+            "io0" = {
+                "ioc(IO req) %" = (percent utilization)
+                "ior(IO resp) %" = (percent utilization)
+            }
+            "io1" = {...}
+            "io2" = {...}
+            "io3" = {...}
+        }
+        tad = {
+            "tad0" = {
+                "tag_hit(num/s)" = (number)
+                "tag_miss(num/s)" = (number)
+                "tag_noalloc(num/s)" = (number)
+                "victim(num/s)" = (number)
+                "sc_fail(num/s)" = (number)
+                "sc_pass(num/s)" = (number)
+                "lfb_occupancy %" = (percent utilization)
+                "lfb_wait_lfb %" = (percent utilization)
+                "lfb_wait_vab %" = (percent utilization)
+                "quad0_index_bus %" = (percent utilization)
+                "quad0_read_bus %" = (percent utilization)
+                "quad0_banks_inuse %" = (percent utilization)
+                "quad0_wdat_inuse %" = (percent utilization)
+                (repeat quad1-qaud3)
+            }
+            "tad1" = {...}
+            "tad2" = {...}
+            ...
+            "tad7" = {...}
+        }
+    }
+*/
 
-#define MAX_L2_COPIES 8 /* CN78XX uses 0-7, CN70XX use 0 */
-#define MAX_L2_PFC 10 /* CN78XX uses 8-9 for IO */
-#define MAX_TADS 4
-#define NUM_COUNTERS 4
 
-static int l2_perf(lua_State* L)
+static void get_table(lua_State* L, const char *name)
 {
-    bdk_node_t node = bdk_numa_local();
+    lua_getfield(L, -1, name);
+    if (!lua_istable(L, -1))
+    {
+        /* Pop the non-table value we just got */
+        lua_pop(L, 1);
+        /* Create a new table for use by name */
+        lua_newtable(L);
+        /* Attach the table to the name */
+        lua_setfield(L, -2, name);
+        /* Get the table again */
+        lua_getfield(L, -1, name);
+    }
+}
+
+static void l2_perf_cmb(lua_State* L, bdk_node_t node)
+{
+    /* These define the array bounds for L2C_CBCX_*X_PFC */
+    const int  L2_BUS_ROWS = 4;
+    const int L2_BUS_COLS = 3;
+
+    /* This is the time of the last update for each counter */
+    static uint64_t last_start;
+
+    uint64_t current_rclk = bdk_clock_get_count(BDK_CLOCK_RCLK);
+    uint64_t delta_rclk = current_rclk - last_start;
+    uint64_t delta_rclk_percent = delta_rclk / 100;
+    if (delta_rclk_percent == 0)
+        delta_rclk_percent = 1;
+    last_start = current_rclk;
+
+    for (int row = 0; row < L2_BUS_ROWS; row++)
+    {
+        for (int col = 0; col < L2_BUS_COLS; col++)
+        {
+            int cmb_num = col * L2_BUS_ROWS + row;
+            if (cmb_num > 9)
+                continue;
+            char bus_name[8];
+            snprintf(bus_name, sizeof(bus_name), "cmb%d", cmb_num);
+            get_table(L, bus_name);
+
+            /* Counts the number of cycles the XMC(Add bus) was busy. So the
+                percentage used is simply 100 * count / RCLK */
+            lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_CBCX_XMCX_PFC(row, col)) / delta_rclk_percent);
+            BDK_CSR_WRITE(node, BDK_L2C_CBCX_XMCX_PFC(row, col), 0);
+            lua_setfield(L, -2, "xmc(add) %");
+            /* Counts the number of cycles the XMD(Store bus) was busy. So the
+                percentage used is simply 100 * count / RCLK */
+            lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_CBCX_XMDX_PFC(row,col)) / delta_rclk_percent);
+            BDK_CSR_WRITE(node, BDK_L2C_CBCX_XMDX_PFC(row,col), 0);
+            lua_setfield(L, -2, "xmd(store) %");
+            /* Counts the number of cycles the RSC(Commit bus) was busy. So the
+                percentage used is simply 100 * count / RCLK */
+            lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_CBCX_RSCX_PFC(row,col)) / delta_rclk_percent);
+            BDK_CSR_WRITE(node, BDK_L2C_CBCX_RSCX_PFC(row,col), 0);
+            lua_setfield(L, -2, "rsc(commit) %");
+            /* Counts the number of cycles the RSD(Fill bus) was busy. So the
+                percentage used is simply 100 * count / RCLK */
+            lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_CBCX_RSDX_PFC(row,col)) / delta_rclk_percent);
+            BDK_CSR_WRITE(node, BDK_L2C_CBCX_RSDX_PFC(row,col), 0);
+            lua_setfield(L, -2, "rsd(fill) %");
+            /* It's not obvious, but column 2 (CMB 8-9) corespond to IOB, which
+               doesn't have invalidates */
+            if (col < 2)
+            {
+                /* Number of invalidates */
+                lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_CBCX_INVX_PFC(row,col)));
+                BDK_CSR_WRITE(node, BDK_L2C_CBCX_INVX_PFC(row,col), 0);
+                lua_setfield(L, -2, "num invalidates");
+            }
+            /* Pop the current CMB table as were done */
+            lua_pop(L, 1);
+        }
+    }
+}
+
+static void l2_perf_io(lua_State* L, bdk_node_t node)
+{
+    const int L2_NUM_IO = 4;
+
+    /* This is the time of the last update for each counter */
+    static uint64_t last_start;
+
+    uint64_t current_rclk = bdk_clock_get_count(BDK_CLOCK_RCLK);
+    uint64_t delta_rclk = current_rclk - last_start;
+    uint64_t delta_rclk_percent = delta_rclk / 100;
+    if (delta_rclk_percent == 0)
+        delta_rclk_percent = 1;
+    last_start = current_rclk;
+
+    for (int io = 0; io < L2_NUM_IO; io++)
+    {
+        char io_name[8];
+        snprintf(io_name, sizeof(io_name), "io%d", io);
+        get_table(L, io_name);
+
+        /* Counts the number of cycles the IOC(IO request bus) was busy.
+            So the percentage used is simply 100 * count / RCLK */
+        lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_CBCX_IOCX_PFC(io, 0)) / delta_rclk_percent);
+        BDK_CSR_WRITE(node, BDK_L2C_CBCX_IOCX_PFC(io, 0), 0);
+        lua_setfield(L, -2, "ioc(IO req) %");
+        /* Counts the number of cycles the IOR(IO response bus) was busy.
+            So the percentage used is simply 100 * count / RCLK */
+        lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_CBCX_IORX_PFC(io, 0)) / delta_rclk_percent);
+        BDK_CSR_WRITE(node, BDK_L2C_CBCX_IORX_PFC(io, 0), 0);
+        lua_setfield(L, -2, "ior(IO resp) %");
+        /* Pop the current IO table as were done */
+        lua_pop(L, 1);
+    }
+}
+
+static void l2_perf_tad(lua_State* L, bdk_node_t node)
+{
+    /* These define TAD counter ranges */
+    #define MAX_TADS 8
+    #define NUM_TAD_COUNTERS 4
+
     /* We cycle through 6 counter sets. 0-3 are each quad, and 4,5 are
         handpicked values */
-    static int count_set = 0;
-    /* This is the start time of the PFC setup for current count_set */
-    static uint64_t last_start_pfc[MAX_L2_COPIES][NUM_COUNTERS];
-    /* This is the time of the last update for each counter */
-    static uint64_t last_update_bus[MAX_L2_PFC];
+    static int tad_count_set = 0;
+    /* This is the start time of the setup for current count_set */
+    static uint64_t last_start[BDK_NUMA_MAX_NODES][MAX_TADS][NUM_TAD_COUNTERS];
 
-    uint64_t clock_rate = bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME);
-    uint64_t current_cycle = bdk_clock_get_count(BDK_CLOCK_TIME);
+    uint64_t rclk_rate = bdk_clock_get_rate(node, BDK_CLOCK_RCLK);
+    uint64_t current_rclk = bdk_clock_get_count(BDK_CLOCK_RCLK);
 
-    /* All results will be in a table with fields for each TAD */
-    if (lua_istable(L, 1))
-        lua_pushvalue(L, 1);
-    else
-        lua_newtable(L);
-
-    /* Number of TADs change for each chip */
-    int num_l2_copies = CAVIUM_IS_MODEL(CAVIUM_CN78XX) ? 10 : 1;
-    for (int l2=0; l2<num_l2_copies; l2++)
+    for (int tad = 0; tad < MAX_TADS; tad++)
     {
-        /* Name the L2 table */
         char tad_name[8];
-        sprintf(tad_name, "bank%d", l2);
-
-        /* Get the L2 table */
-        lua_getfield(L, -1, tad_name);
-        if (!lua_istable(L, -1))
-        {
-            /* Create the table for this L2 */
-            lua_pop(L, 1);
-            lua_newtable(L);
-            lua_setfield(L, -2, tad_name);
-            lua_getfield(L, -1, tad_name);
-        }
-
-        uint64_t delta_cycle = current_cycle - last_update_bus[l2];
-        uint64_t delta_cycle_percent = delta_cycle / 100;
-        if (delta_cycle_percent == 0)
-            delta_cycle_percent = 1;
-        last_update_bus[l2] = current_cycle;
-
-        /* Use captial so titles are on top row */
-        if (l2 >= MAX_L2_COPIES)
-            sprintf(tad_name, "iob%d", l2 - MAX_L2_COPIES);
-        lua_pushstring(L, tad_name);
-        BDK_CSR_WRITE(node, BDK_L2C_XMCX_PFC(l2), 0);
-        lua_setfield(L, -2, "Title");
-
-        /* Counts the number of cycles the XMC(Add bus) was busy. So the
-            percentage used is simply 100 * count / RCLK */
-        lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_XMCX_PFC(l2)) / delta_cycle_percent);
-        BDK_CSR_WRITE(node, BDK_L2C_XMCX_PFC(l2), 0);
-        lua_setfield(L, -2, "bus_xmc(add) %");
-        /* Counts the number of cycles the XMD(Store bus) was busy. So the
-            percentage used is simply 100 * count / RCLK */
-        lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_XMDX_PFC(l2)) / delta_cycle_percent);
-        BDK_CSR_WRITE(node, BDK_L2C_XMDX_PFC(l2), 0);
-        lua_setfield(L, -2, "bus_xmd(store) %");
-        /* Counts the number of cycles the RSC(Commit bus) was busy. So the
-            percentage used is simply 100 * count / RCLK */
-        lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_RSCX_PFC(l2)) / delta_cycle_percent);
-        BDK_CSR_WRITE(node, BDK_L2C_RSCX_PFC(l2), 0);
-        lua_setfield(L, -2, "bus_rsc(commit) %");
-        /* Counts the number of cycles the RSD(Fill bus) was busy. So the
-            percentage used is simply 100 * count / RCLK */
-        lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_RSDX_PFC(l2)) / delta_cycle_percent);
-        BDK_CSR_WRITE(node, BDK_L2C_RSDX_PFC(l2), 0);
-        lua_setfield(L, -2, "bus_rsd(fill) %");
-
-        /* 78xx uses the above counters for IOB0 and IOB1 at index 8-9, but
-           nothing else applies */
-        if (l2 >= MAX_L2_COPIES)
-        {
-            lua_pop(L, 1);
-            continue;
-        }
-
-        /* Number of invalidates */
-        lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_INVX_PFC(l2)));
-        BDK_CSR_WRITE(node, BDK_L2C_INVX_PFC(l2), 0);
-        lua_setfield(L, -2, "invalidates #");
-
-        /* There is only one IO bus */
-        if (l2 == 0)
-        {
-            /* Counts the number of cycles the IOC(IO request bus) was busy.
-                So the percentage used is simply 100 * count / RCLK */
-            lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_IOCX_PFC(l2)) / delta_cycle_percent);
-            BDK_CSR_WRITE(node, BDK_L2C_IOCX_PFC(l2), 0);
-            lua_setfield(L, -2, "bus_ioc(IO req) %");
-            /* Counts the number of cycles the IOR(IO response bus) was busy.
-                So the percentage used is simply 100 * count / RCLK */
-            lua_pushnumber(L, BDK_CSR_READ(node, BDK_L2C_IORX_PFC(l2)) / delta_cycle_percent);
-            BDK_CSR_WRITE(node, BDK_L2C_IORX_PFC(l2), 0);
-            lua_setfield(L, -2, "bus_ior(IO resp) %");
-        }
+        snprintf(tad_name, sizeof(tad_name), "tad%d", tad);
+        get_table(L, tad_name);
 
         /* Read the current performace counter settings */
-        BDK_CSR_INIT(tadx_prf, node, BDK_L2C_TADX_PRF(l2));
+        BDK_CSR_INIT(tadx_prf, node, BDK_L2C_TADX_PRF(tad));
 
         /* Cycle through counters adding them to our L2's table */
-        for (int counter=0; counter<NUM_COUNTERS; counter++)
+        for (int counter=0; counter<NUM_TAD_COUNTERS; counter++)
         {
             /* Calculate time since last update */
-            delta_cycle = current_cycle - last_start_pfc[l2][counter];
-            if (delta_cycle == 0)
-                delta_cycle = 1;
-            delta_cycle_percent = delta_cycle / 100;
-            if (delta_cycle_percent == 0)
-                delta_cycle_percent = 1;
-            last_start_pfc[l2][counter] = current_cycle;
+            uint64_t delta_rclk = current_rclk - last_start[node][tad][counter];
+            if (delta_rclk == 0)
+                delta_rclk = 1;
+            uint64_t delta_rclk_percent = delta_rclk / 100;
+            if (delta_rclk_percent == 0)
+                delta_rclk_percent = 1;
+            last_start[node][tad][counter] = current_rclk;
 
             /* Read the appropriate counter */
-            uint64_t value = 0;
-            value = BDK_CSR_READ(node, BDK_L2C_TADX_PFCX(l2, counter));
+            uint64_t value = BDK_CSR_READ(node, BDK_L2C_TADX_PFCX(tad, counter));
 
             /* Figure out what to do based on the counter type */
-            int count_type = (tadx_prf.u64 >> (counter*8)) & 0xff;
+            int count_type = (tadx_prf.u >> (counter*8)) & 0xff;
             const char *name = NULL;
             switch (count_type)
             {
                 case 0x00: /* Nothing (disabled) */
                     break;
                 case 0x01: /* L2 Tag Hit */
-                    name = "tag_hit #";
+                    name = "tag_hit(num/s)";
                     /* Value is a simple count, not a utilization. Scale to
                         be cout/sec */
-                    value = value * clock_rate / delta_cycle;
+                    value = value * rclk_rate / delta_rclk;
                     break;
                 case 0x02: /* L2 Tag Miss */
-                    name = "tag_miss #";
+                    name = "tag_miss(num/s)";
                     /* Value is a simple count, not a utilization. Scale to
                         be cout/sec */
-                    value = value * clock_rate / delta_cycle;
+                    value = value * rclk_rate / delta_rclk;
                     break;
                 case 0x03: /* L2 Tag NoAlloc (forced no-allocate) */
-                    name = "tag_noalloc #";
+                    name = "tag_noalloc(num/s)";
                     /* Value is a simple count, not a utilization. Scale to
                         be cout/sec */
-                    value = value * clock_rate / delta_cycle;
+                    value = value * rclk_rate / delta_rclk;
                     break;
                 case 0x04: /* L2 Victim */
-                    name = "victim #";
+                    name = "victim(num/s)";
                     /* Value is a simple count, not a utilization. Scale to
                         be cout/sec */
-                    value = value * clock_rate / delta_cycle;
+                    value = value * rclk_rate / delta_rclk;
                     break;
                 case 0x05: /* SC Fail */
-                    name = "sc_fail #";
+                    name = "sc_fail(num/s)";
                     /* Value is a simple count, not a utilization. Scale to
                         be cout/sec */
-                    value = value * clock_rate / delta_cycle;
+                    value = value * rclk_rate / delta_rclk;
                     break;
                 case 0x06: /* SC Pass */
-                    name = "sc_pass #";
+                    name = "sc_pass(num/s)";
                     /* Value is a simple count, not a utilization. Scale to
                         be cout/sec */
-                    value = value * clock_rate / delta_cycle;
+                    value = value * rclk_rate / delta_rclk;
                     break;
                 case 0x07: /* LFB Occupancy (each cycle adds \# of LFBs valid) */
                     name = "lfb_occupancy %";
                     /* There are 16 LFBs, so utilization percentage is
                         100 * count / (RCLK*16) */
-                    value /= delta_cycle_percent*16;
+                    value /= delta_rclk_percent*16;
                     break;
                 case 0x08: /* LFB Wait LFB (each cycle adds \# LFBs waiting for other LFBs) */
                     name = "lfb_wait_lfb %";
                     /* There are 16 LFBs, so utilization percentage is
                         100 * count / (RCLK*16) */
-                    value /= delta_cycle_percent*16;
+                    value /= delta_rclk_percent*16;
                     break;
                 case 0x09: /* LFB Wait VAB (each cycle adds \# LFBs waiting for VAB) */
                     name = "lfb_wait_vab %";
                     /* There are 16 LFBs, so utilization percentage is
                         100 * count / (RCLK*16) */
-                    value /= delta_cycle_percent*16;
+                    value /= delta_rclk_percent*16;
                     break;
                 case 0x80: /* Quad 0 index bus inuse */
                     name = "quad0_index_bus %";
                     /* Count is number of cycle bus in use, so utilization
                         percentage is 100 * count / RCLK */
-                    value /= delta_cycle_percent;
+                    value /= delta_rclk_percent;
                     break;
                 case 0x81: /* Quad 0 read data bus inuse */
                     name = "quad0_read_bus %";
                     /* Count is number of cycle bus in use, so utilization
                         percentage is 100 * count / RCLK */
-                    value /= delta_cycle_percent;
+                    value /= delta_rclk_percent;
                     break;
                 case 0x82: /* Quad 0 \# banks inuse (0-4/cycle) */
                     name = "quad0_banks_inuse %";
                     /* Count is number of banks bus in use per cycle (there are
                         4 banks), so utilization percentage is 100 * count /
                         (RCLK*4) */
-                    value /= delta_cycle_percent*4;
+                    value /= delta_rclk_percent*4;
                     break;
                 case 0x83: /* Quad 0 wdat flops inuse (0-4/cycle) */
                     name = "quad0_wdat_inuse %";
                     /* Count is number of banks bus in use per cycle (there are
                         4 banks), so utilization percentage is 100 * count /
                         (RCLK*4) */
-                    value /= delta_cycle_percent*4;
+                    value /= delta_rclk_percent*4;
                     break;
                 case 0x90: /* Quad 1 index bus inuse */
                     name = "quad1_index_bus %";
                     /* Count is number of cycle bus in use, so utilization
                         percentage is 100 * count / RCLK */
-                    value /= delta_cycle_percent;
+                    value /= delta_rclk_percent;
                     break;
                 case 0x91: /* Quad 1 read data bus inuse */
                     name = "quad1_read_bus %";
                     /* Count is number of cycle bus in use, so utilization
                         percentage is 100 * count / RCLK */
-                    value /= delta_cycle_percent;
+                    value /= delta_rclk_percent;
                     break;
                 case 0x92: /* Quad 1 \# banks inuse (0-4/cycle) */
                     name = "quad1_banks_inuse %";
                     /* Count is number of banks bus in use per cycle (there are
                         4 banks), so utilization percentage is 100 * count /
                         (RCLK*4) */
-                    value /= delta_cycle_percent*4;
+                    value /= delta_rclk_percent*4;
                     break;
                 case 0x93: /* Quad 1 wdat flops inuse (0-4/cycle) */
                     name = "quad1_wdat_inuse %";
                     /* Count is number of banks bus in use per cycle (there are
                         4 banks), so utilization percentage is 100 * count /
                         (RCLK*4) */
-                    value /= delta_cycle_percent*4;
+                    value /= delta_rclk_percent*4;
                     break;
                 case 0xA0: /* Quad 2 index bus inuse */
                     name = "quad2_index_bus %";
                     /* Count is number of cycle bus in use, so utilization
                         percentage is 100 * count / RCLK */
-                    value /= delta_cycle_percent;
+                    value /= delta_rclk_percent;
                     break;
                 case 0xA1: /* Quad 2 read data bus inuse */
                     name = "quad2_read_bus %";
                     /* Count is number of cycle bus in use, so utilization
                         percentage is 100 * count / RCLK */
-                    value /= delta_cycle_percent;
+                    value /= delta_rclk_percent;
                     break;
                 case 0xA2: /* Quad 2 \# banks inuse (0-4/cycle) */
                     name = "quad2_banks_inuse %";
                     /* Count is number of banks bus in use per cycle (there are
                         4 banks), so utilization percentage is 100 * count /
                         (RCLK*4) */
-                    value /= delta_cycle_percent*4;
+                    value /= delta_rclk_percent*4;
                     break;
                 case 0xA3: /* Quad 2 wdat flops inuse (0-4/cycle) */
                     name = "quad2_wdat_inuse %";
                     /* Count is number of banks bus in use per cycle (there are
                         4 banks), so utilization percentage is 100 * count /
                         (RCLK*4) */
-                    value /= delta_cycle_percent*4;
+                    value /= delta_rclk_percent*4;
                     break;
                 case 0xB0: /* Quad 3 index bus inuse */
                     name = "quad3_index_bus %";
                     /* Count is number of cycle bus in use, so utilization
                         percentage is 100 * count / RCLK */
-                    value /= delta_cycle_percent;
+                    value /= delta_rclk_percent;
                     break;
                 case 0xB1: /* Quad 3 read data bus inuse */
                     name = "quad3_read_bus %";
                     /* Count is number of cycle bus in use, so utilization
                         percentage is 100 * count / RCLK */
-                    value /= delta_cycle_percent;
+                    value /= delta_rclk_percent;
                     break;
                 case 0xB2: /* Quad 3 \# banks inuse (0-4/cycle) */
                     name = "quad3_banks_inuse %";
                     /* Count is number of banks bus in use per cycle (there are
                         4 banks), so utilization percentage is 100 * count /
                         (RCLK*4) */
-                    value /= delta_cycle_percent*4;
+                    value /= delta_rclk_percent*4;
                     break;
                 case 0xB3: /* Quad 3 wdat flops inuse (0-4/cycle) */
                     name = "quad3_wdat_inuse %";
                     /* Count is number of banks bus in use per cycle (there are
                         4 banks), so utilization percentage is 100 * count /
                         (RCLK*4) */
-                    value /= delta_cycle_percent*4;
+                    value /= delta_rclk_percent*4;
                     break;
             }
             /* Add the counter to our output table */
@@ -301,19 +388,21 @@ static int l2_perf(lua_State* L)
                 lua_setfield(L, -2, name);
             }
         }
+
+        /* Pop the current TAD table as were done */
         lua_pop(L, 1);
 
         /* Set counter types for next update */
-        switch (count_set)
+        switch (tad_count_set)
         {
             case 0:
             case 1:
             case 2:
             case 3:
-                tadx_prf.s.cnt0sel = 0x80 + count_set * 0x10; /* Quad X index bus inuse */
-                tadx_prf.s.cnt1sel = 0x81 + count_set * 0x10; /* Quad X read data bus inuse */
-                tadx_prf.s.cnt2sel = 0x82 + count_set * 0x10; /* Quad X # banks inuse (0-4/cycle) */
-                tadx_prf.s.cnt3sel = 0x83 + count_set * 0x10; /* Quad X wdat flops inuse (0-4/cycle) */
+                tadx_prf.s.cnt0sel = 0x80 + tad_count_set * 0x10; /* Quad X index bus inuse */
+                tadx_prf.s.cnt1sel = 0x81 + tad_count_set * 0x10; /* Quad X read data bus inuse */
+                tadx_prf.s.cnt2sel = 0x82 + tad_count_set * 0x10; /* Quad X # banks inuse (0-4/cycle) */
+                tadx_prf.s.cnt3sel = 0x83 + tad_count_set * 0x10; /* Quad X wdat flops inuse (0-4/cycle) */
                 break;
             case 4:
                 tadx_prf.s.cnt0sel = 0x01; /* L2 Tag Hit */
@@ -329,15 +418,41 @@ static int l2_perf(lua_State* L)
                 //0x09; /* LFB Wait VAB (each cycle adds \# LFBs waiting for VAB) */
                 break;
         }
-        BDK_CSR_WRITE(node, BDK_L2C_TADX_PRF(l2), tadx_prf.u64);
-        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(l2, 0), 0);
-        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(l2, 1), 0);
-        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(l2, 2), 0);
-        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(l2, 3), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PRF(tad), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(tad, 0), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(tad, 1), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(tad, 2), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PFCX(tad, 3), 0);
+        BDK_CSR_WRITE(node, BDK_L2C_TADX_PRF(tad), tadx_prf.u);
     }
-    count_set++;
-    if (count_set > 5)
-        count_set = 0;
+
+    /* Next update will use a different set of counters */
+    tad_count_set++;
+    if (tad_count_set > 5)
+        tad_count_set = 0;
+}
+
+static int l2_perf(lua_State* L)
+{
+    bdk_node_t node = bdk_numa_local();
+
+    /* All results will be in a table */
+    if (lua_istable(L, 1))
+        lua_pushvalue(L, 1);
+    else
+        lua_newtable(L);
+
+    get_table(L, "cmb");
+    l2_perf_cmb(L, node);
+    lua_pop(L, 1);
+
+    get_table(L, "io");
+    l2_perf_io(L, node);
+    lua_pop(L, 1);
+
+    get_table(L, "tad");
+    l2_perf_tad(L, node);
+    lua_pop(L, 1);
     return 1;
 }
 
@@ -349,4 +464,3 @@ void register_cavium_perf(lua_State *L)
     lua_setfield(L, -2, "perf");
 }
 
-#endif

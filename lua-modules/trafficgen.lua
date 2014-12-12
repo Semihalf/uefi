@@ -746,18 +746,29 @@ function TrafficGen.new()
         num_rows = num_rows + 1
         if show_l2_stats then
             l2_stats_table = cavium.perf.get_l2(l2_stats_table)
-            for _,n in ipairs(table.sorted_keys(l2_stats_table["bank0"])) do
-                printf("%-20s", n)
-                for _,l2 in ipairs(table.sorted_keys(l2_stats_table)) do
-                    if l2_stats_table[l2][n] then
-                        printf("%s%10s", COL_SEP, tostring(l2_stats_table[l2][n]))
-                    else
-                        printf("%s%10s", COL_SEP, "")
-                    end
+            -- Function for displaying a 2d array of stats
+            local function show_stat_table(group, member0)
+                local data = l2_stats_table[group]
+                local members = table.sorted_keys(data)
+                local names = table.sorted_keys(data[member0])
+                printf("%s%-20s", ZEROHI, group)
+                for _,member in ipairs(members) do
+                    printf("|%10s", member)
                 end
-                printf("%s\n", ERASE_EOL)
-                num_rows = num_rows + 1
+                printf("%s%s\n", NORMAL, ERASE_EOL)
+                for _,name in ipairs(names) do
+                    printf("%-20s", name)
+                    for _,member in ipairs(members) do
+                        local d = data[member][name] or ""
+                        printf("%s%10s", COL_SEP, tostring(d))
+                    end
+                    printf("%s\n", ERASE_EOL)
+                    num_rows = num_rows + 1
+                end
             end
+            show_stat_table("cmb", "cmb0") -- Show CMB bus data
+            show_stat_table("io", "io0") -- Show IO bus data
+            show_stat_table("tad", "tad0") -- Show TAD data
         end
 
         print(ZEROHI .. "-------" .. NORMAL .. ERASE_EOL)
