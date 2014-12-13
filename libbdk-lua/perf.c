@@ -103,7 +103,10 @@ static void l2_perf_cmb(lua_State* L, bdk_node_t node)
             if (cmb_num > 9)
                 continue;
             char bus_name[8];
-            snprintf(bus_name, sizeof(bus_name), "cmb%d", cmb_num);
+            if (cmb_num < 8)
+                snprintf(bus_name, sizeof(bus_name), "cmb%d", cmb_num);
+            else
+                snprintf(bus_name, sizeof(bus_name), "iobn%d", cmb_num - 8);
             get_table(L, bus_name);
 
             /* Counts the number of cycles the XMC(Add bus) was busy. So the
