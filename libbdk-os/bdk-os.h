@@ -8,6 +8,7 @@
  */
 
 #ifndef BDK_BUILD_HOST
+#include "bdk-dbg.h"
 #include "bdk-rlock.h"
 #include "bdk-thread.h"
 #include "bdk-fs.h"
