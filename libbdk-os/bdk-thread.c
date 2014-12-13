@@ -244,7 +244,8 @@ void bdk_thread_destroy(void)
             }
             bdk_spinlock_unlock(&t_node->lock);
         }
-        BDK_WFE;
+        //BDK_WFE; FIXME: Causing hangs for unknown reason
+        bdk_wait(100); /* This wait 1us in a tight loop */
     }
 }
 
