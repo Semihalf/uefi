@@ -86,3 +86,31 @@ void bdk_dbg_dump_pc(bdk_node_t node)
     }
     bdk_dbg_uart_str("\r\n");
 }
+
+/**
+ * Check to see if someone sent a break signal to uart 0. This is treated
+ * as a magic dump key to get info out of the BDK if it is locked up. Using
+ * minicom, this is sent with Control-A,F.
+ */
+void bdk_dbg_check_magic(void)
+{
+    /* Dump PCs if we recieve a break signal */
+    BDK_CSR_INIT(uaax_ris, bdk_numa_master(), BDK_UAAX_RIS(0));
+    if (bdk_likely(!uaax_ris.s.beris))
+        return;
+
+    static bdk_spinlock_t lock;
+    bdk_spinlock_lock(&lock);
+
+    uaax_ris.u = BDK_CSR_READ(bdk_numa_master(), BDK_UAAX_RIS(0));
+    if (uaax_ris.s.beris)
+    {
+        BDK_CSR_DEFINE(uaax_icr, BDK_UAAX_ICR(0));
+        uaax_icr.u = 0;
+        uaax_icr.s.beic = 1;
+        BDK_CSR_WRITE(bdk_numa_master(), BDK_UAAX_ICR(0), uaax_icr.u);
+        bdk_dbg_dump_pc(bdk_numa_master());
+    }
+    bdk_spinlock_unlock(&lock);
+}
+

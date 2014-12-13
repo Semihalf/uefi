@@ -37,4 +37,11 @@ extern void bdk_dbg_uart_hex(uint64_t value);
  */
 extern void bdk_dbg_dump_pc(bdk_node_t node);
 
+/**
+ * Check to see if someone sent a break signal to uart 0. This is treated
+ * as a magic dump key to get info out of the BDK if it is locked up. Using
+ * minicom, this is sent with Control-A,F.
+ */
+extern void bdk_dbg_check_magic(void);
+
 /** @} */
