@@ -1,6 +1,13 @@
 #include <bdk.h>
 #include <malloc.h>
 
+/* The boot-stub has a hard size limit of 192KB. To reduce size,
+   this define can enable / disable support for DRAM init and testing
+   in the boot stub. If you need this, make sure only the DRAM configs
+   required are defined in DBDK_DRAM_CONFIG*. If you have too many,
+   the boot stub will be too big */
+#define ENABLE_DRAM_MENU 0
+
 /**
  * This function is not defined by the BDK libraries. It must be
  * defined by all BDK applications. It should be empty except for
@@ -281,6 +288,8 @@ static void choose_image(const char *dev_filename)
     boot_image(dev_filename, image_address[use_image]);
 }
 
+#if ENABLE_DRAM_MENU
+
 /**
  * Run DRAM tests over a range of memory using multiple cores
  *
@@ -379,6 +388,8 @@ static void dram_menu()
         }
     }
 }
+
+#endif
 
 static void create_spi_device_name(char *buffer, int buffer_size, int boot_method)
 {
@@ -504,8 +515,12 @@ int main(void)
             " 3) Load image from SPI\n"
             " 4) Write image to MMC, eMMC, or SD using Xmodem\n"
             " 5) Write image to SPI EEPROM or NOR using Xmodem\n"
+#if ENABLE_DRAM_MENU
             " 6) DRAM options\n"
             " 7) Soft reset chip\n");
+#else
+            " 6) Soft reset chip\n");
+#endif
         const char *input = bdk_readline("Menu choice: ", NULL, 0);
         int option = atoi(input);
         switch (option)
@@ -560,10 +575,14 @@ int main(void)
                 do_upload(name, offset);
                 break;
             }
+#if ENABLE_DRAM_MENU
             case 6: /* DRAM options */
                 dram_menu();
                 break;
             case 7: /* Soft reset */
+#else
+            case 6: /* Soft reset */
+#endif
                 printf("Performing a soft reset\n");
                 bdk_reset_chip(node);
                 break;
