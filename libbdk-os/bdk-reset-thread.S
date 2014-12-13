@@ -11,9 +11,7 @@ __bdk_reset_thread:
     /* Lock the stack in case other cores try using it */
     adr     x10, __bdk_initial_stack_start
     mov     x12, 1
-    sevl
 1:  ldxr    x11, [x10]
-    wfe
     cbnz    x11, 1b
     stxr    w11, x12, [x10]
     cbnz    w11, 1b
