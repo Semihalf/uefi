@@ -85,59 +85,108 @@ static const char *FCS_STRING[64] = {
 
 void __bdk_exception_handler(except_regs_t *exc)
 {
-    const char *BANNER = "**********************************************************************************\n";
+    const char *BANNER = "**********************************************************************************\r\n";
     uint64_t pc;
     BDK_MRS(ELR_EL3, pc);
     bdk_sys_esr_elx_t esr;
     BDK_MRS(ESR_EL3, esr.u);
     bdk_sys_far_elx_t far;
     BDK_MRS(FAR_EL3, far.u);
-    printf(BANNER);
-    printf("Node %d, Core %d: Unhandled Exception\n", bdk_numa_local(), bdk_get_core_num());
-    printf("ESR EC=0x%02x(%s) ISS=0x%x", esr.s.ec,
-        EC_STRING[esr.s.ec] ? EC_STRING[esr.s.ec] : "Unknown",
-        esr.s.iss);
+
+    bdk_dbg_uart_str(BANNER);
+
+    bdk_dbg_uart_str("Node ");
+    bdk_dbg_uart_char(bdk_numa_local() + '0');
+    bdk_dbg_uart_str(", Core ");
+    int core = bdk_get_core_num();
+    bdk_dbg_uart_char(core / 10 + '0');
+    bdk_dbg_uart_char(core % 10 + '0');
+    bdk_dbg_uart_str(": Unhandled Exception\r\n");
+
+    bdk_dbg_uart_str("ESR EC=");
+    bdk_dbg_uart_hex(esr.s.ec);
+    bdk_dbg_uart_char('(');
+    bdk_dbg_uart_str(EC_STRING[esr.s.ec] ? EC_STRING[esr.s.ec] : "Unknown");
+    bdk_dbg_uart_str(") ISS=");
+    bdk_dbg_uart_hex(esr.s.iss);
     if ((esr.s.ec == 0x24) || (esr.s.ec == 0x25))
     {
-        printf("(");
-        if (esr.s.iss & (1<<24)) printf(" VALID");
-        if (esr.s.iss & (1<<21)) printf(" SIGN_EXTEND");
-        if (esr.s.iss & (1<<15)) printf(" 64BIT");
-        if (esr.s.iss & (1<<14)) printf(" ACQUIRE");
-        if (esr.s.iss & (1<<9)) printf(" EXTERNAL");
-        if (esr.s.iss & (1<<8)) printf(" CACHE");
-        if (esr.s.iss & (1<<7)) printf(" S1PTW");
-        if (esr.s.iss & (1<<6)) printf(" WRITE");
+        bdk_dbg_uart_char('(');
+        if (esr.s.iss & (1<<24)) bdk_dbg_uart_str(" VALID");
+        if (esr.s.iss & (1<<21)) bdk_dbg_uart_str(" SIGN_EXTEND");
+        if (esr.s.iss & (1<<15)) bdk_dbg_uart_str(" 64BIT");
+        if (esr.s.iss & (1<<14)) bdk_dbg_uart_str(" ACQUIRE");
+        if (esr.s.iss & (1<<9)) bdk_dbg_uart_str(" EXTERNAL");
+        if (esr.s.iss & (1<<8)) bdk_dbg_uart_str(" CACHE");
+        if (esr.s.iss & (1<<7)) bdk_dbg_uart_str(" S1PTW");
+        if (esr.s.iss & (1<<6)) bdk_dbg_uart_str(" WRITE");
         if (FCS_STRING[esr.s.iss & 0x3f])
         {
-            printf(" ");
-            printf(FCS_STRING[esr.s.iss & 0x3f]);
+            bdk_dbg_uart_char(' ');
+            bdk_dbg_uart_str(FCS_STRING[esr.s.iss & 0x3f]);
         }
-        printf(")");
+        bdk_dbg_uart_char(')');
     }
-    printf("\n");
-    printf(BANNER);
-    printf("pc : 0x%016lx    esr: 0x%08x\n", pc, esr.u);
-    printf("far: 0x%016lx\n", far.u);
+    bdk_dbg_uart_str("\r\n");
+
+    bdk_dbg_uart_str(BANNER);
+
+    bdk_dbg_uart_str("pc : ");
+    bdk_dbg_uart_hex(pc);
+    bdk_dbg_uart_str("    esr: ");
+    bdk_dbg_uart_hex(esr.u);
+    bdk_dbg_uart_str("\r\n");
+
+    bdk_dbg_uart_str("far: ");
+    bdk_dbg_uart_hex(far.u);
+    bdk_dbg_uart_str("\r\n");
+
     for (int reg=0; reg<16; reg++)
     {
-        printf("x%02d: 0x%016lx    x%02d: 0x%016lx\n",
-            reg, exc->gpr[reg], reg+16, exc->gpr[reg+16]);
+        bdk_dbg_uart_char('x');
+        bdk_dbg_uart_char(reg / 10 + '0');
+        bdk_dbg_uart_char(reg % 10 + '0');
+        bdk_dbg_uart_str(": ");
+        bdk_dbg_uart_hex(exc->gpr[reg]);
+        bdk_dbg_uart_str("    x");
+        bdk_dbg_uart_char((reg+16) / 10 + '0');
+        bdk_dbg_uart_char((reg+16) % 10 + '0');
+        bdk_dbg_uart_str(": ");
+        bdk_dbg_uart_hex(exc->gpr[reg+16]);
+        bdk_dbg_uart_str("\r\n");
     }
-    printf("\n");
+    bdk_dbg_uart_str("\r\n");
+
     for (int reg=0; reg<16; reg++)
     {
-        printf("q%02d: 0x%016lx_%016lx  q%02d: 0x%016lx_%016lx\n",
-            reg,    (uint64_t)(exc->fpr[reg] >> 64),    (uint64_t)exc->fpr[reg],
-            reg+16, (uint64_t)(exc->fpr[reg+16] >> 64), (uint64_t)exc->fpr[reg+16]);
+        bdk_dbg_uart_char('q');
+        bdk_dbg_uart_char(reg / 10 + '0');
+        bdk_dbg_uart_char(reg % 10 + '0');
+        bdk_dbg_uart_str(": ");
+        bdk_dbg_uart_hex((uint64_t)(exc->fpr[reg] >> 64));
+        bdk_dbg_uart_char('_');
+        bdk_dbg_uart_hex((uint64_t)exc->fpr[reg]);
+        bdk_dbg_uart_str("  q");
+        bdk_dbg_uart_char((reg+16) / 10 + '0');
+        bdk_dbg_uart_char((reg+16) % 10 + '0');
+        bdk_dbg_uart_str(": ");
+        bdk_dbg_uart_hex((uint64_t)(exc->fpr[reg+16] >> 64));
+        bdk_dbg_uart_char('_');
+        bdk_dbg_uart_hex((uint64_t)exc->fpr[reg+16]);
+        bdk_dbg_uart_str("\r\n");
     }
-    printf("\n");
+    bdk_dbg_uart_str("\r\n");
+
     uint64_t *stack = (uint64_t *)exc->gpr[31];
     for (int i = 0; i < 16; i++)
     {
-        printf("stack[0x%016lx] = 0x%016lx\n", (uint64_t)stack, *stack);
+        bdk_dbg_uart_str("stack[");
+        bdk_dbg_uart_hex((uint64_t)stack);
+        bdk_dbg_uart_str("] = ");
+        bdk_dbg_uart_hex(*stack);
+        bdk_dbg_uart_str("\r\n");
         stack++;
     }
-    printf(BANNER);
+    bdk_dbg_uart_str(BANNER);
     __bdk_die();
 }
