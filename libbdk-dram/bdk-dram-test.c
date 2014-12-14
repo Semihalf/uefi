@@ -447,41 +447,31 @@ static void extract_address_info(uint64_t address, int *node, int *lmc, int *dim
     *node = EXTRACT(address, 40, 2); /* Address bits [41:40] */
     /* Determine the LMC controller */
     BDK_CSR_INIT(l2c_ctl, *node, BDK_L2C_CTL);
-    int bank_lsb;
-    if (__bdk_dram_get_num_lmc() == 4)
-    {
-        bank_lsb = 9;
-        if (l2c_ctl.s.disidxalias)
-            *lmc = EXTRACT(address, 7, 2);
-        else
-            *lmc = EXTRACT(address, 7, 2) ^ EXTRACT(address, 18, 2) ^ EXTRACT(address, 12, 2);
-    }
+    int bank_lsb, xbits;
+    xbits = (__bdk_dram_get_num_lmc() == 4) ? 2 : 1;
+    bank_lsb = 7 + xbits;
+    if (l2c_ctl.s.disidxalias)
+	*lmc = EXTRACT(address, 7, xbits);
     else
-    {
-        bank_lsb = 8;
-        if (l2c_ctl.s.disidxalias)
-            *lmc = EXTRACT(address, 7, 1);
-        else
-            *lmc = EXTRACT(address, 7, 1) ^ EXTRACT(address, 18, 1) ^ EXTRACT(address, 12, 1);
-    }
+	*lmc = EXTRACT(address, 7, xbits) ^ EXTRACT(address, 18, xbits) ^ EXTRACT(address, 12, xbits);
 
-    /* Figure out hte bank field width */
+    /* Figure out the bank field width */
     BDK_CSR_INIT(lmcx_config, *node, BDK_LMCX_CONFIG(*lmc));
-    int bank_width;
-    int is_ddr4 = 0; /* FIXME: Detect DDR4 */
-    if (is_ddr4)
+    BDK_CSR_INIT(lmcx_ddr_pll_ctl, *node, BDK_LMCX_DDR_PLL_CTL(*lmc));
+    int bank_width = 3;
+    if (lmcx_ddr_pll_ctl.s.ddr4_mode) /* Detect DDR4 */
     {
-        bdk_fatal("Add DDR4 support"); // FIXME
+        // FIXME, can be 3 or 4, depends on no. of banks
+        bdk_warn("DDR4 support FIXME: defaulting bank_bits to 3");
+	//bank_width = 3; // FIXME: default to #banks <= 8
     }
-    else
-        bank_width = 3;
 
     /* Extract bit positions from the LMC config */
-    int dimm_lsb    = 28 + lmcx_config.s.pbank_lsb;
+    int dimm_lsb    = 28 + lmcx_config.s.pbank_lsb + xbits;
     int dimm_width  = 40 - dimm_lsb;
     int rank_lsb    = dimm_lsb - lmcx_config.s.rank_ena;
     int rank_width  = dimm_lsb - rank_lsb;
-    int row_lsb     = 14 + lmcx_config.s.row_lsb;
+    int row_lsb     = 14 + lmcx_config.s.row_lsb + xbits;
     int row_width   = rank_lsb - row_lsb;
     int col_hi_lsb  = bank_lsb + bank_width;
     int col_hi_width= row_lsb - col_hi_lsb;
