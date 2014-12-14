@@ -24,6 +24,8 @@
 /bdk-boot/diagnostics
 /normal-boot/boot-stub
 /normal-boot/diagnostics
+/normal-boot-ebb8804/boot-stub
+/normal-boot-ebb8804/diagnostics
 /normal-boot-crb-1s/boot-stub
 /normal-boot-crb-1s/diagnostics
 /normal-boot-crb-2s/boot-stub
