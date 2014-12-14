@@ -1,1 +1,1 @@
-../normal-boot/boot-stub.c
+../normal-boot-ebb8800/boot-stub.c

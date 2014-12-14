@@ -22,8 +22,8 @@
 /libbdk/bdk-fs-rom-files.c
 /bdk-boot/boot-stub
 /bdk-boot/diagnostics
-/normal-boot/boot-stub
-/normal-boot/diagnostics
+/normal-boot-ebb8800/boot-stub
+/normal-boot-ebb8800/diagnostics
 /normal-boot-ebb8804/boot-stub
 /normal-boot-ebb8804/diagnostics
 /normal-boot-crb-1s/boot-stub

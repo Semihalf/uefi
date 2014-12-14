@@ -14,7 +14,7 @@ all: version
 	$(MAKE) -C libbdk
 	$(MAKE) -C utils
 	$(MAKE) -C bdk-boot
-	$(MAKE) -C normal-boot
+	$(MAKE) -C normal-boot-ebb8800
 	$(MAKE) -C normal-boot-ebb8804
 	$(MAKE) -C normal-boot-crb-1s
 	$(MAKE) -C normal-boot-crb-2s
@@ -32,7 +32,7 @@ clean:
 	$(MAKE) -C libbdk clean
 	$(MAKE) -C utils clean
 	$(MAKE) -C bdk-boot clean
-	$(MAKE) -C normal-boot clean
+	$(MAKE) -C normal-boot-ebb8800 clean
 	$(MAKE) -C normal-boot-ebb8804 clean
 	$(MAKE) -C normal-boot-crb-1s clean
 	$(MAKE) -C normal-boot-crb-2s clean
@@ -59,7 +59,7 @@ run:
 
 .PHONY: run-normal
 run-normal:
-	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/diagnostics $(ASIM)/asim -e bdk.asim
+	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot-ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
 
 .PHONY: run-screen
 run-screen:
