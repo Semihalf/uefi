@@ -462,8 +462,20 @@ typedef union bdk_pciercx_cfg008 {
 		uint32_t ml_addr                     : 12;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg008_s        cn88xx; */
-	/* struct bdk_pciercx_cfg008_s        cn88xxp1; */
+	struct bdk_pciercx_cfg008_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t ml_addr                     : 12; /**< R/W - Memory limit address. */
+		uint32_t reserved_19_16              : 4;
+		uint32_t mb_addr                     : 12; /**< R/W - Memory base address. */
+		uint32_t reserved_3_0                : 4;
+#else
+		uint32_t reserved_3_0                : 4;
+		uint32_t mb_addr                     : 12;
+		uint32_t reserved_19_16              : 4;
+		uint32_t ml_addr                     : 12;
+#endif
+	} cn88xx;
+	struct bdk_pciercx_cfg008_cn88xx      cn88xxp1;
 } bdk_pciercx_cfg008_t;
 
 static inline uint64_t BDK_PCIERCX_CFG008(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -512,8 +524,31 @@ typedef union bdk_pciercx_cfg009 {
 		uint32_t lmem_limit                  : 12;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg009_s        cn88xx; */
-	/* struct bdk_pciercx_cfg009_s        cn88xxp1; */
+	struct bdk_pciercx_cfg009_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t lmem_limit                  : 12; /**< R/W - Upper 12 bits of 32-bit prefetchable memory end address. */
+		uint32_t reserved_19_17              : 3;
+		uint32_t mem64b                      : 1;  /**< RO/H - 64-Bit memory addressing:
+                                                                 0 = 32-bit memory addressing.
+                                                                 1 = 64-bit memory addressing. */
+		uint32_t lmem_base                   : 12; /**< R/W - Upper 12 bits of 32-bit prefetchable memory start address. */
+		uint32_t reserved_3_1                : 3;
+		uint32_t mem64a                      : 1;  /**< RO/WRSL - 64-Bit memory addressing:
+                                                                 0 = 32-bit memory addressing.
+                                                                 1 = 64-bit memory addressing.
+
+                                                                 This bit is writable through PEM()_CFG_WR. When the application writes to this bit
+                                                                 through PEM()_CFG_WR, the same value is written to bit 16 of this register. */
+#else
+		uint32_t mem64a                      : 1;
+		uint32_t reserved_3_1                : 3;
+		uint32_t lmem_base                   : 12;
+		uint32_t mem64b                      : 1;
+		uint32_t reserved_19_17              : 3;
+		uint32_t lmem_limit                  : 12;
+#endif
+	} cn88xx;
+	struct bdk_pciercx_cfg009_cn88xx      cn88xxp1;
 } bdk_pciercx_cfg009_t;
 
 static inline uint64_t BDK_PCIERCX_CFG009(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -751,8 +786,48 @@ typedef union bdk_pciercx_cfg015 {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_pciercx_cfg015_s        cn88xx; */
-	/* struct bdk_pciercx_cfg015_s        cn88xxp1; */
+	struct bdk_pciercx_cfg015_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_28              : 4;
+		uint32_t dtsees                      : 1;  /**< RO - Discard timer SERR enable status. Not applicable to PCI Express, hardwired to 0. */
+		uint32_t dts                         : 1;  /**< RO - Discard timer status. Not applicable to PCI Express, hardwired to 0. */
+		uint32_t sdt                         : 1;  /**< RO - Secondary discard timer. Not applicable to PCI Express, hardwired to 0. */
+		uint32_t pdt                         : 1;  /**< RO - Primary discard timer. Not applicable to PCI Express, hardwired to 0. */
+		uint32_t fbbe                        : 1;  /**< RO - Fast back-to-back transactions enable. Not applicable to PCI Express, hardwired to 0. */
+		uint32_t sbrst                       : 1;  /**< R/W - Secondary bus reset. Hot reset. Causes TS1s with the hot reset bit to be sent to the link
+                                                                 partner. When set, software should wait 2ms before clearing. The link partner normally
+                                                                 responds by sending TS1s with the hot reset bit set, which will cause a link down event.
+                                                                 Refer to 'PCIe Link-Down Reset in RC Mode' section. */
+		uint32_t mam                         : 1;  /**< RO - Master abort mode. Not applicable to PCI Express, hardwired to 0. */
+		uint32_t vga16d                      : 1;  /**< RO - VGA 16-bit decode. */
+		uint32_t vgae                        : 1;  /**< RO - VGA enable. */
+		uint32_t isae                        : 1;  /**< R/W - ISA enable. */
+		uint32_t see                         : 1;  /**< R/W - SERR enable. */
+		uint32_t pere                        : 1;  /**< R/W - Parity error response enable. */
+		uint32_t inta                        : 8;  /**< RO/WRSL - Interrupt pin. Identifies the legacy interrupt message that the device (or device
+                                                                 function) uses. The interrupt pin register is writable through
+                                                                 PEM()_CFG_WR. In a single-function configuration, only INTA is used. Therefore, the
+                                                                 application must not change this field. */
+		uint32_t il                          : 8;  /**< R/W - Interrupt line. */
+#else
+		uint32_t il                          : 8;
+		uint32_t inta                        : 8;
+		uint32_t pere                        : 1;
+		uint32_t see                         : 1;
+		uint32_t isae                        : 1;
+		uint32_t vgae                        : 1;
+		uint32_t vga16d                      : 1;
+		uint32_t mam                         : 1;
+		uint32_t sbrst                       : 1;
+		uint32_t fbbe                        : 1;
+		uint32_t pdt                         : 1;
+		uint32_t sdt                         : 1;
+		uint32_t dts                         : 1;
+		uint32_t dtsees                      : 1;
+		uint32_t reserved_31_28              : 4;
+#endif
+	} cn88xx;
+	struct bdk_pciercx_cfg015_cn88xx      cn88xxp1;
 } bdk_pciercx_cfg015_t;
 
 static inline uint64_t BDK_PCIERCX_CFG015(unsigned long param1) __attribute__ ((pure, always_inline));

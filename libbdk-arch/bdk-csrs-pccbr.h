@@ -271,8 +271,18 @@ typedef union bdk_pccbr_xxx_e_cap2 {
 		uint32_t reserved_6_31               : 26;
 #endif
 	} s;
-	/* struct bdk_pccbr_xxx_e_cap2_s      cn88xx; */
-	/* struct bdk_pccbr_xxx_e_cap2_s      cn88xxp1; */
+	struct bdk_pccbr_xxx_e_cap2_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_6_31               : 26;
+		uint32_t arifwd                      : 1;  /**< RO - ARI forwarding. The bridge does forwarding. */
+		uint32_t reserved_4_0                : 5;
+#else
+		uint32_t reserved_4_0                : 5;
+		uint32_t arifwd                      : 1;
+		uint32_t reserved_6_31               : 26;
+#endif
+	} cn88xx;
+	struct bdk_pccbr_xxx_e_cap2_cn88xx    cn88xxp1;
 } bdk_pccbr_xxx_e_cap2_t;
 
 #define BDK_PCCBR_XXX_E_CAP2 BDK_PCCBR_XXX_E_CAP2_FUNC()

@@ -1395,8 +1395,16 @@ typedef union bdk_smmux_cbx_tlbiasid {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_smmux_cbx_tlbiasid_s    cn88xx; */
-	/* struct bdk_smmux_cbx_tlbiasid_s    cn88xxp1; */
+	struct bdk_smmux_cbx_tlbiasid_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_16              : 16;
+		uint32_t asid                        : 16; /**< WO - ASID to invalidate. */
+#else
+		uint32_t asid                        : 16;
+		uint32_t reserved_31_16              : 16;
+#endif
+	} cn88xx;
+	struct bdk_smmux_cbx_tlbiasid_cn88xx  cn88xxp1;
 } bdk_smmux_cbx_tlbiasid_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIASID(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1442,8 +1450,18 @@ typedef union bdk_smmux_cbx_tlbiipas2 {
 		uint64_t reserved_36_63              : 28;
 #endif
 	} s;
-	/* struct bdk_smmux_cbx_tlbiipas2_s   cn88xx; */
-	/* struct bdk_smmux_cbx_tlbiipas2_s   cn88xxp1; */
+	struct bdk_smmux_cbx_tlbiipas2_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_36              : 28;
+		uint64_t address                     : 36; /**< WO - IPA\<47:12\> to be invalidated. Note this matches the format of the address supplied to
+                                                                 ARMv8 processor TLB invalidation instructions. If the page size for stage 2 is 64kB then
+                                                                 bits corresponding to address\<15:12\> are ignored. */
+#else
+		uint64_t address                     : 36;
+		uint64_t reserved_63_36              : 28;
+#endif
+	} cn88xx;
+	struct bdk_smmux_cbx_tlbiipas2_cn88xx cn88xxp1;
 } bdk_smmux_cbx_tlbiipas2_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1479,8 +1497,18 @@ typedef union bdk_smmux_cbx_tlbiipas2l {
 		uint64_t reserved_36_63              : 28;
 #endif
 	} s;
-	/* struct bdk_smmux_cbx_tlbiipas2l_s  cn88xx; */
-	/* struct bdk_smmux_cbx_tlbiipas2l_s  cn88xxp1; */
+	struct bdk_smmux_cbx_tlbiipas2l_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_36              : 28;
+		uint64_t address                     : 36; /**< WO - IPA\<47:12\> to be invalidated. Note this matches the format of the address supplied to
+                                                                 ARMv8 processor TLB invalidation instructions. If the page size for stage 2 is 64kB then
+                                                                 bits corresponding to address\<15:12\> are ignored. */
+#else
+		uint64_t address                     : 36;
+		uint64_t reserved_63_36              : 28;
+#endif
+	} cn88xx;
+	struct bdk_smmux_cbx_tlbiipas2l_cn88xx cn88xxp1;
 } bdk_smmux_cbx_tlbiipas2l_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2L(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1524,8 +1552,21 @@ typedef union bdk_smmux_cbx_tlbiva {
 		uint64_t asid                        : 16;
 #endif
 	} s;
-	/* struct bdk_smmux_cbx_tlbiva_s      cn88xx; */
-	/* struct bdk_smmux_cbx_tlbiva_s      cn88xxp1; */
+	struct bdk_smmux_cbx_tlbiva_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t asid                        : 16; /**< WO - ASID for which the TLB invalidation should be performed. */
+		uint64_t reserved_47_44              : 4;
+		uint64_t address                     : 44; /**< WO - Address\<55:12\> to be invalidated. Note this matches the format of the address supplied to
+                                                                 the ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then the bits
+                                                                 corresponding to address\<15:12\> are ignored. The address will be extended to bit \<63\> by
+                                                                 copying bit \<55\>. */
+#else
+		uint64_t address                     : 44;
+		uint64_t reserved_47_44              : 4;
+		uint64_t asid                        : 16;
+#endif
+	} cn88xx;
+	struct bdk_smmux_cbx_tlbiva_cn88xx    cn88xxp1;
 } bdk_smmux_cbx_tlbiva_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIVA(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1566,8 +1607,19 @@ typedef union bdk_smmux_cbx_tlbivaa {
 		uint64_t reserved_44_63              : 20;
 #endif
 	} s;
-	/* struct bdk_smmux_cbx_tlbivaa_s     cn88xx; */
-	/* struct bdk_smmux_cbx_tlbivaa_s     cn88xxp1; */
+	struct bdk_smmux_cbx_tlbivaa_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_44              : 20;
+		uint64_t address                     : 44; /**< WO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
+                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
+#else
+		uint64_t address                     : 44;
+		uint64_t reserved_63_44              : 20;
+#endif
+	} cn88xx;
+	struct bdk_smmux_cbx_tlbivaa_cn88xx   cn88xxp1;
 } bdk_smmux_cbx_tlbivaa_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAA(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1604,8 +1656,19 @@ typedef union bdk_smmux_cbx_tlbivaal {
 		uint64_t reserved_44_63              : 20;
 #endif
 	} s;
-	/* struct bdk_smmux_cbx_tlbivaal_s    cn88xx; */
-	/* struct bdk_smmux_cbx_tlbivaal_s    cn88xxp1; */
+	struct bdk_smmux_cbx_tlbivaal_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_44              : 20;
+		uint64_t address                     : 44; /**< WO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
+                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
+#else
+		uint64_t address                     : 44;
+		uint64_t reserved_63_44              : 20;
+#endif
+	} cn88xx;
+	struct bdk_smmux_cbx_tlbivaal_cn88xx  cn88xxp1;
 } bdk_smmux_cbx_tlbivaal_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAAL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1644,8 +1707,21 @@ typedef union bdk_smmux_cbx_tlbival {
 		uint64_t asid                        : 16;
 #endif
 	} s;
-	/* struct bdk_smmux_cbx_tlbival_s     cn88xx; */
-	/* struct bdk_smmux_cbx_tlbival_s     cn88xxp1; */
+	struct bdk_smmux_cbx_tlbival_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t asid                        : 16; /**< WO - ASID for which the TLB invalidation should be performed. */
+		uint64_t reserved_47_44              : 4;
+		uint64_t address                     : 44; /**< WO - Address\<55:12\> to be invalidated. Note this matches the format of the address supplied to
+                                                                 the ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then the bits
+                                                                 corresponding to address\<15:12\> are ignored. The address will be extended to bit \<63\> by
+                                                                 copying bit \<55\>. */
+#else
+		uint64_t address                     : 44;
+		uint64_t reserved_47_44              : 4;
+		uint64_t asid                        : 16;
+#endif
+	} cn88xx;
+	struct bdk_smmux_cbx_tlbival_cn88xx   cn88xxp1;
 } bdk_smmux_cbx_tlbival_t;
 
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -5285,8 +5361,19 @@ typedef union bdk_smmux_stlbivalm {
 		uint64_t reserved_44_63              : 20;
 #endif
 	} s;
-	/* struct bdk_smmux_stlbivalm_s       cn88xx; */
-	/* struct bdk_smmux_stlbivalm_s       cn88xxp1; */
+	struct bdk_smmux_stlbivalm_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_44              : 20;
+		uint64_t address                     : 44; /**< SWO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
+                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
+#else
+		uint64_t address                     : 44;
+		uint64_t reserved_63_44              : 20;
+#endif
+	} cn88xx;
+	struct bdk_smmux_stlbivalm_cn88xx     cn88xxp1;
 } bdk_smmux_stlbivalm_t;
 
 static inline uint64_t BDK_SMMUX_STLBIVALM(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5325,8 +5412,19 @@ typedef union bdk_smmux_stlbivam {
 		uint64_t reserved_44_63              : 20;
 #endif
 	} s;
-	/* struct bdk_smmux_stlbivam_s        cn88xx; */
-	/* struct bdk_smmux_stlbivam_s        cn88xxp1; */
+	struct bdk_smmux_stlbivam_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_44              : 20;
+		uint64_t address                     : 44; /**< SWO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
+                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
+#else
+		uint64_t address                     : 44;
+		uint64_t reserved_63_44              : 20;
+#endif
+	} cn88xx;
+	struct bdk_smmux_stlbivam_cn88xx      cn88xxp1;
 } bdk_smmux_stlbivam_t;
 
 static inline uint64_t BDK_SMMUX_STLBIVAM(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5454,8 +5552,14 @@ typedef union bdk_smmux_tlbivah {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_smmux_tlbivah_s         cn88xx; */
-	/* struct bdk_smmux_tlbivah_s         cn88xxp1; */
+	struct bdk_smmux_tlbivah_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_0               : 32;
+#else
+		uint32_t reserved_31_0               : 32;
+#endif
+	} cn88xx;
+	struct bdk_smmux_tlbivah_cn88xx       cn88xxp1;
 } bdk_smmux_tlbivah_t;
 
 static inline uint64_t BDK_SMMUX_TLBIVAH(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5492,8 +5596,19 @@ typedef union bdk_smmux_tlbivah64 {
 		uint64_t reserved_44_63              : 20;
 #endif
 	} s;
-	/* struct bdk_smmux_tlbivah64_s       cn88xx; */
-	/* struct bdk_smmux_tlbivah64_s       cn88xxp1; */
+	struct bdk_smmux_tlbivah64_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_44              : 20;
+		uint64_t address                     : 44; /**< WO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
+                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
+#else
+		uint64_t address                     : 44;
+		uint64_t reserved_63_44              : 20;
+#endif
+	} cn88xx;
+	struct bdk_smmux_tlbivah64_cn88xx     cn88xxp1;
 } bdk_smmux_tlbivah64_t;
 
 static inline uint64_t BDK_SMMUX_TLBIVAH64(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5532,8 +5647,19 @@ typedef union bdk_smmux_tlbivalh64 {
 		uint64_t reserved_44_63              : 20;
 #endif
 	} s;
-	/* struct bdk_smmux_tlbivalh64_s      cn88xx; */
-	/* struct bdk_smmux_tlbivalh64_s      cn88xxp1; */
+	struct bdk_smmux_tlbivalh64_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_44              : 20;
+		uint64_t address                     : 44; /**< WO - Virtual address \<55:12\> to be invalidated. Note: this matches the format of the addresses
+                                                                 supplied to ARMv8 processor TLBI invalidation instructions. If the page size is 64kB then
+                                                                 bits corresponding to ADDRESS\<15:12\> are ignored. The address will be extended to bit \<63\>
+                                                                 by copying bit \<55\>. */
+#else
+		uint64_t address                     : 44;
+		uint64_t reserved_63_44              : 20;
+#endif
+	} cn88xx;
+	struct bdk_smmux_tlbivalh64_cn88xx    cn88xxp1;
 } bdk_smmux_tlbivalh64_t;
 
 static inline uint64_t BDK_SMMUX_TLBIVALH64(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5568,8 +5694,17 @@ typedef union bdk_smmux_tlbivmid {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_smmux_tlbivmid_s        cn88xx; */
-	/* struct bdk_smmux_tlbivmid_s        cn88xxp1; */
+	struct bdk_smmux_tlbivmid_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_16              : 16;
+		uint32_t vmid                        : 16; /**< WO - The virtual machine identifier to use in the invalidate operation. INTERNAL: Bits 15:8
+                                                                 defined by the large system extensions. */
+#else
+		uint32_t vmid                        : 16;
+		uint32_t reserved_31_16              : 16;
+#endif
+	} cn88xx;
+	struct bdk_smmux_tlbivmid_cn88xx      cn88xxp1;
 } bdk_smmux_tlbivmid_t;
 
 static inline uint64_t BDK_SMMUX_TLBIVMID(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -5606,8 +5741,17 @@ typedef union bdk_smmux_tlbivmids1 {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_smmux_tlbivmids1_s      cn88xx; */
-	/* struct bdk_smmux_tlbivmids1_s      cn88xxp1; */
+	struct bdk_smmux_tlbivmids1_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_16              : 16;
+		uint32_t vmid                        : 16; /**< WO - The virtual machine identifier to use in the invalidate operation. INTERNAL: Bits 15:8
+                                                                 defined by the large system extensions. */
+#else
+		uint32_t vmid                        : 16;
+		uint32_t reserved_31_16              : 16;
+#endif
+	} cn88xx;
+	struct bdk_smmux_tlbivmids1_cn88xx    cn88xxp1;
 } bdk_smmux_tlbivmids1_t;
 
 static inline uint64_t BDK_SMMUX_TLBIVMIDS1(unsigned long param1) __attribute__ ((pure, always_inline));

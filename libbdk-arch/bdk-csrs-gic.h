@@ -2625,8 +2625,14 @@ typedef union bdk_gicrx_invallr {
 		uint64_t reserved_0_63               : 64;
 #endif
 	} s;
-	/* struct bdk_gicrx_invallr_s         cn88xx; */
-	/* struct bdk_gicrx_invallr_s         cn88xxp1; */
+	struct bdk_gicrx_invallr_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_0               : 64;
+#else
+		uint64_t reserved_63_0               : 64;
+#endif
+	} cn88xx;
+	struct bdk_gicrx_invallr_cn88xx       cn88xxp1;
 } bdk_gicrx_invallr_t;
 
 static inline uint64_t BDK_GICRX_INVALLR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2851,8 +2857,18 @@ typedef union bdk_gicrx_movallr {
 		uint64_t pa                          : 32;
 #endif
 	} s;
-	/* struct bdk_gicrx_movallr_s         cn88xx; */
-	/* struct bdk_gicrx_movallr_s         cn88xxp1; */
+	struct bdk_gicrx_movallr_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t pa                          : 32; /**< WO - Target address \<47:16\>. Base address of the redistributor to which pending LPIs are to be
+                                                                 moved.
+                                                                 If GICR_(S)CTLR[ENABLE_LPIS] is zero, the write has no effect. */
+		uint64_t reserved_31_0               : 32;
+#else
+		uint64_t reserved_31_0               : 32;
+		uint64_t pa                          : 32;
+#endif
+	} cn88xx;
+	struct bdk_gicrx_movallr_cn88xx       cn88xxp1;
 } bdk_gicrx_movallr_t;
 
 static inline uint64_t BDK_GICRX_MOVALLR(unsigned long param1) __attribute__ ((pure, always_inline));

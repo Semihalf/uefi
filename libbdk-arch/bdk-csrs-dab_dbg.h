@@ -74,8 +74,14 @@ typedef union bdk_dab_rom_tablex {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_dab_rom_tablex_s        cn88xx; */
-	/* struct bdk_dab_rom_tablex_s        cn88xxp1; */
+	struct bdk_dab_rom_tablex_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_0               : 32;
+#else
+		uint32_t reserved_31_0               : 32;
+#endif
+	} cn88xx;
+	struct bdk_dab_rom_tablex_cn88xx      cn88xxp1;
 } bdk_dab_rom_tablex_t;
 
 static inline uint64_t BDK_DAB_ROM_TABLEX(unsigned long param1) __attribute__ ((pure, always_inline));

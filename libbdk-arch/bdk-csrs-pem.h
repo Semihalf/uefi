@@ -1290,8 +1290,24 @@ typedef union bdk_pemx_diag_status {
 		uint64_t reserved_9_63               : 55;
 #endif
 	} s;
-	/* struct bdk_pemx_diag_status_s      cn88xx; */
-	/* struct bdk_pemx_diag_status_s      cn88xxp1; */
+	struct bdk_pemx_diag_status_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_9               : 55;
+		uint64_t pwrdwn                      : 3;  /**< RO/H - Current mac_phy_powerdown state. */
+		uint64_t pm_dst                      : 3;  /**< RO/H - Current power management DSTATE. */
+		uint64_t pm_stat                     : 1;  /**< RO - Power management status. */
+		uint64_t pm_en                       : 1;  /**< RO - Power management event enable. */
+		uint64_t aux_en                      : 1;  /**< RO - Auxiliary power enable. Always read as zero as auxiliary power is not supported. */
+#else
+		uint64_t aux_en                      : 1;
+		uint64_t pm_en                       : 1;
+		uint64_t pm_stat                     : 1;
+		uint64_t pm_dst                      : 3;
+		uint64_t pwrdwn                      : 3;
+		uint64_t reserved_63_9               : 55;
+#endif
+	} cn88xx;
+	struct bdk_pemx_diag_status_cn88xx    cn88xxp1;
 } bdk_pemx_diag_status_t;
 
 static inline uint64_t BDK_PEMX_DIAG_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));

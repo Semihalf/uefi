@@ -289,8 +289,18 @@ typedef union bdk_usbhx_uahc_caplength {
 		uint32_t hciversion                  : 16;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_caplength_s  cn88xx; */
-	/* struct bdk_usbhx_uahc_caplength_s  cn88xxp1; */
+	struct bdk_usbhx_uahc_caplength_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t hciversion                  : 16; /**< RO - Host controller interface version number. */
+		uint32_t reserved_15_8               : 8;
+		uint32_t caplength                   : 8;  /**< RO - Capability registers length. */
+#else
+		uint32_t caplength                   : 8;
+		uint32_t reserved_15_8               : 8;
+		uint32_t hciversion                  : 16;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_caplength_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_caplength_t;
 
 static inline uint64_t BDK_USBHX_UAHC_CAPLENGTH(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -328,8 +338,16 @@ typedef union bdk_usbhx_uahc_config {
 		uint32_t reserved_8_31               : 24;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_config_s     cn88xx; */
-	/* struct bdk_usbhx_uahc_config_s     cn88xxp1; */
+	struct bdk_usbhx_uahc_config_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_8               : 24;
+		uint32_t maxslotsen                  : 8;  /**< R/W - Maximum device slots enabled. */
+#else
+		uint32_t maxslotsen                  : 8;
+		uint32_t reserved_31_8               : 24;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_config_cn88xx   cn88xxp1;
 } bdk_usbhx_uahc_config_t;
 
 static inline uint64_t BDK_USBHX_UAHC_CONFIG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -375,8 +393,24 @@ typedef union bdk_usbhx_uahc_crcr {
 		uint64_t cmd_ring_ptr                : 58;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_crcr_s       cn88xx; */
-	/* struct bdk_usbhx_uahc_crcr_s       cn88xxp1; */
+	struct bdk_usbhx_uahc_crcr_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t cmd_ring_ptr                : 58; /**< WO - Command ring pointer. */
+		uint64_t reserved_5_4                : 2;
+		uint64_t crr                         : 1;  /**< RO/H - Command ring running. */
+		uint64_t ca                          : 1;  /**< WO - Command abort. */
+		uint64_t cs                          : 1;  /**< WO - Command stop. */
+		uint64_t rcs                         : 1;  /**< WO - Ring cycle state. */
+#else
+		uint64_t rcs                         : 1;
+		uint64_t cs                          : 1;
+		uint64_t ca                          : 1;
+		uint64_t crr                         : 1;
+		uint64_t reserved_5_4                : 2;
+		uint64_t cmd_ring_ptr                : 58;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_crcr_cn88xx     cn88xxp1;
 } bdk_usbhx_uahc_crcr_t;
 
 static inline uint64_t BDK_USBHX_UAHC_CRCR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -418,8 +452,18 @@ typedef union bdk_usbhx_uahc_dbx {
 		uint32_t dbstreamid                  : 16;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_dbx_s        cn88xx; */
-	/* struct bdk_usbhx_uahc_dbx_s        cn88xxp1; */
+	struct bdk_usbhx_uahc_dbx_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t dbstreamid                  : 16; /**< WO - Doorbell stream ID. */
+		uint32_t reserved_15_8               : 8;
+		uint32_t dbtarget                    : 8;  /**< WO - Doorbell target. */
+#else
+		uint32_t dbtarget                    : 8;
+		uint32_t reserved_15_8               : 8;
+		uint32_t dbstreamid                  : 16;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_dbx_cn88xx      cn88xxp1;
 } bdk_usbhx_uahc_dbx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DBX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -453,8 +497,16 @@ typedef union bdk_usbhx_uahc_dboff {
 		uint32_t dboff                       : 30;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_dboff_s      cn88xx; */
-	/* struct bdk_usbhx_uahc_dboff_s      cn88xxp1; */
+	struct bdk_usbhx_uahc_dboff_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t dboff                       : 30; /**< RO - Doorbell array offset. */
+		uint32_t reserved_1_0                : 2;
+#else
+		uint32_t reserved_1_0                : 2;
+		uint32_t dboff                       : 30;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_dboff_cn88xx    cn88xxp1;
 } bdk_usbhx_uahc_dboff_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DBOFF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -492,8 +544,16 @@ typedef union bdk_usbhx_uahc_dcbaap {
 		uint64_t dcbaap                      : 58;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_dcbaap_s     cn88xx; */
-	/* struct bdk_usbhx_uahc_dcbaap_s     cn88xxp1; */
+	struct bdk_usbhx_uahc_dcbaap_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t dcbaap                      : 58; /**< R/W - Device context base address array pointer. */
+		uint64_t reserved_5_0                : 6;
+#else
+		uint64_t reserved_5_0                : 6;
+		uint64_t dcbaap                      : 58;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_dcbaap_cn88xx   cn88xxp1;
 } bdk_usbhx_uahc_dcbaap_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DCBAAP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -531,8 +591,16 @@ typedef union bdk_usbhx_uahc_dnctrl {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_dnctrl_s     cn88xx; */
-	/* struct bdk_usbhx_uahc_dnctrl_s     cn88xxp1; */
+	struct bdk_usbhx_uahc_dnctrl_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_16              : 16;
+		uint32_t n                           : 16; /**< R/W - Notification enable. */
+#else
+		uint32_t n                           : 16;
+		uint32_t reserved_31_16              : 16;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_dnctrl_cn88xx   cn88xxp1;
 } bdk_usbhx_uahc_dnctrl_t;
 
 static inline uint64_t BDK_USBHX_UAHC_DNCTRL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -611,8 +679,16 @@ typedef union bdk_usbhx_uahc_erstbax {
 		uint64_t erstba                      : 58;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_erstbax_s    cn88xx; */
-	/* struct bdk_usbhx_uahc_erstbax_s    cn88xxp1; */
+	struct bdk_usbhx_uahc_erstbax_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t erstba                      : 58; /**< R/W - Event-ring segment-table base-address bits\<63:6\>. */
+		uint64_t reserved_5_0                : 6;
+#else
+		uint64_t reserved_5_0                : 6;
+		uint64_t erstba                      : 58;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_erstbax_cn88xx  cn88xxp1;
 } bdk_usbhx_uahc_erstbax_t;
 
 static inline uint64_t BDK_USBHX_UAHC_ERSTBAX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -650,8 +726,16 @@ typedef union bdk_usbhx_uahc_erstszx {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_erstszx_s    cn88xx; */
-	/* struct bdk_usbhx_uahc_erstszx_s    cn88xxp1; */
+	struct bdk_usbhx_uahc_erstszx_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_16              : 16;
+		uint32_t erstsz                      : 16; /**< R/W - Event-ring segment-table size. */
+#else
+		uint32_t erstsz                      : 16;
+		uint32_t reserved_31_16              : 16;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_erstszx_cn88xx  cn88xxp1;
 } bdk_usbhx_uahc_erstszx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_ERSTSZX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1008,8 +1092,31 @@ typedef union bdk_usbhx_uahc_gdbgfifospace {
 		uint32_t spaceavailable              : 16;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_gdbgfifospace_s cn88xx; */
-	/* struct bdk_usbhx_uahc_gdbgfifospace_s cn88xxp1; */
+	struct bdk_usbhx_uahc_gdbgfifospace_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t spaceavailable              : 16; /**< RO/H - Space available in the selected FIFO. */
+		uint32_t reserved_15_9               : 7;
+		uint32_t select                      : 9;  /**< R/W - FIFO/queue select/port-select.
+                                                                 FIFO/queue select: \<7:5\> indicates the FIFO/queue type; \<4:0\> indicates the FIFO/queue
+                                                                 number.
+                                                                 For example, 0x21 refers to RxFIFO_1, and 0x5E refers to TxReqQ_30.
+                                                                 0x1F-0x0: TxFIFO_31 to TxFIFO_0.
+                                                                 0x3F-0x20: RxFIFO_31 to RxFIFO_0.
+                                                                 0x5F-0x40: TxReqQ_31 to TxReqQ_0.
+                                                                 0x7F-0x60: RxReqQ_31 to RxReqQ_0.
+                                                                 0x9F-0x80: RxInfoQ_31 to RxInfoQ_0.
+                                                                 0xA0: DescFetchQ.
+                                                                 0xA1: EventQ.
+                                                                 0xA2: ProtocolStatusQ.
+
+                                                                 Port-select: \<3:0\> selects the port-number when accessing USBH()_UAHC_GDBGLTSSM. */
+#else
+		uint32_t select                      : 9;
+		uint32_t reserved_15_9               : 7;
+		uint32_t spaceavailable              : 16;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_gdbgfifospace_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_gdbgfifospace_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGFIFOSPACE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1048,8 +1155,18 @@ typedef union bdk_usbhx_uahc_gdbglnmcc {
 		uint32_t reserved_9_31               : 23;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_gdbglnmcc_s  cn88xx; */
-	/* struct bdk_usbhx_uahc_gdbglnmcc_s  cn88xxp1; */
+	struct bdk_usbhx_uahc_gdbglnmcc_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_9               : 23;
+		uint32_t lnmcc_berc                  : 9;  /**< RO/H - This field indicates the bit-error-rate information for the port selected in
+                                                                 USBH()_UAHC_GDBGFIFOSPACE[SELECT] (port-select).
+                                                                 This field is for debug purposes only. */
+#else
+		uint32_t lnmcc_berc                  : 9;
+		uint32_t reserved_31_9               : 23;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_gdbglnmcc_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_gdbglnmcc_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGLNMCC(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1265,8 +1382,20 @@ typedef union bdk_usbhx_uahc_gdmahlratio {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_gdmahlratio_s cn88xx; */
-	/* struct bdk_usbhx_uahc_gdmahlratio_s cn88xxp1; */
+	struct bdk_usbhx_uahc_gdmahlratio_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_13              : 19;
+		uint32_t rx_ratio                    : 5;  /**< R/W - Speed ratio for RX arbitration. */
+		uint32_t reserved_7_5                : 3;
+		uint32_t tx_ratio                    : 5;  /**< R/W - Speed ratio for TX arbitration. */
+#else
+		uint32_t tx_ratio                    : 5;
+		uint32_t reserved_7_5                : 3;
+		uint32_t rx_ratio                    : 5;
+		uint32_t reserved_31_13              : 19;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_gdmahlratio_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_gdmahlratio_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDMAHLRATIO(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1633,8 +1762,34 @@ typedef union bdk_usbhx_uahc_ghwparams3 {
 		uint32_t reserved_31_31              : 1;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_ghwparams3_s cn88xx; */
-	/* struct bdk_usbhx_uahc_ghwparams3_s cn88xxp1; */
+	struct bdk_usbhx_uahc_ghwparams3_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_31              : 1;
+		uint32_t cache_total_xfer_resources  : 8;  /**< RO - Maximum number of transfer resources in the core. */
+		uint32_t num_in_eps                  : 5;  /**< RO - Maximum number of device-mode (unsupported) IN endpoints active. */
+		uint32_t num_eps                     : 6;  /**< RO - Number of device-mode (unsupported) single-directional endpoints. */
+		uint32_t ulpi_carkit                 : 1;  /**< RO - ULPI Carkit is not supported. */
+		uint32_t vendor_ctl_interface        : 1;  /**< RO - UTMI+ PHY vendor control interface enabled. */
+		uint32_t reserved_9_8                : 2;
+		uint32_t hsphy_dwidth                : 2;  /**< RO - Data width of the UTMI+ PHY interface: 0x2 = 8-or-16 bits. */
+		uint32_t fsphy_interface             : 2;  /**< RO - USB 1.1 full-speed serial transceiver interface. */
+		uint32_t hsphy_interface             : 2;  /**< RO - High-speed PHY interface: 0x1 = UTMI+. */
+		uint32_t ssphy_interface             : 2;  /**< RO - SuperSpeed PHY interface: 0x1 = PIPE3. */
+#else
+		uint32_t ssphy_interface             : 2;
+		uint32_t hsphy_interface             : 2;
+		uint32_t fsphy_interface             : 2;
+		uint32_t hsphy_dwidth                : 2;
+		uint32_t reserved_9_8                : 2;
+		uint32_t vendor_ctl_interface        : 1;
+		uint32_t ulpi_carkit                 : 1;
+		uint32_t num_eps                     : 6;
+		uint32_t num_in_eps                  : 5;
+		uint32_t cache_total_xfer_resources  : 8;
+		uint32_t reserved_31_31              : 1;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_ghwparams3_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_ghwparams3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1683,8 +1838,30 @@ typedef union bdk_usbhx_uahc_ghwparams4 {
 		uint32_t bmu_lsp_depth               : 4;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_ghwparams4_s cn88xx; */
-	/* struct bdk_usbhx_uahc_ghwparams4_s cn88xxp1; */
+	struct bdk_usbhx_uahc_ghwparams4_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t bmu_lsp_depth               : 4;  /**< RO - Depth of the BMU-LSP status buffer. */
+		uint32_t bmu_ptl_depth_m1            : 4;  /**< RO - Depth of the BMU-PTL source/sink buffers minus 1. */
+		uint32_t en_isoc_supt                : 1;  /**< RO - Isochronous support enabled. */
+		uint32_t reserved_22_22              : 1;
+		uint32_t ext_buff_control            : 1;  /**< RO - Enables device external buffer control sideband controls. */
+		uint32_t num_ss_usb_instances        : 4;  /**< RO - Number of SuperSpeed bus instances. */
+		uint32_t hiber_scratchbufs           : 4;  /**< RO - Number of hibernation scratchpad buffers. */
+		uint32_t reserved_12_6               : 7;
+		uint32_t cache_trbs_per_transfer     : 6;  /**< RO - Number of TRBs per transfer that can be cached. */
+#else
+		uint32_t cache_trbs_per_transfer     : 6;
+		uint32_t reserved_12_6               : 7;
+		uint32_t hiber_scratchbufs           : 4;
+		uint32_t num_ss_usb_instances        : 4;
+		uint32_t ext_buff_control            : 1;
+		uint32_t reserved_22_22              : 1;
+		uint32_t en_isoc_supt                : 1;
+		uint32_t bmu_ptl_depth_m1            : 4;
+		uint32_t bmu_lsp_depth               : 4;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_ghwparams4_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_ghwparams4_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS4(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1727,8 +1904,24 @@ typedef union bdk_usbhx_uahc_ghwparams5 {
 		uint32_t reserved_28_31              : 4;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_ghwparams5_s cn88xx; */
-	/* struct bdk_usbhx_uahc_ghwparams5_s cn88xxp1; */
+	struct bdk_usbhx_uahc_ghwparams5_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_28              : 4;
+		uint32_t dfq_fifo_depth              : 6;  /**< RO - Size of the BMU descriptor fetch-request queue. */
+		uint32_t dwq_fifo_depth              : 6;  /**< RO - Size of the BMU descriptor write queue. */
+		uint32_t txq_fifo_depth              : 6;  /**< RO - Size of the BMU TX request queue. */
+		uint32_t rxq_fifo_depth              : 6;  /**< RO - Size of the BMU RX request queue. */
+		uint32_t bmu_busgm_depth             : 4;  /**< RO - Depth of the BMU-BUSGM source/sink buffers. */
+#else
+		uint32_t bmu_busgm_depth             : 4;
+		uint32_t rxq_fifo_depth              : 6;
+		uint32_t txq_fifo_depth              : 6;
+		uint32_t dwq_fifo_depth              : 6;
+		uint32_t dfq_fifo_depth              : 6;
+		uint32_t reserved_31_28              : 4;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_ghwparams5_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_ghwparams5_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS5(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1781,8 +1974,34 @@ typedef union bdk_usbhx_uahc_ghwparams6 {
 		uint32_t ram0_depth                  : 16;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_ghwparams6_s cn88xx; */
-	/* struct bdk_usbhx_uahc_ghwparams6_s cn88xxp1; */
+	struct bdk_usbhx_uahc_ghwparams6_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t ram0_depth                  : 16; /**< RO - RAM0 Depth. */
+		uint32_t en_bus_filters              : 1;  /**< RO - Enable VBus filters support. */
+		uint32_t en_bc                       : 1;  /**< RO - Enable battery-charging support. */
+		uint32_t en_otg_ss                   : 1;  /**< RO - Enable OTG SuperSpeed support. */
+		uint32_t en_adp                      : 1;  /**< RO - Enable ADP support. */
+		uint32_t hnp_support                 : 1;  /**< RO - HNP support. */
+		uint32_t srp_support                 : 1;  /**< RO - SRP support. */
+		uint32_t reserved_9_8                : 2;
+		uint32_t en_fpga                     : 1;  /**< RO - Enable FPGA implementation. */
+		uint32_t en_dbg_ports                : 1;  /**< RO - Enable Debug ports for FGPA. */
+		uint32_t psq_fifo_depth              : 6;  /**< RO - Size of the BMU-protocol status queue. */
+#else
+		uint32_t psq_fifo_depth              : 6;
+		uint32_t en_dbg_ports                : 1;
+		uint32_t en_fpga                     : 1;
+		uint32_t reserved_9_8                : 2;
+		uint32_t srp_support                 : 1;
+		uint32_t hnp_support                 : 1;
+		uint32_t en_adp                      : 1;
+		uint32_t en_otg_ss                   : 1;
+		uint32_t en_bc                       : 1;
+		uint32_t en_bus_filters              : 1;
+		uint32_t ram0_depth                  : 16;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_ghwparams6_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_ghwparams6_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS6(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1915,8 +2134,37 @@ typedef union bdk_usbhx_uahc_gpmsts {
 		uint32_t portsel                     : 4;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_gpmsts_s     cn88xx; */
-	/* struct bdk_usbhx_uahc_gpmsts_s     cn88xxp1; */
+	struct bdk_usbhx_uahc_gpmsts_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t portsel                     : 4;  /**< WO - This field selects the port number. Always 0x0. */
+		uint32_t reserved_27_17              : 11;
+		uint32_t u3wakeup                    : 5;  /**< RO/H - This field gives the USB 3.0 port wakeup conditions.
+                                                                 bit\<12\> = Overcurrent detected.
+                                                                 bit\<13\> = Resume detected.
+                                                                 bit\<14\> = Connect detected.
+                                                                 bit\<15\> = Disconnect detected.
+                                                                 bit\<16\> = Last connection state. */
+		uint32_t reserved_11_10              : 2;
+		uint32_t u2wakeup                    : 10; /**< RO/H - This field indicates the USB 2.0 port wakeup conditions.
+                                                                 bit\<0\> = Overcurrent detected.
+                                                                 bit\<1\> = Resume detected.
+                                                                 bit\<2\> = Connect detected.
+                                                                 bit\<3\> = Disconnect detected.
+                                                                 bit\<4\> = Last connection state.
+                                                                 bit\<5\> = ID change detected.
+                                                                 bit\<6\> = SRP request detected.
+                                                                 bit\<7\> = ULPI interrupt detected.
+                                                                 bit\<8\> = USB reset detected.
+                                                                 bit\<9\> = Resume detected changed. */
+#else
+		uint32_t u2wakeup                    : 10;
+		uint32_t reserved_11_10              : 2;
+		uint32_t u3wakeup                    : 5;
+		uint32_t reserved_27_17              : 11;
+		uint32_t portsel                     : 4;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_gpmsts_cn88xx   cn88xxp1;
 } bdk_usbhx_uahc_gpmsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPMSTS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1957,8 +2205,16 @@ typedef union bdk_usbhx_uahc_gprtbimap {
 		uint64_t reserved_4_63               : 60;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_gprtbimap_s  cn88xx; */
-	/* struct bdk_usbhx_uahc_gprtbimap_s  cn88xxp1; */
+	struct bdk_usbhx_uahc_gprtbimap_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_4               : 60;
+		uint64_t binum1                      : 4;  /**< R/W - SuperSpeed USB instance number for port 1. */
+#else
+		uint64_t binum1                      : 4;
+		uint64_t reserved_63_4               : 60;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_gprtbimap_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_gprtbimap_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1999,8 +2255,16 @@ typedef union bdk_usbhx_uahc_gprtbimap_fs {
 		uint64_t reserved_4_63               : 60;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_gprtbimap_fs_s cn88xx; */
-	/* struct bdk_usbhx_uahc_gprtbimap_fs_s cn88xxp1; */
+	struct bdk_usbhx_uahc_gprtbimap_fs_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_4               : 60;
+		uint64_t binum1                      : 4;  /**< R/W - Full-speed USB instance number for port 1. */
+#else
+		uint64_t binum1                      : 4;
+		uint64_t reserved_63_4               : 60;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_gprtbimap_fs_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_gprtbimap_fs_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2041,8 +2305,16 @@ typedef union bdk_usbhx_uahc_gprtbimap_hs {
 		uint64_t reserved_4_63               : 60;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_gprtbimap_hs_s cn88xx; */
-	/* struct bdk_usbhx_uahc_gprtbimap_hs_s cn88xxp1; */
+	struct bdk_usbhx_uahc_gprtbimap_hs_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_4               : 60;
+		uint64_t binum1                      : 4;  /**< R/W - High-speed USB instance number for port 1. */
+#else
+		uint64_t binum1                      : 4;
+		uint64_t reserved_63_4               : 60;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_gprtbimap_hs_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_gprtbimap_hs_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2136,8 +2408,16 @@ typedef union bdk_usbhx_uahc_grxfifoprihst {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_grxfifoprihst_s cn88xx; */
-	/* struct bdk_usbhx_uahc_grxfifoprihst_s cn88xxp1; */
+	struct bdk_usbhx_uahc_grxfifoprihst_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_3               : 29;
+		uint32_t rx_priority                 : 3;  /**< R/W - Each register bit[n] controls the priority (1 = high, 0 = low) of RXFIFO[n] within a speed group. */
+#else
+		uint32_t rx_priority                 : 3;
+		uint32_t reserved_31_3               : 29;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_grxfifoprihst_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_grxfifoprihst_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2404,8 +2684,33 @@ typedef union bdk_usbhx_uahc_gsbuscfg1 {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_gsbuscfg1_s  cn88xx; */
-	/* struct bdk_usbhx_uahc_gsbuscfg1_s  cn88xxp1; */
+	struct bdk_usbhx_uahc_gsbuscfg1_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_13              : 19;
+		uint32_t en1kpage                    : 1;  /**< R/W - 1K page-boundary enable.
+                                                                 0 = Break transfers at the 4K page boundary (default).
+                                                                 1 = Break transfers at the 1K page boundary. */
+		uint32_t pipetranslimit              : 4;  /**< R/W - AXI pipelined transfers burst-request limit. Controls the number of outstanding pipelined
+                                                                 transfers requests the AXI master will push to the AXI slave. Once the AXI master reaches
+                                                                 this limit, it does not make more requests on the AXI ARADDR and AWADDR buses until the
+                                                                 associated data phases complete. This field is encoded as follows:
+                                                                 0x0 = 1 request. 0x8 = 9 requests.
+                                                                 0x1 = 2 requests. 0x9 = 10 requests.
+                                                                 0x2 = 3 requests. 0xA = 11 requests.
+                                                                 0x3 = 4 requests. 0xB = 12 requests.
+                                                                 0x4 = 5 requests. 0xC = 13 requests.
+                                                                 0x5 = 6 requests. 0xD = 14 requests.
+                                                                 0x6 = 7 requests. 0xE = 15 requests.
+                                                                 0x7 = 8 requests. 0xF = 16 requests. */
+		uint32_t reserved_0_7                : 8;
+#else
+		uint32_t reserved_0_7                : 8;
+		uint32_t pipetranslimit              : 4;
+		uint32_t en1kpage                    : 1;
+		uint32_t reserved_31_13              : 19;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_gsbuscfg1_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_gsbuscfg1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2457,8 +2762,33 @@ typedef union bdk_usbhx_uahc_gsts {
 		uint32_t cbelt                       : 12;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_gsts_s       cn88xx; */
-	/* struct bdk_usbhx_uahc_gsts_s       cn88xxp1; */
+	struct bdk_usbhx_uahc_gsts_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t cbelt                       : 12; /**< RO/H - Current BELT value. In host mode, indicates the minimum value of all received device BELT
+                                                                 values and the BELT value that is set by the set latency tolerance value command. */
+		uint32_t reserved_19_8               : 12;
+		uint32_t host_ip                     : 1;  /**< RO/H - Host interrupt pending. Indicates that there is a pending interrupt pertaining to xHC in
+                                                                 the host-event queue. */
+		uint32_t reserved_6_6                : 1;
+		uint32_t csrtimeout                  : 1;  /**< R/W1C/H - CSR timeout. When set to 1, indicates that software performed a write or read operation to
+                                                                 a core register that could not be completed within 0xFFFF controller-clock cycles. */
+		uint32_t buserraddrvld               : 1;  /**< R/W1C/H - Bus-error address valid. Indicates that USBH()_UAHC_GBUSERRADDR is valid and reports the
+                                                                 first bus address that encounters a bus error. */
+		uint32_t reserved_3_2                : 2;
+		uint32_t curmod                      : 2;  /**< RO - Current mode of operation. Always 0x1. INTERNAL: May vary from 0x1 if you write
+                                                                 USBH()_UAHC_GCTL[PRTCAPDIR]!=0x1. */
+#else
+		uint32_t curmod                      : 2;
+		uint32_t reserved_3_2                : 2;
+		uint32_t buserraddrvld               : 1;
+		uint32_t csrtimeout                  : 1;
+		uint32_t reserved_6_6                : 1;
+		uint32_t host_ip                     : 1;
+		uint32_t reserved_19_8               : 12;
+		uint32_t cbelt                       : 12;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_gsts_cn88xx     cn88xxp1;
 } bdk_usbhx_uahc_gsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GSTS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2516,8 +2846,17 @@ typedef union bdk_usbhx_uahc_gtxfifoprihst {
 		uint32_t reserved_3_31               : 29;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_gtxfifoprihst_s cn88xx; */
-	/* struct bdk_usbhx_uahc_gtxfifoprihst_s cn88xxp1; */
+	struct bdk_usbhx_uahc_gtxfifoprihst_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_3               : 29;
+		uint32_t tx_priority                 : 3;  /**< R/W - Each register bit n controls the priority (1: high, 0: low) of TX FIFO\<n\> within a speed
+                                                                 group. */
+#else
+		uint32_t tx_priority                 : 3;
+		uint32_t reserved_31_3               : 29;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_gtxfifoprihst_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_gtxfifoprihst_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2939,8 +3278,14 @@ typedef union bdk_usbhx_uahc_gusb2i2cctlx {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_gusb2i2cctlx_s cn88xx; */
-	/* struct bdk_usbhx_uahc_gusb2i2cctlx_s cn88xxp1; */
+	struct bdk_usbhx_uahc_gusb2i2cctlx_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_0               : 32;
+#else
+		uint32_t reserved_31_0               : 32;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_gusb2i2cctlx_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_gusb2i2cctlx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3360,8 +3705,20 @@ typedef union bdk_usbhx_uahc_hcsparams1 {
 		uint32_t maxports                    : 8;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_hcsparams1_s cn88xx; */
-	/* struct bdk_usbhx_uahc_hcsparams1_s cn88xxp1; */
+	struct bdk_usbhx_uahc_hcsparams1_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t maxports                    : 8;  /**< RO - Maximum number of ports. */
+		uint32_t reserved_23_19              : 5;
+		uint32_t maxintrs                    : 11; /**< RO - Maximum number of interrupters. */
+		uint32_t maxslots                    : 8;  /**< RO - Maximum number of device slots. */
+#else
+		uint32_t maxslots                    : 8;
+		uint32_t maxintrs                    : 11;
+		uint32_t reserved_23_19              : 5;
+		uint32_t maxports                    : 8;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_hcsparams1_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_hcsparams1_t;
 
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS1(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3403,8 +3760,24 @@ typedef union bdk_usbhx_uahc_hcsparams2 {
 		uint32_t maxscratchpadbufs_l         : 5;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_hcsparams2_s cn88xx; */
-	/* struct bdk_usbhx_uahc_hcsparams2_s cn88xxp1; */
+	struct bdk_usbhx_uahc_hcsparams2_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t maxscratchpadbufs_l         : 5;  /**< RO - Maximum number of scratchpad buffers[4:0]. */
+		uint32_t reserved_26_26              : 1;
+		uint32_t maxscratchpadbufs_h         : 5;  /**< RO - Maximum number of scratchpad buffers[9:5]. */
+		uint32_t reserved_20_8               : 13;
+		uint32_t erst_max                    : 4;  /**< RO - Event ring segment table maximum. */
+		uint32_t ist                         : 4;  /**< RO - Isochronous scheduling threshold. */
+#else
+		uint32_t ist                         : 4;
+		uint32_t erst_max                    : 4;
+		uint32_t reserved_20_8               : 13;
+		uint32_t maxscratchpadbufs_h         : 5;
+		uint32_t reserved_26_26              : 1;
+		uint32_t maxscratchpadbufs_l         : 5;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_hcsparams2_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_hcsparams2_t;
 
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3440,8 +3813,18 @@ typedef union bdk_usbhx_uahc_hcsparams3 {
 		uint32_t u2_device_exit_latency      : 16;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_hcsparams3_s cn88xx; */
-	/* struct bdk_usbhx_uahc_hcsparams3_s cn88xxp1; */
+	struct bdk_usbhx_uahc_hcsparams3_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t u2_device_exit_latency      : 16; /**< RO - U2 device exit latency. */
+		uint32_t reserved_15_8               : 8;
+		uint32_t u1_device_exit_latency      : 8;  /**< RO - U1 device exit latency. */
+#else
+		uint32_t u1_device_exit_latency      : 8;
+		uint32_t reserved_15_8               : 8;
+		uint32_t u2_device_exit_latency      : 16;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_hcsparams3_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_hcsparams3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3481,8 +3864,18 @@ typedef union bdk_usbhx_uahc_imanx {
 		uint32_t reserved_2_31               : 30;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_imanx_s      cn88xx; */
-	/* struct bdk_usbhx_uahc_imanx_s      cn88xxp1; */
+	struct bdk_usbhx_uahc_imanx_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_2               : 30;
+		uint32_t ie                          : 1;  /**< R/W - Interrupt enable. */
+		uint32_t ip                          : 1;  /**< R/W1C/H - Interrupt pending. */
+#else
+		uint32_t ip                          : 1;
+		uint32_t ie                          : 1;
+		uint32_t reserved_31_2               : 30;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_imanx_cn88xx    cn88xxp1;
 } bdk_usbhx_uahc_imanx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_IMANX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3559,8 +3952,16 @@ typedef union bdk_usbhx_uahc_mfindex {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_mfindex_s    cn88xx; */
-	/* struct bdk_usbhx_uahc_mfindex_s    cn88xxp1; */
+	struct bdk_usbhx_uahc_mfindex_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_14              : 18;
+		uint32_t mfindex                     : 14; /**< RO/H - Microframe index. */
+#else
+		uint32_t mfindex                     : 14;
+		uint32_t reserved_31_14              : 18;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_mfindex_cn88xx  cn88xxp1;
 } bdk_usbhx_uahc_mfindex_t;
 
 static inline uint64_t BDK_USBHX_UAHC_MFINDEX(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3594,8 +3995,16 @@ typedef union bdk_usbhx_uahc_pagesize {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_pagesize_s   cn88xx; */
-	/* struct bdk_usbhx_uahc_pagesize_s   cn88xxp1; */
+	struct bdk_usbhx_uahc_pagesize_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_16              : 16;
+		uint32_t pagesize                    : 16; /**< RO - Page size. */
+#else
+		uint32_t pagesize                    : 16;
+		uint32_t reserved_31_16              : 16;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_pagesize_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_pagesize_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PAGESIZE(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -3648,8 +4057,31 @@ typedef union bdk_usbhx_uahc_porthlpmc_20x {
 		uint32_t reserved_14_31              : 18;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_porthlpmc_20x_s cn88xx; */
-	/* struct bdk_usbhx_uahc_porthlpmc_20x_s cn88xxp1; */
+	struct bdk_usbhx_uahc_porthlpmc_20x_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_14              : 18;
+		uint32_t hirdd                       : 4;  /**< R/W - See section 5.4.11.2 of the XHCI Spec 1.1.
+                                                                 If USBH()_UAHC_SUPTPRT2_DW2[BLC] = 0, then HIRD timing is applied to this field.
+                                                                 If USBH()_UAHC_SUPTPRT2_DW2[BLC] = 1, then BESL timing is applied to this field. */
+		uint32_t l1_timeout                  : 8;  /**< R/W - Timeout value for the L1 inactivity timer (LPM Timer). This field is set to 0x0 by the
+                                                                 assertion of PR to 1. Refer to section 4.23.5.1.1.1 (in XHCI spec 1.1) for more
+                                                                 information on L1 Timeout operation.
+                                                                 The following are permissible values:
+                                                                 0x0 =  128 us. (default).
+                                                                 0x1 =  256 us.
+                                                                 0x2 =  512 us.
+                                                                 0x3 =  768 us.
+                                                                 _ ...
+                                                                 0xFF =  65280 us. */
+		uint32_t hirdm                       : 2;  /**< R/W - Host-initiated resume-duration mode. */
+#else
+		uint32_t hirdm                       : 2;
+		uint32_t l1_timeout                  : 8;
+		uint32_t hirdd                       : 4;
+		uint32_t reserved_31_14              : 18;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_porthlpmc_20x_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_porthlpmc_20x_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_20X(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3686,8 +4118,14 @@ typedef union bdk_usbhx_uahc_porthlpmc_ssx {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_porthlpmc_ssx_s cn88xx; */
-	/* struct bdk_usbhx_uahc_porthlpmc_ssx_s cn88xxp1; */
+	struct bdk_usbhx_uahc_porthlpmc_ssx_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_0               : 32;
+#else
+		uint32_t reserved_31_0               : 32;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_porthlpmc_ssx_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_porthlpmc_ssx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_SSX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3719,8 +4157,14 @@ typedef union bdk_usbhx_uahc_portli_20x {
 		uint32_t reserved_0_31               : 32;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_portli_20x_s cn88xx; */
-	/* struct bdk_usbhx_uahc_portli_20x_s cn88xxp1; */
+	struct bdk_usbhx_uahc_portli_20x_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_0               : 32;
+#else
+		uint32_t reserved_31_0               : 32;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_portli_20x_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_portli_20x_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_20X(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3754,8 +4198,16 @@ typedef union bdk_usbhx_uahc_portli_ssx {
 		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_portli_ssx_s cn88xx; */
-	/* struct bdk_usbhx_uahc_portli_ssx_s cn88xxp1; */
+	struct bdk_usbhx_uahc_portli_ssx_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_16              : 16;
+		uint32_t linkerrorcount              : 16; /**< RO/H - Link error count. */
+#else
+		uint32_t linkerrorcount              : 16;
+		uint32_t reserved_31_16              : 16;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_portli_ssx_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_portli_ssx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_SSX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3803,8 +4255,26 @@ typedef union bdk_usbhx_uahc_portpmsc_20x {
 		uint32_t port_test_control           : 4;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_portpmsc_20x_s cn88xx; */
-	/* struct bdk_usbhx_uahc_portpmsc_20x_s cn88xxp1; */
+	struct bdk_usbhx_uahc_portpmsc_20x_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t port_test_control           : 4;  /**< R/W - Port test control. */
+		uint32_t reserved_27_17              : 11;
+		uint32_t hle                         : 1;  /**< R/W - Hardware LPM enable. */
+		uint32_t l1_device_slot              : 8;  /**< R/W - L1 device slot. */
+		uint32_t hird                        : 4;  /**< R/W - Host-initiated resume duration. */
+		uint32_t rwe                         : 1;  /**< R/W - Remove wake enable. */
+		uint32_t l1s                         : 3;  /**< RO/H - L1 status. */
+#else
+		uint32_t l1s                         : 3;
+		uint32_t rwe                         : 1;
+		uint32_t hird                        : 4;
+		uint32_t l1_device_slot              : 8;
+		uint32_t hle                         : 1;
+		uint32_t reserved_27_17              : 11;
+		uint32_t port_test_control           : 4;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_portpmsc_20x_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_portpmsc_20x_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_20X(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3846,8 +4316,20 @@ typedef union bdk_usbhx_uahc_portpmsc_ssx {
 		uint32_t reserved_17_31              : 15;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_portpmsc_ssx_s cn88xx; */
-	/* struct bdk_usbhx_uahc_portpmsc_ssx_s cn88xxp1; */
+	struct bdk_usbhx_uahc_portpmsc_ssx_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_17              : 15;
+		uint32_t fla                         : 1;  /**< R/W - Force link PM accept. */
+		uint32_t u2_timeout                  : 8;  /**< R/W - U2 timeout. */
+		uint32_t u1_timeout                  : 8;  /**< R/W - U1 timeout. */
+#else
+		uint32_t u1_timeout                  : 8;
+		uint32_t u2_timeout                  : 8;
+		uint32_t fla                         : 1;
+		uint32_t reserved_31_17              : 15;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_portpmsc_ssx_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_portpmsc_ssx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_SSX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3930,8 +4412,60 @@ typedef union bdk_usbhx_uahc_portscx {
 		uint32_t wpr                         : 1;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_portscx_s    cn88xx; */
-	/* struct bdk_usbhx_uahc_portscx_s    cn88xxp1; */
+	struct bdk_usbhx_uahc_portscx_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t wpr                         : 1;  /**< WO - Warm port reset. */
+		uint32_t dr                          : 1;  /**< RO/H - Device removable. */
+		uint32_t reserved_29_28              : 2;
+		uint32_t woe                         : 1;  /**< R/W - Wake-on-overcurrent enable. */
+		uint32_t wde                         : 1;  /**< R/W - Wake-on-disconnect enable. */
+		uint32_t wce                         : 1;  /**< R/W - Wake-on-connect enable. */
+		uint32_t cas                         : 1;  /**< RO/H - Cold-attach status. */
+		uint32_t cec                         : 1;  /**< R/W1C/H - Port-configuration-error change. */
+		uint32_t plc                         : 1;  /**< R/W1C/H - Port-link-state change. */
+		uint32_t prc                         : 1;  /**< R/W1C/H - Port-reset change. */
+		uint32_t occ                         : 1;  /**< R/W1C/H - Overcurrent change. */
+		uint32_t wrc                         : 1;  /**< R/W1C/H - Warm-port-reset change. */
+		uint32_t pec                         : 1;  /**< R/W1C/H - Port enabled/disabled change. */
+		uint32_t csc                         : 1;  /**< R/W1C/H - Connect-status change. */
+		uint32_t lws                         : 1;  /**< WO - Port-link-state write strobe. */
+		uint32_t pic                         : 2;  /**< R/W/H - Port indicator control. */
+		uint32_t portspeed                   : 4;  /**< RO/H - Port speed. */
+		uint32_t pp                          : 1;  /**< R/W/H - Port power. */
+		uint32_t pls                         : 4;  /**< R/W/H - Port-link state. */
+		uint32_t pr                          : 1;  /**< R/W1S/H - Port reset. */
+		uint32_t oca                         : 1;  /**< RO/H - Overcurrent active. */
+		uint32_t reserved_2_2                : 1;
+		uint32_t ped                         : 1;  /**< R/W1C/H - Port enabled/disabled. */
+		uint32_t ccs                         : 1;  /**< RO/H - Current connect status. */
+#else
+		uint32_t ccs                         : 1;
+		uint32_t ped                         : 1;
+		uint32_t reserved_2_2                : 1;
+		uint32_t oca                         : 1;
+		uint32_t pr                          : 1;
+		uint32_t pls                         : 4;
+		uint32_t pp                          : 1;
+		uint32_t portspeed                   : 4;
+		uint32_t pic                         : 2;
+		uint32_t lws                         : 1;
+		uint32_t csc                         : 1;
+		uint32_t pec                         : 1;
+		uint32_t wrc                         : 1;
+		uint32_t occ                         : 1;
+		uint32_t prc                         : 1;
+		uint32_t plc                         : 1;
+		uint32_t cec                         : 1;
+		uint32_t cas                         : 1;
+		uint32_t wce                         : 1;
+		uint32_t wde                         : 1;
+		uint32_t woe                         : 1;
+		uint32_t reserved_29_28              : 2;
+		uint32_t dr                          : 1;
+		uint32_t wpr                         : 1;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_portscx_cn88xx  cn88xxp1;
 } bdk_usbhx_uahc_portscx_t;
 
 static inline uint64_t BDK_USBHX_UAHC_PORTSCX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -3965,8 +4499,16 @@ typedef union bdk_usbhx_uahc_rtsoff {
 		uint32_t rtsoff                      : 27;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_rtsoff_s     cn88xx; */
-	/* struct bdk_usbhx_uahc_rtsoff_s     cn88xxp1; */
+	struct bdk_usbhx_uahc_rtsoff_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t rtsoff                      : 27; /**< RO - Runtime register-space offset. */
+		uint32_t reserved_4_0                : 5;
+#else
+		uint32_t reserved_4_0                : 5;
+		uint32_t rtsoff                      : 27;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_rtsoff_cn88xx   cn88xxp1;
 } bdk_usbhx_uahc_rtsoff_t;
 
 static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4086,8 +4628,30 @@ typedef union bdk_usbhx_uahc_suptprt2_dw2 {
 		uint32_t psic                        : 4;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_suptprt2_dw2_s cn88xx; */
-	/* struct bdk_usbhx_uahc_suptprt2_dw2_s cn88xxp1; */
+	struct bdk_usbhx_uahc_suptprt2_dw2_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t psic                        : 4;  /**< RO - Protocol speed ID count. */
+		uint32_t reserved_27_21              : 7;
+		uint32_t blc                         : 1;  /**< RO - BESL LPM capability. */
+		uint32_t hlc                         : 1;  /**< RO - Hardware LMP capability. */
+		uint32_t ihi                         : 1;  /**< RO - Integrated hub implemented. */
+		uint32_t hso                         : 1;  /**< RO - High-speed only. */
+		uint32_t reserved_16_16              : 1;
+		uint32_t compatprtcnt                : 8;  /**< RO - Compatible port count. */
+		uint32_t compatprtoff                : 8;  /**< RO - Compatible port offset. */
+#else
+		uint32_t compatprtoff                : 8;
+		uint32_t compatprtcnt                : 8;
+		uint32_t reserved_16_16              : 1;
+		uint32_t hso                         : 1;
+		uint32_t ihi                         : 1;
+		uint32_t hlc                         : 1;
+		uint32_t blc                         : 1;
+		uint32_t reserved_27_21              : 7;
+		uint32_t psic                        : 4;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_suptprt2_dw2_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_suptprt2_dw2_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4121,8 +4685,16 @@ typedef union bdk_usbhx_uahc_suptprt2_dw3 {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_suptprt2_dw3_s cn88xx; */
-	/* struct bdk_usbhx_uahc_suptprt2_dw3_s cn88xxp1; */
+	struct bdk_usbhx_uahc_suptprt2_dw3_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_5               : 27;
+		uint32_t protslottype                : 5;  /**< RO - Protocol slot type. */
+#else
+		uint32_t protslottype                : 5;
+		uint32_t reserved_31_5               : 27;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_suptprt2_dw3_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_suptprt2_dw3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4234,8 +4806,20 @@ typedef union bdk_usbhx_uahc_suptprt3_dw2 {
 		uint32_t psic                        : 4;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_suptprt3_dw2_s cn88xx; */
-	/* struct bdk_usbhx_uahc_suptprt3_dw2_s cn88xxp1; */
+	struct bdk_usbhx_uahc_suptprt3_dw2_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t psic                        : 4;  /**< RO - Protocol speed ID count. */
+		uint32_t reserved_27_16              : 12;
+		uint32_t compatprtcnt                : 8;  /**< RO - Compatible port count. */
+		uint32_t compatprtoff                : 8;  /**< RO - Compatible port offset. */
+#else
+		uint32_t compatprtoff                : 8;
+		uint32_t compatprtcnt                : 8;
+		uint32_t reserved_27_16              : 12;
+		uint32_t psic                        : 4;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_suptprt3_dw2_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_suptprt3_dw2_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4269,8 +4853,16 @@ typedef union bdk_usbhx_uahc_suptprt3_dw3 {
 		uint32_t reserved_5_31               : 27;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_suptprt3_dw3_s cn88xx; */
-	/* struct bdk_usbhx_uahc_suptprt3_dw3_s cn88xxp1; */
+	struct bdk_usbhx_uahc_suptprt3_dw3_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_5               : 27;
+		uint32_t protslottype                : 5;  /**< RO - Protocol slot type. */
+#else
+		uint32_t protslottype                : 5;
+		uint32_t reserved_31_5               : 27;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_suptprt3_dw3_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_suptprt3_dw3_t;
 
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW3(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4326,8 +4918,34 @@ typedef union bdk_usbhx_uahc_usbcmd {
 		uint32_t reserved_12_31              : 20;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_usbcmd_s     cn88xx; */
-	/* struct bdk_usbhx_uahc_usbcmd_s     cn88xxp1; */
+	struct bdk_usbhx_uahc_usbcmd_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_12_31              : 20;
+		uint32_t eu3s                        : 1;  /**< R/W - Enable U3 MFINDEX stop. */
+		uint32_t ewe                         : 1;  /**< R/W - Enable wrap event. */
+		uint32_t crs                         : 1;  /**< WO - Controller restore state. */
+		uint32_t css                         : 1;  /**< WO - Controller save state. */
+		uint32_t lhcrst                      : 1;  /**< R/W1S/H - Light-host-controller reset. */
+		uint32_t reserved_6_4                : 3;
+		uint32_t hsee                        : 1;  /**< R/W - Host-system-error enable. */
+		uint32_t inte                        : 1;  /**< R/W - Interrupter enable. */
+		uint32_t hcrst                       : 1;  /**< R/W1S/H - Host-controller reset. */
+		uint32_t r_s                         : 1;  /**< R/W - Run/stop. */
+#else
+		uint32_t r_s                         : 1;
+		uint32_t hcrst                       : 1;
+		uint32_t inte                        : 1;
+		uint32_t hsee                        : 1;
+		uint32_t reserved_6_4                : 3;
+		uint32_t lhcrst                      : 1;
+		uint32_t css                         : 1;
+		uint32_t crs                         : 1;
+		uint32_t ewe                         : 1;
+		uint32_t eu3s                        : 1;
+		uint32_t reserved_12_31              : 20;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_usbcmd_cn88xx   cn88xxp1;
 } bdk_usbhx_uahc_usbcmd_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBCMD(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4399,8 +5017,49 @@ typedef union bdk_usbhx_uahc_usblegctlsts {
 		uint32_t smi_on_bar                  : 1;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_usblegctlsts_s cn88xx; */
-	/* struct bdk_usbhx_uahc_usblegctlsts_s cn88xxp1; */
+	struct bdk_usbhx_uahc_usblegctlsts_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t smi_on_bar                  : 1;  /**< R/W1C/H - System management interrupt on BAR. Never generated. */
+		uint32_t smi_on_pci_command          : 1;  /**< R/W1C/H - System management interrupt on PCI command. Never generated. */
+		uint32_t smi_on_os_ownership         : 1;  /**< R/W1C/H - System management interrupt on OS ownership change. This bit is set to 1 whenever
+                                                                 USBH()_UAHC_USBLEGSUP[HC_OS_OWNED_SEMAPHORES] transitions. */
+		uint32_t reserved_28_21              : 8;
+		uint32_t smi_on_hostsystemerr        : 1;  /**< RO/H - System-management interrupt on host-system error. Shadow bit of USBH()_UAHC_USBSTS[HSE].
+                                                                 Refer to
+                                                                 xHCI Section 5.4.2 for definition and effects of the events associated with this bit being
+                                                                 set to 1.
+
+                                                                 To clear this bit to a 0, system software must write a 1 to USBH()_UAHC_USBSTS[HSE]. */
+		uint32_t reserved_19_17              : 3;
+		uint32_t smi_on_event_interrupt      : 1;  /**< RO/H - System-management interrupt on event interrupt. Shadow bit of USBH()_UAHC_USBSTS[EINT].
+                                                                 Refer to
+                                                                 xHCI Section 5.4.2 for definition. This bit automatically clears when [EINT] clears and
+                                                                 sets when [EINT] sets. */
+		uint32_t smi_on_bar_en               : 1;  /**< R/W - System-management interrupt on BAR enable. */
+		uint32_t smi_on_pci_command_en       : 1;  /**< R/W - System-management interrupt on PCI command enable. */
+		uint32_t smi_on_os_ownership_en      : 1;  /**< R/W - System-management interrupt on OS ownership enable. */
+		uint32_t reserved_12_5               : 8;
+		uint32_t smi_on_hostsystemerr_en     : 1;  /**< R/W - System-management interrupt on host-system error enable */
+		uint32_t reserved_3_1                : 3;
+		uint32_t usb_smi_en                  : 1;  /**< R/W - USB system-management interrupt enable. */
+#else
+		uint32_t usb_smi_en                  : 1;
+		uint32_t reserved_3_1                : 3;
+		uint32_t smi_on_hostsystemerr_en     : 1;
+		uint32_t reserved_12_5               : 8;
+		uint32_t smi_on_os_ownership_en      : 1;
+		uint32_t smi_on_pci_command_en       : 1;
+		uint32_t smi_on_bar_en               : 1;
+		uint32_t smi_on_event_interrupt      : 1;
+		uint32_t reserved_19_17              : 3;
+		uint32_t smi_on_hostsystemerr        : 1;
+		uint32_t reserved_28_21              : 8;
+		uint32_t smi_on_os_ownership         : 1;
+		uint32_t smi_on_pci_command          : 1;
+		uint32_t smi_on_bar                  : 1;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_usblegctlsts_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_usblegctlsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBLEGCTLSTS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4446,8 +5105,24 @@ typedef union bdk_usbhx_uahc_usblegsup {
 		uint32_t reserved_25_31              : 7;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_usblegsup_s  cn88xx; */
-	/* struct bdk_usbhx_uahc_usblegsup_s  cn88xxp1; */
+	struct bdk_usbhx_uahc_usblegsup_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_25              : 7;
+		uint32_t hc_os_owned_semaphores      : 1;  /**< R/W - HC OS-owned semaphore. */
+		uint32_t reserved_23_17              : 7;
+		uint32_t hc_bios_owned_semaphores    : 1;  /**< R/W - HC BIOS-owned semaphore. */
+		uint32_t nextcapptr                  : 8;  /**< RO - Next xHCI extended-capability pointer. */
+		uint32_t capid                       : 8;  /**< RO - Capability ID = USB legacy support. */
+#else
+		uint32_t capid                       : 8;
+		uint32_t nextcapptr                  : 8;
+		uint32_t hc_bios_owned_semaphores    : 1;
+		uint32_t reserved_23_17              : 7;
+		uint32_t hc_os_owned_semaphores      : 1;
+		uint32_t reserved_31_25              : 7;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_usblegsup_cn88xx cn88xxp1;
 } bdk_usbhx_uahc_usblegsup_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -4505,8 +5180,36 @@ typedef union bdk_usbhx_uahc_usbsts {
 		uint32_t reserved_13_31              : 19;
 #endif
 	} s;
-	/* struct bdk_usbhx_uahc_usbsts_s     cn88xx; */
-	/* struct bdk_usbhx_uahc_usbsts_s     cn88xxp1; */
+	struct bdk_usbhx_uahc_usbsts_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_31_13              : 19;
+		uint32_t hce                         : 1;  /**< RO/H - Host-controller error. */
+		uint32_t cnr                         : 1;  /**< RO/H - Controller not ready. */
+		uint32_t sre                         : 1;  /**< R/W1C/H - Save/restore error. */
+		uint32_t rss                         : 1;  /**< RO/H - Restore state status. */
+		uint32_t sss                         : 1;  /**< RO/H - Save state status. */
+		uint32_t reserved_7_5                : 3;
+		uint32_t pcd                         : 1;  /**< R/W1C/H - Port-change detect. */
+		uint32_t eint                        : 1;  /**< R/W1C/H - Event interrupt. */
+		uint32_t hse                         : 1;  /**< R/W1C/H - Host-system error. The typical software response to an HSE is to reset the core. */
+		uint32_t reserved_1_1                : 1;
+		uint32_t hch                         : 1;  /**< RO/H - HC halted. */
+#else
+		uint32_t hch                         : 1;
+		uint32_t reserved_1_1                : 1;
+		uint32_t hse                         : 1;
+		uint32_t eint                        : 1;
+		uint32_t pcd                         : 1;
+		uint32_t reserved_7_5                : 3;
+		uint32_t sss                         : 1;
+		uint32_t rss                         : 1;
+		uint32_t sre                         : 1;
+		uint32_t cnr                         : 1;
+		uint32_t hce                         : 1;
+		uint32_t reserved_31_13              : 19;
+#endif
+	} cn88xx;
+	struct bdk_usbhx_uahc_usbsts_cn88xx   cn88xxp1;
 } bdk_usbhx_uahc_usbsts_t;
 
 static inline uint64_t BDK_USBHX_UAHC_USBSTS(unsigned long param1) __attribute__ ((pure, always_inline));

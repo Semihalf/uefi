@@ -268,8 +268,14 @@ typedef union bdk_dap_sradata {
 		uint64_t reserved_0_63               : 64;
 #endif
 	} s;
-	/* struct bdk_dap_sradata_s           cn88xx; */
-	/* struct bdk_dap_sradata_s           cn88xxp1; */
+	struct bdk_dap_sradata_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_63_0               : 64;
+#else
+		uint64_t reserved_63_0               : 64;
+#endif
+	} cn88xx;
+	struct bdk_dap_sradata_cn88xx         cn88xxp1;
 } bdk_dap_sradata_t;
 
 #define BDK_DAP_SRADATA BDK_DAP_SRADATA_FUNC()

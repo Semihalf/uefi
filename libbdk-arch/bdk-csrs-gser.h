@@ -1010,8 +1010,32 @@ typedef union bdk_gserx_lanex_misc_cfg_1 {
 		uint64_t reserved_13_63              : 51;
 #endif
 	} s;
-	/* struct bdk_gserx_lanex_misc_cfg_1_s cn88xx; */
-	/* struct bdk_gserx_lanex_misc_cfg_1_s cn88xxp1; */
+	struct bdk_gserx_lanex_misc_cfg_1_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_13_63              : 51;
+		uint64_t par_tx_init                 : 1;  /**< R/W - Performs parallel initialization of SerDes interface TX
+                                                                 fifo pointers. */
+		uint64_t tx_polarity                 : 1;  /**< R/W - Invert polarity of trasmitted bit stream.  Inversion is
+                                                                 performed in the SerDes interface transmit datapth. */
+		uint64_t rx_polarity_ovrrd_en        : 1;  /**< R/W - Override mac_pcs_rxX_polarity control pin values
+                                                                 When set, RX polarity inversion is specified from
+                                                                 RX_POLARITY_OVRRD_VAL, and mac_pcs_rxX_polarity is ignored. */
+		uint64_t rx_polarity_ovrrd_val       : 1;  /**< R/W - Controls RX polarity inversion when RX_POLARITY_OVRRD_EN
+                                                                 is set. Inversion is performed in the SerDes interface receive
+                                                                 datapath. */
+		uint64_t reserved_8_2                : 7;
+		uint64_t mac_tx_fifo_rd_ptr_ival     : 2;  /**< R/W/H - Initial value for MAC to PCS TX FIFO read pointer. */
+#else
+		uint64_t mac_tx_fifo_rd_ptr_ival     : 2;
+		uint64_t reserved_8_2                : 7;
+		uint64_t rx_polarity_ovrrd_val       : 1;
+		uint64_t rx_polarity_ovrrd_en        : 1;
+		uint64_t tx_polarity                 : 1;
+		uint64_t par_tx_init                 : 1;
+		uint64_t reserved_13_63              : 51;
+#endif
+	} cn88xx;
+	struct bdk_gserx_lanex_misc_cfg_1_cn88xx cn88xxp1;
 } bdk_gserx_lanex_misc_cfg_1_t;
 
 static inline uint64_t BDK_GSERX_LANEX_MISC_CFG_1(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
