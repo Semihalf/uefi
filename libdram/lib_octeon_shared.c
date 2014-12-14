@@ -50,35 +50,27 @@ static int global_ddr_clock_initialized = 0;
 static int global_ddr_memory_preserved  = 0;
 
 /*
- *
- * +---------+----+----------------------+---------------+--------+------+-----+
- * |  Dimm   |Rank|         Row          |      Col      |  Bank  |  Col | Bus |
- * +---------+----+----------------------+---------------+--------+------+-----+
- *          |   |                       |                    |
- *          |   |                       |                    |
- *          |  1 bit           LMC_MEM_CFG0[ROW_LSB]         |
+ * SDRAM Physical Address (figure 6-2 from the HRM)
+ *                                                                   7 6    3 2   0
+ * +---------+----+----------------------+---------------+--------+---+------+-----+
+ * |  Dimm   |Rank|         Row          |      Col      |  Bank  | C |  Col | Bus |
+ * +---------+----+----------------------+---------------+--------+---+------+-----+
+ *     |    ^   |            |          ^        |           |      |
+ *   0 or 1 |   |       12-18 bits      |      6-8 bits      |    1 or 2 bits
+ *    bit   | 0 or 1 bit           LMC_CONFIG[ROW_LSB]+X     |    (X=1 or 2, resp)
  *          |                                                |
- *   LMC_MEM_CFG0[PBANK_LSB]                       (2 + LMC_DDR2_CTL[BANK8]) bits
+ *   LMC_CONFIG[PBANK_LSB]+X                               3 or 4 bits
  *
- *    Bus     = Selects the byte on the 72/144-bit DDR2 bus
- *         CN38XX: Bus = (3 + LMC_CTL[MODE128b]) bits
- *         CN31XX: Bus = (3 - LMC_CTL[MODE32b]) bits
- *         CN30XX: Bus = (1 + LMC_CTL[MODE32b]) bits
- *         CN58XX: Bus =
- *         CN56XX: Bus =
- *         CN50XX: Bus =
- *    Col     = Column Address for the DDR2 part
- *    Bank    = Bank Address for the DDR2 part
- *    Row     = Row Address for the DDR2 part
- *    Rank    = Optional Rank Address for dual-rank DIMM's
- *              (present when LMC_CTL[BUNK_ENABLE] is set)
- *    DIMM    = Optional DIMM address - 0, 1,or 2 bits
+ *    Bus     = Selects the byte on the 72-bit DDR3 bus
+ *    Col     = Column Address for the memory part (10-12 bits)
+ *    C       = Selects the LMC that services the reference
+ *              (2 bits for 4 LMC mode, 1 bit for 2 LMC mode; X=width)
+ *    Bank    = Bank Address for the memory part (DDR3=3 bits, DDR4=3 or 4 bits)
+ *    Row     = Row Address for the memory part (12-18 bits)
+ *    Rank    = Optional Rank Address for dual-rank DIMMs
+ *              (present when LMC_CONFIG[RANK_ENA] is set)
+ *    Dimm    = Optional DIMM address (preseent with more than 1 DIMM)
  */
-
-
-
-
-
 
 
 /* Sometimes the pass/fail results for all possible delay settings
