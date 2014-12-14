@@ -16,6 +16,7 @@ all: version
 	$(MAKE) -C bdk-boot
 	$(MAKE) -C normal-boot
 	$(MAKE) -C normal-boot-crb-1s
+	$(MAKE) -C normal-boot-crb-2s
 	$(MAKE) -C screen 
 
 #
@@ -32,6 +33,7 @@ clean:
 	$(MAKE) -C bdk-boot clean
 	$(MAKE) -C normal-boot clean
 	$(MAKE) -C normal-boot-crb-1s clean
+	$(MAKE) -C normal-boot-crb-2s clean
 	$(MAKE) -C screen clean
 	$(MAKE) -C docs clean
 	rm -f target-bin/*.bin
