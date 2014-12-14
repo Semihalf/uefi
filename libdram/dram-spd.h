@@ -3,37 +3,7 @@
  * Everything in this file is internal to libdram.
  */
 
-/* data field addresses in the DDR2 SPD eeprom */
-typedef enum ddr2_spd_addrs {
-    DDR2_SPD_BYTES_PROGRAMMED	= 0,
-    DDR2_SPD_TOTAL_BYTES	= 1,
-    DDR2_SPD_MEM_TYPE		= 2,
-    DDR2_SPD_NUM_ROW_BITS	= 3,
-    DDR2_SPD_NUM_COL_BITS	= 4,
-    DDR2_SPD_NUM_RANKS		= 5,
-    DDR2_SPD_CYCLE_CLX		= 9,
-    DDR2_SPD_CONFIG_TYPE	= 11,
-    DDR2_SPD_REFRESH		= 12,
-    DDR2_SPD_SDRAM_WIDTH	= 13,
-    DDR2_SPD_BURST_LENGTH	= 16,
-    DDR2_SPD_NUM_BANKS		= 17,
-    DDR2_SPD_CAS_LATENCY	= 18,
-    DDR2_SPD_DIMM_TYPE		= 20,
-    DDR2_SPD_CYCLE_CLX1		= 23,
-    DDR2_SPD_CYCLE_CLX2		= 25,
-    DDR2_SPD_TRP		= 27,
-    DDR2_SPD_TRRD 		= 28,
-    DDR2_SPD_TRCD 		= 29,
-    DDR2_SPD_TRAS 		= 30,
-    DDR2_SPD_TWR 		= 36,
-    DDR2_SPD_TWTR 		= 37,
-    DDR2_SPD_TRFC_EXT		= 40,
-    DDR2_SPD_TRFC 		= 42,
-    DDR2_SPD_CHECKSUM		= 63,
-    DDR2_SPD_MFR_ID		= 64
-} ddr2_spd_addr_t;
-
-/* data field addresses in the DDR2 SPD eeprom */
+/* data field addresses in the DDR3 SPD eeprom */
 typedef enum ddr3_spd_addrs {
     DDR3_SPD_BYTES_PROGRAMMED				=  0,
     DDR3_SPD_REVISION					=  1,

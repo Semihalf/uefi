@@ -58,8 +58,8 @@ static int validate_spd_checksum_ddr3(bdk_node_t node, int twsi_addr, int silent
 
     crc_comp = ddr3_crc16(spd_data, crc_bytes);
 
-    if (spd_data[126] == (crc_comp & 0xff) &&
-        spd_data[127] == (crc_comp >> 8))
+    if (spd_data[DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_LOWER_NIBBLE] == (crc_comp & 0xff) &&
+        spd_data[DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_UPPER_NIBBLE] == (crc_comp >> 8))
     {
         return 1;
     }
@@ -67,7 +67,9 @@ static int validate_spd_checksum_ddr3(bdk_node_t node, int twsi_addr, int silent
     {
         if (!silent)
             printf("DDR3 SPD CRC error, spd addr: 0x%x, calculated crc: 0x%04x, read crc: 0x%02x%02x\n",
-                twsi_addr, crc_comp, spd_data[126], spd_data[127]);
+		   twsi_addr, crc_comp,
+		   spd_data[DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_UPPER_NIBBLE],
+		   spd_data[DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_LOWER_NIBBLE]);
         return 0;
     }
 }
@@ -82,15 +84,15 @@ static int validate_spd_checksum(bdk_node_t node, int twsi_addr, int silent)
     if (!twsi_addr) return 1; /* return OK if we are not doing real DIMMs */
 #endif
 
-    /* Look up module type to determine if DDR2 or DDR3 */
+    /* Look up module type to determine if DDR3 or DDR4 */
     rv = bdk_twsix_read_ia(node, twsi_addr >> 12, twsi_addr & 0x7f, 2, 1, 1);
     if (rv < 0)
         return 0;   /* TWSI read error */
     if (rv >= 0x8 && rv <= 0xA)
         printf("%s: Error: DDR2 support disabled\n", __func__);
-    if (rv >= 0xB && rv <= 0xB)
+    if (rv >= 0xB && rv <= 0xB) /* this is DDR3 */
         return validate_spd_checksum_ddr3(node, twsi_addr, silent);
-    if (rv >= 0xC && rv <= 0xC)
+    if (rv >= 0xC && rv <= 0xC) /* this is DDR4, do like DDR3 */
 	return validate_spd_checksum_ddr3(node, twsi_addr, silent);
      if (!silent)
         printf("Unrecognized DIMM type: 0x%x at spd address: 0x%x\n",
@@ -120,7 +122,7 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
     {
         int val0, val1;
         int dimm_type = read_spd(node, dimm_config, dimm_index,
-				 DDR2_SPD_MEM_TYPE) & 0xff;
+				 DDR3_SPD_KEY_BYTE_DEVICE_TYPE) & 0xff;
         switch (dimm_type)
         {
             case 0x0B:              /* DDR3 */
