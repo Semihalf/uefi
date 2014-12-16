@@ -764,10 +764,21 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
  */
 int bdk_pcie_rc_shutdown(bdk_node_t node, int pcie_port)
 {
+    /* Check that the controller is out of reset */
+    BDK_CSR_INIT(rst_ctlx, node, BDK_RST_CTLX(pcie_port));
+    if (!rst_ctlx.s.rst_done)
+        goto skip_idle_wait;
+
+    /* Check if link is up */
+    BDK_CSR_INIT(pciercx_cfg032, node, BDK_PCIERCX_CFG032(pcie_port));
+    if ((pciercx_cfg032.s.dlla == 0) || (pciercx_cfg032.s.lt == 1))
+        goto skip_idle_wait;
+
     /* Wait for all pending operations to complete */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PEMX_CPL_LUT_VALID(pcie_port), tag, ==, 0, 2000))
         printf("N%d.PCIe%d: Shutdown timeout\n", node, pcie_port);
 
+skip_idle_wait:
     /* Force reset */
     BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), 1);
     return 0;
