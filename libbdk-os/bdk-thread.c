@@ -53,6 +53,7 @@ static void __bdk_thread_body(bdk_thread_func_t func, int arg0, void *arg1)
 int bdk_thread_initialize(void)
 {
     bdk_zero_memory(bdk_thread_node, sizeof(bdk_thread_node));
+    _REENT_INIT_PTR(&__bdk_thread_global_reent);
     return 0;
 }
 
