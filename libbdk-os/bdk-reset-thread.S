@@ -5,9 +5,8 @@
 __bdk_reset_thread:
     /* Switch to the exception stack so we can free our thread context */
     adr     x10, __bdk_initial_stack_end
-    msr     SPSel, 1            /* We can't change SP_EL0 if we're using it */
-    msr     SP_EL0, x10         /* Update the stack */
-    msr     SPSel, 0            /* Use the new stack */
+    msr     SPSel, 0            /* Use the EL0 stack */
+    mov     sp, x10             /* Update the stack */
     /* Lock the stack in case other cores try using it */
     adr     x10, __bdk_initial_stack_start
     mov     x12, 1

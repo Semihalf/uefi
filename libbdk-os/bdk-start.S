@@ -195,9 +195,8 @@ crc_done:
 __bdk_start_cores:
     /* Initialise the stack */
     adr     x10, __bdk_initial_stack_end
-    msr     SPSel, 1            /* We can't change SP_EL0 if we're using it */
-    msr     SP_EL0, x10         /* Update the stack */
-    msr     SPSel, 0            /* Use the new stack */
+    msr     SPSel, 0            /* Use the EL0 stack */
+    mov     sp, x10             /* Update the stack */
     /* Lock the stack in case other cores boot */
     adr     x10, __bdk_initial_stack_start
     mov     x12, 1
@@ -229,9 +228,8 @@ __bdk_non_zero_node:
     /* We're on a non-zero node, setup a stack and call C. C won't
         work right as we're not running at our link address */
     adr     x10, __bdk_initial_stack_end
-    msr     SPSel, 1            /* We can't change SP_EL0 if we're using it */
-    msr     SP_EL0, x10         /* Update the stack */
-    msr     SPSel, 0            /* Use the new stack */
+    msr     SPSel, 0            /* Use the EL0 stack */
+    mov     sp, x10             /* Update the stack */
     bl      __bdk_init_non_zero_node
 
 
