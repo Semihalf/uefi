@@ -50,9 +50,9 @@ skip_save:
     mov     sp, x11
     msr     TPIDR_EL3, x0               /* Store new context */
 
-    /* Store the old context and the don't free to the stack so we can
-        restore regsiters */
-    stp     x10, x1, [sp, -16]!
+    /* Call switch complete */
+    mov     x0, x10                     /* Old context, Don't free flag is still in x1 */
+    bl      __bdk_thread_switch_complete
 
     /* Restore our thread context */
     mrs     x11, TPIDR_EL3              /* Put the new context in x11 */
@@ -88,14 +88,5 @@ skip_save:
     ldp     q26, q27,[x11, FPR_OFFSET(26)]
     ldp     q28, q29,[x11, FPR_OFFSET(28)]
     ldp     q30, q31,[x11, FPR_OFFSET(30)]
-
-    /* Call switch complete */
-    stp     x0, x1, [sp, -16]!
-    stp     x30, xzr, [sp, -16]!
-    ldp     x0, x1, [sp, 32]
-    bl      __bdk_thread_switch_complete
-    ldp     x30, xzr, [sp], 16
-    ldp     x0, x1, [sp], 16
-    add     sp, sp, 16
     ret
 
