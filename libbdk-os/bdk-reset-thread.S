@@ -28,7 +28,7 @@ __bdk_reset_thread:
 
     /* Make sure the write buffer is idle and the dcache is empty */
     dsb     sy
-    dc      civac,xzr
+    sys     #0,c11,c0,#2, xzr
 
     /* Load the address of RST_PP_RESET */
     mov     x0, RST_PP_RESET >> 32
