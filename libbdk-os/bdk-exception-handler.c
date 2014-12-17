@@ -92,6 +92,8 @@ void __bdk_exception_handler(except_regs_t *exc)
     BDK_MRS(ESR_EL3, esr.u);
     bdk_sys_far_elx_t far;
     BDK_MRS(FAR_EL3, far.u);
+    uint64_t thread_id;
+    BDK_MRS(TPIDR_EL3, thread_id);
 
     bdk_dbg_uart_str(BANNER);
 
@@ -139,6 +141,8 @@ void __bdk_exception_handler(except_regs_t *exc)
 
     bdk_dbg_uart_str("far: ");
     bdk_dbg_uart_hex(far.u);
+    bdk_dbg_uart_str(" thread: ");
+    bdk_dbg_uart_hex(thread_id);
     bdk_dbg_uart_str("\r\n");
 
     for (int reg=0; reg<16; reg++)
