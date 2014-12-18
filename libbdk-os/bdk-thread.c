@@ -8,7 +8,6 @@ typedef struct bdk_thread
     struct bdk_thread *next;
     uint64_t    coremask;
     uint64_t    gpr[32];   /* Reg 31 is SP */
-    __uint128_t fpr[32];
     struct _reent lib_state;
     uint64_t    stack_canary;
     uint64_t    stack[0];
