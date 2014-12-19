@@ -4008,6 +4008,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             int bytes_failed;
             sw_wl_status_t byte_test_status[9];
             sw_wl_status_t sw_wl_rank_status = WL_HARDWARE;
+            int old_byte8 = -1;
 
             if (!sw_wlevel_enable)
                 break;
@@ -4115,9 +4116,23 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                             if ((save_byte8 != lmc_wlevel_rank.s.byte3) &&
                                 (save_byte8 != lmc_wlevel_rank.s.byte4)) {
-                                int test_byte8 = divide_nint(lmc_wlevel_rank.s.byte3
-                                                             + lmc_wlevel_rank.s.byte4
-                                                             + 2 /* round-up*/ , 2);
+
+                                old_byte8 = ~1 & divide_nint(lmc_wlevel_rank.s.byte3
+                                                            + lmc_wlevel_rank.s.byte4
+                                                            + 2 /* round-up*/ , 2);
+
+                                int test_byte8 = save_byte8;
+                                int test_byte8_error;
+                                int byte8_error = 0x1f;
+                                int adder;
+                                for (adder = 0; adder<= 32; adder+=8) {
+                                    test_byte8_error = _abs((adder+save_byte8) - divide_nint(lmc_wlevel_rank.s.byte3+lmc_wlevel_rank.s.byte4, 2));
+                                    if (test_byte8_error < byte8_error) {
+                                        byte8_error = test_byte8_error;
+                                        test_byte8 = save_byte8 + adder;
+                                    }
+                                }
+
                                 lmc_wlevel_rank.s.byte8 = test_byte8 & ~1; /* Use only even settings */
                             }
 
@@ -4255,11 +4270,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
             lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
-            ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %s\n",
+            ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %2d,%2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %s\n",
                       rankx,
                       lmc_wlevel_rank.s.status,
                       lmc_wlevel_rank.u,
-                      lmc_wlevel_rank.s.byte8, wl_status_strings[byte_test_status[8]],
+                      lmc_wlevel_rank.s.byte8, old_byte8, wl_status_strings[byte_test_status[8]],
                       lmc_wlevel_rank.s.byte7, wl_status_strings[byte_test_status[7]],
                       lmc_wlevel_rank.s.byte6, wl_status_strings[byte_test_status[6]],
                       lmc_wlevel_rank.s.byte5, wl_status_strings[byte_test_status[5]],
