@@ -108,7 +108,6 @@ print("Copyright (C) 2010-2014 Cavium Inc.")
 local coremask = menu.prompt_number("Coremask: ", 0xffffffffffff)
 -- Go multicore, based on coremask provided by script.
 printf("Using coremask: 0x%x\n", coremask)
-cavium.c.bdk_init_cores(0, coremask)
 
 -- Set up traffic QLMs here, as we want to overlap the link negotiation delay
 -- with other tests.
@@ -166,6 +165,8 @@ pcie_rc(4)
 --
 -- Network Traffic Tests
 --
+print("Starting all requested cores");
+cavium.c.bdk_init_cores(0, coremask)
 print("test start: traffic")
 local tg_pass = true
 local trafficgen = require("trafficgen")
