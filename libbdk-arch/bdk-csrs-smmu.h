@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2014  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -4456,8 +4456,8 @@ static inline uint64_t BDK_SMMUX_SACR(unsigned long param1)
 /**
  * NCB32b - smmu#_scr0
  *
- * The non-secure version of this register does not provide full top-level control of the SMMU
- * for secure transactions. Some fields only apply to non-secure transactions.
+ * The non-secure version of this register does not provide full top-level control of the SMMU.
+ * Some fields only apply to secure or non-secure transactions.
  */
 typedef union bdk_smmux_scr0 {
 	uint32_t u;

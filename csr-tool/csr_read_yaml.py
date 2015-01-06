@@ -276,6 +276,7 @@ def build_csr(chip_info, group, register, raw):
                    "pcc_present_if",
                    "regtest_alias",
                    "regtest_skip",
+                   "rtlgen_address_param",
                    "rtlgen_cib",
                    "rtlgen_extern",
                    "rtlgen_msix",

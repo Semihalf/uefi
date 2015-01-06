@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2014  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -3710,18 +3710,35 @@ typedef union bdk_nic_pf_ecc3_cdis {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_40_63              : 24;
 		uint64_t blk1                        : 16; /**< R/W - Group 3 Block 1 memories. INTERNAL: SQM memories:
-                                                                 \<15:11\> = Reserved.
-                                                                 \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
-                                                                 \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
-                                                                 \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
-                                                                 \<7\>  = nic_u1.sqm.ctl.lock.lock_mem_mem.
-                                                                 \<6\>  = nic_u1.sqm.ctl.vnic.vnic_mem_mem.
-                                                                 \<5\>  = nic_u1.sqm.dpe.fetch.fetch.dpe_blk.fetch_op_fifo_dpr.
-                                                                 \<4\>  = nic_u1.sqm.dpe.fetch.fetch.fetch_data_fifo_dpr.
-                                                                 \<3\>  = nic_u1.sqm.dse.fetch.fetch.dse_blk.fetch_op_fifo_dpr.
-                                                                 \<2\>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
-                                                                 \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
-                                                                 \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
+
+                                                                 Pass 1:
+                                                                   \<15:11\> = Reserved.
+                                                                   \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
+                                                                   \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
+                                                                   \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
+                                                                   \<7\>  = nic_u1.sqm.ctl.lock.lock_mem_mem.
+                                                                   \<6\>  = nic_u1.sqm.ctl.vnic.vnic_mem_mem.
+                                                                   \<5\>  = nic_u1.sqm.dpe.fetch.fetch.dpe_blk.fetch_op_fifo_dpr.
+                                                                   \<4\>  = nic_u1.sqm.dpe.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<3\>  = nic_u1.sqm.dse.fetch.fetch.dse_blk.fetch_op_fifo_dpr.
+                                                                   \<2\>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
+                                                                   \<0\>  = nic_u1.sqm.mqm.mdmem_mem.
+
+                                                                 Pass 2+ (added tsosn_mem):
+                                                                   \<15:12\> = Reserved.
+                                                                   \<11\> = nic_u1.sqm.dse.send.tsosn_mem.
+                                                                   \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
+                                                                   \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
+                                                                   \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
+                                                                   \<7\>  = nic_u1.sqm.ctl.lock.lock_mem_mem.
+                                                                   \<6\>  = nic_u1.sqm.ctl.vnic.vnic_mem_mem.
+                                                                   \<5\>  = nic_u1.sqm.dpe.fetch.fetch.dpe_blk.fetch_op_fifo_dpr.
+                                                                   \<4\>  = nic_u1.sqm.dpe.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<3\>  = nic_u1.sqm.dse.fetch.fetch.dse_blk.fetch_op_fifo_dpr.
+                                                                   \<2\>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
+                                                                   \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
 		uint64_t blk0                        : 24; /**< R/W - Group 3 Block 0 memories. INTERNAL: SPS memories:
 
                                                                  Pass 1:
@@ -3931,18 +3948,35 @@ typedef union bdk_nic_pf_ecc3_flip0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_40_63              : 24;
 		uint64_t blk1                        : 16; /**< R/W - Group 3 Block 1 memories. INTERNAL: SQM memories:
-                                                                 \<15:11\> = Reserved.
-                                                                 \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
-                                                                 \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
-                                                                 \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
-                                                                 \<7\>  = nic_u1.sqm.ctl.lock.lock_mem_mem.
-                                                                 \<6\>  = nic_u1.sqm.ctl.vnic.vnic_mem_mem.
-                                                                 \<5\>  = nic_u1.sqm.dpe.fetch.fetch.dpe_blk.fetch_op_fifo_dpr.
-                                                                 \<4\>  = nic_u1.sqm.dpe.fetch.fetch.fetch_data_fifo_dpr.
-                                                                 \<3\>  = nic_u1.sqm.dse.fetch.fetch.dse_blk.fetch_op_fifo_dpr.
-                                                                 \<2\>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
-                                                                 \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
-                                                                 \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
+
+                                                                 Pass 1:
+                                                                   \<15:11\> = Reserved.
+                                                                   \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
+                                                                   \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
+                                                                   \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
+                                                                   \<7\>  = nic_u1.sqm.ctl.lock.lock_mem_mem.
+                                                                   \<6\>  = nic_u1.sqm.ctl.vnic.vnic_mem_mem.
+                                                                   \<5\>  = nic_u1.sqm.dpe.fetch.fetch.dpe_blk.fetch_op_fifo_dpr.
+                                                                   \<4\>  = nic_u1.sqm.dpe.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<3\>  = nic_u1.sqm.dse.fetch.fetch.dse_blk.fetch_op_fifo_dpr.
+                                                                   \<2\>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
+                                                                   \<0\>  = nic_u1.sqm.mqm.mdmem_mem.
+
+                                                                 Pass 2+ (added tsosn_mem):
+                                                                   \<15:12\> = Reserved.
+                                                                   \<11\> = nic_u1.sqm.dse.send.tsosn_mem.
+                                                                   \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
+                                                                   \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
+                                                                   \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
+                                                                   \<7\>  = nic_u1.sqm.ctl.lock.lock_mem_mem.
+                                                                   \<6\>  = nic_u1.sqm.ctl.vnic.vnic_mem_mem.
+                                                                   \<5\>  = nic_u1.sqm.dpe.fetch.fetch.dpe_blk.fetch_op_fifo_dpr.
+                                                                   \<4\>  = nic_u1.sqm.dpe.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<3\>  = nic_u1.sqm.dse.fetch.fetch.dse_blk.fetch_op_fifo_dpr.
+                                                                   \<2\>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
+                                                                   \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
 		uint64_t blk0                        : 24; /**< R/W - Group 3 Block 0 memories. INTERNAL: SPS memories:
 
                                                                  Pass 1:
@@ -4017,18 +4051,35 @@ typedef union bdk_nic_pf_ecc3_flip1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_40_63              : 24;
 		uint64_t blk1                        : 16; /**< R/W - Group 3 Block 1 memories. INTERNAL: SQM memories:
-                                                                 \<15:11\> = Reserved.
-                                                                 \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
-                                                                 \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
-                                                                 \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
-                                                                 \<7\>  = nic_u1.sqm.ctl.lock.lock_mem_mem.
-                                                                 \<6\>  = nic_u1.sqm.ctl.vnic.vnic_mem_mem.
-                                                                 \<5\>  = nic_u1.sqm.dpe.fetch.fetch.dpe_blk.fetch_op_fifo_dpr.
-                                                                 \<4\>  = nic_u1.sqm.dpe.fetch.fetch.fetch_data_fifo_dpr.
-                                                                 \<3\>  = nic_u1.sqm.dse.fetch.fetch.dse_blk.fetch_op_fifo_dpr.
-                                                                 \<2\>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
-                                                                 \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
-                                                                 \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
+
+                                                                 Pass 1:
+                                                                   \<15:11\> = Reserved.
+                                                                   \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
+                                                                   \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
+                                                                   \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
+                                                                   \<7\>  = nic_u1.sqm.ctl.lock.lock_mem_mem.
+                                                                   \<6\>  = nic_u1.sqm.ctl.vnic.vnic_mem_mem.
+                                                                   \<5\>  = nic_u1.sqm.dpe.fetch.fetch.dpe_blk.fetch_op_fifo_dpr.
+                                                                   \<4\>  = nic_u1.sqm.dpe.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<3\>  = nic_u1.sqm.dse.fetch.fetch.dse_blk.fetch_op_fifo_dpr.
+                                                                   \<2\>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
+                                                                   \<0\>  = nic_u1.sqm.mqm.mdmem_mem.
+
+                                                                 Pass 2+ (added tsosn_mem):
+                                                                   \<15:12\> = Reserved.
+                                                                   \<11\> = nic_u1.sqm.dse.send.tsosn_mem.
+                                                                   \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
+                                                                   \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
+                                                                   \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
+                                                                   \<7\>  = nic_u1.sqm.ctl.lock.lock_mem_mem.
+                                                                   \<6\>  = nic_u1.sqm.ctl.vnic.vnic_mem_mem.
+                                                                   \<5\>  = nic_u1.sqm.dpe.fetch.fetch.dpe_blk.fetch_op_fifo_dpr.
+                                                                   \<4\>  = nic_u1.sqm.dpe.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<3\>  = nic_u1.sqm.dse.fetch.fetch.dse_blk.fetch_op_fifo_dpr.
+                                                                   \<2\>  = nic_u1.sqm.dse.fetch.fetch.fetch_data_fifo_dpr.
+                                                                   \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
+                                                                   \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
 		uint64_t blk0                        : 24; /**< R/W - Group 3 Block 0 memories. INTERNAL: SPS memories:
 
                                                                  Pass 1:
@@ -6336,6 +6387,58 @@ static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long param1)
 #define busnum_BDK_NIC_PF_TL4AX_CFG(p1) (p1)
 #define arguments_BDK_NIC_PF_TL4AX_CFG(p1) (p1),-1,-1,-1
 #define basename_BDK_NIC_PF_TL4AX_CFG(...) "NIC_PF_TL4AX_CFG"
+
+
+/**
+ * NCB - nic_pf_tso_cfg
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_tso_cfg {
+	uint64_t u;
+	struct bdk_nic_pf_tso_cfg_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_44_63              : 20;
+		uint64_t fsf                         : 12; /**< R/W - Modify the TCP header flags for the first TSO segmented packet by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [FSF]. */
+		uint64_t reserved_28_31              : 4;
+		uint64_t msf                         : 12; /**< R/W - Modify the TCP header flags for the middle TSO segmented packets by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [MSF]. */
+		uint64_t reserved_12_15              : 4;
+		uint64_t lsf                         : 12; /**< R/W - Modify the TCP header flags for the last TSO segmented packet by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [LSF]. */
+#else
+		uint64_t lsf                         : 12;
+		uint64_t reserved_12_15              : 4;
+		uint64_t msf                         : 12;
+		uint64_t reserved_28_31              : 4;
+		uint64_t fsf                         : 12;
+		uint64_t reserved_44_63              : 20;
+#endif
+	} s;
+	/* struct bdk_nic_pf_tso_cfg_s        cn88xx; */
+} bdk_nic_pf_tso_cfg_t;
+
+#define BDK_NIC_PF_TSO_CFG BDK_NIC_PF_TSO_CFG_FUNC()
+static inline uint64_t BDK_NIC_PF_TSO_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_TSO_CFG_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000000070ull;
+	else 		csr_fatal("BDK_NIC_PF_TSO_CFG", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_TSO_CFG bdk_nic_pf_tso_cfg_t
+#define bustype_BDK_NIC_PF_TSO_CFG BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_TSO_CFG 0
+#define arguments_BDK_NIC_PF_TSO_CFG -1,-1,-1,-1
+#define basename_BDK_NIC_PF_TSO_CFG "NIC_PF_TSO_CFG"
 
 
 /**

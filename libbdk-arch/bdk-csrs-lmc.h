@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2014  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -517,7 +517,7 @@ typedef union bdk_lmcx_comp_ctl2 {
                                                                    0x0 = Reserved.
                                                                    0x1 = Reserved.
                                                                    0x2 = 26 ohm.
-                                                                 0x3 = 30 ohm.
+                                                                   0x3 = 30 ohm.
                                                                    0x4 = 34 ohm.
                                                                    0x5 = 40 ohm.
                                                                    0x6 = 48 ohm.
@@ -1510,7 +1510,14 @@ typedef union bdk_lmcx_dll_ctl3 {
                                                                  the designated byte DLL_CTL3[BYTE_SEL] and bit DLL_CTL3[BIT_SELECT]
                                                                  for write bit deskew. This is a oneshot and clears itself each time
                                                                  it is set. */
-		uint64_t bit_select                  : 4;  /**< R/W - Selects specific DQ bit in byte DLL_CTL3[BYTE_SEL] for write bit deskew. */
+		uint64_t bit_select                  : 4;  /**< R/W - 0x0-0x7 = Selects bit0-bit8 for write deskew setting assignment.
+                                                                 0x8 = Selects dbi for write deskew setting assignment.
+                                                                 0x9 = No-Op
+                                                                 0xA = Reuse deskew setting on.
+                                                                 0xB = Reuse deskew setting off.
+                                                                 0xC-0xE = Reserved
+                                                                 0xF = Bit select reset. Clear write deskew settings to default value 0x40 in each DQ bit.
+                                                                 Also sets Vref bypass to off and deskew reuse setting to off. */
 		uint64_t dclk90_fwd                  : 1;  /**< WO - Reserved; must be zero. INTERNAL: Generate a one cycle pulse to forward setting. This is a
                                                                  oneshot and clears itself each time it is set. */
 		uint64_t ddr_90_dly_byp              : 1;  /**< R/W - Reserved; must be zero. INTERNAL: Bypass DDR90_DLY in clock tree. */
@@ -2559,7 +2566,8 @@ typedef union bdk_lmcx_modereg_params0 {
 	uint64_t u;
 	struct bdk_lmcx_modereg_params0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_27_63              : 37;
+		uint64_t reserved_28_63              : 36;
+		uint64_t wrp_ext                     : 1;  /**< RO - Reserved. */
 		uint64_t cl_ext                      : 1;  /**< R/W - Reserved; must be zero.
                                                                  INTERNAL: The extended bit for the proposed CAS Latency spec change. The new
                                                                  CAS Latency in DDR4 DRAM is defined in MR0(A12,A6,A5,A4,A2). This bit sets
@@ -2759,7 +2767,8 @@ typedef union bdk_lmcx_modereg_params0 {
 		uint64_t ppd                         : 1;
 		uint64_t al_ext                      : 1;
 		uint64_t cl_ext                      : 1;
-		uint64_t reserved_27_63              : 37;
+		uint64_t wrp_ext                     : 1;
+		uint64_t reserved_28_63              : 36;
 #endif
 	} s;
 	/* struct bdk_lmcx_modereg_params0_s  cn88xx; */
@@ -3680,7 +3689,16 @@ typedef union bdk_lmcx_phy_ctl {
                                                                  1 = 9 bits per byte lane, including DBI. */
 		uint64_t dsk_dbg_byte_sel            : 4;  /**< R/W - Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
-		uint64_t dsk_dbg_bit_sel             : 4;  /**< R/W - Reserved. INTERNAL: Deskew debug bit select for dsk read operation. */
+		uint64_t dsk_dbg_bit_sel             : 4;  /**< R/W - Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
+                                                                 0x0 = DQ0.
+                                                                 0x1 = DQ1.
+                                                                 0x2 = DQ2.
+                                                                 0x3 = DQ3.
+                                                                 0x4 = DBI.
+                                                                 0x5 = DQ4.
+                                                                 0x6 = DQ5.
+                                                                 0x7 = DQ6.
+                                                                 0x8 = DQ7. */
 		uint64_t dbi_mode_ena                : 1;  /**< R/W - Enable DBI mode for PHY. */
 		uint64_t ddr_error_n_ena             : 1;  /**< R/W - Enable error_alert_n signal for PHY. */
 		uint64_t ref_pin_on                  : 1;  /**< R/W - Reserved. INTERNAL: Voltage reference pin enabled. */
@@ -4594,7 +4612,9 @@ typedef union bdk_lmcx_slot_ctl0 {
 	uint64_t u;
 	struct bdk_lmcx_slot_ctl0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_48_63              : 16;
+		uint64_t reserved_50_63              : 14;
+		uint64_t w2r_l_init_ext              : 1;  /**< RO - Reserved. */
+		uint64_t w2r_init_ext                : 1;  /**< RO - Reserved. */
 		uint64_t w2w_l_init                  : 6;  /**< R/W/H - Write-to-write spacing control for back-to-back write followed by write cache block
                                                                  accesses to the same rank and DIMM, and same BG for DDR4. */
 		uint64_t w2r_l_init                  : 6;  /**< R/W/H - Write-to-read spacing control for back-to-back write followed by read cache block accesses
@@ -4620,7 +4640,9 @@ typedef union bdk_lmcx_slot_ctl0 {
 		uint64_t r2w_l_init                  : 6;
 		uint64_t w2r_l_init                  : 6;
 		uint64_t w2w_l_init                  : 6;
-		uint64_t reserved_48_63              : 16;
+		uint64_t w2r_init_ext                : 1;
+		uint64_t w2r_l_init_ext              : 1;
+		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
 	/* struct bdk_lmcx_slot_ctl0_s        cn88xx; */
@@ -4787,7 +4809,9 @@ typedef union bdk_lmcx_slot_ctl3 {
 	uint64_t u;
 	struct bdk_lmcx_slot_ctl3_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_48_63              : 16;
+		uint64_t reserved_50_63              : 14;
+		uint64_t w2r_l_xrank_init_ext        : 1;  /**< RO - Reserved. */
+		uint64_t w2r_xrank_init_ext          : 1;  /**< R/W/H - Reserved. */
 		uint64_t w2w_l_xrank_init            : 6;  /**< R/W/H - Write-to-write spacing control for back-to-back write followed by write cache block
                                                                  accesses to a different logical rank, and same BG for DDR4. */
 		uint64_t w2r_l_xrank_init            : 6;  /**< R/W/H - Write-to-read spacing control for back-to-back write followed by read cache block accesses
@@ -4813,7 +4837,9 @@ typedef union bdk_lmcx_slot_ctl3 {
 		uint64_t r2w_l_xrank_init            : 6;
 		uint64_t w2r_l_xrank_init            : 6;
 		uint64_t w2w_l_xrank_init            : 6;
-		uint64_t reserved_48_63              : 16;
+		uint64_t w2r_xrank_init_ext          : 1;
+		uint64_t w2r_l_xrank_init_ext        : 1;
+		uint64_t reserved_50_63              : 14;
 #endif
 	} s;
 	/* struct bdk_lmcx_slot_ctl3_s        cn88xx; */
@@ -4970,8 +4996,9 @@ typedef union bdk_lmcx_timing_params1 {
 	uint64_t u;
 	struct bdk_lmcx_timing_params1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_58_63              : 6;
+		uint64_t reserved_59_63              : 5;
 		uint64_t txp_ext                     : 1;  /**< RO - Reserved. */
+		uint64_t trcd_ext                    : 1;  /**< RO - Reserved. */
 		uint64_t tpdm_full_cycle_ena         : 1;  /**< R/W - When set, this field enables the addition of one-cycle delay to the
                                                                  Write/Read latency calculation. This is to compensate the case when
                                                                  tPDM delay in the RCD of an RDIMM/LRDIMM is greater than one-cycle.
@@ -5143,8 +5170,9 @@ typedef union bdk_lmcx_timing_params1 {
 		uint64_t txpdll                      : 5;
 		uint64_t trfc_dlr                    : 7;
 		uint64_t tpdm_full_cycle_ena         : 1;
+		uint64_t trcd_ext                    : 1;
 		uint64_t txp_ext                     : 1;
-		uint64_t reserved_58_63              : 6;
+		uint64_t reserved_59_63              : 5;
 #endif
 	} s;
 	/* struct bdk_lmcx_timing_params1_s   cn88xx; */

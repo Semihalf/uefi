@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2014  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -435,8 +435,10 @@ typedef union bdk_ocx_com_linkx_ctl {
                                                                  Setting the bit also causes the link to transmit a REINIT request to the link partner.
                                                                  This bit must be cleared for link to operate normally. */
 		uint64_t reserved_6_6                : 1;
-		uint64_t auto_clr                    : 1;  /**< R/W - Automatically clear DROP bit if link partner has cleared other side. Typically disabled if
-                                                                 software wishes to manage deassertion of DROP. */
+		uint64_t auto_clr                    : 1;  /**< R/W - When set, automatically clears the local DROP bit if link partner forces
+                                                                 a reinitialization.  Typically disabled once software is running.
+                                                                 If clear, software must manage clearing the DROP bit after it has verified
+                                                                 that any pending transactions have timed out. */
 		uint64_t drop                        : 1;  /**< R/W/H - Drop all requests on given link. Typically set by hardware when link has failed or been
                                                                  reinitialized. Cleared by software once pending link traffic is removed. (See
                                                                  OCX_TLK(0..2)_FIFO(0..13)_CNT.) */

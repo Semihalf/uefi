@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2014  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -79,8 +79,8 @@ union rad_cword_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t istr                        : 8;  /**< [ 63: 56] When [STREN] is set, the SMMU stream for RAD_IWORD_S[PTR]. */
-		uint64_t ostr                        : 8;  /**< [ 55: 48] When [STREN] is set, the SMMU stream for RAD_OWORD_S[PTR]. */
+		uint64_t istr                        : 8;  /**< [ 63: 56] When [STREN] is set, the SMMU stream for RAD_IWORD_S[PTR]. Else, reserved. */
+		uint64_t ostr                        : 8;  /**< [ 55: 48] When [STREN] is set, the SMMU stream for RAD_OWORD_S[PTR]. Else, reserved. */
 		uint64_t reserved_39_47              : 9;  /**< [ 47: 39] Reserved. */
 		uint64_t stren                       : 1;  /**< [ 38: 38] Stream override enable.
                                                                  0 = Use the default SMMU stream identifier of PCC_DEV_CON_E::RAD for all requests.
@@ -192,8 +192,8 @@ union rad_cword_s {
                                                                  requests have this bit clear. INTERNAL: When RAD is virtualized this will need a per-queue
                                                                  PF enable. */
 		uint64_t reserved_39_47              : 9;  /**< [ 47: 39] Reserved. */
-		uint64_t ostr                        : 8;  /**< [ 55: 48] When [STREN] is set, the SMMU stream for RAD_OWORD_S[PTR]. */
-		uint64_t istr                        : 8;  /**< [ 63: 56] When [STREN] is set, the SMMU stream for RAD_IWORD_S[PTR]. */
+		uint64_t ostr                        : 8;  /**< [ 55: 48] When [STREN] is set, the SMMU stream for RAD_OWORD_S[PTR]. Else, reserved. */
+		uint64_t istr                        : 8;  /**< [ 63: 56] When [STREN] is set, the SMMU stream for RAD_IWORD_S[PTR]. Else, reserved. */
 #endif
 	} s;
 };
@@ -312,7 +312,7 @@ union rad_oword_s {
                                                                  only output of the pipe is the non-zero detect result. In this case, [PTR] indicates the
                                                                  8-byte location of the non-zero detect result, which is written with RAD_NZDIST_S.
 
-                                                                 [PTR] must be naturally-aligned on an 8-byte boundary (i.e. \<2:0\> must be zero). */
+                                                                 [P_PTR] must be naturally-aligned on an 8-byte boundary (i.e. \<2:0\> must be zero). */
 #else
 		uint64_t p_ptr                       : 49; /**< [ 48:  0] When RAD_CWORD_S[P_CMP,Q_CMP]=0, [PTR] indicates the starting address of the L2/DRAM
                                                                  buffer that will receive the P/Q data.  The SMMU stream used may be overridden with
@@ -325,7 +325,7 @@ union rad_oword_s {
                                                                  only output of the pipe is the non-zero detect result. In this case, [PTR] indicates the
                                                                  8-byte location of the non-zero detect result, which is written with RAD_NZDIST_S.
 
-                                                                 [PTR] must be naturally-aligned on an 8-byte boundary (i.e. \<2:0\> must be zero). */
+                                                                 [P_PTR] must be naturally-aligned on an 8-byte boundary (i.e. \<2:0\> must be zero). */
 		uint64_t reserved_49_55              : 7;  /**< [ 55: 49] Reserved. */
 		uint64_t nc                          : 1;  /**< [ 56: 56] When set, indicates that RAD should not allocate L2 cache space for the P/Q data on L2
                                                                  cache misses. [NC] should typically be clear, though setting [NC] can improve performance

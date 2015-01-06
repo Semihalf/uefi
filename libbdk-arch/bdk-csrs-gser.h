@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2014  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -691,8 +691,27 @@ typedef union bdk_gserx_glbl_tm_admon {
 		uint64_t reserved_8_63               : 56;
 #endif
 	} s;
-	/* struct bdk_gserx_glbl_tm_admon_s   cn88xx; */
-	/* struct bdk_gserx_glbl_tm_admon_s   cn88xxp1; */
+	struct bdk_gserx_glbl_tm_admon_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_8_63               : 56;
+		uint64_t amon_on                     : 1;  /**< R/W - When set, AMON test mode is enabled; see GSER()_GLBL_TAD. */
+		uint64_t dmon_on                     : 1;  /**< R/W - When set, DMON test mode is enabled; see GSER()_GLBL_TAD. */
+		uint64_t reserved_5_3                : 3;
+		uint64_t lsel                        : 3;  /**< R/W - Three bits to select 1 out of 4 lanes for AMON/DMON test.
+                                                                 0x0 = Selects lane 0.
+                                                                 0x1 = Selects lane 1.
+                                                                 0x2 = Selects lane 2.
+                                                                 0x3 = Selects lane 3.
+                                                                 0x4-0x7 = Reserved. */
+#else
+		uint64_t lsel                        : 3;
+		uint64_t reserved_5_3                : 3;
+		uint64_t dmon_on                     : 1;
+		uint64_t amon_on                     : 1;
+		uint64_t reserved_8_63               : 56;
+#endif
+	} cn88xx;
+	struct bdk_gserx_glbl_tm_admon_cn88xx cn88xxp1;
 } bdk_gserx_glbl_tm_admon_t;
 
 static inline uint64_t BDK_GSERX_GLBL_TM_ADMON(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1145,8 +1164,26 @@ typedef union bdk_gserx_lanex_pcs_ctlifc_1 {
 		uint64_t reserved_9_63               : 55;
 #endif
 	} s;
-	/* struct bdk_gserx_lanex_pcs_ctlifc_1_s cn88xx; */
-	/* struct bdk_gserx_lanex_pcs_ctlifc_1_s cn88xxp1; */
+	struct bdk_gserx_lanex_pcs_ctlifc_1_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_9_63               : 55;
+		uint64_t cfg_rx_pstate_req_ovrrd_val : 2;  /**< R/W - Override RX pstate request when its override bit
+                                                                 is asserted GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_PSTATE_REQ_OVRRD_EN]. */
+		uint64_t reserved_6_2                : 5;
+		uint64_t cfg_rx_mode_ovrrd_val       : 2;  /**< R/W - Override PCS RX mode (data width) when its override bit
+                                                                 is asserted GSER()_LANE()_PCS_CTLIFC_2[CFG_RX_MODE_OVRRD_EN].
+                                                                 0x0 = 8-bit raw data (not supported).
+                                                                 0x1 = 10-bit raw data (not supported).
+                                                                 0x2 = 16-bit raw data (not supported).
+                                                                 0x3 = 20-bit raw data. */
+#else
+		uint64_t cfg_rx_mode_ovrrd_val       : 2;
+		uint64_t reserved_6_2                : 5;
+		uint64_t cfg_rx_pstate_req_ovrrd_val : 2;
+		uint64_t reserved_9_63               : 55;
+#endif
+	} cn88xx;
+	struct bdk_gserx_lanex_pcs_ctlifc_1_cn88xx cn88xxp1;
 } bdk_gserx_lanex_pcs_ctlifc_1_t;
 
 static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_1(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1220,8 +1257,55 @@ typedef union bdk_gserx_lanex_pcs_ctlifc_2 {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_gserx_lanex_pcs_ctlifc_2_s cn88xx; */
-	/* struct bdk_gserx_lanex_pcs_ctlifc_2_s cn88xxp1; */
+	struct bdk_gserx_lanex_pcs_ctlifc_2_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_16_63              : 48;
+		uint64_t ctlifc_ovrrd_req            : 1;  /**< WO - Writing to set this bit initiates a state machine interface request
+                                                                 for GSER()_LANE()_PCS_CTLIFC_0 and GSER()_LANE()_PCS_CTLIFC_1
+                                                                 override values. */
+		uint64_t reserved_14_9               : 6;
+		uint64_t cfg_tx_vboost_en_ovrrd_en   : 1;  /**< R/W - Override mac_pcs_txX vboost_en signal with the value specified in
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_VBOOST_EN_OVRRD_VAL]. */
+		uint64_t cfg_tx_coeff_req_ovrrd_en   : 1;  /**< R/W - Override mac_pcs_txX_coeff_req signal with the value specified in
+                                                                 GSER()_LANE()_PCS_CTLIFC_0[CFG_TX_COEFF_REQ_OVRRD_VAL]. */
+		uint64_t cfg_rx_cdr_coast_req_ovrrd_en : 1;/**< R/W - Override mac_pcs_rxX_cdr_coast signal with the value specified in
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CFG_RX_COAST_REQ_OVRRD_VAL]. */
+		uint64_t cfg_tx_detrx_en_req_ovrrd_en : 1; /**< R/W - Override mac_pcs_txX_detrx_en signal with the value specified in
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_DETRX_EN_REQ_OVRRD_VAL]. */
+		uint64_t cfg_soft_reset_req_ovrrd_en : 1;  /**< R/W - Override mac_pcs_laneX_soft_rst signal with the value specified in
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CFG_SOFT_RESET_REQ_OVRRD_VAL]. */
+		uint64_t cfg_lane_pwr_off_ovrrd_en   : 1;  /**< R/W - Override mac_pcs_laneX_pwr_off signal with the value specified in
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CFG_LANE_PWR_OFF_OVRRD_VAL]. */
+		uint64_t cfg_tx_pstate_req_ovrrd_en  : 1;  /**< R/W - Override mac_pcs_txX_pstate[1:0] signal with the value specified in
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_PSTATE_REQ_OVRRD_VAL].
+                                                                 When using this field to change the TX Power State, you must also set
+                                                                 the override enable bits for the lane_mode, soft_reset and lane_pwr_off
+                                                                 fields.  The corresponding orrd_val fields should be programmed so as
+                                                                 not to cause undesired changes. */
+		uint64_t cfg_rx_pstate_req_ovrrd_en  : 1;  /**< R/W - Override mac_pcs_rxX_pstate[1:0] signal with the value specified in
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CFG_RX_PSTATE_REQ_OVRRD_VAL].
+                                                                 When using this field to change the RX Power State, you must also set
+                                                                 the override enable bits for the lane_mode, soft_reset and lane_pwr_off
+                                                                 fields.  The corresponding orrd_val fields should be programmed so as
+                                                                 not to cause undesired changes. */
+		uint64_t cfg_lane_mode_req_ovrrd_en  : 1;  /**< R/W - Override mac_pcs_laneX_mode[3:0] signal with the value specified in
+                                                                 is asserted GSER()_LANE()_PCS_CTLIFC_2[CFG_LANE_MODE_REQ_OVRRD_VAL]. */
+#else
+		uint64_t cfg_lane_mode_req_ovrrd_en  : 1;
+		uint64_t cfg_rx_pstate_req_ovrrd_en  : 1;
+		uint64_t cfg_tx_pstate_req_ovrrd_en  : 1;
+		uint64_t cfg_lane_pwr_off_ovrrd_en   : 1;
+		uint64_t cfg_soft_reset_req_ovrrd_en : 1;
+		uint64_t cfg_tx_detrx_en_req_ovrrd_en : 1;
+		uint64_t cfg_rx_cdr_coast_req_ovrrd_en : 1;
+		uint64_t cfg_tx_coeff_req_ovrrd_en   : 1;
+		uint64_t cfg_tx_vboost_en_ovrrd_en   : 1;
+		uint64_t reserved_14_9               : 6;
+		uint64_t ctlifc_ovrrd_req            : 1;
+		uint64_t reserved_16_63              : 48;
+#endif
+	} cn88xx;
+	struct bdk_gserx_lanex_pcs_ctlifc_2_cn88xx cn88xxp1;
 } bdk_gserx_lanex_pcs_ctlifc_2_t;
 
 static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -1349,8 +1433,71 @@ typedef union bdk_gserx_lanex_pwr_ctrl {
 		uint64_t reserved_15_63              : 49;
 #endif
 	} s;
-	/* struct bdk_gserx_lanex_pwr_ctrl_s  cn88xx; */
-	/* struct bdk_gserx_lanex_pwr_ctrl_s  cn88xxp1; */
+	struct bdk_gserx_lanex_pwr_ctrl_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_15_63              : 49;
+		uint64_t tx_sds_fifo_reset_ovrrd_en  : 1;  /**< R/W - When asserted, TX_SDS_FIFO_RESET_OVVRD_VAL is used to specify the value of the reset
+                                                                 signal for the TX FIFO supplying data to the SerDes p2s interface. */
+		uint64_t tx_sds_fifo_reset_ovrrd_val : 1;  /**< R/W - When asserted, TX_SDS_FIFO_RESET_OVVRD_EN is asserted, this field is
+                                                                 used to specify the value of the reset
+                                                                 signal for the TX FIFO supplying data to the SerDes p2s interface. */
+		uint64_t tx_pcs_reset_ovrrd_val      : 1;  /**< R/W - When TX_PCS_RESET_OVRRD_EN is
+                                                                 asserted, this field is used to specify the value of
+                                                                 the reset signal for PCS TX logic. */
+		uint64_t rx_pcs_reset_ovrrd_val      : 1;  /**< R/W - When RX_PCS_RESET_OVRRD_EN is
+                                                                 asserted, this field is used to specify the value of
+                                                                 the reset signal for PCS RX logic. */
+		uint64_t reserved_10_9               : 2;
+		uint64_t rx_resetn_ovrrd_en          : 1;  /**< R/W - Override RX Power State machine rx_resetn
+                                                                 control signal.  When set, the rx_resetn control signal is taken
+                                                                 from the GSER()_LANE()_RX_CFG_0[RX_RESETN_OVRRD_VAL]
+                                                                 control bit. */
+		uint64_t rx_resetn_ovrrd_val         : 1;  /**< R/W - Override RX Power State machine reset control
+                                                                 signal. When set, reset control signals are specified in
+                                                                 [RX_PCS_RESET_OVRRD_VAL]. */
+		uint64_t rx_lctrl_ovrrd_en           : 1;  /**< R/W - Override RX Power State machine loop control
+                                                                 signals.  When set, the loop control settings are
+                                                                 specified in the GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL] field. */
+		uint64_t rx_lctrl_ovrrd_val          : 1;  /**< R/W - Override RX Power State machine power down
+                                                                 control signal. When set, the power down control signal is
+                                                                 specified by GSER()_LANE()_RX_CFG_1[RX_CHPD_OVRRD_VAL]. */
+		uint64_t tx_tristate_en_ovrrd_en     : 1;  /**< R/W - Override TX Power State machine TX tristate
+                                                                 control signal.  When set, TX tristate control signal is specified
+                                                                 in GSER()_LANE()_TX_CFG_0[TX_TRISTATE_EN_OVRRD_VAL]. */
+		uint64_t tx_pcs_reset_ovrrd_en       : 1;  /**< R/W - Override TX Power State machine reset control
+                                                                 signal.  When set, reset control signals is specified in
+                                                                 [TX_PCS_RESET_OVRRD_VAL]. */
+		uint64_t tx_elec_idle_ovrrd_en       : 1;  /**< R/W - Override mac_pcs_txX_elec_idle signal
+                                                                 When set, TX electrical idle is controlled from
+                                                                 GSER()_LANE()_TX_CFG_1[TX_ELEC_IDLE_OVRRD_VAL]
+                                                                 mac_pcs_txX_elec_idle signal is ignored. */
+		uint64_t tx_pd_ovrrd_en              : 1;  /**< R/W - Override TX Power State machine TX lane
+                                                                 power-down control signal
+                                                                 When set, TX lane power down is controlled by
+                                                                 GSER()_LANE()_TX_CFG_0[TX_CHPD_OVRRD_VAL]. */
+		uint64_t tx_p2s_resetn_ovrrd_en      : 1;  /**< R/W - Override TX Power State machine TX reset
+                                                                 control signal
+                                                                 When set, TX reset is controlled by
+                                                                 GSER()_LANE()_TX_CFG_0[TX_RESETN_OVRRD_VAL]. */
+#else
+		uint64_t tx_p2s_resetn_ovrrd_en      : 1;
+		uint64_t tx_pd_ovrrd_en              : 1;
+		uint64_t tx_elec_idle_ovrrd_en       : 1;
+		uint64_t tx_pcs_reset_ovrrd_en       : 1;
+		uint64_t tx_tristate_en_ovrrd_en     : 1;
+		uint64_t rx_lctrl_ovrrd_val          : 1;
+		uint64_t rx_lctrl_ovrrd_en           : 1;
+		uint64_t rx_resetn_ovrrd_val         : 1;
+		uint64_t rx_resetn_ovrrd_en          : 1;
+		uint64_t reserved_10_9               : 2;
+		uint64_t rx_pcs_reset_ovrrd_val      : 1;
+		uint64_t tx_pcs_reset_ovrrd_val      : 1;
+		uint64_t tx_sds_fifo_reset_ovrrd_val : 1;
+		uint64_t tx_sds_fifo_reset_ovrrd_en  : 1;
+		uint64_t reserved_15_63              : 49;
+#endif
+	} cn88xx;
+	struct bdk_gserx_lanex_pwr_ctrl_cn88xx cn88xxp1;
 } bdk_gserx_lanex_pwr_ctrl_t;
 
 static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2180,7 +2327,48 @@ typedef union bdk_gserx_lanex_rx_misc_ovrrd {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} s;
-	/* struct bdk_gserx_lanex_rx_misc_ovrrd_s cn88xx; */
+	struct bdk_gserx_lanex_rx_misc_ovrrd_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_14_63              : 50;
+		uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;  /**< R/W - Override value for RX OOB Clock Enable. */
+		uint64_t cfg_rx_oob_clk_en_ovrrd_en  : 1;  /**< R/W - Override enable for RX OOB Clock Enable. */
+		uint64_t cfg_rx_eie_det_ovrrd_val    : 1;  /**< R/W - Override value for RX Electrical-Idle-Exit
+                                                                 Detect Enable. */
+		uint64_t cfg_rx_eie_det_ovrrd_en     : 1;  /**< R/W - Override enable for RX Electrical-Idle-Exit
+                                                                 Detect Enable. */
+		uint64_t cfg_rx_cdr_ctrl_ovvrd_en    : 1;  /**< R/W - Not supported. */
+		uint64_t cfg_rx_eq_eval_ovrrd_val    : 1;  /**< R/W - Training mode control in override mode. */
+		uint64_t cfg_rx_eq_eval_ovrrd_en     : 1;  /**< R/W - Override enable for RX-EQ Eval
+                                                                 When asserted, training mode is controlled by
+                                                                 CFG_RX_EQ_EVAL_OVRRD_VAL. */
+		uint64_t reserved_6_6                : 1;
+		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;  /**< R/W - When asserted, override DLL lock enable
+                                                                 signal from the RX Power State machine with
+                                                                 CFG_RX_DLL_LOCKEN in register
+                                                                 GSER()_LANE()_RX_CFG_1. */
+		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;  /**< R/W - When asserted, pcs_sds_rx_err_det_ctrl is set
+                                                                 to cfg_rx_errdet_ctrl in registers
+                                                                 GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
+		uint64_t reserved_3_1                : 3;
+		uint64_t cfg_rxeq_eval_restore_en    : 1;  /**< R/W - When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
+                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
+                                                                 Added in pass 2. */
+#else
+		uint64_t cfg_rxeq_eval_restore_en    : 1;
+		uint64_t reserved_3_1                : 3;
+		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;
+		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;
+		uint64_t reserved_6_6                : 1;
+		uint64_t cfg_rx_eq_eval_ovrrd_en     : 1;
+		uint64_t cfg_rx_eq_eval_ovrrd_val    : 1;
+		uint64_t cfg_rx_cdr_ctrl_ovvrd_en    : 1;
+		uint64_t cfg_rx_eie_det_ovrrd_en     : 1;
+		uint64_t cfg_rx_eie_det_ovrrd_val    : 1;
+		uint64_t cfg_rx_oob_clk_en_ovrrd_en  : 1;
+		uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;
+		uint64_t reserved_14_63              : 50;
+#endif
+	} cn88xx;
 	struct bdk_gserx_lanex_rx_misc_ovrrd_cn88xxp1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_14_63              : 50;
@@ -2203,9 +2391,9 @@ typedef union bdk_gserx_lanex_rx_misc_ovrrd {
 		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;  /**< R/W - When asserted, pcs_sds_rx_err_det_ctrl is set
                                                                  to cfg_rx_errdet_ctrl in registers
                                                                  GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
-		uint64_t reserved_0_3                : 4;
+		uint64_t reserved_3_0                : 4;
 #else
-		uint64_t reserved_0_3                : 4;
+		uint64_t reserved_3_0                : 4;
 		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;
 		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;
 		uint64_t reserved_6_6                : 1;
@@ -2674,8 +2862,39 @@ typedef union bdk_gserx_lanex_sds_pin_mon_0 {
 		uint64_t reserved_10_63              : 54;
 #endif
 	} s;
-	/* struct bdk_gserx_lanex_sds_pin_mon_0_s cn88xx; */
-	/* struct bdk_gserx_lanex_sds_pin_mon_0_s cn88xxp1; */
+	struct bdk_gserx_lanex_sds_pin_mon_0_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_10_63              : 54;
+		uint64_t pcs_sds_tx_widthsel         : 2;  /**< RO/H - TX parallel interface width settings (RAW PCS to
+                                                                 SerDes TX).
+                                                                 0x0 = 8-bit raw data (not supported).
+                                                                 0x1 = 10-bit raw data (not supported).
+                                                                 0x2 = 16-bit raw data (not supported).
+                                                                 0x3 = 20-bit raw data. */
+		uint64_t pcs_sds_rx_pcie_mode        : 1;  /**< RO/H - Selects between RX terminations:
+                                                                 0x0 = pcs_sds_rx_terminate_to_vdda.
+                                                                 0x1 = VSS. */
+		uint64_t reserved_6_5                : 2;
+		uint64_t pcs_sds_rx_misc_ctrl_5      : 1;  /**< RO/H - Not Used. */
+		uint64_t tx_detrx_state              : 2;  /**< RO/H - RX detection state:
+                                                                 0x0 = IDLE.
+                                                                 0x1 = Charge Up.
+                                                                 0x2 = Detection.
+                                                                 0x3 = Restore common mode. */
+		uint64_t pcs_sds_tx_rx_detect_dis    : 1;  /**< RO/H - TX detect RX, mode disable. */
+		uint64_t pcs_sds_tx_detect_pulsen    : 1;  /**< RO/H - TX detect RX, pulse enable. */
+#else
+		uint64_t pcs_sds_tx_detect_pulsen    : 1;
+		uint64_t pcs_sds_tx_rx_detect_dis    : 1;
+		uint64_t tx_detrx_state              : 2;
+		uint64_t pcs_sds_rx_misc_ctrl_5      : 1;
+		uint64_t reserved_6_5                : 2;
+		uint64_t pcs_sds_rx_pcie_mode        : 1;
+		uint64_t pcs_sds_tx_widthsel         : 2;
+		uint64_t reserved_10_63              : 54;
+#endif
+	} cn88xx;
+	struct bdk_gserx_lanex_sds_pin_mon_0_cn88xx cn88xxp1;
 } bdk_gserx_lanex_sds_pin_mon_0_t;
 
 static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_0(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2832,8 +3051,34 @@ typedef union bdk_gserx_lanex_tx_cfg_0 {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_gserx_lanex_tx_cfg_0_s  cn88xx; */
-	/* struct bdk_gserx_lanex_tx_cfg_0_s  cn88xxp1; */
+	struct bdk_gserx_lanex_tx_cfg_0_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_16_63              : 48;
+		uint64_t tx_tristate_en_ovrd_val     : 1;  /**< R/W - TX termination high-Z enable. */
+		uint64_t tx_chpd_ovrd_val            : 1;  /**< R/W - TX lane power down. */
+		uint64_t reserved_13_10              : 4;
+		uint64_t tx_resetn_ovrd_val          : 1;  /**< R/W - TX P2S rest. */
+		uint64_t tx_cm_mode                  : 1;  /**< R/W/H - Assert to enable fast Common-Mode charge up. For simulation purposes only. */
+		uint64_t cfg_tx_swing                : 5;  /**< R/W - TX output swing control.
+                                                                 Default swing encoding when GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN] is
+                                                                 asserted. */
+		uint64_t fast_rdet_mode              : 1;  /**< R/W/H - Assert to enable fast RX Detection. For simulation purposes only. */
+		uint64_t fast_tristate_mode          : 1;  /**< R/W/H - Assert to enable fast Tristate power up. For simulation purposes only. */
+		uint64_t reserved_0_0                : 1;
+#else
+		uint64_t reserved_0_0                : 1;
+		uint64_t fast_tristate_mode          : 1;
+		uint64_t fast_rdet_mode              : 1;
+		uint64_t cfg_tx_swing                : 5;
+		uint64_t tx_cm_mode                  : 1;
+		uint64_t tx_resetn_ovrd_val          : 1;
+		uint64_t reserved_13_10              : 4;
+		uint64_t tx_chpd_ovrd_val            : 1;
+		uint64_t tx_tristate_en_ovrd_val     : 1;
+		uint64_t reserved_16_63              : 48;
+#endif
+	} cn88xx;
+	struct bdk_gserx_lanex_tx_cfg_0_cn88xx cn88xxp1;
 } bdk_gserx_lanex_tx_cfg_0_t;
 
 static inline uint64_t BDK_GSERX_LANEX_TX_CFG_0(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2952,8 +3197,25 @@ typedef union bdk_gserx_lanex_tx_cfg_2 {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_gserx_lanex_tx_cfg_2_s  cn88xx; */
-	/* struct bdk_gserx_lanex_tx_cfg_2_s  cn88xxp1; */
+	struct bdk_gserx_lanex_tx_cfg_2_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_16_63              : 48;
+		uint64_t pcs_sds_tx_dcc_en           : 1;  /**< R/W - DCC Enable. */
+		uint64_t reserved_14_3               : 12;
+		uint64_t rcvr_test_ovrd_en           : 1;  /**< R/W - Override RX detect disable and test pulse. */
+		uint64_t rcvr_test_ovrd_val          : 1;  /**< R/W - Override value for RX detect test pulse; used to create a pulse during which the receiver
+                                                                 detect test operation is performed. */
+		uint64_t tx_rx_detect_dis_ovrd_val   : 1;  /**< R/W - Override value of RX detect disable. */
+#else
+		uint64_t tx_rx_detect_dis_ovrd_val   : 1;
+		uint64_t rcvr_test_ovrd_val          : 1;
+		uint64_t rcvr_test_ovrd_en           : 1;
+		uint64_t reserved_14_3               : 12;
+		uint64_t pcs_sds_tx_dcc_en           : 1;
+		uint64_t reserved_16_63              : 48;
+#endif
+	} cn88xx;
+	struct bdk_gserx_lanex_tx_cfg_2_cn88xx cn88xxp1;
 } bdk_gserx_lanex_tx_cfg_2_t;
 
 static inline uint64_t BDK_GSERX_LANEX_TX_CFG_2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -2997,8 +3259,25 @@ typedef union bdk_gserx_lanex_tx_cfg_3 {
 		uint64_t reserved_15_63              : 49;
 #endif
 	} s;
-	/* struct bdk_gserx_lanex_tx_cfg_3_s  cn88xx; */
-	/* struct bdk_gserx_lanex_tx_cfg_3_s  cn88xxp1; */
+	struct bdk_gserx_lanex_tx_cfg_3_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_15_63              : 49;
+		uint64_t cfg_tx_vboost_en            : 1;  /**< R/W - Specifies the value of TX VBoost enable when
+                                                                 GSER()_LANE()_TX_CFG_1[TX_VBOOST_EN_OVRRD_EN] is asserted. */
+		uint64_t reserved_13_7               : 7;
+		uint64_t pcs_sds_tx_gain             : 3;  /**< R/W/H - TX Gain. For debug use only. */
+		uint64_t pcs_sds_tx_srate_sel        : 3;  /**< R/W/H - Reserved. */
+		uint64_t cfg_tx_turbo_en             : 1;  /**< R/W - Specifies value ot TX turbo enable when GSER()_LANE()_TX_CFG_1[TX_TURBO_EN] is set. */
+#else
+		uint64_t cfg_tx_turbo_en             : 1;
+		uint64_t pcs_sds_tx_srate_sel        : 3;
+		uint64_t pcs_sds_tx_gain             : 3;
+		uint64_t reserved_13_7               : 7;
+		uint64_t cfg_tx_vboost_en            : 1;
+		uint64_t reserved_15_63              : 49;
+#endif
+	} cn88xx;
+	struct bdk_gserx_lanex_tx_cfg_3_cn88xx cn88xxp1;
 } bdk_gserx_lanex_tx_cfg_3_t;
 
 static inline uint64_t BDK_GSERX_LANEX_TX_CFG_3(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -4878,8 +5157,38 @@ typedef union bdk_gserx_slicex_rx_sdll_ctrl {
 		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
-	/* struct bdk_gserx_slicex_rx_sdll_ctrl_s cn88xx; */
-	/* struct bdk_gserx_slicex_rx_sdll_ctrl_s cn88xxp1; */
+	struct bdk_gserx_slicex_rx_sdll_ctrl_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_16_63              : 48;
+		uint64_t pcs_sds_oob_clk_ctrl        : 2;  /**< R/W/H - OOB clock oscillator output frequency selection:
+                                                                 0x0 = 506 Mhz (min) 682 Mhz (typ) 782 Mhz (max).
+                                                                 0x1 = 439 Mhz (min) 554 Mhz (typ) 595 Mhz (max).
+                                                                 0x2 = 379 Mhz (min) 453 Mhz (typ) 482 Mhz (max).
+                                                                 0x3 = 303 Mhz (min) 378 Mhz (typ) 414 Mhz (max).
+
+                                                                 This parameter is for debugging purposes and should not
+                                                                 be written in normal operation. */
+		uint64_t reserved_13_7               : 7;
+		uint64_t pcs_sds_rx_sdll_tune        : 3;  /**< R/W - Tuning bits for the regulator and the loop filter. */
+		uint64_t pcs_sds_rx_sdll_swsel       : 4;  /**< R/W - DMON control; selects which signal is passed to the output
+                                                                 of DMON.
+                                                                 0x1 = dllout[0] (first output clock phase, out of 8 phases,
+                                                                 of the Slice DLL).
+                                                                 0x2 = dllout[1] (second output clock phase, out of 8 phases,
+                                                                 of the Slice DLL).
+                                                                 0x4 = piclk (output clock of the PI).
+                                                                 0x8 = vdda_int.
+
+                                                                 All other values in this field are reserved. */
+#else
+		uint64_t pcs_sds_rx_sdll_swsel       : 4;
+		uint64_t pcs_sds_rx_sdll_tune        : 3;
+		uint64_t reserved_13_7               : 7;
+		uint64_t pcs_sds_oob_clk_ctrl        : 2;
+		uint64_t reserved_16_63              : 48;
+#endif
+	} cn88xx;
+	struct bdk_gserx_slicex_rx_sdll_ctrl_cn88xx cn88xxp1;
 } bdk_gserx_slicex_rx_sdll_ctrl_t;
 
 static inline uint64_t BDK_GSERX_SLICEX_RX_SDLL_CTRL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -4924,8 +5233,26 @@ typedef union bdk_gserx_slice_cfg {
 		uint64_t reserved_12_63              : 52;
 #endif
 	} s;
-	/* struct bdk_gserx_slice_cfg_s       cn88xx; */
-	/* struct bdk_gserx_slice_cfg_s       cn88xxp1; */
+	struct bdk_gserx_slice_cfg_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_12_63              : 52;
+		uint64_t tx_rx_detect_lvl_enc        : 4;  /**< R/W - Determines the RX Detect level, pcs_sds_tx_rx_detect_lvl[9:0],
+                                                                 (which is a 1-hot signal), where the level is equal to to
+                                                                 2^TX_RX_DETECT_LVL_ENC. */
+		uint64_t reserved_7_6                : 2;
+		uint64_t pcs_sds_rx_pcie_pterm       : 2;  /**< R/W - Reserved. */
+		uint64_t pcs_sds_rx_pcie_nterm       : 2;  /**< R/W - Reserved. */
+		uint64_t pcs_sds_tx_stress_eye       : 2;  /**< R/W - Controls TX stress eye. */
+#else
+		uint64_t pcs_sds_tx_stress_eye       : 2;
+		uint64_t pcs_sds_rx_pcie_nterm       : 2;
+		uint64_t pcs_sds_rx_pcie_pterm       : 2;
+		uint64_t reserved_7_6                : 2;
+		uint64_t tx_rx_detect_lvl_enc        : 4;
+		uint64_t reserved_12_63              : 52;
+#endif
+	} cn88xx;
+	struct bdk_gserx_slice_cfg_cn88xx     cn88xxp1;
 } bdk_gserx_slice_cfg_t;
 
 static inline uint64_t BDK_GSERX_SLICE_CFG(unsigned long param1) __attribute__ ((pure, always_inline));

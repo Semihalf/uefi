@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2014  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -929,10 +929,11 @@ typedef union bdk_bgxx_cmrx_rx_id_map {
 
                                                                  Changes to RID must only occur when the LMAC is quiescent (i.e. the LMAC receive interface
                                                                  is down and the RX FIFO is empty). */
-		uint64_t pknd                        : 8;  /**< R/W - Port kind for this LMAC.  Only bits [5:0] are used.  Bits [7:6] are not used and should
-                                                                 not be changed from the reset value of 0. */
+		uint64_t reserved_6_7                : 2;
+		uint64_t pknd                        : 6;  /**< R/W - Port kind for this LMAC. */
 #else
-		uint64_t pknd                        : 8;
+		uint64_t pknd                        : 6;
+		uint64_t reserved_6_7                : 2;
 		uint64_t rid                         : 7;
 		uint64_t reserved_15_63              : 49;
 #endif
@@ -8895,7 +8896,7 @@ typedef union bdk_bgxx_spux_control1 {
                                                                  reset. */
 		uint64_t reserved_7_10               : 4;
 		uint64_t spdsel0                     : 1;  /**< RO/H - Speed select 0: always 1. */
-		uint64_t spd                         : 4;  /**< RO - '"Speed selection.
+		uint64_t spd                         : 4;  /**< RO/H - '"Speed selection.
                                                                  Note that this is a read-only field rather than read/write as
                                                                  specified in 802.3.
                                                                  The LPCS speed is instead configured by the associated

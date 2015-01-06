@@ -3,7 +3,7 @@
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
- * Copyright (c) 2003-2014  Cavium Inc. (support@cavium.com). All rights
+ * Copyright (c) 2003-2015  Cavium Inc. (support@cavium.com). All rights
  * reserved.
  *
  *
@@ -895,14 +895,14 @@ static inline uint64_t BDK_ZIP_CMD_CTL_FUNC(void)
 /**
  * NCB - zip_constants
  *
- * This register contains all of the current implementation-related parameters of the zip core in
- * this chip.
+ * This register contains implementation-related parameters of the ZIP core in this
+ * chip.
  */
 typedef union bdk_zip_constants {
 	uint64_t u;
 	struct bdk_zip_constants_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t nexec                       : 8;  /**< RO - Number of available ZIP executive units. If zip is disabled, this field is 0. */
+		uint64_t nexec                       : 8;  /**< RO - Number of available ZIP executive units. If ZIP is disabled, this field is 0x0. */
 		uint64_t reserved_49_55              : 7;
 		uint64_t syncflush_capable           : 1;  /**< RO - Sync flush supported: 1 = supported, 0 = not supported. */
 		uint64_t depth                       : 16; /**< RO - Maximum search depth for compression. */
@@ -2113,8 +2113,8 @@ typedef union bdk_zip_quex_map {
 		uint64_t zce                         : 2;  /**< R/W - Zip core enable. Controls the logical instruction queue can be serviced by which zip core.
                                                                  Setting ZCE to 0 effectively disables the queue from being served (however the instruction
                                                                  can still be fetched).
-                                                                 ZCE\<1\> = 1: Zip core 1 can serve the queue.
-                                                                 ZCE\<0\> = 1: Zip core 0 can serve the queue. */
+                                                                 _ ZCE\<1\> = 1: Zip core 1 can serve the queue.
+                                                                 _ ZCE\<0\> = 1: Zip core 0 can serve the queue. */
 #else
 		uint64_t zce                         : 2;
 		uint64_t reserved_2_63               : 62;
