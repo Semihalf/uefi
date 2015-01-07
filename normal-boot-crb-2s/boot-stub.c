@@ -371,7 +371,6 @@ int main(void)
     /* Setup reference clocks */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {
-        /* QLM0-1 use common clock 1 (156.25Mhz). QLM2-7 use common clock 0 (100Mhz) */
         if (bdk_numa_exists(n))
         {
             BDK_TRACE(BOOT_STUB, "Initializing QLM clocks on Node %d\n", n);
