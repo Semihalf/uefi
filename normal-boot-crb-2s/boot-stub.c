@@ -376,9 +376,17 @@ int main(void)
             BDK_TRACE(BOOT_STUB, "Initializing QLM clocks on Node %d\n", n);
             for (int qlm=0; qlm<8; qlm++)
             {
-                /* Schematic shows external ref for all used QLMs */
+                /* Node 0:
+                    QLM0-1: External ref clock (156.25Mhz)
+                    QLM2-7: Common clock 0 (100Mhz)
+                   Node 1:
+                    QLM0: External ref clock (156.25Mhz)
+                    QLM1-2: Disabled, use external
+                    QLM3: External ref clock (100Mhz)
+                    QLM4-7: Disabled, use external */
+                int use_common = (n == BDK_NODE_0) && (qlm >= 2);
                 BDK_CSR_MODIFY(c, n, BDK_GSERX_REFCLK_SEL(qlm),
-                    c.s.com_clk_sel = 0;
+                    c.s.com_clk_sel = use_common;
                     c.s.use_com1 = 0);
             }
         }
@@ -390,7 +398,7 @@ int main(void)
         if (bdk_numa_exists(n))
         {
             BDK_TRACE(BOOT_STUB, "Initializing QLMs on Node %d\n", n);
-            if (node == BDK_NODE_0)
+            if (n == BDK_NODE_0)
             {
                 bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XFI_4X1, 10321, 0);
                 bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XLAUI_1X4, 10321, 0);

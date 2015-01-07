@@ -705,7 +705,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     else
     {
         ref_clk = measured_ref;
-        bdk_error("QLM%d: Unexpected reference clock speed of %d Mhz\n", qlm, measured_ref / 1000000);
+        bdk_error("N%d.QLM%d: Unexpected reference clock speed of %d Mhz\n", node, qlm, measured_ref / 1000000);
     }
 
     switch (mode)
