@@ -1879,10 +1879,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         lmc_modereg_params0.s.mprloc  = 0;
         lmc_modereg_params0.s.mpr     = 0;
-        lmc_modereg_params0.s.dll     = (ddr_type == DDR4_DRAM); /* 0 for DDR3 and 1 for DDR4 */
+        lmc_modereg_params0.s.dll     = (ddr_type == DDR4_DRAM)?1:0; /* enable(0) for DDR3 and disable(1) for DDR4 */
         lmc_modereg_params0.s.al      = 0;
         lmc_modereg_params0.s.wlev    = 0; /* Read Only */
-        lmc_modereg_params0.s.tdqs    = 1;
+        lmc_modereg_params0.s.tdqs    = (ddr_type == DDR4_DRAM)?0:1; /* enable(1) for DDR3 and disable(0) for DDR4 */
         lmc_modereg_params0.s.qoff    = 0;
         lmc_modereg_params0.s.bl      = 0; /* Read Only */
 
