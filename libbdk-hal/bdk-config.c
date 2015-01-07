@@ -132,7 +132,7 @@ void __bdk_config_init(void)
     int num_packet_buffers = 4096;
     /* If DRAM is setup, allocate 8K buffers for 8 ports plus some slop */
     if (__bdk_is_dram_enabled(bdk_numa_master()))
-        num_packet_buffers = 8192 * 8 + 1024;
+        num_packet_buffers = 8192 * 16 + 1024;
     bdk_config_set(BDK_CONFIG_NUM_PACKET_BUFFERS, num_packet_buffers);
     bdk_config_set(BDK_CONFIG_PACKET_BUFFER_SIZE, 1024);
 
