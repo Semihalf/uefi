@@ -553,6 +553,8 @@ static int init_oci(void)
             {
                 BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNKX_CFG(link),
                     c.s.lane_rev = 1);
+                /* Clear block errors */
+                BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_RLKX_BLK_ERR(link), c.s.count = 0);
             }
             /* Set TX lane reversal */
             BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNE_DBG,

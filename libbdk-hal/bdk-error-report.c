@@ -156,7 +156,11 @@ static void check_cn88xx(bdk_node_t node)
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, align_done);
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, up);
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, stop);
-            CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, blk_err);
+            if (c.s.blk_err)
+            {
+                BDK_CSR_MODIFY(c, node, BDK_OCX_RLKX_BLK_ERR(link), c.s.count = 0);
+                CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, blk_err);
+            }
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, reinit);
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, lnk_data);
             CHECK_CHIP_ERROR(BDK_OCX_COM_LINKX_INT(link), s, rxfifo_dbe);
