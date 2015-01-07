@@ -530,6 +530,44 @@ static int init_oci(void)
     return 0; /* Emulator doesn't seem to have CCPI registers */
 #endif
 
+    /* Errata (OCX-21847) OCX does not deal with reversed lanes automatically */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        /* Check if we need to manually apply lane reversal */
+        BDK_CSR_INIT(ocx_qlmx_cfg, bdk_numa_local(), BDK_OCX_QLMX_CFG(0));
+        if (ocx_qlmx_cfg.s.ser_lane_rev)
+        {
+            printf("N%d.CCPI Applying lane reversal\n", bdk_numa_master());
+            int link;
+            int qlm_select[MAX_LINKS];
+            /* Save and disable all lanes as QLM_SELECT must be zero before
+               changing lane reversal */
+            for (link = 0; link < MAX_LINKS; link++)
+            {
+                BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNKX_CFG(link),
+                    qlm_select[link] = c.s.qlm_select;
+                    c.s.qlm_select = 0);
+            }
+            /* Set RX lane reversal */
+            for (int link = 0; link < MAX_LINKS; link++)
+            {
+                BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNKX_CFG(link),
+                    c.s.lane_rev = 1);
+            }
+            /* Set TX lane reversal */
+            BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNE_DBG,
+                c.s.tx_lane_rev = 1);
+            /* Restore the QLM lane select */
+            for (int link = 0; link < MAX_LINKS; link++)
+            {
+                BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNKX_CFG(link),
+                    c.s.qlm_select = qlm_select[link]);
+            }
+            /* Give the link 100ms to come up */
+            bdk_wait_usec(100000);
+        }
+    }
+
     /* Don't bringup CCPI if there are no valid lanes */
     int good_lanes = oci_report_lane(bdk_numa_master(), 0);
     if (good_lanes == 0)
