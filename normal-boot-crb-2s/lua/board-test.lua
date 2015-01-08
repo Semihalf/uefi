@@ -90,7 +90,7 @@ end
 
 local function check_dram()
     local good = true
-    local expected_mbytes = 16384
+    local expected_mbytes = 32768
 
     local dram_mbytes = cavium.c.bdk_dram_get_size_mbytes(node)
     good = (dram_mbytes == expected_mbytes)
@@ -168,7 +168,7 @@ local function board_test()
     --
     node = cavium.MASTER_NODE
     all_pass = check_pcie_rc(0) and all_pass -- Internal to BMC
-    all_pass = check_pcie_rc(2) and all_pass -- x16 slot
+    all_pass = check_pcie_rc(2) and all_pass -- x24 riser
     all_pass = check_pcie_rc(4) and all_pass -- x8 slot
 
     --
