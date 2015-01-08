@@ -349,9 +349,10 @@ static void dram_menu()
             printf(" %d) Initialize DRAM using config \"%s\"\n", c + 1, dram_config[c]);
         }
         printf(" %d) Configure DRAM clock\n", num_dram_configs + 1);
-        printf(" %d) Run a short DRAM test over the range 64MB-128MB\n", num_dram_configs + 2);
-        printf(" %d) Run a full DRAM test over all memory\n", num_dram_configs + 3);
-        printf(" %d) Main menu\n", num_dram_configs + 4);
+        printf(" %d) Limit the cores used for DRAM testing\n", num_dram_configs + 2);
+        printf(" %d) Run a short DRAM test over the range 64MB-128MB\n", num_dram_configs + 3);
+        printf(" %d) Run a full DRAM test over all memory\n", num_dram_configs + 4);
+        printf(" %d) Main menu\n", num_dram_configs + 5);
 
         const char *input = bdk_readline("Menu choice: ", NULL, 0);
         int option = atoi(input);
@@ -371,15 +372,24 @@ static void dram_menu()
         }
         else if (option == num_dram_configs + 2)
         {
+            /* Limit the cores used in a memory test */
+            input = bdk_readline("Coremask to use: ", NULL, 0);
+            uint64_t mask = 0;
+            sscanf(input, "%li", &mask);
+            bdk_config_set(BDK_CONFIG_COREMASK, mask);
+            printf("Set coremask to 0x%lx\n", mask);
+        }
+        else if (option == num_dram_configs + 3)
+        {
             /* Short DRAM test */
             dram_test(64 << 20, 64 << 20);
         }
-        else if (option == num_dram_configs + 3)
+        else if (option == num_dram_configs + 4)
         {
             /* Full DRAM test */
             dram_test(0, 1ull << 40);
         }
-        else if (option == num_dram_configs + 4)
+        else if (option == num_dram_configs + 5)
         {
             /* Exit menu */
             return;
