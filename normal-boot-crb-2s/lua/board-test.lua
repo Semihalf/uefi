@@ -9,7 +9,7 @@ local node = cavium.MASTER_NODE
 
 local function check_ref_clock(qlm, expected_rate_hz)
     local measured = cavium.c.bdk_qlm_measure_clock(node, qlm)
-    local range = expected_rate_hz / 100 -- With 1%
+    local range = expected_rate_hz / 1000 -- With 0.1%
     local min_hz = expected_rate_hz - range
     local max_hz = expected_rate_hz + range
     local good = (measured >= min_hz) and (measured <= max_hz)
