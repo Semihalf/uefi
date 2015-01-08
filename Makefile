@@ -1,9 +1,6 @@
 ifndef BDK_ROOT
 $(error Define BDK_ROOT in the environment, the directory of the BDK)
 endif
-ifndef ASIM
-$(error Define ASIM in the environment, the directory of asim)
-endif
 include $(BDK_ROOT)/libbdk/bdk.mk
 
 TFTPBOOT?=/tftpboot/
@@ -55,14 +52,23 @@ suid: all
 
 .PHONY: run
 run:
+ifndef ASIM
+	echo ERROR: Define ASIM in the environment, the directory of asim && false
+endif
 	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/bdk.bin SYMBOL_IMAGE=$(BDK_ROOT)/bdk-boot/diagnostics $(ASIM)/asim -e bdk.asim
 
 .PHONY: run-normal
 run-normal:
+ifndef ASIM
+	echo ERROR: Define ASIM in the environment, the directory of asim && false
+endif
 	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot-ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
 
 .PHONY: run-screen
 run-screen:
+ifndef ASIM
+	echo ERROR: Define ASIM in the environment, the directory of asim && false
+endif
 	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/screen-standalone.bin SYMBOL_IMAGE=$(BDK_ROOT)/screen/screen $(ASIM)/asim -e bdk.asim
 
 
