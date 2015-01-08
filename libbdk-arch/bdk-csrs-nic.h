@@ -1374,7 +1374,11 @@ union nic_send_hdr_s {
                                                                  first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
                                                                  any bytes covered or inserted by NIC_SEND_CRC_S CRCs. When [CKL3] is set, [L3PTR] must
                                                                  point to a valid IPv4 header. */
-		uint64_t reserved_40_44              : 5;  /**< [ 44: 40] Reserved. */
+		uint64_t cklf                        : 2;  /**< [ 44: 43] Inner Checksum L4, enumerated by NIC_SEND_CKL4_E. Similar to [CKL4] but for inner L4.
+                                                                 Added in pass 2. */
+		uint64_t ckle                        : 1;  /**< [ 42: 42] Inner Checksum L3. Similar to [CKL3] but for inner IP.
+                                                                 Added in pass 2. */
+		uint64_t reserved_40_41              : 2;  /**< [ 41: 40] Reserved. */
 		uint64_t l4ptr                       : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for L4
                                                                  checksumming. The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
                                                                  packet. Software might populate this field for forwarded packets from a computation based
@@ -1426,7 +1430,11 @@ union nic_send_hdr_s {
                                                                  parsed. When [CKL4] is nonzero, no L4 header bytes indicated by [L4PTR] can overlap with
                                                                  any bytes covered by or inserted by NIC_SEND_CRC_S CRCs (but the subsequent L4 payload
                                                                  bytes can overlap with the NIC_SEND_CRC_S CRC bytes). */
-		uint64_t reserved_40_44              : 5;  /**< [ 44: 40] Reserved. */
+		uint64_t reserved_40_41              : 2;  /**< [ 41: 40] Reserved. */
+		uint64_t ckle                        : 1;  /**< [ 42: 42] Inner Checksum L3. Similar to [CKL3] but for inner IP.
+                                                                 Added in pass 2. */
+		uint64_t cklf                        : 2;  /**< [ 44: 43] Inner Checksum L4, enumerated by NIC_SEND_CKL4_E. Similar to [CKL4] but for inner L4.
+                                                                 Added in pass 2. */
 		uint64_t ckl3                        : 1;  /**< [ 45: 45] Checksum L3. If set, NIC hardware calculates the IPv4 header checksum and inserts it into
                                                                  the packet, as described in L4 Checksum. When set, [L3PTR] selects the location of the
                                                                  first byte of the L3 header and no L3 header bytes selected by [L3PTR] can overlap with
@@ -1478,23 +1486,39 @@ union nic_send_hdr_s {
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_88_127             : 40; /**< [127: 88] Reserved. */
+		uint64_t reserved_104_127            : 24; /**< [127:104] Reserved. */
+		uint64_t lfptr                       : 8;  /**< [103: 96] Inner Layer 4 Offset. Similar to [L4PTR] but for inner L4 as directed by [CKLF]. If
+                                                                 [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be \> [L4PTR] + 20.
+                                                                 Added in pass 2. */
+		uint64_t leptr                       : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Similar to [L3PTR] but for inner IP as directed by [CKLE]. If
+                                                                 [CKLE] and [CKL3] are set, then [LEPTR] must be \> [L3PTR] + 20.
+                                                                 Added in pass 2. */
 		uint64_t tso_sb                      : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
                                                                  the size of the headers preceding the payload). Must be less than [TOTAL], else the send
-                                                                 descriptor is treated as non-TSO. */
+                                                                 descriptor is treated as non-TSO.
+                                                                 Added in pass 2. */
 		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. */
 		uint64_t tso_mps                     : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
                                                                  size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which must not exceed 9212
-                                                                 bytes. Must be non-zero, else the send descriptor is treated as non-TSO. */
+                                                                 bytes. Must be non-zero, else the send descriptor is treated as non-TSO.
+                                                                 Added in pass 2. */
 #else
 		uint64_t tso_mps                     : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
                                                                  size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which must not exceed 9212
-                                                                 bytes. Must be non-zero, else the send descriptor is treated as non-TSO. */
+                                                                 bytes. Must be non-zero, else the send descriptor is treated as non-TSO.
+                                                                 Added in pass 2. */
 		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. */
 		uint64_t tso_sb                      : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
                                                                  the size of the headers preceding the payload). Must be less than [TOTAL], else the send
-                                                                 descriptor is treated as non-TSO. */
-		uint64_t reserved_88_127             : 40; /**< [127: 88] Reserved. */
+                                                                 descriptor is treated as non-TSO.
+                                                                 Added in pass 2. */
+		uint64_t leptr                       : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Similar to [L3PTR] but for inner IP as directed by [CKLE]. If
+                                                                 [CKLE] and [CKL3] are set, then [LEPTR] must be \> [L3PTR] + 20.
+                                                                 Added in pass 2. */
+		uint64_t lfptr                       : 8;  /**< [103: 96] Inner Layer 4 Offset. Similar to [L4PTR] but for inner L4 as directed by [CKLF]. If
+                                                                 [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be \> [L4PTR] + 20.
+                                                                 Added in pass 2. */
+		uint64_t reserved_104_127            : 24; /**< [127:104] Reserved. */
 #endif
 	} s;
 };
@@ -4891,7 +4915,7 @@ typedef union bdk_nic_pf_pkindx_cfg {
                                                                  0x4 = NIC_RX_HDR_S is present, four bytes are valid.
                                                                  0x5-0x7 = Reserved. */
 		uint64_t lenerr_en                   : 1;  /**< R/W - L2 length error check enable. Check if frame was received with L2 length error, see
-                                                                 NIC_ERROP_E::LENERR. */
+                                                                 NIC_ERROP_E::L2_LENMISM. */
 		uint64_t reserved_32_32              : 1;
 		uint64_t maxlen                      : 16; /**< R/W - Byte count for max-sized frame check. See NIC_ERROP_E::L2_OVERSIZE. This length must
                                                                  include any timstamps or NIC_CQE_RX_S, and any VLANs which may be stripped. FCS bytes are
@@ -5002,6 +5026,9 @@ static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long param1)
 
 /**
  * NCB - nic_pf_qs#_lock#
+ *
+ * Changed in pass 2 to increase lockdown bytes per QS from 64 to 96.
+ *
  */
 typedef union bdk_nic_pf_qsx_lockx {
 	uint64_t u;
@@ -5034,9 +5061,11 @@ typedef union bdk_nic_pf_qsx_lockx {
 static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long param1, unsigned long param2)
 {
-	if (((param1 <= 127)) && ((param2 <= 15)))
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((param1 <= 127)) && ((param2 <= 15)))
 		return 0x0000843020006000ull + (param1 & 127) * 0x200000ull + (param2 & 15) * 0x8ull;
-	csr_fatal("BDK_NIC_PF_QSX_LOCKX", 2, param1, param2, 0, 0); /* No return */
+	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 127)) && ((param2 <= 23)))
+		return 0x0000843020006000ull + (param1 & 127) * 0x200000ull + (param2 & 31) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_QSX_LOCKX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_NIC_PF_QSX_LOCKX(...) bdk_nic_pf_qsx_lockx_t
 #define bustype_BDK_NIC_PF_QSX_LOCKX(...) BDK_CSR_TYPE_NCB

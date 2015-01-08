@@ -73,7 +73,7 @@ enum key_int_vec_e {
 /**
  * RSL - key_bist_reg
  *
- * This register provides the BIST status for KEY memory (0 = pass, 1 = fail).
+ * This register provides the BIST run status for KEY's memories (0 = pass, 1 = fail).
  *
  */
 typedef union bdk_key_bist_reg {
@@ -81,8 +81,8 @@ typedef union bdk_key_bist_reg {
 	struct bdk_key_bist_reg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
-		uint64_t rrc                         : 1;  /**< SRO/H - RRC BIST status. */
-		uint64_t kmem                        : 1;  /**< SRO/H - KMEM BIST status. */
+		uint64_t rrc                         : 1;  /**< SRO/H - Status of the KRC memory block BIST. 0 = passed BIST, 1 = failed BIST. */
+		uint64_t kmem                        : 1;  /**< SRO/H - Status of the MEM memory block BIST. 0 = passed BIST, 1 = failed BIST. */
 #else
 		uint64_t kmem                        : 1;
 		uint64_t rrc                         : 1;
@@ -284,7 +284,7 @@ typedef union bdk_key_memx {
 	uint64_t u;
 	struct bdk_key_memx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t kmem                        : 64; /**< SR/W - Key memory. KMEM is accessible using 8-, 16-, 32-, 64-, or 128-bit load or store
+		uint64_t kmem                        : 64; /**< SR/W - Key memory. KMEM is accessible using 8-, 16-, 32-, or 64- load or store
                                                                  operations.
                                                                  INTERNAL: Note this is 16 KB in pass 1. It may be increased in pass 2. */
 #else

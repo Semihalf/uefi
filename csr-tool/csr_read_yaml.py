@@ -291,6 +291,7 @@ def build_csr(chip_info, group, register, raw):
                    "subblock",
                    "tns_fused",
                    "uvm_default_constraint",
+                   "write_zero_extend_upper_32",
                    "xpliant_name",
                    "xpliant_xml_skip"])
         if "chip_pass" in register["attributes"]:

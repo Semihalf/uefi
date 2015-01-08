@@ -13832,7 +13832,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_53_63", start = 53, stop = 63},
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "DQ_CHAR_BYTE_CHECK", start = 53, stop = 53},
                 {name = "DQ_CHAR_CHECK_LOCK", start = 52, stop = 52},
                 {name = "DQ_CHAR_CHECK_ENABLE", start = 51, stop = 51},
                 {name = "DQ_CHAR_BIT_SEL", start = 48, stop = 50},
@@ -30872,9 +30873,9 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x20000,
             range2 = {0,3},
-            range2_inc = 0x2400,
+            range2_inc = 0x4000,
             range3 = {0,255},
-            range3_inc = 0x24,
+            range3_inc = 0x40,
             range4 = {0,8},
             range4_inc = 0x4,
             fields = {
@@ -31363,7 +31364,7 @@ local csr_db = {
             width = 8,
             address = 0x842060000000,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
@@ -31374,7 +31375,7 @@ local csr_db = {
             width = 8,
             address = 0x842060000008,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
@@ -31385,7 +31386,7 @@ local csr_db = {
             width = 8,
             address = 0x842060000010,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 32, stop = 63},
                 {name = "DATAA_AND_KEYA", start = 0, stop = 31},
@@ -31397,7 +31398,7 @@ local csr_db = {
             width = 8,
             address = 0x842060000018,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
@@ -31408,7 +31409,7 @@ local csr_db = {
             width = 8,
             address = 0x842060000020,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
@@ -31419,7 +31420,7 @@ local csr_db = {
             width = 8,
             address = 0x842060040000,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
@@ -31430,7 +31431,7 @@ local csr_db = {
             width = 8,
             address = 0x842060040008,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
@@ -31441,7 +31442,7 @@ local csr_db = {
             width = 8,
             address = 0x842060040010,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 32, stop = 63},
                 {name = "DATAA_AND_KEYA", start = 0, stop = 31},
@@ -31453,7 +31454,7 @@ local csr_db = {
             width = 8,
             address = 0x842060040018,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
@@ -31464,7 +31465,7 @@ local csr_db = {
             width = 8,
             address = 0x842060040020,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
@@ -31887,7 +31888,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -31901,7 +31902,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -31916,7 +31917,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -31930,7 +31931,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -31944,7 +31945,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -31959,7 +31960,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -31973,7 +31974,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -31987,7 +31988,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -32002,7 +32003,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -32016,7 +32017,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -32030,7 +32031,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -32045,7 +32046,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -32059,7 +32060,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -32073,7 +32074,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -32088,7 +32089,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -32102,7 +32103,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -32116,7 +32117,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -32131,7 +32132,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -32258,7 +32259,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_REASONCODE_INST", start = 61, stop = 63},
                 {name = "TOKEN_FILTERGRPNUMBER_INST", start = 41, stop = 60},
@@ -32275,7 +32276,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_EGRESSVIF_INST", start = 54, stop = 63},
                 {name = "TOKEN_ECMPSIZE_INST", start = 30, stop = 53},
@@ -32290,7 +32291,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
                 {name = "TOKEN_PKTCMD_INST", start = 22, stop = 35},
@@ -32368,7 +32369,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_REWRPTR3_INST", start = 60, stop = 63},
                 {name = "TOKEN_REWRPTR2_INST", start = 40, stop = 59},
@@ -32384,7 +32385,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_REWRPTR6_INST", start = 56, stop = 63},
                 {name = "TOKEN_REWRPTR5_INST", start = 36, stop = 55},
@@ -32400,7 +32401,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_53_63", start = 53, stop = 63},
                 {name = "TOKEN_REWRITEPT6ISINS_INST", start = 51, stop = 52},
@@ -32417,7 +32418,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST0", start = 0, stop = 31},
             }
@@ -32430,7 +32431,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST1", start = 30, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST0", start = 0, stop = 29},
@@ -32444,7 +32445,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "RESERVED_8_31", start = 8, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST7", start = 0, stop = 7},
@@ -32458,7 +32459,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST1", start = 0, stop = 31},
             }
@@ -32471,7 +32472,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST2", start = 4, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST1", start = 0, stop = 3},
@@ -32485,7 +32486,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST3", start = 10, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST2", start = 0, stop = 9},
@@ -32499,7 +32500,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST4", start = 16, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST3", start = 0, stop = 15},
@@ -32513,7 +32514,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST5", start = 22, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST4", start = 0, stop = 21},
@@ -32527,7 +32528,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST6", start = 28, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST5", start = 0, stop = 27},
@@ -32541,7 +32542,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST6", start = 0, stop = 31},
             }
@@ -32554,7 +32555,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST7", start = 2, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST6", start = 0, stop = 1},
@@ -32568,7 +32569,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_LAYERS_INST1", start = 44, stop = 63},
                 {name = "TOKEN_LAYERS_INST0", start = 0, stop = 43},
@@ -32582,7 +32583,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_LAYERS_INST2", start = 24, stop = 63},
                 {name = "TOKEN_LAYERS_INST1", start = 0, stop = 23},
@@ -32596,7 +32597,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_48_63", start = 48, stop = 63},
                 {name = "TOKEN_LAYERS_INST3", start = 4, stop = 47},
@@ -32611,7 +32612,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_LAYERS_INST1", start = 44, stop = 63},
                 {name = "TOKEN_LAYERS_INST0", start = 0, stop = 43},
@@ -32625,7 +32626,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_LAYERS_INST2", start = 24, stop = 63},
                 {name = "TOKEN_LAYERS_INST1", start = 0, stop = 23},
@@ -32639,7 +32640,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_48_63", start = 48, stop = 63},
                 {name = "TOKEN_LAYERS_INST3", start = 4, stop = 47},
@@ -32654,7 +32655,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x14,
+            range2_inc = 0x20,
             fields = {
                 {name = "ACM_REQ_ADDR_INST0", start = 0, stop = 31},
             }
@@ -32667,7 +32668,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x14,
+            range2_inc = 0x20,
             fields = {
                 {name = "ACM_REQ_ADDR_INST1", start = 7, stop = 31},
                 {name = "ACM_REQ_CMD_INST0", start = 5, stop = 6},
@@ -32682,7 +32683,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x14,
+            range2_inc = 0x20,
             fields = {
                 {name = "ACM_REQ_ADDR_INST2", start = 14, stop = 31},
                 {name = "ACM_REQ_CMD_INST1", start = 12, stop = 13},
@@ -32697,7 +32698,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x14,
+            range2_inc = 0x20,
             fields = {
                 {name = "ACM_REQ_ADDR_INST3", start = 21, stop = 31},
                 {name = "ACM_REQ_CMD_INST2", start = 19, stop = 20},
@@ -32712,7 +32713,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x14,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_28_31", start = 28, stop = 31},
                 {name = "ACM_REQ_CMD_INST3", start = 26, stop = 27},
@@ -32727,7 +32728,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x28,
+            range2_inc = 0x40,
             fields = {
                 {name = "LM_REQ_KEY_INST1", start = 38, stop = 63},
                 {name = "LM_REQ_KEY_INST0", start = 0, stop = 37},
@@ -32741,7 +32742,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x28,
+            range2_inc = 0x40,
             fields = {
                 {name = "LM_REQ_KEY_INST3", start = 50, stop = 63},
                 {name = "LM_REQ_KEY_INST2", start = 12, stop = 49},
@@ -32756,7 +32757,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x28,
+            range2_inc = 0x40,
             fields = {
                 {name = "LM_REQ_KEY_INST5", start = 62, stop = 63},
                 {name = "LM_REQ_KEY_INST4", start = 24, stop = 61},
@@ -32771,7 +32772,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x28,
+            range2_inc = 0x40,
             fields = {
                 {name = "LM_REQ_KEY_INST6", start = 36, stop = 63},
                 {name = "LM_REQ_KEY_INST5", start = 0, stop = 35},
@@ -32785,7 +32786,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x28,
+            range2_inc = 0x40,
             fields = {
                 {name = "RESERVED_50_63", start = 50, stop = 63},
                 {name = "LM_REQ_CMD_INST", start = 48, stop = 49},
@@ -32963,7 +32964,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,255},
-            range2_inc = 0xc,
+            range2_inc = 0x10,
             fields = {
                 {name = "METADATA", start = 0, stop = 31},
             }
@@ -32976,7 +32977,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,255},
-            range2_inc = 0xc,
+            range2_inc = 0x10,
             fields = {
                 {name = "LAYER4_OFFSET", start = 28, stop = 31},
                 {name = "LAYER3_OFFSET", start = 21, stop = 27},
@@ -32993,7 +32994,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,255},
-            range2_inc = 0xc,
+            range2_inc = 0x10,
             fields = {
                 {name = "RESERVED_30_31", start = 30, stop = 31},
                 {name = "FSTINT_LID1", start = 27, stop = 29},
@@ -35993,7 +35994,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36006,7 +36007,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36019,7 +36020,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36032,7 +36033,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36045,7 +36046,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36058,7 +36059,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36071,7 +36072,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_18_31", start = 18, stop = 31},
                 {name = "VMVALID", start = 16, stop = 17},
@@ -36229,7 +36230,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a200,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "LAYEROFFSET1", start = 29, stop = 31},
                 {name = "FIELDLEN1", start = 26, stop = 28},
@@ -36247,7 +36248,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a204,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "LAYEROFFSET3", start = 31, stop = 31},
                 {name = "FIELDLEN3", start = 28, stop = 30},
@@ -36266,7 +36267,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a208,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_4_31", start = 4, stop = 31},
                 {name = "LAYEROFFSET3", start = 0, stop = 3},
@@ -36432,7 +36433,7 @@ local csr_db = {
             width = 4,
             address = 0x842060704000,
             range1 = {0,136},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "SCRATCHPAD", start = 30, stop = 31},
                 {name = "FILTER_GRP_NUM", start = 22, stop = 29},
@@ -36453,7 +36454,7 @@ local csr_db = {
             width = 4,
             address = 0x842060704004,
             range1 = {0,136},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
@@ -36464,7 +36465,7 @@ local csr_db = {
             width = 4,
             address = 0x842060704008,
             range1 = {0,136},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "MIRRORBITMASK", start = 30, stop = 31},
                 {name = "SCRATCHPAD", start = 0, stop = 29},
@@ -36476,7 +36477,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070400c,
             range1 = {0,136},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "INGRESSVIF", start = 14, stop = 31},
                 {name = "MIRRORBITMASK", start = 0, stop = 13},
@@ -36488,7 +36489,7 @@ local csr_db = {
             width = 4,
             address = 0x842060704010,
             range1 = {0,136},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_25_31", start = 25, stop = 31},
                 {name = "ETAGEXISTS", start = 24, stop = 24},
@@ -36529,7 +36530,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a400,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "FIELDLEN3", start = 30, stop = 31},
                 {name = "LAYEROFFSET2", start = 24, stop = 29},
@@ -36546,7 +36547,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a404,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "FIELDLEN6", start = 28, stop = 31},
                 {name = "LAYEROFFSET5", start = 22, stop = 27},
@@ -36563,7 +36564,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a408,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
                 {name = "METALEN", start = 6, stop = 8},
@@ -36623,7 +36624,7 @@ local csr_db = {
             width = 4,
             address = 0x842060702000,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36634,7 +36635,7 @@ local csr_db = {
             width = 4,
             address = 0x842060702004,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36645,7 +36646,7 @@ local csr_db = {
             width = 4,
             address = 0x842060702008,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36656,7 +36657,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070200c,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36667,7 +36668,7 @@ local csr_db = {
             width = 4,
             address = 0x842060702010,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_2_31", start = 2, stop = 31},
                 {name = "VMVALID", start = 0, stop = 1},
@@ -36732,7 +36733,7 @@ local csr_db = {
             width = 4,
             address = 0x842060709000,
             range1 = {0,127},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "EGRESSVIF", start = 29, stop = 31},
                 {name = "REASONCODE", start = 19, stop = 28},
@@ -36748,7 +36749,7 @@ local csr_db = {
             width = 4,
             address = 0x842060709004,
             range1 = {0,127},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "LM_CMD", start = 31, stop = 31},
                 {name = "ISMEKEYSEL", start = 29, stop = 30},
@@ -36762,7 +36763,7 @@ local csr_db = {
             width = 4,
             address = 0x842060709008,
             range1 = {0,127},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_2_31", start = 2, stop = 31},
                 {name = "RSRVD", start = 0, stop = 1},
@@ -36947,7 +36948,7 @@ local csr_db = {
             width = 4,
             address = 0x842060700000,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36958,7 +36959,7 @@ local csr_db = {
             width = 4,
             address = 0x842060700004,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36969,7 +36970,7 @@ local csr_db = {
             width = 4,
             address = 0x842060700008,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36980,7 +36981,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070000c,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -36991,7 +36992,7 @@ local csr_db = {
             width = 4,
             address = 0x842060700010,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_2_31", start = 2, stop = 31},
                 {name = "VMVALID", start = 0, stop = 1},
@@ -37168,7 +37169,7 @@ local csr_db = {
             width = 8,
             address = 0x842060712000,
             range1 = {0,127},
-            range1_inc = 0x18,
+            range1_inc = 0x20,
             fields = {
                 {name = "METADATA2", start = 58, stop = 63},
                 {name = "LYRPTRADVANCE0", start = 52, stop = 57},
@@ -37191,7 +37192,7 @@ local csr_db = {
             width = 8,
             address = 0x842060712008,
             range1 = {0,127},
-            range1_inc = 0x18,
+            range1_inc = 0x20,
             fields = {
                 {name = "METADATA0", start = 58, stop = 63},
                 {name = "METADATA1", start = 26, stop = 57},
@@ -37204,7 +37205,7 @@ local csr_db = {
             width = 8,
             address = 0x842060712010,
             range1 = {0,127},
-            range1_inc = 0x18,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_35_63", start = 35, stop = 63},
                 {name = "INNERETH", start = 34, stop = 34},
@@ -37262,7 +37263,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711000,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -37273,7 +37274,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711004,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -37284,7 +37285,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711008,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -37295,7 +37296,7 @@ local csr_db = {
             width = 4,
             address = 0x84206071100c,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -37306,7 +37307,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711010,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -37317,7 +37318,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711014,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -37328,7 +37329,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711018,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_18_31", start = 18, stop = 31},
                 {name = "VMVALID", start = 16, stop = 17},
@@ -37489,7 +37490,7 @@ local csr_db = {
             width = 4,
             address = 0x842060408000,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -37502,7 +37503,7 @@ local csr_db = {
             width = 8,
             address = 0x842060406000,
             range1 = {0,255},
-            range1_inc = 0x18,
+            range1_inc = 0x20,
             range2 = {0,2},
             range2_inc = 0x8,
             fields = {
@@ -37610,7 +37611,7 @@ local csr_db = {
             width = 8,
             address = 0x842060404000,
             range1 = {0,255},
-            range1_inc = 0x18,
+            range1_inc = 0x20,
             range2 = {0,2},
             range2_inc = 0x8,
             fields = {
@@ -37696,7 +37697,7 @@ local csr_db = {
             width = 4,
             address = 0x842060400000,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -37709,7 +37710,7 @@ local csr_db = {
             width = 4,
             address = 0x842060402000,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -37840,7 +37841,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481000,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "BMAP", start = 0, stop = 31},
             }
@@ -37851,7 +37852,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481004,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -37862,7 +37863,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481008,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -37873,7 +37874,7 @@ local csr_db = {
             width = 4,
             address = 0x84206048100c,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -37884,7 +37885,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481010,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -37895,7 +37896,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481014,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -37906,7 +37907,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481018,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -37917,7 +37918,7 @@ local csr_db = {
             width = 4,
             address = 0x84206048101c,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -37928,7 +37929,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481020,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -38763,7 +38764,7 @@ local csr_db = {
             width = 4,
             address = 0x842060580200,
             range1 = {0,23},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "TOKEN_ID_0_BIT_MAP", start = 30, stop = 31},
                 {name = "TOKEN_ID_1_32BIT_FORMAT", start = 29, stop = 29},
@@ -38782,7 +38783,7 @@ local csr_db = {
             width = 4,
             address = 0x842060580204,
             range1 = {0,23},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "OFFSET1", start = 27, stop = 31},
                 {name = "OFFSET2", start = 15, stop = 26},
@@ -38797,7 +38798,7 @@ local csr_db = {
             width = 4,
             address = 0x842060580208,
             range1 = {0,23},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "OFFSET0", start = 7, stop = 18},
@@ -38819,7 +38820,7 @@ local csr_db = {
             width = 4,
             address = 0x842060580000,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             range2 = {0,2},
             range2_inc = 0x4,
             fields = {
@@ -40444,9 +40445,9 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0x20000,
             range2 = {0,5},
-            range2_inc = 0x1400,
+            range2_inc = 0x2000,
             range3 = {0,255},
-            range3_inc = 0x14,
+            range3_inc = 0x20,
             range4 = {0,4},
             range4_inc = 0x4,
             fields = {
@@ -43092,7 +43093,7 @@ local csr_db = {
             width = 4,
             address = 0x842070418000,
             range1 = {0,159},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
@@ -43104,7 +43105,7 @@ local csr_db = {
             width = 4,
             address = 0x842070418004,
             range1 = {0,159},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "ENABLE", start = 31, stop = 31},
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
@@ -43119,7 +43120,7 @@ local csr_db = {
             width = 4,
             address = 0x842070418008,
             range1 = {0,159},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "COMP_COUNT", start = 0, stop = 18},
@@ -43374,7 +43375,7 @@ local csr_db = {
             width = 4,
             address = 0x842070408000,
             range1 = {0,2047},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
@@ -43386,7 +43387,7 @@ local csr_db = {
             width = 4,
             address = 0x842070408004,
             range1 = {0,2047},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "ENABLE", start = 31, stop = 31},
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
@@ -43401,7 +43402,7 @@ local csr_db = {
             width = 4,
             address = 0x842070408008,
             range1 = {0,2047},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "COMP_COUNT", start = 0, stop = 18},
@@ -43413,7 +43414,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400000,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "STRICT_EN", start = 0, stop = 31},
             }
@@ -43424,7 +43425,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400004,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "STRICT_EN", start = 0, stop = 31},
             }
@@ -43435,7 +43436,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400028,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43446,7 +43447,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040002c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43457,7 +43458,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400030,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43468,7 +43469,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400034,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43479,7 +43480,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400038,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43490,7 +43491,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040003c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43501,7 +43502,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400040,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -43512,7 +43513,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400044,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -43523,7 +43524,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400048,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -43534,7 +43535,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040004c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -43545,7 +43546,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400008,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43556,7 +43557,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400050,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -43567,7 +43568,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400054,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -43578,7 +43579,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400058,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -43589,7 +43590,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040005c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -43600,7 +43601,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400060,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "DQ_EN", start = 0, stop = 31},
             }
@@ -43611,7 +43612,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400064,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "DQ_EN", start = 0, stop = 31},
             }
@@ -43622,7 +43623,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400068,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "Q_GROUP2", start = 24, stop = 31},
                 {name = "Q_GROUP1", start = 16, stop = 23},
@@ -43636,7 +43637,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040006c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "Q_GROUP6", start = 24, stop = 31},
                 {name = "Q_GROUP5", start = 16, stop = 23},
@@ -43650,7 +43651,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400070,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "RESERVED_14_31", start = 14, stop = 31},
                 {name = "LAST_Q_INDEX", start = 8, stop = 13},
@@ -43663,7 +43664,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040000c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43674,7 +43675,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400010,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43685,7 +43686,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400014,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43696,7 +43697,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400018,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43707,7 +43708,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040001c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43718,7 +43719,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400020,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -43729,7 +43730,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400024,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -44108,7 +44109,7 @@ local csr_db = {
             width = 4,
             address = 0x842070481800,
             range1 = {0,63},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
@@ -44120,7 +44121,7 @@ local csr_db = {
             width = 4,
             address = 0x842070481804,
             range1 = {0,63},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "ENABLE", start = 31, stop = 31},
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
@@ -44135,7 +44136,7 @@ local csr_db = {
             width = 4,
             address = 0x842070481808,
             range1 = {0,63},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "COMP_COUNT", start = 0, stop = 15},
@@ -44365,7 +44366,7 @@ local csr_db = {
             width = 4,
             address = 0x842070480000,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
@@ -44377,7 +44378,7 @@ local csr_db = {
             width = 4,
             address = 0x842070480004,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "ENABLE", start = 31, stop = 31},
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
@@ -44392,7 +44393,7 @@ local csr_db = {
             width = 4,
             address = 0x842070480008,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "COMP_COUNT", start = 0, stop = 15},
@@ -44404,7 +44405,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481000,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "STRICT_EN", start = 0, stop = 63},
             }
@@ -44415,7 +44416,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481008,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 63},
             }
@@ -44426,7 +44427,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481010,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 63},
             }
@@ -44437,7 +44438,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481018,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 63},
             }
@@ -44448,7 +44449,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481020,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 63},
             }
@@ -44459,7 +44460,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481028,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "DQ_EN", start = 0, stop = 63},
             }
@@ -44470,7 +44471,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481030,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "RESERVED_48_63", start = 48, stop = 63},
                 {name = "H1_GROUP7", start = 43, stop = 47},
@@ -44593,7 +44594,7 @@ local csr_db = {
             width = 4,
             address = 0x842070414000,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "REACTION_POINT3", start = 31, stop = 31},
                 {name = "ENABLE3", start = 30, stop = 30},
@@ -44611,7 +44612,7 @@ local csr_db = {
             width = 4,
             address = 0x842070414004,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "REACTION_POINT6", start = 29, stop = 31},
                 {name = "ENABLE6", start = 28, stop = 28},
@@ -44628,7 +44629,7 @@ local csr_db = {
             width = 4,
             address = 0x842070414008,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "REACTION_POINT7", start = 7, stop = 15},
@@ -44760,7 +44761,7 @@ local csr_db = {
             width = 4,
             address = 0x842070684000,
             range1 = {0,15},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -44942,7 +44943,7 @@ local csr_db = {
             width = 4,
             address = 0x842070683800,
             range1 = {0,15},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -45007,7 +45008,7 @@ local csr_db = {
             width = 4,
             address = 0x842070683a00,
             range1 = {0,15},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -45143,7 +45144,7 @@ local csr_db = {
             width = 4,
             address = 0x842070683e00,
             range1 = {0,15},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -45156,7 +45157,7 @@ local csr_db = {
             width = 8,
             address = 0x842070682c00,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             range2 = {0,6},
             range2_inc = 0x8,
             fields = {
@@ -45179,7 +45180,7 @@ local csr_db = {
             width = 8,
             address = 0x842070682800,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             range2 = {0,6},
             range2_inc = 0x8,
             fields = {
@@ -45202,7 +45203,7 @@ local csr_db = {
             width = 8,
             address = 0x842070682400,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             range2 = {0,6},
             range2_inc = 0x8,
             fields = {
@@ -45215,7 +45216,7 @@ local csr_db = {
             width = 8,
             address = 0x842070683000,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             range2 = {0,6},
             range2_inc = 0x8,
             fields = {
@@ -45291,7 +45292,7 @@ local csr_db = {
             width = 4,
             address = 0x842070683400,
             range1 = {0,31},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -45341,7 +45342,7 @@ local csr_db = {
             width = 8,
             address = 0x842070682000,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             range2 = {0,6},
             range2_inc = 0x8,
             fields = {
@@ -45354,7 +45355,7 @@ local csr_db = {
             width = 4,
             address = 0x842070683c00,
             range1 = {0,15},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -45377,7 +45378,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608000,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "QCN_PROB_SHIFT0", start = 25, stop = 31},
                 {name = "QCN_PROB_SHIFT1", start = 17, stop = 24},
@@ -45393,7 +45394,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608004,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "QCN_FB_MAX", start = 17, stop = 31},
                 {name = "QCN_FB_MIN_SAMP_PROB", start = 9, stop = 16},
@@ -45407,7 +45408,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608008,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "QCN_EQ_PARAM", start = 26, stop = 31},
                 {name = "QCN_WEIGHT_SHIFT0", start = 23, stop = 25},
@@ -45422,7 +45423,7 @@ local csr_db = {
             width = 4,
             address = 0x84207060800c,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "WRED_MARK_DROP_PROB", start = 28, stop = 31},
                 {name = "DCTCP_MARK_EN", start = 27, stop = 27},
@@ -45438,7 +45439,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608010,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "WRED_AVG_LENGTH_WEIGHT", start = 28, stop = 31},
                 {name = "WRED_SHIFT0", start = 20, stop = 27},
@@ -45453,7 +45454,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608014,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "WRED_AVG_LENGTH_MIN_TH", start = 19, stop = 31},
                 {name = "WRED_AVG_LENGTH_MAX_TH", start = 4, stop = 18},
@@ -45466,7 +45467,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608018,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "LENGTH_MAX_TH", start = 4, stop = 18},
@@ -51060,6 +51061,18 @@ local csr_db = {
             range1_inc = 0x1000000,
             fields = {
                 {name = "MSK_OR", start = 0, stop = 63},
+            }
+        },
+        BGXX_CMR_ECO = {
+            name = "BGX#_CMR_ECO",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0e0001028,
+            range1 = {0,1},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "ECO_RO", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
             }
         },
         BGXX_CMR_GLOBAL_CONFIG = {
@@ -64179,7 +64192,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_53_63", start = 53, stop = 63},
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "DQ_CHAR_BYTE_CHECK", start = 53, stop = 53},
                 {name = "DQ_CHAR_CHECK_LOCK", start = 52, stop = 52},
                 {name = "DQ_CHAR_CHECK_ENABLE", start = 51, stop = 51},
                 {name = "DQ_CHAR_BIT_SEL", start = 48, stop = 50},
@@ -68389,7 +68403,7 @@ local csr_db = {
             address = 0x843020006000,
             range1 = {0,127},
             range1_inc = 0x200000,
-            range2 = {0,15},
+            range2 = {0,23},
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
@@ -81243,9 +81257,9 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x20000,
             range2 = {0,3},
-            range2_inc = 0x2400,
+            range2_inc = 0x4000,
             range3 = {0,255},
-            range3_inc = 0x24,
+            range3_inc = 0x40,
             range4 = {0,8},
             range4_inc = 0x4,
             fields = {
@@ -81734,7 +81748,7 @@ local csr_db = {
             width = 8,
             address = 0x842060000000,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
@@ -81745,7 +81759,7 @@ local csr_db = {
             width = 8,
             address = 0x842060000008,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
@@ -81756,7 +81770,7 @@ local csr_db = {
             width = 8,
             address = 0x842060000010,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 32, stop = 63},
                 {name = "DATAA_AND_KEYA", start = 0, stop = 31},
@@ -81768,7 +81782,7 @@ local csr_db = {
             width = 8,
             address = 0x842060000018,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
@@ -81779,7 +81793,7 @@ local csr_db = {
             width = 8,
             address = 0x842060000020,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
@@ -81790,7 +81804,7 @@ local csr_db = {
             width = 8,
             address = 0x842060040000,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
@@ -81801,7 +81815,7 @@ local csr_db = {
             width = 8,
             address = 0x842060040008,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAA_AND_KEYA", start = 0, stop = 63},
             }
@@ -81812,7 +81826,7 @@ local csr_db = {
             width = 8,
             address = 0x842060040010,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 32, stop = 63},
                 {name = "DATAA_AND_KEYA", start = 0, stop = 31},
@@ -81824,7 +81838,7 @@ local csr_db = {
             width = 8,
             address = 0x842060040018,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
@@ -81835,7 +81849,7 @@ local csr_db = {
             width = 8,
             address = 0x842060040020,
             range1 = {0,4095},
-            range1_inc = 0x28,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATAB_AND_KEYB", start = 0, stop = 63},
             }
@@ -82258,7 +82272,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -82272,7 +82286,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -82287,7 +82301,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -82301,7 +82315,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -82315,7 +82329,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -82330,7 +82344,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -82344,7 +82358,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -82358,7 +82372,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -82373,7 +82387,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -82387,7 +82401,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -82401,7 +82415,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -82416,7 +82430,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -82430,7 +82444,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -82444,7 +82458,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -82459,7 +82473,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -82473,7 +82487,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST1", start = 42, stop = 63},
                 {name = "SE_SUPERKEY_INST0", start = 0, stop = 41},
@@ -82487,7 +82501,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "SE_SUPERKEY_INST3", start = 62, stop = 63},
                 {name = "SE_SUPERKEY_INST2", start = 20, stop = 61},
@@ -82502,7 +82516,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "SE_SUPERKEY_INST3", start = 0, stop = 39},
@@ -82629,7 +82643,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_REASONCODE_INST", start = 61, stop = 63},
                 {name = "TOKEN_FILTERGRPNUMBER_INST", start = 41, stop = 60},
@@ -82646,7 +82660,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_EGRESSVIF_INST", start = 54, stop = 63},
                 {name = "TOKEN_ECMPSIZE_INST", start = 30, stop = 53},
@@ -82661,7 +82675,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
                 {name = "TOKEN_PKTCMD_INST", start = 22, stop = 35},
@@ -82739,7 +82753,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_REWRPTR3_INST", start = 60, stop = 63},
                 {name = "TOKEN_REWRPTR2_INST", start = 40, stop = 59},
@@ -82755,7 +82769,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_REWRPTR6_INST", start = 56, stop = 63},
                 {name = "TOKEN_REWRPTR5_INST", start = 36, stop = 55},
@@ -82771,7 +82785,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_53_63", start = 53, stop = 63},
                 {name = "TOKEN_REWRITEPT6ISINS_INST", start = 51, stop = 52},
@@ -82788,7 +82802,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST0", start = 0, stop = 31},
             }
@@ -82801,7 +82815,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST1", start = 30, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST0", start = 0, stop = 29},
@@ -82815,7 +82829,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "RESERVED_8_31", start = 8, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST7", start = 0, stop = 7},
@@ -82829,7 +82843,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST1", start = 0, stop = 31},
             }
@@ -82842,7 +82856,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST2", start = 4, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST1", start = 0, stop = 3},
@@ -82856,7 +82870,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST3", start = 10, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST2", start = 0, stop = 9},
@@ -82870,7 +82884,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST4", start = 16, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST3", start = 0, stop = 15},
@@ -82884,7 +82898,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST5", start = 22, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST4", start = 0, stop = 21},
@@ -82898,7 +82912,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST6", start = 28, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST5", start = 0, stop = 27},
@@ -82912,7 +82926,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST6", start = 0, stop = 31},
             }
@@ -82925,7 +82939,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x2c,
+            range2_inc = 0x40,
             fields = {
                 {name = "TOKEN_SCRATCHPAD_INST7", start = 2, stop = 31},
                 {name = "TOKEN_SCRATCHPAD_INST6", start = 0, stop = 1},
@@ -82939,7 +82953,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_LAYERS_INST1", start = 44, stop = 63},
                 {name = "TOKEN_LAYERS_INST0", start = 0, stop = 43},
@@ -82953,7 +82967,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_LAYERS_INST2", start = 24, stop = 63},
                 {name = "TOKEN_LAYERS_INST1", start = 0, stop = 23},
@@ -82967,7 +82981,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_48_63", start = 48, stop = 63},
                 {name = "TOKEN_LAYERS_INST3", start = 4, stop = 47},
@@ -82982,7 +82996,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_LAYERS_INST1", start = 44, stop = 63},
                 {name = "TOKEN_LAYERS_INST0", start = 0, stop = 43},
@@ -82996,7 +83010,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "TOKEN_LAYERS_INST2", start = 24, stop = 63},
                 {name = "TOKEN_LAYERS_INST1", start = 0, stop = 23},
@@ -83010,7 +83024,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,31},
-            range2_inc = 0x18,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_48_63", start = 48, stop = 63},
                 {name = "TOKEN_LAYERS_INST3", start = 4, stop = 47},
@@ -83025,7 +83039,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x14,
+            range2_inc = 0x20,
             fields = {
                 {name = "ACM_REQ_ADDR_INST0", start = 0, stop = 31},
             }
@@ -83038,7 +83052,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x14,
+            range2_inc = 0x20,
             fields = {
                 {name = "ACM_REQ_ADDR_INST1", start = 7, stop = 31},
                 {name = "ACM_REQ_CMD_INST0", start = 5, stop = 6},
@@ -83053,7 +83067,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x14,
+            range2_inc = 0x20,
             fields = {
                 {name = "ACM_REQ_ADDR_INST2", start = 14, stop = 31},
                 {name = "ACM_REQ_CMD_INST1", start = 12, stop = 13},
@@ -83068,7 +83082,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x14,
+            range2_inc = 0x20,
             fields = {
                 {name = "ACM_REQ_ADDR_INST3", start = 21, stop = 31},
                 {name = "ACM_REQ_CMD_INST2", start = 19, stop = 20},
@@ -83083,7 +83097,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x14,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_28_31", start = 28, stop = 31},
                 {name = "ACM_REQ_CMD_INST3", start = 26, stop = 27},
@@ -83098,7 +83112,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x28,
+            range2_inc = 0x40,
             fields = {
                 {name = "LM_REQ_KEY_INST1", start = 38, stop = 63},
                 {name = "LM_REQ_KEY_INST0", start = 0, stop = 37},
@@ -83112,7 +83126,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x28,
+            range2_inc = 0x40,
             fields = {
                 {name = "LM_REQ_KEY_INST3", start = 50, stop = 63},
                 {name = "LM_REQ_KEY_INST2", start = 12, stop = 49},
@@ -83127,7 +83141,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x28,
+            range2_inc = 0x40,
             fields = {
                 {name = "LM_REQ_KEY_INST5", start = 62, stop = 63},
                 {name = "LM_REQ_KEY_INST4", start = 24, stop = 61},
@@ -83142,7 +83156,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x28,
+            range2_inc = 0x40,
             fields = {
                 {name = "LM_REQ_KEY_INST6", start = 36, stop = 63},
                 {name = "LM_REQ_KEY_INST5", start = 0, stop = 35},
@@ -83156,7 +83170,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,15},
-            range2_inc = 0x28,
+            range2_inc = 0x40,
             fields = {
                 {name = "RESERVED_50_63", start = 50, stop = 63},
                 {name = "LM_REQ_CMD_INST", start = 48, stop = 49},
@@ -83334,7 +83348,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,255},
-            range2_inc = 0xc,
+            range2_inc = 0x10,
             fields = {
                 {name = "METADATA", start = 0, stop = 31},
             }
@@ -83347,7 +83361,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,255},
-            range2_inc = 0xc,
+            range2_inc = 0x10,
             fields = {
                 {name = "LAYER4_OFFSET", start = 28, stop = 31},
                 {name = "LAYER3_OFFSET", start = 21, stop = 27},
@@ -83364,7 +83378,7 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x8000,
             range2 = {0,255},
-            range2_inc = 0xc,
+            range2_inc = 0x10,
             fields = {
                 {name = "RESERVED_30_31", start = 30, stop = 31},
                 {name = "FSTINT_LID1", start = 27, stop = 29},
@@ -86364,7 +86378,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -86377,7 +86391,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -86390,7 +86404,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -86403,7 +86417,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -86416,7 +86430,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -86429,7 +86443,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -86442,7 +86456,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x4000,
             range2 = {0,127},
-            range2_inc = 0x1c,
+            range2_inc = 0x20,
             fields = {
                 {name = "RESERVED_18_31", start = 18, stop = 31},
                 {name = "VMVALID", start = 16, stop = 17},
@@ -86600,7 +86614,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a200,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "LAYEROFFSET1", start = 29, stop = 31},
                 {name = "FIELDLEN1", start = 26, stop = 28},
@@ -86618,7 +86632,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a204,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "LAYEROFFSET3", start = 31, stop = 31},
                 {name = "FIELDLEN3", start = 28, stop = 30},
@@ -86637,7 +86651,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a208,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_4_31", start = 4, stop = 31},
                 {name = "LAYEROFFSET3", start = 0, stop = 3},
@@ -86803,7 +86817,7 @@ local csr_db = {
             width = 4,
             address = 0x842060704000,
             range1 = {0,136},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "SCRATCHPAD", start = 30, stop = 31},
                 {name = "FILTER_GRP_NUM", start = 22, stop = 29},
@@ -86824,7 +86838,7 @@ local csr_db = {
             width = 4,
             address = 0x842060704004,
             range1 = {0,136},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "SCRATCHPAD", start = 0, stop = 31},
             }
@@ -86835,7 +86849,7 @@ local csr_db = {
             width = 4,
             address = 0x842060704008,
             range1 = {0,136},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "MIRRORBITMASK", start = 30, stop = 31},
                 {name = "SCRATCHPAD", start = 0, stop = 29},
@@ -86847,7 +86861,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070400c,
             range1 = {0,136},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "INGRESSVIF", start = 14, stop = 31},
                 {name = "MIRRORBITMASK", start = 0, stop = 13},
@@ -86859,7 +86873,7 @@ local csr_db = {
             width = 4,
             address = 0x842060704010,
             range1 = {0,136},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_25_31", start = 25, stop = 31},
                 {name = "ETAGEXISTS", start = 24, stop = 24},
@@ -86900,7 +86914,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a400,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "FIELDLEN3", start = 30, stop = 31},
                 {name = "LAYEROFFSET2", start = 24, stop = 29},
@@ -86917,7 +86931,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a404,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "FIELDLEN6", start = 28, stop = 31},
                 {name = "LAYEROFFSET5", start = 22, stop = 27},
@@ -86934,7 +86948,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070a408,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_9_31", start = 9, stop = 31},
                 {name = "METALEN", start = 6, stop = 8},
@@ -86994,7 +87008,7 @@ local csr_db = {
             width = 4,
             address = 0x842060702000,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87005,7 +87019,7 @@ local csr_db = {
             width = 4,
             address = 0x842060702004,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87016,7 +87030,7 @@ local csr_db = {
             width = 4,
             address = 0x842060702008,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87027,7 +87041,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070200c,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87038,7 +87052,7 @@ local csr_db = {
             width = 4,
             address = 0x842060702010,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_2_31", start = 2, stop = 31},
                 {name = "VMVALID", start = 0, stop = 1},
@@ -87103,7 +87117,7 @@ local csr_db = {
             width = 4,
             address = 0x842060709000,
             range1 = {0,127},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "EGRESSVIF", start = 29, stop = 31},
                 {name = "REASONCODE", start = 19, stop = 28},
@@ -87119,7 +87133,7 @@ local csr_db = {
             width = 4,
             address = 0x842060709004,
             range1 = {0,127},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "LM_CMD", start = 31, stop = 31},
                 {name = "ISMEKEYSEL", start = 29, stop = 30},
@@ -87133,7 +87147,7 @@ local csr_db = {
             width = 4,
             address = 0x842060709008,
             range1 = {0,127},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_2_31", start = 2, stop = 31},
                 {name = "RSRVD", start = 0, stop = 1},
@@ -87318,7 +87332,7 @@ local csr_db = {
             width = 4,
             address = 0x842060700000,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87329,7 +87343,7 @@ local csr_db = {
             width = 4,
             address = 0x842060700004,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87340,7 +87354,7 @@ local csr_db = {
             width = 4,
             address = 0x842060700008,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87351,7 +87365,7 @@ local csr_db = {
             width = 4,
             address = 0x84206070000c,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87362,7 +87376,7 @@ local csr_db = {
             width = 4,
             address = 0x842060700010,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_2_31", start = 2, stop = 31},
                 {name = "VMVALID", start = 0, stop = 1},
@@ -87539,7 +87553,7 @@ local csr_db = {
             width = 8,
             address = 0x842060712000,
             range1 = {0,127},
-            range1_inc = 0x18,
+            range1_inc = 0x20,
             fields = {
                 {name = "METADATA2", start = 58, stop = 63},
                 {name = "LYRPTRADVANCE0", start = 52, stop = 57},
@@ -87562,7 +87576,7 @@ local csr_db = {
             width = 8,
             address = 0x842060712008,
             range1 = {0,127},
-            range1_inc = 0x18,
+            range1_inc = 0x20,
             fields = {
                 {name = "METADATA0", start = 58, stop = 63},
                 {name = "METADATA1", start = 26, stop = 57},
@@ -87575,7 +87589,7 @@ local csr_db = {
             width = 8,
             address = 0x842060712010,
             range1 = {0,127},
-            range1_inc = 0x18,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_35_63", start = 35, stop = 63},
                 {name = "INNERETH", start = 34, stop = 34},
@@ -87633,7 +87647,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711000,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87644,7 +87658,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711004,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87655,7 +87669,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711008,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87666,7 +87680,7 @@ local csr_db = {
             width = 4,
             address = 0x84206071100c,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87677,7 +87691,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711010,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87688,7 +87702,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711014,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "VMDATA", start = 0, stop = 31},
             }
@@ -87699,7 +87713,7 @@ local csr_db = {
             width = 4,
             address = 0x842060711018,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_18_31", start = 18, stop = 31},
                 {name = "VMVALID", start = 16, stop = 17},
@@ -87860,7 +87874,7 @@ local csr_db = {
             width = 4,
             address = 0x842060408000,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -87873,7 +87887,7 @@ local csr_db = {
             width = 8,
             address = 0x842060406000,
             range1 = {0,255},
-            range1_inc = 0x18,
+            range1_inc = 0x20,
             range2 = {0,2},
             range2_inc = 0x8,
             fields = {
@@ -87981,7 +87995,7 @@ local csr_db = {
             width = 8,
             address = 0x842060404000,
             range1 = {0,255},
-            range1_inc = 0x18,
+            range1_inc = 0x20,
             range2 = {0,2},
             range2_inc = 0x8,
             fields = {
@@ -88067,7 +88081,7 @@ local csr_db = {
             width = 4,
             address = 0x842060400000,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -88080,7 +88094,7 @@ local csr_db = {
             width = 4,
             address = 0x842060402000,
             range1 = {0,255},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -88211,7 +88225,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481000,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "BMAP", start = 0, stop = 31},
             }
@@ -88222,7 +88236,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481004,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -88233,7 +88247,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481008,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -88244,7 +88258,7 @@ local csr_db = {
             width = 4,
             address = 0x84206048100c,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -88255,7 +88269,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481010,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -88266,7 +88280,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481014,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -88277,7 +88291,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481018,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -88288,7 +88302,7 @@ local csr_db = {
             width = 4,
             address = 0x84206048101c,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -88299,7 +88313,7 @@ local csr_db = {
             width = 4,
             address = 0x842060481020,
             range1 = {0,31},
-            range1_inc = 0x24,
+            range1_inc = 0x40,
             fields = {
                 {name = "DATA", start = 0, stop = 31},
             }
@@ -89134,7 +89148,7 @@ local csr_db = {
             width = 4,
             address = 0x842060580200,
             range1 = {0,23},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "TOKEN_ID_0_BIT_MAP", start = 30, stop = 31},
                 {name = "TOKEN_ID_1_32BIT_FORMAT", start = 29, stop = 29},
@@ -89153,7 +89167,7 @@ local csr_db = {
             width = 4,
             address = 0x842060580204,
             range1 = {0,23},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "OFFSET1", start = 27, stop = 31},
                 {name = "OFFSET2", start = 15, stop = 26},
@@ -89168,7 +89182,7 @@ local csr_db = {
             width = 4,
             address = 0x842060580208,
             range1 = {0,23},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "OFFSET0", start = 7, stop = 18},
@@ -89190,7 +89204,7 @@ local csr_db = {
             width = 4,
             address = 0x842060580000,
             range1 = {0,31},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             range2 = {0,2},
             range2_inc = 0x4,
             fields = {
@@ -90815,9 +90829,9 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0x20000,
             range2 = {0,5},
-            range2_inc = 0x1400,
+            range2_inc = 0x2000,
             range3 = {0,255},
-            range3_inc = 0x14,
+            range3_inc = 0x20,
             range4 = {0,4},
             range4_inc = 0x4,
             fields = {
@@ -93463,7 +93477,7 @@ local csr_db = {
             width = 4,
             address = 0x842070418000,
             range1 = {0,159},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
@@ -93475,7 +93489,7 @@ local csr_db = {
             width = 4,
             address = 0x842070418004,
             range1 = {0,159},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "ENABLE", start = 31, stop = 31},
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
@@ -93490,7 +93504,7 @@ local csr_db = {
             width = 4,
             address = 0x842070418008,
             range1 = {0,159},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "COMP_COUNT", start = 0, stop = 18},
@@ -93745,7 +93759,7 @@ local csr_db = {
             width = 4,
             address = 0x842070408000,
             range1 = {0,2047},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
@@ -93757,7 +93771,7 @@ local csr_db = {
             width = 4,
             address = 0x842070408004,
             range1 = {0,2047},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "ENABLE", start = 31, stop = 31},
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
@@ -93772,7 +93786,7 @@ local csr_db = {
             width = 4,
             address = 0x842070408008,
             range1 = {0,2047},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "COMP_COUNT", start = 0, stop = 18},
@@ -93784,7 +93798,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400000,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "STRICT_EN", start = 0, stop = 31},
             }
@@ -93795,7 +93809,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400004,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "STRICT_EN", start = 0, stop = 31},
             }
@@ -93806,7 +93820,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400028,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -93817,7 +93831,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040002c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -93828,7 +93842,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400030,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -93839,7 +93853,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400034,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -93850,7 +93864,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400038,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -93861,7 +93875,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040003c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -93872,7 +93886,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400040,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -93883,7 +93897,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400044,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -93894,7 +93908,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400048,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -93905,7 +93919,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040004c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -93916,7 +93930,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400008,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -93927,7 +93941,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400050,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -93938,7 +93952,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400054,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -93949,7 +93963,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400058,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -93960,7 +93974,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040005c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 31},
             }
@@ -93971,7 +93985,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400060,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "DQ_EN", start = 0, stop = 31},
             }
@@ -93982,7 +93996,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400064,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "DQ_EN", start = 0, stop = 31},
             }
@@ -93993,7 +94007,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400068,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "Q_GROUP2", start = 24, stop = 31},
                 {name = "Q_GROUP1", start = 16, stop = 23},
@@ -94007,7 +94021,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040006c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "Q_GROUP6", start = 24, stop = 31},
                 {name = "Q_GROUP5", start = 16, stop = 23},
@@ -94021,7 +94035,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400070,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "RESERVED_14_31", start = 14, stop = 31},
                 {name = "LAST_Q_INDEX", start = 8, stop = 13},
@@ -94034,7 +94048,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040000c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -94045,7 +94059,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400010,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -94056,7 +94070,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400014,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -94067,7 +94081,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400018,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -94078,7 +94092,7 @@ local csr_db = {
             width = 4,
             address = 0x84207040001c,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -94089,7 +94103,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400020,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -94100,7 +94114,7 @@ local csr_db = {
             width = 4,
             address = 0x842070400024,
             range1 = {0,255},
-            range1_inc = 0x74,
+            range1_inc = 0x80,
             fields = {
                 {name = "CHANNEL_ARRAY", start = 0, stop = 31},
             }
@@ -94479,7 +94493,7 @@ local csr_db = {
             width = 4,
             address = 0x842070481800,
             range1 = {0,63},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
@@ -94491,7 +94505,7 @@ local csr_db = {
             width = 4,
             address = 0x842070481804,
             range1 = {0,63},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "ENABLE", start = 31, stop = 31},
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
@@ -94506,7 +94520,7 @@ local csr_db = {
             width = 4,
             address = 0x842070481808,
             range1 = {0,63},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "COMP_COUNT", start = 0, stop = 15},
@@ -94736,7 +94750,7 @@ local csr_db = {
             width = 4,
             address = 0x842070480000,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "BUCKET_SIZE", start = 8, stop = 31},
                 {name = "RATE_COUNT", start = 0, stop = 7},
@@ -94748,7 +94762,7 @@ local csr_db = {
             width = 4,
             address = 0x842070480004,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "ENABLE", start = 31, stop = 31},
                 {name = "MAX_BURST_SIZE", start = 23, stop = 30},
@@ -94763,7 +94777,7 @@ local csr_db = {
             width = 4,
             address = 0x842070480008,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "COMP_COUNT", start = 0, stop = 15},
@@ -94775,7 +94789,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481000,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "STRICT_EN", start = 0, stop = 63},
             }
@@ -94786,7 +94800,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481008,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 63},
             }
@@ -94797,7 +94811,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481010,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 63},
             }
@@ -94808,7 +94822,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481018,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 63},
             }
@@ -94819,7 +94833,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481020,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "TC_ARRAY", start = 0, stop = 63},
             }
@@ -94830,7 +94844,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481028,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "DQ_EN", start = 0, stop = 63},
             }
@@ -94841,7 +94855,7 @@ local csr_db = {
             width = 8,
             address = 0x842070481030,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             fields = {
                 {name = "RESERVED_48_63", start = 48, stop = 63},
                 {name = "H1_GROUP7", start = 43, stop = 47},
@@ -94964,7 +94978,7 @@ local csr_db = {
             width = 4,
             address = 0x842070414000,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "REACTION_POINT3", start = 31, stop = 31},
                 {name = "ENABLE3", start = 30, stop = 30},
@@ -94982,7 +94996,7 @@ local csr_db = {
             width = 4,
             address = 0x842070414004,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "REACTION_POINT6", start = 29, stop = 31},
                 {name = "ENABLE6", start = 28, stop = 28},
@@ -94999,7 +95013,7 @@ local csr_db = {
             width = 4,
             address = 0x842070414008,
             range1 = {0,255},
-            range1_inc = 0xc,
+            range1_inc = 0x10,
             fields = {
                 {name = "RESERVED_16_31", start = 16, stop = 31},
                 {name = "REACTION_POINT7", start = 7, stop = 15},
@@ -95131,7 +95145,7 @@ local csr_db = {
             width = 4,
             address = 0x842070684000,
             range1 = {0,15},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -95313,7 +95327,7 @@ local csr_db = {
             width = 4,
             address = 0x842070683800,
             range1 = {0,15},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -95378,7 +95392,7 @@ local csr_db = {
             width = 4,
             address = 0x842070683a00,
             range1 = {0,15},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -95514,7 +95528,7 @@ local csr_db = {
             width = 4,
             address = 0x842070683e00,
             range1 = {0,15},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -95527,7 +95541,7 @@ local csr_db = {
             width = 8,
             address = 0x842070682c00,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             range2 = {0,6},
             range2_inc = 0x8,
             fields = {
@@ -95550,7 +95564,7 @@ local csr_db = {
             width = 8,
             address = 0x842070682800,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             range2 = {0,6},
             range2_inc = 0x8,
             fields = {
@@ -95573,7 +95587,7 @@ local csr_db = {
             width = 8,
             address = 0x842070682400,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             range2 = {0,6},
             range2_inc = 0x8,
             fields = {
@@ -95586,7 +95600,7 @@ local csr_db = {
             width = 8,
             address = 0x842070683000,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             range2 = {0,6},
             range2_inc = 0x8,
             fields = {
@@ -95662,7 +95676,7 @@ local csr_db = {
             width = 4,
             address = 0x842070683400,
             range1 = {0,31},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -95712,7 +95726,7 @@ local csr_db = {
             width = 8,
             address = 0x842070682000,
             range1 = {0,15},
-            range1_inc = 0x38,
+            range1_inc = 0x40,
             range2 = {0,6},
             range2_inc = 0x8,
             fields = {
@@ -95725,7 +95739,7 @@ local csr_db = {
             width = 4,
             address = 0x842070683c00,
             range1 = {0,15},
-            range1_inc = 0x14,
+            range1_inc = 0x20,
             range2 = {0,4},
             range2_inc = 0x4,
             fields = {
@@ -95748,7 +95762,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608000,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "QCN_PROB_SHIFT0", start = 25, stop = 31},
                 {name = "QCN_PROB_SHIFT1", start = 17, stop = 24},
@@ -95764,7 +95778,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608004,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "QCN_FB_MAX", start = 17, stop = 31},
                 {name = "QCN_FB_MIN_SAMP_PROB", start = 9, stop = 16},
@@ -95778,7 +95792,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608008,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "QCN_EQ_PARAM", start = 26, stop = 31},
                 {name = "QCN_WEIGHT_SHIFT0", start = 23, stop = 25},
@@ -95793,7 +95807,7 @@ local csr_db = {
             width = 4,
             address = 0x84207060800c,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "WRED_MARK_DROP_PROB", start = 28, stop = 31},
                 {name = "DCTCP_MARK_EN", start = 27, stop = 27},
@@ -95809,7 +95823,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608010,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "WRED_AVG_LENGTH_WEIGHT", start = 28, stop = 31},
                 {name = "WRED_SHIFT0", start = 20, stop = 27},
@@ -95824,7 +95838,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608014,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "WRED_AVG_LENGTH_MIN_TH", start = 19, stop = 31},
                 {name = "WRED_AVG_LENGTH_MAX_TH", start = 4, stop = 18},
@@ -95837,7 +95851,7 @@ local csr_db = {
             width = 4,
             address = 0x842070608018,
             range1 = {0,127},
-            range1_inc = 0x1c,
+            range1_inc = 0x20,
             fields = {
                 {name = "RESERVED_19_31", start = 19, stop = 31},
                 {name = "LENGTH_MAX_TH", start = 4, stop = 18},
@@ -100398,6 +100412,16 @@ local csr_db = {
                 {name = "DBE", start = 32, stop = 36},
                 {name = "RESERVED_5_31", start = 5, stop = 31},
                 {name = "SBE", start = 0, stop = 4},
+            }
+        },
+        ZIP_ECO = {
+            name = "ZIP_ECO",
+            type = "NCB",
+            width = 8,
+            address = 0x8380000005f0,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
             }
         },
         ZIP_FIFE_ENA_W1C = {

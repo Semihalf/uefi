@@ -514,12 +514,15 @@ static inline uint64_t BDK_SMMUX_CBX_CONTEXTIDR(unsigned long param1, unsigned l
  * NCB - smmu#_cb#_far
  *
  * This register is used by both stage 1 and stage 2 context banks. This register might be
- * updated as the result of
+ * updated as the result of:
+ *
  * 1. A stage 2 only context fault for an upstream client device. The IPA supplied by the
  * upstream client device is recorded.
+ *
  * 2. A nested stage 1 + stage 2 fault. The VA supplied by the upstream client device to the
  * stage 1 context is recorded. Note: the IPA is not recorded but the fault is tagged as nested
  * and the index of the stage 1 context is recorded in SMMU_FSYNR0.
+ *
  * 3. An ATOS operation at stage 1 in a nested context that faults at stage 2. The VA supplied by
  * to the global or stage 1 address translation operation is recorded. The IPA is recorded in
  * SMMU()_CB()_IPAFAR below and the fault is tagged as nested. The index of the stage 1
@@ -794,6 +797,7 @@ static inline uint64_t BDK_SMMUX_CBX_FSYNR1(unsigned long param1, unsigned long 
  *
  * IPA for a nested translation that faults in stage 2 (analogous to HPFAR in the processor).
  *
+ * Unlike SMMU()_CB()_FAR this register will zero extend 32-bit writes to the upper 32-bits.
  */
 typedef union bdk_smmux_cbx_ipafar {
 	uint64_t u;

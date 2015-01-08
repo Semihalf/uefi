@@ -1599,7 +1599,8 @@ typedef union bdk_bgxx_cmrx_tx_stat0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
 		uint64_t xscol                       : 48; /**< R/W/H - Number of packets dropped (never successfully sent) due to excessive collision. Defined by
-                                                                 BGX()_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. SGMII/1000Base-X half-duplex only.
+                                                                 BGX()_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. Half-duplex mode only and does not account for late
+                                                                 collisions.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -1634,8 +1635,9 @@ typedef union bdk_bgxx_cmrx_tx_stat1 {
 	struct bdk_bgxx_cmrx_tx_stat1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t xsdef                       : 48; /**< R/W/H - Number of packets dropped (never successfully sent) due to excessive deferral.
-                                                                 SGMII/1000BASE-X half-duplex only.
+		uint64_t xsdef                       : 48; /**< R/W/H - A count of the number of times any frame was deferred for an excessive period of time.
+                                                                 See maxDeferTime in the IEEE 802.3 specification. Half-duplex mode only and not updated
+                                                                 for late collisions.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -1973,7 +1975,8 @@ typedef union bdk_bgxx_cmrx_tx_stat2 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
 		uint64_t mcol                        : 48; /**< R/W/H - Number of packets sent with multiple collisions. Must be less than
-                                                                 BGX()_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. SGMII/1000BASE-X half-duplex only.
+                                                                 BGX()_GMP_GMI_TX_COL_ATTEMPT[LIMIT]. Half-duplex mode only and not updated
+                                                                 for late collisions.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -2008,7 +2011,8 @@ typedef union bdk_bgxx_cmrx_tx_stat3 {
 	struct bdk_bgxx_cmrx_tx_stat3_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_48_63              : 16;
-		uint64_t scol                        : 48; /**< R/W/H - Number of packets sent with a single collision. SGMII/1000BASE-X half-duplex only.
+		uint64_t scol                        : 48; /**< R/W/H - Number of packets sent with a single collision. Half-duplex mode only and not updated
+                                                                 for late collisions.
 
                                                                  Not cleared on read; cleared on a write with 0x0. Counters will wrap. Cleared if LMAC is
                                                                  disabled with BGX()_CMR()_CONFIG[ENABLE]=0. */
@@ -2428,6 +2432,40 @@ static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_OR(unsigned long param1)
 #define busnum_BDK_BGXX_CMR_CHAN_MSK_OR(p1) (p1)
 #define arguments_BDK_BGXX_CMR_CHAN_MSK_OR(p1) (p1),-1,-1,-1
 #define basename_BDK_BGXX_CMR_CHAN_MSK_OR(...) "BGXX_CMR_CHAN_MSK_OR"
+
+
+/**
+ * RSL - bgx#_cmr_eco
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_bgxx_cmr_eco {
+	uint64_t u;
+	struct bdk_bgxx_cmr_eco_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t eco_ro                      : 32; /**< RO - INTERNAL: Reserved for ECO usage. */
+		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
+#else
+		uint64_t eco_rw                      : 32;
+		uint64_t eco_ro                      : 32;
+#endif
+	} s;
+	/* struct bdk_bgxx_cmr_eco_s          cn88xx; */
+} bdk_bgxx_cmr_eco_t;
+
+static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
+		return 0x000087E0E0001028ull + (param1 & 1) * 0x1000000ull;
+	else 		csr_fatal("BDK_BGXX_CMR_ECO", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_BGXX_CMR_ECO(...) bdk_bgxx_cmr_eco_t
+#define bustype_BDK_BGXX_CMR_ECO(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_BGXX_CMR_ECO(p1) (p1)
+#define arguments_BDK_BGXX_CMR_ECO(p1) (p1),-1,-1,-1
+#define basename_BDK_BGXX_CMR_ECO(...) "BGXX_CMR_ECO"
 
 
 /**
@@ -5613,7 +5651,8 @@ typedef union bdk_bgxx_gmp_pcs_mrx_control {
                                                                  1 = Software PCS reset.
 
                                                                  The bit returns to 0 after PCS has been reset. Takes 32 coprocessor-clock cycles to reset
-                                                                 PCS. */
+                                                                 PCS.   This bit, when set, also drains the tx gmi fifo and can be used as a fifo draining
+                                                                 mechanism for both Serdes reset conditions and for XCV reset conditions. */
 		uint64_t loopbck1                    : 1;  /**< R/W - Enable loopback:
                                                                    0 = Normal operation.
                                                                    1 = Internal loopback mode.

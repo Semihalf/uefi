@@ -62,16 +62,16 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 /**
  * RSL - rnm_bist_status
  *
- * This register is the RNM memory BIST status register, indicating status of built-in self-tests.
- *
+ * This register is the RNM memory BIST status register, indicating status of built-in self-
+ * tests.  0 = passed BIST, 1 = failed BIST.
  */
 typedef union bdk_rnm_bist_status {
 	uint64_t u;
 	struct bdk_rnm_bist_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
-		uint64_t rrc                         : 1;  /**< RO/H - Status of the RRC memory block BIST: 1 = failed BIST, 0 = passed BIST. */
-		uint64_t mem                         : 1;  /**< RO/H - Status of MEM block BIST: 1 = failed BIST, 0 = passed BIST. */
+		uint64_t rrc                         : 1;  /**< RO/H - Status of the RRC memory block BIST. 0 = passed BIST, 1 = failed BIST. */
+		uint64_t mem                         : 1;  /**< RO/H - Status of MEM memory block BIST. 0 = passed BIST, 1 = failed BIST. */
 #else
 		uint64_t mem                         : 1;
 		uint64_t rrc                         : 1;

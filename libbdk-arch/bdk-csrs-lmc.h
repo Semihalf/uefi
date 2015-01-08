@@ -125,7 +125,8 @@ typedef union bdk_lmcx_char_ctl {
 	uint64_t u;
 	struct bdk_lmcx_char_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_53_63              : 11;
+		uint64_t reserved_54_63              : 10;
+		uint64_t dq_char_byte_check          : 1;  /**< RO - Reserved. */
 		uint64_t dq_char_check_lock          : 1;  /**< RO/H - Indicates if a lock has been achieved. Is set to 1 only if a lock is achieved during the
                                                                  LFSR priming period after DQ_CHAR_CHECK_ENABLE is set to 1, and is forced back to 0 when
                                                                  DQ_CHAR_CHECK_ENABLE is set to 0. */
@@ -150,7 +151,8 @@ typedef union bdk_lmcx_char_ctl {
 		uint64_t dq_char_bit_sel             : 3;
 		uint64_t dq_char_check_enable        : 1;
 		uint64_t dq_char_check_lock          : 1;
-		uint64_t reserved_53_63              : 11;
+		uint64_t dq_char_byte_check          : 1;
+		uint64_t reserved_54_63              : 10;
 #endif
 	} s;
 	/* struct bdk_lmcx_char_ctl_s         cn88xx; */
@@ -182,7 +184,7 @@ typedef union bdk_lmcx_char_dq_err_count {
 	struct bdk_lmcx_char_dq_err_count_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_40_63              : 24;
-		uint64_t dq_err_count                : 40; /**< RO - DQ error count. */
+		uint64_t dq_err_count                : 40; /**< RO/H - DQ error count. */
 #else
 		uint64_t dq_err_count                : 40;
 		uint64_t reserved_40_63              : 24;
@@ -3703,7 +3705,7 @@ typedef union bdk_lmcx_phy_ctl {
 		uint64_t ddr_error_n_ena             : 1;  /**< R/W - Enable error_alert_n signal for PHY. */
 		uint64_t ref_pin_on                  : 1;  /**< R/W - Reserved. INTERNAL: Voltage reference pin enabled. */
 		uint64_t dac_on                      : 1;  /**< R/W - Reserved. INTERNAL: PHY DAC on. */
-		uint64_t int_pad_loopback_ena        : 1;  /**< R/W - Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMCX_PHY_CTL[PHY_DSK_BYP]
+		uint64_t int_pad_loopback_ena        : 1;  /**< R/W - Reserved. INTERNAL: DDR pad loopback enable.  Also must set LMC()_PHY_CTL[PHY_DSK_BYP]
                                                                  when loopback is enabled. */
 		uint64_t int_phy_loopback_ena        : 1;  /**< R/W - Reserved. INTERNAL: PHY loopback enable. */
 		uint64_t phy_dsk_reset               : 1;  /**< R/W - PHY deskew reset. When set, the deskew reset signal goes active if the Vrefint/deskew

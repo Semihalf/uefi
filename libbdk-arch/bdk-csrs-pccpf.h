@@ -199,7 +199,7 @@ enum pcc_dev_idl_e {
 	PCC_DEV_IDL_E_BGX = 0x26,
 	PCC_DEV_IDL_E_BGX_CLASS_CODE = 0x28000,
 	PCC_DEV_IDL_E_CHIP = 0x0,
-	PCC_DEV_IDL_E_CPT = 0x33,
+	PCC_DEV_IDL_E_CPT = 0x40,
 	PCC_DEV_IDL_E_CPT_CLASS_CODE = 0x108000,
 	PCC_DEV_IDL_E_DAP = 0x2c,
 	PCC_DEV_IDL_E_DAP_CLASS_CODE = 0x88000,
@@ -249,6 +249,8 @@ enum pcc_dev_idl_e {
 	PCC_DEV_IDL_E_NCSI_CLASS_CODE = 0x28000,
 	PCC_DEV_IDL_E_NIC = 0x1e,
 	PCC_DEV_IDL_E_NIC_CLASS_CODE = 0x20000,
+	PCC_DEV_IDL_E_NIC_VF = 0x34,
+	PCC_DEV_IDL_E_NIC_VF_CLASS_CODE = 0x20000,
 	PCC_DEV_IDL_E_OCLA = 0x23,
 	PCC_DEV_IDL_E_OCLA_CLASS_CODE = 0x88000,
 	PCC_DEV_IDL_E_OCX = 0x13,
@@ -265,6 +267,8 @@ enum pcc_dev_idl_e {
 	PCC_DEV_IDL_E_RAD_CLASS_CODE = 0x10400,
 	PCC_DEV_IDL_E_RNM = 0x18,
 	PCC_DEV_IDL_E_RNM_CLASS_CODE = 0x120000,
+	PCC_DEV_IDL_E_RNM_VF = 0x33,
+	PCC_DEV_IDL_E_RNM_VF_CLASS_CODE = 0x120000,
 	PCC_DEV_IDL_E_RST = 0xe,
 	PCC_DEV_IDL_E_RST_CLASS_CODE = 0x88000,
 	PCC_DEV_IDL_E_SATA = 0x1c,
@@ -828,7 +832,7 @@ typedef union bdk_pccpf_xxx_id {
 	uint32_t u;
 	struct bdk_pccpf_xxx_id_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t devid                       : 16; /**< RO - Device ID. \<15:8\> is PCC_PROD_E:GEN. \<7:0\> enumerated by PCC_DEV_IDL_E. INTERNAL: Unit
+		uint32_t devid                       : 16; /**< RO - Device ID. \<15:8\> is PCC_PROD_E::GEN. \<7:0\> enumerated by PCC_DEV_IDL_E. INTERNAL: Unit
                                                                  from PCC's tie__unitid. */
 		uint32_t vendid                      : 16; /**< RO - Cavium's vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
 #else
@@ -1372,7 +1376,9 @@ typedef union bdk_pccpf_xxx_sriov_dev {
 	uint32_t u;
 	struct bdk_pccpf_xxx_sriov_dev_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vfdev                       : 16; /**< RO - VF device ID. */
+		uint32_t vfdev                       : 16; /**< RO - VF device ID. \<15:8\> is PCC_PROD_E::GEN. \<7:0\> enumerated by PCC_DEV_IDL_E.
+                                                                 e.g. 0xA033 for RNM_VF.
+                                                                 INTERNAL: Reset value should be --; see bug23334. */
 		uint32_t reserved_0_15               : 16;
 #else
 		uint32_t reserved_0_15               : 16;

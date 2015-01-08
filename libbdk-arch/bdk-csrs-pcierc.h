@@ -193,6 +193,7 @@ typedef union bdk_pciercx_cfg002 {
                                                                  this field.
                                                                  0x0 = pass 1.0.
                                                                  0x1 = pass 1.1.
+                                                                 0x2 = pass 1.2.
                                                                  0x8 = pass 2.0. */
 #else
 		uint32_t rid                         : 8;

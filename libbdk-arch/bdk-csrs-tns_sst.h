@@ -524,7 +524,7 @@ static inline uint64_t BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(unsigned long param1, unsig
 static inline uint64_t BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(unsigned long param1, unsigned long param2, unsigned long param3, unsigned long param4)
 {
 	if (((param1 <= 3)) && ((param2 <= 3)) && ((param3 <= 255)) && ((param4 <= 8)))
-		return 0x0000842060600000ull + (param1 & 3) * 0x20000ull + (param2 & 3) * 0x2400ull + (param3 & 255) * 0x24ull + (param4 & 15) * 0x4ull;
+		return 0x0000842060600000ull + (param1 & 3) * 0x20000ull + (param2 & 3) * 0x4000ull + (param3 & 255) * 0x40ull + (param4 & 15) * 0x4ull;
 	csr_fatal("BDK_TNS_SDE_CNT_BKX_MEMXDX_WX", 4, param1, param2, param3, param4); /* No return */
 }
 #define typedef_BDK_TNS_SDE_CNT_BKX_MEMXDX_WX(...) bdk_tns_sde_cnt_bkx_memxdx_wx_t
@@ -2047,7 +2047,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(unsigned long param1)
 {
 	if (((param1 <= 4095)))
-		return 0x0000842060000000ull + (param1 & 4095) * 0x28ull;
+		return 0x0000842060000000ull + (param1 & 4095) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W0(...) bdk_tns_sde_isme_lm_tile_lmemx_w0_t
@@ -2080,7 +2080,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(unsigned long param1)
 {
 	if (((param1 <= 4095)))
-		return 0x0000842060000008ull + (param1 & 4095) * 0x28ull;
+		return 0x0000842060000008ull + (param1 & 4095) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W1(...) bdk_tns_sde_isme_lm_tile_lmemx_w1_t
@@ -2115,7 +2115,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(unsigned long param1)
 {
 	if (((param1 <= 4095)))
-		return 0x0000842060000010ull + (param1 & 4095) * 0x28ull;
+		return 0x0000842060000010ull + (param1 & 4095) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W2(...) bdk_tns_sde_isme_lm_tile_lmemx_w2_t
@@ -2148,7 +2148,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(unsigned long param1)
 {
 	if (((param1 <= 4095)))
-		return 0x0000842060000018ull + (param1 & 4095) * 0x28ull;
+		return 0x0000842060000018ull + (param1 & 4095) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W3(...) bdk_tns_sde_isme_lm_tile_lmemx_w3_t
@@ -2181,7 +2181,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(unsigned long param1)
 {
 	if (((param1 <= 4095)))
-		return 0x0000842060000020ull + (param1 & 4095) * 0x28ull;
+		return 0x0000842060000020ull + (param1 & 4095) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_LMEMX_W4(...) bdk_tns_sde_isme_lm_tile_lmemx_w4_t
@@ -2217,7 +2217,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(unsigned long param1)
 {
 	if (((param1 <= 4095)))
-		return 0x0000842060040000ull + (param1 & 4095) * 0x28ull;
+		return 0x0000842060040000ull + (param1 & 4095) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W0(...) bdk_tns_sde_isme_lm_tile_rmemx_w0_t
@@ -2250,7 +2250,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(unsigned long param1)
 {
 	if (((param1 <= 4095)))
-		return 0x0000842060040008ull + (param1 & 4095) * 0x28ull;
+		return 0x0000842060040008ull + (param1 & 4095) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W1(...) bdk_tns_sde_isme_lm_tile_rmemx_w1_t
@@ -2285,7 +2285,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(unsigned long param1)
 {
 	if (((param1 <= 4095)))
-		return 0x0000842060040010ull + (param1 & 4095) * 0x28ull;
+		return 0x0000842060040010ull + (param1 & 4095) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W2(...) bdk_tns_sde_isme_lm_tile_rmemx_w2_t
@@ -2318,7 +2318,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(unsigned long param1)
 {
 	if (((param1 <= 4095)))
-		return 0x0000842060040018ull + (param1 & 4095) * 0x28ull;
+		return 0x0000842060040018ull + (param1 & 4095) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W3(...) bdk_tns_sde_isme_lm_tile_rmemx_w3_t
@@ -2351,7 +2351,7 @@ static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(unsigned long param1)
 {
 	if (((param1 <= 4095)))
-		return 0x0000842060040020ull + (param1 & 4095) * 0x28ull;
+		return 0x0000842060040020ull + (param1 & 4095) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_ISME_LM_TILE_RMEMX_W4(...) bdk_tns_sde_isme_lm_tile_rmemx_w4_t
@@ -3629,7 +3629,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206000ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206000ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W0(...) bdk_tns_sde_ldex_cfg_kfit0x_w0_t
@@ -3666,7 +3666,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206008ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206008ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W1(...) bdk_tns_sde_ldex_cfg_kfit0x_w1_t
@@ -3701,7 +3701,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206010ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206010ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT0X_W2(...) bdk_tns_sde_ldex_cfg_kfit0x_w2_t
@@ -3739,7 +3739,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206200ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206200ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W0(...) bdk_tns_sde_ldex_cfg_kfit1x_w0_t
@@ -3776,7 +3776,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206208ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206208ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W1(...) bdk_tns_sde_ldex_cfg_kfit1x_w1_t
@@ -3811,7 +3811,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206210ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206210ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT1X_W2(...) bdk_tns_sde_ldex_cfg_kfit1x_w2_t
@@ -3849,7 +3849,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206400ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206400ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W0(...) bdk_tns_sde_ldex_cfg_kfit2x_w0_t
@@ -3886,7 +3886,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206408ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206408ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W1(...) bdk_tns_sde_ldex_cfg_kfit2x_w1_t
@@ -3921,7 +3921,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206410ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206410ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT2X_W2(...) bdk_tns_sde_ldex_cfg_kfit2x_w2_t
@@ -3959,7 +3959,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206600ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206600ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W0(...) bdk_tns_sde_ldex_cfg_kfit3x_w0_t
@@ -3996,7 +3996,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206608ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206608ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W1(...) bdk_tns_sde_ldex_cfg_kfit3x_w1_t
@@ -4031,7 +4031,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206610ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206610ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT3X_W2(...) bdk_tns_sde_ldex_cfg_kfit3x_w2_t
@@ -4069,7 +4069,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206800ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206800ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W0(...) bdk_tns_sde_ldex_cfg_kfit4x_w0_t
@@ -4106,7 +4106,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206808ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206808ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W1(...) bdk_tns_sde_ldex_cfg_kfit4x_w1_t
@@ -4141,7 +4141,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206810ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206810ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT4X_W2(...) bdk_tns_sde_ldex_cfg_kfit4x_w2_t
@@ -4179,7 +4179,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206A00ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206A00ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W0(...) bdk_tns_sde_ldex_cfg_kfit5x_w0_t
@@ -4216,7 +4216,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206A08ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206A08ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W1(...) bdk_tns_sde_ldex_cfg_kfit5x_w1_t
@@ -4251,7 +4251,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060206A10ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x18ull;
+		return 0x0000842060206A10ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_KFIT5X_W2(...) bdk_tns_sde_ldex_cfg_kfit5x_w2_t
@@ -4616,7 +4616,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200800ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060200800ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W0(...) bdk_tns_sde_ldex_cfg_ofit0x_w0_t
@@ -4653,7 +4653,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200808ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060200808ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W1(...) bdk_tns_sde_ldex_cfg_ofit0x_w1_t
@@ -4690,7 +4690,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200810ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060200810ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT0X_W2(...) bdk_tns_sde_ldex_cfg_ofit0x_w2_t
@@ -4889,7 +4889,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200C00ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060200C00ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W0(...) bdk_tns_sde_ldex_cfg_ofit4x_w0_t
@@ -4928,7 +4928,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200C08ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060200C08ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W1(...) bdk_tns_sde_ldex_cfg_ofit4x_w1_t
@@ -4969,7 +4969,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200C10ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060200C10ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT4X_W2(...) bdk_tns_sde_ldex_cfg_ofit4x_w2_t
@@ -5005,7 +5005,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200000ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x2Cull;
+		return 0x0000842060200000ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W0(...) bdk_tns_sde_ldex_cfg_ofit5x_w0_t
@@ -5040,7 +5040,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200004ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x2Cull;
+		return 0x0000842060200004ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W1(...) bdk_tns_sde_ldex_cfg_ofit5x_w1_t
@@ -5075,7 +5075,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(unsigned long param1, uns
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200028ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x2Cull;
+		return 0x0000842060200028ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W10(...) bdk_tns_sde_ldex_cfg_ofit5x_w10_t
@@ -5108,7 +5108,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200008ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x2Cull;
+		return 0x0000842060200008ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W2(...) bdk_tns_sde_ldex_cfg_ofit5x_w2_t
@@ -5143,7 +5143,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x000084206020000Cull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x2Cull;
+		return 0x000084206020000Cull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W3(...) bdk_tns_sde_ldex_cfg_ofit5x_w3_t
@@ -5178,7 +5178,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200010ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x2Cull;
+		return 0x0000842060200010ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W4(...) bdk_tns_sde_ldex_cfg_ofit5x_w4_t
@@ -5213,7 +5213,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200014ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x2Cull;
+		return 0x0000842060200014ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W5(...) bdk_tns_sde_ldex_cfg_ofit5x_w5_t
@@ -5248,7 +5248,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200018ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x2Cull;
+		return 0x0000842060200018ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W6(...) bdk_tns_sde_ldex_cfg_ofit5x_w6_t
@@ -5283,7 +5283,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x000084206020001Cull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x2Cull;
+		return 0x000084206020001Cull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W7(...) bdk_tns_sde_ldex_cfg_ofit5x_w7_t
@@ -5316,7 +5316,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200020ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x2Cull;
+		return 0x0000842060200020ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W8(...) bdk_tns_sde_ldex_cfg_ofit5x_w8_t
@@ -5351,7 +5351,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060200024ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x2Cull;
+		return 0x0000842060200024ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT5X_W9(...) bdk_tns_sde_ldex_cfg_ofit5x_w9_t
@@ -5389,7 +5389,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060201000ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060201000ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W0(...) bdk_tns_sde_ldex_cfg_ofit6x_w0_t
@@ -5424,7 +5424,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060201008ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060201008ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W1(...) bdk_tns_sde_ldex_cfg_ofit6x_w1_t
@@ -5461,7 +5461,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060201010ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060201010ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT6X_W2(...) bdk_tns_sde_ldex_cfg_ofit6x_w2_t
@@ -5499,7 +5499,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060201400ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060201400ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W0(...) bdk_tns_sde_ldex_cfg_ofit7x_w0_t
@@ -5534,7 +5534,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060201408ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060201408ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W1(...) bdk_tns_sde_ldex_cfg_ofit7x_w1_t
@@ -5571,7 +5571,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 31)))
-		return 0x0000842060201410ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x18ull;
+		return 0x0000842060201410ull + (param1 & 1) * 0x8000ull + (param2 & 31) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT7X_W2(...) bdk_tns_sde_ldex_cfg_ofit7x_w2_t
@@ -5607,7 +5607,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060201E00ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x14ull;
+		return 0x0000842060201E00ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W0(...) bdk_tns_sde_ldex_cfg_ofit8x_w0_t
@@ -5644,7 +5644,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060201E04ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x14ull;
+		return 0x0000842060201E04ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W1(...) bdk_tns_sde_ldex_cfg_ofit8x_w1_t
@@ -5681,7 +5681,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060201E08ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x14ull;
+		return 0x0000842060201E08ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W2(...) bdk_tns_sde_ldex_cfg_ofit8x_w2_t
@@ -5718,7 +5718,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060201E0Cull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x14ull;
+		return 0x0000842060201E0Cull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W3(...) bdk_tns_sde_ldex_cfg_ofit8x_w3_t
@@ -5755,7 +5755,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060201E10ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x14ull;
+		return 0x0000842060201E10ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT8X_W4(...) bdk_tns_sde_ldex_cfg_ofit8x_w4_t
@@ -5793,7 +5793,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060201800ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x28ull;
+		return 0x0000842060201800ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W0(...) bdk_tns_sde_ldex_cfg_ofit9x_w0_t
@@ -5830,7 +5830,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060201808ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x28ull;
+		return 0x0000842060201808ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W1(...) bdk_tns_sde_ldex_cfg_ofit9x_w1_t
@@ -5867,7 +5867,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060201810ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x28ull;
+		return 0x0000842060201810ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W2(...) bdk_tns_sde_ldex_cfg_ofit9x_w2_t
@@ -5902,7 +5902,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060201818ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x28ull;
+		return 0x0000842060201818ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W3(...) bdk_tns_sde_ldex_cfg_ofit9x_w3_t
@@ -5941,7 +5941,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 15)))
-		return 0x0000842060201820ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x28ull;
+		return 0x0000842060201820ull + (param1 & 1) * 0x8000ull + (param2 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_OFIT9X_W4(...) bdk_tns_sde_ldex_cfg_ofit9x_w4_t
@@ -6436,7 +6436,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(unsigned long param1, un
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 255)))
-		return 0x0000842060204000ull + (param1 & 1) * 0x8000ull + (param2 & 255) * 0xCull;
+		return 0x0000842060204000ull + (param1 & 1) * 0x8000ull + (param2 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W0(...) bdk_tns_sde_ldex_cfg_tpl_tblx_w0_t
@@ -6477,7 +6477,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(unsigned long param1, un
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 255)))
-		return 0x0000842060204004ull + (param1 & 1) * 0x8000ull + (param2 & 255) * 0xCull;
+		return 0x0000842060204004ull + (param1 & 1) * 0x8000ull + (param2 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W1(...) bdk_tns_sde_ldex_cfg_tpl_tblx_w1_t
@@ -6522,7 +6522,7 @@ static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(unsigned long param1, un
 static inline uint64_t BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 1)) && ((param2 <= 255)))
-		return 0x0000842060204008ull + (param1 & 1) * 0x8000ull + (param2 & 255) * 0xCull;
+		return 0x0000842060204008ull + (param1 & 1) * 0x8000ull + (param2 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_LDEX_CFG_TPL_TBLX_W2(...) bdk_tns_sde_ldex_cfg_tpl_tblx_w2_t
@@ -14954,7 +14954,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(unsigned long param1, u
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 3)) && ((param2 <= 127)))
-		return 0x0000842060718000ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x1Cull;
+		return 0x0000842060718000ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W0(...) bdk_tns_sde_pe_kpux_tcam_dmskx_w0_t
@@ -14987,7 +14987,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(unsigned long param1, u
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 3)) && ((param2 <= 127)))
-		return 0x0000842060718004ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x1Cull;
+		return 0x0000842060718004ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W1(...) bdk_tns_sde_pe_kpux_tcam_dmskx_w1_t
@@ -15020,7 +15020,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(unsigned long param1, u
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 3)) && ((param2 <= 127)))
-		return 0x0000842060718008ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x1Cull;
+		return 0x0000842060718008ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W2(...) bdk_tns_sde_pe_kpux_tcam_dmskx_w2_t
@@ -15053,7 +15053,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(unsigned long param1, u
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 3)) && ((param2 <= 127)))
-		return 0x000084206071800Cull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x1Cull;
+		return 0x000084206071800Cull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W3(...) bdk_tns_sde_pe_kpux_tcam_dmskx_w3_t
@@ -15086,7 +15086,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(unsigned long param1, u
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 3)) && ((param2 <= 127)))
-		return 0x0000842060718010ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x1Cull;
+		return 0x0000842060718010ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W4(...) bdk_tns_sde_pe_kpux_tcam_dmskx_w4_t
@@ -15119,7 +15119,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(unsigned long param1, u
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 3)) && ((param2 <= 127)))
-		return 0x0000842060718014ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x1Cull;
+		return 0x0000842060718014ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W5(...) bdk_tns_sde_pe_kpux_tcam_dmskx_w5_t
@@ -15156,7 +15156,7 @@ static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(unsigned long param1, u
 static inline uint64_t BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 3)) && ((param2 <= 127)))
-		return 0x0000842060718018ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x1Cull;
+		return 0x0000842060718018ull + (param1 & 3) * 0x4000ull + (param2 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_KPUX_TCAM_DMSKX_W6(...) bdk_tns_sde_pe_kpux_tcam_dmskx_w6_t
@@ -15641,7 +15641,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x000084206070A200ull + (param1 & 31) * 0xCull;
+		return 0x000084206070A200ull + (param1 & 31) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W0(...) bdk_tns_sde_pe_lcmd_hashcmdsx_w0_t
@@ -15690,7 +15690,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x000084206070A204ull + (param1 & 31) * 0xCull;
+		return 0x000084206070A204ull + (param1 & 31) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W1(...) bdk_tns_sde_pe_lcmd_hashcmdsx_w1_t
@@ -15725,7 +15725,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x000084206070A208ull + (param1 & 31) * 0xCull;
+		return 0x000084206070A208ull + (param1 & 31) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_HASHCMDSX_W2(...) bdk_tns_sde_pe_lcmd_hashcmdsx_w2_t
@@ -16241,7 +16241,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W0(unsigned long param1) __attri
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W0(unsigned long param1)
 {
 	if (((param1 <= 136)))
-		return 0x0000842060704000ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060704000ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_ITTX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_ITTX_W0(...) bdk_tns_sde_pe_lcmd_ittx_w0_t
@@ -16274,7 +16274,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W1(unsigned long param1) __attri
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W1(unsigned long param1)
 {
 	if (((param1 <= 136)))
-		return 0x0000842060704004ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060704004ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_ITTX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_ITTX_W1(...) bdk_tns_sde_pe_lcmd_ittx_w1_t
@@ -16309,7 +16309,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W2(unsigned long param1) __attri
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W2(unsigned long param1)
 {
 	if (((param1 <= 136)))
-		return 0x0000842060704008ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060704008ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_ITTX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_ITTX_W2(...) bdk_tns_sde_pe_lcmd_ittx_w2_t
@@ -16344,7 +16344,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W3(unsigned long param1) __attri
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W3(unsigned long param1)
 {
 	if (((param1 <= 136)))
-		return 0x000084206070400Cull + (param1 & 255) * 0x14ull;
+		return 0x000084206070400Cull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_ITTX_W3", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_ITTX_W3(...) bdk_tns_sde_pe_lcmd_ittx_w3_t
@@ -16391,7 +16391,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W4(unsigned long param1) __attri
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_ITTX_W4(unsigned long param1)
 {
 	if (((param1 <= 136)))
-		return 0x0000842060704010ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060704010ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_ITTX_W4", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_ITTX_W4(...) bdk_tns_sde_pe_lcmd_ittx_w4_t
@@ -16511,7 +16511,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x000084206070A400ull + (param1 & 31) * 0xCull;
+		return 0x000084206070A400ull + (param1 & 31) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W0(...) bdk_tns_sde_pe_lcmd_ltokencmdx_w0_t
@@ -16556,7 +16556,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x000084206070A404ull + (param1 & 31) * 0xCull;
+		return 0x000084206070A404ull + (param1 & 31) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W1(...) bdk_tns_sde_pe_lcmd_ltokencmdx_w1_t
@@ -16594,7 +16594,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x000084206070A408ull + (param1 & 31) * 0xCull;
+		return 0x000084206070A408ull + (param1 & 31) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_LTOKENCMDX_W2(...) bdk_tns_sde_pe_lcmd_ltokencmdx_w2_t
@@ -16779,7 +16779,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842060702000ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060702000ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W0(...) bdk_tns_sde_pe_lcmd_m2r_dmskx_w0_t
@@ -16812,7 +16812,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842060702004ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060702004ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W1(...) bdk_tns_sde_pe_lcmd_m2r_dmskx_w1_t
@@ -16845,7 +16845,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842060702008ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060702008ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W2(...) bdk_tns_sde_pe_lcmd_m2r_dmskx_w2_t
@@ -16878,7 +16878,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x000084206070200Cull + (param1 & 255) * 0x14ull;
+		return 0x000084206070200Cull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W3(...) bdk_tns_sde_pe_lcmd_m2r_dmskx_w3_t
@@ -16913,7 +16913,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842060702010ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060702010ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_M2R_DMSKX_W4(...) bdk_tns_sde_pe_lcmd_m2r_dmskx_w4_t
@@ -17101,7 +17101,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W0(unsigned long param1) __attr
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W0(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060709000ull + (param1 & 127) * 0xCull;
+		return 0x0000842060709000ull + (param1 & 127) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_NENGX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_NENGX_W0(...) bdk_tns_sde_pe_lcmd_nengx_w0_t
@@ -17140,7 +17140,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W1(unsigned long param1) __attr
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W1(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060709004ull + (param1 & 127) * 0xCull;
+		return 0x0000842060709004ull + (param1 & 127) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_NENGX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_NENGX_W1(...) bdk_tns_sde_pe_lcmd_nengx_w1_t
@@ -17175,7 +17175,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W2(unsigned long param1) __attr
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W2(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060709008ull + (param1 & 127) * 0xCull;
+		return 0x0000842060709008ull + (param1 & 127) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_NENGX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_NENGX_W2(...) bdk_tns_sde_pe_lcmd_nengx_w2_t
@@ -17732,7 +17732,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842060700000ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060700000ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W0(...) bdk_tns_sde_pe_lcmd_tid_dmskx_w0_t
@@ -17765,7 +17765,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842060700004ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060700004ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W1(...) bdk_tns_sde_pe_lcmd_tid_dmskx_w1_t
@@ -17798,7 +17798,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842060700008ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060700008ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W2(...) bdk_tns_sde_pe_lcmd_tid_dmskx_w2_t
@@ -17831,7 +17831,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x000084206070000Cull + (param1 & 255) * 0x14ull;
+		return 0x000084206070000Cull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W3(...) bdk_tns_sde_pe_lcmd_tid_dmskx_w3_t
@@ -17866,7 +17866,7 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842060700010ull + (param1 & 255) * 0x14ull;
+		return 0x0000842060700010ull + (param1 & 255) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_LCMD_TID_DMSKX_W4(...) bdk_tns_sde_pe_lcmd_tid_dmskx_w4_t
@@ -18421,7 +18421,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060712000ull + (param1 & 127) * 0x18ull;
+		return 0x0000842060712000ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W0(...) bdk_tns_sde_pe_skpu_skpu_sramx_w0_t
@@ -18458,7 +18458,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060712008ull + (param1 & 127) * 0x18ull;
+		return 0x0000842060712008ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W1(...) bdk_tns_sde_pe_skpu_skpu_sramx_w1_t
@@ -18497,7 +18497,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060712010ull + (param1 & 127) * 0x18ull;
+		return 0x0000842060712010ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_SKPU_SKPU_SRAMX_W2(...) bdk_tns_sde_pe_skpu_skpu_sramx_w2_t
@@ -18660,7 +18660,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060711000ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842060711000ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W0(...) bdk_tns_sde_pe_skpu_tcam_dmskx_w0_t
@@ -18693,7 +18693,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060711004ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842060711004ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W1(...) bdk_tns_sde_pe_skpu_tcam_dmskx_w1_t
@@ -18726,7 +18726,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060711008ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842060711008ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W2(...) bdk_tns_sde_pe_skpu_tcam_dmskx_w2_t
@@ -18759,7 +18759,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x000084206071100Cull + (param1 & 127) * 0x1Cull;
+		return 0x000084206071100Cull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W3(...) bdk_tns_sde_pe_skpu_tcam_dmskx_w3_t
@@ -18792,7 +18792,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060711010ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842060711010ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W4(...) bdk_tns_sde_pe_skpu_tcam_dmskx_w4_t
@@ -18825,7 +18825,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060711014ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842060711014ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W5(...) bdk_tns_sde_pe_skpu_tcam_dmskx_w5_t
@@ -18862,7 +18862,7 @@ static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842060711018ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842060711018ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_PE_SKPU_TCAM_DMSKX_W6(...) bdk_tns_sde_pe_skpu_tcam_dmskx_w6_t
@@ -19345,7 +19345,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(unsigned long param1, un
 static inline uint64_t BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 255)) && ((param2 <= 4)))
-		return 0x0000842060408000ull + (param1 & 255) * 0x14ull + (param2 & 7) * 0x4ull;
+		return 0x0000842060408000ull + (param1 & 255) * 0x20ull + (param2 & 7) * 0x4ull;
 	csr_fatal("BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW1_EGR_FLT_TBLX_WX(...) bdk_tns_sde_urw1_egr_flt_tblx_wx_t
@@ -19380,7 +19380,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_EVIF_TBLX_WX(unsigned long param1, unsig
 static inline uint64_t BDK_TNS_SDE_URW1_EVIF_TBLX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 255)) && ((param2 <= 2)))
-		return 0x0000842060406000ull + (param1 & 255) * 0x18ull + (param2 & 3) * 0x8ull;
+		return 0x0000842060406000ull + (param1 & 255) * 0x20ull + (param2 & 3) * 0x8ull;
 	csr_fatal("BDK_TNS_SDE_URW1_EVIF_TBLX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW1_EVIF_TBLX_WX(...) bdk_tns_sde_urw1_evif_tblx_wx_t
@@ -19729,7 +19729,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_IVIF_TBLX_WX(unsigned long param1, unsig
 static inline uint64_t BDK_TNS_SDE_URW1_IVIF_TBLX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 255)) && ((param2 <= 2)))
-		return 0x0000842060404000ull + (param1 & 255) * 0x18ull + (param2 & 3) * 0x8ull;
+		return 0x0000842060404000ull + (param1 & 255) * 0x20ull + (param2 & 3) * 0x8ull;
 	csr_fatal("BDK_TNS_SDE_URW1_IVIF_TBLX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW1_IVIF_TBLX_WX(...) bdk_tns_sde_urw1_ivif_tblx_wx_t
@@ -19988,7 +19988,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_TPID_TBLX_WX(unsigned long param1, unsig
 static inline uint64_t BDK_TNS_SDE_URW1_TPID_TBLX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 255)) && ((param2 <= 4)))
-		return 0x0000842060400000ull + (param1 & 255) * 0x14ull + (param2 & 7) * 0x4ull;
+		return 0x0000842060400000ull + (param1 & 255) * 0x20ull + (param2 & 7) * 0x4ull;
 	csr_fatal("BDK_TNS_SDE_URW1_TPID_TBLX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW1_TPID_TBLX_WX(...) bdk_tns_sde_urw1_tpid_tblx_wx_t
@@ -20026,7 +20026,7 @@ static inline uint64_t BDK_TNS_SDE_URW1_TRT_TBLX_WX(unsigned long param1, unsign
 static inline uint64_t BDK_TNS_SDE_URW1_TRT_TBLX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 255)) && ((param2 <= 4)))
-		return 0x0000842060402000ull + (param1 & 255) * 0x14ull + (param2 & 7) * 0x4ull;
+		return 0x0000842060402000ull + (param1 & 255) * 0x20ull + (param2 & 7) * 0x4ull;
 	csr_fatal("BDK_TNS_SDE_URW1_TRT_TBLX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW1_TRT_TBLX_WX(...) bdk_tns_sde_urw1_trt_tblx_wx_t
@@ -20463,7 +20463,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x0000842060481000ull + (param1 & 31) * 0x24ull;
+		return 0x0000842060481000ull + (param1 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W0(...) bdk_tns_sde_urw2a_ins_ctd_tblx_w0_t
@@ -20496,7 +20496,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x0000842060481004ull + (param1 & 31) * 0x24ull;
+		return 0x0000842060481004ull + (param1 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W1(...) bdk_tns_sde_urw2a_ins_ctd_tblx_w1_t
@@ -20529,7 +20529,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x0000842060481008ull + (param1 & 31) * 0x24ull;
+		return 0x0000842060481008ull + (param1 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W2(...) bdk_tns_sde_urw2a_ins_ctd_tblx_w2_t
@@ -20562,7 +20562,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x000084206048100Cull + (param1 & 31) * 0x24ull;
+		return 0x000084206048100Cull + (param1 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W3(...) bdk_tns_sde_urw2a_ins_ctd_tblx_w3_t
@@ -20595,7 +20595,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x0000842060481010ull + (param1 & 31) * 0x24ull;
+		return 0x0000842060481010ull + (param1 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W4(...) bdk_tns_sde_urw2a_ins_ctd_tblx_w4_t
@@ -20628,7 +20628,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x0000842060481014ull + (param1 & 31) * 0x24ull;
+		return 0x0000842060481014ull + (param1 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W5(...) bdk_tns_sde_urw2a_ins_ctd_tblx_w5_t
@@ -20661,7 +20661,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x0000842060481018ull + (param1 & 31) * 0x24ull;
+		return 0x0000842060481018ull + (param1 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W6(...) bdk_tns_sde_urw2a_ins_ctd_tblx_w6_t
@@ -20694,7 +20694,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x000084206048101Cull + (param1 & 31) * 0x24ull;
+		return 0x000084206048101Cull + (param1 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W7(...) bdk_tns_sde_urw2a_ins_ctd_tblx_w7_t
@@ -20727,7 +20727,7 @@ static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(unsigned long param1) _
 static inline uint64_t BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(unsigned long param1)
 {
 	if (((param1 <= 31)))
-		return 0x0000842060481020ull + (param1 & 31) * 0x24ull;
+		return 0x0000842060481020ull + (param1 & 31) * 0x40ull;
 	csr_fatal("BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW2A_INS_CTD_TBLX_W8(...) bdk_tns_sde_urw2a_ins_ctd_tblx_w8_t
@@ -23462,7 +23462,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(unsigned long param1)
 {
 	if (((param1 <= 23)))
-		return 0x0000842060580200ull + (param1 & 31) * 0xCull;
+		return 0x0000842060580200ull + (param1 & 31) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W0(...) bdk_tns_sde_urw3_sein_rp_tblx_w0_t
@@ -23503,7 +23503,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(unsigned long param1)
 {
 	if (((param1 <= 23)))
-		return 0x0000842060580204ull + (param1 & 31) * 0xCull;
+		return 0x0000842060580204ull + (param1 & 31) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W1(...) bdk_tns_sde_urw3_sein_rp_tblx_w1_t
@@ -23540,7 +23540,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(unsigned long param1) __
 static inline uint64_t BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(unsigned long param1)
 {
 	if (((param1 <= 23)))
-		return 0x0000842060580208ull + (param1 & 31) * 0xCull;
+		return 0x0000842060580208ull + (param1 & 31) * 0x10ull;
 	csr_fatal("BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW3_SEIN_RP_TBLX_W2(...) bdk_tns_sde_urw3_sein_rp_tblx_w2_t
@@ -23608,7 +23608,7 @@ static inline uint64_t BDK_TNS_SDE_URW3_TQIFX_WX(unsigned long param1, unsigned 
 static inline uint64_t BDK_TNS_SDE_URW3_TQIFX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 31)) && ((param2 <= 2)))
-		return 0x0000842060580000ull + (param1 & 31) * 0xCull + (param2 & 3) * 0x4ull;
+		return 0x0000842060580000ull + (param1 & 31) * 0x10ull + (param2 & 3) * 0x4ull;
 	csr_fatal("BDK_TNS_SDE_URW3_TQIFX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_SDE_URW3_TQIFX_WX(...) bdk_tns_sde_urw3_tqifx_wx_t
@@ -28562,7 +28562,7 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(unsigned long param1, uns
 static inline uint64_t BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(unsigned long param1, unsigned long param2, unsigned long param3, unsigned long param4)
 {
 	if (((param1 <= 7)) && ((param2 <= 5)) && ((param3 <= 255)) && ((param4 <= 4)))
-		return 0x0000842052000000ull + (param1 & 7) * 0x20000ull + (param2 & 7) * 0x1400ull + (param3 & 255) * 0x14ull + (param4 & 7) * 0x4ull;
+		return 0x0000842052000000ull + (param1 & 7) * 0x20000ull + (param2 & 7) * 0x2000ull + (param3 & 255) * 0x20ull + (param4 & 7) * 0x4ull;
 	csr_fatal("BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX", 4, param1, param2, param3, param4); /* No return */
 }
 #define typedef_BDK_TNS_SE_TCAM_DBXCN_VDMXDX_WX(...) bdk_tns_se_tcam_dbxcn_vdmxdx_wx_t
@@ -33609,7 +33609,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(unsigned long param1)
 {
 	if (((param1 <= 159)))
-		return 0x0000842070418000ull + (param1 & 255) * 0xCull;
+		return 0x0000842070418000ull + (param1 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W0(...) bdk_tns_txq_dq_h1s_fshp_memx_w0_t
@@ -33651,7 +33651,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(unsigned long param1)
 {
 	if (((param1 <= 159)))
-		return 0x0000842070418004ull + (param1 & 255) * 0xCull;
+		return 0x0000842070418004ull + (param1 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W1(...) bdk_tns_txq_dq_h1s_fshp_memx_w1_t
@@ -33686,7 +33686,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(unsigned long param1)
 {
 	if (((param1 <= 159)))
-		return 0x0000842070418008ull + (param1 & 255) * 0xCull;
+		return 0x0000842070418008ull + (param1 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_FSHP_MEMX_W2(...) bdk_tns_txq_dq_h1s_fshp_memx_w2_t
@@ -34439,7 +34439,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(unsigned long param1)
 {
 	if (((param1 <= 2047)))
-		return 0x0000842070408000ull + (param1 & 2047) * 0xCull;
+		return 0x0000842070408000ull + (param1 & 2047) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W0(...) bdk_tns_txq_dq_h1s_sshp_memx_w0_t
@@ -34481,7 +34481,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(unsigned long param1)
 {
 	if (((param1 <= 2047)))
-		return 0x0000842070408004ull + (param1 & 2047) * 0xCull;
+		return 0x0000842070408004ull + (param1 & 2047) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W1(...) bdk_tns_txq_dq_h1s_sshp_memx_w1_t
@@ -34516,7 +34516,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(unsigned long param1)
 {
 	if (((param1 <= 2047)))
-		return 0x0000842070408008ull + (param1 & 2047) * 0xCull;
+		return 0x0000842070408008ull + (param1 & 2047) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_SSHP_MEMX_W2(...) bdk_tns_txq_dq_h1s_sshp_memx_w2_t
@@ -34552,7 +34552,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400000ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400000ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W0(...) bdk_tns_txq_dq_h1s_tm_cstx_w0_t
@@ -34585,7 +34585,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400004ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400004ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W1(...) bdk_tns_txq_dq_h1s_tm_cstx_w1_t
@@ -34618,7 +34618,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400028ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400028ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W10(...) bdk_tns_txq_dq_h1s_tm_cstx_w10_t
@@ -34651,7 +34651,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x000084207040002Cull + (param1 & 255) * 0x74ull;
+		return 0x000084207040002Cull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W11(...) bdk_tns_txq_dq_h1s_tm_cstx_w11_t
@@ -34684,7 +34684,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400030ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400030ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W12(...) bdk_tns_txq_dq_h1s_tm_cstx_w12_t
@@ -34717,7 +34717,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400034ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400034ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W13(...) bdk_tns_txq_dq_h1s_tm_cstx_w13_t
@@ -34750,7 +34750,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400038ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400038ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W14(...) bdk_tns_txq_dq_h1s_tm_cstx_w14_t
@@ -34783,7 +34783,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x000084207040003Cull + (param1 & 255) * 0x74ull;
+		return 0x000084207040003Cull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W15(...) bdk_tns_txq_dq_h1s_tm_cstx_w15_t
@@ -34817,7 +34817,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400040ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400040ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W16(...) bdk_tns_txq_dq_h1s_tm_cstx_w16_t
@@ -34850,7 +34850,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400044ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400044ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W17(...) bdk_tns_txq_dq_h1s_tm_cstx_w17_t
@@ -34883,7 +34883,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400048ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400048ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W18(...) bdk_tns_txq_dq_h1s_tm_cstx_w18_t
@@ -34916,7 +34916,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x000084207040004Cull + (param1 & 255) * 0x74ull;
+		return 0x000084207040004Cull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W19(...) bdk_tns_txq_dq_h1s_tm_cstx_w19_t
@@ -34950,7 +34950,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400008ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400008ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W2(...) bdk_tns_txq_dq_h1s_tm_cstx_w2_t
@@ -34983,7 +34983,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400050ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400050ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W20(...) bdk_tns_txq_dq_h1s_tm_cstx_w20_t
@@ -35016,7 +35016,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400054ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400054ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W21(...) bdk_tns_txq_dq_h1s_tm_cstx_w21_t
@@ -35049,7 +35049,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400058ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400058ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W22(...) bdk_tns_txq_dq_h1s_tm_cstx_w22_t
@@ -35082,7 +35082,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x000084207040005Cull + (param1 & 255) * 0x74ull;
+		return 0x000084207040005Cull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W23(...) bdk_tns_txq_dq_h1s_tm_cstx_w23_t
@@ -35115,7 +35115,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400060ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400060ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W24(...) bdk_tns_txq_dq_h1s_tm_cstx_w24_t
@@ -35148,7 +35148,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400064ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400064ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W25(...) bdk_tns_txq_dq_h1s_tm_cstx_w25_t
@@ -35187,7 +35187,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400068ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400068ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W26(...) bdk_tns_txq_dq_h1s_tm_cstx_w26_t
@@ -35226,7 +35226,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x000084207040006Cull + (param1 & 255) * 0x74ull;
+		return 0x000084207040006Cull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W27(...) bdk_tns_txq_dq_h1s_tm_cstx_w27_t
@@ -35263,7 +35263,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(unsigned long param1) __at
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400070ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400070ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W28(...) bdk_tns_txq_dq_h1s_tm_cstx_w28_t
@@ -35296,7 +35296,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x000084207040000Cull + (param1 & 255) * 0x74ull;
+		return 0x000084207040000Cull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W3(...) bdk_tns_txq_dq_h1s_tm_cstx_w3_t
@@ -35329,7 +35329,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400010ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400010ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W4(...) bdk_tns_txq_dq_h1s_tm_cstx_w4_t
@@ -35362,7 +35362,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400014ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400014ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W5(...) bdk_tns_txq_dq_h1s_tm_cstx_w5_t
@@ -35395,7 +35395,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400018ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400018ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W6(...) bdk_tns_txq_dq_h1s_tm_cstx_w6_t
@@ -35428,7 +35428,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x000084207040001Cull + (param1 & 255) * 0x74ull;
+		return 0x000084207040001Cull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W7(...) bdk_tns_txq_dq_h1s_tm_cstx_w7_t
@@ -35461,7 +35461,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400020ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400020ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W8(...) bdk_tns_txq_dq_h1s_tm_cstx_w8_t
@@ -35494,7 +35494,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070400024ull + (param1 & 255) * 0x74ull;
+		return 0x0000842070400024ull + (param1 & 255) * 0x80ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_H1S_TM_CSTX_W9(...) bdk_tns_txq_dq_h1s_tm_cstx_w9_t
@@ -36669,7 +36669,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(unsigned long param1)
 {
 	if (((param1 <= 63)))
-		return 0x0000842070481800ull + (param1 & 63) * 0xCull;
+		return 0x0000842070481800ull + (param1 & 63) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W0(...) bdk_tns_txq_dq_pts_fshp_memx_w0_t
@@ -36711,7 +36711,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(unsigned long param1)
 {
 	if (((param1 <= 63)))
-		return 0x0000842070481804ull + (param1 & 63) * 0xCull;
+		return 0x0000842070481804ull + (param1 & 63) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W1(...) bdk_tns_txq_dq_pts_fshp_memx_w1_t
@@ -36746,7 +36746,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(unsigned long param1)
 {
 	if (((param1 <= 63)))
-		return 0x0000842070481808ull + (param1 & 63) * 0xCull;
+		return 0x0000842070481808ull + (param1 & 63) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(...) bdk_tns_txq_dq_pts_fshp_memx_w2_t
@@ -37449,7 +37449,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070480000ull + (param1 & 255) * 0xCull;
+		return 0x0000842070480000ull + (param1 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W0(...) bdk_tns_txq_dq_pts_sshp_memx_w0_t
@@ -37491,7 +37491,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070480004ull + (param1 & 255) * 0xCull;
+		return 0x0000842070480004ull + (param1 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W1(...) bdk_tns_txq_dq_pts_sshp_memx_w1_t
@@ -37526,7 +37526,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070480008ull + (param1 & 255) * 0xCull;
+		return 0x0000842070480008ull + (param1 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_SSHP_MEMX_W2(...) bdk_tns_txq_dq_pts_sshp_memx_w2_t
@@ -37562,7 +37562,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(unsigned long param1)
 {
 	if (((param1 <= 15)))
-		return 0x0000842070481000ull + (param1 & 15) * 0x38ull;
+		return 0x0000842070481000ull + (param1 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W0(...) bdk_tns_txq_dq_pts_tm_cfgx_w0_t
@@ -37595,7 +37595,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(unsigned long param1)
 {
 	if (((param1 <= 15)))
-		return 0x0000842070481008ull + (param1 & 15) * 0x38ull;
+		return 0x0000842070481008ull + (param1 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W1(...) bdk_tns_txq_dq_pts_tm_cfgx_w1_t
@@ -37628,7 +37628,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(unsigned long param1)
 {
 	if (((param1 <= 15)))
-		return 0x0000842070481010ull + (param1 & 15) * 0x38ull;
+		return 0x0000842070481010ull + (param1 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W2(...) bdk_tns_txq_dq_pts_tm_cfgx_w2_t
@@ -37661,7 +37661,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(unsigned long param1)
 {
 	if (((param1 <= 15)))
-		return 0x0000842070481018ull + (param1 & 15) * 0x38ull;
+		return 0x0000842070481018ull + (param1 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W3(...) bdk_tns_txq_dq_pts_tm_cfgx_w3_t
@@ -37694,7 +37694,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(unsigned long param1)
 {
 	if (((param1 <= 15)))
-		return 0x0000842070481020ull + (param1 & 15) * 0x38ull;
+		return 0x0000842070481020ull + (param1 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W4(...) bdk_tns_txq_dq_pts_tm_cfgx_w4_t
@@ -37727,7 +37727,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(unsigned long param1)
 {
 	if (((param1 <= 15)))
-		return 0x0000842070481028ull + (param1 & 15) * 0x38ull;
+		return 0x0000842070481028ull + (param1 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W5(...) bdk_tns_txq_dq_pts_tm_cfgx_w5_t
@@ -37778,7 +37778,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(unsigned long param1) __att
 static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(unsigned long param1)
 {
 	if (((param1 <= 15)))
-		return 0x0000842070481030ull + (param1 & 15) * 0x38ull;
+		return 0x0000842070481030ull + (param1 & 15) * 0x40ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_PTS_TM_CFGX_W6(...) bdk_tns_txq_dq_pts_tm_cfgx_w6_t
@@ -38208,7 +38208,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070414000ull + (param1 & 255) * 0xCull;
+		return 0x0000842070414000ull + (param1 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W0(...) bdk_tns_txq_dq_qcn_qmap_memx_w0_t
@@ -38253,7 +38253,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070414004ull + (param1 & 255) * 0xCull;
+		return 0x0000842070414004ull + (param1 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W1(...) bdk_tns_txq_dq_qcn_qmap_memx_w1_t
@@ -38292,7 +38292,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(unsigned long param1) __a
 static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(unsigned long param1)
 {
 	if (((param1 <= 255)))
-		return 0x0000842070414008ull + (param1 & 255) * 0xCull;
+		return 0x0000842070414008ull + (param1 & 255) * 0x10ull;
 	csr_fatal("BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(...) bdk_tns_txq_dq_qcn_qmap_memx_w2_t
@@ -38714,7 +38714,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(unsigned long param1, unsigne
 static inline uint64_t BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 15)) && ((param2 <= 4)))
-		return 0x0000842070684000ull + (param1 & 15) * 0x14ull + (param2 & 7) * 0x4ull;
+		return 0x0000842070684000ull + (param1 & 15) * 0x20ull + (param2 & 7) * 0x4ull;
 	csr_fatal("BDK_TNS_TXQ_EQ_AQM_LFIFX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_EQ_AQM_LFIFX_WX(...) bdk_tns_txq_eq_aqm_lfifx_wx_t
@@ -39250,7 +39250,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_FIFX_WX(unsigned long param1, unsigned 
 static inline uint64_t BDK_TNS_TXQ_EQ_EM_FIFX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 15)) && ((param2 <= 4)))
-		return 0x0000842070683800ull + (param1 & 15) * 0x14ull + (param2 & 7) * 0x4ull;
+		return 0x0000842070683800ull + (param1 & 15) * 0x20ull + (param2 & 7) * 0x4ull;
 	csr_fatal("BDK_TNS_TXQ_EQ_EM_FIFX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_EQ_EM_FIFX_WX(...) bdk_tns_txq_eq_em_fifx_wx_t
@@ -39457,7 +39457,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(unsigned long param1, unsigne
 static inline uint64_t BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 15)) && ((param2 <= 4)))
-		return 0x0000842070683A00ull + (param1 & 15) * 0x14ull + (param2 & 7) * 0x4ull;
+		return 0x0000842070683A00ull + (param1 & 15) * 0x20ull + (param2 & 7) * 0x4ull;
 	csr_fatal("BDK_TNS_TXQ_EQ_EQEM_FIFX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_EQ_EQEM_FIFX_WX(...) bdk_tns_txq_eq_eqem_fifx_wx_t
@@ -39848,7 +39848,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(unsigned long param1, unsi
 static inline uint64_t BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 15)) && ((param2 <= 4)))
-		return 0x0000842070683E00ull + (param1 & 15) * 0x14ull + (param2 & 7) * 0x4ull;
+		return 0x0000842070683E00ull + (param1 & 15) * 0x20ull + (param2 & 7) * 0x4ull;
 	csr_fatal("BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_EQ_MC2DROP_FIFX_WX(...) bdk_tns_txq_eq_mc2drop_fifx_wx_t
@@ -39884,7 +39884,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(unsigned long param1, u
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 15)) && ((param2 <= 6)))
-		return 0x0000842070682C00ull + (param1 & 15) * 0x38ull + (param2 & 7) * 0x8ull;
+		return 0x0000842070682C00ull + (param1 & 15) * 0x40ull + (param2 & 7) * 0x8ull;
 	csr_fatal("BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(...) bdk_tns_txq_eq_mc_10g_rep_fifx_wx_t
@@ -39954,7 +39954,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(unsigned long param1, u
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 15)) && ((param2 <= 6)))
-		return 0x0000842070682800ull + (param1 & 15) * 0x38ull + (param2 & 7) * 0x8ull;
+		return 0x0000842070682800ull + (param1 & 15) * 0x40ull + (param2 & 7) * 0x8ull;
 	csr_fatal("BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(...) bdk_tns_txq_eq_mc_40g_rep_fifx_wx_t
@@ -40024,7 +40024,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_FIFX_WX(unsigned long param1, unsigned 
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_FIFX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 15)) && ((param2 <= 6)))
-		return 0x0000842070682400ull + (param1 & 15) * 0x38ull + (param2 & 7) * 0x8ull;
+		return 0x0000842070682400ull + (param1 & 15) * 0x40ull + (param2 & 7) * 0x8ull;
 	csr_fatal("BDK_TNS_TXQ_EQ_MC_FIFX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_EQ_MC_FIFX_WX(...) bdk_tns_txq_eq_mc_fifx_wx_t
@@ -40060,7 +40060,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(unsigned long param1, 
 static inline uint64_t BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 15)) && ((param2 <= 6)))
-		return 0x0000842070683000ull + (param1 & 15) * 0x38ull + (param2 & 7) * 0x8ull;
+		return 0x0000842070683000ull + (param1 & 15) * 0x40ull + (param2 & 7) * 0x8ull;
 	csr_fatal("BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(...) bdk_tns_txq_eq_mc_misc_rep_fifx_wx_t
@@ -40305,7 +40305,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(unsigned long param1, unsig
 static inline uint64_t BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 31)) && ((param2 <= 4)))
-		return 0x0000842070683400ull + (param1 & 31) * 0x14ull + (param2 & 7) * 0x4ull;
+		return 0x0000842070683400ull + (param1 & 31) * 0x20ull + (param2 & 7) * 0x4ull;
 	csr_fatal("BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_EQ_QUERY_OFIFX_WX(...) bdk_tns_txq_eq_query_ofifx_wx_t
@@ -40473,7 +40473,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(unsigned long param1, unsign
 static inline uint64_t BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 15)) && ((param2 <= 6)))
-		return 0x0000842070682000ull + (param1 & 15) * 0x38ull + (param2 & 7) * 0x8ull;
+		return 0x0000842070682000ull + (param1 & 15) * 0x40ull + (param2 & 7) * 0x8ull;
 	csr_fatal("BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_EQ_TOKEN_MEMX_WX(...) bdk_tns_txq_eq_token_memx_wx_t
@@ -40509,7 +40509,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_UC_FIFX_WX(unsigned long param1, unsigned 
 static inline uint64_t BDK_TNS_TXQ_EQ_UC_FIFX_WX(unsigned long param1, unsigned long param2)
 {
 	if (((param1 <= 15)) && ((param2 <= 4)))
-		return 0x0000842070683C00ull + (param1 & 15) * 0x14ull + (param2 & 7) * 0x4ull;
+		return 0x0000842070683C00ull + (param1 & 15) * 0x20ull + (param2 & 7) * 0x4ull;
 	csr_fatal("BDK_TNS_TXQ_EQ_UC_FIFX_WX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_EQ_UC_FIFX_WX(...) bdk_tns_txq_eq_uc_fifx_wx_t
@@ -40589,7 +40589,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(unsigned long param1) __
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842070608000ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842070608000ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W0(...) bdk_tns_txq_qmap_aqm_pfl_memx_w0_t
@@ -40628,7 +40628,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(unsigned long param1) __
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842070608004ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842070608004ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W1(...) bdk_tns_txq_qmap_aqm_pfl_memx_w1_t
@@ -40669,7 +40669,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(unsigned long param1) __
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842070608008ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842070608008ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W2(...) bdk_tns_txq_qmap_aqm_pfl_memx_w2_t
@@ -40712,7 +40712,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(unsigned long param1) __
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x000084207060800Cull + (param1 & 127) * 0x1Cull;
+		return 0x000084207060800Cull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W3(...) bdk_tns_txq_qmap_aqm_pfl_memx_w3_t
@@ -40753,7 +40753,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(unsigned long param1) __
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842070608010ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842070608010ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W4(...) bdk_tns_txq_qmap_aqm_pfl_memx_w4_t
@@ -40790,7 +40790,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(unsigned long param1) __
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842070608014ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842070608014ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W5(...) bdk_tns_txq_qmap_aqm_pfl_memx_w5_t
@@ -40829,7 +40829,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(unsigned long param1) __
 static inline uint64_t BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(unsigned long param1)
 {
 	if (((param1 <= 127)))
-		return 0x0000842070608018ull + (param1 & 127) * 0x1Cull;
+		return 0x0000842070608018ull + (param1 & 127) * 0x20ull;
 	csr_fatal("BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_TXQ_QMAP_AQM_PFL_MEMX_W6(...) bdk_tns_txq_qmap_aqm_pfl_memx_w6_t
