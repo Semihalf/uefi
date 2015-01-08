@@ -1,5 +1,6 @@
 ifndef BDK_ROOT
-$(error Define BDK_ROOT in the environment, the directory of the BDK)
+    export BDK_ROOT:=$(shell pwd)
+    $(info BDK_ROOT not set, assuming $(BDK_ROOT))
 endif
 include $(BDK_ROOT)/libbdk/bdk.mk
 
