@@ -7,10 +7,19 @@ SHELL=/bin/bash
 #
 # Optional compile time flags for the BDK
 #
-BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG=ebb8800
-BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG2=ebb8804
-BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG3=crb_1s
-BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG4=crb_2s
+ifdef BDK_DRAM_CONFIG
+    # User supplied a single exact memory config
+    BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG=$(BDK_DRAM_CONFIG)
+    # Enable the BDK boot stub DRAM menu as we should have space
+    BDK_EXTRA_CPPFLAGS += -DENABLE_DRAM_MENU=1
+else
+    # No config was specified, include them all in the main BDK, but not in
+    # the boot stub
+    BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG=ebb8800
+    BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG2=ebb8804
+    BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG3=crb_1s
+    BDK_EXTRA_CPPFLAGS += -DBDK_DRAM_CONFIG4=crb_2s
+endif
 #BDK_EXTRA_CPPFLAGS += -DBDK_SHOW_BOOT_BANNERS=0
 #BDK_EXTRA_CPPFLAGS += -DHW_EMULATOR=1 -DBDK_MMC_CLOCK_HZ=40000000
 

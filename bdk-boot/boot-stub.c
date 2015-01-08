@@ -6,7 +6,9 @@
    in the boot stub. If you need this, make sure only the DRAM configs
    required are defined in DBDK_DRAM_CONFIG*. If you have too many,
    the boot stub will be too big */
+#ifndef ENABLE_DRAM_MENU
 #define ENABLE_DRAM_MENU 0
+#endif
 
 /**
  * This function is not defined by the BDK libraries. It must be
