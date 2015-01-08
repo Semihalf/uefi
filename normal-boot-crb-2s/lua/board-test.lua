@@ -203,11 +203,17 @@ local function board_test()
     -- Do 100k packets, 9212 bytes each, 50% of gigabit, timeout 12 secs
     all_pass = tg_run(tg, "N0.XLAUI1", 9212, 10000, 10, 12) and all_pass
     -- Do 100k packets, 60 bytes each, 50% of gigabit, timeout 5 secs
-    all_pass = tg_run(tg, "N0.XFI0.0,N1.XFI0.0", 60, 100000, 50, 5) and all_pass
+    all_pass = tg_run(tg, "N0.XFI0.0", 60, 100000, 50, 5) and all_pass
     -- Do 100k packets, 1499 bytes each, 50% of gigabit, timeout 7 secs
-    all_pass = tg_run(tg, "N0.XFI0.0,N1.XFI0.0", 1499, 100000, 50, 7) and all_pass
+    all_pass = tg_run(tg, "N0.XFI0.0", 1499, 100000, 50, 7) and all_pass
     -- Do 100k packets, 9212 bytes each, 50% of gigabit, timeout 12 secs
-    all_pass = tg_run(tg, "N0.XFI0.0,N1.XFI0.0", 9212, 10000, 10, 12) and all_pass
+    all_pass = tg_run(tg, "N0.XFI0.0", 9212, 10000, 10, 12) and all_pass
+    -- Do 100k packets, 60 bytes each, 50% of gigabit, timeout 5 secs
+    all_pass = tg_run(tg, "N1.XFI0.0", 60, 100000, 50, 5) and all_pass
+    -- Do 100k packets, 1499 bytes each, 50% of gigabit, timeout 7 secs
+    all_pass = tg_run(tg, "N1.XFI0.0", 1499, 100000, 50, 7) and all_pass
+    -- Do 100k packets, 9212 bytes each, 50% of gigabit, timeout 12 secs
+    all_pass = tg_run(tg, "N1.XFI0.0", 9212, 10000, 10, 12) and all_pass
 
     --
     -- Summary
