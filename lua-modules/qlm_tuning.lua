@@ -57,6 +57,19 @@ local function select_qlm_list(qlm_list)
     return qlm_list
 end
 
+-- Polarity swap P/N on all lanes of QLMs
+local function do_polarity_swap()
+    local qlm_list = select_qlm_list()
+    for _,qlm in pairs(qlm_list) do
+        local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
+        for lane=0,num_lanes-1 do
+            local v = cavium.csr[menu.node].GSERX_LANEX_RX_CFG_0(qlm,lane).cfg_rx_pol_invert
+            v = (v == 1) and 0 or 1
+            cavium.csr[menu.node].GSERX_LANEX_RX_CFG_0(qlm,lane).cfg_rx_pol_invert = v
+        end
+    end
+end
+
 -- Start PRBS on a list of QLMs
 local function start_prbs(mode, qlm_list)
     -- Start PRBS on the QLMs.
@@ -215,6 +228,7 @@ function qlm_tuning.run()
         current_qlm = current_qlm .. qlm_tuning.qlm
         m:item("qlm",    "Select active QLM/DLM (Currently %s)" % current_qlm, select_qlm)
         m:item("down",   "Reset and power down", cavium.c.bdk_qlm_reset, menu.node, qlm_tuning.qlm)
+        m:item("invert",  "Polarity swap receive P/N", do_polarity_swap)
         m:item("prbs7",  "PRBS-7", do_prbs, 7)
         m:item("prbs11", "PRBS-11", do_prbs, 11)
         m:item("prbs15", "PRBS-15", do_prbs, 15)
