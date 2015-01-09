@@ -926,7 +926,7 @@ static int init_oci(void)
                 bdk_warn("*****************************************************\n");
                 bdk_warn("Cores booted on remote node %d before OCI setup. L2\n", node);
                 bdk_warn("aliases will make software unstable. Configure remote\n");
-                bdk_warn("nodes for remote boot using pin REMOTE_BOOT.\n");
+                bdk_warn("nodes for remote boot using GPIO_STRAP<3:0>=REMOTE.\n");
                 bdk_warn("*****************************************************\n");
             }
         }
