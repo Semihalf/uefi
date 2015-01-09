@@ -127,29 +127,32 @@ release: all docs
 	echo "$(VERSION)" > $(RELEASE_DIR)/version.txt
 	# Copy host binaries
 	mkdir -p $(RELEASE_DIR)/bin
-	cp utils/scripts/bdk-remote.lua $(RELEASE_DIR)/bin/bdk-remote
 	cp utils/scripts/bdk-debug.lua $(RELEASE_DIR)/bin/bdk-debug
-	cp utils/scripts/bdk-record.lua $(RELEASE_DIR)/bin/bdk-record
 	cp utils/scripts/bdk-update-romfs.py $(RELEASE_DIR)/bin/bdk-update-romfs
 	cp utils/bdk-lua/bdk-lua-x86 $(RELEASE_DIR)/bin/
-	cp utils/bdk-lua/bdk-lua-thunderx $(RELEASE_DIR)/bin/
 	cp utils/bdk-luac/bdk-luac-x86 $(RELEASE_DIR)/bin/
-	cp utils/bdk-luac/bdk-luac-thunderx $(RELEASE_DIR)/bin/
 	cp bin/bdk-lua $(RELEASE_DIR)/bin/bdk-lua
 	cp bin/bdk-luac $(RELEASE_DIR)/bin/bdk-luac
-	cp bin/bdk-update-all $(RELEASE_DIR)/bin/
 	cp -a bin/bdk-menu $(RELEASE_DIR)/bin/
 	# Copy target binaries
-	mkdir -p $(RELEASE_DIR)/
 	cp -a target-bin $(RELEASE_DIR)/target-bin
-	rm $(RELEASE_DIR)/target-bin/ipemainc.elf
-	# Copy rom dir
-	cp -a rom $(RELEASE_DIR)/
+	# Copy source code
+	$(MAKE) -C libc clean
+	cp -a lib* $(RELEASE_DIR)/
+	cp Makefile $(RELEASE_DIR)/
+	# Copy boot stubs
+	cp -a bdk-boot $(RELEASE_DIR)/
+	cp -a normal-boot-* $(RELEASE_DIR)/
 	# Copy lua-modules dir
 	cp -a lua-modules $(RELEASE_DIR)/
 	rm $(RELEASE_DIR)/lua-modules/*.luadoc
 	# Delete svn dirs
 	find $(RELEASE_DIR) -name .svn -print0 | xargs -0 rm -rf
+	# Delete ".d", ".o", ".a", ".pch" files
+	find $(RELEASE_DIR) -name "*.d" -print0 | xargs -0 rm -rf
+	find $(RELEASE_DIR) -name "*.o" -print0 | xargs -0 rm -rf
+	find $(RELEASE_DIR) -name "*.a" -print0 | xargs -0 rm -rf
+	find $(RELEASE_DIR) -name "*.pch" -print0 | xargs -0 rm -rf
 	# Create release tar
 	tar -zcf "$(RELEASE_NAME)-$(FULL_VERSION).tgz" $(RELEASE_DIR)
 	rm -rf $(RELEASE_DIR)
