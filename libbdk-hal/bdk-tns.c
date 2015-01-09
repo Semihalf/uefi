@@ -367,7 +367,7 @@ static void bdk_tns_init_pluts(bdk_node_t node)
  * to the BGx ports will be direct.  This is normally called automatically
  * in bdk-init-main.c.
  *
- * @param bdk_node_t node
+ * @param node Node to initialize
  *
  * @return Zero on success, negative on failure
  */
