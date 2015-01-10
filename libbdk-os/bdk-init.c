@@ -414,6 +414,7 @@ static int ocx_duplicate_node(lk_info_t *lk_info, int index)
  */
 static uint64_t ocx_pp_read(bdk_node_t node, uint64_t address)
 {
+    #define OCX_PP_TIMEOUT 0xffffffffffffffffull
     address = bdk_numa_get_address(node, address);
 
     if (node == bdk_numa_local())
@@ -427,12 +428,12 @@ static uint64_t ocx_pp_read(bdk_node_t node, uint64_t address)
         pp_cmd.s.ld_cmd = 3; /* 8 byte load */
         pp_cmd.s.ld_op = 1;
         pp_cmd.s.addr = address;
-        BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_PP_RD_DATA, -1);
+        BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_PP_RD_DATA, OCX_PP_TIMEOUT);
         BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_PP_CMD, pp_cmd.u);
 
         /* Wait for 1ms for read ot complete */
-        if (BDK_CSR_WAIT_FOR_FIELD(bdk_numa_local(), BDK_OCX_PP_RD_DATA, data, !=, 0xffffffffffffffffull, 1000))
-            return -1;
+        if (BDK_CSR_WAIT_FOR_FIELD(bdk_numa_local(), BDK_OCX_PP_RD_DATA, data, !=, OCX_PP_TIMEOUT, 1000))
+            return OCX_PP_TIMEOUT;
         return BDK_CSR_READ(bdk_numa_local(), BDK_OCX_PP_RD_DATA);
     }
 }
@@ -530,39 +531,41 @@ static int init_oci(void)
     return 0; /* Emulator doesn't seem to have CCPI registers */
 #endif
 
+    bdk_node_t my_node = bdk_numa_local();
+
     /* Errata (OCX-21847) OCX does not deal with reversed lanes automatically */
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
     {
         /* Check if we need to manually apply lane reversal */
-        BDK_CSR_INIT(ocx_qlmx_cfg, bdk_numa_local(), BDK_OCX_QLMX_CFG(0));
+        BDK_CSR_INIT(ocx_qlmx_cfg, my_node, BDK_OCX_QLMX_CFG(0));
         if (ocx_qlmx_cfg.s.ser_lane_rev)
         {
-            printf("N%d.CCPI Applying lane reversal\n", bdk_numa_master());
+            printf("N%d.CCPI Applying lane reversal\n", my_node);
             int link;
             int qlm_select[MAX_LINKS];
             /* Save and disable all lanes as QLM_SELECT must be zero before
                changing lane reversal */
             for (link = 0; link < MAX_LINKS; link++)
             {
-                BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNKX_CFG(link),
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
                     qlm_select[link] = c.s.qlm_select;
                     c.s.qlm_select = 0);
             }
             /* Set RX lane reversal */
             for (int link = 0; link < MAX_LINKS; link++)
             {
-                BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNKX_CFG(link),
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
                     c.s.lane_rev = 1);
                 /* Clear block errors */
-                BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_RLKX_BLK_ERR(link), c.s.count = 0);
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_RLKX_BLK_ERR(link), c.s.count = 0);
             }
             /* Set TX lane reversal */
-            BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNE_DBG,
+            BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNE_DBG,
                 c.s.tx_lane_rev = 1);
             /* Restore the QLM lane select */
             for (int link = 0; link < MAX_LINKS; link++)
             {
-                BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNKX_CFG(link),
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
                     c.s.qlm_select = qlm_select[link]);
             }
             /* Give the link 100ms to come up */
@@ -571,41 +574,90 @@ static int init_oci(void)
     }
 
     /* Don't bringup CCPI if there are no valid lanes */
-    int good_lanes = oci_report_lane(bdk_numa_master(), 0);
+    int good_lanes = oci_report_lane(my_node, 0);
     if (good_lanes == 0)
         return 0;
+
+    for (int link=0; link<3; link++)
+    {
+        /* Make sure each link has a unique node ID */
+        BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
+        ocx_com_linkx_ctl.s.id = (my_node + link + 1) & 3;
+        BDK_CSR_WRITE(my_node, BDK_OCX_COM_LINKX_CTL(link), ocx_com_linkx_ctl.u);
+        if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
+            BDK_TRACE(INIT, "N%d: Link %d is up,   temp node ID is %d\n", my_node, link, ocx_com_linkx_ctl.s.id);
+        else
+            BDK_TRACE(INIT, "N%d: Link %d is down, temp node ID is %d\n", my_node, link, ocx_com_linkx_ctl.s.id);
+    }
+
     if (good_lanes < 24)
     {
+        BDK_TRACE(INIT, "N%d: Some CCPI lanes are down, attempting recovery\n", my_node);
         /* Clear any SERDES bad bits */
         for (int ocx_qlm=0; ocx_qlm<6; ocx_qlm++)
         {
-            BDK_CSR_INIT(ocx_qlmx_cfg, bdk_numa_master(), BDK_OCX_QLMX_CFG(ocx_qlm));
+            BDK_CSR_INIT(ocx_qlmx_cfg, my_node, BDK_OCX_QLMX_CFG(ocx_qlm));
             if (ocx_qlmx_cfg.s.ser_lane_ready != 0xf)
             {
                 /* Clear bad */
+                BDK_TRACE(INIT, "N%d:    Clearing bad lanes on CCPI QLM %d\n", my_node, ocx_qlm);
                 ocx_qlmx_cfg.s.ser_lane_ready = 0xf;
                 ocx_qlmx_cfg.s.ser_lane_bad = 0;
-                BDK_CSR_WRITE(bdk_numa_master(), BDK_OCX_QLMX_CFG(ocx_qlm), ocx_qlmx_cfg.u);
+                BDK_CSR_WRITE(my_node, BDK_OCX_QLMX_CFG(ocx_qlm), ocx_qlmx_cfg.u);
             }
         }
-
+        for (int link=0; link<3; link++)
+        {
+            BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
+            if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
+            {
+                BDK_TRACE(INIT, "N%d:  Link %d is up, checking remote lanes\n", my_node, link);
+                /* Clear any SERDES bad bits */
+                for (int ocx_qlm=0; ocx_qlm<6; ocx_qlm++)
+                {
+                    BDK_CSR_DEFINE(ocx_qlmx_cfg, BDK_OCX_QLMX_CFG(ocx_qlm));
+                    ocx_qlmx_cfg.u = ocx_pp_read(ocx_com_linkx_ctl.s.id, BDK_OCX_QLMX_CFG(ocx_qlm));
+                    if (ocx_qlmx_cfg.u == OCX_PP_TIMEOUT)
+                        BDK_TRACE(INIT, "N%d:    CCPI QLM %d read timeout, unable to check remote lanes\n", my_node, ocx_qlm);
+                    else if (ocx_qlmx_cfg.s.ser_lane_ready != 0xf)
+                    {
+                        /* Clear bad */
+                        BDK_TRACE(INIT, "N%d:    Clearing bad lanes on remote QLM %d\n", my_node, ocx_qlm);
+                        ocx_qlmx_cfg.s.ser_lane_ready = 0xf;
+                        ocx_qlmx_cfg.s.ser_lane_bad = 0;
+                        ocx_pp_write(ocx_com_linkx_ctl.s.id, BDK_OCX_QLMX_CFG(ocx_qlm), ocx_qlmx_cfg.u);
+                    }
+                }
+                for (int link2=0; link2<3; link2++)
+                {
+                    BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
+                    ocx_com_linkx_ctl.u = ocx_pp_read(ocx_com_linkx_ctl.s.id, BDK_OCX_COM_LINKX_CTL(link2));
+                    if (ocx_com_linkx_ctl.u == OCX_PP_TIMEOUT)
+                        BDK_TRACE(INIT, "N%d:    Remote Link %d read timeout\n", my_node, link2);
+                    else if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
+                        BDK_TRACE(INIT, "N%d:    Remote Link %d is up,   temp node ID is %d\n", my_node, link2, ocx_com_linkx_ctl.s.id);
+                    else
+                        BDK_TRACE(INIT, "N%d:    Remote Link %d is down, temp node ID is %d\n", my_node, link2, ocx_com_linkx_ctl.s.id);
+                }
+            }
+        }
         /* Wait for a short time for links to become good */
-        printf("N%d.CCPI Waiting for lanes to link up (max 10 sec)\n", bdk_numa_master());
+        printf("N%d.CCPI Waiting for lanes to link up (max 10 sec)\n", my_node);
 
-        uint64_t timeout = bdk_clock_get_rate(bdk_numa_master(), BDK_CLOCK_TIME) * 10 + bdk_clock_get_count(BDK_CLOCK_TIME);
+        uint64_t timeout = bdk_clock_get_rate(my_node, BDK_CLOCK_TIME) * 10 + bdk_clock_get_count(BDK_CLOCK_TIME);
         while (bdk_clock_get_count(BDK_CLOCK_TIME) < timeout)
         {
             bdk_wait_usec(10000);
-            good_lanes = oci_report_lane(bdk_numa_master(), 0);
+            good_lanes = oci_report_lane(my_node, 0);
             if (good_lanes == 24)
                 break;
         }
     }
 
-    good_lanes = oci_report_lane(bdk_numa_master(), 1);
+    good_lanes = oci_report_lane(my_node, 1);
     if (good_lanes < 8)
     {
-        printf("N%d.CCPI Less than 8 good lanes, not initializing multi-node\n", bdk_numa_master());
+        printf("N%d.CCPI Less than 8 good lanes, not initializing multi-node\n", my_node);
         return 0;
     }
 
@@ -617,20 +669,20 @@ static int init_oci(void)
     /* Only one node should be up (the one I'm on). Set its ID to be fixed. As
        part of booting the BDK we've already added it to both the exists and
        running node masks */
-    BDK_CSR_INIT(ocx_com_node, bdk_numa_local(), BDK_OCX_COM_NODE);
+    BDK_CSR_INIT(ocx_com_node, my_node, BDK_OCX_COM_NODE);
     if (ocx_com_node.s.fixed)
     {
-        BDK_TRACE(INIT, "Current node ID %d is already marked fixed\n", bdk_numa_local());
+        BDK_TRACE(INIT, "Current node ID %d is already marked fixed\n", my_node);
     }
     else
     {
-        BDK_TRACE(INIT, "Marking the current node ID %d as fixed\n", bdk_numa_local());
-        BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_COM_NODE,
+        BDK_TRACE(INIT, "Marking the current node ID %d as fixed\n", my_node);
+        BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_NODE,
             c.s.fixed = 1);
     }
 
     /* Reset if any link goes down */
-    BDK_CSR_WRITE(bdk_numa_local(), BDK_RST_OCX, bdk_build_mask(MAX_LINKS));
+    BDK_CSR_WRITE(my_node, BDK_RST_OCX, bdk_build_mask(MAX_LINKS));
 
     /* Write a unique value to OCX_TLKX_LNK_DATA for every possible link. This
         allows us to later figure out which link goes where. Also mark all
@@ -641,11 +693,11 @@ static int init_oci(void)
         /* Errata (OCX-22951) OCX AUTO_CLR of DROP fails to work on error */
         /* Don't allow this link to recover if it goes down. Once up links
            should stay up */
-        BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link),
+        BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
             c.s.auto_clr = 0);
         /* Get the link state again. It could have changed during the
            modification of AUTO_CLR */
-        lk_info[LOCAL_NODE].ctl[link].u = BDK_CSR_READ(bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link));
+        lk_info[LOCAL_NODE].ctl[link].u = BDK_CSR_READ(my_node, BDK_OCX_COM_LINKX_CTL(link));
         /* Skip invalid links */
         if (!lk_info[LOCAL_NODE].ctl[link].s.valid || !lk_info[LOCAL_NODE].ctl[link].s.up)
         {
@@ -654,7 +706,7 @@ static int init_oci(void)
         }
         /* Write a unique value so we can see where this link connects to */
         uint64_t local_unique = ocx_unique_key(-1, link);
-        BDK_CSR_WRITE(bdk_numa_local(), BDK_OCX_TLKX_LNK_DATA(link), local_unique);
+        BDK_CSR_WRITE(my_node, BDK_OCX_TLKX_LNK_DATA(link), local_unique);
         BDK_TRACE(INIT, "    Local link %d: Write link data 0x%lx\n", link, local_unique);
         const int rid = lk_info[LOCAL_NODE].ctl[link].s.id;
         /* Loop through possible remote links */
@@ -664,7 +716,7 @@ static int init_oci(void)
             /* Read the links state and make sure it doesn't auto recover from
                errors*/
             lnk->u = ocx_pp_read(rid, BDK_OCX_COM_LINKX_CTL(rlink));
-            if (lnk->u == (uint64_t)-1)
+            if (lnk->u == OCX_PP_TIMEOUT)
             {
                 BDK_TRACE(INIT, "        Remote link %d: Timeout, skipping\n", rlink);
                 continue;
@@ -690,14 +742,14 @@ static int init_oci(void)
     {
         if (!lk_info[LOCAL_NODE].ctl[link].s.valid || !lk_info[LOCAL_NODE].ctl[link].s.up)
             continue;
-        lk_info[LOCAL_NODE].unique_value[link] = BDK_CSR_READ(bdk_numa_local(), BDK_OCX_RLKX_LNK_DATA(link));
+        lk_info[LOCAL_NODE].unique_value[link] = BDK_CSR_READ(my_node, BDK_OCX_RLKX_LNK_DATA(link));
         BDK_TRACE(INIT, "    Local link %d: Read link data 0x%lx\n", link, lk_info[LOCAL_NODE].unique_value[link]);
         const int rid = lk_info[LOCAL_NODE].ctl[link].s.id;
         for (int rlink = 0; rlink < MAX_LINKS; rlink++)
         {
             lk_info[link].unique_value[rlink] = ocx_pp_read(rid, BDK_OCX_RLKX_LNK_DATA(rlink));
             BDK_TRACE(INIT, "        Remote link %d: Read link data 0x%lx\n", rlink, lk_info[link].unique_value[rlink]);
-            if (lk_info[link].unique_value[rlink] == 0xffffffffffffffffull)
+            if (lk_info[link].unique_value[rlink] == OCX_PP_TIMEOUT)
             {
                 BDK_TRACE(INIT, "            Invalid link data, marking link invalid\n");
                 lk_info[LOCAL_NODE].ctl[link].s.valid = 0;
@@ -787,7 +839,7 @@ static int init_oci(void)
                 lk_info[link].ctl[rlink].s.id = unused_node;
                 continue;
             }
-            uint64_t search = lk_info[link].unique_value[rlink] & 0xfffffffffffffffull;
+            uint64_t search = lk_info[link].unique_value[rlink] & 0x0fffffffffffffffull;
             //BDK_TRACE(INIT, "        Remote link %d: Looking for 0x%lx\n", rlink, search);
             int found = 0;
             for (int ll = -1; ll < MAX_LINKS; ll++)
@@ -798,7 +850,7 @@ static int init_oci(void)
                     //BDK_TRACE(INIT, "        Checking [%d][%d] 0x%lx\n", ll, rl, runique);
                     if (search == runique)
                     {
-                        int node2 = (ll==-1) ? bdk_numa_local() : lk_info[ll].node.s.id;
+                        int node2 = (ll==-1) ? my_node : lk_info[ll].node.s.id;
                         BDK_TRACE(INIT, "        Node ID %d, link %d => Node ID %d, link %d\n",
                             lk_info[link].node.s.id, rlink, node2, rl);
                         lk_info[link].ctl[rlink].s.id = node2;
@@ -849,7 +901,7 @@ static int init_oci(void)
             BDK_TRACE(INIT, "    Local link %d: Down\n", link);
         else
             BDK_TRACE(INIT, "    Local link %d: Connects to node ID %d\n", link, lk_info[link].node.s.id);
-        BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link),
+        BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
             c.s.id = lk_info[link].node.s.id);
     }
 
@@ -857,7 +909,7 @@ static int init_oci(void)
     int failures = 0;
     for (int link = 0; link < MAX_LINKS; link++)
     {
-        BDK_CSR_INIT(local_link_ctl, bdk_numa_local(), BDK_OCX_COM_LINKX_CTL(link));
+        BDK_CSR_INIT(local_link_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
         if (!local_link_ctl.s.valid || !local_link_ctl.s.up)
             continue;
         BDK_TRACE(INIT, "    Local link %d: Checking\n", link);
@@ -884,7 +936,7 @@ static int init_oci(void)
     {
         BDK_TRACE(INIT, "Not enabling OCX due to errors\n");
         const uint64_t exists_mask = bdk_numa_get_exists_mask();
-        BDK_CSR_MODIFY(l2c_oci_ctl, bdk_numa_local(), BDK_L2C_OCI_CTL,
+        BDK_CSR_MODIFY(l2c_oci_ctl, my_node, BDK_L2C_OCI_CTL,
             l2c_oci_ctl.s.iofrcl = 1;
             l2c_oci_ctl.s.enaoci = exists_mask);
         return -1;
@@ -895,7 +947,7 @@ static int init_oci(void)
     const uint64_t exists_mask = bdk_numa_get_exists_mask();
     for (bdk_node_t node = 0; node < BDK_NUMA_MAX_NODES; node++)
     {
-        if (node == bdk_numa_local())
+        if (node == my_node)
         {
             BDK_CSR_MODIFY(l2c_oci_ctl, node, BDK_L2C_OCI_CTL,
                 l2c_oci_ctl.s.iofrcl = 0;
@@ -917,7 +969,7 @@ static int init_oci(void)
        a core was running */
     for (bdk_node_t node=0; node<BDK_NUMA_MAX_NODES; node++)
     {
-        if (bdk_numa_exists(node) && (node != bdk_numa_master()))
+        if (bdk_numa_exists(node) && (node != my_node))
         {
             BDK_CSR_INIT(rst_pp_available, node, BDK_RST_PP_AVAILABLE);
             BDK_CSR_INIT(rst_pp_reset, node, BDK_RST_PP_RESET);
