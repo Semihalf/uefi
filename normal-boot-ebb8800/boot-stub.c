@@ -185,6 +185,74 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
         freq_mhz);
 }
 
+static void print_node_strapping(bdk_node_t node)
+{
+    BDK_CSR_INIT(ocx_com_node, node, BDK_OCX_COM_NODE);
+    BDK_CSR_INIT(mio_fus_dat2, node, BDK_MIO_FUS_DAT2);
+    BDK_CSR_INIT(gicd_iidr, node, BDK_GICD_IIDR);
+
+    BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
+    int boot_method;
+    int vrm_disable;
+    int trust_mode;
+    const char *boot_method_str;
+    BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
+    BDK_EXTRACT(vrm_disable, gpio_strap.u, 9, 1);
+    BDK_EXTRACT(trust_mode, gpio_strap.u, 10, 1);
+
+    switch (boot_method)
+    {
+        case RST_BOOT_METHOD_E_CCPI0:
+            boot_method_str = "CCPI0";
+            break;
+        case RST_BOOT_METHOD_E_CCPI1:
+            boot_method_str = "CCPI1";
+            break;
+        case RST_BOOT_METHOD_E_CCPI2:
+            boot_method_str = "CCPI2";
+            break;
+        case RST_BOOT_METHOD_E_EMMC_LS:
+            boot_method_str = "EMMC_LS";
+            break;
+        case RST_BOOT_METHOD_E_EMMC_SS:
+            boot_method_str = "EMMC_SS";
+            break;
+        case RST_BOOT_METHOD_E_PCIE0:
+            boot_method_str = "PCIE0";
+            break;
+        case RST_BOOT_METHOD_E_REMOTE:
+            boot_method_str = "REMOTE";
+            break;
+        case RST_BOOT_METHOD_E_SPI24:
+            boot_method_str = "SPI24";
+            break;
+        case RST_BOOT_METHOD_E_SPI32:
+            boot_method_str = "SPI32";
+            break;
+        default:
+            boot_method_str = "UNKNOWN";
+            break;
+    }
+
+    printf(
+        "Node:  %d%s\n"
+        "Chip:  0x%x Pass %d.%d\n"
+        "L2:    %d KB\n"
+        "RCLK:  %lu Mhz\n"
+        "SCLK:  %lu Mhz\n"
+        "Boot:  %s(%d)\n"
+        "VRM:   %s\n"
+        "Trust: %s\n",
+        node, (ocx_com_node.s.fixed_pin) ? " (Fixed)" : "",
+        gicd_iidr.s.productid, (mio_fus_dat2.s.chip_id >> 3) + 1, mio_fus_dat2.s.chip_id & 7,
+        bdk_l2c_get_cache_size_bytes(node) >> 10,
+        bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000,
+        bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000,
+        boot_method_str, boot_method,
+        (vrm_disable) ? "Disabled" : "Enabled",
+        (trust_mode) ? "Enabled" : "Disabled");
+}
+
 /**
  * Main entry point
  *
@@ -214,60 +282,30 @@ int main(void)
     BDK_TRACE(BOOT_STUB, "Extracting strapping options\n");
     /* Initialize UART was done earlier in the BDK */
     /* Decode how we booted and display a banner */
-    bdk_sys_midr_el1_t midr_el1;
-    midr_el1.u = cavium_get_model();
     BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
     int boot_method;
-    int vrm_disable;
-    int trust_mode;
-    const char *boot_method_str;
     char boot_device_name[48];
     BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
-    BDK_EXTRACT(vrm_disable, gpio_strap.u, 9, 1);
-    BDK_EXTRACT(trust_mode, gpio_strap.u, 10, 1);
-    BDK_CSR_INIT(ocx_com_node, node, BDK_OCX_COM_NODE);
     boot_device_name[0] = 0;
 
     switch (boot_method)
     {
         case RST_BOOT_METHOD_E_CCPI0:
-            boot_method_str = "CCPI0";
-            /* Boot device controlled externally */
-            break;
         case RST_BOOT_METHOD_E_CCPI1:
-            boot_method_str = "CCPI1";
-            /* Boot device controlled externally */
-            break;
         case RST_BOOT_METHOD_E_CCPI2:
-            boot_method_str = "CCPI2";
+        case RST_BOOT_METHOD_E_PCIE0:
+        case RST_BOOT_METHOD_E_REMOTE:
             /* Boot device controlled externally */
             break;
         case RST_BOOT_METHOD_E_EMMC_LS:
-            boot_method_str = "EMMC_LS";
-            strcpy(boot_device_name, "/dev/n0.mmc0");
-            break;
         case RST_BOOT_METHOD_E_EMMC_SS:
-            boot_method_str = "EMMC_SS";
             strcpy(boot_device_name, "/dev/n0.mmc0");
-            break;
-        case RST_BOOT_METHOD_E_PCIE0:
-            boot_method_str = "PCIE0";
-            /* Boot device controlled externally */
-            break;
-        case RST_BOOT_METHOD_E_REMOTE:
-            boot_method_str = "REMOTE";
-            /* Boot device controlled externally */
             break;
         case RST_BOOT_METHOD_E_SPI24:
-            boot_method_str = "SPI24";
-            create_spi_device_name(boot_device_name, sizeof(boot_device_name), boot_method);
-            break;
         case RST_BOOT_METHOD_E_SPI32:
-            boot_method_str = "SPI32";
             create_spi_device_name(boot_device_name, sizeof(boot_device_name), boot_method);
             break;
         default:
-            boot_method_str = "UNKNOWN";
             break;
     }
 
@@ -276,22 +314,9 @@ int main(void)
         "\n"
         "=========================\n"
         "Cavium THUNDERX Boot Stub\n"
-        "=========================\n"
-        "Node:  %d%s\n"
-        "Chip:  0x%x Pass %d.%d\n"
-        "RCLK:  %lu Mhz\n"
-        "SCLK:  %lu Mhz\n"
-        "Boot:  %s(%d)\n"
-        "VRM:   %s\n"
-        "Trust: %s\n",
-        bdk_version_string(),
-        node, (ocx_com_node.s.fixed_pin) ? " (Fixed)" : "",
-        midr_el1.s.partnum, midr_el1.s.variant + 1, midr_el1.s.revision,
-        bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000,
-        bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000,
-        boot_method_str, boot_method,
-        (vrm_disable) ? "Disabled" : "Enabled",
-        (trust_mode) ? "Enabled" : "Disabled");
+        "=========================\n",
+        bdk_version_string());
+    print_node_strapping(bdk_numa_master());
 
     /* Initialize DRAM on the master node */
 #ifdef DRAM_NODE0
@@ -346,6 +371,7 @@ int main(void)
         bdk_node_t other_node = 1;
         if (bdk_numa_exists(other_node))
         {
+            print_node_strapping(other_node);
             BDK_TRACE(BOOT_STUB, "Initializing DRAM on other node\n");
             extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE1)(void);
             int mbytes = libdram_config(other_node, CONFIG_FUNC_NAME(DRAM_NODE1)(), 0);
