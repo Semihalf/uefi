@@ -149,7 +149,7 @@ void __bdk_init_main(int arg, void *arg1)
        will not be run on the other nodes */
     if (bdk_is_boot_core())
     {
-        BDK_TRACE(INIT, "Performing common initialization\n");
+        BDK_TRACE(INIT, "N%d: Performing common initialization\n", node);
 
         __bdk_config_init(); /* Some config setting are dynamically updated */
 
@@ -159,12 +159,15 @@ void __bdk_init_main(int arg, void *arg1)
         if (!environ)
             bdk_error("Failed to allocate environment, setenv will crash\n");
 
-        BDK_TRACE(INIT, "N%d: Checking if CCPI is up and has other nodes\n", node);
+        BDK_TRACE(INIT, "N%d: Checking if CCPI is already up and has other nodes\n", node);
         BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
         for (bdk_node_t n = 0; n < BDK_NUMA_MAX_NODES; n++)
         {
             if (l2c_oci_ctl.s.enaoci & (1 << n))
+            {
+                BDK_TRACE(INIT, "N%d:     Found node %d\n", node, n);
                 bdk_numa_set_exists(n);
+            }
         }
     }
 
