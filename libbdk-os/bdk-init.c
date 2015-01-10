@@ -521,158 +521,6 @@ static int oci_report_lane(bdk_node_t node, int show_message)
 }
 
 /**
- * Some systems may need extra processing when CCPI lane reversal is detected.
- * Lane reversal refers to the board designer connecting node0's lane 0 to
- * node1's lane 23.
- */
-static void ccpi_check_lane_reversal(void)
-{
-    bdk_node_t my_node = bdk_numa_local();
-
-    /* Check if lane reversal applies */
-    BDK_CSR_INIT(ocx_qlmx_cfg, my_node, BDK_OCX_QLMX_CFG(0));
-    if (!ocx_qlmx_cfg.s.ser_lane_rev)
-        return; /* No lane reversal */
-
-    BDK_TRACE(INIT, "N%d: CCPI Lane reversal detected\n", my_node);
-
-    /* Errata (OCX-21847) OCX does not deal with reversed lanes automatically */
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-    {
-        printf("N%d.CCPI Applying manual lane reversal\n", my_node);
-        int link;
-        int qlm_select[MAX_LINKS];
-        /* Save and disable all lanes as QLM_SELECT must be zero before
-           changing lane reversal */
-        for (link = 0; link < MAX_LINKS; link++)
-        {
-            BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
-                qlm_select[link] = c.s.qlm_select;
-                c.s.qlm_select = 0);
-        }
-        /* Set RX lane reversal */
-        for (int link = 0; link < MAX_LINKS; link++)
-        {
-            BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
-                c.s.lane_rev = 1);
-            /* Clear block errors */
-            BDK_CSR_MODIFY(c, my_node, BDK_OCX_RLKX_BLK_ERR(link), c.s.count = 0);
-        }
-        /* Set TX lane reversal */
-        BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNE_DBG,
-            c.s.tx_lane_rev = 1);
-        /* Restore the QLM lane select */
-        for (int link = 0; link < MAX_LINKS; link++)
-        {
-            BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
-                c.s.qlm_select = qlm_select[link]);
-        }
-        /* Give the link 100ms to come up */
-        bdk_wait_usec(100000);
-    }
-}
-
-/**
- * The 24 CCPI lanes can get marked bad for various reasons. This function
- * iterates through the CCPI QLMs and attempts to clear the bad lanes and
- * re-init them. It is called for the local node (link=-1) and for each node
- * connected to a CCPI logical link. Note that it may be called multiple times
- * for a node if multiple CCPI logical links connect to it.
- *
- * @param link   Link to work on, or -1 for the local node
- */
-static void ccpi_check_lane_ready(int link)
-{
-    bdk_node_t my_node = bdk_numa_local();
-    bdk_node_t work_node;
-    if (link == -1)
-    {
-        work_node = my_node;
-        BDK_TRACE(INIT, "N%d: Checking CCPI lane ready on master\n", my_node);
-    }
-    else
-    {
-        BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
-        work_node = ocx_com_linkx_ctl.s.id;
-        BDK_TRACE(INIT, "N%d: Checking CCPI lane ready on link %d\n", my_node, link);
-    }
-
-    /* Clear any SERDES bad bits */
-    for (int ocx_qlm=0; ocx_qlm<6; ocx_qlm++)
-    {
-        BDK_CSR_DEFINE(ocx_qlmx_cfg, BDK_OCX_QLMX_CFG(ocx_qlm));
-        ocx_qlmx_cfg.u = ocx_pp_read(work_node, BDK_OCX_QLMX_CFG(ocx_qlm));
-        if (ocx_qlmx_cfg.u == OCX_PP_TIMEOUT)
-            BDK_TRACE(INIT, "N%d:    CCPI QLM %d read timeout, unable to check remote lanes\n", my_node, ocx_qlm);
-        else if (ocx_qlmx_cfg.s.ser_lane_ready == 0xf)
-            BDK_TRACE(INIT, "N%d:    QLM %d lanes are ready\n", my_node, ocx_qlm);
-        else
-        {
-            /* Clear bad */
-            BDK_TRACE(INIT, "N%d:    Clearing bad lanes on QLM %d\n", my_node, ocx_qlm);
-            ocx_qlmx_cfg.s.ser_lane_ready = 0xf;
-            ocx_qlmx_cfg.s.ser_lane_bad = 0;
-            ocx_pp_write(work_node, BDK_OCX_QLMX_CFG(ocx_qlm), ocx_qlmx_cfg.u);
-        }
-    }
-}
-
-/**
- * Sometime links report up but won't transfer data. This function checks that
- * a link is really functional by doing a read. If the read fails, the link
- * is re-initialized in an attempt to recover.
- *
- * @param link   Link to check
- */
-static void ccpi_check_link_ready(int link)
-{
-    bdk_node_t my_node = bdk_numa_local();
-
-    /* Make sure each link has a unique node ID */
-    BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
-    if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
-    {
-        /* Read the node ID to make sure the link is working */
-        uint64_t data = ocx_pp_read(ocx_com_linkx_ctl.s.id, BDK_OCX_COM_NODE);
-        if (data == OCX_PP_TIMEOUT)
-            BDK_TRACE(INIT, "N%d:    Link %d failed read, doing re-init\n", my_node, link);
-        else
-        {
-            BDK_TRACE(INIT, "N%d:    Link %d is good\n", my_node, link);
-            return;
-        }
-    }
-    else
-        BDK_TRACE(INIT, "N%d:    Link %d down, doing re-init\n", my_node, link);
-
-    /* Link read failed, perform re-init */
-    BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
-        c.s.reinit = 1);
-    bdk_wait_usec(100);
-    BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
-        c.s.reinit = 0);
-    bdk_wait_usec(1000);
-    ocx_com_linkx_ctl.u = BDK_CSR_READ(my_node, BDK_OCX_COM_LINKX_CTL(link));
-    if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
-    {
-        BDK_TRACE(INIT, "N%d:      Link %d is up after re-init\n", my_node, link);
-        BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
-            c.s.drop = 0);
-        /* Read the node ID to make sure the link is working */
-        uint64_t data = ocx_pp_read(ocx_com_linkx_ctl.s.id, BDK_OCX_COM_NODE);
-        if (data == OCX_PP_TIMEOUT)
-            BDK_TRACE(INIT, "N%d:      Link %d failed read, re-init failed\n", my_node, link);
-        else
-        {
-            BDK_TRACE(INIT, "N%d:      Link %d is good\n", my_node, link);
-            return;
-        }
-    }
-    else
-        BDK_TRACE(INIT, "N%d:      Link %d is down after re-init\n", my_node, link);
-}
-
-/**
  * Initialize the OCI so all Nodes are ready to be used
  *
  * @return Zero on success, negative on failure.
@@ -685,55 +533,114 @@ static int init_oci(void)
 
     bdk_node_t my_node = bdk_numa_local();
 
-    /* Allow links to go down during CCPI init */
-    BDK_CSR_WRITE(my_node, BDK_RST_OCX, 0);
-
-    /* If the board reverse the lanes between the nodes, this may require extra
-       processing */
-    ccpi_check_lane_reversal();
+    /* Errata (OCX-21847) OCX does not deal with reversed lanes automatically */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        /* Check if we need to manually apply lane reversal */
+        BDK_CSR_INIT(ocx_qlmx_cfg, my_node, BDK_OCX_QLMX_CFG(0));
+        if (ocx_qlmx_cfg.s.ser_lane_rev)
+        {
+            printf("N%d.CCPI Applying lane reversal\n", my_node);
+            int link;
+            int qlm_select[MAX_LINKS];
+            /* Save and disable all lanes as QLM_SELECT must be zero before
+               changing lane reversal */
+            for (link = 0; link < MAX_LINKS; link++)
+            {
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
+                    qlm_select[link] = c.s.qlm_select;
+                    c.s.qlm_select = 0);
+            }
+            /* Set RX lane reversal */
+            for (int link = 0; link < MAX_LINKS; link++)
+            {
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
+                    c.s.lane_rev = 1);
+                /* Clear block errors */
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_RLKX_BLK_ERR(link), c.s.count = 0);
+            }
+            /* Set TX lane reversal */
+            BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNE_DBG,
+                c.s.tx_lane_rev = 1);
+            /* Restore the QLM lane select */
+            for (int link = 0; link < MAX_LINKS; link++)
+            {
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
+                    c.s.qlm_select = qlm_select[link]);
+            }
+            /* Give the link 100ms to come up */
+            bdk_wait_usec(100000);
+        }
+    }
 
     /* Don't bringup CCPI if there are no valid lanes */
     int good_lanes = oci_report_lane(my_node, 0);
     if (good_lanes == 0)
-    {
-        BDK_TRACE(INIT, "N%d: All CCPI lanes are down, skipping CCPI\n", my_node);
         return 0;
-    }
 
-    /* Make sure all local links have unique IDs */
     for (int link=0; link<3; link++)
     {
         /* Make sure each link has a unique node ID */
         BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
         ocx_com_linkx_ctl.s.id = (my_node + link + 1) & 3;
-        ocx_com_linkx_ctl.s.auto_clr = 0;
-        ocx_com_linkx_ctl.s.drop = 0;
         BDK_CSR_WRITE(my_node, BDK_OCX_COM_LINKX_CTL(link), ocx_com_linkx_ctl.u);
         if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
-            BDK_TRACE(INIT, "N%d: Link %d is up,   temp node ID is %d (raw 0x%lx)\n", my_node, link, ocx_com_linkx_ctl.s.id, ocx_com_linkx_ctl.u);
+            BDK_TRACE(INIT, "N%d: Link %d is up,   temp node ID is %d\n", my_node, link, ocx_com_linkx_ctl.s.id);
         else
-        {
-            BDK_TRACE(INIT, "N%d: Link %d is down, temp node ID is %d (raw 0x%lx)\n", my_node, link, ocx_com_linkx_ctl.s.id, ocx_com_linkx_ctl.u);
-            continue;
-        }
+            BDK_TRACE(INIT, "N%d: Link %d is down, temp node ID is %d\n", my_node, link, ocx_com_linkx_ctl.s.id);
     }
 
-    /* Attempt to bring up any bad lanes on the local node */
-    ccpi_check_lane_ready(-1);
-
-    /* Check for bad lanes on all remote nodes */
-    for (int link=0; link<3; link++)
-    {
-        /* Make sure each link has a unique node ID */
-        BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
-        if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
-            ccpi_check_lane_ready(link);
-    }
-
-    /* Check if all the lanes are up, possibly wait for them */
-    good_lanes = oci_report_lane(my_node, 0);
     if (good_lanes < 24)
     {
+        BDK_TRACE(INIT, "N%d: Some CCPI lanes are down, attempting recovery\n", my_node);
+        /* Clear any SERDES bad bits */
+        for (int ocx_qlm=0; ocx_qlm<6; ocx_qlm++)
+        {
+            BDK_CSR_INIT(ocx_qlmx_cfg, my_node, BDK_OCX_QLMX_CFG(ocx_qlm));
+            if (ocx_qlmx_cfg.s.ser_lane_ready != 0xf)
+            {
+                /* Clear bad */
+                BDK_TRACE(INIT, "N%d:    Clearing bad lanes on CCPI QLM %d\n", my_node, ocx_qlm);
+                ocx_qlmx_cfg.s.ser_lane_ready = 0xf;
+                ocx_qlmx_cfg.s.ser_lane_bad = 0;
+                BDK_CSR_WRITE(my_node, BDK_OCX_QLMX_CFG(ocx_qlm), ocx_qlmx_cfg.u);
+            }
+        }
+        for (int link=0; link<3; link++)
+        {
+            BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
+            if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
+            {
+                BDK_TRACE(INIT, "N%d:  Link %d is up, checking remote lanes\n", my_node, link);
+                /* Clear any SERDES bad bits */
+                for (int ocx_qlm=0; ocx_qlm<6; ocx_qlm++)
+                {
+                    BDK_CSR_DEFINE(ocx_qlmx_cfg, BDK_OCX_QLMX_CFG(ocx_qlm));
+                    ocx_qlmx_cfg.u = ocx_pp_read(ocx_com_linkx_ctl.s.id, BDK_OCX_QLMX_CFG(ocx_qlm));
+                    if (ocx_qlmx_cfg.u == OCX_PP_TIMEOUT)
+                        BDK_TRACE(INIT, "N%d:    CCPI QLM %d read timeout, unable to check remote lanes\n", my_node, ocx_qlm);
+                    else if (ocx_qlmx_cfg.s.ser_lane_ready != 0xf)
+                    {
+                        /* Clear bad */
+                        BDK_TRACE(INIT, "N%d:    Clearing bad lanes on remote QLM %d\n", my_node, ocx_qlm);
+                        ocx_qlmx_cfg.s.ser_lane_ready = 0xf;
+                        ocx_qlmx_cfg.s.ser_lane_bad = 0;
+                        ocx_pp_write(ocx_com_linkx_ctl.s.id, BDK_OCX_QLMX_CFG(ocx_qlm), ocx_qlmx_cfg.u);
+                    }
+                }
+                for (int link2=0; link2<3; link2++)
+                {
+                    BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
+                    ocx_com_linkx_ctl.u = ocx_pp_read(ocx_com_linkx_ctl.s.id, BDK_OCX_COM_LINKX_CTL(link2));
+                    if (ocx_com_linkx_ctl.u == OCX_PP_TIMEOUT)
+                        BDK_TRACE(INIT, "N%d:    Remote Link %d read timeout\n", my_node, link2);
+                    else if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
+                        BDK_TRACE(INIT, "N%d:    Remote Link %d is up,   temp node ID is %d\n", my_node, link2, ocx_com_linkx_ctl.s.id);
+                    else
+                        BDK_TRACE(INIT, "N%d:    Remote Link %d is down, temp node ID is %d\n", my_node, link2, ocx_com_linkx_ctl.s.id);
+                }
+            }
+        }
         /* Wait for a short time for links to become good */
         printf("N%d.CCPI Waiting for lanes to link up (max 10 sec)\n", my_node);
 
@@ -747,34 +654,11 @@ static int init_oci(void)
         }
     }
 
-    /* Show the lane status */
-    oci_report_lane(my_node, 1);
-
-    /* Check that all local links are functioning */
-    BDK_TRACE(INIT, "N%d: Checking CCPI links\n", my_node);
-    for (int link=0; link<3; link++)
+    good_lanes = oci_report_lane(my_node, 1);
+    if (good_lanes < 8)
     {
-        ccpi_check_link_ready(link);
-        BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
-        if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
-        {
-            for (int link2=0; link2<3; link2++)
-            {
-                BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
-                ocx_com_linkx_ctl.u = ocx_pp_read(ocx_com_linkx_ctl.s.id, BDK_OCX_COM_LINKX_CTL(link2));
-                if (ocx_com_linkx_ctl.u == OCX_PP_TIMEOUT)
-                    BDK_TRACE(INIT, "N%d:      Remote Link %d read timeout\n", my_node, link2);
-                else if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
-                {
-                    ocx_com_linkx_ctl.s.auto_clr = 0;
-                    ocx_com_linkx_ctl.s.drop = 0;
-                    ocx_pp_write(ocx_com_linkx_ctl.s.id, BDK_OCX_COM_LINKX_CTL(link2), ocx_com_linkx_ctl.u);
-                    BDK_TRACE(INIT, "N%d:      Remote Link %d is up,   temp node ID is %d (raw 0x%lx)\n", my_node, link2, ocx_com_linkx_ctl.s.id, ocx_com_linkx_ctl.u);
-                }
-                else
-                    BDK_TRACE(INIT, "N%d:      Remote Link %d is down, temp node ID is %d (raw 0x%lx)\n", my_node, link2, ocx_com_linkx_ctl.s.id, ocx_com_linkx_ctl.u);
-            }
-        }
+        printf("N%d.CCPI Less than 8 good lanes, not initializing multi-node\n", my_node);
+        return 0;
     }
 
     /* Index MAX_LINKS is used for the local node */
