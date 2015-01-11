@@ -34,7 +34,7 @@ uint64_t bdk_dram_get_size_mbytes(int node)
     const int num_dram_controllers = __bdk_dram_get_num_lmc(node);
     for (int lmc = 0; lmc < num_dram_controllers; lmc++)
     {
-        if (bdk_is_simulation())
+        if (bdk_is_platform(BDK_PLATFORM_ASIM))
         {
             /* Asim doesn't simulate the rank detection, fake 4GB per controller */
             memsize += 4ull << 30;

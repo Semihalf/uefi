@@ -355,7 +355,7 @@ static int sgmii_link(bdk_if_handle_t handle)
         Write PCS*_MR*_CONTROL_REG[RESET]=1 (while not changing the value of
             the other PCS*_MR*_CONTROL_REG bits).
         Read PCS*_MR*_CONTROL_REG[RESET] until it changes value to zero. */
-    if (!bdk_is_simulation())
+    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_GMP_PCS_MRX_CONTROL(bgx_block, bgx_index),
             c.s.reset = 1);
@@ -377,7 +377,7 @@ static int sgmii_link(bdk_if_handle_t handle)
         /* Wait for PCS*_MR*_STATUS_REG[AN_CPT] to be set, indicating that
             sgmii autonegotiation is complete. In MAC mode this isn't an ethernet
             link, but a link between the chip and the PHY */
-        if (!bdk_is_simulation() &&
+        if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
             BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_PCS_MRX_STATUS(bgx_block, bgx_index), an_cpt, ==, 1, 10000))
         {
             return -1;
@@ -783,7 +783,7 @@ static int xaui_link(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(bgx_block, bgx_index),
         c.s.rx_packet_dis = 1);
 
-    if (!bdk_is_simulation())
+    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         /* Check if we're using auto negotiation */
         BDK_CSR_INIT(spux_an_control, handle->node, BDK_BGXX_SPUX_AN_CONTROL(bgx_block, bgx_index));
@@ -1357,7 +1357,7 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
     int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
     int speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm) * 8 / 10;
 
-    if (bdk_is_simulation())
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         /* The simulator gives you a simulated 1Gbps full duplex link */
         result.s.up = 1;
@@ -1459,7 +1459,7 @@ static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
     result.u64 = 0;
 
     int link_up;
-    if (bdk_is_simulation())
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         link_up = 1;
     }

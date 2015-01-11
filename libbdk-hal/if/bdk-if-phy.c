@@ -35,7 +35,7 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
     }
 
     /* The simulator doesn't model PHYs, so just assume a 1Gbps connection */
-    if (bdk_is_simulation())
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         result.s.up = 1;
         result.s.full_duplex = 1;

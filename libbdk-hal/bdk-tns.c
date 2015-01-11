@@ -397,7 +397,7 @@ int bdk_tns_initialize(bdk_node_t node)
 	bdk_tns_tdma_nb_status_t tdma_nb_status;
 
 	/* Only valid for the HW or HW emulator, ASIM doesn't support TNS */
-	if (bdk_is_simulation())
+	if (bdk_is_platform(BDK_PLATFORM_ASIM))
 	{
 		tns_enabled = 0;
 		return -1;

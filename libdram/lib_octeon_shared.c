@@ -1168,7 +1168,7 @@ uint32_t measure_octeon_ddr_clock(bdk_node_t node,
         calc_ddr_hertz = ddr_clocks * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) / core_clocks;
 
         /* Asim doesn't have a DDR clock, force the measurement to be correct  */
-        if (bdk_is_simulation())
+        if (bdk_is_platform(BDK_PLATFORM_ASIM))
             calc_ddr_hertz = ddr_hertz;
 
 	ddr_print("LMC%d: Measured DDR clock: %lu, cpu clock: %u, ddr clocks: %lu\n",

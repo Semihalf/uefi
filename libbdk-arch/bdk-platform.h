@@ -36,17 +36,6 @@ static inline int bdk_is_platform(bdk_platform_t platform)
 }
 
 /**
- * Return true if the software is currently running on the
- * software simulator.
- *
- * @return Non zero if simulation
- */
-static inline int bdk_is_simulation(void)
-{
-    return bdk_is_platform(BDK_PLATFORM_ASIM);
-}
-
-/**
  * Call to initialize the platform state
  */
 extern void __bdk_platform_init();

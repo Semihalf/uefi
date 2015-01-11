@@ -136,6 +136,6 @@ void __bdk_config_init(void)
     bdk_config_set(BDK_CONFIG_PACKET_BUFFER_SIZE, 1024);
 
     /* Asim doesn't scale to 48 cores well. Limit to 4 */
-    if (bdk_is_simulation())
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
         bdk_config_set(BDK_CONFIG_COREMASK, 0xf);
 }

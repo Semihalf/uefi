@@ -533,7 +533,7 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
 static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
 {
     /* Simulation doesn't support PCIe host */
-    if (bdk_is_simulation())
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
         return -1;
 
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PEMX_ON(pcie_port), pemoor, ==, 1, 100000))
@@ -700,7 +700,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
         skipped */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_RST_CTLX(pcie_port), rst_done, ==, 1, 10000))
     {
-        if (!bdk_is_simulation())
+        if (!bdk_is_platform(BDK_PLATFORM_ASIM))
         {
             printf("N%d.PCIe%d: Stuck in reset, skipping.\n", node, pcie_port);
             return -1;
@@ -722,7 +722,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     /* Bring the link up */
     if (__bdk_pcie_rc_initialize_link(node, pcie_port))
     {
-        if (!bdk_is_simulation())
+        if (!bdk_is_platform(BDK_PLATFORM_ASIM))
         {
             printf("N%d.PCIe%d: Link timeout, probably the slot is empty\n", node, pcie_port);
             return -1;
@@ -746,7 +746,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
 
     /* Display the link status */
     BDK_CSR_INIT(pciercx_cfg032, node, BDK_PCIERCX_CFG032(pcie_port));
-    if (bdk_is_simulation())
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
         printf("N%d.PCIe%d: Simulation, can't report link speed\n", node, pcie_port);
     else
         printf("N%d.PCIe%d: Link active, %d lanes, speed gen%d\n", node, pcie_port, pciercx_cfg032.s.nlw, pciercx_cfg032.s.ls);

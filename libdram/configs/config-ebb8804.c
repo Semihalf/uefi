@@ -397,7 +397,7 @@ const dram_config_t *dram_get_config_ebb8804(void)
         setup_dram_odt_4rank_configuration(cfg.config[lmc].odt_4rank_config);
     }
 
-    if (USE_INTERNAL_SPD || bdk_is_simulation())
+    if (USE_INTERNAL_SPD || bdk_is_platform(BDK_PLATFORM_ASIM))
     {
 	int lmc_mask  = DEFAULT_LMC_MASK;
         int dimm_mask = DEFAULT_DIMM_MASK;

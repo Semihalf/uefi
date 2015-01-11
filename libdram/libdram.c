@@ -61,7 +61,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     uint64_t skip = 0;
     if ((bdk_node_t)node == bdk_numa_master())
         skip = bdk_dram_get_top_of_bdk();
-    if (!bdk_is_simulation())
+    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
         bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
         ((uint64_t)mbytes << 20) - skip);
     BDK_TRACE(DRAM, "N%d: DRAM clear complete\n", node);

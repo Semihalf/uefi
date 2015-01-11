@@ -176,7 +176,7 @@ void __bdk_init(uint32_t image_crc)
             write(1, BANNER_1, sizeof(BANNER_1)-1);
 
         /* Only lock L2 if DDR3 isn't initialized */
-        if (!__bdk_is_dram_enabled(node) && !bdk_is_simulation())
+        if (!__bdk_is_dram_enabled(node) && !bdk_is_platform(BDK_PLATFORM_ASIM))
         {
             if (BDK_TRACE_ENABLE_INIT)
                 write(1, BANNER_2, sizeof(BANNER_2)-1);
@@ -985,7 +985,7 @@ static int init_oci(void)
 
 static void setup_node(bdk_node_t node)
 {
-    if (bdk_is_simulation())
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
         return; // FIXME: OCX not modelled in Asim
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
         return; /* Emulator doesn't seem to have CCPI registers */
@@ -1056,7 +1056,7 @@ int bdk_init_nodes(int skip_cores)
 
     /* Simulation under Asim is a special case. Multi-node is simulaoted, but
        not the details of the low level link */
-    if (do_oci_init && bdk_is_simulation())
+    if (do_oci_init && bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         bdk_numa_set_exists(0);
         bdk_numa_set_exists(1);

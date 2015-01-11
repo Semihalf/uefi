@@ -71,7 +71,7 @@ void __bdk_init_node(bdk_node_t node)
 
     /* Allow CAP access from cores so we can read system registers through
        memory mapped addresses. See bdk_sysreg_read() */
-    if (!bdk_is_simulation())
+    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
         BDK_CSR_MODIFY(c, node, BDK_DAP_IMP_DAR, c.s.caben = 1);
 
     BDK_TRACE(INIT, "N%d: Initialize L2\n", node);
@@ -109,7 +109,7 @@ void __bdk_init_node(bdk_node_t node)
     }
 
 
-    if (BDK_IS_REQUIRED(ERROR_DECODE) && !bdk_is_simulation())
+    if (BDK_IS_REQUIRED(ERROR_DECODE) && !bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         BDK_TRACE(INIT, "N%d: Enabling error reporting\n", node);
         bdk_error_enable(node);

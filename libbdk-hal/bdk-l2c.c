@@ -23,7 +23,7 @@ int bdk_l2c_initialize(bdk_node_t node)
         c.s.rsp_arb_mode = 1;
         c.s.xmc_arb_mode = 0);
 
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && !bdk_is_simulation())
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && !bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         /* Errata: (L2C-22279) RCAS/RSTC which hits S/S can use wrong compare data */
         BDK_CSR_MODIFY(c, node, BDK_L2C_CTL,

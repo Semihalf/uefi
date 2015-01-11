@@ -988,7 +988,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* Configure the gser pll */
     qlm_init_one(node, qlm);
 
-    if (!bdk_is_simulation())
+    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         /* Wait for reset to complete and the PLL to lock */
         if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_PLL_STAT(qlm), pll_lock, ==, 1, 10000))
@@ -1419,7 +1419,7 @@ int qlm_auto_config(bdk_node_t node)
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
         return 0;
 
-    if (bdk_is_simulation())
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         printf("QLM Config: Configuring QLMs for a sample setup\n");
         bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_SGMII, 1250, 0);

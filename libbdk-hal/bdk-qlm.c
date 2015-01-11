@@ -181,7 +181,7 @@ int bdk_qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
  */
 int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
 {
-    if (bdk_is_simulation())
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         /* Force the reference to 156.25Mhz when running in simulation.
             This supports the most speeds */
@@ -304,7 +304,7 @@ void bdk_qlm_init(bdk_node_t node)
         bdk_fatal("bdk_qlm_init: OPs table not found for this chip\n");
 
     /* Skip QLM setup in simulation */
-    if (!bdk_is_simulation())
+    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
         qlm_ops->init(node);
 }
 

@@ -22,7 +22,7 @@ BDK_REQUIRE_DEFINE(MDIO);
  */
 void bdk_mdio_initialize(bdk_node_t node)
 {
-    if (bdk_is_simulation())
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
         return;
 
     int num_mdio = 2;
