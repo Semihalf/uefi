@@ -11,7 +11,6 @@ typedef struct
 } lk_info_t;
 
 static int64_t __bdk_alive_coremask[BDK_NUMA_MAX_NODES];
-int __bdk_is_simulation;
 
 /**
  * Set the baud rate on a UART
@@ -159,9 +158,8 @@ void __bdk_init(uint32_t image_crc)
            also in reset */
         BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, BDK_CSR_READ(node, BDK_RST_PP_RESET));
 
-        /* Initialize the is_simulation flag */
-        BDK_CSR_INIT(c, node, BDK_OCLAX_CONST(0));
-        __bdk_is_simulation = (c.u == 0);
+        /* Initialize the platform */
+        __bdk_platform_init();
 
         /* Enable the timer */
         BDK_MSR(CNTFRQ_EL0, BDK_GTI_RATE); /* Needed for Asim */

@@ -44,7 +44,7 @@
 #include "bdk-version.h"
 #ifndef BDK_BUILD_HOST
 #include "bdk-fuse.h"
-#include "bdk-feature.h"
+#include "bdk-platform.h"
 #endif
 
 #endif
