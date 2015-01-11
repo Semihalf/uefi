@@ -1228,7 +1228,7 @@ static int qlm_measure_refclock(bdk_node_t node, int qlm)
         c.s.enb = 1;
         c.s.clr = 0);
     /* Wait for a short time to get a number of counts */
-    bdk_wait_usec(10000); /* 10ms */
+    bdk_wait_usec(20000); /* 20ms */
     /* Stop counting */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_EVT_CTRL(qlm),
         c.s.enb = 0);
