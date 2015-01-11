@@ -1808,6 +1808,25 @@ static void qlm_init(bdk_node_t node)
         BDK_CSR_INIT(rst_ctlx, node, BDK_RST_CTLX(pem));
         setup_pem_reset(node, pem, !rst_ctlx.s.host_mode);
     }
+
+    /* Errata (BGX-21957) GSER enhancement to allow auto RX equalization */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        int num_qlms = bdk_qlm_get_num(node);
+        for (int qlm = 0; qlm < num_qlms; qlm++)
+        {
+            int gbaud = bdk_qlm_get_gbaud_mhz(node, qlm);
+            if ((gbaud == 5000) || (gbaud == 6250))
+            {
+                for (int lane = 0; lane < 4; lane++)
+                {
+                    BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_EER(qlm, lane),
+                        c.s.rxt_eer = 1;
+                        c.s.rxt_esv = 0);
+                }
+            }
+        }
+    }
 }
 
 
