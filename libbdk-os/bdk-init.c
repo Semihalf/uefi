@@ -73,13 +73,12 @@ void bdk_set_baudrate(bdk_node_t node, int uart, int baudrate, int use_flow_cont
                 This means BRDI = 1 and BRDF = 0.085.
                 Therefore, fractional part, BRDF = integer((0.085x64)+0.5) = 5
                 Generated baud rate divider = 1+5/64 = 1.078 */
-#ifdef HW_EMULATOR
-    #warning Configured for the hardware emulator
-    /* The hardware emulator currently fixes the uart at a fixed rate */
-    uint64_t divisor_x_64 = 64;
-#else
     uint64_t divisor_x_64 = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (baudrate * 16 * 6 / 64);
-#endif
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    {
+        /* The hardware emulator currently fixes the uart at a fixed rate */
+        divisor_x_64 = 64;
+    }
     BDK_CSR_MODIFY(c, node, BDK_UAAX_IBRD(uart),
         c.s.baud_divint = divisor_x_64 >> 6);
     BDK_CSR_MODIFY(c, node, BDK_UAAX_FBRD(uart),
@@ -525,9 +524,8 @@ static int oci_report_lane(bdk_node_t node, int show_message)
  */
 static int init_oci(void)
 {
-#ifdef HW_EMULATOR
-    return 0; /* Emulator doesn't seem to have CCPI registers */
-#endif
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        return 0; /* Emulator doesn't seem to have CCPI registers */
 
     bdk_node_t my_node = bdk_numa_local();
 
@@ -989,9 +987,8 @@ static void setup_node(bdk_node_t node)
 {
     if (bdk_is_simulation())
         return; // FIXME: OCX not modelled in Asim
-#ifdef HW_EMULATOR
-    return; /* Emulator doesn't seem to have CCPI registers */
-#endif
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        return; /* Emulator doesn't seem to have CCPI registers */
 
     clear_oci_error(node);
     /* Lanes for master were reported before CCPI was brought up */

@@ -412,11 +412,10 @@ void bdk_if_register_for_packets(bdk_if_handle_t handle, bdk_if_packet_receiver_
 
 static void __bdk_if_link_poll(int unused1, void *unused2)
 {
-#ifdef HW_EMULATOR
-    const int POLLS_PER_SEC = 256;
-#else
-    const int POLLS_PER_SEC = 8;
-#endif
+    int POLLS_PER_SEC = 8;
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        POLLS_PER_SEC = 256;
+
     bdk_if_handle_t link_handle = NULL;
     uint64_t poll_rate =  1000000 / POLLS_PER_SEC;
 

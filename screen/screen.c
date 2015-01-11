@@ -28,10 +28,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(TWSI);
     BDK_REQUIRE(SATA);
     BDK_REQUIRE(USB);
-/* Remove the ifdef once Asim has TNS support */
-#ifdef HW_EMULATOR
-    BDK_REQUIRE(TNS);
-#endif
+    //BDK_REQUIRE(TNS);
 }
 
 /**

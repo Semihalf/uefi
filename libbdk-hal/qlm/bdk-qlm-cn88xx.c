@@ -41,9 +41,9 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
                 return -1;
             /* Figure out which QLM the BGX connects to */
             int qlm = interface;
-#ifdef HW_EMULATOR
-            return qlm;
-#endif
+            if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+                return qlm;
+
             /* Make sure the QLM is powered up and out of reset */
             BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
             if (phy_ctl.s.phy_pd || phy_ctl.s.phy_reset)
@@ -57,9 +57,8 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
         }
         case BDK_IF_PCIE: /* PCIe */
         {
-#ifdef HW_EMULATOR
-            return -1;
-#endif
+            if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+                return -1;
             switch (interface)
             {
                 case 0: /* PEM0 */
@@ -147,12 +146,13 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
     if (qlm < 8)
     {
-#ifdef HW_EMULATOR
-        if (qlm < 2)
-            return BDK_QLM_MODE_XFI_4X1;
-        else
-            return BDK_QLM_MODE_DISABLED;
-#endif
+        if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        {
+            if (qlm < 2)
+                return BDK_QLM_MODE_XFI_4X1;
+            else
+                return BDK_QLM_MODE_DISABLED;
+        }
         BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
         if (gserx_cfg.s.pcie)
         {
@@ -649,9 +649,9 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
  */
 static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
-#ifdef HW_EMULATOR
-    return -1;
-#endif
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        return -1;
+
     int lane_mode = 0xf;
     int lmac_type = -1;
     int is_pcie = 0;
@@ -1034,9 +1034,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
  */
 static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
 {
-#ifdef HW_EMULATOR
-    return 10312;
-#endif
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        return 10312;
+
     if (qlm < 8)
     {
         BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
@@ -1212,9 +1212,9 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
  */
 static int qlm_measure_refclock(bdk_node_t node, int qlm)
 {
-#ifdef HW_EMULATOR
-    return REF_156MHZ;
-#endif
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        return REF_156MHZ;
+
     /* Clear the counter */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_EVT_CTRL(qlm),
         c.s.enb = 0;
@@ -1416,9 +1416,9 @@ static int qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
  */
 int qlm_auto_config(bdk_node_t node)
 {
-#ifdef HW_EMULATOR
-    return 0;
-#endif
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        return 0;
+
     if (bdk_is_simulation())
     {
         printf("QLM Config: Configuring QLMs for a sample setup\n");
@@ -1799,9 +1799,9 @@ static void qlm_init_one(bdk_node_t node, int qlm)
  */
 static void qlm_init(bdk_node_t node)
 {
-#ifdef HW_EMULATOR
-    return;
-#endif
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        return;
+
     /* Setup how each PEM drives the PERST lines */
     for (int pem = 0; pem < 4; pem++)
     {

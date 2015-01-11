@@ -18,6 +18,3 @@ void __bdk_platform_init()
     }
 }
 
-#ifdef HW_EMULATOR
-#error "HW_EMULATOR should not be used. Fuses[197:1195] define the platform"
-#endif

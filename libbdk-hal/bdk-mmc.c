@@ -341,11 +341,7 @@ typedef struct
     int64_t init_status;
 } mmc_card_state_t;
 
-#ifdef HW_EMULATOR
-#define MSEC 1 /* Emulator doesn't need full delay. Lie about how long a msec is */
-#else
 #define MSEC 1000 /* 1000 usec */
-#endif
 #define ULL unsigned long long
 static mmc_card_state_t card_state[4];
 
@@ -648,10 +644,11 @@ do {                                                                            
  */
 int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
 {
-#ifdef HW_EMULATOR
-    if (card_state[chip_sel].init_status)
-        return card_state[chip_sel].init_status;
-#endif
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    {
+        if (card_state[chip_sel].init_status)
+            return card_state[chip_sel].init_status;
+    }
     bdk_mio_emm_rsp_sts_t status;
     ocr_register_t ocr_reg;
 
@@ -682,6 +679,8 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
 
     // Change the clock
     uint64_t CLOCK_HZ = BDK_MMC_CLOCK_HZ;
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        CLOCK_HZ = 40000000;
     uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
     sclk /= CLOCK_HZ;
     sclk /= 2; /* Half is time hi/lo */
@@ -715,11 +714,10 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
     MMC_CMD_OR_ERROR(node, MMC_CMD_GO_IDLE_STATE, 0, chip_sel, 0, 0, 0, 0);
 
     // Do a CMD SEND_EXT_CSD (8)
-#ifdef HW_EMULATOR
-    status.u = -1; /* This always fails on the emulator so save boot time */
-#else
-    status = mmc_cmd(node, MMC_CMD_SEND_EXT_CSD, 0x000001AA, chip_sel, 0, 2, 1, 0);
-#endif
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        status.u = -1; /* This always fails on the emulator so save boot time */
+    else
+        status = mmc_cmd(node, MMC_CMD_SEND_EXT_CSD, 0x000001AA, chip_sel, 0, 2, 1, 0);
     if (status.u == 0x0)
     {
         // We may have an SD card, as it should respond
@@ -760,11 +758,10 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
         // Send a ACMD 41
         do
         {
-#ifdef HW_EMULATOR
-            status.u = -1; /* This always fails on the emulator so save boot time */
-#else
-            status = mmc_cmd(node, MMC_CMD_APP_CMD, 0, chip_sel, 0, 0, 0, 0);
-#endif
+            if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+                status.u = -1; /* This always fails on the emulator so save boot time */
+            else
+                status = mmc_cmd(node, MMC_CMD_APP_CMD, 0, chip_sel, 0, 0, 0, 0);
             if (status.u == 0x0)
             {
                 status = mmc_cmd(node, 41, 0x40ff8000, chip_sel, 0, 3, 0, 0);
@@ -943,9 +940,8 @@ int bdk_mmc_read(bdk_node_t node, int chip_sel, uint64_t address, void *buffer, 
         address += 512;
         length -= 512;
         BDK_TRACE(EMMC, "Read done\n");
-#ifdef HW_EMULATOR
-        putchar('.');
-#endif
+        if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+            putchar('.');
     }
     return 0;
 }
