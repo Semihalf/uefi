@@ -1163,8 +1163,8 @@ uint32_t measure_octeon_ddr_clock(bdk_node_t node,
         core_clocks = bdk_clock_get_count(BDK_CLOCK_TIME);
         ddr_clocks = BDK_CSR_READ(node, BDK_LMCX_DCLK_CNT(ddr_interface_num));
         bdk_wait_usec(100000); /* 100ms */
-        core_clocks = bdk_clock_get_count(BDK_CLOCK_TIME) - core_clocks;
         ddr_clocks = BDK_CSR_READ(node, BDK_LMCX_DCLK_CNT(ddr_interface_num)) - ddr_clocks;
+        core_clocks = bdk_clock_get_count(BDK_CLOCK_TIME) - core_clocks;
         calc_ddr_hertz = ddr_clocks * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) / core_clocks;
 
         /* Asim doesn't have a DDR clock, force the measurement to be correct  */
