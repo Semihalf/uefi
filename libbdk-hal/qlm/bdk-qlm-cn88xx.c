@@ -9,6 +9,7 @@ static const int REF_156MHZ = 156250000;
 static uint64_t prbs_errors[14][4];
 
 static void qlm_init_one(bdk_node_t node, int qlm);
+static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz);
 
 /**
  * Return the number of QLMs supported for the chip
@@ -1021,6 +1022,8 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         }
     }
 
+    /* Apply any custom tuning */
+    qlm_tune(node, qlm, mode, baud_mhz);
     return 0;
 }
 
@@ -1795,12 +1798,74 @@ static void qlm_init_one(bdk_node_t node, int qlm)
 }
 
 /**
+ * Some QLM speeds need to override the default tuning parameters
+ *
+ * @param node     Node to use in a Numa setup
+ * @param qlm      QLM to configure
+ * @param mode     Desired mode
+ * @param baud_mhz Desired speed
+ */
+static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
+{
+    if (baud_mhz == 6250)
+    {
+        /* Change the default tuning for 6.25G, from lab measurements */
+        for (int lane = 0; lane < 4; lane++)
+        {
+            if (mode == BDK_QLM_MODE_OCI)
+            {
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+                    c.s.cfg_tx_swing = 0xc);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
+                    c.s.cfg_tx_premptap = 0xc0);
+            }
+            else
+            {
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+                    c.s.cfg_tx_swing = 0xa);
+                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
+                    c.s.cfg_tx_premptap = 0xa0);
+            }
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
+                c.s.tx_swing_ovrd_en = 1;
+                c.s.tx_premptap_ovrd_val = 1);
+        }
+    }
+    else if (baud_mhz == 10312)
+    {
+        /* Change the default tuning for 10.3125G, from lab measurements */
+        for (int lane = 0; lane < 4; lane++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+                c.s.cfg_tx_swing = 0xd);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
+                c.s.cfg_tx_premptap = 0xd0);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
+                c.s.tx_swing_ovrd_en = 1;
+                c.s.tx_premptap_ovrd_val = 1);
+        }
+    }
+}
+
+/**
  * Initialize the QLM layer
  */
 static void qlm_init(bdk_node_t node)
 {
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
         return;
+
+    /* Apply QLM tuning to active QLMs */
+    for (int qlm = 0; qlm < bdk_qlm_get_num(node); qlm++)
+    {
+        BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
+        if (gserx_phy_ctl.s.phy_reset == 0)
+        {
+            bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, qlm);
+            int baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
+            qlm_tune(node, qlm, mode, baud_mhz);
+        }
+    }
 
     /* Setup how each PEM drives the PERST lines */
     for (int pem = 0; pem < 4; pem++)
