@@ -2208,7 +2208,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         //lmc_modereg_params3.s.dm              =
         //lmc_modereg_params3.s.wr_dbi          =
         //lmc_modereg_params3.s.rd_dbi          =
-        lmc_modereg_params3.s.tccd_l            = divide_roundup(ddr4_tCCD_Lmin, tclk_psecs) - 4;
+        lmc_modereg_params3.s.tccd_l            = max(divide_roundup(ddr4_tCCD_Lmin, tclk_psecs), 5ull) - 4;
         //lmc_modereg_params3.s.lpasr           =
         //lmc_modereg_params3.s.crc             =
         //lmc_modereg_params3.s.gd              =
@@ -2438,8 +2438,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 lmc_dimmx_ddr4_params0.s.rc2x = 0;
                 lmc_dimmx_ddr4_params0.s.rc1x = 0;
 
-                DRAM_CSR_WRITE(node, BDK_LMCX_DIMMX_DDR4_PARAMS0(ddr_interface_num, dimm), lmc_dimmx_ddr4_params0.u);
-
                 lmc_dimmx_ddr4_params1.u = 0;
 
                 lmc_dimmx_ddr4_params1.s.rcbx = 0;
@@ -2449,6 +2447,41 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 lmc_ddr4_dimm_ctl.u = 0;
                 lmc_ddr4_dimm_ctl.s.ddr4_dimm0_wmask = 0x7ff;
                 lmc_ddr4_dimm_ctl.s.ddr4_dimm1_wmask = (dimm_count > 1) ? 0x7ff : 0x0000;
+
+		/*
+		 * Handle any overrides from envvars here...
+		 */
+		if ((s = lookup_env_parameter("ddr_ddr4_params0")) != NULL) {
+		    lmc_dimmx_ddr4_params0.u = strtoul(s, NULL, 0);
+		}
+
+		if ((s = lookup_env_parameter("ddr_ddr4_params1")) != NULL) {
+		    lmc_dimmx_ddr4_params1.u = strtoul(s, NULL, 0);
+		}
+
+		if ((s = lookup_env_parameter("ddr_ddr4_dimm_ctl")) != NULL) {
+		    lmc_ddr4_dimm_ctl.u = strtoul(s, NULL, 0);
+		}
+
+		for (i=0; i<11; ++i) {
+		    uint64_t value;
+		    if ((s = lookup_env_parameter("ddr_ddr4_rc%1xx", i+1)) != NULL) {
+			value = strtoul(s, NULL, 0);
+			if (i < 8) {
+			    lmc_dimmx_ddr4_params0.u &= ~((uint64_t)0xff << (i*8));
+			    lmc_dimmx_ddr4_params0.u |=           (value << (i*8));
+			} else {
+			    lmc_dimmx_ddr4_params1.u &= ~((uint64_t)0xff << ((i-8)*8));
+			    lmc_dimmx_ddr4_params1.u |=           (value << ((i-8)*8));
+			}
+		    }
+		}
+
+		/*
+		 * write the final CSR values
+		 */
+                DRAM_CSR_WRITE(node, BDK_LMCX_DIMMX_DDR4_PARAMS0(ddr_interface_num, dimm), lmc_dimmx_ddr4_params0.u);
+
                 DRAM_CSR_WRITE(node, BDK_LMCX_DDR4_DIMM_CTL(ddr_interface_num), lmc_ddr4_dimm_ctl.u);
 
                 DRAM_CSR_WRITE(node, BDK_LMCX_DIMMX_DDR4_PARAMS1(ddr_interface_num, dimm), lmc_dimmx_ddr4_params1.u);
