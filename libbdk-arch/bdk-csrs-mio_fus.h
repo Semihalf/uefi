@@ -414,8 +414,8 @@ typedef union bdk_mio_fus_dat3 {
                                                                  0x2 = 1/2 ways (8-way, 8 MB).
                                                                  0x3 = 1/4 ways (4-way, 4MB).
                                                                  0x4-0x7 = Reserved. */
-		uint64_t use_int_refclk              : 1;  /**< RO - If set use the PLL output as the low-jitter reference clock to the rclk DLLs. Default is
-                                                                 to use the external input reference clock. */
+		uint64_t use_int_refclk              : 1;  /**< RO - If set, use the PLL output as the low-jitter reference clock to the rclk DLLs. Default is
+                                                                 to use the internal input reference clock. */
 		uint64_t zip_info                    : 2;  /**< RO - Fuse information - Zip information. */
 		uint64_t bar2_sz_conf                : 1;  /**< RO - Fuse information - When 0, BAR2 size conforms to PCIe specification. */
 		uint64_t efus_lck                    : 1;  /**< RO - Fuse information - efuse lockdown. */
@@ -643,6 +643,72 @@ static inline uint64_t BDK_MIO_FUS_PLL_FUNC(void)
 
 
 /**
+ * RSL - mio_fus_pname#
+ *
+ * "These registers contain a 24-character string representing the part number,
+ * e.g. "CN8800-2000BG2601-CPT-PR".
+ *
+ * The string is represented in a RAD-40-like encoding, padded with trailing spaces
+ * that must be removed.  If the resulting string is empty, the product has not been
+ * fused programmed and the name should be constructed from e.g. the core's device
+ * number.
+ *
+ * This register was added in pass 2.
+ *
+ * Pseudocode for the decoding:
+ * \<pre\>
+ * datap = data_from_fuses;
+ * //      where bit 0 of byte 0 array is fuse 1408;
+ * //      i.e. bit 0 of MIO_FUS_PNAME(0)
+ * void rad50_decode(const uint8_t* datap, char* bufferp) {
+ *    // Psudocode only - assumes datap sized to at least 16 bytes,
+ *    // and bufferp to at least 26 characters.
+ *    const char* CHAR_MAP = " ABCDEFGHIJKLMNOPQRSTUVWXYZ\#.-0123456789";
+ *    char* cp = bufferp;
+ *    for (int i=0; i\<FUSE_BYTES; i+=2) {
+ *       // Data is stored little endian
+ *       uint16_t data = ((const uint16_t*)datap)[i/2];
+ *       ifndef MACHINE_LITTLE_ENDIAN
+ *          data = __swab16(data);
+ *       endif
+ *       *cp++ = CHAR_MAP[(data/40/40) % 40];
+ *       *cp++ = CHAR_MAP[(data/40) % 40];
+ *       *cp++ = CHAR_MAP[(data) % 40];
+ *    }
+ *    *cp++ = '\0';
+ *    for (cp = bufferp+strlen(bufferp)-1; cp\>=bufferp && isspace(*cp); --cp) *cp='\0';
+ * }
+ * \</pre\>
+ *
+ * INTERNAL: Fuse[1535:1408]."
+ */
+typedef union bdk_mio_fus_pnamex {
+	uint64_t u;
+	struct bdk_mio_fus_pnamex_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t dat                         : 64; /**< RO/H - Product name information. */
+#else
+		uint64_t dat                         : 64;
+#endif
+	} s;
+	/* struct bdk_mio_fus_pnamex_s        cn88xx; */
+} bdk_mio_fus_pnamex_t;
+
+static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
+		return 0x000087E003001440ull + (param1 & 1) * 0x8ull;
+	else 		csr_fatal("BDK_MIO_FUS_PNAMEX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_MIO_FUS_PNAMEX(...) bdk_mio_fus_pnamex_t
+#define bustype_BDK_MIO_FUS_PNAMEX(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_MIO_FUS_PNAMEX(p1) (p1)
+#define arguments_BDK_MIO_FUS_PNAMEX(p1) (p1),-1,-1,-1
+#define basename_BDK_MIO_FUS_PNAMEX(...) "MIO_FUS_PNAMEX"
+
+
+/**
  * RSL - mio_fus_prog
  */
 typedef union bdk_mio_fus_prog {
@@ -655,7 +721,7 @@ typedef union bdk_mio_fus_prog {
 		uint64_t prog                        : 1;  /**< R/W/H - INTERNAL: When written to one by software, blow the fuse bank. Hardware will clear when
                                                                  the program operation is complete.
                                                                  To write a bank of fuses, software must set MIO_FUS_WADR[ADDR] to the bank to be
-                                                                 programmed and then set each bit within MIO_FUS_BNK_DATX to indicate which fuses to blow.
+                                                                 programmed and then set each bit within MIO_FUS_BNK_DAT() to indicate which fuses to blow.
                                                                  Once ADDR, and DAT are setup, SW can write to MIO_FUS_PROG[PROG] to start the bank write
                                                                  and poll on PROG. Once PROG is clear, the bank write is complete. A soft blow is still
                                                                  subject to lockdown fuses. After a soft/warm reset, the chip will behave as though the
@@ -725,9 +791,10 @@ static inline uint64_t BDK_MIO_FUS_PROG_TIMES_FUNC(void)
  *
  * To read an efuse, software writes MIO_FUS_RCMD[ADDR,PEND] with the byte address of the fuse in
  * question, then software can poll MIO_FUS_RCMD[PEND]. When [PEND] = 0, then
- * MIO_FUS_RCMD[DAT] is valid. In addition, if the efuse read went to the efuse banks (e.g.
- * (ADDR/16) not {0,1,7}) || EFUSE), software can read MIO_FUS_BNK_DATx which contains all 128
- * fuses in the bank associated in ADDR.
+ * MIO_FUS_RCMD[DAT] is valid. In addition, if the efuse read went to the efuse banks,
+ * software can read MIO_FUS_BNK_DAT() which contains all 128 fuses in the bank associated in
+ * ADDR.  Fuses 1023..960 are never accessable on pass 1 parts.
+ * In addition, fuses 1023..960 are not accessable if MIO_FUS_DAT2[DORM_CRYPTO] is enabled.
  */
 typedef union bdk_mio_fus_rcmd {
 	uint64_t u;

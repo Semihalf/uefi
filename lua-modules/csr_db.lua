@@ -66292,6 +66292,17 @@ local csr_db = {
                 {name = "RESERVED_0_1", start = 0, stop = 1},
             }
         },
+        MIO_FUS_PNAMEX = {
+            name = "MIO_FUS_PNAME#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e003001440,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "DAT", start = 0, stop = 63},
+            }
+        },
         MIO_FUS_PROG = {
             name = "MIO_FUS_PROG",
             type = "RSL",

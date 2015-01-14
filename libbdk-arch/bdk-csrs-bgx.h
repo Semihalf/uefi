@@ -919,7 +919,9 @@ typedef union bdk_bgxx_cmrx_rx_id_map {
 	struct bdk_bgxx_cmrx_rx_id_map_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_15_63              : 49;
-		uint64_t rid                         : 7;  /**< R/W - Reassembly ID map for this LMAC. A shared pool of 96 reassembly IDs (RIDs) exists for all
+		uint64_t rid                         : 7;  /**< R/W - Reserved.
+                                                                 INTERNAL: Reassembly ID for Octeon PKI; not used in Thunder.
+                                                                 Reassembly ID map for this LMAC. A shared pool of 96 reassembly IDs (RIDs) exists for all
                                                                  MACs.
 
                                                                  The RID for this LMAC must be constrained such that it does not overlap with any other MAC
@@ -2501,16 +2503,14 @@ typedef union bdk_bgxx_cmr_global_config {
                                                                  bytes, the packet will be removed.
                                                                  A setting of 0 means the BGX will not modify or remove the FCS bytes. */
 		uint64_t interleave_mode             : 1;  /**< R/W - A setting of 0 means the BGX will operate in non-interleaved mode where there is 1 packet
-                                                                 from a given lmac in flight on the X2P interface.  A setting of 1 means the BGX will
-                                                                 operate
-                                                                 in interleaved mode where each valid consecutive cycle on the X2P interface may contain
-                                                                 words
-                                                                 from different lmacs.  In other words there will be multiple packets in flight from
-                                                                 different
-                                                                 lmacs at the same time. */
+                                                                 from a given lmac in flight on the X2P interface to TNS/NIC.  A setting of 1 means the BGX
+                                                                 will operate in interleaved mode where each valid consecutive cycle on the X2P interface
+                                                                 may contain words from different lmacs.  In other words there will be multiple packets in
+                                                                 flight from different lmacs at the same time. */
 		uint64_t cmr_mix1_reset              : 1;  /**< R/W - Must be 0. */
 		uint64_t cmr_mix0_reset              : 1;  /**< R/W - Must be 0. */
-		uint64_t cmr_x2p_reset               : 1;  /**< R/W - If the NIC block is reset, software also needs to reset the X2P interface in the BGX by
+		uint64_t cmr_x2p_reset               : 1;  /**< R/W - If the NIC or TNS block is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by
                                                                  setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
                                                                  requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
                                                                  interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
@@ -2518,7 +2518,7 @@ typedef union bdk_bgxx_cmr_global_config {
                                                                  setting this bit.
 
                                                                  Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC comes out of reset, software should clear CMR_X2P_RESET. */
+                                                                 After NIC/TNS comes out of reset, software should clear CMR_X2P_RESET. */
 		uint64_t bgx_clk_enable              : 1;  /**< R/W - The global clock enable for BGX. Setting this bit overrides clock enables set by
                                                                  BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
@@ -3223,15 +3223,13 @@ static inline uint64_t BDK_BGXX_CMR_RX_STAT9(unsigned long param1)
 /**
  * RSL - bgx#_cmr_rx_steering#
  *
- * These registers provide VLAN ID and DMAC ADR for identifying NCSI traffic. BGX has 2 VLAN
- * ID/DMAC address entries that can be accessed with the BGX()_CMR_RX_NCSI_CAM(0..1) CSRs.
- * Traffic
- * matching either of these cam entries, together the ethernet type (see
- * BGX_CMR_RX_NCSI_VLAN_ETYPE)
- * will be steered to the the RX NCSI interface of BGX.
- * These 2 entries can be used by any of the four SGMII MACs or the 10G/40G MACs using these
- * register
- * bits. See BGX()_CMR_GLOBAL_CONFIG for the LMAC_ID associated with NCSI traffic.
+ * These registers, along with BGX()_CMR_RX_STEERING_VETYPE(), provide eight filters for
+ * identifying and steering NCSI receive traffic.
+ *
+ * Steering is done for the designated LMAC specified by BGX()_CMR_GLOBAL_CONFIG[NCSI_LMAC_ID].
+ * The steering algorithm is applied after the RX DMAC filter specified by
+ * BGX()_CMR()_RX_DMAC_CTL and BGX()_CMR_RX_DMAC()_CAM. As such, the DMAC filter and steering
+ * filters should be set in a consistent manner.
  */
 typedef union bdk_bgxx_cmr_rx_steeringx {
 	uint64_t u;
@@ -3240,27 +3238,17 @@ typedef union bdk_bgxx_cmr_rx_steeringx {
 		uint64_t reserved_52_63              : 12;
 		uint64_t dest                        : 2;  /**< R/W - Destination for traffic that meets all criteria of the matching algorithm:
                                                                  0x0 = Steer this traffic exclusively to NCSI.
-                                                                 0x1 = Steer this traffic exclusively to X2P.
-                                                                 0x2 = Steer this traffic to BOTH X2P and NCSI.
+                                                                 0x1 = Steer this traffic exclusively to TNS/NIC.
+                                                                 0x2 = Steer this traffic to BOTH TNS/NIC and NCSI.
                                                                  0x3 = Steer this traffic to the bit bucket (drop). */
-		uint64_t mcst_en                     : 1;  /**< R/W - Enable for identifying MCST traffic
-                                                                 1 = Include this MCST in the matching algorithm for traffic that is steered to the DEST
-                                                                 interface.
-                                                                 0 = Don't include MCST in the matching algorithm.
-                                                                 traffic. */
-		uint64_t dmac_en                     : 1;  /**< R/W - CAM entry enable for this DMAC address.
-                                                                 1 = Include this address in the matching algorithm for traffic that is steered to the DEST
-                                                                 interface.
-                                                                 0 = Don't include this address in the matching algorithm. */
-		uint64_t dmac                        : 48; /**< R/W - DMAC address used for matching and identifying traffic that will be steered to the DEST
-                                                                 interface.
-                                                                 Can be used alone to identify a DMAC ADR within the incoming traffic NCSI block or
-                                                                 together with VLAN ID,
-                                                                 BGX()_CMR_RX_NCSI_VETYPE[VLAN_ETYPE] to identify traffic to send to the NCSI block for
-                                                                 example.
-                                                                 This entry is independent but should be set in a coordinated manner with any of the
-                                                                 BGX()_CMR_RX_DMAC()_CAM entries used for filtering traffic.  Broadcast can be specified
-                                                                 with value 0xFFFF_FFFFFF. */
+		uint64_t mcst_en                     : 1;  /**< R/W - Enable for identifying multicast packets:
+                                                                 1 = Include multicast packets in the matching algorithm.
+                                                                 0 = Do not include multicast packets in the matching algorithm. */
+		uint64_t dmac_en                     : 1;  /**< R/W - Enable DMAC address check:
+                                                                 1 = Include DMAC address checking in the matching algorithm.
+                                                                 0 = Do not include DMAC address checking in the matching algorithm. */
+		uint64_t dmac                        : 48; /**< R/W - DMAC address used for the matching algorithm when [DMAC_EN] is set. Broadcast can be
+                                                                 specified with value 0xFFFF_FFFFFFFF. */
 #else
 		uint64_t dmac                        : 48;
 		uint64_t dmac_en                     : 1;
@@ -3289,20 +3277,17 @@ static inline uint64_t BDK_BGXX_CMR_RX_STEERINGX(unsigned long param1, unsigned 
 
 /**
  * RSL - bgx#_cmr_rx_steering_default
- *
- * Traffic not matching any of steering entries (BGX()_CMR_RX_STEERING(),
- * and BGX()_CMR_RX_STEERING_VETYPE)
- * will be sent to the DEFAULT_DEST interface of BGX_CMR for LMAC ID matching NCSI_LMAC_ID.
  */
 typedef union bdk_bgxx_cmr_rx_steering_default {
 	uint64_t u;
 	struct bdk_bgxx_cmr_rx_steering_default_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
-		uint64_t dest                        : 2;  /**< R/W - If traffic does not meet all criteria of the matching algorithm:
+		uint64_t dest                        : 2;  /**< R/W - Destination for traffic that does not match any of the steering filters specified by
+                                                                 BGX()_CMR_RX_STEERING() and and BGX()_CMR_RX_STEERING_VETYPE():
                                                                  0x0 = Steer traffic exclusively to NCSI.
-                                                                 0x1 = Steer traffic exclusively to X2P.
-                                                                 0x2 = Steer traffic to BOTH X2P and NCSI.
+                                                                 0x1 = Steer traffic exclusively to TNS/NIC.
+                                                                 0x2 = Steer traffic to BOTH TNS/NIC and NCSI.
                                                                  0x3 = Steer traffic to the bit bucket (drop). */
 #else
 		uint64_t dest                        : 2;
@@ -3330,39 +3315,25 @@ static inline uint64_t BDK_BGXX_CMR_RX_STEERING_DEFAULT(unsigned long param1)
 /**
  * RSL - bgx#_cmr_rx_steering_vetype#
  *
- * This register specifies the ETYPES and VLAN IDs necessary to identify VLAN tagged traffic.
- * Together with BGX()_CMR_RX_STEERING(), BGX has 8 VLAN TAG/VLAN ID/DMAC address entries or
- * rules that can be assigned
- * for the purpose of steering.
- * 802.1Q and 802.1ad specify several different ETYPEs used to identify VLAN tagged and VLAN
- * double tagged packets. BGX CMR will always match against the tag that immediately following
- * the SMAC address of the L2 header. Traffic with ETYPE matching VLAN_ETYPE0 or VLAN_ETYPE1
- * are sent to the NCSI (subject to additional matches involving BGX()_CMR_RX_NCSI_CAM).
- * Matching combinations specified in the NCSI Ver1.0 spec are typically as follows:
- * 1. VLAN_Tag + VLAN_Match + DMAC_Match
- * 2. VLAN_Tag + DMAC_Match
- * 3. DMAC_Match only
- *
- * These combinations can be achieved using VLAN_TAG_EN contained in this register,
- * along with BGX()_CMR_RX_NCSI_CAM[VLAN_EN] and BGX()_CMR_RX_NCSI_CAM[DMAC_EN].
+ * These registers, along with BGX()_CMR_RX_STEERING(), provide eight filters for identifying and
+ * steering NCSI receive traffic.
  */
 typedef union bdk_bgxx_cmr_rx_steering_vetypex {
 	uint64_t u;
 	struct bdk_bgxx_cmr_rx_steering_vetypex_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_30_63              : 34;
-		uint64_t vlan_en                     : 1;  /**< R/W - Enable for this VLAN ID
-                                                                 1 = Include this VLAN_ID in the matching algorithm for traffic that is steered to the DEST
-                                                                 interface.
-                                                                 0 = Don't include this address in the matching algorithm. */
-		uint64_t vlan_id                     : 12; /**< R/W - VLAN ID useful for identifying NCSI traffic. Can be used alone to identify a VLAN ID
-                                                                 within the incoming traffic to send to the DEST interface or together with VLAN_ETYPE,
-                                                                 VLAN_TAG_EN and entries in BGX()_CMR_RX_STEERING(). */
-		uint64_t vlan_tag_en                 : 1;  /**< R/W - Enable for requiring VLAN Tagging presence.  Applies to both ETYPEs shown below.
-                                                                 1 = VLAG Tag required to be present for the matching algorithm to identify NCSI traffic.
-                                                                 0 = VLAN Tag is not requried to be present for matching algorithm identifying NCSI
-                                                                 traffic. */
-		uint64_t vlan_etype                  : 16; /**< R/W - VLAN Ethertype for identifying traffic that is steered to the DEST interface. */
+		uint64_t vlan_en                     : 1;  /**< R/W - Enable VLAN ID check:
+                                                                 1 = Include VLAN ID checking in the matching algorithm.
+                                                                 0 = Do not include VLAN ID checking in the matching algorithm. */
+		uint64_t vlan_id                     : 12; /**< R/W - VLAN ID used for the matching algorithm when [VLAN_EN] is set. */
+		uint64_t vlan_tag_en                 : 1;  /**< R/W - Enable VLAN tag Ethertype check:
+                                                                 1 = Include VLAN tag Ethertype checking in the matching algorithm.
+                                                                 0 = Do not include VLAN tag Ethertype checking in the matching algorithm. */
+		uint64_t vlan_etype                  : 16; /**< R/W - VLAN Ethertype for the matching algorithm when [VLAN_TAG_EN] is set.
+                                                                 802.1Q and 802.1ad specify several Ethertypes used to identify VLAN tagged and VLAN double
+                                                                 tagged packets. BGX will always match against the tag immediately following the SMAC
+                                                                 address of the L2 header. */
 #else
 		uint64_t vlan_etype                  : 16;
 		uint64_t vlan_tag_en                 : 1;

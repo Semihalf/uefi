@@ -4751,6 +4751,7 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     1097, /* mio_fus_int */
     1098, /* mio_fus_pdf */
     1099, /* mio_fus_pll */
+    3619, /* mio_fus_pnameX */
     1100, /* mio_fus_prog */
     1101, /* mio_fus_prog_times */
     1102, /* mio_fus_rcmd */
@@ -4924,7 +4925,7 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     1270, /* nic_pf_msix_vecX_ctl */
     1271, /* nic_pf_pkindX_cfg */
     1272, /* nic_pf_qsX_cfg */
-    3619, /* nic_pf_qsX_lockX */
+    3620, /* nic_pf_qsX_lockX */
     1274, /* nic_pf_qsX_rqX_bp_cfg */
     1275, /* nic_pf_qsX_rqX_cfg */
     1276, /* nic_pf_qsX_rqX_drop_cfg */
@@ -4952,14 +4953,14 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     1298, /* nic_pf_tl2X_sh_status */
     1299, /* nic_pf_tl3X_cfg */
     1300, /* nic_pf_tl3X_chan */
-    3620, /* nic_pf_tl3X_sh_status */
+    3621, /* nic_pf_tl3X_sh_status */
     1302, /* nic_pf_tl3X_sw_xoff */
     1303, /* nic_pf_tl3aX_cfg */
     1304, /* nic_pf_tl4X_cfg */
     1305, /* nic_pf_tl4X_sh_status */
     1306, /* nic_pf_tl4X_sw_xoff */
     1307, /* nic_pf_tl4aX_cfg */
-    3621, /* nic_pf_tso_cfg */
+    3622, /* nic_pf_tso_cfg */
     1308, /* nic_pf_vfX_mboxX */
     1309, /* nic_pf_vnicX_rx_statX */
     1310, /* nic_pf_vnicX_tx_statX */
@@ -4984,7 +4985,7 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     1329, /* nic_qsX_rbdrX_thresh */
     1330, /* nic_qsX_rqX_cfg */
     1331, /* nic_qsX_rqX_statX */
-    3622, /* nic_qsX_rq_gen_cfg */
+    3623, /* nic_qsX_rq_gen_cfg */
     1333, /* nic_qsX_sqX_base */
     1334, /* nic_qsX_sqX_cfg */
     1335, /* nic_qsX_sqX_debug */
@@ -5012,7 +5013,7 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     1357, /* oclaX_const */
     1358, /* oclaX_datX */
     1359, /* oclaX_dat_pop */
-    3623, /* oclaX_eco */
+    3624, /* oclaX_eco */
     1360, /* oclaX_fifo_depth */
     1361, /* oclaX_fifo_limit */
     1362, /* oclaX_fifo_tail */
@@ -5042,7 +5043,7 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     1386, /* oclaX_state_ena_w1s */
     1387, /* oclaX_state_int */
     1388, /* oclaX_state_set */
-    3624, /* oclaX_time */
+    3625, /* oclaX_time */
     1390, /* ocx_com_bist_status */
     1391, /* ocx_com_dual_sort */
     1392, /* ocx_com_int */
@@ -7210,7 +7211,7 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     3554, /* usbhX_uctl_spare1 */
     3555, /* vrmX_alt_fuse */
     3556, /* vrmX_device_status */
-    3625, /* vrmX_eco */
+    3626, /* vrmX_eco */
     3557, /* vrmX_fuse_bypass */
     3558, /* vrmX_misc_info */
     3559, /* vrmX_telemetry_cmnd */
@@ -7234,7 +7235,7 @@ static const int16_t __bdk_csr_db_cn88xx[] = {
     3577, /* zip_ecce_ena_w1s */
     3578, /* zip_ecce_int */
     3579, /* zip_ecce_int_w1s */
-    3626, /* zip_eco */
+    3627, /* zip_eco */
     3580, /* zip_fife_ena_w1c */
     3581, /* zip_fife_ena_w1s */
     3582, /* zip_fife_int */
@@ -10882,14 +10883,15 @@ const __bdk_csr_db_type_t __bdk_csr_db_csr[] = {
     {75455, 3589, 0, BDK_CSR_TYPE_RSL,8,11881,{12, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3616 */
     {21642, 1081, 0, BDK_CSR_TYPE_RSL,8,11890,{ 0, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3617 */
     {22092, 1105, 0, BDK_CSR_TYPE_RSL,8,11901,{ 0, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3618 */
-    {24928, 1284, 0, BDK_CSR_TYPE_NCB,8,4144,{81,102, 0, 0},{759,61, 0, 0}}, /* 3619 */
-    {25406, 1313, 0, BDK_CSR_TYPE_NCB,8,4227,{39, 0, 0, 0},{61, 0, 0, 0}}, /* 3620 */
-    {75489, 3590, 0, BDK_CSR_TYPE_NCB,8,11924,{ 0, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3621 */
-    {25894, 1344, 0, BDK_CSR_TYPE_NCB,8,11931,{81, 0, 0, 0},{759, 0, 0, 0}}, /* 3622 */
-    {75503, 3591, 0, BDK_CSR_TYPE_RSL,8,11945,{90, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3623 */
-    {26787, 1402, 0, BDK_CSR_TYPE_RSL,8,11948,{90, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3624 */
-    {75508, 3592, 0, BDK_CSR_TYPE_RSL,8,11945,{ 3, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3625 */
-    {75513, 3593, 0, BDK_CSR_TYPE_NCB,8,11945,{ 0, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3626 */
+    {75489, 3590, 0, BDK_CSR_TYPE_RSL,8,1508,{ 3, 0, 0, 0},{61, 0, 0, 0}}, /* 3619 */
+    {24928, 1284, 0, BDK_CSR_TYPE_NCB,8,4144,{81,102, 0, 0},{759,61, 0, 0}}, /* 3620 */
+    {25406, 1313, 0, BDK_CSR_TYPE_NCB,8,4227,{39, 0, 0, 0},{61, 0, 0, 0}}, /* 3621 */
+    {75497, 3591, 0, BDK_CSR_TYPE_NCB,8,11924,{ 0, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3622 */
+    {25894, 1344, 0, BDK_CSR_TYPE_NCB,8,11931,{81, 0, 0, 0},{759, 0, 0, 0}}, /* 3623 */
+    {75511, 3592, 0, BDK_CSR_TYPE_RSL,8,11945,{90, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3624 */
+    {26787, 1402, 0, BDK_CSR_TYPE_RSL,8,11948,{90, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3625 */
+    {75516, 3593, 0, BDK_CSR_TYPE_RSL,8,11945,{ 3, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3626 */
+    {75521, 3594, 0, BDK_CSR_TYPE_NCB,8,11945,{ 0, 0, 0, 0},{ 0, 0, 0, 0}}, /* 3627 */
 };
 
 const uint16_t __bdk_csr_db_fieldList[] = {
@@ -20617,9 +20619,9 @@ const __bdk_csr_db_field_t __bdk_csr_db_field[] = {
     {7141,60,60}, /* 7825 */
     {75472,61,61}, /* 7826 */
     {75480,48,55}, /* 7827 */
-    {75497,0,11}, /* 7828 */
-    {75499,16,27}, /* 7829 */
-    {75501,32,43}, /* 7830 */
+    {75505,0,11}, /* 7828 */
+    {75507,16,27}, /* 7829 */
+    {75509,32,43}, /* 7830 */
     {26793,0,63}, /* 7831 */
 };
 
@@ -30752,13 +30754,14 @@ const char __bdk_csr_db_string[] =
     "RESERVED_39_61\0\0" /* 150928/2 */
     "RESERVED_61_61\0\0" /* 150944/2 */
     "GBL_PWR_THROTTLE\0\0" /* 150960/2 */
-    "NIC_PF_TSO_CFG\0\0" /* 150978/2 */
-    "LSF\0" /* 150994/2 */
-    "MSF\0" /* 150998/2 */
-    "FSF\0" /* 151002/2 */
-    "OCLAX_ECO\0" /* 151006/2 */
-    "VRMX_ECO\0\0" /* 151016/2 */
-    "ZIP_ECO\0" /* 151026/2 */
+    "MIO_FUS_PNAMEX\0\0" /* 150978/2 */
+    "NIC_PF_TSO_CFG\0\0" /* 150994/2 */
+    "LSF\0" /* 151010/2 */
+    "MSF\0" /* 151014/2 */
+    "FSF\0" /* 151018/2 */
+    "OCLAX_ECO\0" /* 151022/2 */
+    "VRMX_ECO\0\0" /* 151032/2 */
+    "ZIP_ECO\0" /* 151042/2 */
     "";
 
 const uint64_t __bdk_csr_db_number[] = {
@@ -34352,10 +34355,11 @@ const uint64_t __bdk_csr_db_number[] = {
         0x838000000010ull, /* 3587 */
         0x87e0e0001028ull, /* 3588 */
         0x87e050060300ull, /* 3589 */
-        0x843000000070ull, /* 3590 */
-        0x87e0a83200d0ull, /* 3591 */
-        0x87e0210000c8ull, /* 3592 */
-        0x8380000005f0ull, /* 3593 */
+        0x87e003001440ull, /* 3590 */
+        0x843000000070ull, /* 3591 */
+        0x87e0a83200d0ull, /* 3592 */
+        0x87e0210000c8ull, /* 3593 */
+        0x8380000005f0ull, /* 3594 */
 };
 
 const __bdk_csr_db_map_t __bdk_csr_db[] = {
