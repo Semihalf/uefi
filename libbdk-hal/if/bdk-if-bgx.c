@@ -53,7 +53,7 @@ typedef struct
     int         shares_cq;      /* This device shares a CQ/RBDR with another port */
 
     /* Cached data from SQ for faster transmit */
-    void *      sq_base;        /* Pointer to the begining of the SQ in memory */
+    void *      sq_base;        /* Pointer to the beginning of the SQ in memory */
     bgx_priv_sq_t sq_state;     /* SQ state that changes is stored independently to avoid cache thrashing */
 } bgx_priv_t;
 
@@ -605,7 +605,7 @@ static int setup_auto_neg(bdk_if_handle_t handle)
 }
 
 /**
- * Port intialization for all protocols except for SGMII. Its
+ * Port initialization for all protocols except for SGMII. Its
  * call xaui_init() for the lack of a better name, but it
  * applies to everything other than SGMII.
  *

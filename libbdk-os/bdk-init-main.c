@@ -48,7 +48,7 @@ static void __bdk_error_poll(int arg, void *arg1)
 }
 
 /**
- * Perform one time initalization for a node. Called for each
+ * Perform one time initialization for a node. Called for each
  * node from the master node.
  */
 void __bdk_init_node(bdk_node_t node)

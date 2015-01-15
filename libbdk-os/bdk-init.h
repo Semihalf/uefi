@@ -51,7 +51,7 @@ extern int bdk_init_nodes(int skip_cores);
 extern void __bdk_init_main(int arg, void *arg1);
 
 /**
- * Perform one time initalization for a node. Called for each
+ * Perform one time initialization for a node. Called for each
  * node from the master node.
  */
 extern void __bdk_init_node(bdk_node_t node);

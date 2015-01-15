@@ -131,7 +131,7 @@ typedef struct {
                     delays using the measurements collected by the
                     Octeon II rather than completely relying on the
                     Octeon II to determine the delays.  1=software
-                    computation is recomended since a more complete
+                    computation is recommended since a more complete
                     analysis is implemented in software.
 
    .rlevel_comp_offset: Set to 2 unless instructed differently by Cavium.

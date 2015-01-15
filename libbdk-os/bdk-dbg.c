@@ -94,7 +94,7 @@ void bdk_dbg_dump_pc(bdk_node_t node)
  */
 void bdk_dbg_check_magic(void)
 {
-    /* Dump PCs if we recieve a break signal */
+    /* Dump PCs if we receive a break signal */
     BDK_CSR_INIT(uaax_ris, bdk_numa_master(), BDK_UAAX_RIS(0));
     if (bdk_likely(!uaax_ris.s.beris))
         return;
