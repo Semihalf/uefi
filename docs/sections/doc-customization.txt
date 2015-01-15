@@ -67,7 +67,7 @@ libbdk/bdk.mk.  Uncomment and change the following line:
 ----
 +
 Optionally you can define BDK_DRAM_CONFIG2, BDK_DRAM_CONFIG3, and
-BDK_DRAM_CONFIG4 as addtional DRAM configuration options.
+BDK_DRAM_CONFIG4 as additional DRAM configuration options.
 +
 [source, sh]
 ----
