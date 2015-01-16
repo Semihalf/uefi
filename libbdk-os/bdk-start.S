@@ -201,11 +201,11 @@ __bdk_start_cores:
     adr     x10, __bdk_initial_stack_start
     mov     x12, 1
     sevl
-1:  ldxr    x11, [x10]
-    wfe
+1:  wfe
+2:  ldxr    x11, [x10]
     cbnz    x11, 1b
     stxr    w11, x12, [x10]
-    cbnz    w11, 1b
+    cbnz    w11, 2b
 
 #if BDK_GPIO_BOOT_DEBUG >= 0
     # Double the GPIO frequency (32Hz)
