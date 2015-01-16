@@ -26,6 +26,7 @@ LUALIB_API int luaopen_cavium(lua_State* L)
     lua_pop(L, 1);
 
     REGISTER(L, cavium_model);
+    REGISTER(L, cavium_platform);
     REGISTER(L, cavium_c);
     REGISTER(L, cavium_config);
     REGISTER(L, cavium_constants);
