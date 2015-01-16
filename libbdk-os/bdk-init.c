@@ -955,8 +955,8 @@ static int init_oci(void)
             l2c_oci_ctl.s.iofrcl = 0;
             l2c_oci_ctl.s.enaoci = node_exists;
             ocx_pp_write(node, BDK_L2C_OCI_CTL, l2c_oci_ctl.u);
+            bdk_numa_set_exists(node);
         }
-        bdk_numa_set_exists(node);
     }
     BDK_TRACE(INIT, "OCX is functional, starting to boot nodes\n");
 
