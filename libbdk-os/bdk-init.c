@@ -528,6 +528,7 @@ static int init_oci(void)
         return 0; /* Emulator doesn't seem to have CCPI registers */
 
     bdk_node_t my_node = bdk_numa_local();
+    uint64_t node_exists = 1ull << my_node;
 
     /* Errata (OCX-21847) OCX does not deal with reversed lanes automatically */
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
@@ -770,12 +771,12 @@ static int init_oci(void)
         {
             int rid = lk_info[link].node.s.id;
             /* Mark fixed nodes as existing so we don't reuse their node ID */
-            if (bdk_numa_exists(rid))
+            if (node_exists & (1ull << rid))
             {
                 bdk_error("Fixed ID %d conflicts with existing node, not starting OCI\n", rid);
                 return -1;
             }
-            bdk_numa_set_exists(rid);
+            node_exists |= 1ull << rid;
             BDK_TRACE(INIT, "    Local link %d: Fixed node ID %d\n", link, rid);
         }
     }
@@ -799,12 +800,12 @@ static int init_oci(void)
             bdk_node_t node;
             for (node = 0; node < BDK_NUMA_MAX_NODES; node++)
             {
-                if (!bdk_numa_exists(node))
+                if (!(node_exists & (1ull << node)))
                     break;
             }
             if (node >= BDK_NUMA_MAX_NODES)
                 bdk_fatal("Somehow we found more nodes than we support. Skipping new node");
-            bdk_numa_set_exists(node);
+            node_exists |= 1ull << node;
             lk_info[link].node.s.fixed = 1;
             lk_info[link].node.s.id = node;
             BDK_TRACE(INIT, "    Local link %d: Assigned node ID %d\n", link, node);
@@ -815,7 +816,7 @@ static int init_oci(void)
     bdk_node_t unused_node;
     for (unused_node = 0; unused_node < BDK_NUMA_MAX_NODES; unused_node++)
     {
-        if (!bdk_numa_exists(unused_node))
+        if (!(node_exists & (1ull << unused_node)))
             break;
     }
 
@@ -931,32 +932,31 @@ static int init_oci(void)
     if (failures)
     {
         BDK_TRACE(INIT, "Not enabling OCX due to errors\n");
-        const uint64_t exists_mask = bdk_numa_get_exists_mask();
         BDK_CSR_MODIFY(l2c_oci_ctl, my_node, BDK_L2C_OCI_CTL,
-            l2c_oci_ctl.s.iofrcl = 1;
-            l2c_oci_ctl.s.enaoci = exists_mask);
+            l2c_oci_ctl.s.iofrcl = 0;
+            l2c_oci_ctl.s.enaoci = 1<<my_node);
         return -1;
     }
 
     /* All OCX links are up and running. Now tell local L2 that OCX is good */
     BDK_TRACE(INIT, "Configuring L2 for OCX on all nodes\n");
-    const uint64_t exists_mask = bdk_numa_get_exists_mask();
     for (bdk_node_t node = 0; node < BDK_NUMA_MAX_NODES; node++)
     {
         if (node == my_node)
         {
             BDK_CSR_MODIFY(l2c_oci_ctl, node, BDK_L2C_OCI_CTL,
                 l2c_oci_ctl.s.iofrcl = 0;
-                l2c_oci_ctl.s.enaoci = exists_mask);
+                l2c_oci_ctl.s.enaoci = node_exists);
         }
-        else if (bdk_numa_exists(node))
+        else if (node_exists & (1ull << node))
         {
             bdk_l2c_oci_ctl_t l2c_oci_ctl;
             l2c_oci_ctl.u = ocx_pp_read(node, BDK_L2C_OCI_CTL);
             l2c_oci_ctl.s.iofrcl = 0;
-            l2c_oci_ctl.s.enaoci = exists_mask;
+            l2c_oci_ctl.s.enaoci = node_exists;
             ocx_pp_write(node, BDK_L2C_OCI_CTL, l2c_oci_ctl.u);
         }
+        bdk_numa_set_exists(node);
     }
     BDK_TRACE(INIT, "OCX is functional, starting to boot nodes\n");
 
