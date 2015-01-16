@@ -8,6 +8,8 @@
 *.pickle
 *.coverage
 *.map
+/bdk.vpwhistu
+/bdk.vtg
 /csr-tool/output
 /csr-tool/html
 /csr-tool/cn8?xx
