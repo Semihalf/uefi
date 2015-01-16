@@ -103,11 +103,13 @@ end
 
 -- End of QLM examples
 
-printf("QLM0-1: Using common clock 1 (156.25Mhz)\n")
-printf("QLM2-7: Using common clock 0 (100.00Mhz)\n")
-for qlm=0,7 do
-    cavium.csr[cavium.MASTER_NODE].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
-    cavium.csr[cavium.MASTER_NODE].GSERX_REFCLK_SEL(qlm).USE_COM1 = (qlm < 2) and 1 or 0
+if not cavium.is_platform(cavium.PLATFORM_EMULATOR) then
+    printf("QLM0-1: Using common clock 1 (156.25Mhz)\n")
+    printf("QLM2-7: Using common clock 0 (100.00Mhz)\n")
+    for qlm=0,7 do
+        cavium.csr[cavium.MASTER_NODE].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+        cavium.csr[cavium.MASTER_NODE].GSERX_REFCLK_SEL(qlm).USE_COM1 = (qlm < 2) and 1 or 0
+    end
+    cavium.c.bdk_qlm_auto_config(cavium.MASTER_NODE)
 end
-cavium.c.bdk_qlm_auto_config(cavium.MASTER_NODE)
 
