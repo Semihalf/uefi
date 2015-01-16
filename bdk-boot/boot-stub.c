@@ -533,7 +533,11 @@ int main(void)
 #else
             " 6) Soft reset chip\n");
 #endif
-        const char *input = bdk_readline("Menu choice: ", NULL, 0);
+        const char *input;
+        if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+            input = "2"; /* Skip menu on the emulator */
+        else
+            input = bdk_readline("Menu choice: ", NULL, 0);
         int option = atoi(input);
         switch (option)
         {
