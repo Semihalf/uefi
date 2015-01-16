@@ -136,7 +136,7 @@ void __bdk_init(uint32_t image_crc)
     BDK_MSR(SCTLR_EL3, sctlr_el3.u);
 
     bdk_node_t node = bdk_numa_local();
-    bdk_numa_set_running(node);
+    bdk_numa_set_exists(node);
 
     static const char BANNER_1[] = "\n\n\nCavium THUNDERX\n";
     static const char BANNER_2[] = "Locking L2 cache\n";

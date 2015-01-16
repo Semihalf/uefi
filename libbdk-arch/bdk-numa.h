@@ -54,25 +54,11 @@ static inline bdk_node_t bdk_numa_master(void)
 extern uint64_t bdk_numa_get_exists_mask(void);
 
 /**
- * Get a bitmask of the running nodes
- *
- * @return bitmask
- */
-extern uint64_t bdk_numa_get_running_mask(void);
-
-/**
  * Add a node to the exists mask
  *
  * @param node   Node to add
  */
 extern void bdk_numa_set_exists(bdk_node_t node);
-
-/**
- * Add a node to the running mask
- *
- * @param node   Node to add
- */
-extern void bdk_numa_set_running(bdk_node_t node);
 
 /**
  * Return true if a node exists

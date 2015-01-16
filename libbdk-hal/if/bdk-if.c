@@ -133,7 +133,7 @@ static int __bdk_if_init(void)
 
     for (int node=0; node<BDK_NUMA_MAX_NODES; node++)
     {
-        if ((1<<node) & bdk_numa_get_running_mask())
+        if (bdk_numa_exists(node))
             result |= __bdk_if_init_node(node);
     }
 
