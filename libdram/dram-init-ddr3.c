@@ -2661,7 +2661,23 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      * Comments (steps 3 through 5) continue in perform_octeon3_ddr3_sequence()
      */
 
-    perform_ddr3_init_sequence(node, rank_mask, ddr_interface_num);
+    {
+        bdk_lmcx_modereg_params0_t lmc_modereg_params0;
+
+        lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
+
+        lmc_modereg_params0.s.dllr = 1;
+        DRAM_CSR_WRITE(node,
+		       BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num),
+		       lmc_modereg_params0.u);
+
+        perform_ddr3_init_sequence(node, rank_mask, ddr_interface_num);
+
+        lmc_modereg_params0.s.dllr = 0;
+        DRAM_CSR_WRITE(node,
+		       BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num),
+		       lmc_modereg_params0.u);
+    }
 
     /*
      * 4.8.6 LMC Offset Training
