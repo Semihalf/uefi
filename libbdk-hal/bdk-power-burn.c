@@ -18,9 +18,13 @@ static void power_thread(int unused1, void *unused2)
 
 int bdk_power_burn(bdk_node_t node)
 {
-    const int num_cores = bdk_get_num_cores(node);
-    bdk_init_cores(node, 0);
+    if (bdk_init_cores(node, 0))
+    {
+        bdk_error("Not starting power burn as node's cores didn't start\n");
+        return -1;
+    }
     printf("Starting power burn threads\n");
+    const int num_cores = bdk_get_num_cores(node);
     for (int core = 0; core < num_cores; core++)
     {
         if (bdk_thread_create(node, 1 << core, power_thread, 0, NULL, 0))
