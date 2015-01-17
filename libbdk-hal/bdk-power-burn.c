@@ -27,7 +27,7 @@ int bdk_power_burn(bdk_node_t node)
     const int num_cores = bdk_get_num_cores(node);
     for (int core = 0; core < num_cores; core++)
     {
-        if (bdk_thread_create(node, 1 << core, power_thread, 0, NULL, 0))
+        if (bdk_thread_create(node, 1 << core, power_thread, 0, NULL, 16384))
             bdk_error("Failed to create thread %d for power burn on node %d\n", core, node);
     }
     return 0;
