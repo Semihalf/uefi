@@ -53,7 +53,7 @@ static void __bdk_error_poll(int arg, void *arg1)
  */
 void __bdk_init_node(bdk_node_t node)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && !bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
         /* Disable the CCPI lane timers as early as possible. This will make
            the hardware wait forever for CCPI lane to come up */

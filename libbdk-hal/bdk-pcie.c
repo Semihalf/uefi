@@ -274,6 +274,9 @@ static void pcie_internal_init_dev(bdk_node_t node, int ecam, int bus, int dev, 
  */
 int bdk_pcie_global_initialize(bdk_node_t node)
 {
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        return 0;
+
     /* Go through all the internal devices and set them up */
     int loc = 0;
     BDK_TRACE(INIT_ECAM, "Enabling internal devices\n");
