@@ -174,7 +174,7 @@ uint64_t bdk_sysreg_read(int node, int core, int regnum)
     uint64_t address = 1ull<<47;
     address |= 0x7Bull << 36;
     address |= core << 19;
-    address |= regnum << 3;
+    address |= (regnum & 0x7fff) << 3;
     address = bdk_numa_get_address(node, address);
     return bdk_read64_uint64(address);
 }
@@ -200,7 +200,7 @@ void bdk_sysreg_write(int node, int core, int regnum, uint64_t value)
     uint64_t address = 1ull<<47;
     address |= 0x7Bull << 36;
     address |= core << 19;
-    address |= regnum << 3;
+    address |= (regnum & 0x7fff) << 3;
     address = bdk_numa_get_address(node, address);
     bdk_write64_uint64(address, value);
 }
