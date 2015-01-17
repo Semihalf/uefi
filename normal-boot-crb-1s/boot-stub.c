@@ -13,6 +13,11 @@
 //#define DRAM_NODE1 none
 /* How long to wait for selection of diagnostics (seconds) */
 #define DIAGS_TIMEOUT 3
+/* A GPIO can be used to select diagnostics without input. The following
+   define controls which GPIO and the value that starts daignostics. Set
+   DIAGS_GPIO_VALUE to -1 to disable */
+#define DIAGS_GPIO 0
+#define DIAGS_GPIO_VALUE -1
 /* Address of the diagnostics in flash (512KB is right after boot stubs) */
 #define DIAGS_ADDRESS 0x00080000
 /* Address of ATF in flash */
@@ -485,7 +490,19 @@ int main(void)
 
     /* Select ATF or diagnostics image */
     int use_atf = 1;
-    if (DIAGS_TIMEOUT > 0)
+    /* A GPIO can be used to select diagnostics without input */
+    if (DIAGS_GPIO_VALUE != -1)
+    {
+        int gpio = bdk_gpio_read(bdk_numa_master()) >> DIAGS_GPIO;
+        gpio &= 1;
+        if (gpio == DIAGS_GPIO_VALUE)
+        {
+            printf("\nStarting diagnostics based on GPIO%d\n", DIAGS_GPIO);
+            use_atf = 0;
+        }
+    }
+    /* Check for 'D' override */
+    if (use_atf && (DIAGS_TIMEOUT > 0))
     {
         printf("\nPress 'D' within %d seconds to boot diagnostics\n", DIAGS_TIMEOUT);
         int key = bdk_readline_getkey(DIAGS_TIMEOUT * 1000000);
