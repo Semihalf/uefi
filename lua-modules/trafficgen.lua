@@ -40,6 +40,7 @@ function TrafficGen.new()
     local known_ports = cavium.trafficgen.get_port_names()
     local visible_ports = {}
     local default_ports = {}
+    local is_default_port = {}
     local is_running = true
     local use_readline = true
     local last_display = 0
@@ -65,20 +66,48 @@ function TrafficGen.new()
         local start_name = nil
         str = str:upper()
         while index <= #str do
-            local name, sep = str:match("^([A-Za-z0-9.]+)([,-]?)", index)
+            local name, sep = str:match("^([A-Za-z0-9.]+)([*,-]?)", index)
+            -- printf("name='%s', sep='%s', index=%d\n", name, sep, index);
             if not name then
-                return nil
+                if str:sub(index,index) == "*" then
+                    name = ""
+                    sep = "*"
+                elseif str:sub(index,index) == "," then
+                    name = ","
+                    sep = ""
+                else
+                    -- printf("no name found in %s\n", str:sub(index))
+                    return nil
+                end
+                start_name = nil
             end
             index = index + #name + #sep
+            -- printf("name='%s', sep='%s', index=%d\n",name,sep,index)
             if sep == "-" then
                 start_name = name
-            else
+            elseif sep == "*" then
+                local prefix = name
+                local suffix = str:match("^([A-Za-z0-9.]*)", index)
+                index = index + #suffix
+                for _,port in ipairs(known_ports) do
+                    -- printf("%s[1,%d]='%s' vs '%s', %s[%d,-1] = '%s' vs '%s'",
+                    --     port, #prefix, port:sub(1,#prefix), prefix, port, -#suffix, port:sub(-#suffix,-1), suffix)
+
+                    if port:sub(1,#prefix) == prefix and (#suffix == 0 or port:sub(-#suffix,-1) == suffix) then
+                        table.insert(ports, port)
+                        -- printf(" -- match")
+                    end
+                    -- printf("\n")
+                end
+                start_name = nil
+            elseif not (name == ",") then
                 local stop_name = name
                 if not start_name then
                     start_name = stop_name
                 end
                 local in_range = false
                 for _,port in ipairs(known_ports) do
+                    -- printf("port = '%s', start_name='%s'\n", port, start_name);
                     if port == start_name then
                         in_range = true
                     end
@@ -93,10 +122,43 @@ function TrafficGen.new()
             end
         end
         if #ports == 0 then
+            -- printf("no ports found\n");
             return nil
         else
             return ports
         end
+    end
+
+    -- Build a mapping from stuff in range to true
+    local function make_is_entry(range)
+        local result = {}
+        for _,entry in ipairs(range) do
+           result[entry] = true
+        end
+        return result
+    end
+
+    -- Add stuff in range to list unless it is already there
+    local function add_entries(list, range)
+        local is_entry = make_is_entry(list)
+        for _,entry in ipairs(range) do
+           if not is_entry[entry] then
+               table.insert(list, entry)
+           end
+        end
+        return list
+    end
+
+    -- Build a new list with everyting in the old list but not in range
+    local function remove_entries(list, range)
+        local is_entry = make_is_entry(range)
+        local result = {}
+        for _,entry in ipairs(list) do
+           if not is_entry[entry] then
+               table.insert(result, entry)
+           end
+        end
+        return result
     end
 
     local function do_update(zero_stats)
@@ -113,6 +175,25 @@ function TrafficGen.new()
         return result
     end
 
+    -- Get current "up" (link speed != 0) ports (ignoring FAKE ports)
+    local function get_up_port_list()
+        local ports = {}
+        local stats = do_update(false)
+        for _,port in ipairs(known_ports) do
+            if not port:find("FAKE") then
+                 -- printf("stats[%s][link_speed] = %d\n", port, stats[port]["link_speed"]);
+                 if stats[port]["link_speed"] > 0 then
+                    table.insert(ports, port)
+                end
+            end
+        end
+        if #ports == 0 then
+            return nil
+        else
+            return ports
+        end
+    end
+
     -- Parse a command line into a command, a port range, and arguments
     local function parse_command(str)
         local SPECIAL_WORDS = {["true"]=true, ["false"]=false, ["on"]=true, ["off"]=false}
@@ -123,6 +204,9 @@ function TrafficGen.new()
         for word in str:gmatch("[^ ]+") do
             word_num = word_num + 1
             if word_num == 1 then
+                -- replace '.' in command with '_' for compatibility with old traffic-gen
+                -- note: also in readline for tab completion, but here in case readline is off
+                word:gsub(".", "_")
                 for _,prefix in ipairs({"cmdp_", "cmd_"}) do
                     command = prefix .. word
                     if type(self[command]) == "function" then
@@ -133,6 +217,8 @@ function TrafficGen.new()
                 if command:sub(1,5) == "cmdp_" then
                     if word == "all" then
                         range = known_ports
+                    elseif word == "up" then
+                        range = get_up_port_list()
                     elseif word == "default" then
                         range = default_ports
                     else
@@ -282,7 +368,8 @@ function TrafficGen.new()
         print("Most commands take an optional port range.  The port range is")
         print("specified as a series of names separated by commas or dashes.")
         print("Dashes include all ports between the named ports.  No spaces")
-        print("are allowed in a port range. Some example port ranges are")
+        print("are allowed in a port range. One '*' is allowed as a wildcard")
+        print("in the port name. Some example port ranges are \"SGMII*\",")
         print("\"SGMII0.0-SGMII0.3\", \"XAUI0,XAUI1\", and \"40GKR0-40GKR1\".")
         print("When not specified, the port range is taken from the range")
         print("given in the last \"default\" command.  For a full list of the")
@@ -295,9 +382,12 @@ function TrafficGen.new()
 
         default_ports = port_range
 
+        is_default_port = {}
+
         printf("Default ports:")
         for _,port in ipairs(default_ports) do
             printf(" %s", port)
+            is_default_port[port] = true
         end
         printf("\n")
         return default_ports
@@ -316,28 +406,30 @@ function TrafficGen.new()
     end
 
     function self:cmdp_start(port_range, args)
-        assert (#args == 0, "No arguments expected")
+        assert (#args == 0, "Problem parsing port range or have an unexpected argument")
         cavium.trafficgen.start(port_range)
     end
 
     function self:cmdp_stop(port_range, args)
-        assert (#args == 0, "No arguments expected")
+        assert (#args == 0, "Problem parsing port range or have an unexpected argument")
         cavium.trafficgen.stop(port_range)
     end
 
     function self:cmdp_show(port_range, args)
-        assert (#args == 0, "No arguments expected")
-        visible_ports = port_range
+        assert (#args == 0, "Problem parsing port range or have an unexpected argument")
+        visible_ports = add_entries(visible_ports, port_range)
     end
 
     function self:cmdp_hide(port_range, args)
-        assert (#args == 0, "No arguments expected")
-        visible_ports = {}
-        printf(SCROLL_FULL .. GOTO_BOTTOM)
+        assert (#args == 0, "Problem parsing port range or have an unexpected argument")
+        visible_ports = remove_entries(visible_ports, port_range)
+        if #visible_ports == 0 then
+            printf(SCROLL_FULL .. GOTO_BOTTOM)
+        end
     end
 
     function self:cmdp_clear(port_range, args)
-        assert (#args == 0, "No arguments expected")
+        assert (#args == 0, "Problem parsing port range or have an unexpected argument")
         cavium.trafficgen.clear(port_range)
     end
 
@@ -645,8 +737,10 @@ function TrafficGen.new()
 
     -- Short aliases for common commands
     self.cmdp_count = self.cmdp_output_count
-    -- This command is kept around for backwards compatibility
+    -- These commands are kept around for backwards compatibility
     self.cmdp_output_packet_size = self.cmdp_size
+    self.cmdp_tx_size = self.cmdp_size
+    self.cmdp_tx_count = self.cmdp_output_count
 
     -- Delete commands that were created based on fields that aren't useful
     self.cmdp_do_checksum = nil
@@ -701,7 +795,8 @@ function TrafficGen.new()
 
         printf(ZEROHI .. "%10s", "Port")
         for _,port in ipairs(visible_ports) do
-            printf("|%10s", port)
+            local star_or_space = is_default_port[port] and "*" or " "
+            printf("|%10s", star_or_space .. port)
         end
         printf("|%10s%s\n%s", "Totals", ERASE_EOL, NORMAL);
         local stat_names = table.sorted_keys(all_stats[known_ports[1]])

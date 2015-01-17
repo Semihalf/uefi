@@ -735,6 +735,15 @@ parse_input:
     else if (c=='\033') {       /* escape character */
         escape_mode=1;
     }
+    else if (c=='.')       /* a period.  Change to '_' if in first word (i.e. before the first space.) */
+    {
+        char *p;
+        for (p = &cmd[cmd_pos-1]; p > cmd; p--) {
+          if (*p == ' ') break;
+        }
+        if (p <= cmd) c = '_';  /* in first word, change '.' to '_' for command compatibility with original traffic-gen */
+        process_input_commit_character(c);
+    }
     else if ((c>=32) && (c<=126))       /* normal character */
     {
         process_input_commit_character(c);
