@@ -65,7 +65,7 @@ static int __bdk_csr_check_range(int rangeid, int value, int *next)
  *
  * @return Index into csr_list table, or -1 on failure
  */
-static int __bdk_csr_lookup_index(const char *name, int params[])
+int __bdk_csr_lookup_index(const char *name, int params[])
 {
     if (!csr_list)
     {

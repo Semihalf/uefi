@@ -57,6 +57,7 @@ extern int bdk_csr_decode(const char *name, uint64_t value);
 extern int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_name);
 extern uint64_t bdk_csr_read_by_name(bdk_node_t node, const char *name);
 extern int bdk_csr_write_by_name(bdk_node_t node, const char *name, uint64_t value);
+extern int __bdk_csr_lookup_index(const char *name, int params[]);
 extern int bdk_csr_get_name(const char *last_name, char *buffer);
 struct bdk_readline_tab;
 extern struct bdk_readline_tab *__bdk_csr_get_tab_complete() BDK_WEAK;

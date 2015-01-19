@@ -227,7 +227,8 @@ static int cavium_csr_lookup(lua_State* L)
     int node = lua_tointeger(L, lua_upvalueindex(1));
     const char *name = luaL_checkstring(L, -1);
 
-    if(bdk_csr_get_name(name, NULL))
+    int params[BDK_CSR_DB_MAX_PARAM] = {-1, -1, -1, -1};
+    if (__bdk_csr_lookup_index(name, params) == -1)
         luaL_error(L, "Invalid CSR");
 
     lua_newtable(L);
