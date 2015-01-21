@@ -947,6 +947,15 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
                 c.s.phy_reset = 1);
             return 0;
+        case BDK_QLM_MODE_OCI:
+            lane_mode = get_lane_mode_for_speed_and_ref_clk("CCPI", qlm, ref_clk, baud_mhz);
+            if (lane_mode == -1)
+                return -1;
+            /* OCI is now in software mode as we are reprogramming it */
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_SPD(qlm),
+                c.s.spd = 0xf);
+            is_ilk = 1; /* CCPI looks like ILK */
+            break;
         default:
             bdk_error("Unsupported QLM mode %d\n", mode);
             return -1;
@@ -1144,38 +1153,7 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
         }
         else
         {
-            /* QLM is not in PCIe, assume LMODE is good enough for determining
-               the speed */
-            BDK_CSR_INIT(lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
-            switch (lane_mode.s.lmode)
-            {
-                case GSER_LMODE_E_R_25G_REFCLK100:
-                    return 2500;
-                case GSER_LMODE_E_R_5G_REFCLK100:
-                    return 5000;
-                case GSER_LMODE_E_R_8G_REFCLK100:
-                    return 8000;
-                case GSER_LMODE_E_R_125G_REFCLK15625_KX:
-                    return 1250;
-                case GSER_LMODE_E_R_3125G_REFCLK15625_XAUI:
-                    return 3125;
-                case GSER_LMODE_E_R_103125G_REFCLK15625_KR:
-                    return 10312;
-                case GSER_LMODE_E_R_125G_REFCLK15625_SGMII:
-                    return 1250;
-                case GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
-                    return 5000;
-                case GSER_LMODE_E_R_625G_REFCLK15625_RXAUI:
-                    return 6250;
-                case GSER_LMODE_E_R_25G_REFCLK125:
-                    return 2500;
-                case GSER_LMODE_E_R_5G_REFCLK125:
-                    return 5000;
-                case GSER_LMODE_E_R_8G_REFCLK125:
-                    return 8000;
-                default:
-                    return 0;
-            }
+            /* Fall through to lane mode check below */
         }
     }
     else
@@ -1200,8 +1178,48 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
             case 0xc: return 5000;
             case 0xd: return 6250;
             case 0xe: return 10312;
-            default: return 0;
+            default: /* Software mode */
+                /* Fall through to lane mode check below */
+                break;
         }
+    }
+
+    /* Show PHYs in reset as down */
+    BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
+    if (gserx_phy_ctl.s.phy_reset)
+        return 0;
+
+    /* QLM is not in PCIe, assume LMODE is good enough for determining
+       the speed */
+    BDK_CSR_INIT(lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
+    switch (lane_mode.s.lmode)
+    {
+        case GSER_LMODE_E_R_25G_REFCLK100:
+            return 2500;
+        case GSER_LMODE_E_R_5G_REFCLK100:
+            return 5000;
+        case GSER_LMODE_E_R_8G_REFCLK100:
+            return 8000;
+        case GSER_LMODE_E_R_125G_REFCLK15625_KX:
+            return 1250;
+        case GSER_LMODE_E_R_3125G_REFCLK15625_XAUI:
+            return 3125;
+        case GSER_LMODE_E_R_103125G_REFCLK15625_KR:
+            return 10312;
+        case GSER_LMODE_E_R_125G_REFCLK15625_SGMII:
+            return 1250;
+        case GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
+            return 5000;
+        case GSER_LMODE_E_R_625G_REFCLK15625_RXAUI:
+            return 6250;
+        case GSER_LMODE_E_R_25G_REFCLK125:
+            return 2500;
+        case GSER_LMODE_E_R_5G_REFCLK125:
+            return 5000;
+        case GSER_LMODE_E_R_8G_REFCLK125:
+            return 8000;
+        default:
+            return 0;
     }
 }
 
