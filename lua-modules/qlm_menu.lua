@@ -29,7 +29,6 @@ repeat
         ref_clock = (ref_clock + 500) / 1000
         local option
         if config_speed == 0 then
-            option = "%s %d - Disabled" % {label, qlm_num}
             option = "%s %d - Disabled, ref %3d.%03d Mhz" % {label, qlm_num, ref_clock / 1000, ref_clock % 1000}
         else
             option = "%s %d - %s @%2d.%03d GBaud, ref %3d.%03d Mhz" % {label, qlm_num, config_mode, config_speed / 1000, config_speed % 1000, ref_clock / 1000, ref_clock % 1000}
