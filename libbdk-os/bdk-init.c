@@ -237,6 +237,16 @@ void __bdk_init(uint32_t image_crc)
     bdk_thread_first(__bdk_init_main, 0, NULL, 0);
 }
 
+/**
+ * Call this function to take secondary cores out of reset and have
+ * them start running threads
+ *
+ * @param node     Node to use in a Numa setup. Can be an exact ID or a special
+ *                 value.
+ * @param coremask Cores to start. Zero is a shortcut for all.
+ *
+ * @return Zero on success, negative on failure.
+ */
 int bdk_init_cores(bdk_node_t node, uint64_t coremask)
 {
     extern void __bdk_start_cores();
@@ -463,6 +473,52 @@ static void ocx_pp_write(bdk_node_t node, uint64_t address, uint64_t data)
     }
 }
 
+/**
+ * Workaround various errata with CCPI. Call before attempting to bringup an active
+ * multi-node system. The CCPI links may be active before this call, but they
+ * should be idle.
+ *
+ * @param node   Node to configure
+ * @param gbaud  Baud rate of the CCPI link. This can't be read from the hardware because we
+ *               might be in software mode, where the QLMs are not up yet.
+ */
+static void init_ccpi_errata(bdk_node_t node, uint64_t gbaud)
+{
+    const uint64_t rclk = bdk_clock_get_rate(node, BDK_CLOCK_RCLK);
+    const uint64_t baud = gbaud * 1000000;
+
+    /* Disable the CCPI lane timers as early as possible. This will make
+       the hardware wait forever for CCPI lane to come up */
+    for (int i = 0; i<6; i++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_OCX_QLMX_CFG(i),
+            c.s.ser_lane_bad = 0;
+            c.s.timer_dis = 1);
+    }
+
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        /* Errata: (OCX-22153) OCX data rate issues with slower rclks */
+        /* TX_DAT_RATE=roundup((67*RCLK / GBAUD)*32) */
+        uint64_t data_rate = 67 * rclk;
+        data_rate *= 32;
+        data_rate += baud - 1;
+        data_rate /= baud;
+        BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
+            c.s.data_rate = data_rate);
+
+        /* Errata (OCX-22951) OCX AUTO_CLR of DROP fails to work on error */
+        BDK_CSR_MODIFY(c, node, BDK_OCX_COM_LINKX_CTL(link),
+            c.s.auto_clr = 0;
+            c.s.drop = 0);
+    }
+
+    /* Errata:(SMMU-22267) SMMU not propagating Global Sync completion */
+    for (int smmu=0; smmu<4; smmu++)
+        BDK_CSR_MODIFY(c, node, BDK_SMMUX_DIAG_CTL(smmu),
+            c.s.force_clks_active = 1);
+}
+
 static void clear_oci_error(bdk_node_t node)
 {
     /* Clear all link error counts */
@@ -528,8 +584,14 @@ static int init_oci(void)
         return 0; /* Emulator doesn't seem to have CCPI registers */
 
     bdk_node_t my_node = bdk_numa_local();
+    int ccpi_gbaud = bdk_qlm_get_gbaud_mhz(my_node, 8);
     uint64_t node_exists = 1ull << my_node;
 
+    /* Check if we're in software mode and we haven't done init */
+    if (ccpi_gbaud == 0)
+        return 0;
+
+    init_ccpi_errata(my_node, ccpi_gbaud);
     /* Errata (OCX-21847) OCX does not deal with reversed lanes automatically */
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
     {
@@ -687,7 +749,6 @@ static int init_oci(void)
     BDK_TRACE(INIT, "Loop through local links sending unique values over OCX_TLKX_LNK_DATA\n");
     for (int link = 0; link < MAX_LINKS; link++)
     {
-        /* Errata (OCX-22951) OCX AUTO_CLR of DROP fails to work on error */
         /* Don't allow this link to recover if it goes down. Once up links
            should stay up */
         BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
@@ -993,32 +1054,9 @@ static void setup_node(bdk_node_t node)
     clear_oci_error(node);
     /* Lanes for master were reported before CCPI was brought up */
     if (node != bdk_numa_master())
-        oci_report_lane(node, 1);
-
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
     {
-        /* Errata: (OCX-22153) OCX data rate issues with slower rclks */
-        uint64_t rclk = bdk_clock_get_rate(node, BDK_CLOCK_RCLK);
-        for (int link = 0; link < 3; link++)
-        {
-            uint64_t gbaud = bdk_qlm_get_gbaud_mhz(node, 8 + link * 2);
-            if (gbaud)
-            {
-                /* TX_DAT_RATE=roundup((67*RCLK / GBAUD)*32) */
-                gbaud *= 1000000;
-                uint64_t data_rate = 67 * rclk;
-                data_rate *= 32;
-                data_rate += gbaud - 1;
-                data_rate /= gbaud;
-                BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
-                    c.s.data_rate = data_rate);
-            }
-        }
-
-        /* Errata:(SMMU-22267) SMMU not propagating Global Sync completion */
-        for (int smmu=0; smmu<4; smmu++)
-            BDK_CSR_MODIFY(c, node, BDK_SMMUX_DIAG_CTL(smmu),
-                c.s.force_clks_active = 1);
+        init_ccpi_errata(node, bdk_qlm_get_gbaud_mhz(node, 8));
+        oci_report_lane(node, 1);
     }
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
@@ -1107,4 +1145,58 @@ int bdk_init_nodes(int skip_cores)
 uint64_t bdk_get_running_coremask(bdk_node_t node)
 {
     return __bdk_alive_coremask[node];
+}
+
+/**
+ * Call to manually bringup the CCPI links using software
+ *
+ * @param gbaud  Baud rate to run links at
+ *
+ * @return Zero on success, negative on failure.
+ */
+int bdk_init_ccpi_links(uint64_t gbaud)
+{
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        return -1; /* Emulator doesn't seem to have CCPI registers */
+
+    init_ccpi_errata(bdk_numa_local(), gbaud);
+
+    /* Setup QLMs */
+    for (int qlm = 8; qlm < 14; qlm++)
+        bdk_qlm_set_mode(bdk_numa_local(), qlm, BDK_QLM_MODE_OCI, gbaud, 0);
+
+    /* Wait 10ms for QLMs to stabalize. It should be much faster
+       than this */
+    bdk_wait_usec(10000);
+
+    BDK_CSR_INIT(qlmx_cfg2, bdk_numa_local(), BDK_OCX_QLMX_CFG(2));
+    BDK_CSR_INIT(qlmx_cfg3, bdk_numa_local(), BDK_OCX_QLMX_CFG(3));
+    /* Select which QLMs to use for links */
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        int qlm_select = 0;
+        /* qlmx_cfg2[ser_local]=1 means QLM2 is to link 1 */
+        /* qlmx_cfg3[ser_local]=1 means QLM3 is to link 1 */
+        switch (link)
+        {
+            case 0:
+                qlm_select = (qlmx_cfg2.s.ser_local) ? 0x3 : 0x7;
+                break;
+            case 1:
+                qlm_select = (qlmx_cfg2.s.ser_local) ? 0x4 : 0x0;
+                qlm_select |= (qlmx_cfg3.s.ser_local) ? 0x8 : 0x0;
+                break;
+            case 2:
+                qlm_select = (qlmx_cfg3.s.ser_local) ? 0x30 : 0x38;
+                break;
+        }
+        BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNKX_CFG(link),
+            c.s.qlm_select = qlm_select);
+    }
+
+    /* Wait 10ms for CCPI links to stabalize. It should be much faster
+       than this */
+    bdk_wait_usec(10000);
+
+    return 0;
 }

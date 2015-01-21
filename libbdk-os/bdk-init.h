@@ -42,6 +42,15 @@ extern int bdk_reset_cores(bdk_node_t node, uint64_t coremask);
 extern int bdk_init_nodes(int skip_cores);
 
 /**
+ * Call to manually bringup the CCPI links using software
+ *
+ * @param gbaud  Baud rate to run links at
+ *
+ * @return Zero on success, negative on failure.
+ */
+extern int bdk_init_ccpi_links(uint64_t gbaud);
+
+/**
  * This function is the first function run on all cores once the
  * threading system takes over.
  *

@@ -11,6 +11,15 @@ void __bdk_init_non_zero_node(void)
     int uart = 0;
     bdk_node_t node = bdk_numa_local();
 
+    /* Disable the CCPI lane timers as early as possible. This will make
+       the hardware wait forever for CCPI lane to come up */
+    for (int i = 0; i<6; i++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_OCX_QLMX_CFG(i),
+            c.s.ser_lane_bad = 0;
+            c.s.timer_dis = 1);
+    }
+
     /* Setup the uart using only inline C functons */
     BDK_CSR_WRITE(bdk_numa_local(), BDK_GPIO_BIT_CFGX(0), 1);
     BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart),
