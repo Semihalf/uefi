@@ -920,7 +920,8 @@ function TrafficGen.new()
             if use_readline then
                 -- We only need second updates if stats are shown
                 local timeout = (#visible_ports == 0) and 0 or 1000000
-                cmd = readline.readline("Command> ", tab, timeout)
+                -- NOTE: "readline_flags=0x1;" turns on '.' to '_' conversion and is stripped from the prompt
+                cmd = readline.readline("readline_flags=0x1;Command> ", tab, timeout)
             else
                 printf("Command> ")
                 io.flush()

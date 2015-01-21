@@ -28,6 +28,7 @@ static int history_index;
 static int history_lookup_index;
 
 static const char *cmd_prompt;
+static unsigned int readline_flags; /* so far: bit[0] is 1 for enabling '.' to '_' conversion */
 static const bdk_readline_tab_t *tab_complete_data;
 static unsigned int cmd_len;
 static unsigned int cmd_pos;
@@ -735,7 +736,7 @@ parse_input:
     else if (c=='\033') {       /* escape character */
         escape_mode=1;
     }
-    else if (c=='.')       /* a period.  Change to '_' if in first word (i.e. before the first space.) */
+    else if ((readline_flags & 0x1) && (c=='.'))   /* a period.  Change to '_' if in first word (i.e. before the first space.) */
     {
         char *p;
         for (p = &cmd[cmd_pos-1]; p > cmd; p--) {
@@ -900,10 +901,16 @@ int bdk_readline_getkey(uint64_t timeout_us)
 #endif
 }
 
+/* NOTE: if prompt starts with "readline_flags=0x<value>;" where <value> is a hex number, it will be stripped off fromp prompt
+ *   and used to set the flags.  If the ';' but everything up to x and a value is there, it will not be stripped, but still
+ *   used.  If anything is different (added space before <value>, missing 0x, not there at all, etc....) flags will be 0.  */
 const char *bdk_readline(const char *prompt, const bdk_readline_tab_t *tab, int timeout_us)
 {
     uint64_t stop_time = gettime() + timeout_us;
-    cmd_prompt = prompt;
+    int prompt_offset = 0;
+    readline_flags = 0;
+    sscanf(prompt, "readline_flags=0x%x;%n", &readline_flags, &prompt_offset);
+    cmd_prompt = prompt + prompt_offset;;
     tab_complete_data = tab;
     saved_avail_p = NULL;
 
