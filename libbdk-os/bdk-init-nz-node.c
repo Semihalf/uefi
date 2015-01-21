@@ -40,7 +40,61 @@ static void uart_str(const char *s)
  */
 static void qlm_tune(int qlm)
 {
-    int baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
+    int baud_mhz;
+    /* Use the OCI strapping to find the speed. This will not work if
+       the OCI is in SW_MODE */
+    BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
+    switch (gserx_spd.s.spd)
+    {
+        case 0x0:
+            baud_mhz = 1250; /* Ref 100Mhz */
+            break;
+        case 0x1:
+            baud_mhz = 2500;
+            break;
+        case 0x2:
+            baud_mhz = 5000;
+            break;
+        case 0x3:
+            baud_mhz = 8000;
+            break;
+        case 0x4:
+            baud_mhz = 1250; /* Ref 125Mhz */
+            break;
+        case 0x5:
+            baud_mhz = 2500;
+            break;
+        case 0x6:
+            baud_mhz = 3125;
+            break;
+        case 0x7:
+            baud_mhz = 5000;
+            break;
+        case 0x8:
+            baud_mhz = 6250;
+            break;
+        case 0x9:
+            baud_mhz = 8000;
+            break;
+        case 0xa:
+            baud_mhz = 2500; /* Ref 156.25Mhz */
+            break;
+        case 0xb:
+            baud_mhz = 3125;
+            break;
+        case 0xc:
+            baud_mhz = 5000;
+            break;
+        case 0xd:
+            baud_mhz = 6250;
+            break;
+        case 0xe:
+            baud_mhz = 10312;
+            break;
+        default: /* Software mode */
+            baud_mhz = 0;
+            break;
+    }
 
     /* Errata (BGX-21957) GSER enhancement to allow auto RX equalization */
     if ((baud_mhz == 5000) || (baud_mhz == 6250))
@@ -197,7 +251,7 @@ void __bdk_init_non_zero_node(void)
        happens by mistake when chip straps are wrong. We can't call many C
        functions as we're running at an address other than our link address */
     int uart = 0;
-    bdk_node_t node = bdk_numa_local();
+    node = bdk_numa_local();
 
     /* Setup the uart using only inline C functons */
     BDK_CSR_WRITE(node, BDK_GPIO_BIT_CFGX(0), 1);
