@@ -1,5 +1,193 @@
 #include <bdk.h>
 
+/* The node number may change dynamically while this code is running. This
+   variable contains its value after every update in the CCPI monitor loop */
+static bdk_node_t node;
+
+/**
+ * Low level uart output that works when node ID is non-zero. Used for debug
+ * messages while waiting for the master to take control.
+ *
+ * @param c      Character to display
+ */
+static void uart_char(char c)
+{
+    BDK_CSR_INIT(fr, node, BDK_UAAX_FR(0));
+    while (fr.s.txff) /* Spin while full */
+        fr.u = BDK_CSR_READ(node, BDK_UAAX_FR(0));
+    BDK_CSR_WRITE(node, BDK_UAAX_DR(0), c);
+}
+
+/**
+ * Low level uart output that works when node ID is non-zero. Used for debug
+ * messages while waiting for the master to take control.
+ *
+ * @param s      String tp display
+ */
+static void uart_str(const char *s)
+{
+    while (*s)
+    {
+        uart_char(*s);
+        s++;
+    }
+}
+
+/**
+ * Apply custom tuning to the CCPI QLMs on the slave node
+ *
+ * @param qlm    QLM to tune
+ */
+static void qlm_tune(int qlm)
+{
+    int baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
+
+    /* Errata (BGX-21957) GSER enhancement to allow auto RX equalization */
+    if ((baud_mhz == 5000) || (baud_mhz == 6250))
+    {
+        for (int lane = 0; lane < 4; lane++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_EER(qlm, lane),
+                c.s.rxt_eer = 1;
+                c.s.rxt_esv = 0);
+        }
+    }
+
+    if (baud_mhz == 6250)
+    {
+        /* Change the default tuning for 6.25G, from lab measurements */
+        for (int lane = 0; lane < 4; lane++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+                c.s.cfg_tx_swing = 0xc);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
+                c.s.cfg_tx_premptap = 0xc0);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
+                c.s.tx_swing_ovrd_en = 1;
+                c.s.tx_premptap_ovrd_val = 1);
+        }
+    }
+    else if (baud_mhz == 10312)
+    {
+        /* Change the default tuning for 10.3125G, from lab measurements */
+        for (int lane = 0; lane < 4; lane++)
+        {
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+                c.s.cfg_tx_swing = 0xd);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
+                c.s.cfg_tx_premptap = 0xd0);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
+                c.s.tx_swing_ovrd_en = 1;
+                c.s.tx_premptap_ovrd_val = 1);
+        }
+    }
+}
+
+/**
+ * Called to monitor CCPI and continually try and get CCPI links up. Once the
+ * links are up, the core is put in reset so the master node can take over.
+ */
+static void monitor_ccpi(void)
+{
+    uart_str("Monitoring CCPI\r\n");
+    uint64_t loop_count = 0;
+
+    /* Apply CCPI custom tuning */
+    for (int qlm = 8; qlm < 14; qlm++)
+        qlm_tune(qlm);
+
+    /* Loop forever trying to get CCPI links up */
+    while (1)
+    {
+        /* The node ID may change while we're running */
+        int mpidr_el1;
+        BDK_MRS(MPIDR_EL1, mpidr_el1);
+        BDK_EXTRACT(node, mpidr_el1, 16, 8);
+
+        /* Put a spinner on the screen so we can tell the loop os running */
+        const int SPINNER_SHIFT = 16;
+        if ((loop_count & ((1<<SPINNER_SHIFT)-1)) == 0)
+        {
+            char *spinner = "/-\\|";
+            uart_char(spinner[(loop_count >> SPINNER_SHIFT) & 3]);
+            uart_char('\r');
+        }
+        loop_count++;
+
+        /* Check status of the 6 CCPI QLMs */
+        for (int i = 0; i < 6; i++)
+        {
+            /* Make sure the lane timer is disabled, no lanes are bad, and all
+               lanes are good */
+            BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(i));
+            if (!ocx_qlmx_cfg.s.timer_dis || ocx_qlmx_cfg.s.ser_lane_bad ||
+                (ocx_qlmx_cfg.s.ser_lane_ready != 0xf))
+            {
+                ocx_qlmx_cfg.s.timer_dis = 1;
+                ocx_qlmx_cfg.s.ser_lane_bad = 0;
+                ocx_qlmx_cfg.s.ser_lane_ready = 0xf;
+                BDK_CSR_WRITE(node, BDK_OCX_QLMX_CFG(i), ocx_qlmx_cfg.u);
+            }
+            /* Check if training is enable, meaning we need to check its status */
+            if (ocx_qlmx_cfg.s.trn_ena)
+            {
+                for (int lane = i * 4; lane < (i + 1) * 4; lane++)
+                {
+                    BDK_CSR_INIT(ocx_lnex_trn_ctl, node, BDK_OCX_LNEX_TRN_CTL(lane));
+                    if (!ocx_lnex_trn_ctl.s.done)
+                    {
+                        uart_str("Lane ");
+                        uart_char('0' + lane / 10);
+                        uart_char('0' + lane % 10);
+                        uart_str(" training restart - FIXME\r\n");
+                        // FIXME: Restart training
+                    }
+                }
+            }
+        }
+
+        int valid_links = 0;
+        /* Check that the three CCPI links are operating */
+        for (int link = 0; link < 3; link++)
+        {
+            BDK_CSR_INIT(ocx_com_linkx_ctl, node, BDK_OCX_COM_LINKX_CTL(link));
+            /* Clear bits that can get set by hardware/software on error */
+            if (ocx_com_linkx_ctl.s.auto_clr || ocx_com_linkx_ctl.s.drop ||
+                ocx_com_linkx_ctl.s.reinit)
+            {
+                ocx_com_linkx_ctl.s.auto_clr = 0;
+                ocx_com_linkx_ctl.s.drop = 0;
+                ocx_com_linkx_ctl.s.reinit = 0;
+                BDK_CSR_WRITE(node, BDK_OCX_COM_LINKX_CTL(link), ocx_com_linkx_ctl.u);
+            }
+            /* If the link is up and valid, check the credits */
+            else if (ocx_com_linkx_ctl.s.up && ocx_com_linkx_ctl.s.valid)
+            {
+                BDK_CSR_INIT(ocx_tlkx_lnk_vcx_cnt, node, BDK_OCX_TLKX_LNK_VCX_CNT(link, 0));
+                if (ocx_tlkx_lnk_vcx_cnt.s.count == 0)
+                {
+                    /* No credits, perform a reinit */
+                    ocx_com_linkx_ctl.s.reinit = 1;
+                    BDK_CSR_WRITE(node, BDK_OCX_COM_LINKX_CTL(link), ocx_com_linkx_ctl.u);
+                    /* Reinit wil lbe cleared teh next time through the loop */
+                    uart_str("Re-init link ");
+                    uart_char('0' + link);
+                    uart_str("\r\n");
+                }
+                else
+                    valid_links++;
+            }
+        }
+        if (valid_links >= 2)
+        {
+            uart_char('0' + valid_links);
+            uart_str(" CCPI links up. Putting core in reset\r\n");
+            extern void __bdk_reset_thread(int arg1, void *arg2);
+            __bdk_reset_thread(0, NULL);
+        }
+    }
+}
+
 /**
  * This function is called if we boot on a node that is non-zero
  */
@@ -11,17 +199,8 @@ void __bdk_init_non_zero_node(void)
     int uart = 0;
     bdk_node_t node = bdk_numa_local();
 
-    /* Disable the CCPI lane timers as early as possible. This will make
-       the hardware wait forever for CCPI lane to come up */
-    for (int i = 0; i<6; i++)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_OCX_QLMX_CFG(i),
-            c.s.ser_lane_bad = 0;
-            c.s.timer_dis = 1);
-    }
-
     /* Setup the uart using only inline C functons */
-    BDK_CSR_WRITE(bdk_numa_local(), BDK_GPIO_BIT_CFGX(0), 1);
+    BDK_CSR_WRITE(node, BDK_GPIO_BIT_CFGX(0), 1);
     BDK_CSR_MODIFY(c, node, BDK_UAAX_UCTL_CTL(uart),
         c.s.uaa_rst = 1;
         c.s.uctl_rst = 1);
@@ -62,16 +241,9 @@ void __bdk_init_non_zero_node(void)
     BDK_CSR_READ(node, BDK_UAAX_CR(uart));
 
     /* Spew out the node ID to uart0 as a hint that something is wrong */
-    BDK_CSR_WRITE(node, BDK_UAAX_DR(uart), '\r');
-    BDK_CSR_WRITE(node, BDK_UAAX_DR(uart), '\n');
-    BDK_CSR_WRITE(node, BDK_UAAX_DR(uart), 'N');
-    BDK_CSR_WRITE(node, BDK_UAAX_DR(uart), 'O');
-    BDK_CSR_WRITE(node, BDK_UAAX_DR(uart), 'D');
-    BDK_CSR_WRITE(node, BDK_UAAX_DR(uart), 'E');
-    BDK_CSR_WRITE(node, BDK_UAAX_DR(uart), '0' + node);
-    BDK_CSR_WRITE(node, BDK_UAAX_DR(uart), '\r');
-    BDK_CSR_WRITE(node, BDK_UAAX_DR(uart), '\n');
+    uart_str("\r\nNODE");
+    uart_char('0' + node);
+    uart_str("\r\n");
 
-    /* Spin here aswe can't run normally */
-    while (1) {}
+    monitor_ccpi();
 }
