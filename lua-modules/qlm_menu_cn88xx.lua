@@ -59,30 +59,49 @@ qlm_modes[5] = {
 }
 qlm_modes[6] = qlm_modes[2]
 qlm_modes[7] = qlm_modes[3]
--- GSER 8-13 are OCI only and are covered by pin straps
+-- GSER 8-13 are OCI only and are normally covered by pin straps
+qlm_modes[8] = {
+    {"CCPI    @ 1.250 Gbps", cavium.QLM_MODE_OCI, 1250, 0},
+    {"CCPI    @ 2.500 Gbps", cavium.QLM_MODE_OCI, 2500, 0},
+    {"CCPI    @ 3.125 Gbps", cavium.QLM_MODE_OCI, 3125, 0},
+    {"CCPI    @ 5.000 Gbps", cavium.QLM_MODE_OCI, 5000, 0},
+    {"CCPI    @ 6.250 Gbps", cavium.QLM_MODE_OCI, 6250, 0},
+    {"CCPI    @ 8.000 Gbps", cavium.QLM_MODE_OCI, 8000, 0},
+    {"CCPI    @ 10.3125 Gbps", cavium.QLM_MODE_OCI, 10312, 0},
+    {"Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
+}
+qlm_modes[9] = qlm_modes[8]
+qlm_modes[10] = qlm_modes[8]
+qlm_modes[11] = qlm_modes[8]
+qlm_modes[12] = qlm_modes[8]
+qlm_modes[13] = qlm_modes[8]
 
 --
 -- This is called when the user selects a QLM to change its config
 --
 local function do_setup(qlm)
-    local m = menu.new("Select a reference clock for QLM%d" % qlm)
-    m:item("ext", "External reference (QLM%d_REF_CLK)" % qlm)
-    m:item("c0", "Common clock 0 (QLMC_REF_CLK0)")
-    m:item("c1", "Common clock 1 (QLMC_REF_CLK1)")
-    local index = m:show()
-    -- Select the reference clock to use
-    if index == "ext" then
-        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 0
-        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
-    elseif index == "c0" then
-        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
-        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
-    else
-        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
-        cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).USE_COM1 = 1
+    -- Only the first 8 QLMs can select differnet reference clocks
+    -- CCPI QLMs 8-13 always use an external reference clock
+    if qlm < 8 then
+        local m = menu.new("Select a reference clock for QLM%d" % qlm)
+        m:item("ext", "External reference (QLM%d_REF_CLK)" % qlm)
+        m:item("c0", "Common clock 0 (QLMC_REF_CLK0)")
+        m:item("c1", "Common clock 1 (QLMC_REF_CLK1)")
+        local index = m:show()
+        -- Select the reference clock to use
+        if index == "ext" then
+            cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 0
+            cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
+        elseif index == "c0" then
+            cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+            cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).USE_COM1 = 0
+        else
+            cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).COM_CLK_SEL = 1
+            cavium.csr[menu.node].GSERX_REFCLK_SEL(qlm).USE_COM1 = 1
+        end
+        -- Reset the QLM after changing the reference clock
+        cavium.c.bdk_qlm_reset(menu.node, qlm)
     end
-    -- Reset the QLM after changing the reference clock
-    cavium.c.bdk_qlm_reset(menu.node, qlm)
 
     -- Select the mode to use
     local m = menu.new("Select a mode for QLM%d" % qlm)
@@ -101,9 +120,14 @@ end
 -- Chip specific configuration prompting for CN88XX
 --
 function qlm_setup_cn88xx()
+    local qlm_max = 7
+    -- Allow changing the CCPI QLMs if they are in software mode
+    if cavium.csr.GSERX_SPD(8).SPD == 0xf then
+        qlm_max = 13
+    end
     local m = menu.new("Select a QLM to Configure")
     repeat
-        for qlm_num = 0, 7 do
+        for qlm_num = 0, qlm_max do
             local mode = cavium.c.bdk_qlm_get_mode(menu.node, qlm_num)
             local config_mode = cavium.c.bdk_qlm_mode_tostring(mode)
             local config_speed = cavium.c.bdk_qlm_get_gbaud_mhz(menu.node, qlm_num)
