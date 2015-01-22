@@ -17,7 +17,7 @@
    define controls which GPIO and the value that starts daignostics. Set
    DIAGS_GPIO_VALUE to -1 to disable */
 #define DIAGS_GPIO 0
-#define DIAGS_GPIO_VALUE 1
+#define DIAGS_GPIO_VALUE -1
 /* Address of the diagnostics in flash (512KB is right after boot stubs) */
 #define DIAGS_ADDRESS 0x00080000
 /* Address of ATF in flash */
