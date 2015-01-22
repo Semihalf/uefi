@@ -83,7 +83,8 @@ static void check_cn88xx(bdk_node_t node)
     for (int index = 0; index < 4; index++)
     {
         BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(index));
-        if (lmcx_dll_ctl2.s.intf_en && !lmcx_dll_ctl2.s.dreset)
+	/* LMC0 and LMC1 are always enabled, though we never set their INTF_EN bits */
+        if (((index < 2) || (lmcx_dll_ctl2.s.intf_en == 1)) && !lmcx_dll_ctl2.s.dreset)
         {
             BDK_CSR_INIT(c, node, BDK_LMCX_INT(index));
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, macram_ded_err);
