@@ -3,6 +3,7 @@
 require("strict")
 require("utils")
 require("menu")
+local bit64 = require("bit64")
 local readline = require("readline")
 
 local qlm_tuning = {}
@@ -68,6 +69,34 @@ local function do_polarity_swap()
             cavium.csr[menu.node].GSERX_LANEX_RX_CFG_0(qlm,lane).cfg_rx_pol_invert = v
         end
     end
+end
+
+-- Issue a "Base-R RX Link Training equalization evaluation request", wait for
+-- it to complete, and display the results
+local function do_rx_evaluation(node, qlm, lane)
+    -- Enable software control
+    cavium.csr[node].GSERX_BR_RXX_CTL(qlm,lane).RXT_SWM = 1
+    -- Clear the completion flag
+    cavium.csr[node].GSERX_BR_RXX_EER(qlm,lane).RXT_ESV=0
+    -- Initiate a new request
+    cavium.csr[node].GSERX_BR_RXX_EER(qlm,lane).RXT_EER = 1
+    -- Wait for it to complete
+    local wait_ms = 0
+    while cavium.csr[node].GSERX_BR_RXX_EER(qlm,lane).RXT_ESV == 0 do
+        if wait_ms > 1000 then -- 1 second
+            printf("QLM%d, Lane %d: RX equalization timeout\n", qlm, lane)
+            return
+        end
+        cavium.c.bdk_wait_usec(1000)
+        wait_ms = wait_ms + 1
+    end
+    -- Extract the results
+    local rxt_esm = cavium.csr[node].GSERX_BR_RXX_EER(qlm,lane).RXT_ESM
+    -- Switch back to hardware control
+    cavium.csr[node].GSERX_BR_RXX_CTL(qlm,lane).RXT_SWM = 0
+    -- Display the results
+    local merit = bit64.bextract(rxt_esm, 6, 13)
+    printf("QLM%d, Lane %d: Figure of merit %d (rxt_esm=0x%x)\n", qlm, lane, merit, rxt_esm)
 end
 
 -- Start PRBS on a list of QLMs
@@ -221,6 +250,7 @@ local function do_prbs(mode)
                 for lane=0, num_lanes-1 do
                     cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm_num,lane).cfg_tx_premptap = csr_setting
                     cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm_num,lane).tx_premptap_ovrd_val = 1
+                    do_rx_evaluation(menu.node, qlm_num, lane)
                 end
             end
         end
@@ -233,6 +263,7 @@ local function do_prbs(mode)
                 for lane=0, num_lanes-1 do
                     cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm_num,lane).cfg_tx_swing = csr_setting
                     cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm_num,lane).tx_swing_ovrd_en = 1
+                    do_rx_evaluation(menu.node, qlm_num, lane)
                 end
             end
          end
@@ -251,6 +282,7 @@ local function set_preemphasis(qlm)
     for lane=0, num_lanes-1 do
         cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm,lane).cfg_tx_premptap = csr_setting
         cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_premptap_ovrd_val = 1
+        do_rx_evaluation(menu.node, qlm, lane)
     end
 end
 
@@ -265,6 +297,14 @@ local function set_preandpost(qlm)
     for lane=0, num_lanes-1 do
         cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm,lane).cfg_tx_swing = csr_setting
         cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_swing_ovrd_en = 1
+        do_rx_evaluation(menu.node, qlm, lane)
+    end
+end
+
+local function manual_rx_evaluation(qlm)
+    local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
+    for lane=0, num_lanes-1 do
+        do_rx_evaluation(menu.node, qlm, lane)
     end
 end
 
@@ -294,6 +334,7 @@ function qlm_tuning.run()
         m:item("fixedp", "Fixed pattern (000, PAT, 3ff, ~PAT)", do_custom, 0xa)
         m:item("preemphasis",  "Set QLM pre-emphasis", set_preemphasis, qlm_tuning.qlm)
         m:item("preandpost",  "Set QLM pre and post taps", set_preandpost, qlm_tuning.qlm)
+        m:item("rx_eval",  "Perform a RX equalization evaluation", manual_rx_evaluation, qlm_tuning.qlm)
 
         m:item("quit",   "Main menu")
     until (m:show() == "quit")
