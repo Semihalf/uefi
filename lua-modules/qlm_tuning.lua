@@ -214,25 +214,25 @@ local function do_prbs(mode)
         end
         if (key == 'p') or (key =='P') then
             for _,qlm_num in ipairs(qlm_list) do
-                local csr_value = cavium.csr.GSERX_LANEX_TX_PRE_EMPHASIS(qlm_num,0).cfg_tx_premptap
+                local csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm_num,0).cfg_tx_premptap
                 printf("GSERX_LANEX_TX_PRE_EMPHASIS(%d,0)[CFG_TX_PREMPTAP] = 0x%x\n", qlm_num, csr_value)
                 local csr_setting = menu.prompt_number("New setting for CFG_TX_PREMTAP", csr_value, 0, 511)
                 local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_num)
                 for lane=0, num_lanes-1 do
-                    cavium.csr.GSERX_LANEX_TX_PRE_EMPHASIS(qlm_num,lane).cfg_tx_premptap = csr_setting
-                    cavium.csr.GSERX_LANEX_TX_CFG_1(qlm_num,lane).tx_premptap_ovrd_val = 1
+                    cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm_num,lane).cfg_tx_premptap = csr_setting
+                    cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm_num,lane).tx_premptap_ovrd_val = 1
                 end
             end
         end
         if (key == 's') or (key =='S') then
             for _,qlm_num in ipairs(qlm_list) do
-                local csr_value = cavium.csr.GSERX_LANEX_TX_CFG_0(qlm_num,0).cfg_tx_swing
+                local csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm_num,0).cfg_tx_swing
                 printf("GSERX_LANEX_TX_CFG_0(%d,0)[CFG_TX_SWING] = 0x%x\n", qlm_num, csr_value)
                 local csr_setting = menu.prompt_number("New setting for CFG_TX_SWING", csr_value, 0, 31)
                 local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_num)
                 for lane=0, num_lanes-1 do
-                    cavium.csr.GSERX_LANEX_TX_CFG_0(qlm_num,lane).cfg_tx_swing = csr_setting
-                    cavium.csr.GSERX_LANEX_TX_CFG_1(qlm_num,lane).tx_swing_ovrd_en = 1
+                    cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm_num,lane).cfg_tx_swing = csr_setting
+                    cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm_num,lane).tx_swing_ovrd_en = 1
                 end
             end
          end
@@ -244,13 +244,13 @@ local function set_preemphasis(qlm)
     local csr_value = 0
     local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
     for lane=0, num_lanes-1 do
-        csr_value = cavium.csr.GSERX_LANEX_TX_PRE_EMPHASIS(qlm,lane).cfg_tx_premptap
+        csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm,lane).cfg_tx_premptap
         printf("GSERX_LANEX_TX_PRE_EMPHASIS(%d,%d)[CFG_TX_PREMPTAP] = 0x%x\n", qlm, lane, csr_value)
     end
     local csr_setting = menu.prompt_number("New setting for QLM%s CFG_TX_PREMTAP" % qlm, csr_value, 0, 511)
     for lane=0, num_lanes-1 do
-        cavium.csr.GSERX_LANEX_TX_PRE_EMPHASIS(qlm,lane).cfg_tx_premptap = csr_setting
-        cavium.csr.GSERX_LANEX_TX_CFG_1(qlm,lane).tx_premptap_ovrd_val = 1
+        cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm,lane).cfg_tx_premptap = csr_setting
+        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_premptap_ovrd_val = 1
     end
 end
 
@@ -258,13 +258,13 @@ local function set_preandpost(qlm)
     local csr_value = 0
     local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm)
     for lane=0, num_lanes-1 do
-        csr_value = cavium.csr.GSERX_LANEX_TX_CFG_0(qlm,lane).cfg_tx_swing
+        csr_value = cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm,lane).cfg_tx_swing
         printf("GSERX_LANEX_TX_CFG_0(%d,%d)[CFG_TX_SWING] = 0x%x\n", qlm, lane, csr_value)
     end
     local csr_setting = menu.prompt_number("New setting for QLM%s CFG_TX_SWING" % qlm, csr_value, 0, 31)
     for lane=0, num_lanes-1 do
-        cavium.csr.GSERX_LANEX_TX_CFG_0(qlm,lane).cfg_tx_swing = csr_setting
-        cavium.csr.GSERX_LANEX_TX_CFG_1(qlm,lane).tx_swing_ovrd_en = 1
+        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm,lane).cfg_tx_swing = csr_setting
+        cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_swing_ovrd_en = 1
     end
 end
 
