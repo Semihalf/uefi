@@ -5,35 +5,6 @@
 static bdk_node_t node;
 
 /**
- * Low level uart output that works when node ID is non-zero. Used for debug
- * messages while waiting for the master to take control.
- *
- * @param c      Character to display
- */
-static void uart_char(char c)
-{
-    BDK_CSR_INIT(fr, node, BDK_UAAX_FR(0));
-    while (fr.s.txff) /* Spin while full */
-        fr.u = BDK_CSR_READ(node, BDK_UAAX_FR(0));
-    BDK_CSR_WRITE(node, BDK_UAAX_DR(0), c);
-}
-
-/**
- * Low level uart output that works when node ID is non-zero. Used for debug
- * messages while waiting for the master to take control.
- *
- * @param s      String tp display
- */
-static void uart_str(const char *s)
-{
-    while (*s)
-    {
-        uart_char(*s);
-        s++;
-    }
-}
-
-/**
  * Apply custom tuning to the CCPI QLMs on the slave node
  *
  * @param qlm    QLM to tune
@@ -143,7 +114,7 @@ static void qlm_tune(int qlm)
  */
 static void monitor_ccpi(void)
 {
-    uart_str("Monitoring CCPI\r\n");
+    bdk_dbg_uart_str("Monitoring CCPI\r\n");
     uint64_t loop_count = 0;
 
     /* Apply CCPI custom tuning */
@@ -163,8 +134,8 @@ static void monitor_ccpi(void)
         if ((loop_count & ((1<<SPINNER_SHIFT)-1)) == 0)
         {
             char *spinner = "/-\\|";
-            uart_char(spinner[(loop_count >> SPINNER_SHIFT) & 3]);
-            uart_char('\r');
+            bdk_dbg_uart_char(spinner[(loop_count >> SPINNER_SHIFT) & 3]);
+            bdk_dbg_uart_char('\r');
         }
         loop_count++;
 
@@ -190,10 +161,10 @@ static void monitor_ccpi(void)
                     BDK_CSR_INIT(ocx_lnex_trn_ctl, node, BDK_OCX_LNEX_TRN_CTL(lane));
                     if (!ocx_lnex_trn_ctl.s.done)
                     {
-                        uart_str("Lane ");
-                        uart_char('0' + lane / 10);
-                        uart_char('0' + lane % 10);
-                        uart_str(" training restart - FIXME\r\n");
+                        bdk_dbg_uart_str("Lane ");
+                        bdk_dbg_uart_char('0' + lane / 10);
+                        bdk_dbg_uart_char('0' + lane % 10);
+                        bdk_dbg_uart_str(" training restart - FIXME\r\n");
                         // FIXME: Restart training
                     }
                 }
@@ -224,9 +195,9 @@ static void monitor_ccpi(void)
                     ocx_com_linkx_ctl.s.reinit = 1;
                     BDK_CSR_WRITE(node, BDK_OCX_COM_LINKX_CTL(link), ocx_com_linkx_ctl.u);
                     /* Reinit wil lbe cleared teh next time through the loop */
-                    uart_str("Re-init link ");
-                    uart_char('0' + link);
-                    uart_str("\r\n");
+                    bdk_dbg_uart_str("Re-init link ");
+                    bdk_dbg_uart_char('0' + link);
+                    bdk_dbg_uart_str("\r\n");
                 }
                 else
                     valid_links++;
@@ -234,8 +205,8 @@ static void monitor_ccpi(void)
         }
         if (valid_links >= 2)
         {
-            uart_char('0' + valid_links);
-            uart_str(" CCPI links up. Putting core in reset\r\n");
+            bdk_dbg_uart_char('0' + valid_links);
+            bdk_dbg_uart_str(" CCPI links up. Putting core in reset\r\n");
             extern void __bdk_reset_thread(int arg1, void *arg2);
             __bdk_reset_thread(0, NULL);
         }
@@ -252,6 +223,11 @@ void __bdk_init_non_zero_node(void)
        functions as we're running at an address other than our link address */
     int uart = 0;
     node = bdk_numa_local();
+
+    /* Temporarily change the master node global to this node so some
+       functions will work properly when called */
+    extern int __bdk_numa_master_node;
+    __bdk_numa_master_node = node;
 
     /* Setup the uart using only inline C functons */
     BDK_CSR_WRITE(node, BDK_GPIO_BIT_CFGX(0), 1);
@@ -295,9 +271,9 @@ void __bdk_init_non_zero_node(void)
     BDK_CSR_READ(node, BDK_UAAX_CR(uart));
 
     /* Spew out the node ID to uart0 as a hint that something is wrong */
-    uart_str("\r\nNODE");
-    uart_char('0' + node);
-    uart_str("\r\n");
+    bdk_dbg_uart_str("\r\nNODE");
+    bdk_dbg_uart_char('0' + node);
+    bdk_dbg_uart_str("\r\n");
 
     monitor_ccpi();
 }
