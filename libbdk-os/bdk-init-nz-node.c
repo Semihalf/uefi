@@ -5,6 +5,19 @@
 static bdk_node_t node;
 
 /**
+* Wait for TX fifo to empty
+ */
+static void uart_wait_idle()
+{
+    while (1)
+    {
+        BDK_CSR_INIT(fr, node, BDK_UAAX_FR(0));
+        if (fr.s.txfe)
+            break;
+    }
+}
+
+/**
  * Apply custom tuning to the CCPI QLMs on the slave node
  *
  * @param qlm    QLM to tune
@@ -114,8 +127,12 @@ static void qlm_tune(int qlm)
  */
 static void monitor_ccpi(void)
 {
-    bdk_dbg_uart_str("Monitoring CCPI\r\n");
     uint64_t loop_count = 0;
+    uint64_t training_timeout = 0;
+    bdk_dbg_uart_str("Monitoring CCPI\r\n");
+
+    /* Don't reset if CCPI links change state */
+    BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
 
     /* Apply CCPI custom tuning */
     for (int qlm = 8; qlm < 14; qlm++)
@@ -139,12 +156,16 @@ static void monitor_ccpi(void)
         }
         loop_count++;
 
+        int ready_lanes = 0;
+        int stuck_lanes = 0;
+
         /* Check status of the 6 CCPI QLMs */
         for (int i = 0; i < 6; i++)
         {
             /* Make sure the lane timer is disabled, no lanes are bad, and all
                lanes are good */
             BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(i));
+            ready_lanes += bdk_dpop(ocx_qlmx_cfg.s.ser_lane_ready);
             if (!ocx_qlmx_cfg.s.timer_dis || ocx_qlmx_cfg.s.ser_lane_bad ||
                 (ocx_qlmx_cfg.s.ser_lane_ready != 0xf))
             {
@@ -153,9 +174,14 @@ static void monitor_ccpi(void)
                 ocx_qlmx_cfg.s.ser_lane_ready = 0xf;
                 BDK_CSR_WRITE(node, BDK_OCX_QLMX_CFG(i), ocx_qlmx_cfg.u);
             }
-            /* Check if training is enable, meaning we need to check its status */
-            if (ocx_qlmx_cfg.s.trn_ena)
+            if (ready_lanes && (training_timeout == 0))
+                training_timeout = bdk_clock_get_count(BDK_CLOCK_MAIN_REF) + bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
+
+            /* Wait until some lanes are up before checking if training is
+               enabled and done. */
+            if ((ready_lanes > 0) && ocx_qlmx_cfg.s.trn_ena)
             {
+                /* Make sure no lanes are stuck in training */
                 for (int lane = i * 4; lane < (i + 1) * 4; lane++)
                 {
                     BDK_CSR_INIT(ocx_lnex_trn_ctl, node, BDK_OCX_LNEX_TRN_CTL(lane));
@@ -164,12 +190,29 @@ static void monitor_ccpi(void)
                         bdk_dbg_uart_str("Lane ");
                         bdk_dbg_uart_char('0' + lane / 10);
                         bdk_dbg_uart_char('0' + lane % 10);
-                        bdk_dbg_uart_str(" training restart - FIXME\r\n");
-                        // FIXME: Restart training
+                        bdk_dbg_uart_str(" stuck in training\r\n");
+                        stuck_lanes++;
                     }
                 }
             }
         }
+
+        /* Do a soft reset if lanes are still stuck after the training
+           timout expires */
+        if (stuck_lanes && (bdk_clock_get_count(BDK_CLOCK_MAIN_REF) > training_timeout))
+        {
+            bdk_dbg_uart_str("Doing soft reset due to stuck training\n");
+            uart_wait_idle();
+            bdk_rst_soft_rst_t rst_soft_rst;
+            rst_soft_rst.u = 0;
+            rst_soft_rst.s.soft_rst = 1;
+            BDK_CSR_WRITE(node, BDK_RST_SOFT_RST, rst_soft_rst.u);
+            while (1) {}
+        }
+
+        /* Don't check links until all lanes are up */
+        if (ready_lanes != 24)
+            continue;
 
         int valid_links = 0;
         /* Check that the three CCPI links are operating */
@@ -205,6 +248,8 @@ static void monitor_ccpi(void)
         }
         if (valid_links >= 2)
         {
+            /* Reset if a link change state */
+            BDK_CSR_WRITE(node, BDK_RST_OCX, 0x7);
             bdk_dbg_uart_char('0' + valid_links);
             bdk_dbg_uart_str(" CCPI links up. Putting core in reset\r\n");
             extern void __bdk_reset_thread(int arg1, void *arg2);

@@ -148,6 +148,9 @@ void __bdk_init(uint32_t image_crc)
 
     if (bdk_is_boot_core())
     {
+        /* Don't reset if CCPI links change state. We aren't using CCPI yet */
+        BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
+
         /* Shut off cores in reset to save power. It is optional, but probably
             good practice */
         BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -2);
