@@ -8,6 +8,9 @@ void bdk_clock_setup(bdk_node_t node)
     /* Configure GTI to tick at BDK_GTI_RATE */
     uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
     uint64_t inc = (BDK_GTI_RATE << 32) / sclk;
+    /* Speed up time by 10x in the emulator */
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        inc *= 10;
     BDK_CSR_WRITE(node, BDK_GTI_CC_CNTRATE, inc);
     BDK_CSR_WRITE(node, BDK_GTI_CTL_CNTFRQ, BDK_GTI_RATE);
     BDK_CSR_MODIFY(c, node, BDK_GTI_CC_CNTCR,
