@@ -156,6 +156,8 @@ static int list_images(const char *dev_filename, int max_images, uint64_t image_
     }
     uint64_t loc = BDK_IMAGE_FIRST_OFFSET;
     uint64_t end = 1 << 24; /* Only look through the first 16MB, limit of 24bit SPI */
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        end = BDK_IMAGE_FIRST_OFFSET + 1;
     while ((loc < end) && (num_images < max_images))
     {
         bdk_image_header_t header;
