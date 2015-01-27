@@ -148,20 +148,21 @@ void __bdk_init(uint32_t image_crc)
 
     if (bdk_is_boot_core())
     {
+        /* Initialize the platform */
+        __bdk_platform_init();
+
         /* Don't reset if CCPI links change state. We aren't using CCPI yet */
         BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
 
         /* Shut off cores in reset to save power. It is optional, but probably
             good practice */
-        BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -2);
+        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+            BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -2);
 
         /* Errata TBD: The DAP has an issue where its state isn't cleared for
            cores in reset. Put the DAPs in reset as their associated cores are
            also in reset */
         BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, BDK_CSR_READ(node, BDK_RST_PP_RESET));
-
-        /* Initialize the platform */
-        __bdk_platform_init();
 
         /* Enable the timer */
         BDK_MSR(CNTFRQ_EL0, BDK_GTI_RATE); /* Needed for Asim */
