@@ -69,7 +69,7 @@ typedef union bdk_tb_abort_rgn64_hi1 {
 	uint32_t u;
 	struct bdk_tb_abort_rgn64_hi1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -101,7 +101,7 @@ typedef union bdk_tb_abort_rgn64_hi1_hi {
 	uint32_t u;
 	struct bdk_tb_abort_rgn64_hi1_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -133,7 +133,7 @@ typedef union bdk_tb_abort_rgn64_hi2 {
 	uint32_t u;
 	struct bdk_tb_abort_rgn64_hi2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -165,7 +165,7 @@ typedef union bdk_tb_abort_rgn64_hi2_hi {
 	uint32_t u;
 	struct bdk_tb_abort_rgn64_hi2_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -197,7 +197,7 @@ typedef union bdk_tb_abort_rgn64_lo1 {
 	uint32_t u;
 	struct bdk_tb_abort_rgn64_lo1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -229,7 +229,7 @@ typedef union bdk_tb_abort_rgn64_lo1_hi {
 	uint32_t u;
 	struct bdk_tb_abort_rgn64_lo1_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -261,7 +261,7 @@ typedef union bdk_tb_abort_rgn64_lo2 {
 	uint32_t u;
 	struct bdk_tb_abort_rgn64_lo2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -293,7 +293,7 @@ typedef union bdk_tb_abort_rgn64_lo2_hi {
 	uint32_t u;
 	struct bdk_tb_abort_rgn64_lo2_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -326,7 +326,7 @@ typedef union bdk_tb_abort_rgn_hi1 {
 	uint32_t u;
 	struct bdk_tb_abort_rgn_hi1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -359,7 +359,7 @@ typedef union bdk_tb_abort_rgn_hi2 {
 	uint32_t u;
 	struct bdk_tb_abort_rgn_hi2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -392,7 +392,7 @@ typedef union bdk_tb_abort_rgn_lo1 {
 	uint32_t u;
 	struct bdk_tb_abort_rgn_lo1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -425,7 +425,7 @@ typedef union bdk_tb_abort_rgn_lo2 {
 	uint32_t u;
 	struct bdk_tb_abort_rgn_lo2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -926,7 +926,7 @@ typedef union bdk_tb_extended_target_cpu {
 	uint32_t u;
 	struct bdk_tb_extended_target_cpu_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -1027,7 +1027,7 @@ typedef union bdk_tb_gte_api {
 	uint32_t u;
 	struct bdk_tb_gte_api_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -1059,7 +1059,7 @@ typedef union bdk_tb_gte_api_param {
 	uint32_t u;
 	struct bdk_tb_gte_api_param_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -1091,7 +1091,7 @@ typedef union bdk_tb_gte_api_param_64 {
 	uint32_t u;
 	struct bdk_tb_gte_api_param_64_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -1123,7 +1123,7 @@ typedef union bdk_tb_gte_api_param_64_hi {
 	uint32_t u;
 	struct bdk_tb_gte_api_param_64_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -1155,7 +1155,7 @@ typedef union bdk_tb_gte_api_status {
 	uint32_t u;
 	struct bdk_tb_gte_api_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -1187,7 +1187,7 @@ typedef union bdk_tb_gte_api_status_64 {
 	uint32_t u;
 	struct bdk_tb_gte_api_status_64_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -1219,7 +1219,7 @@ typedef union bdk_tb_gte_api_status_64_hi {
 	uint32_t u;
 	struct bdk_tb_gte_api_status_64_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -1432,7 +1432,7 @@ typedef union bdk_tb_ppi_group_value {
 	struct bdk_tb_ppi_group_value_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_16_31              : 16;
-		uint32_t ppi                         : 16;
+		uint32_t ppi                         : 16; /**< R/W - Value. */
 #else
 		uint32_t ppi                         : 16;
 		uint32_t reserved_16_31              : 16;
@@ -1467,7 +1467,7 @@ typedef union bdk_tb_ppi_intr_config {
 	struct bdk_tb_ppi_intr_config_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_16_31              : 16;
-		uint32_t value                       : 16;
+		uint32_t value                       : 16; /**< R/W - Value. */
 #else
 		uint32_t value                       : 16;
 		uint32_t reserved_16_31              : 16;
@@ -2231,7 +2231,7 @@ typedef union bdk_tb_schedule_rst {
 	uint32_t u;
 	struct bdk_tb_schedule_rst_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -2425,7 +2425,7 @@ typedef union bdk_tb_spi_group_value {
 	uint32_t u;
 	struct bdk_tb_spi_group_value_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W - Value. */
 #else
 		uint32_t value                       : 32;
 #endif

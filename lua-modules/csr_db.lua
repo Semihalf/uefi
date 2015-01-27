@@ -14571,7 +14571,11 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_51_63", start = 51, stop = 63},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "RTT_WR_11_EXT", start = 54, stop = 54},
+                {name = "RTT_WR_10_EXT", start = 53, stop = 53},
+                {name = "RTT_WR_01_EXT", start = 52, stop = 52},
+                {name = "RTT_WR_00_EXT", start = 51, stop = 51},
                 {name = "DB_OUTPUT_IMPEDANCE", start = 48, stop = 50},
                 {name = "RTT_NOM_11", start = 45, stop = 47},
                 {name = "DIC_11", start = 43, stop = 44},
@@ -15172,8 +15176,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_54_63", start = 54, stop = 63},
-                {name = "TBCW", start = 48, stop = 53},
+                {name = "RESERVED_53_63", start = 53, stop = 63},
+                {name = "TBCW", start = 48, stop = 52},
                 {name = "TCKSRE", start = 44, stop = 47},
                 {name = "TRP", start = 39, stop = 43},
                 {name = "TZQINIT", start = 35, stop = 38},
@@ -19009,7 +19013,8 @@ local csr_db = {
                 {name = "STOPPED", start = 21, stop = 21},
                 {name = "SEND_ERR", start = 20, stop = 20},
                 {name = "DPE_ERR", start = 19, stop = 19},
-                {name = "RESERVED_16_18", start = 16, stop = 18},
+                {name = "SOFT_STOP", start = 18, stop = 18},
+                {name = "RESERVED_16_17", start = 16, stop = 17},
                 {name = "QCOUNT", start = 0, stop = 15},
             }
         },
@@ -20164,7 +20169,8 @@ local csr_db = {
             range1 = {0,23},
             range1_inc = 0x100,
             fields = {
-                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "DISP_ERR", start = 9, stop = 9},
                 {name = "BAD_64B67B", start = 8, stop = 8},
                 {name = "STAT_CNT_OVFL", start = 7, stop = 7},
                 {name = "STAT_MSG", start = 6, stop = 6},
@@ -64931,7 +64937,11 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_51_63", start = 51, stop = 63},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "RTT_WR_11_EXT", start = 54, stop = 54},
+                {name = "RTT_WR_10_EXT", start = 53, stop = 53},
+                {name = "RTT_WR_01_EXT", start = 52, stop = 52},
+                {name = "RTT_WR_00_EXT", start = 51, stop = 51},
                 {name = "DB_OUTPUT_IMPEDANCE", start = 48, stop = 50},
                 {name = "RTT_NOM_11", start = 45, stop = 47},
                 {name = "DIC_11", start = 43, stop = 44},
@@ -67499,7 +67509,7 @@ local csr_db = {
             width = 8,
             address = 0x843000001280,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67696,7 +67706,7 @@ local csr_db = {
             width = 8,
             address = 0x843000001100,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67708,7 +67718,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002110,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67720,7 +67730,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002118,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67732,7 +67742,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002100,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67744,7 +67754,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002108,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67756,7 +67766,7 @@ local csr_db = {
             width = 8,
             address = 0x843000001000,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67768,7 +67778,7 @@ local csr_db = {
             width = 8,
             address = 0x843000001080,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67780,7 +67790,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002010,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67792,7 +67802,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002018,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67804,7 +67814,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002000,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67816,7 +67826,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002008,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -68174,6 +68184,66 @@ local csr_db = {
                 {name = "BLK0", start = 0, stop = 23},
             }
         },
+        NIC_PF_ECO0 = {
+            name = "NIC_PF_ECO0",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
+        NIC_PF_ECO1 = {
+            name = "NIC_PF_ECO1",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003010,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
+        NIC_PF_ECO2 = {
+            name = "NIC_PF_ECO2",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003020,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
+        NIC_PF_ECO3 = {
+            name = "NIC_PF_ECO3",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003030,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
+        NIC_PF_ECO4 = {
+            name = "NIC_PF_ECO4",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003040,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
+        NIC_PF_ECO5 = {
+            name = "NIC_PF_ECO5",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003050,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
         NIC_PF_INT_TIMER_CFG = {
             name = "NIC_PF_INT_TIMER_CFG",
             type = "NCB",
@@ -68257,6 +68327,18 @@ local csr_db = {
                 {name = "RESERVED_6_7", start = 6, stop = 7},
                 {name = "MIN_PKT_SIZE", start = 2, stop = 5},
                 {name = "RESERVED_0_1", start = 0, stop = 1},
+            }
+        },
+        NIC_PF_LMACX_CFG2 = {
+            name = "NIC_PF_LMAC#_CFG2",
+            type = "NCB",
+            width = 8,
+            address = 0x843000240100,
+            range1 = {0,7},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_14_63", start = 14, stop = 63},
+                {name = "MAX_PKT_SIZE", start = 0, stop = 13},
             }
         },
         NIC_PF_LMACX_CREDIT = {
@@ -68632,6 +68714,39 @@ local csr_db = {
                 {name = "ETYPE", start = 0, stop = 15},
             }
         },
+        NIC_PF_RX_GENEVE_DEF = {
+            name = "NIC_PF_RX_GENEVE_DEF",
+            type = "NCB",
+            width = 8,
+            address = 0x843000000580,
+            fields = {
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "ENA", start = 16, stop = 16},
+                {name = "UDP_PORT_NUM", start = 0, stop = 15},
+            }
+        },
+        NIC_PF_RX_NVGRE_DEF = {
+            name = "NIC_PF_RX_NVGRE_DEF",
+            type = "NCB",
+            width = 8,
+            address = 0x843000000590,
+            fields = {
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "ENA", start = 16, stop = 16},
+                {name = "RESERVED_0_15", start = 0, stop = 15},
+            }
+        },
+        NIC_PF_RX_VXLAN_DEF = {
+            name = "NIC_PF_RX_VXLAN_DEF",
+            type = "NCB",
+            width = 8,
+            address = 0x843000000588,
+            fields = {
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "ENA", start = 16, stop = 16},
+                {name = "UDP_PORT_NUM", start = 0, stop = 15},
+            }
+        },
         NIC_PF_SEB_TEST = {
             name = "NIC_PF_SEB_TEST",
             type = "NCB",
@@ -68696,7 +68811,7 @@ local csr_db = {
             type = "NCB",
             width = 8,
             address = 0x843000490200,
-            range1 = {0,3},
+            range1 = {0,15},
             range1_inc = 0x8,
             fields = {
                 {name = "OUT_CNT", start = 32, stop = 63},
@@ -69393,7 +69508,8 @@ local csr_db = {
                 {name = "STOPPED", start = 21, stop = 21},
                 {name = "SEND_ERR", start = 20, stop = 20},
                 {name = "DPE_ERR", start = 19, stop = 19},
-                {name = "RESERVED_16_18", start = 16, stop = 18},
+                {name = "SOFT_STOP", start = 18, stop = 18},
+                {name = "RESERVED_16_17", start = 16, stop = 17},
                 {name = "QCOUNT", start = 0, stop = 15},
             }
         },
@@ -70559,7 +70675,8 @@ local csr_db = {
             range1 = {0,23},
             range1_inc = 0x100,
             fields = {
-                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "DISP_ERR", start = 9, stop = 9},
                 {name = "BAD_64B67B", start = 8, stop = 8},
                 {name = "STAT_CNT_OVFL", start = 7, stop = 7},
                 {name = "STAT_MSG", start = 6, stop = 6},

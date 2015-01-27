@@ -283,7 +283,7 @@ typedef union bdk_dbgx_dbgbvrx_el1_hi {
 	uint32_t u;
 	struct bdk_dbgx_dbgbvrx_el1_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W/H - Reserved. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -316,7 +316,7 @@ typedef union bdk_dbgx_dbgbvrx_el1_lo {
 	uint32_t u;
 	struct bdk_dbgx_dbgbvrx_el1_lo_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W/H - Reserved. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -421,18 +421,17 @@ static inline uint64_t BDK_DBGX_DBGCLAIMSET_EL1(unsigned long param1)
 /**
  * DAB32b - dbg#_dbgdtrrx_el0
  *
- * Transfers 32 bits of data from an external host to the
+ * This register transfers 32 bits of data from an external host to the
  * processor.
  */
 typedef union bdk_dbgx_dbgdtrrx_el0 {
 	uint32_t u;
 	struct bdk_dbgx_dbgdtrrx_el0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t data                        : 32; /**< R/W - Update DTRRX
-                                                                 Update DTRRX. Writes to this register update the value in
+		uint32_t data                        : 32; /**< R/W - Update DTRRX. Writing to this register updates the value in
                                                                      DTRRX and set RXfull to 1.
-                                                                 Reads of this register return the last value written to DTRRX
-                                                                     and do not change RXfull. */
+                                                                 Reading this register returns the last value written to DTRRX
+                                                                     and does not change RXfull. */
 #else
 		uint32_t data                        : 32;
 #endif
@@ -458,7 +457,7 @@ static inline uint64_t BDK_DBGX_DBGDTRRX_EL0(unsigned long param1)
 /**
  * DAB32b - dbg#_dbgdtrtx_el0
  *
- * Transfers 32 bits of data from the processor to an external
+ * This register transfers 32 bits of data from the processor to an external
  * host.
  */
 typedef union bdk_dbgx_dbgdtrtx_el0 {
@@ -591,7 +590,7 @@ typedef union bdk_dbgx_dbgwvrx_el1_hi {
 	uint32_t u;
 	struct bdk_dbgx_dbgwvrx_el1_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W/H - Reserved. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -624,7 +623,7 @@ typedef union bdk_dbgx_dbgwvrx_el1_lo {
 	uint32_t u;
 	struct bdk_dbgx_dbgwvrx_el1_lo_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< R/W/H - Reserved. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -1242,7 +1241,7 @@ static inline uint64_t BDK_DBGX_EDECCR(unsigned long param1)
 /**
  * DAB32b - dbg#_edecr
  *
- * Controls Halting debug events.
+ * This register controls halting debug events.
  *
  */
 typedef union bdk_dbgx_edecr {
@@ -1251,16 +1250,16 @@ typedef union bdk_dbgx_edecr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t ss                          : 1;  /**< R/W - Halting step enable.
-                                                                 If the value of EDECR.SS is changed when the processor is in
-                                                                     Non-debug state, the resulting value of EDECR.SS is UNKNOWN.
+                                                                 If this value is changed when the processor is in
+                                                                     nondebug state, the resulting value is UNKNOWN.
                                                                  0 = Halting step debug event disabled.
                                                                  1 = Halting step debug event enabled. */
 		uint32_t rce                         : 1;  /**< R/W - Reset catch enable. Possible values of this field are:
-                                                                 \<0\> Reset catch debug event disabled.
-                                                                 \<1\> Reset catch debug event enabled. */
+                                                                 0 = Reset catch debug event disabled.
+                                                                 1 = Reset catch debug event enabled. */
 		uint32_t osuce                       : 1;  /**< R/W - OS unlock catch enabled. Possible values of this field are:
-                                                                 \<0\> OS unlock catch debug event disabled.
-                                                                 \<1\> OS unlock catch debug event enabled. */
+                                                                 0 = OS unlock catch debug event disabled.
+                                                                 1 = OS unlock catch debug event enabled. */
 #else
 		uint32_t osuce                       : 1;
 		uint32_t rce                         : 1;
@@ -1289,7 +1288,7 @@ static inline uint64_t BDK_DBGX_EDECR(unsigned long param1)
 /**
  * DAB32b - dbg#_edesr
  *
- * Indicates the status of internally pending Halting debug
+ * This register indicates the status of internally pending halting debug
  * events.
  */
 typedef union bdk_dbgx_edesr {
@@ -1298,20 +1297,20 @@ typedef union bdk_dbgx_edesr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t ss                          : 1;  /**< R/W - Halting step debug event pending.
-                                                                 0 = Reading this means that a Halting step debug event is not
-                                                                     pending. Writing this means no action.
-                                                                 1 = Reading this means that a Halting step debug event is pending.
-                                                                     Writing this clears the pending Halting step debug event. */
+                                                                 0 = A halting step debug event is not
+                                                                     pending. Writing a 0 means no action.
+                                                                 1 = A halting step debug event is pending.
+                                                                     Writing a 1 clears the pending halting step debug event. */
 		uint32_t rc                          : 1;  /**< R/W - Reset catch debug event pending.
-                                                                 0 = Reading this means that a Reset catch debug event is not
-                                                                     pending. Writing this means no action.
-                                                                 1 = Reading this means that a Reset catch debug event is pending.
-                                                                     Writing this clears the pending Reset catch debug event. */
+                                                                 0 = a reset catch debug event is not
+                                                                     pending. Writing a 0 means no action.
+                                                                 1 = a reset catch debug event is pending.
+                                                                     Writing a 1 clears the pending reset catch debug event. */
 		uint32_t osuc                        : 1;  /**< R/W - OS unlock debug event pending.
-                                                                 0 = Reading this means that an OS unlock catch debug event is not
-                                                                     pending. Writing this means no action.
-                                                                 1 = Reading this means that an OS unlock catch debug event is
-                                                                     pending. Writing this clears the pending OS unlock catch debug
+                                                                 0 = An OS unlock catch debug event is not
+                                                                     pending. Writing a 0 means no action.
+                                                                 1 = An OS unlock catch debug event is
+                                                                     pending. Writing a 1 clears the pending OS unlock catch debug
                                                                      event. */
 #else
 		uint32_t osuc                        : 1;
@@ -1382,7 +1381,7 @@ static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long param1)
 /**
  * DAB32b - dbg#_editr
  *
- * Used in Debug state for passing instructions to the processor
+ * This register is used in Debug state for passing instructions to the processor
  * for execution.
  */
 typedef union bdk_dbgx_editr {
@@ -1518,7 +1517,7 @@ typedef union bdk_dbgx_edpcsr_hi {
 	uint32_t u;
 	struct bdk_dbgx_edpcsr_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< RO - Reserved. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -1553,7 +1552,7 @@ typedef union bdk_dbgx_edpcsr_lo {
 	uint32_t u;
 	struct bdk_dbgx_edpcsr_lo_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t value                       : 32;
+		uint32_t value                       : 32; /**< RO - Reserved. */
 #else
 		uint32_t value                       : 32;
 #endif
@@ -2193,7 +2192,7 @@ static inline uint64_t BDK_DBGX_EDRCR(unsigned long param1)
 /**
  * DAB32b - dbg#_edscr
  *
- * Main control register for the debug implementation.
+ * This is the main control register for the debug implementation.
  *
  */
 typedef union bdk_dbgx_edscr {
@@ -2201,80 +2200,91 @@ typedef union bdk_dbgx_edscr {
 	struct bdk_dbgx_edscr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_31_31              : 1;
-		uint32_t rxfull                      : 1;  /**< RO - DTRRX full. */
-		uint32_t txfull                      : 1;  /**< RO - DTRTX full. */
+		uint32_t rxfull                      : 1;  /**< RO - DTRRX is full. */
+		uint32_t txfull                      : 1;  /**< RO - DTRTX is full. */
 		uint32_t ito                         : 1;  /**< RO - EDITR overrun.
-                                                                 If the processor is not in Debug state, this bit is UNKNOWN.
+                                                                 If the processor is not in the Debug state, this bit is UNKNOWN.
                                                                      ITO is set to 0 on entry to Debug state. */
-		uint32_t rxo                         : 1;  /**< RO - DTRRX overrun. */
-		uint32_t txu                         : 1;  /**< RO - DTRTX underrun. */
-		uint32_t pipeadv                     : 1;  /**< RO - Pipeline advance. Set to 1 every time the processor
+		uint32_t rxo                         : 1;  /**< RO - Indicates DTRRX overrun. */
+		uint32_t txu                         : 1;  /**< RO - Indicates DTRTX underrun. */
+		uint32_t pipeadv                     : 1;  /**< RO - Pipeline advance. This bit is set to 1 every time the processor
                                                                      pipeline retires one or more instructions. Cleared to 0 by a
-                                                                     write to EDRCR.CSPA.
+                                                                     write to DBG()_EDRCR[CSPA].
+
                                                                  The architecture does not define precisely when this bit is
                                                                      set to 1. It requires only that this happen periodically in
-                                                                     Non-debug state to indicate that software execution is
+                                                                     nondebug state to indicate that software execution is
                                                                      progressing. */
 		uint32_t ite                         : 1;  /**< RO - ITR empty.
-                                                                 If the processor is not in Debug state, this bit is UNKNOWN.
-                                                                     It is always valid in Debug state.  When set to 1, the ITR is empty. */
+                                                                 If the processor is not in the debug state, this bit is UNKNOWN.
+                                                                     It is always valid in the debug state.  When set to 1, the ITR is empty. */
 		uint32_t intdis                      : 2;  /**< R/W - Interrupt disable. Disables taking interrupts (including
-                                                                     virtual interrupts and System Error interrupts) in Non-Debug
+                                                                     virtual interrupts and System Error interrupts) in nondebug
                                                                      state.
-                                                                 If external invasive debug is disabled, the value of this
-                                                                     field is ignored.
-                                                                 If external invasive debug is enabled, the possible values of
-                                                                     this field are:
-                                                                 The value of INTdis does not affect whether an interrupt is a
+
+                                                                 The value of this field does not affect whether an interrupt is a
                                                                      WFI wake-up event, but can mask an interrupt as a WFE wake-up
                                                                      event.
-                                                                 If EL3 and EL2 are not implemented, INTdis[0] is RO and reads
-                                                                     the same value as INTdis[1], meaning only the values0b000b11
-                                                                 \<00\>        Do not disable interrupts
-                                                                 \<01\>        Disable interrupts targeting Non-secure EL1.
-                                                                 \<10\>        Disable interrupts targeting only Non-secure EL1 and Non-
-                                                                     secure EL2. If external secure invasive debug is enabled, also
+                                                                 If EL3 and EL2 are not implemented, INTDIS\<0\> is RO and reads
+                                                                     the same value as INTDIS\<1\>, meaning only the values0b000b11.
+                                                                 If external-invasive debug is disabled, the value of this
+                                                                     field is ignored.
+                                                                 If external-invasive debug is enabled, the possible values of
+                                                                     this field are:
+                                                                 0x0 = Do not disable interrupts.
+                                                                 0x1 = Disable interrupts targeting Non-secure EL1.
+                                                                 0x2 = Disable interrupts targeting only nonsecure EL1 and nonsecure EL2. If external
+                                                                 secure invasive debug is enabled, also
                                                                      disable interrupts targeting Secure EL1.
-                                                                 \<11\>        Disable interrupts targeting only Non-secure EL1 and Non-
+                                                                 0x3 = Disable interrupts targeting only nonsecure EL1 and non
                                                                      secure EL2. If external secure invasive debug is enabled, also
                                                                      disable all other interrupts. */
-		uint32_t tda                         : 1;  /**< R/W - Trap debug registers accesses unless OSLSR_EL1.OSLCK ==1 or halting is prohibited.
-                                                                 Affected registeres are the DBGBVRn_EL1, DBGBCRn_EL1, DBGWVRn_EL1 and DBGWCRn_EL1. */
-		uint32_t ma                          : 1;  /**< R/W - Memory access mode. Controls use of memory-access mode for
-                                                                     accessing EDITR and the DCC. This bit is ignored if in Non-
-                                                                     debug state and set to zero on entry to Debug state.
+		uint32_t tda                         : 1;  /**< R/W - Trap debug registers accesses unless OSLSR_EL1.OSLCK = 1 or halting is prohibited.
+                                                                 Affected registeres are the DBG()_DBGBVR()_EL1_LO, DBG()_DBGBVR()_EL1_HI,
+                                                                 DBG()_DBGBCR()_EL1, DBG()_DBGWVR()_EL1_LO, DBG()_DBGWVR()_EL1_HI, and DBG()_DBGWCR()_EL1. */
+		uint32_t ma                          : 1;  /**< R/W - Memory-access mode. Controls use of memory-access mode for
+                                                                     accessing EDITR and the DCC. This bit is ignored if in non
+                                                                     debug state and set to 0 on entry to debug state.
                                                                  Possible values of this field are:
-                                                                 \<0\> Normal access mode
-                                                                 \<1\> Memory access mode. */
+
+                                                                 0 = Normal access mode.
+                                                                 1 = Memory access mode. */
 		uint32_t reserved_19_19              : 1;
-		uint32_t nsec                        : 1;  /**< RO - Non-secure status (NS). When in Debug state, gives the
-                                                                     current security state:
-                                                                 In Non-debug state, this bit is UNKNOWN.
-                                                                 \<0\> Secure state, IsSecure() == TRUE
-                                                                 \<1\> Non-secure state, IsSecure() == FALSE. */
+		uint32_t nsec                        : 1;  /**< RO - Nonsecure status (NS). When in debug state, gives the
+                                                                     current security state.
+                                                                 In nondebug state, this bit is UNKNOWN.
+
+                                                                 0 = Secure state, IsSecure() == TRUE.
+                                                                 1 = Nonsecure state, IsSecure() == FALSE. */
 		uint32_t reserved_17_17              : 1;
 		uint32_t sdd                         : 1;  /**< RO - Secure debug disabled.
+
                                                                  On entry to Debug state:
-                                                                  If entering in Secure state, SDD is set to 0.
-                                                                  If entering in Non-secure state, SDD is set to the inverse of
+                                                                    If entering in secure state, SDD is set to 0.
+                                                                    If entering in nonsecure state, SDD is set to the inverse of
                                                                      ExternalSecureInvasiveDebugEnabled().
+
                                                                  In Debug state, the value of the SDD bit does not change, even
                                                                      if ExternalSecureInvasiveDebugEnabled() changes.
+
                                                                  In Non-debug state:
-                                                                  SDD returns the inverse of
+                                                                    SDD returns the inverse of
                                                                      ExternalSecureInvasiveDebugEnabled(). If the authentication
                                                                      signals that control ExternalSecureInvasiveDebugEnabled()
                                                                      change, a context synchronization operation is required to
                                                                      guarantee their effect.
-                                                                  This bit is unaffected by the Security state of the
+
+                                                                    This bit is unaffected by the Security state of the
                                                                      processor.
-                                                                 If EL3 is not implemented and the implementation is Non-
-                                                                     secure, this bit is RES1. */
+
+                                                                 If EL3 is not implemented and the implementation is non
+                                                                     secure, this bit is reserved. */
 		uint32_t reserved_15_15              : 1;
-		uint32_t hde                         : 1;  /**< R/W - Halting debug mode enable. Possible values of this bit are:
-                                                                 \<0\> Halting debug mode disabled.
-                                                                 \<1\> Halting debug mode enabled. */
-		uint32_t rw                          : 4;  /**< RO - Exception level register-width status. Read-only. In Debug
+		uint32_t hde                         : 1;  /**< R/W - Halting debug mode enable.
+
+                                                                 0 = Halting debug mode disabled.
+                                                                 1 = Halting debug mode enabled. */
+		uint32_t rw                          : 4;  /**< RO - Exception level register-width status. Read-only. In debug
                                                                      state, each bit gives the current register width status of
                                                                      each EL:
                                                                  However:
@@ -2430,14 +2440,14 @@ static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long param1)
 /**
  * DAB32b - dbg#_edwar_hi
  *
- * Watchpoint register high half
+ * Watchpoint register high half.
  *
  */
 typedef union bdk_dbgx_edwar_hi {
 	uint32_t u;
 	struct bdk_dbgx_edwar_hi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t address                     : 32; /**< RO - Records bits 63:32 of the data virtual address being accessed when a Watchpoint debug
+		uint32_t address                     : 32; /**< RO - Records bits \<63:32\> of the data virtual address being accessed when a Watchpoint debug
                                                                  event occurs. */
 #else
 		uint32_t address                     : 32;
@@ -2464,14 +2474,15 @@ static inline uint64_t BDK_DBGX_EDWAR_HI(unsigned long param1)
 /**
  * DAB32b - dbg#_edwar_lo
  *
- * Watchpoint register low half
+ * Watchpoint register low half.
  *
  */
 typedef union bdk_dbgx_edwar_lo {
 	uint32_t u;
 	struct bdk_dbgx_edwar_lo_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t address                     : 32; /**< RO - Records bits 31:0 of the data virtual address being accessed when a Watchpoint debug event
+		uint32_t address                     : 32; /**< RO - Records bits \<31:0\> of the data virtual address being accessed when a Watchpoint debug
+                                                                 event
                                                                  occurs. */
 #else
 		uint32_t address                     : 32;

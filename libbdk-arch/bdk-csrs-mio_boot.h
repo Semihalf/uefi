@@ -147,12 +147,12 @@ typedef union bdk_mio_boot_pin_defs {
 		uint64_t smi_supply                  : 3;  /**< RO - SMI power supply setting based on VDD_SMI_SUPPLY_SELECT pin:
                                                                  0x1 = 1.8V.
                                                                  0x2 = 2.5V.
-                                                                 0x8 = 3.3V.
+                                                                 0x4 = 3.3V.
                                                                  else Reserved. */
 		uint64_t io_supply                   : 3;  /**< RO - I/O power supply setting based on VDD_IO_SUPPLY_SELECT pin:
                                                                  0x1 = 1.8V.
                                                                  0x2 = 2.5V.
-                                                                 0x8 = 3.3V.
+                                                                 0x4 = 3.3V.
                                                                  else Reserved. */
 #else
 		uint64_t io_supply                   : 3;

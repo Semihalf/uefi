@@ -127,9 +127,20 @@ typedef union bdk_rnm_ctl_status {
                                                                  0xD = 104-111.
                                                                  0xE = 112-119.
                                                                  0xF = 120-127. */
-		uint64_t exp_ent                     : 1;  /**< SR/W - Exported entropy enable for random-number generator. */
-		uint64_t rng_rst                     : 1;  /**< SR/W - Reset RNG as core reset. */
-		uint64_t rnm_rst                     : 1;  /**< SR/W - Reset the RNM as core reset except for register logic. */
+		uint64_t exp_ent                     : 1;  /**< SR/W - Exported entropy enable for random number generator. The next random number is
+                                                                 available 80 coprocessor-clock cycles after switching this bit from 0 to 1. The
+                                                                 next random number is available 730 coprocessor-clock cycles after switching this
+                                                                 bit from 1 to 0. */
+		uint64_t rng_rst                     : 1;  /**< SR/W - Reset the RNG. Setting this bit to 1 cancels the generation of the current random
+                                                                 number. The next random number is available 730 coprocessor-clock cycles after this
+                                                                 bit is cleared if EXP_ENT is set to 0. The next random number is available 80
+                                                                 coprocessor-clock cycles after this bit is cleared if EXP_ENT is set to 1. This bit is
+                                                                 not automatically cleared. */
+		uint64_t rnm_rst                     : 1;  /**< SR/W - Reset the RNM. Setting this bit to 1 drops all RNM transactions in flight and clears
+                                                                 all stored numbers in the random number memory. Any outstanding NCBO credits will
+                                                                 not be returned. RNM will not respond to any pending NCBI grants. RNM can accept
+                                                                 new requests immediately after reset is cleared. This bit is not automatically
+                                                                 cleared and will not reset any CSR fields. */
 		uint64_t rng_en                      : 1;  /**< SR/W - Enables the output of the RNG. */
 		uint64_t ent_en                      : 1;  /**< SR/W - Entropy enable for random number generator. */
 #else

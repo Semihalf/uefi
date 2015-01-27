@@ -105,34 +105,34 @@ typedef union bdk_dap_imp_dar {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_11_31              : 21;
 		uint32_t cabnsen                     : 1;  /**< R/W - Enable non-secure CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault on non-secure CAB accesses.
                                                                  1 = Enable non-secure CAB accesses.
-                                                                 0 = return faul on non-secure CAB accesses.
 
-                                                                 When in TrustZone mode resets to 0, else 1. */
+                                                                 When in trusted-mode resets to 0, else 1. */
 		uint32_t caben                       : 1;  /**< R/W - Enable CAB accesses from NCB and RSL devices.
+                                                                 0 = Return fault for all CAB accesses.
                                                                  1 = Enable all CAB accesses.
-                                                                 0 = return faul for all CAB accesses.
 
-                                                                 When in TrustZone mode resets to 0, else 1. */
+                                                                 When in trusted-mode resets to 0, else 1. */
 		uint32_t reserved_6_8                : 3;
 		uint32_t deviceen                    : 1;  /**< R/W - Set this bit to use CVM-AP inside DAP for CNXXXX addressing accesses.
 
-                                                                 When in TrustZone mode resets to 0, else 1. */
+                                                                 When in trusted-mode resets to 0, else 1. */
 		uint32_t dabdeviceen                 : 1;  /**< R/W - Set this bit to use ARM-AP inside DAP for DAB serial bus accesses.
 
-                                                                 When in TrustZone mode resets to 0, else 1. */
+                                                                 When in trusted-mode resets to 0, else 1. */
 		uint32_t spniden                     : 1;  /**< R/W - Set this bit to enable secure non invasive debug enable.
 
-                                                                 When in TrustZone mode resets to 0, else 1. */
+                                                                 When in trusted-mode resets to 0, else 1. */
 		uint32_t spiden                      : 1;  /**< R/W - Set this bit to enable secure invasive debug enable.
 
-                                                                 When in TrustZone mode resets to 0, else 1. */
+                                                                 When in trusted-mode resets to 0, else 1. */
 		uint32_t niden                       : 1;  /**< R/W - Set this bit to enable non secure invasive debug enable.
 
-                                                                 When in TrustZone mode resets to 0, else 1. */
+                                                                 When in trusted-mode resets to 0, else 1. */
 		uint32_t dbgen                       : 1;  /**< R/W - Set this bit to enable debug enable.
 
-                                                                 When in TrustZone mode resets to 0, else 1. */
+                                                                 When in trusted-mode resets to 0, else 1. */
 #else
 		uint32_t dbgen                       : 1;
 		uint32_t niden                       : 1;
@@ -210,8 +210,8 @@ typedef union bdk_dap_sraaddr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_29_31              : 3;
 		uint32_t cabdabsel                   : 1;  /**< R/W - CAB or DAB bus access selection for polling/broadcast write.
-                                                                 1 = polling/broadcast write is for CAB bus, bits \<19:5\> is the register number.
-                                                                 0 = polling/broadcast write is for DAB bus, bits \<20:5\> is the address offset. */
+                                                                 0 = Polling/broadcast write is for DAB bus, bits \<20:5\> is the address offset.
+                                                                 1 = Polling/broadcast write is for CAB bus, bits \<19:5\> is the register number. */
 		uint32_t reserved_21_27              : 7;
 		uint32_t regnum                      : 16; /**< R/W - If [CABDABSEL]=1, then \<19:5\> is the register number with these bit definitions:
                                                                  \<19\>: Op0[0].
@@ -223,9 +223,9 @@ typedef union bdk_dap_sraaddr {
                                                                  If [CABDABSEL]=0, then [REGNUM] is the register offset. */
 		uint32_t reserved_2_4                : 3;
 		uint32_t errstatus                   : 1;  /**< RAZ - Rurrently reserved. */
-		uint32_t busy                        : 1;  /**< RO/H - Busy indicator if the broadcast write or polling still in progress
-                                                                 1 = Broadcast write or polling still in progress.
-                                                                 0 = Idle. */
+		uint32_t busy                        : 1;  /**< RO/H - Busy indicator if the broadcast write or polling still in progress.
+                                                                 0 = Idle.
+                                                                 1 = Broadcast write or polling still in progress. */
 #else
 		uint32_t busy                        : 1;
 		uint32_t errstatus                   : 1;

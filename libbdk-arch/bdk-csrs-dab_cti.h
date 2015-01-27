@@ -300,11 +300,11 @@ typedef union bdk_ctix_ctiauthstatus {
 		uint32_t nsnid1                      : 1;  /**< RO - If EL3 is not implemented and the processor is Secure, holds
                                                                      the same value as DBGAUTHSTATUS_EL1.SNID.
                                                                  Otherwise, holds the same value as DBGAUTHSTATUS_EL1.NSNID. */
-		uint32_t nsnid0                      : 1;
+		uint32_t nsnid0                      : 1;  /**< RO/H - Reserved. */
 		uint32_t nsid1                       : 1;  /**< RO - If EL3 is not implemented and the processor is Secure, holds
                                                                      the same value as DBGAUTHSTATUS_EL1.SID.
                                                                  Otherwise, holds the same value as DBGAUTHSTATUS_EL1.NSID. */
-		uint32_t nsid0                       : 1;
+		uint32_t nsid0                       : 1;  /**< RO/H - Reserved. */
 #else
 		uint32_t nsid0                       : 1;
 		uint32_t nsid1                       : 1;

@@ -385,7 +385,7 @@ typedef union bdk_iobnx_dis_ncbi_io {
                                                                  1 = CCPI-sourced I/O write requests allowed to KEY_MEM(0..2047) (e.g. 16KB, not
                                                                  all of KEY_MEM) only. CCPI-sourced writes to __any__ other address
                                                                  (non-KEY_MEM(0..2047)), or any CCPI-source read will be redirected to
-                                                                 ECAM0_NOP_ZF.
+                                                                 ECAM0_NOP_ZF (for non-ECAM) or ECAM0_NOP_ONNF (for-ECAM).
 
                                                                  This setting does not affect local-node originated traffic.
 

@@ -2801,7 +2801,11 @@ typedef union bdk_lmcx_modereg_params1 {
 	uint64_t u;
 	struct bdk_lmcx_modereg_params1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_51_63              : 13;
+		uint64_t reserved_55_63              : 9;
+		uint64_t rtt_wr_11_ext               : 1;  /**< RO - Reserved. */
+		uint64_t rtt_wr_10_ext               : 1;  /**< RO - Reserved. */
+		uint64_t rtt_wr_01_ext               : 1;  /**< RO - Reserved. */
+		uint64_t rtt_wr_00_ext               : 1;  /**< RO - Reserved. */
 		uint64_t db_output_impedance         : 3;  /**< R/W - Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., CONFIG[LRDIMM_ENA] = 1, SEQ_CTL[SEQ_SEL] = 0x6.
@@ -2967,7 +2971,11 @@ typedef union bdk_lmcx_modereg_params1 {
 		uint64_t dic_11                      : 2;
 		uint64_t rtt_nom_11                  : 3;
 		uint64_t db_output_impedance         : 3;
-		uint64_t reserved_51_63              : 13;
+		uint64_t rtt_wr_00_ext               : 1;
+		uint64_t rtt_wr_01_ext               : 1;
+		uint64_t rtt_wr_10_ext               : 1;
+		uint64_t rtt_wr_11_ext               : 1;
+		uint64_t reserved_55_63              : 9;
 #endif
 	} s;
 	/* struct bdk_lmcx_modereg_params1_s  cn88xx; */
@@ -4813,7 +4821,7 @@ typedef union bdk_lmcx_slot_ctl3 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_50_63              : 14;
 		uint64_t w2r_l_xrank_init_ext        : 1;  /**< RO - Reserved. */
-		uint64_t w2r_xrank_init_ext          : 1;  /**< R/W/H - Reserved. */
+		uint64_t w2r_xrank_init_ext          : 1;  /**< RO - Reserved. */
 		uint64_t w2w_l_xrank_init            : 6;  /**< R/W/H - Write-to-write spacing control for back-to-back write followed by write cache block
                                                                  accesses to a different logical rank, and same BG for DDR4. */
 		uint64_t w2r_l_xrank_init            : 6;  /**< R/W/H - Write-to-read spacing control for back-to-back write followed by read cache block accesses
@@ -4974,7 +4982,112 @@ typedef union bdk_lmcx_timing_params0 {
 #endif
 	} s;
 	/* struct bdk_lmcx_timing_params0_s   cn88xx; */
-	/* struct bdk_lmcx_timing_params0_s   cn88xxp1; */
+	struct bdk_lmcx_timing_params0_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_53_63              : 11;
+		uint64_t tbcw                        : 5;  /**< R/W - Indicates tBCW constraints. Set this field as follows:
+                                                                 _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
+
+                                                                 where TBCW is from the JEDEC DDR4DB spec, and TCYC(ns) is the DDR clock frequency (not
+                                                                 data rate).
+
+                                                                 TYP = 16. */
+		uint64_t tcksre                      : 4;  /**< R/W - Indicates TCKSRE constraints. Set this field as follows:
+                                                                 _ RNDUP[TCKSRE(ns) / TCYC(ns)] - 1
+
+                                                                 where TCKSRE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(5nCK, 10 ns). */
+		uint64_t trp                         : 5;  /**< R/W - Indicates TRP constraints. Set TRP as follows:
+
+                                                                 _ RNDUP[TRP(ns) / TCYC(ns)] - 1
+
+                                                                 where TRP and TRTP are from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency
+                                                                 (not data rate).
+
+                                                                 TYP TRP = 10-15ns.
+
+                                                                 TYP TRTP = max(4nCK, 7.5 ns). */
+		uint64_t tzqinit                     : 4;  /**< R/W - Indicates TZQINIT constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TZQINIT(ns) / (256 * TCYC(ns))]
+
+                                                                 where TZQINIT is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = 2 (equivalent to 512). */
+		uint64_t tdllk                       : 4;  /**< R/W - Indicates TDLLK constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TDLLK(ns) / (256 * TCYC(ns))]
+
+                                                                 where TDLLK is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = 2 (equivalent to 512).
+
+                                                                 This parameter is used in self-refresh exit and assumed to be greater than TRFC. */
+		uint64_t tmod                        : 5;  /**< R/W - Indicates tMOD constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TMOD(ns) / TCYC(ns)] - 1
+
+                                                                 where TMOD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(12nCK, 15 ns). */
+		uint64_t tmrd                        : 4;  /**< R/W - Indicates TMRD constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TMRD(ns) / TCYC(ns)] - 1
+
+                                                                 where TMRD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = 4nCK. */
+		uint64_t txpr                        : 6;  /**< R/W - Indicates TXPR constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TXPR(ns) / (16 * TCYC(ns))]
+
+                                                                 where TXPR is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(5nCK, TRFC+10 ns). */
+		uint64_t tcke                        : 4;  /**< R/W - Indicates TCKE constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TCKE(ns) / TCYC(ns)] - 1
+
+                                                                 where TCKE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(3nCK, 7.5/5.625/5.625/5 ns).
+
+                                                                 Because a DDR4 register can shorten the pulse width of CKE (it delays the falling edge
+                                                                 but does not delay the rising edge), care must be taken to set this parameter larger
+                                                                 to account for this effective reduction in the pulse width. */
+		uint64_t tzqcs                       : 4;  /**< R/W - Indicates TZQCS constraints. This field is set as follows:
+
+                                                                 _ RNDUP[(2 * TZQCS(ns)) / (16 * TCYC(ns))]
+
+                                                                 where TZQCS is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP \>= 8 (greater-than-or-equal-to 128), to allow for dclk90 calibration. */
+		uint64_t reserved_0_7                : 8;
+#else
+		uint64_t reserved_0_7                : 8;
+		uint64_t tzqcs                       : 4;
+		uint64_t tcke                        : 4;
+		uint64_t txpr                        : 6;
+		uint64_t tmrd                        : 4;
+		uint64_t tmod                        : 5;
+		uint64_t tdllk                       : 4;
+		uint64_t tzqinit                     : 4;
+		uint64_t trp                         : 5;
+		uint64_t tcksre                      : 4;
+		uint64_t tbcw                        : 5;
+		uint64_t reserved_53_63              : 11;
+#endif
+	} cn88xxp1;
 } bdk_lmcx_timing_params0_t;
 
 static inline uint64_t BDK_LMCX_TIMING_PARAMS0(unsigned long param1) __attribute__ ((pure, always_inline));

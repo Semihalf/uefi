@@ -1312,7 +1312,7 @@ typedef union bdk_rst_tns_pll_ctl {
                                                                  0x3 = UNDIVIDED core clock. */
 		uint64_t reserved_8_11               : 4;
 		uint64_t reset_n                     : 1;  /**< R/W - PLL reset. */
-		uint64_t clkf                        : 7;  /**< R/W - Multiply reference by CLKF. */
+		uint64_t clkf                        : 7;  /**< R/W - PLL multiplier.  Sets TNS clock frequency to 50 MHz * ([CLKF]+1) / ([PS_EN]+1). */
 #else
 		uint64_t clkf                        : 7;
 		uint64_t reset_n                     : 1;

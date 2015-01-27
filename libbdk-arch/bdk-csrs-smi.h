@@ -62,8 +62,10 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 /**
  * RSL - smi_#_clk
  *
- * This register determines the SMI timing characteristics. SMI Registers for the register address.
- *
+ * This register determines the SMI timing characteristics.
+ * If software wants to change SMI CLK timing parameters (SAMPLE/SAMPLE_HI), software
+ * must delay the SMI_CLK CSR write by at least 512 coprocessor-clocks after the
+ * previous SMI operation is finished.
  */
 typedef union bdk_smi_x_clk {
 	uint64_t u;
@@ -130,8 +132,7 @@ static inline uint64_t BDK_SMI_X_CLK(unsigned long param1)
  * RSL - smi_#_cmd
  *
  * This register forces a read or write command to the PHY. Write operations to this register
- * create SMI transactions. Software will poll (depending on the transaction type). SMI Registers
- * for the register address.
+ * create SMI transactions. Software will poll (depending on the transaction type).
  */
 typedef union bdk_smi_x_cmd {
 	uint64_t u;
@@ -182,7 +183,7 @@ static inline uint64_t BDK_SMI_X_CMD(unsigned long param1)
 /**
  * RSL - smi_#_en
  *
- * Enables the SMI interface. SMI Registers for the register address.
+ * Enables the SMI interface.
  *
  */
 typedef union bdk_smi_x_en {
@@ -219,7 +220,7 @@ static inline uint64_t BDK_SMI_X_EN(unsigned long param1)
 /**
  * RSL - smi_#_rd_dat
  *
- * This register contains the data in a read operation. SMI Registers for the register address.
+ * This register contains the data in a read operation.
  *
  */
 typedef union bdk_smi_x_rd_dat {
@@ -258,7 +259,7 @@ static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long param1)
 /**
  * RSL - smi_#_wr_dat
  *
- * This register provides the data for a write operation. SMI Registers for the register address.
+ * This register provides the data for a write operation.
  *
  */
 typedef union bdk_smi_x_wr_dat {
@@ -297,7 +298,7 @@ static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long param1)
 /**
  * RSL - smi_drv_ctl
  *
- * Enables the SMI interface. SMI Registers for the register address.
+ * Enables the SMI interface.
  *
  */
 typedef union bdk_smi_drv_ctl {

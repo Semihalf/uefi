@@ -1134,7 +1134,8 @@ typedef union bdk_ocx_lnex_int_en {
 	uint64_t u;
 	struct bdk_ocx_lnex_int_en_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_9_63               : 55;
+		uint64_t reserved_10_63              : 54;
+		uint64_t disp_err                    : 1;  /**< RAZ - Reserved. */
 		uint64_t bad_64b67b                  : 1;  /**< R/W - Enable bit for bad 64B/67B codeword encountered. */
 		uint64_t stat_cnt_ovfl               : 1;  /**< R/W - Enable bit for RX lane statistic counter overflow. */
 		uint64_t stat_msg                    : 1;  /**< R/W - Enable bit for status bits for the link or a lane transitioned from a 1 (healthy) to a 0 (problem). */
@@ -1155,7 +1156,8 @@ typedef union bdk_ocx_lnex_int_en {
 		uint64_t stat_msg                    : 1;
 		uint64_t stat_cnt_ovfl               : 1;
 		uint64_t bad_64b67b                  : 1;
-		uint64_t reserved_9_63               : 55;
+		uint64_t disp_err                    : 1;
+		uint64_t reserved_10_63              : 54;
 #endif
 	} s;
 	/* struct bdk_ocx_lnex_int_en_s       cn88xx; */
@@ -2008,8 +2010,7 @@ typedef union bdk_ocx_lnkx_cfg {
                                                                  calculate a conservative value for this field.   SW can override the calculation by
                                                                  writing
                                                                  TX_DAT_RATE=roundup((67*RCLK / GBAUD)*32). */
-		uint64_t low_delay                   : 6;  /**< R/W - The delay before reacting to a lane low data indication, as a multiple of 64 rclks.
-                                                                 Added in pass 2. */
+		uint64_t low_delay                   : 6;  /**< R/W - The delay before reacting to a lane low data indication, as a multiple of 64 rclks. */
 		uint64_t lane_align_dis              : 1;  /**< R/W/H - Disable the RX lane alignment. */
 		uint64_t lane_rev                    : 1;  /**< R/W/H - RX lane reversal.   When enabled, lane destriping is performed from the most significant
                                                                  lane enabled to least significant lane enabled QLM_SELECT must be zero before changing
@@ -2310,8 +2311,7 @@ typedef union bdk_ocx_qlmx_cfg {
 	struct bdk_ocx_qlmx_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t ser_low                     : 4;  /**< R/W/H - Reduce latency by limiting the amount of data in flight for each SerDes.  Writting to 0
-                                                                 causes
-                                                                 hardware to determine a typically optimal value.   Added in pass 2. */
+                                                                 causes hardware to determine a typically optimal value. */
 		uint64_t reserved_42_59              : 18;
 		uint64_t ser_limit                   : 10; /**< RAZ - Reserved. */
 		uint64_t crd_dis                     : 1;  /**< R/W - For diagnostic use only. */

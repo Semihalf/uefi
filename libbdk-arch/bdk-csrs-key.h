@@ -284,9 +284,8 @@ typedef union bdk_key_memx {
 	uint64_t u;
 	struct bdk_key_memx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t kmem                        : 64; /**< SR/W - Key memory. KMEM is accessible using 8-, 16-, 32-, or 64- load or store
-                                                                 operations.
-                                                                 INTERNAL: Note this is 16 KB in pass 1. It may be increased in pass 2. */
+		uint64_t kmem                        : 64; /**< SR/W - Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations.
+                                                                 INTERNAL: Note this is 16 KB in pass 1. It will be increased to 64 KB in pass 2. */
 #else
 		uint64_t kmem                        : 64;
 #endif

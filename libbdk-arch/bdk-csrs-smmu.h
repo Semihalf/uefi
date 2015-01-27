@@ -961,7 +961,6 @@ typedef union bdk_smmux_cbx_sctlr {
                                                                  1 = User level cache maintenance operations are enabled.
 
                                                                  This field is ignored when SMMU()_CBA2R()[VA64] is zero.
-                                                                 In CNXXXX TBD if needed.
 
                                                                  For stage 2, reserved. */
 		uint32_t nscfg                       : 2;  /**< R/W - For stage 1, non-secure configuration. Controls the non-secure attribute for any
@@ -1071,8 +1070,6 @@ typedef union bdk_smmux_cbx_sctlr {
 		uint32_t affd                        : 1;  /**< R/W - Access flag fault disable.
                                                                  0 = Access flag faults are enabled.
                                                                  1 = Access flag faults are disabled.
-
-                                                                 In CNXXXX, TBD if this bit is cacheable in the TLB.
 
                                                                  It is expected that software will issue TLB maintenance operations if this bit is
                                                                  modified. If page tables are shared with the processor, then any descriptor with AF zero
@@ -1932,7 +1929,11 @@ typedef union bdk_smmux_cba2rx {
 
                                                                  If a context bank changes its security state, it is recommended that this bit is reset by
                                                                  software. */
-		uint32_t monc                        : 1;  /**< R/W - Designates a secure monitor context bank (EL3). Ignored if the bank is non-secure. */
+		uint32_t monc                        : 1;  /**< R/W - Designates a secure monitor context bank (EL3):
+                                                                   0 = Non-monitor context. Use VMID or ASID for TLB tagging.
+                                                                   1 = Monitor context. Do not use VMID or ASID for TLB tagging.
+
+                                                                 Ignored if the bank is non-secure, or SMMU()_CBAR()[CTYPE] != 0x1. */
 		uint32_t va64                        : 1;  /**< RO - Descriptor format. If set, only AArch64 translations are permitted.
                                                                  For CNXXXX always set; ARM defines this as R/W to allow for 32-bit V7 format. */
 #else
@@ -2646,7 +2647,8 @@ typedef union bdk_smmux_idr0 {
 		uint32_t sms                         : 1;  /**< RO - Stream match support. */
 		uint32_t atosns                      : 1;  /**< RO - Address translations operation not supported.
 
-                                                                 In CNXXXX, deprecated and not supported. */
+                                                                 Address translation operations are deprecated in SMMUv2 and in CNXXXX not
+                                                                 supported. */
 		uint32_t ptfs                        : 2;  /**< RO - Page table format supported.
                                                                  0x0 = V7L and V7S supported.
                                                                  0x1 = V7L format supported.
@@ -2785,7 +2787,7 @@ typedef union bdk_smmux_idr2 {
 		uint32_t hads                        : 1;  /**< RO - Hierarchical attribute disable support.
                                                                  When set, indicates supports ARM v8.1 hierarchical attribute disables.
                                                                  See SMMU()_CB()_TCR2[HAD0]. */
-		uint32_t e2hs                        : 1;  /**< RO - Virtual host extension contexts.
+		uint32_t e2hs                        : 1;  /**< RO - E2H context (E2HC) supported.
                                                                  When set, indicates supports ARM v8.1 virtual host extension contexts.
                                                                  See SMMU()_CBA2R()[E2HC]. */
 		uint32_t reserved_16_26              : 11;
@@ -3327,7 +3329,7 @@ typedef union bdk_smmux_nscr0 {
 	struct bdk_smmux_nscr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t shypmode1                   : 1;  /**< SR/W - Only exists in the secure copy of this register. */
-		uint32_t shypmode0                   : 1;
+		uint32_t shypmode0                   : 1;  /**< R/W - Only exists in the secure copy of this register. */
 		uint32_t nscfg                       : 2;  /**< SR/W - Non-secure configuration. Only exist in secure copy of register, RES0 in non-secure copy.
                                                                  This field only applies to secure transactions bypassing the SMMU stream mapping
                                                                  process.
@@ -3509,7 +3511,7 @@ typedef union bdk_smmux_nscr2 {
 		uint32_t reserved_16_31              : 16;
 		uint32_t bpvmid                      : 16; /**< RAZ - Bypass VMID. VMID field applied to client transactions that bypass the SMMU. In CNXXXX,
                                                                  not supported. INTERNAL: If L2C adds support for QoS on a per VMID basis the L2C will also
-                                                                 have a `secure' QoS setting, so this field should sremain not required. */
+                                                                 have a `secure' QoS setting, so this field should remain not required. */
 #else
 		uint32_t bpvmid                      : 16;
 		uint32_t reserved_16_31              : 16;
@@ -3692,8 +3694,8 @@ typedef union bdk_smmux_nsgfsynr0 {
 
                                                                  This field is only valid for the secure state.
 
-                                                                 This field may read '1' in the event that a fault is encountered in relation to a
-                                                                 non-secure client device and where SMMU()_SCR1[GEFRO]='1'. */
+                                                                 This field may read 1 in the event that a fault is encountered in relation to a
+                                                                 non-secure client device and where SMMU()_SCR1[GEFRO]=1. */
 		uint32_t ind                         : 1;  /**< R/W/H - Instruction not data.
                                                                  0 = The faulty transaction has the data access attribute.
                                                                  1 = The faulty transaction has the instruction access attribute. */
@@ -3818,7 +3820,8 @@ typedef union bdk_smmux_nsmiss_perf {
 	uint64_t u;
 	struct bdk_smmux_nsmiss_perf_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t cnt                         : 64; /**< R/W/H - Counts the number of lookup requests in non-secure mode which missed the IOTLB. */
+		uint64_t cnt                         : 64; /**< R/W/H - Counts the number of lookup requests in non-secure mode which missed the IOTLB.
+                                                                 Also includes sign-extension position translation faults. */
 #else
 		uint64_t cnt                         : 64;
 #endif
@@ -4468,7 +4471,7 @@ typedef union bdk_smmux_scr0 {
 	struct bdk_smmux_scr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t shypmode1                   : 1;  /**< SR/W - Only exists in the secure copy of this register. */
-		uint32_t shypmode0                   : 1;
+		uint32_t shypmode0                   : 1;  /**< R/W - Only exists in the secure copy of this register. */
 		uint32_t nscfg                       : 2;  /**< SR/W - Non-secure configuration. Only exist in secure copy of register, RES0 in non-secure copy.
                                                                  This field only applies to secure transactions bypassing the SMMU stream mapping
                                                                  process.
@@ -4765,7 +4768,7 @@ typedef union bdk_smmux_scr2 {
 		uint32_t reserved_16_31              : 16;
 		uint32_t bpvmid                      : 16; /**< RAZ - Bypass VMID. VMID field applied to client transactions that bypass the SMMU. In CNXXXX,
                                                                  not supported. INTERNAL: If L2C adds support for QoS on a per VMID basis the L2C will also
-                                                                 have a `secure' QoS setting, so this field should sremain not required. */
+                                                                 have a `secure' QoS setting, so this field should remain not required. */
 #else
 		uint32_t bpvmid                      : 16;
 		uint32_t reserved_16_31              : 16;
@@ -4945,8 +4948,8 @@ typedef union bdk_smmux_sgfsynr0 {
 
                                                                  This field is only valid for the secure state.
 
-                                                                 This field may read '1' in the event that a fault is encountered in relation to a
-                                                                 non-secure client device and where SMMU()_SCR1[GEFRO]='1'. */
+                                                                 This field may read 1 in the event that a fault is encountered in relation to a
+                                                                 non-secure client device and where SMMU()_SCR1[GEFRO]=1. */
 		uint32_t ind                         : 1;  /**< R/W/H - Instruction not data.
                                                                  0 = The faulty transaction has the data access attribute.
                                                                  1 = The faulty transaction has the instruction access attribute. */
@@ -5071,7 +5074,8 @@ typedef union bdk_smmux_smiss_perf {
 	uint64_t u;
 	struct bdk_smmux_smiss_perf_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t cnt                         : 64; /**< SR/W/H - Counts the number of lookup requests in secure mode which missed the IOTLB. */
+		uint64_t cnt                         : 64; /**< SR/W/H - Counts the number of lookup requests in secure mode which missed the IOTLB.
+                                                                 Also includes sign-extension position translation faults. */
 #else
 		uint64_t cnt                         : 64;
 #endif
