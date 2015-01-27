@@ -162,7 +162,8 @@ void __bdk_init(uint32_t image_crc)
         /* Errata TBD: The DAP has an issue where its state isn't cleared for
            cores in reset. Put the DAPs in reset as their associated cores are
            also in reset */
-        BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, BDK_CSR_READ(node, BDK_RST_PP_RESET));
+        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+            BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, BDK_CSR_READ(node, BDK_RST_PP_RESET));
 
         /* Enable the timer */
         BDK_MSR(CNTFRQ_EL0, BDK_GTI_RATE); /* Needed for Asim */
@@ -287,7 +288,8 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
         /* Errata TBD: The DAP has an issue where its state isn't cleared for
            cores in reset. Put the DAPs in reset as their associated cores are
            also in reset */
-        BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, reset & ~need_reset_off);
+        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+            BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, reset & ~need_reset_off);
     }
 
     BDK_TRACE(INIT, "N%d: Wait up to 1s for the cores to boot\n", node);
@@ -361,7 +363,8 @@ int bdk_reset_cores(bdk_node_t node, uint64_t coremask)
     /* Errata TBD: The DAP has an issue where its state isn't cleared for
        cores in reset. Put the DAPs in reset as their associated cores are
        also in reset */
-    BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, BDK_CSR_READ(node, BDK_RST_PP_RESET));
+    if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, BDK_CSR_READ(node, BDK_RST_PP_RESET));
 
     BDK_TRACE(INIT, "N%d: Cores now in reset: 0x%lx\n", node, reset);
 
