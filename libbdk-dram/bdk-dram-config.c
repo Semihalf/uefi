@@ -51,6 +51,23 @@ static const config_func_t dram_table[] =
     NULL /* Table must end in NULL */
 };
 
+static const dram_config_t *bdk_find_dram_config_by_name(int node, const char *config_name)
+{
+    const config_func_t *table = dram_table;
+    const dram_config_t *config = NULL;
+    while (*table)
+    {
+        const dram_config_t *c = (*table)();
+        if (strcmp(c->name, config_name) == 0)
+        {
+            config = c;
+            break;
+        }
+        table++;
+    }
+    return config;
+}
+
 /**
  * Lookup a DRAM configuration by name and intialize dram with it
  *
@@ -65,18 +82,7 @@ static const config_func_t dram_table[] =
  */
 int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
 {
-    const config_func_t *table = dram_table;
-    const dram_config_t *config = NULL;
-    while (*table)
-    {
-        const dram_config_t *c = (*table)();
-        if (strcmp(c->name, config_name) == 0)
-        {
-            config = c;
-            break;
-        }
-        table++;
-    }
+    const dram_config_t *config = bdk_find_dram_config_by_name(node, config_name);
 
     if (!config)
     {
@@ -96,6 +102,28 @@ int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : config->ddr_clock_hertz;
     printf("BDK DRAM: %d MB, %d MHz\n", mbytes, ((ddr_clock_hertz + 500000) /1000000));
     return mbytes;
+}
+
+/**
+ * Lookup a DRAM configuration by name and return ddr_clock_hertz field
+ *
+ * @param node   Node to configure
+ * @param config_name
+ *               Name of the configuration to use
+ *
+ * @return DDR Clock hertz, or negative on failure
+ */
+int bdk_dram_config_get_hertz_by_name(int node, const char *config_name)
+{
+    const dram_config_t *config = bdk_find_dram_config_by_name(node, config_name);
+
+    if (!config)
+    {
+        bdk_error("DRAM config not found: %s\n", config_name);
+        return -1;
+    }
+
+    return config->ddr_clock_hertz;
 }
 
 /**

@@ -68,9 +68,9 @@ end)
 for _,name in ipairs(CONFIG_CHOICES) do
     local text = "Initialize DRAM using config \"%s\"" % name
     m:item(name, text, function()
-        local ddr_clock_hertz = 0
-        ddr_clock_hertz = menu.prompt_number("DRAM clock Hertz, zero for default", ddr_clock_hertz)
-        local dram_mbytes = cavium.c.bdk_dram_config(menu.node, name, ddr_clock_hertz)
+        local ddr_clock_hertz = cavium.c.bdk_dram_config_get_hertz_by_name(menu.node, name)
+        local ddr_clock_override = menu.prompt_number("DRAM clock Hertz, return for default", ddr_clock_hertz)
+        local dram_mbytes = cavium.c.bdk_dram_config(menu.node, name, ddr_clock_override)
     end)
 end
 
