@@ -8,6 +8,9 @@ BDK_REQUIRE_DEFINE(DRAM_TEST);
 #define ENABLE_LMC_PERCENT 1 /* Show LMC load after each DRAM test */
 #define ENABLE_CCPI_PERCENT 0 /* Show CCPI load after each DRAM test */
 
+extern void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
+				 int *rank, int *bank, int *row, int *col);
+
 typedef struct
 {
     const char *        name;       /* Friendly name for the test */
@@ -439,52 +442,6 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
     else
         BDK_TRACE(DRAM_TEST, "Test \"%s\": PASS\n", name);
     return errors;
-}
-
-static void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm, int *rank, int *bank, int *row, int *col)
-{
-    #define EXTRACT(v, lsb, width) (((v) >> (lsb)) & ((1ull << (width)) - 1))
-    *node = EXTRACT(address, 40, 2); /* Address bits [41:40] */
-    /* Determine the LMC controller */
-    BDK_CSR_INIT(l2c_ctl, *node, BDK_L2C_CTL);
-    int bank_lsb, xbits;
-    xbits = (__bdk_dram_get_num_lmc() == 4) ? 2 : 1;
-    bank_lsb = 7 + xbits;
-    if (l2c_ctl.s.disidxalias)
-	*lmc = EXTRACT(address, 7, xbits);
-    else
-	*lmc = EXTRACT(address, 7, xbits) ^ EXTRACT(address, 18, xbits) ^ EXTRACT(address, 12, xbits);
-
-    /* Figure out the bank field width */
-    BDK_CSR_INIT(lmcx_config, *node, BDK_LMCX_CONFIG(*lmc));
-    BDK_CSR_INIT(lmcx_ddr_pll_ctl, *node, BDK_LMCX_DDR_PLL_CTL(*lmc));
-    int bank_width = 3;
-    if (lmcx_ddr_pll_ctl.s.ddr4_mode) /* Detect DDR4 */
-    {
-        // FIXME, can be 3 or 4, depends on no. of banks
-        bdk_warn("DDR4 support FIXME: defaulting bank_bits to 3");
-	//bank_width = 3; // FIXME: default to #banks <= 8
-    }
-
-    /* Extract bit positions from the LMC config */
-    int dimm_lsb    = 28 + lmcx_config.s.pbank_lsb + xbits;
-    int dimm_width  = 40 - dimm_lsb;
-    int rank_lsb    = dimm_lsb - lmcx_config.s.rank_ena;
-    int rank_width  = dimm_lsb - rank_lsb;
-    int row_lsb     = 14 + lmcx_config.s.row_lsb + xbits;
-    int row_width   = rank_lsb - row_lsb;
-    int col_hi_lsb  = bank_lsb + bank_width;
-    int col_hi_width= row_lsb - col_hi_lsb;
-
-    /* Extract the parts of the address */
-    *dimm = EXTRACT(address, dimm_lsb, dimm_width);
-    *rank = EXTRACT(address, rank_lsb, rank_width);
-    *row = EXTRACT(address, row_lsb, row_width);
-    int col_hi = EXTRACT(address, col_hi_lsb, col_hi_width);
-    *bank = EXTRACT(address, bank_lsb, bank_width);
-    /* LMC number already extracted */
-    *col = EXTRACT(address, 3, 4) | (col_hi << 4);
-    /* Bus byte is address bits [2:0]. Unused here */
 }
 
 /**
