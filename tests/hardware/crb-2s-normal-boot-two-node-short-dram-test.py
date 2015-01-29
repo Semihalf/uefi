@@ -390,5 +390,6 @@ def main():
         cnx = Connection(console="/dev/ttyUSB2", mcu="/dev/ttyUSB3", logname="chad-test_bdk_boot_crb2.log")
         boot_test(cnx)
         dram_test(cnx)
+        cnx.close()
 
 main()
