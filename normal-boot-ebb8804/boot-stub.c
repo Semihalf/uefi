@@ -30,6 +30,7 @@
    DRAM_NODE0 is X, the function required is dram_get_config_X() */
 #define _CONFIG_FUNC_NAME(n) dram_get_config_ ## n
 #define CONFIG_FUNC_NAME(n) _CONFIG_FUNC_NAME(n)
+#define CONFIG_STR_NAME(n) #n
 
 /**
  * This enumeration represents the status codes that can be reported to the BMC
@@ -140,10 +141,14 @@ static void boot_image(const char *dev_filename, uint64_t loc)
     fflush(NULL);
     BDK_MB;
 
+    /* This string is passed to the image as a default environment. It is
+       series of NAME=VALUE pairs separated by '\0'. The end is marked with
+       two '\0' in a row. */
+    char *image_env = "BOARD=" CONFIG_STR_NAME(DRAM_NODE0) "\0\0";
+
     /* Send status to the BMC: Boot stub complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_COMPLETE);
-
-    if (bdk_jump_address(bdk_ptr_to_phys(image)))
+    if (bdk_jump_address(bdk_ptr_to_phys(image), bdk_ptr_to_phys(image_env)))
     {
         bdk_error("Failed to jump to image\n");
         goto out;

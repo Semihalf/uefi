@@ -235,7 +235,7 @@ static void boot_image(const char *dev_filename, uint64_t loc)
     printf("    Jumping to image at %p\n---\n", image);
     fflush(NULL);
     BDK_MB;
-    if (bdk_jump_address(bdk_ptr_to_phys(image)))
+    if (bdk_jump_address(bdk_ptr_to_phys(image), 0))
     {
         bdk_error("Failed to jump to image\n");
         goto out;

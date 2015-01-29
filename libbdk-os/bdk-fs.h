@@ -59,7 +59,7 @@ typedef struct
 
 int bdk_fs_register(const char *prefix, const __bdk_fs_ops_t *ops);
 int bdk_fs_register_dev(const char *dev_base, int dev_index, const __bdk_fs_dev_ops_t *ops);
-int bdk_jump_address(uint64_t paddress);
+int bdk_jump_address(uint64_t paddress, uint64_t arg0);
 int __bdk_fs_check_break(void);
 
 /** @} */

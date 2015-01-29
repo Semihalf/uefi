@@ -367,19 +367,21 @@ int _fstat(int handle, struct stat *st)
  * Jump the PC to a physical address. No checking is performed.
  *
  * @param paddress Physical address to jump to
+ * @param arg0     Value to place in X0 before the jump
  *
  * @return Zero on success, negative on failure. Note that call most likely
  *         will never return.
  */
-int bdk_jump_address(uint64_t paddress)
+int bdk_jump_address(uint64_t paddress, uint64_t arg0)
 {
+    register uint64_t a0 asm("x0") = arg0;
     int (*ptr)(void) = bdk_phys_to_ptr(paddress);
     if (ptr == NULL)
     {
         errno = EBADF;
         return -1;
     }
-    asm volatile ("br %0\n" : : "r" (ptr) : "memory");
+    asm volatile ("br %0\n" : : "r" (ptr), "r" (a0) : "memory");
     return 0; // Not reached
 }
 
