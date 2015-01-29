@@ -11,7 +11,7 @@ def boot_test(cnx):
     cnx.match("Node:  0 (Fixed)")
     cnx.match("Chip:  0xa1 Pass 1.0")
     cnx.match("L2:    16384 KB")
-    cnx.match("RCLK:  1900 Mhz")
+    cnx.match("RCLK:  1200 Mhz")
     cnx.match("SCLK:  700 Mhz")
     cnx.match("Boot:  SPI24(5)")
     cnx.match("VRM:   Disabled")
