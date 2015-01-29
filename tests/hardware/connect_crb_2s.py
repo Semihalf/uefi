@@ -91,7 +91,7 @@ class Connection:
     def powerCycle(self):
         self.log("Power cycle board")
         os.write(self.fd_mcu, "F7\r\n")
-        time.sleep(5)
+        time.sleep(7)
         os.write(self.fd_mcu, "N7\r\n")
         time.sleep(3)
         os.write(self.fd_mcu, "N8\r\n")
