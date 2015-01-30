@@ -1709,7 +1709,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmcx_config.s.early_unload_d1_r1   = 0;
         lmcx_config.s.scrz                 = 0;
         lmcx_config.s.mode_x4dev           = (dram_width == 4) ? 1 : 0;
-        lmcx_config.s.bg2_enable	   = ((ddr_type == DDR4_DRAM) && (dram_width != 4)) ? 1 : 0;
+        lmcx_config.s.bg2_enable	   = ((ddr_type == DDR4_DRAM) && (dram_width == 16)) ? 0 : 1;
 
         if ((s = lookup_env_parameter_ull("ddr_config")) != NULL) {
             lmcx_config.u    = strtoull(s, NULL, 0);
