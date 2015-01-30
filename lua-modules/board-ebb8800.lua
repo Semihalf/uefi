@@ -68,16 +68,16 @@ end
 -- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_RXAUI_2X2, 6250, 0)
 
 -- XFI modes
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_XFI_4X1, 10321, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_XFI_4X1, 10312, 0)
 
 -- XLAUI modes
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_XLAUI_1X4, 10321, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_XLAUI_1X4, 10312, 0)
 
 -- 10GBASE-KR modes
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_10G_KR_4X1, 10321, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_10G_KR_4X1, 10312, 0)
 
 -- 40GBASE-KR modes
--- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_40G_KR4_1X4, 10321, 0)
+-- cavium.c.bdk_qlm_set_mode(node, qlm, cavium.QLM_MODE_40G_KR4_1X4, 10312, 0)
 
 --------------------------------------------------------------
 -- Choosing QLM modes for SATA (QLMs 2-3, 6-7)

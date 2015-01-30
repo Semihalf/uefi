@@ -426,8 +426,8 @@ int main(void)
         if (bdk_numa_exists(n))
         {
             BDK_TRACE(BOOT_STUB, "Initializing QLMs on Node %d\n", n);
-            bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XLAUI_1X4, 10321, 0);
-            bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XFI_4X1, 10321, 0);
+            bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XLAUI_1X4, 10312, 0);
+            bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XFI_4X1, 10312, 0);
             bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_PCIE_1X4, 8000, 0);
             bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
             bdk_qlm_set_mode(n, 4, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
