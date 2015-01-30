@@ -487,7 +487,7 @@ int initialize_ddr_clock(bdk_node_t node,
 	    /* Put all LMCs into DRESET here */
             for (loop_interface_num = 0; loop_interface_num < 4; ++loop_interface_num) {
 
-                dll_ctl2.u = 0;
+                dll_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(loop_interface_num));
 
                 dll_ctl2.s.byp_setting          = 0;
                 dll_ctl2.s.byp_sel              = 0;
@@ -529,29 +529,20 @@ int initialize_ddr_clock(bdk_node_t node,
              *
              */
 
-            ddr_pll_ctl.u	= 0;
+            ddr_pll_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DDR_PLL_CTL(0));
 
-            ddr_pll_ctl.s.clkf              = 0x30;
             ddr_pll_ctl.s.reset_n           = 0;
-            ddr_pll_ctl.s.clkf_ext          = 0;
-            ddr_pll_ctl.s.ddr_ps_en         = 2;
             ddr_pll_ctl.s.ddr_div_reset     = 1;
-            ddr_pll_ctl.s.jtg_test_mode     = 0;
-            ddr_pll_ctl.s.clkr              = 0;
-            ddr_pll_ctl.s.pll_rfslip        = 0;
-            ddr_pll_ctl.s.pll_lock          = 0;
-            ddr_pll_ctl.s.pll_fbslip        = 0;
-            ddr_pll_ctl.s.ddr4_mode         = 0;
             ddr_pll_ctl.s.phy_dcok          = 0;
-            ddr_pll_ctl.s.dclk_invert       = 1;
-            ddr_pll_ctl.s.bwadj             = 0x18;
-            ddr_pll_ctl.s.dclk_alt_refclk_sel = 0;
+            ddr_pll_ctl.s.dclk_invert       = 0;
 
             if ((s = lookup_env_parameter("ddr_pll_bwadj")) != NULL) {
                 ddr_pll_ctl.s.bwadj = strtoul(s, NULL, 0);
             }
 
             DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(0), ddr_pll_ctl.u);
+
+            ddr_pll_ctl.s.dclk_invert       ^= 1; /* Toggle dclk_invert from LMC0 */
             DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(1), ddr_pll_ctl.u);
 
 
@@ -615,7 +606,7 @@ int initialize_ddr_clock(bdk_node_t node,
 
                 error = best_error = ddr_hertz;  /* Init to max error */
 
-                ddr_pll_ctl.u = 0;
+                ddr_pll_ctl.u = BDK_CSR_READ(node, BDK_LMCX_DDR_PLL_CTL(0));
 
                 ddr_print("DDR Reference Hertz = %d\n", ddr_ref_hertz);
 
