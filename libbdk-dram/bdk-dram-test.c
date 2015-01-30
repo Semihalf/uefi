@@ -198,8 +198,8 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         max_cores += bdk_get_num_running_cores(bdk_numa_local());
     BDK_TRACE(DRAM_TEST, "Using %d cores for memory tests\n", max_cores);
 
-    printf("Starting Test \"%s\" for [0x%011lx:0x%011lx]\n",
-        test_info->name, start_address, end_address - 1);
+    printf("Starting Test \"%s\" for [0x%011lx:0x%011lx] using %d core(s)\n",
+	   test_info->name, start_address, end_address - 1, max_cores);
 
 #if ENABLE_LMC_PERCENT
     /* Remember the LMC perf counters for stats after the test */
