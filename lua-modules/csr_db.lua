@@ -68736,11 +68736,13 @@ local csr_db = {
                 {name = "RESERVED_0_15", start = 0, stop = 15},
             }
         },
-        NIC_PF_RX_VXLAN_DEF = {
-            name = "NIC_PF_RX_VXLAN_DEF",
+        NIC_PF_RX_VXLAN_DEFX = {
+            name = "NIC_PF_RX_VXLAN_DEF#",
             type = "NCB",
             width = 8,
-            address = 0x843000000588,
+            address = 0x8430000005a0,
+            range1 = {0,1},
+            range1_inc = 0x8,
             fields = {
                 {name = "RESERVED_17_63", start = 17, stop = 63},
                 {name = "ENA", start = 16, stop = 16},

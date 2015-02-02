@@ -588,8 +588,9 @@ typedef union bdk_lmcx_config {
 	struct bdk_lmcx_config_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t lrdimm_ena                  : 1;  /**< R/W - Load Reduced DIMM Enable. When set allows the use of JEDEC DDR4 LRDIMMs. */
-		uint64_t bg2_enable                  : 1;  /**< R/W - BG2 pin is active for DDR4 mode. Only has an effect when LMC()_CONFIG[MODEDDR4] = 1.
-                                                                 Typically only cleared for DDR4 *16 devices, where there is no BG2 pin on the device. */
+		uint64_t bg2_enable                  : 1;  /**< R/W - BG1 enable bit. Only has an effect when LMC()_CONFIG[MODEDDR4] = 1.
+                                                                 Set to 1 when using DDR4 x4 or x8 parts.
+                                                                 Clear to 0 when using DDR4 x16 parts. */
 		uint64_t mode_x4dev                  : 1;  /**< R/W - DDR *4 device mode. */
 		uint64_t mode32b                     : 1;  /**< R/W - 32-bit datapath mode. When set, only 32 DQ pins are used. */
 		uint64_t scrz                        : 1;  /**< R/W1S/H - Hide LMC()_SCRAMBLE_CFG0 and LMC()_SCRAMBLE_CFG1 when set. */

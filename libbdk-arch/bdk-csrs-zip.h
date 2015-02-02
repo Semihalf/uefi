@@ -482,34 +482,32 @@ union zip_inst_s {
                                                                    * ZIP_ZPTR_S[ADDR] must be eight-byte aligned. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_817_831            : 15; /**< [831:817] Reserved. */
-		uint64_t wq_ptr                      : 49; /**< [816:768] Reserved. INTERNAL: For 86xx: If WQ_PTR is non-zero, it is a pointer to a work-queue entry
-                                                                 that the ZIP coprocessor submits to SSO after all context, output data, and result write
-                                                                 operations are visible to other CNXXXX units and the cores. */
+		uint64_t reserved_812_831            : 20; /**< [831:812] Reserved. INTERNAL: 47..44 reserved for SSO use. */
+		uint64_t ggrp                        : 10; /**< [811:802] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO guest-group to use when
+                                                                 ZIP submits work to SSO. */
+		uint64_t tt                          : 2;  /**< [801:800] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP
+                                                                 submits work to SSO. */
+		uint64_t tag                         : 32; /**< [799:768] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO tag to use when ZIP
+                                                                 submits work to SSO. */
 #else
-		uint64_t wq_ptr                      : 49; /**< [816:768] Reserved. INTERNAL: For 86xx: If WQ_PTR is non-zero, it is a pointer to a work-queue entry
-                                                                 that the ZIP coprocessor submits to SSO after all context, output data, and result write
-                                                                 operations are visible to other CNXXXX units and the cores. */
-		uint64_t reserved_817_831            : 15; /**< [831:817] Reserved. */
+		uint64_t tag                         : 32; /**< [799:768] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO tag to use when ZIP
+                                                                 submits work to SSO. */
+		uint64_t tt                          : 2;  /**< [801:800] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO tag type to use when ZIP
+                                                                 submits work to SSO. */
+		uint64_t ggrp                        : 10; /**< [811:802] Reserved. For CN83XX: If [WQ_PTR] is non-zero, the SSO guest-group to use when
+                                                                 ZIP submits work to SSO. */
+		uint64_t reserved_812_831            : 20; /**< [831:812] Reserved. INTERNAL: 47..44 reserved for SSO use. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_882_895            : 14; /**< [895:882] Reserved. */
-		uint64_t tt                          : 2;  /**< [881:880] Reserved. INTERNAL: For 86xx: If WQ_PTR is non-zero, the SSO tag type to use when the ZIP
-                                                                 coprocessor submits to SSO. */
-		uint64_t reserved_874_879            : 6;  /**< [879:874] Reserved. */
-		uint64_t grp                         : 10; /**< [873:864] Reserved. INTERNAL: For 86xx: If WQ_PTR is non-zero, the SSO group to use when the ZIP
-                                                                 coprocessor submits to SSO. */
-		uint64_t tag                         : 32; /**< [863:832] Reserved. INTERNAL: For 86xx: If WQ_PTR is non-zero, the SSO tag type to use when the ZIP
-                                                                 coprocessor submits to SSO. */
+		uint64_t reserved_881_895            : 15; /**< [895:881] Reserved. INTERNAL: For additional WQP address bits. */
+		uint64_t wq_ptr                      : 49; /**< [880:832] Reserved. For CN83XX: If WQ_PTR is non-zero, it is a pointer to a work-queue
+                                                                 entry that ZIP submits work to SSO after all context, output data, and result
+                                                                 write operations are visible to other CNXXXX units and the cores. */
 #else
-		uint64_t tag                         : 32; /**< [863:832] Reserved. INTERNAL: For 86xx: If WQ_PTR is non-zero, the SSO tag type to use when the ZIP
-                                                                 coprocessor submits to SSO. */
-		uint64_t grp                         : 10; /**< [873:864] Reserved. INTERNAL: For 86xx: If WQ_PTR is non-zero, the SSO group to use when the ZIP
-                                                                 coprocessor submits to SSO. */
-		uint64_t reserved_874_879            : 6;  /**< [879:874] Reserved. */
-		uint64_t tt                          : 2;  /**< [881:880] Reserved. INTERNAL: For 86xx: If WQ_PTR is non-zero, the SSO tag type to use when the ZIP
-                                                                 coprocessor submits to SSO. */
-		uint64_t reserved_882_895            : 14; /**< [895:882] Reserved. */
+		uint64_t wq_ptr                      : 49; /**< [880:832] Reserved. For CN83XX: If WQ_PTR is non-zero, it is a pointer to a work-queue
+                                                                 entry that ZIP submits work to SSO after all context, output data, and result
+                                                                 write operations are visible to other CNXXXX units and the cores. */
+		uint64_t reserved_881_895            : 15; /**< [895:881] Reserved. INTERNAL: For additional WQP address bits. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_896_959            : 64; /**< [959:896] Reserved. MBZ. */

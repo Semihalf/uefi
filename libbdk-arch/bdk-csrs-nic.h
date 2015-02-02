@@ -6235,7 +6235,7 @@ typedef union bdk_nic_pf_rx_nvgre_def {
 	struct bdk_nic_pf_rx_nvgre_def_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_17_63              : 47;
-		uint64_t ena                         : 1;  /**< R/W - Enable detection of NVGRE headers. */
+		uint64_t ena                         : 1;  /**< R/W - This bit is used to enable the detection of NVGRE Headers. */
 		uint64_t reserved_0_15               : 16;
 #else
 		uint64_t reserved_0_15               : 16;
@@ -6262,14 +6262,14 @@ static inline uint64_t BDK_NIC_PF_RX_NVGRE_DEF_FUNC(void)
 
 
 /**
- * NCB - nic_pf_rx_vxlan_def
+ * NCB - nic_pf_rx_vxlan_def#
  *
  * Added in pass 2.
  *
  */
-typedef union bdk_nic_pf_rx_vxlan_def {
+typedef union bdk_nic_pf_rx_vxlan_defx {
 	uint64_t u;
-	struct bdk_nic_pf_rx_vxlan_def_s {
+	struct bdk_nic_pf_rx_vxlan_defx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_17_63              : 47;
 		uint64_t ena                         : 1;  /**< R/W - Enables the detection of VXLAN headers. */
@@ -6280,22 +6280,21 @@ typedef union bdk_nic_pf_rx_vxlan_def {
 		uint64_t reserved_17_63              : 47;
 #endif
 	} s;
-	/* struct bdk_nic_pf_rx_vxlan_def_s   cn88xx; */
-} bdk_nic_pf_rx_vxlan_def_t;
+	/* struct bdk_nic_pf_rx_vxlan_defx_s  cn88xx; */
+} bdk_nic_pf_rx_vxlan_defx_t;
 
-#define BDK_NIC_PF_RX_VXLAN_DEF BDK_NIC_PF_RX_VXLAN_DEF_FUNC()
-static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEF_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEF_FUNC(void)
+static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long param1)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
-		return 0x0000843000000588ull;
-	else 		csr_fatal("BDK_NIC_PF_RX_VXLAN_DEF", 0, 0, 0, 0, 0); /* No return */
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
+		return 0x00008430000005A0ull + (param1 & 1) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_VXLAN_DEFX", 1, param1, 0, 0, 0); /* No return */
 }
-#define typedef_BDK_NIC_PF_RX_VXLAN_DEF bdk_nic_pf_rx_vxlan_def_t
-#define bustype_BDK_NIC_PF_RX_VXLAN_DEF BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_PF_RX_VXLAN_DEF 0
-#define arguments_BDK_NIC_PF_RX_VXLAN_DEF -1,-1,-1,-1
-#define basename_BDK_NIC_PF_RX_VXLAN_DEF "NIC_PF_RX_VXLAN_DEF"
+#define typedef_BDK_NIC_PF_RX_VXLAN_DEFX(...) bdk_nic_pf_rx_vxlan_defx_t
+#define bustype_BDK_NIC_PF_RX_VXLAN_DEFX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_VXLAN_DEFX(p1) (p1)
+#define arguments_BDK_NIC_PF_RX_VXLAN_DEFX(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_RX_VXLAN_DEFX(...) "NIC_PF_RX_VXLAN_DEFX"
 
 
 /**
