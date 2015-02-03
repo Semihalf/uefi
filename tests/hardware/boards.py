@@ -69,8 +69,8 @@ class Board_EVB(Board):
             pass
         self.mcu.write("\rP -f -r\r")
         self.mcu2.write("\rP -f -r\r")
-        self.mcu.waitfor("EBB8800 MCU Command>", timeout=15)
-        self.mcu2.waitfor("EBB8800 MCU Command>", timeout=15)
+        self.mcu.waitforRE("EBB88.. MCU Command>", timeout=15)
+        self.mcu2.waitforRE("EBB88.. MCU Command>", timeout=15)
 
 #
 # Class for controlling the CRB-2S. Requires an serial relay box for control
