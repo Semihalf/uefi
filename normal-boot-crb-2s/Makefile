@@ -27,8 +27,8 @@ ${NORMAL}.bin: stage1.bin stage2.bin
 	cat stage2.bin >> ${NORMAL}.bin
 	# 6) You need to install ATF starting at 4MB
 
-diagnostics: diagnostics.o $(BDK_ROOT)/libbdk/libbdk.a
-boot-stub: boot-stub.o $(BDK_ROOT)/libbdk/libbdk.a
+diagnostics: diagnostics.o tuning.o $(BDK_ROOT)/libbdk/libbdk.a
+boot-stub: boot-stub.o tuning.o $(BDK_ROOT)/libbdk/libbdk.a
 
 clean:
 	rm -f *.o *.map *.bin boot-stub diagnostics ${DIR}/${NORMAL}.bin

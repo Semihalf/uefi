@@ -75,6 +75,18 @@ typedef struct
 } bdk_qlm_ops_t;
 
 /**
+ * Per board custom tuning function. Called during QLM init and mode changes to
+ * allow boards to supply custom tuning parameters. It is a weak symbol so boards
+ * may choose not to implement it.
+ *
+ * @param node     Node number to be tuned
+ * @param qlm      QLM to tune
+ * @param mode     Mode the QLM is in
+ * @param baud_mhz QLM baud rate in MHz
+ */
+extern void bdk_board_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz) BDK_WEAK;
+
+/**
  * Initialize the QLM layer
  */
 extern void bdk_qlm_init(bdk_node_t node) BDK_WEAK;

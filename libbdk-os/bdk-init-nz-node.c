@@ -119,6 +119,8 @@ static void qlm_tune(int qlm)
                 c.s.tx_premptap_ovrd_val = 1);
         }
     }
+    if (bdk_board_qlm_tune)
+        bdk_board_qlm_tune(node, qlm, BDK_QLM_MODE_OCI, baud_mhz);
 }
 
 /**

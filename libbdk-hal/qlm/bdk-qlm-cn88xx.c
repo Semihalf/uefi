@@ -1863,6 +1863,10 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
                 c.s.tx_premptap_ovrd_val = 1);
         }
     }
+
+    /* Allow boards to supply custom tuning */
+    if (bdk_board_qlm_tune)
+        bdk_board_qlm_tune(node, qlm, mode, baud_mhz);
 }
 
 /**
