@@ -86,7 +86,8 @@ class TelnetPort:
         self.host = parts[0]
         self.port = int(parts[1])
         self.telnet = telnetlib.Telnet(self.host, self.port)
-        self.data = self.telnet.read_eager()
+        self.telnet.read_until("JUNK", timeout=1)
+        self.data = ""
 
     def close(self):
         self.telnet.close()
