@@ -1,4 +1,5 @@
-from connect_crb_2s import Connection
+import boards
+import connection
 
 def boot_test(cnx):
     cnx.powerCycle()
@@ -11,12 +12,12 @@ def boot_test(cnx):
     cnx.match("Node:  0 (Fixed)")
     cnx.match("Chip:  0xa1 Pass 1.0")
     cnx.match("L2:    16384 KB")
-    cnx.match("RCLK:  1200 Mhz")
-    cnx.match("SCLK:  700 Mhz")
+    cnx.matchRE("RCLK:  [0-9]+ Mhz")
+    cnx.matchRE("SCLK:  [0-9]+ Mhz")
     cnx.match("Boot:  SPI24(5)")
     cnx.match("VRM:   Disabled")
     cnx.match("Trust: Disabled")
-    cnx.match("Node 0: DRAM: 32768 MB, 1067 MHz")
+    cnx.matchRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=5)
     cnx.match("Node 1: Not found, skipping DRAM init")
     cnx.match("N0.PCIe0: Link timeout, probably the slot is empty")
     cnx.match("N0.PCIe2: Link timeout, probably the slot is empty")
@@ -253,7 +254,7 @@ def dram_test(cnx):
     cnx.waitfor("Node 0, LMC3: ops")
     cnx.waitfor("%")
     cnx.match("All tests passed (time 0:0:")
-    cnx.waitfor("\\)")
+    cnx.waitfor(")")
     cnx.match("=================================")
     cnx.match("DRAM Test Menu")
     cnx.match("=================================")
@@ -317,14 +318,15 @@ def dram_test(cnx):
     cnx.match("brdtest) Run board test")
     cnx.match("(INS)Menu choice []:")
 
-def main():
+def main(log):
     count = 0
     while True:
         count += 1
         print "Loop %d" % count
-        cnx = Connection(console="/dev/ttyUSB2", mcu="/dev/ttyUSB3", logname="chad-test_bdk_boot_crb2.log")
+        cnx = boards.Board_CRB_2S(console="/dev/ttyUSB2", serialbox="/dev/ttyUSB3:9600", logObject=log)
         boot_test(cnx)
         dram_test(cnx)
         cnx.close()
 
-main()
+log = connection.Log("chad-test_bdk_boot_crb2.log")
+main(log)
