@@ -57,7 +57,7 @@ class SerialPort:
             baudrate = int(parts[1])
         else:
             baudrate = 115200
-        if os.system("stty --file=%s %d" % (self.device, baudrate)):
+        if os.system("stty --file=%s %d raw clocal -crtscts -echo" % (self.device, baudrate)):
             raise Exception("stty failed")
         self.fd = os.open(self.device, os.O_RDWR | os.O_SYNC | os.O_NDELAY)
         self.poll = select.poll()
