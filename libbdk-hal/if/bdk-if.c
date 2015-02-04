@@ -567,3 +567,46 @@ const bdk_if_stats_t* bdk_if_get_stats(bdk_if_handle_t handle)
 {
     return __bdk_if_ops[handle->iftype]->if_get_stats(handle);
 }
+
+/**
+ * Wait for all network ports to get link up
+ *
+ * @param timeout_us Maximum time to wait, in microseconds
+ *
+ * @return Zero if all ports are up, -1 if any port is down
+ */
+int bdk_if_link_wait_all(uint64_t timeout_us)
+{
+    bdk_if_handle_t link_handle = __bdk_if_head;
+    int any_down = 0;
+    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME) * timeout_us / 1000000;
+    while (1)
+    {
+        if (link_handle == NULL)
+        {
+            /* We went through the entire list. Exit the loop if all ports
+               were up */
+            if (any_down == 0)
+                break;
+            /* A port was down, search the list again */
+            link_handle = __bdk_if_head;
+            any_down = 0;
+        }
+        else
+        {
+            /* Check link */
+            bdk_if_link_t link = bdk_if_link_autoconf(link_handle);
+            any_down |= !link.s.up;
+            /* Go to next port in list */
+            link_handle = link_handle->next;
+        }
+
+        bdk_thread_yield();
+
+        /* Check for timeout */
+        if (bdk_clock_get_count(BDK_CLOCK_TIME) >= timeout)
+            return -1;
+    }
+
+    return 0;
+}
