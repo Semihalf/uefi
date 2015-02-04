@@ -166,6 +166,8 @@ static void *__bdk_thread_create(uint64_t coremask, bdk_thread_func_t func, int 
     if (thread->gpr[31] & 0xf)
         bdk_fatal("Stack not aligned\n");
     _REENT_INIT_PTR(&thread->lib_state);
+    extern void __sinit(struct _reent *);
+    __sinit(&thread->lib_state);
     thread->stack_canary = STACK_CANARY;
     thread->next = NULL;
     return thread;
