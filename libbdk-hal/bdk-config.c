@@ -57,6 +57,9 @@ static const bdk_config_entry_t __bdk_config_table[__BDK_CONFIG_END] =
     /* Coremask (good cores) to run when 'all' cores are started.
        0x0 is interpreted as all cores being good.*/
     AS_INIT(BDK_CONFIG_COREMASK, 0x0ull),
+    /* By default multi-node support is disabled. This is changed at runtime
+       if a system should support multi-node */
+    AS_INIT(BDK_CONFIG_ENABLE_MULTINODE, 0x0ull),
 };
 #undef AS_INIT
 

@@ -44,6 +44,7 @@ typedef enum
     BDK_CONFIG_SHOW_LINK_STATUS,
 
     BDK_CONFIG_COREMASK,
+    BDK_CONFIG_ENABLE_MULTINODE,
 
     __BDK_CONFIG_END
 } bdk_config_t;

@@ -368,6 +368,7 @@ int main(void)
     if (MULTI_NODE)
     {
         BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
+        bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
         bdk_init_nodes(1);
     }
 

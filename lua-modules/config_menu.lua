@@ -76,6 +76,7 @@ end
 
 addMenu("MAC address", cavium.CONFIG_MAC_ADDRESS)
 addMenuKey("coremask", "Good Coremask", cavium.CONFIG_COREMASK)
+addMenuKey("multinode", "Enable multi-node support", cavium.CONFIG_ENABLE_MULTINODE, 0, 1)
 
 local node = cavium.MASTER_NODE
 

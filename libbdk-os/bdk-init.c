@@ -1099,8 +1099,8 @@ int bdk_init_nodes(int skip_cores)
     /* Only init OCI/CCPI on chips that support it */
     do_oci_init = CAVIUM_IS_MODEL(CAVIUM_CN88XX);
 
-    /* Emulator doesn't seem to have CCPI registers */
-    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    /* Check that the BDK config says multi-node is enabled */
+    if (bdk_config_get(BDK_CONFIG_ENABLE_MULTINODE) == 0)
         do_oci_init = 0;
 
     /* Simulation under Asim is a special case. Multi-node is simulaoted, but
