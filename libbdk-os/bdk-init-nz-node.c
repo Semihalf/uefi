@@ -80,17 +80,6 @@ static void qlm_tune(int qlm)
             break;
     }
 
-    /* Errata (BGX-21957) GSER enhancement to allow auto RX equalization */
-    if ((baud_mhz == 5000) || (baud_mhz == 6250))
-    {
-        for (int lane = 0; lane < 4; lane++)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_EER(qlm, lane),
-                c.s.rxt_eer = 1;
-                c.s.rxt_esv = 0);
-        }
-    }
-
     if (baud_mhz == 6250)
     {
         /* Change the default tuning for 6.25G, from lab measurements */
