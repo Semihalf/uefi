@@ -294,6 +294,13 @@ function menu.prompt_yes_no(prompt, optional_default)
 end
 
 ---
+-- Inject input just like the user typed it
+--
+function menu.inject_input(input)
+    pending_input = input
+end
+
+---
 -- Execute a Lua file, searching the Lua path as needed to find it
 --
 function menu.dofile(filename)
