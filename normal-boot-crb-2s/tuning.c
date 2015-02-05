@@ -13,7 +13,7 @@
 void bdk_board_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
     /* Tune the CCPI links */
-    if ((qlm >= 8) || (qlm < 14))
+    if ((qlm >= 8) && (qlm < 14))
     {
         for (int lane = 0; lane < 4; lane++)
         {
