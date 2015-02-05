@@ -169,6 +169,8 @@ void __bdk_init_main(int arg, void *arg1)
                 bdk_numa_set_exists(n);
             }
         }
+        if (!bdk_numa_is_only_one())
+            bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
     }
 
     /* Core 0 start main as another thread. We create a new thread so that
