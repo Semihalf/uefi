@@ -67,10 +67,13 @@ class Board_EVB(Board):
             self.mcu2.waitfor("JUNK")
         except:
             pass
-        self.mcu.write("\rP -f -r\r")
-        self.mcu2.write("\rP -f -r\r")
-        self.mcu.waitforRE("EBB88.. MCU Command>", timeout=15)
-        self.mcu2.waitforRE("EBB88.. MCU Command>", timeout=15)
+        for m in [self.mcu, self.mcu2]:
+            m.sendEcho("echo mcu_responded")
+            m.match("mcu_responded")
+            m.waitforRE("EBB88.. MCU Command>")
+            m.sendEcho("P -f -r")
+        for m in [self.mcu, self.mcu2]:
+            m.waitforRE("EBB88.. MCU Command>", timeout=15)
 
 #
 # Class for controlling the CRB-2S. Requires an serial relay box for control
