@@ -422,6 +422,13 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
     bdk_atomic_set64(&__bdk_dram_ecc_single_bit_errors, 0);
     bdk_atomic_set64(&__bdk_dram_ecc_double_bit_errors, 0);
 
+    /* Make sure at least one code from each node is running */
+    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    {
+        if (bdk_numa_exists(node))
+            bdk_init_cores(node, 1);
+    }
+
     int errors = __bdk_dram_run_test(&TEST_INFO[test], start_address, length);
 
     /* Check ECC error counters ater the test */
