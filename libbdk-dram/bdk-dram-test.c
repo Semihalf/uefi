@@ -425,7 +425,7 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
     /* Make sure at least one code from each node is running */
     for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
     {
-        if (bdk_numa_exists(node))
+        if (bdk_numa_exists(node) && (bdk_get_running_coremask(node) == 0))
             bdk_init_cores(node, 1);
     }
 
