@@ -68,6 +68,9 @@ extern const dimm_odt_config_t disable_odt_config[];
 #define ddr4_rttwr_120ohm  1         /* RZQ/2  = 240/2  = 120 ohms */
 #define ddr4_rttwr_240ohm  2         /* RZQ/1  = 240/1  = 240 ohms */
 #define ddr4_rttwr_HiZ     3         /* HiZ */
+/* This setting will be available for cn78xx cn88xx pass 2 and cn73xx
+   pass 1.  It is disabled for now. */
+//#define ddr4_rttwr_80ohm   4         /* RZQ/3  = 240/3  =  80 ohms */
 
 #define ddr4_dic_34ohm     0         /* RZQ/7  = 240/7  =  34 ohms */
 #define ddr4_dic_48ohm     1         /* RZQ/5  = 240/5  =  48 ohms */

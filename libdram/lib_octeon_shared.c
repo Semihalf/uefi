@@ -125,6 +125,166 @@ static int init_octeon_dram_interface(bdk_node_t node,
     return mem_size_mbytes;
 }
 
+#if 1
+/*
+ * Suggested testing patterns.
+ *
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0xAAAA_AAAA_AAAA_AAAA
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0xAAAA_AAAA_AAAA_AAAA
+ *  0x5555_5555_5555_5555
+ *  0xAAAA_AAAA_AAAA_AAAA
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0xAAAA_AAAA_AAAA_AAAA
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0x5555_5555_5555_5555
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0x5555_5555_5555_5555
+ *  0xAAAA_AAAA_AAAA_AAAA
+ *  0x5555_5555_5555_5555
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0x5555_5555_5555_5555
+ *
+ *  or possibly
+ *
+ *  0xFDFD_FDFD_FDFD_FDFD
+ *  0x8787_8787_8787_8787
+ *  0xFEFE_FEFE_FEFE_FEFE
+ *  0xC3C3_C3C3_C3C3_C3C3
+ *  0x7F7F_7F7F_7F7F_7F7F
+ *  0xE1E1_E1E1_E1E1_E1E1
+ *  0xBFBF_BFBF_BFBF_BFBF
+ *  0xF0F0_F0F0_F0F0_F0F0
+ *  0xDFDF_DFDF_DFDF_DFDF
+ *  0x7878_7878_7878_7878
+ *  0xEFEF_EFEF_EFEF_EFEF
+ *  0x3C3C_3C3C_3C3C_3C3C
+ *  0xF7F7_F7F7_F7F7_F7F7
+ *  0x1E1E_1E1E_1E1E_1E1E
+ *  0xFBFB_FBFB_FBFB_FBFB
+ *  0x0F0F_0F0F_0F0F_0F0F
+ */
+
+static const uint64_t test_pattern[] = {
+    0xFDFDFDFDFDFDFDFDULL,
+    0x8787878787878787ULL,
+    0xFEFEFEFEFEFEFEFEULL,
+    0xC3C3C3C3C3C3C3C3ULL,
+    0x7F7F7F7F7F7F7F7FULL,
+    0xE1E1E1E1E1E1E1E1ULL,
+    0xBFBFBFBFBFBFBFBFULL,
+    0xF0F0F0F0F0F0F0F0ULL,
+    0xDFDFDFDFDFDFDFDFULL,
+    0x7878787878787878ULL,
+    0xEFEFEFEFEFEFEFEFULL,
+    0x3C3C3C3C3C3C3C3CULL,
+    0xF7F7F7F7F7F7F7F7ULL,
+    0x1E1E1E1E1E1E1E1EULL,
+    0xFBFBFBFBFBFBFBFBULL,
+    0x0F0F0F0F0F0F0F0FULL,
+};
+
+#define test_dram_byte_print ddr_print
+
+int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
+{
+    uint64_t p1, p2, d1, d2;
+    uint64_t v, v1;
+    uint64_t p2offset = 0x4000000;
+    uint64_t datamask;
+    int i, j, k;
+    int errors = 0;
+    int counter;
+    int index;
+
+    datamask = bitmask << (8*byte);
+
+    // Not on THUNDER:	p |= 1ull<<63;
+
+    /* Add offset to both test regions to not clobber u-boot stuff
+     * when running from L2 for NAND boot.
+     */
+    p += 0x4000000;
+
+    counter = 0;
+    for (k = 0; k < (1 << 18); k += (1 << 14)) {
+	for (j = 0; j < (1 << 12); j += (1 << 9)) {
+	    for (i = 0; i < (1 << 7); i += 8) {
+		index = i + j + k;
+		p1 = p + index;
+		p2 = p1 + p2offset;
+		v = test_pattern[index%(sizeof(test_pattern)/sizeof(uint64_t))];
+		v &= datamask;
+		v1 = ~v;
+
+		/* test_dram_byte_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
+		 *            p1, v, p2, v1);
+		 */
+
+		bdk_write64_uint64(p1, v);
+		bdk_write64_uint64(p2, v1);
+
+		/* Write back and invalidate the cache lines
+		 *
+		 * For OCX we cannot limit the number of L2 ways
+		 * so instead we just write back and invalidate
+		 * the L2 cache lines.  This is not possible
+		 * when booting remotely, however so this is
+		 * only enabled for U-Boot right now.
+		 * Potentially the BDK can also take advantage
+		 * of this.
+		 */
+		BDK_CACHE_WBI_L2(p1);
+		BDK_CACHE_WBI_L2(p2);
+		++counter;
+	    }
+	}
+    }
+
+    BDK_DCACHE_INVALIDATE;
+
+    counter = 0;
+
+    /* Walk through a range of addresses avoiding bits that alias
+     * interfaces on the CN68XX.
+     */
+    for (k = 0; k < (1 << 18); k += (1 << 14)) {
+	for (i = 0; i < (1 << 7); i += 8) {
+	    for (j = 0; j < (1 << 12); j += (1 << 9)) {
+		index = i + j + k;
+		p1 = p + index;
+		p2 = p1 + p2offset;
+		v = test_pattern[index%(sizeof(test_pattern)/sizeof(uint64_t))];
+		v &= datamask;
+		d1 = bdk_read64_uint64(p1);
+		d1 &= datamask;
+		d2 = ~bdk_read64_uint64(p2);
+		d2 &= datamask;
+
+		/* test_dram_byte_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
+		 *             p1, d1, p2, d2);
+		 */
+
+		if (d1 != v) {
+		    ++errors;
+		    debug_print("%d: [0x%016llX] 0x%016llX expected 0x%016llX xor %016llX\n",
+				errors, p1, d1, v, (d1 ^ v));
+		    return errors;      /* Quit on first error */
+		}
+		if (d2 != v) {
+		    ++errors;
+		    debug_print("%d: [0x%016llX] 0x%016llX  expected 0x%016llX xor %016llX\n",
+				errors, p2, d2, v, (d2 ^ v));
+		    return errors;      /* Quit on first error */
+		}
+		++counter;
+	    }
+	}
+    }
+    return errors;
+}
+#else
 int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
 {
     uint64_t p1, p2, d1, d2;
@@ -200,6 +360,7 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
     }
     return errors;
 }
+#endif
 
 static void set_ddr_memory_preserved(bdk_node_t node)
 {
@@ -216,35 +377,41 @@ void perform_ddr3_init_sequence(bdk_node_t node, int rank_mask,
 {
     const char *s;
     int ddr_init_loops = 1;
+    int rankx;
 
     if ((s = lookup_env_parameter("ddr%d_init_loops", ddr_interface_num)) != NULL)
 	ddr_init_loops = strtoul(s, NULL, 0);
 
     while (ddr_init_loops--) {
-	if (ddr_memory_preserved(node)) {
-	    /* Contents are being preserved */
-	    perform_octeon3_ddr3_sequence(node, rank_mask,
-                                          ddr_interface_num, 3); /* self-refresh exit */
-	} else {
-	    /* Contents are not being preserved */
-	    perform_octeon3_ddr3_sequence(node, rank_mask,
-                                          ddr_interface_num, 0); /* power-up/init */
-	}
+	for (rankx = 0; rankx < 8; rankx++) {
+	    if (!(rank_mask & (1 << rankx)))
+		continue;
 
-	bdk_wait_usec(1000);   /* Wait a while. */
+	    if (ddr_memory_preserved(node)) {
+		/* Contents are being preserved */
+		perform_octeon3_ddr3_sequence(node, (1 << rankx),
+					      ddr_interface_num, 3); /* self-refresh exit */
+	    } else {
+		/* Contents are not being preserved */
+		perform_octeon3_ddr3_sequence(node, (1 << rankx),
+					      ddr_interface_num, 0); /* power-up/init */
+	    }
 
-	if ((s = lookup_env_parameter("ddr_sequence1")) != NULL) {
-	    int sequence1;
-	    sequence1 = strtoul(s, NULL, 0);
-	    perform_octeon3_ddr3_sequence(node, rank_mask,
-					  ddr_interface_num, sequence1);
-	}
+	    bdk_wait_usec(1000);   /* Wait a while. */
 
-	if ((s = lookup_env_parameter("ddr_sequence2")) != NULL) {
-	    int sequence2;
-	    sequence2 = strtoul(s, NULL, 0);
-	    perform_octeon3_ddr3_sequence(node, rank_mask,
-					  ddr_interface_num, sequence2);
+	    if ((s = lookup_env_parameter("ddr_sequence1")) != NULL) {
+		int sequence1;
+		sequence1 = strtoul(s, NULL, 0);
+		perform_octeon3_ddr3_sequence(node, (1 << rankx),
+					      ddr_interface_num, sequence1);
+	    }
+
+	    if ((s = lookup_env_parameter("ddr_sequence2")) != NULL) {
+		int sequence2;
+		sequence2 = strtoul(s, NULL, 0);
+		perform_octeon3_ddr3_sequence(node, (1 << rankx),
+					      ddr_interface_num, sequence2);
+	    }
 	}
     }
 }
@@ -1104,9 +1271,9 @@ int initialize_ddr_clock(bdk_node_t node,
              *    without modifying any other LMC(0..3)_RESET_CTL fields.
              */
 
+            ddr_print("LMC%d De-asserting DDR_RESET_L\n", ddr_interface_num);
             DRAM_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
 			    c.s.ddr3rst = 1);
-            ddr_print("LMC%d De-asserting DDR_RESET_L\n", ddr_interface_num);
 
             /*
              * 5. Read LMC(0..3)_RESET_CTL and wait for the result.
@@ -1120,7 +1287,22 @@ int initialize_ddr_clock(bdk_node_t node,
              */
 
             bdk_wait_usec(500);
-        }
+
+            /* Toggle Reset Again */
+	    /* That is, assert, then de-assert, one more time */
+            ddr_print("LMC%d Asserting DDR_RESET_L\n", ddr_interface_num);
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
+			    c.s.ddr3rst = 0);
+            BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(ddr_interface_num));
+            bdk_wait_usec(500);
+
+            ddr_print("LMC%d De-asserting DDR_RESET_L\n", ddr_interface_num);
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
+			    c.s.ddr3rst = 1);
+            BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(ddr_interface_num));
+            bdk_wait_usec(500);
+
+        } /* if ( !ddr_memory_preserved(node)) */
     } /* if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) */
 
     set_ddr_clock_initialized(node, ddr_interface_num, 1);
