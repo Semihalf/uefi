@@ -4257,6 +4257,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                 byte_test_status[8] = WL_SOFTWARE; /* Estimated delay */
                             }
                         } else {
+                            old_byte8 = 0;
+                            byte_test_status[8] = WL_HARDWARE; /* H/W delay value */
                             lmc_wlevel_rank.s.byte8 = lmc_wlevel_rank.s.byte0; /* ECC is not used */
                         }
                     } else {
@@ -4369,6 +4371,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     lmc_wlevel_rank.s.byte8 = test_byte8 & ~1; /* Use only even settings */
                     byte_test_status[8] = WL_ESTIMATED; /* Estimated delay */
                 } else {
+                    byte_test_status[8] = WL_HARDWARE; /* H/W delay value */
                     lmc_wlevel_rank.s.byte8 = lmc_wlevel_rank.s.byte0; /* ECC is not used */
                 }
 
