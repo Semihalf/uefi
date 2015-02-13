@@ -301,11 +301,11 @@ static void choose_image(const char *dev_filename)
  *               Start address of range
  * @param length Length of the range in bytes
  */
-static void dram_test(uint64_t start_address, uint64_t length, int test)
+static void dram_test(uint64_t start_address, uint64_t length, int test, int alltests)
 {
     /* Start all cores for multi-core memory test */
     bdk_init_cores(bdk_numa_local(), 0);
-    while (1)
+    do
     {
         const char *test_name = bdk_dram_get_test_name(test);
         if (test_name == NULL)
@@ -317,7 +317,7 @@ static void dram_test(uint64_t start_address, uint64_t length, int test)
             return;
         }
         test++;
-    }
+    } while (alltests);
     printf("All tests passed\n");
 }
 
@@ -384,17 +384,17 @@ static void dram_menu()
         else if (option == num_dram_configs + 3)
         {
             /* Short DRAM test */
-            dram_test(64 << 20, 64 << 20,0);
+            dram_test(64 << 20, 64 << 20,0,1);
         }
         else if (option == num_dram_configs + 4)
         {
             /* Full DRAM test */
-            dram_test(0, 1ull << 40,0);
+            dram_test(0, 1ull << 40,0,1);
         }
         else if (option == num_dram_configs + 5)
         {
             /* Random DRAM test */
-            dram_test(0, 1ull << 40,3);
+            dram_test(0, 1ull << 40,3,0);
         }
 
         else if (option == num_dram_configs + 6)
