@@ -2508,7 +2508,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmc_control.s.ext_zqcs_dis    = 0;
         lmc_control.s.bprch           = 0;
         lmc_control.s.wodt_bprch      = 0;
-        lmc_control.s.rodt_bprch      = 0;
+        lmc_control.s.rodt_bprch      = 1;
 
         if ((s = lookup_env_parameter("ddr_xor_bank")) != NULL) {
             lmc_control.s.xor_bank = strtoul(s, NULL, 0);
@@ -2609,7 +2609,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #endif
         lmc_timing_params1.s.twtr     = divide_roundup(twtr, tclk_psecs) - 1;
         lmc_timing_params1.s.trfc     = divide_roundup(trfc, 8*tclk_psecs);
-        lmc_timing_params1.s.trrd     = divide_roundup(trrd, tclk_psecs) - 2;
+        if ((ddr_type == DDR4_DRAM) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
+            /* Workaround bug 24006. Use Trrd_l. */
+            lmc_timing_params1.s.trrd     = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 2;
+        } else
+            lmc_timing_params1.s.trrd     = divide_roundup(trrd, tclk_psecs) - 2;
+
 
         /*
         ** tXP = max( 3nCK, 7.5 ns)     DDR3-800   tCLK = 2500 psec

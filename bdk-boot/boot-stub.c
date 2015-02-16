@@ -301,12 +301,11 @@ static void choose_image(const char *dev_filename)
  *               Start address of range
  * @param length Length of the range in bytes
  */
-static void dram_test(uint64_t start_address, uint64_t length)
+static void dram_test(uint64_t start_address, uint64_t length, int test, int alltests)
 {
     /* Start all cores for multi-core memory test */
     bdk_init_cores(bdk_numa_local(), 0);
-    int test = 0;
-    while (1)
+    do
     {
         const char *test_name = bdk_dram_get_test_name(test);
         if (test_name == NULL)
@@ -318,7 +317,7 @@ static void dram_test(uint64_t start_address, uint64_t length)
             return;
         }
         test++;
-    }
+    } while (alltests);
     printf("All tests passed\n");
 }
 
@@ -354,7 +353,8 @@ static void dram_menu()
         printf(" %d) Limit the cores used for DRAM testing\n", num_dram_configs + 2);
         printf(" %d) Run a short DRAM test over the range 64MB-128MB\n", num_dram_configs + 3);
         printf(" %d) Run a full DRAM test over all memory\n", num_dram_configs + 4);
-        printf(" %d) Main menu\n", num_dram_configs + 5);
+        printf(" %d) Run a random DRAM test covering all the DIMMs\n", num_dram_configs + 5);
+        printf(" %d) Main menu\n", num_dram_configs + 6);
 
         const char *input = bdk_readline("Menu choice: ", NULL, 0);
         int option = atoi(input);
@@ -384,14 +384,20 @@ static void dram_menu()
         else if (option == num_dram_configs + 3)
         {
             /* Short DRAM test */
-            dram_test(64 << 20, 64 << 20);
+            dram_test(64 << 20, 64 << 20,0,1);
         }
         else if (option == num_dram_configs + 4)
         {
             /* Full DRAM test */
-            dram_test(0, 1ull << 40);
+            dram_test(0, 1ull << 40,0,1);
         }
         else if (option == num_dram_configs + 5)
+        {
+            /* Random DRAM test */
+            dram_test(0, 1ull << 40,3,0);
+        }
+
+        else if (option == num_dram_configs + 6)
         {
             /* Exit menu */
             return;
