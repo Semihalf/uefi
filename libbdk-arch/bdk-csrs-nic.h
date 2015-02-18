@@ -516,8 +516,10 @@ enum nic_errlev_e {
 	NIC_ERRLEV_E_L2 = 0x1,
 	NIC_ERRLEV_E_L3 = 0x2,
 	NIC_ERRLEV_E_L4 = 0x3,
+	NIC_ERRLEV_E_LE = 0x4,
+	NIC_ERRLEV_E_LF = 0x5,
 	NIC_ERRLEV_E_RE = 0x0,
-	NIC_ERRLEV_E_ENUM_LAST = 0x4,
+	NIC_ERRLEV_E_ENUM_LAST = 0x6,
 };
 
 /**
@@ -669,10 +671,14 @@ enum nic_l4type_e {
 	NIC_L4TYPE_E_IPFRAG = 0x2,
 	NIC_L4TYPE_E_IPSEC_ESP = 0x1,
 	NIC_L4TYPE_E_NONE = 0x0,
+	NIC_L4TYPE_E_NVGRE = 0xb,
 	NIC_L4TYPE_E_OTHER = 0xe,
 	NIC_L4TYPE_E_SCTP = 0x6,
 	NIC_L4TYPE_E_TCP = 0x4,
 	NIC_L4TYPE_E_UDP = 0x5,
+	NIC_L4TYPE_E_UDP_BTH = 0xc,
+	NIC_L4TYPE_E_UDP_GENEVE = 0x9,
+	NIC_L4TYPE_E_UDP_VXLAN = 0xa,
 	NIC_L4TYPE_E_ENUM_LAST = 0xf,
 };
 
@@ -705,6 +711,12 @@ enum nic_pf_int_vec_e {
  */
 enum nic_rss_alg_e {
 	NIC_RSS_ALG_E_GRE_IP = 0x6,
+	NIC_RSS_ALG_E_INNER_GRE_IP = 0xc,
+	NIC_RSS_ALG_E_INNER_IP = 0x8,
+	NIC_RSS_ALG_E_INNER_ROCE = 0xd,
+	NIC_RSS_ALG_E_INNER_SCTP_IP = 0xb,
+	NIC_RSS_ALG_E_INNER_TCP_IP = 0x9,
+	NIC_RSS_ALG_E_INNER_UDP_IP = 0xa,
 	NIC_RSS_ALG_E_IP = 0x2,
 	NIC_RSS_ALG_E_NONE = 0x0,
 	NIC_RSS_ALG_E_PORT = 0x1,
@@ -712,7 +724,7 @@ enum nic_rss_alg_e {
 	NIC_RSS_ALG_E_SCTP_IP = 0x5,
 	NIC_RSS_ALG_E_TCP_IP = 0x3,
 	NIC_RSS_ALG_E_UDP_IP = 0x4,
-	NIC_RSS_ALG_E_ENUM_LAST = 0x8,
+	NIC_RSS_ALG_E_ENUM_LAST = 0xe,
 };
 
 /**
@@ -875,7 +887,6 @@ enum nic_stat_vnic_tx_e {
  * INTERNAL: NIC SW Debug RX Register Enumeration
  *
  * Enumerates index into NIC_PF_SW_SYNC_RX_CNTS().
- * Removed in pass 2.
  */
 enum nic_sw_sync_rx_cnts_e {
 	NIC_SW_SYNC_RX_CNTS_E_PIPE0_CQ_CNT = 0x1,
@@ -4045,17 +4056,15 @@ typedef union bdk_nic_pf_ecc3_cdis {
                                                                    \<16\> = nic_u2.sps.tl4.mem.rtmem.
                                                                    \<15\> = nic_u2.sps.tl4.mem.stsmem.
                                                                    \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                   \<13\> = nic_u2.sps.tl4.mem.tl4cnmratemem.
-                                                                   \<12\> = nic_u2.sps.tl4.mem.cnmchgmem.
-                                                                   \<11\> = nic_u2.sps.tl4.mem.tl3cnmratemem.
-                                                                   \<10\> = nic_u2.sps.tl4.mem.tl3pirmem.
-                                                                   \<9\>  = nic_u2.sps.tl4.mem.sqcfgmem.
+                                                                   \<13\> = nic_u2.sps.tl4.mem.ptrmem.
+                                                                   \<12\> = nic_u2.sps.tl4.mem.aggrmem.
+                                                                   \<11:9\> = Reserved
                                                                    \<8\>  = nic_u2.sps.tl3.mem.rtmem.
                                                                    \<7\>  = nic_u2.sps.tl3.mem.stsmem.
                                                                    \<6\>  = nic_u2.sps.tl3.mem.stdmem.
                                                                    \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
                                                                    \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                   \<3\>  = nic_u2.sps.tl3.mem.pirmem.
+                                                                   \<3\>  = nic_u2.sps.tl3.mem.aggrmem.
                                                                    \<2\>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    \<1\>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    \<0\>  = nic_u2.sps.tl2.mem.stdmem.
@@ -4284,17 +4293,15 @@ typedef union bdk_nic_pf_ecc3_flip0 {
                                                                    \<16\> = nic_u2.sps.tl4.mem.rtmem.
                                                                    \<15\> = nic_u2.sps.tl4.mem.stsmem.
                                                                    \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                   \<13\> = nic_u2.sps.tl4.mem.tl4cnmratemem.
-                                                                   \<12\> = nic_u2.sps.tl4.mem.cnmchgmem.
-                                                                   \<11\> = nic_u2.sps.tl4.mem.tl3cnmratemem.
-                                                                   \<10\> = nic_u2.sps.tl4.mem.tl3pirmem.
-                                                                   \<9\>  = nic_u2.sps.tl4.mem.sqcfgmem.
+                                                                   \<13\> = nic_u2.sps.tl4.mem.ptrmem.
+                                                                   \<12\> = nic_u2.sps.tl4.mem.aggrmem.
+                                                                   \<11:9\> = Reserved
                                                                    \<8\>  = nic_u2.sps.tl3.mem.rtmem.
                                                                    \<7\>  = nic_u2.sps.tl3.mem.stsmem.
                                                                    \<6\>  = nic_u2.sps.tl3.mem.stdmem.
                                                                    \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
                                                                    \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                   \<3\>  = nic_u2.sps.tl3.mem.pirmem.
+                                                                   \<3\>  = nic_u2.sps.tl3.mem.aggrmem.
                                                                    \<2\>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    \<1\>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    \<0\>  = nic_u2.sps.tl2.mem.stdmem.
@@ -4388,17 +4395,15 @@ typedef union bdk_nic_pf_ecc3_flip1 {
                                                                    \<16\> = nic_u2.sps.tl4.mem.rtmem.
                                                                    \<15\> = nic_u2.sps.tl4.mem.stsmem.
                                                                    \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                   \<13\> = nic_u2.sps.tl4.mem.tl4cnmratemem.
-                                                                   \<12\> = nic_u2.sps.tl4.mem.cnmchgmem.
-                                                                   \<11\> = nic_u2.sps.tl4.mem.tl3cnmratemem.
-                                                                   \<10\> = nic_u2.sps.tl4.mem.tl3pirmem.
-                                                                   \<9\>  = nic_u2.sps.tl4.mem.sqcfgmem.
+                                                                   \<13\> = nic_u2.sps.tl4.mem.ptrmem.
+                                                                   \<12\> = nic_u2.sps.tl4.mem.aggrmem.
+                                                                   \<11:9\> = Reserved
                                                                    \<8\>  = nic_u2.sps.tl3.mem.rtmem.
                                                                    \<7\>  = nic_u2.sps.tl3.mem.stsmem.
                                                                    \<6\>  = nic_u2.sps.tl3.mem.stdmem.
                                                                    \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
                                                                    \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                   \<3\>  = nic_u2.sps.tl3.mem.pirmem.
+                                                                   \<3\>  = nic_u2.sps.tl3.mem.aggrmem.
                                                                    \<2\>  = nic_u2.sps.tl2.mem.rtmem.
                                                                    \<1\>  = nic_u2.sps.tl2.mem.stsmem.
                                                                    \<0\>  = nic_u2.sps.tl2.mem.stdmem.
@@ -4996,6 +5001,40 @@ static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long param1)
 #define busnum_BDK_NIC_PF_INTFX_SEND_CFG(p1) (p1)
 #define arguments_BDK_NIC_PF_INTFX_SEND_CFG(p1) (p1),-1,-1,-1
 #define basename_BDK_NIC_PF_INTFX_SEND_CFG(...) "NIC_PF_INTFX_SEND_CFG"
+
+
+/**
+ * NCB - nic_pf_intf#_tx_fifo_status
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_intfx_tx_fifo_status {
+	uint64_t u;
+	struct bdk_nic_pf_intfx_tx_fifo_status_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_11_63              : 53;
+		uint64_t count                       : 11; /**< RO/H - Number of 128-bit entries in the TX FIFO. */
+#else
+		uint64_t count                       : 11;
+		uint64_t reserved_11_63              : 53;
+#endif
+	} s;
+	/* struct bdk_nic_pf_intfx_tx_fifo_status_s cn88xx; */
+} bdk_nic_pf_intfx_tx_fifo_status_t;
+
+static inline uint64_t BDK_NIC_PF_INTFX_TX_FIFO_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_INTFX_TX_FIFO_STATUS(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
+		return 0x0000843000000230ull + (param1 & 1) * 0x100ull;
+	else 		csr_fatal("BDK_NIC_PF_INTFX_TX_FIFO_STATUS", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(...) bdk_nic_pf_intfx_tx_fifo_status_t
+#define bustype_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(p1) (p1)
+#define arguments_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(...) "NIC_PF_INTFX_TX_FIFO_STATUS"
 
 
 /**
@@ -5648,7 +5687,8 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 	struct bdk_nic_pf_qsx_rqx_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t tcp_off                     : 1;  /**< R/W - Reserved. INTERNAL: Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
-		uint64_t reserved_29_62              : 34;
+		uint64_t reserved_30_62              : 33;
+		uint64_t rx_cqm_format               : 1;  /**< RAZ - Reserved. */
 		uint64_t strip_pre_l2                : 1;  /**< R/W - All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
 		uint64_t caching                     : 2;  /**< R/W - Select the style of write to the L2C.
                                                                  0 = writes of RBDR data will not allocate into the L2C.
@@ -5672,7 +5712,8 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 		uint64_t cq_qs                       : 7;
 		uint64_t caching                     : 2;
 		uint64_t strip_pre_l2                : 1;
-		uint64_t reserved_29_62              : 34;
+		uint64_t rx_cqm_format               : 1;
+		uint64_t reserved_30_62              : 33;
 		uint64_t tcp_off                     : 1;
 #endif
 	} s;
@@ -6225,40 +6266,45 @@ static inline uint64_t BDK_NIC_PF_RX_GENEVE_DEF_FUNC(void)
 
 
 /**
- * NCB - nic_pf_rx_nvgre_def
+ * NCB - nic_pf_rx_gre_def
  *
  * INTERNAL: Added in pass 2.
  *
  */
-typedef union bdk_nic_pf_rx_nvgre_def {
+typedef union bdk_nic_pf_rx_gre_def {
 	uint64_t u;
-	struct bdk_nic_pf_rx_nvgre_def_s {
+	struct bdk_nic_pf_rx_gre_def_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_17_63              : 47;
-		uint64_t ena                         : 1;  /**< R/W - This bit is used to enable the detection of NVGRE Headers. */
-		uint64_t reserved_0_15               : 16;
+		uint64_t reserved_19_63              : 45;
+		uint64_t gre1_ena                    : 1;  /**< R/W - Enable detection of GRE version 1 headers for tunneling. */
+		uint64_t gre0_ena                    : 1;  /**< R/W - Enable detection of GRE version 0 headers tunneling (non-NVGRE). */
+		uint64_t nvgre_ena                   : 1;  /**< R/W - Enable detection of NVGRE headers for tunneling. */
+		uint64_t nvgre_port_num              : 16; /**< R/W - Port number for NVGRE headers; used to distinguish between a generic GRE version
+                                                                 0 header and a NVGRE header. */
 #else
-		uint64_t reserved_0_15               : 16;
-		uint64_t ena                         : 1;
-		uint64_t reserved_17_63              : 47;
+		uint64_t nvgre_port_num              : 16;
+		uint64_t nvgre_ena                   : 1;
+		uint64_t gre0_ena                    : 1;
+		uint64_t gre1_ena                    : 1;
+		uint64_t reserved_19_63              : 45;
 #endif
 	} s;
-	/* struct bdk_nic_pf_rx_nvgre_def_s   cn88xx; */
-} bdk_nic_pf_rx_nvgre_def_t;
+	/* struct bdk_nic_pf_rx_gre_def_s     cn88xx; */
+} bdk_nic_pf_rx_gre_def_t;
 
-#define BDK_NIC_PF_RX_NVGRE_DEF BDK_NIC_PF_RX_NVGRE_DEF_FUNC()
-static inline uint64_t BDK_NIC_PF_RX_NVGRE_DEF_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_RX_NVGRE_DEF_FUNC(void)
+#define BDK_NIC_PF_RX_GRE_DEF BDK_NIC_PF_RX_GRE_DEF_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_GRE_DEF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_GRE_DEF_FUNC(void)
 {
 	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
 		return 0x0000843000000590ull;
-	else 		csr_fatal("BDK_NIC_PF_RX_NVGRE_DEF", 0, 0, 0, 0, 0); /* No return */
+	else 		csr_fatal("BDK_NIC_PF_RX_GRE_DEF", 0, 0, 0, 0, 0); /* No return */
 }
-#define typedef_BDK_NIC_PF_RX_NVGRE_DEF bdk_nic_pf_rx_nvgre_def_t
-#define bustype_BDK_NIC_PF_RX_NVGRE_DEF BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_PF_RX_NVGRE_DEF 0
-#define arguments_BDK_NIC_PF_RX_NVGRE_DEF -1,-1,-1,-1
-#define basename_BDK_NIC_PF_RX_NVGRE_DEF "NIC_PF_RX_NVGRE_DEF"
+#define typedef_BDK_NIC_PF_RX_GRE_DEF bdk_nic_pf_rx_gre_def_t
+#define bustype_BDK_NIC_PF_RX_GRE_DEF BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_GRE_DEF 0
+#define arguments_BDK_NIC_PF_RX_GRE_DEF -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_GRE_DEF "NIC_PF_RX_GRE_DEF"
 
 
 /**
@@ -6345,6 +6391,50 @@ static inline uint64_t BDK_NIC_PF_SEB_TEST_FUNC(void)
 #define busnum_BDK_NIC_PF_SEB_TEST 0
 #define arguments_BDK_NIC_PF_SEB_TEST -1,-1,-1,-1
 #define basename_BDK_NIC_PF_SEB_TEST "NIC_PF_SEB_TEST"
+
+
+/**
+ * NCB - nic_pf_soft_reset
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_soft_reset {
+	uint64_t u;
+	struct bdk_nic_pf_soft_reset_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1_63               : 63;
+		uint64_t reset                       : 1;  /**< WO - Write 1 to reset the NIC block. Software must ensure the following before writing 1:
+                                                                 * NIC_PF_CFG[ENA] = 1.
+                                                                 * All NIC queues (CQ, SQ, RQ, RDBR) are idle.
+                                                                 * Transmit FIFOs are empty, i.e. NIC_PF_INTF()_TX_FIFO_STATUS[COUNT] = 0.
+                                                                 * TNS send and receive interfaces are quiesced.
+                                                                 * NIC has no outstanding interrupts.
+
+                                                                 Note that this operation resets all NIC registers, including MSI-X registers
+                                                                 (NIC_PF_MSIX_*, NIC_VF()_MSIX_*) and PCC config space registers (PCCBR_NIC_*, PCCPF_NIC_*,
+                                                                 PCCVF_NIC_*). */
+#else
+		uint64_t reset                       : 1;
+		uint64_t reserved_1_63               : 63;
+#endif
+	} s;
+	/* struct bdk_nic_pf_soft_reset_s     cn88xx; */
+} bdk_nic_pf_soft_reset_t;
+
+#define BDK_NIC_PF_SOFT_RESET BDK_NIC_PF_SOFT_RESET_FUNC()
+static inline uint64_t BDK_NIC_PF_SOFT_RESET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_SOFT_RESET_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000000050ull;
+	else 		csr_fatal("BDK_NIC_PF_SOFT_RESET", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_SOFT_RESET bdk_nic_pf_soft_reset_t
+#define bustype_BDK_NIC_PF_SOFT_RESET BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_SOFT_RESET 0
+#define arguments_BDK_NIC_PF_SOFT_RESET -1,-1,-1,-1
+#define basename_BDK_NIC_PF_SOFT_RESET "NIC_PF_SOFT_RESET"
 
 
 /**
@@ -6528,7 +6618,7 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_FUNC(void)
  * For diagnostic use only for debug of the SW_SYNC function.
  * The first dimension indicates which the counter values, and is enumerated by
  * NIC_SW_SYNC_RX_CNTS_E.
- * Added in pass 2.
+ * Changed in pass 2: increased number of counters from 4 to 16.
  */
 typedef union bdk_nic_pf_sw_sync_rx_cntsx {
 	uint64_t u;
@@ -9105,7 +9195,10 @@ typedef union bdk_nic_vnicx_rss_cfg {
 	uint64_t u;
 	struct bdk_nic_vnicx_rss_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_9_63               : 55;
+		uint64_t reserved_12_63              : 52;
+		uint64_t rss_tun_nvgre               : 1;  /**< RAZ - Reserved. */
+		uint64_t rss_tun_geneve              : 1;  /**< RAZ - Reserved. */
+		uint64_t rss_tun_vxlan               : 1;  /**< RAZ - Reserved. */
 		uint64_t rss_l4_bidi                 : 1;  /**< R/W - Enable bidirectional flow symmetry RSS for the L4 TCP/UDP RSS layer. */
 		uint64_t rss_l3_bidi                 : 1;  /**< R/W - Enable bidirectional flow symmetry RSS for the L3 IPV4, IPV6, ROCE RSS layer. */
 		uint64_t rss_roce                    : 1;  /**< R/W - Enable ROCE delivery, potentially resulting in setting NIC_CQE_RX_S[RSS_ALG] =
@@ -9131,7 +9224,10 @@ typedef union bdk_nic_vnicx_rss_cfg {
 		uint64_t rss_roce                    : 1;
 		uint64_t rss_l3_bidi                 : 1;
 		uint64_t rss_l4_bidi                 : 1;
-		uint64_t reserved_9_63               : 55;
+		uint64_t rss_tun_vxlan               : 1;
+		uint64_t rss_tun_geneve              : 1;
+		uint64_t rss_tun_nvgre               : 1;
+		uint64_t reserved_12_63              : 52;
 #endif
 	} s;
 	/* struct bdk_nic_vnicx_rss_cfg_s     cn88xx; */

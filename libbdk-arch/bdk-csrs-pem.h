@@ -228,26 +228,26 @@ typedef union bdk_pemx_bist_status {
 		uint64_t rqhdrb1                     : 1;  /**< RO - Rx queue header memory buffer 1. */
 		uint64_t rqdatab0                    : 1;  /**< RO - Rx queue data buffer 0. */
 		uint64_t rqdatab1                    : 1;  /**< RO - Rx queue data buffer 1. */
-		uint64_t tlpan_d0                    : 1;  /**< RO - BIST Status for the tlp_n_afifo_data0. */
-		uint64_t tlpan_d1                    : 1;  /**< RO - BIST Status for the tlp_n_afifo_data1. */
-		uint64_t tlpan_ctl                   : 1;  /**< RO - BIST Status for the tlp_n_afifo_ctl. */
-		uint64_t tlpap_d0                    : 1;  /**< RO - BIST Status for the tlp_p_afifo_data0. */
-		uint64_t tlpap_d1                    : 1;  /**< RO - BIST Status for the tlp_p_afifo_data1. */
-		uint64_t tlpap_ctl                   : 1;  /**< RO - BIST Status for the tlp_p_afifo_ctl. */
-		uint64_t tlpac_d0                    : 1;  /**< RO - BIST Status for the tlp_c_afifo_data0. */
-		uint64_t tlpac_d1                    : 1;  /**< RO - BIST Status for the tlp_c_afifo_data1. */
-		uint64_t tlpac_ctl                   : 1;  /**< RO - BIST Status for the tlp_c_afifo_ctl. */
-		uint64_t peai_p2e                    : 1;  /**< RO - BIST Status for the peai__pesc_fifo. */
-		uint64_t tlpn_d0                     : 1;  /**< RO - BIST Status for the tlp_n_fifo_data0. */
-		uint64_t tlpn_d1                     : 1;  /**< RO - BIST Status for the tlp_n_fifo_data1. */
-		uint64_t tlpn_ctl                    : 1;  /**< RO - BIST Status for the tlp_n_fifo_ctl. */
-		uint64_t tlpp_d0                     : 1;  /**< RO - BIST Status for the tlp_p_fifo_data0. */
-		uint64_t tlpp_d1                     : 1;  /**< RO - BIST Status for the tlp_p_fifo_data1. */
-		uint64_t tlpp_ctl                    : 1;  /**< RO - BIST Status for the tlp_p_fifo_ctl. */
-		uint64_t tlpc_d0                     : 1;  /**< RO - BIST Status for the tlp_c_fifo_data0. */
-		uint64_t tlpc_d1                     : 1;  /**< RO - BIST Status for the tlp_c_fifo_data1. */
-		uint64_t tlpc_ctl                    : 1;  /**< RO - BIST Status for the tlp_c_fifo_ctl. */
-		uint64_t m2s                         : 1;  /**< RO - BIST Status for the m2s_fifo. */
+		uint64_t tlpan_d0                    : 1;  /**< RO - BIST status for tlp_n_afifo_data0. */
+		uint64_t tlpan_d1                    : 1;  /**< RO - BIST status for tlp_n_afifo_data1. */
+		uint64_t tlpan_ctl                   : 1;  /**< RO - BIST status for tlp_n_afifo_ctl. */
+		uint64_t tlpap_d0                    : 1;  /**< RO - BIST status for tlp_p_afifo_data0. */
+		uint64_t tlpap_d1                    : 1;  /**< RO - BIST status for tlp_p_afifo_data1. */
+		uint64_t tlpap_ctl                   : 1;  /**< RO - BIST status for tlp_p_afifo_ctl. */
+		uint64_t tlpac_d0                    : 1;  /**< RO - BIST status for tlp_c_afifo_data0. */
+		uint64_t tlpac_d1                    : 1;  /**< RO - BIST status for tlp_c_afifo_data1. */
+		uint64_t tlpac_ctl                   : 1;  /**< RO - BIST status for tlp_c_afifo_ctl. */
+		uint64_t peai_p2e                    : 1;  /**< RO - BIST status for peai__pesc_fifo. */
+		uint64_t tlpn_d0                     : 1;  /**< RO - BIST status for tlp_n_fifo_data0. */
+		uint64_t tlpn_d1                     : 1;  /**< RO - BIST status for tlp_n_fifo_data1. */
+		uint64_t tlpn_ctl                    : 1;  /**< RO - BIST status for tlp_n_fifo_ctl. */
+		uint64_t tlpp_d0                     : 1;  /**< RO - BIST status for tlp_p_fifo_data0. */
+		uint64_t tlpp_d1                     : 1;  /**< RO - BIST status for tlp_p_fifo_data1. */
+		uint64_t tlpp_ctl                    : 1;  /**< RO - BIST status for tlp_p_fifo_ctl. */
+		uint64_t tlpc_d0                     : 1;  /**< RO - BIST status for tlp_c_fifo_data0. */
+		uint64_t tlpc_d1                     : 1;  /**< RO - BIST status for tlp_c_fifo_data1. */
+		uint64_t tlpc_ctl                    : 1;  /**< RO - BIST status for tlp_c_fifo_ctl. */
+		uint64_t m2s                         : 1;  /**< RO - BIST status for m2s_fifo. */
 #else
 		uint64_t m2s                         : 1;
 		uint64_t tlpc_ctl                    : 1;
@@ -654,43 +654,45 @@ typedef union bdk_pemx_dbg_ena_w1c {
 		uint64_t datq_pe                     : 1;  /**< R/W1C/H - Detected a data queue RAM parity error. */
 		uint64_t lofp                        : 1;  /**< R/W1C/H - Lack of forward progress at TLP FIFOs timeout occurred. */
 		uint64_t ecrc_e                      : 1;  /**< R/W1C/H - Received an ECRC error. */
-		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. radm_rcvd_wreq_poisoned */
-		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. radm_rcvd_cpl_poisoned */
-		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. radm_mlf_tlp_err */
-		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. radm_rcvd_ur_req */
+		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. INTERNAL: radm_rcvd_wreq_poisoned. */
+		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. INTERNAL: radm_rcvd_cpl_poisoned. */
+		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. INTERNAL: radm_mlf_tlp_err. */
+		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. INTERNAL: radm_rcvd_ur_req. */
 		uint64_t caar                        : 1;  /**< R/W1C/H - Completer aborted a request. This bit is never set because CNXXXX does not generate
                                                                  completer aborts. */
-		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. radm_rcvd_cpl_ca */
-		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. radm_rcvd_cpl_ur */
-		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. radm_unexp_cpl_err */
+		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. INTERNAL: radm_rcvd_cpl_ca. */
+		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. INTERNAL: radm_rcvd_cpl_ur. */
+		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. INTERNAL: radm_unexp_cpl_err. */
 		uint64_t rqo                         : 1;  /**< R/W1C/H - Receive queue overflow. Normally happens only when flow control advertisements are
-                                                                 ignored. radm_qoverflow */
-		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. (opt. checks) int_xadm_fc_prot_err */
-		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 3b100) or disparity error (RxStatus =
-                                                                 3b111), the signal rmlh_rcvd_err will be asserted. rmlh_rcvd_err */
-		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). rtlh_fc_prot_err */
-		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). rdlh_prot_err */
-		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. rdlh_bad_tlp_err */
-		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. rdlh_bad_dllp_err */
-		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. xdlh_replay_num_rlover_err */
+                                                                 ignored. INTERNAL: radm_qoverflow. */
+		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. INTERNAL: (opt. checks) int_xadm_fc_prot_err. */
+		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 0x4) or disparity error (RxStatus =
+                                                                 0x7). INTERNAL: rmlh_rcvd_err. */
+		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). INTERNAL: rtlh_fc_prot_err. */
+		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). INTERNAL: rdlh_prot_err. */
+		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. INTERNAL: rdlh_bad_tlp_err. */
+		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. INTERNAL: rdlh_bad_dllp_err. */
+		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. INTERNAL: xdlh_replay_num_rlover_err. */
 		uint64_t rte                         : 1;  /**< R/W1C/H - Replay timer expired. This bit is set when the REPLAY_TIMER expires in the PCIe core. The
-                                                                 probability of this bit being set increases with the traffic load. xdlh_replay_timeout_err */
-		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. pedc_radm_cpl_timeout */
-		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. pedc_radm_vendor_msg */
+                                                                 probability of this bit being set increases with the traffic load.
+                                                                 INTERNAL: xdlh_replay_timeout_err. */
+		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. INTERNAL: pedc_radm_cpl_timeout. */
+		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. INTERNAL: pedc_radm_vendor_msg. */
 		uint64_t reserved_10_10              : 1;
-		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). pedc_radm_pm_to_ack */
-		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). pedc_radm_pm_pme */
+		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). INTERNAL: pedc_radm_pm_to_ack. */
+		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). INTERNAL: pedc_radm_pm_pme. */
 		uint64_t rfemrc                      : 1;  /**< R/W1C/H - Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
-                                                                 is set. pedc_radm_fatal_err */
-		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). pedc_radm_nonfatal_err */
-		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). pedc_radm_correctable_err */
-		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv */
-		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot */
-		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. pedc_radm_trgt1_dllp_abort & pedc__radm_trgt1_eot */
+                                                                 is set. INTERNAL: pedc_radm_fatal_err. */
+		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). INTERNAL: pedc_radm_nonfatal_err. */
+		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). INTERNAL: pedc_radm_correctable_err. */
+		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. INTERNAL: pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv. */
+		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. INTERNAL: pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot. */
+		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. INTERNAL: pedc_radm_trgt1_dllp_abort &
+                                                                 pedc__radm_trgt1_eot. */
 		uint64_t rtlpmal                     : 1;  /**< R/W1C/H - Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
                                                                  if a received AtomicOp viloates address/length rules, this bit is set as well.
-                                                                 pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot */
-		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. peai__client0_tlp_ep & peai__client0_tlp_hv or
+                                                                 INTERNAL: pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
+		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. INTERNAL: peai__client0_tlp_ep & peai__client0_tlp_hv or
                                                                  peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
 #else
 		uint64_t spoison                     : 1;
@@ -806,43 +808,45 @@ typedef union bdk_pemx_dbg_ena_w1s {
 		uint64_t datq_pe                     : 1;  /**< R/W1C/H - Detected a data queue RAM parity error. */
 		uint64_t lofp                        : 1;  /**< R/W1C/H - Lack of forward progress at TLP FIFOs timeout occurred. */
 		uint64_t ecrc_e                      : 1;  /**< R/W1C/H - Received an ECRC error. */
-		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. radm_rcvd_wreq_poisoned */
-		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. radm_rcvd_cpl_poisoned */
-		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. radm_mlf_tlp_err */
-		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. radm_rcvd_ur_req */
+		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. INTERNAL: radm_rcvd_wreq_poisoned. */
+		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. INTERNAL: radm_rcvd_cpl_poisoned. */
+		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. INTERNAL: radm_mlf_tlp_err. */
+		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. INTERNAL: radm_rcvd_ur_req. */
 		uint64_t caar                        : 1;  /**< R/W1C/H - Completer aborted a request. This bit is never set because CNXXXX does not generate
                                                                  completer aborts. */
-		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. radm_rcvd_cpl_ca */
-		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. radm_rcvd_cpl_ur */
-		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. radm_unexp_cpl_err */
+		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. INTERNAL: radm_rcvd_cpl_ca. */
+		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. INTERNAL: radm_rcvd_cpl_ur. */
+		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. INTERNAL: radm_unexp_cpl_err. */
 		uint64_t rqo                         : 1;  /**< R/W1C/H - Receive queue overflow. Normally happens only when flow control advertisements are
-                                                                 ignored. radm_qoverflow */
-		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. (opt. checks) int_xadm_fc_prot_err */
-		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 3b100) or disparity error (RxStatus =
-                                                                 3b111), the signal rmlh_rcvd_err will be asserted. rmlh_rcvd_err */
-		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). rtlh_fc_prot_err */
-		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). rdlh_prot_err */
-		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. rdlh_bad_tlp_err */
-		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. rdlh_bad_dllp_err */
-		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. xdlh_replay_num_rlover_err */
+                                                                 ignored. INTERNAL: radm_qoverflow. */
+		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. INTERNAL: (opt. checks) int_xadm_fc_prot_err. */
+		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 0x4) or disparity error (RxStatus =
+                                                                 0x7). INTERNAL: rmlh_rcvd_err. */
+		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). INTERNAL: rtlh_fc_prot_err. */
+		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). INTERNAL: rdlh_prot_err. */
+		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. INTERNAL: rdlh_bad_tlp_err. */
+		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. INTERNAL: rdlh_bad_dllp_err. */
+		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. INTERNAL: xdlh_replay_num_rlover_err. */
 		uint64_t rte                         : 1;  /**< R/W1C/H - Replay timer expired. This bit is set when the REPLAY_TIMER expires in the PCIe core. The
-                                                                 probability of this bit being set increases with the traffic load. xdlh_replay_timeout_err */
-		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. pedc_radm_cpl_timeout */
-		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. pedc_radm_vendor_msg */
+                                                                 probability of this bit being set increases with the traffic load.
+                                                                 INTERNAL: xdlh_replay_timeout_err. */
+		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. INTERNAL: pedc_radm_cpl_timeout. */
+		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. INTERNAL: pedc_radm_vendor_msg. */
 		uint64_t reserved_10_10              : 1;
-		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). pedc_radm_pm_to_ack */
-		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). pedc_radm_pm_pme */
+		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). INTERNAL: pedc_radm_pm_to_ack. */
+		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). INTERNAL: pedc_radm_pm_pme. */
 		uint64_t rfemrc                      : 1;  /**< R/W1C/H - Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
-                                                                 is set. pedc_radm_fatal_err */
-		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). pedc_radm_nonfatal_err */
-		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). pedc_radm_correctable_err */
-		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv */
-		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot */
-		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. pedc_radm_trgt1_dllp_abort & pedc__radm_trgt1_eot */
+                                                                 is set. INTERNAL: pedc_radm_fatal_err. */
+		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). INTERNAL: pedc_radm_nonfatal_err. */
+		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). INTERNAL: pedc_radm_correctable_err. */
+		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. INTERNAL: pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv. */
+		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. INTERNAL: pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot. */
+		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. INTERNAL: pedc_radm_trgt1_dllp_abort &
+                                                                 pedc__radm_trgt1_eot. */
 		uint64_t rtlpmal                     : 1;  /**< R/W1C/H - Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
                                                                  if a received AtomicOp viloates address/length rules, this bit is set as well.
-                                                                 pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot */
-		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. peai__client0_tlp_ep & peai__client0_tlp_hv or
+                                                                 INTERNAL: pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
+		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. INTERNAL: peai__client0_tlp_ep & peai__client0_tlp_hv or
                                                                  peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
 #else
 		uint64_t spoison                     : 1;
@@ -961,43 +965,45 @@ typedef union bdk_pemx_dbg_info {
 		uint64_t datq_pe                     : 1;  /**< R/W1C/H - Detected a data queue RAM parity error. */
 		uint64_t lofp                        : 1;  /**< R/W1C/H - Lack of forward progress at TLP FIFOs timeout occurred. */
 		uint64_t ecrc_e                      : 1;  /**< R/W1C/H - Received an ECRC error. */
-		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. radm_rcvd_wreq_poisoned */
-		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. radm_rcvd_cpl_poisoned */
-		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. radm_mlf_tlp_err */
-		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. radm_rcvd_ur_req */
+		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. INTERNAL: radm_rcvd_wreq_poisoned. */
+		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. INTERNAL: radm_rcvd_cpl_poisoned. */
+		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. INTERNAL: radm_mlf_tlp_err. */
+		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. INTERNAL: radm_rcvd_ur_req. */
 		uint64_t caar                        : 1;  /**< R/W1C/H - Completer aborted a request. This bit is never set because CNXXXX does not generate
                                                                  completer aborts. */
-		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. radm_rcvd_cpl_ca */
-		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. radm_rcvd_cpl_ur */
-		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. radm_unexp_cpl_err */
+		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. INTERNAL: radm_rcvd_cpl_ca. */
+		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. INTERNAL: radm_rcvd_cpl_ur. */
+		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. INTERNAL: radm_unexp_cpl_err. */
 		uint64_t rqo                         : 1;  /**< R/W1C/H - Receive queue overflow. Normally happens only when flow control advertisements are
-                                                                 ignored. radm_qoverflow */
-		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. (opt. checks) int_xadm_fc_prot_err */
-		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 3b100) or disparity error (RxStatus =
-                                                                 3b111), the signal rmlh_rcvd_err will be asserted. rmlh_rcvd_err */
-		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). rtlh_fc_prot_err */
-		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). rdlh_prot_err */
-		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. rdlh_bad_tlp_err */
-		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. rdlh_bad_dllp_err */
-		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. xdlh_replay_num_rlover_err */
+                                                                 ignored. INTERNAL: radm_qoverflow. */
+		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. INTERNAL: (opt. checks) int_xadm_fc_prot_err. */
+		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 0x4) or disparity error (RxStatus =
+                                                                 0x7). INTERNAL: rmlh_rcvd_err. */
+		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). INTERNAL: rtlh_fc_prot_err. */
+		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). INTERNAL: rdlh_prot_err. */
+		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. INTERNAL: rdlh_bad_tlp_err. */
+		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. INTERNAL: rdlh_bad_dllp_err. */
+		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. INTERNAL: xdlh_replay_num_rlover_err. */
 		uint64_t rte                         : 1;  /**< R/W1C/H - Replay timer expired. This bit is set when the REPLAY_TIMER expires in the PCIe core. The
-                                                                 probability of this bit being set increases with the traffic load. xdlh_replay_timeout_err */
-		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. pedc_radm_cpl_timeout */
-		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. pedc_radm_vendor_msg */
+                                                                 probability of this bit being set increases with the traffic load.
+                                                                 INTERNAL: xdlh_replay_timeout_err. */
+		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. INTERNAL: pedc_radm_cpl_timeout. */
+		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. INTERNAL: pedc_radm_vendor_msg. */
 		uint64_t reserved_10_10              : 1;
-		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). pedc_radm_pm_to_ack */
-		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). pedc_radm_pm_pme */
+		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). INTERNAL: pedc_radm_pm_to_ack. */
+		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). INTERNAL: pedc_radm_pm_pme. */
 		uint64_t rfemrc                      : 1;  /**< R/W1C/H - Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
-                                                                 is set. pedc_radm_fatal_err */
-		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). pedc_radm_nonfatal_err */
-		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). pedc_radm_correctable_err */
-		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv */
-		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot */
-		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. pedc_radm_trgt1_dllp_abort & pedc__radm_trgt1_eot */
+                                                                 is set. INTERNAL: pedc_radm_fatal_err. */
+		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). INTERNAL: pedc_radm_nonfatal_err. */
+		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). INTERNAL: pedc_radm_correctable_err. */
+		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. INTERNAL: pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv. */
+		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. INTERNAL: pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot. */
+		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. INTERNAL: pedc_radm_trgt1_dllp_abort &
+                                                                 pedc__radm_trgt1_eot. */
 		uint64_t rtlpmal                     : 1;  /**< R/W1C/H - Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
                                                                  if a received AtomicOp viloates address/length rules, this bit is set as well.
-                                                                 pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot */
-		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. peai__client0_tlp_ep & peai__client0_tlp_hv or
+                                                                 INTERNAL: pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
+		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. INTERNAL: peai__client0_tlp_ep & peai__client0_tlp_hv or
                                                                  peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
 #else
 		uint64_t spoison                     : 1;
@@ -1113,43 +1119,45 @@ typedef union bdk_pemx_dbg_info_w1s {
 		uint64_t datq_pe                     : 1;  /**< R/W1C/H - Detected a data queue RAM parity error. */
 		uint64_t lofp                        : 1;  /**< R/W1C/H - Lack of forward progress at TLP FIFOs timeout occurred. */
 		uint64_t ecrc_e                      : 1;  /**< R/W1C/H - Received an ECRC error. */
-		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. radm_rcvd_wreq_poisoned */
-		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. radm_rcvd_cpl_poisoned */
-		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. radm_mlf_tlp_err */
-		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. radm_rcvd_ur_req */
+		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. INTERNAL: radm_rcvd_wreq_poisoned. */
+		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. INTERNAL: radm_rcvd_cpl_poisoned. */
+		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. INTERNAL: radm_mlf_tlp_err. */
+		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. INTERNAL: radm_rcvd_ur_req. */
 		uint64_t caar                        : 1;  /**< R/W1C/H - Completer aborted a request. This bit is never set because CNXXXX does not generate
                                                                  completer aborts. */
-		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. radm_rcvd_cpl_ca */
-		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. radm_rcvd_cpl_ur */
-		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. radm_unexp_cpl_err */
+		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. INTERNAL: radm_rcvd_cpl_ca. */
+		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. INTERNAL: radm_rcvd_cpl_ur. */
+		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. INTERNAL: radm_unexp_cpl_err. */
 		uint64_t rqo                         : 1;  /**< R/W1C/H - Receive queue overflow. Normally happens only when flow control advertisements are
-                                                                 ignored. radm_qoverflow */
-		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. (opt. checks) int_xadm_fc_prot_err */
-		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 3b100) or disparity error (RxStatus =
-                                                                 3b111), the signal rmlh_rcvd_err will be asserted. rmlh_rcvd_err */
-		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). rtlh_fc_prot_err */
-		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). rdlh_prot_err */
-		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. rdlh_bad_tlp_err */
-		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. rdlh_bad_dllp_err */
-		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. xdlh_replay_num_rlover_err */
+                                                                 ignored. INTERNAL: radm_qoverflow. */
+		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. INTERNAL: (opt. checks) int_xadm_fc_prot_err. */
+		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 0x4) or disparity error (RxStatus =
+                                                                 0x7). INTERNAL: rmlh_rcvd_err. */
+		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). INTERNAL: rtlh_fc_prot_err. */
+		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). INTERNAL: rdlh_prot_err. */
+		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. INTERNAL: rdlh_bad_tlp_err. */
+		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. INTERNAL: rdlh_bad_dllp_err. */
+		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. INTERNAL: xdlh_replay_num_rlover_err. */
 		uint64_t rte                         : 1;  /**< R/W1C/H - Replay timer expired. This bit is set when the REPLAY_TIMER expires in the PCIe core. The
-                                                                 probability of this bit being set increases with the traffic load. xdlh_replay_timeout_err */
-		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. pedc_radm_cpl_timeout */
-		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. pedc_radm_vendor_msg */
+                                                                 probability of this bit being set increases with the traffic load.
+                                                                 INTERNAL: xdlh_replay_timeout_err. */
+		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. INTERNAL: pedc_radm_cpl_timeout. */
+		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. INTERNAL: pedc_radm_vendor_msg. */
 		uint64_t reserved_10_10              : 1;
-		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). pedc_radm_pm_to_ack */
-		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). pedc_radm_pm_pme */
+		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). INTERNAL: pedc_radm_pm_to_ack. */
+		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). INTERNAL: pedc_radm_pm_pme. */
 		uint64_t rfemrc                      : 1;  /**< R/W1C/H - Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
-                                                                 is set. pedc_radm_fatal_err */
-		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). pedc_radm_nonfatal_err */
-		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). pedc_radm_correctable_err */
-		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv */
-		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot */
-		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. pedc_radm_trgt1_dllp_abort & pedc__radm_trgt1_eot */
+                                                                 is set. INTERNAL: pedc_radm_fatal_err. */
+		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). INTERNAL: pedc_radm_nonfatal_err. */
+		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). INTERNAL: pedc_radm_correctable_err. */
+		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. INTERNAL: pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv. */
+		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. INTERNAL: pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot. */
+		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. INTERNAL: pedc_radm_trgt1_dllp_abort &
+                                                                 pedc__radm_trgt1_eot. */
 		uint64_t rtlpmal                     : 1;  /**< R/W1C/H - Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
                                                                  if a received AtomicOp viloates address/length rules, this bit is set as well.
-                                                                 pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot */
-		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. peai__client0_tlp_ep & peai__client0_tlp_hv or
+                                                                 INTERNAL: pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
+		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. INTERNAL: peai__client0_tlp_ep & peai__client0_tlp_hv or
                                                                  peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
 #else
 		uint64_t spoison                     : 1;

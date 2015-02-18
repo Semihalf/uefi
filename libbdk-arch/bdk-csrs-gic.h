@@ -62,7 +62,7 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  *
  * ITS Command Error Enumeration
  * The actual 24-bit ITS command SEI is defined as {8'h01,
- * GITS_CMD_TYPE(8-bit), GITS_CMD_ERR(8-bit)}
+ * GITS_CMD_TYPE(8-bit), GITS_CMD_ERR(8-bit)}.
  */
 enum gits_cmd_err_e {
 	GITS_CMD_ERR_E_CSEI_COLLECTION_OOR = 0x3,
@@ -115,9 +115,9 @@ union gits_cmd_clear_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_CLEAR. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_CLEAR. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_CLEAR. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_CLEAR. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 #endif
@@ -153,9 +153,9 @@ union gits_cmd_discard_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_DISCARD. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_DISCARD. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_DISCARD. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_DISCARD. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Device ID. */
 #endif
@@ -191,9 +191,9 @@ union gits_cmd_int_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INT. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_INT. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INT. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_INT. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 #endif
@@ -228,9 +228,9 @@ union gits_cmd_invall_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INVALL. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_INVALL. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INVALL. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_INVALL. */
 		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -265,9 +265,9 @@ union gits_cmd_inv_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INV. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_INV. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_INV. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_INV. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 #endif
@@ -302,9 +302,9 @@ union gits_cmd_mapc_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPC. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MAPC. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPC. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MAPC. */
 		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -314,19 +314,19 @@ union gits_cmd_mapc_s {
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t v                           : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is
-                                                                 zero, this command un-maps the specified device and translation request from
+                                                                 zero, this command unmaps the specified device and translation request from
                                                                  that device will be discarded. */
 		uint64_t reserved_176_190            : 15; /**< [190:176] Reserved. */
-		uint64_t ta                          : 32; /**< [175:144] Target address. Specifies the physical address of the re-distributor to which
+		uint64_t ta                          : 32; /**< [175:144] Target address. Specifies the physical address of the redistributor to which
                                                                  interrupts for the collection will be forwarded. */
 		uint64_t cid                         : 16; /**< [143:128] Interrupt collection ID. */
 #else
 		uint64_t cid                         : 16; /**< [143:128] Interrupt collection ID. */
-		uint64_t ta                          : 32; /**< [175:144] Target address. Specifies the physical address of the re-distributor to which
+		uint64_t ta                          : 32; /**< [175:144] Target address. Specifies the physical address of the redistributor to which
                                                                  interrupts for the collection will be forwarded. */
 		uint64_t reserved_176_190            : 15; /**< [190:176] Reserved. */
 		uint64_t v                           : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is
-                                                                 zero, this command un-maps the specified device and translation request from
+                                                                 zero, this command unmaps the specified device and translation request from
                                                                  that device will be discarded. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -349,9 +349,9 @@ union gits_cmd_mapd_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPD. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MAPD. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPD. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MAPD. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 #endif
@@ -364,19 +364,19 @@ union gits_cmd_mapd_s {
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t v                           : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is zero,
-                                                                 this command un-maps the specified device and translation request from that
+                                                                 this command unmaps the specified device and translation request from that
                                                                  device will be discarded. */
 		uint64_t reserved_176_190            : 15; /**< [190:176] Reserved. */
-		uint64_t itta                        : 40; /**< [175:136] ITT address specifies bits \<47:8\> of the physical address of the interrupt
+		uint64_t itta                        : 40; /**< [175:136] ITT address. Specifies bits \<47:8\> of the physical address of the interrupt
                                                                  translation table. Bits \<7:0\> of the physical address are zero. */
 		uint64_t reserved_128_135            : 8;  /**< [135:128] Reserved. */
 #else
 		uint64_t reserved_128_135            : 8;  /**< [135:128] Reserved. */
-		uint64_t itta                        : 40; /**< [175:136] ITT address specifies bits \<47:8\> of the physical address of the interrupt
+		uint64_t itta                        : 40; /**< [175:136] ITT address. Specifies bits \<47:8\> of the physical address of the interrupt
                                                                  translation table. Bits \<7:0\> of the physical address are zero. */
 		uint64_t reserved_176_190            : 15; /**< [190:176] Reserved. */
 		uint64_t v                           : 1;  /**< [191:191] Valid bit. Specifies whether the ITT address and size are valid. When V is zero,
-                                                                 this command un-maps the specified device and translation request from that
+                                                                 this command unmaps the specified device and translation request from that
                                                                  device will be discarded. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -399,9 +399,9 @@ union gits_cmd_mapi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPI. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MAPI. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPI. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MAPI. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 #endif
@@ -414,11 +414,11 @@ union gits_cmd_mapi_s {
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
-		uint64_t cid                         : 16; /**< [143:128] Collection specifies the interrupt collection of which the interrupt with identifier
-                                                                 Physical ID is a member. */
+		uint64_t cid                         : 16; /**< [143:128] Collection. Specifies the interrupt collection of which the interrupt with identifier
+                                                                 physical ID is a member. */
 #else
-		uint64_t cid                         : 16; /**< [143:128] Collection specifies the interrupt collection of which the interrupt with identifier
-                                                                 Physical ID is a member. */
+		uint64_t cid                         : 16; /**< [143:128] Collection. Specifies the interrupt collection of which the interrupt with identifier
+                                                                 physical ID is a member. */
 		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -441,9 +441,9 @@ union gits_cmd_mapvi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPVI. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MAPVI. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MAPVI. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MAPVI. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 #endif
@@ -456,11 +456,11 @@ union gits_cmd_mapvi_s {
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
-		uint64_t cid                         : 16; /**< [143:128] Collection specifies the interrupt collection of which the interrupt with identifier
-                                                                 Physical ID is a member. */
+		uint64_t cid                         : 16; /**< [143:128] Collection. Specifies the interrupt collection of which the interrupt with identifier
+                                                                 physical ID is a member. */
 #else
-		uint64_t cid                         : 16; /**< [143:128] Collection specifies the interrupt collection of which the interrupt with identifier
-                                                                 Physical ID is a member. */
+		uint64_t cid                         : 16; /**< [143:128] Collection. Specifies the interrupt collection of which the interrupt with identifier
+                                                                 physical ID is a member. */
 		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -482,9 +482,9 @@ union gits_cmd_movall_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MOVALL. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MOVALL. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MOVALL. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MOVALL. */
 		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -494,20 +494,20 @@ union gits_cmd_movall_s {
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_176_191            : 16; /**< [191:176] Reserved. */
-		uint64_t ta1                         : 32; /**< [175:144] Target address 1. Specifies the old re-distributor. */
+		uint64_t ta1                         : 32; /**< [175:144] Target address 1. Specifies the old redistributor. */
 		uint64_t reserved_128_143            : 16; /**< [143:128] Reserved. */
 #else
 		uint64_t reserved_128_143            : 16; /**< [143:128] Reserved. */
-		uint64_t ta1                         : 32; /**< [175:144] Target address 1. Specifies the old re-distributor. */
+		uint64_t ta1                         : 32; /**< [175:144] Target address 1. Specifies the old redistributor. */
 		uint64_t reserved_176_191            : 16; /**< [191:176] Reserved. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_240_255            : 16; /**< [255:240] Reserved. */
-		uint64_t ta2                         : 32; /**< [239:208] Target address 2. Specifies the new re-distributor. */
+		uint64_t ta2                         : 32; /**< [239:208] Target address 2. Specifies the new redistributor. */
 		uint64_t reserved_192_207            : 16; /**< [207:192] Reserved. */
 #else
 		uint64_t reserved_192_207            : 16; /**< [207:192] Reserved. */
-		uint64_t ta2                         : 32; /**< [239:208] Target address 2. Specifies the new re-distributor. */
+		uint64_t ta2                         : 32; /**< [239:208] Target address 2. Specifies the new redistributor. */
 		uint64_t reserved_240_255            : 16; /**< [255:240] Reserved. */
 #endif
 	} s;
@@ -525,9 +525,9 @@ union gits_cmd_movi_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MOVI. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MOVI. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_MOVI. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_MOVI. */
 		uint64_t reserved_8_31               : 24; /**< [ 31:  8] Reserved. */
 		uint64_t dev_id                      : 32; /**< [ 63: 32] Interrupt device ID. */
 #endif
@@ -564,9 +564,9 @@ union gits_cmd_sync_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_SYNC. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_SYNC. */
 #else
-		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type, indicates GITS_CMD_TYPE_E::CMD_SYNC. */
+		uint64_t cmd_type                    : 8;  /**< [  7:  0] Command type. Indicates GITS_CMD_TYPE_E::CMD_SYNC. */
 		uint64_t reserved_8_63               : 56; /**< [ 63:  8] Reserved. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -576,11 +576,11 @@ union gits_cmd_sync_s {
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_176_191            : 16; /**< [191:176] Reserved. */
-		uint64_t ta                          : 32; /**< [175:144] Target address of the re-distributor 0. */
+		uint64_t ta                          : 32; /**< [175:144] Target address of the redistributor 0. */
 		uint64_t reserved_128_143            : 16; /**< [143:128] Reserved. */
 #else
 		uint64_t reserved_128_143            : 16; /**< [143:128] Reserved. */
-		uint64_t ta                          : 32; /**< [175:144] Target address of the re-distributor 0. */
+		uint64_t ta                          : 32; /**< [175:144] Target address of the redistributor 0. */
 		uint64_t reserved_176_191            : 16; /**< [191:176] Reserved. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -657,8 +657,8 @@ typedef union bdk_gic_cfg_ctlr {
 		uint64_t om                          : 2;  /**< SR/W - Operation mode.
                                                                  0x0 = Single-socket single-root mode.
                                                                  0x1 = Reserved.
-                                                                 0x2 = Multi-socket single-root mode.
-                                                                 0x3 = Multi-socket multi-root mode. */
+                                                                 0x2 = Multisocket single-root mode.
+                                                                 0x3 = Multisocket multiroot mode. */
 #else
 		uint64_t om                          : 2;
 		uint64_t root_dist                   : 1;
@@ -1033,8 +1033,8 @@ typedef union bdk_gicd_clrspi_nsr {
                                                                  If the SPI ID is invalid, then the write has no effect.
 
                                                                  If the register is written using a non-secure access and the value specifies a secure SPI
-                                                                 and the value of the corresponding GICD_NSACR() register is less than 0x2 (ie. does not
-                                                                 permit non-secure accesses to clear the interrupt pending state), the write has no effect. */
+                                                                 and the value of the corresponding GICD_NSACR() register is less than 0x2 (i.e. does not
+                                                                 permit nonsecure accesses to clear the interrupt pending state), the write has no effect. */
 #else
 		uint32_t spi_id                      : 10;
 		uint32_t reserved_10_31              : 22;
@@ -1070,7 +1070,7 @@ typedef union bdk_gicd_clrspi_sr {
 
                                                                  If the SPI ID is invalid, then the write has no effect.
 
-                                                                 If the register is written using a non-secure access, the write has no effect. */
+                                                                 If the register is written using a nonsecure access, the write has no effect. */
 #else
 		uint32_t spi_id                      : 10;
 		uint32_t reserved_10_31              : 22;
@@ -1107,8 +1107,8 @@ typedef union bdk_gicd_icactiverx {
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
 
-                                                                 Clear-active bits corresponding to secure interrupts (either group0 or group1) may only be
-                                                                 set by secure accesses.
+                                                                 Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
 
                                                                  A clear-active bit for a secure SPI is RAZ/WI to non-secure accesses. */
 #else
@@ -1138,7 +1138,7 @@ static inline uint64_t BDK_GICD_ICACTIVERX(unsigned long param1)
  *
  * Each bit in GICD_ICENABLER() provides a clear-enable bit for each SPI supported by the GIC.
  * Writing 1 to a clear-enable bit disables forwarding of the corresponding SPI from the
- * Distributor to the CPU interfaces. Reading a bit identifies whether the SPI is enabled.
+ * distributor to the CPU interfaces. Reading a bit identifies whether the SPI is enabled.
  */
 typedef union bdk_gicd_icenablerx {
 	uint32_t u;
@@ -1188,7 +1188,7 @@ typedef union bdk_gicd_icfgrx {
                                                                  Bit[1] is 1, the SPI is edge-triggered.
                                                                  Bit[0] Reserved.
 
-                                                                 If SPI is a secure interrupt, then its corresponding field is RAZ/WI to non-secure
+                                                                 If SPI is a secure interrupt, then its corresponding field is RAZ/WI to nonsecure
                                                                  accesses. */
 #else
 		uint32_t vec                         : 32;
@@ -1226,10 +1226,10 @@ typedef union bdk_gicd_icpendrx {
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
 
-                                                                 Clear-pending bits corresponding to secure interrupts (either group0 or group1) may only
+                                                                 Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
                                                                  be set by secure accesses.
 
-                                                                 A clear-pending bit for a secure SPI is RAZ/WI to non-secure accesses. */
+                                                                 A clear-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else
 		uint32_t vec                         : 32;
 #endif
@@ -1264,7 +1264,7 @@ typedef union bdk_gicd_igrouprx {
 	struct bdk_gicd_igrouprx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vec                         : 32; /**< SR/W - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If 0, then the SPI is
-                                                                 secure. If 1, the SPI is non-secure. */
+                                                                 secure. If 1, the SPI is nonsecure. */
 #else
 		uint32_t vec                         : 32;
 #endif
@@ -1299,7 +1299,7 @@ typedef union bdk_gicd_igrpmodrx {
 	struct bdk_gicd_igrpmodrx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vec                         : 32; /**< SR/W - Each bit corresponds to an SPI for SPI IDs in the range 159..32. If 0, then the SPI group
-                                                                 is not modified. If 1, then the SPI group is modified from group0 to secure group1. */
+                                                                 is not modified. If 1, then the SPI group is modified from group 0 to secure group 1. */
 #else
 		uint32_t vec                         : 32;
 #endif
@@ -1326,7 +1326,7 @@ static inline uint64_t BDK_GICD_IGRPMODRX(unsigned long param1)
  * NCB32b - gicd_iidr
  *
  * This 32-bit register is read-only and specifies the version and features supported by the
- * Distributor.
+ * distributor.
  */
 typedef union bdk_gicd_iidr {
 	uint32_t u;
@@ -1378,8 +1378,8 @@ typedef union bdk_gicd_ipriorityrx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vec                         : 32; /**< R/W - Each byte corresponds to an SPI for SPI IDs in the range 159..32.
 
-                                                                 Priority fields corresponding to secure interrupts (either group0 or group1) may only be
-                                                                 set by secure accesses, or when GICD_(S)CTLR[DS] is one.
+                                                                 Priority fields corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses, or when GICD_(S)CTLR[DS] is one.
 
                                                                  Byte accesses are permitted to these registers.
 
@@ -1467,10 +1467,10 @@ typedef union bdk_gicd_isactiverx {
                                                                  SPI
                                                                  is not active. If read as 1, the SPI is in active state.
 
-                                                                 Set-active bits corresponding to secure interrupts (either group0 or group1) may only be
-                                                                 set by secure accesses.
+                                                                 Set-active bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
 
-                                                                 A Set-active bit for a secure SPI is RAZ/WI to non-secure accesses. */
+                                                                 A set-active bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else
 		uint32_t vec                         : 32;
 #endif
@@ -1544,10 +1544,10 @@ typedef union bdk_gicd_ispendrx {
                                                                  SPI
                                                                  is not pending. If read as 1, the SPI is in pending state.
 
-                                                                 Set-pending bits corresponding to secure interrupts (either group0 or group1) may only be
-                                                                 set by secure accesses.
+                                                                 Set-pending bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
 
-                                                                 A set-pending bit for a secure SPI is RAZ/WI to non-secure accesses. */
+                                                                 A set-pending bit for a secure SPI is RAZ/WI to nonsecure accesses. */
 #else
 		uint32_t vec                         : 32;
 #endif
@@ -1578,19 +1578,19 @@ typedef union bdk_gicd_nsacrx {
 	struct bdk_gicd_nsacrx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vec                         : 32; /**< SR/W - Two bits per SPI. Defines whether non-secure access is permitted to secure SPI resources.
-                                                                 0x0 = No non-secure access is permitted to fields associated with the corresponding SPI.
-                                                                 0x1 = Non-secure read and write access is permitted to fields associated with the SPI in
-                                                                 GICD_ISPENDR(). A non-secure write access to GICD_SETSPI_NSR is permitted to
+                                                                 0x0 = No nonsecure access is permitted to fields associated with the corresponding SPI.
+                                                                 0x1 = Nonsecure read and write access is permitted to fields associated with the SPI in
+                                                                 GICD_ISPENDR(). A nonsecure write access to GICD_SETSPI_NSR is permitted to
                                                                  set the pending state of the corresponding SPI.
-                                                                 0x2 = Adds non-secure read and write access permissions to fields associated with the
-                                                                 corresponding SPI in GICD_ICPENDR(). A non-secure write access to
+                                                                 0x2 = Adds nonsecure read and write access permissions to fields associated with the
+                                                                 corresponding SPI in GICD_ICPENDR(). A nonsecure write access to
                                                                  GICD_CLRSPI_NSR is permitted to clear the pending state of the corresponding SPI. Also
-                                                                 adds non-secure read access permission to fields associated with the corresponding SPI in
+                                                                 adds nonsecure read access permission to fields associated with the corresponding SPI in
                                                                  the GICD_ISACTIVER() and GICD_ICACTIVER().
-                                                                 0x3 = Adds non-secure read and write access permission to fields associated with the
+                                                                 0x3 = Adds nonsecure read and write access permission to fields associated with the
                                                                  corresponding SPI in GICD_ITARGETSR() and GICD_IROUTER().
 
-                                                                 This register is RAZ/WI for non-secure accesses.
+                                                                 This register is RAZ/WI for nonsecure accesses.
 
                                                                  When GICD_(S)CTLR[DS] is one, this register is RAZ/WI. */
 #else
@@ -1885,23 +1885,23 @@ typedef union bdk_gicd_sctlr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t rwp                         : 1;  /**< RO/H - Register write pending.
                                                                  Indicates whether a register write is in progress.
-                                                                 0 = The effects of all register writes are visible to all descendants of the top-level re-
-                                                                 distributor, including processors.
+                                                                 0 = The effects of all register writes are visible to all descendants of the top-level
+                                                                 redistributor, including processors.
                                                                  1 = The effects of all register writes are not visible to all descendants of the top-level
-                                                                 re-distributor.
+                                                                 redistributor.
 
                                                                  Note: this field tracks completion of writes to GICD_(S)CTLR that change the state of an
                                                                  interrupt group enable or an affinity routing setting and writes to GICD_ICENABLER() that
                                                                  clear the enable of one or more SPIs. */
 		uint32_t reserved_7_30               : 24;
 		uint32_t ds                          : 1;  /**< SR/W - Disable security.
-                                                                 When set, non-secure accesses are permitted to access and modify registers that control
-                                                                 Group 0 interrupts.
+                                                                 When set, nonsecure accesses are permitted to access and modify registers that control
+                                                                 group 0 interrupts.
                                                                  If DS becomes one when ARE_S is one, then ARE for the single security state is
                                                                  RAO/WI.
 
                                                                  When DS is set, all accesses to GICD_(S)CTLR access the single security state view
-                                                                 (below) and all bits are accessible
+                                                                 (below) and all bits are accessible.
 
                                                                  This bit is RAO/WI if the distributor only supports a single security state (see
                                                                  below).
@@ -1915,19 +1915,19 @@ typedef union bdk_gicd_sctlr {
                                                                  This field is fixed as RAO/WI for CNXXXX for both secure and non secure state. */
 		uint32_t reserved_3_3                : 1;
 		uint32_t enable_g1s                  : 1;  /**< SR/W - Enables secure group 1 interrupts.
-                                                                 0 = Disable G1S Interrupts.
-                                                                 1 = Enable G1S Interrupts. */
-		uint32_t enable_g1ns                 : 1;  /**< R/W - S - Enables non-secure group 1 interrupts. Behaves as defined for GICv2. This
+                                                                 0 = Disable G1S interrupts.
+                                                                 1 = Enable G1S interrupts. */
+		uint32_t enable_g1ns                 : 1;  /**< R/W - S - Enables nonsecure group 1 interrupts. Behaves as defined for GICv2. This
                                                                  enable also controls whether LPIs are forwarded to processors. When written
                                                                  to zero, the RWP bit indicates whether the effects of this enable on LPIs
                                                                  have been made visible.
 
-                                                                 NS - This field is called ENABLE_G1A. It enables non-secure group 1 interrupts. */
+                                                                 NS - This field is called ENABLE_G1A. It enables nonsecure group 1 interrupts. */
 		uint32_t enable_g0                   : 1;  /**< SR/W - Secure view or DS field is set -- Enable/disable group 0 interrupts.
                                                                  0 = Disable G0 interrupts.
                                                                  1 = Enable G0 interrupts.
 
-                                                                 Non-Secure view -- RES0 for CNXXXX since ARE_NS is RAO. */
+                                                                 Nonsecure view -- RES0 for CNXXXX since ARE_NS is RAO. */
 #else
 		uint32_t enable_g0                   : 1;
 		uint32_t enable_g1ns                 : 1;
@@ -1971,8 +1971,8 @@ typedef union bdk_gicd_setspi_nsr {
                                                                  If the SPI ID is invalid, then the write has no effect.
 
                                                                  If the register is written using a non-secure access and the value specifies a secure SPI
-                                                                 and the value of the corresponding GICD_NSACR() register is zero (ie. does not permit non-
-                                                                 secure accesses to set the interrupt as pending), the write has no effect. */
+                                                                 and the value of the corresponding GICD_NSACR() register is zero (i.e. does not permit
+                                                                 nonsecure accesses to set the interrupt as pending), the write has no effect. */
 #else
 		uint32_t spi_id                      : 10;
 		uint32_t reserved_10_31              : 22;
@@ -2008,7 +2008,7 @@ typedef union bdk_gicd_setspi_sr {
 
                                                                  If the SPI ID is invalid, then the write has no effect.
 
-                                                                 If the register is written using a non-secure access, the write has no effect. */
+                                                                 If the register is written using a nonsecure access, the write has no effect. */
 #else
 		uint32_t spi_id                      : 10;
 		uint32_t reserved_10_31              : 22;
@@ -2083,8 +2083,8 @@ typedef union bdk_gicd_typer {
 	struct bdk_gicd_typer_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_25_31              : 7;
-		uint32_t a3v                         : 1;  /**< RO - Indicates whether the distributor supports non-zero values of affinity 3. */
-		uint32_t idbits                      : 5;  /**< RO - The number of interrupt identifier bits supported by the GIC Stream protocol interface minus one. */
+		uint32_t a3v                         : 1;  /**< RO - Indicates whether the distributor supports nonzero values of affinity 3. */
+		uint32_t idbits                      : 5;  /**< RO - The number of interrupt identifier bits supported by the GIC stream protocol interface minus one. */
 		uint32_t dvis                        : 1;  /**< RO - Direct virtual LPI injection supported. */
 		uint32_t lpis                        : 1;  /**< RO - Locality-specific peripheral interrupt supported. */
 		uint32_t mbis                        : 1;  /**< RO - Message based interrupt supported. */
@@ -2093,7 +2093,7 @@ typedef union bdk_gicd_typer {
                                                                  set, this field is RAZ. */
 		uint32_t reserved_8_9                : 2;
 		uint32_t cpunumber                   : 3;  /**< RO - Reserved. In CNXXXX implementation, not used. */
-		uint32_t itlinesnumber               : 5;  /**< RO - The value derived from this specifies the maximum numer of SPIs. */
+		uint32_t itlinesnumber               : 5;  /**< RO - The value derived from this specifies the maximum number of SPIs. */
 #else
 		uint32_t itlinesnumber               : 5;
 		uint32_t cpunumber                   : 3;
@@ -2292,7 +2292,7 @@ static inline uint64_t BDK_GICRX_CLRLPIR(unsigned long param1)
  * NCB32b - gicr#_icactiver0
  *
  * Each bit in GICR_ICACTIVER0 provides a clear-active bit for an SGI or a PPI. Writing 1 to a
- * Clear-active bit clears the active status of the corresponding interrupt.
+ * clear-active bit clears the active status of the corresponding interrupt.
  */
 typedef union bdk_gicrx_icactiver0 {
 	uint32_t u;
@@ -2301,8 +2301,8 @@ typedef union bdk_gicrx_icactiver0 {
 		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not active. If read as 1, the interrupt is in active state.
 
-                                                                 Clear-active bits corresponding to secure interrupts (either group0 or group1) may only be
-                                                                 set by secure accesses.
+                                                                 Clear-active bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
 
                                                                  A clear-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
 #else
@@ -2342,8 +2342,8 @@ typedef union bdk_gicrx_icenabler0 {
                                                                  if a bit is 0, then the interrupt is not enabled to be forwarded to the CPU interface.
                                                                  Upon reading, if a bit is 1, the SPI is enabled to be forwarded to the CPU interface.
 
-                                                                 Clear-enable bits corresponding to secure interrupts (either group0 or group1) may only be
-                                                                 set by secure accesses.
+                                                                 Clear-enable bits corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses.
 
                                                                  Writes to the register cannot be considered complete until the effects of the write are
                                                                  visible throughout the affinity hierarchy. To ensure that an enable has been cleared,
@@ -2413,7 +2413,7 @@ static inline uint64_t BDK_GICRX_ICFGR0(unsigned long param1)
 /**
  * NCB32b - gicr#_icfgr1
  *
- * Redistributor Interrupt Configuration Register 1.
+ * Redistributor interrupt configuration register 1.
  *
  */
 typedef union bdk_gicrx_icfgr1 {
@@ -2455,7 +2455,7 @@ static inline uint64_t BDK_GICRX_ICFGR1(unsigned long param1)
  * NCB32b - gicr#_icpendr0
  *
  * Each bit in GICR_ICPENDR0 provides a clear-pending bit for an SGI or a PPI. Writing 1 to a
- * Clear-pending bit clears the pending status of the corresponding interrupt.
+ * clear-pending bit clears the pending status of the corresponding interrupt.
  */
 typedef union bdk_gicrx_icpendr0 {
 	uint32_t u;
@@ -2464,7 +2464,7 @@ typedef union bdk_gicrx_icpendr0 {
 		uint32_t vec                         : 32; /**< R/W1C - Each bit corresponds to an SGI or a PPI for interrupt IDs in the range 31..0. If read as
                                                                  0, then the interrupt is not pending. If read as 1, the interrupt is in pending state.
 
-                                                                 Clear-pending bits corresponding to secure interrupts (either group0 or group1) may only
+                                                                 Clear-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
                                                                  be set by secure accesses.
 
                                                                  A clear-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
@@ -2569,7 +2569,7 @@ static inline uint64_t BDK_GICRX_IGRPMODR0(unsigned long param1)
  * NCB32b - gicr#_iidr
  *
  * This 32-bit register is read-only and specifies the version and features supported by the
- * Redistributor.
+ * redistributor.
  */
 typedef union bdk_gicrx_iidr {
 	uint32_t u;
@@ -2613,7 +2613,7 @@ static inline uint64_t BDK_GICRX_IIDR(unsigned long param1)
 /**
  * NCB - gicr#_invallr
  *
- * this register is write-only and causes the LPI configuration to be reloaded from the table in
+ * This register is write-only and causes the LPI configuration to be reloaded from the table in
  * memory.
  */
 typedef union bdk_gicrx_invallr {
@@ -2696,8 +2696,8 @@ typedef union bdk_gicrx_ipriorityrx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vec                         : 32; /**< R/W - Each byte corresponds to an SGI or PPI for interrupt IDs in the range 31..0.
 
-                                                                 Priority fields corresponding to secure interrupts (either group0 or group1) may only be
-                                                                 set by secure accesses, or when GICD_(S)CTLR[DS] is one.
+                                                                 Priority fields corresponding to secure interrupts (either group 0 or group 1)
+                                                                 may only be set by secure accesses, or when GICD_(S)CTLR[DS] is one.
 
                                                                  Byte accesses are permitted to these registers.
 
@@ -2737,7 +2737,7 @@ typedef union bdk_gicrx_isactiver0 {
 		uint32_t vec                         : 32; /**< R/W1S - Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not active. If read as 1, the interrupt is in active state.
 
-                                                                 Set-active bits corresponding to secure interrupts (either group0 or group1) may only be
+                                                                 Set-active bits corresponding to secure interrupts (either group 0 or group 1) may only be
                                                                  set by secure accesses.
 
                                                                  A set-active bit for a secure interrupt is RAZ/WI to non-secure accesses. */
@@ -2812,8 +2812,9 @@ typedef union bdk_gicrx_ispendr0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vec                         : 32; /**< R/W1S - Each bit corresponds to an SGI or PPI for interrupt IDs in the range 31..0. If read as 0,
                                                                  then the interrupt is not pending. If read as 1, the interrupt is in pending state.
-                                                                 Set-pending bits corresponding to secure interrupts (either group0 or group1) may only be
-                                                                 set by secure accesses.
+
+                                                                 Set-pending bits corresponding to secure interrupts (either group 0 or group 1) may only
+                                                                 be set by secure accesses.
 
                                                                  A set-pending bit for a secure interrupt is RAZ/WI to non-secure accesses. */
 #else
@@ -3307,7 +3308,7 @@ static inline uint64_t BDK_GICRX_PROPBASER(unsigned long param1)
 /**
  * NCB32b - gicr#_sctlr
  *
- * This register controls the behavior of the non-secure re-distributor.
+ * This register controls the behavior of the nonsecure redistributor.
  *
  */
 typedef union bdk_gicrx_sctlr {
@@ -3315,19 +3316,19 @@ typedef union bdk_gicrx_sctlr {
 	struct bdk_gicrx_sctlr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t uwp                         : 1;  /**< RO - Upstream write pending. Common to both security states. Read-only.
-                                                                    0 = The effects of all upstream writes have been communicated to the parent re-
-                                                                 distributor, including any generate SGI packets.
-                                                                    1 = The effects of all upstream writes have not been communicated to the parent re-
-                                                                 distributor, including any generate SGI packets. */
+                                                                    0 = The effects of all upstream writes have been communicated to the parent
+                                                                 redistributor, including any generate SGI packets.
+                                                                    1 = The effects of all upstream writes have not been communicated to the parent
+                                                                 redistributor, including any generate SGI packets. */
 		uint32_t reserved_4_30               : 27;
 		uint32_t rwp                         : 1;  /**< RO - Register write pending. This bit indicates whether a register write for the current
                                                                  security state (banked) is in progress or not.
-                                                                  0 = The effect of all register writes are visible to all descendants of the re-
-                                                                 distributor, including processors.
-                                                                  1 = The effects of all register writes are not visible to all descendants of the re-
-                                                                 distributor.
+                                                                  0 = The effect of all register writes are visible to all descendants of the
+                                                                 redistributor, including processors.
+                                                                  1 = The effects of all register writes are not visible to all descendants of the
+                                                                 redistributor.
 
-                                                                  Note: this field tracks completion of writes to GICR_ICENABLER() that clear the enable of
+                                                                 Note: this field tracks completion of writes to GICR_ICENABLER() that clear the enable of
                                                                  one or more interrupts. */
 		uint32_t reserved_1_2                : 2;
 		uint32_t enable_lpis                 : 1;  /**< R/W - Enable LPIs. Common to both security states. When this bit is clear,
@@ -3670,7 +3671,7 @@ typedef union bdk_gits_baserx {
 	struct bdk_gits_baserx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t valid                       : 1;  /**< R/W - Valid:
-                                                                 0 = No memory has been allocated to the table and if the type field is non-zero, the ITS
+                                                                 0 = No memory has been allocated to the table and if the type field is nonzero, the ITS
                                                                  discards any writes to the interrupt translation page.
                                                                  1 = Memory has been allocated to the table  by software. */
 		uint64_t indirect                    : 1;  /**< RO - Indirect:
@@ -3688,14 +3689,14 @@ typedef union bdk_gits_baserx {
                                                                  Note: The value of N and the size of all these pages is determined from the
                                                                  page size field. */
 		uint64_t cacheability                : 3;  /**< RO - Cacheability attribute:
-                                                                 0x0 = Non-cacheable, non-bufferable
-                                                                 0x1 = Non-cacheable.
-                                                                 0x2 = Read-allocate, write-through.
-                                                                 0x3 = Read-allocate, write-back.
-                                                                 0x4 = Write-allocate, write-through.
-                                                                 0x5 = Write-allocate, write-back.
-                                                                 0x6 = Read-allocate, write-allocate, write-through.
-                                                                 0x7 = Read-allocate, write-allocate, write-back.
+                                                                 0x0 = Noncacheable, nonbufferable
+                                                                 0x1 = Noncacheable.
+                                                                 0x2 = Read-allocate, writethrough.
+                                                                 0x3 = Read-allocate, writeback.
+                                                                 0x4 = Write-allocate, writethrough.
+                                                                 0x5 = Write-allocate, writeback.
+                                                                 0x6 = Read-allocate, write-allocate, writethrough.
+                                                                 0x7 = Read-allocate, write-allocate, writeback.
 
                                                                  In CNXXXX not implemented, ignored. */
 		uint64_t tbl_type                    : 3;  /**< RO - Type of entity that requires entries in the associated table.
@@ -3714,7 +3715,7 @@ typedef union bdk_gits_baserx {
                                                                  Bits \<11:0\> of the base physical address are zero when page size is 4KB. Bits \<15:12\> of
                                                                  the base physical address are also zero when page size is 64KB. */
 		uint64_t shareability                : 2;  /**< RO - Shareability attribute:
-                                                                 0x0 = Accesses are non-shareable.
+                                                                 0x0 = Accesses are nonshareable.
                                                                  0x1 = Accesses are inner-shareable.
                                                                  0x2 = Accesses are outer-shareable.
                                                                  0x3 = Reserved.  Treated as 0x0.
@@ -3809,14 +3810,14 @@ typedef union bdk_gits_cbaser {
                                                                  1 = Memory has been allocated by software for the command queue. */
 		uint64_t reserved_62_62              : 1;
 		uint64_t cacheability                : 3;  /**< RO - Cacheability attribute:
-                                                                 0x0 = Non-cacheable, non-bufferable
-                                                                 0x1 = Non-cacheable.
-                                                                 0x2 = Read-allocate, write-through.
-                                                                 0x3 = Read-allocate, write-back.
-                                                                 0x4 = Write-allocate, write-through.
-                                                                 0x5 = Write-allocate, write-back.
-                                                                 0x6 = Read-allocate, write-allocate, write-through.
-                                                                 0x7 = Read-allocate, write-allocate, write-back.
+                                                                 0x0 = Noncacheable, nonbufferable
+                                                                 0x1 = Noncacheable.
+                                                                 0x2 = Read-allocate, writethrough.
+                                                                 0x3 = Read-allocate, writeback.
+                                                                 0x4 = Write-allocate, writethrough.
+                                                                 0x5 = Write-allocate, writeback.
+                                                                 0x6 = Read-allocate, write-allocate, writethrough.
+                                                                 0x7 = Read-allocate, write-allocate, writeback.
 
                                                                  In CNXXXX not implemented, ignored. */
 		uint64_t reserved_48_58              : 11;
@@ -3825,7 +3826,7 @@ typedef union bdk_gits_cbaser {
                                                                  containing the command queue. Bits \<11:0\> of the base address of the queue are
                                                                  zero. */
 		uint64_t shareability                : 2;  /**< RO - Shareability attribute:
-                                                                 0x0 = Accesses are non-shareable.
+                                                                 0x0 = Accesses are nonshareable.
                                                                  0x1 = Accesses are inner-shareable.
                                                                  0x2 = Accesses are outer-shareable.
                                                                  0x3 = Reserved.  Treated as 0x0.
@@ -4051,8 +4052,8 @@ typedef union bdk_gits_ctlr {
                                                                  1 = The ITS is quiescent, has completed all operations required to make any mapping data
                                                                      consistent with external memory and may be powered off. Note: in CCPI
                                                                      implementations,
-                                                                     the ITS must also have forwarded any required operations to the re-distributors and
-                                                                     received confirmation that they have reached the appropriate re-distributor. */
+                                                                     the ITS must also have forwarded any required operations to the redistributors and
+                                                                     received confirmation that they have reached the appropriate redistributor. */
 		uint32_t reserved_1_30               : 30;
 		uint32_t enabled                     : 1;  /**< R/W - Enabled:
                                                                  0 = ITS is disabled. Writes to the interrupt translation space will be ignored and no
@@ -4547,11 +4548,11 @@ static inline uint64_t BDK_GITS_PIDR7_FUNC(void)
  * Note that writes to this register with a device identifier that exceed the supported device
  * identifier size will be ignored.
  *
- * Note that this register is provided to enable the generation (and translation) of message-
+ * Note that this register is provided to enable the generation (and translation) of message
  * based interrupts from devices (e.g. MSI or MSI-X writes from PCIe devices).
  *
  * The register is at the same offset as GICD_SETSPI_NSR in the distributor and GICR_SETLPIR in
- * the re-distributor to allow virtualization of guest operating systems
+ * the redistributor to allow virtualization of guest operating systems
  * that directly program devices simply by ensuring the address programmed by the guest can be
  * translated by an SMMU to target GITS_TRANSLATER.
  */
@@ -4562,7 +4563,7 @@ typedef union bdk_gits_translater {
 		uint32_t int_id                      : 32; /**< WO/H - Interrupt ID. The ID of interrupt to be translated for the requesting device.
 
                                                                  Note: the number of interrupt identifier bits is defined by
-                                                                 GITS_TYPER[IDBITS]. Non-zero identifier bits outside this range are ignored.
+                                                                 GITS_TYPER[IDBITS]. Nonzero identifier bits outside this range are ignored.
 
                                                                  Note: 16 bit access to bits \<15:0\> of this register must be supported. When written by a
                                                                  16 bit transaction, bits \<31:16\> are written as zero. This register can not be accessed by
@@ -4599,7 +4600,7 @@ typedef union bdk_gits_typer {
 	struct bdk_gits_typer_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t hcc                         : 8;  /**< RO - Hardware collection count. The number of collections supported by the ITS without
-                                                                 provisioning of external memory. If this field is non-zero,
+                                                                 provisioning of external memory. If this field is nonzero,
                                                                  collections in the range zero to (HCC minus one) are solely maintained in storage within
                                                                  the ITS.
 

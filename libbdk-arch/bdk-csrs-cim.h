@@ -63,7 +63,7 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * NCB - cim#_icc_ap0r0_el1
  *
  * Physical active priorities group 0 EL1 AP0Rn registers provide support for preserving and
- * restoring the group0 active priorities in power-management implementations.
+ * restoring the group 0 active priorities in power-management implementations.
  * This register tracks which preemption levels are active in the CPU interface, and is
  * used to determine the current active priority. Corresponding bits are set in this register
  * when an interrupt is acknowledged. Priority, and the least significant set bit is cleared
@@ -124,8 +124,8 @@ static inline uint64_t BDK_CIMX_ICC_AP0R0_EL1(unsigned long param1)
 /**
  * NCB - cim#_icc_ap1r0_el1_ns
  *
- * Physical non-secure active priorities group 1 EL1 AP1Rn registers provide support for
- * preserving and restoring the group1 active priorities in power-management implementations.
+ * Physical nonsecure active priorities group 1 EL1 AP1Rn registers provide support for
+ * preserving and restoring the group 1 active priorities in power management implementations.
  * This register tracks which preemption levels are active in the CPU interface, and is
  * used to determine the current active priority. Corresponding bits are set in this register
  * when an interrupt is acknowledged. Priority, and the least significant set bit is cleared
@@ -136,7 +136,7 @@ typedef union bdk_cimx_icc_ap1r0_el1_ns {
 	struct bdk_cimx_icc_ap1r0_el1_ns_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
-		uint64_t ap                          : 32; /**< R/W/H - "Operates in conjunction with all other non-secure AND possibly secure AP1Rn
+		uint64_t ap                          : 32; /**< R/W/H - Operates in conjunction with all other non-secure AND possibly secure AP1Rn
                                                                  and with CIM()_ICC_BPR1_EL1_NS.
                                                                  Each bit in NS {AP1R3, ..., AP1R0} corresponds to a priority group as defined by
                                                                  CIM()_ICC_BPR1_EL1_NS.
@@ -169,9 +169,8 @@ typedef union bdk_cimx_icc_ap1r0_el1_ns {
                                                                                                            ICC_AP1R2_NS}
                                                                  \</pre\>
 
-                                                                 In CNXXXX, a system supporting two security states, where GICD_(S)CTLR[DS] is zero, non-
-                                                                 secure
-                                                                 accesses see a shifted view of priorities." */
+                                                                 In CNXXXX, a system supporting two security states, where GICD_(S)CTLR[DS] is
+                                                                 zero, nonsecure accesses see a shifted view of priorities. */
 #else
 		uint64_t ap                          : 32;
 		uint64_t reserved_32_63              : 32;
@@ -243,7 +242,7 @@ typedef union bdk_cimx_icc_ap1r0_el1_s {
                                                                  \</pre\>
 
                                                                  In CNXXXX, a systems supporting two security states, where GICD_(S)CTLR[DS] is
-                                                                 zero, non-secure accesses see a shifted view of priorities." */
+                                                                 zero, nonsecure accesses see a shifted view of priorities." */
 #else
 		uint64_t ap                          : 32;
 		uint64_t reserved_32_63              : 32;
@@ -287,7 +286,7 @@ static inline uint64_t BDK_CIMX_ICC_AP1R0_EL1_S(unsigned long param1)
  *
  * This register provides software the ability to generate group 1 SGIs for the other security
  * state. That is, non-secure EL1 / EL2 accesses may generate secure group 1 interrupts and
- * secure EL1 / EL3 may generate non-secure group 1 interrupts.
+ * secure EL1 / EL3 may generate nonsecure group 1 interrupts.
  */
 typedef union bdk_cimx_icc_asgi1r_el1 {
 	uint64_t u;
@@ -306,7 +305,7 @@ typedef union bdk_cimx_icc_asgi1r_el1 {
 		uint64_t intid                       : 4;  /**< WO - SGI Interrupt ID. */
 		uint64_t affinity1                   : 8;  /**< WO - Affinity 1. The affinity 1 value of the affinity path of the cluster for which SGI
                                                                  interrupts will be generated. */
-		uint64_t tgtlist                     : 16; /**< WO - The set of processor for which SGI interrupts will be generated. Each bit corresponds to
+		uint64_t tgtlist                     : 16; /**< WO - The set of processors for which SGI interrupts will be generated. Each bit corresponds to
                                                                  the processor within a cluster with an AFFINITY0 equal to the bit number.
                                                                  If a bit is one and the bit does not correspond to a valid target processor, the bit
                                                                  must be ignored by the distributor. In such cases, a distributor may optionally generate
@@ -359,7 +358,7 @@ typedef union bdk_cimx_icc_bpr0_el1 {
 	struct bdk_cimx_icc_bpr0_el1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_5_63               : 59;
-		uint64_t bp_min                      : 2;  /**< RO/H - Minimum Binary Point Value.
+		uint64_t bp_min                      : 2;  /**< RO/H - Minimum binary point value.
                                                                  In CNXXXX, this field is always 2 as only 32 priorities are implemented.
                                                                  Value BP below can be programmed to is BP_MIN..7. */
 		uint64_t bp                          : 3;  /**< R/W - Binary point.
@@ -425,7 +424,7 @@ typedef union bdk_cimx_icc_bpr0_el1 {
                                                                  this register to be
                                                                  read/written to by CPU if CIM()_ICC_BPR1_EL1 is accessed - see descriptions
                                                                        of CIM()_ICC_BPR1_EL1_NS and CIM()_ICC_BPR1_EL1_S
-                                                                 Processor accesses in virtual mode read from/write to
+                                                                 processor accesses in virtual mode read from/write to
                                                                  CIM()_ICH_VMCR_EL2[VBPR0]. */
 #else
 		uint64_t bp                          : 3;
@@ -454,7 +453,7 @@ static inline uint64_t BDK_CIMX_ICC_BPR0_EL1(unsigned long param1)
 /**
  * NCB - cim#_icc_bpr1_el1_ns
  *
- * Physical non-secure binary point group 1 el1 register.
+ * Physical nonsecure binary point group 1 el1 register.
  *
  */
 typedef union bdk_cimx_icc_bpr1_el1_ns {
@@ -462,7 +461,7 @@ typedef union bdk_cimx_icc_bpr1_el1_ns {
 	struct bdk_cimx_icc_bpr1_el1_ns_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_5_63               : 59;
-		uint64_t bp_min                      : 2;  /**< RO/H - Minimum Binary Point Value.
+		uint64_t bp_min                      : 2;  /**< RO/H - Minimum binary point value.
                                                                  In CNXXXX, this field is always 3 as only 32 priorities are implemented leading to a
                                                                  maximum non-secure BP + 1.
                                                                  Value BP below can be programmed to BP_MIN..7. */
@@ -563,7 +562,7 @@ typedef union bdk_cimx_icc_bpr1_el1_s {
                                                                      o CPU reads  of CIM()_ICC_BPR1_EL1 at secure EL1 will return the value of
                                                                  CIM()_ICC_BPR0_EL1.
 
-                                                                 2. If CIM()_ICC_CTLR_EL3[CBPR_EL1NS] is one, non-secure accesses at EL1 or EL2 behave
+                                                                 2. If CIM()_ICC_CTLR_EL3[CBPR_EL1NS] is one, nonsecure accesses at EL1 or EL2 behave
                                                                  as defined in the table below
 
                                                                  \<pre\>
@@ -624,7 +623,7 @@ static inline uint64_t BDK_CIMX_ICC_BPR1_EL1_S(unsigned long param1)
 /**
  * NCB - cim#_icc_ctlr_el1_ns
  *
- * This non-secure register governs aspects of the behavior of the GIC CPU interface and
+ * This nonsecure register governs aspects of the behavior of the GIC CPU interface and
  * provides information about the features implemented for.
  * It is accessed in EL1 non-secure mode.
  */
@@ -646,7 +645,7 @@ typedef union bdk_cimx_icc_ctlr_el1_ns {
                                                                  CIM()_ICC_CTLR_EL3[PMHE]. */
 		uint64_t reserved_2_5                : 4;
 		uint64_t eoimode                     : 1;  /**< R/W/H - EOI mode.
-                                                                 The EOI mode for the non-secure state; this bit is a read/write alias of
+                                                                 The EOI mode for the nonsecure state; this bit is a read/write alias of
                                                                  CIM()_ICC_CTLR_EL3[EOIMODE_EL1NS].
                                                                  Virtual accesses modify CIM()_ICH_VMCR_EL2[VEOIM]. */
 		uint64_t cbpr                        : 1;  /**< R/W/H - Common binary point register.
@@ -656,7 +655,7 @@ typedef union bdk_cimx_icc_ctlr_el1_ns {
 
                                                                  When accessed at EL1, EL2 or EL3 and DS == 0, this bit is read-only
 
-                                                                 When accessed at EL1, EL2 or EL3 and DS == 1, this bit is read-write
+                                                                 When accessed at EL1, EL2 or EL3 and DS == 1, this bit is read/write
 
                                                                  This bit affects virtual access to CIM()_ICC_BPR1_EL1. */
 #else
@@ -725,7 +724,7 @@ typedef union bdk_cimx_icc_ctlr_el1_s {
 
                                                                  When accessed at EL1, EL2 or EL3 and DS == 0, this bit is read-only.
 
-                                                                 When accessed at EL1, EL2 or EL3 and DS == 1, this bit is read-write.
+                                                                 When accessed at EL1, EL2 or EL3 and DS == 1, this bit is read/write.
 
                                                                  This bit affects virtual access to CIM()_ICC_BPR1_EL1. */
 #else
@@ -792,20 +791,20 @@ typedef union bdk_cimx_icc_ctlr_el3 {
                                                                  Legacy bit from GICv2.
                                                                  In CNXXXX, this bit is always 0 because the secure copy of CIM()_ICC_SRE_EL1[SRE]
                                                                  is one. */
-		uint64_t eoimode_el1ns               : 1;  /**< R/W/H - EOI mode for interrupts handled at non-secure EL1/2 (i.e. the accesses to EOIR
-                                                                 and DIR are performed at non-secure EL1/2). */
+		uint64_t eoimode_el1ns               : 1;  /**< R/W/H - EOI mode for interrupts handled at nonsecure EL1/2 (i.e. the accesses to EOIR
+                                                                 and DIR are performed at nonsecure EL1/2). */
 		uint64_t eoimode_el1s                : 1;  /**< R/W/H - EOI mode for interrupts handled at secure EL1 (i.e. the accesses to EOIR and DIR
-                                                                 are performed at non-secure EL1). */
+                                                                 are performed at nonsecure EL1). */
 		uint64_t eoimode_el3                 : 1;  /**< R/W - EOI mode for interrupts handled at EL3 when EL3 is using AArch64. */
-		uint64_t cbpr_el1ns                  : 1;  /**< R/W/H - Non-secure common binary point register.
-                                                                 When set, non-secure EL1 and non-secure EL2 accesses to
+		uint64_t cbpr_el1ns                  : 1;  /**< R/W/H - Nonsecure common binary point register.
+                                                                 When set, nonsecure EL1 and nonsecure EL2 accesses to
                                                                  CIM()_ICC_BPR1_EL1 access the state of
-                                                                 CIM()_ICC_BPR0_EL1. CIM()_ICC_BPR0_EL1 is used to determine the pre-emption
-                                                                 group for non-secure group 1 interrupts. */
+                                                                 CIM()_ICC_BPR0_EL1. CIM()_ICC_BPR0_EL1 is used to determine the preemption
+                                                                 group for nonsecure group 1 interrupts. */
 		uint64_t cbpr_el1s                   : 1;  /**< R/W/H - Secure common binary point register.
                                                                  When set, secure EL1 and EL3 accesses when EL3 is using AArch32 and not in monitor mode
                                                                  accesses to CIM()_ICC_BPR1_EL1 access the state of CIM()_ICC_BPR0_EL1.
-                                                                 CIM()_ICC_BPR0_EL1 is used to determine the pre-emption group for secure group 1
+                                                                 CIM()_ICC_BPR0_EL1 is used to determine the preemption group for secure group 1
                                                                  interrupts. */
 #else
 		uint64_t cbpr_el1s                   : 1;
@@ -852,7 +851,7 @@ static inline uint64_t BDK_CIMX_ICC_CTLR_EL3(unsigned long param1)
  *
  * 1. For secure accesses to the register, CIM()_ICC_CTLR_EL3[EOIMODE_EL1S] is set to 1.
  *
- * 2. For non-secure accesses to the register, CIM()_ICC_CTLR_EL3[EOIMODE_EL1NS] is set to
+ * 2. For nonsecure accesses to the register, CIM()_ICC_CTLR_EL3[EOIMODE_EL1NS] is set to
  * 1.
  */
 typedef union bdk_cimx_icc_dir_el1 {
@@ -862,7 +861,7 @@ typedef union bdk_cimx_icc_dir_el1 {
 		uint64_t reserved_20_63              : 44;
 		uint64_t intid                       : 20; /**< WO - Interrupt ID. Secure write to CIM()_ICC_DIR_EL1 deactivates the specified
                                                                  interrupt, regardless of whether that interrupt is in group 0 or group 1
-                                                                 Non-secure write to CIM()_ICC_DIR_EL1 deactivates the specified interrupt only
+                                                                 nonsecure write to CIM()_ICC_DIR_EL1 deactivates the specified interrupt only
                                                                  if that interrupt is in group 1.
 
                                                                  A valid write is one that specifies an interrupt that is active, and for which
@@ -948,7 +947,7 @@ typedef union bdk_cimx_icc_eoir0_el1 {
                                                                  unpredictable if any of the following apply:
 
                                                                  _ 1. The value written does not match the last valid interrupt value read from the
-                                                                 Interrupt acknowledge register, or the security states in which the read from
+                                                                 interrupt acknowledge register, or the security states in which the read from
                                                                  CIM()_ICC_IAR0_EL1 and writes to the CIM()_ICC_EOIR0_EL1 differ.
 
                                                                  _ 2. There is no outstanding acknowledged interrupt.
@@ -1022,7 +1021,7 @@ typedef union bdk_cimx_icc_eoir1_el1 {
                                                                  unpredictable if any of the following apply:
 
                                                                    1. The value written does not match the last valid interrupt value read from the
-                                                                 Interrupt acknowledge register,
+                                                                 interrupt acknowledge register,
                                                                       or the security states in which the read from CIM()_ICC_IAR1_EL1 and write to
                                                                  the CIM()_ICC_EOIR1_EL1 differ.
 
@@ -1074,7 +1073,7 @@ typedef union bdk_cimx_icc_hppir0_el1 {
                                                                  1. Whether the highest priority pending interrupt is configured as a group 0 or a group 1
                                                                  interrupt.
 
-                                                                 2. Whether the register access is secure or non-secure.
+                                                                 2. Whether the register access is secure or nonsecure.
 
                                                                  Reads of the CIM()_ICC_HPPIR0_EL1 that do not return a valid interrupt ID return a
                                                                  spurrious interrupt ID, ID 1022 or 1023.
@@ -1110,7 +1109,7 @@ static inline uint64_t BDK_CIMX_ICC_HPPIR0_EL1(unsigned long param1)
 /**
  * NCB - cim#_icc_hppir1_el1
  *
- * Result of pseudocode ReadICC_HPPIR1_EL1. Indicates the Interrupt ID of the highest priority
+ * Result of pseudocode ReadICC_HPPIR1_EL1. Indicates the interrupt ID of the highest priority
  * pending
  * group 1 interrupt on the CPU interface.
  */
@@ -1126,7 +1125,7 @@ typedef union bdk_cimx_icc_hppir1_el1 {
                                                                  1. Whether the highest priority pending interrupt is configured as a group 0 or a group 1
                                                                  interrupt.
 
-                                                                 2. Whether the register access is secure or non-secure.
+                                                                 2. Whether the register access is secure or nonsecure.
 
                                                                  Reads of the CIM()_ICC_HPPIR0_EL1 that do not return a valid interrupt ID return a
                                                                  spurious interrupt ID, ID 1022 or 1023.
@@ -1219,7 +1218,7 @@ typedef union bdk_cimx_icc_iar1_el1 {
 		uint64_t reserved_20_63              : 44;
 		uint64_t intid                       : 20; /**< RO/H - Interrupt ID.
                                                                  The intent is that the CPU will receive a spurious ID if the interrupt is a secure
-                                                                 Group 0 ID or if the interrupt is destined for the other security domain.
+                                                                 group 0 ID or if the interrupt is destined for the other security domain.
 
                                                                  Any effects of reading this register on the signaling of interrupt exceptions to the
                                                                  processor must be observed when the instruction is architecturally executed.
@@ -1297,7 +1296,7 @@ static inline uint64_t BDK_CIMX_ICC_IGRPEN0_EL1(unsigned long param1)
 /**
  * NCB - cim#_icc_igrpen1_el1_ns
  *
- * Physical non-secure group 1 enabled for state determined from SCR_EL3[NS] EL1 Register
+ * Physical nonsecure group 1 enabled for state determined from SCR_EL3[NS] EL1 Register
  *
  */
 typedef union bdk_cimx_icc_igrpen1_el1_ns {
@@ -1394,11 +1393,11 @@ typedef union bdk_cimx_icc_igrpen1_el3 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
 		uint64_t engrp1_s                    : 1;  /**< R/W/H - Enable group 1 secure.
-                                                                 If an interrupt is pending within the CPU interface when an Enable becomes zero, the
+                                                                 If an interrupt is pending within the CPU interface when an enable becomes zero, the
                                                                  interrupt must be released to allow the distributor to forward the interrupt to a
                                                                  different processor. */
-		uint64_t engrp1_ns                   : 1;  /**< R/W/H - Enable group 1 non-secure.
-                                                                 If an interrupt is pending within the CPU interface when an Enable becomes zero, the
+		uint64_t engrp1_ns                   : 1;  /**< R/W/H - Enable group 1 nonsecure.
+                                                                 If an interrupt is pending within the CPU interface when an enable becomes zero, the
                                                                  interrupt must be released to allow the distributor to forward the interrupt to a
                                                                  different processor. */
 #else
@@ -1486,13 +1485,13 @@ typedef union bdk_cimx_icc_pmr_el1 {
                                                                  If the priority of an interrupt is higher than the value indicated by this field, the
                                                                  interface signals the interrupt to the processor.
 
-                                                                 A Non-secure access to this register can only read or write a value that corresponds to
+                                                                 A nonsecure access to this register can only read or write a value that corresponds to
                                                                  the lower half of the priority range.
                                                                  If a secure write has programmed the CIM()_ICC_PMR_EL1 with a value that corresponds
                                                                  to a value in
                                                                  the upper half of the priority range then:
 
-                                                                 _ 1. Any non-secure read of the CIM()_ICC_PMR_EL1 returns 0x00, regardless of the
+                                                                 _ 1. Any non-secure read of the CIM()_ICC_PMR_EL1 returns 0x0, regardless of the
                                                                  value held in the
                                                                  register.
 
@@ -1556,11 +1555,11 @@ typedef union bdk_cimx_icc_rpr_el1 {
                                                                  If there is no active interrupt on the CPU interface, the value returned is the idle
                                                                  priority.
 
-                                                                 The value returned by a non-secure read of the priority field is:
+                                                                 The value returned by a nonsecure read of the priority field is:
 
-                                                                   1. 0x00 if the field value is less than 0x80
+                                                                   1. 0x0 if the field value is less than 0x80
 
-                                                                   2. The non-secure view of the priority value if the field value is 0x80 or more.
+                                                                   2. The nonsecure view of the priority value if the field value is 0x80 or more.
 
                                                                  Virtual accesses to this register trap to EL2 (HYP_TRAP) if
                                                                  CIM()_ICH_HCR_EL2[TC] == 1. */
@@ -1622,10 +1621,10 @@ typedef union bdk_cimx_icc_sgi0r_el1 {
 		uint64_t affinity2                   : 8;  /**< WO - Affinity 2. The affinity 2 value of the affinity path of the cluster for which SGI
                                                                  interrupts will be generated. */
 		uint64_t reserved_28_31              : 4;
-		uint64_t intid                       : 4;  /**< WO - SGI Interrupt ID. */
+		uint64_t intid                       : 4;  /**< WO - SGI interrupt ID. */
 		uint64_t affinity1                   : 8;  /**< WO - Affinity 1. The affinity 1 value of the affinity path of the cluster for which SGI
                                                                  interrupts will be generated. */
-		uint64_t tgtlist                     : 16; /**< WO - The set of processor for which SGI interrupts will be generated. Each bit corresponds to
+		uint64_t tgtlist                     : 16; /**< WO - The set of processors for which SGI interrupts will be generated. Each bit corresponds to
                                                                  the processor within a cluster with an affinity 0 value equal to the bit number.
 
                                                                  If a bit is one and the bit does not correspond to a valid target processor, the bit
@@ -1686,7 +1685,7 @@ static inline uint64_t BDK_CIMX_ICC_SGI0R_EL1(unsigned long param1)
  * Accesses to these registers trap to EL2 (HYP_TRAP) if CIM()_ICH_HCR_EL2[TC] == 1;
  *
  * This register provides software the ability to generate group 1 SGIs for its own security
- * state. That is, non-secure EL1 / EL2 accesses may generate non-secure group 1 interrupts and
+ * state. That is, nonsecure EL1 / EL2 accesses may generate nonsecure group 1 interrupts and
  * secure EL1 / EL3 may generate secure group 1 interrupts.
  */
 typedef union bdk_cimx_icc_sgi1r_el1 {
@@ -1703,7 +1702,7 @@ typedef union bdk_cimx_icc_sgi1r_el1 {
 		uint64_t affinity2                   : 8;  /**< WO - Affinity 2. The affinity 2 value of the affinity path of the cluster for which SGI
                                                                  interrupts will be generated. */
 		uint64_t reserved_28_31              : 4;
-		uint64_t intid                       : 4;  /**< WO - SGI Interrupt ID. */
+		uint64_t intid                       : 4;  /**< WO - SGI interrupt ID. */
 		uint64_t affinity1                   : 8;  /**< WO - Affinity 1. The affinity 1 value of the affinity path of the cluster for which SGI
                                                                  interrupts will be generated. */
 		uint64_t tgtlist                     : 16; /**< WO - The set of processor for which SGI interrupts will be generated. Each bit corresponds to
@@ -1805,7 +1804,7 @@ typedef union bdk_cimx_icc_sre_el1_s {
                                                                  In CNXXXX, this bit is always 1 as IRQ bypass is always disabled. */
 		uint64_t dfb                         : 1;  /**< RO/H - Disable FIQ bypass.
                                                                  In CNXXXX, this bit is always 1 as FIQ bypass is always disabled. */
-		uint64_t sre                         : 1;  /**< RO/H - System Register Enable.
+		uint64_t sre                         : 1;  /**< RO/H - System register enable.
                                                                  In CNXXXX, this bit is always 1 as all registers are implemented locally. */
 #else
 		uint64_t sre                         : 1;
@@ -1844,15 +1843,15 @@ typedef union bdk_cimx_icc_sre_el2 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_4_63               : 60;
 		uint64_t en                          : 1;  /**< R/W - Enables lower exception level access to CIM()_ICC_SRE_EL1.
-                                                                 0 = non-secure EL1 accesses to CIM()_ICC_SRE_EL1 trap to EL2.
-                                                                 1 = non-secure EL1 accesses to CIM()_ICC_SRE_EL1 are permitted if
-                                                                 CIM()_ICC_SRE_EL3[EN] is one, otherwise non-secure EL1 accesses
+                                                                 0 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 trap to EL2.
+                                                                 1 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 are permitted if
+                                                                 CIM()_ICC_SRE_EL3[EN] is one, otherwise nonsecure EL1 accesses
                                                                  to CIM()_ICC_SRE_EL1 trap to EL3. */
 		uint64_t dib                         : 1;  /**< RO/H - Disable IRQ bypass.
                                                                  In CNXXXX, this bit is always 1 as IRQ bypass is always disabled. */
 		uint64_t dfb                         : 1;  /**< RO/H - Disable FIQ bypass.
                                                                  In CNXXXX, this bit is always 1 as FIQ bypass is always disabled. */
-		uint64_t sre                         : 1;  /**< RO/H - System Register Enable.
+		uint64_t sre                         : 1;  /**< RO/H - System register enable.
                                                                  In CNXXXX, this bit is always 1 as all registers are implemented locally. */
 #else
 		uint64_t sre                         : 1;
@@ -1898,7 +1897,7 @@ typedef union bdk_cimx_icc_sre_el3 {
                                                                  In CNXXXX, this bit is always 1 as IRQ bypass is always disabled. */
 		uint64_t dfb                         : 1;  /**< RO/H - Disable FIQ bypass.
                                                                  In CNXXXX, this bit is always 1 as FIQ bypass is always disabled. */
-		uint64_t sre                         : 1;  /**< RO/H - System Register Enable.
+		uint64_t sre                         : 1;  /**< RO/H - System register enable.
                                                                  In CNXXXX, this bit is always 1 as all registers are implemented locally. */
 #else
 		uint64_t sre                         : 1;
@@ -1931,7 +1930,7 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL3(unsigned long param1)
  *
  * Hypervisor active priorities group 0 Register0 for EL2 Register.
  * This register tracks which preemption levels are active in the virtual CPU interface for
- * Group 0, and is used to determine the current active priority. Corresponding bits are
+ * group 0, and is used to determine the current active priority. Corresponding bits are
  * set in this register when an interrupt is acknowledged, based on CIM()_ICH_LRn_EL2.
  * Priority, and the least significant set bit is cleared on EOI.
  *
@@ -1952,7 +1951,7 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL3(unsigned long param1)
  * A maximum of 7 bits of priority (rather than 8) are supported by the
  * CIM()_ICC_AP0R{0..3}_EL1 and CIM()_ICC_AP1R{0..3}_EL1 registers because when
  * the binary point value is zero, the group priority field is bits [7:1] of the priority
- * and bit [0] is never used for pre-emption. The description of this register and fields
+ * and bit [0] is never used for preemption. The description of this register and fields
  * also applies to CIM()_ICH_AP0R1_EL2 .. CIM()_ICH_AP0R3_EL3.
  */
 typedef union bdk_cimx_ich_ap0r0_el2 {
@@ -1991,7 +1990,7 @@ static inline uint64_t BDK_CIMX_ICH_AP0R0_EL2(unsigned long param1)
  * NCB - cim#_ich_ap1r0_el2
  *
  * This register tracks which preemption levels are active in the virtual CPU interface for
- * Group 1, and is used to determine the current active priority. Corresponding bits are
+ * group 1, and is used to determine the current active priority. Corresponding bits are
  * set in this register when an interrupt is acknowledged, based on CIM()_ICH_LRn.
  *
  * Priority, and the least significant set bit is cleared on EOI. The number of register
@@ -2161,21 +2160,21 @@ typedef union bdk_cimx_ich_hcr_el2 {
                                                                  by this bit.
 
                                                                  This bit is reserved when CIM()_ICH_VTR_EL2[SEIS] is zero. */
-		uint64_t tall1                       : 1;  /**< R/W - Trap all non-secure EL1 accesses to CIM()_ICC_* system registers for group 1
+		uint64_t tall1                       : 1;  /**< R/W - Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 1
                                                                  interrupts.
-                                                                 0 = Non-secure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts proceed
+                                                                 0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts proceed
                                                                  as normal.
-                                                                 1 = Any non-secure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts trap
+                                                                 1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts trap
                                                                  to EL2. */
-		uint64_t tall0                       : 1;  /**< R/W - Trap all non-secure EL1 accesses to CIM()_ICC_* system registers for group 0
+		uint64_t tall0                       : 1;  /**< R/W - Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 0
                                                                  interrupts.
-                                                                 0 = Non-secure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts proceed
+                                                                 0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts proceed
                                                                  as normal.
-                                                                 1 = Any non-secure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts trap
+                                                                 1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts trap
                                                                  to EL2. */
-		uint64_t tc                          : 1;  /**< R/W - Trap all non-secure EL1 accesses to system register common to group 0 and group 1.
-                                                                 0 = Non-secure EL1 accesses to common registers proceed as normal.
-                                                                 1 = Any non-secure EL1 access to common registers trap to EL2.
+		uint64_t tc                          : 1;  /**< R/W - Trap all nonsecure EL1 accesses to system register common to group 0 and group 1.
+                                                                 0 = Nonsecure EL1 accesses to common registers proceed as normal.
+                                                                 1 = Any nonsecure EL1 access to common registers trap to EL2.
 
                                                                  Affects accesses to CIM()_ICC_SGI0R_EL1, CIM()_ICC_SGI1R_EL1,
                                                                  CIM()_ICC_ASGI1R_EL1,
@@ -2190,32 +2189,32 @@ typedef union bdk_cimx_ich_hcr_el2 {
 
                                                                  This bit has no hardware effect. */
 		uint64_t reserved_8_8                : 1;
-		uint64_t vgrp1die                    : 1;  /**< R/W - VM Disable group 1 interrupt enable.
+		uint64_t vgrp1die                    : 1;  /**< R/W - VM disable group 1 interrupt enable.
                                                                  Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
                                                                  from
                                                                  the virtual CPU interface to the connected virtual machine is disabled:
                                                                  0 = Maintenance interrupt disabled.
                                                                  1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==0. */
-		uint64_t vgrp1eie                    : 1;  /**< R/W - VM Enable group 1 interrupt enable.
+		uint64_t vgrp1eie                    : 1;  /**< R/W - VM enable group 1 interrupt enable.
                                                                  Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
                                                                  from
                                                                  the virtual CPU interface to the connected virtual machine is enabled:
                                                                  0 = Maintenance interrupt disabled.
                                                                  1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==1. */
-		uint64_t vgrp0die                    : 1;  /**< R/W - VM Disable group 0 interrupt enable.
+		uint64_t vgrp0die                    : 1;  /**< R/W - VM disable group 0 interrupt enable.
                                                                  Enables the signaling of a maintenance interrupt while signaling of group 0 interrupts
                                                                  from
                                                                  the virtual CPU interface to the connected virtual machine is disabled:
                                                                  0 = Maintenance interrupt disabled.
                                                                  1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG0]==0. */
-		uint64_t vgrp0eie                    : 1;  /**< R/W - VM Enable group 0 interrupt enable.
+		uint64_t vgrp0eie                    : 1;  /**< R/W - VM enable group 0 interrupt enable.
                                                                  Enables the signaling of a maintenance interrupt while signaling of group 0 interrupts
                                                                  from
                                                                  the virtual CPU interface to the connected virtual machine is enabled:
                                                                  0 = Maintenance interrupt disabled.
                                                                  1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG0]==1. */
 		uint64_t npie                        : 1;  /**< R/W - No pending interrupt enable. Enables the signaling of a maintenance interrupt while
-                                                                 no pending interrupts are present in the list registers;
+                                                                 no pending interrupts are present in the list registers:
                                                                  0 = Maintenance interrupt disabled.
                                                                  1 = Maintenance interrupt signaled while the list registers contain no interrupts
                                                                  in the pending state. */
@@ -2229,7 +2228,7 @@ typedef union bdk_cimx_ich_hcr_el2 {
                                                                  Unlike in GICv2, no maintenance interrupt is generated for an EOI that specifies an ID
                                                                  corresponding to the highest priority virtual LPI sent from the distributor. */
 		uint64_t uie                         : 1;  /**< R/W - Underflow interrupt enable. Enables the signaling of a maintenance interrupt when the
-                                                                 List registers are empty, or hold only one valid entry:
+                                                                 list registers are empty, or hold only one valid entry:
                                                                    0 = Maintenance interrupt disabled.
                                                                    1 = A maintenance interrupt is asserted if none, or only one, of the list register
                                                                    entries is marked as a valid interrupt. */
@@ -2244,7 +2243,7 @@ typedef union bdk_cimx_ich_hcr_el2 {
                                                                    2. The virtual CPU interface does not signal any virtual interrupts (including virtual
                                                                  system errors).
 
-                                                                   3. virtual access to an interrupt acknowledge register returns a spurious interrupt ID. */
+                                                                   3. Virtual access to an interrupt acknowledge register returns a spurious interrupt ID. */
 #else
 		uint64_t en                          : 1;
 		uint64_t uie                         : 1;
@@ -2312,7 +2311,7 @@ typedef union bdk_cimx_ich_lrx_el2 {
                                                                  Deactivation of the virtual interrupt also causes the deactivation of the physical
                                                                  interrupt with the ID that the PHYSID field indicates.
                                                                  0 = The interrupt is triggered entirely in software. No notification is sent to the
-                                                                     Distributor when the virtual interrupt is deactivated.
+                                                                     distributor when the virtual interrupt is deactivated.
                                                                  1 = A hardware interrupt. A deactivate interrupt request is sent to the distributor
                                                                      when the virtual interrupt is deactivated, using bits [19:10], the PHYSID,
                                                                      to indicate the physical interrupt ID.
@@ -2361,7 +2360,7 @@ typedef union bdk_cimx_ich_lrx_el2 {
 
                                                                  _ Bits [40:32]. Reserved.
 
-                                                                 _ In GICv2, if the Physical ID specified an SGI, behavior was unpredictable. In
+                                                                 _ In GICv2, if the physical ID specified an SGI, behavior was unpredictable. In
                                                                            GICv3, hardware deactivation of SGIs is fully supported.
 
                                                                  _ A hardware physical identifier is only required in list registers for
@@ -2440,12 +2439,12 @@ typedef union bdk_cimx_ich_misr_el2 {
                                                                  A list register is in the pending state only if CIM()_ICH_LRn_EL2[STATE]
                                                                  is pending. The state pending and active is not included. */
 		uint64_t lrenp                       : 1;  /**< RO/H - List register entry not present maintenance interrupt. Asserted whenever
-                                                                 CIM()_ICH_HCR_EL2[LRENPIE]==1 and CIM()_ICH_HCR_EL2[EOICOUNT] is non-zero. */
+                                                                 CIM()_ICH_HCR_EL2[LRENPIE]==1 and CIM()_ICH_HCR_EL2[EOICOUNT] is nonzero. */
 		uint64_t u                           : 1;  /**< RO/H - Underflow maintenance interrupt. Asserted whenever CIM()_ICH_HCR_EL2[UIE] is set and
                                                                  if none, or only one, of the list register entries are marked as a valid interrupt
                                                                  (corresponding CIM()_ICH_LR()_EL2[STATE] != 0x0). */
 		uint64_t eoi                         : 1;  /**< RO/H - EOI maintenance interrupt. Asserted whenever at least one list register is asserting an
-                                                                 EOI Interrupt. At least one bit in CIM()_ICH_EISR_EL2==1. */
+                                                                 EOI interrupt. At least one bit in CIM()_ICH_EISR_EL2==1. */
 #else
 		uint64_t eoi                         : 1;
 		uint64_t u                           : 1;
@@ -2517,10 +2516,10 @@ typedef union bdk_cimx_ich_vmcr_el2 {
                                                                  0 = Signal virtual group 0 with vIRQ.
                                                                  1 = Signal virtual group 0 with vFIQ.
 
-                                                                 In CNXXXX, this bit is always 1 as the non-secure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 In CNXXXX, this bit is always 1 as the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
                                                                  is always one. */
 		uint64_t vackctl                     : 1;  /**< RO/H - Legacy bit from GICv2 does not affect hardware operation.
-                                                                 In CNXXXX, this bit is always 0 because the non-secure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 In CNXXXX, this bit is always 0 because the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
                                                                  is always one. */
 		uint64_t veng1                       : 1;  /**< R/W/H - Virtual group 1 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN1_EL1_S/NS[EN]. */
 		uint64_t veng0                       : 1;  /**< R/W/H - Virtual group 0 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN0_EL1[EN]. */
@@ -2592,17 +2591,17 @@ typedef union bdk_cimx_ich_vtr_el2 {
                                                                  regardless of the value of this field.
                                                                  In CNXXXX, this bit is always 0 as SEIs are not implemented. */
 		uint64_t a3v                         : 1;  /**< RO/H - Affinity 3 support:
-                                                                 0 = The CPU interface logic does not support non-zero values of affinity 3 in SGI
+                                                                 0 = The CPU interface logic does not support nonzero values of affinity 3 in SGI
                                                                  generation system registers.
-                                                                 1 = The CPU interface logic supports non-zero values of affinity 3 in SGI generation
+                                                                 1 = The CPU interface logic supports nonzero values of affinity 3 in SGI generation
                                                                  system registers.
 
                                                                  In CNXXXX, this bit is always 0 as affinity3 is always 0. */
 		uint64_t reserved_5_20               : 16;
 		uint64_t listregs                    : 5;  /**< RO/H - The number of implemented list registers, minus one.
-                                                                 For example, a value of 0xf indicates that the maximum of 16 list registers are
+                                                                 For example, a value of 0xF indicates that the maximum of 16 list registers are
                                                                  implemented.
-                                                                 In CNXXXX, this field is always 0xf as 16 list registers are implemented. */
+                                                                 In CNXXXX, this field is always 0xF as 16 list registers are implemented. */
 #else
 		uint64_t listregs                    : 5;
 		uint64_t reserved_5_20               : 16;

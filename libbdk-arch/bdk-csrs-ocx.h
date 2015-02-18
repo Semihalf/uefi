@@ -85,24 +85,26 @@ typedef union bdk_ocx_com_bist_status {
 	struct bdk_ocx_com_bist_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_36_63              : 28;
-		uint64_t status                      : 36; /**< RO/H - \<35:34\> = Link 2 VC12            RX FIFOs.
+		uint64_t status                      : 36; /**< RO/H - BIST status.
+                                                                 INTERNAL:
+                                                                 \<35:34\> = Link 2 VC12            RX FIFOs.
                                                                  \<33:32\> = Link 2 VC4/VC2         RX FIFOs.
-                                                                 \<31:30\> = Link 2 VC10/VC8/VC6    RX FIFOs.
+                                                                 \<31:30\> = Link 2 VC10/VC8/VC6    RX FIFOs. (Reserved in pass 2)
                                                                  \<29:28\> = Link 1 VC12            RX FIFOs.
                                                                  \<27:26\> = Link 1 VC4/VC2         RX FIFOs.
-                                                                 \<25:24\> = Link 1 VC10/VC8/VC6    RX FIFOs.
+                                                                 \<25:24\> = Link 1 VC10/VC8/VC6    RX FIFOs. (Reserved in pass 2)
                                                                  \<23:22\> = Link 0 VC12            RX FIFOs.
                                                                  \<21:20\> = Link 0 VC4/VC2         RX FIFOs.
-                                                                 \<19:18\> = Link 0 VC10/VC8/VC6    RX FIFOs.
+                                                                 \<19:18\> = Link 0 VC10/VC8/VC6    RX FIFOs. (Reserved in pass 2)
                                                                  \<17:16\> = Link 2 VC1/VC0         RX FIFOs.
                                                                  \<15:14\> = Link 2 VC5/VC3         RX FIFOs.
-                                                                 \<13:12\> = Link 2 VC11/VC9/VC7    RX FIFOs.
+                                                                 \<13:12\> = Link 2 VC11/VC9/VC7    RX FIFOs. (Reserved in pass 2)
                                                                  \<11:10\> = Link 1 VC1/VC0         RX FIFOs.
                                                                  \<9:8\>   = Link 1 VC5/VC3         RX FIFOs.
-                                                                 \<7:6\>   = Link 1 VC11/VC9/VC7    RX FIFOs.
+                                                                 \<7:6\>   = Link 1 VC11/VC9/VC7    RX FIFOs. (Reserved in pass 2)
                                                                  \<5:4\>   = Link 0 VC1/VC0         RX FIFOs.
                                                                  \<3:2\>   = Link 0 VC5/VC3         RX FIFOs.
-                                                                 \<1:0\>   = Link 0 VC11/VC9/VC7    RX FIFOs. */
+                                                                 \<1:0\>   = Link 0 VC11/VC9/VC7    RX FIFOs. (Reserved in pass 2) */
 #else
 		uint64_t status                      : 36;
 		uint64_t reserved_36_63              : 28;
@@ -2857,6 +2859,44 @@ static inline uint64_t BDK_OCX_TLKX_BIST_STATUS(unsigned long param1)
 #define busnum_BDK_OCX_TLKX_BIST_STATUS(p1) (p1)
 #define arguments_BDK_OCX_TLKX_BIST_STATUS(p1) (p1),-1,-1,-1
 #define basename_BDK_OCX_TLKX_BIST_STATUS(...) "OCX_TLKX_BIST_STATUS"
+
+
+/**
+ * RSL - ocx_tlk#_byp_ctl
+ *
+ * This register is for diagnostic use.  Added in pass 2.
+ *
+ */
+typedef union bdk_ocx_tlkx_byp_ctl {
+	uint64_t u;
+	struct bdk_ocx_tlkx_byp_ctl_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_12_63              : 52;
+		uint64_t vc_dis                      : 11; /**< R/W - VC bypass disable.  When set, the corresponding VC is restricted from using
+                                                                 the low latency TX FIFO bypass logic.  This logic is typically disabled for
+                                                                 VC0 only.  For diagnostic use only. */
+		uint64_t reserved_0_0                : 1;
+#else
+		uint64_t reserved_0_0                : 1;
+		uint64_t vc_dis                      : 11;
+		uint64_t reserved_12_63              : 52;
+#endif
+	} s;
+	/* struct bdk_ocx_tlkx_byp_ctl_s      cn88xx; */
+} bdk_ocx_tlkx_byp_ctl_t;
+
+static inline uint64_t BDK_OCX_TLKX_BYP_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_OCX_TLKX_BYP_CTL(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 2)))
+		return 0x000087E011010030ull + (param1 & 3) * 0x2000ull;
+	else 		csr_fatal("BDK_OCX_TLKX_BYP_CTL", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_OCX_TLKX_BYP_CTL(...) bdk_ocx_tlkx_byp_ctl_t
+#define bustype_BDK_OCX_TLKX_BYP_CTL(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_OCX_TLKX_BYP_CTL(p1) (p1)
+#define arguments_BDK_OCX_TLKX_BYP_CTL(p1) (p1),-1,-1,-1
+#define basename_BDK_OCX_TLKX_BYP_CTL(...) "OCX_TLKX_BYP_CTL"
 
 
 /**
