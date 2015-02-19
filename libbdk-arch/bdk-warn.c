@@ -29,7 +29,7 @@ void bdk_error(const char *format, ...)
 {
     va_list args;
     va_start(args, format);
-    __bdk_output("ERROR: ", format, args);
+    __bdk_output("\nERROR: ", format, args);
     va_end(args);
 }
 

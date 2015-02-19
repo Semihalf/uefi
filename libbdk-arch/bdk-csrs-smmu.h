@@ -1276,7 +1276,11 @@ typedef union bdk_smmux_cbx_tcr2 {
 		uint32_t nscfg0                      : 1;  /**< R/W - Non-secure attribute for the memory associated with translation table walks using
                                                                  SMMU()_CB()_TTBR0. This field only applies for secure owned context banks,
                                                                  otherwise this field is ignored. */
-		uint32_t reserved_10_13              : 4;
+		uint32_t reserved_12_13              : 2;
+		uint32_t hd                          : 1;  /**< RO - Hardware management of dirty bit.
+                                                                 In CNXXXX, not implemented. */
+		uint32_t ha                          : 1;  /**< RO - Hardware management of access flag.
+                                                                 In CNXXXX, not implemented. */
 		uint32_t had1                        : 1;  /**< R/W - Hierarchical attribute disable 1 for the TTBR1 region. Similar to [HAD0]. */
 		uint32_t had0                        : 1;  /**< R/W - For stage 1, hierarchical attribute disable 0 for the TTBR0 region.
                                                                  This field is ignored as not supported when SMMU()_IDR2[HADS] is zero.
@@ -1311,7 +1315,9 @@ typedef union bdk_smmux_cbx_tcr2 {
 		uint32_t reserved_7_7                : 1;
 		uint32_t had0                        : 1;
 		uint32_t had1                        : 1;
-		uint32_t reserved_10_13              : 4;
+		uint32_t ha                          : 1;
+		uint32_t hd                          : 1;
+		uint32_t reserved_12_13              : 2;
 		uint32_t nscfg0                      : 1;
 		uint32_t sep                         : 3;
 		uint32_t reserved_18_29              : 12;
@@ -1381,8 +1387,9 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIALL(unsigned long param1, unsigned long
  *
  * Invalidates all of the TLB entries that match the ASID provided as an argument. This operation
  * only has to apply to non-global TLB entries that match the VMID used for the stage 1
- * translation context bank.For MONC and HYPC contexts, this operation has no effect and ignored.
- * This operation only has to apply to TLBentries associated with the security domain that the
+ * translation context bank. For MONC and HYPC contexts, this operation has no effect and
+ * is ignored.
+ * This operation only has to apply to TLB entries associated with the security domain that the
  * Stage 1 translation context bank is a member of.
  */
 typedef union bdk_smmux_cbx_tlbiasid {
@@ -1900,7 +1907,7 @@ typedef union bdk_smmux_cba2rx {
 	uint32_t u;
 	struct bdk_smmux_cba2rx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t vmid                        : 16; /**< R/W/H - Virtual machine identifier. Writes to SMMU()_CBAR()[VMID] also update this field
+		uint32_t vmid16                      : 16; /**< R/W/H - Virtual machine identifier. Writes to SMMU()_CBAR()[VMID] also update this field
                                                                  by zeroing the upper 8 bits. */
 		uint32_t reserved_3_15               : 13;
 		uint32_t e2hc                        : 1;  /**< R/W - Virtualization host support enable.
@@ -1941,7 +1948,7 @@ typedef union bdk_smmux_cba2rx {
 		uint32_t monc                        : 1;
 		uint32_t e2hc                        : 1;
 		uint32_t reserved_3_15               : 13;
-		uint32_t vmid                        : 16;
+		uint32_t vmid16                      : 16;
 #endif
 	} s;
 	/* struct bdk_smmux_cba2rx_s          cn88xx; */
@@ -2029,8 +2036,8 @@ typedef union bdk_smmux_cbarx {
                                                                  associated with the translation context specified by SMMU()_CBAR()[CBNDX] has
                                                                  any value other than 0x0 to specify a stage 2 translation context bank.) */
 		uint32_t vmid                        : 8;  /**< R/W/H - Virtual machine identifier associated with context bank. Contains the low 8 bits of
-                                                                 SMMU()_CBA2R()[VMID]. Writes to this field are zero extended into
-                                                                 SMMU()_CBA2R()[VMID]. */
+                                                                 SMMU()_CBA2R()[VMID16]. Writes to this field are zero extended into
+                                                                 SMMU()_CBA2R()[VMID16]. */
 #else
 		uint32_t vmid                        : 8;
 		uint32_t bpshcfg_cbndx0              : 2;
@@ -2246,7 +2253,8 @@ typedef union bdk_smmux_diag_ctl {
 	uint64_t u;
 	struct bdk_smmux_diag_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_15_63              : 49;
+		uint64_t reserved_17_63              : 47;
+		uint64_t pg_cmb                      : 2;  /**< SRO - Reserved. */
 		uint64_t force_clks_active           : 1;  /**< SR/W - Forces the conditional clocks to be always on. For diagnostic use only. */
 		uint64_t walkers                     : 6;  /**< SR/W - Number of walkers. The number of page table walkers that may
                                                                  simultaneously be executing, minus one.
@@ -2279,7 +2287,8 @@ typedef union bdk_smmux_diag_ctl {
 		uint64_t reserved_7_7                : 1;
 		uint64_t walkers                     : 6;
 		uint64_t force_clks_active           : 1;
-		uint64_t reserved_15_63              : 49;
+		uint64_t pg_cmb                      : 2;
+		uint64_t reserved_17_63              : 47;
 #endif
 	} s;
 	/* struct bdk_smmux_diag_ctl_s        cn88xx; */
@@ -2632,7 +2641,7 @@ typedef union bdk_smmux_idr0 {
 	uint32_t u;
 	struct bdk_smmux_idr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t se                          : 1;  /**< SRO - Security extensions support. */
+		uint32_t ses                         : 1;  /**< SRO - Security extensions support. */
 		uint32_t s1ts                        : 1;  /**< RO - Stage 1 translation support. */
 		uint32_t s2ts                        : 1;  /**< RO - Stage 2 translation support.
                                                                  0 = Stage 2 translations are not supported.
@@ -2657,7 +2666,7 @@ typedef union bdk_smmux_idr0 {
 
                                                                  In CNXXXX V8 only. */
 		uint32_t numirpt                     : 8;  /**< RO - Number of implemented context fault interrupts. Always 0x1 in ARMv8. */
-		uint32_t reserved_15_15              : 1;
+		uint32_t exsmrgs                     : 1;  /**< RAZ - Extended stream matching extension supported. */
 		uint32_t cttw                        : 1;  /**< RO - Coherent translation table walk supported. */
 		uint32_t btm                         : 1;  /**< RO - Broadcast TLB maintenance supported. */
 		uint32_t numsidb                     : 4;  /**< RO - Number of supported stream ID bits. */
@@ -2670,7 +2679,7 @@ typedef union bdk_smmux_idr0 {
 		uint32_t numsidb                     : 4;
 		uint32_t btm                         : 1;
 		uint32_t cttw                        : 1;
-		uint32_t reserved_15_15              : 1;
+		uint32_t exsmrgs                     : 1;
 		uint32_t numirpt                     : 8;
 		uint32_t ptfs                        : 2;
 		uint32_t atosns                      : 1;
@@ -2678,7 +2687,7 @@ typedef union bdk_smmux_idr0 {
 		uint32_t nts                         : 1;
 		uint32_t s2ts                        : 1;
 		uint32_t s1ts                        : 1;
-		uint32_t se                          : 1;
+		uint32_t ses                         : 1;
 #endif
 	} s;
 	/* struct bdk_smmux_idr0_s            cn88xx; */
@@ -2714,7 +2723,15 @@ typedef union bdk_smmux_idr1 {
                                                                  1 = Each page consumes 64 Kbytes. */
 		uint32_t numpagendxb                 : 3;  /**< RO - Indicates how many pagesize pages occupy the global address space or the translation
                                                                  context address space where the number of pages is equal to 2^(NUMPAGENDXB + 1). */
-		uint32_t reserved_24_27              : 4;
+		uint32_t reserved_26_27              : 2;
+		uint32_t hafdbs                      : 2;  /**< RO - Hardware access flag and dirty bit management supported.
+                                                                 0x0 = No support for hardware update of either Access flag or Dirty bit information.
+                                                                 0x1 = Support for hardware update of Access flag, but no support for hardware update of
+                                                                 Dirty bit information.
+                                                                 0x2 = Reserved.
+                                                                 0x3 = Support for hardware update of both Access flag and Dirty bit information
+
+                                                                 CNXXXX does not support hardware access and dirty management. */
 		uint32_t nums2cb                     : 8;  /**< RO - Number of stage 2 context banks. Indicates the number of translation context banks that
                                                                  only support the stage 2 translation format. */
 		uint32_t smcd                        : 1;  /**< RO - Stream match conflict detection.
@@ -2745,7 +2762,8 @@ typedef union bdk_smmux_idr1 {
 		uint32_t reserved_14_14              : 1;
 		uint32_t smcd                        : 1;
 		uint32_t nums2cb                     : 8;
-		uint32_t reserved_24_27              : 4;
+		uint32_t hafdbs                      : 2;
+		uint32_t reserved_26_27              : 2;
 		uint32_t numpagendxb                 : 3;
 		uint32_t pagesize                    : 1;
 #endif
@@ -2783,14 +2801,17 @@ typedef union bdk_smmux_idr2 {
                                                                  Note unlike the processor architecture, DIPAN applies to both instruction and data
                                                                  transactions; thus to distinguish the two features then the SMMU feature is called DIPAN
                                                                  whilst the processor architecture version is called PAN. */
-		uint32_t reserved_29_29              : 1;
+		uint32_t compindexs                  : 1;  /**< RO - StreamID compressed indexing support. */
 		uint32_t hads                        : 1;  /**< RO - Hierarchical attribute disable support.
                                                                  When set, indicates supports ARM v8.1 hierarchical attribute disables.
                                                                  See SMMU()_CB()_TCR2[HAD0]. */
 		uint32_t e2hs                        : 1;  /**< RO - E2H context (E2HC) supported.
                                                                  When set, indicates supports ARM v8.1 virtual host extension contexts.
                                                                  See SMMU()_CBA2R()[E2HC]. */
-		uint32_t reserved_16_26              : 11;
+		uint32_t exnumsmrg                   : 11; /**< RO - For extended stream match extension, the number of extended stream match
+                                                                 register groups supported.
+
+                                                                 For CNXXXX, 0x0 as extended stream match extension is not supported. */
 		uint32_t vmid16s                     : 1;  /**< RO - When set, indicates that 16-bit VMIDs are supported (ARMv8 large system extensions). */
 		uint32_t ptfsv8_64kb                 : 1;  /**< RO - When set, indicates that ARMv8 page tables using 64kb page granule are supported. */
 		uint32_t ptfsv8_16kb                 : 1;  /**< RO - When set, indicates that ARMv8 page tables using 16kb page granule are supported. */
@@ -2810,10 +2831,10 @@ typedef union bdk_smmux_idr2 {
 		uint32_t ptfsv8_16kb                 : 1;
 		uint32_t ptfsv8_64kb                 : 1;
 		uint32_t vmid16s                     : 1;
-		uint32_t reserved_16_26              : 11;
+		uint32_t exnumsmrg                   : 11;
 		uint32_t e2hs                        : 1;
 		uint32_t hads                        : 1;
-		uint32_t reserved_29_29              : 1;
+		uint32_t compindexs                  : 1;
 		uint32_t dipans                      : 1;
 		uint32_t reserved_31_31              : 1;
 #endif
@@ -3328,8 +3349,19 @@ typedef union bdk_smmux_nscr0 {
 	uint32_t u;
 	struct bdk_smmux_nscr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t shypmode1                   : 1;  /**< SR/W - Only exists in the secure copy of this register. */
-		uint32_t shypmode0                   : 1;  /**< R/W - Only exists in the secure copy of this register. */
+		uint32_t vmid16en                    : 1;  /**< R/W - Handling of 16-bit VMID extension:
+                                                                 0 = 8-bit VMIDs are in use.
+                                                                 The VMID is held in SMMU()_CBAR()[VMID].
+                                                                 The SMMU()_CBA2R()[VMID16] field is RAZ.
+
+                                                                 1 = 16-bit VMIDs are in use.
+                                                                 The VMID is held in SMMU()_CBA2R()[VMID16].
+                                                                 The SMMU()_CBAR()[VMID] field is RAZ.
+
+                                                                 Only exists in the non-secure copy of this register.
+
+                                                                 In pass 1, this field must be 0. */
+		uint32_t hypmode                     : 1;  /**< R/W - Only exists in the secure copy of this register. */
 		uint32_t nscfg                       : 2;  /**< SR/W - Non-secure configuration. Only exist in secure copy of register, RES0 in non-secure copy.
                                                                  This field only applies to secure transactions bypassing the SMMU stream mapping
                                                                  process.
@@ -3476,8 +3508,8 @@ typedef union bdk_smmux_nscr0 {
 		uint32_t racfg                       : 2;
 		uint32_t wacfg                       : 2;
 		uint32_t nscfg                       : 2;
-		uint32_t shypmode0                   : 1;
-		uint32_t shypmode1                   : 1;
+		uint32_t hypmode                     : 1;
+		uint32_t vmid16en                    : 1;
 #endif
 	} s;
 	/* struct bdk_smmux_nscr0_s           cn88xx; */
@@ -3508,13 +3540,25 @@ typedef union bdk_smmux_nscr2 {
 	uint32_t u;
 	struct bdk_smmux_nscr2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_16_31              : 16;
+		uint32_t exsmrgenable                : 1;  /**< RO - Enables extended stream matching extension.
+                                                                 In CNXXXX, extended stream matching is not implemented. */
+		uint32_t exnssmrgdisable             : 1;  /**< SRO - Disables use of extended stream match register groups by non-secure software.
+                                                                 Only exists in the secure copy of this register.
+
+                                                                 In CNXXXX, extended stream matching is not implemented. */
+		uint32_t compindexenable             : 1;  /**< RO - StreamID compressed index match enable.
+
+                                                                 In CNXXXX, StreamID compressed indexing is not implemented. */
+		uint32_t reserved_16_28              : 13;
 		uint32_t bpvmid                      : 16; /**< RAZ - Bypass VMID. VMID field applied to client transactions that bypass the SMMU. In CNXXXX,
                                                                  not supported. INTERNAL: If L2C adds support for QoS on a per VMID basis the L2C will also
                                                                  have a `secure' QoS setting, so this field should remain not required. */
 #else
 		uint32_t bpvmid                      : 16;
-		uint32_t reserved_16_31              : 16;
+		uint32_t reserved_16_28              : 13;
+		uint32_t compindexenable             : 1;
+		uint32_t exnssmrgdisable             : 1;
+		uint32_t exsmrgenable                : 1;
 #endif
 	} s;
 	/* struct bdk_smmux_nscr2_s           cn88xx; */
@@ -4470,8 +4514,19 @@ typedef union bdk_smmux_scr0 {
 	uint32_t u;
 	struct bdk_smmux_scr0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t shypmode1                   : 1;  /**< SR/W - Only exists in the secure copy of this register. */
-		uint32_t shypmode0                   : 1;  /**< R/W - Only exists in the secure copy of this register. */
+		uint32_t vmid16en                    : 1;  /**< R/W - Handling of 16-bit VMID extension:
+                                                                 0 = 8-bit VMIDs are in use.
+                                                                 The VMID is held in SMMU()_CBAR()[VMID].
+                                                                 The SMMU()_CBA2R()[VMID16] field is RAZ.
+
+                                                                 1 = 16-bit VMIDs are in use.
+                                                                 The VMID is held in SMMU()_CBA2R()[VMID16].
+                                                                 The SMMU()_CBAR()[VMID] field is RAZ.
+
+                                                                 Only exists in the non-secure copy of this register.
+
+                                                                 In pass 1, this field must be 0. */
+		uint32_t hypmode                     : 1;  /**< R/W - Only exists in the secure copy of this register. */
 		uint32_t nscfg                       : 2;  /**< SR/W - Non-secure configuration. Only exist in secure copy of register, RES0 in non-secure copy.
                                                                  This field only applies to secure transactions bypassing the SMMU stream mapping
                                                                  process.
@@ -4618,8 +4673,8 @@ typedef union bdk_smmux_scr0 {
 		uint32_t racfg                       : 2;
 		uint32_t wacfg                       : 2;
 		uint32_t nscfg                       : 2;
-		uint32_t shypmode0                   : 1;
-		uint32_t shypmode1                   : 1;
+		uint32_t hypmode                     : 1;
+		uint32_t vmid16en                    : 1;
 #endif
 	} s;
 	/* struct bdk_smmux_scr0_s            cn88xx; */
@@ -4652,7 +4707,8 @@ typedef union bdk_smmux_scr1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_31_31              : 1;
 		uint32_t nshypmodedisable            : 1;  /**< SR/W - Disables HYPC mode. */
-		uint32_t reserved_29_29              : 1;
+		uint32_t nscompindexdisable          : 1;  /**< SRO - Non-secure compressed index disable.
+                                                                 In CNXXXX stream compressed indexing is not implemented. */
 		uint32_t nscafro                     : 1;  /**< SRO - Non-secure configuration access fault report override.
                                                                  0 = Permit SMMU_SGFSR to report configuration access faults caused by non-secure accesses
                                                                  to secure-only registers.
@@ -4732,7 +4788,7 @@ typedef union bdk_smmux_scr1 {
 		uint32_t sif                         : 1;
 		uint32_t spmen                       : 1;
 		uint32_t nscafro                     : 1;
-		uint32_t reserved_29_29              : 1;
+		uint32_t nscompindexdisable          : 1;
 		uint32_t nshypmodedisable            : 1;
 		uint32_t reserved_31_31              : 1;
 #endif
@@ -4765,13 +4821,25 @@ typedef union bdk_smmux_scr2 {
 	uint32_t u;
 	struct bdk_smmux_scr2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_16_31              : 16;
+		uint32_t exsmrgenable                : 1;  /**< RO - Enables extended stream matching extension.
+                                                                 In CNXXXX, extended stream matching is not implemented. */
+		uint32_t exnssmrgdisable             : 1;  /**< SRO - Disables use of extended stream match register groups by non-secure software.
+                                                                 Only exists in the secure copy of this register.
+
+                                                                 In CNXXXX, extended stream matching is not implemented. */
+		uint32_t compindexenable             : 1;  /**< RO - StreamID compressed index match enable.
+
+                                                                 In CNXXXX, StreamID compressed indexing is not implemented. */
+		uint32_t reserved_16_28              : 13;
 		uint32_t bpvmid                      : 16; /**< RAZ - Bypass VMID. VMID field applied to client transactions that bypass the SMMU. In CNXXXX,
                                                                  not supported. INTERNAL: If L2C adds support for QoS on a per VMID basis the L2C will also
                                                                  have a `secure' QoS setting, so this field should remain not required. */
 #else
 		uint32_t bpvmid                      : 16;
-		uint32_t reserved_16_31              : 16;
+		uint32_t reserved_16_28              : 13;
+		uint32_t compindexenable             : 1;
+		uint32_t exnssmrgdisable             : 1;
+		uint32_t exsmrgenable                : 1;
 #endif
 	} s;
 	/* struct bdk_smmux_scr2_s            cn88xx; */

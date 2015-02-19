@@ -99,6 +99,7 @@ local function check_ccpi(link)
     return ccpi_pass
 end
 
+
 -- Print out a banner
 print("")
 print("BDK version ".. require("bdk-version"))
@@ -106,61 +107,92 @@ print("THUNDERX Chip Screen")
 print("Copyright (C) 2010-2014 Cavium Inc.")
 
 local coremask = menu.prompt_number("Coremask: ", 0xffffffffffff)
+local config_num = menu.prompt_number("Config Number (0,1 or 2): ", 0)
 -- Go multicore, based on coremask provided by script.
 printf("Using coremask: 0x%x\n", coremask)
 
 -- Set up traffic QLMs here, as we want to overlap the link negotiation delay
 -- with other tests.
-cavium.csr.GSERX_REFCLK_SEL(0).COM_CLK_SEL = 1
-cavium.csr.GSERX_REFCLK_SEL(0).USE_COM1 = 1
-cavium.c.bdk_qlm_reset(node, 0)
-cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_40G_KR4_1X4, 10312, 0)
+if (config_num == 0) then
+    cavium.csr.GSERX_REFCLK_SEL(0).COM_CLK_SEL = 1
+    cavium.csr.GSERX_REFCLK_SEL(0).USE_COM1 = 1
+    cavium.c.bdk_qlm_reset(node, 0)
+    cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_40G_KR4_1X4, 10312, 0)
 
-cavium.csr.GSERX_REFCLK_SEL(1).COM_CLK_SEL = 1
-cavium.csr.GSERX_REFCLK_SEL(1).USE_COM1 = 1
-cavium.c.bdk_qlm_reset(node, 1)
-cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_40G_KR4_1X4, 10312, 0)
-
-
--- Configure all QLMS at Gen 3x8
-cavium.csr.GSERX_REFCLK_SEL(2).COM_CLK_SEL = 1
-cavium.csr.GSERX_REFCLK_SEL(2).USE_COM1 = 0
-cavium.c.bdk_qlm_reset(node, 2)
-cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, 0)
-
-cavium.csr.GSERX_REFCLK_SEL(4).COM_CLK_SEL = 1
-cavium.csr.GSERX_REFCLK_SEL(4).USE_COM1 = 0
-cavium.c.bdk_qlm_reset(node, 4)
-cavium.c.bdk_qlm_set_mode(node, 4, cavium.QLM_MODE_PCIE_1X8, 8000, 0)
-
-cavium.csr.GSERX_REFCLK_SEL(6).COM_CLK_SEL = 1
-cavium.csr.GSERX_REFCLK_SEL(6).USE_COM1 = 0
-cavium.c.bdk_qlm_reset(node, 6)
-cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_PCIE_1X8, 8000, 0)
+    cavium.csr.GSERX_REFCLK_SEL(1).COM_CLK_SEL = 1
+    cavium.csr.GSERX_REFCLK_SEL(1).USE_COM1 = 1
+    cavium.c.bdk_qlm_reset(node, 1)
+    cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_40G_KR4_1X4, 10312, 0)
 
 
+    -- Configure all QLMS at Gen 3x8
+    cavium.csr.GSERX_REFCLK_SEL(2).COM_CLK_SEL = 1
+    cavium.csr.GSERX_REFCLK_SEL(2).USE_COM1 = 0
+    cavium.c.bdk_qlm_reset(node, 2)
+    cavium.c.bdk_qlm_set_mode(node, 2, cavium.QLM_MODE_PCIE_1X8, 8000, 0)
 
--- OCI test - confirm all QLMs are up and valid.
+    cavium.csr.GSERX_REFCLK_SEL(4).COM_CLK_SEL = 1
+    cavium.csr.GSERX_REFCLK_SEL(4).USE_COM1 = 0
+    cavium.c.bdk_qlm_reset(node, 4)
+    cavium.c.bdk_qlm_set_mode(node, 4, cavium.QLM_MODE_PCIE_1X8, 8000, 0)
 
-if (check_ccpi(0) and check_ccpi(1) and check_ccpi(2)) then
-    print ("OCI Test: PASS")
-else
-    all_pass = false
-    print ("OCI Test: FAIL")
+    cavium.csr.GSERX_REFCLK_SEL(6).COM_CLK_SEL = 1
+    cavium.csr.GSERX_REFCLK_SEL(6).USE_COM1 = 0
+    cavium.c.bdk_qlm_reset(node, 6)
+    cavium.c.bdk_qlm_set_mode(node, 6, cavium.QLM_MODE_PCIE_1X8, 8000, 0)
+elseif (config_num == 1) then
+--------------------------------------------------------------
+-- Configuring PHY addresses for various BGX interfaces
+--------------------------------------------------------------
+-- This code sets the default MDIO addresses for SGMII PHYs
+-- The number is "(0x100 * bus) + phy".
+
+    -- BGX0 (QLM0)
+    set_config(cavium.CONFIG_PHY_IF0_PORT0, 0)
+    set_config(cavium.CONFIG_PHY_IF0_PORT1, 1)
+    set_config(cavium.CONFIG_PHY_IF0_PORT2, 2)
+    set_config(cavium.CONFIG_PHY_IF0_PORT3, 3)
+
+    cavium.csr.GSERX_REFCLK_SEL(0).COM_CLK_SEL = 0
+    cavium.csr.GSERX_REFCLK_SEL(0).USE_COM1 = 0
+    cavium.c.bdk_qlm_reset(node, 0)
+    cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_SGMII, 1250, 0)
+
+    cavium.csr.GSERX_REFCLK_SEL(1).COM_CLK_SEL = 1
+    cavium.csr.GSERX_REFCLK_SEL(1).USE_COM1 = 1
+    cavium.c.bdk_qlm_reset(node, 1)
+    cavium.c.bdk_qlm_set_mode(node, 1, cavium.QLM_MODE_XAUI_1X4, 3125, 0)
+elseif (config_num == 2) then
+    cavium.csr.GSERX_REFCLK_SEL(0).COM_CLK_SEL = 1
+    cavium.csr.GSERX_REFCLK_SEL(0).USE_COM1 = 1
+    cavium.c.bdk_qlm_reset(node, 0)
+    cavium.c.bdk_qlm_set_mode(node, 0, cavium.QLM_MODE_XAUI_1X4, 3125, 0)
+
 end
 
+if (config_num == 0) then
 
-local mmc_pass = true
-mmc_pass = mmc_test(0)
-mmc_pass = mmc_test(1) and mmc_pass
-all_pass = all_pass and mmc_pass
+    -- OCI test - confirm all QLMs are up and valid.
 
--- PCIe tests.  All QLMs x8 RC
+    if (check_ccpi(0) and check_ccpi(1) and check_ccpi(2)) then
+        print ("OCI Test: PASS")
+    else
+        all_pass = false
+        print ("OCI Test: FAIL")
+    end
 
-pcie_rc(0)
-pcie_rc(2)
-pcie_rc(4)
 
+    local mmc_pass = true
+    mmc_pass = mmc_test(0)
+    mmc_pass = mmc_test(1) and mmc_pass
+    all_pass = all_pass and mmc_pass
+
+    -- PCIe tests.  All QLMs x8 RC
+
+    pcie_rc(0)
+    pcie_rc(2)
+    pcie_rc(4)
+end
 
 --
 -- Network Traffic Tests
@@ -172,10 +204,24 @@ local tg_pass = true
 local trafficgen = require("trafficgen")
 local tg = trafficgen.new()
 cavium.c.bdk_wait_usec(3 * 1000000) -- wait for links to come up.
-tg_pass = tg_run(tg, "40GKR0-40GKR1", 60, 100000, 50, 5)
-tg_pass = tg_run(tg, "40GKR0-40GKR1", 1499, 100000, 50, 7) and tg_pass
-tg_pass = tg_run(tg, "40GKR0-40GKR1", 9111, 10000, 10, 12) and tg_pass
-all_pass = all_pass and tg_pass
+
+if (config_num == 0) then
+    tg_pass = tg_run(tg, "40GKR0-40GKR1", 60, 100000, 50, 5)
+    tg_pass = tg_run(tg, "40GKR0-40GKR1", 1499, 100000, 50, 7) and tg_pass
+    tg_pass = tg_run(tg, "40GKR0-40GKR1", 9111, 10000, 10, 12) and tg_pass
+    all_pass = all_pass and tg_pass
+elseif (config_num == 1) then
+    tg_pass = tg_run(tg, "SGMII0.0-SGMII0.1", 60, 100000, 100, 2)
+    tg_pass = tg_run(tg, "SGMII0.0-SGMII0.1", 1499, 1000, 100, 2) and tg_pass
+    tg_pass = tg_run(tg, "SGMII0.2-SGMII0.3", 60, 100000, 100, 2) and tg_pass
+    tg_pass = tg_run(tg, "SGMII0.2-SGMII0.3", 1499, 1000, 100, 2) and tg_pass
+    tg_pass = tg_run(tg, "XAUI1", 60, 100000, 100, 2) and tg_pass
+    tg_pass = tg_run(tg, "XAUI1", 1499, 1000, 100, 2) and tg_pass
+    all_pass = all_pass and tg_pass
+elseif (config_num == 2) then
+    tg_pass = tg_run(tg, "XAUI0", 60, 100000, 100, 2)
+    tg_pass = tg_run(tg, "XAUI0", 1499, 1000, 100, 2) and tg_pass
+end
 
 --
 -- Summary
@@ -188,3 +234,4 @@ else
 end
 print("BDK Chip Screen complete.")
 print("")
+

@@ -108,10 +108,10 @@ static void check_cn88xx(bdk_node_t node)
                     bdk_atomic_add64_nosync(&__bdk_dram_ecc_single_bit_errors, 1);
                 if (c.s.ded_err)
                     bdk_atomic_add64_nosync(&__bdk_dram_ecc_double_bit_errors, 1);
-                bdk_error("N%d.LMC%d: ECC %s bit error (DIMM%d,Rank%d,Bank%d,Row 0x%x,Col 0x%x, ECC_SYND 0x%016lx)\n",
+                bdk_error("N%d.LMC%d: ECC %s bit error (DIMM%d,Rank%d,Bank%d,Row 0x%04x,Col 0x%04x, ECC_SYND 0x%016lx, DED 0x%1x, SEC 0x%1x)\n",
                     node, index, (c.s.ded_err) ? "double" : "single",
                     fadr.s.fdimm, fadr.s.fbunk, fadr.s.fbank,
-                    fadr.s.frow, fadr.s.fcol, ecc_synd.u);
+                    fadr.s.frow, fadr.s.fcol, ecc_synd.u, c.s.ded_err, c.s.sec_err);
             }
         }
     }

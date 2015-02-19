@@ -749,11 +749,12 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
     DRAM_CSR_WRITE(node, BDK_LMCX_SEQ_CTL(ddr_interface_num), seq_ctl.u);
     BDK_CSR_READ(node, BDK_LMCX_SEQ_CTL(ddr_interface_num));
 
-    /* Wait 100ms for sequence to complete */
+    /* Wait 100us minimum before checking for sequence complete */
+    bdk_wait_usec(100);
     if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
 	BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_SEQ_CTL(ddr_interface_num), seq_complete, ==, 1, 1000000))
     {
-	error_print("Timeout waiting for LMC sequence, ignoring: rank_mask=0x%02x, sequence=%d\n",
+	error_print("Timeout waiting for LMC sequence, ignoring: rank_mask=0x%02x, sequence=%x\n",
 		    rank_mask, sequence);
     }
 #ifdef DEBUG_PERFORM_DDR3_SEQUENCE
@@ -4123,7 +4124,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 		    perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 6); /* write-leveling */
 
-		    /* Wait 100ms for wlevel to complete */
 		    if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
 			BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx),
 					       status, ==, 3, 1000000))

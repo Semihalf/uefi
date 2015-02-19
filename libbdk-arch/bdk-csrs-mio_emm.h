@@ -490,15 +490,19 @@ typedef union bdk_mio_emm_dma_fifo_cfg {
 		uint64_t reserved_17_63              : 47;
 		uint64_t clr                         : 1;  /**< R/W - DMA FIFO Clear. When set erases all commands in the DMA FIFO. Must be zero for normal operation. */
 		uint64_t reserved_13_15              : 3;
-		uint64_t int_lvl                     : 5;  /**< R/W - Interrupt threshold that specifies the number of entries remaining in the DMA FIFO. A
-                                                                 value of 16 or more disables the interrupt. See MIO_EMM_DMA_INT[FIFO]. */
+		uint64_t int_lvl                     : 5;  /**< R/W - Interrupt threshold indicating the number of entries remaining in the
+                                                                 DMA FIFO.  An interrupt occurs if the FIFO is read at the level specified.
+                                                                 A value of 0 disables the interrupt.  A value of 17 or greater will cause an
+                                                                 interrupt only if the FIFO is overflowed.
+                                                                 See MIO_EMM_DMA_INT[FIFO]. */
 		uint64_t reserved_5_7                : 3;
 		uint64_t count                       : 5;  /**< RO/H - Number of entries in the DMA FIFO. This count is incremented by writes to the
                                                                  MIO_EMM_DMA_FIFO_CMD register and decremented each time the internal DMA engine completes
                                                                  the previous command successfully.
 
-                                                                 Up to 16 entries can be placed in the FIFO. Entries written to a full FIFO will be
-                                                                 ignored. */
+                                                                 Up to 16 entries can be placed in the FIFO. Entries written to a full FIFO will
+                                                                 potentially corrupt existing entries.  Care must be taken by software to insure
+                                                                 that this condition does not occur. */
 #else
 		uint64_t count                       : 5;
 		uint64_t reserved_5_7                : 3;

@@ -78,7 +78,7 @@ static int validate_spd_checksum(bdk_node_t node, int twsi_addr, int silent)
 {
     int rv;
 
-    ddr_print("Validating DIMM at address 0x%x\n", twsi_addr);
+    debug_print("Validating DIMM at address 0x%x\n", twsi_addr);
 
 #ifdef DDR3_ENHANCE_PRINT
     if (!twsi_addr) return 1; /* return OK if we are not doing real DIMMs */
@@ -111,7 +111,7 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
     debug_print("Validating dimm %d, spd addr: 0x%02x spd ptr: %x\n",
 		dimm_index, spd_addr, dimm_config->spd_ptrs[dimm_index]);
 #else
-    ddr_print("Validating dimm %d, spd ptr: %p\n", dimm_index,
+    debug_print("Validating dimm %d, spd ptr: %p\n", dimm_index,
 	       dimm_config->spd_ptrs[dimm_index]);
 #endif
 
@@ -127,9 +127,9 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
         {
             case 0x0B:              /* DDR3 */
 #ifdef DDR3_ENHANCE_PRINT
-                ddr_print("Validating DDR3 DIMM %d\n", dimm_index);
+                debug_print("Validating DDR3 DIMM %d\n", dimm_index);
 #else
-                ddr_print("Validating DIMM %d\n", dimm_index);
+                debug_print("Validating DIMM %d\n", dimm_index);
 #endif
                 val0 = read_spd(node, dimm_config, dimm_index, DDR3_SPD_DENSITY_BANKS);
                 val1 = read_spd(node, dimm_config, dimm_index, DDR3_SPD_ADDRESSING_ROW_COL_BITS);
@@ -169,7 +169,7 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
 			     dimm_type, dimm_index,
 			     dimm_config->spd_addrs[dimm_index]);
 #else
-		ddr_print("Unknown DIMM type 0x%x for DIMM %d @ 0x%x\n",
+		debug_print("Unknown DIMM type 0x%x for DIMM %d @ 0x%x\n",
 			  dimm_type, dimm_index,
 			  dimm_config->spd_addrs[dimm_index]);
 #endif
@@ -250,13 +250,13 @@ void report_ddr3_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upp
 
     spd_voltage = read_spd(node, dimm_config, upper_dimm, DDR3_SPD_NOMINAL_VOLTAGE);
     if ((spd_voltage == 0) || (spd_voltage & 3))
-        puts(" 1.5V");
+        printf(" 1.5V");
     if (spd_voltage & 2)
-        puts(" 1.35V");
+        printf(" 1.35V");
     if (spd_voltage & 4)
-        puts(" 1.2xV");
+        printf(" 1.2xV");
 
-    puts("\n");
+    printf("\n");
 }
 
 static void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm,

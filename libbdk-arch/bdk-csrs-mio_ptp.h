@@ -60,7 +60,7 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 /**
  * Enumeration MIO_PTP_EXT_SEL_E
  *
- * External sources Select Enumeration
+ * PTP External Sources Select Enumeration
  * Enumerates the different external signal sources for PTP.
  * Note that CCPI reference clocks cannot be selected.
  */

@@ -18083,7 +18083,8 @@ local csr_db = {
             range2_inc = 0x40000,
             fields = {
                 {name = "TCP_OFF", start = 63, stop = 63},
-                {name = "RESERVED_29_62", start = 29, stop = 62},
+                {name = "RESERVED_30_62", start = 30, stop = 62},
+                {name = "RX_CQM_FORMAT", start = 29, stop = 29},
                 {name = "STRIP_PRE_L2", start = 28, stop = 28},
                 {name = "CACHING", start = 26, stop = 27},
                 {name = "CQ_QS", start = 19, stop = 25},
@@ -19201,7 +19202,10 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x200000,
             fields = {
-                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "RESERVED_12_63", start = 12, stop = 63},
+                {name = "RSS_TUN_NVGRE", start = 11, stop = 11},
+                {name = "RSS_TUN_GENEVE", start = 10, stop = 10},
+                {name = "RSS_TUN_VXLAN", start = 9, stop = 9},
                 {name = "RSS_L4_BIDI", start = 8, stop = 8},
                 {name = "RSS_L3_BIDI", start = 7, stop = 7},
                 {name = "RSS_ROCE", start = 6, stop = 6},
@@ -27209,7 +27213,9 @@ local csr_db = {
                 {name = "RESERVED_18_29", start = 18, stop = 29},
                 {name = "SEP", start = 15, stop = 17},
                 {name = "NSCFG0", start = 14, stop = 14},
-                {name = "RESERVED_10_13", start = 10, stop = 13},
+                {name = "RESERVED_12_13", start = 12, stop = 13},
+                {name = "HD", start = 11, stop = 11},
+                {name = "HA", start = 10, stop = 10},
                 {name = "HAD1", start = 9, stop = 9},
                 {name = "HAD0", start = 8, stop = 8},
                 {name = "RESERVED_7_7", start = 7, stop = 7},
@@ -27400,7 +27406,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x4,
             fields = {
-                {name = "VMID", start = 16, stop = 31},
+                {name = "VMID16", start = 16, stop = 31},
                 {name = "RESERVED_3_15", start = 3, stop = 15},
                 {name = "E2HC", start = 2, stop = 2},
                 {name = "MONC", start = 1, stop = 1},
@@ -27499,7 +27505,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "RESERVED_15_63", start = 15, stop = 63},
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "PG_CMB", start = 15, stop = 16},
                 {name = "FORCE_CLKS_ACTIVE", start = 14, stop = 14},
                 {name = "WALKERS", start = 8, stop = 13},
                 {name = "RESERVED_7_7", start = 7, stop = 7},
@@ -27600,7 +27607,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "SE", start = 31, stop = 31},
+                {name = "SES", start = 31, stop = 31},
                 {name = "S1TS", start = 30, stop = 30},
                 {name = "S2TS", start = 29, stop = 29},
                 {name = "NTS", start = 28, stop = 28},
@@ -27608,7 +27615,7 @@ local csr_db = {
                 {name = "ATOSNS", start = 26, stop = 26},
                 {name = "PTFS", start = 24, stop = 25},
                 {name = "NUMIRPT", start = 16, stop = 23},
-                {name = "RESERVED_15_15", start = 15, stop = 15},
+                {name = "EXSMRGS", start = 15, stop = 15},
                 {name = "CTTW", start = 14, stop = 14},
                 {name = "BTM", start = 13, stop = 13},
                 {name = "NUMSIDB", start = 9, stop = 12},
@@ -27626,7 +27633,8 @@ local csr_db = {
             fields = {
                 {name = "PAGESIZE", start = 31, stop = 31},
                 {name = "NUMPAGENDXB", start = 28, stop = 30},
-                {name = "RESERVED_24_27", start = 24, stop = 27},
+                {name = "RESERVED_26_27", start = 26, stop = 27},
+                {name = "HAFDBS", start = 24, stop = 25},
                 {name = "NUMS2CB", start = 16, stop = 23},
                 {name = "SMCD", start = 15, stop = 15},
                 {name = "RESERVED_14_14", start = 14, stop = 14},
@@ -27645,10 +27653,10 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_31_31", start = 31, stop = 31},
                 {name = "DIPANS", start = 30, stop = 30},
-                {name = "RESERVED_29_29", start = 29, stop = 29},
+                {name = "COMPINDEXS", start = 29, stop = 29},
                 {name = "HADS", start = 28, stop = 28},
                 {name = "E2HS", start = 27, stop = 27},
-                {name = "RESERVED_16_26", start = 16, stop = 26},
+                {name = "EXNUMSMRG", start = 16, stop = 26},
                 {name = "VMID16S", start = 15, stop = 15},
                 {name = "PTFSV8_64KB", start = 14, stop = 14},
                 {name = "PTFSV8_16KB", start = 13, stop = 13},
@@ -27836,8 +27844,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "SHYPMODE1", start = 31, stop = 31},
-                {name = "SHYPMODE0", start = 30, stop = 30},
+                {name = "VMID16EN", start = 31, stop = 31},
+                {name = "HYPMODE", start = 30, stop = 30},
                 {name = "NSCFG", start = 28, stop = 29},
                 {name = "WACFG", start = 26, stop = 27},
                 {name = "RACFG", start = 24, stop = 25},
@@ -27869,7 +27877,10 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "EXSMRGENABLE", start = 31, stop = 31},
+                {name = "EXNSSMRGDISABLE", start = 30, stop = 30},
+                {name = "COMPINDEXENABLE", start = 29, stop = 29},
+                {name = "RESERVED_16_28", start = 16, stop = 28},
                 {name = "BPVMID", start = 0, stop = 15},
             }
         },
@@ -28160,8 +28171,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "SHYPMODE1", start = 31, stop = 31},
-                {name = "SHYPMODE0", start = 30, stop = 30},
+                {name = "VMID16EN", start = 31, stop = 31},
+                {name = "HYPMODE", start = 30, stop = 30},
                 {name = "NSCFG", start = 28, stop = 29},
                 {name = "WACFG", start = 26, stop = 27},
                 {name = "RACFG", start = 24, stop = 25},
@@ -28195,7 +28206,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_31_31", start = 31, stop = 31},
                 {name = "NSHYPMODEDISABLE", start = 30, stop = 30},
-                {name = "RESERVED_29_29", start = 29, stop = 29},
+                {name = "NSCOMPINDEXDISABLE", start = 29, stop = 29},
                 {name = "NSCAFRO", start = 28, stop = 28},
                 {name = "SPMEN", start = 27, stop = 27},
                 {name = "SIF", start = 26, stop = 26},
@@ -28214,7 +28225,10 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "EXSMRGENABLE", start = 31, stop = 31},
+                {name = "EXNSSMRGDISABLE", start = 30, stop = 30},
+                {name = "COMPINDEXENABLE", start = 29, stop = 29},
+                {name = "RESERVED_16_28", start = 16, stop = 28},
                 {name = "BPVMID", start = 0, stop = 15},
             }
         },
@@ -62741,10 +62755,10 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_60_63", start = 60, stop = 63},
-                {name = "IED0_DBE", start = 32, stop = 59},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "IED0_SBE", start = 0, stop = 27},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "IED0_DBE", start = 32, stop = 60},
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "IED0_SBE", start = 0, stop = 28},
             }
         },
         IOBNX_INT_ENA_W1S = {
@@ -62755,10 +62769,10 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_60_63", start = 60, stop = 63},
-                {name = "IED0_DBE", start = 32, stop = 59},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "IED0_SBE", start = 0, stop = 27},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "IED0_DBE", start = 32, stop = 60},
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "IED0_SBE", start = 0, stop = 28},
             }
         },
         IOBNX_INT_SUM = {
@@ -62769,10 +62783,10 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_60_63", start = 60, stop = 63},
-                {name = "IED0_DBE", start = 32, stop = 59},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "IED0_SBE", start = 0, stop = 27},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "IED0_DBE", start = 32, stop = 60},
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "IED0_SBE", start = 0, stop = 28},
             }
         },
         IOBNX_INT_SUM_W1S = {
@@ -62783,10 +62797,10 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_60_63", start = 60, stop = 63},
-                {name = "IED0_DBE", start = 32, stop = 59},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "IED0_SBE", start = 0, stop = 27},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "IED0_DBE", start = 32, stop = 60},
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "IED0_SBE", start = 0, stop = 28},
             }
         },
         IOBNX_MCTLR_REG = {
@@ -62929,7 +62943,10 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "MAX_DLL_SETTING", start = 48, stop = 59},
+                {name = "MIN_DLL_SETTING", start = 36, stop = 47},
+                {name = "RESERVED_32_35", start = 32, stop = 35},
                 {name = "PDR_RCLK_REFCLK", start = 31, stop = 31},
                 {name = "PDL_RCLK_REFCLK", start = 30, stop = 30},
                 {name = "PD_POS_RCLK_REFCLK", start = 29, stop = 29},
@@ -68314,6 +68331,18 @@ local csr_db = {
                 {name = "BLOCK", start = 0, stop = 3},
             }
         },
+        NIC_PF_INTFX_TX_FIFO_STATUS = {
+            name = "NIC_PF_INTF#_TX_FIFO_STATUS",
+            type = "NCB",
+            width = 8,
+            address = 0x843000000230,
+            range1 = {0,1},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_11_63", start = 11, stop = 63},
+                {name = "COUNT", start = 0, stop = 10},
+            }
+        },
         NIC_PF_LMACX_CFG = {
             name = "NIC_PF_LMAC#_CFG",
             type = "NCB",
@@ -68533,7 +68562,8 @@ local csr_db = {
             range2_inc = 0x40000,
             fields = {
                 {name = "TCP_OFF", start = 63, stop = 63},
-                {name = "RESERVED_29_62", start = 29, stop = 62},
+                {name = "RESERVED_30_62", start = 30, stop = 62},
+                {name = "RX_CQM_FORMAT", start = 29, stop = 29},
                 {name = "STRIP_PRE_L2", start = 28, stop = 28},
                 {name = "CACHING", start = 26, stop = 27},
                 {name = "CQ_QS", start = 19, stop = 25},
@@ -68725,15 +68755,17 @@ local csr_db = {
                 {name = "UDP_PORT_NUM", start = 0, stop = 15},
             }
         },
-        NIC_PF_RX_NVGRE_DEF = {
-            name = "NIC_PF_RX_NVGRE_DEF",
+        NIC_PF_RX_GRE_DEF = {
+            name = "NIC_PF_RX_GRE_DEF",
             type = "NCB",
             width = 8,
             address = 0x843000000590,
             fields = {
-                {name = "RESERVED_17_63", start = 17, stop = 63},
-                {name = "ENA", start = 16, stop = 16},
-                {name = "RESERVED_0_15", start = 0, stop = 15},
+                {name = "RESERVED_19_63", start = 19, stop = 63},
+                {name = "GRE1_ENA", start = 18, stop = 18},
+                {name = "GRE0_ENA", start = 17, stop = 17},
+                {name = "NVGRE_ENA", start = 16, stop = 16},
+                {name = "NVGRE_PORT_NUM", start = 0, stop = 15},
             }
         },
         NIC_PF_RX_VXLAN_DEFX = {
@@ -68760,6 +68792,16 @@ local csr_db = {
                 {name = "BP_CFG", start = 16, stop = 23},
                 {name = "RESERVED_12_15", start = 12, stop = 15},
                 {name = "LFSR_FREQ", start = 0, stop = 11},
+            }
+        },
+        NIC_PF_SOFT_RESET = {
+            name = "NIC_PF_SOFT_RESET",
+            type = "NCB",
+            width = 8,
+            address = 0x843000000050,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "RESET", start = 0, stop = 0},
             }
         },
         NIC_PF_SQM_TEST1 = {
@@ -69698,7 +69740,10 @@ local csr_db = {
             range1 = {0,127},
             range1_inc = 0x200000,
             fields = {
-                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "RESERVED_12_63", start = 12, stop = 63},
+                {name = "RSS_TUN_NVGRE", start = 11, stop = 11},
+                {name = "RSS_TUN_GENEVE", start = 10, stop = 10},
+                {name = "RSS_TUN_VXLAN", start = 9, stop = 9},
                 {name = "RSS_L4_BIDI", start = 8, stop = 8},
                 {name = "RSS_L3_BIDI", start = 7, stop = 7},
                 {name = "RSS_ROCE", start = 6, stop = 6},
@@ -71258,6 +71303,19 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
                 {name = "STATUS", start = 0, stop = 15},
+            }
+        },
+        OCX_TLKX_BYP_CTL = {
+            name = "OCX_TLK#_BYP_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x87e011010030,
+            range1 = {0,2},
+            range1_inc = 0x2000,
+            fields = {
+                {name = "RESERVED_12_63", start = 12, stop = 63},
+                {name = "VC_DIS", start = 1, stop = 11},
+                {name = "RESERVED_0_0", start = 0, stop = 0},
             }
         },
         OCX_TLKX_ECC_CTL = {
@@ -77291,6 +77349,18 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 63},
             }
         },
+        SLIX_SCTL = {
+            name = "SLI#_SCTL",
+            type = "NCB",
+            width = 8,
+            address = 0x874001002010,
+            range1 = {0,1},
+            range1_inc = 0x1000000000,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "SCEN", start = 0, stop = 0},
+            }
+        },
         SLIX_WIN_RD_ADDR = {
             name = "SLI#_WIN_RD_ADDR",
             type = "PEXP",
@@ -77299,7 +77369,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x10000000000,
             fields = {
-                {name = "RESERVED_51_63", start = 51, stop = 63},
+                {name = "SECEN", start = 63, stop = 63},
+                {name = "RESERVED_51_62", start = 51, stop = 62},
                 {name = "LD_CMD", start = 49, stop = 50},
                 {name = "RD_ADDR", start = 0, stop = 48},
             }
@@ -77323,7 +77394,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x10000000000,
             fields = {
-                {name = "RESERVED_49_63", start = 49, stop = 63},
+                {name = "SECEN", start = 63, stop = 63},
+                {name = "RESERVED_49_62", start = 49, stop = 62},
                 {name = "WR_ADDR", start = 3, stop = 48},
                 {name = "RESERVED_0_2", start = 0, stop = 2},
             }
@@ -77717,7 +77789,9 @@ local csr_db = {
                 {name = "RESERVED_18_29", start = 18, stop = 29},
                 {name = "SEP", start = 15, stop = 17},
                 {name = "NSCFG0", start = 14, stop = 14},
-                {name = "RESERVED_10_13", start = 10, stop = 13},
+                {name = "RESERVED_12_13", start = 12, stop = 13},
+                {name = "HD", start = 11, stop = 11},
+                {name = "HA", start = 10, stop = 10},
                 {name = "HAD1", start = 9, stop = 9},
                 {name = "HAD0", start = 8, stop = 8},
                 {name = "RESERVED_7_7", start = 7, stop = 7},
@@ -77908,7 +77982,7 @@ local csr_db = {
             range2 = {0,127},
             range2_inc = 0x4,
             fields = {
-                {name = "VMID", start = 16, stop = 31},
+                {name = "VMID16", start = 16, stop = 31},
                 {name = "RESERVED_3_15", start = 3, stop = 15},
                 {name = "E2HC", start = 2, stop = 2},
                 {name = "MONC", start = 1, stop = 1},
@@ -78007,7 +78081,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "RESERVED_15_63", start = 15, stop = 63},
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "PG_CMB", start = 15, stop = 16},
                 {name = "FORCE_CLKS_ACTIVE", start = 14, stop = 14},
                 {name = "WALKERS", start = 8, stop = 13},
                 {name = "RESERVED_7_7", start = 7, stop = 7},
@@ -78108,7 +78183,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "SE", start = 31, stop = 31},
+                {name = "SES", start = 31, stop = 31},
                 {name = "S1TS", start = 30, stop = 30},
                 {name = "S2TS", start = 29, stop = 29},
                 {name = "NTS", start = 28, stop = 28},
@@ -78116,7 +78191,7 @@ local csr_db = {
                 {name = "ATOSNS", start = 26, stop = 26},
                 {name = "PTFS", start = 24, stop = 25},
                 {name = "NUMIRPT", start = 16, stop = 23},
-                {name = "RESERVED_15_15", start = 15, stop = 15},
+                {name = "EXSMRGS", start = 15, stop = 15},
                 {name = "CTTW", start = 14, stop = 14},
                 {name = "BTM", start = 13, stop = 13},
                 {name = "NUMSIDB", start = 9, stop = 12},
@@ -78134,7 +78209,8 @@ local csr_db = {
             fields = {
                 {name = "PAGESIZE", start = 31, stop = 31},
                 {name = "NUMPAGENDXB", start = 28, stop = 30},
-                {name = "RESERVED_24_27", start = 24, stop = 27},
+                {name = "RESERVED_26_27", start = 26, stop = 27},
+                {name = "HAFDBS", start = 24, stop = 25},
                 {name = "NUMS2CB", start = 16, stop = 23},
                 {name = "SMCD", start = 15, stop = 15},
                 {name = "RESERVED_14_14", start = 14, stop = 14},
@@ -78153,10 +78229,10 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_31_31", start = 31, stop = 31},
                 {name = "DIPANS", start = 30, stop = 30},
-                {name = "RESERVED_29_29", start = 29, stop = 29},
+                {name = "COMPINDEXS", start = 29, stop = 29},
                 {name = "HADS", start = 28, stop = 28},
                 {name = "E2HS", start = 27, stop = 27},
-                {name = "RESERVED_16_26", start = 16, stop = 26},
+                {name = "EXNUMSMRG", start = 16, stop = 26},
                 {name = "VMID16S", start = 15, stop = 15},
                 {name = "PTFSV8_64KB", start = 14, stop = 14},
                 {name = "PTFSV8_16KB", start = 13, stop = 13},
@@ -78344,8 +78420,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "SHYPMODE1", start = 31, stop = 31},
-                {name = "SHYPMODE0", start = 30, stop = 30},
+                {name = "VMID16EN", start = 31, stop = 31},
+                {name = "HYPMODE", start = 30, stop = 30},
                 {name = "NSCFG", start = 28, stop = 29},
                 {name = "WACFG", start = 26, stop = 27},
                 {name = "RACFG", start = 24, stop = 25},
@@ -78377,7 +78453,10 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "EXSMRGENABLE", start = 31, stop = 31},
+                {name = "EXNSSMRGDISABLE", start = 30, stop = 30},
+                {name = "COMPINDEXENABLE", start = 29, stop = 29},
+                {name = "RESERVED_16_28", start = 16, stop = 28},
                 {name = "BPVMID", start = 0, stop = 15},
             }
         },
@@ -78668,8 +78747,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "SHYPMODE1", start = 31, stop = 31},
-                {name = "SHYPMODE0", start = 30, stop = 30},
+                {name = "VMID16EN", start = 31, stop = 31},
+                {name = "HYPMODE", start = 30, stop = 30},
                 {name = "NSCFG", start = 28, stop = 29},
                 {name = "WACFG", start = 26, stop = 27},
                 {name = "RACFG", start = 24, stop = 25},
@@ -78703,7 +78782,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_31_31", start = 31, stop = 31},
                 {name = "NSHYPMODEDISABLE", start = 30, stop = 30},
-                {name = "RESERVED_29_29", start = 29, stop = 29},
+                {name = "NSCOMPINDEXDISABLE", start = 29, stop = 29},
                 {name = "NSCAFRO", start = 28, stop = 28},
                 {name = "SPMEN", start = 27, stop = 27},
                 {name = "SIF", start = 26, stop = 26},
@@ -78722,7 +78801,10 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "EXSMRGENABLE", start = 31, stop = 31},
+                {name = "EXNSSMRGDISABLE", start = 30, stop = 30},
+                {name = "COMPINDEXENABLE", start = 29, stop = 29},
+                {name = "RESERVED_16_28", start = 16, stop = 28},
                 {name = "BPVMID", start = 0, stop = 15},
             }
         },

@@ -485,8 +485,8 @@ typedef union bdk_iobnx_int_ena_w1c {
 	uint64_t u;
 	struct bdk_iobnx_int_ena_w1c_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_60_63              : 4;
-		uint64_t ied0_dbe                    : 28; /**< R/W1C/H - IED0 double-bit error. When set, an IED0 double-bit error has occurred.
+		uint64_t reserved_61_63              : 3;
+		uint64_t ied0_dbe                    : 29; /**< R/W1C/H - IED0 double-bit error. When set, an IED0 double-bit error has occurred.
                                                                  INTERNAL:
                                                                       gmr_ixofifo_dbe_sclk,
                                                                       icc0_xmc_fif_dbe,
@@ -516,8 +516,8 @@ typedef union bdk_iobnx_int_ena_w1c {
                                                                       ixo_icc_fifo0_dbe_in_sclk,
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
-		uint64_t reserved_28_31              : 4;
-		uint64_t ied0_sbe                    : 28; /**< R/W1C/H - IED0 single-bit error. When set, an IED0 single-bit error has occurred.
+		uint64_t reserved_29_31              : 3;
+		uint64_t ied0_sbe                    : 29; /**< R/W1C/H - IED0 single-bit error. When set, an IED0 single-bit error has occurred.
                                                                  INTERNAL:
                                                                        gmr_ixofifo_sbe_sclk,
                                                                        icc0_xmc_fif_sbe,
@@ -548,36 +548,14 @@ typedef union bdk_iobnx_int_ena_w1c {
                                                                        ixo_icc_fifo1_sbe_in_sclk,
                                                                        ixo_ics_mem_sbe_in_sclk. */
 #else
-		uint64_t ied0_sbe                    : 28;
-		uint64_t reserved_28_31              : 4;
-		uint64_t ied0_dbe                    : 28;
-		uint64_t reserved_60_63              : 4;
+		uint64_t ied0_sbe                    : 29;
+		uint64_t reserved_29_31              : 3;
+		uint64_t ied0_dbe                    : 29;
+		uint64_t reserved_61_63              : 3;
 #endif
 	} s;
 	/* struct bdk_iobnx_int_ena_w1c_s     cn88xx; */
-	/* struct bdk_iobnx_int_ena_w1c_s     cn88xxp1; */
-} bdk_iobnx_int_ena_w1c_t;
-
-static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long param1)
-{
-	if (((param1 <= 1)))
-		return 0x000087E0F0008000ull + (param1 & 1) * 0x1000000ull;
-	csr_fatal("BDK_IOBNX_INT_ENA_W1C", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_IOBNX_INT_ENA_W1C(...) bdk_iobnx_int_ena_w1c_t
-#define bustype_BDK_IOBNX_INT_ENA_W1C(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_IOBNX_INT_ENA_W1C(p1) (p1)
-#define arguments_BDK_IOBNX_INT_ENA_W1C(p1) (p1),-1,-1,-1
-#define basename_BDK_IOBNX_INT_ENA_W1C(...) "IOBNX_INT_ENA_W1C"
-
-
-/**
- * RSL - iobn#_int_ena_w1s
- */
-typedef union bdk_iobnx_int_ena_w1s {
-	uint64_t u;
-	struct bdk_iobnx_int_ena_w1s_s {
+	struct bdk_iobnx_int_ena_w1c_cn88xxp1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_60_63              : 4;
 		uint64_t ied0_dbe                    : 28; /**< R/W1C/H - IED0 double-bit error. When set, an IED0 double-bit error has occurred.
@@ -647,9 +625,171 @@ typedef union bdk_iobnx_int_ena_w1s {
 		uint64_t ied0_dbe                    : 28;
 		uint64_t reserved_60_63              : 4;
 #endif
+	} cn88xxp1;
+} bdk_iobnx_int_ena_w1c_t;
+
+static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long param1)
+{
+	if (((param1 <= 1)))
+		return 0x000087E0F0008000ull + (param1 & 1) * 0x1000000ull;
+	csr_fatal("BDK_IOBNX_INT_ENA_W1C", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_IOBNX_INT_ENA_W1C(...) bdk_iobnx_int_ena_w1c_t
+#define bustype_BDK_IOBNX_INT_ENA_W1C(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_IOBNX_INT_ENA_W1C(p1) (p1)
+#define arguments_BDK_IOBNX_INT_ENA_W1C(p1) (p1),-1,-1,-1
+#define basename_BDK_IOBNX_INT_ENA_W1C(...) "IOBNX_INT_ENA_W1C"
+
+
+/**
+ * RSL - iobn#_int_ena_w1s
+ */
+typedef union bdk_iobnx_int_ena_w1s {
+	uint64_t u;
+	struct bdk_iobnx_int_ena_w1s_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_61_63              : 3;
+		uint64_t ied0_dbe                    : 29; /**< R/W1C/H - IED0 double-bit error. When set, an IED0 double-bit error has occurred.
+                                                                 INTERNAL:
+                                                                      gmr_ixofifo_dbe_sclk,
+                                                                      icc0_xmc_fif_dbe,
+                                                                      icc1_xmc_fif_dbe,
+                                                                      icc_xmc_fifo_ecc_dbe,
+                                                                      sli_preq_0_dbe_sclk,
+                                                                      sli_req_0_dbe_sclk,
+                                                                      sli_preq_1_dbe_sclk,
+                                                                      sli_req_1_dbe_sclk,
+                                                                      sli_preq_2_dbe_sclk,
+                                                                      sli_req_2_dbe_sclk,
+                                                                      ixo_smmu_mem0_dbe_sclk,
+                                                                      iop_breq_fifo0_dbe,
+                                                                      iop_breq_fifo1_dbe ,
+                                                                      iop_breq_fifo2_dbe,
+                                                                      iop_breq_fifo3_dbe ,
+                                                                      iop_ffifo_dbe_sclk,
+                                                                      rsd_mem0_dbe,
+                                                                      rsd_mem1_dbe,
+                                                                      ics_cmd_fifo_dbe_sclk,
+                                                                      ixo_xmd_mem1_dbe_sclk,
+                                                                      ixo_xmd_mem0_dbe_sclk,
+                                                                      iobn_iorn_ffifo0__dbe_sclk,
+                                                                      iobn_iorn_ffifo1__dbe_sclk,
+                                                                      irp1_flid_mem_dbe,
+                                                                      irp0_flid_mem_dbe,
+                                                                      ixo_icc_fifo0_dbe_in_sclk,
+                                                                      ixo_icc_fifo1_dbe_in_sclk,
+                                                                      ixo_ics_mem_dbe_in_sclk. */
+		uint64_t reserved_29_31              : 3;
+		uint64_t ied0_sbe                    : 29; /**< R/W1C/H - IED0 single-bit error. When set, an IED0 single-bit error has occurred.
+                                                                 INTERNAL:
+                                                                       gmr_ixofifo_sbe_sclk,
+                                                                       icc0_xmc_fif_sbe,
+                                                                       icc1_xmc_fif_sbe,
+                                                                       icc_xmc_fifo_ecc_sbe,
+                                                                       sli_preq_0_sbe_sclk,
+                                                                       sli_req_0_sbe_sclk,
+                                                                       sli_preq_1_sbe_sclk,
+                                                                       sli_req_1_sbe_sclk,
+                                                                       sli_preq_2_sbe_sclk,
+                                                                       sli_req_2_sbe_sclk,
+                                                                       ixo_smmu_mem0_sbe_sclk,
+                                                                       iop_breq_fifo0_sbe,
+                                                                       iop_breq_fifo1_sbe ,
+                                                                       iop_breq_fifo2_sbe,
+                                                                       iop_breq_fifo3_sbe ,
+                                                                       iop_ffifo_sbe_sclk,
+                                                                       rsd_mem0_sbe,
+                                                                       rsd_mem1_sbe,
+                                                                       ics_cmd_fifo_sbe_sclk,
+                                                                       ixo_xmd_mem1_sbe_sclk,
+                                                                       ixo_xmd_mem0_sbe_sclk,
+                                                                       iobn_iorn_ffifo0__sbe_sclk,
+                                                                       iobn_iorn_ffifo1__sbe_sclk,
+                                                                       irp1_flid_mem_sbe,
+                                                                       irp0_flid_mem_sbe,
+                                                                       ixo_icc_fifo0_sbe_in_sclk,
+                                                                       ixo_icc_fifo1_sbe_in_sclk,
+                                                                       ixo_ics_mem_sbe_in_sclk. */
+#else
+		uint64_t ied0_sbe                    : 29;
+		uint64_t reserved_29_31              : 3;
+		uint64_t ied0_dbe                    : 29;
+		uint64_t reserved_61_63              : 3;
+#endif
 	} s;
 	/* struct bdk_iobnx_int_ena_w1s_s     cn88xx; */
-	/* struct bdk_iobnx_int_ena_w1s_s     cn88xxp1; */
+	struct bdk_iobnx_int_ena_w1s_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_60_63              : 4;
+		uint64_t ied0_dbe                    : 28; /**< R/W1C/H - IED0 double-bit error. When set, an IED0 double-bit error has occurred.
+                                                                 INTERNAL:
+                                                                      gmr_ixofifo_dbe_sclk,
+                                                                      icc0_xmc_fif_dbe,
+                                                                      icc1_xmc_fif_dbe,
+                                                                      icc_xmc_fifo_ecc_dbe,
+                                                                      sli_preq_0_dbe_sclk,
+                                                                      sli_req_0_dbe_sclk,
+                                                                      sli_preq_1_dbe_sclk,
+                                                                      sli_req_1_dbe_sclk,
+                                                                      sli_preq_2_dbe_sclk,
+                                                                      sli_req_2_dbe_sclk,
+                                                                      ixo_smmu_mem0_dbe_sclk,
+                                                                      iop_breq_fifo0_dbe,
+                                                                      iop_breq_fifo1_dbe ,
+                                                                      iop_breq_fifo2_dbe,
+                                                                      iop_breq_fifo3_dbe ,
+                                                                      iop_ffifo_dbe_sclk,
+                                                                      rsd_mem0_dbe,
+                                                                      rsd_mem1_dbe,
+                                                                      ics_cmd_fifo_dbe_sclk,
+                                                                      ixo_xmd_mem1_dbe_sclk,
+                                                                      ixo_xmd_mem0_dbe_sclk,
+                                                                      iobn_iorn_ffifo0__dbe_sclk,
+                                                                      iobn_iorn_ffifo1__dbe_sclk,
+                                                                      irp1_flid_mem_dbe,
+                                                                      irp0_flid_mem_dbe,
+                                                                      ixo_icc_fifo0_dbe_in_sclk,
+                                                                      ixo_icc_fifo1_dbe_in_sclk,
+                                                                      ixo_ics_mem_dbe_in_sclk. */
+		uint64_t reserved_28_31              : 4;
+		uint64_t ied0_sbe                    : 28; /**< R/W1C/H - IED0 single-bit error. When set, an IED0 single-bit error has occurred.
+                                                                 INTERNAL:
+                                                                       gmr_ixofifo_sbe_sclk,
+                                                                       icc0_xmc_fif_sbe,
+                                                                       icc1_xmc_fif_sbe,
+                                                                       icc_xmc_fifo_ecc_sbe,
+                                                                       sli_preq_0_sbe_sclk,
+                                                                       sli_req_0_sbe_sclk,
+                                                                       sli_preq_1_sbe_sclk,
+                                                                       sli_req_1_sbe_sclk,
+                                                                       sli_preq_2_sbe_sclk,
+                                                                       sli_req_2_sbe_sclk,
+                                                                       ixo_smmu_mem0_sbe_sclk,
+                                                                       iop_breq_fifo0_sbe,
+                                                                       iop_breq_fifo1_sbe ,
+                                                                       iop_breq_fifo2_sbe,
+                                                                       iop_breq_fifo3_sbe ,
+                                                                       iop_ffifo_sbe_sclk,
+                                                                       rsd_mem0_sbe,
+                                                                       rsd_mem1_sbe,
+                                                                       ics_cmd_fifo_sbe_sclk,
+                                                                       ixo_xmd_mem1_sbe_sclk,
+                                                                       ixo_xmd_mem0_sbe_sclk,
+                                                                       iobn_iorn_ffifo0__sbe_sclk,
+                                                                       iobn_iorn_ffifo1__sbe_sclk,
+                                                                       irp1_flid_mem_sbe,
+                                                                       irp0_flid_mem_sbe,
+                                                                       ixo_icc_fifo0_sbe_in_sclk,
+                                                                       ixo_icc_fifo1_sbe_in_sclk,
+                                                                       ixo_ics_mem_sbe_in_sclk. */
+#else
+		uint64_t ied0_sbe                    : 28;
+		uint64_t reserved_28_31              : 4;
+		uint64_t ied0_dbe                    : 28;
+		uint64_t reserved_60_63              : 4;
+#endif
+	} cn88xxp1;
 } bdk_iobnx_int_ena_w1s_t;
 
 static inline uint64_t BDK_IOBNX_INT_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -676,8 +816,8 @@ typedef union bdk_iobnx_int_sum {
 	uint64_t u;
 	struct bdk_iobnx_int_sum_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_60_63              : 4;
-		uint64_t ied0_dbe                    : 28; /**< R/W1C/H - IED0 double-bit error. When set, an IED0 double-bit error has occurred.
+		uint64_t reserved_61_63              : 3;
+		uint64_t ied0_dbe                    : 29; /**< R/W1C/H - IED0 double-bit error. When set, an IED0 double-bit error has occurred.
                                                                  INTERNAL:
                                                                       gmr_ixofifo_dbe_sclk,
                                                                       icc0_xmc_fif_dbe,
@@ -707,8 +847,8 @@ typedef union bdk_iobnx_int_sum {
                                                                       ixo_icc_fifo0_dbe_in_sclk,
                                                                       ixo_icc_fifo1_dbe_in_sclk,
                                                                       ixo_ics_mem_dbe_in_sclk. */
-		uint64_t reserved_28_31              : 4;
-		uint64_t ied0_sbe                    : 28; /**< R/W1C/H - IED0 single-bit error. When set, an IED0 single-bit error has occurred.
+		uint64_t reserved_29_31              : 3;
+		uint64_t ied0_sbe                    : 29; /**< R/W1C/H - IED0 single-bit error. When set, an IED0 single-bit error has occurred.
                                                                  INTERNAL:
                                                                        gmr_ixofifo_sbe_sclk,
                                                                        icc0_xmc_fif_sbe,
@@ -739,36 +879,14 @@ typedef union bdk_iobnx_int_sum {
                                                                        ixo_icc_fifo1_sbe_in_sclk,
                                                                        ixo_ics_mem_sbe_in_sclk. */
 #else
-		uint64_t ied0_sbe                    : 28;
-		uint64_t reserved_28_31              : 4;
-		uint64_t ied0_dbe                    : 28;
-		uint64_t reserved_60_63              : 4;
+		uint64_t ied0_sbe                    : 29;
+		uint64_t reserved_29_31              : 3;
+		uint64_t ied0_dbe                    : 29;
+		uint64_t reserved_61_63              : 3;
 #endif
 	} s;
 	/* struct bdk_iobnx_int_sum_s         cn88xx; */
-	/* struct bdk_iobnx_int_sum_s         cn88xxp1; */
-} bdk_iobnx_int_sum_t;
-
-static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long param1)
-{
-	if (((param1 <= 1)))
-		return 0x000087E0F0006000ull + (param1 & 1) * 0x1000000ull;
-	csr_fatal("BDK_IOBNX_INT_SUM", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_IOBNX_INT_SUM(...) bdk_iobnx_int_sum_t
-#define bustype_BDK_IOBNX_INT_SUM(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_IOBNX_INT_SUM(p1) (p1)
-#define arguments_BDK_IOBNX_INT_SUM(p1) (p1),-1,-1,-1
-#define basename_BDK_IOBNX_INT_SUM(...) "IOBNX_INT_SUM"
-
-
-/**
- * RSL - iobn#_int_sum_w1s
- */
-typedef union bdk_iobnx_int_sum_w1s {
-	uint64_t u;
-	struct bdk_iobnx_int_sum_w1s_s {
+	struct bdk_iobnx_int_sum_cn88xxp1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_60_63              : 4;
 		uint64_t ied0_dbe                    : 28; /**< R/W1C/H - IED0 double-bit error. When set, an IED0 double-bit error has occurred.
@@ -838,9 +956,171 @@ typedef union bdk_iobnx_int_sum_w1s {
 		uint64_t ied0_dbe                    : 28;
 		uint64_t reserved_60_63              : 4;
 #endif
+	} cn88xxp1;
+} bdk_iobnx_int_sum_t;
+
+static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long param1)
+{
+	if (((param1 <= 1)))
+		return 0x000087E0F0006000ull + (param1 & 1) * 0x1000000ull;
+	csr_fatal("BDK_IOBNX_INT_SUM", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_IOBNX_INT_SUM(...) bdk_iobnx_int_sum_t
+#define bustype_BDK_IOBNX_INT_SUM(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_IOBNX_INT_SUM(p1) (p1)
+#define arguments_BDK_IOBNX_INT_SUM(p1) (p1),-1,-1,-1
+#define basename_BDK_IOBNX_INT_SUM(...) "IOBNX_INT_SUM"
+
+
+/**
+ * RSL - iobn#_int_sum_w1s
+ */
+typedef union bdk_iobnx_int_sum_w1s {
+	uint64_t u;
+	struct bdk_iobnx_int_sum_w1s_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_61_63              : 3;
+		uint64_t ied0_dbe                    : 29; /**< R/W1C/H - IED0 double-bit error. When set, an IED0 double-bit error has occurred.
+                                                                 INTERNAL:
+                                                                      gmr_ixofifo_dbe_sclk,
+                                                                      icc0_xmc_fif_dbe,
+                                                                      icc1_xmc_fif_dbe,
+                                                                      icc_xmc_fifo_ecc_dbe,
+                                                                      sli_preq_0_dbe_sclk,
+                                                                      sli_req_0_dbe_sclk,
+                                                                      sli_preq_1_dbe_sclk,
+                                                                      sli_req_1_dbe_sclk,
+                                                                      sli_preq_2_dbe_sclk,
+                                                                      sli_req_2_dbe_sclk,
+                                                                      ixo_smmu_mem0_dbe_sclk,
+                                                                      iop_breq_fifo0_dbe,
+                                                                      iop_breq_fifo1_dbe ,
+                                                                      iop_breq_fifo2_dbe,
+                                                                      iop_breq_fifo3_dbe ,
+                                                                      iop_ffifo_dbe_sclk,
+                                                                      rsd_mem0_dbe,
+                                                                      rsd_mem1_dbe,
+                                                                      ics_cmd_fifo_dbe_sclk,
+                                                                      ixo_xmd_mem1_dbe_sclk,
+                                                                      ixo_xmd_mem0_dbe_sclk,
+                                                                      iobn_iorn_ffifo0__dbe_sclk,
+                                                                      iobn_iorn_ffifo1__dbe_sclk,
+                                                                      irp1_flid_mem_dbe,
+                                                                      irp0_flid_mem_dbe,
+                                                                      ixo_icc_fifo0_dbe_in_sclk,
+                                                                      ixo_icc_fifo1_dbe_in_sclk,
+                                                                      ixo_ics_mem_dbe_in_sclk. */
+		uint64_t reserved_29_31              : 3;
+		uint64_t ied0_sbe                    : 29; /**< R/W1C/H - IED0 single-bit error. When set, an IED0 single-bit error has occurred.
+                                                                 INTERNAL:
+                                                                       gmr_ixofifo_sbe_sclk,
+                                                                       icc0_xmc_fif_sbe,
+                                                                       icc1_xmc_fif_sbe,
+                                                                       icc_xmc_fifo_ecc_sbe,
+                                                                       sli_preq_0_sbe_sclk,
+                                                                       sli_req_0_sbe_sclk,
+                                                                       sli_preq_1_sbe_sclk,
+                                                                       sli_req_1_sbe_sclk,
+                                                                       sli_preq_2_sbe_sclk,
+                                                                       sli_req_2_sbe_sclk,
+                                                                       ixo_smmu_mem0_sbe_sclk,
+                                                                       iop_breq_fifo0_sbe,
+                                                                       iop_breq_fifo1_sbe ,
+                                                                       iop_breq_fifo2_sbe,
+                                                                       iop_breq_fifo3_sbe ,
+                                                                       iop_ffifo_sbe_sclk,
+                                                                       rsd_mem0_sbe,
+                                                                       rsd_mem1_sbe,
+                                                                       ics_cmd_fifo_sbe_sclk,
+                                                                       ixo_xmd_mem1_sbe_sclk,
+                                                                       ixo_xmd_mem0_sbe_sclk,
+                                                                       iobn_iorn_ffifo0__sbe_sclk,
+                                                                       iobn_iorn_ffifo1__sbe_sclk,
+                                                                       irp1_flid_mem_sbe,
+                                                                       irp0_flid_mem_sbe,
+                                                                       ixo_icc_fifo0_sbe_in_sclk,
+                                                                       ixo_icc_fifo1_sbe_in_sclk,
+                                                                       ixo_ics_mem_sbe_in_sclk. */
+#else
+		uint64_t ied0_sbe                    : 29;
+		uint64_t reserved_29_31              : 3;
+		uint64_t ied0_dbe                    : 29;
+		uint64_t reserved_61_63              : 3;
+#endif
 	} s;
 	/* struct bdk_iobnx_int_sum_w1s_s     cn88xx; */
-	/* struct bdk_iobnx_int_sum_w1s_s     cn88xxp1; */
+	struct bdk_iobnx_int_sum_w1s_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_60_63              : 4;
+		uint64_t ied0_dbe                    : 28; /**< R/W1C/H - IED0 double-bit error. When set, an IED0 double-bit error has occurred.
+                                                                 INTERNAL:
+                                                                      gmr_ixofifo_dbe_sclk,
+                                                                      icc0_xmc_fif_dbe,
+                                                                      icc1_xmc_fif_dbe,
+                                                                      icc_xmc_fifo_ecc_dbe,
+                                                                      sli_preq_0_dbe_sclk,
+                                                                      sli_req_0_dbe_sclk,
+                                                                      sli_preq_1_dbe_sclk,
+                                                                      sli_req_1_dbe_sclk,
+                                                                      sli_preq_2_dbe_sclk,
+                                                                      sli_req_2_dbe_sclk,
+                                                                      ixo_smmu_mem0_dbe_sclk,
+                                                                      iop_breq_fifo0_dbe,
+                                                                      iop_breq_fifo1_dbe ,
+                                                                      iop_breq_fifo2_dbe,
+                                                                      iop_breq_fifo3_dbe ,
+                                                                      iop_ffifo_dbe_sclk,
+                                                                      rsd_mem0_dbe,
+                                                                      rsd_mem1_dbe,
+                                                                      ics_cmd_fifo_dbe_sclk,
+                                                                      ixo_xmd_mem1_dbe_sclk,
+                                                                      ixo_xmd_mem0_dbe_sclk,
+                                                                      iobn_iorn_ffifo0__dbe_sclk,
+                                                                      iobn_iorn_ffifo1__dbe_sclk,
+                                                                      irp1_flid_mem_dbe,
+                                                                      irp0_flid_mem_dbe,
+                                                                      ixo_icc_fifo0_dbe_in_sclk,
+                                                                      ixo_icc_fifo1_dbe_in_sclk,
+                                                                      ixo_ics_mem_dbe_in_sclk. */
+		uint64_t reserved_28_31              : 4;
+		uint64_t ied0_sbe                    : 28; /**< R/W1C/H - IED0 single-bit error. When set, an IED0 single-bit error has occurred.
+                                                                 INTERNAL:
+                                                                       gmr_ixofifo_sbe_sclk,
+                                                                       icc0_xmc_fif_sbe,
+                                                                       icc1_xmc_fif_sbe,
+                                                                       icc_xmc_fifo_ecc_sbe,
+                                                                       sli_preq_0_sbe_sclk,
+                                                                       sli_req_0_sbe_sclk,
+                                                                       sli_preq_1_sbe_sclk,
+                                                                       sli_req_1_sbe_sclk,
+                                                                       sli_preq_2_sbe_sclk,
+                                                                       sli_req_2_sbe_sclk,
+                                                                       ixo_smmu_mem0_sbe_sclk,
+                                                                       iop_breq_fifo0_sbe,
+                                                                       iop_breq_fifo1_sbe ,
+                                                                       iop_breq_fifo2_sbe,
+                                                                       iop_breq_fifo3_sbe ,
+                                                                       iop_ffifo_sbe_sclk,
+                                                                       rsd_mem0_sbe,
+                                                                       rsd_mem1_sbe,
+                                                                       ics_cmd_fifo_sbe_sclk,
+                                                                       ixo_xmd_mem1_sbe_sclk,
+                                                                       ixo_xmd_mem0_sbe_sclk,
+                                                                       iobn_iorn_ffifo0__sbe_sclk,
+                                                                       iobn_iorn_ffifo1__sbe_sclk,
+                                                                       irp1_flid_mem_sbe,
+                                                                       irp0_flid_mem_sbe,
+                                                                       ixo_icc_fifo0_sbe_in_sclk,
+                                                                       ixo_icc_fifo1_sbe_in_sclk,
+                                                                       ixo_ics_mem_sbe_in_sclk. */
+#else
+		uint64_t ied0_sbe                    : 28;
+		uint64_t reserved_28_31              : 4;
+		uint64_t ied0_dbe                    : 28;
+		uint64_t reserved_60_63              : 4;
+#endif
+	} cn88xxp1;
 } bdk_iobnx_int_sum_w1s_t;
 
 static inline uint64_t BDK_IOBNX_INT_SUM_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1277,6 +1557,32 @@ typedef union bdk_iobnx_roc_dll {
 	uint64_t u;
 	struct bdk_iobnx_roc_dll_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_60_63              : 4;
+		uint64_t max_dll_setting             : 12; /**< RO/H - Changed in pass 2. Max reported DLL setting. */
+		uint64_t min_dll_setting             : 12; /**< RO/H - Changed in pass 2. Min reported DLL setting. */
+		uint64_t reserved_32_35              : 4;
+		uint64_t pdr_rclk_refclk             : 1;  /**< RO/H - Synchronized pdr_rclk_refclk from ROC core-clock DLL cmb0 phase detectors. */
+		uint64_t pdl_rclk_refclk             : 1;  /**< RO/H - Synchronized pdl_rclk_refclk from ROC core-clock DLL cmb0 phase detectors. */
+		uint64_t pd_pos_rclk_refclk          : 1;  /**< RO/H - Synchronized pd_pos_rclk_refclk from ROC core-clock DLL cmb0 phase detectors. */
+		uint64_t dll_lock                    : 1;  /**< RO/H - The dll_lock signal from ROC core-clock DLL, from the positive edge of refclk. */
+		uint64_t dll_dly_elem_en             : 16; /**< RO/H - The ROC core-clock delay element enable setting, from the negative edge of refclk. */
+		uint64_t dll_setting                 : 12; /**< RO/H - The ROC core-clock DLL setting, from the negative edge of refclk. */
+#else
+		uint64_t dll_setting                 : 12;
+		uint64_t dll_dly_elem_en             : 16;
+		uint64_t dll_lock                    : 1;
+		uint64_t pd_pos_rclk_refclk          : 1;
+		uint64_t pdl_rclk_refclk             : 1;
+		uint64_t pdr_rclk_refclk             : 1;
+		uint64_t reserved_32_35              : 4;
+		uint64_t min_dll_setting             : 12;
+		uint64_t max_dll_setting             : 12;
+		uint64_t reserved_60_63              : 4;
+#endif
+	} s;
+	/* struct bdk_iobnx_roc_dll_s         cn88xx; */
+	struct bdk_iobnx_roc_dll_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t pdr_rclk_refclk             : 1;  /**< RO/H - Synchronized pdr_rclk_refclk from ROC core-clock DLL cmb0 phase detectors. */
 		uint64_t pdl_rclk_refclk             : 1;  /**< RO/H - Synchronized pdl_rclk_refclk from ROC core-clock DLL cmb0 phase detectors. */
@@ -1293,9 +1599,7 @@ typedef union bdk_iobnx_roc_dll {
 		uint64_t pdr_rclk_refclk             : 1;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_iobnx_roc_dll_s         cn88xx; */
-	/* struct bdk_iobnx_roc_dll_s         cn88xxp1; */
+	} cn88xxp1;
 } bdk_iobnx_roc_dll_t;
 
 static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long param1) __attribute__ ((pure, always_inline));
