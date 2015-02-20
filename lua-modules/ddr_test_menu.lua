@@ -8,6 +8,12 @@ local range_repeat = 1
 local range_start = 0
 local range_length = -1
 
+local abort_on_error = 1
+
+local function toggle_abort_on_error()
+    abort_on_error = 1 - abort_on_error
+end
+
 local function set_range_repeat()
     local count = menu.prompt_number("Number of time to repeat the test, or -1 for infinite", range_repeat)
     if (count < -1) or (count == 0) then
@@ -45,29 +51,58 @@ local function run_one_test(test_number)
 end
 
 local function run_all_tests()
-    local errors = -1
+    local errors = 0
     local start_time = os.time()
     for test_number=0,100 do
+	local one_errors = 0
         local name = cavium.c.bdk_dram_get_test_name(test_number);
         if not name then
             break
         end
-        errors = run_one_test(test_number)
-        if errors ~= 0 then
-            break
+        one_errors = run_one_test(test_number)
+	errors = errors + one_errors
+        if (one_errors ~= 0) and (abort_on_error == 1) then
+	    break
         end
     end
     local end_time = os.time()
-    if errors < 0 then
-        error("DRAM test failed to run")
-    elseif errors == 0 then
+    if errors == 0 then
         local total_time = os.difftime(end_time, start_time)
         local hour = total_time / 3600
         local min = (total_time % 3600) / 60
         local sec = (total_time % 3600) % 60
         printf("All tests passed (time %d:%d:%d)\n", hour, min, sec)
     else
-        error("Test reported %d errors" % errors)
+        error("Tests reported %d errors" % errors)
+    end
+    return errors
+end
+
+local function run_special_tests()
+    local errors = 0
+    local start_time = os.time()
+    local special_tests = { 2, 3, 4, 12 }
+    for _,test_number in ipairs(special_tests)  do
+	local one_errors = 0
+        local name = cavium.c.bdk_dram_get_test_name(test_number);
+        if not name then
+            break
+        end
+        one_errors = run_one_test(test_number)
+	errors = errors + one_errors
+        if (one_errors ~= 0) and (abort_on_error == 1) then
+	    break
+        end
+    end
+    local end_time = os.time()
+    if errors == 0 then
+        local total_time = os.difftime(end_time, start_time)
+        local hour = total_time / 3600
+        local min = (total_time % 3600) / 60
+        local sec = (total_time % 3600) % 60
+        printf("All tests passed (time %d:%d:%d)\n", hour, min, sec)
+    else
+        error("Tests reported %d errors" % errors)
     end
     return errors
 end
@@ -84,7 +119,7 @@ local function do_test(test_func, arg)
             printf("Pass %d of %d\n", count, total)
         end
         local errors = test_func(arg)
-        if errors ~= 0 then
+        if (errors ~= 0) and (abort_on_error == 1) then
             break
         end
     end
@@ -116,6 +151,13 @@ repeat
             break
         end
         m:item("test%d" % test_number, name, do_test, run_one_test, test_number)
+    end
+    m:item("spec", "Run special DRAM tests", do_test, run_special_tests, nil)
+
+    if abort_on_error == 1 then
+        m:item("abort", "Abort on Errors (Currently ON)", toggle_abort_on_error)
+    else
+        m:item("abort", "Abort on Errors (Currently OFF)", toggle_abort_on_error)
     end
 
     m:item("quit", "Main menu")
