@@ -525,6 +525,27 @@ function TrafficGen.new()
             end
         end
 
+        -- Command to show all CSRs with a given prefix and suffix
+        function self:cmd_show_csrs(port_range, args)
+            assert(args[1], "CSR prefix expected")
+            assert(args[2], "CSR suffix expected")
+            local prefix = args[1]:upper()
+            local suffix = args[2]
+            local lenp = #prefix
+            local lens = #suffix
+            printf("Searching CSRs for prefix \"%s\" and suffix \"%s\". This is slow...\n", prefix, suffix)
+            for name in cavium.csr() do
+                local p = name:sub(1,lenp)
+                local s = name:sub(-lens,-1)
+                if p == prefix and s == suffix then
+                    local c = cavium.csr.lookup(name)
+		    c.display()
+                elseif p > prefix then
+                    return
+                end
+            end
+        end
+
         -- Add command to map Xpliant long names to TNS names
         if tns_map then
             function self:cmd_tns(port_range, args)
