@@ -30,7 +30,8 @@
    DRAM_NODE0 is X, the function required is dram_get_config_X() */
 #define _CONFIG_FUNC_NAME(n) dram_get_config_ ## n
 #define CONFIG_FUNC_NAME(n) _CONFIG_FUNC_NAME(n)
-#define CONFIG_STR_NAME(n) #n
+#define XCONFIG_STR_NAME(n) #n
+#define CONFIG_STR_NAME(n)	XCONFIG_STR_NAME(n)
 
 /**
  * This enumeration represents the status codes that can be reported to the BMC
