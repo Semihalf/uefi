@@ -19,6 +19,124 @@ static int __bdk_dram_bank_bits;
 static int __bdk_dram_col_bits;
 static int __bdk_dram_num_ranks;
 
+/* Read out Deskew Settings for DDR */
+
+int Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num)
+{
+    bdk_lmcx_phy_ctl_t phy_ctl;
+    int byte_lane, bit_num;
+    int saturate_failures = 0;
+
+    BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+                   phy_ctl.s.dsk_dbg_clk_scaler = 3);
+
+    ddr_print("Deskew Settings:                  Bit =>      :");
+    for(bit_num = 8; bit_num >= 0; --bit_num){
+        if (bit_num == 4) continue;
+        ddr_print(" %3d  ", (bit_num > 4) ? bit_num - 1 : bit_num);
+    }
+    printf("\n");
+    for(byte_lane = 0; byte_lane < 9; byte_lane++){
+        ddr_print("LMC%d    Bit Deskew Byte(%d)                    :",
+                  ddr_interface_num, byte_lane);
+        for(bit_num = 8; bit_num >= 0; --bit_num){
+            int c;
+            if (bit_num == 4) continue;
+
+            //set byte lane and bit to read
+            BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+                           (phy_ctl.s.dsk_dbg_bit_sel = bit_num,
+                            phy_ctl.s.dsk_dbg_byte_sel = byte_lane));
+            //start read sequence
+            BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+                           phy_ctl.s.dsk_dbg_rd_start = 1);
+            //poll for read sequence to complete
+            phy_ctl.u = 0;
+            while(phy_ctl.s.dsk_dbg_rd_complete != 1){
+                phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(ddr_interface_num));
+            }
+			
+            c = ' ';
+
+            if (phy_ctl.s.dsk_dbg_rd_data & 0x4)
+            {
+                c = '+';        /* Saturated High */
+                ++saturate_failures;
+            }
+            if (phy_ctl.s.dsk_dbg_rd_data & 0x2)
+            {
+                c = '-';        /* Saturated Low */
+                ++saturate_failures;
+            }
+            if (! (phy_ctl.s.dsk_dbg_rd_data & 0x1))
+            {
+                c = '?';        /* Failed to Lock */
+            }
+
+            ddr_print(" %3d %c", phy_ctl.s.dsk_dbg_rd_data >> 3, c);
+        }
+        ddr_print("\n");
+    }
+	
+    return (saturate_failures);
+}
+
+void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num)
+{
+    int locked = 0;
+    int retries = 10;
+
+    while (retries--) {
+
+        /*
+         * 4.8.8 LMC Deskew Training
+         * 
+         * LMC requires input-read-data deskew training.
+         * 
+         * 1. Write LMC(0)_EXT_CONFIG[VREFINT_SEQ_DESKEW] = 1.
+         */
+
+        {
+            bdk_lmcx_ext_config_t ext_config;
+            ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
+            ext_config.s.vrefint_seq_deskew = 1;
+
+            if (dram_is_verbose(TRACE_SEQUENCES))
+            {
+                ddr_print("Performing LMC sequence: vrefint_seq_deskew = %d\n",
+                          ext_config.s.vrefint_seq_deskew);
+            }
+
+            DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
+        }
+
+        /*
+         * 2. Write LMC(0)_SEQ_CTL[SEQ_SEL] = 0x0A and
+         *    LMC(0)_SEQ_CTL[INIT_START] = 1.
+         * 
+         * 3. Wait for LMC(0)_SEQ_CTL[SEQ_COMPLETE] to be set to 1.
+         */
+
+        BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+                       phy_ctl.s.phy_dsk_reset = 1);
+
+        perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
+
+        locked = (Validate_Deskew_Training(node, rank_mask, ddr_interface_num) == 0);
+
+        BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+                       phy_ctl.s.phy_dsk_reset = 0);
+
+        perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
+
+        locked = (Validate_Deskew_Training(node, rank_mask, ddr_interface_num) == 0);
+
+        if (locked) break;
+    }
+    if (retries <= 0)
+        ddr_print("Deskew Training Timed Out\n");
+}
+
 void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
 			  int *rank, int *bank, int *row, int *col)
 {
@@ -41,10 +159,10 @@ void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
     if (lmcx_ddr_pll_ctl.s.ddr4_mode) /* Detect DDR4 */
     {
         // can be 3 or 4 bits, depends on no. of banks
-        bank_width = __bdk_dram_bank_bits;
+        bank_width = __bdk_dram_bank_bits; /* FIXME: __bdk_dram_bank_bits is not getting set */
 	if (bank_width < 3 || bank_width > 4) {
-	    bdk_warn("DDR4 support FIXME: defaulting bank_bits to 3\n");
 	    bank_width = 3; // default to #banks <= 8
+	    bdk_warn("DDR4 support FIXME: defaulting bank_bits to %d\n", bank_width);
 	}
     }
 
@@ -2796,10 +2914,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         bdk_lmcx_ext_config_t ext_config;
         ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
         ext_config.s.vrefint_seq_deskew = 0;
-#ifdef DDR3_ENHANCE_PRINT
-        ddr_print("Performing LMC sequence: vrefint_seq_deskew = %d\n",
-                  ext_config.s.vrefint_seq_deskew);
-#endif
+
+        if (dram_is_verbose(TRACE_SEQUENCES))
+        {
+            ddr_print("Performing LMC sequence: vrefint_seq_deskew = %d\n",
+                      ext_config.s.vrefint_seq_deskew);
+        }
+
         DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
     }
 
@@ -2812,33 +2933,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Internal Vref Training */
 
-    /*
-     * 4.8.8 LMC Deskew Training
-     * 
-     * LMC requires input-read-data deskew training.
-     * 
-     * 1. Write LMC(0)_EXT_CONFIG[VREFINT_SEQ_DESKEW] = 1.
-     */
-
-    {
-        bdk_lmcx_ext_config_t ext_config;
-        ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
-        ext_config.s.vrefint_seq_deskew = 1;
-#ifdef DDR3_ENHANCE_PRINT
-        ddr_print("Performing LMC sequence: vrefint_seq_deskew = %d\n",
-                  ext_config.s.vrefint_seq_deskew);
-#endif
-        DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
-    }
-
-    /*
-     * 2. Write LMC(0)_SEQ_CTL[SEQ_SEL] = 0x0A and
-     *    LMC(0)_SEQ_CTL[INIT_START] = 1.
-     * 
-     * 3. Wait for LMC(0)_SEQ_CTL[SEQ_COMPLETE] to be set to 1.
-     */
-
-    perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
+    perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num);
 
 
     /* LMC(0)_EXT_CONFIG */
@@ -3127,6 +3222,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
         ddr_print("%-45s : %d\n", "MODE32B", lmc_config.s.mode32b);
     }
+
+    Validate_Deskew_Training(node, rank_mask, ddr_interface_num);
 
     /*
      * 4.8.10 LMC Read Leveling
