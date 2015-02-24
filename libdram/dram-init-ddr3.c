@@ -118,11 +118,9 @@ void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interfa
          */
 
         BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
-                       phy_ctl.s.phy_dsk_reset = 1);
+                       phy_ctl.s.phy_dsk_reset = 1); /* Reset Deskew sequence */
 
         perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
-
-        locked = (Validate_Deskew_Training(node, rank_mask, ddr_interface_num) == 0);
 
         BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                        phy_ctl.s.phy_dsk_reset = 0);
