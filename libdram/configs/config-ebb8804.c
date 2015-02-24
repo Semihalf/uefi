@@ -355,7 +355,6 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     cfg->max_rtt_nom_idx        = 7;
     cfg->min_rodt_ctl           = 1;
     cfg->max_rodt_ctl           = 7;
-    //cfg->dqx_ctl              = 0;
     cfg->ck_ctl                 = 5;
     cfg->cmd_ctl                = 5;
     cfg->ctl_ctl                = 5;
@@ -368,7 +367,7 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     cfg->rlevel_comp_offset_udimm       = 0;
     cfg->rlevel_comp_offset_rdimm       = 0;
     cfg->rlevel_compute         = 0;
-    cfg->ddr2t_udimm            = 0;
+    cfg->ddr2t_udimm            = 1;
     cfg->ddr2t_rdimm            = 1;
     cfg->maximum_adjacent_rlevel_delay_increment = 2;
     cfg->fprch2                 = 2;
