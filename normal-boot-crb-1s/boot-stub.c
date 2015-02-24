@@ -332,7 +332,7 @@ int main(void)
     /* Initialize DRAM on the master node */
 #ifdef DRAM_NODE0
     if (DRAM_VERBOSE)
-        setenv("ddr_verbose", "1", 1);
+        setenv("ddr_verbose", CONFIG_STR_NAME(DRAM_VERBOSE), 1);
     BDK_TRACE(BOOT_STUB, "Initializing DRAM on this node\n");
     extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE0)(void);
     int mbytes = libdram_config(bdk_numa_master(), CONFIG_FUNC_NAME(DRAM_NODE0)(), 0);
