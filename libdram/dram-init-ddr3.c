@@ -35,7 +35,7 @@ int Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_n
         if (bit_num == 4) continue;
         ddr_print(" %3d  ", (bit_num > 4) ? bit_num - 1 : bit_num);
     }
-    printf("\n");
+    ddr_print("\n");
     for(byte_lane = 0; byte_lane < 9; byte_lane++){
         ddr_print("LMC%d    Bit Deskew Byte(%d)                    :",
                   ddr_interface_num, byte_lane);
@@ -681,7 +681,7 @@ static unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num, in
     ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
     SET_DDR_DLL_CTL3(offset_ena, 0);
     SET_DDR_DLL_CTL3(mode_sel, dll_offset_mode);
-    SET_DDR_DLL_CTL3(offset, (_abs(byte_offset)&0x1f) | (_sign(byte_offset) << 5)); /* Always 5-bit field? */
+    SET_DDR_DLL_CTL3(offset, (_abs(byte_offset)&0x3f) | (_sign(byte_offset) << 6)); /* Always 6-bit field? */
     SET_DDR_DLL_CTL3(byte_sel, byte);
     DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
     ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
