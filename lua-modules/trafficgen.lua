@@ -50,6 +50,19 @@ function TrafficGen.new()
     local show_l2_stats = false
     local ccpi_stats = {{0,0,0}, {0,0,0}, {0,0,0}}
     local status, tns_map = pcall(require, "tns")
+    if not cavium.c.bdk_tns_profile_passthru then
+       tns_map = nil
+    end
+
+    -- should get this from c later
+    local tns_profiles = {"passthru", "bgxloopback"}
+    local tns_profiles_string = ""
+    for _,profile in ipairs(tns_profiles) do
+       if tns_profiles_string ~= "" then
+          tns_profiles_string = tns_profiles_string .. ", "
+       end
+       tns_profiles_string = tns_profiles_string .. "'" .. profile .. "'"
+    end
 
     --
     -- Public variables
@@ -181,8 +194,8 @@ function TrafficGen.new()
         local stats = do_update(false)
         for _,port in ipairs(known_ports) do
             if not port:find("FAKE") then
-                 -- printf("stats[%s][link_speed] = %d\n", port, stats[port]["link_speed"]);
-                 if stats[port]["link_speed"] > 0 then
+                 -- printf("stats[%s].link_speed = %d\n", port, stats[port].link_speed);
+                 if stats[port].link_speed > 0 then
                     table.insert(ports, port)
                 end
             end
@@ -546,9 +559,139 @@ function TrafficGen.new()
             end
         end
 
-        -- Add command to map Xpliant long names to TNS names
-        if tns_map then
-            function self:cmd_tns(port_range, args)
+        -- using tns_map existence to gate all TNS support, and making sure CSRs are available
+        if tns_map and cavium.csr then
+            local tns_profile = nil
+
+
+            local function set_tns_profile(profile)
+                if profile then
+                    if not tns_profiles_string:find("'" .. profile .. "'") then
+                        printf("ERROR: unknown tns_profile '%s', only support: %s\n", profile, tns_profiles_string )
+                    else
+                        local cmd = "bdk_tns_profile_" .. profile
+                        printf("Calling %s()\n", cmd)
+                        cavium.c[cmd](cavium.MASTER_NODE)
+                        tns_profile = profile
+                        printf("Done with %s()\n", cmd)
+                    end
+                else
+                    if not tns_profile then
+                        printf("No TNS profile has been confiugred, support: %s\n", tns_profiles_string)
+                    else
+                        printf("TNS profile is '%s'\n", tns_profile)
+                    end
+                end
+            end
+
+            -- command to set the TNS "profile"
+            function self:cmd_tns_profile(port_range, args)
+                set_tns_profile(args[1])
+            end
+
+            local function enable_tns(value, args)
+                local chose0 = (args[1] == "0") or (args[2] == "0") or not args[1]
+                local chose1 = (args[1] == "1") or (args[2] == "1") or not args[1]
+
+                local old_tns_nonbypass0 = cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_NONBYPASS
+                local old_credit_size0 = cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_CREDIT_SIZE
+                local old_block0 = cavium.csr.NIC_PF_INTFX_SEND_CFG(0).BLOCK
+                local old_bypass0_ena = cavium.csr.TNS_TDMA_CONFIG.BYPASS0_ENA
+
+                local old_tns_nonbypass1 = cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_NONBYPASS
+                local old_credit_size1 = cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_CREDIT_SIZE
+                local old_block1 = cavium.csr.NIC_PF_INTFX_SEND_CFG(1).BLOCK
+                local old_bypass1_ena = cavium.csr.TNS_TDMA_CONFIG.BYPASS1_ENA
+
+                if (args[1] == "show") or (args[1] == "?") then
+                    value = nil
+                end
+
+                if value then
+                    if value == 0 then
+                        if chose0 then      -- disabling TNS
+                            -- Don't use TNS0 (i.e. BYPASS it)
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_NONBYPASS = 0
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_CREDIT_SIZE = 0
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(0).BLOCK = 8
+                            cavium.csr.TNS_TDMA_CONFIG.BYPASS0_ENA = 1
+                        end
+                        if chose1 then
+                            -- Don't use TNS1 (i.e. BYPASS it)
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_NONBYPASS = 0
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_CREDIT_SIZE = 0
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(1).BLOCK = 9
+                            cavium.csr.TNS_TDMA_CONFIG.BYPASS1_ENA = 1
+                        end
+                    else                    -- enabling TNS
+                        if not tns_profile then
+                            printf("No TNS profile has been confiugred -- selecting passthru\n")
+                            set_tns_profile("passthru")
+                        end
+                        if chose0 then
+                            -- Use TNS0 (i.e. DON'T BYPASS it)
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_NONBYPASS = 1
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_CREDIT_SIZE = 3
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(0).BLOCK = 6
+                            cavium.csr.TNS_TDMA_CONFIG.BYPASS0_ENA = 0
+                        end
+                        if chose1 then
+                            -- Use TNS1 (i.e. DON'T BYPASS it)
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_NONBYPASS = 1
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_CREDIT_SIZE = 3
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(1).BLOCK = 7
+                            cavium.csr.TNS_TDMA_CONFIG.BYPASS1_ENA = 0
+                        end
+                    end
+                end
+
+                local new_tns_nonbypass0 = cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_NONBYPASS
+                local new_credit_size0 = cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_CREDIT_SIZE
+                local new_block0 = cavium.csr.NIC_PF_INTFX_SEND_CFG(0).BLOCK
+                local new_bypass0_ena = cavium.csr.TNS_TDMA_CONFIG.BYPASS0_ENA
+
+                local new_tns_nonbypass1 = cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_NONBYPASS
+                local new_credit_size1 = cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_CREDIT_SIZE
+                local new_block1 = cavium.csr.NIC_PF_INTFX_SEND_CFG(1).BLOCK
+                local new_bypass1_ena = cavium.csr.TNS_TDMA_CONFIG.BYPASS1_ENA
+
+                printf("\nTNS profile is '%s'\n", tns_profile)
+                printf("csr TNS_SDE_PE_KPUX_KPU_DBG_W0(0).HIT = %d\n\n", cavium.csr.TNS_SDE_PE_KPUX_KPU_DBG_W0(0).HIT)
+
+
+                if (new_bypass0_ena == 0) then
+                    printf("TNS0 IS now being USED\n")
+                else
+                    printf("TNS0 IS NOT now being used (it is BYPASSED)\n")
+                end
+
+                printf("  csr NIC_PF_INTFX_SEND_CFG(0).TNS_NONBYPASS = 0x%x (was 0x%x)\n", new_tns_nonbypass0, old_tns_nonbypass0)
+                printf("  csr NIC_PF_INTFX_SEND_CFG(0).TNS_CREDIT_SIZE = 0x%x (was 0x%x)\n", new_credit_size0, old_credit_size0)
+                printf("  csr NIC_PF_INTFX_SEND_CFG(0).BLOCK = 0x%x (was 0x%x)\n", new_block0, old_block0)
+                printf("  csr TNS_TDMA_CONFIG.BYPASS0_ENA = %d (was %d)\n\n", new_bypass0_ena, old_bypass0_ena)
+
+                if (new_bypass1_ena == 0) then
+                    printf("TNS1 IS now being USED\n")
+                else
+                    printf("TNS1 IS NOT now being used (it is BYPASSED)\n")
+                end
+
+                printf("  csr NIC_PF_INTFX_SEND_CFG(1).TNS_NONBYPASS = 0x%x (was 0x%x)\n", new_tns_nonbypass1, old_tns_nonbypass1)
+                printf("  csr NIC_PF_INTFX_SEND_CFG(1).TNS_CREDIT_SIZE = 0x%x (was 0x%x)\n", new_credit_size1, old_credit_size1)
+                printf("  csr NIC_PF_INTFX_SEND_CFG(1).BLOCK = 0x%x (was 0x%x)\n", new_block1, old_block1)
+                printf("  csr TNS_TDMA_CONFIG.BYPASS1_ENA = %d (was %d)\n\n", new_bypass1_ena, old_bypass1_ena)
+            end
+
+            function self:cmd_use_tns(port_range, args)
+                enable_tns(1, args)
+            end
+
+            function self:cmd_bypass_tns(port_range, args)
+                enable_tns(0, args)
+            end
+
+            -- Add command to map Xpliant long names to TNS names
+            function self:cmd_xpcsr(port_range, args)
                 assert(args[1], "Xpliant long name expected")
                 local long_name = args[1]:upper()
                 local suffix = ""
@@ -559,6 +702,7 @@ function TrafficGen.new()
                 end
                 assert(tns_map[long_name], "Xpliant long name not found")
                 for _,name in ipairs(tns_map[long_name]) do
+                    printf("csr %s\n", name .. suffix)
                     cavium.csr.lookup(name .. suffix).display()
                 end
             end
@@ -906,10 +1050,12 @@ function TrafficGen.new()
                 tab[n:sub(6)] = known_ports
             elseif n:sub(1,4) == "cmd_" then
                 local cmd = n:sub(5)
-                if cmd == "tns" then
+                if cmd == "xpcsr" then
                     tab[cmd] = tns_map
+                elseif cmd == "tns_profile" then
+                    tab[cmd] = tns_profiles
                 else
-                    tab[#tab+1] = n:sub(5)
+                    tab[#tab+1] = cmd
                 end
             end
         end

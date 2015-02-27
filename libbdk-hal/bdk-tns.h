@@ -10,10 +10,14 @@
  */
 
 /**
- * Initialize the TNS block to handle packet processing (NON-BYPASS) mode.
+ * Initialize the TNS block to enable clocks, allow register accesses, and
+ * perform some basic initialization in anticipation of future packet
+ * processing.
+ *
  * TNS at power-up will be in BYPASS mode where packets from the vNIC pipes
- * to the BGx ports will be direct.  This is normally called automatically
- * in bdk-init-main.c.
+ * to the BGX ports will be direct, and this will not change that.
+ *
+ * This is normally called automatically in bdk-init-main.c.
  *
  * @param node Node to initialize
  *
@@ -37,31 +41,30 @@ extern int bdk_tns_initialize(bdk_node_t node) BDK_WEAK;
 extern int bdk_tns_shutdown(bdk_node_t node);
 
 /**
- * Write out a block of data to starting at 'address'.  We allow
- * an address to be specified instead of a register, so that we
- * can do bulk loads using the *SST* registers in the DataPath.
+ * Set the TNS 'profile' to passthru.  I.e. do the necessary writes
+ * to the TNS datapath and TNS sst (Search, SDE, and TxQ) registers
+ * to configure the TNS to allow vNIC0..vNIC7 <-> LMAC0..LMAC7 traffic
+ * to flow straight through TNS (although the actual enabling of using
+ * the TNS is done elsewhere (in traffic-gen.))
  *
- * @param node    Node to use in a Numa setup
- * @param address Register address to write to
- * @param *dataw  Array of 32-bit values. dataw[0] is bits[31:0].
- * @param cnt     Number of 32-bit entries in dataw
+ * @param node Node to configure
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_tns_write_data(bdk_node_t node, uint32_t address, uint32_t *dataw, int cnt);
+extern int bdk_tns_profile_passthru(bdk_node_t node) BDK_WEAK;
 
 /**
- * Read in a block of data starting from 'address' for 'cnt' number of
- * 32-bit words.  The caller must supply an array of 32-bit unsigned
- * values to store the data and the number of 32-bit words to read.
+ * Set the TNS 'profile' to bgxloopback.  I.e. do the necessary writes
+ * to the TNS datapath and TNS sst (Search, SDE, and TxQ) registers
+ * to configure the TNS to allow any packets received on LMAC0..LMAC7
+ * (BGX ports) to be reflected back to the same port after hitting the
+ * TNS (although the actual enabling of using the TNS is done elsewhere
+ * (in traffic-gen.))
  *
- * @param node    Node to use in a Numa setup
- * @param address Register address to read from
- * @param *dataw  Array of 32-bit values.  dataw[0] will contain the bits[31:0], etc.
- * @param cnt     Number of 32-bit entries in dataw.
+ * @param node Node to configure
  *
  * @return Zero on success, negative on failure
  */
-extern int bdk_tns_read_data(bdk_node_t node, uint32_t address, uint32_t *dataw, int cnt);
+extern int bdk_tns_profile_bgxloopback(bdk_node_t node) BDK_WEAK;
 
 /** @} */

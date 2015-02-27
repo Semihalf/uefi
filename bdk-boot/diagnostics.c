@@ -30,7 +30,7 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(TWSI);
     BDK_REQUIRE(SATA);
     BDK_REQUIRE(USB);
-    //BDK_REQUIRE(TNS);
+    BDK_REQUIRE(TNS);
 }
 
 /**
