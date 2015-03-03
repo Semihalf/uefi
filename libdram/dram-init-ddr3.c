@@ -8,17 +8,6 @@
 #define debug_bitmask_print(...)
 #endif
 
-#define EXTRACT(v, lsb, width) (((v) >> (lsb)) & ((1ull << (width)) - 1))
-
-/* This is used from libbdk-dram/bdk-dram-test.c 
- * It is made local here so that some variables necessary to its operation
- * can be kept local to this file.
- */
-    /* record some vars for use by extract_address_info */
-static int __bdk_dram_bank_bits;
-static int __bdk_dram_col_bits;
-static int __bdk_dram_num_ranks;
-
 /* Read out Deskew Settings for DDR */
 
 int Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num)
@@ -135,6 +124,12 @@ void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interfa
         ddr_print("Deskew Training Timed Out\n");
 }
 
+/* extract_address_info was moved from libbdk-dram/bdk-dram-test.c 
+ * It is made local here so that some variables necessary to its operation
+ * can be kept local to this file.
+ */
+#define EXTRACT(v, lsb, width) (((v) >> (lsb)) & ((1ull << (width)) - 1))
+
 void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
 			  int *rank, int *bank, int *row, int *col)
 {
@@ -142,8 +137,12 @@ void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
     /* Determine the LMC controller */
     BDK_CSR_INIT(l2c_ctl, *node, BDK_L2C_CTL);
     int bank_lsb, xbits;
-    xbits = (__bdk_dram_get_num_lmc() == 4) ? 2 : 1;
+
+    /* xbits depends on number of LMCs */
+    xbits = (__bdk_dram_get_num_lmc(*node) == 4) ? 2 : 1;
     bank_lsb = 7 + xbits;
+
+    /* LMC number is probably aliased */
     if (l2c_ctl.s.disidxalias)
 	*lmc = EXTRACT(address, 7, xbits);
     else
@@ -151,20 +150,9 @@ void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
 
     /* Figure out the bank field width */
     BDK_CSR_INIT(lmcx_config, *node, BDK_LMCX_CONFIG(*lmc));
-    BDK_CSR_INIT(lmc_control, *node, BDK_LMCX_CONTROL(*lmc));
-    BDK_CSR_INIT(lmcx_ddr_pll_ctl, *node, BDK_LMCX_DDR_PLL_CTL(*lmc));
-    int bank_width = 3;
-    if (lmcx_ddr_pll_ctl.s.ddr4_mode) /* Detect DDR4 */
-    {
-        // can be 3 or 4 bits, depends on no. of banks
-        bank_width = __bdk_dram_bank_bits; /* FIXME: __bdk_dram_bank_bits is not getting set */
-	if (bank_width < 3 || bank_width > 4) {
-	    bank_width = 3; // default to #banks <= 8
-	    bdk_warn("DDR4 support FIXME: defaulting bank_bits to %d\n", bank_width);
-	}
-    }
+    int bank_width = __bdk_dram_get_num_bank_bits(*node);
 
-    /* Extract bit positions from the LMC config */
+    /* Extract additional info from the LMC_CONFIG CSR */
     int dimm_lsb    = 28 + lmcx_config.s.pbank_lsb + xbits;
     int dimm_width  = 40 - dimm_lsb;
     int rank_lsb    = dimm_lsb - lmcx_config.s.rank_ena;
@@ -178,12 +166,16 @@ void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
     *dimm = EXTRACT(address, dimm_lsb, dimm_width);
     *rank = EXTRACT(address, rank_lsb, rank_width);
     *row = EXTRACT(address, row_lsb, row_width);
-    int col_hi = EXTRACT(address, col_hi_lsb, col_hi_width);
-    if (lmc_control.s.xor_bank)
-	*bank = EXTRACT(address, bank_lsb, bank_width) ^ EXTRACT(address, 12 + xbits, bank_width);// FIXME?
+
+    /* bank calculation may be aliased... */
+    BDK_CSR_INIT(lmcx_control, *node, BDK_LMCX_CONTROL(*lmc));
+    if (lmcx_control.s.xor_bank)
+        *bank = EXTRACT(address, bank_lsb, bank_width) ^ EXTRACT(address, 12 + xbits, bank_width);
     else
-	*bank = EXTRACT(address, bank_lsb, bank_width);
+        *bank = EXTRACT(address, bank_lsb, bank_width);
+
     /* LMC number already extracted */
+    int col_hi = EXTRACT(address, col_hi_lsb, col_hi_width);
     *col = EXTRACT(address, 3, 4) | (col_hi << 4);
     /* Bus byte is address bits [2:0]. Unused here */
 }
@@ -1968,11 +1960,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     if ((s = lookup_env_parameter("ddr_num_ranks")) != NULL) {
         num_ranks = strtoul(s, NULL, 0);
     }
-
-    /* record some vars for use by extract_address_info */
-    __bdk_dram_bank_bits = bank_bits;
-    __bdk_dram_col_bits  = col_bits;
-    __bdk_dram_num_ranks = num_ranks;
 
     /* FIX
     ** Check that values are within some theoretical limits.
@@ -4238,7 +4225,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 		perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 6); /* write-leveling */
 
-		/* Wait 100ms for wlevel to complete */
 		if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
 		    BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx),
 					   status, ==, 3, 1000000))
@@ -4785,7 +4771,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 			    perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
 
-			    /* Wait 100ms for rlevel to complete */
 			    if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
 				BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx),
 						       status, ==, 3, 1000000))
@@ -4817,7 +4802,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 				perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
 
-				/* Wait 100ms for rlevel to complete */
 				if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
 				    BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx),
 							   status, ==, 3, 1000000))
@@ -4846,7 +4830,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 				perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
 
-				/* Wait 100ms for rlevel to complete */
 				if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
 				    BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx),
 							   status, ==, 3, 1000000))
