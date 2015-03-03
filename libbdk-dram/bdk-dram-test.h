@@ -14,8 +14,10 @@ extern const char* bdk_dram_get_test_name(int test);
 extern int bdk_dram_test(int test, uint64_t start_address, uint64_t length);
 
 /* These variables count the number of ECC errors. They should only be accessed atomically */
-extern int64_t __bdk_dram_ecc_single_bit_errors;
-extern int64_t __bdk_dram_ecc_double_bit_errors;
+/* Keep the counts per memory channel (LMC) for more detail. */
+#define MAX_MEM_CHANS 4
+extern int64_t __bdk_dram_ecc_single_bit_errors[MAX_MEM_CHANS];
+extern int64_t __bdk_dram_ecc_double_bit_errors[MAX_MEM_CHANS];
 
 /* These are internal support functions */
 extern void __bdk_dram_flush_to_mem(uint64_t address);
