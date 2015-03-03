@@ -96,22 +96,31 @@ static void check_cn88xx(bdk_node_t node)
             //CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
             CHECK_CHIP_ERROR(BDK_LMCX_INT(index), s, nxm_wr_err);
             /* A double bit error overwrites single info, so only
-               report single bit errors if there hasn't been a
+               report/count single bit errors if there hasn't been a
                double bit error */
             if (c.s.ded_err || c.s.sec_err)
             {
                 BDK_CSR_INIT(fadr, node, BDK_LMCX_FADR(index));
                 BDK_CSR_INIT(ecc_synd, node, BDK_LMCX_ECC_SYND(index));
+                uint64_t syndrome = ecc_synd.u;
                 CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, ded_err);
                 CLEAR_CHIP_ERROR(BDK_LMCX_INT(index), s, sec_err);
-                if (c.s.sec_err)
-                    bdk_atomic_add64_nosync(&__bdk_dram_ecc_single_bit_errors, 1);
-                if (c.s.ded_err)
-                    bdk_atomic_add64_nosync(&__bdk_dram_ecc_double_bit_errors, 1);
-                bdk_error("N%d.LMC%d: ECC %s bit error (DIMM%d,Rank%d,Bank%d,Row 0x%04x,Col 0x%04x, ECC_SYND 0x%016lx, DED 0x%1x, SEC 0x%1x)\n",
-                    node, index, (c.s.ded_err) ? "double" : "single",
-                    fadr.s.fdimm, fadr.s.fbunk, fadr.s.fbank,
-                    fadr.s.frow, fadr.s.fcol, ecc_synd.u, c.s.ded_err, c.s.sec_err);
+                if (c.s.ded_err) // if DED, count it and do not count SEC
+                    bdk_atomic_add64_nosync(&__bdk_dram_ecc_double_bit_errors[index], 1);
+                else { // must be just SEC, also extract the syndrome byte
+                    bdk_atomic_add64_nosync(&__bdk_dram_ecc_single_bit_errors[index], 1);
+                    int i = c.s.sec_err;
+                    while ((i & 1) == 0) {syndrome >>= 8; i >>= 1; }
+                    syndrome &= 0xff;
+                }
+                bdk_error("N%d.LMC%d: ECC %s (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x,FCID=%d,FO=%d,SYND 0x%lx/%d)\n",
+                          node, index,
+                          (c.s.ded_err) ? "double" : "single",
+                          fadr.s.fdimm, fadr.s.fbunk, fadr.s.fbank,
+                          fadr.s.frow & __bdk_dram_get_row_mask(node),
+                          fadr.s.fcol & __bdk_dram_get_col_mask(node),
+                          fadr.s.fcid, fadr.s.fill_order,
+                          syndrome, (c.s.ded_err) ? c.s.ded_err : c.s.sec_err);
             }
         }
     }
