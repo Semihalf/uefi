@@ -73,7 +73,7 @@ local function run_all_tests()
         local sec = (total_time % 3600) % 60
         printf("All tests passed (time %d:%d:%d)\n", hour, min, sec)
     else
-        error("Tests reported %d errors" % errors)
+        printf("Tests reported %d errors\n", errors)
     end
     return errors
 end
@@ -101,8 +101,9 @@ local function run_special_tests()
         local min = (total_time % 3600) / 60
         local sec = (total_time % 3600) % 60
         printf("All tests passed (time %d:%d:%d)\n", hour, min, sec)
+
     else
-        error("Tests reported %d errors" % errors)
+        printf("Tests reported %d errors\n", errors)
     end
     return errors
 end
@@ -112,16 +113,28 @@ local function do_test(test_func, arg)
     if total == -1 then
         total = 0x7fffffffffffffff
     end
+    local sum_errors = 0
+    local pass = 1
     for count=1,total do
+        pass = count
         if range_repeat == -1 then
             printf("Pass %d\n", count)
         else
             printf("Pass %d of %d\n", count, total)
         end
         local errors = test_func(arg)
+	sum_errors = sum_errors + errors
+        -- print running summary if more than 1 pass was to be made and there have been errors
+        if (count < total) and (sum_errors ~= 0) then
+            printf("Testing has run %d passes with %d total errors\n", count, sum_errors)
+        end
         if (errors ~= 0) and (abort_on_error == 1) then
             break
         end
+    end
+    -- always print final summary if more than 1 pass was to be made
+    if total > 1 then
+        printf("Test ran %d passes with %d total errors\n", pass, sum_errors)
     end
 end
 
