@@ -14,6 +14,20 @@ int __bdk_dram_get_num_lmc(bdk_node_t node)
 }
 
 /**
+ * Return whether the node/LMC is in DRESET
+ *
+ * @param node   Node to probe
+ * @param node   LMC to probe
+ *
+ * @return 1 or 0
+ */
+static int __bdk_dram_is_lmc_in_dreset(bdk_node_t node, int lmc)
+{
+    BDK_CSR_INIT(lmcx_dll_ctl2, node, BDK_LMCX_DLL_CTL2(lmc));
+    return (lmcx_dll_ctl2.s.dreset != 0) ? 1 : 0;
+}
+
+/**
  * Return a mask of the number of row bits in use
  *
  * @param node   Node to probe
@@ -21,6 +35,9 @@ int __bdk_dram_get_num_lmc(bdk_node_t node)
  */ 
 uint32_t __bdk_dram_get_row_mask(bdk_node_t node)
 {
+    // PROTECT!!!
+    if (__bdk_dram_is_lmc_in_dreset(node, 0)) // check LMC0
+        return 0;
     BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(0)); // sample LMC0
     int numbits = 14 + lmcx_config.s.pbank_lsb - lmcx_config.s.row_lsb - lmcx_config.s.rank_ena;
     return ((1ul << numbits) - 1);
@@ -34,6 +51,9 @@ uint32_t __bdk_dram_get_row_mask(bdk_node_t node)
  */ 
 uint32_t __bdk_dram_get_col_mask(bdk_node_t node)
 {
+    // PROTECT!!!
+    if (__bdk_dram_is_lmc_in_dreset(node, 0)) // check LMC0
+        return 0;
     int xbits = (__bdk_dram_get_num_lmc(node) >> 1); 
     BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(0)); // sample LMC0
     int numbits = 11 + lmcx_config.s.row_lsb - __bdk_dram_get_num_bank_bits(node);
@@ -50,6 +70,9 @@ uint32_t __bdk_dram_get_col_mask(bdk_node_t node)
 // NOTE: this will change in the future, when DDR4 x16 devices can come with 16 banks!! FIXME!!
 int __bdk_dram_get_num_bank_bits(bdk_node_t node)
 {
+    // PROTECT!!!
+    if (__bdk_dram_is_lmc_in_dreset(node, 0)) // check LMC0
+        return 0;
     BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(0)); // sample LMC0
     int bank_width = (__bdk_dram_is_ddr4(node) && (lmcx_config.s.bg2_enable)) ? 4 : 3; 
     return bank_width;
@@ -60,12 +83,28 @@ int __bdk_dram_get_num_bank_bits(bdk_node_t node)
  *
  * @param node   Node to probe
  *
- * @return 0 (DDR3) or 1 (DDR4) depending on the mode
+ * @return 0 (DDR3) or 1 (DDR4)
  */
 int __bdk_dram_is_ddr4(bdk_node_t node)
 {
     BDK_CSR_INIT(lmcx_ddr_pll_ctl, node, BDK_LMCX_DDR_PLL_CTL(0)); // sample LMC0
-    return lmcx_ddr_pll_ctl.s.ddr4_mode;
+    return (lmcx_ddr_pll_ctl.s.ddr4_mode != 0);
+}
+
+/**
+ * Return whether the node has Registered DIMMs or Unbuffered DIMMs
+ *
+ * @param node   Node to probe
+ *
+ * @return 0 (Unbuffered) or 1 (Registered)
+ */
+int __bdk_dram_is_rdimm(bdk_node_t node)
+{
+    // PROTECT!!!
+    if (__bdk_dram_is_lmc_in_dreset(node, 0)) // check LMC0
+        return 0;
+    BDK_CSR_INIT(lmcx_control, node, BDK_LMCX_CONTROL(0)); // sample LMC0
+    return (lmcx_control.s.rdimm_ena != 0);
 }
 
 /**
@@ -93,6 +132,9 @@ uint64_t bdk_dram_get_size_mbytes(int node)
         }
         else
         {
+            // PROTECT!!!
+	    if (__bdk_dram_is_lmc_in_dreset(node, lmc)) // check LMCn
+		return 0;
             BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(lmc));
             int num_ranks = bdk_pop(lmcx_config.s.init_status);
             uint64_t rank_size = 1ull << (28 + lmcx_config.s.pbank_lsb - lmcx_config.s.rank_ena);

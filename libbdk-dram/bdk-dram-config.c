@@ -100,7 +100,10 @@ int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
     }
 
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : config->ddr_clock_hertz;
-    printf("BDK DRAM: %d MB, %d MHz\n", mbytes, ((ddr_clock_hertz + 500000) /1000000));
+    printf("BDK DRAM: %d MB, %d MHz, %s %s\n", mbytes, ((ddr_clock_hertz + 500000) /1000000),
+	   (__bdk_dram_is_ddr4(node)) ? "DDR4" : "DDR3",
+	   (__bdk_dram_is_rdimm(node)) ? "RDIMM" : "UDIMM");
+
     return mbytes;
 }
 
@@ -142,6 +145,31 @@ const char* bdk_dram_get_config_name(int index)
         return NULL;
     else
         return dram_table[index]()->name;
+}
+
+/**
+ * Return the string of the DRAM configuration info at the specified node.
+ * If the node is not configured, NULL is returned.
+ *
+ * @param index  node
+ *
+ * @return string or NULL
+ */
+#define INFO_STRING_LEN 40
+static const char info_string[INFO_STRING_LEN];
+
+const char* bdk_dram_get_info_string(int node)
+{
+    /* FIXME: need to validate node */
+
+    snprintf(info_string, INFO_STRING_LEN,
+             " %ld MB, %d MHz, %s %s",
+             bdk_dram_get_size_mbytes(node),
+             ((libdram_get_freq(node) + 500000) /1000000),
+             (__bdk_dram_is_ddr4(node)) ? "DDR4" : "DDR3",
+             (__bdk_dram_is_rdimm(node)) ? "RDIMM" : "UDIMM");
+
+    return info_string;
 }
 
 

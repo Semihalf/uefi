@@ -35,6 +35,15 @@ extern int bdk_dram_config(int node, const char *config_name, int ddr_clock_over
 extern uint64_t bdk_dram_get_size_mbytes(int node);
 
 /**
+ * Return the string of info about the current node's DRAM configuration.
+ *
+ * @param index  node to retrieve
+ *
+ * @return String or NULL
+ */
+extern const char* bdk_dram_get_info_string(int node);
+
+/**
  * Return the name of the DRAM configuration at the specified index. If index
  * is larger than the number of DRAM configs, NULL is returned.
  *
@@ -56,6 +65,7 @@ extern uint64_t bdk_dram_get_top_of_bdk(void);
 
 extern int __bdk_dram_get_num_lmc(bdk_node_t node);
 extern int __bdk_dram_is_ddr4(bdk_node_t node);
+extern int __bdk_dram_is_rdimm(bdk_node_t node);
 extern uint32_t __bdk_dram_get_row_mask(bdk_node_t node);
 extern uint32_t __bdk_dram_get_col_mask(bdk_node_t node);
 extern int __bdk_dram_get_num_bank_bits(bdk_node_t node);
