@@ -14,6 +14,10 @@ local function toggle_abort_on_error()
     abort_on_error = 1 - abort_on_error
 end
 
+local function set_batch_mode(mode)
+    cavium.c.bdk_dram_set_batch_mode(mode)
+end
+
 local function set_range_repeat()
     local count = menu.prompt_number("Number of time to repeat the test, or -1 for infinite", range_repeat)
     if (count < -1) or (count == 0) then
@@ -139,7 +143,8 @@ local function do_test(test_func, arg)
 end
 
 repeat
-    local m = menu.new("DRAM Test Menu")
+    local info = cavium.c.bdk_dram_get_info_string(menu.node);
+    local m = menu.new("DRAM Test Menu - %s" % info)
     m:item("cores", "Bringup Cores for multi-core testing",
            cavium.c.bdk_init_nodes, 0)
     if range_repeat == -1 then
@@ -171,6 +176,12 @@ repeat
         m:item("abort", "Abort on Errors (Currently ON)", toggle_abort_on_error)
     else
         m:item("abort", "Abort on Errors (Currently OFF)", toggle_abort_on_error)
+    end
+
+    if cavium.c.bdk_dram_get_batch_mode() == 1 then
+        m:item("batch", "Batch mode (Currently ON)", set_batch_mode, 0)
+    else
+        m:item("batch", "Batch mode (Currently OFF)", set_batch_mode, 1)
     end
 
     m:item("quit", "Main menu")
