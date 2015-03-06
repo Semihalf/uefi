@@ -37,6 +37,16 @@ static const dram_test_info_t TEST_INFO[] = {
     { NULL,                     NULL,                               0,      0}
 };
 
+static int test_batch_mode = 0; // default OFF, test progress output
+int bdk_dram_get_batch_mode(void)
+{
+    return test_batch_mode;
+}
+void bdk_dram_set_batch_mode(int mode)
+{
+    test_batch_mode = mode;
+}
+
 /* These variables count the number of ECC errors. They should only be accessed atomically */
 int64_t __bdk_dram_ecc_single_bit_errors[MAX_MEM_CHANS];
 int64_t __bdk_dram_ecc_double_bit_errors[MAX_MEM_CHANS];
@@ -196,6 +206,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
     /* Figure out the number of cores available in the system */
     if (max_cores == 0)
         max_cores += bdk_get_num_running_cores(bdk_numa_local());
+
     BDK_TRACE(DRAM_TEST, "Using %d cores for memory tests\n", max_cores);
 
     printf("Starting Test \"%s\" for [0x%011lx:0x%011lx] using %d core(s)\n",
@@ -267,11 +278,15 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         dram_test_thread_size = thread_size;
         BDK_WMB;
 
-        /* Report progress percentage */
-        int percent_x10 = (work_address - start_address) * 1000 / (end_address - start_address);
-        printf("  %3d.%d%% complete, testing [0x%011lx:0x%011lx]\r",
-               percent_x10 / 10, percent_x10 % 10,  work_address, work_address + size - 1);
-        fflush(stdout);
+	/* disable progress output when batch mode is ON  */
+        if (!test_batch_mode) {
+
+            /* Report progress percentage */
+            int percent_x10 = (work_address - start_address) * 1000 / (end_address - start_address);
+            printf("  %3d.%d%% complete, testing [0x%011lx:0x%011lx]\r",
+                   percent_x10 / 10, percent_x10 % 10,  work_address, work_address + size - 1);
+            fflush(stdout);
+	}
 
         work_address += size;
 

@@ -12,6 +12,8 @@
 /* This is the external interface for callers */
 extern const char* bdk_dram_get_test_name(int test);
 extern int bdk_dram_test(int test, uint64_t start_address, uint64_t length);
+extern int bdk_dram_get_batch_mode(void);
+extern void bdk_dram_set_batch_mode(int mode);
 
 /* These variables count the number of ECC errors. They should only be accessed atomically */
 /* Keep the counts per memory channel (LMC) for more detail. */
