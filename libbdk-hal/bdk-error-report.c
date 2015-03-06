@@ -117,8 +117,8 @@ static void check_cn88xx(bdk_node_t node)
                           node, index,
                           (c.s.ded_err) ? "double" : "single",
                           fadr.s.fdimm, fadr.s.fbunk, fadr.s.fbank,
-                          fadr.s.frow & __bdk_dram_get_row_mask(node),
-                          fadr.s.fcol & __bdk_dram_get_col_mask(node),
+                          fadr.s.frow & __bdk_dram_get_row_mask(node, index),
+                          fadr.s.fcol & __bdk_dram_get_col_mask(node, index),
                           fadr.s.fcid, fadr.s.fill_order,
                           syndrome, (c.s.ded_err) ? c.s.ded_err : c.s.sec_err);
             }

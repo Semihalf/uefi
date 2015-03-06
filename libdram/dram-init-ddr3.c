@@ -150,7 +150,7 @@ void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
 
     /* Figure out the bank field width */
     BDK_CSR_INIT(lmcx_config, *node, BDK_LMCX_CONFIG(*lmc));
-    int bank_width = __bdk_dram_get_num_bank_bits(*node);
+    int bank_width = __bdk_dram_get_num_bank_bits(*node, *lmc);
 
     /* Extract additional info from the LMC_CONFIG CSR */
     int dimm_lsb    = 28 + lmcx_config.s.pbank_lsb + xbits;
