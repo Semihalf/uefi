@@ -15,6 +15,16 @@ int read_spd(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_index, 
     {
         int bus = dimm_config->spd_addrs[dimm_index] >> 12;
         int address = dimm_config->spd_addrs[dimm_index] & 0x7f;
+
+	/* this should only happen for DDR4, which has a second bank of 256 bytes */
+	static int bank = 0; /* 0 = bank 0 (RESET), 1 = bank 1 */
+	int new_bank = (spd_field >> 8) & 1;
+	if (bank != new_bank) {
+	    bdk_twsix_write_ia(node, bus, 0x36 | new_bank, 0, 2, 1, 0);
+	    bank = new_bank;
+	    spd_field %= 256;
+	}
+
         return bdk_twsix_read_ia(node, bus, address, spd_field, 1, 1);
     }
     else
