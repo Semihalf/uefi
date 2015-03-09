@@ -46,6 +46,11 @@ void bdk_dram_set_batch_mode(int mode)
 {
     test_batch_mode = mode;
 }
+static int test_abort_mode = 1; // default ON, test abort on errors
+void bdk_dram_set_abort_mode(int mode)
+{
+    test_abort_mode = mode;
+}
 
 /* These variables count the number of ECC errors. They should only be accessed atomically */
 int64_t __bdk_dram_ecc_single_bit_errors[MAX_MEM_CHANS];
@@ -258,7 +263,7 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
        its local memory */
     uint64_t work_address = start_address;
     bdk_atomic_set64(&dram_test_thread_errors, 0);
-    while ((work_address < end_address) && (dram_test_thread_errors == 0))
+    while ((work_address < end_address) && ((dram_test_thread_errors == 0) || (test_abort_mode == 0)))
     {
         /* Check at most MAX_CHUNK_SIZE across each iteration. We only report
            progress between chunks, so keep them reasonably small */

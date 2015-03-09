@@ -9,9 +9,11 @@ local range_start = 0
 local range_length = -1
 
 local abort_on_error = 1
+cavium.c.bdk_dram_set_abort_mode(abort_on_error)
 
 local function toggle_abort_on_error()
     abort_on_error = 1 - abort_on_error
+    cavium.c.bdk_dram_set_abort_mode(abort_on_error)
 end
 
 local function set_batch_mode(mode)
