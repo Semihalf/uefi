@@ -55,6 +55,21 @@ extern const dimm_odt_config_t disable_odt_config[];
 #define dic_40ohm     0         /* RZQ/6  = 240/6  =  40 ohms */
 #define dic_34ohm     1         /* RZQ/7  = 240/7  =  34 ohms */
 
+#define driver_24_ohm   1
+#define driver_27_ohm   2
+#define driver_30_ohm   3
+#define driver_34_ohm   4
+#define driver_40_ohm   5
+#define driver_48_ohm   6
+#define driver_60_ohm   7
+
+#define rodt_ctl_none     0
+#define rodt_ctl_20_ohm   1
+#define rodt_ctl_30_ohm   2
+#define rodt_ctl_40_ohm   3
+#define rodt_ctl_60_ohm   4
+#define rodt_ctl_120_ohm  5
+
 #define ddr4_rttnom_none   0         /* Rtt_Nom disabled */
 #define ddr4_rttnom_60ohm  1         /* RZQ/4  = 240/4  =  60 ohms */
 #define ddr4_rttnom_120ohm 2         /* RZQ/2  = 240/2  = 120 ohms */
@@ -84,3 +99,25 @@ extern const dimm_odt_config_t disable_odt_config[];
 #define ddr4_rttpark_80ohm  6         /* RZQ/3  = 240/3  =  80 ohms */
 #define ddr4_rttpark_34ohm  7         /* RZQ/7  = 240/7  =  34 ohms */
 
+#define ddr4_driver_26_ohm   2
+#define ddr4_driver_30_ohm   3
+#define ddr4_driver_34_ohm   4
+#define ddr4_driver_40_ohm   5
+#define ddr4_driver_48_ohm   6
+
+#define ddr4_dqx_driver_24_ohm   1
+#define ddr4_dqx_driver_27_ohm   2
+#define ddr4_dqx_driver_30_ohm   3
+#define ddr4_dqx_driver_34_ohm   4
+#define ddr4_dqx_driver_40_ohm   5
+#define ddr4_dqx_driver_48_ohm   6
+#define ddr4_dqx_driver_60_ohm   7
+
+#define ddr4_rodt_ctl_none     0
+#define ddr4_rodt_ctl_40_ohm   1
+#define ddr4_rodt_ctl_60_ohm   2
+#define ddr4_rodt_ctl_80_ohm   3
+#define ddr4_rodt_ctl_120_ohm  4
+#define ddr4_rodt_ctl_240_ohm  5
+#define ddr4_rodt_ctl_34_ohm   6
+#define ddr4_rodt_ctl_48_ohm   7

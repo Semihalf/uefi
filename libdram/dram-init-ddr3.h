@@ -20,6 +20,7 @@ typedef struct {
     unsigned char *rtt_wr_ohms;
     unsigned char *dic_ohms;
     short         *drive_strength;
+    short         *dqx_strength;
 } impedence_values_t;
 
 #define RODT_OHMS_COUNT        8

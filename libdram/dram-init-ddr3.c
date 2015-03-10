@@ -1703,7 +1703,8 @@ static unsigned char ddr4_rtt_nom_ohms  [RTT_NOM_OHMS_COUNT  ] = {  0,  60, 120,
 static unsigned char ddr4_rtt_nom_table [RTT_NOM_TABLE_COUNT ] = {  0,   4,   2,  6,   1,   5,  3,  7 };
 static unsigned char ddr4_rtt_wr_ohms   [RTT_WR_OHMS_COUNT   ] = {  0, 120,  240, -1,  80 };
 static unsigned char ddr4_dic_ohms      [DIC_OHMS_COUNT      ] = { 34,  48 };
-static short         ddr4_drive_strength[DRIVE_STRENGTH_COUNT] = {  0,   0,  26, 30,  34,  40, 48, 68, 0,0,0,0,0,0,0 };
+static short         ddr4_drive_strength[DRIVE_STRENGTH_COUNT] = {  0,   0, 26, 30, 34, 40, 48, 68, 0,0,0,0,0,0,0 };
+static short         ddr4_dqx_strength  [DRIVE_STRENGTH_COUNT] = {  0,  24, 27, 30, 34, 40, 48, 60, 0,0,0,0,0,0,0 };
 static impedence_values_t ddr4_impedence_values = {
     .rodt_ohms             =  ddr4_rodt_ohms     ,
     .rtt_nom_ohms          =  ddr4_rtt_nom_ohms  ,
@@ -1711,6 +1712,7 @@ static impedence_values_t ddr4_impedence_values = {
     .rtt_wr_ohms           =  ddr4_rtt_wr_ohms   ,
     .dic_ohms              =  ddr4_dic_ohms      ,
     .drive_strength        =  ddr4_drive_strength,
+    .dqx_strength          =  ddr4_dqx_strength  ,
 };
 
 static unsigned char ddr3_rodt_ohms     [RODT_OHMS_COUNT     ] = { 0, 20, 30, 40, 60, 120, 0, 0 };
@@ -1726,6 +1728,7 @@ static impedence_values_t ddr3_impedence_values = {
     .rtt_wr_ohms           =  ddr3_rtt_wr_ohms   ,
     .dic_ohms              =  ddr3_dic_ohms      ,
     .drive_strength        =  ddr3_drive_strength,
+    .dqx_strength          =  ddr3_drive_strength,
 };
 
 
@@ -3285,7 +3288,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
 
 #ifdef DDR3_ENHANCE_PRINT
-        ddr_print("%-45s : %d, %d ohms\n", "DQX_CTL           ", comp_ctl2.s.dqx_ctl    , imp_values->drive_strength[comp_ctl2.s.dqx_ctl    ]);
+        ddr_print("%-45s : %d, %d ohms\n", "DQX_CTL           ", comp_ctl2.s.dqx_ctl    , imp_values->dqx_strength  [comp_ctl2.s.dqx_ctl    ]);
         ddr_print("%-45s : %d, %d ohms\n", "CK_CTL            ", comp_ctl2.s.ck_ctl     , imp_values->drive_strength[comp_ctl2.s.ck_ctl     ]);
         ddr_print("%-45s : %d, %d ohms\n", "CMD_CTL           ", comp_ctl2.s.cmd_ctl    , imp_values->drive_strength[comp_ctl2.s.cmd_ctl    ]);
         ddr_print("%-45s : %d, %d ohms\n", "CONTROL_CTL       ", comp_ctl2.s.control_ctl, imp_values->drive_strength[comp_ctl2.s.control_ctl]);
@@ -3383,10 +3386,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 lmc_dimmx_ddr4_params0.s.rc4x = 0;
 
 #define DIVIDEND_SCALE 100      /* Scale by 100 to avoid rounding error. */
-#define ENCODING_BASE 1260
+#define ENCODING_BASE 1240
 
-                lmc_dimmx_ddr4_params0.s.rc3x = divide_nint((((2 * 1000000 * DIVIDEND_SCALE) /
-                                                              (tclk_psecs * DIVIDEND_SCALE)) - ENCODING_BASE), 20);
+                lmc_dimmx_ddr4_params0.s.rc3x = divide_nint((((2 * 1000000 * DIVIDEND_SCALE)
+                                                              / (tclk_psecs * DIVIDEND_SCALE))), 20) - 62;
 
                 lmc_dimmx_ddr4_params0.s.rc2x = 0;
                 lmc_dimmx_ddr4_params0.s.rc1x = 0;
@@ -5529,9 +5532,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             }
                         }
                         debug_print(" (0x%02x)\n", final_vref_value);
-                        ddr_print("Rank(%d) Vref Training Summary                 :    0x%02x <----- 0x%02x -----> 0x%02x\n",
-                                  rankx, best_vref_values_start, final_vref_value,
-                                  best_vref_values_start+best_vref_values_count-1);
+                        ddr_print("Rank(%d) Vref Training Summary                 :"
+                                  "    %2d <----- %2d (0x%02x) -----> %2d range: %2d\n",
+                                  rankx, best_vref_values_start, final_vref_value, final_vref_value,
+                                  best_vref_values_start+best_vref_values_count-1,
+                                  best_vref_values_count-1);
+
+                        if ((s = lookup_env_parameter("ddr%d_vref_value_%1d%1d",
+                                                      ddr_interface_num, !!(rankx&2), !!(rankx&1))) != NULL) {
+                            final_vref_value = strtoul(s, NULL, 0);
+                        }
+
                         set_vref(node, ddr_interface_num, rankx, 0,
 			         final_vref_value);
                     }
@@ -5566,7 +5577,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
                             lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
-                            if (!test_dram_byte(rank_addr, 2048, byte, byte_bitmask)) {
+                            if (!test_dram_byte(rank_addr, 4096, byte, byte_bitmask)) {
                                 debug_print("        byte %d(0x%lx) delay %2d Passed\n", byte, rank_addr, delay);
                                 byte_test_status[byte] = WL_HARDWARE;
                                 break;
@@ -5646,6 +5657,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     if (vref_values_count > best_vref_values_count) {
                         best_vref_values_count = vref_values_count;
                         best_vref_values_start = vref_values_start;
+                        debug_print("Rank(%d) Vref Training                         :    0x%02x <----- ???? -----> 0x%02x\n",
+                                  rankx, best_vref_values_start,
+                                  best_vref_values_start+best_vref_values_count-1);
                     }
                 } else {
                     vref_values_count = 0;
@@ -5816,55 +5830,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                           );
             }
         } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
-
-#if 0                           /* This has been causing the stack to overflow in SDK. */
-        /* Display MPR values for Page 2 */
-        if (ddr_type == DDR4_DRAM) {
-	    for (rankx = 0; rankx < dimm_count * 4;rankx++) {
-		uint64_t mpr_data[3];
-		if (!(rank_mask & (1 << rankx)))
-		    continue;
-
-#if 0
-		ddr_print("Rank %d: MPR values for Page 0\n", rankx);
-		ddr4_mpr_read(node, ddr_interface_num, rankx, /* page */ 0, /* location */ 0, &mpr_data[0]);
-		ddr_print("MPR Page 0, Loc 0 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
-
-		ddr4_mpr_read(node, ddr_interface_num, rankx, /* page */ 0, /* location */ 1, &mpr_data[0]);
-		ddr_print("MPR Page 0, Loc 1 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
-
-		ddr4_mpr_read(node, ddr_interface_num, rankx, /* page */ 0, /* location */ 2, &mpr_data[0]);
-		ddr_print("MPR Page 0, Loc 2 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
-
-		ddr4_mpr_read(node, ddr_interface_num, rankx, /* page */ 0, /* location */ 3, &mpr_data[0]);
-		ddr_print("MPR Page 0, Loc 3 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
-
-		ddr_print("Rank %d: MPR values for Page 2\n", rankx);
-		ddr4_mpr_read(node, ddr_interface_num, rankx, /* page */ 2, /* location */ 0, &mpr_data[0]);
-		ddr_print("MPR Page 2, Loc 0 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
-
-		ddr4_mpr_read(node, ddr_interface_num, rankx, /* page */ 2, /* location */ 1, &mpr_data[0]);
-		ddr_print("MPR Page 2, Loc 1 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
-
-		ddr4_mpr_read(node, ddr_interface_num, rankx, /* page */ 2, /* location */ 2, &mpr_data[0]);
-		ddr_print("MPR Page 2, Loc 2 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
-
-		ddr4_mpr_read(node, ddr_interface_num, rankx, /* page */ 2, /* location */ 3, &mpr_data[0]);
-		ddr_print("MPR Page 2, Loc 3 %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
-#else
-		for (int page = 0; page < 3; page += 2) {
-		    ddr_print("Rank %d: MPR values for Page %d\n", rankx, page);
-		    for (int location = 0; location < 4; location++) {
-			ddr4_mpr_read(node, ddr_interface_num, rankx, page, location, &mpr_data[0]);
-			ddr_print("MPR Page %d, Loc %d %016lx.%016lx.%016lx\n",
-				  page, location, mpr_data[2], mpr_data[1], mpr_data[0]);
-		    }
-		}
-#endif
-
-	    } /* for (rankx = 0; rankx < dimm_count * 4; rankx++) */
-        } /* if (ddr_type == DDR4_DRAM) */
-#endif
 
         /* Enable 32-bit mode if required. */
         lmc_config.s.mode32b         = (! ddr_interface_64b);
