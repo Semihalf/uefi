@@ -8,13 +8,24 @@
 #define debug_bitmask_print(...)
 #endif
 
+static void Display_MPR_Page_Location(bdk_node_t node, int rank,
+                                      int ddr_interface_num, int dimm_count,
+                                      int page, int location, uint64_t *mpr_data);
+
 /* Read out Deskew Settings for DDR */
 
-int Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num)
+typedef struct {
+    int saturated;
+    int locked;
+} deskew_counts_t;
+
+static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num, deskew_counts_t *counts)
 {
     bdk_lmcx_phy_ctl_t phy_ctl;
     int byte_lane, bit_num;
-    int saturate_failures = 0;
+
+    counts->saturated = 0;
+    counts->locked    = 0;
 
     BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                    phy_ctl.s.dsk_dbg_clk_scaler = 3);
@@ -50,16 +61,17 @@ int Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_n
             if (phy_ctl.s.dsk_dbg_rd_data & 0x4)
             {
                 c = '+';        /* Saturated High */
-                ++saturate_failures;
+                ++counts->saturated;
             }
             if (phy_ctl.s.dsk_dbg_rd_data & 0x2)
             {
                 c = '-';        /* Saturated Low */
-                ++saturate_failures;
+                ++counts->saturated;
             }
             if (! (phy_ctl.s.dsk_dbg_rd_data & 0x1))
             {
                 c = '?';        /* Failed to Lock */
+                ++counts->locked;
             }
 
             ddr_print(" %3d %c", phy_ctl.s.dsk_dbg_rd_data >> 3, c);
@@ -67,15 +79,20 @@ int Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_n
         ddr_print("\n");
     }
 	
-    return (saturate_failures);
+    return;
 }
 
-void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num)
+static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num)
 {
-    int locked = 0;
-    int retries = 10;
+    int unsaturated = 0;
+    int locked    = 0;
+    int sat_retries;
+    int lck_retries;
+    int rankx;
+    deskew_counts_t dsk_counts;
 
-    while (retries--) {
+    sat_retries = 10;
+    do {
 
         /*
          * 4.8.8 LMC Deskew Training
@@ -111,16 +128,37 @@ void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interfa
 
         perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
 
+        Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts);
+
         BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                        phy_ctl.s.phy_dsk_reset = 0);
 
         perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
 
-        locked = (Validate_Deskew_Training(node, rank_mask, ddr_interface_num) == 0);
+        Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts);
+        unsaturated = (dsk_counts.saturated == 0);
 
-        if (locked) break;
-    }
-    if (retries <= 0)
+
+        lck_retries = 0;
+        while (lck_retries--) {
+            for (rankx = 0; rankx < 4;rankx++) {
+                if (!(rank_mask & (1 << rankx)))
+                    continue;
+                //Display_MPR_Page(node, rank_mask, ddr_interface_num, 2, 0);
+                //Display_MPR_Page(node, rank_mask, ddr_interface_num, 2, 2);
+                //perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
+                //perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 6); /* write-leveling */
+            }
+
+            Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts);
+            locked      = (dsk_counts.locked    == 0);
+
+            if (locked) break;
+        }
+
+        if (unsaturated) break;
+    } while (sat_retries--);
+    if (sat_retries <= 0)
         ddr_print("Deskew Training Timed Out\n");
 }
 
@@ -915,7 +953,7 @@ static void set_mpr_mode (bdk_node_t node, int rank_mask,
 }
 
 static void do_ddr4_mpr_read(bdk_node_t node, int ddr_interface_num, int rank,
-			     int page, int location, uint64_t *mpr_data)
+                      int page, int location)
 {
     bdk_lmcx_mr_mpr_ctl_t lmc_mr_mpr_ctl;
 
@@ -961,66 +999,47 @@ int set_rdimm_mode(bdk_node_t node, int ddr_interface_num, int enable)
     return (save_rdimm_mode);
 }
 
-#if 1
 static void ddr4_mpr_read(bdk_node_t node, int ddr_interface_num, int rank,
 			  int page, int location, uint64_t *mpr_data)
 {
-    bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank;
-    bdk_lmcx_rlevel_rankx_t save_lmc_rlevel_rank;
-
-    int save_rdimm_ena = set_rdimm_mode(node, ddr_interface_num, 0);
-
-    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rank));
-    save_lmc_rlevel_rank.u = lmc_rlevel_rank.u;
-
-    lmc_rlevel_rank.s.byte8 += 8;
-    lmc_rlevel_rank.s.byte7 += 8;
-    lmc_rlevel_rank.s.byte6 += 8;
-    lmc_rlevel_rank.s.byte5 += 8;
-    lmc_rlevel_rank.s.byte4 += 8;
-    lmc_rlevel_rank.s.byte3 += 8;
-    lmc_rlevel_rank.s.byte2 += 8;
-    lmc_rlevel_rank.s.byte1 += 8;
-    lmc_rlevel_rank.s.byte0 += 8;
-
-    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rank), lmc_rlevel_rank.u);
-
-#if 0
-    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rank));
-
-    ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016lX : %5x %5x %5x %5x %5x %5x %5x %5x %5x\n",
-              rank,
-              lmc_rlevel_rank.s.status,
-              lmc_rlevel_rank.u,
-              lmc_rlevel_rank.s.byte8,
-              lmc_rlevel_rank.s.byte7,
-              lmc_rlevel_rank.s.byte6,
-              lmc_rlevel_rank.s.byte5,
-              lmc_rlevel_rank.s.byte4,
-              lmc_rlevel_rank.s.byte3,
-              lmc_rlevel_rank.s.byte2,
-              lmc_rlevel_rank.s.byte1,
-              lmc_rlevel_rank.s.byte0
-              );
-#endif
-
-    set_mpr_mode(node, (1 << rank), ddr_interface_num, 0, /* mpr */ 1, /* bg1 */ 1); /* B-side */
-
-    do_ddr4_mpr_read(node, ddr_interface_num, rank, page, location, mpr_data);
+    do_ddr4_mpr_read(node, ddr_interface_num, rank, page, location);
 
     mpr_data[0] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA0(ddr_interface_num));
     mpr_data[1] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA1(ddr_interface_num));
     mpr_data[2] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA2(ddr_interface_num));
 
-    //ddr_print("MPR Read %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
-
-    set_mpr_mode (node, (1 << rank), ddr_interface_num, 8, /* mpr */ 0, /* bg1 */ 1); /* B-side */
-
-    set_rdimm_mode(node, ddr_interface_num, save_rdimm_ena);
-
-    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rank), save_lmc_rlevel_rank.u);
+    debug_print("MPR Read %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
 }
-#endif
+
+/* Display MPR values for Page Location */
+static void Display_MPR_Page_Location(bdk_node_t node, int rank,
+                                      int ddr_interface_num, int dimm_count,
+                                      int page, int location, uint64_t *mpr_data)
+{
+    ddr4_mpr_read(node, ddr_interface_num, rank, page, location, mpr_data);
+    ddr_print("MPR Page %d, Loc %d %016lx.%016lx.%016lx\n",
+              page, location, mpr_data[2], mpr_data[1], mpr_data[0]);
+}
+
+/* Display MPR values for Page */
+static void Display_MPR_Page(bdk_node_t node, int rank_mask,
+                      int ddr_interface_num, int dimm_count, int page)
+{
+    int rankx;
+    uint64_t mpr_data[3];
+
+    for (rankx = 0; rankx < dimm_count * 4;rankx++) {
+        if (!(rank_mask & (1 << rankx)))
+            continue;
+
+        ddr_print("Rank %d: MPR values for Page %d\n", rankx, page);
+        for (int location = 0; location < 4; location++) {
+            Display_MPR_Page_Location(node, rankx, ddr_interface_num, dimm_count,
+                                      page, location, &mpr_data[0]);
+        }
+
+    } /* for (rankx = 0; rankx < dimm_count * 4; rankx++) */
+}
 
 void ddr4_mpr_write(bdk_node_t node, int ddr_interface_num, int rank,
                     int page, int location, uint8_t mpr_data)
@@ -3092,15 +3111,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 	    for (i=0; i<4; ++i) {
 		uint64_t value;
-		if ((s = lookup_env_parameter("ddr_vref_value_%1d%1d", !!(i&2), !!(i&1))) != NULL) {
-		    value = strtoul(s, NULL, 0);
-		    lmc_modereg_params2.u &= ~((uint64_t)0x3f  << (i*10+3));
-		    lmc_modereg_params2.u |=  ( (value & 0x3f) << (i*10+3));
-		}
-	    }
-
-	    for (i=0; i<4; ++i) {
-		uint64_t value;
 		if ((s = lookup_env_parameter("ddr_rtt_park_%1d%1d", !!(i&2), !!(i&1))) != NULL) {
 		    value = strtoul(s, NULL, 0);
 		    lmc_modereg_params2.u &= ~((uint64_t)0x7  << (i*10+0));
@@ -4369,7 +4379,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ddr_print("%-45s : %d\n", "MODE32B", lmc_config.s.mode32b);
     }
 
-    Validate_Deskew_Training(node, rank_mask, ddr_interface_num);
+    {
+        deskew_counts_t dsk_counts;
+        Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts);
+    }
 
     /*
      * 4.8.10 LMC Read Leveling
@@ -5847,6 +5860,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         } else {
             limit_l2_ways(node, bdk_l2c_get_num_assoc(node), 0);
         }
+    }
+
+    if (ddr_type == DDR4_DRAM) {
+            Display_MPR_Page(node, rank_mask, ddr_interface_num, dimm_count, 2);
+            Display_MPR_Page(node, rank_mask, ddr_interface_num, dimm_count, 0);
     }
 
 #if 1 // FIXME: this used to be ifdef CAVIUM_ONLY
