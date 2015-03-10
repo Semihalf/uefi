@@ -4592,7 +4592,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             if (! ddr_interface_64b)
                 byte_bitmask = 0x0f;
 
-            rlevel_ctl.s.or_dis   = (! ddr_interface_64b);
+            rlevel_ctl.s.or_dis   = 1;
             rlevel_ctl.s.bitmask  = byte_bitmask;
         }
 
@@ -5522,7 +5522,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         /* Set the final Vref value. */
                         if (best_vref_values_count > 0) {
                             best_vref_values_count = max(best_vref_values_count, 2);
-                            final_vref_value = best_vref_values_start + divide_roundup((best_vref_values_count-1)*5,10);
+                            final_vref_value = best_vref_values_start + divide_roundup((best_vref_values_count-1)*4,10);
                         } else {
                             /* If nothing passed use the default Vref value for this rank */
                             bdk_lmcx_modereg_params2_t lmc_modereg_params2;
