@@ -6,7 +6,8 @@
 #define DEFAULT_INTERNAL_SPD MT18ASF1G72AZ_2G1AYESZG_SPD
 
 #define DEFAULT_NAME   "ebb8804"
-#define DEFAULT_SPEED  1066666666
+//#define DEFAULT_SPEED  1066666666
+#define DEFAULT_SPEED  933333333
 
 #define DEFAULT_LMC_MASK   TWO_LMC_MASK
 #define DEFAULT_DIMM_MASK  ONE_DIMM_MASK
@@ -72,25 +73,25 @@ static void setup_modereg_params1_1rank_1slot(bdk_lmcx_modereg_params1_t *modere
     modereg->s.asr_00       = 0;
     modereg->s.srt_00       = 0;
     modereg->s.rtt_wr_00    = 0;
-    modereg->s.dic_00       = ddr4_dic_34ohm;
+    modereg->s.dic_00       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_00   = 0;
     modereg->s.pasr_01      = 0;
     modereg->s.asr_01       = 0;
     modereg->s.srt_01       = 0;
     modereg->s.rtt_wr_01    = 0;
-    modereg->s.dic_01       = ddr4_dic_34ohm;
+    modereg->s.dic_01       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_01   = 0;
     modereg->s.pasr_10      = 0;
     modereg->s.asr_10       = 0;
     modereg->s.srt_10       = 0;
     modereg->s.rtt_wr_10    = 0;
-    modereg->s.dic_10       = ddr4_dic_34ohm;
+    modereg->s.dic_10       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_10   = 0;
     modereg->s.pasr_11      = 0;
     modereg->s.asr_11       = 0;
     modereg->s.srt_11       = 0;
     modereg->s.rtt_wr_11    = 0;
-    modereg->s.dic_11       = ddr4_dic_34ohm;
+    modereg->s.dic_11       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_11   = 0;
 }
 
@@ -101,25 +102,25 @@ static void setup_modereg_params1_1rank_2slot(bdk_lmcx_modereg_params1_t *modere
     modereg->s.asr_00       = 0;
     modereg->s.srt_00       = 0;
     modereg->s.rtt_wr_00    = ddr4_rttwr_120ohm;
-    modereg->s.dic_00       = ddr4_dic_34ohm;
+    modereg->s.dic_00       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_00   = 0;
     modereg->s.pasr_01      = 0;
     modereg->s.asr_01       = 0;
     modereg->s.srt_01       = 0;
     modereg->s.rtt_wr_01    = 0;
-    modereg->s.dic_01       = ddr4_dic_34ohm;
+    modereg->s.dic_01       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_01   = 0;
     modereg->s.pasr_10      = 0;
     modereg->s.asr_10       = 0;
     modereg->s.srt_10       = 0;
     modereg->s.rtt_wr_10    = ddr4_rttwr_120ohm;
-    modereg->s.dic_10       = ddr4_dic_34ohm;
+    modereg->s.dic_10       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_10   = 0;
     modereg->s.pasr_11      = 0;
     modereg->s.asr_11       = 0;
     modereg->s.srt_11       = 0;
     modereg->s.rtt_wr_11    = 0;
-    modereg->s.dic_11       = ddr4_dic_34ohm;
+    modereg->s.dic_11       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_11   = 0;
 }
 
@@ -129,26 +130,26 @@ static void setup_modereg_params1_2rank_1slot(bdk_lmcx_modereg_params1_t *modere
     modereg->s.pasr_00      = 0;
     modereg->s.asr_00       = 0;
     modereg->s.srt_00       = 0;
-    modereg->s.rtt_wr_00    = ddr4_rttwr_240ohm;
-    modereg->s.dic_00       = ddr4_dic_34ohm;
+    modereg->s.rtt_wr_00    = ddr4_rttwr_120ohm;
+    modereg->s.dic_00       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_00   = 0;
     modereg->s.pasr_01      = 0;
     modereg->s.asr_01       = 0;
     modereg->s.srt_01       = 0;
-    modereg->s.rtt_wr_01    = ddr4_rttwr_240ohm;
-    modereg->s.dic_01       = ddr4_dic_34ohm;
+    modereg->s.rtt_wr_01    = ddr4_rttwr_120ohm;
+    modereg->s.dic_01       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_01   = 0;
     modereg->s.pasr_10      = 0;
     modereg->s.asr_10       = 0;
     modereg->s.srt_10       = 0;
     modereg->s.rtt_wr_10    = 0;
-    modereg->s.dic_10       = ddr4_dic_34ohm;
+    modereg->s.dic_10       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_10   = 0;
     modereg->s.pasr_11      = 0;
     modereg->s.asr_11       = 0;
     modereg->s.srt_11       = 0;
     modereg->s.rtt_wr_11    = 0;
-    modereg->s.dic_11       = ddr4_dic_34ohm;
+    modereg->s.dic_11       = ddr4_dic_48ohm;
     modereg->s.rtt_nom_11   = 0;
 }
 
@@ -158,27 +159,27 @@ static void setup_modereg_params1_2rank_2slot(bdk_lmcx_modereg_params1_t *modere
     modereg->s.pasr_00      = 0;
     modereg->s.asr_00       = 0;
     modereg->s.srt_00       = 0;
-    modereg->s.rtt_wr_00    = ddr4_rttwr_240ohm;
-    modereg->s.dic_00       = ddr4_dic_34ohm;
-    modereg->s.rtt_nom_00   = ddr4_rttnom_120ohm;
+    modereg->s.rtt_wr_00    = ddr4_rttwr_120ohm;
+    modereg->s.dic_00       = ddr4_dic_48ohm;
+    modereg->s.rtt_nom_00   = ddr4_rttnom_240ohm;
     modereg->s.pasr_01      = 0;
     modereg->s.asr_01       = 0;
     modereg->s.srt_01       = 0;
-    modereg->s.rtt_wr_01    = ddr4_rttwr_240ohm;
-    modereg->s.dic_01       = ddr4_dic_34ohm;
-    modereg->s.rtt_nom_01   = ddr4_rttnom_120ohm;
+    modereg->s.rtt_wr_01    = ddr4_rttwr_120ohm;
+    modereg->s.dic_01       = ddr4_dic_48ohm;
+    modereg->s.rtt_nom_01   = ddr4_rttnom_240ohm;
     modereg->s.pasr_10      = 0;
     modereg->s.asr_10       = 0;
     modereg->s.srt_10       = 0;
-    modereg->s.rtt_wr_10    = ddr4_rttwr_240ohm;
-    modereg->s.dic_10       = ddr4_dic_34ohm;
-    modereg->s.rtt_nom_10   = ddr4_rttnom_120ohm;
+    modereg->s.rtt_wr_10    = ddr4_rttwr_120ohm;
+    modereg->s.dic_10       = ddr4_dic_48ohm;
+    modereg->s.rtt_nom_10   = ddr4_rttnom_240ohm;
     modereg->s.pasr_11      = 0;
     modereg->s.asr_11       = 0;
     modereg->s.srt_11       = 0;
-    modereg->s.rtt_wr_11    = ddr4_rttwr_240ohm;
-    modereg->s.dic_11       = ddr4_dic_34ohm;
-    modereg->s.rtt_nom_11   = ddr4_rttnom_120ohm;
+    modereg->s.rtt_wr_11    = ddr4_rttwr_120ohm;
+    modereg->s.dic_11       = ddr4_dic_48ohm;
+    modereg->s.rtt_nom_11   = ddr4_rttnom_240ohm;
 }
 
 static void setup_modereg_params1_4rank_1slot(bdk_lmcx_modereg_params1_t *modereg)
@@ -213,7 +214,7 @@ static void setup_modereg_params1_4rank_1slot(bdk_lmcx_modereg_params1_t *modere
 static void setup_modereg_params2_1rank_1slot(bdk_lmcx_modereg_params2_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.rtt_park_00    = ddr4_rttpark_60ohm;
+    modereg->s.rtt_park_00    = ddr4_rttpark_40ohm;
     modereg->s.vref_value_00  = 0x22;
     modereg->s.vref_range_00  = 0;
     modereg->s.rtt_park_01    = 0;
@@ -237,7 +238,7 @@ static void setup_modereg_params2_1rank_2slot(bdk_lmcx_modereg_params2_t *modere
     modereg->s.vref_value_01  = 0;
     modereg->s.vref_range_01  = 0;
     modereg->s.rtt_park_10    = ddr4_rttpark_34ohm;
-    modereg->s.vref_value_10  = 0;
+    modereg->s.vref_value_10  = 0x1f;
     modereg->s.vref_range_10  = 0;
     modereg->s.rtt_park_11    = 0;
     modereg->s.vref_value_11  = 0;
@@ -247,10 +248,10 @@ static void setup_modereg_params2_1rank_2slot(bdk_lmcx_modereg_params2_t *modere
 static void setup_modereg_params2_2rank_1slot(bdk_lmcx_modereg_params2_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.rtt_park_00    = ddr4_rttpark_40ohm;
+    modereg->s.rtt_park_00    = ddr4_rttpark_80ohm;
     modereg->s.vref_value_00  = 0x19;
     modereg->s.vref_range_00  = 0;
-    modereg->s.rtt_park_01    = ddr4_rttpark_40ohm;
+    modereg->s.rtt_park_01    = ddr4_rttpark_80ohm;
     modereg->s.vref_value_01  = 0x19;
     modereg->s.vref_range_01  = 0;
     modereg->s.rtt_park_10    = 0;
@@ -264,16 +265,16 @@ static void setup_modereg_params2_2rank_1slot(bdk_lmcx_modereg_params2_t *modere
 static void setup_modereg_params2_2rank_2slot(bdk_lmcx_modereg_params2_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.rtt_park_00    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_00    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_00  = 0x19;
     modereg->s.vref_range_00  = 0;
-    modereg->s.rtt_park_01    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_01    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_01  = 0x19;
     modereg->s.vref_range_01  = 0;
-    modereg->s.rtt_park_10    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_10    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_10  = 0x19;
     modereg->s.vref_range_10  = 0;
-    modereg->s.rtt_park_11    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_11    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_11  = 0x19;
     modereg->s.vref_range_11  = 0;
 }
@@ -298,41 +299,41 @@ static void setup_modereg_params2_4rank_1slot(bdk_lmcx_modereg_params2_t *modere
 static void setup_dram_odt_1rank_configuration(dimm_odt_config_t odt[4])
 {
     int dimm = 0;
-    odt[dimm].odt_ena = 5; /* DQX_CTL */
-    odt[dimm].odt_mask = 0x00000001ULL; /* WODT_MASK */
+    odt[dimm].odt_ena = ddr4_dqx_driver_40_ohm; /* DQX_CTL */
+    odt[dimm].odt_mask = 0x00000000ULL; /* WODT_MASK */
     setup_modereg_params1_1rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     setup_modereg_params2_1rank_1slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
-    odt[dimm].qs_dic = 7; /* RODT_CTL */
+    odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x00000000ULL; /* RODT_MASK */
     odt[dimm].dic = 0; /* Reserved */
 
     dimm = 1;
-    odt[dimm].odt_ena = 4; /* DQX_CTL */
+    odt[dimm].odt_ena = ddr4_dqx_driver_34_ohm; /* DQX_CTL */
     odt[dimm].odt_mask = 0x00000000ULL; /* WODT_MASK */
     setup_modereg_params1_1rank_2slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     setup_modereg_params2_1rank_2slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
-    odt[dimm].qs_dic = 7; /* RODT_CTL */
-    odt[dimm].rodt_ctl = 0x00040001ULL; /* RODT_MASK */
+    odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
+    odt[dimm].rodt_ctl = 0x00000000ULL; /* RODT_MASK */
     odt[dimm].dic = 0; /* Reserved */
 }
 
 static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
 {
     int dimm = 0;
-    odt[dimm].odt_ena = 5; /* DQX_CTL */
-    odt[dimm].odt_mask = 0x00000201ULL; /* WODT_MASK */
+    odt[dimm].odt_ena = ddr4_dqx_driver_40_ohm; /* DQX_CTL */
+    odt[dimm].odt_mask = 0x00000000ULL; /* WODT_MASK */
     setup_modereg_params1_2rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     setup_modereg_params2_2rank_1slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
-    odt[dimm].qs_dic = 7; /* RODT_CTL */
+    odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x00000000ULL; /* RODT_MASK */
     odt[dimm].dic = 0; /* Reserved */
 
     dimm = 1;
-    odt[dimm].odt_ena = 4; /* DQX_CTL */
-    odt[dimm].odt_mask = 0x0c0c0303ULL; /* WODT_MASK */
+    odt[dimm].odt_ena = ddr4_dqx_driver_34_ohm; /* DQX_CTL */
+    odt[dimm].odt_mask = 0x04080102ULL; /* WODT_MASK */
     setup_modereg_params1_2rank_2slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     setup_modereg_params2_2rank_2slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
-    odt[dimm].qs_dic = 7; /* RODT_CTL */
+    odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x04080102ULL; /* RODT_MASK */
     odt[dimm].dic = 0; /* Reserved */
 }
@@ -340,11 +341,11 @@ static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
 static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
 {
     int dimm = 0;
-    odt[dimm].odt_ena = 4; /* DQX_CTL */
+    odt[dimm].odt_ena = ddr4_dqx_driver_34_ohm; /* DQX_CTL */
     odt[dimm].odt_mask = 0x01030203ULL; /* WODT_MASK */
     setup_modereg_params1_4rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     setup_modereg_params2_4rank_1slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
-    odt[dimm].qs_dic = 7; /* RODT_CTL */
+    odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x01010202ULL; /* RODT_MASK */
     odt[dimm].dic = 0; /* Reserved */
 }
@@ -355,9 +356,9 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     cfg->max_rtt_nom_idx        = 7;
     cfg->min_rodt_ctl           = 1;
     cfg->max_rodt_ctl           = 7;
-    cfg->ck_ctl                 = 5;
-    cfg->cmd_ctl                = 5;
-    cfg->ctl_ctl                = 5;
+    cfg->ck_ctl                 = ddr4_driver_40_ohm;
+    cfg->cmd_ctl                = ddr4_driver_40_ohm;
+    cfg->ctl_ctl                = ddr4_driver_40_ohm;
     cfg->min_cas_latency        = 0;
     cfg->offset_en              = 1;
     cfg->offset_udimm           = 2;
