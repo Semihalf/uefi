@@ -108,6 +108,11 @@ void __bdk_init_node(bdk_node_t node)
             BDK_CSR_WRITE(node, BDK_SMMUX_SSDRX(smmu, id), 0);
     }
 
+    if (BDK_IS_REQUIRED(TNS))
+    {
+        BDK_TRACE(INIT, "N%d: Initialize TNS\n", node);
+        bdk_tns_initialize(node);
+    }
 
     if (BDK_IS_REQUIRED(ERROR_DECODE) && !bdk_is_platform(BDK_PLATFORM_ASIM))
     {
