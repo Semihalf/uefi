@@ -3709,6 +3709,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
     }
 
+    int offset_vref_training_loops = 2;
+    while (--offset_vref_training_loops) {
     /*
      * 4.8.6 LMC Offset Training
      * 
@@ -3781,6 +3783,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      */
 
     perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Internal Vref Training */
+    }
 
     perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num);
 
@@ -5491,7 +5494,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             int bytes_failed;
             sw_wl_status_t byte_test_status[9];
             sw_wl_status_t sw_wl_rank_status = WL_HARDWARE;
-            int old_byte8 = -1;
 
             if (!sw_wlevel_enable)
                 break;
@@ -5608,10 +5610,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             if ((save_byte8 != lmc_wlevel_rank.s.byte3) &&
                                 (save_byte8 != lmc_wlevel_rank.s.byte4)) {
 
-                                old_byte8 = ~1 & divide_nint(lmc_wlevel_rank.s.byte3
-                                                            + lmc_wlevel_rank.s.byte4
-                                                            + 2 /* round-up*/ , 2);
-
                                 int test_byte8 = save_byte8;
                                 int test_byte8_error;
                                 int byte8_error = 0x1f;
@@ -5632,7 +5630,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                 byte_test_status[8] = WL_SOFTWARE; /* Estimated delay */
                             }
                         } else {
-			    old_byte8 = 0;
 			    byte_test_status[8] = WL_HARDWARE; /* H/W delay value */
                             lmc_wlevel_rank.s.byte8 = lmc_wlevel_rank.s.byte0; /* ECC is not used */
                         }
@@ -5767,11 +5764,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
             lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
-            ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %2d,%2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %s\n",
+            ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %2d%3s %s\n",
                       rankx,
                       lmc_wlevel_rank.s.status,
                       lmc_wlevel_rank.u,
-                      lmc_wlevel_rank.s.byte8, old_byte8, wl_status_strings[byte_test_status[8]],
+                      lmc_wlevel_rank.s.byte8, wl_status_strings[byte_test_status[8]],
                       lmc_wlevel_rank.s.byte7, wl_status_strings[byte_test_status[7]],
                       lmc_wlevel_rank.s.byte6, wl_status_strings[byte_test_status[6]],
                       lmc_wlevel_rank.s.byte5, wl_status_strings[byte_test_status[5]],
