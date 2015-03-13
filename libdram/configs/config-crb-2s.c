@@ -325,7 +325,7 @@ static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
     odt[dimm].odt_mask = 0x00000000ULL; /* WODT_MASK */
     setup_modereg_params1_2rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     setup_modereg_params2_2rank_1slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
-    odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
+    odt[dimm].qs_dic = ddr4_rodt_ctl_34_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x00000000ULL; /* RODT_MASK */
     odt[dimm].dic = 0; /* Reserved */
 
