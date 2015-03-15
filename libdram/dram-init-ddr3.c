@@ -5526,6 +5526,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             best_vref_values_count = max(best_vref_values_count, 2);
                             final_vref_value = best_vref_values_start + divide_roundup((best_vref_values_count-1)*4,10);
                         } else {
+                            error_print("ERROR: Vref training failed.  Resetting...\n");
+                            bdk_wait_usec(500000);
+                            bdk_reset_chip(node);
+
                             /* If nothing passed use the default Vref value for this rank */
                             bdk_lmcx_modereg_params2_t lmc_modereg_params2;
 
@@ -5667,12 +5671,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                     if (vref_values_count > best_vref_values_count) {
                         best_vref_values_count = vref_values_count;
                         best_vref_values_start = vref_values_start;
-                        debug_print("Rank(%d) Vref Training                         :    0x%02x <----- ???? -----> 0x%02x\n",
-                                  rankx, best_vref_values_start,
+                        debug_print("Rank(%d) Vref Training                    (%2d) :    0x%02x <----- ???? -----> 0x%02x\n",
+                                  rankx, vref_value, best_vref_values_start,
                                   best_vref_values_start+best_vref_values_count-1);
                     }
                 } else {
                     vref_values_count = 0;
+                        debug_print("Rank(%d) Vref Training                    (%2d) :    failed\n",
+                                  rankx, vref_value);
                 }
             } /* for (vref_value=0; vref_value<0x33; ++vref_value) */
 
