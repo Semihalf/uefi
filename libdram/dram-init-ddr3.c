@@ -5526,7 +5526,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             best_vref_values_count = max(best_vref_values_count, 2);
                             final_vref_value = best_vref_values_start + divide_roundup((best_vref_values_count-1)*4,10);
                         } else {
-                            error_print("ERROR: Vref training failed.  Resetting...\n");
+                            error_print("ERROR: Vref training failed.  Resetting node(%d)...\n", node);
                             bdk_wait_usec(500000);
                             bdk_reset_chip(node);
 
