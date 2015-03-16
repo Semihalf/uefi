@@ -11,7 +11,7 @@
 # 8 Hz = Jumped to copied code
 # 16 Hz = Calculated the CRC over the entire copied area
 # 32 Hz = Last assembly, jumping to C code in __bdk_init()
-# 64 Hz = Node ID is non-zero
+# 64 Hz = Node ID is incrrect
 #
 #define BDK_GPIO_BOOT_DEBUG -1
 
@@ -80,7 +80,7 @@ __bdk_start:
     mov     x1, (L2C_ASC_REGIONX & 0xffffffff)
     orr     x0, x0, x1
     str     xzr, [x0, REGIONX_START]    /* Start of zero */
-    mov     x1, 0xfffff00000            /* End of max address */
+    mov     x1, 0x3fffff00000           /* End of max address */
     str     x1, [x0, REGIONX_END]
     mov     x1, 2                       /* Secure only access */
     str     x1, [x0, REGIONX_ATTR]
@@ -97,13 +97,15 @@ __bdk_start:
     str     x0, [x20, GPIO_CLK_OFFSET]
 #endif
 
-    /* Check that we're running on node 0 */
+    /* Check that we're running on the node we're linked for */
     mrs     x0, MPIDR_EL1
-    ubfx    x0, x0, 16, 8
-    cbnz    x0, __bdk_non_zero_node
+    mov     x1, BDK_LINK_ADDRESS >> 40
+    ubfx    x0, x0, 16, 8       /* Bits 23:16 are the physical node ID */
+    cmp     x0, x1
+    b.ne    __bdk_incorrect_node
 
     /* Relocate ourself if we aren't running at our link address */
-    mov     x0, _start          /* x0 = _start location as an absolute */
+    mov     x0, BDK_LINK_ADDRESS/* x0 = _start location as an absolute */
     adr     x1, _start          /* x1 = _start location based on PC */
     cmp     x0, x1              /* See if we're running at the right location */
     b.eq    after_relocate      /* Skip relocate if we're already there */
@@ -127,6 +129,8 @@ copy_code:
 #endif
 
     mov     x0, after_relocate  /* Load the actual location we're suppose to be at */
+    mov     x1, BDK_LINK_ADDRESS
+    add     x0, x0, x1
     br      x0                  /* Branch to relocated code */
 
 after_relocate:
@@ -218,7 +222,7 @@ __bdk_start_cores:
     bl      __bdk_init
 1:  b       1b              /* Infinite loop we should never reach */
 
-__bdk_non_zero_node:
+__bdk_incorrect_node:
 #if BDK_GPIO_BOOT_DEBUG >= 0
     # 32x the GPIO frequency (64Hz)
     ldr     x0, [x20, GPIO_CLK_OFFSET]
@@ -230,7 +234,7 @@ __bdk_non_zero_node:
     adr     x10, __bdk_initial_stack_end
     msr     SPSel, 0            /* Use the EL0 stack */
     mov     sp, x10             /* Update the stack */
-    bl      __bdk_init_non_zero_node
+    bl      __bdk_init_incorrect_node
 
 
     .macro exception_stub label

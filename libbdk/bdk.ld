@@ -7,7 +7,7 @@ SEARCH_DIR("/home/jenkins/workspace/BuildToolchainAARCH64_thunder/toolchain/scri
 SECTIONS
 {
   /* Read-only sections, merged into text segment: */
-  PROVIDE (__executable_start = SEGMENT_START("text-segment", 0x0)); . = SEGMENT_START("text-segment", 0x0);
+  PROVIDE (__executable_start = SEGMENT_START("text-segment", BDK_LINK_ADDRESS)); . = SEGMENT_START("text-segment", BDK_LINK_ADDRESS);
   .interp         : { *(.interp) }
   .note.gnu.build-id : { *(.note.gnu.build-id) }
   .hash           : { *(.hash) }
