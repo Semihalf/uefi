@@ -429,7 +429,8 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
     if (freq_mhz == 0)
         freq_mhz = 10;
 
-    snprintf(buffer, buffer_size, "/dev/n0.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
+    snprintf(buffer, buffer_size, "/dev/n%d.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
+        node,
         chip_select,
         (active_high) ? 'h' : 'l',
         idle_mode,
@@ -594,7 +595,9 @@ int main(void)
             }
             case 2: /* eMMC / SD */
             {
-                choose_image("/dev/n0.mmc0");
+                char name[48];
+                sprintf(name, "/dev/n%d.mmc0", node);
+                choose_image(name);
                 break;
             }
             case 3: /* SPI */
@@ -620,7 +623,7 @@ int main(void)
                 if (option == 5)
                     create_spi_device_name(name, sizeof(name), boot_method);
                 else
-                    strcpy(name, "/dev/n0.mmc0");
+                    sprintf(name, "/dev/n%d.mmc0", node);
                 do_upload(name, offset);
                 break;
             }

@@ -36,8 +36,16 @@ static __bdk_fs_file_t file_handle[MAX_FILE_HANDLES] = {
     [0] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
     [1] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
     [2] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
+#if BDK_LINK_ADDRESS == 0
+    /* Use node 0 devices */
     [3] = { .fs_state = &bdk_fs_dev_uart0, .ops = &bdk_fs_dev_ops, .filename = "/dev/n0.uart0" },
     [4] = { .fs_state = &bdk_fs_dev_uart1, .ops = &bdk_fs_dev_ops, .filename = "/dev/n0.uart1" },
+#else
+    /* Use node 1 devices */
+    [3] = { .fs_state = &bdk_fs_dev_uart0, .ops = &bdk_fs_dev_ops, .filename = "/dev/n1.uart0" },
+    [4] = { .fs_state = &bdk_fs_dev_uart1, .ops = &bdk_fs_dev_ops, .filename = "/dev/n1.uart1" },
+    /* FIXME: Support uart on node 2 and 3 */
+#endif
 };
 #undef errno
 extern int errno;
