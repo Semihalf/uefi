@@ -184,7 +184,7 @@ void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
     if (l2c_ctl.s.disidxalias)
 	*lmc = EXTRACT(address, 7, xbits);
     else
-	*lmc = EXTRACT(address, 7, xbits) ^ EXTRACT(address, 18, xbits) ^ EXTRACT(address, 12, xbits);
+	*lmc = EXTRACT(address, 7, xbits) ^ EXTRACT(address, 20, xbits) ^ EXTRACT(address, 12, xbits);
 
     /* Figure out the bank field width */
     BDK_CSR_INIT(lmcx_config, *node, BDK_LMCX_CONFIG(*lmc));
