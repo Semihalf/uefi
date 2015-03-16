@@ -109,6 +109,12 @@ wait_for("Main Menu")
 wait_for("=================================")
 wait_for("(INS)Menu choice []:")
 
+send("config multinode 1 quit")
+wait_for("=================================")
+wait_for("Main Menu")
+wait_for("=================================")
+wait_for("(INS)Menu choice []:")
+
 send("tg")
 wait_for("BDK Traffic Generator")
 wait_for("Type \"help\" for a list of commands")
