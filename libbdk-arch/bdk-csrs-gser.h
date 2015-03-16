@@ -340,7 +340,7 @@ typedef union bdk_gserx_br_txx_cur {
                                                                  For diagnostic use only.
                                                                  \<13:9\> = TX_POST\<4:0\>.
                                                                  \<8:4\> = TX_SWING\<4:0\>.
-                                                                 \<3:0\> = TX_PRE\<4:0\>. */
+                                                                 \<3:0\> = TX_PRE\<3:0\>. */
 #else
 		uint64_t txt_cur                     : 14;
 		uint64_t reserved_14_63              : 50;

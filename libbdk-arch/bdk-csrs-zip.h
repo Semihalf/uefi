@@ -1682,27 +1682,28 @@ typedef union bdk_zip_quex_done {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_20_63              : 44;
 		uint64_t done                        : 20; /**< R/W/H - Done count. When ZIP_INST_S[DONEINT] set and that instruction completes,
-                                                                 ZIP_QUE(0..7)_DONE[DONE] is incremented when the instruction finisihes. Write to this
-                                                                 field are for diagnostic use only; instead software writes ZIP_QUE(0..7)_DONE_ACK[DONE]
+                                                                 ZIP_QUE()_DONE[DONE] is incremented when the instruction finisihes. Write to this
+                                                                 field are for diagnostic use only; instead software writes ZIP_QUE()_DONE_ACK[DONE]
                                                                  with the number of decrements for this field.
 
                                                                  Interrupts are sent as follows:
 
-                                                                 * When ZIP_QUE(0..7)_DONE[DONE] = 0, then no results are pending, the interrupt coalescing
+                                                                 * When ZIP_QUE()_DONE[DONE] = 0, then no results are pending, the interrupt coalescing
                                                                  timer is held to zero, and an interrupt is not sent.
 
-                                                                 * When ZIP_QUE(0..7)_DONE[DONE] != 0, then the interrupt coalescing timer counts. If the
-                                                                 counter is less than ZIP_QUE(0..7)_DONE_WAIT[TIME_WAIT]*1024, and ZIP_QUE(0..7)_DONE[DONE]
-                                                                 \< ZIP_QUE(0..7)_DONE_WAIT[NUM_WAIT] , i.e. not enough time has passed or not enough
-                                                                 results have arrived, then interrupts are not sent due to coalescing.
+                                                                 * When ZIP_QUE()_DONE[DONE] != 0, then the interrupt coalescing timer counts. If
+                                                                 the counter is \>= ZIP_QUE()_DONE_WAIT[TIME_WAIT]*1024, or ZIP_QUE()_DONE[DONE]
+                                                                 >= ZIP_QUE()_DONE_WAIT[NUM_WAIT], i.e.enough time has passed or enough results
+                                                                 have arrived, then the interrupt is sent.  Otherwise, it is not sent due to
+                                                                 coalescing.
 
-                                                                 * When ZIP_QUE(0..7)_DONE_ACK is written, the interrupt coalescing timer restarts.
+                                                                 * When ZIP_QUE()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 ZIP_QUE(0..7)_DONE[DONE] \>= ZIP_QUE(0..7)_DONE_WAIT[NUM_WAIT] and the timer is zero, the
-                                                                 interrupt will be resent immediately.  (This covers the race case between software
-                                                                 acknowledging an interrupt and a result returning.)
+                                                                 ZIP_QUE()_DONE[DONE] \>= ZIP_QUE()_DONE_WAIT[NUM_WAIT] and the timer is zero, the
+                                                                 interrupt will be resent immediately.  (This covers the race case between
+                                                                 software acknowledging an interrupt and a result returning.)
 
-                                                                 * When ZIP_QUE(0..7)_DONE_ENA_W1S[DONE_ENA] = 0, interrupts are not sent, but the counting
+                                                                 * When ZIP_QUE()_DONE_ENA_W1S[DONE_ENA] = 0, interrupts are not sent, but the counting
                                                                  described above still occurs.
 
                                                                  Since ZIP instructions within a queue can complete out-of-order when the queue is mapped
@@ -1710,7 +1711,7 @@ typedef union bdk_zip_quex_done {
                                                                  request a DONEINT on each request, and when an interrupt arrives perform a "greedy" scan
                                                                  for completions; even if a later command is acknowledged first this will not result in
                                                                  missing a completion. Software could also use ZIP_ZRES_S[DONEINT] to check when
-                                                                 instruction needs to be counted into ZIP_QUE(0..7)_DONE/ZIP_QUE(0..7)_DONE_ACK. */
+                                                                 instruction needs to be counted into ZIP_QUE()_DONE/ZIP_QUE()_DONE_ACK. */
 #else
 		uint64_t done                        : 20;
 		uint64_t reserved_20_63              : 44;
@@ -1737,7 +1738,7 @@ static inline uint64_t BDK_ZIP_QUEX_DONE(unsigned long param1)
 /**
  * NCB - zip_que#_done_ack
  *
- * Write to these registers will decreament the per-queue instruction done count.
+ * This register is written by software to acknowledge interrupts.
  *
  */
 typedef union bdk_zip_quex_done_ack {
@@ -1745,9 +1746,11 @@ typedef union bdk_zip_quex_done_ack {
 	struct bdk_zip_quex_done_ack_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_20_63              : 44;
-		uint64_t done_ack                    : 20; /**< R/W/H - Number of decrements to ZIP_QUE(0..7)_DONE[DONE]. If ZIP_QUE(0..7)_DONE[DONE] is still
+		uint64_t done_ack                    : 20; /**< R/W/H - Number of decrements to ZIP_QUE()_DONE[DONE]. Reads ZIP_QUE()_DONE[DONE].
+
+                                                                 Written by software to acknowledge interrupts. If ZIP_QUE()_DONE[DONE] is still
                                                                  non-zero the interrupt will be re-sent if the conditions described in
-                                                                 ZIP_QUE(0..7)_DONE[DONE] are satified. */
+                                                                 ZIP_QUE()_DONE[DONE] are satified. */
 #else
 		uint64_t done_ack                    : 20;
 		uint64_t reserved_20_63              : 44;

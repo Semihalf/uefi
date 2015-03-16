@@ -836,7 +836,7 @@ static inline uint64_t BDK_DFA_DIFRDPTR_FUNC(void)
 /**
  * NCB - dfa_done_ack
  *
- * Write to this register will decreament the instruction done count DFA_INT_STATUS[DONE_CNT].
+ * This register is written by software to acknowledge interrupts.
  *
  */
 typedef union bdk_dfa_done_ack {
@@ -844,12 +844,12 @@ typedef union bdk_dfa_done_ack {
 	struct bdk_dfa_done_ack_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_20_63              : 44;
-		uint64_t done_ack                    : 20; /**< R/W/H - Number of decrements to DFA_INT_STATUS[DONE_CNT].
-                                                                 A write to DONE_ACK acknowledges the number of completions that were serviced.
-                                                                 Reads DFA_INT_STATUS[DONE_CNT].
-                                                                 If DFA_DONE_ACK[DONE_ACK] \< ( DFA_INT_STATUS[DONE_CNT] - DFA_DONE_WAIT[NUM_WAIT] )
-                                                                 interrupt
-                                                                 DFA_INT_DONE[INST_DONE] will still be genereated. */
+		uint64_t done_ack                    : 20; /**< R/W/H - Number of decrements to DFA_INT_STATUS[DONE_CNT]. Reads
+                                                                 DFA_INT_STATUS[DONE_CNT].
+
+                                                                 Written by software to acknowledge interrupts.  If DFA_INT_STATUS[DONE_CNT] is
+                                                                 still non-zero the interrupt will be re-sent if the conditions described in
+                                                                 DFA_INT_STATUS[DONE_CNT] are satified. */
 #else
 		uint64_t done_ack                    : 20;
 		uint64_t reserved_20_63              : 44;
@@ -1318,16 +1318,36 @@ typedef union bdk_dfa_int_status {
                                                                  RWORD1+[NHMSK]=cna.hmsk
                                                                  RWORD1+[NNPTR]=cna.nnptr[13:0] */
 		uint64_t reserved_20_31              : 12;
-		uint64_t done_cnt                    : 20; /**< R/W/H - Instruction Done Counter. This register will hold the value of how many instruction were
-                                                                 done and are still pending SW post processing.
-                                                                 Counter is incremented by HW when an instruction completes and it is decremented when
-                                                                 SW writes DFA_DONE_ACK[DONE_ACK].
+		uint64_t done_cnt                    : 20; /**< R/W/H - Done count. When an instruction completes, DFA_INT_STATUS[DONE_CNT] is
+                                                                 incremented when the instruction finisihes. Write to this field are for
+                                                                 diagnostic use only; instead software writes DFA_DONE_ACK[DONE] with the
+                                                                 number of decrements for this field.
 
-                                                                 When software is done servicing DFA_INT_DONE[INST_DONE] interrupt, it should
-                                                                 write this register with the value of how many instruction's results were
-                                                                 serviced. That value will be subtracted from the hardware DONE_CNT value. If
-                                                                 after the subtraction the counter is still greater than zero a new
-                                                                 DFA_INT_DONE[INST_DONE] interrupt will be set. */
+                                                                 Interrupts are sent as follows:
+
+                                                                 * When DFA_INT_STATUS[DONE_CNT] = 0, then no results are pending, the interrupt
+                                                                 coalescing timer is held to zero, and an interrupt is not sent.
+
+                                                                 * When DFA_INT_STATUS[DONE_CNT] != 0, then the interrupt coalescing timer counts. If
+                                                                 the counter is \>= DFA_DONE_WAIT[TIME_WAIT]*1024, or DFA_INT_STATUS[DONE_CNT]
+                                                                 >= DFA_DONE_WAIT[NUM_WAIT], i.e.enough time has passed or enough results
+                                                                 have arrived, then the interrupt is sent.  Otherwise, it is not sent due to
+                                                                 coalescing.
+
+                                                                 * When DFA_DONE_ACK is written, the interrupt coalescing timer restarts.
+                                                                 Note after decrementing this interrupt equation is recomputed, for example if
+                                                                 DFA_INT_STATUS[DONE_CNT] \>= DFA_DONE_WAIT[NUM_WAIT] and the timer is zero, the
+                                                                 interrupt will be resent immediately.  (This covers the race case between
+                                                                 software acknowledging an interrupt and a result returning.)
+
+                                                                 * When DFA_INT_DONE_ENA_W1S[DONE_ENA] = 0, interrupts are not sent, but the counting
+                                                                 described above still occurs.
+
+                                                                 Since DFA instructions can complete out-of-order, if software is using
+                                                                 completion interrupts the suggested scheme is to request a DONEINT on each
+                                                                 request, and when an interrupt arrives perform a "greedy" scan for completions;
+                                                                 even if a later command is acknowledged first this will not result in missing a
+                                                                 completion. */
 #else
 		uint64_t done_cnt                    : 20;
 		uint64_t reserved_20_31              : 12;
