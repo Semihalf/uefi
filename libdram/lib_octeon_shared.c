@@ -778,7 +778,7 @@ int initialize_ddr_clock(bdk_node_t node,
                 uint64_t best_pll_MHz = 0;
                 uint64_t pll_MHz;
                 uint64_t min_pll_MHz = 800;
-                uint64_t max_pll_MHz = 5000;
+                uint64_t max_pll_MHz = 4000;
                 uint64_t error;
                 uint64_t best_error;
                 uint64_t best_calculated_ddr_hertz = 0;

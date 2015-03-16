@@ -162,6 +162,35 @@ static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_
         ddr_print("Deskew Training Timed Out\n");
 }
 
+int compute_Vref_float(int rtt_wr, int rtt_park, int dqx_ctl)
+{
+    float Reff;
+    float Rser = 15;
+    float Vdd = 1200;
+    float Vref;
+    int Vref_value;
+    float rtt_wr_f = (float) (rtt_wr == 0 ? 1*1024*1024 : rtt_wr);
+    float rtt_park_f = (float) (rtt_park == 0 ? 1*1024*1024 : rtt_park);
+    float dqx_ctl_f = (float) (dqx_ctl == 0 ? 1*1024*1024 : dqx_ctl);
+
+    Reff = (rtt_wr_f * rtt_park_f) / (rtt_wr_f + rtt_park_f);
+    //printf("Reff = %f\n", Reff);
+
+    Vref = ((Rser + dqx_ctl_f) / (Rser + dqx_ctl_f + Reff)) + 1;
+    Vref = (Vref * Vdd) / 2;
+    //printf("Vref = %f\n", Vref);
+    //printf("Vref: %f percent of Vdd\n", (Vref * 100) / Vdd);
+
+    Vref_value = divide_nint(((Vref * 100 * 100) / Vdd) - 6000, 65);
+    //printf("Vref_value = %d (0x%02x)\n", Vref_value, Vref_value);
+
+    ddr_print("rtt_wr:%d, rtt_park:%d, dqx_ctl:%d, Vref_value:%d (0x%x)\n",
+           rtt_wr, rtt_park, dqx_ctl, Vref_value, Vref_value);
+
+    return Vref_value;
+}
+
+
 /* extract_address_info was moved from libbdk-dram/bdk-dram-test.c 
  * It is made local here so that some variables necessary to its operation
  * can be kept local to this file.
@@ -5487,7 +5516,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         for (rankx = 0; rankx < dimm_count * 4; rankx++) {
             uint64_t rank_addr;
-            int vref_value, final_vref_value;
+            int vref_value, final_vref_value, override_final_vref_value;
             char best_vref_values_count, vref_values_count;
             char best_vref_values_start, vref_values_start;
 
@@ -5551,11 +5580,52 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             }
                         }
                         debug_print(" (0x%02x)\n", final_vref_value);
+
+                        /* Experiment: Override the tested Vref value with a calculated value */
+                        {
+                            int rtt_wr, rtt_park, dqx_ctl;
+                            bdk_lmcx_modereg_params1_t lmc_modereg_params1;
+                            bdk_lmcx_modereg_params2_t lmc_modereg_params2;
+                            bdk_lmcx_comp_ctl2_t comp_ctl2;
+
+                            lmc_modereg_params1.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num));
+                            lmc_modereg_params2.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS2(ddr_interface_num));
+                            comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+
+                            switch (rankx) {
+                            case 0:
+                                rtt_wr = imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_00];
+                                rtt_park = imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_00];
+                                break;
+                            case 1:
+                                rtt_wr = imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_01];
+                                rtt_park = imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_01];
+                                break;
+                            case 2:
+                                rtt_wr = imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10];
+                                rtt_park = imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_10];
+                                break;
+                            case 3:
+                                rtt_wr = imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11];
+                                rtt_park = imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_11];
+                                break;
+                            }
+                            dqx_ctl = imp_values->dqx_strength  [comp_ctl2.s.dqx_ctl    ];
+                            override_final_vref_value = compute_Vref_float(rtt_wr, rtt_park, dqx_ctl);
+                        }
+
                         ddr_print("Rank(%d) Vref Training Summary                 :"
                                   "    %2d <----- %2d (0x%02x) -----> %2d range: %2d\n",
-                                  rankx, best_vref_values_start, final_vref_value, final_vref_value,
+                                  rankx, best_vref_values_start,
+                                  final_vref_value, final_vref_value,
                                   best_vref_values_start+best_vref_values_count-1,
                                   best_vref_values_count-1);
+
+                        ddr_print("Rank(%d) Using calculated Vref                 :"
+                                  "              %2d (0x%02x)\n",
+                                  rankx,
+                                  override_final_vref_value,
+                                  override_final_vref_value);
 
                         if ((s = lookup_env_parameter("ddr%d_vref_value_%1d%1d",
                                                       ddr_interface_num, !!(rankx&2), !!(rankx&1))) != NULL) {
@@ -5563,7 +5633,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         }
 
                         set_vref(node, ddr_interface_num, rankx, 0,
-			         final_vref_value);
+			         override_final_vref_value);
                     }
                 } /* if (ddr_type == DDR4_DRAM) */
                 lmc_wlevel_rank.u = lmc_wlevel_rank_hw_results.u; /* Restore the saved value */
