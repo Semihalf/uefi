@@ -1569,6 +1569,69 @@ int qlm_auto_config(bdk_node_t node)
     return 0;
 }
 
+/**
+ * Perform RX equalization on a QLM
+ *
+ * @param node   Node the QLM is on
+ * @param qlm    QLM to perform RX equalization on
+ *
+ * @return Zero on success, negative if any lane failed RX equalization
+ */
+static int rx_equalization(bdk_node_t node, int qlm)
+{
+    /* Don't touch QLMs is reset or powered down */
+    BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
+    if (phy_ctl.s.phy_pd || phy_ctl.s.phy_reset)
+        return -1;
+    /* Slow links don't support training */
+    if (bdk_qlm_get_gbaud_mhz(node, qlm) < 8000)
+        return -1;
+    /* Don't run on PCIe links */
+    if (bdk_qlm_get_mode(node, qlm) <= BDK_QLM_MODE_PCIE_1X8)
+        return -1;
+
+    int fail = 0;
+
+    BDK_TRACE(QLM, "N%d.QLM%d: Starting RX equalization\n", node, qlm);
+    for (int lane = 0; lane < 4; lane++)
+    {
+        /* Enable software control */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_CTL(qlm, lane),
+            c.s.rxt_swm = 1);
+        /* Clear the completion flag and initiate a new request */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_EER(qlm, lane),
+            c.s.rxt_esv = 0;
+            c.s.rxt_eer = 1);
+    }
+
+    /* Wait for RX equalization to complete */
+    for (int lane = 0; lane < 4; lane++)
+    {
+        const int TIMEOUT_US = 100000; /* 100ms */
+        BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_BR_RXX_EER(qlm, lane), rxt_esv, ==, 1, TIMEOUT_US);
+        BDK_CSR_INIT(gserx_br_rxx_eer, node, BDK_GSERX_BR_RXX_EER(qlm, lane));
+        if (gserx_br_rxx_eer.s.rxt_esv)
+        {
+            BDK_TRACE(QLM, "N%d.QLM%d: Lane %d RX equalization complete. Figure of merit %d (rxt_esm = 0x%x)\n",
+                node, qlm, lane, gserx_br_rxx_eer.s.rxt_esm >> 6, gserx_br_rxx_eer.s.rxt_esm);
+        }
+        else
+        {
+            BDK_TRACE(QLM, "N%d.QLM%d: Lane %d RX equalization timeout\n", node, qlm, lane);
+            fail = 1;
+        }
+    }
+
+    /* Switch back to hardware control */
+    for (int lane = 0; lane < 4; lane++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_CTL(qlm, lane),
+            c.s.rxt_swm = 0);
+    }
+
+    return (fail) ? -1 : 0;
+}
+
 static void qlm_init_one(bdk_node_t node, int qlm)
 {
     /* The QLM PLLs are controlled by an array of parameters indexed
@@ -1825,6 +1888,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
  */
 static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
+    BDK_TRACE(QLM, "N%d.QLM%d: Applying TX tuning\n", node, qlm);
     if (baud_mhz == 6250)
     {
         /* Change the default tuning for 6.25G, from lab measurements */
@@ -1867,6 +1931,22 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
     /* Allow boards to supply custom tuning */
     if (bdk_board_qlm_tune)
         bdk_board_qlm_tune(node, qlm, mode, baud_mhz);
+
+    /* Log the RX tuning parameters */
+    for (int lane = 0; lane < 4; lane++)
+    {
+        BDK_CSR_INIT(gserx_lanex_tx_cfg_1, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane));
+        BDK_CSR_INIT(gserx_lanex_tx_cfg_0, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane));
+        BDK_CSR_INIT(gserx_lanex_tx_pre_emphasis, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane));
+        if (gserx_lanex_tx_cfg_1.s.tx_swing_ovrd_en)
+            BDK_TRACE(QLM, "N%d.QLM%d:    Lane %d: TX_SWING = 0x%x\n", node, qlm, lane, gserx_lanex_tx_cfg_0.s.cfg_tx_swing);
+        if (gserx_lanex_tx_cfg_1.s.tx_premptap_ovrd_val)
+            BDK_TRACE(QLM, "N%d.QLM%d:    Lane %d: TX_PREMPTAP = 0x%x\n", node, qlm, lane, gserx_lanex_tx_pre_emphasis.s.cfg_tx_premptap);
+    }
+
+    bdk_wait_usec(10);
+    /* Redo RX equalization */
+    bdk_qlm_rx_equalization(node, qlm);
 }
 
 /**
@@ -1915,5 +1995,6 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn88xx = {
     .inject_prbs_error = qlm_inject_prbs_error,
     .enable_loop = qlm_enable_loop,
     .auto_config = qlm_auto_config,
+    .rx_equalization = rx_equalization,
 };
 

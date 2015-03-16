@@ -283,6 +283,19 @@ int bdk_qlm_auto_config(bdk_node_t node)
 }
 
 /**
+ * Perform RX equalization on a QLM
+ *
+ * @param node   Node the QLM is on
+ * @param qlm    QLM to perform RX equalization on
+ *
+ * @return Zero on success, negative if any lane failed RX equalization
+ */
+int bdk_qlm_rx_equalization(bdk_node_t node, int qlm)
+{
+    return qlm_ops->rx_equalization(node, qlm);
+}
+
+/**
  * Initialize the QLM layer
  */
 void bdk_qlm_init(bdk_node_t node)
