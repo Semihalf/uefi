@@ -439,16 +439,6 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
         freq_mhz);
 }
 
-
-//##################################################################################################
-//                                         Include OCX Files
-//################################################|#################################################
-
-#include "../normal-boot-ebb8800/oci-for-t88-bdk-functions.c"
-//#include "/nfs/dvps/jwise/OctValidate/ocx/functions/oci-for-t88-bdk-functions.c"
-
-
-//##################################################################################################
 /**
  * Main entry point
  *
@@ -527,21 +517,6 @@ int main(void)
         boot_method_str, boot_method,
         (vrm_disable) ? "Disabled" : "Enabled",
         (trust_mode) ? "Enabled" : "Disabled");
-
-
-    //##############################################################################################
-    //                                          CCPI Code
-    //##############################################|###############################################
-
-    if( CAVIUM_IS_MODEL( CAVIUM_CN88XX_PASS1_0 )  &&  !bdk_is_platform( BDK_PLATFORM_ASIM ))
-    {
-        run_boot_stub_ccpi();
-    }
-
-
-    //##############################################|###############################################
-    //                                        Original Code
-    //##############################################|###############################################
 
     extern int bdk_fs_mmc_init(void);
     extern int bdk_fs_mpi_init(void);
