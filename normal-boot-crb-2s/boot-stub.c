@@ -474,6 +474,9 @@ int main(void)
     {
         if (bdk_numa_exists(n))
         {
+            /* GPIO 38 controls USB power */
+            bdk_gpio_initialize(n, 38, 1, 1);
+
             for (int p = 0; p < 2; p++)
             {
                 BDK_TRACE(BOOT_STUB, "Initializing USB%d on Node %d\n", p, n);
