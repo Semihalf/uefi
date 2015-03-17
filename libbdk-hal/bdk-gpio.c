@@ -23,7 +23,7 @@ int bdk_gpio_initialize(bdk_node_t node, int gpio, int is_output, int output_val
     else
         bdk_gpio_clear(node, 1<<gpio);
 
-    if (gpio < 20)
+    if (gpio < 50)
     {
         BDK_CSR_DEFINE(cfg, BDK_GPIO_BIT_CFGX(gpio));
         cfg.u = 0;
