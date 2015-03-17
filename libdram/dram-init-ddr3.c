@@ -785,7 +785,7 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode, int ddr_in
 
             result[byte] = 0;
             for (i=0; i<5; ++i) {
-                result[byte] += test_dram_byte(rank_addr, 2048, byte, byte_bitmask);
+                result[byte] += test_dram_byte(rank_addr, 4096, byte, byte_bitmask);
             }
             if (result[byte] == 0) {
                 if (byte_delay_count[byte] == 0) {
@@ -6023,7 +6023,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 
     /* Experimental code to try to automatically adjust the DLL offset */
-    if ((s = lookup_env_parameter("ddr_auto_set_dll_offset")) != NULL) {
+    //if ((s = lookup_env_parameter("ddr_auto_set_dll_offset")) != NULL) {
+    if (1) {
         /* Disable l2 sets for DRAM testing */
         limit_l2_ways(node, 0, 0);
 

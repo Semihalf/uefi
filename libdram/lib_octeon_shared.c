@@ -224,7 +224,7 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
     p += 0x4000000;
 
     counter = 0;
-    for (k = 0; k < (1 << 18); k += (1 << 14)) {
+    for (k = 0; k < (1 << 20); k += (1 << 14)) {
 	for (j = 0; j < (1 << 12); j += (1 << 9)) {
 	    for (i = 0; i < (1 << 7); i += 8) {
 		index = i + j + k;
@@ -263,9 +263,9 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
     counter = 0;
 
     /* Walk through a range of addresses avoiding bits that alias
-     * interfaces on the CN68XX.
+     * interfaces on the CN88XX.
      */
-    for (k = 0; k < (1 << 18); k += (1 << 14)) {
+    for (k = 0; k < (1 << 20); k += (1 << 14)) {
 	for (i = 0; i < (1 << 7); i += 8) {
 	    for (j = 0; j < (1 << 12); j += (1 << 9)) {
 		index = i + j + k;
@@ -778,7 +778,7 @@ int initialize_ddr_clock(bdk_node_t node,
                 uint64_t best_pll_MHz = 0;
                 uint64_t pll_MHz;
                 uint64_t min_pll_MHz = 800;
-                uint64_t max_pll_MHz = 4000;
+                uint64_t max_pll_MHz = 5000;
                 uint64_t error;
                 uint64_t best_error;
                 uint64_t best_calculated_ddr_hertz = 0;
