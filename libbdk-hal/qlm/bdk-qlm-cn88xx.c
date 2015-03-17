@@ -1945,8 +1945,10 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
     }
 
     bdk_wait_usec(10);
-    /* Redo RX equalization */
-    bdk_qlm_rx_equalization(node, qlm);
+    /* Redo RX equalization, except for CCPI. CCPI doesn't recover from the
+       errors generated during RX equalization */
+    if (qlm < 8)
+        bdk_qlm_rx_equalization(node, qlm);
 }
 
 /**
