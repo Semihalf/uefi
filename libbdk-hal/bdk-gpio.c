@@ -44,7 +44,7 @@ int bdk_gpio_initialize(bdk_node_t node, int gpio, int is_output, int output_val
  *
  * @return Status of the GPIO pins
  */
-uint32_t bdk_gpio_read(bdk_node_t node)
+uint64_t bdk_gpio_read(bdk_node_t node)
 {
     bdk_gpio_rx_dat_t gpio_rx_dat;
     gpio_rx_dat.u = BDK_CSR_READ(node, BDK_GPIO_RX_DAT);
@@ -57,7 +57,7 @@ uint32_t bdk_gpio_read(bdk_node_t node)
  *
  * @param clear_mask Bit mask to indicate which bits to drive to '0'.
  */
-void bdk_gpio_clear(bdk_node_t node, uint32_t clear_mask)
+void bdk_gpio_clear(bdk_node_t node, uint64_t clear_mask)
 {
     bdk_gpio_tx_clr_t gpio_tx_clr;
     gpio_tx_clr.u = 0;
@@ -71,7 +71,7 @@ void bdk_gpio_clear(bdk_node_t node, uint32_t clear_mask)
  *
  * @param set_mask Bit mask to indicate which bits to drive to '1'.
  */
-void bdk_gpio_set(bdk_node_t node, uint32_t set_mask)
+void bdk_gpio_set(bdk_node_t node, uint64_t set_mask)
 {
     bdk_gpio_tx_set_t gpio_tx_set;
     gpio_tx_set.u = 0;
