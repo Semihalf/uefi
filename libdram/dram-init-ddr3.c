@@ -5558,10 +5558,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             best_vref_values_count = max(best_vref_values_count, 2);
                             final_vref_value = best_vref_values_start + divide_roundup((best_vref_values_count-1)*4,10);
                         } else {
-                            error_print("ERROR: Vref training failed.  Resetting node(%d)...\n", node);
-                            bdk_wait_usec(500000);
-                            bdk_reset_chip(node);
-
                             /* If nothing passed use the default Vref value for this rank */
                             bdk_lmcx_modereg_params2_t lmc_modereg_params2;
 
@@ -5859,6 +5855,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                       (sw_wl_rank_status == WL_HARDWARE) ? "" : "(s)"
                       );
 
+            if (best_vref_values_count == 0) {
+                error_print("ERROR: Vref training failed.  Resetting node(%d)...\n", node);
+                bdk_wait_usec(500000);
+                bdk_reset_chip(node);
+            }
+
             active_rank++;
         } /* for (rankx = 0; rankx < dimm_count * 4; rankx++) */
 
@@ -6026,8 +6028,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 
     /* Experimental code to try to automatically adjust the DLL offset */
-    //if ((s = lookup_env_parameter("ddr_auto_set_dll_offset")) != NULL) {
-    if (1) {
+    if ((s = lookup_env_parameter("ddr_auto_set_dll_offset")) != NULL) {
         /* Disable l2 sets for DRAM testing */
         limit_l2_ways(node, 0, 0);
 
