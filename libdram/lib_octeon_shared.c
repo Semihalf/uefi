@@ -224,6 +224,37 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
     p += 0x4000000;
 
     counter = 0;
+    /* Store zeros into each location first */
+    for (k = 0; k < (1 << 20); k += (1 << 14)) {
+	for (j = 0; j < (1 << 12); j += (1 << 9)) {
+	    for (i = 0; i < (1 << 7); i += 8) {
+		index = i + j + k;
+		p1 = p + index;
+		p2 = p1 + p2offset;
+
+		bdk_write64_uint64(p1, 0ULL);
+		bdk_write64_uint64(p2, 0ULL);
+
+		/* Write back and invalidate the cache lines
+		 *
+		 * For OCX we cannot limit the number of L2 ways
+		 * so instead we just write back and invalidate
+		 * the L2 cache lines.  This is not possible
+		 * when booting remotely, however so this is
+		 * only enabled for U-Boot right now.
+		 * Potentially the BDK can also take advantage
+		 * of this.
+		 */
+		BDK_CACHE_WBI_L2(p1);
+		BDK_CACHE_WBI_L2(p2);
+		++counter;
+	    }
+	}
+    }
+
+    BDK_DCACHE_INVALIDATE;
+
+    counter = 0;
     for (k = 0; k < (1 << 20); k += (1 << 14)) {
 	for (j = 0; j < (1 << 12); j += (1 << 9)) {
 	    for (i = 0; i < (1 << 7); i += 8) {
