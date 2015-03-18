@@ -758,16 +758,16 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode, int ddr_in
     unsigned short result[9];
     int byte;
     uint64_t rank_addr;
-    char byte_delay_start[9] = {0};
-    char byte_delay_count[9] = {0};
-    char byte_delay_best_start[9] = {0};
-    char byte_delay_best_count[9] = {0};
+    signed char byte_delay_start[9] = {0};
+    signed char byte_delay_count[9] = {0};
+    signed char byte_delay_best_start[9] = {0};
+    signed char byte_delay_best_count[9] = {0};
     char sbuffer[50];
 
     rank_addr = (ddr_interface_num<<7); /* Map address into proper interface */
     ddr_print("Rank Address: 0x%lx\n", rank_addr);
 
-    for (byte_offset=-31; byte_offset<32; ++byte_offset) {
+    for (byte_offset=-63; byte_offset<63; ++byte_offset) {
         int i;
         uint64_t byte_bitmask = 0xff;
 
@@ -784,7 +784,7 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode, int ddr_in
                 byte_bitmask = 0x0f;
 
             result[byte] = 0;
-            for (i=0; i<5; ++i) {
+            for (i=0; i<2; ++i) {
                 result[byte] += test_dram_byte(rank_addr, 4096, byte, byte_bitmask);
             }
             if (result[byte] == 0) {
@@ -805,7 +805,10 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode, int ddr_in
         sprintf(sbuffer, "DLL %s Offset Test %3d", dll_offset_mode == 1 ? "Write" : "Read", byte_offset);
         ddr_print("%-45s : ", sbuffer);
         for (byte=0; byte<9; ++byte) {
-            ddr_print(" %2d", result[byte]);
+            if (result[byte])
+                ddr_print(" %2d", result[byte]);
+            else
+                ddr_print("  .");
             /*
             debug_print("(%2d,%2d,%2d,%2d)", byte_delay_start[byte], byte_delay_count[byte],
                       byte_delay_best_start[byte], byte_delay_best_count[byte]);
