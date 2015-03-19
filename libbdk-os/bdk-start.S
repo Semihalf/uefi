@@ -97,15 +97,20 @@ __bdk_start:
     str     x0, [x20, GPIO_CLK_OFFSET]
 #endif
 
+    /* Get our base link address and store it in x7 */
+    adr     x0, bdk_fs_dev_uart0/* Pick a structure that has a pointer in it */
+    ldr     x0, [x0]            /* Read the pointer, which should be at link address */
+    and     x7, x0, 0xffffff0000000000 /* Strip off the lower bits */
+
     /* Check that we're running on the node we're linked for */
     mrs     x0, MPIDR_EL1
-    mov     x1, BDK_LINK_ADDRESS >> 40
+    lsr     x1, x7, 40          /* Node we are linked at [41:40] */
     ubfx    x0, x0, 16, 8       /* Bits 23:16 are the physical node ID */
     cmp     x0, x1
     b.ne    __bdk_incorrect_node
 
     /* Relocate ourself if we aren't running at our link address */
-    mov     x0, BDK_LINK_ADDRESS/* x0 = _start location as an absolute */
+    mov     x0, x7              /* x0 = _start location as an absolute */
     adr     x1, _start          /* x1 = _start location based on PC */
     cmp     x0, x1              /* See if we're running at the right location */
     b.eq    after_relocate      /* Skip relocate if we're already there */
@@ -129,7 +134,7 @@ copy_code:
 #endif
 
     mov     x0, after_relocate  /* Load the actual location we're suppose to be at */
-    mov     x1, BDK_LINK_ADDRESS
+    mov     x1, x7              /* X7 is our link address */
     add     x0, x0, x1
     br      x0                  /* Branch to relocated code */
 

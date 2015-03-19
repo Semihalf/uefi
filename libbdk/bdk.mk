@@ -41,7 +41,6 @@ STRIP=$(CROSS)strip
 # Setup the compile flags
 #
 CPPFLAGS = $(BDK_EXTRA_CPPFLAGS)
-CPPFLAGS += -DBDK_LINK_ADDRESS=$(BDK_LINK_ADDRESS)
 CPPFLAGS += -I $(BDK_ROOT)/libbdk -I $(BDK_ROOT)/liblua -I $(BDK_ROOT)/libc/${LIBC_DIR}/include
 CFLAGS = -Wall -Wextra -Wno-unused-parameter -Winline -mcpu=thunderx -Os -g -std=gnu99 -fno-asynchronous-unwind-tables
 CFLAGS += -ffunction-sections
