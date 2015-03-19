@@ -131,7 +131,7 @@ local function board_test()
     --
     -- Go multinode
     --
-    local status = cavium.c.bdk_init_nodes(0)
+    local status = cavium.c.bdk_init_nodes(0, 10312)
     if (status == 0) then
         printf("Mult-core: PASS\n")
     else

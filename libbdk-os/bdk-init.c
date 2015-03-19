@@ -1089,10 +1089,13 @@ static void setup_node(bdk_node_t node)
  * reset and have them start running threads
  *
  * @param skip_cores If non-zero, cores are not started. Only the nodes are setup
+ * @param ccpi_sw_gbaud
+ *                   If CCPI is in software mode, this is the speed the CCPI QLMs will be configured
+ *                   for
  *
  * @return Zero on success, negative on failure.
  */
-int bdk_init_nodes(int skip_cores)
+int bdk_init_nodes(int skip_cores, int ccpi_sw_gbaud)
 {
     int result = 0;
     int do_oci_init = 0;
@@ -1116,6 +1119,13 @@ int bdk_init_nodes(int skip_cores)
 
     if (do_oci_init)
     {
+        /* Check if CCPI is in software init mode */
+        if (bdk_qlm_get_gbaud_mhz(bdk_numa_local(), 8) == 0)
+        {
+            if (bdk_init_ccpi_links(ccpi_sw_gbaud))
+                return -1;
+        }
+
         /* Don't run OCI link init if L2C_OCI_CTL shows that it has already
            been done */
         BDK_CSR_INIT(l2c_oci_ctl, bdk_numa_local(), BDK_L2C_OCI_CTL);

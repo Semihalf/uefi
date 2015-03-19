@@ -5,6 +5,8 @@
 #define BMC_TWSI 5
 /* Control if we even try and do multi-node (0 or 1) */
 #define MULTI_NODE 0
+/* On boards using software CCPI init, this is the speed to bringup CCPI at */
+#define CCPI_INIT_SPEED 10312
 /* Name of DRAM config for master node 0 */
 #define DRAM_NODE0 crb_1s
 /* Enable verbose logging from DRAM initialization (0 or 1) */
@@ -371,7 +373,7 @@ int main(void)
     {
         BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
         bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
-        bdk_init_nodes(1);
+        bdk_init_nodes(1, CCPI_INIT_SPEED);
     }
 
     /* Send status to the BMC: Multi-node setup complete */

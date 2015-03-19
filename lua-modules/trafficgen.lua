@@ -32,7 +32,7 @@ local ALIASES = {
 
 local TrafficGen = {}
 function TrafficGen.new()
-    cavium.c.bdk_init_nodes(0)
+    cavium.c.bdk_init_nodes(0, 0)
     local self = {}
     --
     -- Private variables
