@@ -1585,7 +1585,7 @@ static int rx_equalization(bdk_node_t node, int qlm)
         return -1;
     /* Slow links don't support training */
     if (bdk_qlm_get_gbaud_mhz(node, qlm) < 8000)
-        return -1;
+        return 0;
     /* Don't run on PCIe links */
     if (bdk_qlm_get_mode(node, qlm) <= BDK_QLM_MODE_PCIE_1X8)
         return -1;
