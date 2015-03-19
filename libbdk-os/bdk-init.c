@@ -1160,6 +1160,39 @@ uint64_t bdk_get_running_coremask(bdk_node_t node)
 }
 
 /**
+ * Read OCX setup used to determine which QLMs connect to which links
+ *
+ * @param node   Node to query
+ * @param link   Link to query
+ *
+ * @return QLM mask of CCPI QLMs being used
+ */
+static int __bdk_ccpi_get_qlm_select(bdk_node_t node, int link)
+{
+    BDK_CSR_INIT(qlmx_cfg2, node, BDK_OCX_QLMX_CFG(2));
+    BDK_CSR_INIT(qlmx_cfg3, node, BDK_OCX_QLMX_CFG(3));
+
+    /* Determine which QLMs a link uses */
+    int qlm_select = 0;
+    /* qlmx_cfg2[ser_local]=1 means QLM2 is to link 1 */
+    /* qlmx_cfg3[ser_local]=1 means QLM3 is to link 1 */
+    switch (link)
+    {
+        case 0:
+            qlm_select = (qlmx_cfg2.s.ser_local) ? 0x3 : 0x7;
+            break;
+        case 1:
+            qlm_select = (qlmx_cfg2.s.ser_local) ? 0x4 : 0x0;
+            qlm_select |= (qlmx_cfg3.s.ser_local) ? 0x8 : 0x0;
+            break;
+        case 2:
+            qlm_select = (qlmx_cfg3.s.ser_local) ? 0x30 : 0x38;
+            break;
+    }
+    return qlm_select;
+}
+
+/**
  * Call to manually bringup the CCPI links using software
  *
  * @param gbaud  Baud rate to run links at
@@ -1171,44 +1204,153 @@ int bdk_init_ccpi_links(uint64_t gbaud)
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
         return -1; /* Emulator doesn't seem to have CCPI registers */
 
-    init_ccpi_errata(bdk_numa_local(), gbaud);
+    bdk_node_t my_node = bdk_numa_local();
 
-    /* Setup QLMs */
-    for (int qlm = 8; qlm < 14; qlm++)
-        bdk_qlm_set_mode(bdk_numa_local(), qlm, BDK_QLM_MODE_OCI, gbaud, 0);
+    BDK_TRACE(INIT, "N%d: Changing CCPI links to %lu\n", my_node, gbaud);
 
-    /* Wait 10ms for QLMs to stabalize. It should be much faster
-       than this */
-    bdk_wait_usec(10000);
+    /* Make sure neither node resets when we take the link down */
+    BDK_TRACE(INIT, "N%d: Disabling reset on CCPI link loss\n", my_node);
+    BDK_CSR_MODIFY(c, my_node, BDK_RST_OCX,
+        c.s.rst_link = 0);
 
-    BDK_CSR_INIT(qlmx_cfg2, bdk_numa_local(), BDK_OCX_QLMX_CFG(2));
-    BDK_CSR_INIT(qlmx_cfg3, bdk_numa_local(), BDK_OCX_QLMX_CFG(3));
-    /* Select which QLMs to use for links */
+    /* Apply errata */
+    BDK_TRACE(INIT, "N%d: Applying any errata\n", my_node);
+    init_ccpi_errata(my_node, gbaud);
+
+    /* Determine which QLMs a link uses */
+    int qlm_select[MAX_LINKS];
     for (int link = 0; link < MAX_LINKS; link++)
     {
-        int qlm_select = 0;
-        /* qlmx_cfg2[ser_local]=1 means QLM2 is to link 1 */
-        /* qlmx_cfg3[ser_local]=1 means QLM3 is to link 1 */
-        switch (link)
-        {
-            case 0:
-                qlm_select = (qlmx_cfg2.s.ser_local) ? 0x3 : 0x7;
-                break;
-            case 1:
-                qlm_select = (qlmx_cfg2.s.ser_local) ? 0x4 : 0x0;
-                qlm_select |= (qlmx_cfg3.s.ser_local) ? 0x8 : 0x0;
-                break;
-            case 2:
-                qlm_select = (qlmx_cfg3.s.ser_local) ? 0x30 : 0x38;
-                break;
-        }
-        BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_OCX_LNKX_CFG(link),
-            c.s.qlm_select = qlm_select);
+        qlm_select[link] = __bdk_ccpi_get_qlm_select(my_node, link);
+        BDK_TRACE(INIT, "N%d: Link %d: Using QLMs 0x%x\n", my_node, link, qlm_select[link]);
     }
 
-    /* Wait 10ms for CCPI links to stabalize. It should be much faster
-       than this */
-    bdk_wait_usec(10000);
+    /* Loop through each CCPI link, changing the speed of each one at a
+       time */
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        if (qlm_select[link] == 0)
+            continue;
+        /* Drop all link traffic */
+        BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
+            c.s.auto_clr = 0;
+            c.s.reinit = 1;
+            c.s.drop = 1);
+        /* Disconnect link from QLMs */
+        BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
+            c.s.lane_align_dis = 1;
+            c.s.qlm_select = 0);
+        /* Change the QLM speed */
+        for (int ccpi_qlm = 0; ccpi_qlm < 6; ccpi_qlm++)
+        {
+            int qlm = ccpi_qlm + 8;
+            if (qlm_select[link] & (1 << ccpi_qlm))
+            {
+                BDK_TRACE(INIT, "N%d:   QLM %d configured\n", my_node, qlm);
+                bdk_qlm_set_mode(my_node, qlm, BDK_QLM_MODE_OCI, gbaud, 0);
+            }
+        }
+    }
+
+    clear_oci_error(my_node);
+
+    /* Do RX equalization now since we know CCPI traffic is disabled. We
+       do not proceed until RX equalization succeeds on all QLMs */
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        if (qlm_select[link] == 0)
+            continue;
+        for (int ccpi_qlm = 0; ccpi_qlm < 6; ccpi_qlm++)
+        {
+            int qlm = ccpi_qlm + 8;
+            if (qlm_select[link] & (1 << ccpi_qlm))
+            {
+                BDK_TRACE(INIT, "N%d:   RX equalization on QLM %d\n", my_node, qlm);
+                while (bdk_qlm_rx_equalization(my_node, qlm))
+                    bdk_wait_usec(100);
+            }
+        }
+    }
+
+    /* Connect links to QLMs */
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        if (qlm_select[link] == 0)
+            continue;
+        BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
+            c.s.lane_align_dis = 0;
+            c.s.qlm_select = qlm_select[link]);
+        for (int ccpi_qlm = 0; ccpi_qlm < 6; ccpi_qlm++)
+        {
+            int qlm = ccpi_qlm + 8;
+            if (qlm_select[link] & (1 << ccpi_qlm))
+            {
+                BDK_TRACE(INIT, "N%d:   QLM %d thunked\n", my_node, qlm);
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_QLMX_CFG(ccpi_qlm),
+                    c.s.ser_lane_ready = 0xf;
+                    c.s.ser_lane_bad = 0);
+            }
+        }
+    }
+
+    /* Give the link 100ms to come up */
+    bdk_wait_usec(100000);
+
+    /* Errata (OCX-21847) OCX does not deal with reversed lanes automatically */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (my_node == 0))
+    {
+        /* Check if we need to manually apply lane reversal */
+        BDK_CSR_INIT(ocx_qlmx_cfg, my_node, BDK_OCX_QLMX_CFG(0));
+        if (ocx_qlmx_cfg.s.ser_lane_rev)
+        {
+            printf("N%d Applying lane reversal\n", my_node);
+            for (int link = 0; link < MAX_LINKS; link++)
+            {
+                /* QLM_SELECT must be zero before changing lane reversal */
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
+                    c.s.qlm_select = 0);
+                /* Set RX lane reversal */
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
+                    c.s.lane_rev = 1);
+            }
+            /* Set TX lane reversal */
+            BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNE_DBG,
+                c.s.tx_lane_rev = 1);
+            /* Restore the QLM lane select */
+            for (int link = 0; link < MAX_LINKS; link++)
+            {
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_LNKX_CFG(link),
+                    c.s.qlm_select = qlm_select[link]);
+            }
+            /* Give the link 100ms to come up */
+            bdk_wait_usec(100000);
+        }
+    }
+
+    /* Finish link reinit */
+    BDK_TRACE(INIT, "N%d: Waiting for reinit to complete\n", my_node);
+    for (int link = 0; link < MAX_LINKS; link++)
+    {
+        if (qlm_select[link] == 0)
+            continue;
+        BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
+            c.s.reinit = 0);
+        while (1)
+        {
+            BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
+                c.s.drop = 0);
+            BDK_CSR_INIT(ocx_tlkx_lnk_vcx_cnt, my_node, BDK_OCX_TLKX_LNK_VCX_CNT(link, 0));
+            if (ocx_tlkx_lnk_vcx_cnt.s.count != 0)
+            {
+                BDK_TRACE(INIT, "N%d:   Link %d reinit complete\n", my_node, link);
+                break;
+            }
+            bdk_wait_usec(100);
+        }
+    }
+
+    /* Show final lane status */
+    //oci_report_lane(my_node, 1);
 
     return 0;
 }
