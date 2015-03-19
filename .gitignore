@@ -23,6 +23,7 @@
 /libbdk/bdk-functions.c
 /libbdk/bdk-fs-rom-files.c
 /bdk-boot/boot-stub
+/bdk-boot/boot-stub-node1
 /bdk-boot/diagnostics
 /normal-boot-ebb8800/boot-stub
 /normal-boot-ebb8800/diagnostics

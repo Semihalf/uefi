@@ -536,12 +536,8 @@ int main(void)
     /* Check if we're booting on a non-zero node and CCPI is in software mode.
        This would mean we should setup CCPI and wait for the other node to
        take over */
-    if (node != 0)
-    {
-        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(8));
-        if (gserx_spd.s.spd == 0xf)
-            ccpi_sw_init();
-    }
+    if ((node != 0) && (bdk_qlm_get_gbaud_mhz(node, 8) == 0))
+        ccpi_sw_init();
 
     extern int bdk_fs_mmc_init(void);
     extern int bdk_fs_mpi_init(void);
