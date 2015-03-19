@@ -332,6 +332,21 @@ int main(void)
         bdk_version_string());
     print_node_strapping(bdk_numa_master());
 
+    /* Setup CCPI if we're on the second node */
+    if (MULTI_NODE && (node != 0))
+    {
+        BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
+        /* Check if CCPI is in software init mode */
+        if (bdk_qlm_get_gbaud_mhz(node, 8) == 0)
+        {
+            printf("Secondary node with CCPI init in software. Starting CCPI\n");
+            if (bdk_init_ccpi_links(CCPI_INIT_SPEED))
+                bdk_fatal("CCPI init failed\n");
+            extern void __bdk_reset_thread(int arg1, void *arg2);
+            __bdk_reset_thread(0, NULL);
+        }
+    }
+
     /* Initialize DRAM on the master node */
 #ifdef DRAM_NODE0
     if (DRAM_VERBOSE)
