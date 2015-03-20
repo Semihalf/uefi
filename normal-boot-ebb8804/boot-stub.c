@@ -337,7 +337,8 @@ int main(void)
     {
         BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
         /* Check if CCPI is in software init mode */
-        if (bdk_qlm_get_gbaud_mhz(node, 8) == 0)
+        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(8));
+        if (gserx_spd.s.spd == 0xf)
         {
             printf("Secondary node with CCPI init in software. Starting CCPI\n");
             if (bdk_init_ccpi_links(CCPI_INIT_SPEED))
