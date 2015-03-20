@@ -5855,7 +5855,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                       (sw_wl_rank_status == WL_HARDWARE) ? "" : "(s)"
                       );
 
-            if (best_vref_values_count == 0) {
+            if ((ddr_type == DDR4_DRAM) && (best_vref_values_count == 0)) {
                 error_print("ERROR: Vref training failed.  Resetting node(%d)...\n", node);
                 bdk_wait_usec(500000);
                 bdk_reset_chip(node);
