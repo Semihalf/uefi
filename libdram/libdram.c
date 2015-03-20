@@ -2,8 +2,8 @@
 #include "dram-internal.h"
 
 /* This global variable is accessed through dram_is_verbose() to determine
-   the verbosity level. Use that function instead of it directly */
-dram_verbosity_t dram_verbosity;
+   the verbosity level. Use that function instead of setting it directly */
+dram_verbosity_t dram_verbosity = OFF; /* init this here so we could set a non-zero default */
 
 static uint32_t measured_ddr_hertz[BDK_NUMA_MAX_NODES];
 
@@ -24,14 +24,14 @@ static uint32_t measured_ddr_hertz[BDK_NUMA_MAX_NODES];
  */
 int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_override)
 {
-    char *str;
+    const char *s;
     const ddr_configuration_t *ddr_config = dram_config->config;
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
 
     BDK_TRACE(DRAM, "N%d: DRAM init started (hertz=%d, config=%p)\n", node, ddr_clock_hertz, dram_config);
 
-    str = getenv("ddr_verbose");
-    dram_verbosity = strtoul(str, NULL, 0);
+    if ((s = lookup_env_parameter("ddr_verbose")) != NULL)
+	dram_verbosity = strtoul(s, NULL, 0);
 
     /* We need to calculate the interface mask based on the provided SPD
        addresses/contents */
