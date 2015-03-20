@@ -1952,9 +1952,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     if (!odt_4rank_config)
         odt_4rank_config = disable_odt_config;
 
-    if ((s = getenv("ddr_safe")) != NULL) {
+    if ((s = lookup_env_parameter("ddr_safe")) != NULL) {
         safe_ddr_flag = !!strtoul(s, NULL, 0);
-        error_print("Parameter found in environment. ddr_safe = %d\n", safe_ddr_flag);
     }
 
 
@@ -2355,9 +2354,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     ddr_print("DDR Clock Rate (tCLK)                         : %6lu ps\n", tclk_psecs);
     ddr_print("Core Clock Rate (eCLK)                        : %6lu ps\n", eclk_psecs);
 
-    if ((s = getenv("ddr_use_ecc")) != NULL) {
+    if ((s = lookup_env_parameter("ddr_use_ecc")) != NULL) {
         use_ecc = !!strtoul(s, NULL, 0);
-        error_print("Parameter found in environment. ddr_use_ecc = %d\n", use_ecc);
     }
     use_ecc = use_ecc && spd_ecc;
 
@@ -2432,9 +2430,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             tclk_psecs = adjusted_tclk;
         }
 
-        if ((s = getenv("ddr_cas_latency")) != NULL) {
+        if ((s = lookup_env_parameter("ddr_cas_latency")) != NULL) {
             override_cas_latency = strtoul(s, NULL, 0);
-            error_print("Parameter found in environment. ddr_cas_latency = %d\n", override_cas_latency);
         }
 
         /* Make sure that the selected cas latency is legal */
@@ -2490,7 +2487,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         return(-1);
 
     {
-        const char *s;
         bdk_lmcx_control_t lmc_control;
         bdk_lmcx_scramble_cfg0_t lmc_scramble_cfg0;
         bdk_lmcx_scramble_cfg1_t lmc_scramble_cfg1;
@@ -3532,7 +3528,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		lmc_dimmx_params.s.rc15        = (rc >> 4) & 0xf;
 
 
-		if ((s = getenv("ddr_clk_drive")) != NULL) {
+		if ((s = lookup_env_parameter("ddr_clk_drive")) != NULL) {
 		    if (strcmp(s,"light") == 0) {
 			lmc_dimmx_params.s.rc5         = 0x0; /* Light Drive */
 		    }
@@ -3542,10 +3538,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    if (strcmp(s,"strong") == 0) {
 			lmc_dimmx_params.s.rc5         = 0xA; /* Strong Drive */
 		    }
-		    error_print("Parameter found in environment. ddr_clk_drive = %s\n", s);
 		}
 
-		if ((s = getenv("ddr_cmd_drive")) != NULL) {
+		if ((s = lookup_env_parameter("ddr_cmd_drive")) != NULL) {
 		    if (strcmp(s,"light") == 0) {
 			lmc_dimmx_params.s.rc3         = 0x0; /* Light Drive */
 		    }
@@ -3555,17 +3550,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    if (strcmp(s,"strong") == 0) {
 			lmc_dimmx_params.s.rc3         = 0xA; /* Strong Drive */
 		    }
-		    error_print("Parameter found in environment. ddr_cmd_drive = %s\n", s);
 		}
 
-		if ((s = getenv("ddr_ctl_drive")) != NULL) {
+		if ((s = lookup_env_parameter("ddr_ctl_drive")) != NULL) {
 		    if (strcmp(s,"light") == 0) {
 			lmc_dimmx_params.s.rc4         = 0x0; /* Light Drive */
 		    }
 		    if (strcmp(s,"moderate") == 0) {
 			lmc_dimmx_params.s.rc4         = 0x5; /* Moderate Drive */
 		    }
-		    error_print("Parameter found in environment. ddr_ctl_drive = %s\n", s);
 		}
 
 
@@ -5470,7 +5463,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         bdk_lmcx_config_t lmc_config;
         int byte;
         int delay;
-        char *eptr;
         int rankx = 0;
         int save_ecc_ena;
         int active_rank;
@@ -5931,9 +5923,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
 
         /* Restore the l2 set configuration */
-        eptr = getenv("limit_l2_ways");
-        if (eptr) {
-            int ways = strtoul(eptr, NULL, 10);
+	if ((s = lookup_env_parameter("limit_l2_ways")) != NULL) {
+            int ways = strtoul(s, NULL, 10);
             limit_l2_ways(node, ways, 1);
         } else {
             limit_l2_ways(node, bdk_l2c_get_num_assoc(node), 0);
@@ -5977,7 +5968,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int byte_offset;
         unsigned short offset[9] = {0};
         int i;
-        const char *s;
 
         for (i=0; i<9; ++i) {
             byte_offset = custom_lmc_config->dll_write_offset[i];
@@ -6005,7 +5995,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int byte_offset;
         unsigned short offset[9] = {0};
         int i;
-        const char *s;
 
         for (i=0; i<9; ++i) {
             byte_offset = custom_lmc_config->dll_read_offset[i];
@@ -6036,15 +6025,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         auto_set_dll_offset(node,  2 /* 2=read */, ddr_interface_num, ddr_interface_64b);
 
         /* Restore the l2 set configuration */
-        {
-            char *eptr;
-            eptr = getenv("limit_l2_ways");
-            if (eptr) {
-                int ways = strtoul(eptr, NULL, 10);
-                limit_l2_ways(node, ways, 1);
-            } else {
-                limit_l2_ways(node, bdk_l2c_get_num_assoc(node), 0);
-            }
+	if ((s = lookup_env_parameter("limit_l2_ways")) != NULL) {
+            int ways = strtoul(s, NULL, 10);
+            limit_l2_ways(node, ways, 1);
+        } else {
+            limit_l2_ways(node, bdk_l2c_get_num_assoc(node), 0);
         }
     }
 
