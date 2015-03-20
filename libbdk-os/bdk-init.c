@@ -593,6 +593,8 @@ static int init_oci(void)
 
     bdk_node_t my_node = bdk_numa_local();
     int ccpi_gbaud = bdk_qlm_get_gbaud_mhz(my_node, 8);
+    if (ccpi_gbaud == 0)
+        ccpi_gbaud = bdk_qlm_get_gbaud_mhz(my_node, 13);
     uint64_t node_exists = 1ull << my_node;
 
     /* Check if we're in software mode and we haven't done init */
@@ -1276,8 +1278,10 @@ int bdk_init_ccpi_links(uint64_t gbaud)
             if (qlm_select[link] & (1 << ccpi_qlm))
             {
                 BDK_TRACE(INIT, "N%d:   RX equalization on QLM %d\n", my_node, qlm);
-                while (bdk_qlm_rx_equalization(my_node, qlm))
-                    bdk_wait_usec(100);
+                /* Do three time to make usre there are no glitches */
+                for (int repeat = 0; repeat < 3; repeat++)
+                    while (bdk_qlm_rx_equalization(my_node, qlm))
+                        bdk_wait_usec(100);
             }
         }
     }
@@ -1295,7 +1299,7 @@ int bdk_init_ccpi_links(uint64_t gbaud)
             int qlm = ccpi_qlm + 8;
             if (qlm_select[link] & (1 << ccpi_qlm))
             {
-                BDK_TRACE(INIT, "N%d:   QLM %d thunked\n", my_node, qlm);
+                BDK_TRACE(INIT, "N%d:   QLM %d connected to CCPI\n", my_node, qlm);
                 BDK_CSR_MODIFY(c, my_node, BDK_OCX_QLMX_CFG(ccpi_qlm),
                     c.s.ser_lane_ready = 0xf;
                     c.s.ser_lane_bad = 0);
@@ -1338,29 +1342,55 @@ int bdk_init_ccpi_links(uint64_t gbaud)
     }
 
     /* Finish link reinit */
-    BDK_TRACE(INIT, "N%d: Waiting for reinit to complete\n", my_node);
-    for (int link = 0; link < MAX_LINKS; link++)
+    BDK_TRACE(INIT, "N%d: Waiting for all CCPI links\n", my_node);
+    int good_links = 0;
+    while (good_links != (1<<MAX_LINKS) - 1)
     {
-        if (qlm_select[link] == 0)
-            continue;
-        BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
-            c.s.reinit = 0);
-        while (1)
+        for (int link = 0; link < MAX_LINKS; link++)
         {
-            BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
-                c.s.drop = 0);
-            BDK_CSR_INIT(ocx_tlkx_lnk_vcx_cnt, my_node, BDK_OCX_TLKX_LNK_VCX_CNT(link, 0));
-            if (ocx_tlkx_lnk_vcx_cnt.s.count != 0)
+            int link_mask = 1 << link;
+
+            /* Ignore unused links */
+            if (qlm_select[link] == 0)
             {
-                BDK_TRACE(INIT, "N%d:   Link %d reinit complete\n", my_node, link);
-                break;
+                good_links |= link_mask;
+                continue;
             }
-            bdk_wait_usec(100);
+
+            /* Check if link has credits */
+            BDK_CSR_INIT(ocx_tlkx_lnk_vcx_cnt, my_node, BDK_OCX_TLKX_LNK_VCX_CNT(link, 0));
+            if (ocx_tlkx_lnk_vcx_cnt.s.count > 0)
+            {
+                /* Link has credits, mark good */
+                if ((good_links & link_mask) == 0)
+                {
+                    BDK_TRACE(INIT, "N%d:   Link %d up\n", my_node, link);
+                    good_links |= link_mask;
+                }
+            }
+            else
+            {
+                /* Link doesn't have credits, mark bad */
+                if (good_links & link_mask)
+                {
+                    BDK_TRACE(INIT, "N%d:   Link %d down\n", my_node, link);
+                    good_links &= ~link_mask;
+                }
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
+                    c.s.reinit = 1);
+                bdk_wait_usec(1000);
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
+                    c.s.reinit = 0);
+                bdk_wait_usec(1000);
+                BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
+                    c.s.drop = 0);
+            }
         }
     }
 
     /* Show final lane status */
     //oci_report_lane(my_node, 1);
+    BDK_TRACE(INIT, "N%d: CCPI links are ready at %lu\n", my_node, gbaud);
 
     return 0;
 }
