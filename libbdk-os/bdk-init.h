@@ -94,10 +94,7 @@ extern uint64_t bdk_get_running_coremask(bdk_node_t node);
  *
  * @return Number of cores running. Doesn't count cores that aren't booted
  */
-static inline int bdk_get_num_running_cores(bdk_node_t node)
-{
-    return __builtin_popcountl(bdk_get_running_coremask(node));
-}
+extern int bdk_get_num_running_cores(bdk_node_t node);
 
 #ifndef BDK_SHOW_BOOT_BANNERS
 #define BDK_SHOW_BOOT_BANNERS 1
