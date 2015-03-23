@@ -54,7 +54,6 @@ uint32_t __bdk_dram_get_col_mask(bdk_node_t node, int lmc)
     // PROTECT!!!
     if (__bdk_dram_is_lmc_in_dreset(node, lmc)) // check LMCn
         return 0;
-    int xbits = (__bdk_dram_get_num_lmc(node) >> 1); 
     BDK_CSR_INIT(lmcx_config, node, BDK_LMCX_CONFIG(lmc)); // sample LMCn
     int numbits = 11 + lmcx_config.s.row_lsb - __bdk_dram_get_num_bank_bits(node, lmc);
     return ((1ul << numbits) - 1);
