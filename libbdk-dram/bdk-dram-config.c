@@ -156,7 +156,8 @@ const char* bdk_dram_get_config_name(int index)
  * @return string or NULL
  */
 #define INFO_STRING_LEN 40
-static const char info_string[INFO_STRING_LEN];
+static char info_string[INFO_STRING_LEN];
+static const char *info_ptr = info_string;
 
 const char* bdk_dram_get_info_string(int node)
 {
@@ -169,7 +170,7 @@ const char* bdk_dram_get_info_string(int node)
              (__bdk_dram_is_ddr4(node, 0)) ? "DDR4" : "DDR3",
              (__bdk_dram_is_rdimm(node, 0)) ? "RDIMM" : "UDIMM");
 
-    return info_string;
+    return info_ptr;
 }
 
 
