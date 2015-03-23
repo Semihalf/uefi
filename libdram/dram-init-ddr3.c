@@ -738,12 +738,16 @@ static unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num, in
     bdk_lmcx_dll_ctl3_t ddr_dll_ctl3;
 
     ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
-    SET_DDR_DLL_CTL3(offset_ena, 0);
+    SET_DDR_DLL_CTL3(load_offset, 0);
+    DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+    ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
+
     SET_DDR_DLL_CTL3(mode_sel, dll_offset_mode);
     SET_DDR_DLL_CTL3(offset, (_abs(byte_offset)&0x3f) | (_sign(byte_offset) << 6)); /* Always 6-bit field? */
     SET_DDR_DLL_CTL3(byte_sel, byte);
     DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
     ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
+
     SET_DDR_DLL_CTL3(load_offset, 1);
     DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
     ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
@@ -770,6 +774,10 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode, int ddr_in
     for (byte_offset=-63; byte_offset<63; ++byte_offset) {
         int i;
         uint64_t byte_bitmask = 0xff;
+
+        ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
+        SET_DDR_DLL_CTL3(offset_ena, 0);
+        DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
 
         load_dll_offset(node, ddr_interface_num, dll_offset_mode, byte_offset, 10 /* All bytes at once */);
 
@@ -4537,6 +4545,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             uint64_t setting;
             int      score;
         } rlevel_scoreboard[RTT_NOM_OHMS_COUNT][RODT_OHMS_COUNT][4];
+        char part_number[21] = {0};
 #pragma pack(pop)
 
         default_rodt_ctl = odt_config[odt_idx].qs_dic;
@@ -5359,6 +5368,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         perform_ddr3_init_sequence(node, rank_mask, ddr_interface_num);
 
+        get_dimm_part_number(part_number, node, &dimm_config_table[0], 0);
+
         for (rankx = 0; rankx < dimm_count * 4;rankx++) {
             uint64_t value;
             int parameter_set = 0;
@@ -5366,6 +5377,20 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 continue;
 
             lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
+
+            if (custom_lmc_config->rlevel_table != NULL) {
+                i = 0;
+                while (custom_lmc_config->rlevel_table[i].part != NULL) {
+                    printf("DIMM part number:\"%s\", SPD: \"%s\"\n", custom_lmc_config->rlevel_table[i].part, part_number);
+                    if ((strcmp(part_number, custom_lmc_config->rlevel_table[i].part) == 0) 
+                        && (_abs(custom_lmc_config->rlevel_table[i].speed - 2*ddr_hertz/(1000*1000)) < 50 )) {
+                        update_rlevel_rank_struct(&lmc_rlevel_rank, i, custom_lmc_config->rlevel_table[i].rlevel_rank[ddr_interface_num][rankx]);
+                        parameter_set |= 1;
+                        break;
+                    }
+                    ++i;
+                }
+            }
 
             for (i=0; i<9; ++i) {
                 if ((s = lookup_env_parameter("ddr%d_rlevel_rank%d_byte%d", ddr_interface_num, rankx, i)) != NULL) {

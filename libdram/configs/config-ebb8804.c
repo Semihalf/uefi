@@ -66,6 +66,41 @@ static const uint8_t MT18ASF1G72AZ_2G1AYESZG_SPD[] = {
     0x31,0x47,0x37,0x32,0x41,0x5a,0x2d,0x41,0x59,0x45,0x00,0x00,0x00,0x00,0x00,0x00
 };
 
+static rlevel_table_t rlevel_rank_values[] =    {
+    {
+        .part = "36ASF2G72PZ-2G1A2",
+        .speed = 1866,
+        .rlevel_rank = {
+            /*
+              38 lines matching "Rlevel Rank   0x1\\|Node 0: DRAM: .* MB, .* MHz\\|Initializing node . DDR interface\\|DIMM .: DDR4" in buffer minicom-S9-23Mar1751.log.
+              59:Initializing node 0 DDR interface 0, DDR Clock 933332040, DDR Reference Clock 50000000
+              62:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2    s/n 223344122 1.2V
+              451:Rank(0) Rlevel Rank   0x1, 0x004E4503CE3D0452 :    14    17    16    15    14    15    16    17    18 (0)
+              452:Rank(1) Rlevel Rank   0x1, 0x004E4503CE3D0452 :    14    17    16    15    14    15    16    17    18 (4)
+              488:Initializing node 0 DDR interface 1, DDR Clock 933332040, DDR Reference Clock 50000000
+              491:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2    s/n 223344210 1.2V
+              879:Rank(0) Rlevel Rank   0x1, 0x004E4503CE3D0452 :    14    17    16    15    14    15    16    17    18 (0)
+              880:Rank(1) Rlevel Rank   0x1, 0x004E4503CE3D0452 :    14    17    16    15    14    15    16    17    18 (0)
+              916:Initializing node 0 DDR interface 2, DDR Clock 933332040, DDR Reference Clock 50000000
+              919:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2    s/n 223344208 1.2V
+              1308:Rank(0) Rlevel Rank   0x1, 0x004D44F3CD3CF411 :    13    17    15    15    13    15    15    16    17 (0)
+              1309:Rank(1) Rlevel Rank   0x1, 0x004D44F3CD38F411 :    13    17    15    15    13    14    15    16    17 (0)
+              1345:Initializing node 0 DDR interface 3, DDR Clock 933332040, DDR Reference Clock 50000000
+              1348:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2    s/n 237508068 1.2V
+              1737:Rank(0) Rlevel Rank   0x1, 0x004E44F3CD3D0412 :    14    17    15    15    13    15    16    16    18 (50)
+              1738:Rank(1) Rlevel Rank   0x1, 0x004E40F3CD3D0412 :    14    16    15    15    13    15    16    16    18 (50)
+              1773:Node 0: DRAM: 65536 MB, 933 MHz
+            */
+            0x004E4503CE3D0452, 0x004E4503CE3D0452, 0, 0,
+            0x004E4503CE3D0452, 0x004E4503CE3D0452, 0, 0,
+            0x004D44F3CD3CF411, 0x004D44F3CD38F411, 0, 0,
+            0x004E44F3CD3D0412, 0x004E40F3CD3D0412, 0, 0,
+        }
+    },
+    {0}                             /* Terminator */
+};
+
+
 static void setup_modereg_params1_1rank_1slot(bdk_lmcx_modereg_params1_t *modereg)
 {
     modereg->u = 0;
@@ -375,6 +410,7 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     //cfg->dll_write_offset     = {0};
     //cfg->dll_read_offset      = {0};
     cfg->parity                 = 0;
+    cfg->rlevel_table		= rlevel_rank_values;
 }
 
 const dram_config_t *dram_get_config_ebb8804(void)

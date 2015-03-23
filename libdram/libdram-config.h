@@ -180,6 +180,13 @@ typedef struct {
     .dll_read_offset:  FIXME: Add description
   */
 
+
+typedef struct {
+    char *part;
+    int speed;
+    uint64_t rlevel_rank[4][4];
+} rlevel_table_t;
+
 typedef struct {
     uint8_t min_rtt_nom_idx;
     uint8_t max_rtt_nom_idx;
@@ -208,6 +215,7 @@ typedef struct {
     uint8_t mode32b;
     int8_t dll_write_offset[9];
     int8_t dll_read_offset [9];
+    rlevel_table_t *rlevel_table;
 } ddr3_custom_config_t;
 
 #define DDR_CFG_T_MAX_DIMMS     5
