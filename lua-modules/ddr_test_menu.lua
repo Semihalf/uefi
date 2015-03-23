@@ -21,7 +21,7 @@ local function set_batch_mode(mode)
 end
 
 local function set_range_repeat()
-    local count = menu.prompt_number("Number of time to repeat the test, or -1 for infinite", range_repeat)
+    local count = menu.prompt_number("Number of times to repeat the test, or -1 for infinite", range_repeat)
     if (count < -1) or (count == 0) then
         print("Invalid repeat count")
     else
@@ -147,12 +147,12 @@ end
 repeat
     local info = cavium.c.bdk_dram_get_info_string(menu.node);
     local m = menu.new("DRAM Test Menu - %s" % info)
-    m:item("cores", "Bringup Cores for multi-core testing",
+    m:item("cores", "Bringup Cores for multi-core testing (%d)" % cavium.c.bdk_get_num_running_cores(menu.node),
            cavium.c.bdk_init_nodes, 0)
     if range_repeat == -1 then
-        m:item("repeat", "Number of time to repeat the test (Forever)" % range_repeat, set_range_repeat)
+        m:item("repeat", "Number of times to repeat the test (Forever)" % range_repeat, set_range_repeat)
     else
-        m:item("repeat", "Number of time to repeat the test (%d)" % range_repeat, set_range_repeat)
+        m:item("repeat", "Number of times to repeat the test (%d)" % range_repeat, set_range_repeat)
     end
     m:item("start", "Starting address (0x%x)" % range_start, set_range_start)
     if range_length == -1 then
