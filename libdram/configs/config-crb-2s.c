@@ -517,7 +517,7 @@ const dram_config_t *dram_get_config_crb_2s(bdk_node_t node)
     static dram_config_t cfg[2];
 
     /* Make all fields default to zero */
-    memset(&cfg[node], 0, sizeof(cfg));
+    memset(&cfg[node], 0, sizeof(cfg)/sizeof(dram_config_t));
 
     /* Set the config name and the default frequency */
     cfg[node].name = DEFAULT_NAME;
