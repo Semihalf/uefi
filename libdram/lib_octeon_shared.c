@@ -799,10 +799,6 @@ int initialize_ddr_clock(bdk_node_t node,
             ddr_pll_ctl.s.phy_dcok          = 0;
             ddr_pll_ctl.s.dclk_invert       = 0;
 
-            if ((s = lookup_env_parameter("ddr_pll_bwadj")) != NULL) {
-                ddr_pll_ctl.s.bwadj = strtoul(s, NULL, 0);
-            }
-
             DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(0), ddr_pll_ctl.u);
 
             ddr_pll_ctl.s.dclk_invert       ^= 1; /* Toggle dclk_invert from LMC0 */
@@ -921,7 +917,7 @@ int initialize_ddr_clock(bdk_node_t node,
 		    if (override_pll_settings) {
 			best_pll_MHz = ddr_ref_hertz * (best_clkf+1) / (best_clkr+1) / 1000000;
 			best_calculated_ddr_hertz = ddr_ref_hertz * (best_clkf + 1) / ((best_clkr + 1) * (_en[best_en_idx]));
-			best_error = ddr_hertz - calculated_ddr_hertz;
+			best_error = ddr_hertz - best_calculated_ddr_hertz;
 		    }
 
 		    ddr_print("clkr: %2lu, en[%d]: %2d, clkf: %4lu, pll_MHz: %4lu, ddr_hertz: %8lu, error: %8ld <==\n",
