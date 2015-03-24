@@ -6,11 +6,11 @@
 /* Control if we even try and do multi-node (0 or 1) */
 #define MULTI_NODE 1
 /* Name of DRAM config for master node 0 */
-#define DRAM_NODE0 crb_2s
+#define DRAM_NODE0 crb_2s_node0
 /* Enable verbose logging from DRAM initialization (0 or 1) */
 #define DRAM_VERBOSE 0
 /* Name of DRAM config for slave node 1 */
-#define DRAM_NODE1 crb_2s
+#define DRAM_NODE1 crb_2s_node1
 /* How long to wait for selection of diagnostics (seconds) */
 #define DIAGS_TIMEOUT 3
 /* A GPIO can be used to select diagnostics without input. The following
