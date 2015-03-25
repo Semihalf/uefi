@@ -50,29 +50,35 @@ class Board_EVB(Board):
     def __init__(self, console, mcu, mcu2, logObject):
         Board.__init__(self, console, logObject)
         self.mcu = connection.GenericPort(mcu, logObject)
-        self.mcu2 = connection.GenericPort(mcu2, logObject)
+        if mcu2:
+            self.mcu2 = connection.GenericPort(mcu2, logObject)
+            self.multinode = True
+        else:
+            self.mcu2 = None
+            self.multinode = False
 
     def close(self):
         self.mcu.close()
-        self.mcu2.close()
+        if self.mcu2:
+            self.mcu2.close()
         Board.close(self)
 
     def powerCycle(self):
         self.log("Power cycle board")
-        try:
-            self.mcu.waitfor("JUNK")
-        except:
-            pass
-        try:
-            self.mcu2.waitfor("JUNK")
-        except:
-            pass
-        for m in [self.mcu, self.mcu2]:
+        mcu_list = [self.mcu]
+        if self.mcu2:
+            mcu_list.append(self.mcu2)
+        for m in mcu_list:
+            try:
+                self.mcu.waitfor("JUNK")
+            except:
+                pass
+        for m in mcu_list:
             m.sendEcho("echo mcu_responded")
             m.match("mcu_responded")
             m.waitforRE("EBB88.. MCU Command>")
             m.sendEcho("P -f -r")
-        for m in [self.mcu, self.mcu2]:
+        for m in mcu_list:
             m.waitforRE("EBB88.. MCU Command>", timeout=15)
 
 #
@@ -82,6 +88,7 @@ class Board_CRB_2S(Board):
     def __init__(self, console, serialbox, logObject):
         Board.__init__(self, console, logObject)
         self.serialbox = connection.GenericPort(serialbox, logObject)
+        self.multinode = True
 
     def close(self):
         self.serialbox.close()

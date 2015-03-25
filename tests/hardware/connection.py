@@ -120,6 +120,7 @@ class GenericPort:
             self.port = TelnetPort(connect_str)
         self.log = logObject
         self.log.logInfo("Connected to %s" % connect_str)
+        self.dataBuffer = ""
 
     def close(self):
         self.port.close()
@@ -129,7 +130,14 @@ class GenericPort:
         self.log.logInput(data)
         self.port.write(data)
 
+    def unget(self, data):
+        self.dataBuffer += data
+
     def readChar(self, timeout):
+        if self.dataBuffer:
+            data = self.dataBuffer[0]
+            self.dataBuffer = self.dataBuffer[1:]
+            return data
         data = self.port.readChar(timeout)
         if data == "\033":
             data = "<ESC>"
@@ -195,13 +203,14 @@ class GenericPort:
         current = r
         for c in correct:
             if r != c:
-                try:
-                    self.waitfor("ANY PENDING DATA", timeout=1)
-                except:
-                    pass
+                self.unget(current)
                 raise Exception("Match failed\nCorrect: \"" + correct + "\"\nRead: \"" + current + "\"\n")
-            r = self.readChar(timeout)
-            current += r
+            try:
+                r = self.readChar(timeout)
+                current += r
+            except:
+                self.unget(current)
+                raise
 
     def matchRE(self, correct, timeout=1):
         r = self.readChar(timeout)
@@ -212,12 +221,17 @@ class GenericPort:
         start_time = time.time()
         match = regex.match(current)
         while not match:
-            current += self.readChar(timeout)
+            try:
+                current += self.readChar(timeout)
+            except:
+                self.unget(current)
+                raise
             if time.time() - start_time > timeout:
                 break
             match = regex.match(current)
         if match:
             return match
+        self.unget(current)
         if current:
             raise Exception("RE match failed \"%s\", got \"%s\"" % (correct, current))
         else:
