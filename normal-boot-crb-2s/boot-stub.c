@@ -13,6 +13,9 @@
 #define DRAM_VERBOSE 0
 /* Name of DRAM config for slave node 1 */
 #define DRAM_NODE1 crb_2s
+/* If non-zero, enable a watchdog timer to reset the chip ifwe hang during init.
+   Value is in 262144 SCLK cycle intervals, max of 16 bits */
+#define WATCHDOG_TIMEOUT 8010 /* 3sec at 700Mhz */
 /* How long to wait for selection of diagnostics (seconds) */
 #define DIAGS_TIMEOUT 3
 /* A GPIO can be used to select diagnostics without input. The following
@@ -151,6 +154,11 @@ static void boot_image(const char *dev_filename, uint64_t loc)
 
     /* Send status to the BMC: Boot stub complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_COMPLETE);
+
+    /* Disable watchdog */
+    if (WATCHDOG_TIMEOUT)
+        BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
+
     if (bdk_jump_address(bdk_ptr_to_phys(image), bdk_ptr_to_phys(image_env)))
     {
         bdk_error("Failed to jump to image\n");
@@ -276,6 +284,14 @@ int main(void)
 {
     bdk_node_t node = bdk_numa_local();
 
+    /* Enable watchdog */
+    if (WATCHDOG_TIMEOUT)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GTI_CWD_WDOGX(bdk_get_core_num()),
+            c.s.len = WATCHDOG_TIMEOUT;
+            c.s.mode = 3);
+    }
+
     /* Drive GPIO 10 high, signalling success transferring from the boot ROM */
     BDK_TRACE(BOOT_STUB, "Driving GPIO10 high\n");
     bdk_gpio_initialize(node, 10, 1, 1);
@@ -332,6 +348,10 @@ int main(void)
         bdk_version_string());
     print_node_strapping(bdk_numa_master());
 
+    /* Poke the watchdog */
+    if (WATCHDOG_TIMEOUT)
+        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+
     /* Setup CCPI if we're on the second node */
     if (MULTI_NODE && (node != 0))
     {
@@ -346,6 +366,11 @@ int main(void)
             extern void __bdk_reset_thread(int arg1, void *arg2);
             __bdk_reset_thread(0, NULL);
         }
+        /* Disable watchdog */
+        if (WATCHDOG_TIMEOUT)
+            BDK_CSR_WRITE(node, BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
+        extern void __bdk_reset_thread(int arg1, void *arg2);
+        __bdk_reset_thread(0, NULL);
     }
 
     /* Initialize DRAM on the master node */
@@ -370,7 +395,14 @@ int main(void)
             bdk_error("Node %d failed DRAM init\n", bdk_numa_master());
         else
             bdk_error("Failed DRAM init\n");
+        /* Reset on failure if we're using the watchdog */
+        if (WATCHDOG_TIMEOUT)
+            bdk_reset_chip(node);
     }
+
+    /* Poke the watchdog */
+    if (WATCHDOG_TIMEOUT)
+        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
 
     /* Unlock L2 now that DRAM works */
     if (mbytes > 0)
@@ -378,6 +410,9 @@ int main(void)
         uint64_t l2_size = bdk_l2c_get_cache_size_bytes(node);
         BDK_TRACE(BOOT_STUB, "Unlocking L2\n");
         bdk_l2c_unlock_mem_region(node, 0, l2_size);
+        /* Poke the watchdog */
+        if (WATCHDOG_TIMEOUT)
+            BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
     }
 #endif
 
@@ -390,6 +425,12 @@ int main(void)
         BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
         bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
         bdk_init_nodes(1, CCPI_INIT_SPEED);
+        /* Reset if CCPI failed */
+        if (bdk_numa_is_only_one())
+            bdk_reset_chip(node);
+        /* Poke the watchdog */
+        if (WATCHDOG_TIMEOUT)
+            BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
     }
 
     /* Send status to the BMC: Multi-node setup complete */
@@ -413,12 +454,23 @@ int main(void)
                 printf("Node %d: DRAM: %d MB, %u MHz\n", other_node, mbytes, freq);
             }
             else
+            {
                 bdk_error("Node %d failed DRAM init\n", other_node);
+                /* Reset on failure if we're using the watchdog */
+                if (WATCHDOG_TIMEOUT)
+                    bdk_reset_chip(node);
+            }
         }
         else
         {
             printf("Node %d: Not found, skipping DRAM init\n", other_node);
+            /* Reset on failure if we're using the watchdog */
+            if (WATCHDOG_TIMEOUT)
+                bdk_reset_chip(node);
         }
+        /* Poke the watchdog */
+        if (WATCHDOG_TIMEOUT)
+            BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
     }
 #endif
 
@@ -503,6 +555,10 @@ int main(void)
         }
     }
 
+    /* Poke the watchdog */
+    if (WATCHDOG_TIMEOUT)
+        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+
     /* Initialize PCIe and bring up the link */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {
@@ -533,6 +589,11 @@ int main(void)
             use_atf = 0;
         }
     }
+
+    /* Poke the watchdog */
+    if (WATCHDOG_TIMEOUT)
+        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+
     /* Check for 'D' override */
     if (use_atf && (DIAGS_TIMEOUT > 0))
     {
@@ -540,6 +601,10 @@ int main(void)
         int key = bdk_readline_getkey(DIAGS_TIMEOUT * 1000000);
         use_atf = !((key == 'd') || (key == 'D'));
     }
+
+    /* Poke the watchdog */
+    if (WATCHDOG_TIMEOUT)
+        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
 
     /* Initialize the filesystems be need to load code from SPI or eMMC */
     extern int bdk_fs_mmc_init(void);

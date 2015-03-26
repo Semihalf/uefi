@@ -1,5 +1,9 @@
 #include <bdk.h>
 
+/* If non-zero, enable a watchdog timer to reset the chip ifwe hang during init.
+   Value is in 262144 SCLK cycle intervals, max of 16 bits */
+#define WATCHDOG_TIMEOUT 8010 /* 3sec at 700Mhz */
+
 /* The node number may change dynamically while this code is running. This
    variable contains its value after every update in the CCPI monitor loop */
 static bdk_node_t node;
@@ -229,9 +233,9 @@ static void monitor_ccpi(void)
                     ocx_com_linkx_ctl.s.reinit = 1;
                     BDK_CSR_WRITE(node, BDK_OCX_COM_LINKX_CTL(link), ocx_com_linkx_ctl.u);
                     /* Reinit wil lbe cleared teh next time through the loop */
-                    bdk_dbg_uart_str("Re-init link ");
-                    bdk_dbg_uart_char('0' + link);
-                    bdk_dbg_uart_str("\r\n");
+                    //bdk_dbg_uart_str("Re-init link ");
+                    //bdk_dbg_uart_char('0' + link);
+                    //bdk_dbg_uart_str("\r\n");
                 }
                 else
                     valid_links++;
@@ -242,6 +246,9 @@ static void monitor_ccpi(void)
             /* Reset if a link change state */
             BDK_CSR_WRITE(node, BDK_RST_OCX, 0x7);
             bdk_dbg_uart_char('0' + valid_links);
+            /* Disable watchdog */
+            if (WATCHDOG_TIMEOUT)
+                BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
             bdk_dbg_uart_str(" CCPI links up. Putting core in reset\r\n");
             extern void __bdk_reset_thread(int arg1, void *arg2);
             __bdk_reset_thread(0, NULL);
@@ -260,6 +267,14 @@ void __bdk_init_incorrect_node(void)
        functions as we're running at an address other than our link address */
     int uart = 0;
     node = bdk_numa_local();
+
+    if (WATCHDOG_TIMEOUT)
+    {
+        /* Enable a watchdog to reset us if we don't come up quickly */
+        BDK_CSR_MODIFY(c, node, BDK_GTI_CWD_WDOGX(bdk_get_core_num()),
+            c.s.len = WATCHDOG_TIMEOUT;
+            c.s.mode = 3);
+    }
 
     /* Temporarily change the master node global to this node so some
        functions will work properly when called */
