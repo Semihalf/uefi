@@ -20,29 +20,83 @@ static rlevel_table_t rlevel_rank_values_node0[] =    {
         .speed = 1600,
         .rlevel_rank = {
             /*
-              68 lines matching "Rlevel Rank   0x1\\|Node 0: DRAM: .* MB, .* MHz\\|Initializing node . DDR interface\\|DIMM .: DDR4" in buffer 0013-0-2x4x16GM.txt.
-              67:Initializing node 0 DDR interface 0, DDR Clock 799998940, DDR Reference Clock 50000000
-              70:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2    s/n 237507905 1.2V
-              459:Rank(0) Rlevel Rank   0x1, 0x004A34D30B2CC34E :    10    13    13    12    11    11    12    13    14 (0)
-              460:Rank(1) Rlevel Rank   0x1, 0x004A38C30B2CC34E :    10    14    12    12    11    11    12    13    14 (0)
-              496:Initializing node 0 DDR interface 1, DDR Clock 799998940, DDR Reference Clock 50000000
-              499:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2    s/n 237508014 1.2V
-              887:Rank(0) Rlevel Rank   0x1, 0x004B34B2CA30C34E :    11    13    11    11    10    12    12    13    14 (50)
-              888:Rank(1) Rlevel Rank   0x1, 0x004B34B2CA2CC34E :    11    13    11    11    10    11    12    13    14 (50)
-              924:Initializing node 0 DDR interface 2, DDR Clock 799998940, DDR Reference Clock 50000000
-              927:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2    s/n 237508055 1.2V
-              1316:Rank(0) Rlevel Rank   0x1, 0x004B38D30B2CC34F :    11    14    13    12    11    11    12    13    15 (0)
-              1317:Rank(1) Rlevel Rank   0x1, 0x004B38D34B30C34E :    11    14    13    13    11    12    12    13    14 (0)
-              1353:Initializing node 0 DDR interface 3, DDR Clock 799998940, DDR Reference Clock 50000000
-              1356:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2    s/n 237507870 1.2V
-              1745:Rank(0) Rlevel Rank   0x1, 0x004B38D30B34E3D0 :    11    14    13    12    11    13    14    15    16 (12)
-              1746:Rank(1) Rlevel Rank   0x1, 0x004C38D30B34E3D0 :    12    14    13    12    11    13    14    15    16 (50)
-              1781:Node 0: DRAM: 65536 MB, 800 MHz
+              A recommended set of experimental hard-coded settings from David L.
+
+              CRB12
+              LMC0
+              Rank(0) Rlevel Rank   0x1, 0x004A34C30B2CC30E :    10    13    12    12    11    11    12    12    14
+              Rank(1) Rlevel Rank   0x1, 0x004A34C30B2CC34E :    10    13    12    12    11    11    12    13    14
+
+              LMC1
+              Rank(0) Rlevel Rank   0x1, 0x004B34B2CB2CC34E :    11    13    11    11    10    11    12    13    14
+              Rank(1) Rlevel Rank   0x1, 0x004B34B2CB2CC34F :    11    13    11    11    10    11    12    13    14
+
+              LMC2
+              Rank(0) Rlevel Rank   0x1, 0x004B3CD34B30C34F :    11    15    13    12    11    12    12    13    15
+              Rank(1) Rlevel Rank   0x1, 0x004B3CE34B30C34F :    11    15    14    13    11    12    12    13    15
+
+              LMC3
+              Rank(0) Rlevel Rank   0x1, 0x004C38D30B38E3D0 :    12    14    13    12    11    13    14    15    16
+              Rank(1) Rlevel Rank   0x1, 0x004B38D30B34E410 :    11    14    13    12    11    13    14    15    16
+
+              --------------------------------------------------------------
+              CRB13
+              LMC0
+              Rank(0) Rlevel Rank   0x1, 0x004A34C30B2CC38E :    10    13    12    12    11    11    12    13    14
+              Rank(1) Rlevel Rank   0x1, 0x004A34C30A2CC38E :    10    13    12    12    10    11    12    12    14
+
+              LMC1
+              Rank(0) Rlevel Rank   0x1, 0x004A30B2CA2CC34E :    10    12    11    11    10    11    12    13    14
+              Rank(1) Rlevel Rank   0x1, 0x004B30B2CA2CC34E :    11    12    11    11    10    11    12    13    14
+
+              LMC2
+              Rank(0) Rlevel Rank   0x1, 0x004B38E30B30C34F :    11    14    14    12    11    12    12    13    15
+              Rank(1) Rlevel Rank   0x1, 0x004B38D34B30C34F :    11    14    13    13    11    12    12    13    15
+
+              LMC3
+              Rank(0) Rlevel Rank   0x1, 0x004C38D30B34E3D0 :    12    14    13    12    11    13    14    15    16
+              Rank(1) Rlevel Rank   0x1, 0x004C38D30B34E3D0 :    12    14    13    12    11    13    14    15    16
+              ----------------------------------------------------------------
+              Final
+              LMC0
+              Rank(0) Rlevel Rank   0x1, 0x004A34C30B2CC38E :    10    13    12    12    11    11    12    12    14
+              Rank(1) Rlevel Rank   0x1, 0x004A34C30A2CC38E :    10    13    12    12    10    11    12    12    14
+
+              LMC1
+              Rank(0) Rlevel Rank   0x1, 0x004A30B2CA2CC34E :    10    12    11    11    10    11    12    13    14
+              Rank(1) Rlevel Rank   0x1, 0x004B30B2CA2CC34E :    11    12    11    11    10    11    12    13    14
+
+              LMC2
+              Rank(0) Rlevel Rank   0x1, 0x004B38E30B30C34F :    11    14    13    12    11    12    12    13    15
+              Rank(1) Rlevel Rank   0x1, 0x004B38D34B30C34F :    11    14    13    13    11    12    12    13    15
+
+              LMC3
+              Rank(0) Rlevel Rank   0x1, 0x004C38D30B34E3D0 :    12    14    13    12    11    13    14    15    16
+              Rank(1) Rlevel Rank   0x1, 0x004C38D30B34E3D0 :    12    14    13    12    11    13    14    15    16
+
+              33 lines matching "Rlevel Rank   0x1\\|Node 0: DRAM: .* MB, .* MHz\\|Initializing node . DDR interface\\|DIMM .: DDR4\\|fail\\|======== Fail\\|All tests passed" in buffer minicom-S9-26Mar1207.log.
+              58:Initializing node 0 DDR interface 0, DDR Clock 933332010, DDR Reference Clock 50000000
+              61:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2  s/n 237508068 1.2V
+              199:Rank(0) Rlevel Rank   0x1, 0x004A34C30B2CC30E :    10    13    12    12    11    11    12    12    14
+              209:Rank(1) Rlevel Rank   0x1, 0x004A34C30A2CC30E :    10    13    12    12    10    11    12    12    14
+              246:Initializing node 0 DDR interface 1, DDR Clock 933332010, DDR Reference Clock 50000000
+              249:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2  s/n 223344208 1.2V
+              386:Rank(0) Rlevel Rank   0x1, 0x004A30B2CA2CC34E :    10    12    11    11    10    11    12    13    14
+              396:Rank(1) Rlevel Rank   0x1, 0x004B30B2CA2CC34E :    11    12    11    11    10    11    12    13    14
+              433:Initializing node 0 DDR interface 2, DDR Clock 933332010, DDR Reference Clock 50000000
+              436:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2  s/n 223344210 1.2V
+              574:Rank(0) Rlevel Rank   0x1, 0x004B38D30B30C34F :    11    14    13    12    11    12    12    13    15
+              584:Rank(1) Rlevel Rank   0x1, 0x004B38D34B30C34F :    11    14    13    13    11    12    12    13    15
+              621:Initializing node 0 DDR interface 3, DDR Clock 933332010, DDR Reference Clock 50000000
+              624:DIMM 0: DDR4 RDIMM, ECC  36ASF2G72PZ-2G1A2  s/n 223344122 1.2V
+              762:Rank(0) Rlevel Rank   0x1, 0x004C38D30B34E3D0 :    12    14    13    12    11    13    14    15    16
+              772:Rank(1) Rlevel Rank   0x1, 0x004C38D30B34E3D0 :    12    14    13    12    11    13    14    15    16
+              808:Node 0: DRAM: 65536 MB, 933 MHz
             */
-            { 0x004A34D30B2CC34E, 0x004A38C30B2CC34E, 0, 0 },
-            { 0x004B34B2CA30C34E, 0x004B34B2CA2CC34E, 0, 0 },
-            { 0x004B38D30B2CC34F, 0x004B38D34B30C34E, 0, 0 },
-	    { 0x004B38D30B34E3D0, 0x004C38D30B34E3D0, 0, 0 }
+            { 0x004A34C30B2CC30E, 0x004A34C30A2CC30E, 0, 0 },
+            { 0x004A30B2CA2CC34E, 0x004B30B2CA2CC34E, 0, 0 },
+            { 0x004B38D30B30C34F, 0x004B38D34B30C34F, 0, 0 },
+            { 0x004C38D30B34E3D0, 0x004C38D30B34E3D0, 0, 0 } 
         }
     },
 
