@@ -14,5 +14,5 @@ def main(log):
         test_dram.dram_all(cnx)
     cnx.close()
 
-log = connection.Log("ebb8800-two-node-full-dram.log")
+log = connection.Log("ebb8800-one-node-full-dram.log")
 main(log)

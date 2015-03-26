@@ -10,6 +10,9 @@
 #define ENABLE_DRAM_MENU 0
 #endif
 
+/* On boards using software CCPI init, this is the speed to bringup CCPI at */
+#define CCPI_INIT_SPEED 10312
+
 /**
  * This function is not defined by the BDK libraries. It must be
  * defined by all BDK applications. It should be empty except for
@@ -429,7 +432,8 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
     if (freq_mhz == 0)
         freq_mhz = 10;
 
-    snprintf(buffer, buffer_size, "/dev/n0.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
+    snprintf(buffer, buffer_size, "/dev/n%d.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
+        node,
         chip_select,
         (active_high) ? 'h' : 'l',
         idle_mode,
@@ -438,16 +442,18 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
         freq_mhz);
 }
 
+static void ccpi_sw_init(void)
+{
+    printf("\n"
+        "Secondary node with CCPI init in software. Starting CCPI\n"
+        "\n");
+    if (bdk_init_ccpi_links(CCPI_INIT_SPEED))
+        bdk_fatal("CCPI init failed\n");
+    bdk_dbg_uart_str("Putting core in reset\r\n");
+    extern void __bdk_reset_thread(int arg1, void *arg2);
+    __bdk_reset_thread(0, NULL);
+}
 
-//##################################################################################################
-//                                         Include OCX Files
-//################################################|#################################################
-
-#include "../normal-boot-ebb8800/oci-for-t88-bdk-functions.c"
-//#include "/nfs/dvps/jwise/OctValidate/ocx/functions/oci-for-t88-bdk-functions.c"
-
-
-//##################################################################################################
 /**
  * Main entry point
  *
@@ -527,20 +533,11 @@ int main(void)
         (vrm_disable) ? "Disabled" : "Enabled",
         (trust_mode) ? "Enabled" : "Disabled");
 
-
-    //##############################################################################################
-    //                                          CCPI Code
-    //##############################################|###############################################
-
-    if( CAVIUM_IS_MODEL( CAVIUM_CN88XX_PASS1_0 )  &&  !bdk_is_platform( BDK_PLATFORM_ASIM ))
-    {
-        run_boot_stub_ccpi();
-    }
-
-
-    //##############################################|###############################################
-    //                                        Original Code
-    //##############################################|###############################################
+    /* Check if we're booting on a non-zero node and CCPI is in software mode.
+       This would mean we should setup CCPI and wait for the other node to
+       take over */
+    if ((node != 0) && (bdk_qlm_get_gbaud_mhz(node, 8) == 0))
+        ccpi_sw_init();
 
     extern int bdk_fs_mmc_init(void);
     extern int bdk_fs_mpi_init(void);
@@ -594,7 +591,9 @@ int main(void)
             }
             case 2: /* eMMC / SD */
             {
-                choose_image("/dev/n0.mmc0");
+                char name[48];
+                sprintf(name, "/dev/n%d.mmc0", node);
+                choose_image(name);
                 break;
             }
             case 3: /* SPI */
@@ -620,7 +619,7 @@ int main(void)
                 if (option == 5)
                     create_spi_device_name(name, sizeof(name), boot_method);
                 else
-                    strcpy(name, "/dev/n0.mmc0");
+                    sprintf(name, "/dev/n%d.mmc0", node);
                 do_upload(name, offset);
                 break;
             }

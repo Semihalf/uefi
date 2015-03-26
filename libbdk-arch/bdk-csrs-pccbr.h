@@ -61,6 +61,9 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 /**
  * PCCBR - pccbr_xxx_ari_cap_hdr
+ *
+ * This register is the header of the 8-byte PCI ARI capability structure.
+ *
  */
 typedef union bdk_pccbr_xxx_ari_cap_hdr {
 	uint32_t u;
@@ -300,6 +303,9 @@ static inline uint64_t BDK_PCCBR_XXX_E_CAP2_FUNC(void)
 
 /**
  * PCCBR - pccbr_xxx_e_cap_hdr
+ *
+ * This register is the header of the 64-byte PCIe capability header.
+ *
  */
 typedef union bdk_pccbr_xxx_e_cap_hdr {
 	uint32_t u;
@@ -337,6 +343,9 @@ static inline uint64_t BDK_PCCBR_XXX_E_CAP_HDR_FUNC(void)
 
 /**
  * PCCBR - pccbr_xxx_id
+ *
+ * This register is the header of the 64-byte PCI type 1 configuration structure.
+ *
  */
 typedef union bdk_pccbr_xxx_id {
 	uint32_t u;
@@ -403,6 +412,9 @@ static inline uint64_t BDK_PCCBR_XXX_REV_FUNC(void)
 
 /**
  * PCCBR - pccbr_xxx_vsec_cap_hdr
+ *
+ * This register is the header of the 16-byte Cavium ThunderX family bridge capability
+ * structure.
  */
 typedef union bdk_pccbr_xxx_vsec_cap_hdr {
 	uint32_t u;

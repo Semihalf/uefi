@@ -72,6 +72,7 @@ typedef struct
     void (*inject_prbs_error)(bdk_node_t node, int qlm, int lane);
     int (*enable_loop)(bdk_node_t node, int qlm, bdk_qlm_loop_t loop);
     int (*auto_config)(bdk_node_t node);
+    int (*rx_equalization)(bdk_node_t node, int qlm);
 } bdk_qlm_ops_t;
 
 /**
@@ -244,5 +245,15 @@ extern int bdk_qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop);
  * @return Zero on success, negative on failure
  */
 extern int bdk_qlm_auto_config(bdk_node_t node);
+
+/**
+ * Perform RX equalization on a QLM
+ *
+ * @param node   Node the QLM is on
+ * @param qlm    QLM to perform RX equalization on
+ *
+ * @return Zero on success, negative if any lane failed RX equalization
+ */
+extern int bdk_qlm_rx_equalization(bdk_node_t node, int qlm);
 
 /** @} */

@@ -5,6 +5,8 @@
 #define BMC_TWSI 5
 /* Control if we even try and do multi-node (0 or 1) */
 #define MULTI_NODE 0
+/* On boards using software CCPI init, this is the speed to bringup CCPI at */
+#define CCPI_INIT_SPEED 10312
 /* Name of DRAM config for master node 0 */
 #define DRAM_NODE0 crb_1s
 /* Enable verbose logging from DRAM initialization (0 or 1) */
@@ -187,7 +189,8 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
     else
         address_width = 32;
 
-    snprintf(buffer, buffer_size, "/dev/n0.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
+    snprintf(buffer, buffer_size, "/dev/n%d.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
+        node,
         chip_select,
         (active_high) ? 'h' : 'l',
         idle_mode,
@@ -310,7 +313,7 @@ int main(void)
             break;
         case RST_BOOT_METHOD_E_EMMC_LS:
         case RST_BOOT_METHOD_E_EMMC_SS:
-            strcpy(boot_device_name, "/dev/n0.mmc0");
+            sprintf(boot_device_name, "/dev/n%d.mmc0", node);
             break;
         case RST_BOOT_METHOD_E_SPI24:
         case RST_BOOT_METHOD_E_SPI32:
@@ -328,6 +331,22 @@ int main(void)
         "=========================\n",
         bdk_version_string());
     print_node_strapping(bdk_numa_master());
+
+    /* Setup CCPI if we're on the second node */
+    if (MULTI_NODE && (node != 0))
+    {
+        BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
+        /* Check if CCPI is in software init mode */
+        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(8));
+        if (gserx_spd.s.spd == 0xf)
+        {
+            printf("Secondary node with CCPI init in software. Starting CCPI\n");
+            if (bdk_init_ccpi_links(CCPI_INIT_SPEED))
+                bdk_fatal("CCPI init failed\n");
+            extern void __bdk_reset_thread(int arg1, void *arg2);
+            __bdk_reset_thread(0, NULL);
+        }
+    }
 
     /* Initialize DRAM on the master node */
 #ifdef DRAM_NODE0
@@ -370,7 +389,7 @@ int main(void)
     {
         BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
         bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
-        bdk_init_nodes(1);
+        bdk_init_nodes(1, CCPI_INIT_SPEED);
     }
 
     /* Send status to the BMC: Multi-node setup complete */

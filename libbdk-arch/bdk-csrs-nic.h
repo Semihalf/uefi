@@ -560,6 +560,8 @@ enum nic_errop_e {
 	NIC_ERROP_E_RE_TERMINATE = 0x9,
 	NIC_ERROP_E_TCP_FLAG = 0x65,
 	NIC_ERROP_E_TCP_OFFSET = 0x66,
+	NIC_ERROP_E_TUN_MAL = 0x1d,
+	NIC_ERROP_E_TUN_PCLP = 0x1e,
 	NIC_ERROP_E_UDP_LEN = 0x63,
 	NIC_ERROP_E_ENUM_LAST = 0x71,
 };
@@ -942,6 +944,54 @@ enum nic_vf_int_vec_e {
 
 
 /**
+ * Structure NIC_CQE_RX2_S
+ *
+ * NIC CQE Receive Tunneling Extension Structure
+ * Format of receive completion queue entry optional tunneling extension. When
+ * NIC_PF_RX_CFG[CQE_RX2_ENA] is set, this extension structure is inserted at
+ * word 6 of a CQE, immediately following the NIC_CQE_RX_S.
+ * Added in pass 2.
+ */
+union nic_cqe_rx2_s {
+	uint64_t u;
+	struct {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t vv_i                        : 1;  /**< [ 63: 63] Same as NIC_CQE_RX_S[VV], but for the inner layer. */
+		uint64_t vv_gone_i                   : 1;  /**< [ 62: 62] Same as NIC_CQE_RX_S[VV_GONE], but for the inner layer. */
+		uint64_t vs_i                        : 1;  /**< [ 61: 61] Same as NIC_CQE_RX_S[VS], but for the inner layer. */
+		uint64_t vs_gone_i                   : 1;  /**< [ 60: 60] Same as NIC_CQE_RX_S[VS_GONE], but for the inner layer. */
+		uint64_t reserved_57_59              : 3;  /**< [ 59: 57] Reserved. */
+		uint64_t l2e_i                       : 1;  /**< [ 56: 56] Indicates a L2 Ethernet layer was detected on the inner layer of a tunneled
+                                                                 packet. */
+		uint64_t lfty                        : 4;  /**< [ 55: 52] Same as NIC_CQE_RX_S[L4TY], but for the inner layer. */
+		uint64_t lety                        : 4;  /**< [ 51: 48] Same as NIC_CQE_RX_S[L3TY], but for the inner layer. */
+		uint64_t vvptr_i                     : 8;  /**< [ 47: 40] Same as NIC_CQE_RX_S[VVPTR], but for the inner layer. */
+		uint64_t vsptr_i                     : 8;  /**< [ 39: 32] Same as NIC_CQE_RX_S[VSPTR], but for the inner layer. */
+		uint64_t reserved_24_31              : 8;  /**< [ 31: 24] Reserved. */
+		uint64_t reserved_16_23              : 8;  /**< [ 23: 16] Reserved. */
+		uint64_t leptr                       : 8;  /**< [ 15:  8] Same as NIC_CQE_RX_S[L3PTR], but for the inner layer. */
+		uint64_t lfptr                       : 8;  /**< [  7:  0] Same as NIC_CQE_RX_S[L4PTR], but for the inner layer. */
+#else
+		uint64_t lfptr                       : 8;  /**< [  7:  0] Same as NIC_CQE_RX_S[L4PTR], but for the inner layer. */
+		uint64_t leptr                       : 8;  /**< [ 15:  8] Same as NIC_CQE_RX_S[L3PTR], but for the inner layer. */
+		uint64_t reserved_16_23              : 8;  /**< [ 23: 16] Reserved. */
+		uint64_t reserved_24_31              : 8;  /**< [ 31: 24] Reserved. */
+		uint64_t vsptr_i                     : 8;  /**< [ 39: 32] Same as NIC_CQE_RX_S[VSPTR], but for the inner layer. */
+		uint64_t vvptr_i                     : 8;  /**< [ 47: 40] Same as NIC_CQE_RX_S[VVPTR], but for the inner layer. */
+		uint64_t lety                        : 4;  /**< [ 51: 48] Same as NIC_CQE_RX_S[L3TY], but for the inner layer. */
+		uint64_t lfty                        : 4;  /**< [ 55: 52] Same as NIC_CQE_RX_S[L4TY], but for the inner layer. */
+		uint64_t l2e_i                       : 1;  /**< [ 56: 56] Indicates a L2 Ethernet layer was detected on the inner layer of a tunneled
+                                                                 packet. */
+		uint64_t reserved_57_59              : 3;  /**< [ 59: 57] Reserved. */
+		uint64_t vs_gone_i                   : 1;  /**< [ 60: 60] Same as NIC_CQE_RX_S[VS_GONE], but for the inner layer. */
+		uint64_t vs_i                        : 1;  /**< [ 61: 61] Same as NIC_CQE_RX_S[VS], but for the inner layer. */
+		uint64_t vv_gone_i                   : 1;  /**< [ 62: 62] Same as NIC_CQE_RX_S[VV_GONE], but for the inner layer. */
+		uint64_t vv_i                        : 1;  /**< [ 63: 63] Same as NIC_CQE_RX_S[VV], but for the inner layer. */
+#endif
+	} s;
+};
+
+/**
  * Structure NIC_CQE_RX_S
  *
  * NIC CQE Receive Structure
@@ -1218,6 +1268,98 @@ union nic_rx_hdr_s {
                                                                  before beginning L2 parsing. */
 		uint64_t rss_flow                    : 8;  /**< [ 31: 24] Flow identifier, for inclusion in RSS calculation. */
 		uint64_t opaque4                     : 32; /**< [ 63: 32] Software defined field, no meaning to hardware. */
+#endif
+	} s;
+};
+
+/**
+ * Structure NIC_RX_MCAM_SFIELD_S
+ *
+ * NIC Receive MCAM Search Fields Structure
+ * This structure describes the parser-derived fields of NIC_PF_MCAM()_M()_DATA.
+ * Added in pass 2.
+ */
+union nic_rx_mcam_sfield_s {
+	uint64_t u[3];
+	struct {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t l34id_lo                    : 16; /**< [ 63: 48] Layer 3/4 identifier.
+                                                                 _ If L3TY/L4TY = VXLAN/NVGRE/GENEVE, the VXLAN/NVGRE/GENEVE tunnel id.
+                                                                 _ else if L3/L4TY = RoCE/RoCE2, the BTH dest QP.
+                                                                 _ else if L4TY = UDP/TCP/SCTP, the outer *destination* port number.
+                                                                 _ else 0x0. */
+		uint64_t dext                        : 48; /**< [ 47:  0] DMAC extracted bytes N..N+5. This allows matching either the destination MAC
+                                                                 address, or a fixed header, where N is configured by
+                                                                 NIC_PF_PKIND()_CFG[DEXT_L2], NIC_PF_PKIND()_CFG[DEXT_ABS]. */
+#else
+		uint64_t dext                        : 48; /**< [ 47:  0] DMAC extracted bytes N..N+5. This allows matching either the destination MAC
+                                                                 address, or a fixed header, where N is configured by
+                                                                 NIC_PF_PKIND()_CFG[DEXT_L2], NIC_PF_PKIND()_CFG[DEXT_ABS]. */
+		uint64_t l34id_lo                    : 16; /**< [ 63: 48] Layer 3/4 identifier.
+                                                                 _ If L3TY/L4TY = VXLAN/NVGRE/GENEVE, the VXLAN/NVGRE/GENEVE tunnel id.
+                                                                 _ else if L3/L4TY = RoCE/RoCE2, the BTH dest QP.
+                                                                 _ else if L4TY = UDP/TCP/SCTP, the outer *destination* port number.
+                                                                 _ else 0x0. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t l3ty                        : 4;  /**< [127:124] L3 type from NIC_CQE_RX_S[L3TY], however if there was an L3 or below error,
+                                                                 exlcuding checksum errors, will be 0x0. (e.g. to match a TCP socket it must be a
+                                                                 valid TCP flow.) */
+		uint64_t chan                        : 12; /**< [123:112] Channel number after NIC_PF_CPI()_CFG[PADD] adder. */
+		uint64_t vtci                        : 16; /**< [111: 96] Outer 802.1Q VLAN ID/CFI (16-bits). Zero unless [VV] is set. */
+		uint64_t lefid                       : 24; /**< [ 95: 72] Layer E/F identifier.
+                                                                 _ If L3/L4TY = RoCE/RoCE2, the BTH dest QP.
+                                                                 _ else if L4TY = UDP/TCP/SCTP, the inner *destination* port number.
+                                                                 _ else 0x0. */
+		uint64_t l34id_hi                    : 8;  /**< [ 71: 64] Layer 3/4 identifier.
+                                                                 _ If L3TY/L4TY = VXLAN/NVGRE/GENEVE, the VXLAN/NVGRE/GENEVE tunnel id.
+                                                                 _ else if L3/L4TY = RoCE/RoCE2, the BTH dest QP.
+                                                                 _ else if L4TY = UDP/TCP/SCTP, the outer *destination* port number.
+                                                                 _ else 0x0. */
+#else
+		uint64_t l34id_hi                    : 8;  /**< [ 71: 64] Layer 3/4 identifier.
+                                                                 _ If L3TY/L4TY = VXLAN/NVGRE/GENEVE, the VXLAN/NVGRE/GENEVE tunnel id.
+                                                                 _ else if L3/L4TY = RoCE/RoCE2, the BTH dest QP.
+                                                                 _ else if L4TY = UDP/TCP/SCTP, the outer *destination* port number.
+                                                                 _ else 0x0. */
+		uint64_t lefid                       : 24; /**< [ 95: 72] Layer E/F identifier.
+                                                                 _ If L3/L4TY = RoCE/RoCE2, the BTH dest QP.
+                                                                 _ else if L4TY = UDP/TCP/SCTP, the inner *destination* port number.
+                                                                 _ else 0x0. */
+		uint64_t vtci                        : 16; /**< [111: 96] Outer 802.1Q VLAN ID/CFI (16-bits). Zero unless [VV] is set. */
+		uint64_t chan                        : 12; /**< [123:112] Channel number after NIC_PF_CPI()_CFG[PADD] adder. */
+		uint64_t l3ty                        : 4;  /**< [127:124] L3 type from NIC_CQE_RX_S[L3TY], however if there was an L3 or below error,
+                                                                 exlcuding checksum errors, will be 0x0. (e.g. to match a TCP socket it must be a
+                                                                 valid TCP flow.) */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved */
+		uint64_t spare                       : 1;  /**< [143:143] Reserved. Software should not compare this bit in the MCAM for forward
+                                                                 compatibility. */
+		uint64_t l2_val                      : 1;  /**< [142:142] The L2 layer of the packet was valid.  This bit must be set when matching on a DEXT field. */
+		uint64_t l4oam                       : 1;  /**< [141:141] Geneve tunnel OAM bit.
+                                                                 If L3TY/L4TY = GENEVE, the OAM bit. */
+		uint64_t vv                          : 1;  /**< [140:140] Set if outer VLAN was found, from NIC_CQE_RX_S[VV]. */
+		uint64_t lfty                        : 4;  /**< [139:136] Inner L4 type from NIC_CQE_RX_S[LFTY], however if there was an LF or below
+                                                                 error, excluding checksum errors, will be 0x0. */
+		uint64_t lety                        : 4;  /**< [135:132] Inner L3 type from NIC_CQE_RX_S[LETY], however if there was an LE or below
+                                                                 error, excluding checksum errors, will be 0x0. */
+		uint64_t l4ty                        : 4;  /**< [131:128] L4 type from NIC_CQE_RX_S[L4TY], however if there was an L4 or below error,
+                                                                 excluding checksum errors, will be 0x0. */
+#else
+		uint64_t l4ty                        : 4;  /**< [131:128] L4 type from NIC_CQE_RX_S[L4TY], however if there was an L4 or below error,
+                                                                 excluding checksum errors, will be 0x0. */
+		uint64_t lety                        : 4;  /**< [135:132] Inner L3 type from NIC_CQE_RX_S[LETY], however if there was an LE or below
+                                                                 error, excluding checksum errors, will be 0x0. */
+		uint64_t lfty                        : 4;  /**< [139:136] Inner L4 type from NIC_CQE_RX_S[LFTY], however if there was an LF or below
+                                                                 error, excluding checksum errors, will be 0x0. */
+		uint64_t vv                          : 1;  /**< [140:140] Set if outer VLAN was found, from NIC_CQE_RX_S[VV]. */
+		uint64_t l4oam                       : 1;  /**< [141:141] Geneve tunnel OAM bit.
+                                                                 If L3TY/L4TY = GENEVE, the OAM bit. */
+		uint64_t l2_val                      : 1;  /**< [142:142] The L2 layer of the packet was valid.  This bit must be set when matching on a DEXT field. */
+		uint64_t spare                       : 1;  /**< [143:143] Reserved. Software should not compare this bit in the MCAM for forward
+                                                                 compatibility. */
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved */
 #endif
 	} s;
 };
@@ -2074,7 +2216,8 @@ typedef union bdk_nic_pf_cpix_cfg {
 	uint64_t u;
 	struct bdk_nic_pf_cpix_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_31_63              : 33;
+		uint64_t mpi_alg                     : 1;  /**< RAZ - Reserved. */
+		uint64_t reserved_31_62              : 32;
 		uint64_t vnic                        : 7;  /**< R/W - VNIC receiving this channel, and determines which RSS algorithms are enabled using
                                                                  NIC_VNIC()_RSS_CFG. */
 		uint64_t rss_size                    : 4;  /**< R/W - Bits of RSS hash to add in RSSI calculation.
@@ -2097,7 +2240,8 @@ typedef union bdk_nic_pf_cpix_cfg {
 		uint64_t padd                        : 4;
 		uint64_t rss_size                    : 4;
 		uint64_t vnic                        : 7;
-		uint64_t reserved_31_63              : 33;
+		uint64_t reserved_31_62              : 32;
+		uint64_t mpi_alg                     : 1;
 #endif
 	} s;
 	/* struct bdk_nic_pf_cpix_cfg_s       cn88xx; */
@@ -2310,9 +2454,10 @@ typedef union bdk_nic_pf_ecc0_cdis {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_cdis_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t blk3                        : 32; /**< R/W - Group 0 Block 3 memories. INTERNAL: REB memories:
+		uint64_t blk3                        : 32; /**< R/W - Group 0 Block 3 memories.
+                                                                 Added in pass 2.
 
-                                                                 Changed in pass 2.
+                                                                 INTERNAL: REB memories:
 
                                                                  Pass 1:
                                                                    \<31:0\> = Reserved
@@ -2626,9 +2771,10 @@ typedef union bdk_nic_pf_ecc0_flip0 {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_flip0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t blk3                        : 32; /**< R/W - Group 0 Block 3 memories. INTERNAL: REB memories:
+		uint64_t blk3                        : 32; /**< R/W - Group 0 Block 3 memories.
+                                                                 Added in pass 2.
 
-                                                                 Changed in pass 2.
+                                                                 INTERNAL: REB memories:
 
                                                                  Pass 1:
                                                                    \<31:0\> = Reserved
@@ -2747,9 +2893,10 @@ typedef union bdk_nic_pf_ecc0_flip1 {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_flip1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t blk3                        : 32; /**< R/W - Group 0 Block 3 memories. INTERNAL: REB memories:
+		uint64_t blk3                        : 32; /**< R/W - Group 0 Block 3 memories.
+                                                                 Added in pass 2.
 
-                                                                 Changed in pass 2.
+                                                                 INTERNAL: REB memories:
 
                                                                  Pass 1:
                                                                    \<31:0\> = Reserved
@@ -3104,7 +3251,9 @@ typedef union bdk_nic_pf_ecc1_cdis {
                                                                    \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs.
 
                                                                  Pass 2+:
-                                                                   \<23:16\> = Reserved.
+                                                                   \<23:20\> = Reserved.
+                                                                   \<19:18\> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   \<16\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                    \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
                                                                    \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
@@ -3324,7 +3473,9 @@ typedef union bdk_nic_pf_ecc1_flip0 {
                                                                    \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs.
 
                                                                  Pass 2+:
-                                                                   \<23:16\> = Reserved.
+                                                                   \<23:20\> = Reserved.
+                                                                   \<19:18\> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   \<16\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                    \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
                                                                    \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
@@ -3409,7 +3560,9 @@ typedef union bdk_nic_pf_ecc1_flip1 {
                                                                    \<0\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_cpi_cfg_regs.
 
                                                                  Pass 2+:
-                                                                   \<23:16\> = Reserved.
+                                                                   \<23:20\> = Reserved.
+                                                                   \<19:18\> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   \<16\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                    \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
                                                                    \<13:11\> = nic_l.core.rqm.nic_rqm_stat_wrap.nic_rqm_stat_r_mod_w.r_mod_w_regs_{2..0}.
@@ -4941,10 +5094,9 @@ typedef union bdk_nic_pf_intfx_send_cfg {
 	struct bdk_nic_pf_intfx_send_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_22_63              : 42;
-		uint64_t cksum_enable                : 1;  /**< R/W - NIC_SEND_CRC_S checksum algorithm enable (NIC_SEND_CRCALG_E::CKSUM). Used for debug,
-                                                                 should be clear for normal operation. Keeping the bit clear for either interface disables
-                                                                 the checksum algorithm for both interfaces. When disabled, a NIC_SEND_CRC_S with
-                                                                 NIC_SEND_CRCALG_E::CKSUM is treated as an error. */
+		uint64_t cksum_enable                : 1;  /**< R/W - NIC_SEND_CRC_S checksum algorithm enable (NIC_SEND_CRCALG_E::CKSUM). Keeping the bit clear
+                                                                 for either interface disables the checksum algorithm for both interfaces. When disabled, a
+                                                                 NIC_SEND_CRC_S with NIC_SEND_CRCALG_E::CKSUM is treated as an error. */
 		uint64_t cut_disable                 : 1;  /**< R/W - Send cut-through context disable. Used for debug, should be clear for normal operation.
                                                                  Setting the bit for either TNS interface disables cut-through for both interfaces. */
 		uint64_t tstmp_wd_period             : 4;  /**< R/W - Timestamp watchdog timeout count. The timeout period is 4*(2^TSTMP_WD_PERIOD) timer ticks,
@@ -5336,6 +5488,145 @@ static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long param1)
 
 
 /**
+ * NCB - nic_pf_mcam#_ena
+ *
+ * This register enables the corresponding ECAM entry number.
+ * Added in pass 2.
+ */
+typedef union bdk_nic_pf_mcamx_ena {
+	uint64_t u;
+	struct bdk_nic_pf_mcamx_ena_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t valid                       : 1;  /**< R/W - Valid. */
+		uint64_t reserved_0_62               : 63;
+#else
+		uint64_t reserved_0_62               : 63;
+		uint64_t valid                       : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_mcamx_ena_s      cn88xx; */
+} bdk_nic_pf_mcamx_ena_t;
+
+static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 191)))
+		return 0x0000843000100000ull + (param1 & 255) * 0x10ull;
+	else 		csr_fatal("BDK_NIC_PF_MCAMX_ENA", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_MCAMX_ENA(...) bdk_nic_pf_mcamx_ena_t
+#define bustype_BDK_NIC_PF_MCAMX_ENA(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_MCAMX_ENA(p1) (p1)
+#define arguments_BDK_NIC_PF_MCAMX_ENA(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_MCAMX_ENA(...) "NIC_PF_MCAMX_ENA"
+
+
+/**
+ * NCB - nic_pf_mcam#_m#_data
+ *
+ * This register specifies the ternary match data for the corresponding ECAM entry
+ * number.
+ * Added in pass 2.
+ */
+typedef union bdk_nic_pf_mcamx_mx_data {
+	uint64_t u;
+	struct bdk_nic_pf_mcamx_mx_data_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_48_63              : 16;
+		uint64_t mcam_data1                  : 24; /**< R/W - See description for [MCAM_DATA0]. */
+		uint64_t mcam_data0                  : 24; /**< R/W - Comparison ternary data. The meaning of each data bit uses the
+                                                                 NIC_RX_MCAM_SFIELD_S structure.
+
+                                                                 The field value is ternary, where each bit matches as follows:
+
+                                                                 _ [MCAM_DATA1]\<n\>=0, [MCAM_DATA0]\<n\>=0: Always match; data\<n\> don't care.
+                                                                 _ [MCAM_DATA1]\<n\>=0, [MCAM_DATA0]\<n\>=1: Match when data\<n\> == 0.
+                                                                 _ [MCAM_DATA1]\<n\>=1, [MCAM_DATA0]\<n\>=0: Match when data\<n\> == 1.
+                                                                 _ [MCAM_DATA1]\<n\>=1, [MCAM_DATA0]\<n\>=1: Reserved.
+
+                                                                 Note hardware does not allow the "reserved" combination to get written to the MCAM.
+
+                                                                 _ NIC_PF_MCAM()_M(0)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<23:0\>.
+                                                                 _ NIC_PF_MCAM()_M(1)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<47:24\>.
+                                                                 _ NIC_PF_MCAM()_M(2)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<71:48\>.
+                                                                 _ NIC_PF_MCAM()_M(3)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<95:72\>.
+                                                                 _ NIC_PF_MCAM()_M(4)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<119:96\>.
+                                                                 _ NIC_PF_MCAM()_M(5)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<143:120\>. */
+#else
+		uint64_t mcam_data0                  : 24;
+		uint64_t mcam_data1                  : 24;
+		uint64_t reserved_48_63              : 16;
+#endif
+	} s;
+	/* struct bdk_nic_pf_mcamx_mx_data_s  cn88xx; */
+} bdk_nic_pf_mcamx_mx_data_t;
+
+static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long param1, unsigned long param2)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 191)) && ((param2 <= 5)))
+		return 0x0000843000110000ull + (param1 & 255) * 0x40ull + (param2 & 7) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_MCAMX_MX_DATA", 2, param1, param2, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_MCAMX_MX_DATA(...) bdk_nic_pf_mcamx_mx_data_t
+#define bustype_BDK_NIC_PF_MCAMX_MX_DATA(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_MCAMX_MX_DATA(p1,p2) (p1)
+#define arguments_BDK_NIC_PF_MCAMX_MX_DATA(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_NIC_PF_MCAMX_MX_DATA(...) "NIC_PF_MCAMX_MX_DATA"
+
+
+/**
+ * NCB - nic_pf_mpi#_cfg
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_mpix_cfg {
+	uint64_t u;
+	struct bdk_nic_pf_mpix_cfg_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_31_63              : 33;
+		uint64_t vnic                        : 7;  /**< R/W - VNIC receiving this channel, and determines which RSS algorithms are enabled using
+                                                                 NIC_VNIC()_RSS_CFG. */
+		uint64_t rss_size                    : 4;  /**< R/W - Bits of RSS hash to add in RSSI calculation.
+                                                                 0x0 = RSS is disabled.
+                                                                 0x1 = RSS_TAG\<0\> included in RSSI.
+                                                                 0x2 = RSS_TAG\<1:0\> included in RSSI.
+                                                                 0x3 = RSS_TAG\<2:0\> included in RSSI.
+                                                                 0x4 = RSS_TAG\<3:0\> included in RSSI.
+                                                                 0x5 = RSS_TAG\<4:0\> included in RSSI.
+                                                                 0x6 = RSS_TAG\<5:0\> included in RSSI.
+                                                                 0x7 = RSS_TAG\<6:0\> included in RSSI.
+                                                                 0x8 = RSS_TAG\<7:0\> included in RSSI.
+                                                                 0x9-0xF = Reserved. */
+		uint64_t reserved_12_19              : 8;
+		uint64_t rssi_base                   : 12; /**< R/W - Base index into NIC_PF_RSSI()_RQ. */
+#else
+		uint64_t rssi_base                   : 12;
+		uint64_t reserved_12_19              : 8;
+		uint64_t rss_size                    : 4;
+		uint64_t vnic                        : 7;
+		uint64_t reserved_31_63              : 33;
+#endif
+	} s;
+	/* struct bdk_nic_pf_mpix_cfg_s       cn88xx; */
+} bdk_nic_pf_mpix_cfg_t;
+
+static inline uint64_t BDK_NIC_PF_MPIX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_MPIX_CFG(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 2047)))
+		return 0x0000843000210000ull + (param1 & 2047) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_MPIX_CFG", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_MPIX_CFG(...) bdk_nic_pf_mpix_cfg_t
+#define bustype_BDK_NIC_PF_MPIX_CFG(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_MPIX_CFG(p1) (p1)
+#define arguments_BDK_NIC_PF_MPIX_CFG(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_MPIX_CFG(...) "NIC_PF_MPIX_CFG"
+
+
+/**
  * NCB - nic_pf_msix_pba#
  *
  * This register is the MSI-X PBA table, the bit number is indexed by the NIC_PF_INT_VEC_E
@@ -5462,7 +5753,9 @@ typedef union bdk_nic_pf_pkindx_cfg {
 	uint64_t u;
 	struct bdk_nic_pf_pkindx_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_42_63              : 22;
+		uint64_t dext_abs                    : 1;  /**< RAZ - Reserved. */
+		uint64_t dext_sl                     : 7;  /**< RAZ - Reserved. */
+		uint64_t reserved_42_55              : 14;
 		uint64_t hdr_sl                      : 5;  /**< R/W - Header skip length. Number of 2-byte words parser should skip between the start of the
                                                                  packet and the NIC_RX_HDR_S (if [RX_HDR] is set) or Ethernet address (if [RX_HDR] is
                                                                  clear). For BGX, should be 0x4 if a timestamp is present; see also
@@ -5491,7 +5784,9 @@ typedef union bdk_nic_pf_pkindx_cfg {
 		uint64_t lenerr_en                   : 1;
 		uint64_t rx_hdr                      : 3;
 		uint64_t hdr_sl                      : 5;
-		uint64_t reserved_42_63              : 22;
+		uint64_t reserved_42_55              : 14;
+		uint64_t dext_sl                     : 7;
+		uint64_t dext_abs                    : 1;
 #endif
 	} s;
 	/* struct bdk_nic_pf_pkindx_cfg_s     cn88xx; */
@@ -5688,15 +5983,15 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t tcp_off                     : 1;  /**< R/W - Reserved. INTERNAL: Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
 		uint64_t reserved_30_62              : 33;
-		uint64_t rx_cqm_format               : 1;  /**< RAZ - Reserved. */
+		uint64_t rx_cqm_format               : 1;  /**< RAZ - Reserved. INTERNAL: Reserved for future use. */
 		uint64_t strip_pre_l2                : 1;  /**< R/W - All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
 		uint64_t caching                     : 2;  /**< R/W - Select the style of write to the L2C.
-                                                                 0 = writes of RBDR data will not allocate into the L2C.
-                                                                 1 = all writes of RBDR data are allocated into the L2C.
-                                                                 2 = the first aligned cache block is allocated into the L2C. All remaining cache blocks
-                                                                 are not allocated.
-                                                                 3 = the first two aligned cache blocks are allocated into the L2C. All remaining cache
-                                                                 blocks are not allocated. */
+                                                                 0x0 = Writes of RBDR data will not allocate into the L2C.
+                                                                 0x1 = All writes of RBDR data are allocated into the L2C.
+                                                                 0x2 = First aligned cache block is allocated into the L2C. All remaining cache
+                                                                 blocks are not allocated.
+                                                                 0x3 = First two aligned cache blocks are allocated into the L2C. All remaining
+                                                                 cache blocks are not allocated. */
 		uint64_t cq_qs                       : 7;  /**< R/W - CQ's QS for this RQ. The CQ's QS must be assigned to the same VNIC as the RQ's QS. */
 		uint64_t cq_idx                      : 3;  /**< R/W - CQ within [CQ_QS] for this RQ. */
 		uint64_t rbdr_cont_qs                : 7;  /**< R/W - QS portion of RBDR to use for continue buffers. */
@@ -6188,6 +6483,43 @@ static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long param1)
 
 
 /**
+ * NCB - nic_pf_rx_cfg
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_rx_cfg {
+	uint64_t u;
+	struct bdk_nic_pf_rx_cfg_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1_63               : 63;
+		uint64_t cqe_rx2_ena                 : 1;  /**< R/W - Enable the NIC_CQE_RX2_S extension in CQM RX messages.
+                                                                 0 = Deprecated, only for backward compatibility.
+                                                                 1 = Enabled. */
+#else
+		uint64_t cqe_rx2_ena                 : 1;
+		uint64_t reserved_1_63               : 63;
+#endif
+	} s;
+	/* struct bdk_nic_pf_rx_cfg_s         cn88xx; */
+} bdk_nic_pf_rx_cfg_t;
+
+#define BDK_NIC_PF_RX_CFG BDK_NIC_PF_RX_CFG_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_CFG_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x00008430000005D0ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_CFG", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_RX_CFG bdk_nic_pf_rx_cfg_t
+#define bustype_BDK_NIC_PF_RX_CFG BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_CFG 0
+#define arguments_BDK_NIC_PF_RX_CFG -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_CFG "NIC_PF_RX_CFG"
+
+
+/**
  * NCB - nic_pf_rx_etype#
  */
 typedef union bdk_nic_pf_rx_etypex {
@@ -6238,13 +6570,13 @@ typedef union bdk_nic_pf_rx_geneve_def {
 	uint64_t u;
 	struct bdk_nic_pf_rx_geneve_def_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_17_63              : 47;
 		uint64_t ena                         : 1;  /**< R/W - Enables the parsing of GENEVE headers. */
+		uint64_t reserved_16_62              : 47;
 		uint64_t udp_port_num                : 16; /**< R/W - UDP destination port number that indicates a GENEVE header. */
 #else
 		uint64_t udp_port_num                : 16;
+		uint64_t reserved_16_62              : 47;
 		uint64_t ena                         : 1;
-		uint64_t reserved_17_63              : 47;
 #endif
 	} s;
 	/* struct bdk_nic_pf_rx_geneve_def_s  cn88xx; */
@@ -6266,45 +6598,130 @@ static inline uint64_t BDK_NIC_PF_RX_GENEVE_DEF_FUNC(void)
 
 
 /**
- * NCB - nic_pf_rx_gre_def
+ * NCB - nic_pf_rx_geneve_prot_def
  *
- * INTERNAL: Added in pass 2.
+ * Added in pass 2.
  *
  */
-typedef union bdk_nic_pf_rx_gre_def {
+typedef union bdk_nic_pf_rx_geneve_prot_def {
 	uint64_t u;
-	struct bdk_nic_pf_rx_gre_def_s {
+	struct bdk_nic_pf_rx_geneve_prot_def_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_19_63              : 45;
-		uint64_t gre1_ena                    : 1;  /**< R/W - Enable detection of GRE version 1 headers for tunneling. */
-		uint64_t gre0_ena                    : 1;  /**< R/W - Enable detection of GRE version 0 headers tunneling (non-NVGRE). */
-		uint64_t nvgre_ena                   : 1;  /**< R/W - Enable detection of NVGRE headers for tunneling. */
-		uint64_t nvgre_port_num              : 16; /**< R/W - Port number for NVGRE headers; used to distinguish between a generic GRE version
-                                                                 0 header and a NVGRE header. */
+		uint64_t ena_ipv6                    : 1;  /**< R/W - Enables the [IPV6_PROT] value. */
+		uint64_t ena_ipv4                    : 1;  /**< R/W - Enables the [IPV4_PROT] value. */
+		uint64_t ena_et                      : 1;  /**< R/W - Enables the [ET_PROT] value. */
+		uint64_t reserved_48_60              : 13;
+		uint64_t ipv6_prot                   : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv6 layer. */
+		uint64_t ipv4_prot                   : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv4 layer. */
+		uint64_t et_prot                     : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner Ethernet layer. */
 #else
-		uint64_t nvgre_port_num              : 16;
-		uint64_t nvgre_ena                   : 1;
-		uint64_t gre0_ena                    : 1;
-		uint64_t gre1_ena                    : 1;
-		uint64_t reserved_19_63              : 45;
+		uint64_t et_prot                     : 16;
+		uint64_t ipv4_prot                   : 16;
+		uint64_t ipv6_prot                   : 16;
+		uint64_t reserved_48_60              : 13;
+		uint64_t ena_et                      : 1;
+		uint64_t ena_ipv4                    : 1;
+		uint64_t ena_ipv6                    : 1;
 #endif
 	} s;
-	/* struct bdk_nic_pf_rx_gre_def_s     cn88xx; */
-} bdk_nic_pf_rx_gre_def_t;
+	/* struct bdk_nic_pf_rx_geneve_prot_def_s cn88xx; */
+} bdk_nic_pf_rx_geneve_prot_def_t;
 
-#define BDK_NIC_PF_RX_GRE_DEF BDK_NIC_PF_RX_GRE_DEF_FUNC()
-static inline uint64_t BDK_NIC_PF_RX_GRE_DEF_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_RX_GRE_DEF_FUNC(void)
+#define BDK_NIC_PF_RX_GENEVE_PROT_DEF BDK_NIC_PF_RX_GENEVE_PROT_DEF_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_GENEVE_PROT_DEF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_GENEVE_PROT_DEF_FUNC(void)
 {
 	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
-		return 0x0000843000000590ull;
-	else 		csr_fatal("BDK_NIC_PF_RX_GRE_DEF", 0, 0, 0, 0, 0); /* No return */
+		return 0x0000843000000588ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_GENEVE_PROT_DEF", 0, 0, 0, 0, 0); /* No return */
 }
-#define typedef_BDK_NIC_PF_RX_GRE_DEF bdk_nic_pf_rx_gre_def_t
-#define bustype_BDK_NIC_PF_RX_GRE_DEF BDK_CSR_TYPE_NCB
-#define busnum_BDK_NIC_PF_RX_GRE_DEF 0
-#define arguments_BDK_NIC_PF_RX_GRE_DEF -1,-1,-1,-1
-#define basename_BDK_NIC_PF_RX_GRE_DEF "NIC_PF_RX_GRE_DEF"
+#define typedef_BDK_NIC_PF_RX_GENEVE_PROT_DEF bdk_nic_pf_rx_geneve_prot_def_t
+#define bustype_BDK_NIC_PF_RX_GENEVE_PROT_DEF BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_GENEVE_PROT_DEF 0
+#define arguments_BDK_NIC_PF_RX_GENEVE_PROT_DEF -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_GENEVE_PROT_DEF "NIC_PF_RX_GENEVE_PROT_DEF"
+
+
+/**
+ * NCB - nic_pf_rx_nvgre_prot_def
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_rx_nvgre_prot_def {
+	uint64_t u;
+	struct bdk_nic_pf_rx_nvgre_prot_def_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t ena_ipv6                    : 1;  /**< R/W - Enables the IPV6_PROT value. */
+		uint64_t ena_ipv4                    : 1;  /**< R/W - Enables the IPV4_PROT value. */
+		uint64_t ena_et                      : 1;  /**< R/W - Enables the ET_PROT value. */
+		uint64_t reserved_48_60              : 13;
+		uint64_t ipv6_prot                   : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv6 layer. */
+		uint64_t ipv4_prot                   : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv4 layer. */
+		uint64_t et_prot                     : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner Ethernet layer. */
+#else
+		uint64_t et_prot                     : 16;
+		uint64_t ipv4_prot                   : 16;
+		uint64_t ipv6_prot                   : 16;
+		uint64_t reserved_48_60              : 13;
+		uint64_t ena_et                      : 1;
+		uint64_t ena_ipv4                    : 1;
+		uint64_t ena_ipv6                    : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_rx_nvgre_prot_def_s cn88xx; */
+} bdk_nic_pf_rx_nvgre_prot_def_t;
+
+#define BDK_NIC_PF_RX_NVGRE_PROT_DEF BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000000598ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_NVGRE_PROT_DEF", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_RX_NVGRE_PROT_DEF bdk_nic_pf_rx_nvgre_prot_def_t
+#define bustype_BDK_NIC_PF_RX_NVGRE_PROT_DEF BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_NVGRE_PROT_DEF 0
+#define arguments_BDK_NIC_PF_RX_NVGRE_PROT_DEF -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_NVGRE_PROT_DEF "NIC_PF_RX_NVGRE_PROT_DEF"
+
+
+/**
+ * NCB - nic_pf_rx_rocev2_def
+ *
+ * This register defines and enables RoCE version 2 parsing.
+ * Added in pass 2.
+ */
+typedef union bdk_nic_pf_rx_rocev2_def {
+	uint64_t u;
+	struct bdk_nic_pf_rx_rocev2_def_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t ena                         : 1;  /**< R/W - Enables the detection of RoCEv2 headers. */
+		uint64_t reserved_16_62              : 47;
+		uint64_t udp_port_num                : 16; /**< R/W - UDP destination port number that indicates a RoCEv2 header. */
+#else
+		uint64_t udp_port_num                : 16;
+		uint64_t reserved_16_62              : 47;
+		uint64_t ena                         : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_rx_rocev2_def_s  cn88xx; */
+} bdk_nic_pf_rx_rocev2_def_t;
+
+#define BDK_NIC_PF_RX_ROCEV2_DEF BDK_NIC_PF_RX_ROCEV2_DEF_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_ROCEV2_DEF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_ROCEV2_DEF_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x00008430000005C0ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_ROCEV2_DEF", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_RX_ROCEV2_DEF bdk_nic_pf_rx_rocev2_def_t
+#define bustype_BDK_NIC_PF_RX_ROCEV2_DEF BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_ROCEV2_DEF 0
+#define arguments_BDK_NIC_PF_RX_ROCEV2_DEF -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_ROCEV2_DEF "NIC_PF_RX_ROCEV2_DEF"
 
 
 /**
@@ -6317,13 +6734,15 @@ typedef union bdk_nic_pf_rx_vxlan_defx {
 	uint64_t u;
 	struct bdk_nic_pf_rx_vxlan_defx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_17_63              : 47;
 		uint64_t ena                         : 1;  /**< R/W - Enables the detection of VXLAN headers. */
-		uint64_t udp_port_num                : 16; /**< R/W - UDP destination port number that indicates a VXLAN header. */
+		uint64_t reserved_16_62              : 47;
+		uint64_t udp_port_num                : 16; /**< R/W - UDP destination port number that indicates a VXLAN header to enable tunneling into the
+                                                                 inner layers
+                                                                 for further parsing. */
 #else
 		uint64_t udp_port_num                : 16;
+		uint64_t reserved_16_62              : 47;
 		uint64_t ena                         : 1;
-		uint64_t reserved_17_63              : 47;
 #endif
 	} s;
 	/* struct bdk_nic_pf_rx_vxlan_defx_s  cn88xx; */
@@ -6341,6 +6760,55 @@ static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long param1)
 #define busnum_BDK_NIC_PF_RX_VXLAN_DEFX(p1) (p1)
 #define arguments_BDK_NIC_PF_RX_VXLAN_DEFX(p1) (p1),-1,-1,-1
 #define basename_BDK_NIC_PF_RX_VXLAN_DEFX(...) "NIC_PF_RX_VXLAN_DEFX"
+
+
+/**
+ * NCB - nic_pf_rx_vxlan_prot_def
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_rx_vxlan_prot_def {
+	uint64_t u;
+	struct bdk_nic_pf_rx_vxlan_prot_def_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t ena_ipv6                    : 1;  /**< R/W - Enables the IPV6_PROT value. */
+		uint64_t ena_ipv4                    : 1;  /**< R/W - Enables the IPV4_PROT value. */
+		uint64_t ena_et                      : 1;  /**< R/W - Enables the ET_PROT value. */
+		uint64_t reserved_40_60              : 21;
+		uint64_t ipv6_prot                   : 8;  /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv6 layer. */
+		uint64_t reserved_24_31              : 8;
+		uint64_t ipv4_prot                   : 8;  /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv4 layer. */
+		uint64_t reserved_8_15               : 8;
+		uint64_t et_prot                     : 8;  /**< R/W - Protocal number to definite the next layer of the packet is an inner Ethernet layer. */
+#else
+		uint64_t et_prot                     : 8;
+		uint64_t reserved_8_15               : 8;
+		uint64_t ipv4_prot                   : 8;
+		uint64_t reserved_24_31              : 8;
+		uint64_t ipv6_prot                   : 8;
+		uint64_t reserved_40_60              : 21;
+		uint64_t ena_et                      : 1;
+		uint64_t ena_ipv4                    : 1;
+		uint64_t ena_ipv6                    : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_rx_vxlan_prot_def_s cn88xx; */
+} bdk_nic_pf_rx_vxlan_prot_def_t;
+
+#define BDK_NIC_PF_RX_VXLAN_PROT_DEF BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x00008430000005B0ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_VXLAN_PROT_DEF", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_RX_VXLAN_PROT_DEF bdk_nic_pf_rx_vxlan_prot_def_t
+#define bustype_BDK_NIC_PF_RX_VXLAN_PROT_DEF BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_VXLAN_PROT_DEF 0
+#define arguments_BDK_NIC_PF_RX_VXLAN_PROT_DEF -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_VXLAN_PROT_DEF "NIC_PF_RX_VXLAN_PROT_DEF"
 
 
 /**
@@ -6580,6 +7048,74 @@ static inline uint64_t BDK_NIC_PF_STATUS_FUNC(void)
 
 
 /**
+ * NCB - nic_pf_sw_sync_pipe#_cq_cnts
+ *
+ * For diagnostic use only for debug of the SW_SYNC function.
+ * Added in pass 2:
+ */
+typedef union bdk_nic_pf_sw_sync_pipex_cq_cnts {
+	uint64_t u;
+	struct bdk_nic_pf_sw_sync_pipex_cq_cnts_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t out_cnt                     : 32; /**< RO/H - Running count at output of machine. */
+		uint64_t in_cnt                      : 32; /**< RO/H - Running count at input of machine. */
+#else
+		uint64_t in_cnt                      : 32;
+		uint64_t out_cnt                     : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_sw_sync_pipex_cq_cnts_s cn88xx; */
+} bdk_nic_pf_sw_sync_pipex_cq_cnts_t;
+
+static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x0000843000490280ull + (param1 & 7) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(...) bdk_nic_pf_sw_sync_pipex_cq_cnts_t
+#define bustype_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(p1) (p1)
+#define arguments_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(...) "NIC_PF_SW_SYNC_PIPEX_CQ_CNTS"
+
+
+/**
+ * NCB - nic_pf_sw_sync_pipe#_pkt_cnts
+ *
+ * For diagnostic use only for debug of the SW_SYNC function.
+ * Added in pass 2.
+ */
+typedef union bdk_nic_pf_sw_sync_pipex_pkt_cnts {
+	uint64_t u;
+	struct bdk_nic_pf_sw_sync_pipex_pkt_cnts_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t out_cnt                     : 32; /**< RO/H - Running count at output of machine. */
+		uint64_t in_cnt                      : 32; /**< RO/H - Running count at input of machine. */
+#else
+		uint64_t in_cnt                      : 32;
+		uint64_t out_cnt                     : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_sw_sync_pipex_pkt_cnts_s cn88xx; */
+} bdk_nic_pf_sw_sync_pipex_pkt_cnts_t;
+
+static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x0000843000490200ull + (param1 & 7) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(...) bdk_nic_pf_sw_sync_pipex_pkt_cnts_t
+#define bustype_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(p1) (p1)
+#define arguments_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(...) "NIC_PF_SW_SYNC_PIPEX_PKT_CNTS"
+
+
+/**
  * NCB - nic_pf_sw_sync_rx
  */
 typedef union bdk_nic_pf_sw_sync_rx {
@@ -6618,7 +7154,6 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_FUNC(void)
  * For diagnostic use only for debug of the SW_SYNC function.
  * The first dimension indicates which the counter values, and is enumerated by
  * NIC_SW_SYNC_RX_CNTS_E.
- * Changed in pass 2: increased number of counters from 4 to 16.
  */
 typedef union bdk_nic_pf_sw_sync_rx_cntsx {
 	uint64_t u;
@@ -6631,7 +7166,6 @@ typedef union bdk_nic_pf_sw_sync_rx_cntsx {
 		uint64_t out_cnt                     : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_sw_sync_rx_cntsx_s cn88xx; */
 	/* struct bdk_nic_pf_sw_sync_rx_cntsx_s cn88xxp1; */
 } bdk_nic_pf_sw_sync_rx_cntsx_t;
 
@@ -6640,8 +7174,6 @@ static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_CNTSX(unsigned long param1)
 {
 	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((param1 <= 3)))
 		return 0x0000843000490200ull + (param1 & 3) * 0x8ull;
-	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 15)))
-		return 0x0000843000490200ull + (param1 & 15) * 0x8ull;
 	else 		csr_fatal("BDK_NIC_PF_SW_SYNC_RX_CNTSX", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_NIC_PF_SW_SYNC_RX_CNTSX(...) bdk_nic_pf_sw_sync_rx_cntsx_t
@@ -8340,7 +8872,9 @@ typedef union bdk_nic_qsx_sqx_cfg {
 	uint64_t u;
 	struct bdk_nic_qsx_sqx_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_20_63              : 44;
+		uint64_t reserved_32_63              : 32;
+		uint64_t cq_limit                    : 8;  /**< RAZ - Reserved. */
+		uint64_t reserved_20_23              : 4;
 		uint64_t ena                         : 1;  /**< R/W/H - Enable SQ. Software can clear this bit at any time to disable the SQ, at which time
                                                                  hardware stops servicing the SQ and sets NIC_QS()_SQ()_STATUS[STOPPED] when
                                                                  done. */
@@ -8385,7 +8919,9 @@ typedef union bdk_nic_qsx_sqx_cfg {
 		uint64_t reset                       : 1;
 		uint64_t reserved_18_18              : 1;
 		uint64_t ena                         : 1;
-		uint64_t reserved_20_63              : 44;
+		uint64_t reserved_20_23              : 4;
+		uint64_t cq_limit                    : 8;
+		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
 	/* struct bdk_nic_qsx_sqx_cfg_s       cn88xx; */

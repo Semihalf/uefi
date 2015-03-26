@@ -273,6 +273,8 @@ def build_csr(chip_info, group, register, raw):
                    "mem_to_csr",
                    "min_stride",
                    "min_write_size",
+                   "pcc_capability_bytes",
+                   "pcc_capability_offset",
                    "pcc_present_if",
                    "regtest_alias",
                    "regtest_skip",

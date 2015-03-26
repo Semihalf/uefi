@@ -2,6 +2,9 @@ ifndef BDK_ROOT
 $(error Define BDK_ROOT in the environment)
 endif
 
+BDK_LINK_ADDRESS?=0x0 # Node 0
+#BDK_LINK_ADDRESS?=0x10000000000 # Node 1
+
 SHELL=/bin/bash
 
 #
@@ -47,9 +50,11 @@ ASFLAGS = $(CFLAGS)
 LDFLAGS  = -nostdlib -nostartfiles
 LDFLAGS += -L $(BDK_ROOT)/libbdk $(BDK_ROOT)/libbdk-os/bdk-start.o
 LDFLAGS += -Wl,-T -Wl,bdk.ld -Wl,-Map -Wl,$@.map -Wl,--gc-sections
+LDFLAGS += -Wl,--defsym=BDK_LINK_ADDRESS=$(BDK_LINK_ADDRESS)
 LDLIBS = -lbdk -lgcc
 
-IMAGE_END=`${CROSS}objdump -t $^ | grep " _end$$" | sed "s/^0\([0-9a-f]*\).*/print 0x\1/g" | python`
+# This leaves off the bits [63:40] as these contain the node ID, which we don't want
+IMAGE_END=`${CROSS}objdump -t $^ | grep " _end$$" | sed "s/^00000[0-9]\([0-9a-f]*\).*/print 0x\1/g" | python`
 
 #
 # This is needed to generate the depends files

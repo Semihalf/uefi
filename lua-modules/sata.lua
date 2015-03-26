@@ -4,6 +4,7 @@ require("strict")
 require("utils")
 require("fileio")
 require("menu")
+local readline = require("readline")
 
 local option = ""
 local sata = 0
@@ -59,20 +60,46 @@ local function read_pattern(pattern)
 end
 
 local function run_auto()
+    -- Allow this test to be repeated for long term testing
+    local loop_count = menu.prompt_number("Repeat count (-1 for infinite)", 1)
+
     local filename = utils.devfile("sata", sata)
     local handle = assert(cavium.devopen(filename, "r+"))
     local sector = 0
-    for length=1,128 do
-        printf("Testing %d sector accesses\n", length)
-        for i,p in ipairs(PATTERNS) do
-            local correct = get_pattern(p, length)
-            assert(handle:seek("set", sector * 512), "Write seek failed")
-            handle:write(correct)
-            assert(handle:seek("set", sector * 512), "Read seek failed")
-            local data = handle:read(length * 512)
-            assert(correct == data, "SATA data doesn't match pattern")
+
+    -- Get the end loop count
+    if loop_count == -1 then
+        loop_count = 0x7fffffffffffffff
+    elseif loop_count < 1 then
+        loop_count = 1
+    end
+    -- Loop running the test
+    for count=1,loop_count do
+        -- Show progress
+        if loop_count == 0x7fffffffffffffff then
+            printf("Pass %d - Press return to exit\n", count)
+        else
+            printf("Pass %d of %d - Press return to exit\n", count, loop_count)
+        end
+        -- Run the test
+        for length=1,128 do
+            printf("Testing %d sector accesses\n", length)
+            for i,p in ipairs(PATTERNS) do
+                local correct = get_pattern(p, length)
+                assert(handle:seek("set", sector * 512), "Write seek failed")
+                handle:write(correct)
+                assert(handle:seek("set", sector * 512), "Read seek failed")
+                local data = handle:read(length * 512)
+                assert(correct == data, "SATA data doesn't match pattern")
+            end
+            local key = readline.getkey()
+            if key == '\r' then
+                printf("\nAbort on key press\n")
+                goto abort_key
+            end
         end
     end
+::abort_key::
     handle:close()
 end
 

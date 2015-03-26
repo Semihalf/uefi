@@ -209,19 +209,19 @@ typedef union bdk_rst_boot {
                                                                  INTERNAL:  PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
                                                                  fuses[122:119].  If the fuse value is \> 0, it is compared with the pi_pnr_pll_mul[4:1]
                                                                  pins and the smaller value is used. */
-		uint64_t lboot_oci                   : 3;  /**< R/W1C - Last boot cause mask for CCPI; resets only with PLL_DC_OK.
+		uint64_t lboot_oci                   : 3;  /**< R/W1C/H - Last boot cause mask for CCPI; resets only with PLL_DC_OK.
                                                                  \<32\> = Warm reset due to CCPI link 2 going down.
                                                                  \<31\> = Warm reset due to CCPI link 1 going down.
                                                                  \<30\> = Warm reset due to CCPI link 0 going down. */
 		uint64_t reserved_24_29              : 6;
-		uint64_t lboot_ext45                 : 6;  /**< R/W1C - Last boot cause mask for PEM5 and PEM4; resets only with PLL_DC_OK.
+		uint64_t lboot_ext45                 : 6;  /**< R/W1C/H - Last boot cause mask for PEM5 and PEM4; resets only with PLL_DC_OK.
                                                                  \<23\> = Warm reset due to Cntl5 link-down or hot-reset.
                                                                  \<22\> = Warm reset due to Cntl4 link-down or hot-reset.
                                                                  \<21\> = Cntl5 reset due to PERST5_L pin.
                                                                  \<20\> = Cntl4 reset due to PERST4_L pin.
                                                                  \<19\> = Warm reset due to PERST5_L pin.
                                                                  \<18\> = Warm reset due to PERST4_L pin. */
-		uint64_t lboot_ext23                 : 6;  /**< R/W1C - Last boot cause mask for PEM3 and PEM2; resets only with PLL_DC_OK.
+		uint64_t lboot_ext23                 : 6;  /**< R/W1C/H - Last boot cause mask for PEM3 and PEM2; resets only with PLL_DC_OK.
                                                                  \<17\> = Warm reset due to Cntl3 link-down or hot-reset.
                                                                  \<16\> = Warm reset due to Cntl2 link-down or hot-reset.
                                                                  \<15\> = Cntl3 reset due to PERST3_L pin.
@@ -332,7 +332,7 @@ typedef union bdk_rst_ckill {
 	struct bdk_rst_ckill_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_47_63              : 17;
-		uint64_t timer                       : 47; /**< R/W - Chipkill timer measured in coprocessor-clock cycles. Read requests return
+		uint64_t timer                       : 47; /**< R/W/H - Chipkill timer measured in coprocessor-clock cycles. Read requests return
                                                                  current chipkill timer. Write operations have no effect when RST_BOOT[CHIPKILL]
                                                                  = 1. */
 #else

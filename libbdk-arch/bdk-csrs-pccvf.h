@@ -61,6 +61,9 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 /**
  * PCCVF - pccvf_xxx_ari_cap_hdr
+ *
+ * This register is the header of the 8-byte PCI ARI capability structure.
+ *
  */
 typedef union bdk_pccvf_xxx_ari_cap_hdr {
 	uint32_t u;
@@ -164,6 +167,9 @@ static inline uint64_t BDK_PCCVF_XXX_CMD_FUNC(void)
 
 /**
  * PCCVF - pccvf_xxx_e_cap_hdr
+ *
+ * This register is the header of the 64-byte PCIe capability header.
+ *
  */
 typedef union bdk_pccvf_xxx_e_cap_hdr {
 	uint32_t u;
@@ -171,7 +177,7 @@ typedef union bdk_pccvf_xxx_e_cap_hdr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_20_31              : 12;
 		uint32_t pciecv                      : 4;  /**< RO - PCIe capability version. */
-		uint32_t ncp                         : 8;  /**< RO - First capability pointer. If VF MSI-X is supported, points to
+		uint32_t ncp                         : 8;  /**< RO - Next capability pointer. If VF MSI-X is supported, points to
                                                                  PCCVF_XXX_MSIX_CAP_HDR (0xB0), else 0x0. */
 		uint32_t pcieid                      : 8;  /**< RO - PCIe capability ID. */
 #else
@@ -200,6 +206,9 @@ static inline uint64_t BDK_PCCVF_XXX_E_CAP_HDR_FUNC(void)
 
 /**
  * PCCVF - pccvf_xxx_id
+ *
+ * This register is the header of the 64-byte PCI type 0 configuration structure.
+ *
  */
 typedef union bdk_pccvf_xxx_id {
 	uint32_t u;
@@ -231,6 +240,9 @@ static inline uint64_t BDK_PCCVF_XXX_ID_FUNC(void)
 
 /**
  * PCCVF - pccvf_xxx_msix_cap_hdr
+ *
+ * This register is the header of the 24-byte PCI MSI-X capability structure.
+ *
  */
 typedef union bdk_pccvf_xxx_msix_cap_hdr {
 	uint32_t u;
@@ -380,7 +392,7 @@ typedef union bdk_pccvf_xxx_subid {
 	struct bdk_pccvf_xxx_subid_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t ssid                        : 16; /**< RO - Device ID. \<15:8\> enumerated by PCC_PROD_E. \<7:0\> enumerated by PCC_DEV_IDL_E.
-                                                                 INTERNAL: Unit from PCC's tie__devidl. */
+                                                                 e.g. 0xA033 for RNM_VF. INTERNAL: Unit from PCC's tie__vfunitid. */
 		uint32_t ssvid                       : 16; /**< RO - Subsystem vendor ID. Cavium = 0x177D. */
 #else
 		uint32_t ssvid                       : 16;

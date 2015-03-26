@@ -145,6 +145,8 @@ for sata in [8,15]:
     wait_for("=================================")
     wait_for("(INS)Menu choice []:")
     send("auto")
+    wait_for("(INS)Repeat count (-1 for infinite) [1]:")
+    send("1")
     for sectors in range(1,129):
         wait_for("Testing %d sector accesses" % sectors)
     wait_for("=================================")

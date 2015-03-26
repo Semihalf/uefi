@@ -11,8 +11,8 @@ def main(log):
         count += 1
         print "Loop %d" % count
         test_boot.boot_normal(cnx)
-        test_dram.dram_all(cnx)
+        test_dram.dram_short(cnx)
     cnx.close()
 
-log = connection.Log("ebb8800-two-node-full-dram.log")
+log = connection.Log("ebb8800-one-node-short-dram.log")
 main(log)

@@ -250,9 +250,10 @@ static void monitor_ccpi(void)
 }
 
 /**
- * This function is called if we boot on a node that is non-zero
+ * This function is called if we boot on a node that isn't the
+ * one we were linked for
  */
-void __bdk_init_non_zero_node(void)
+void __bdk_init_incorrect_node(void)
 {
     /* We're booting from a non-zero node. This currently isn't supported, but
        happens by mistake when chip straps are wrong. We can't call many C

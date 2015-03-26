@@ -36,10 +36,13 @@ extern int bdk_reset_cores(bdk_node_t node, uint64_t coremask);
  * reset and have them start running threads
  *
  * @param skip_cores If non-zero, cores are not started. Only the nodes are setup
+ * @param ccpi_sw_gbaud
+ *                   If CCPI is in software mode, this is the speed the CCPI QLMs will be configured
+ *                   for
  *
  * @return Zero on success, negative on failure.
  */
-extern int bdk_init_nodes(int skip_cores);
+extern int bdk_init_nodes(int skip_cores, int ccpi_sw_gbaud);
 
 /**
  * Call to manually bringup the CCPI links using software

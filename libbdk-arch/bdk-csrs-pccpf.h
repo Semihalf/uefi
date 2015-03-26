@@ -420,6 +420,9 @@ union pcc_dev_idl_s {
 
 /**
  * PCCPF - pccpf_xxx_ari_cap_hdr
+ *
+ * This register is the header of the 8-byte PCI ARI capability structure.
+ *
  */
 typedef union bdk_pccpf_xxx_ari_cap_hdr {
 	uint32_t u;
@@ -792,6 +795,9 @@ static inline uint64_t BDK_PCCPF_XXX_CMD_FUNC(void)
 
 /**
  * PCCPF - pccpf_xxx_e_cap_hdr
+ *
+ * This register is the header of the 64-byte PCIe capability header.
+ *
  */
 typedef union bdk_pccpf_xxx_e_cap_hdr {
 	uint32_t u;
@@ -828,13 +834,16 @@ static inline uint64_t BDK_PCCPF_XXX_E_CAP_HDR_FUNC(void)
 
 /**
  * PCCPF - pccpf_xxx_id
+ *
+ * This register is the header of the 64-byte PCI type 0 configuration structure.
+ *
  */
 typedef union bdk_pccpf_xxx_id {
 	uint32_t u;
 	struct bdk_pccpf_xxx_id_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t devid                       : 16; /**< RO - Device ID. \<15:8\> is PCC_PROD_E::GEN. \<7:0\> enumerated by PCC_DEV_IDL_E. INTERNAL: Unit
-                                                                 from PCC's tie__unitid. */
+                                                                 from PCC's tie__pfunitid. */
 		uint32_t vendid                      : 16; /**< RO - Cavium's vendor ID. Enumerated by PCC_VENDOR_E::CAVIUM. */
 #else
 		uint32_t vendid                      : 16;
@@ -860,6 +869,9 @@ static inline uint64_t BDK_PCCPF_XXX_ID_FUNC(void)
 
 /**
  * PCCPF - pccpf_xxx_msix_cap_hdr
+ *
+ * This register is the header of the 36-byte PCI MSI-X capability structure.
+ *
  */
 typedef union bdk_pccpf_xxx_msix_cap_hdr {
 	uint32_t u;
@@ -1296,6 +1308,9 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_CAP_FUNC(void)
 
 /**
  * PCCPF - pccpf_xxx_sriov_cap_hdr
+ *
+ * This register is the header of the 64-byte PCI SR-IOV capability structure.
+ *
  */
 typedef union bdk_pccpf_xxx_sriov_cap_hdr {
 	uint32_t u;
@@ -1378,8 +1393,7 @@ typedef union bdk_pccpf_xxx_sriov_dev {
 	struct bdk_pccpf_xxx_sriov_dev_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t vfdev                       : 16; /**< RO - VF device ID. \<15:8\> is PCC_PROD_E::GEN. \<7:0\> enumerated by PCC_DEV_IDL_E.
-                                                                 e.g. 0xA033 for RNM_VF.
-                                                                 INTERNAL: Reset value should be --; see bug23334. */
+                                                                 e.g. 0xA033 for RNM_VF. INTERNAL: Unit from PCC's tie__vfunitid. */
 		uint32_t reserved_0_15               : 16;
 #else
 		uint32_t reserved_0_15               : 16;
@@ -1565,7 +1579,7 @@ typedef union bdk_pccpf_xxx_subid {
 	struct bdk_pccpf_xxx_subid_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t ssid                        : 16; /**< RO - Device ID. \<15:8\> enumerated by PCC_PROD_E. \<7:0\> enumerated by PCC_DEV_IDL_E.
-                                                                 INTERNAL: Unit from PCC's tie__prod and tie__unitid. */
+                                                                 INTERNAL: Unit from PCC's tie__prod and tie__pfunitid. */
 		uint32_t ssvid                       : 16; /**< RO - Subsystem vendor ID. Cavium = 0x177D. */
 #else
 		uint32_t ssvid                       : 16;
@@ -1777,6 +1791,9 @@ static inline uint64_t BDK_PCCPF_XXX_VSEC_BAR4U_FUNC(void)
 
 /**
  * PCCPF - pccpf_xxx_vsec_cap_hdr
+ *
+ * This register is the header of the 64-byte Cavium ThunderX family PF capability
+ * structure.
  */
 typedef union bdk_pccpf_xxx_vsec_cap_hdr {
 	uint32_t u;

@@ -385,8 +385,11 @@ typedef union bdk_rad_done_ack {
 	struct bdk_rad_done_ack_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_21_63              : 43;
-		uint64_t done_ack                    : 21; /**< WO - Number of decrements to RAD_DONE_CNT[DONE]. If RAD_DONE_CNT[DONE] is still non-zero the
-                                                                 interrupt will be re-sent if the conditions described in RAD_DONE_CNT[DONE] are satified. */
+		uint64_t done_ack                    : 21; /**< WO - Number of decrements to RAD_DONE_CNT[DONE].
+
+                                                                 Written by software to acknowledge interrupts.  If RAD_DONE_CNT[DONE] is still
+                                                                 non-zero the interrupt will be re-sent if the conditions described in
+                                                                 RAD_DONE_CNT[DONE] are satified. */
 #else
 		uint64_t done_ack                    : 21;
 		uint64_t reserved_21_63              : 43;
@@ -426,16 +429,17 @@ typedef union bdk_rad_done_cnt {
                                                                  * When RAD_DONE_CNT[DONE] = 0, then no results are pending, the interrupt coalescing
                                                                  timer is held to zero, and an interrupt is not sent.
 
-                                                                 * When RAD_DONE_CNT[DONE] != 0, then the interrupt coalescing timer counts. If the
-                                                                 counter is less than RAD_DONE_WAIT[TIME_WAIT]*1024, and RAD_DONE_CNT[DONE]
-                                                                 \< RAD_DONE_WAIT[NUM_WAIT] , i.e. not enough time has passed or not enough
-                                                                 results have arrived, then interrupts are not sent due to coalescing.
+                                                                 * When RAD_DONE_CNT[DONE] != 0, then the interrupt coalescing timer counts. If
+                                                                 the counter is \>= RAD_DONE_WAIT[TIME_WAIT]*1024, or RAD_DONE_CNT[DONE] \>=
+                                                                 RAD_DONE_WAIT[NUM_WAIT], i.e.enough time has passed or enough results have
+                                                                 arrived, then the interrupt is sent.  Otherwise, it is not sent due to
+                                                                 coalescing.
 
-                                                                 * When RAD_DONE_ACK is written, the interrupt coalescing timer restarts. Note after
-                                                                 decrementing this interrupt equation is recomputed, for example if
+                                                                 * When RAD_DONE_ACK is written, the interrupt coalescing timer restarts.
+                                                                 Note after decrementing this interrupt equation is recomputed, for example if
                                                                  RAD_DONE_CNT[DONE] \>= RAD_DONE_WAIT[NUM_WAIT] and the timer is zero, the
-                                                                 interrupt will be resent immediately.  (This covers the race case between software
-                                                                 acknowledging an interrupt and a result returning.)
+                                                                 interrupt will be resent immediately.  (This covers the race case between
+                                                                 software acknowledging an interrupt and a result returning.)
 
                                                                  * When RAD_INT_ENA_W1S[DONE] = 0, interrupts are not sent, but the counting described
                                                                  above still occurs. */

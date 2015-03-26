@@ -31,7 +31,7 @@ extern int bdk_gpio_initialize(bdk_node_t node, int gpio, int is_output, int out
  *
  * @return Status of the GPIO pins
  */
-extern uint32_t bdk_gpio_read(bdk_node_t node);
+extern uint64_t bdk_gpio_read(bdk_node_t node);
 
 /**
  * GPIO Clear pin
@@ -40,7 +40,7 @@ extern uint32_t bdk_gpio_read(bdk_node_t node);
  *                   special value.
  * @param clear_mask Bit mask to indicate which bits to drive to '0'.
  */
-extern void bdk_gpio_clear(bdk_node_t node, uint32_t clear_mask);
+extern void bdk_gpio_clear(bdk_node_t node, uint64_t clear_mask);
 
 /**
  * GPIO Set pin
@@ -49,6 +49,6 @@ extern void bdk_gpio_clear(bdk_node_t node, uint32_t clear_mask);
  *                 value.
  * @param set_mask Bit mask to indicate which bits to drive to '1'.
  */
-extern void bdk_gpio_set(bdk_node_t node, uint32_t set_mask);
+extern void bdk_gpio_set(bdk_node_t node, uint64_t set_mask);
 
 /** @} */

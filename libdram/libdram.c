@@ -30,8 +30,11 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
 
     BDK_TRACE(DRAM, "N%d: DRAM init started (hertz=%d, config=%p)\n", node, ddr_clock_hertz, dram_config);
 
-    if ((s = lookup_env_parameter("ddr_verbose")) != NULL)
-	dram_verbosity = strtoul(s, NULL, 0);
+    str = getenv("ddr_verbose");
+    if (str)
+        dram_verbosity = strtoul(str, NULL, 0);
+    else
+        dram_verbosity = 0;
 
     /* We need to calculate the interface mask based on the provided SPD
        addresses/contents */

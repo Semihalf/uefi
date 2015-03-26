@@ -3257,12 +3257,12 @@ typedef union bdk_pciercx_cfg448 {
 		uint32_t rtl                         : 16; /**< R/W/H - Replay time limit. The replay timer expires when it reaches this limit. The PCI Express
                                                                  bus initiates a replay upon reception of a nak or when the replay timer expires. This
                                                                  value is set correctly by the hardware out of reset or when the negotiated link width or
-                                                                 payload size changes. If the user changes this value through a CSR write or by an EEPROM
-                                                                 load then they should refer to the PCIe specification for the correct value. */
+                                                                 payload size changes. If the user changes this value
+                                                                 they should refer to the PCIe specification for the correct value. */
 		uint32_t rtltl                       : 16; /**< R/W/H - Round trip latency time limit. The ack/nak latency timer expires when it reaches this
                                                                  limit. This value is set correctly by the hardware out of reset or when the negotiated
-                                                                 link width or payload size changes. If the user changes this value through a CSR write or
-                                                                 by an EEPROM load, they should refer to the PCIe specification for the correct value. */
+                                                                 link width or payload size changes. If the user changes this value
+                                                                 they should refer to the PCIe specification for the correct value. */
 #else
 		uint32_t rtltl                       : 16;
 		uint32_t rtl                         : 16;

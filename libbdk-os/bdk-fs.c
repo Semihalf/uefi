@@ -28,6 +28,10 @@ static bdk_fs_mount_t mount_points[MAX_MOUNT_POINTS] = {
     {NULL, NULL}
 };
 
+/* Node number will be fixed in __bdk_fs_init */
+static char dev_uart0[] = "/dev/n0.uart0";
+static char dev_uart1[] = "/dev/n0.uart1";
+
 /**
  * The open file handle table. Handle 0-2 are open to start with
  * connected to uart 0. They can be closed later if needed.
@@ -36,12 +40,24 @@ static __bdk_fs_file_t file_handle[MAX_FILE_HANDLES] = {
     [0] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
     [1] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
     [2] = { .fs_state = NULL, .ops = &bdk_fs_console_ops, .filename = "/console" },
-    [3] = { .fs_state = &bdk_fs_dev_uart0, .ops = &bdk_fs_dev_ops, .filename = "/dev/n0.uart0" },
-    [4] = { .fs_state = &bdk_fs_dev_uart1, .ops = &bdk_fs_dev_ops, .filename = "/dev/n0.uart1" },
+    [3] = { .fs_state = &bdk_fs_dev_uart0, .ops = &bdk_fs_dev_ops, .filename = dev_uart0 },
+    [4] = { .fs_state = &bdk_fs_dev_uart1, .ops = &bdk_fs_dev_ops, .filename = dev_uart1 },
 };
 #undef errno
 extern int errno;
 
+/**
+ * Called early in init to setup the filesystem code
+ *
+ * @return Zero on success, negative on failure
+ */
+int __bdk_fs_init(void)
+{
+    bdk_node_t node = bdk_numa_local();
+    dev_uart0[6] = '0' + node;
+    dev_uart1[6] = '0' + node;
+    return 0;
+}
 
 /**
  * Dynamically register a new filesystem mount point. This is so
