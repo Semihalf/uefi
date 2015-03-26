@@ -1172,6 +1172,19 @@ uint64_t bdk_get_running_coremask(bdk_node_t node)
 }
 
 /**
+ * Return the number of cores actively running in the BDK for the given node.
+ * Not an inline so it can be called from LUA.
+ *
+ * @param node   Node to get the core count for
+ *
+ * @return Number of cores running. Doesn't count cores that aren't booted
+ */
+int bdk_get_num_running_cores(bdk_node_t node)
+{
+    return __builtin_popcountl(bdk_get_running_coremask(node));
+}
+
+/**
  * Read OCX setup used to determine which QLMs connect to which links
  *
  * @param node   Node to query
