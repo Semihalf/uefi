@@ -452,6 +452,13 @@ int main(void)
                 uint32_t freq = libdram_get_freq(other_node);
                 freq = (freq + 500000) / 1000000;
                 printf("Node %d: DRAM: %d MB, %u MHz\n", other_node, mbytes, freq);
+                /* Wake up one core on the other node */
+                bdk_init_cores(other_node, 1);
+                /* Run the address test to make sure DRAM works */
+                if (bdk_dram_test(1, 0, 0x10000000000ull))
+                    bdk_reset_chip(node);
+                /* Put other node core back in reset */
+                BDK_CSR_WRITE(other_node, BDK_RST_PP_RESET, -1);
             }
             else
             {

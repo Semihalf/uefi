@@ -267,6 +267,8 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         dram_test_thread_size = thread_size;
         BDK_WMB;
 
+        /* Poke the watchdog */
+        BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_POKEX(0), 0);
         /* Report progress percentage */
         int percent_x10 = (work_address - start_address) * 1000 / (end_address - start_address);
         printf("  %3d.%d%% complete, testing [0x%011lx:0x%011lx]\r",
