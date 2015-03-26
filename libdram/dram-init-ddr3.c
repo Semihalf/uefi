@@ -3374,10 +3374,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmc_phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(ddr_interface_num));
         lmc_phy_ctl.s.ts_stagger           = 0;
 
-        if ((s = lookup_env_parameter_ull("ddr_phy_ctl")) != NULL) {
-            lmc_phy_ctl.u    = strtoull(s, NULL, 0);
-        }
-
         ddr_print("PHY_CTL                                       : 0x%016lx\n", lmc_phy_ctl.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_PHY_CTL(ddr_interface_num), lmc_phy_ctl.u);
     }
@@ -3785,6 +3781,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         bdk_lmcx_phy_ctl_t lmc_phy_ctl;
         lmc_phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(ddr_interface_num));
         lmc_phy_ctl.s.dac_on = 1;
+        ddr_print("PHY_CTL                                       : 0x%016lx\n", lmc_phy_ctl.u);
+        DRAM_CSR_WRITE(node, BDK_LMCX_PHY_CTL(ddr_interface_num), lmc_phy_ctl.u);
+    }
+
+    if ((s = lookup_env_parameter_ull("ddr_phy_ctl")) != NULL) {
+        bdk_lmcx_phy_ctl_t lmc_phy_ctl;
+        lmc_phy_ctl.u    = strtoull(s, NULL, 0);
         ddr_print("PHY_CTL                                       : 0x%016lx\n", lmc_phy_ctl.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_PHY_CTL(ddr_interface_num), lmc_phy_ctl.u);
     }
