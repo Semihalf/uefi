@@ -158,6 +158,8 @@ static void boot_image(const char *dev_filename, uint64_t loc)
     /* Disable watchdog */
     if (WATCHDOG_TIMEOUT)
         BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
+    /* Clear the boot counter */
+    BDK_CSR_WRITE(bdk_numa_local(), BDK_GSERX_SCRATCH(0), 0);
 
     if (bdk_jump_address(bdk_ptr_to_phys(image), bdk_ptr_to_phys(image_env)))
     {
@@ -296,6 +298,11 @@ int main(void)
     BDK_TRACE(BOOT_STUB, "Driving GPIO10 high\n");
     bdk_gpio_initialize(node, 10, 1, 1);
 
+    /* Update the boot counter help in GESR0_SCRATCH */
+    uint64_t boot_count = BDK_CSR_READ(node, BDK_GSERX_SCRATCH(0));
+    boot_count++;
+    BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(0), boot_count);
+
     /* Initialize TWSI interface TBD as a slave */
     if (BMC_TWSI != -1)
     {
@@ -341,11 +348,12 @@ int main(void)
 
     printf(
         "BDK version: %s\n"
+        "Boot Attempt: %lu\n"
         "\n"
         "=========================\n"
         "Cavium THUNDERX Boot Stub\n"
         "=========================\n",
-        bdk_version_string());
+        bdk_version_string(), boot_count);
     print_node_strapping(bdk_numa_master());
 
     /* Poke the watchdog */
