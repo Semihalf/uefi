@@ -51,10 +51,7 @@ static bdk_if_handle_t bdk_if_init_port(bdk_node_t node, bdk_if_t iftype, int in
     handle->name[sizeof(handle->name)-1] = 0;
 
     if (__bdk_if_ops[iftype]->if_probe(handle))
-    {
-        bdk_error("if_probe indirect call failed\n");
         goto fail;
-    }
 
     if (__bdk_if_ops[iftype]->if_init(handle))
     {

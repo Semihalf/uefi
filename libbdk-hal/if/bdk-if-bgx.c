@@ -252,6 +252,14 @@ static int if_probe(bdk_if_handle_t handle)
 {
     static int next_free_vnic = 0;
 
+    /* Don't show ports that have zero in BGXX_CMRX_RX_DMAC_CTL. These are
+       not on the board and hidden by the bootstub */
+    if (BDK_CSR_READ(handle->node, BDK_BGXX_CMRX_RX_DMAC_CTL(handle->interface, handle->index)) == 0)
+    {
+        BDK_TRACE(BGX, "%s: Disabled by bootstub\n", handle->name);
+        return -1;
+    }
+
     if (next_free_vnic >= 128)
     {
         bdk_error("Ran out of VNIC interfaces\n");
