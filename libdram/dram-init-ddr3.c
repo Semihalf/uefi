@@ -4114,7 +4114,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #pragma pack(pop)
 
         if (wlevel_loops)
-            ddr_print("Performing Write-Leveling\n");
+            ddr_print("LMC%d: Performing Write-Leveling\n", ddr_interface_num);
         else {
             wlevel_bitmask_errors = 1; /* Force software write-leveling to run */
 #ifdef DDR3_ENHANCE_PRINT
@@ -4631,7 +4631,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         DRAM_CSR_WRITE(node, BDK_LMCX_CONTROL(ddr_interface_num), lmc_control.u);
 
-        ddr_print("Performing Read-Leveling\n");
+        ddr_print("LMC%d: Performing Read-Leveling\n", ddr_interface_num);
 
         rlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num));
 
@@ -5541,7 +5541,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
 
         if (sw_wlevel_enable)
-            ddr_print("Performing software Write-Leveling\n");
+            ddr_print("LMC%d: Performing software Write-Leveling\n", ddr_interface_num);
 
         /* Disable ECC for DRAM tests */
         lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
