@@ -34,6 +34,7 @@ static const dram_test_info_t TEST_INFO[] = {
     { "Walking Zeros Left",     __bdk_dram_test_mem_leftwalk0,      1,      0},
     { "Walking Zeros Right",    __bdk_dram_test_mem_rightwalk0,     1,      0},
     { "Random XOR (224 Burst)", __bdk_dram_test_mem_xor,            224,    0},
+    { "Fast Scan",              __bdk_dram_test_fast_scan,          0,      0},
     { NULL,                     NULL,                               0,      0}
 };
 

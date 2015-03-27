@@ -45,6 +45,7 @@ def wait_for_test_menu(cnx):
     cnx.match("test10) Walking Zeros Left")
     cnx.match("test11) Walking Zeros Right")
     cnx.match("test12) Random XOR (224 Burst)")
+    cnx.match("test13) Fast Scan")
     cnx.match("spec) Run special DRAM tests")
     cnx.match("abort) Abort on Errors (Currently ON)")
     cnx.match("quit) Main menu")
@@ -82,6 +83,7 @@ def wait_for_all_dram_test(cnx):
     tests.append("Walking Zeros Left")
     tests.append("Walking Zeros Right")
     tests.append("Random XOR (224 Burst)")
+    tests.append("Fast Scan")
     for t in tests:
         wait_for_dram_test(cnx, t)
 

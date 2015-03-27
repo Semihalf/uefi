@@ -463,7 +463,7 @@ int main(void)
                 /* Wake up one core on the other node */
                 bdk_init_cores(other_node, 1);
                 /* Run the address test to make sure DRAM works */
-                if (bdk_dram_test(1, 0, 0x10000000000ull))
+                if (bdk_dram_test(13, 0, 0x10000000000ull))
                     bdk_reset_chip(node);
                 /* Put other node core back in reset */
                 BDK_CSR_WRITE(other_node, BDK_RST_PP_RESET, -1);
