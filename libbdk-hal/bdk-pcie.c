@@ -782,6 +782,8 @@ int bdk_pcie_rc_shutdown(bdk_node_t node, int pcie_port)
         printf("N%d.PCIe%d: Shutdown timeout\n", node, pcie_port);
 
 skip_idle_wait:
+    /* Bring down the link */
+    BDK_CSR_MODIFY(c, node, BDK_PEMX_CTL_STATUS(pcie_port), c.s.lnk_enb = 0);
     /* Force reset */
     BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), 1);
     return 0;
