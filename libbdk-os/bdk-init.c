@@ -582,6 +582,19 @@ static int oci_report_lane(bdk_node_t node, int show_message)
 }
 
 /**
+ * The oct_init() function needs to check the status of a CCPI link quite often.
+ * For a link to be good it must be valid, up, and not dropping data.
+ *
+ * @param linkx_ctl Status of link to check
+ *
+ * @return Non zero if link is good
+ */
+static inline int is_ccpi_link_good(bdk_ocx_com_linkx_ctl_t linkx_ctl)
+{
+    return linkx_ctl.s.valid && linkx_ctl.s.up && !linkx_ctl.s.drop;
+}
+
+/**
  * Initialize the OCI so all Nodes are ready to be used
  *
  * @return Zero on success, negative on failure.
@@ -653,7 +666,7 @@ static int init_oci(void)
         BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
         ocx_com_linkx_ctl.s.id = (my_node + link + 1) & 3;
         BDK_CSR_WRITE(my_node, BDK_OCX_COM_LINKX_CTL(link), ocx_com_linkx_ctl.u);
-        if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
+        if (is_ccpi_link_good(ocx_com_linkx_ctl))
             BDK_TRACE(INIT, "N%d: Link %d is up,   temp node ID is %d\n", my_node, link, ocx_com_linkx_ctl.s.id);
         else
             BDK_TRACE(INIT, "N%d: Link %d is down, temp node ID is %d\n", my_node, link, ocx_com_linkx_ctl.s.id);
@@ -678,7 +691,7 @@ static int init_oci(void)
         for (int link=0; link<3; link++)
         {
             BDK_CSR_INIT(ocx_com_linkx_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
-            if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
+            if (is_ccpi_link_good(ocx_com_linkx_ctl))
             {
                 BDK_TRACE(INIT, "N%d:  Link %d is up, checking remote lanes\n", my_node, link);
                 /* Clear any SERDES bad bits */
@@ -703,7 +716,7 @@ static int init_oci(void)
                     ocx_com_linkx_ctl.u = ocx_pp_read(ocx_com_linkx_ctl.s.id, BDK_OCX_COM_LINKX_CTL(link2));
                     if (ocx_com_linkx_ctl.u == OCX_PP_TIMEOUT)
                         BDK_TRACE(INIT, "N%d:    Remote Link %d read timeout\n", my_node, link2);
-                    else if (ocx_com_linkx_ctl.s.valid && ocx_com_linkx_ctl.s.up)
+                    else if (is_ccpi_link_good(ocx_com_linkx_ctl))
                         BDK_TRACE(INIT, "N%d:    Remote Link %d is up,   temp node ID is %d\n", my_node, link2, ocx_com_linkx_ctl.s.id);
                     else
                         BDK_TRACE(INIT, "N%d:    Remote Link %d is down, temp node ID is %d\n", my_node, link2, ocx_com_linkx_ctl.s.id);
@@ -767,7 +780,7 @@ static int init_oci(void)
            modification of AUTO_CLR */
         lk_info[LOCAL_NODE].ctl[link].u = BDK_CSR_READ(my_node, BDK_OCX_COM_LINKX_CTL(link));
         /* Skip invalid links */
-        if (!lk_info[LOCAL_NODE].ctl[link].s.valid || !lk_info[LOCAL_NODE].ctl[link].s.up)
+        if (!is_ccpi_link_good(lk_info[LOCAL_NODE].ctl[link]))
         {
             BDK_TRACE(INIT, "    Local link %d: Down, skipping\n", link);
             continue;
@@ -792,7 +805,7 @@ static int init_oci(void)
             lnk->s.auto_clr = 0;
             ocx_pp_write(rid, BDK_OCX_COM_LINKX_CTL(rlink), lnk->u);
             /* Skip invalid links */
-            if (!lnk->s.valid || !lnk->s.up || lnk->s.drop)
+            if (!is_ccpi_link_good(*lnk))
             {
                 BDK_TRACE(INIT, "        Remote link %d: Down, skipping\n", rlink);
                 continue;
@@ -808,7 +821,7 @@ static int init_oci(void)
     BDK_TRACE(INIT, "Reading link data for all links\n");
     for (int link = 0; link < MAX_LINKS; link++)
     {
-        if (!lk_info[LOCAL_NODE].ctl[link].s.valid || !lk_info[LOCAL_NODE].ctl[link].s.up)
+        if (!is_ccpi_link_good(lk_info[LOCAL_NODE].ctl[link]))
             continue;
         lk_info[LOCAL_NODE].unique_value[link] = BDK_CSR_READ(my_node, BDK_OCX_RLKX_LNK_DATA(link));
         BDK_TRACE(INIT, "    Local link %d: Read link data 0x%lx\n", link, lk_info[LOCAL_NODE].unique_value[link]);
@@ -831,7 +844,7 @@ static int init_oci(void)
     /* Loop through once reserving all fixed node IDs */
     for (int link = 0; link < MAX_LINKS; link++)
     {
-        if (!lk_info[LOCAL_NODE].ctl[link].s.valid || !lk_info[LOCAL_NODE].ctl[link].s.up)
+        if (!is_ccpi_link_good(lk_info[LOCAL_NODE].ctl[link]))
             continue;
         if (ocx_duplicate_node(lk_info, link) != -1)
         {
@@ -856,7 +869,7 @@ static int init_oci(void)
     /* Loop through again finding node IDs for unassigned nodes */
     for (int link = 0; link < MAX_LINKS; link++)
     {
-        if (!lk_info[LOCAL_NODE].ctl[link].s.valid || !lk_info[LOCAL_NODE].ctl[link].s.up)
+        if (!is_ccpi_link_good(lk_info[LOCAL_NODE].ctl[link]))
             continue;
         int dup = ocx_duplicate_node(lk_info, link);
         if (dup != -1)
@@ -894,7 +907,7 @@ static int init_oci(void)
     BDK_TRACE(INIT, "Determining which node each link connects to\n");
     for (int link = 0; link < MAX_LINKS; link++)
     {
-        if (!lk_info[LOCAL_NODE].ctl[link].s.valid || !lk_info[LOCAL_NODE].ctl[link].s.up)
+        if (!is_ccpi_link_good(lk_info[LOCAL_NODE].ctl[link]))
         {
             lk_info[link].node.s.id = unused_node;
             continue;
@@ -902,7 +915,7 @@ static int init_oci(void)
         BDK_TRACE(INIT, "    Local link %d: Searching remote links\n", link);
         for (int rlink = 0; rlink < MAX_LINKS; rlink++)
         {
-            if (!lk_info[link].ctl[rlink].s.valid || !lk_info[link].ctl[rlink].s.up)
+            if (!is_ccpi_link_good(lk_info[link].ctl[rlink]))
             {
                 lk_info[link].ctl[rlink].s.id = unused_node;
                 continue;
@@ -937,7 +950,7 @@ static int init_oci(void)
     BDK_TRACE(INIT, "Programming remote links and node IDs\n");
     for (int link = 0; link < MAX_LINKS; link++)
     {
-        if (!lk_info[LOCAL_NODE].ctl[link].s.valid || !lk_info[LOCAL_NODE].ctl[link].s.up)
+        if (!is_ccpi_link_good(lk_info[LOCAL_NODE].ctl[link]))
             continue;
         if (ocx_duplicate_node(lk_info, link) != -1)
         {
@@ -949,7 +962,7 @@ static int init_oci(void)
         ocx_pp_write(rid, BDK_OCX_COM_NODE, lk_info[link].node.u);
         for (int rlink = 0; rlink < MAX_LINKS; rlink++)
         {
-            if (!lk_info[link].ctl[rlink].s.valid || !lk_info[link].ctl[rlink].s.up)
+            if (!is_ccpi_link_good(lk_info[link].ctl[rlink]))
                 BDK_TRACE(INIT, "        Remote link %d: Down\n", rlink);
             else
                 BDK_TRACE(INIT, "        Remote link %d: Connects to node ID %d\n", rlink, lk_info[link].ctl[rlink].s.id);
@@ -965,7 +978,7 @@ static int init_oci(void)
     BDK_TRACE(INIT, "Programming local links\n");
     for (int link = 0; link < MAX_LINKS; link++)
     {
-        if (!lk_info[LOCAL_NODE].ctl[link].s.valid || !lk_info[LOCAL_NODE].ctl[link].s.up)
+        if (!is_ccpi_link_good(lk_info[LOCAL_NODE].ctl[link]))
             BDK_TRACE(INIT, "    Local link %d: Down\n", link);
         else
             BDK_TRACE(INIT, "    Local link %d: Connects to node ID %d\n", link, lk_info[link].node.s.id);
@@ -978,7 +991,7 @@ static int init_oci(void)
     for (int link = 0; link < MAX_LINKS; link++)
     {
         BDK_CSR_INIT(local_link_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
-        if (!local_link_ctl.s.valid || !local_link_ctl.s.up)
+        if (!is_ccpi_link_good(local_link_ctl))
             continue;
         BDK_TRACE(INIT, "    Local link %d: Checking\n", link);
         if (local_link_ctl.s.id != lk_info[link].node.s.id)
@@ -1354,6 +1367,10 @@ int bdk_init_ccpi_links(uint64_t gbaud)
         }
     }
 
+    BDK_TRACE(INIT, "N%d: Waiting for all CCPI lanes\n", my_node);
+    while (oci_report_lane(my_node, 0) != 24)
+        bdk_wait_usec(1000);
+
     /* Finish link reinit */
     BDK_TRACE(INIT, "N%d: Waiting for all CCPI links\n", my_node);
     int good_links = 0;
@@ -1379,6 +1396,18 @@ int bdk_init_ccpi_links(uint64_t gbaud)
                 {
                     BDK_TRACE(INIT, "N%d:   Link %d up\n", my_node, link);
                     good_links |= link_mask;
+                    BDK_CSR_INIT(link_ctl, my_node, BDK_OCX_COM_LINKX_CTL(link));
+                    for (int i = 0; i < 200; i++)
+                    {
+                        if (ocx_pp_read(link_ctl.s.id, BDK_OCX_COM_LINKX_CTL(0)) == OCX_PP_TIMEOUT)
+                        {
+                            BDK_TRACE(INIT, "N%d:   Link %d failed CSR read %d\n", my_node, link, i);
+                            good_links &= ~link_mask;
+                            BDK_CSR_MODIFY(c, my_node, BDK_OCX_COM_LINKX_CTL(link),
+                                c.s.reinit = 1);
+                            break;
+                        }
+                    }
                 }
             }
             else

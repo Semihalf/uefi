@@ -283,6 +283,9 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
         dram_test_thread_size = thread_size;
         BDK_WMB;
 
+        /* Poke the watchdog */
+        BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_POKEX(0), 0);
+
 	/* disable progress output when batch mode is ON  */
         if (!test_batch_mode) {
 
