@@ -516,6 +516,11 @@ int main(void)
         }
     }
 
+    int timestamp = bdk_mdio_45_read(node, 1, 1, 0, 0xa);
+    int is_sgmii = (timestamp == 0x1722);
+    printf("Configuring networking for %s\n",
+        (is_sgmii) ? "1 Gbit" : "10 Gbit");
+
     /* Initialize the QLMs */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {
@@ -524,7 +529,10 @@ int main(void)
             BDK_TRACE(BOOT_STUB, "Initializing QLMs on Node %d\n", n);
             if (n == BDK_NODE_0)
             {
-                bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XFI_4X1, 10312, 0);
+                if (is_sgmii)
+                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_SGMII, 1250, 0);
+                else
+                    bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XFI_4X1, 10312, 0);
                 bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XLAUI_1X4, 10312, 0);
                 bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_PCIE_1X4, 8000, 0);
                 bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
@@ -533,7 +541,10 @@ int main(void)
             }
             else
             {
-                bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XFI_4X1, 10312, 0);
+                if (is_sgmii)
+                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_SGMII, 1250, 0);
+                else
+                    bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XFI_4X1, 10312, 0);
                 bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_DISABLED, 0, 0);
                 bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_DISABLED, 0, 0);
                 bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
