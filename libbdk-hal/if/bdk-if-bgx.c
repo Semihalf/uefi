@@ -349,6 +349,8 @@ static int sgmii_link(bdk_if_handle_t handle)
         forced_speed_mbps = 1000;
     else if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index) == 0x1001))
         forced_speed_mbps = 100;
+    else if ((((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index) & BDK_IF_PHY_TYPE_MASK) == BDK_IF_PHY_TWSI))
+        forced_speed_mbps = 1000;
 
     /* Take PCS through a reset sequence.
         PCS*_MR*_CONTROL_REG[PWR_DN] should be cleared to zero.
@@ -1435,9 +1437,7 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
         {
             /* Force the PHY address to be for the same node the interface is on */
             int phy = bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index);
-            if (phy < BDK_IF_PHY_FIXED_1GB)
-                phy |= handle->node << 24;
-            result = __bdk_if_phy_get(phy);
+            result = __bdk_if_phy_get(handle->node, phy);
         }
     }
     return result;

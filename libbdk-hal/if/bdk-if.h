@@ -12,6 +12,31 @@
 
 #define BDK_IF_MAX_GATHER 12 /* CN88XX RX supports 12 at most */
 
+/*  PHY address encoding:
+        Bits[31:24]: Node ID, 0xff for node the etherent device is on
+        Bits[23:16]: Only used for TWSI
+        Bits[15:12]: PHY connection type (0=MDIO, 1=Fixed, 2=TWSI)
+    For MDIO:
+        Bits[31:24]: Node ID, 0xff for node the etherent device is on
+        Bits[23:16]: 0
+        Bits[15:12]: 0=MDIO
+        Bits[11:8]: MDIO bus number
+        Bits[7:0]: MDIO address
+    For Fixed:
+        Bits[31:24]: 0
+        Bits[23:16]: Zero
+        Bits[15:12]: 1=Fixed
+        Bits[11:0]:  0 = 1Gb, 1 = 100Mb
+    For TWSI:
+        Bits[31:24]: Node ID, 0xff for node the etherent device is on
+        Bits[23:16]: TWSI internal address width in bytes (0-2)
+        Bits[15:12]: 2=TWSI
+        Bits[11:8]: TWSI bus number
+        Bits[7:0]: TWSI address
+   */
+#define BDK_IF_PHY_TYPE_MASK 0xf000
+#define BDK_IF_PHY_MDIO 0x0000
+#define BDK_IF_PHY_TWSI 0x2000
 #define BDK_IF_PHY_FIXED_1GB 0x1000
 #define BDK_IF_PHY_FIXED_100MB 0x1001
 
@@ -167,7 +192,7 @@ extern const char *bdk_if_name(bdk_if_handle_t handle);
 extern bdk_if_link_t bdk_if_link_get(bdk_if_handle_t handle);
 extern bdk_if_link_t bdk_if_link_autoconf(bdk_if_handle_t handle);
 extern const bdk_if_stats_t *bdk_if_get_stats(bdk_if_handle_t handle);
-extern bdk_if_link_t __bdk_if_phy_get(int phy_addr);
+extern bdk_if_link_t __bdk_if_phy_get(bdk_node_t dev_node, int phy_addr);
 extern int bdk_if_get_queue_depth(bdk_if_handle_t handle);
 extern int bdk_if_link_wait_all(uint64_t timeout_us);
 
