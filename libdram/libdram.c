@@ -89,9 +89,21 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
  */
 uint32_t libdram_get_freq(int node)
 {
-    static const int _en[] = {1, 2, 3, 4, 5, 6, 7, 8, 10, 12};
+    return measured_ddr_hertz[node];
+}
+
+/**
+ * Get the measured DRAM frequency from the DDR_PLL_CTL CSR
+ *
+ * @param node   Node to get frequency for
+ *
+ * @return Frequency in Hz
+ */
+uint32_t libdram_get_freq_from_pll(int node, int lmc)
+{
+    static const uint8_t _en[] = {1, 2, 3, 4, 5, 6, 7, 8, 10, 12};
     uint64_t ddr_ref_hertz = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
-    BDK_CSR_INIT(c, node, BDK_LMCX_DDR_PLL_CTL(0)); // source LMC0
+    BDK_CSR_INIT(c, node, BDK_LMCX_DDR_PLL_CTL(lmc));
     uint64_t en = _en[c.s.ddr_ps_en];
     uint64_t calculated_ddr_hertz = ddr_ref_hertz * (c.s.clkf + 1) / ((c.s.clkr + 1) * en);
     return calculated_ddr_hertz;
