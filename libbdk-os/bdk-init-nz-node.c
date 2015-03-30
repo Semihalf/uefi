@@ -126,8 +126,8 @@ static void monitor_ccpi(void)
     uint64_t training_timeout = 0;
     bdk_dbg_uart_str("Monitoring CCPI\r\n");
 
-    /* Don't reset if CCPI links change state */
-    BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
+    /* Reset if a link change state */
+    BDK_CSR_WRITE(node, BDK_RST_OCX, 0x7);
 
     /* Apply CCPI custom tuning */
     for (int qlm = 8; qlm < 14; qlm++)
@@ -243,8 +243,6 @@ static void monitor_ccpi(void)
         }
         if (valid_links >= 2)
         {
-            /* Reset if a link change state */
-            BDK_CSR_WRITE(node, BDK_RST_OCX, 0x7);
             bdk_dbg_uart_char('0' + valid_links);
             /* Disable watchdog */
             if (WATCHDOG_TIMEOUT)
