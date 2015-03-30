@@ -158,6 +158,8 @@ static void boot_image(const char *dev_filename, uint64_t loc)
     /* Disable watchdog */
     if (WATCHDOG_TIMEOUT)
         BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
+    /* Clear the boot counter */
+    BDK_CSR_WRITE(bdk_numa_local(), BDK_GSERX_SCRATCH(0), 0);
 
     if (bdk_jump_address(bdk_ptr_to_phys(image), bdk_ptr_to_phys(image_env)))
     {
@@ -296,6 +298,11 @@ int main(void)
     BDK_TRACE(BOOT_STUB, "Driving GPIO10 high\n");
     bdk_gpio_initialize(node, 10, 1, 1);
 
+    /* Update the boot counter help in GESR0_SCRATCH */
+    uint64_t boot_count = BDK_CSR_READ(node, BDK_GSERX_SCRATCH(0));
+    boot_count++;
+    BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(0), boot_count);
+
     /* Initialize TWSI interface TBD as a slave */
     if (BMC_TWSI != -1)
     {
@@ -341,11 +348,12 @@ int main(void)
 
     printf(
         "BDK version: %s\n"
+        "Boot Attempt: %lu\n"
         "\n"
         "=========================\n"
         "Cavium THUNDERX Boot Stub\n"
         "=========================\n",
-        bdk_version_string());
+        bdk_version_string(), boot_count);
     print_node_strapping(bdk_numa_master());
 
     /* Poke the watchdog */
@@ -455,7 +463,7 @@ int main(void)
                 /* Wake up one core on the other node */
                 bdk_init_cores(other_node, 1);
                 /* Run the address test to make sure DRAM works */
-                if (bdk_dram_test(1, 0, 0x10000000000ull))
+                if (bdk_dram_test(13, 0, 0x10000000000ull))
                     bdk_reset_chip(node);
                 /* Put other node core back in reset */
                 BDK_CSR_WRITE(other_node, BDK_RST_PP_RESET, -1);
@@ -508,6 +516,11 @@ int main(void)
         }
     }
 
+    int timestamp = bdk_mdio_45_read(node, 1, 1, 0, 0xa);
+    int is_sgmii = (timestamp == 0x1722);
+    printf("Configuring networking for %s\n",
+        (is_sgmii) ? "1 Gbit" : "10 Gbit");
+
     /* Initialize the QLMs */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {
@@ -516,7 +529,10 @@ int main(void)
             BDK_TRACE(BOOT_STUB, "Initializing QLMs on Node %d\n", n);
             if (n == BDK_NODE_0)
             {
-                bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XFI_4X1, 10312, 0);
+                if (is_sgmii)
+                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_SGMII, 1250, 0);
+                else
+                    bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XFI_4X1, 10312, 0);
                 bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XLAUI_1X4, 10312, 0);
                 bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_PCIE_1X4, 8000, 0);
                 bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
@@ -525,7 +541,10 @@ int main(void)
             }
             else
             {
-                bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XFI_4X1, 10312, 0);
+                if (is_sgmii)
+                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_SGMII, 1250, 0);
+                else
+                    bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XFI_4X1, 10312, 0);
                 bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_DISABLED, 0, 0);
                 bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_DISABLED, 0, 0);
                 bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
@@ -538,7 +557,16 @@ int main(void)
     }
 
     /* Initialize BGX, ready for driver */
-    /* Nothing needed right now */
+    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+    {
+        if (bdk_numa_exists(n))
+        {
+            /* Ports 1-3 of BGX 0 aren't used. Use BGXX_CMRX_RX_DMAC_CTL
+               to signal this to following software */
+            for (int p = 1; p < 4; p++)
+                BDK_CSR_WRITE(n, BDK_BGXX_CMRX_RX_DMAC_CTL(0, p), 0);
+        }
+    }
 
     /* Send status to the BMC: QLM setup complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_QLM_COMPLETE);
@@ -577,7 +605,24 @@ int main(void)
                 if (bdk_qlm_get(n, BDK_IF_PCIE, p) != -1)
                 {
                     BDK_TRACE(BOOT_STUB, "Initializing PCIe%d on Node %d\n", p, n);
-                    bdk_pcie_rc_initialize(n, p);
+                    if (bdk_pcie_rc_initialize(n, p))
+                    {
+                        /* PCIe init failed. As a special case, the CRB-2S can
+                           have a SATA breakout adapter in the PCIe x8 slot. If
+                           init failed, assume this SATA adapter is there */
+                        if ((n == BDK_NODE_0) && (p == 4))
+                        {
+                            bdk_pcie_rc_shutdown(n, p);
+                            bdk_wait_usec(1000);
+                            /* Disable the QLMs before we change their mode */
+                            bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_DISABLED, 0, 0);
+                            bdk_qlm_set_mode(n, 7, BDK_QLM_MODE_DISABLED, 0, 0);
+                            bdk_wait_usec(1000);
+                            /* Change the QLMs to SATA */
+                            bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_SATA_4X1, 6000, 0);
+                            bdk_qlm_set_mode(n, 7, BDK_QLM_MODE_SATA_4X1, 6000, 0);
+                        }
+                    }
                 }
             }
         }

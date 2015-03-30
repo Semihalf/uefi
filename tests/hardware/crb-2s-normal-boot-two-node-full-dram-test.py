@@ -10,7 +10,14 @@ def main(log):
     while True:
         count += 1
         print "Loop %d" % count
-        test_boot.boot_normal(cnx)
+
+        cnx.powerCycle()
+        cnx.waitfor("Verifying image", timeout=300)
+        cnx.match("Putting all cores except this one in reset")
+        cnx.match("Jumping to image at")
+        cnx.waitfor("---")
+        test_boot.wait_for_bdk_boot(cnx)
+        test_boot.wait_for_main_menu(cnx)
         test_dram.dram_all(cnx)
     cnx.close()
 

@@ -64,6 +64,7 @@ extern int __bdk_dram_test_mem_rows(uint64_t start_address, uint64_t end_address
 extern int __bdk_dram_test_mem_self_addr(uint64_t start_address, uint64_t end_address, int bursts);
 extern int __bdk_dram_test_mem_solid(uint64_t start_address, uint64_t end_address, int bursts);
 extern int __bdk_dram_test_mem_xor(uint64_t start_address, uint64_t end_address, int bursts);
+extern int __bdk_dram_test_fast_scan(uint64_t area, uint64_t max_address, int bursts);
 
 /** @} */
 

@@ -45,6 +45,7 @@ def wait_for_test_menu(cnx):
     cnx.match("test10) Walking Zeros Left")
     cnx.match("test11) Walking Zeros Right")
     cnx.match("test12) Random XOR (224 Burst)")
+    cnx.match("test13) Fast Scan")
     cnx.match("spec) Run special DRAM tests")
     cnx.match("abort) Abort on Errors (Currently ON)")
     cnx.match("quit) Main menu")
@@ -56,7 +57,7 @@ def wait_for_test_menu(cnx):
 def wait_for_dram_test(cnx, test_name):
     cnx.match("Starting Test \"%s\" for" % test_name)
     cnx.matchRE("\\[0x[0-9a-fA-F]*:0x[0-9a-fA-F]*\\] using [0-9]* core\\(s\\)")
-    cnx.waitfor("Node", timeout=600)
+    cnx.waitfor("Node", timeout=900)
     cnx.matchRE("0, LMC0: ops [0-9]*, cycles [0-9]*, used [0-9]*\\.[0-9]\\%")
     try:
         for i in range(7):
@@ -82,6 +83,7 @@ def wait_for_all_dram_test(cnx):
     tests.append("Walking Zeros Left")
     tests.append("Walking Zeros Right")
     tests.append("Random XOR (224 Burst)")
+    tests.append("Fast Scan")
     for t in tests:
         wait_for_dram_test(cnx, t)
 

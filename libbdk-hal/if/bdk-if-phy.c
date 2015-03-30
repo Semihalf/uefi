@@ -1,17 +1,87 @@
 #include <bdk.h>
 
-bdk_if_link_t __bdk_if_phy_get(int phy_addr)
+/**
+ * Called when the PHY is connected through TWSI
+ *
+ * @param dev_node Node the etherent device is on
+ * @param phy_addr Encoded address, see bdk-if.h for format
+ *
+ * @return Link status
+ */
+static bdk_if_link_t __bdk_if_phy_get_twsi(bdk_node_t dev_node, int phy_addr)
 {
-    int node = phy_addr >> 24;
+    /* For TWSI:
+        Bits[31:24]: Node ID, 0xff for device node
+        Bits[23:16]: TWSI internal address width in bytes (0-2)
+        Bits[15:12]: 2=TWSI
+        Bits[11:8]: TWSI bus number
+        Bits[7:0]: TWSI address */
+    int node = (phy_addr >> 24) & 0xff;
+    int twsi_ia_width = (phy_addr >> 16) & 0xff;
+    int twsi_bus = (phy_addr >> 8) & 0xf;
+    int twsi_addr = phy_addr & 0xff;
+    if (node == 0xff)
+        node = dev_node;
+
+    bdk_if_link_t result;
+    result.u64 = 0;
+
+    /* This is from the Avago SFP 1G Module data sheet
+       Register 17 (Extended Status 1) */
+    int64_t phy_status = bdk_twsix_read_ia(node, twsi_bus, twsi_addr, 17, 2, twsi_ia_width);
+    if (phy_status != -1)
+    {
+        int speed = (phy_status >> 14)& 3;
+        int duplex = (phy_status >> 13)& 1;
+        int resolved = (phy_status >> 11)& 1;
+        int link = (phy_status >> 10)& 1;
+        if (resolved)
+        {
+            result.s.up = link;
+            result.s.full_duplex = duplex;
+            switch (speed)
+            {
+                case 0: /* 10 Mbps */
+                    result.s.speed = 10;
+                    break;
+                case 1: /* 100 Mbps */
+                    result.s.speed = 100;
+                    break;
+                case 2: /* 1 Gbps */
+                    result.s.speed = 1000;
+                    break;
+                case 3: /* Illegal */
+                    result.u64 = 0;
+                    break;
+            }
+        }
+    }
+
+    return result;
+}
+
+/**
+ * Read the status of a PHY
+ *
+ * @param dev_node Node the etherent device is on
+ * @param phy_addr Encoded PHY address, see bdk-if.h for format
+ *
+ * @return Link status
+ */
+bdk_if_link_t __bdk_if_phy_get(bdk_node_t dev_node, int phy_addr)
+{
+    int node = (phy_addr >> 24) & 0xff;
     int mdio_bus = (phy_addr >> 8) & 0xff;
     int mdio_addr = phy_addr & 0xff;
+    if (node == 0xff)
+        node = dev_node;
     int phy_status;
     bdk_if_link_t result;
     result.u64 = 0;
 
     /* PHY address of -1 menas there is no PHY and we should have never
         gotten here */
-    if (phy_addr < 0)
+    if (phy_addr == -1)
         return result;
 
     /* A PHY address with the special value 0x1000 represents a PHY we can't
@@ -42,6 +112,10 @@ bdk_if_link_t __bdk_if_phy_get(int phy_addr)
         result.s.speed = 1000;
         return result;
     }
+
+    /* Check for a PHY connected through TWSI */
+    if ((phy_addr & BDK_IF_PHY_TYPE_MASK) == BDK_IF_PHY_TWSI)
+        return __bdk_if_phy_get_twsi(dev_node, phy_addr);
 
     phy_status = bdk_mdio_read(node, mdio_bus, mdio_addr, BDK_MDIO_PHY_REG_ID1);
     if ((phy_status <= 0) || (phy_status == 0xffff))

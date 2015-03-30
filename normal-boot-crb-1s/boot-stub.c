@@ -457,7 +457,10 @@ int main(void)
     }
 
     /* Initialize BGX, ready for driver */
-    /* Nothing needed right now */
+    /* Ports 2-3 of BGX 1 aren't used. Use BGXX_CMRX_RX_DMAC_CTL
+       to signal this to following software */
+    for (int p = 2; p < 4; p++)
+        BDK_CSR_WRITE(node, BDK_BGXX_CMRX_RX_DMAC_CTL(1, p), 0);
 
     /* Send status to the BMC: QLM setup complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_QLM_COMPLETE);
