@@ -74,7 +74,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     int num_lmc = __bdk_dram_get_num_lmc(node);
     for (int lmc = 0; lmc < num_lmc; lmc++)
     {
-        BDK_CSR_WRITE(node, BDK_LMCX_INT(lmc), BDK_CSR_READ(node, BDK_LMCX_INT(lmc)));
+        DRAM_CSR_WRITE(node, BDK_LMCX_INT(lmc), BDK_CSR_READ(node, BDK_LMCX_INT(lmc)));
     }
 
     return mbytes;
