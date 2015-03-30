@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <ctype.h>
 #include "dram-internal.h"
 
 
@@ -306,7 +307,7 @@ int get_dimm_part_number(char *buffer, bdk_node_t node, const dimm_config_t *dim
     --strlen; /* point to the last character */
 
     /* Remove trailing spaces */
-    while (isspace(buffer[strlen]) && strlen) {
+    while (isspace((int)buffer[strlen]) && strlen) {
         --strlen;
     }
 
