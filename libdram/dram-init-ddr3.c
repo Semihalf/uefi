@@ -818,6 +818,7 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode, int ddr_in
 
             result[byte] = 0;
             for (i=0; i<2; ++i) {
+                BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
                 result[byte] += test_dram_byte(rank_addr, 4096, byte, byte_bitmask);
             }
             if (result[byte] == 0) {
@@ -5706,6 +5707,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
                             lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
 
+                            BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+
                             if (!test_dram_byte(rank_addr, 4096, byte, byte_bitmask)) {
                                 debug_print("        byte %d(0x%lx) delay %2d Passed\n", byte, rank_addr, delay);
                                 byte_test_status[byte] = WL_HARDWARE;
@@ -5825,6 +5828,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             debug_print("Testing byte %d delay %2d\n", byte, delay);
                             DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
                             lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
+
+                            BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
 
                             if (!test_dram_byte(rank_addr, 2048, byte, byte_bitmask)) {
                                 ++passed;
