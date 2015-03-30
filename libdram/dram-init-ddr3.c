@@ -1277,7 +1277,7 @@ static void change_rdimm_mpr_pattern (bdk_node_t node, int rank_mask,
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     save_ref_zqcs_int         = lmc_config.s.ref_zqcs_int;
     lmc_config.s.ref_zqcs_int = 0;
-    BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+    DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
 
 
     /* 2) Put all devices in MPR mode (Run MRW sequence (sequence=8)
@@ -1363,7 +1363,7 @@ static void change_rdimm_mpr_pattern (bdk_node_t node, int rank_mask,
 
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     lmc_config.s.ref_zqcs_int = save_ref_zqcs_int;
-    BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+    DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
 
 }
 
@@ -1411,7 +1411,7 @@ static void change_rdimm_mpr_pattern2 (bdk_node_t node, int rank_mask,
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     save_ref_zqcs_int         = lmc_config.s.ref_zqcs_int;
     lmc_config.s.ref_zqcs_int = 0;
-    BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+    DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
 
     /* 2. Write B-side Page 0 MPR3 with the desired clock-like pattern
           (sequence=9). This will trash the A-side data pattern in
@@ -1455,7 +1455,7 @@ static void change_rdimm_mpr_pattern2 (bdk_node_t node, int rank_mask,
 
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     lmc_config.s.ref_zqcs_int = save_ref_zqcs_int;
-    BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+    DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
 }
 
 static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
@@ -1482,7 +1482,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     save_ref_zqcs_int         = lmc_config.s.ref_zqcs_int;
     lmc_config.s.ref_zqcs_int = 0;
-    BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+    DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
 
     /* 2) Disable RCD Parity (if previously enabled) - parity does not work if inversion disabled. */
 
@@ -1771,7 +1771,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
 
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     lmc_config.s.ref_zqcs_int = save_ref_zqcs_int;
-    BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+    DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
 
     /*
      * 23) Disable lmc's RDIMM mode. Control[RDIMM_ENA] = 0.
@@ -3943,7 +3943,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	save_ref_zqcs_int         = lmc_config.s.ref_zqcs_int;
 	lmc_config.s.ref_zqcs_int = 1 | (32<<7); /* set smallest interval */
 
-        BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+        DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
         BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
 
         /* Compute an appropriate delay based on the current ZQCS
@@ -3961,7 +3961,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 	lmc_config.s.ref_zqcs_int = save_ref_zqcs_int; /* Restore computed interval */
 
-        BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
+        DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
         BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     }
 
@@ -4596,11 +4596,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                stabilized before read-leveling occurs. */
             save_ref_zqcs_int         = lmc_config.s.ref_zqcs_int;
             lmc_config.s.ref_zqcs_int = 1 | (32<<7); /* set smallest interval */
-#ifdef DDR3_ENHANCE_PRINT
             DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
-#else
-            BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
-#endif
             BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
 
             /* Compute an appropriate delay based on the current ZQCS
@@ -4617,11 +4613,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             bdk_wait_usec(temp_delay_usecs);
 
             lmc_config.s.ref_zqcs_int = save_ref_zqcs_int; /* Restore computed interval */
-#ifdef DDR3_ENHANCE_PRINT
             DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
-#else
-            BDK_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
-#endif
             BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
         }
 #endif
@@ -5999,7 +5991,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         for (i=0; i<9; ++i) {
 	    SET_DDR_DLL_CTL3(dll90_byte_sel, ENCODE_DLL90_BYTE_SEL(i));
-            BDK_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
+            DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
             BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
             ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
 	    setting[i] = GET_DDR_DLL_CTL3(dll90_setting);
@@ -6125,7 +6117,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         BDK_CSR_READ(node, BDK_LMCX_INT(ddr_interface_num));
 
         for (tad=0; tad<num_tads; tad++)
-            BDK_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(tad), BDK_CSR_READ(node, BDK_L2C_TADX_INT_W1C(tad)));
+            DRAM_CSR_WRITE(node, BDK_L2C_TADX_INT_W1C(tad), BDK_CSR_READ(node, BDK_L2C_TADX_INT_W1C(tad)));
 
         ddr_print("%-45s : 0x%08lx\n", "LMC_INT",
                   BDK_CSR_READ(node, BDK_LMCX_INT(ddr_interface_num)));
