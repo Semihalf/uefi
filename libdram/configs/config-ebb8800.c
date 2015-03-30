@@ -207,6 +207,9 @@ static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
     odt[dimm].dic = 0; /* Reserved */
 }
 
+static int8_t dll_read_offset  [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+static int8_t dll_write_offset [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
 {
     cfg->min_rtt_nom_idx        = 1;
@@ -229,9 +232,10 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     cfg->ddr2t_rdimm            = 1;
     cfg->maximum_adjacent_rlevel_delay_increment = 1;
     cfg->fprch2                 = 2;
-    //cfg->dll_write_offset     = {0};
-    //cfg->dll_read_offset      = {0};
+    cfg->dll_write_offset       = dll_write_offset;
+    cfg->dll_read_offset        = dll_read_offset;
     cfg->parity                 = 0;
+    cfg->rlevel_table		= 0;
 }
 
 const dram_config_t *dram_get_config_ebb8800(void)

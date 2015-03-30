@@ -213,8 +213,8 @@ typedef struct {
     uint8_t parity;
     uint8_t fprch2;
     uint8_t mode32b;
-    int8_t dll_write_offset[9];
-    int8_t dll_read_offset [9];
+    int8_t *dll_write_offset;
+    int8_t *dll_read_offset;
     rlevel_table_t *rlevel_table;
 } ddr3_custom_config_t;
 
