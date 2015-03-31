@@ -44,9 +44,14 @@ boot-stub-node1: BDK_LINK_ADDRESS=0x10000000000
 boot-stub-node1: boot-stub.o $(BDK_ROOT)/libbdk/libbdk.a
 	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
 
-bdk-node1.bin: boot-stub-node1.bin
-	if [ `stat -c %s $^` -gt 196608 ]; then echo "ERROR: $^ image must be 192KB or less";exit 1;fi
+diagnostics-node1: BDK_LINK_ADDRESS=0x10000000000
+diagnostics-node1: diagnostics.o $(BDK_ROOT)/libbdk/libbdk.a
+	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
+
+bdk-node1.bin: boot-stub-node1.bin diagnostics-node1.bin lua/* stage2.bin
+	if [ `stat -c %s boot-stub-node1.bin` -gt 196608 ]; then echo "ERROR: boot-stub-node1.bin image must be 192KB or less";exit 1;fi
 	${BDK_ROOT}/bin/bdk-update-romfs stage1-node1.bin boot-stub-node1.bin
+	${BDK_ROOT}/bin/bdk-update-romfs stage2-node1.bin diagnostics-node1.bin lua/*
 	#
 	# 1) 64KB unused by Thunder
 	cat /dev/zero | head -q -c 65536 > $@
@@ -57,7 +62,10 @@ bdk-node1.bin: boot-stub-node1.bin
 	# 4) 192KB of boot-stub image (trusted)
 	cat stage1-node1.bin /dev/zero | head -q -c 196608 >> $@
 	rm stage1-node1.bin
+	# 5) 8MB-512KB of diagnostics
+	cat stage2-node1.bin >> $@
+	rm stage2-node1.bin
 
 clean:
-	rm -f *.o *.map *.bin boot-stub boot-stub-node1 diagnostics ${DIR}/bdk.bin ${DIR}/bdk-node1.bin
+	rm -f *.o *.map *.bin boot-stub boot-stub-node1 diagnostics diagnostics-node1 ${DIR}/bdk.bin ${DIR}/bdk-node1.bin
 
