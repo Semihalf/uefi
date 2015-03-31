@@ -461,28 +461,28 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
 
 static const dram_config_t *dram_get_config_crb_2s_by_node(bdk_node_t node)
 {
-    static dram_config_t cfg[2];
+    static dram_config_t cfg;
 
     /* Make all fields for the node default to zero */
-    memset(&cfg[node], 0, sizeof(dram_config_t));
+    memset(&cfg, 0, sizeof(dram_config_t));
 
     /* Set the config name and the default frequency */
-    cfg[node].name = DEFAULT_NAME;
-    cfg[node].ddr_clock_hertz = DEFAULT_SPEED;
+    cfg.name = DEFAULT_NAME;
+    cfg.ddr_clock_hertz = DEFAULT_SPEED;
 
     /* Load the defaults for DIMMs on all four controllers */
     for (int lmc = 0; lmc < 4; lmc++)
     {
-        setup_dram_custom_lmc_config(&cfg[node].config[lmc].custom_lmc_config);
+        setup_dram_custom_lmc_config(&cfg.config[lmc].custom_lmc_config);
 
         if (node == 0)
-            cfg[node].config[lmc].custom_lmc_config.rlevel_table = rlevel_rank_values_node0;
+            cfg.config[lmc].custom_lmc_config.rlevel_table = rlevel_rank_values_node0;
         else
-            cfg[node].config[lmc].custom_lmc_config.rlevel_table = rlevel_rank_values_node1;
+            cfg.config[lmc].custom_lmc_config.rlevel_table = rlevel_rank_values_node1;
 
-        setup_dram_odt_1rank_configuration(cfg[node].config[lmc].odt_1rank_config);
-        setup_dram_odt_2rank_configuration(cfg[node].config[lmc].odt_2rank_config);
-        setup_dram_odt_4rank_configuration(cfg[node].config[lmc].odt_4rank_config);
+        setup_dram_odt_1rank_configuration(cfg.config[lmc].odt_1rank_config);
+        setup_dram_odt_2rank_configuration(cfg.config[lmc].odt_2rank_config);
+        setup_dram_odt_4rank_configuration(cfg.config[lmc].odt_4rank_config);
     }
 
     if (USE_INTERNAL_SPD || bdk_is_platform(BDK_PLATFORM_ASIM))
@@ -499,20 +499,20 @@ static const dram_config_t *dram_get_config_crb_2s_by_node(bdk_node_t node)
                 if (! (dimm_mask & (1 << dimm))) /* Could use the testbit macro */
                     continue;
 
-                cfg[node].config[lmc].dimm_config_table[dimm].spd_ptrs[0] = DEFAULT_INTERNAL_SPD;
+                cfg.config[lmc].dimm_config_table[dimm].spd_ptrs[0] = DEFAULT_INTERNAL_SPD;
             }
         }
     }
     else
     {
         /* Set the SPD addresses as we are reading them from DIMMs */
-        cfg[node].config[0].dimm_config_table[0].spd_addrs[0] = 0x2050;
-        cfg[node].config[1].dimm_config_table[0].spd_addrs[0] = 0x2051;
-        cfg[node].config[2].dimm_config_table[0].spd_addrs[0] = 0x2052;
-        cfg[node].config[3].dimm_config_table[0].spd_addrs[0] = 0x2053;
+        cfg.config[0].dimm_config_table[0].spd_addrs[0] = 0x2050;
+        cfg.config[1].dimm_config_table[0].spd_addrs[0] = 0x2051;
+        cfg.config[2].dimm_config_table[0].spd_addrs[0] = 0x2052;
+        cfg.config[3].dimm_config_table[0].spd_addrs[0] = 0x2053;
     }
 
-    return &cfg[node];
+    return &cfg;
 };
 
 const dram_config_t *dram_get_config_crb_2s_node0(void)
