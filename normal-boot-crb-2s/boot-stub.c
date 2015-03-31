@@ -658,10 +658,8 @@ int main(void)
     if (WATCHDOG_TIMEOUT)
         BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
 
-    /* Initialize the filesystems be need to load code from SPI or eMMC */
-    extern int bdk_fs_mmc_init(void);
+    /* Initialize the filesystems be need to load code from SPI */
     extern int bdk_fs_mpi_init(void);
-    bdk_fs_mmc_init();
     bdk_fs_mpi_init();
 
     /* Send status to the BMC: Loading ATF */
