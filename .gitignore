@@ -25,6 +25,7 @@
 /bdk-boot/boot-stub
 /bdk-boot/boot-stub-node1
 /bdk-boot/diagnostics
+/bdk-boot/diagnostics-node1
 /normal-boot-ebb8800/boot-stub
 /normal-boot-ebb8800/boot-stub-node1
 /normal-boot-ebb8800/diagnostics
