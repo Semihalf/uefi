@@ -193,14 +193,20 @@ static int __bdk_dram_run_test(const dram_test_info_t *test_info, uint64_t start
 
     /* Ready to run the test. Figure out how many cores we need */
     int max_cores = test_info->max_cores;
+    int total_cores_all_nodes = max_cores;
 
     /* Figure out the number of cores available in the system */
     if (max_cores == 0)
+    {
         max_cores += bdk_get_num_running_cores(bdk_numa_local());
-    BDK_TRACE(DRAM_TEST, "Using %d cores for memory tests\n", max_cores);
-
+        /* Calculate the total number of cores being used. The per node number
+           is confusing to people */
+        for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+            if (bdk_numa_exists(node))
+                total_cores_all_nodes += bdk_get_num_running_cores(node);
+    }
     printf("Starting Test \"%s\" for [0x%011lx:0x%011lx] using %d core(s)\n",
-	   test_info->name, start_address, end_address - 1, max_cores);
+	   test_info->name, start_address, end_address - 1, total_cores_all_nodes);
 
 #if ENABLE_LMC_PERCENT
     /* Remember the LMC perf counters for stats after the test */
