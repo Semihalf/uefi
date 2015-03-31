@@ -515,11 +515,6 @@ static const dram_config_t *dram_get_config_crb_2s_by_node(bdk_node_t node)
     return &cfg[node];
 };
 
-const dram_config_t *dram_get_config_crb_2s(void)
-{
-    return (dram_get_config_crb_2s_by_node(0));
-}
-
 const dram_config_t *dram_get_config_crb_2s_node0(void)
 {
     return (dram_get_config_crb_2s_by_node(0));
