@@ -14,7 +14,7 @@
 #define DEFAULT_LMC_MASK   TWO_LMC_MASK
 #define DEFAULT_DIMM_MASK  ONE_DIMM_MASK
 
-static rlevel_table_t rlevel_rank_values_node0[] =    {
+static const rlevel_table_t rlevel_rank_values_node0[] =    {
     {
         .part = "36ASF2G72PZ-2G1A2",
         .speed = 1600,
@@ -79,7 +79,7 @@ static rlevel_table_t rlevel_rank_values_node0[] =    {
     {0}                             /* Terminator */
 };
 
-static rlevel_table_t rlevel_rank_values_node1[] =    {
+static const rlevel_table_t rlevel_rank_values_node1[] =    {
     {
         .part = "36ASF2G72PZ-2G1A2",
         .speed = 1600,
@@ -428,8 +428,8 @@ static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
     odt[dimm].dic = 0; /* Reserved */
 }
 
-static int8_t dll_read_offset  [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-static int8_t dll_write_offset [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+static const int8_t dll_read_offset  [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+static const int8_t dll_write_offset [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
 {

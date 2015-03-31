@@ -207,8 +207,8 @@ static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
     odt[dimm].dic = 0; /* Reserved */
 }
 
-static int8_t dll_read_offset  [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-static int8_t dll_write_offset [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+static const int8_t dll_read_offset  [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+static const int8_t dll_write_offset [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
 
 static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
 {

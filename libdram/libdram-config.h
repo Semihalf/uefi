@@ -182,7 +182,7 @@ typedef struct {
 
 
 typedef struct {
-    char *part;
+    const char *part;
     int speed;
     uint64_t rlevel_rank[4][4];
 } rlevel_table_t;
@@ -213,9 +213,9 @@ typedef struct {
     uint8_t parity;
     uint8_t fprch2;
     uint8_t mode32b;
-    int8_t *dll_write_offset;
-    int8_t *dll_read_offset;
-    rlevel_table_t *rlevel_table;
+    const int8_t *dll_write_offset;
+    const int8_t *dll_read_offset;
+    const rlevel_table_t *rlevel_table;
 } ddr3_custom_config_t;
 
 #define DDR_CFG_T_MAX_DIMMS     5
