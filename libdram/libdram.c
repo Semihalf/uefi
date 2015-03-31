@@ -7,6 +7,13 @@ dram_verbosity_t dram_verbosity = OFF; /* init this here so we could set a non-z
 
 static uint32_t measured_ddr_hertz[BDK_NUMA_MAX_NODES];
 
+/* The various DRAM configs in the libdram/configs directory need space
+   to store the DRAM config. Since only one config is ever in active use
+   at a time, store the configs in __libdram_global_cfg. In a multi-node
+   setup, independent calls to get the DRAM config will load first node 0's
+   config, then node 1's */
+dram_config_t __libdram_global_cfg;
+
 /**
  * This the main DRAM init function. Users of libdram should call this function,
  * avoiding the other internal function. As a rule, functions starting with

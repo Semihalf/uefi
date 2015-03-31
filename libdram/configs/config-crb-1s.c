@@ -240,22 +240,22 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
 
 const dram_config_t *dram_get_config_crb_1s(void)
 {
-    static dram_config_t cfg;
+    dram_config_t *cfg = &__libdram_global_cfg;
 
     /* Make all fields default to zero */
-    memset(&cfg, 0, sizeof(cfg));
+    memset(cfg, 0, sizeof(*cfg));
 
     /* Set the config name and the default frequency */
-    cfg.name = DEFAULT_NAME;
-    cfg.ddr_clock_hertz = DEFAULT_SPEED;
+    cfg->name = DEFAULT_NAME;
+    cfg->ddr_clock_hertz = DEFAULT_SPEED;
 
     /* Load the defaults for DIMMs on all four controllers */
     for (int lmc = 0; lmc < 4; lmc++)
     {
-        setup_dram_custom_lmc_config(&cfg.config[lmc].custom_lmc_config);
-        setup_dram_odt_1rank_configuration(cfg.config[lmc].odt_1rank_config);
-        setup_dram_odt_2rank_configuration(cfg.config[lmc].odt_2rank_config);
-        setup_dram_odt_4rank_configuration(cfg.config[lmc].odt_4rank_config);
+        setup_dram_custom_lmc_config(&cfg->config[lmc].custom_lmc_config);
+        setup_dram_odt_1rank_configuration(cfg->config[lmc].odt_1rank_config);
+        setup_dram_odt_2rank_configuration(cfg->config[lmc].odt_2rank_config);
+        setup_dram_odt_4rank_configuration(cfg->config[lmc].odt_4rank_config);
     }
 
     if (USE_INTERNAL_SPD || bdk_is_platform(BDK_PLATFORM_ASIM))
@@ -272,24 +272,24 @@ const dram_config_t *dram_get_config_crb_1s(void)
                 if (! (dimm_mask & (1 << dimm))) /* Could use the testbit macro */
                     continue;
 
-                cfg.config[lmc].dimm_config_table[dimm].spd_ptrs[0] = DEFAULT_INTERNAL_SPD;
+                cfg->config[lmc].dimm_config_table[dimm].spd_ptrs[0] = DEFAULT_INTERNAL_SPD;
             }
         }
     }
     else
     {
         /* Set the SPD addresses as we are reading them from DIMMs */
-        cfg.config[0].dimm_config_table[0].spd_addrs[0] = 0x1050;
-        cfg.config[0].dimm_config_table[1].spd_addrs[0] = 0x1051;
-        cfg.config[1].dimm_config_table[0].spd_addrs[0] = 0x1052;
-        cfg.config[1].dimm_config_table[1].spd_addrs[0] = 0x1053;
-        cfg.config[2].dimm_config_table[0].spd_addrs[0] = 0x1054;
-        cfg.config[2].dimm_config_table[1].spd_addrs[0] = 0x1055;
-        cfg.config[3].dimm_config_table[0].spd_addrs[0] = 0x1056;
-        cfg.config[3].dimm_config_table[1].spd_addrs[0] = 0x1057;
+        cfg->config[0].dimm_config_table[0].spd_addrs[0] = 0x1050;
+        cfg->config[0].dimm_config_table[1].spd_addrs[0] = 0x1051;
+        cfg->config[1].dimm_config_table[0].spd_addrs[0] = 0x1052;
+        cfg->config[1].dimm_config_table[1].spd_addrs[0] = 0x1053;
+        cfg->config[2].dimm_config_table[0].spd_addrs[0] = 0x1054;
+        cfg->config[2].dimm_config_table[1].spd_addrs[0] = 0x1055;
+        cfg->config[3].dimm_config_table[0].spd_addrs[0] = 0x1056;
+        cfg->config[3].dimm_config_table[1].spd_addrs[0] = 0x1057;
     }
 
-    return &cfg;
+    return cfg;
 };
 
 

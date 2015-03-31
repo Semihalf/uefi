@@ -239,4 +239,11 @@ extern int libdram_config(int node, const dram_config_t *dram_config, int ddr_cl
 extern uint32_t libdram_get_freq(int node);
 extern uint32_t libdram_get_freq_from_pll(int node, int lmc);
 
+/* The various DRAM configs in the libdram/configs directory need space
+   to store the DRAM config. Since only one config is ever in active use
+   at a time, store the configs in __libdram_global_cfg. In a multi-node
+   setup, independent calls to get the DRAM config will load first node 0's
+   config, then node 1's */
+extern dram_config_t __libdram_global_cfg;
+
 #endif  /* __LIBDRAM_CONFIG_H__ */
