@@ -3928,6 +3928,21 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ext_config.s.read_ena_bprch = 1;
         ext_config.s.read_ena_fprch = 1;
         ext_config.s.drive_ena_fprch = 1;
+        ext_config.s.drive_ena_bprch = 0;
+
+        if ((s = lookup_env_parameter("ddr_read_fprch")) != NULL) {
+            ext_config.s.read_ena_fprch = strtoul(s, NULL, 0);
+        }
+        if ((s = lookup_env_parameter("ddr_read_bprch")) != NULL) {
+            ext_config.s.read_ena_bprch = strtoul(s, NULL, 0);
+        }
+        if ((s = lookup_env_parameter("ddr_drive_fprch")) != NULL) {
+            ext_config.s.drive_ena_fprch = strtoul(s, NULL, 0);
+        }
+        if ((s = lookup_env_parameter("ddr_drive_bprch")) != NULL) {
+            ext_config.s.drive_ena_bprch = strtoul(s, NULL, 0);
+        }
+
         DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
         ddr_print("%-45s : 0x%016lx\n", "EXT_CONFIG", ext_config.u);
     }
