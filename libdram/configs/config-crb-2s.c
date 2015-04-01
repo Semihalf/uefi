@@ -512,6 +512,14 @@ static const dram_config_t *dram_get_config_crb_2s_by_node(bdk_node_t node)
         cfg->config[3].dimm_config_table[0].spd_addrs[0] = 0x2053;
     }
 
+    /* FIXME: Switch to the old config for UDIMMs */
+    int spd_dimm_type = 0xff & read_spd(node, &cfg->config[0].dimm_config_table[0], 0, DDR4_SPD_KEY_BYTE_MODULE_TYPE);
+    int spd_rdimm = (spd_dimm_type == 1);
+    if (!spd_rdimm)
+    {
+        extern const dram_config_t* dram_get_config_crb_2s_V1(void);
+        return dram_get_config_crb_2s_V1();
+    }
     return cfg;
 };
 
