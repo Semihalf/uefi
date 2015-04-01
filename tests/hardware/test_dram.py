@@ -24,10 +24,10 @@ def wait_for_main_menu(cnx):
 #
 def wait_for_test_menu(cnx):
     cnx.match("=================================")
-    cnx.match("DRAM Test Menu")
+    cnx.matchRE("DRAM Test Menu - [ ]*[0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM")
     cnx.match("=================================")
-    cnx.match("cores) Bringup Cores for multi-core testing")
-    cnx.match("repeat) Number of time to repeat the test (1)")
+    cnx.matchRE("cores\\) Bringup Cores for multi-core testing \\([0-9]+\\)")
+    cnx.match("repeat) Number of times to repeat the test (1)")
     cnx.matchRE("start\\) Starting address \\(0x[0-9a-fA-F]*\\)")
     cnx.matchRE("length\\) Length of the range to check \\([^)]*\\)")
     cnx.match("64MB) Set test range from 64MB to 128MB")
@@ -48,6 +48,7 @@ def wait_for_test_menu(cnx):
     cnx.match("test13) Fast Scan")
     cnx.match("spec) Run special DRAM tests")
     cnx.match("abort) Abort on Errors (Currently ON)")
+    cnx.match("batch) Batch mode (Currently OFF)")
     cnx.match("quit) Main menu")
     cnx.match("(INS)Menu choice []:")
 
