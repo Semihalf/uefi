@@ -17,7 +17,7 @@
 //#define DRAM_NODE1 crb_2s_V1    /* Obsolete ODT configuration */
 /* If non-zero, enable a watchdog timer to reset the chip ifwe hang during init.
    Value is in 262144 SCLK cycle intervals, max of 16 bits */
-#define WATCHDOG_TIMEOUT 0
+#define WATCHDOG_TIMEOUT 8010 /* 3sec at 700Mhz */
 /* How long to wait for selection of diagnostics (seconds) */
 #define DIAGS_TIMEOUT 3
 /* A GPIO can be used to select diagnostics without input. The following
