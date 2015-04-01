@@ -213,6 +213,7 @@ typedef struct {
     uint8_t parity;
     uint8_t fprch2;
     uint8_t mode32b;
+    uint8_t auto_vref;
     const int8_t *dll_write_offset;
     const int8_t *dll_read_offset;
     const rlevel_table_t *rlevel_table;

@@ -8,6 +8,8 @@
 #define debug_bitmask_print(...)
 #endif
 
+#undef DEBUG_PERFORM_DDR3_SEQUENCE
+
 static void Display_MPR_Page_Location(bdk_node_t node, int rank,
                                       int ddr_interface_num, int dimm_count,
                                       int page, int location, uint64_t *mpr_data);
@@ -114,12 +116,13 @@ static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_
             ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
             ext_config.s.vrefint_seq_deskew = 1;
 
+#ifdef DEBUG_PERFORM_DDR3_SEQUENCE
             if (dram_is_verbose(TRACE_SEQUENCES))
             {
                 ddr_print("Performing LMC sequence: vrefint_seq_deskew = %d\n",
                           ext_config.s.vrefint_seq_deskew);
             }
-
+#endif
             DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
         }
 
@@ -163,8 +166,10 @@ static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_
             if (locked) break;
         }
 
+        ++sat_retries;
+
         if (unsaturated) break;
-    } while (sat_retries++ < sat_retry_limit);
+    } while (sat_retries < sat_retry_limit);
     ddr_print("Deskew Training %s. %d retries\n",
               (sat_retries > sat_retry_limit) ? "Timed Out" : "Completed", sat_retries-1);
 }
@@ -191,7 +196,7 @@ int compute_Vref_float(int rtt_wr, int rtt_park, int dqx_ctl)
     Vref_value = divide_nint(((Vref * 100 * 100) / Vdd) - 6000, 65);
     //printf("Vref_value = %d (0x%02x)\n", Vref_value, Vref_value);
 
-    ddr_print("rtt_wr:%d, rtt_park:%d, dqx_ctl:%d, Vref_value:%d (0x%x)\n",
+    debug_print("rtt_wr:%d, rtt_park:%d, dqx_ctl:%d, Vref_value:%d (0x%x)\n",
            rtt_wr, rtt_park, dqx_ctl, Vref_value, Vref_value);
 
     return Vref_value;
@@ -780,6 +785,7 @@ static unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num, in
     return ((unsigned short) GET_DDR_DLL_CTL3(offset));
 }
 
+#ifdef ENABLE_AUTO_SET_DLL
 static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode, int ddr_interface_num, int ddr_interface_64b)
 {
     bdk_lmcx_dll_ctl3_t ddr_dll_ctl3;
@@ -866,6 +872,7 @@ static void auto_set_dll_offset(bdk_node_t node, int dll_offset_mode, int ddr_in
     }
     ddr_print("\n");
 }
+#endif  /* ENABLE_AUTO_SET_DLL */
 
 void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_interface_num, int sequence)
 {
@@ -912,7 +919,6 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
 
     const char *s;
 
-#undef DEBUG_PERFORM_DDR3_SEQUENCE
 #ifdef DEBUG_PERFORM_DDR3_SEQUENCE
     static const char *sequence_str[] = {
 	"Power-up/init",
@@ -925,11 +931,7 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
 	"Init Register Control Words",
 	"Mode Register Write",
 	"MPR Register Access",
-#ifdef DDR3_ENHANCE_PRINT
 	"LMC Deskew/Internal Vref training",
-#else
-	"Vref internal training",
-#endif
 	"Offset Training"
     };
 #endif
@@ -1272,7 +1274,7 @@ static void change_rdimm_mpr_pattern (bdk_node_t node, int rank_mask,
 
     /* 1) Disable refresh (REF_ZQCS_INT = 0) */
 
-    ddr_print("1) Disable refresh (REF_ZQCS_INT = 0)\n");
+    debug_print("1) Disable refresh (REF_ZQCS_INT = 0)\n");
 
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     save_ref_zqcs_int         = lmc_config.s.ref_zqcs_int;
@@ -1285,7 +1287,7 @@ static void change_rdimm_mpr_pattern (bdk_node_t node, int rank_mask,
        MODEREG_PARAMS0[MPR]=1, MR_MPR_CTL[MR_WR_SEL]=3, and
        MR_MPR_CTL[MR_WR_USE_DEFAULT_VALUE]=1) */
 
-    ddr_print("2) Put all devices in MPR mode (Run MRW sequence (sequence=8)\n");
+    debug_print("2) Put all devices in MPR mode (Run MRW sequence (sequence=8)\n");
 
     set_mpr_mode(node, rank_mask, ddr_interface_num, dimm_count, /* mpr */ 1, /* bg1 */ 0); /* A-side */
     set_mpr_mode(node, rank_mask, ddr_interface_num, dimm_count, /* mpr */ 1, /* bg1 */ 1); /* B-side */
@@ -1297,7 +1299,7 @@ static void change_rdimm_mpr_pattern (bdk_node_t node, int rank_mask,
     /* 3) Disable RCD Parity (if previously enabled) - parity does not
        work if inversion disabled */
 
-    ddr_print("3) Disable RCD Parity\n");
+    debug_print("3) Disable RCD Parity\n");
 
     /* 4) Disable Inversion in the RCD. */
     /*    a. I did (3&4) via the RDIMM sequence (seq_sel=7), but it
@@ -1305,7 +1307,7 @@ static void change_rdimm_mpr_pattern (bdk_node_t node, int rank_mask,
           MR_MPR_CTL[MR_WR_SEL]=7, MR_MPR_CTL[MR_WR_ADDR][3:0]=data,
           MR_MPR_CTL[MR_WR_ADDR][7:4]=RCD reg */
 
-    ddr_print("4) Disable Inversion in the RCD.\n");
+    debug_print("4) Disable Inversion in the RCD.\n");
 
     set_DRAM_output_inversion(node, ddr_interface_num, dimm_count, rank_mask,
                                1 /* 1=disable output inversion*/);
@@ -1313,7 +1315,7 @@ static void change_rdimm_mpr_pattern (bdk_node_t node, int rank_mask,
     /* 5) Disable CONTROL[RDIMM_ENA] so that MR sequence goes out
        non-inverted.  */
 
-    ddr_print("5) Disable CONTROL[RDIMM_ENA]\n");
+    debug_print("5) Disable CONTROL[RDIMM_ENA]\n");
 
     set_rdimm_mode(node, ddr_interface_num, 0);
 
@@ -1322,34 +1324,34 @@ static void change_rdimm_mpr_pattern (bdk_node_t node, int rank_mask,
     /*    a. MR_MPR_CTL.MPR_WR=1, MR_MPR_CTL.MPR_LOC=0..3,
           MR_MPR_CTL.MR_WR_SEL=0, MR_MPR_CTL.MR_WR_ADDR[7:0]=pattern */
 
-    ddr_print("6) Write all 4 MPR page 0 Training Patterns\n");
+    debug_print("6) Write all 4 MPR page 0 Training Patterns\n");
 
     write_mpr_page0_pattern(node, rank_mask,
                              ddr_interface_num, dimm_count, 0x55, 0x8);
 
     /* 7) Re-enable RDIMM_ENA */
 
-    ddr_print("7) Re-enable RDIMM_ENA\n");
+    debug_print("7) Re-enable RDIMM_ENA\n");
 
     set_rdimm_mode(node, ddr_interface_num, 1);
 
     /* 8) Re-enable RDIMM inversion */
 
-    ddr_print("8) Re-enable RDIMM inversion\n");
+    debug_print("8) Re-enable RDIMM inversion\n");
 
     set_DRAM_output_inversion(node, ddr_interface_num, dimm_count, rank_mask,
                                0 /* 0=re-enable output inversion*/);
 
     /* 9) Re-enable RDIMM parity (if desired) */
 
-    ddr_print("9) Re-enable RDIMM parity (if desired)\n");
+    debug_print("9) Re-enable RDIMM parity (if desired)\n");
 
     /* 10)Take B-side devices out of MPR mode (Run MRW sequence
        (sequence=8) with MODEREG_PARAMS0[MPRLOC]=0,
        MODEREG_PARAMS0[MPR]=0, MR_MPR_CTL[MR_WR_SEL]=3, and
        MR_MPR_CTL[MR_WR_USE_DEFAULT_VALUE]=1) */
 
-    ddr_print("10)Take B-side devices out of MPR mode\n");
+    debug_print("10)Take B-side devices out of MPR mode\n");
 
     set_mpr_mode(node, rank_mask, ddr_interface_num, dimm_count, /* mpr */ 0, /* bg1 */ 1);
 
@@ -1359,7 +1361,7 @@ static void change_rdimm_mpr_pattern (bdk_node_t node, int rank_mask,
 
     /* 11)Re-enable refresh (REF_ZQCS_INT=previous value) */
 
-    ddr_print("11)Re-enable refresh (REF_ZQCS_INT=previous value)\n");
+    debug_print("11)Re-enable refresh (REF_ZQCS_INT=previous value)\n");
 
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     lmc_config.s.ref_zqcs_int = save_ref_zqcs_int;
@@ -1406,7 +1408,7 @@ static void change_rdimm_mpr_pattern2 (bdk_node_t node, int rank_mask,
 
     /* 1. Disable refresh (REF_ZQCS_INT=0) */
 
-    ddr_print("1. Disable refresh (REF_ZQCS_INT=0)\n");
+    debug_print("1. Disable refresh (REF_ZQCS_INT=0)\n");
 
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     save_ref_zqcs_int         = lmc_config.s.ref_zqcs_int;
@@ -1420,7 +1422,7 @@ static void change_rdimm_mpr_pattern2 (bdk_node_t node, int rank_mask,
           repeat this step for all active ranks by updating the CSR
           MR_MPR_CTL.MR_WR_RANK. */
 
-    ddr_print("Write B-side Page 0 MPR3 with the desired clock-like pattern (sequence=9).\n");
+    debug_print("Write B-side Page 0 MPR3 with the desired clock-like pattern (sequence=9).\n");
 
     write_mpr_page0_pattern(node, rank_mask,
                              ddr_interface_num, dimm_count, 0xAD, 0x1);
@@ -1438,20 +1440,20 @@ static void change_rdimm_mpr_pattern2 (bdk_node_t node, int rank_mask,
           Note, repeat this step for all active ranks by updating the
           CSR MR_MPR_CTL.MR_WR_RANK. */
 
-    ddr_print("4. Recover A-side Page 0 MPR0 with the desired clock-like pattern (sequence=9).\n");
+    debug_print("4. Recover A-side Page 0 MPR0 with the desired clock-like pattern (sequence=9).\n");
 
     write_mpr_page0_pattern(node, rank_mask,
                              ddr_interface_num, dimm_count, 0x55, 0x1);
 
     /* 5. Re-enable CONTROL[RDIMM_ENA]. */
 
-    ddr_print("5. Re-enable CONTROL[RDIMM_ENA].\n");
+    debug_print("5. Re-enable CONTROL[RDIMM_ENA].\n");
 
     set_rdimm_mode(node, ddr_interface_num, 1);
 
     /* 6. Re-enable refresh (REF_ZQCS_INT=previous value). */
 
-    ddr_print("6. Re-enable refresh (REF_ZQCS_INT=previous value).\n");
+    debug_print("6. Re-enable refresh (REF_ZQCS_INT=previous value).\n");
 
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     lmc_config.s.ref_zqcs_int = save_ref_zqcs_int;
@@ -1477,7 +1479,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
 
     /* 1) Disable Refresh (CONFIG[REF_ZQCS_INT] = 0). */
 
-    ddr_print ("1) Disable Refresh (CONFIG[REF_ZQCS_INT] = 0).\n");
+    debug_print ("1) Disable Refresh (CONFIG[REF_ZQCS_INT] = 0).\n");
 
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     save_ref_zqcs_int         = lmc_config.s.ref_zqcs_int;
@@ -1486,13 +1488,13 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
 
     /* 2) Disable RCD Parity (if previously enabled) - parity does not work if inversion disabled. */
 
-    ddr_print("2) Disable RCD Parity\n");
+    debug_print("2) Disable RCD Parity\n");
 
 #if 0
     /* 3) Disable Inversion in RCD. First set the CSR DIMM0_PARAMS[RC0<0>] = 1, 
        DIMM_CTL[DIMM0_WMASK] = 0x1. */
 
-    ddr_print("3) Disable Inversion in the RCD.\n");
+    debug_print("3) Disable Inversion in the RCD.\n");
 
     set_DRAM_output_inversion(node, ddr_interface_num, dimm_count, rank_mask,
                                1 /* 1=disable output inversion*/);
@@ -1500,7 +1502,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
 
     /* 4) Turn off lmc's RDIMM mode. CONTROL[RDIMM_ENA] = 0. */
 
-    ddr_print("4) Disable CONTROL[RDIMM_ENA]\n");
+    debug_print("4) Disable CONTROL[RDIMM_ENA]\n");
 
     set_rdimm_mode(node, ddr_interface_num, 0);
 
@@ -1508,14 +1510,14 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
      * 5) Set CONFIG[RANKMASK] = 0x0 (Rank 0 Init).
      */
 
-    ddr_print("5) Set CONFIG[RANKMASK] = 0x0 (Rank 0 Init).\n");
+    debug_print("5) Set CONFIG[RANKMASK] = 0x0 (Rank 0 Init).\n");
 
     /*
      * 6) Perform Init sequence (SEQ_CTL[SEQ_SEL] = 0, SEQ_CTL[INIT_START] = 1).
      * (Running Init to bring LMC into normal state. No MRS's are sent out since RANKMASK = 0).
      */
 
-    ddr_print("6) Perform Init sequence (SEQ_CTL[SEQ_SEL] = 0, SEQ_CTL[INIT_START] = 1).\n");
+    debug_print("6) Perform Init sequence (SEQ_CTL[SEQ_SEL] = 0, SEQ_CTL[INIT_START] = 1).\n");
 
     {
         bdk_lmcx_modereg_params0_t lmc_modereg_params0;
@@ -1544,7 +1546,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          *      - B side: MR_WR_BG1 = 1.
          */
 
-        ddr_print("7) Set DRAM's MR3 to both the A and  sides separately (two MRW sequence SEQ_CTL[SEQ_SEL] = 8, SEQ_CTL[INIT_START] = 1\n");
+        debug_print("7) Set DRAM's MR3 to both the A and  sides separately (two MRW sequence SEQ_CTL[SEQ_SEL] = 8, SEQ_CTL[INIT_START] = 1\n");
 
         ddr4_mrw(node, ddr_interface_num, rankx,          0x000,   3, 0); /* MR3 A-side */
         ddr4_mrw(node, ddr_interface_num, rankx, InvA0_17(0x000), ~3, 1); /* MR3 B-side */
@@ -1556,7 +1558,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          *      - B side: MR_WR_BG1 = 1.
          */
 
-        ddr_print("8) Set DRAM's MR6 to both A and B sides separately (two MRW sequence):\n");
+        debug_print("8) Set DRAM's MR6 to both A and B sides separately (two MRW sequence):\n");
 
         ddr4_mrw(node, ddr_interface_num, rankx,          0x416,   6, 0); /* MR6 A-side */
         ddr4_mrw(node, ddr_interface_num, rankx, InvA0_17(0x416), ~6, 1); /* MR6 B-side */
@@ -1568,7 +1570,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          *      - B side: MR_WR_BG1 = 1.
          */
 
-        ddr_print("9) Set DRAM's MR5 to both A and B sides (two MRW sequence)\n");
+        debug_print("9) Set DRAM's MR5 to both A and B sides (two MRW sequence)\n");
 
         ddr4_mrw(node, ddr_interface_num, rankx,          0x040,   5, 0); /* MR5 A-side */
         ddr4_mrw(node, ddr_interface_num, rankx, InvA0_17(0x040), ~5, 1); /* MR5 B-side */
@@ -1580,7 +1582,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          *      - B side: MR_WR_BG1 = 1.
          */
 
-        ddr_print("10) Set DRAM's MR4 to both A and B sides (two MRW sequence)\n");
+        debug_print("10) Set DRAM's MR4 to both A and B sides (two MRW sequence)\n");
 
         ddr4_mrw(node, ddr_interface_num, rankx,          0x000,   4, 0); /* MR4 A-side */
         ddr4_mrw(node, ddr_interface_num, rankx, InvA0_17(0x000), ~4, 1); /* MR4 B-side */
@@ -1592,7 +1594,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          *      - B side: MR_WR_BG1 = 1.
          */
 
-        ddr_print("11) Set DRAM's MR2 to both A and B sides (two MRW sequence)\n");
+        debug_print("11) Set DRAM's MR2 to both A and B sides (two MRW sequence)\n");
 
         ddr4_mrw(node, ddr_interface_num, rankx,          0x400,   2, 0); /* MR2 A-side */
         ddr4_mrw(node, ddr_interface_num, rankx, InvA0_17(0x400), ~2, 1); /* MR2 B-side */
@@ -1604,7 +1606,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          *      - B side: MR_WR_BG1 = 1.
          */
 
-        ddr_print("12) Set DRAM's MR1 to both A and B sides (two MRW sequence)\n");
+        debug_print("12) Set DRAM's MR1 to both A and B sides (two MRW sequence)\n");
 
         ddr4_mrw(node, ddr_interface_num, rankx,          0x201,   1, 0); /* MR1 A-side */
         ddr4_mrw(node, ddr_interface_num, rankx, InvA0_17(0x201), ~1, 1); /* MR1 B-side */
@@ -1616,7 +1618,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          *      - B side: MR_WR_BG1 = 1.
          */
 
-        ddr_print("13) Set DRAM's MR0 to both A and B sides (two MRW sequence)\n");
+        debug_print("13) Set DRAM's MR0 to both A and B sides (two MRW sequence)\n");
 
         ddr4_mrw(node, ddr_interface_num, rankx,          0x318,   0, 0); /* MR0 A-side */
         ddr4_mrw(node, ddr_interface_num, rankx, InvA0_17(0x318), ~0, 1); /* MR0 B-side */
@@ -1625,14 +1627,14 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          * 14) Set CONFIG[RANKMASK] = current rank.
          */
 
-        ddr_print("14) Set CONFIG[RANKMASK] = current rank.\n");
+        debug_print("14) Set CONFIG[RANKMASK] = current rank.\n");
 
         /*
          * 15) Perform Init sequence (SEQ_CTL[SEQ_SEL] = 0, SEQ_CTL[INIT_START] = 1).
          * (This will re-init the A-side only followed by ZQCL command).
          */
 
-        ddr_print("15) Perform Init sequence (SEQ_CTL[SEQ_SEL] = 0, SEQ_CTL[INIT_START] = 1).\n");
+        debug_print("15) Perform Init sequence (SEQ_CTL[SEQ_SEL] = 0, SEQ_CTL[INIT_START] = 1).\n");
 
         perform_octeon3_ddr3_sequence(node, 1<<rankx,
                                       ddr_interface_num, 0); /* power-up/init */
@@ -1645,7 +1647,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          *        - rank3: MR_MPR_CTL[MR_WR_RANK] = 3, CONFIG[RANKMASK] = 0x8.
          */
 
-        ddr_print("16) For multiple ranks (i.e., dual-rank dimm and/or two dimms), repeat Step 7-15.\n");
+        debug_print("16) For multiple ranks (i.e., dual-rank dimm and/or two dimms), repeat Step 7-15.\n");
 
     } /* for (rankx = 0; rankx < 8; rankx++) */
 
@@ -1661,7 +1663,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          * (MR_WR_BG1 = 0) and B side (MR_WR_BG1 = 1) need to be programmed separately.
          */
  
-        ddr_print("17) Put all devices in MPR mode (Run MRW sequence (sequence=8)\n");
+        debug_print("17) Put all devices in MPR mode (Run MRW sequence (sequence=8)\n");
 
         set_mpr_mode (node, 1<<rankx, ddr_interface_num, dimm_count, /* mpr */ 1, /* bg1 */ 0); /* A-side */
         set_mpr_mode (node, 1<<rankx, ddr_interface_num, dimm_count, /* mpr */ 1, /* bg1 */ 1); /* B-side */
@@ -1671,14 +1673,14 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          * 17b) Re-enable lmc's RDIMM mode. CONTROL[RDIMM_ENA] = 1 (required for step 18&19).
          */
 
-        ddr_print("17b) Re-enable RDIMM_ENA\n");
+        debug_print("17b) Re-enable RDIMM_ENA\n");
 
         set_rdimm_mode(node, ddr_interface_num, 1);
 
         /* 17c) Disable Inversion in RCD. First set the CSR DIMM0_PARAMS[RC0<0>] = 1, 
            DIMM_CTL[DIMM0_WMASK] = 0x1. */
 
-        ddr_print("17c) Disable Inversion in the RCD.\n");
+        debug_print("17c) Disable Inversion in the RCD.\n");
 
         set_DRAM_output_inversion(node, ddr_interface_num, dimm_count, rank_mask,
                                    1 /* 1=disable output inversion*/);
@@ -1688,7 +1690,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          * 
          */
 
-        ddr_print("17d) Disable CONTROL[RDIMM_ENA]\n");
+        debug_print("17d) Disable CONTROL[RDIMM_ENA]\n");
 
         set_rdimm_mode(node, ddr_interface_num, 0);
 
@@ -1699,7 +1701,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
          * MR_MPR_CTL.MR_WR_ADDR[7:0]=pattern
          */
 
-        ddr_print("16) Write all 4 MPR page 0 Training Patterns\n");
+        debug_print("16) Write all 4 MPR page 0 Training Patterns\n");
 
         write_mpr_page0_pattern(node, 1<<rankx,
                                  ddr_interface_num, dimm_count, 0x55, 0x8);
@@ -1742,7 +1744,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
      * 19) Re-enable lmc's RDIMM mode. CONTROL[RDIMM_ENA] = 1 (required for step 18&19).
      */
 
-    ddr_print("19) Re-enable RDIMM_ENA\n");
+    debug_print("19) Re-enable RDIMM_ENA\n");
 
     set_rdimm_mode(node, ddr_interface_num, 1);
 
@@ -1750,7 +1752,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
      * 20) Re-enable RDIMM inversion.
      */
 
-    ddr_print("20) Re-enable RDIMM inversion\n");
+    debug_print("20) Re-enable RDIMM inversion\n");
 
     set_DRAM_output_inversion(node, ddr_interface_num, dimm_count, 1<<rankx,
                                0 /* 0=re-enable output inversion*/);
@@ -1759,7 +1761,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
      * 21) Re-enable RDIMM parity (if desired)
      */
 
-    ddr_print("21) Re-enable RDIMM parity (if desired)\n");
+    debug_print("21) Re-enable RDIMM parity (if desired)\n");
 
 #endif
 
@@ -1767,7 +1769,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
      * 22) Re-enable refresh (REF_ZQCS_INT=previous value)
      */
 
-    ddr_print("22)Re-enable refresh (REF_ZQCS_INT=previous value)\n");
+    debug_print("22)Re-enable refresh (REF_ZQCS_INT=previous value)\n");
 
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
     lmc_config.s.ref_zqcs_int = save_ref_zqcs_int;
@@ -1778,7 +1780,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
      * 
      */
 
-    ddr_print("23) Disable CONTROL[RDIMM_ENA]\n");
+    debug_print("23) Disable CONTROL[RDIMM_ENA]\n");
 
     set_rdimm_mode(node, ddr_interface_num, 0);
 }
@@ -3828,11 +3830,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
         ext_config.s.vrefint_seq_deskew = 0;
 
+#ifdef DEBUG_PERFORM_DDR3_SEQUENCE
         if (dram_is_verbose(TRACE_SEQUENCES))
         {
             ddr_print("Performing LMC sequence: vrefint_seq_deskew = %d\n",
                       ext_config.s.vrefint_seq_deskew);
         }
+#endif
 
         DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
     }
@@ -5614,8 +5618,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         }
                         debug_print(" (0x%02x)\n", final_vref_value);
 
-                        /* Experiment: Override the tested Vref value with a calculated value */
-                        {
+                        /* Override the measured Vref value with a calculated value */
+                        if (! custom_lmc_config->auto_vref) {
                             int rtt_wr, rtt_park, dqx_ctl;
                             bdk_lmcx_modereg_params1_t lmc_modereg_params1;
                             bdk_lmcx_modereg_params2_t lmc_modereg_params2;
@@ -5654,11 +5658,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                   best_vref_values_start+best_vref_values_count-1,
                                   best_vref_values_count-1);
 
-                        ddr_print("Rank(%d) Using calculated Vref                 :"
-                                  "              %2d (0x%02x)\n",
-                                  rankx,
-                                  override_final_vref_value,
-                                  override_final_vref_value);
+                        if (! custom_lmc_config->auto_vref) {
+                            ddr_print("Rank(%d) Using calculated Vref                 :"
+                                      "              %2d (0x%02x)\n",
+                                      rankx,
+                                      override_final_vref_value,
+                                      override_final_vref_value);
+                        }
 
                         if ((s = lookup_env_parameter("ddr%d_vref_value_%1d%1d",
                                                       ddr_interface_num, !!(rankx&2), !!(rankx&1))) != NULL) {
@@ -5666,7 +5672,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         }
 
                         set_vref(node, ddr_interface_num, rankx, 0,
-			         override_final_vref_value);
+                                 custom_lmc_config->auto_vref ? 
+			         final_vref_value : override_final_vref_value );
                     }
                 } /* if (ddr_type == DDR4_DRAM) */
                 lmc_wlevel_rank.u = lmc_wlevel_rank_hw_results.u; /* Restore the saved value */
@@ -6062,6 +6069,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                   offset[3], offset[2], offset[1], offset[0]);
     }
 
+#ifdef ENABLE_AUTO_SET_DLL
     /* Experimental code to try to automatically adjust the DLL offset */
     if ((s = lookup_env_parameter("ddr_auto_set_dll_offset")) != NULL) {
         /* Disable l2 sets for DRAM testing */
@@ -6078,6 +6086,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             limit_l2_ways(node, bdk_l2c_get_num_assoc(node), 0);
         }
     }
+#endif  /* ENABLE_AUTO_SET_DLL */
 
     /*
      * 4.8.11 Final LMC Initialization
