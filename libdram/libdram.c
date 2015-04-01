@@ -2,10 +2,17 @@
 #include "dram-internal.h"
 
 /* This global variable is accessed through dram_is_verbose() to determine
-   the verbosity level. Use that function instead of it directly */
-dram_verbosity_t dram_verbosity;
+   the verbosity level. Use that function instead of setting it directly */
+dram_verbosity_t dram_verbosity = OFF; /* init this here so we could set a non-zero default */
 
 static uint32_t measured_ddr_hertz[BDK_NUMA_MAX_NODES];
+
+/* The various DRAM configs in the libdram/configs directory need space
+   to store the DRAM config. Since only one config is ever in active use
+   at a time, store the configs in __libdram_global_cfg. In a multi-node
+   setup, independent calls to get the DRAM config will load first node 0's
+   config, then node 1's */
+dram_config_t __libdram_global_cfg;
 
 /**
  * This the main DRAM init function. Users of libdram should call this function,
@@ -24,7 +31,7 @@ static uint32_t measured_ddr_hertz[BDK_NUMA_MAX_NODES];
  */
 int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_override)
 {
-    char *str;
+    const char *str;
     const ddr_configuration_t *ddr_config = dram_config->config;
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
 
@@ -74,7 +81,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     int num_lmc = __bdk_dram_get_num_lmc(node);
     for (int lmc = 0; lmc < num_lmc; lmc++)
     {
-        BDK_CSR_WRITE(node, BDK_LMCX_INT(lmc), BDK_CSR_READ(node, BDK_LMCX_INT(lmc)));
+        DRAM_CSR_WRITE(node, BDK_LMCX_INT(lmc), BDK_CSR_READ(node, BDK_LMCX_INT(lmc)));
     }
 
     return mbytes;
@@ -90,5 +97,22 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
 uint32_t libdram_get_freq(int node)
 {
     return measured_ddr_hertz[node];
+}
+
+/**
+ * Get the measured DRAM frequency from the DDR_PLL_CTL CSR
+ *
+ * @param node   Node to get frequency for
+ *
+ * @return Frequency in Hz
+ */
+uint32_t libdram_get_freq_from_pll(int node, int lmc)
+{
+    static const uint8_t _en[] = {1, 2, 3, 4, 5, 6, 7, 8, 10, 12};
+    uint64_t ddr_ref_hertz = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
+    BDK_CSR_INIT(c, node, BDK_LMCX_DDR_PLL_CTL(lmc));
+    uint64_t en = _en[c.s.ddr_ps_en];
+    uint64_t calculated_ddr_hertz = ddr_ref_hertz * (c.s.clkf + 1) / ((c.s.clkr + 1) * en);
+    return calculated_ddr_hertz;
 }
 

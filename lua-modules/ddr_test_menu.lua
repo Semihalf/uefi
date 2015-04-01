@@ -9,13 +9,19 @@ local range_start = 0
 local range_length = -1
 
 local abort_on_error = 1
+cavium.c.bdk_dram_set_abort_mode(abort_on_error)
 
 local function toggle_abort_on_error()
     abort_on_error = 1 - abort_on_error
+    cavium.c.bdk_dram_set_abort_mode(abort_on_error)
+end
+
+local function set_batch_mode(mode)
+    cavium.c.bdk_dram_set_batch_mode(mode)
 end
 
 local function set_range_repeat()
-    local count = menu.prompt_number("Number of time to repeat the test, or -1 for infinite", range_repeat)
+    local count = menu.prompt_number("Number of times to repeat the test, or -1 for infinite", range_repeat)
     if (count < -1) or (count == 0) then
         print("Invalid repeat count")
     else
@@ -25,8 +31,7 @@ end
 
 local function set_range_start()
     local start_address = menu.prompt_number("Physical byte address to start memory test at", range_start)
-    if ((start_address < 0) or
-        ((start_address >= 0x10000000) and (start_address < 0x20000000))) then
+    if start_address < 0 then
         print("Invalid start address")
     else
         range_start = start_address
@@ -73,7 +78,7 @@ local function run_all_tests()
         local sec = (total_time % 3600) % 60
         printf("All tests passed (time %d:%d:%d)\n", hour, min, sec)
     else
-        error("Tests reported %d errors" % errors)
+        printf("Tests reported %d errors\n", errors)
     end
     return errors
 end
@@ -101,8 +106,9 @@ local function run_special_tests()
         local min = (total_time % 3600) / 60
         local sec = (total_time % 3600) % 60
         printf("All tests passed (time %d:%d:%d)\n", hour, min, sec)
+
     else
-        error("Tests reported %d errors" % errors)
+        printf("Tests reported %d errors\n", errors)
     end
     return errors
 end
@@ -112,27 +118,40 @@ local function do_test(test_func, arg)
     if total == -1 then
         total = 0x7fffffffffffffff
     end
+    local sum_errors = 0
+    local pass = 1
     for count=1,total do
+        pass = count
         if range_repeat == -1 then
             printf("Pass %d\n", count)
         else
             printf("Pass %d of %d\n", count, total)
         end
         local errors = test_func(arg)
+	sum_errors = sum_errors + errors
+        -- print running summary if more than 1 pass was to be made and there have been errors
+        if (count < total) and (sum_errors ~= 0) then
+            printf("Testing has run %d passes with %d total errors\n", count, sum_errors)
+        end
         if (errors ~= 0) and (abort_on_error == 1) then
             break
         end
     end
+    -- always print final summary if more than 1 pass was to be made
+    if total > 1 then
+        printf("Test ran %d passes with %d total errors\n", pass, sum_errors)
+    end
 end
 
 repeat
-    local m = menu.new("DRAM Test Menu")
-    m:item("cores", "Bringup Cores for multi-core testing",
+    local info = cavium.c.bdk_dram_get_info_string(menu.node);
+    local m = menu.new("DRAM Test Menu - %s" % info)
+    m:item("cores", "Bringup Cores for multi-core testing (%d)" % cavium.c.bdk_get_num_running_cores(menu.node),
            cavium.c.bdk_init_nodes, 0, 0)
     if range_repeat == -1 then
-        m:item("repeat", "Number of time to repeat the test (Forever)" % range_repeat, set_range_repeat)
+        m:item("repeat", "Number of times to repeat the test (Forever)" % range_repeat, set_range_repeat)
     else
-        m:item("repeat", "Number of time to repeat the test (%d)" % range_repeat, set_range_repeat)
+        m:item("repeat", "Number of times to repeat the test (%d)" % range_repeat, set_range_repeat)
     end
     m:item("start", "Starting address (0x%x)" % range_start, set_range_start)
     if range_length == -1 then
@@ -158,6 +177,12 @@ repeat
         m:item("abort", "Abort on Errors (Currently ON)", toggle_abort_on_error)
     else
         m:item("abort", "Abort on Errors (Currently OFF)", toggle_abort_on_error)
+    end
+
+    if cavium.c.bdk_dram_get_batch_mode() == 1 then
+        m:item("batch", "Batch mode (Currently ON)", set_batch_mode, 0)
+    else
+        m:item("batch", "Batch mode (Currently OFF)", set_batch_mode, 1)
     end
 
     m:item("quit", "Main menu")

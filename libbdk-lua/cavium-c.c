@@ -52,6 +52,7 @@ static int cavium_c_call(lua_State* L)
     long result = func(args[0], args[1], args[2], args[3], args[4], args[5], args[6], args[7]);
     if ((func == (void*)bdk_qlm_mode_tostring) ||
         (func == (void*)bdk_dram_get_test_name) ||
+        (func == (void*)bdk_dram_get_info_string) ||
         (func == (void*)bdk_usb_get_test_mode_string) ||
         (func == (void*)bdk_dram_get_config_name))
         lua_pushstring(L, (const char*)result);

@@ -36,6 +36,6 @@ static inline int dram_is_verbose(dram_verbosity_t level)
  * and do it before any of the other headers,
  * just to be sure...
  */
-//#define DDR3_ENHANCE_PRINT
-#undef DDR3_ENHANCE_PRINT
+#define DDR3_ENHANCE_PRINT
+//#undef DDR3_ENHANCE_PRINT
 

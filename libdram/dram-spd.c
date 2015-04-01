@@ -1,4 +1,5 @@
 #include <bdk.h>
+#include <ctype.h>
 #include "dram-internal.h"
 
 
@@ -13,9 +14,25 @@ int read_spd(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_index, 
         return dimm_config->spd_ptrs[dimm_index][spd_field];
     else if (dimm_config->spd_addrs[dimm_index])
     {
+        int data;
         int bus = dimm_config->spd_addrs[dimm_index] >> 12;
         int address = dimm_config->spd_addrs[dimm_index] & 0x7f;
-        return bdk_twsix_read_ia(node, bus, address, spd_field, 1, 1);
+
+	/* this should only happen for DDR4, which has a second bank of 256 bytes */
+	int bank = (spd_field >> 8) & 1;
+	if (bank) {
+	    bdk_twsix_write_ia(node, bus, 0x36 | bank, 0, 2, 1, 0);
+	    spd_field %= 256;
+	}
+
+        data = bdk_twsix_read_ia(node, bus, address, spd_field, 1, 1);
+
+        /* Restore the bank to zero */
+        if (bank) {
+            bdk_twsix_write_ia(node, bus, 0x36 | 0, 0, 2, 1, 0);
+        }
+        
+        return data;
     }
     else
         return -1;
@@ -259,6 +276,45 @@ void report_ddr3_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upp
     printf("\n");
 }
 
+
+int get_dimm_part_number(char *buffer, bdk_node_t node, const dimm_config_t *dimm_config, int dimm_index)
+{
+    int i;
+    int strlen = 0;
+    int c;
+
+    /* Skip leading spaces. */
+    for (i = 0; i < 19; ++i) {
+	c = (read_spd(node, dimm_config, dimm_index,
+                      DDR4_SPD_MODULE_PART_NUMBER+i) & 0xff);
+        if (!isspace(c)) {
+            break;
+        }
+    }
+
+    /* Copy the part number into the buffer */
+    for (i = i; i < 19; ++i) {
+	buffer[strlen] = (read_spd(node, dimm_config, dimm_index,
+				   DDR4_SPD_MODULE_PART_NUMBER+i) & 0xff);
+	if (buffer[strlen])
+	    ++strlen;
+        else
+            break;
+
+	/* debug_print("spd[%d]: 0x%02x\n", DDR4_SPD_MODULE_PART_NUMBER+i, part_number[i]); */
+    }
+
+    --strlen; /* point to the last character */
+
+    /* Remove trailing spaces */
+    while (isspace((int)buffer[strlen]) && strlen) {
+        --strlen;
+    }
+
+    buffer[strlen+1] = 0;       /* Insure that the string is terminated */
+    return strlen;
+}
+
 static void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm,
 			     int dimm)
 {
@@ -302,14 +358,7 @@ static void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config, 
     printf("DIMM %d: DDR4 %s, %s", dimm,
 	   dimm_types[spd_module_type], (spd_ecc ? "ECC" : "non-ECC"));
 
-    strlen = 0;
-    for (i = 0; i < 19; ++i) {
-	part_number[i] = (read_spd(node, dimm_config, upper_dimm,
-				   DDR4_SPD_MODULE_PART_NUMBER+i) & 0xff);
-	if (part_number[i])
-	    ++strlen;
-	/* debug_print("spd[%d]: 0x%02x\n", DDR4_SPD_MODULE_PART_NUMBER+i, part_number[i]); */
-    }
+    strlen = get_dimm_part_number(part_number, node, dimm_config, upper_dimm);
     if (strlen)
 	printf("  %s", part_number);
 

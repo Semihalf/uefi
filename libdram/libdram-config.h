@@ -180,6 +180,13 @@ typedef struct {
     .dll_read_offset:  FIXME: Add description
   */
 
+
+typedef struct {
+    const char *part;
+    int speed;
+    uint64_t rlevel_rank[4][4];
+} rlevel_table_t;
+
 typedef struct {
     uint8_t min_rtt_nom_idx;
     uint8_t max_rtt_nom_idx;
@@ -206,8 +213,10 @@ typedef struct {
     uint8_t parity;
     uint8_t fprch2;
     uint8_t mode32b;
-    int8_t dll_write_offset[9];
-    int8_t dll_read_offset [9];
+    uint8_t auto_vref;
+    const int8_t *dll_write_offset;
+    const int8_t *dll_read_offset;
+    const rlevel_table_t *rlevel_table;
 } ddr3_custom_config_t;
 
 #define DDR_CFG_T_MAX_DIMMS     5
@@ -229,5 +238,13 @@ typedef struct {
 
 extern int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_override);
 extern uint32_t libdram_get_freq(int node);
+extern uint32_t libdram_get_freq_from_pll(int node, int lmc);
+
+/* The various DRAM configs in the libdram/configs directory need space
+   to store the DRAM config. Since only one config is ever in active use
+   at a time, store the configs in __libdram_global_cfg. In a multi-node
+   setup, independent calls to get the DRAM config will load first node 0's
+   config, then node 1's */
+extern dram_config_t __libdram_global_cfg;
 
 #endif  /* __LIBDRAM_CONFIG_H__ */

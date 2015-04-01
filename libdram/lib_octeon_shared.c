@@ -41,6 +41,9 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
+extern void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
+				 int *rank, int *bank, int *row, int *col);
+
 /* Define DDR_DEBUG to debug the DDR interface.  This also enables the
 ** output necessary for review by Cavium Inc., Inc. */
 /* #define DDR_DEBUG */
@@ -120,19 +123,102 @@ static int init_octeon_dram_interface(bdk_node_t node,
 						  board_rev_min,
 						  ddr_interface_num,
 						  ddr_interface_mask);
-    ddr_print("LMC%d Configuration Completed: %d MB\n",
-	      ddr_interface_num, mem_size_mbytes);
+    error_print("N%d.LMC%d Configuration Completed: %d MB\n",
+                node, ddr_interface_num, mem_size_mbytes);
     return mem_size_mbytes;
 }
+
+/*
+ * Suggested testing patterns.
+ *
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0xAAAA_AAAA_AAAA_AAAA
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0xAAAA_AAAA_AAAA_AAAA
+ *  0x5555_5555_5555_5555
+ *  0xAAAA_AAAA_AAAA_AAAA
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0xAAAA_AAAA_AAAA_AAAA
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0x5555_5555_5555_5555
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0x5555_5555_5555_5555
+ *  0xAAAA_AAAA_AAAA_AAAA
+ *  0x5555_5555_5555_5555
+ *  0xFFFF_FFFF_FFFF_FFFF
+ *  0x5555_5555_5555_5555
+ *
+ *  or possibly
+ *
+ *  0xFDFD_FDFD_FDFD_FDFD
+ *  0x8787_8787_8787_8787
+ *  0xFEFE_FEFE_FEFE_FEFE
+ *  0xC3C3_C3C3_C3C3_C3C3
+ *  0x7F7F_7F7F_7F7F_7F7F
+ *  0xE1E1_E1E1_E1E1_E1E1
+ *  0xBFBF_BFBF_BFBF_BFBF
+ *  0xF0F0_F0F0_F0F0_F0F0
+ *  0xDFDF_DFDF_DFDF_DFDF
+ *  0x7878_7878_7878_7878
+ *  0xEFEF_EFEF_EFEF_EFEF
+ *  0x3C3C_3C3C_3C3C_3C3C
+ *  0xF7F7_F7F7_F7F7_F7F7
+ *  0x1E1E_1E1E_1E1E_1E1E
+ *  0xFBFB_FBFB_FBFB_FBFB
+ *  0x0F0F_0F0F_0F0F_0F0F
+ */
+
+static const uint64_t test_pattern[] = {
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+    0xAAAAAAAAAAAAAAAAULL,
+    0x5555555555555555ULL,
+};
+
+#define test_dram_byte_print ddr_print
 
 int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
 {
     uint64_t p1, p2, d1, d2;
-    uint64_t i, j, k;
-    int errors = 0;
-    int counter;
     uint64_t v, v1;
     uint64_t p2offset = 0x4000000;
+    uint64_t datamask;
+    int i, j, k;
+    int errors = 0;
+    int counter;
+    int index;
+
+    datamask = bitmask << (8*byte);
+
+    // Not on THUNDER:	p |= 1ull<<63;
 
     /* Add offset to both test regions to not clobber u-boot stuff
      * when running from L2 for NAND boot.
@@ -140,43 +226,90 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
     p += 0x4000000;
 
     counter = 0;
-    for (k = 0; k < (1 << 18); k += (1 << 14)) {
-	for (i = 0; i < (1 << 7); i += 8) {
-	    for (j = 0; j < (1 << 12); j += (1 << 9)) {
-		p1 = p + i + j + k;
+    /* Store zeros into each location first */
+    for (k = 0; k < (1 << 20); k += (1 << 14)) {
+	for (j = 0; j < (1 << 12); j += (1 << 9)) {
+	    for (i = 0; i < (1 << 7); i += 8) {
+		index = i + j + k;
+		p1 = p + index;
 		p2 = p1 + p2offset;
-		v = (~((uint64_t)counter) & 0xff) << (8 * byte);
-		v1 = ~v;
 
-		/* test_dram_byte_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
-		 *            p1, v, p2, v1);
+		__bdk_dram_write64(p1, 0ULL);
+		__bdk_dram_write64(p2, 0ULL);
+
+		/* Write back and invalidate the cache lines
+		 *
+		 * For OCX we cannot limit the number of L2 ways
+		 * so instead we just write back and invalidate
+		 * the L2 cache lines.  This is not possible
+		 * when booting remotely, however so this is
+		 * only enabled for U-Boot right now.
+		 * Potentially the BDK can also take advantage
+		 * of this.
 		 */
-
-		bdk_write64_uint64(p1, v);
 		BDK_CACHE_WBI_L2(p1);
-		bdk_write64_uint64(p2, v1);
 		BDK_CACHE_WBI_L2(p2);
 		++counter;
 	    }
 	}
     }
 
+    BDK_DCACHE_INVALIDATE;
+
+    counter = 0;
+    for (k = 0; k < (1 << 20); k += (1 << 14)) {
+	for (j = 0; j < (1 << 12); j += (1 << 9)) {
+	    for (i = 0; i < (1 << 7); i += 8) {
+		index = i + j + k;
+		p1 = p + index;
+		p2 = p1 + p2offset;
+		v = test_pattern[index%(sizeof(test_pattern)/sizeof(uint64_t))];
+		v &= datamask;
+		v1 = ~v;
+
+		/* test_dram_byte_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
+		 *            p1, v, p2, v1);
+		 */
+
+		__bdk_dram_write64(p1, v);
+		__bdk_dram_write64(p2, v1);
+
+		/* Write back and invalidate the cache lines
+		 *
+		 * For OCX we cannot limit the number of L2 ways
+		 * so instead we just write back and invalidate
+		 * the L2 cache lines.  This is not possible
+		 * when booting remotely, however so this is
+		 * only enabled for U-Boot right now.
+		 * Potentially the BDK can also take advantage
+		 * of this.
+		 */
+		BDK_CACHE_WBI_L2(p1);
+		BDK_CACHE_WBI_L2(p2);
+		++counter;
+	    }
+	}
+    }
+
+    BDK_DCACHE_INVALIDATE;
+
     counter = 0;
 
     /* Walk through a range of addresses avoiding bits that alias
-     * interfaces on the CN68XX.
+     * interfaces on the CN88XX.
      */
-    for (k = 0; k < (1 << 18); k += (1 << 14)) {
+    for (k = 0; k < (1 << 20); k += (1 << 14)) {
 	for (i = 0; i < (1 << 7); i += 8) {
 	    for (j = 0; j < (1 << 12); j += (1 << 9)) {
-		p1 = p + i + j + k;
+		index = i + j + k;
+		p1 = p + index;
 		p2 = p1 + p2offset;
-		v = (~((uint64_t)counter) & bitmask) << (8 * byte);
-		/*v = (~((uint64_t)counter) & 0xff) << (8 * byte) & (bitmask << 8 * byte);*/
-		d1 = bdk_read64_uint64(p1);
-		d1 &= (bitmask << 8 * byte);
-		d2 = ~bdk_read64_uint64(p2);
-		d2 &= (bitmask << 8 * byte);
+		v = test_pattern[index%(sizeof(test_pattern)/sizeof(uint64_t))];
+		v &= datamask;
+		d1 = __bdk_dram_read64(p1);
+		d1 &= datamask;
+		d2 = ~__bdk_dram_read64(p2);
+		d2 &= datamask;
 
 		/* test_dram_byte_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
 		 *             p1, d1, p2, d2);
@@ -201,6 +334,130 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
     return errors;
 }
 
+#if 0
+int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int count, int byte, uint64_t bitmask)
+{
+    uint64_t p1, p2, d1, d2;
+    uint64_t v, v1;
+    uint64_t p2offset = 0x4000000;
+    uint64_t datamask;
+    int i, j, k;
+    int errors = 0;
+    int counter;
+    int index;
+
+    uint64_t mpr_data[3];
+
+    int node_address;
+    int lmc;
+    int dimm;
+    int rank;
+    int bank;
+    int row;
+    int col;
+    int save_or_dis;
+
+    bdk_lmcx_rlevel_ctl_t rlevel_ctl;
+
+    bdk_lmcx_dbtrain_ctl_t dbtrain_ctl;
+    bdk_lmcx_general_purpose0_t general_purpose0;
+    bdk_lmcx_general_purpose1_t general_purpose1;
+    bdk_lmcx_general_purpose2_t general_purpose2;
+
+    extern dram_verbosity_t dram_verbosity;
+    dram_verbosity_t save_dram_verbosity = dram_verbosity;
+
+    //dram_verbosity = TRACE_CSR_WRITES;
+
+    rlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num));
+    save_or_dis = rlevel_ctl.s.or_dis;
+    rlevel_ctl.s.or_dis = 0;    /* or_dis must be disabled for this sequence */
+    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
+
+    DRAM_CSR_MODIFY(general_purpose0, node, BDK_LMCX_GENERAL_PURPOSE0(ddr_interface_num),
+                    general_purpose0.s.data = 0xa5a5a5a5a5a5a5a5);
+    DRAM_CSR_MODIFY(general_purpose1, node, BDK_LMCX_GENERAL_PURPOSE1(ddr_interface_num),
+                    general_purpose1.s.data = 0x5a5a5a5a5a5a5a5a);
+    DRAM_CSR_MODIFY(general_purpose2, node, BDK_LMCX_GENERAL_PURPOSE2(ddr_interface_num),
+                    general_purpose2.s.data = 0x5aa5);
+
+    /* Add offset to both test regions to not clobber u-boot stuff
+     * when running from L2 for NAND boot.
+     */
+    p += 0x4000000;
+
+    errors = 0;
+
+    counter = 0;
+
+    /* Walk through a range of addresses avoiding bits that alias
+     * interfaces on the CN88XX.
+     */
+    for (k = 0; k < (1 << 20); k += (1 << 14)) {
+        for (j = 0; j < (1 << 12); j += (1 << 9)) {
+            for (i = 0; i < (1 << 7); i += 8) {
+		index = i + j + k;
+                p1 = p + index;
+                extract_address_info(p1, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
+
+
+                if (node != node_address)
+                    error_print("ERROR: Node address mismatch\n");
+
+                DRAM_CSR_MODIFY(dbtrain_ctl, node, BDK_LMCX_DBTRAIN_CTL(ddr_interface_num),
+                               (dbtrain_ctl.s.column_a       = col,
+                                dbtrain_ctl.s.row_a          = row,
+                                dbtrain_ctl.s.ba             = bank,
+                                dbtrain_ctl.s.prank          = rank,
+                                dbtrain_ctl.s.activate       = 0,
+                                dbtrain_ctl.s.write_ena      = 1,
+                                dbtrain_ctl.s.read_cmd_count = 31,
+                                dbtrain_ctl.s.rw_train       = 1,
+                                dbtrain_ctl.s.tccd_sel       = 0)
+                               );
+
+                perform_octeon3_ddr3_sequence(node, rank, ddr_interface_num, 14);
+
+                mpr_data[0] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA0(ddr_interface_num));
+                mpr_data[1] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA1(ddr_interface_num));
+                mpr_data[2] = BDK_CSR_READ(node, BDK_LMCX_MPR_DATA2(ddr_interface_num));
+
+                //if (mpr_data[0] != 0) {
+                if (0) {
+                    printf("A:%p, N%d L%d D%d R%d B%d Row:%05x Col:%05x\n",
+                           p1, node_address, lmc, dimm, rank, bank, row, col);
+                    printf("MPR data %016lx.%016lx.%016lx\n", mpr_data[2], mpr_data[1], mpr_data[0]);
+                }
+
+                errors |= (~mpr_data[0] >> (8 * byte)) & bitmask;
+
+                if (errors) {
+                    rlevel_ctl.s.or_dis = save_or_dis;
+                    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
+                    dram_verbosity = save_dram_verbosity;
+                    return errors;
+                }
+
+                ++counter;
+
+                if (counter > count)
+                    break;
+            }
+            if (counter > count)
+                break;
+        }
+        if (counter > count)
+            break;
+    }
+
+    rlevel_ctl.s.or_dis = save_or_dis;
+    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num), rlevel_ctl.u);
+
+    dram_verbosity = save_dram_verbosity;
+    return errors;
+}
+#endif
+
 static void set_ddr_memory_preserved(bdk_node_t node)
 {
     global_ddr_memory_preserved |= 0x1 << node;
@@ -216,35 +473,41 @@ void perform_ddr3_init_sequence(bdk_node_t node, int rank_mask,
 {
     const char *s;
     int ddr_init_loops = 1;
+    int rankx;
 
     if ((s = lookup_env_parameter("ddr%d_init_loops", ddr_interface_num)) != NULL)
 	ddr_init_loops = strtoul(s, NULL, 0);
 
     while (ddr_init_loops--) {
-	if (ddr_memory_preserved(node)) {
-	    /* Contents are being preserved */
-	    perform_octeon3_ddr3_sequence(node, rank_mask,
-                                          ddr_interface_num, 3); /* self-refresh exit */
-	} else {
-	    /* Contents are not being preserved */
-	    perform_octeon3_ddr3_sequence(node, rank_mask,
-                                          ddr_interface_num, 0); /* power-up/init */
-	}
+	for (rankx = 0; rankx < 8; rankx++) {
+	    if (!(rank_mask & (1 << rankx)))
+		continue;
 
-	bdk_wait_usec(1000);   /* Wait a while. */
+	    if (ddr_memory_preserved(node)) {
+		/* Contents are being preserved */
+		perform_octeon3_ddr3_sequence(node, (1 << rankx),
+					      ddr_interface_num, 3); /* self-refresh exit */
+	    } else {
+		/* Contents are not being preserved */
+		perform_octeon3_ddr3_sequence(node, (1 << rankx),
+					      ddr_interface_num, 0); /* power-up/init */
+	    }
 
-	if ((s = lookup_env_parameter("ddr_sequence1")) != NULL) {
-	    int sequence1;
-	    sequence1 = strtoul(s, NULL, 0);
-	    perform_octeon3_ddr3_sequence(node, rank_mask,
-					  ddr_interface_num, sequence1);
-	}
+	    bdk_wait_usec(1000);   /* Wait a while. */
 
-	if ((s = lookup_env_parameter("ddr_sequence2")) != NULL) {
-	    int sequence2;
-	    sequence2 = strtoul(s, NULL, 0);
-	    perform_octeon3_ddr3_sequence(node, rank_mask,
-					  ddr_interface_num, sequence2);
+	    if ((s = lookup_env_parameter("ddr_sequence1")) != NULL) {
+		int sequence1;
+		sequence1 = strtoul(s, NULL, 0);
+		perform_octeon3_ddr3_sequence(node, (1 << rankx),
+					      ddr_interface_num, sequence1);
+	    }
+
+	    if ((s = lookup_env_parameter("ddr_sequence2")) != NULL) {
+		int sequence2;
+		sequence2 = strtoul(s, NULL, 0);
+		perform_octeon3_ddr3_sequence(node, (1 << rankx),
+					      ddr_interface_num, sequence2);
+	    }
 	}
     }
 }
@@ -484,7 +747,7 @@ int initialize_ddr_clock(bdk_node_t node,
              *
              */
 
-	    /* Put all LMCs into DRESET here */
+	    /* Put all LMCs into DRESET here; these are the reset values... */
             for (loop_interface_num = 0; loop_interface_num < 4; ++loop_interface_num) {
 
                 dll_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL2(loop_interface_num));
@@ -535,10 +798,6 @@ int initialize_ddr_clock(bdk_node_t node,
             ddr_pll_ctl.s.ddr_div_reset     = 1;
             ddr_pll_ctl.s.phy_dcok          = 0;
             ddr_pll_ctl.s.dclk_invert       = 0;
-
-            if ((s = lookup_env_parameter("ddr_pll_bwadj")) != NULL) {
-                ddr_pll_ctl.s.bwadj = strtoul(s, NULL, 0);
-            }
 
             DRAM_CSR_WRITE(node, BDK_LMCX_DDR_PLL_CTL(0), ddr_pll_ctl.u);
 
@@ -656,9 +915,9 @@ int initialize_ddr_clock(bdk_node_t node,
 		    }
 
 		    if (override_pll_settings) {
-			best_pll_MHz = ddr_ref_hertz * (clkf+1) / (clkr+1) / 1000000;
-			best_calculated_ddr_hertz = ddr_ref_hertz * (clkf + 1) / ((clkr + 1) * (_en[best_en_idx]));
-			best_error = ddr_hertz - calculated_ddr_hertz;
+			best_pll_MHz = ddr_ref_hertz * (best_clkf+1) / (best_clkr+1) / 1000000;
+			best_calculated_ddr_hertz = ddr_ref_hertz * (best_clkf + 1) / ((best_clkr + 1) * (_en[best_en_idx]));
+			best_error = ddr_hertz - best_calculated_ddr_hertz;
 		    }
 
 		    ddr_print("clkr: %2lu, en[%d]: %2d, clkf: %4lu, pll_MHz: %4lu, ddr_hertz: %8lu, error: %8ld <==\n",
@@ -1104,9 +1363,9 @@ int initialize_ddr_clock(bdk_node_t node,
              *    without modifying any other LMC(0..3)_RESET_CTL fields.
              */
 
+            ddr_print("LMC%d De-asserting DDR_RESET_L\n", ddr_interface_num);
             DRAM_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
 			    c.s.ddr3rst = 1);
-            ddr_print("LMC%d De-asserting DDR_RESET_L\n", ddr_interface_num);
 
             /*
              * 5. Read LMC(0..3)_RESET_CTL and wait for the result.
@@ -1120,7 +1379,22 @@ int initialize_ddr_clock(bdk_node_t node,
              */
 
             bdk_wait_usec(500);
-        }
+
+            /* Toggle Reset Again */
+	    /* That is, assert, then de-assert, one more time */
+            ddr_print("LMC%d Asserting DDR_RESET_L\n", ddr_interface_num);
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
+			    c.s.ddr3rst = 0);
+            BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(ddr_interface_num));
+            bdk_wait_usec(500);
+
+            ddr_print("LMC%d De-asserting DDR_RESET_L\n", ddr_interface_num);
+            DRAM_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
+			    c.s.ddr3rst = 1);
+            BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(ddr_interface_num));
+            bdk_wait_usec(500);
+
+        } /* if ( !ddr_memory_preserved(node)) */
     } /* if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) */
 
     set_ddr_clock_initialized(node, ddr_interface_num, 1);
@@ -1186,7 +1460,7 @@ int octeon_ddr_initialize(bdk_node_t node,
 {
     uint32_t ddr_config_valid_mask = 0;
     int memsize_mbytes = 0;
-    char *eptr;
+    const char *s;
     int retval;
     int interface_index;
     uint32_t ddr_max_speed = 1210000000; /* needs to be this high for DDR4 */
@@ -1220,7 +1494,6 @@ int octeon_ddr_initialize(bdk_node_t node,
 	are reserved.
 	*/
 
-	const char *s;
 	uint64_t rdf_cnt;
 	BDK_CSR_INIT(l2c_ctl, node, BDK_L2C_CTL);
 	/* It is more convenient to compute the ratio using clock
@@ -1238,9 +1511,8 @@ int octeon_ddr_initialize(bdk_node_t node,
     }
 
     /* Check to see if we should limit the number of L2 ways. */
-    eptr = getenv("limit_l2_ways");
-    if (eptr) {
-	int ways = strtoul(eptr, NULL, 10);
+    if ((s = lookup_env_parameter("limit_l2_ways")) != NULL) {
+        int ways = strtoul(s, NULL, 10);
 	limit_l2_ways(node, ways, 1);
     }
 
@@ -1254,13 +1526,8 @@ int octeon_ddr_initialize(bdk_node_t node,
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
 	int four_lmc_mode = 1;
 
-	const char *s;
-
-	if ((s = getenv("ddr_four_lmc")) != NULL) {
+	if ((s = lookup_env_parameter("ddr_four_lmc")) != NULL)
 	    four_lmc_mode = strtoul(s, NULL, 0);
-	    error_print("Parameter found in environment. ddr_four_lmc = %d\n",
-			four_lmc_mode);
-	}
 
 	if (!four_lmc_mode) {
 	    puts("Forcing two-LMC Mode.\n");
@@ -1323,9 +1590,8 @@ int octeon_ddr_initialize(bdk_node_t node,
 	/* All interfaces failed to initialize, so return error */
 	return -1;
 
-    eptr = getenv("limit_dram_mbytes");
-    if (eptr) {
-	unsigned int mbytes = strtoul(eptr, NULL, 10);
+    if ((s = lookup_env_parameter("limit_dram_mbytes")) != NULL) {
+	unsigned int mbytes = strtoul(s, NULL, 10);
 	if (mbytes > 0) {
 	    memsize_mbytes = mbytes;
 	    printf("Limiting DRAM size to %d MBytes based on limit_dram_mbytes env. variable\n",

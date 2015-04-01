@@ -1,5 +1,6 @@
 #include <bdk.h>
 #include "../dram-internal.h"
+#include "common-spd-tables.h"
 
 #define USE_INTERNAL_SPD 0 /* Change to 1 for compiled in SPDs */
 
@@ -11,28 +12,6 @@
 
 #define DEFAULT_LMC_MASK   TWO_LMC_MASK
 #define DEFAULT_DIMM_MASK  ONE_DIMM_MASK
-
-static const uint8_t WD3UN802G13LSD_SPD[] = {
-    0x92, 0x11, 0x0b, 0x02, 0x03, 0x19, 0x00, 0x01, 0x03, 0x11, 0x01, 0x08, 0x0c, 0x00, 0x3c, 0x00,
-    0x69, 0x78, 0x69, 0x30, 0x69, 0x11, 0x20, 0x89, 0x00, 0x05, 0x3c, 0x3c, 0x00, 0xf0, 0x83, 0x01,
-    0x80, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x01, 0x20, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x61, 0x00, 0x12, 0x30, 0x00, 0x00, 0x00, 0x00, 0xb3, 0x31
-};
-
-static const uint8_t TS512MLK72V8N_SPD[] = {
-    0x92, 0x10, 0x0b, 0x02, 0x03, 0x19, 0x00, 0x09, 0x0b, 0x11, 0x01, 0x08, 0x09, 0x00, 0xfc, 0x02,
-    0x69, 0x78, 0x69, 0x28, 0x69, 0x11, 0x10, 0x79, 0x00, 0x05, 0x3c, 0x3c, 0x00, 0xd8, 0x83, 0x01,
-    0x80, 0x00, 0xca, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x0f, 0x11, 0x64, 0x01,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
-    0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x4f, 0x54, 0x13, 0x49, 0x00, 0x00, 0x11, 0x12, 0x0c, 0x22
-};
 
 static void setup_modereg_params1_1rank_1slot(bdk_lmcx_modereg_params1_t *modereg)
 {
@@ -228,6 +207,9 @@ static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
     odt[dimm].dic = 0; /* Reserved */
 }
 
+static const int8_t dll_read_offset  [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+static const int8_t dll_write_offset [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+
 static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
 {
     cfg->min_rtt_nom_idx        = 1;
@@ -250,29 +232,30 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     cfg->ddr2t_rdimm            = 1;
     cfg->maximum_adjacent_rlevel_delay_increment = 1;
     cfg->fprch2                 = 2;
-    //cfg->dll_write_offset     = {0};
-    //cfg->dll_read_offset      = {0};
+    cfg->dll_write_offset       = dll_write_offset;
+    cfg->dll_read_offset        = dll_read_offset;
     cfg->parity                 = 0;
+    cfg->rlevel_table		= 0;
 }
 
 const dram_config_t *dram_get_config_ebb8800(void)
 {
-    static dram_config_t cfg;
+    dram_config_t *cfg = &__libdram_global_cfg;
 
     /* Make all fields default to zero */
-    memset(&cfg, 0, sizeof(cfg));
+    memset(cfg, 0, sizeof(*cfg));
 
     /* Set the config name and the default frequency */
-    cfg.name = DEFAULT_NAME;
-    cfg.ddr_clock_hertz = DEFAULT_SPEED;
+    cfg->name = DEFAULT_NAME;
+    cfg->ddr_clock_hertz = DEFAULT_SPEED;
 
     /* Load the defaults for DIMMs on all four controllers */
     for (int lmc = 0; lmc < 4; lmc++)
     {
-        setup_dram_custom_lmc_config(&cfg.config[lmc].custom_lmc_config);
-        setup_dram_odt_1rank_configuration(cfg.config[lmc].odt_1rank_config);
-        setup_dram_odt_2rank_configuration(cfg.config[lmc].odt_2rank_config);
-        setup_dram_odt_4rank_configuration(cfg.config[lmc].odt_4rank_config);
+        setup_dram_custom_lmc_config(&cfg->config[lmc].custom_lmc_config);
+        setup_dram_odt_1rank_configuration(cfg->config[lmc].odt_1rank_config);
+        setup_dram_odt_2rank_configuration(cfg->config[lmc].odt_2rank_config);
+        setup_dram_odt_4rank_configuration(cfg->config[lmc].odt_4rank_config);
     }
 
     if (USE_INTERNAL_SPD || bdk_is_platform(BDK_PLATFORM_ASIM))
@@ -289,24 +272,24 @@ const dram_config_t *dram_get_config_ebb8800(void)
                 if (! (dimm_mask & (1 << dimm))) /* Could use the testbit macro */
                     continue;
 
-                cfg.config[lmc].dimm_config_table[dimm].spd_ptrs[0] = DEFAULT_INTERNAL_SPD;
+                cfg->config[lmc].dimm_config_table[dimm].spd_ptrs[0] = DEFAULT_INTERNAL_SPD;
             }
         }
     }
     else
     {
         /* Set the SPD addresses as we are reading them from DIMMs */
-        cfg.config[0].dimm_config_table[0].spd_addrs[0] = 0x1050;
-        cfg.config[0].dimm_config_table[1].spd_addrs[0] = 0x1051;
-        cfg.config[1].dimm_config_table[0].spd_addrs[0] = 0x1052;
-        cfg.config[1].dimm_config_table[1].spd_addrs[0] = 0x1053;
-        cfg.config[2].dimm_config_table[0].spd_addrs[0] = 0x1054;
-        cfg.config[2].dimm_config_table[1].spd_addrs[0] = 0x1055;
-        cfg.config[3].dimm_config_table[0].spd_addrs[0] = 0x1056;
-        cfg.config[3].dimm_config_table[1].spd_addrs[0] = 0x1057;
+        cfg->config[0].dimm_config_table[0].spd_addrs[0] = 0x1050;
+        cfg->config[0].dimm_config_table[1].spd_addrs[0] = 0x1051;
+        cfg->config[1].dimm_config_table[0].spd_addrs[0] = 0x1052;
+        cfg->config[1].dimm_config_table[1].spd_addrs[0] = 0x1053;
+        cfg->config[2].dimm_config_table[0].spd_addrs[0] = 0x1054;
+        cfg->config[2].dimm_config_table[1].spd_addrs[0] = 0x1055;
+        cfg->config[3].dimm_config_table[0].spd_addrs[0] = 0x1056;
+        cfg->config[3].dimm_config_table[1].spd_addrs[0] = 0x1057;
     }
 
-    return &cfg;
+    return cfg;
 };
 
 
