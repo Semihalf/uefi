@@ -123,8 +123,8 @@ static int init_octeon_dram_interface(bdk_node_t node,
 						  board_rev_min,
 						  ddr_interface_num,
 						  ddr_interface_mask);
-    ddr_print("LMC%d Configuration Completed: %d MB\n",
-	      ddr_interface_num, mem_size_mbytes);
+    error_print("N%d.LMC%d Configuration Completed: %d MB\n",
+                node, ddr_interface_num, mem_size_mbytes);
     return mem_size_mbytes;
 }
 
