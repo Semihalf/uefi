@@ -66,7 +66,7 @@ int __bdk_dram_test_mem_address_bus(uint64_t area, uint64_t max_address, int bur
             if (bdk_unlikely(data != correct))
             {
                 failures++;
-                __bdk_dram_report_error(a, data, correct, 0);
+                __bdk_dram_report_error(a, data, correct, 0, -1);
             }
             a += 8;
         }

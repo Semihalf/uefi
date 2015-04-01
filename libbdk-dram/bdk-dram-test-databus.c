@@ -27,7 +27,7 @@ static int read_data_bus_burst(uint64_t address, int bursts)
        traces */
     for (int burst = 0; burst < bursts; burst++)
     {
-        /* Invalidate all caches so we must readfrom DRAM */
+        /* Invalidate all caches so we must read from DRAM */
         __bdk_dram_flush_to_mem(address);
         BDK_DCACHE_INVALIDATE;
 
@@ -39,7 +39,7 @@ static int read_data_bus_burst(uint64_t address, int bursts)
             if (data != correct)
             {
                 failures++;
-                __bdk_dram_report_error(a, data, correct, burst);
+                __bdk_dram_report_error(a, data, correct, burst, -1);
             }
         }
     }
@@ -102,7 +102,7 @@ static int read_data_bus_walk(uint64_t address, int burst, uint64_t pattern)
         if (data != correct)
         {
             failures++;
-            __bdk_dram_report_error(a, data, correct, burst);
+            __bdk_dram_report_error(a, data, correct, burst, -1);
         }
         uint64_t tmp = correct >> 63; /* Save top bit */
         correct <<= 1; /* Shift left one bit */

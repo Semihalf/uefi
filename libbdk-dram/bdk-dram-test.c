@@ -5,6 +5,8 @@
 BDK_REQUIRE_DEFINE(DRAM_TEST);
 
 #define MAX_ERRORS_TO_REPORT 50
+#define RETRY_LIMIT 1000
+
 #define ENABLE_LMC_PERCENT 1 /* Show LMC load after each DRAM test */
 #define ENABLE_CCPI_PERCENT 0 /* Show CCPI load after each DRAM test */
 
@@ -507,72 +509,147 @@ static void __bdk_dram_report_address_decode(uint64_t address, char *buffer, int
 
     extract_address_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
 
-    snprintf(buffer, len, "(N%d,Core%02d,LMC%d,DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)",
-		node, core, lmc, dimm, rank, bank, row, col);
+    snprintf(buffer, len, "[0x%011lx] (N%d,Core%02d,LMC%d,DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)",
+	     address, node, core, lmc, dimm, rank, bank, row, col);
 }
 
 /**
  * Report a DRAM error. Errors are not shown after MAX_ERRORS_TO_REPORT is
- * exceeded.
+ * exceeded. Used when a single address is involved in the failure.
  *
  * @param address Physical address the error occurred at
  * @param data    Data read from memory
  * @param correct Correct data
  * @param burst   Which burst this is from, informational only
+ * @param fails   -1 for no retries done, >= 0 number of failures during retries 
  *
  * @return Zero if a message was logged, non-zero if the error limit has been reached
  */
-int __bdk_dram_report_error(uint64_t address, uint64_t data, uint64_t correct, int burst)
+void __bdk_dram_report_error(uint64_t address, uint64_t data, uint64_t correct, int burst, int fails)
 {
     char buffer[80];
+    char failbuf[32];
     int64_t errors = bdk_atomic_fetch_and_add64(&dram_test_thread_errors, 1);
     if (errors < MAX_ERRORS_TO_REPORT)
     {
+	if (fails < 0) {
+	    snprintf(failbuf, sizeof(failbuf), " ");
+	} else {
+	    snprintf(failbuf, sizeof(failbuf), ", retried %d failed %d", RETRY_LIMIT, fails);
+	}
 	__bdk_dram_report_address_decode(address, buffer, sizeof(buffer));
-        bdk_error("[0x%011lx] data: 0x%016lx, expected: 0x%016lx, xor: 0x%016lx, burst: %d\n"
+
+        bdk_error("read: 0x%016lx, wrote: 0x%016lx, xor: 0x%016lx%s\n"
 		  "       %s\n",
-		  address, data, correct, data ^ correct, burst,
+		  data, correct, data ^ correct, failbuf,
 		  buffer);
 
         if (errors == MAX_ERRORS_TO_REPORT-1)
             bdk_error("No further DRAM errors will be reported\n");
-        return errors == MAX_ERRORS_TO_REPORT - 1;
     }
-    else
-        return -1;
+    return;
 }
 
 /**
  * Report a DRAM error. Errors are not shown after MAX_ERRORS_TO_REPORT is
- * exceeded. Used when two address might be involved in the failure.
+ * exceeded. Used when two addresses might be involved in the failure.
  *
  * @param address1 First address involved in the failure
  * @param data1    Data from the first address
  * @param address2 Second address involved in the failure
  * @param data2    Data from second address
  * @param burst    Which burst this is from, informational only
+ * @param fails    -1 for no retries done, >= 0 number of failures during retries 
  *
  * @return Zero if a message was logged, non-zero if the error limit has been reached
  */
-int __bdk_dram_report_error2(uint64_t address1, uint64_t data1, uint64_t address2, uint64_t data2, int burst)
+void __bdk_dram_report_error2(uint64_t address1, uint64_t data1, uint64_t address2, uint64_t data2,
+			      int burst, int fails)
 {
-    char buffer1[80], buffer2[80];
     int64_t errors = bdk_atomic_fetch_and_add64(&dram_test_thread_errors, 1);
     if (errors < MAX_ERRORS_TO_REPORT)
     {
+	char buffer1[80], buffer2[80];
+	char failbuf[32];
+
+	if (fails < 0) {
+	    snprintf(failbuf, sizeof(failbuf), " ");
+	} else {
+	    snprintf(failbuf, sizeof(failbuf), ", retried %d failed %d", RETRY_LIMIT, fails);
+	}
 	__bdk_dram_report_address_decode(address1, buffer1, sizeof(buffer1));
 	__bdk_dram_report_address_decode(address2, buffer2, sizeof(buffer2));
 
-        bdk_error("[0x%011lx] data: 0x%016lx, [0x%011lx] expected: 0x%016lx, xor: 0x%016lx, burst: %d\n"
+        bdk_error("data1: 0x%016lx, data2: 0x%016lx, xor: 0x%016lx%s\n"
 		  "       %s\n       %s\n",
-		  address1, data1, address2, data2, data1 ^ data2, burst,
+		  data1, data2, data1 ^ data2, failbuf,
 		  buffer1, buffer2);
 
         if (errors == MAX_ERRORS_TO_REPORT-1)
             bdk_error("No further DRAM errors will be reported\n");
-        return errors == MAX_ERRORS_TO_REPORT - 1;
     }
-    else
-        return -1;
+    return;
+}
+
+/* Report the circumstances of a failure and try re-reading the memory
+ * location to see if the error is transient or permanent.
+ *
+ * Note: re-reading requires using evicting addresses
+ */
+int __bdk_dram_retry_failure(int burst, uint64_t address, uint64_t data, uint64_t expected)
+{
+    int refail = 0;
+
+    /* Try re-reading the memory location. A transient error may fail
+     * on one read and work on another. Keep on retrying even when a
+     * read succeeds.
+     */
+    for (int i = 0; i < RETRY_LIMIT; i++)
+    {
+        __bdk_dram_flush_to_mem(address);
+	BDK_DCACHE_INVALIDATE;
+
+        uint64_t new = __bdk_dram_read64(address);
+
+        if (new != expected) {
+            refail++;
+        }
+    }
+
+    // this will increment the errors always, but maybe not print...
+    __bdk_dram_report_error(address, data, expected, burst, refail);
+
+    return 1;
+}
+
+/**
+ * retry_failure2
+ *
+ * @param burst
+ * @param address1
+ * @param address2
+ */
+int __bdk_dram_retry_failure2(int burst, uint64_t address1, uint64_t data1, uint64_t address2, uint64_t data2)
+{
+    int refail = 0;
+
+    for (int i = 0; i < RETRY_LIMIT; i++)
+    {
+        __bdk_dram_flush_to_mem(address1);
+        __bdk_dram_flush_to_mem(address2);
+        BDK_DCACHE_INVALIDATE;
+
+        uint64_t d1 = __bdk_dram_read64(address1);
+        uint64_t d2 = __bdk_dram_read64(address2);
+
+        if (d1 != d2) {
+            refail++;
+	}
+    }
+
+    // this will increment the errors always, but maybe not print...
+    __bdk_dram_report_error2(address1, data1, address2, data2, burst, refail);
+
+    return 1;
 }
 

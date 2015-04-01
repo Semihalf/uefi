@@ -48,14 +48,14 @@ int __bdk_dram_test_fast_scan(uint64_t area, uint64_t max_address, int bursts)
         if (bdk_unlikely(data1 != pattern1))
         {
             failures++;
-            __bdk_dram_report_error(a, data1, pattern1, 0);
+            __bdk_dram_report_error(a, data1, pattern1, 0, -1);
         }
         /* Check pattern 2 */
         uint64_t data2 = READ64(a+8);
         if (bdk_unlikely(data2 != pattern2))
         {
             failures++;
-            __bdk_dram_report_error(a+8, data2, pattern2, 0);
+            __bdk_dram_report_error(a+8, data2, pattern2, 0, -1);
         }
         a += step;
     }

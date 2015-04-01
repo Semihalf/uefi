@@ -24,8 +24,10 @@ extern int64_t __bdk_dram_ecc_double_bit_errors[MAX_MEM_CHANS];
 /* These are internal support functions */
 extern void __bdk_dram_flush_to_mem(uint64_t address);
 extern void __bdk_dram_flush_to_mem_range(uint64_t area, uint64_t max_address);
-extern int __bdk_dram_report_error(uint64_t address, uint64_t data, uint64_t correct, int burst);
-extern int __bdk_dram_report_error2(uint64_t address1, uint64_t data1, uint64_t address2, uint64_t data2, int burst);
+extern void __bdk_dram_report_error(uint64_t address, uint64_t data, uint64_t correct, int burst, int fails);
+extern void __bdk_dram_report_error2(uint64_t address1, uint64_t data1, uint64_t address2, uint64_t data2, int burst, int fails);
+extern int  __bdk_dram_retry_failure(int burst, uint64_t address, uint64_t data, uint64_t expected);
+extern int  __bdk_dram_retry_failure2(int burst, uint64_t address1, uint64_t data1, uint64_t address2, uint64_t data2);
 
 static inline void __bdk_dram_write64(uint64_t address, uint64_t data)
 {
