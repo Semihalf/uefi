@@ -13,7 +13,8 @@ static void __bdk_init_sysreg(void)
         BDK_MRS(s3_0_c11_c0_0, cvmctl_el1.u);
 
         /* Errara (AP-22934) CIM module has incorrect conditional clock */
-        cvmctl_el1.s.force_issue_clock = 1;
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
+            cvmctl_el1.s.force_issue_clock = 1;
 
         /* Errata (AP-22500) GlobalSync request during a multi-cycle ATOMIC
            stalls forever */
