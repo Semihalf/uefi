@@ -564,8 +564,8 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_PX_MODE_1(qlm, p),
             c.s.vma_fine_cfg_sel = 0;
             c.s.vma_mm = 1;
-            c.s.cdr_fgain = 0xa;
-            c.s.ph_acc_adj = 0x15);
+            c.s.cdr_fgain = 0xf; /* This values are to help with SSC */
+            c.s.ph_acc_adj = 0x12); /* This values are to help with SSC */
     }
 
     for (int s=0; s<2; s++)
