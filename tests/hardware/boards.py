@@ -98,13 +98,12 @@ class Board_CRB_2S(Board):
     def powerCycle(self):
         self.log("Power cycle board")
         self.serialbox.send("F8")
-        time.sleep(7)
-        self.serialbox.send("N8")
         time.sleep(5)
+        self.serialbox.send("N8")
+        time.sleep(3)
         self.serialbox.send("N7")
-        time.sleep(1)
+        time.sleep(0.2)
         self.serialbox.send("F7")
-        time.sleep(1)
 
 def parseArgs():
     try:
