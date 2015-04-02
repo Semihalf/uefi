@@ -522,9 +522,12 @@ static void init_ccpi_errata(bdk_node_t node, uint64_t gbaud)
     }
 
     /* Errata:(SMMU-22267) SMMU not propagating Global Sync completion */
-    for (int smmu=0; smmu<4; smmu++)
-        BDK_CSR_MODIFY(c, node, BDK_SMMUX_DIAG_CTL(smmu),
-            c.s.force_clks_active = 1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
+    {
+        for (int smmu = 0; smmu < 4; smmu++)
+            BDK_CSR_MODIFY(c, node, BDK_SMMUX_DIAG_CTL(smmu),
+                c.s.force_clks_active = 1);
+    }
 }
 
 static void clear_oci_error(bdk_node_t node)
