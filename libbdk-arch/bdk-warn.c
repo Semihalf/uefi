@@ -8,8 +8,12 @@ static bdk_spinlock_t lock;
     bdk_spinlock_lock(&lock);
 #endif
     if (prefix)
+    {
         fputs(prefix, stderr);
-    vfprintf(stderr, format, args);
+        vfprintf(stderr, format, args);
+    }
+    else
+        vfprintf(stdout, format, args); /* printf goes to stdout */
     fflush(NULL);
 #ifndef BDK_BUILD_HOST
     bdk_spinlock_unlock(&lock);
