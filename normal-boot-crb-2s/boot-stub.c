@@ -1,6 +1,9 @@
 #include <bdk.h>
 #include <malloc.h>
 
+/* Set this to 0 for PCIe on QLMs 6-7. Set it to 1 for SATA when using the
+   PCIe to SATA breakout card*/
+#define USE_SATA_BREAKOUT_CARD 0
 /* Which TWSI interface to use for the BMC, -1 to disable */
 #define BMC_TWSI 1
 /* Control if we even try and do multi-node (0 or 1) */
@@ -539,7 +542,17 @@ int main(void)
                 bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_PCIE_1X4, 8000, 0);
                 bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
                 bdk_qlm_set_mode(n, 4, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
-                bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
+                if (USE_SATA_BREAKOUT_CARD)
+                {
+                    /* Use for SATA breakout card */
+                    bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_SATA_4X1, 6000, 0);
+                    bdk_qlm_set_mode(n, 7, BDK_QLM_MODE_SATA_4X1, 6000, 0);
+                }
+                else
+                {
+                    /* Use for PCIe x8 */
+                    bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
+                }
             }
             else
             {
@@ -607,24 +620,7 @@ int main(void)
                 if (bdk_qlm_get(n, BDK_IF_PCIE, p) != -1)
                 {
                     BDK_TRACE(BOOT_STUB, "Initializing PCIe%d on Node %d\n", p, n);
-                    if (bdk_pcie_rc_initialize(n, p))
-                    {
-                        /* PCIe init failed. As a special case, the CRB-2S can
-                           have a SATA breakout adapter in the PCIe x8 slot. If
-                           init failed, assume this SATA adapter is there */
-                        if ((n == BDK_NODE_0) && (p == 4))
-                        {
-                            bdk_pcie_rc_shutdown(n, p);
-                            bdk_wait_usec(1000);
-                            /* Disable the QLMs before we change their mode */
-                            bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_DISABLED, 0, 0);
-                            bdk_qlm_set_mode(n, 7, BDK_QLM_MODE_DISABLED, 0, 0);
-                            bdk_wait_usec(1000);
-                            /* Change the QLMs to SATA */
-                            bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_SATA_4X1, 6000, 0);
-                            bdk_qlm_set_mode(n, 7, BDK_QLM_MODE_SATA_4X1, 6000, 0);
-                        }
-                    }
+                    bdk_pcie_rc_initialize(n, p);
                 }
             }
         }
