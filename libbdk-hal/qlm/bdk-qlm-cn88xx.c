@@ -496,6 +496,7 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 
     /* 3. Configure the QLM for SATA mode: set GSER(0..13)_CFG[SATA] = 1. */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(qlm),
+        c.u = 0;
         c.s.sata = 1);
 
     /* 4. Take the PHY out of reset: write GSER(0..13)_PHY_CTL[PHY_RESET] = 0. */
