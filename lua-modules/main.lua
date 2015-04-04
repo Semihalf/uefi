@@ -72,7 +72,10 @@ m:item("usb",   "USB options",              menu.dofile, "usb_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 m:item("tg",    "Traffic Generator",        do_trafficgen)
 m:item("burn",  "Burn power",               do_burn)
-m:item("throt", "Set power throttle level", do_throttle)
+-- Disable due to errata DAP-24000
+if not cavium.is_model(cavium.CN88XXP1) then
+    m:item("throt", "Set power throttle level", do_throttle)
+end
 m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_chip, cavium.MASTER_NODE)
 if cavium.global then
     m:item("quit", "Exit menu")
