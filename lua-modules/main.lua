@@ -41,7 +41,19 @@ end
 
 local function do_throttle()
     local throttle = menu.prompt_number("Throttle level", 0xcc, 0, 0xff)
-    cavium.c.bdk_power_throttle(menu.node, throttle)
+    local node = cavium.MASTER_NODE
+    if cavium.c.bdk_numa_is_only_one() == 0 then
+        node = menu.prompt_number("Node to use", menu.node, 0, 3)
+    end
+    cavium.c.bdk_power_throttle(node, throttle)
+end
+
+local function do_burn()
+    local node = cavium.MASTER_NODE
+    if cavium.c.bdk_numa_is_only_one() == 0 then
+        node = menu.prompt_number("Node to use", menu.node, 0, 3)
+    end
+    cavium.c.bdk_power_burn(node)
 end
 
 local m = menu.new("Main Menu")
@@ -59,7 +71,7 @@ m:item("gpio",  "GPIO options",             menu.dofile, "gpio_menu")
 m:item("usb",   "USB options",              menu.dofile, "usb_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 m:item("tg",    "Traffic Generator",        do_trafficgen)
-m:item("burn",  "Burn power",               cavium.c.bdk_power_burn, menu.node)
+m:item("burn",  "Burn power",               do_burn)
 m:item("throt", "Set power throttle level", do_throttle)
 m:item("rbt",   "Reboot",                   cavium.c.bdk_reset_chip, cavium.MASTER_NODE)
 if cavium.global then
