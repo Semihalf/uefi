@@ -2380,6 +2380,7 @@ typedef union bdk_cimx_ich_lrx_el2 {
 
                                                                  When VARE is zero, software must ensure the correct Source CPU ID is provided in
                                                                  bits [12:10].
+                                                                 VARE not used on chip pass \>= 2.0
 
                                                                  Software must ensure there is only a single valid entry for a given Virtual ID.
 

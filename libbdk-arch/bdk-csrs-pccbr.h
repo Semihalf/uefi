@@ -159,7 +159,7 @@ typedef union bdk_pccbr_xxx_cap_ptr {
 	struct bdk_pccbr_xxx_cap_ptr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
-		uint32_t cp                          : 8;  /**< RO - First capability pointer. Points to PCCBR_E_CAP_HDR. */
+		uint32_t cp                          : 8;  /**< RO - First capability pointer. Points to PCCBR_XXX_E_CAP_HDR. */
 #else
 		uint32_t cp                          : 8;
 		uint32_t reserved_8_31               : 24;
@@ -314,7 +314,7 @@ typedef union bdk_pccbr_xxx_e_cap_hdr {
 		uint32_t reserved_24_31              : 8;
 		uint32_t porttype                    : 4;  /**< RO - Indicates a root port of a PCIe root complex. */
 		uint32_t pciecv                      : 4;  /**< RO - PCIe capability version. */
-		uint32_t ncp                         : 8;  /**< RO - First capability pointer. No additional PCI capabilities. */
+		uint32_t ncp                         : 8;  /**< RO - Next capability pointer. No additional PCI capabilities. */
 		uint32_t pcieid                      : 8;  /**< RO - PCIe capability ID. */
 #else
 		uint32_t pcieid                      : 8;

@@ -256,7 +256,7 @@ typedef union bdk_pccvf_xxx_msix_cap_hdr {
 		uint32_t reserved_27_29              : 3;
 		uint32_t msixts                      : 11; /**< RO - MSI-X table size encoded as (table size - 1). INTERNAL: From PCC's MSIX_VF_VECS parameter. */
 		uint32_t ncp                         : 8;  /**< RO - Next capability pointer. */
-		uint32_t msixcid                     : 8;  /**< RO - MSI-X Capability ID. */
+		uint32_t msixcid                     : 8;  /**< RO - MSI-X capability ID. */
 #else
 		uint32_t msixcid                     : 8;
 		uint32_t ncp                         : 8;

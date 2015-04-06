@@ -2862,44 +2862,6 @@ static inline uint64_t BDK_OCX_TLKX_BIST_STATUS(unsigned long param1)
 
 
 /**
- * RSL - ocx_tlk#_byp_ctl
- *
- * This register is for diagnostic use.  Added in pass 2.
- *
- */
-typedef union bdk_ocx_tlkx_byp_ctl {
-	uint64_t u;
-	struct bdk_ocx_tlkx_byp_ctl_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_12_63              : 52;
-		uint64_t vc_dis                      : 11; /**< R/W - VC bypass disable.  When set, the corresponding VC is restricted from using
-                                                                 the low latency TX FIFO bypass logic.  This logic is typically disabled for
-                                                                 VC0 only.  For diagnostic use only. */
-		uint64_t reserved_0_0                : 1;
-#else
-		uint64_t reserved_0_0                : 1;
-		uint64_t vc_dis                      : 11;
-		uint64_t reserved_12_63              : 52;
-#endif
-	} s;
-	/* struct bdk_ocx_tlkx_byp_ctl_s      cn88xx; */
-} bdk_ocx_tlkx_byp_ctl_t;
-
-static inline uint64_t BDK_OCX_TLKX_BYP_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_OCX_TLKX_BYP_CTL(unsigned long param1)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 2)))
-		return 0x000087E011010030ull + (param1 & 3) * 0x2000ull;
-	else 		csr_fatal("BDK_OCX_TLKX_BYP_CTL", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_OCX_TLKX_BYP_CTL(...) bdk_ocx_tlkx_byp_ctl_t
-#define bustype_BDK_OCX_TLKX_BYP_CTL(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_OCX_TLKX_BYP_CTL(p1) (p1)
-#define arguments_BDK_OCX_TLKX_BYP_CTL(p1) (p1),-1,-1,-1
-#define basename_BDK_OCX_TLKX_BYP_CTL(...) "OCX_TLKX_BYP_CTL"
-
-
-/**
  * RSL - ocx_tlk#_ecc_ctl
  */
 typedef union bdk_ocx_tlkx_ecc_ctl {
@@ -3457,9 +3419,10 @@ typedef union bdk_ocx_tlkx_stat_matchx {
 		uint64_t reserved_9_15               : 7;
 		uint64_t cmd                         : 5;  /**< R/W - These bits are compared against the command for each packet sent over the link. If both
                                                                  the unmasked VC and CMD bits match then OCX_TLK(0..2)_STAT_MAT(0..3)_CNT is incremented. */
-		uint64_t vc                          : 4;  /**< R/W - These bits are compared against the link VC number for each packet sent over the link. If
-                                                                 both the unmasked VC and CMD bits match, then OCX_TLK(0..2)_STAT_MAT(0..3)_CNT is
-                                                                 incremented. */
+		uint64_t vc                          : 4;  /**< R/W - These bits are compared against the link VC number for each packet sent over the link.
+                                                                 If both the unmasked VC and CMD bits match, then OCX_TLK(0..2)_STAT_MAT(0..3)_CNT is
+                                                                 incremented.  Only memory and I/O traffic are monitored.  Matches are limited to
+                                                                 VC0 thru VC11. */
 #else
 		uint64_t vc                          : 4;
 		uint64_t cmd                         : 5;

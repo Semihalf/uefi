@@ -1073,50 +1073,6 @@ static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long param1)
 
 
 /**
- * NCB - sli#_sctl
- *
- * Added in pass 2.
- *
- */
-typedef union bdk_slix_sctl {
-	uint64_t u;
-	struct bdk_slix_sctl_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_1_63               : 63;
-		uint64_t scen                        : 1;  /**< SR/W - Allow SLI window transactions to request secure-world accesses.
-
-                                                                 0 = SLI()_WIN_RD_ADDR[RD_SEC], SLI()_WIN_WR_ADDR[WR_SEC] are ignored and treated
-                                                                 as if zero. Window transactions onto NCB are non-secure, though the SMMU may
-                                                                 later promote them to secure.
-
-                                                                 1 = SLI()_WIN_RD_ADDR[RD_SEC], SLI()_WIN_WR_ADDR[WR_SEC] are honored. Window
-                                                                 transactions may request non-secure or secure world. This bit should not be set
-                                                                 in trusted-mode.
-
-                                                                 Resets to 0 when in trusted-mode (RST_BOOT[TRUSTED_MODE]), else resets to 1. */
-#else
-		uint64_t scen                        : 1;
-		uint64_t reserved_1_63               : 63;
-#endif
-	} s;
-	/* struct bdk_slix_sctl_s             cn88xx; */
-} bdk_slix_sctl_t;
-
-static inline uint64_t BDK_SLIX_SCTL(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SLIX_SCTL(unsigned long param1)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
-		return 0x0000874001002010ull + (param1 & 1) * 0x1000000000ull;
-	else 		csr_fatal("BDK_SLIX_SCTL", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_SLIX_SCTL(...) bdk_slix_sctl_t
-#define bustype_BDK_SLIX_SCTL(...) BDK_CSR_TYPE_NCB
-#define busnum_BDK_SLIX_SCTL(p1) (p1)
-#define arguments_BDK_SLIX_SCTL(p1) (p1),-1,-1,-1
-#define basename_BDK_SLIX_SCTL(...) "SLIX_SCTL"
-
-
-/**
  * PEXP - sli#_win_rd_addr
  *
  * This register contains the address to be read when SLI()_WIN_RD_DATA is read.
@@ -1127,14 +1083,7 @@ typedef union bdk_slix_win_rd_addr {
 	uint64_t u;
 	struct bdk_slix_win_rd_addr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t secen                       : 1;  /**< R/W - Changed in pass 2.
-                                                                 This request is a secure-world transaction. This is intended to be set only for
-                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
-                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
-
-                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
-                                                                 onto the NCB, though the SMMU may later promote them to secure. */
-		uint64_t reserved_51_62              : 12;
+		uint64_t reserved_51_63              : 13;
 		uint64_t ld_cmd                      : 2;  /**< R/W - The load command size.
                                                                  0x3 = Load 8 bytes.
                                                                  0x2 = Load 4 bytes.
@@ -1144,26 +1093,11 @@ typedef union bdk_slix_win_rd_addr {
 #else
 		uint64_t rd_addr                     : 49;
 		uint64_t ld_cmd                      : 2;
-		uint64_t reserved_51_62              : 12;
-		uint64_t secen                       : 1;
+		uint64_t reserved_51_63              : 13;
 #endif
 	} s;
 	/* struct bdk_slix_win_rd_addr_s      cn88xx; */
-	struct bdk_slix_win_rd_addr_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_51_63              : 13;
-		uint64_t ld_cmd                      : 2;  /**< R/W - The load command size.
-                                                                 0x3 = Load 8 bytes.
-                                                                 0x2 = Load 4 bytes.
-                                                                 0x1 = Load 2 bytes.
-                                                                 0x0 = Load 1 bytes. */
-		uint64_t rd_addr                     : 49; /**< R/W - The address sent to the NCB for this load request. */
-#else
-		uint64_t rd_addr                     : 49;
-		uint64_t ld_cmd                      : 2;
-		uint64_t reserved_51_63              : 13;
-#endif
-	} cn88xxp1;
+	/* struct bdk_slix_win_rd_addr_s      cn88xxp1; */
 } bdk_slix_win_rd_addr_t;
 
 static inline uint64_t BDK_SLIX_WIN_RD_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1224,35 +1158,17 @@ typedef union bdk_slix_win_wr_addr {
 	uint64_t u;
 	struct bdk_slix_win_wr_addr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t secen                       : 1;  /**< R/W - Changed in pass 2.
-                                                                 This request is a secure-world transaction. This is intended to be set only for
-                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
-                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
-
-                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
-                                                                 onto the NCB, though the SMMU may later promote them to secure. */
-		uint64_t reserved_49_62              : 14;
+		uint64_t reserved_49_63              : 15;
 		uint64_t wr_addr                     : 46; /**< R/W - The address sent to the NCB for this store request. */
 		uint64_t reserved_0_2                : 3;
 #else
 		uint64_t reserved_0_2                : 3;
 		uint64_t wr_addr                     : 46;
-		uint64_t reserved_49_62              : 14;
-		uint64_t secen                       : 1;
+		uint64_t reserved_49_63              : 15;
 #endif
 	} s;
 	/* struct bdk_slix_win_wr_addr_s      cn88xx; */
-	struct bdk_slix_win_wr_addr_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_49_63              : 15;
-		uint64_t wr_addr                     : 46; /**< R/W - The address sent to the NCB for this store request. */
-		uint64_t reserved_0_2                : 3;
-#else
-		uint64_t reserved_0_2                : 3;
-		uint64_t wr_addr                     : 46;
-		uint64_t reserved_49_63              : 15;
-#endif
-	} cn88xxp1;
+	/* struct bdk_slix_win_wr_addr_s      cn88xxp1; */
 } bdk_slix_win_wr_addr_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));

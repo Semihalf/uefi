@@ -1233,7 +1233,8 @@ typedef union bdk_tns_sde_hdbf_flst_dbg {
 	struct bdk_tns_sde_hdbf_flst_dbg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_18_31              : 14;
-		uint32_t field                       : 18; /**< R/W/H - -- */
+		uint32_t field                       : 18; /**< R/W/H - Freelist field debug access. TND_SDE_HDBF_GEN.channel_enable must be set before
+                                                                 any read/write access is attempted. */
 #else
 		uint32_t field                       : 18;
 		uint32_t reserved_18_31              : 14;

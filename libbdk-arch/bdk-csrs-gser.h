@@ -2307,13 +2307,9 @@ typedef union bdk_gserx_lanex_rx_misc_ovrrd {
 		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;  /**< R/W - When asserted, pcs_sds_rx_err_det_ctrl is set
                                                                  to cfg_rx_errdet_ctrl in registers
                                                                  GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
-		uint64_t reserved_1_3                : 3;
-		uint64_t cfg_rxeq_eval_restore_en    : 1;  /**< R/W - When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
-                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
-                                                                 Added in pass 2. */
+		uint64_t reserved_0_3                : 4;
 #else
-		uint64_t cfg_rxeq_eval_restore_en    : 1;
-		uint64_t reserved_1_3                : 3;
+		uint64_t reserved_0_3                : 4;
 		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;
 		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;
 		uint64_t reserved_6_6                : 1;
@@ -2349,13 +2345,9 @@ typedef union bdk_gserx_lanex_rx_misc_ovrrd {
 		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;  /**< R/W - When asserted, pcs_sds_rx_err_det_ctrl is set
                                                                  to cfg_rx_errdet_ctrl in registers
                                                                  GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
-		uint64_t reserved_3_1                : 3;
-		uint64_t cfg_rxeq_eval_restore_en    : 1;  /**< R/W - When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
-                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
-                                                                 Added in pass 2. */
+		uint64_t reserved_3_0                : 4;
 #else
-		uint64_t cfg_rxeq_eval_restore_en    : 1;
-		uint64_t reserved_3_1                : 3;
+		uint64_t reserved_3_0                : 4;
 		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;
 		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;
 		uint64_t reserved_6_6                : 1;
@@ -2369,44 +2361,7 @@ typedef union bdk_gserx_lanex_rx_misc_ovrrd {
 		uint64_t reserved_14_63              : 50;
 #endif
 	} cn88xx;
-	struct bdk_gserx_lanex_rx_misc_ovrrd_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_14_63              : 50;
-		uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;  /**< R/W - Override value for RX OOB Clock Enable. */
-		uint64_t cfg_rx_oob_clk_en_ovrrd_en  : 1;  /**< R/W - Override enable for RX OOB Clock Enable. */
-		uint64_t cfg_rx_eie_det_ovrrd_val    : 1;  /**< R/W - Override value for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-		uint64_t cfg_rx_eie_det_ovrrd_en     : 1;  /**< R/W - Override enable for RX Electrical-Idle-Exit
-                                                                 Detect Enable. */
-		uint64_t cfg_rx_cdr_ctrl_ovvrd_en    : 1;  /**< R/W - Not supported. */
-		uint64_t cfg_rx_eq_eval_ovrrd_val    : 1;  /**< R/W - Training mode control in override mode. */
-		uint64_t cfg_rx_eq_eval_ovrrd_en     : 1;  /**< R/W - Override enable for RX-EQ Eval
-                                                                 When asserted, training mode is controlled by
-                                                                 CFG_RX_EQ_EVAL_OVRRD_VAL. */
-		uint64_t reserved_6_6                : 1;
-		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;  /**< R/W - When asserted, override DLL lock enable
-                                                                 signal from the RX Power State machine with
-                                                                 CFG_RX_DLL_LOCKEN in register
-                                                                 GSER()_LANE()_RX_CFG_1. */
-		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;  /**< R/W - When asserted, pcs_sds_rx_err_det_ctrl is set
-                                                                 to cfg_rx_errdet_ctrl in registers
-                                                                 GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
-		uint64_t reserved_3_0                : 4;
-#else
-		uint64_t reserved_3_0                : 4;
-		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;
-		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;
-		uint64_t reserved_6_6                : 1;
-		uint64_t cfg_rx_eq_eval_ovrrd_en     : 1;
-		uint64_t cfg_rx_eq_eval_ovrrd_val    : 1;
-		uint64_t cfg_rx_cdr_ctrl_ovvrd_en    : 1;
-		uint64_t cfg_rx_eie_det_ovrrd_en     : 1;
-		uint64_t cfg_rx_eie_det_ovrrd_val    : 1;
-		uint64_t cfg_rx_oob_clk_en_ovrrd_en  : 1;
-		uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;
-		uint64_t reserved_14_63              : 50;
-#endif
-	} cn88xxp1;
+	struct bdk_gserx_lanex_rx_misc_ovrrd_cn88xx cn88xxp1;
 } bdk_gserx_lanex_rx_misc_ovrrd_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_MISC_OVRRD(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));

@@ -60,74 +60,24 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
 
 
 /**
- * RSL - dap_eco
- *
- * Added in pass 2.
- *
- */
-typedef union bdk_dap_eco {
-	uint64_t u;
-	struct bdk_dap_eco_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_32_63              : 32;
-		uint64_t eco_ro                      : 16; /**< RO - Reserved for ECO usage. */
-		uint64_t eco_rw                      : 16; /**< R/W - Reserved for ECO usage. */
-#else
-		uint64_t eco_rw                      : 16;
-		uint64_t eco_ro                      : 16;
-		uint64_t reserved_32_63              : 32;
-#endif
-	} s;
-	/* struct bdk_dap_eco_s               cn88xx; */
-} bdk_dap_eco_t;
-
-#define BDK_DAP_ECO BDK_DAP_ECO_FUNC()
-static inline uint64_t BDK_DAP_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DAP_ECO_FUNC(void)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
-		return 0x000087E002000120ull;
-	else 		csr_fatal("BDK_DAP_ECO", 0, 0, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_DAP_ECO bdk_dap_eco_t
-#define bustype_BDK_DAP_ECO BDK_CSR_TYPE_RSL
-#define busnum_BDK_DAP_ECO 0
-#define arguments_BDK_DAP_ECO -1,-1,-1,-1
-#define basename_BDK_DAP_ECO "DAP_ECO"
-
-
-/**
  * RSL32b - dap_hwpoll_cnt
  */
 typedef union bdk_dap_hwpoll_cnt {
 	uint32_t u;
 	struct bdk_dap_hwpoll_cnt_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t poll_dis                    : 1;  /**< R/W - Disable hardware polling. For diagnostic use only. Added in pass 2. */
-		uint32_t reserved_16_30              : 15;
+		uint32_t reserved_16_31              : 16;
 		uint32_t count                       : 16; /**< R/W - Number of coprocessor-clocks between DAP bus poll intervals.
                                                                  With the approximate transaction delay of 256 cycles, the default
                                                                  results in a poll approximately every 2048 cycles.
                                                                  Must not be zero. For diagnostic use only. */
 #else
 		uint32_t count                       : 16;
-		uint32_t reserved_16_30              : 15;
-		uint32_t poll_dis                    : 1;
+		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
 	/* struct bdk_dap_hwpoll_cnt_s        cn88xx; */
-	struct bdk_dap_hwpoll_cnt_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_16_31              : 16;
-		uint32_t count                       : 16; /**< R/W - Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-#else
-		uint32_t count                       : 16;
-		uint32_t reserved_16_31              : 16;
-#endif
-	} cn88xxp1;
+	/* struct bdk_dap_hwpoll_cnt_s        cn88xxp1; */
 } bdk_dap_hwpoll_cnt_t;
 
 #define BDK_DAP_HWPOLL_CNT BDK_DAP_HWPOLL_CNT_FUNC()
@@ -223,27 +173,16 @@ typedef union bdk_dap_owb_to {
 	uint32_t u;
 	struct bdk_dap_owb_to_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t to_dis                      : 1;  /**< R/W - Disable timeout mechanism. Added in pass 2. */
-		uint32_t reserved_16_30              : 15;
+		uint32_t reserved_16_31              : 16;
 		uint32_t tovalue                     : 16; /**< R/W - Timeout value. If an OWB transaction is longer than this number
                                                                  of coprocessor-clock cycles, it will timeout. */
 #else
 		uint32_t tovalue                     : 16;
-		uint32_t reserved_16_30              : 15;
-		uint32_t to_dis                      : 1;
+		uint32_t reserved_16_31              : 16;
 #endif
 	} s;
 	/* struct bdk_dap_owb_to_s            cn88xx; */
-	struct bdk_dap_owb_to_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_16_31              : 16;
-		uint32_t tovalue                     : 16; /**< R/W - Timeout value. If an OWB transaction is longer than this number
-                                                                 of coprocessor-clock cycles, it will timeout. */
-#else
-		uint32_t tovalue                     : 16;
-		uint32_t reserved_16_31              : 16;
-#endif
-	} cn88xxp1;
+	/* struct bdk_dap_owb_to_s            cn88xxp1; */
 } bdk_dap_owb_to_t;
 
 #define BDK_DAP_OWB_TO BDK_DAP_OWB_TO_FUNC()
@@ -257,39 +196,6 @@ static inline uint64_t BDK_DAP_OWB_TO_FUNC(void)
 #define busnum_BDK_DAP_OWB_TO 0
 #define arguments_BDK_DAP_OWB_TO -1,-1,-1,-1
 #define basename_BDK_DAP_OWB_TO "DAP_OWB_TO"
-
-
-/**
- * RSL - dap_scratch
- *
- * This register is a scratch register for software use. Added in pass 2.
- *
- */
-typedef union bdk_dap_scratch {
-	uint64_t u;
-	struct bdk_dap_scratch_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t data                        : 64; /**< R/W - Scratch data, not used by hardware. */
-#else
-		uint64_t data                        : 64;
-#endif
-	} s;
-	/* struct bdk_dap_scratch_s           cn88xx; */
-} bdk_dap_scratch_t;
-
-#define BDK_DAP_SCRATCH BDK_DAP_SCRATCH_FUNC()
-static inline uint64_t BDK_DAP_SCRATCH_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DAP_SCRATCH_FUNC(void)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
-		return 0x000087E002000118ull;
-	else 		csr_fatal("BDK_DAP_SCRATCH", 0, 0, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_DAP_SCRATCH bdk_dap_scratch_t
-#define bustype_BDK_DAP_SCRATCH BDK_CSR_TYPE_RSL
-#define busnum_BDK_DAP_SCRATCH 0
-#define arguments_BDK_DAP_SCRATCH -1,-1,-1,-1
-#define basename_BDK_DAP_SCRATCH "DAP_SCRATCH"
 
 
 /**

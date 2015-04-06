@@ -1393,41 +1393,6 @@ static inline uint64_t BDK_ZIP_ECCE_INT_W1S_FUNC(void)
 
 
 /**
- * NCB - zip_eco
- *
- * Added in pass 2.
- *
- */
-typedef union bdk_zip_eco {
-	uint64_t u;
-	struct bdk_zip_eco_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_32_63              : 32;
-		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
-#else
-		uint64_t eco_rw                      : 32;
-		uint64_t reserved_32_63              : 32;
-#endif
-	} s;
-	/* struct bdk_zip_eco_s               cn88xx; */
-} bdk_zip_eco_t;
-
-#define BDK_ZIP_ECO BDK_ZIP_ECO_FUNC()
-static inline uint64_t BDK_ZIP_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_ZIP_ECO_FUNC(void)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
-		return 0x00008380000005F0ull;
-	else 		csr_fatal("BDK_ZIP_ECO", 0, 0, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_ZIP_ECO bdk_zip_eco_t
-#define bustype_BDK_ZIP_ECO BDK_CSR_TYPE_NCB
-#define busnum_BDK_ZIP_ECO 0
-#define arguments_BDK_ZIP_ECO -1,-1,-1,-1
-#define basename_BDK_ZIP_ECO "ZIP_ECO"
-
-
-/**
  * NCB - zip_fife_ena_w1c
  */
 typedef union bdk_zip_fife_ena_w1c {
@@ -1682,7 +1647,7 @@ typedef union bdk_zip_quex_done {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_20_63              : 44;
 		uint64_t done                        : 20; /**< R/W/H - Done count. When ZIP_INST_S[DONEINT] set and that instruction completes,
-                                                                 ZIP_QUE()_DONE[DONE] is incremented when the instruction finisihes. Write to this
+                                                                 ZIP_QUE()_DONE[DONE] is incremented when the instruction finishes. Write to this
                                                                  field are for diagnostic use only; instead software writes ZIP_QUE()_DONE_ACK[DONE]
                                                                  with the number of decrements for this field.
 

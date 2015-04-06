@@ -13,7 +13,7 @@ generate:
 	mkdir html output
 	./csr-tool.py --html \
 	    --csr cn88xxp1,cn88xx,t88=1.0 \
-	    --csr cn88xx,cn88xx,t88=2.0
+	    --csr cn88xx,cn88xx,t88=1.1
 
 .PHONY: copy-headers
 copy-headers:

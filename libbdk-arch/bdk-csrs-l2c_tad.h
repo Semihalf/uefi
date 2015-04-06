@@ -203,8 +203,7 @@ typedef union bdk_l2c_tadx_int_ena_w1c {
                                                                  See L2C_TAD()_ERR for logged information. */
 		uint64_t rtgdbe                      : 1;  /**< R/W1C/H - RTG double-bit error. */
 		uint64_t rtgsbe                      : 1;  /**< R/W1C/H - RTG single-bit error. */
-		uint64_t reserved_19_31              : 13;
-		uint64_t gsyncto                     : 1;  /**< R/W1C/H - Global sync OCI timeout. Added in pass 2. */
+		uint64_t reserved_18_31              : 14;
 		uint64_t lfbto                       : 1;  /**< R/W1C/H - An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
                                                                  occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
                                                                  first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
@@ -263,8 +262,7 @@ typedef union bdk_l2c_tadx_int_ena_w1c {
 		uint64_t rddislmc                    : 1;
 		uint64_t wrdislmc                    : 1;
 		uint64_t lfbto                       : 1;
-		uint64_t gsyncto                     : 1;
-		uint64_t reserved_19_31              : 13;
+		uint64_t reserved_18_31              : 14;
 		uint64_t rtgsbe                      : 1;
 		uint64_t rtgdbe                      : 1;
 		uint64_t rddisoci                    : 1;
@@ -273,84 +271,7 @@ typedef union bdk_l2c_tadx_int_ena_w1c {
 #endif
 	} s;
 	/* struct bdk_l2c_tadx_int_ena_w1c_s  cn88xx; */
-	struct bdk_l2c_tadx_int_ena_w1c_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_36_63              : 28;
-		uint64_t wrdisoci                    : 1;  /**< R/W1C/H - Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information. */
-		uint64_t rddisoci                    : 1;  /**< R/W1C/H - Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
-		uint64_t rtgdbe                      : 1;  /**< R/W1C/H - RTG double-bit error. */
-		uint64_t rtgsbe                      : 1;  /**< R/W1C/H - RTG single-bit error. */
-		uint64_t reserved_18_31              : 14;
-		uint64_t lfbto                       : 1;  /**< R/W1C/H - An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
-		uint64_t wrdislmc                    : 1;  /**< R/W1C/H - Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
-		uint64_t rddislmc                    : 1;  /**< R/W1C/H - Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
-		uint64_t rdnxm                       : 1;  /**< R/W1C/H - Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
-                                                                 allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information.
-                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
-                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
-		uint64_t wrnxm                       : 1;  /**< R/W1C/H - Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
-                                                                 See L2C_TAD()_ERR for logged information.
-                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
-                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
-		uint64_t reserved_11_12              : 2;
-		uint64_t noway                       : 1;  /**< R/W1C/H - No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
-		uint64_t tagdbe                      : 1;  /**< R/W1C/H - TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
-		uint64_t tagsbe                      : 1;  /**< R/W1C/H - TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
-		uint64_t reserved_6_7                : 2;
-		uint64_t fbfdbe                      : 1;  /**< R/W1C/H - FBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t fbfsbe                      : 1;  /**< R/W1C/H - FBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t sbfdbe                      : 1;  /**< R/W1C/H - SBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t sbfsbe                      : 1;  /**< R/W1C/H - SBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t l2ddbe                      : 1;  /**< R/W1C/H - L2D double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t l2dsbe                      : 1;  /**< R/W1C/H - L2D single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-#else
-		uint64_t l2dsbe                      : 1;
-		uint64_t l2ddbe                      : 1;
-		uint64_t sbfsbe                      : 1;
-		uint64_t sbfdbe                      : 1;
-		uint64_t fbfsbe                      : 1;
-		uint64_t fbfdbe                      : 1;
-		uint64_t reserved_6_7                : 2;
-		uint64_t tagsbe                      : 1;
-		uint64_t tagdbe                      : 1;
-		uint64_t noway                       : 1;
-		uint64_t reserved_11_12              : 2;
-		uint64_t wrnxm                       : 1;
-		uint64_t rdnxm                       : 1;
-		uint64_t rddislmc                    : 1;
-		uint64_t wrdislmc                    : 1;
-		uint64_t lfbto                       : 1;
-		uint64_t reserved_18_31              : 14;
-		uint64_t rtgsbe                      : 1;
-		uint64_t rtgdbe                      : 1;
-		uint64_t rddisoci                    : 1;
-		uint64_t wrdisoci                    : 1;
-		uint64_t reserved_36_63              : 28;
-#endif
-	} cn88xxp1;
+	/* struct bdk_l2c_tadx_int_ena_w1c_s  cn88xxp1; */
 } bdk_l2c_tadx_int_ena_w1c_t;
 
 static inline uint64_t BDK_L2C_TADX_INT_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -383,8 +304,7 @@ typedef union bdk_l2c_tadx_int_ena_w1s {
                                                                  See L2C_TAD()_ERR for logged information. */
 		uint64_t rtgdbe                      : 1;  /**< R/W1C/H - RTG double-bit error. */
 		uint64_t rtgsbe                      : 1;  /**< R/W1C/H - RTG single-bit error. */
-		uint64_t reserved_19_31              : 13;
-		uint64_t gsyncto                     : 1;  /**< R/W1C/H - Global sync OCI timeout. Added in pass 2. */
+		uint64_t reserved_18_31              : 14;
 		uint64_t lfbto                       : 1;  /**< R/W1C/H - An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
                                                                  occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
                                                                  first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
@@ -443,8 +363,7 @@ typedef union bdk_l2c_tadx_int_ena_w1s {
 		uint64_t rddislmc                    : 1;
 		uint64_t wrdislmc                    : 1;
 		uint64_t lfbto                       : 1;
-		uint64_t gsyncto                     : 1;
-		uint64_t reserved_19_31              : 13;
+		uint64_t reserved_18_31              : 14;
 		uint64_t rtgsbe                      : 1;
 		uint64_t rtgdbe                      : 1;
 		uint64_t rddisoci                    : 1;
@@ -453,84 +372,7 @@ typedef union bdk_l2c_tadx_int_ena_w1s {
 #endif
 	} s;
 	/* struct bdk_l2c_tadx_int_ena_w1s_s  cn88xx; */
-	struct bdk_l2c_tadx_int_ena_w1s_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_36_63              : 28;
-		uint64_t wrdisoci                    : 1;  /**< R/W1C/H - Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information. */
-		uint64_t rddisoci                    : 1;  /**< R/W1C/H - Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
-		uint64_t rtgdbe                      : 1;  /**< R/W1C/H - RTG double-bit error. */
-		uint64_t rtgsbe                      : 1;  /**< R/W1C/H - RTG single-bit error. */
-		uint64_t reserved_18_31              : 14;
-		uint64_t lfbto                       : 1;  /**< R/W1C/H - An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
-		uint64_t wrdislmc                    : 1;  /**< R/W1C/H - Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
-		uint64_t rddislmc                    : 1;  /**< R/W1C/H - Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
-		uint64_t rdnxm                       : 1;  /**< R/W1C/H - Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
-                                                                 allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information.
-                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
-                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
-		uint64_t wrnxm                       : 1;  /**< R/W1C/H - Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
-                                                                 See L2C_TAD()_ERR for logged information.
-                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
-                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
-		uint64_t reserved_11_12              : 2;
-		uint64_t noway                       : 1;  /**< R/W1C/H - No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
-		uint64_t tagdbe                      : 1;  /**< R/W1C/H - TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
-		uint64_t tagsbe                      : 1;  /**< R/W1C/H - TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
-		uint64_t reserved_6_7                : 2;
-		uint64_t fbfdbe                      : 1;  /**< R/W1C/H - FBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t fbfsbe                      : 1;  /**< R/W1C/H - FBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t sbfdbe                      : 1;  /**< R/W1C/H - SBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t sbfsbe                      : 1;  /**< R/W1C/H - SBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t l2ddbe                      : 1;  /**< R/W1C/H - L2D double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t l2dsbe                      : 1;  /**< R/W1C/H - L2D single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-#else
-		uint64_t l2dsbe                      : 1;
-		uint64_t l2ddbe                      : 1;
-		uint64_t sbfsbe                      : 1;
-		uint64_t sbfdbe                      : 1;
-		uint64_t fbfsbe                      : 1;
-		uint64_t fbfdbe                      : 1;
-		uint64_t reserved_6_7                : 2;
-		uint64_t tagsbe                      : 1;
-		uint64_t tagdbe                      : 1;
-		uint64_t noway                       : 1;
-		uint64_t reserved_11_12              : 2;
-		uint64_t wrnxm                       : 1;
-		uint64_t rdnxm                       : 1;
-		uint64_t rddislmc                    : 1;
-		uint64_t wrdislmc                    : 1;
-		uint64_t lfbto                       : 1;
-		uint64_t reserved_18_31              : 14;
-		uint64_t rtgsbe                      : 1;
-		uint64_t rtgdbe                      : 1;
-		uint64_t rddisoci                    : 1;
-		uint64_t wrdisoci                    : 1;
-		uint64_t reserved_36_63              : 28;
-#endif
-	} cn88xxp1;
+	/* struct bdk_l2c_tadx_int_ena_w1s_s  cn88xxp1; */
 } bdk_l2c_tadx_int_ena_w1s_t;
 
 static inline uint64_t BDK_L2C_TADX_INT_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -566,8 +408,7 @@ typedef union bdk_l2c_tadx_int_w1c {
                                                                  See L2C_TAD()_ERR for logged information. */
 		uint64_t rtgdbe                      : 1;  /**< R/W1C/H - RTG double-bit error. */
 		uint64_t rtgsbe                      : 1;  /**< R/W1C/H - RTG single-bit error. */
-		uint64_t reserved_19_31              : 13;
-		uint64_t gsyncto                     : 1;  /**< R/W1C/H - Global sync OCI timeout. Added in pass 2. */
+		uint64_t reserved_18_31              : 14;
 		uint64_t lfbto                       : 1;  /**< R/W1C/H - An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
                                                                  occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
                                                                  first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
@@ -626,8 +467,7 @@ typedef union bdk_l2c_tadx_int_w1c {
 		uint64_t rddislmc                    : 1;
 		uint64_t wrdislmc                    : 1;
 		uint64_t lfbto                       : 1;
-		uint64_t gsyncto                     : 1;
-		uint64_t reserved_19_31              : 13;
+		uint64_t reserved_18_31              : 14;
 		uint64_t rtgsbe                      : 1;
 		uint64_t rtgdbe                      : 1;
 		uint64_t rddisoci                    : 1;
@@ -636,84 +476,7 @@ typedef union bdk_l2c_tadx_int_w1c {
 #endif
 	} s;
 	/* struct bdk_l2c_tadx_int_w1c_s      cn88xx; */
-	struct bdk_l2c_tadx_int_w1c_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_36_63              : 28;
-		uint64_t wrdisoci                    : 1;  /**< R/W1C/H - Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information. */
-		uint64_t rddisoci                    : 1;  /**< R/W1C/H - Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
-		uint64_t rtgdbe                      : 1;  /**< R/W1C/H - RTG double-bit error. */
-		uint64_t rtgsbe                      : 1;  /**< R/W1C/H - RTG single-bit error. */
-		uint64_t reserved_18_31              : 14;
-		uint64_t lfbto                       : 1;  /**< R/W1C/H - An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
-		uint64_t wrdislmc                    : 1;  /**< R/W1C/H - Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
-		uint64_t rddislmc                    : 1;  /**< R/W1C/H - Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
-		uint64_t rdnxm                       : 1;  /**< R/W1C/H - Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
-                                                                 allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information.
-                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
-                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
-		uint64_t wrnxm                       : 1;  /**< R/W1C/H - Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
-                                                                 See L2C_TAD()_ERR for logged information.
-                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
-                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
-		uint64_t reserved_11_12              : 2;
-		uint64_t noway                       : 1;  /**< R/W1C/H - No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
-		uint64_t tagdbe                      : 1;  /**< R/W1C/H - TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
-		uint64_t tagsbe                      : 1;  /**< R/W1C/H - TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
-		uint64_t reserved_6_7                : 2;
-		uint64_t fbfdbe                      : 1;  /**< R/W1C/H - FBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t fbfsbe                      : 1;  /**< R/W1C/H - FBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t sbfdbe                      : 1;  /**< R/W1C/H - SBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t sbfsbe                      : 1;  /**< R/W1C/H - SBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t l2ddbe                      : 1;  /**< R/W1C/H - L2D double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t l2dsbe                      : 1;  /**< R/W1C/H - L2D single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-#else
-		uint64_t l2dsbe                      : 1;
-		uint64_t l2ddbe                      : 1;
-		uint64_t sbfsbe                      : 1;
-		uint64_t sbfdbe                      : 1;
-		uint64_t fbfsbe                      : 1;
-		uint64_t fbfdbe                      : 1;
-		uint64_t reserved_6_7                : 2;
-		uint64_t tagsbe                      : 1;
-		uint64_t tagdbe                      : 1;
-		uint64_t noway                       : 1;
-		uint64_t reserved_11_12              : 2;
-		uint64_t wrnxm                       : 1;
-		uint64_t rdnxm                       : 1;
-		uint64_t rddislmc                    : 1;
-		uint64_t wrdislmc                    : 1;
-		uint64_t lfbto                       : 1;
-		uint64_t reserved_18_31              : 14;
-		uint64_t rtgsbe                      : 1;
-		uint64_t rtgdbe                      : 1;
-		uint64_t rddisoci                    : 1;
-		uint64_t wrdisoci                    : 1;
-		uint64_t reserved_36_63              : 28;
-#endif
-	} cn88xxp1;
+	/* struct bdk_l2c_tadx_int_w1c_s      cn88xxp1; */
 } bdk_l2c_tadx_int_w1c_t;
 
 static inline uint64_t BDK_L2C_TADX_INT_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -746,8 +509,7 @@ typedef union bdk_l2c_tadx_int_w1s {
                                                                  See L2C_TAD()_ERR for logged information. */
 		uint64_t rtgdbe                      : 1;  /**< R/W1C/H - RTG double-bit error. */
 		uint64_t rtgsbe                      : 1;  /**< R/W1C/H - RTG single-bit error. */
-		uint64_t reserved_19_31              : 13;
-		uint64_t gsyncto                     : 1;  /**< R/W1C/H - Global sync OCI timeout. Added in pass 2. */
+		uint64_t reserved_18_31              : 14;
 		uint64_t lfbto                       : 1;  /**< R/W1C/H - An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
                                                                  occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
                                                                  first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
@@ -806,8 +568,7 @@ typedef union bdk_l2c_tadx_int_w1s {
 		uint64_t rddislmc                    : 1;
 		uint64_t wrdislmc                    : 1;
 		uint64_t lfbto                       : 1;
-		uint64_t gsyncto                     : 1;
-		uint64_t reserved_19_31              : 13;
+		uint64_t reserved_18_31              : 14;
 		uint64_t rtgsbe                      : 1;
 		uint64_t rtgdbe                      : 1;
 		uint64_t rddisoci                    : 1;
@@ -816,84 +577,7 @@ typedef union bdk_l2c_tadx_int_w1s {
 #endif
 	} s;
 	/* struct bdk_l2c_tadx_int_w1s_s      cn88xx; */
-	struct bdk_l2c_tadx_int_w1s_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_36_63              : 28;
-		uint64_t wrdisoci                    : 1;  /**< R/W1C/H - Illegal write operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. See
-                                                                 L2C_TAD()_ERR for for logged information. */
-		uint64_t rddisoci                    : 1;  /**< R/W1C/H - Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
-                                                                 RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
-                                                                 to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information. */
-		uint64_t rtgdbe                      : 1;  /**< R/W1C/H - RTG double-bit error. */
-		uint64_t rtgsbe                      : 1;  /**< R/W1C/H - RTG single-bit error. */
-		uint64_t reserved_18_31              : 14;
-		uint64_t lfbto                       : 1;  /**< R/W1C/H - An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
-                                                                 occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
-                                                                 first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
-                                                                 capture info from the lowest LFB number that timed out. */
-		uint64_t wrdislmc                    : 1;  /**< R/W1C/H - Illegal write to disabled LMC error. A DRAM write arrived before LMC was enabled. */
-		uint64_t rddislmc                    : 1;  /**< R/W1C/H - Illegal read to disabled LMC error. A DRAM read arrived before LMC was enabled. */
-		uint64_t rdnxm                       : 1;  /**< R/W1C/H - Read reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure read reference to an ASC region
-                                                                 not enabled for secure access, or non-secure read reference to an ASC
-                                                                 region not enabled for non-secure access.
-                                                                 RDNXM interrupts can occur during normal operation as the cores are
-                                                                 allowed to prefetch to nonexistent memory locations.  Therefore,
-                                                                 RDNXM is for informational purposes only.
-                                                                 See L2C_TAD()_ERR for logged information.
-                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
-                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
-		uint64_t wrnxm                       : 1;  /**< R/W1C/H - Write reference outside all the defined and enabled Address Space
-                                                                 Control (ASC) regions, or secure write reference to an ASC region
-                                                                 not enabled for secure access, or non-secure write reference to an
-                                                                 ASC region not enabled for non-secure access.
-                                                                 See L2C_TAD()_ERR for logged information.
-                                                                 See L2C_ASC_REGION()_START, L2C_ASC_REGION()_END, and
-                                                                 L2C_ASC_REGION()_ATTR for ASC region specification. */
-		uint64_t reserved_11_12              : 2;
-		uint64_t noway                       : 1;  /**< R/W1C/H - No way was available for allocation. L2C sets NOWAY during its processing of a transaction
-                                                                 whenever it needed/wanted to allocate a WAY in the L2 cache, but was unable to. When this
-                                                                 bit = 1, it is (generally) not an indication that L2C failed to complete transactions.
-                                                                 Rather, it is a hint of possible performance degradation. (For example, L2C must read-
-                                                                 modify-write DRAM for every transaction that updates some, but not all, of the bytes in a
-                                                                 cache block, misses in the L2 cache, and cannot allocate a WAY.) There is one 'failure'
-                                                                 case where L2C sets NOWAY: when it cannot leave a block locked in the L2 cache as part of
-                                                                 a LCKL2 transaction. See L2C_TTG()_ERR for logged information. */
-		uint64_t tagdbe                      : 1;  /**< R/W1C/H - TAG double-bit error occurred. See L2C_TTG()_ERR for logged information. */
-		uint64_t tagsbe                      : 1;  /**< R/W1C/H - TAG single-bit error occurred. See L2C_TTG()_ERR for logged information. */
-		uint64_t reserved_6_7                : 2;
-		uint64_t fbfdbe                      : 1;  /**< R/W1C/H - FBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t fbfsbe                      : 1;  /**< R/W1C/H - FBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t sbfdbe                      : 1;  /**< R/W1C/H - SBF double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t sbfsbe                      : 1;  /**< R/W1C/H - SBF single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t l2ddbe                      : 1;  /**< R/W1C/H - L2D double-bit error occurred. See L2C_TQD()_ERR for logged information. */
-		uint64_t l2dsbe                      : 1;  /**< R/W1C/H - L2D single-bit error occurred. See L2C_TQD()_ERR for logged information. */
-#else
-		uint64_t l2dsbe                      : 1;
-		uint64_t l2ddbe                      : 1;
-		uint64_t sbfsbe                      : 1;
-		uint64_t sbfdbe                      : 1;
-		uint64_t fbfsbe                      : 1;
-		uint64_t fbfdbe                      : 1;
-		uint64_t reserved_6_7                : 2;
-		uint64_t tagsbe                      : 1;
-		uint64_t tagdbe                      : 1;
-		uint64_t noway                       : 1;
-		uint64_t reserved_11_12              : 2;
-		uint64_t wrnxm                       : 1;
-		uint64_t rdnxm                       : 1;
-		uint64_t rddislmc                    : 1;
-		uint64_t wrdislmc                    : 1;
-		uint64_t lfbto                       : 1;
-		uint64_t reserved_18_31              : 14;
-		uint64_t rtgsbe                      : 1;
-		uint64_t rtgdbe                      : 1;
-		uint64_t rddisoci                    : 1;
-		uint64_t wrdisoci                    : 1;
-		uint64_t reserved_36_63              : 28;
-#endif
-	} cn88xxp1;
+	/* struct bdk_l2c_tadx_int_w1s_s      cn88xxp1; */
 } bdk_l2c_tadx_int_w1s_t;
 
 static inline uint64_t BDK_L2C_TADX_INT_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1100,56 +784,6 @@ static inline uint64_t BDK_L2C_TADX_PRF(unsigned long param1)
 #define busnum_BDK_L2C_TADX_PRF(p1) (p1)
 #define arguments_BDK_L2C_TADX_PRF(p1) (p1),-1,-1,-1
 #define basename_BDK_L2C_TADX_PRF(...) "L2C_TADX_PRF"
-
-
-/**
- * RSL - l2c_tad#_rtg_err
- *
- * This register records error information for all RTG SBE/DBE errors.
- * The priority of errors (lowest to highest) is SBE, DBE. An error locks the SYN, WAY,
- * and L2IDX fields for equal or lower priority errors until cleared by software.
- * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
- * L2IDX[19:7] is the L2 block index associated with the command which had no way to allocate.
- * Added in pass 2.
- */
-typedef union bdk_l2c_tadx_rtg_err {
-	uint64_t u;
-	struct bdk_l2c_tadx_rtg_err_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t rtgdbe                      : 1;  /**< RO/H - Information refers to a double-bit RTG ECC error. */
-		uint64_t rtgsbe                      : 1;  /**< RO/H - Information refers to a single-bit RTG ECC error. */
-		uint64_t reserved_39_61              : 23;
-		uint64_t syn                         : 7;  /**< RO/H - Syndrome for the single-bit error. */
-		uint64_t reserved_24_31              : 8;
-		uint64_t way                         : 4;  /**< RO/H - Way of the L2 block containing the error. */
-		uint64_t l2idx                       : 13; /**< RO/H - Index of the L2 block containing the error. */
-		uint64_t reserved_0_6                : 7;
-#else
-		uint64_t reserved_0_6                : 7;
-		uint64_t l2idx                       : 13;
-		uint64_t way                         : 4;
-		uint64_t reserved_24_31              : 8;
-		uint64_t syn                         : 7;
-		uint64_t reserved_39_61              : 23;
-		uint64_t rtgsbe                      : 1;
-		uint64_t rtgdbe                      : 1;
-#endif
-	} s;
-	/* struct bdk_l2c_tadx_rtg_err_s      cn88xx; */
-} bdk_l2c_tadx_rtg_err_t;
-
-static inline uint64_t BDK_L2C_TADX_RTG_ERR(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_RTG_ERR(unsigned long param1)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
-		return 0x000087E050060300ull + (param1 & 7) * 0x1000000ull;
-	else 		csr_fatal("BDK_L2C_TADX_RTG_ERR", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_L2C_TADX_RTG_ERR(...) bdk_l2c_tadx_rtg_err_t
-#define bustype_BDK_L2C_TADX_RTG_ERR(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_L2C_TADX_RTG_ERR(p1) (p1)
-#define arguments_BDK_L2C_TADX_RTG_ERR(p1) (p1),-1,-1,-1
-#define basename_BDK_L2C_TADX_RTG_ERR(...) "L2C_TADX_RTG_ERR"
 
 
 /**

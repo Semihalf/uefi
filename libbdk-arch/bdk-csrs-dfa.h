@@ -1319,7 +1319,7 @@ typedef union bdk_dfa_int_status {
                                                                  RWORD1+[NNPTR]=cna.nnptr[13:0] */
 		uint64_t reserved_20_31              : 12;
 		uint64_t done_cnt                    : 20; /**< R/W/H - Done count. When an instruction completes, DFA_INT_STATUS[DONE_CNT] is
-                                                                 incremented when the instruction finisihes. Write to this field are for
+                                                                 incremented when the instruction finishes. Write to this field are for
                                                                  diagnostic use only; instead software writes DFA_DONE_ACK[DONE] with the
                                                                  number of decrements for this field.
 

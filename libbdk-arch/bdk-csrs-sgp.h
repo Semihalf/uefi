@@ -166,7 +166,7 @@ typedef union bdk_sgp_cfg1 {
                                                                  0xF = 16/8 seconds. */
 		uint32_t force_off                   : 4;  /**< R/W - Force activity off time. The minimum amount of time to disable the activity indicator if
                                                                  it has been continually enabled for the [MAX_ON] time, and the SGP_TX(0..3)[*_ACT] is
-                                                                 0x8 or 0x9.
+                                                                 0x4 or 0x5.
                                                                  0x0 = No minimum.
                                                                  0x1 = 1/8 second.
                                                                  ...

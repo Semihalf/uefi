@@ -191,7 +191,7 @@ typedef union bdk_oclax_cdhx_ctl {
                                                                  mux selected by PLA1 and 0. The output is thus calculated from the equation:
                                                                    fsmcap0 = OCLA(0..4)_FSM(0)_STATE[state0][CAP].
                                                                    fsmcap1 = OCLA(0..4)_FSM(1)_STATE[state1][CAP].
-                                                                   out = (   (\<3\> & fsmcap0 & fsmcap0)
+                                                                   out = (   (\<3\> & fsmcap1 & fsmcap0)
 
                                                                  _        || (\<2\> & fsmcap1 & !fsmcap0)
 
@@ -201,10 +201,11 @@ typedef union bdk_oclax_cdhx_ctl {
 
                                                                  Common examples:
                                                                  0x0 = No capture.
-                                                                 0x2 = Capture when fsmcap0 requests capture.
-                                                                 0x4 = Capture when fsmcap1 requests capture.
-                                                                 0x6 = Capture on fsmcap0 | fsmcap1.
+                                                                 0xA = Capture when fsmcap0 requests capture.
+                                                                 0xC = Capture when fsmcap1 requests capture.
+                                                                 0x6 = Capture on fsmcap0 EXOR fsmcap1.
                                                                  0x8 = Capture on fsmcap0 & fsmcap1.
+                                                                 0xE = Capture on fsmcap0 | fsmcap1.
                                                                  0xF = Always capture. */
 #else
 		uint64_t cap_ctl                     : 4;
@@ -338,40 +339,6 @@ static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long param1)
 #define busnum_BDK_OCLAX_DAT_POP(p1) (p1)
 #define arguments_BDK_OCLAX_DAT_POP(p1) (p1),-1,-1,-1
 #define basename_BDK_OCLAX_DAT_POP(...) "OCLAX_DAT_POP"
-
-
-/**
- * RSL - ocla#_eco
- *
- * Added in pass 2.
- *
- */
-typedef union bdk_oclax_eco {
-	uint64_t u;
-	struct bdk_oclax_eco_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_32_63              : 32;
-		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
-#else
-		uint64_t eco_rw                      : 32;
-		uint64_t reserved_32_63              : 32;
-#endif
-	} s;
-	/* struct bdk_oclax_eco_s             cn88xx; */
-} bdk_oclax_eco_t;
-
-static inline uint64_t BDK_OCLAX_ECO(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_OCLAX_ECO(unsigned long param1)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 4)))
-		return 0x000087E0A83200D0ull + (param1 & 7) * 0x1000000ull;
-	else 		csr_fatal("BDK_OCLAX_ECO", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_OCLAX_ECO(...) bdk_oclax_eco_t
-#define bustype_BDK_OCLAX_ECO(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_OCLAX_ECO(p1) (p1)
-#define arguments_BDK_OCLAX_ECO(p1) (p1),-1,-1,-1
-#define basename_BDK_OCLAX_ECO(...) "OCLAX_ECO"
 
 
 /**
@@ -1569,15 +1536,6 @@ typedef union bdk_oclax_time {
 	uint64_t u;
 	struct bdk_oclax_time_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t cycle                       : 64; /**< R/W/H - Current time as free running counter. Loaded into captured control packets.
-                                                                 Unconditionally clocked, independent of OCLA()_SFT_RST. */
-#else
-		uint64_t cycle                       : 64;
-#endif
-	} s;
-	/* struct bdk_oclax_time_s            cn88xx; */
-	struct bdk_oclax_time_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t cycle                       : 32; /**< R/W/H - Current time as free running counter. Loaded into captured control packets.
                                                                  Unconditionally clocked, independent of OCLA()_SFT_RST. */
@@ -1585,7 +1543,9 @@ typedef union bdk_oclax_time {
 		uint64_t cycle                       : 32;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} cn88xxp1;
+	} s;
+	/* struct bdk_oclax_time_s            cn88xx; */
+	/* struct bdk_oclax_time_s            cn88xxp1; */
 } bdk_oclax_time_t;
 
 static inline uint64_t BDK_OCLAX_TIME(unsigned long param1) __attribute__ ((pure, always_inline));

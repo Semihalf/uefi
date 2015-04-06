@@ -185,40 +185,6 @@ static inline uint64_t BDK_VRMX_DEVICE_STATUS(unsigned long param1)
 
 
 /**
- * RSL - vrm#_eco
- *
- * Added in pass 2.
- *
- */
-typedef union bdk_vrmx_eco {
-	uint64_t u;
-	struct bdk_vrmx_eco_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_32_63              : 32;
-		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
-#else
-		uint64_t eco_rw                      : 32;
-		uint64_t reserved_32_63              : 32;
-#endif
-	} s;
-	/* struct bdk_vrmx_eco_s              cn88xx; */
-} bdk_vrmx_eco_t;
-
-static inline uint64_t BDK_VRMX_ECO(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_VRMX_ECO(unsigned long param1)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
-		return 0x000087E0210000C8ull + (param1 & 1) * 0x1000000ull;
-	else 		csr_fatal("BDK_VRMX_ECO", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_VRMX_ECO(...) bdk_vrmx_eco_t
-#define bustype_BDK_VRMX_ECO(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_VRMX_ECO(p1) (p1)
-#define arguments_BDK_VRMX_ECO(p1) (p1),-1,-1,-1
-#define basename_BDK_VRMX_ECO(...) "VRMX_ECO"
-
-
-/**
  * RSL - vrm#_fuse_bypass
  */
 typedef union bdk_vrmx_fuse_bypass {

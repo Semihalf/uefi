@@ -195,11 +195,24 @@ def build_struct(chip_info, group, struct):
     chip_struct = ChipStruct(group, name, description)
     if "attributes" in struct:
         check_keys("struct[attributes]", struct["attributes"], [
+                   "chip_pass",
                    "ignore_naming_convention",  # FIXME: What is this?
                    "allow_missing_bits",        # Not all bits are specified, assume reserved for others
                    "mif_operation",
+                   "struct_alignment_size",
+                   "struct_not_64b_multiple",
                    "subblock"])                 # FIXME: What is this?
-        # FIXME: What to do with attributes?
+        if "chip_pass" in struct["attributes"]:
+            pass_equation = struct["attributes"]["chip_pass"].split(";")
+            is_this_pass = False
+            for eq in pass_equation:
+                try:
+                    is_this_pass = is_this_pass or eval(eq, {}, chip_info.pass_dict)
+                except:
+                    pass
+            print pass_equation, is_this_pass
+            if not is_this_pass:
+                return
     for field in struct["fields"]:
         check_keys("struct[fields]", field, [
                    "name",          # Field name (text)
@@ -268,6 +281,7 @@ def build_csr(chip_info, group, register, raw):
                    "exempt_name_inherits",
                    "exempt_natural_alignment",
                    "exempt_no_bar",
+                   "exempt_pass1_address_change",
                    "exempt_w1c_w",
                    "inherits_algorithm",
                    "mem_to_csr",

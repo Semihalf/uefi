@@ -2437,40 +2437,6 @@ static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_OR(unsigned long param1)
 
 
 /**
- * RSL - bgx#_cmr_eco
- *
- * Added in pass 2.
- *
- */
-typedef union bdk_bgxx_cmr_eco {
-	uint64_t u;
-	struct bdk_bgxx_cmr_eco_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t eco_ro                      : 32; /**< RO - INTERNAL: Reserved for ECO usage. */
-		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
-#else
-		uint64_t eco_rw                      : 32;
-		uint64_t eco_ro                      : 32;
-#endif
-	} s;
-	/* struct bdk_bgxx_cmr_eco_s          cn88xx; */
-} bdk_bgxx_cmr_eco_t;
-
-static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long param1)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
-		return 0x000087E0E0001028ull + (param1 & 1) * 0x1000000ull;
-	else 		csr_fatal("BDK_BGXX_CMR_ECO", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_BGXX_CMR_ECO(...) bdk_bgxx_cmr_eco_t
-#define bustype_BDK_BGXX_CMR_ECO(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_BGXX_CMR_ECO(p1) (p1)
-#define arguments_BDK_BGXX_CMR_ECO(p1) (p1),-1,-1,-1
-#define basename_BDK_BGXX_CMR_ECO(...) "BGXX_CMR_ECO"
-
-
-/**
  * RSL - bgx#_cmr_global_config
  *
  * These registers configure the global CMR, PCS, and MAC.

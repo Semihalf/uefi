@@ -19,8 +19,15 @@ class ChipEnum:
 
     def addValue(self, enum_value):
         assert isinstance(enum_value, ChipEnumValue), type(enum_value)
-        assert not enum_value.name in self.values
-        self.values[enum_value.name] = enum_value
+        if enum_value.name in self.values:
+            if enum_value.description.upper().startswith("RESERVED"):
+                pass
+            elif self.values[enum_value.name].description.upper().startswith("RESERVED"):
+                self.values[enum_value.name] = enum_value
+            else:
+                assert false, "Duplicate enum name %s in enum %s" % (enum_value.name, self.name)
+        else:
+            self.values[enum_value.name] = enum_value
 
     def validate(self):
         assert isinstance(self.name, StringType), type(self.name)

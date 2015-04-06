@@ -170,10 +170,7 @@ typedef union bdk_mio_fus_dat2 {
                                                                  0x2 = RTL simulator.
                                                                  0x3 = ASIM.
                                                                  0x4-0x7 = reserved. */
-		uint64_t gbl_pwr_throttle            : 8;  /**< RO - Controls global power throttling. MSB is a spare, and lower 7 bits indicate
-                                                                 N/128 power reduction. Small values have less throttling and higher
-                                                                 performance. 0x0 disables throttling.
-                                                                 Added in pass 2. */
+		uint64_t reserved_48_55              : 8;
 		uint64_t fus118                      : 1;  /**< RO - Fuse information - Ignore trusted-mode disable.
                                                                  INTERNAL: fuse[99]. */
 		uint64_t rom_info                    : 10; /**< RO - Fuse information - ROM info. */
@@ -227,7 +224,7 @@ typedef union bdk_mio_fus_dat2 {
 		uint64_t power_limit                 : 2;
 		uint64_t rom_info                    : 10;
 		uint64_t fus118                      : 1;
-		uint64_t gbl_pwr_throttle            : 8;
+		uint64_t reserved_48_55              : 8;
 		uint64_t run_platform                : 3;
 		uint64_t reserved_59_63              : 5;
 #endif
@@ -242,10 +239,7 @@ typedef union bdk_mio_fus_dat2 {
                                                                  0x2 = RTL simulator.
                                                                  0x3 = ASIM.
                                                                  0x4-0x7 = reserved. */
-		uint64_t gbl_pwr_throttle            : 8;  /**< RO - Controls global power throttling. MSB is a spare, and lower 7 bits indicate
-                                                                 N/128 power reduction. Small values have less throttling and higher
-                                                                 performance. 0x0 disables throttling.
-                                                                 Added in pass 2. */
+		uint64_t reserved_48_55              : 8;
 		uint64_t fus118                      : 1;  /**< RO - Fuse information - Ignore trusted-mode disable.
                                                                  INTERNAL: fuse[99]. */
 		uint64_t rom_info                    : 10; /**< RO - Fuse information - ROM info. */
@@ -299,80 +293,12 @@ typedef union bdk_mio_fus_dat2 {
 		uint64_t power_limit                 : 2;
 		uint64_t rom_info                    : 10;
 		uint64_t fus118                      : 1;
-		uint64_t gbl_pwr_throttle            : 8;
+		uint64_t reserved_48_55              : 8;
 		uint64_t run_platform                : 3;
 		uint64_t reserved_59_63              : 5;
 #endif
 	} cn88xx;
-	struct bdk_mio_fus_dat2_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_59_63              : 5;
-		uint64_t run_platform                : 3;  /**< RO - Fuses to indicate the run platform. Not to be blown in actual hardware.
-                                                                 Provides software a means of determining the platform at run time.
-                                                                 0x0 = Hardware.
-                                                                 0x1 = Emulator.
-                                                                 0x2 = RTL simulator.
-                                                                 0x3 = ASIM.
-                                                                 0x4-0x7 = reserved. */
-		uint64_t reserved_48_55              : 8;
-		uint64_t fus118                      : 1;  /**< RO - Fuse information - Ignore trusted-mode disable.
-                                                                 INTERNAL: fuse[99]. */
-		uint64_t rom_info                    : 10; /**< RO - Fuse information - ROM info. */
-		uint64_t power_limit                 : 2;  /**< RO - Fuse information - Power limit. */
-		uint64_t dorm_crypto                 : 1;  /**< RO - Fuse information - Dormant encryption enable. See NOCRYPTO. */
-		uint64_t fus318                      : 1;  /**< RO - Reserved.
-                                                                 INTERNAL: Tied to 0. */
-		uint64_t raid_en                     : 1;  /**< RO - Fuse information - RAID enabled. */
-		uint64_t reserved_31_29              : 3;
-		uint64_t nodfa_cp2                   : 1;  /**< RO - Fuse information - HFA disable (CP2). */
-		uint64_t nomul                       : 1;  /**< RO - Fuse information - VMUL disable. */
-		uint64_t nocrypto                    : 1;  /**< RO - Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
-
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
-
-                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
-                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
-                                                                 indicating this behavior.
-
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
-                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
-                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
-
-                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
-		uint64_t trustzone_en                : 1;  /**< RO - Fuse information - TrustZone enable. */
-		uint64_t reserved_24_24              : 1;
-		uint64_t chip_id                     : 8;  /**< RO - Fuse information - chip ID. */
-		uint64_t ocx_dis                     : 1;  /**< RO - Fuse information - OCX disable. */
-		uint64_t bgx_dis                     : 2;  /**< RO - Fuse information - BGX(1..0) disable, BGX0 is bit\<13\> and BGX1 is bit\<14\>. */
-		uint64_t sata_dis                    : 4;  /**< RO - Fuse information - SATA(3..0) disable, SATA0 is bit\<9\> ... SATA3 is bit\<12\>. */
-		uint64_t pem_dis                     : 3;  /**< RO - Fuse information - PEM(2..0) disable, PEM0 is bit\<6\> ... PEM2 is bit\<8\>. */
-		uint64_t lmc_half                    : 1;  /**< RO - Fuse information - LMC uses two channels rather than four. */
-		uint64_t reserved_0_4                : 5;
-#else
-		uint64_t reserved_0_4                : 5;
-		uint64_t lmc_half                    : 1;
-		uint64_t pem_dis                     : 3;
-		uint64_t sata_dis                    : 4;
-		uint64_t bgx_dis                     : 2;
-		uint64_t ocx_dis                     : 1;
-		uint64_t chip_id                     : 8;
-		uint64_t reserved_24_24              : 1;
-		uint64_t trustzone_en                : 1;
-		uint64_t nocrypto                    : 1;
-		uint64_t nomul                       : 1;
-		uint64_t nodfa_cp2                   : 1;
-		uint64_t reserved_31_29              : 3;
-		uint64_t raid_en                     : 1;
-		uint64_t fus318                      : 1;
-		uint64_t dorm_crypto                 : 1;
-		uint64_t power_limit                 : 2;
-		uint64_t rom_info                    : 10;
-		uint64_t fus118                      : 1;
-		uint64_t reserved_48_55              : 8;
-		uint64_t run_platform                : 3;
-		uint64_t reserved_59_63              : 5;
-#endif
-	} cn88xxp1;
+	struct bdk_mio_fus_dat2_cn88xx        cn88xxp1;
 } bdk_mio_fus_dat2_t;
 
 #define BDK_MIO_FUS_DAT2 BDK_MIO_FUS_DAT2_FUNC()
@@ -640,72 +566,6 @@ static inline uint64_t BDK_MIO_FUS_PLL_FUNC(void)
 #define busnum_BDK_MIO_FUS_PLL 0
 #define arguments_BDK_MIO_FUS_PLL -1,-1,-1,-1
 #define basename_BDK_MIO_FUS_PLL "MIO_FUS_PLL"
-
-
-/**
- * RSL - mio_fus_pname#
- *
- * "These registers contain a 24-character string representing the part number,
- * e.g. "CN8800-2000BG2601-CPT-PR".
- *
- * The string is represented in a RAD-40-like encoding, padded with trailing spaces
- * that must be removed.  If the resulting string is empty, the product has not been
- * fused programmed and the name should be constructed from e.g. the core's device
- * number.
- *
- * This register was added in pass 2.
- *
- * Pseudocode for the decoding:
- * \<pre\>
- * datap = data_from_fuses;
- * //      where bit 0 of byte 0 array is fuse 1408;
- * //      i.e. bit 0 of MIO_FUS_PNAME(0)
- * void rad50_decode(const uint8_t* datap, char* bufferp) {
- *    // Psudocode only - assumes datap sized to at least 16 bytes,
- *    // and bufferp to at least 26 characters.
- *    const char* CHAR_MAP = " ABCDEFGHIJKLMNOPQRSTUVWXYZ\#.-0123456789";
- *    char* cp = bufferp;
- *    for (int i=0; i\<FUSE_BYTES; i+=2) {
- *       // Data is stored little endian
- *       uint16_t data = ((const uint16_t*)datap)[i/2];
- *       ifndef MACHINE_LITTLE_ENDIAN
- *          data = __swab16(data);
- *       endif
- *       *cp++ = CHAR_MAP[(data/40/40) % 40];
- *       *cp++ = CHAR_MAP[(data/40) % 40];
- *       *cp++ = CHAR_MAP[(data) % 40];
- *    }
- *    *cp++ = '\0';
- *    for (cp = bufferp+strlen(bufferp)-1; cp\>=bufferp && isspace(*cp); --cp) *cp='\0';
- * }
- * \</pre\>
- *
- * INTERNAL: Fuse[1535:1408]."
- */
-typedef union bdk_mio_fus_pnamex {
-	uint64_t u;
-	struct bdk_mio_fus_pnamex_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t dat                         : 64; /**< RO/H - Product name information. */
-#else
-		uint64_t dat                         : 64;
-#endif
-	} s;
-	/* struct bdk_mio_fus_pnamex_s        cn88xx; */
-} bdk_mio_fus_pnamex_t;
-
-static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long param1)
-{
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
-		return 0x000087E003001440ull + (param1 & 1) * 0x8ull;
-	else 		csr_fatal("BDK_MIO_FUS_PNAMEX", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_MIO_FUS_PNAMEX(...) bdk_mio_fus_pnamex_t
-#define bustype_BDK_MIO_FUS_PNAMEX(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_MIO_FUS_PNAMEX(p1) (p1)
-#define arguments_BDK_MIO_FUS_PNAMEX(p1) (p1),-1,-1,-1
-#define basename_BDK_MIO_FUS_PNAMEX(...) "MIO_FUS_PNAMEX"
 
 
 /**

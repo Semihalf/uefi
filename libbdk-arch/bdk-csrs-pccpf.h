@@ -417,6 +417,93 @@ union pcc_dev_idl_s {
 	} s;
 };
 
+/**
+ * Structure PCC_EA_ENTRY_S
+ *
+ * PCC PCI Enhanced Allocation Entry Structure
+ * This structure describes the format of an enhanced allocation entry stored in
+ * PCCPF_XXX_EA_ENTRY(). This describes what PCC hardware generates only; software must
+ * implement a full EA parser including testing the [ENTRY_SIZE], [BASE64] and
+ * [OFFSET64] fields.
+ *
+ * PCI configuration registers are 32-bits, however due to tool limitiations this
+ * structure is described as a little-endian 64-bit wide structure.
+ */
+union pcc_ea_entry_s {
+	uint64_t u[3];
+	struct {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t basel                       : 30; /**< [ 63: 34] Lower bits of the entry 0 base address. */
+		uint64_t base64                      : 1;  /**< [ 33: 33] 64-bit base, indicates [BASEH] is present. For CNXXXX always set. */
+		uint64_t reserved_32_32              : 1;  /**< [ 32: 32] Reserved. */
+		uint64_t enable                      : 1;  /**< [ 31: 31] Enable. Always set. */
+		uint64_t w                           : 1;  /**< [ 30: 30] Writable. Always clear. */
+		uint64_t reserved_24_29              : 6;  /**< [ 29: 24] Reserved. */
+		uint64_t sec_prop                    : 8;  /**< [ 23: 16] Secondary properties. Same encoding as PRI_PROP. For CNXXXX always 0x0. */
+		uint64_t pri_prop                    : 8;  /**< [ 15:  8] Primary properties.
+                                                                 0x0 = Memory space, non-prefetchable.
+                                                                 0x4 = Physical function indicating virtual function memory space, non-prefetchable. */
+		uint64_t bei                         : 4;  /**< [  7:  4] BAR equivelent indicator.
+                                                                 0x0 = Entry is equivalent to BAR 0.
+                                                                 0x2 = Entry is equivalent to BAR 2.
+                                                                 0x4 = Entry is equivalent to BAR 4.
+                                                                 0x7 = Equivalent not indicated.
+                                                                 0x9 = Entry is equivalent to SR-IOV BAR 0.
+                                                                 0xB = Entry is equivalent to SR-IOV BAR 2.
+                                                                 0xD = Entry is equivalent to SR-IOV BAR 4. */
+		uint64_t reserved_3_3                : 1;  /**< [  3:  3] Reserved. */
+		uint64_t entry_size                  : 3;  /**< [  2:  0] Number of 32-bit words following this entry format header, excluding the header
+                                                                 itself.
+                                                                 0x4 = Four 32-bit words; header followed by base low, offset low, base high,
+                                                                 offset high. */
+#else
+		uint64_t entry_size                  : 3;  /**< [  2:  0] Number of 32-bit words following this entry format header, excluding the header
+                                                                 itself.
+                                                                 0x4 = Four 32-bit words; header followed by base low, offset low, base high,
+                                                                 offset high. */
+		uint64_t reserved_3_3                : 1;  /**< [  3:  3] Reserved. */
+		uint64_t bei                         : 4;  /**< [  7:  4] BAR equivelent indicator.
+                                                                 0x0 = Entry is equivalent to BAR 0.
+                                                                 0x2 = Entry is equivalent to BAR 2.
+                                                                 0x4 = Entry is equivalent to BAR 4.
+                                                                 0x7 = Equivalent not indicated.
+                                                                 0x9 = Entry is equivalent to SR-IOV BAR 0.
+                                                                 0xB = Entry is equivalent to SR-IOV BAR 2.
+                                                                 0xD = Entry is equivalent to SR-IOV BAR 4. */
+		uint64_t pri_prop                    : 8;  /**< [ 15:  8] Primary properties.
+                                                                 0x0 = Memory space, non-prefetchable.
+                                                                 0x4 = Physical function indicating virtual function memory space, non-prefetchable. */
+		uint64_t sec_prop                    : 8;  /**< [ 23: 16] Secondary properties. Same encoding as PRI_PROP. For CNXXXX always 0x0. */
+		uint64_t reserved_24_29              : 6;  /**< [ 29: 24] Reserved. */
+		uint64_t w                           : 1;  /**< [ 30: 30] Writable. Always clear. */
+		uint64_t enable                      : 1;  /**< [ 31: 31] Enable. Always set. */
+		uint64_t reserved_32_32              : 1;  /**< [ 32: 32] Reserved. */
+		uint64_t base64                      : 1;  /**< [ 33: 33] 64-bit base, indicates [BASEH] is present. For CNXXXX always set. */
+		uint64_t basel                       : 30; /**< [ 63: 34] Lower bits of the entry 0 base address. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t baseh                       : 32; /**< [127: 96] Upper bits of the entry 0 base address. */
+		uint64_t offsetl                     : 30; /**< [ 95: 66] Lower bits of the entry 0 offset. Bits \<1:0\> of the offset are not present and
+                                                                 must be interpreted as all-ones. */
+		uint64_t offset64                    : 1;  /**< [ 65: 65] 64-bit offset, indicates [OFFSETH] is present. For CNXXXX always set. */
+		uint64_t reserved_64_64              : 1;  /**< [ 64: 64] Reserved. */
+#else
+		uint64_t reserved_64_64              : 1;  /**< [ 64: 64] Reserved. */
+		uint64_t offset64                    : 1;  /**< [ 65: 65] 64-bit offset, indicates [OFFSETH] is present. For CNXXXX always set. */
+		uint64_t offsetl                     : 30; /**< [ 95: 66] Lower bits of the entry 0 offset. Bits \<1:0\> of the offset are not present and
+                                                                 must be interpreted as all-ones. */
+		uint64_t baseh                       : 32; /**< [127: 96] Upper bits of the entry 0 base address. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_160_191            : 32; /**< [191:160] Never present. */
+		uint64_t offseth                     : 32; /**< [159:128] Upper bits of the entry 0 offset. */
+#else
+		uint64_t offseth                     : 32; /**< [159:128] Upper bits of the entry 0 offset. */
+		uint64_t reserved_160_191            : 32; /**< [191:160] Never present. */
+#endif
+	} s;
+};
+
 
 /**
  * PCCPF - pccpf_xxx_ari_cap_hdr
@@ -805,8 +892,8 @@ typedef union bdk_pccpf_xxx_e_cap_hdr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_20_31              : 12;
 		uint32_t pciecv                      : 4;  /**< RO - PCIe capability version. */
-		uint32_t ncp                         : 8;  /**< RO - First capability pointer. If MSI-X is supported, points to
-                                                                 PCCPF_XXX_MSIX_CAP_HDR (0xB0), else 0x0. */
+		uint32_t ncp                         : 8;  /**< RO - Next capability pointer. If MSI-X is supported, points to
+                                                                 PCCPF_XXX_MSIX_CAP_HDR, else 0x0. */
 		uint32_t pcieid                      : 8;  /**< RO - PCIe capability ID. */
 #else
 		uint32_t pcieid                      : 8;
@@ -870,8 +957,8 @@ static inline uint64_t BDK_PCCPF_XXX_ID_FUNC(void)
 /**
  * PCCPF - pccpf_xxx_msix_cap_hdr
  *
- * This register is the header of the 36-byte PCI MSI-X capability structure.
- *
+ * This register is the header of the 36-byte PCI MSI-X capability structure. Address changed in
+ * pass 2.
  */
 typedef union bdk_pccpf_xxx_msix_cap_hdr {
 	uint32_t u;
@@ -890,7 +977,7 @@ typedef union bdk_pccpf_xxx_msix_cap_hdr {
 		uint32_t reserved_27_29              : 3;
 		uint32_t msixts                      : 11; /**< RO - MSI-X table size encoded as (table size - 1). INTERNAL: From PCC's MSIX_PF_VECS parameter. */
 		uint32_t ncp                         : 8;  /**< RO - Next capability pointer. */
-		uint32_t msixcid                     : 8;  /**< RO - MSI-X Capability ID. */
+		uint32_t msixcid                     : 8;  /**< RO - MSI-X capability ID. */
 #else
 		uint32_t msixcid                     : 8;
 		uint32_t ncp                         : 8;
@@ -919,6 +1006,9 @@ static inline uint64_t BDK_PCCPF_XXX_MSIX_CAP_HDR_FUNC(void)
 
 /**
  * PCCPF - pccpf_xxx_msix_pba
+ *
+ * Address changed in pass 2.
+ *
  */
 typedef union bdk_pccpf_xxx_msix_pba {
 	uint32_t u;
@@ -952,6 +1042,9 @@ static inline uint64_t BDK_PCCPF_XXX_MSIX_PBA_FUNC(void)
 
 /**
  * PCCPF - pccpf_xxx_msix_table
+ *
+ * Address changed in pass 2.
+ *
  */
 typedef union bdk_pccpf_xxx_msix_table {
 	uint32_t u;
@@ -1906,7 +1999,8 @@ typedef union bdk_pccpf_xxx_vsec_sctl {
                                                                  the next valid function number for this device. Must be 0x0 for non-MRML PCC
                                                                  devices. */
 		uint32_t rid                         : 8;  /**< SR/W - Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
-		uint32_t reserved_3_15               : 13;
+		uint32_t reserved_4_15               : 12;
+		uint32_t ea                          : 1;  /**< SRO - Reserved. */
 		uint32_t bcst_rsp                    : 1;  /**< SR/W - Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
                                                                  instance as the responder to PCC broadcast reads/writes. */
 		uint32_t msix_sec                    : 1;  /**< SR/W - All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
@@ -1920,7 +2014,8 @@ typedef union bdk_pccpf_xxx_vsec_sctl {
 		uint32_t msix_phys                   : 1;
 		uint32_t msix_sec                    : 1;
 		uint32_t bcst_rsp                    : 1;
-		uint32_t reserved_3_15               : 13;
+		uint32_t ea                          : 1;
+		uint32_t reserved_4_15               : 12;
 		uint32_t rid                         : 8;
 		uint32_t nxtfn_s                     : 8;
 #endif

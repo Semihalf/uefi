@@ -547,18 +547,7 @@ typedef union bdk_mio_emm_dma_fifo_cmd {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_63_63              : 1;
 		uint64_t rw                          : 1;  /**< R/W - DMA engine R/W bit: 0 = read, 1 = write. */
-		uint64_t reserved_61_61              : 1;
-		uint64_t intdis                      : 1;  /**< R/W - DMA command interrupt disable.  When set, the dma command being summitted will
-                                                                 not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes.  When cleared
-                                                                 the command will generate the interrupt.
-
-                                                                 For example, this field can be set for all the DMA commands submitted to the DMA
-                                                                 FIFO in the case of a write to the eMMC device because the MIO_EMM_INT[DMA_DONE]
-                                                                 interrupt would signify the end of the operation.  It could be cleared on the last
-                                                                 dma command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
-                                                                 occur when the read data from the eMMC device was available in local memory.
-
-                                                                 Added in pass 2.0. */
+		uint64_t reserved_60_61              : 2;
 		uint64_t swap32                      : 1;  /**< R/W - DMA engine 32-bit swap. */
 		uint64_t swap16                      : 1;  /**< R/W - DMA engine enable 16-bit swap. */
 		uint64_t swap8                       : 1;  /**< R/W - DMA engine enable 8-bit swap. */
@@ -573,37 +562,13 @@ typedef union bdk_mio_emm_dma_fifo_cmd {
 		uint64_t swap8                       : 1;
 		uint64_t swap16                      : 1;
 		uint64_t swap32                      : 1;
-		uint64_t intdis                      : 1;
-		uint64_t reserved_61_61              : 1;
+		uint64_t reserved_60_61              : 2;
 		uint64_t rw                          : 1;
 		uint64_t reserved_63_63              : 1;
 #endif
 	} s;
 	/* struct bdk_mio_emm_dma_fifo_cmd_s  cn88xx; */
-	struct bdk_mio_emm_dma_fifo_cmd_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_63_63              : 1;
-		uint64_t rw                          : 1;  /**< R/W - DMA engine R/W bit: 0 = read, 1 = write. */
-		uint64_t reserved_60_61              : 2;
-		uint64_t swap32                      : 1;  /**< R/W - DMA engine 32-bit swap. */
-		uint64_t swap16                      : 1;  /**< R/W - DMA engine enable 16-bit swap. */
-		uint64_t swap8                       : 1;  /**< R/W - DMA engine enable 8-bit swap. */
-		uint64_t endian                      : 1;  /**< R/W - DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
-		uint64_t size                        : 20; /**< R/W/H - DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
-                                                                 example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
-		uint64_t reserved_0_35               : 36;
-#else
-		uint64_t reserved_0_35               : 36;
-		uint64_t size                        : 20;
-		uint64_t endian                      : 1;
-		uint64_t swap8                       : 1;
-		uint64_t swap16                      : 1;
-		uint64_t swap32                      : 1;
-		uint64_t reserved_60_61              : 2;
-		uint64_t rw                          : 1;
-		uint64_t reserved_63_63              : 1;
-#endif
-	} cn88xxp1;
+	/* struct bdk_mio_emm_dma_fifo_cmd_s  cn88xxp1; */
 } bdk_mio_emm_dma_fifo_cmd_t;
 
 #define BDK_MIO_EMM_DMA_FIFO_CMD BDK_MIO_EMM_DMA_FIFO_CMD_FUNC()
