@@ -745,6 +745,7 @@ function TrafficGen.new()
         --  args[2] = min packet size, defaults to 60
         --  args[3] = max packet size, default is calculated
         --  args[4] = increment, defaults to 1
+        --  args[5] = scan loop count, defaults to 1
         -- Get the size of one buffer
         local buf_size = cavium.c.bdk_config_get(cavium.CONFIG_PACKET_BUFFER_SIZE)
         -- BGX/NIC on CN88XX only allows a max of 9212 bytes (9216 with FCS added)
@@ -754,6 +755,7 @@ function TrafficGen.new()
         local size_start = args[2] or 60
         local size_stop = args[3] or max_packet
         local size_incr = args[4] or 1
+        local scan_loop_stop = args[5] or 1
         -- Get the latest statistics
         local all_stats = self:display(true)
         -- Start with current counts
@@ -774,74 +776,80 @@ function TrafficGen.new()
             cavium.trafficgen.set_config(port, new_config)
         end
         new_config.output_count=nil
-        for size=size_start,size_stop,size_incr do
-            printf("Size %d\n", size)
-            new_config.size = size;
-            -- Setup TX and count how many packets we expect
-            for _,port in ipairs(port_range) do
-                cavium.trafficgen.set_config(port, new_config)
-                expected_packets = expected_packets + output_count
-                if port:find("LOOP") or port:find("FAKE") or port:find("ILK") then
-                    -- Loop doesn't have the 4 bytes of ethernet CRC
-                    expected_octets = expected_octets + output_count * size
+	for scan_loop=1,scan_loop_stop,1 do
+	    local validation_errors
+            for size=size_start,size_stop,size_incr do
+	        if scan_loop_stop == 1 then
+                    printf("Size %d\n", size)
                 else
-                    -- Account for the extra 4 bytes of ethernet CRC
-                    expected_octets = expected_octets + output_count * (size+4)
-                end
-            end
-            -- Limit to five seconds per size
-            local timeout = os.time() + 5
-            -- Do the TX
-            cavium.trafficgen.start(port_range)
-            while cavium.trafficgen.is_transmitting(port_range) and (os.time() < timeout) do
-                if cavium.global == nil then
-                    -- Waiting for TX to be done
-                    cavium.c.bdk_thread_yield();
-                end
-                -- Get the latest statistics
-                self:display(false)
-            end
-            local rx_packets
-            local rx_octets
-            local rx_errors
-            local validation_errors
-            repeat
-                if cavium.global == nil then
-                    cavium.c.bdk_thread_yield();
-                end
-                -- Get the latest statistics
-                all_stats = self:display(true)
-                -- Count the amount of data received
-                rx_packets = 0
-                rx_octets = 0
-                rx_errors = 0
-                validation_errors = 0
+                    printf("Loop %d: Size %d\n", scan_loop, size)
+		end
+                new_config.size = size;
+                -- Setup TX and count how many packets we expect
                 for _,port in ipairs(port_range) do
-                    rx_packets = rx_packets + all_stats[port].rx_packets_total
-                    rx_octets = rx_octets + all_stats[port].rx_octets_total
-                    rx_errors = rx_errors + all_stats[port].rx_errors
-                    validation_errors = validation_errors + all_stats[port].rx_validation_errors
+                    cavium.trafficgen.set_config(port, new_config)
+                    expected_packets = expected_packets + output_count
+                    if port:find("LOOP") or port:find("FAKE") or port:find("ILK") then
+                        -- Loop doesn't have the 4 bytes of ethernet CRC
+                        expected_octets = expected_octets + output_count * size
+                    else
+                        -- Account for the extra 4 bytes of ethernet CRC
+                        expected_octets = expected_octets + output_count * (size+4)
+                    end
                 end
-            until ((rx_packets >= expected_packets) and (rx_octets >= expected_octets)) or (os.time() >= timeout)
-            -- Make sure we got the right amount of data
-            if (rx_packets ~= expected_packets) or (rx_octets ~= expected_octets) then
-                if os.time() >= timeout then
-                    printf("Scan timeout\n")
-                else
-                    printf("Scan failed\n")
+                -- Limit to five seconds per size
+                local timeout = os.time() + 5
+                -- Do the TX
+                cavium.trafficgen.start(port_range)
+                while cavium.trafficgen.is_transmitting(port_range) and (os.time() < timeout) do
+                    if cavium.global == nil then
+                        -- Waiting for TX to be done
+                        cavium.c.bdk_thread_yield();
+                    end
+                    -- Get the latest statistics
+                    self:display(false)
                 end
-                printf("RX packets %d, octets %d\n", rx_packets, rx_octets)
-                printf("Expected packets %d, octets %d\n", expected_packets, expected_octets)
-                printf("Delta packets %d, octets %d\n", expected_packets - rx_packets, expected_octets - rx_octets)
-                break
-            end
-            if (rx_errors ~= expected_rx_errors) then
-                printf("Scan failed due to RX errors\n")
-                break
-            end
-            if (validation_errors ~= expected_validation_errors) then
-                printf("Scan failed due to validation errors\n")
-                break
+                local rx_packets
+                local rx_octets
+                local rx_errors
+                repeat
+                    if cavium.global == nil then
+                        cavium.c.bdk_thread_yield();
+                    end
+                    -- Get the latest statistics
+                    all_stats = self:display(true)
+                    -- Count the amount of data received
+                    rx_packets = 0
+                    rx_octets = 0
+                    rx_errors = 0
+                    validation_errors = 0
+                    for _,port in ipairs(port_range) do
+                        rx_packets = rx_packets + all_stats[port].rx_packets_total
+                        rx_octets = rx_octets + all_stats[port].rx_octets_total
+                        rx_errors = rx_errors + all_stats[port].rx_errors
+                        validation_errors = validation_errors + all_stats[port].rx_validation_errors
+                    end
+                until ((rx_packets >= expected_packets) and (rx_octets >= expected_octets)) or (os.time() >= timeout)
+                -- Make sure we got the right amount of data
+                if (rx_packets ~= expected_packets) or (rx_octets ~= expected_octets) then
+                    if os.time() >= timeout then
+                        printf("Scan timeout\n")
+                    else
+                        printf("Scan failed\n")
+                    end
+                    printf("RX packets %d, octets %d\n", rx_packets, rx_octets)
+                    printf("Expected packets %d, octets %d\n", expected_packets, expected_octets)
+                    printf("Delta packets %d, octets %d\n", expected_packets - rx_packets, expected_octets - rx_octets)
+                    break
+                end
+                if (rx_errors ~= expected_rx_errors) then
+                    printf("Scan failed due to RX errors\n")
+                    break
+                end
+                if (validation_errors ~= expected_validation_errors) then
+                    printf("Scan failed due to validation errors\n")
+                    break
+                end
             end
         end
     end
