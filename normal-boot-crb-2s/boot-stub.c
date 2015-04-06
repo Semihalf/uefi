@@ -537,7 +537,7 @@ int main(void)
                 if (is_sgmii)
                     bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_SGMII, 1250, 0);
                 else
-                    bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XFI_4X1, 10312, 0);
+                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XFI_4X1, 10312, 0);
                 bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XLAUI_1X4, 10312, 0);
                 bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_PCIE_1X4, 8000, 0);
                 bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
@@ -559,7 +559,7 @@ int main(void)
                 if (is_sgmii)
                     bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_SGMII, 1250, 0);
                 else
-                    bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XFI_4X1, 10312, 0);
+                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XFI_4X1, 10312, 0);
                 bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_DISABLED, 0, 0);
                 bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_DISABLED, 0, 0);
                 bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
