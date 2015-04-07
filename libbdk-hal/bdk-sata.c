@@ -262,6 +262,10 @@ int bdk_sata_get_controllers(bdk_node_t node)
 
 static int __bdk_sata_is_initialized(bdk_node_t node, int controller)
 {
+    /* Make sure port is clocked before proceeding */
+    BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(controller));
+    if (!uctl_ctl.s.a_clk_en || uctl_ctl.s.a_clkdiv_rst)
+        return 0;
     BDK_CSR_INIT(fb, node, BDK_SATAX_UAHC_P0_FB(controller));
     return fb.u != 0;
 }
@@ -285,6 +289,14 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     static_assert(sizeof(hba_cmd_header_t) == 8 * 4);
     static_assert(sizeof(hba_prdt_entry_t) == 4 * 4);
     static_assert(sizeof(hba_cmd_tbl_t)== 128 + sizeof(hba_prdt_entry_t));
+
+    /* Make sure port is clocked before proceeding */
+    BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(controller));
+    if (!uctl_ctl.s.a_clk_en || uctl_ctl.s.a_clkdiv_rst)
+    {
+        bdk_error("N%d.SATA%d: Not in SATA mode\n", node, controller);
+        return -1;
+    }
 
     /* Allocate area for commands */
     void *clb = memalign(1024, sizeof(hba_cmd_header_t) * 32);
