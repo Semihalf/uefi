@@ -155,7 +155,7 @@ static void boot_image(const char *dev_filename, uint64_t loc)
     /* This string is passed to the image as a default environment. It is
        series of NAME=VALUE pairs separated by '\0'. The end is marked with
        two '\0' in a row. */
-    char *image_env = "BOARD=" CONFIG_STR_NAME(DRAM_NODE0) "\0\0";
+    char *image_env = "BOARD=crb_2s\0\0";
 
     /* Send status to the BMC: Boot stub complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_COMPLETE);
