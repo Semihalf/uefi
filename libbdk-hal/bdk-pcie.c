@@ -820,73 +820,76 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
         {
             int ecam = pcie_port - 100;
 
-            /* Errata (ECAM-22630) ECAM function accesses can fault */
-            /* Skip internal devices that don't exists */
-            int loc = 0;
-            int found = 0;
-            while (INTERNAL_DEVICES[loc])
+            if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
             {
-                found = is_internal(ecam, bus, dev, fn, INTERNAL_DEVICES[loc]);
-                if (found)
-                    break;
-                loc++;
-            }
-            if (!found)
-                return 0;
-
-            /* Errata (ECAM-23020) PCIERC transactions fault unless PEM is
-               out of reset. The PCIe ports don't work until the PEM is
-               turned on. Check for one of the PCIe ports */
-            int pem = -1;
-            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC0))
-                pem = 0;
-            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC1))
-                pem = 1;
-            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC2))
-                pem = 2;
-            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC3))
-                pem = 3;
-            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC4))
-                pem = 4;
-            if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC5))
-                pem = 5;
-            if (pem != -1)
-            {
-                BDK_CSR_INIT(pem_on, node, BDK_PEMX_ON(pem));
-                if (!pem_on.s.pemon || !pem_on.s.pemoor)
-                    return 0;
-            }
-
-            /* Don't check SATA ports during one time init */
-            if (pcie_global_init_done[node])
-            {
-                /* SATA ports should be hidden if they aren't configured at the QLM */
-                int qlm = -1;
-                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA0) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA1) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA2) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA3))
-                    qlm = 2;
-                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA4) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA5) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA6) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA7))
-                    qlm = 3;
-                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA8) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA9) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA10) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA11))
-                    qlm = 6;
-                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA12) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA13) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA14) ||
-                    is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA15))
-                    qlm = 7;
-                if (qlm != -1)
+                /* Errata (ECAM-22630) ECAM function accesses can fault */
+                /* Skip internal devices that don't exists */
+                int loc = 0;
+                int found = 0;
+                while (INTERNAL_DEVICES[loc])
                 {
-                    BDK_CSR_INIT(cfg, node, BDK_GSERX_CFG(qlm));
-                    if (!cfg.s.sata)
+                    found = is_internal(ecam, bus, dev, fn, INTERNAL_DEVICES[loc]);
+                    if (found)
+                        break;
+                    loc++;
+                }
+                if (!found)
+                    return 0;
+
+                /* Errata (ECAM-23020) PCIERC transactions fault unless PEM is
+                   out of reset. The PCIe ports don't work until the PEM is
+                   turned on. Check for one of the PCIe ports */
+                int pem = -1;
+                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC0))
+                    pem = 0;
+                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC1))
+                    pem = 1;
+                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC2))
+                    pem = 2;
+                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC3))
+                    pem = 3;
+                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC4))
+                    pem = 4;
+                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC5))
+                    pem = 5;
+                if (pem != -1)
+                {
+                    BDK_CSR_INIT(pem_on, node, BDK_PEMX_ON(pem));
+                    if (!pem_on.s.pemon || !pem_on.s.pemoor)
                         return 0;
+                }
+
+                /* Don't check SATA ports during one time init */
+                if (pcie_global_init_done[node])
+                {
+                    /* SATA ports should be hidden if they aren't configured at the QLM */
+                    int qlm = -1;
+                    if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA0) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA1) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA2) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA3))
+                        qlm = 2;
+                    if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA4) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA5) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA6) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA7))
+                        qlm = 3;
+                    if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA8) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA9) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA10) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA11))
+                        qlm = 6;
+                    if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA12) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA13) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA14) ||
+                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA15))
+                        qlm = 7;
+                    if (qlm != -1)
+                    {
+                        BDK_CSR_INIT(cfg, node, BDK_GSERX_CFG(qlm));
+                        if (!cfg.s.sata)
+                            return 0;
+                    }
                 }
             }
 
