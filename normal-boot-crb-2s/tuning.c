@@ -31,10 +31,18 @@ void bdk_board_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     {
         for (int lane = 0; lane < 4; lane++)
         {
+            /* From Scott McIlhenny's email on 4/13/2015 */
+            /*  Program the Tx swing and Tx emphasis Pre-cursor and
+                    Post-cursor values {program Tx swing to 20decimal for
+                    half swing and set Pre & Post to zero}
+                Write GSER(8..13)_LANE(0..3)_TX_CFG_0.CFG_TX_SWING = 0x14
+                Write GSER(8..13)_LANE(0..3)_TX_PRE_EMPHASIS.CFG_TX_PREMPTAP
+                    CFG_TX_PREMPTAP[8:4] = 0x0
+                    CFG_TX_PREMPTAP[3:0] = 0x0 */
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
-                c.s.cfg_tx_swing = 0x1c);
+                c.s.cfg_tx_swing = 0x14);
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
-                c.s.cfg_tx_premptap = 0x40);
+                c.s.cfg_tx_premptap = 0x00);
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
                 c.s.tx_swing_ovrd_en = 1;
                 c.s.tx_premptap_ovrd_val = 1);
