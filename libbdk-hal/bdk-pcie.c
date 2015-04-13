@@ -985,6 +985,13 @@ uint32_t bdk_pcie_config_read32(bdk_node_t node, int pcie_port, int bus, int dev
     else
         result = 0xffffffff;
     BDK_TRACE(PCIE_CONFIG, "N%d.PCIe%d:     Result=0x%08x\n", node, pcie_port, result);
+
+    /* Errata ECAM-22630: CN88XX pass 1.x, except pass 1.0, will return zero
+       for non-existent devices instead of ones. We look for this special case
+       for 32bit reads for reg=0 so we can scan device properly */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (reg == 0) && (result == 0))
+        result = 0xffffffff;
+
     return result;
 }
 
