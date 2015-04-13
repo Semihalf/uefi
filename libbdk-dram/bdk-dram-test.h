@@ -15,6 +15,22 @@ extern int bdk_dram_test(int test, uint64_t start_address, uint64_t length);
 extern int bdk_dram_get_batch_mode(void);
 extern void bdk_dram_set_batch_mode(int mode);
 
+/**
+ * Given a physical DRAM address, extract information about the node, LMC, DIMM,
+ * rank, bank, row, and column that was accessed.
+ *
+ * @param address Physical address to decode
+ * @param node    Node the address was for
+ * @param lmc     LMC controller the address was for
+ * @param dimm    DIMM the address was for
+ * @param rank    RANK on the DIMM
+ * @param bank    BANK on the DIMM
+ * @param row     Row on the DIMM
+ * @param col     Column on the DIMM
+ */
+extern void bdk_dram_address_extract_info(uint64_t address, int *node, int *lmc,
+    int *dimm, int *rank, int *bank, int *row, int *col);
+
 /* These variables count the number of ECC errors. They should only be accessed atomically */
 /* Keep the counts per memory channel (LMC) for more detail. */
 #define BDK_MAX_MEM_CHANS 4

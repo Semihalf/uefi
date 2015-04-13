@@ -10,9 +10,6 @@ BDK_REQUIRE_DEFINE(DRAM_TEST);
 #define ENABLE_LMC_PERCENT 1 /* Show LMC load after each DRAM test */
 #define ENABLE_CCPI_PERCENT 0 /* Show CCPI load after each DRAM test */
 
-extern void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
-				 int *rank, int *bank, int *row, int *col);
-
 typedef struct
 {
     const char *        name;       /* Friendly name for the test */
@@ -506,7 +503,7 @@ static void __bdk_dram_report_address_decode(uint64_t address, char *buffer, int
     int core = bdk_get_core_num();
     int node, lmc, dimm, rank, bank, row, col;
 
-    extract_address_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
+    bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
 
     snprintf(buffer, len, "[0x%011lx] (N%d,Core%02d,LMC%d,DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)",
 	     address, node, core, lmc, dimm, rank, bank, row, col);

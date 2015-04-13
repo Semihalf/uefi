@@ -41,9 +41,6 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
-extern void extract_address_info(uint64_t address, int *node, int *lmc, int *dimm,
-				 int *rank, int *bank, int *row, int *col);
-
 /* Define DDR_DEBUG to debug the DDR interface.  This also enables the
 ** output necessary for review by Cavium Inc., Inc. */
 /* #define DDR_DEBUG */
@@ -401,7 +398,7 @@ int test_dram_byte_hw(bdk_node_t node, int ddr_interface_num, uint64_t p, int co
             for (i = 0; i < (1 << 7); i += 8) {
 		index = i + j + k;
                 p1 = p + index;
-                extract_address_info(p1, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
+                bdk_dram_address_extract_info(p1, &node_address, &lmc, &dimm, &rank, &bank, &row, &col);
 
 
                 if (node != node_address)
