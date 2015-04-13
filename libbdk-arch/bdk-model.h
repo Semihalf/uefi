@@ -10,9 +10,14 @@
  */
 
 
-/* Flag bits in top byte */
+/* Flag bits in top byte. The top byte of MIDR_EL1 is defined
+   as ox43, the Cavium implementer code. In this number, bit 7
+   and bit 5 are defiend as zero. We use these bits to signal
+   that revision numbers should be ignored. It isn't ideal
+   that these are in the middle of an already defined field,
+   but this keeps the model numbers as 32 bits */
 #define __OM_IGNORE_REVISION        0x80000000
-#define __OM_IGNORE_MINOR_REVISION  0x40000000
+#define __OM_IGNORE_MINOR_REVISION  0x20000000
 
 #define CAVIUM_CN88XX_PASS1_0   0x430f0a10
 #define CAVIUM_CN88XX_PASS1_1   0x430f0a11
