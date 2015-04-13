@@ -199,4 +199,3 @@ uint64_t bdk_dram_get_top_of_bdk(void)
     top_of_bdk <<= 16;
     return top_of_bdk;
 }
-

@@ -17,9 +17,9 @@ extern void bdk_dram_set_batch_mode(int mode);
 
 /* These variables count the number of ECC errors. They should only be accessed atomically */
 /* Keep the counts per memory channel (LMC) for more detail. */
-#define MAX_MEM_CHANS 4
-extern int64_t __bdk_dram_ecc_single_bit_errors[MAX_MEM_CHANS];
-extern int64_t __bdk_dram_ecc_double_bit_errors[MAX_MEM_CHANS];
+#define BDK_MAX_MEM_CHANS 4
+extern int64_t __bdk_dram_ecc_single_bit_errors[BDK_MAX_MEM_CHANS];
+extern int64_t __bdk_dram_ecc_double_bit_errors[BDK_MAX_MEM_CHANS];
 
 /* These are internal support functions */
 extern void __bdk_dram_flush_to_mem(uint64_t address);

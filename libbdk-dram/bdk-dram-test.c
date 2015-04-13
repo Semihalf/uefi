@@ -56,8 +56,8 @@ void bdk_dram_set_abort_mode(int mode)
 }
 
 /* These variables count the number of ECC errors. They should only be accessed atomically */
-int64_t __bdk_dram_ecc_single_bit_errors[MAX_MEM_CHANS];
-int64_t __bdk_dram_ecc_double_bit_errors[MAX_MEM_CHANS];
+int64_t __bdk_dram_ecc_single_bit_errors[BDK_MAX_MEM_CHANS];
+int64_t __bdk_dram_ecc_double_bit_errors[BDK_MAX_MEM_CHANS];
 
 static int64_t dram_test_thread_done;
 static int64_t dram_test_thread_errors;
@@ -451,7 +451,7 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
         start_address = top_of_bdk;
 
     /* Clear ECC error counters before starting the test */
-    for (int chan = 0; chan < MAX_MEM_CHANS; chan++) {
+    for (int chan = 0; chan < BDK_MAX_MEM_CHANS; chan++) {
 	bdk_atomic_set64(&__bdk_dram_ecc_single_bit_errors[chan], 0);
 	bdk_atomic_set64(&__bdk_dram_ecc_double_bit_errors[chan], 0);
     }
@@ -469,12 +469,12 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
     /* Check ECC error counters after the test */
     int64_t ecc_single = 0;
     int64_t ecc_double = 0;
-    int64_t ecc_single_errs[MAX_MEM_CHANS];
-    int64_t ecc_double_errs[MAX_MEM_CHANS];
+    int64_t ecc_single_errs[BDK_MAX_MEM_CHANS];
+    int64_t ecc_double_errs[BDK_MAX_MEM_CHANS];
 
-    for (int chan = 0; chan < MAX_MEM_CHANS; chan++) {
-	ecc_single += (ecc_single_errs[chan] = bdk_atomic_get64(&__bdk_dram_ecc_single_bit_errors[chan]));
-	ecc_double += (ecc_double_errs[chan] = bdk_atomic_get64(&__bdk_dram_ecc_double_bit_errors[chan]));
+    for (int chan = 0; chan < BDK_MAX_MEM_CHANS; chan++) {
+        ecc_single += (ecc_single_errs[chan] = bdk_atomic_get64(&__bdk_dram_ecc_single_bit_errors[chan]));
+        ecc_double += (ecc_double_errs[chan] = bdk_atomic_get64(&__bdk_dram_ecc_double_bit_errors[chan]));
     }
 
     /* Always print any ECC errors */
@@ -491,7 +491,6 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
     }
     else
         BDK_TRACE(DRAM_TEST, "Test \"%s\": PASS\n", name);
-
 
     return (errors + ecc_double + ecc_single);
 }
