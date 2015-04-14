@@ -5,6 +5,10 @@
  */
 void bdk_clock_setup(bdk_node_t node)
 {
+    /* Check if the counter was already setup */
+    BDK_CSR_INIT(cntcr, node, BDK_GTI_CC_CNTCR);
+    if (cntcr.s.en)
+        return;
     /* Configure GTI to tick at BDK_GTI_RATE */
     uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
     uint64_t inc = (BDK_GTI_RATE << 32) / sclk;
@@ -13,6 +17,10 @@ void bdk_clock_setup(bdk_node_t node)
         inc *= 10;
     BDK_CSR_WRITE(node, BDK_GTI_CC_CNTRATE, inc);
     BDK_CSR_WRITE(node, BDK_GTI_CTL_CNTFRQ, BDK_GTI_RATE);
+    /* Synchronize with master node. Very simple set of counter, will
+       be off a little */
+    BDK_CSR_WRITE(node, BDK_GTI_CC_CNTCV, BDK_CSR_READ(bdk_numa_master(), BDK_GTI_CC_CNTCV));
+    /* Enable the counter */
     BDK_CSR_MODIFY(c, node, BDK_GTI_CC_CNTCR,
         c.s.en = 1);
 }
