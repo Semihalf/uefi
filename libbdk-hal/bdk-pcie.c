@@ -199,7 +199,7 @@ static void pcie_internal_init_dev(bdk_node_t node, int ecam, int bus, int dev, 
     BDK_TRACE(INIT_ECAM, "        Setting revision\n");
     BDK_CSR_DEFINE(sctl, BDK_PCCPF_XXX_VSEC_SCTL);
     sctl.u = bdk_pcie_config_read32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_VSEC_SCTL);
-    sctl.s.rid = midr_el1.s.revision;
+    sctl.s.rid = midr_el1.s.revision | (midr_el1.s.variant<<3);
     bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
 
     /* PCCPF_XXX_BAR0U, PCCPF_XXX_BAR2U, PCCPF_XXX_SRIOV_BAR0U,
