@@ -1467,7 +1467,7 @@ int qlm_auto_config(bdk_node_t node)
 
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
     {
-        printf("QLM Config: Configuring QLMs for a sample setup\n");
+        printf("N%d: QLM Config: Configuring QLMs for a sample setup\n", node);
         bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_SGMII, 1250, 0);
         bdk_qlm_set_mode(node, 1, BDK_QLM_MODE_XAUI_1X4, 6250, 0);
         bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
@@ -1486,32 +1486,32 @@ int qlm_auto_config(bdk_node_t node)
     data = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x00, 1, 1);
     if (data != 0xa5)
     {
-        printf("QLM Config: MCU not found, skipping auto configuration\n");
+        printf("N%d: QLM Config: MCU not found, skipping auto configuration\n", node);
         return -1;
     }
     data = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x01, 1, 1);
     if (data != 0x5a)
     {
-        bdk_error("QLM Config: MCU magic number incorrect\n");
+        bdk_error("N%d: QLM Config: MCU magic number incorrect\n", node);
         return -1;
     }
 
     /* Read the MCU version */
     int mcu_major = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x02, 1, 1);
     int mcu_minor = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x03, 1, 1);
-    BDK_TRACE(QLM, "MCU version %d.%d\n", mcu_major, mcu_minor);
+    BDK_TRACE(QLM, "N%d: MCU version %d.%d\n", node, mcu_major, mcu_minor);
     if ((mcu_major < 2) || ((mcu_major == 2) && (mcu_minor < 30)))
     {
-        bdk_error("QLM Config: Unexpected MCU version %d.%d\n", mcu_major, mcu_minor);
+        bdk_error("N%d: QLM Config: Unexpected MCU version %d.%d\n", node, mcu_major, mcu_minor);
         return -1;
     }
 
     /* Find out how many lanes the MCU thinks are available */
     int lanes = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x16, 1, 1);
-    BDK_TRACE(QLM, "MCU says board has %d lanes\n", lanes);
+    BDK_TRACE(QLM, "N%d: MCU says board has %d lanes\n", node, lanes);
     if (lanes != 32)
     {
-        bdk_error("QLM Config: Unexpected number of lanes (%d) from MCU\n", lanes);
+        bdk_error("N%d: QLM Config: Unexpected number of lanes (%d) from MCU\n", node, lanes);
         return -1;
     }
 
@@ -1526,11 +1526,11 @@ int qlm_auto_config(bdk_node_t node)
         int mode = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x18, 2, 1);
         int speed = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x19, 2, 1);
         int refclk = bdk_twsix_read_ia(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x1a, 1, 1);
-        BDK_TRACE(QLM, "MCU lane %d, width %d, mode 0x%x, speed 0x%x, ref 0x%x\n",
-            lane, width, mode, speed, refclk);
+        BDK_TRACE(QLM, "N%d: MCU lane %d, width %d, mode 0x%x, speed 0x%x, ref 0x%x\n",
+            node, lane, width, mode, speed, refclk);
         if ((width != 0) && (width != 4) && (width != 8))
         {
-            bdk_error("QLM Config: Unexpected interface width (%d) from MCU\n", width);
+            bdk_error("N%d: QLM Config: Unexpected interface width (%d) from MCU\n", node, width);
             return -1;
         }
         /* MCU reports a width of 0 for unconfigured QLMs */
@@ -1580,12 +1580,12 @@ int qlm_auto_config(bdk_node_t node)
             case 0x3002: /* Interlaken Look-Aside */
             case 0x7000: /* SRIO */
             default:
-                bdk_error("QLM Config: Unexpected interface mode (0x%x) from MCU\n", mode);
+                bdk_error("N%d: QLM Config: Unexpected interface mode (0x%x) from MCU\n", node, mode);
                 qlm_mode = BDK_QLM_MODE_DISABLED;
                 break;
         }
-        BDK_TRACE(QLM, "Setting QLM%d mode %d, speed %d, flags 0x%x\n",
-            qlm, qlm_mode, qlm_speed, qlm_flags);
+        BDK_TRACE(QLM, "N%d: Setting QLM%d mode %d, speed %d, flags 0x%x\n",
+            node, qlm, qlm_mode, qlm_speed, qlm_flags);
         if (bdk_qlm_set_mode(node, qlm, qlm_mode, qlm_speed, qlm_flags))
             return -1;
         lane += width;

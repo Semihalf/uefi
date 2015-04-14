@@ -153,7 +153,7 @@ int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
         int old_baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
         if (old_baud_mhz == baud_mhz)
         {
-            BDK_TRACE(QLM, "QLM%d: Skipping set_mode as QLM is already in correct mode\n", qlm);
+            BDK_TRACE(QLM, "N%d.QLM%d: Skipping set_mode as QLM is already in correct mode\n", node, qlm);
             return 0;
         }
     }
@@ -188,7 +188,7 @@ int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
         return 156250000;
     }
     int ref_clock = qlm_ops->measure_refclock(node, qlm);
-    BDK_TRACE(QLM, "QLM%d: Ref clock %d Hz\n", qlm, ref_clock);
+    BDK_TRACE(QLM, "N%d.QLM%d: Ref clock %d Hz\n", node, qlm, ref_clock);
     return ref_clock;
 }
 
