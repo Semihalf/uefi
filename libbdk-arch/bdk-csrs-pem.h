@@ -228,16 +228,16 @@ typedef union bdk_pemx_bist_status {
 		uint64_t rqhdrb1                     : 1;  /**< RO - Rx queue header memory buffer 1. */
 		uint64_t rqdatab0                    : 1;  /**< RO - Rx queue data buffer 0. */
 		uint64_t rqdatab1                    : 1;  /**< RO - Rx queue data buffer 1. */
-		uint64_t tlpan_d0                    : 1;  /**< RO - BIST status for tlp_n_afifo_data0. */
-		uint64_t tlpan_d1                    : 1;  /**< RO - BIST status for tlp_n_afifo_data1. */
-		uint64_t tlpan_ctl                   : 1;  /**< RO - BIST status for tlp_n_afifo_ctl. */
-		uint64_t tlpap_d0                    : 1;  /**< RO - BIST status for tlp_p_afifo_data0. */
-		uint64_t tlpap_d1                    : 1;  /**< RO - BIST status for tlp_p_afifo_data1. */
-		uint64_t tlpap_ctl                   : 1;  /**< RO - BIST status for tlp_p_afifo_ctl. */
-		uint64_t tlpac_d0                    : 1;  /**< RO - BIST status for tlp_c_afifo_data0. */
-		uint64_t tlpac_d1                    : 1;  /**< RO - BIST status for tlp_c_afifo_data1. */
-		uint64_t tlpac_ctl                   : 1;  /**< RO - BIST status for tlp_c_afifo_ctl. */
-		uint64_t peai_p2e                    : 1;  /**< RO - BIST status for peai__pesc_fifo. */
+		uint64_t tlpan_d0                    : 1;  /**< RO - BIST Status for the tlp_n_afifo_data0. */
+		uint64_t tlpan_d1                    : 1;  /**< RO - BIST Status for the tlp_n_afifo_data1. */
+		uint64_t tlpan_ctl                   : 1;  /**< RO - BIST Status for the tlp_n_afifo_ctl. */
+		uint64_t tlpap_d0                    : 1;  /**< RO - BIST Status for the tlp_p_afifo_data0. */
+		uint64_t tlpap_d1                    : 1;  /**< RO - BIST Status for the tlp_p_afifo_data1. */
+		uint64_t tlpap_ctl                   : 1;  /**< RO - BIST Status for the tlp_p_afifo_ctl. */
+		uint64_t tlpac_d0                    : 1;  /**< RO - BIST Status for the tlp_c_afifo_data0. */
+		uint64_t tlpac_d1                    : 1;  /**< RO - BIST Status for the tlp_c_afifo_data1. */
+		uint64_t tlpac_ctl                   : 1;  /**< RO - BIST Status for the tlp_c_afifo_ctl. */
+		uint64_t peai_p2e                    : 1;  /**< RO - BIST Status for the peai__pesc_fifo. */
 		uint64_t tlpn_d0                     : 1;  /**< RO - BIST status for tlp_n_fifo_data0. */
 		uint64_t tlpn_d1                     : 1;  /**< RO - BIST status for tlp_n_fifo_data1. */
 		uint64_t tlpn_ctl                    : 1;  /**< RO - BIST status for tlp_n_fifo_ctl. */

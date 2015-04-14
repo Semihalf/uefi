@@ -439,7 +439,8 @@ union pcc_ea_entry_s {
 		uint64_t enable                      : 1;  /**< [ 31: 31] Enable. Always set. */
 		uint64_t w                           : 1;  /**< [ 30: 30] Writable. Always clear. */
 		uint64_t reserved_24_29              : 6;  /**< [ 29: 24] Reserved. */
-		uint64_t sec_prop                    : 8;  /**< [ 23: 16] Secondary properties. Same encoding as PRI_PROP. For CNXXXX always 0x0. */
+		uint64_t sec_prop                    : 8;  /**< [ 23: 16] Secondary properties. For CNXXXX always 0xFF, indicating that the primary properties must
+                                                                 be used. */
 		uint64_t pri_prop                    : 8;  /**< [ 15:  8] Primary properties.
                                                                  0x0 = Memory space, non-prefetchable.
                                                                  0x4 = Physical function indicating virtual function memory space, non-prefetchable. */
@@ -473,7 +474,8 @@ union pcc_ea_entry_s {
 		uint64_t pri_prop                    : 8;  /**< [ 15:  8] Primary properties.
                                                                  0x0 = Memory space, non-prefetchable.
                                                                  0x4 = Physical function indicating virtual function memory space, non-prefetchable. */
-		uint64_t sec_prop                    : 8;  /**< [ 23: 16] Secondary properties. Same encoding as PRI_PROP. For CNXXXX always 0x0. */
+		uint64_t sec_prop                    : 8;  /**< [ 23: 16] Secondary properties. For CNXXXX always 0xFF, indicating that the primary properties must
+                                                                 be used. */
 		uint64_t reserved_24_29              : 6;  /**< [ 29: 24] Reserved. */
 		uint64_t w                           : 1;  /**< [ 30: 30] Writable. Always clear. */
 		uint64_t enable                      : 1;  /**< [ 31: 31] Enable. Always set. */
@@ -596,7 +598,8 @@ typedef union bdk_pccpf_xxx_bar0u {
                                                                  BAR for address decoding. After sizing, for proper software behavior, software must
                                                                  restore the register value, where the proper value may be read from PCCPF_XXX_VSEC_BAR0U,
                                                                  with software writing the node number into the field bits corresponding to address bits
-                                                                 \<45:44\>. INTERNAL: From PCC's tie__pfbar0_rbsz and tie__pfbar0_offset. */
+                                                                 \<45:44\>.
+                                                                 INTERNAL: From PCC's tie__pfbar0_rbsz and tie__pfbar0_offset. */
 #else
 		uint32_t ubab                        : 32;
 #endif

@@ -3993,7 +3993,8 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "EOICOUNT", start = 27, stop = 31},
-                {name = "RESERVED_14_26", start = 14, stop = 26},
+                {name = "RESERVED_15_26", start = 15, stop = 26},
+                {name = "TDIR", start = 14, stop = 14},
                 {name = "TSEI", start = 13, stop = 13},
                 {name = "TALL1", start = 12, stop = 12},
                 {name = "TALL0", start = 11, stop = 11},
@@ -4086,7 +4087,9 @@ local csr_db = {
                 {name = "IDBITS", start = 23, stop = 25},
                 {name = "SEIS", start = 22, stop = 22},
                 {name = "A3V", start = 21, stop = 21},
-                {name = "RESERVED_5_20", start = 5, stop = 20},
+                {name = "RESERVED_20_20", start = 20, stop = 20},
+                {name = "TDS", start = 19, stop = 19},
+                {name = "RESERVED_5_18", start = 5, stop = 18},
                 {name = "LISTREGS", start = 0, stop = 4},
             }
         },
@@ -9164,10 +9167,11 @@ local csr_db = {
         },
         GITS_TYPER = {
             name = "GITS_TYPER",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x801000020008,
             fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "HCC", start = 24, stop = 31},
                 {name = "RESERVED_20_23", start = 20, stop = 23},
                 {name = "PTA", start = 19, stop = 19},
@@ -18086,8 +18090,7 @@ local csr_db = {
             range2_inc = 0x40000,
             fields = {
                 {name = "TCP_OFF", start = 63, stop = 63},
-                {name = "RESERVED_30_62", start = 30, stop = 62},
-                {name = "RX_CQM_FORMAT", start = 29, stop = 29},
+                {name = "RESERVED_29_62", start = 29, stop = 62},
                 {name = "STRIP_PRE_L2", start = 28, stop = 28},
                 {name = "CACHING", start = 26, stop = 27},
                 {name = "CQ_QS", start = 19, stop = 25},
@@ -20489,7 +20492,8 @@ local csr_db = {
                 {name = "LOW_DELAY", start = 10, stop = 15},
                 {name = "LANE_ALIGN_DIS", start = 9, stop = 9},
                 {name = "LANE_REV", start = 8, stop = 8},
-                {name = "RESERVED_0_7", start = 0, stop = 7},
+                {name = "LANE_REV_AUTO", start = 7, stop = 7},
+                {name = "RESERVED_0_6", start = 0, stop = 6},
             }
         },
         OCX_MSIX_PBAX = {
@@ -54338,7 +54342,8 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "EOICOUNT", start = 27, stop = 31},
-                {name = "RESERVED_14_26", start = 14, stop = 26},
+                {name = "RESERVED_15_26", start = 15, stop = 26},
+                {name = "TDIR", start = 14, stop = 14},
                 {name = "TSEI", start = 13, stop = 13},
                 {name = "TALL1", start = 12, stop = 12},
                 {name = "TALL0", start = 11, stop = 11},
@@ -54431,7 +54436,9 @@ local csr_db = {
                 {name = "IDBITS", start = 23, stop = 25},
                 {name = "SEIS", start = 22, stop = 22},
                 {name = "A3V", start = 21, stop = 21},
-                {name = "RESERVED_5_20", start = 5, stop = 20},
+                {name = "RESERVED_20_20", start = 20, stop = 20},
+                {name = "TDS", start = 19, stop = 19},
+                {name = "RESERVED_5_18", start = 5, stop = 18},
                 {name = "LISTREGS", start = 0, stop = 4},
             }
         },
@@ -59509,10 +59516,11 @@ local csr_db = {
         },
         GITS_TYPER = {
             name = "GITS_TYPER",
-            type = "NCB32B",
-            width = 4,
+            type = "NCB",
+            width = 8,
             address = 0x801000020008,
             fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "HCC", start = 24, stop = 31},
                 {name = "RESERVED_20_23", start = 20, stop = 23},
                 {name = "PTA", start = 19, stop = 19},
@@ -68431,8 +68439,7 @@ local csr_db = {
             range2_inc = 0x40000,
             fields = {
                 {name = "TCP_OFF", start = 63, stop = 63},
-                {name = "RESERVED_30_62", start = 30, stop = 62},
-                {name = "RX_CQM_FORMAT", start = 29, stop = 29},
+                {name = "RESERVED_29_62", start = 29, stop = 62},
                 {name = "STRIP_PRE_L2", start = 28, stop = 28},
                 {name = "CACHING", start = 26, stop = 27},
                 {name = "CQ_QS", start = 19, stop = 25},
@@ -70834,7 +70841,8 @@ local csr_db = {
                 {name = "LOW_DELAY", start = 10, stop = 15},
                 {name = "LANE_ALIGN_DIS", start = 9, stop = 9},
                 {name = "LANE_REV", start = 8, stop = 8},
-                {name = "RESERVED_0_7", start = 0, stop = 7},
+                {name = "LANE_REV_AUTO", start = 7, stop = 7},
+                {name = "RESERVED_0_6", start = 0, stop = 6},
             }
         },
         OCX_MSIX_PBAX = {

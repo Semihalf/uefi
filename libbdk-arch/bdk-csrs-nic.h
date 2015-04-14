@@ -675,12 +675,12 @@ enum nic_l4type_e {
 	NIC_L4TYPE_E_IPFRAG = 0x2,
 	NIC_L4TYPE_E_IPSEC_ESP = 0x1,
 	NIC_L4TYPE_E_NONE = 0x0,
-	NIC_L4TYPE_E_NVGRE = 0xb,
+	NIC_L4TYPE_E_NVGRE = 0xc,
 	NIC_L4TYPE_E_OTHER = 0xe,
 	NIC_L4TYPE_E_SCTP = 0x6,
 	NIC_L4TYPE_E_TCP = 0x4,
 	NIC_L4TYPE_E_UDP = 0x5,
-	NIC_L4TYPE_E_UDP_BTH = 0xc,
+	NIC_L4TYPE_E_UDP_BTH = 0xb,
 	NIC_L4TYPE_E_UDP_GENEVE = 0x9,
 	NIC_L4TYPE_E_UDP_VXLAN = 0xa,
 	NIC_L4TYPE_E_ENUM_LAST = 0xf,
@@ -5578,8 +5578,7 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 	struct bdk_nic_pf_qsx_rqx_cfg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t tcp_off                     : 1;  /**< R/W - Reserved. INTERNAL: Reserved for future use - Overrides NIC_QS()_RQ()_CFG[TCP_ENA]. */
-		uint64_t reserved_30_62              : 33;
-		uint64_t rx_cqm_format               : 1;  /**< RAZ - Reserved. INTERNAL: Reserved for future use. */
+		uint64_t reserved_29_62              : 34;
 		uint64_t strip_pre_l2                : 1;  /**< R/W - All bytes that come before the SA/DA of the L2 Layer are stripped not saved in the RBDR buffer. */
 		uint64_t caching                     : 2;  /**< R/W - Select the style of write to the L2C.
                                                                  0x0 = Writes of RBDR data will not allocate into the L2C.
@@ -5603,8 +5602,7 @@ typedef union bdk_nic_pf_qsx_rqx_cfg {
 		uint64_t cq_qs                       : 7;
 		uint64_t caching                     : 2;
 		uint64_t strip_pre_l2                : 1;
-		uint64_t rx_cqm_format               : 1;
-		uint64_t reserved_30_62              : 33;
+		uint64_t reserved_29_62              : 34;
 		uint64_t tcp_off                     : 1;
 #endif
 	} s;

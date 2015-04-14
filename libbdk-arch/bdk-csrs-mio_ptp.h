@@ -287,7 +287,7 @@ static inline uint64_t BDK_MIO_PTP_CKOUT_THRESH_LO_FUNC(void)
 /**
  * NCB - mio_ptp_clock_cfg
  *
- * This register configures the timestamp architecture. See MIO_PTP Registers for address
+ * This register configures the timestamp architecture.
  *
  */
 typedef union bdk_mio_ptp_clock_cfg {

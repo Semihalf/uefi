@@ -2149,7 +2149,8 @@ typedef union bdk_cimx_ich_hcr_el2 {
 
                                                                  This allows software to manage more active interrupts than there are implemented list
                                                                  registers. */
-		uint64_t reserved_14_26              : 13;
+		uint64_t reserved_15_26              : 12;
+		uint64_t tdir                        : 1;  /**< RAZ - Reserved. */
 		uint64_t tsei                        : 1;  /**< R/W - Trap all locally generated SEIs.
                                                                  This bit allows the hypervisor to intercept locally generated SEIs that would
                                                                  otherwise be taken by a guest operating system at non-secure EL1.
@@ -2159,7 +2160,9 @@ typedef union bdk_cimx_ich_hcr_el2 {
                                                                  Virtual SEIs caused by writes to CIM()_ICH_VSEIR_EL2 are unaffected
                                                                  by this bit.
 
-                                                                 This bit is reserved when CIM()_ICH_VTR_EL2[SEIS] is zero. */
+                                                                 This bit is reserved when CIM()_ICH_VTR_EL2[SEIS] is zero.
+
+                                                                 Changed in pass2. */
 		uint64_t tall1                       : 1;  /**< R/W - Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 1
                                                                  interrupts.
                                                                  0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts proceed
@@ -2259,7 +2262,8 @@ typedef union bdk_cimx_ich_hcr_el2 {
 		uint64_t tall0                       : 1;
 		uint64_t tall1                       : 1;
 		uint64_t tsei                        : 1;
-		uint64_t reserved_14_26              : 13;
+		uint64_t tdir                        : 1;
+		uint64_t reserved_15_26              : 12;
 		uint64_t eoicount                    : 5;
 		uint64_t reserved_32_63              : 32;
 #endif
@@ -2598,14 +2602,18 @@ typedef union bdk_cimx_ich_vtr_el2 {
                                                                  system registers.
 
                                                                  In CNXXXX, this bit is always 0 as affinity3 is always 0. */
-		uint64_t reserved_5_20               : 16;
+		uint64_t reserved_20_20              : 1;
+		uint64_t tds                         : 1;  /**< RAZ - Reserved. */
+		uint64_t reserved_5_18               : 14;
 		uint64_t listregs                    : 5;  /**< RO/H - The number of implemented list registers, minus one.
                                                                  For example, a value of 0xF indicates that the maximum of 16 list registers are
                                                                  implemented.
                                                                  In CNXXXX, this field is always 0xF as 16 list registers are implemented. */
 #else
 		uint64_t listregs                    : 5;
-		uint64_t reserved_5_20               : 16;
+		uint64_t reserved_5_18               : 14;
+		uint64_t tds                         : 1;
+		uint64_t reserved_20_20              : 1;
 		uint64_t a3v                         : 1;
 		uint64_t seis                        : 1;
 		uint64_t idbits                      : 3;

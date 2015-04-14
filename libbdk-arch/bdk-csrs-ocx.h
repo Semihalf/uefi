@@ -2017,9 +2017,11 @@ typedef union bdk_ocx_lnkx_cfg {
 		uint64_t lane_rev                    : 1;  /**< R/W/H - RX lane reversal.   When enabled, lane destriping is performed from the most significant
                                                                  lane enabled to least significant lane enabled QLM_SELECT must be zero before changing
                                                                  LANE_REV. */
-		uint64_t reserved_0_7                : 8;
+		uint64_t lane_rev_auto               : 1;  /**< RAZ - Reserved. */
+		uint64_t reserved_0_6                : 7;
 #else
-		uint64_t reserved_0_7                : 8;
+		uint64_t reserved_0_6                : 7;
+		uint64_t lane_rev_auto               : 1;
 		uint64_t lane_rev                    : 1;
 		uint64_t lane_align_dis              : 1;
 		uint64_t low_delay                   : 6;
