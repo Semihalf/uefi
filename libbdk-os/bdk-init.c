@@ -1292,8 +1292,6 @@ int bdk_init_ccpi_links(uint64_t gbaud)
         }
     }
 
-    clear_oci_error(my_node);
-
     /* Do RX equalization now since we know CCPI traffic is disabled. We
        do not proceed until RX equalization succeeds on all QLMs */
     for (int link = 0; link < MAX_LINKS; link++)
@@ -1431,6 +1429,8 @@ int bdk_init_ccpi_links(uint64_t gbaud)
             }
         }
     }
+
+    clear_oci_error(my_node);
 
     /* Show final lane status */
     //oci_report_lane(my_node, 1);
