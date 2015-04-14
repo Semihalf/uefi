@@ -1931,6 +1931,13 @@ static void qlm_init_one(bdk_node_t node, int qlm)
  */
 static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
+    BDK_CSR_INIT(tx_cfg_1, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, 0));
+    if (tx_cfg_1.s.tx_swing_ovrd_en || tx_cfg_1.s.tx_premptap_ovrd_val)
+    {
+        BDK_TRACE(QLM, "N%d.QLM%d: Skip tuning as parameters are already applied\n", node, qlm);
+        return;
+    }
+
     BDK_TRACE(QLM, "N%d.QLM%d: Applying TX tuning\n", node, qlm);
     if (baud_mhz == 6250)
     {
