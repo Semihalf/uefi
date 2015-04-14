@@ -955,6 +955,30 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             /* OCI is now in software mode as we are reprogramming it */
             BDK_CSR_MODIFY(c, node, BDK_GSERX_SPD(qlm),
                 c.s.spd = 0xf);
+            /* 6.25G normally doesn't do TX training. In software mode, force
+               enable  TX training */
+            if (baud_mhz == 6250)
+            {
+                for (int lane = 0; lane < 4; lane++)
+                {
+                    /* 3) Program override for the Tx coefficient request
+                        Write GSER(8..13)_LANE(0..3)_PCS_CTLIFC_0.CFG_TX_COEFF_REQ_OVRRD_VAL = 0x1 */
+                    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_0(qlm, lane),
+                        c.s.cfg_tx_coeff_req_ovrrd_val = 1);
+                    /* 4) Enable the Tx coefficient request override enable
+                        Write GSER(8..13)_LANE(0..3)_PCS_CTLIFC_2.CFG_TX_COEFF_REQ_OVRRD_EN = 0x1 */
+                    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+                        c.s.cfg_tx_coeff_req_ovrrd_en = 1);
+                    /* 5) Issue a Control Interface Configuration Override request
+                        to start the Tx equalizer Optimization cycle which applies
+                        the new Tx swing and equalization settings
+                        Write GSER(0..13)_LANE(0..3)_PCS_CTLIFC_2.CTLIFC_OVRRD_REQ = 0x1
+                        The new Tx swing and Pre-cursor and Post-cursor settings
+                        will now take effect. */
+                    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
+                        c.s.ctlifc_ovrrd_req = 1);
+                }
+            }
             is_ilk = 1; /* CCPI looks like ILK */
             break;
         default:
