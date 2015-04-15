@@ -709,10 +709,9 @@ static unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num, in
 {
     bdk_lmcx_dll_ctl3_t ddr_dll_ctl3;
     /* byte_sel:
-       0x0 = no byte
        0x1 = byte 0, ..., 0x9 = byte 8
        0xA = all bytes */
-    int byte_sel = ((byte == 10) || (byte == 1)) ? byte : byte + 1;
+    int byte_sel = (byte == 10) ? byte : byte + 1;
 
     ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
     SET_DDR_DLL_CTL3(load_offset, 0);
