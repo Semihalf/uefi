@@ -708,6 +708,11 @@ static void display_read_leveling_settings(bdk_lmcx_rlevel_rankx_t lmc_rlevel_ra
 static unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num, int dll_offset_mode, int byte_offset, int byte)
 {
     bdk_lmcx_dll_ctl3_t ddr_dll_ctl3;
+    /* byte_sel:
+       0x0 = no byte
+       0x1 = byte 0, ..., 0x9 = byte 8
+       0xA = all bytes */
+    int byte_sel = ((byte == 10) || (byte == 1)) ? byte : byte + 1;
 
     ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
     SET_DDR_DLL_CTL3(load_offset, 0);
@@ -716,7 +721,7 @@ static unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num, in
 
     SET_DDR_DLL_CTL3(mode_sel, dll_offset_mode);
     SET_DDR_DLL_CTL3(offset, (_abs(byte_offset)&0x3f) | (_sign(byte_offset) << 6)); /* Always 6-bit field? */
-    SET_DDR_DLL_CTL3(byte_sel, byte);
+    SET_DDR_DLL_CTL3(byte_sel, byte_sel);
     DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
     ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
 
