@@ -14,7 +14,7 @@ def wait_for_main_menu(cnx):
     cnx.match("ebb8800) Initialize DRAM using config \"ebb8800\"")
     cnx.match("ebb8804) Initialize DRAM using config \"ebb8804\"")
     cnx.match("cn88xx-crb-1s) Initialize DRAM using config \"cn88xx-crb-1s\"")
-    cnx.match("cn88xx-crb-2s) Initialize DRAM using config \"cn88xx-crb-2s\"")
+    cnx.match("cn88xx-crb-2s-V3) Initialize DRAM using config \"cn88xx-crb-2s-V3\"")
     cnx.match("test) Memory Testing Menu")
     cnx.match("quit) Main menu")
     cnx.match("(INS)Menu choice []:")

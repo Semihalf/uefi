@@ -15,14 +15,14 @@ def wait_for_bootstub_messages(cnx):
         cnx.match("(Fixed)")
     except:
         pass
-    cnx.match("Chip:  0xa1 Pass 1.0")
+    cnx.matchRE("Chip:  0xa1 Pass [1-2]\\.[0-1]")
     cnx.match("L2:    16384 KB")
     cnx.matchRE("RCLK:  [0-9]+ Mhz")
     cnx.matchRE("SCLK:  [0-9]+ Mhz")
     cnx.match("Boot:  SPI24(5)")
     cnx.match("VRM:   Disabled")
     cnx.match("Trust: Disabled")
-    cnx.matchRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz")
+    cnx.waitforRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=10)
     if cnx.multinode:
         try:
             cnx.match("N0.CCPI Applying lane reversal")
@@ -35,14 +35,14 @@ def wait_for_bootstub_messages(cnx):
             cnx.match("(Fixed)")
         except:
             pass
-        cnx.match("Chip:  0xa1 Pass 1.0")
+        cnx.matchRE("Chip:  0xa1 Pass [1-2]\\.[0-1]")
         cnx.match("L2:    16384 KB")
         cnx.matchRE("RCLK:  [0-9]+ Mhz")
         cnx.matchRE("SCLK:  [0-9]+ Mhz")
         cnx.match("Boot:  SPI24(5)")
         cnx.match("VRM:   Disabled")
         cnx.match("Trust: Disabled")
-        cnx.matchRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=20)
+        cnx.waitforRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=20)
     else:
         cnx.match("Node 1: Not found, skipping DRAM init")
     cnx.waitfor("Press 'D' within 3 seconds to boot diagnostics", timeout=5)
@@ -79,8 +79,8 @@ def wait_for_bdk_boot(cnx):
     cnx.match("13) Interactive Lua prompt")
     cnx.match("14) Traffic Generator")
     cnx.match("15) Burn power")
-    cnx.match("16) Set power throttle level")
-    cnx.match("17) Reboot")
+    #cnx.match("16) Set power throttle level")
+    cnx.match("16) Reboot")
     # Extra output allowed here
     cnx.waitfor("(INS)Menu choice []:")
     cnx.sendEcho("keys")
@@ -105,7 +105,7 @@ def wait_for_main_menu(cnx):
     cnx.match("ilua) Interactive Lua prompt")
     cnx.match("tg) Traffic Generator")
     cnx.match("burn) Burn power")
-    cnx.match("throt) Set power throttle level")
+    #cnx.match("throt) Set power throttle level")
     cnx.match("rbt) Reboot")
     # Extra output allowed here
     cnx.waitfor("(INS)Menu choice []:")
