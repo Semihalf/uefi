@@ -10,6 +10,8 @@ BDK_REQUIRE_DEFINE(DRAM_TEST);
 #define ENABLE_LMC_PERCENT 1 /* Show LMC load after each DRAM test */
 #define ENABLE_CCPI_PERCENT 0 /* Show CCPI load after each DRAM test */
 
+#define ENABLE_COMPACT_ERRORS 1
+
 typedef struct
 {
     const char *        name;       /* Friendly name for the test */
@@ -505,8 +507,13 @@ static void __bdk_dram_report_address_decode(uint64_t address, char *buffer, int
 
     bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
 
+#if ENABLE_COMPACT_ERRORS
+    snprintf(buffer, len, "[0x%011lx] (N%d,LMC%d,DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)",
+	     address, node, lmc, dimm, rank, bank, row, col);
+#else
     snprintf(buffer, len, "[0x%011lx] (N%d,Core%02d,LMC%d,DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x)",
 	     address, node, core, lmc, dimm, rank, bank, row, col);
+#endif
 }
 
 /**
@@ -535,11 +542,17 @@ void __bdk_dram_report_error(uint64_t address, uint64_t data, uint64_t correct, 
 	}
 	__bdk_dram_report_address_decode(address, buffer, sizeof(buffer));
 
-        bdk_error("read: 0x%016lx, wrote: 0x%016lx, xor: 0x%016lx%s\n"
+#if ENABLE_COMPACT_ERRORS
+        bdk_error("compare: read: 0x%016lx, xor: 0x%016lx%s\n"
+		  "       %s\n",
+		  data, data ^ correct, failbuf,
+		  buffer);
+#else
+        bdk_error("compare: read: 0x%016lx, expected: 0x%016lx, xor: 0x%016lx%s\n"
 		  "       %s\n",
 		  data, correct, data ^ correct, failbuf,
 		  buffer);
-
+#endif
         if (errors == MAX_ERRORS_TO_REPORT-1)
             bdk_error("No further DRAM errors will be reported\n");
     }
@@ -576,11 +589,17 @@ void __bdk_dram_report_error2(uint64_t address1, uint64_t data1, uint64_t addres
 	__bdk_dram_report_address_decode(address1, buffer1, sizeof(buffer1));
 	__bdk_dram_report_address_decode(address2, buffer2, sizeof(buffer2));
 
-        bdk_error("data1: 0x%016lx, data2: 0x%016lx, xor: 0x%016lx%s\n"
+#if ENABLE_COMPACT_ERRORS
+        bdk_error("compare: data1: 0x%016lx, xor: 0x%016lx%s\n"
+		  "       %s\n       %s\n",
+		  data1, data1 ^ data2, failbuf,
+		  buffer1, buffer2);
+#else
+        bdk_error("compare: data1: 0x%016lx, data2: 0x%016lx, xor: 0x%016lx%s\n"
 		  "       %s\n       %s\n",
 		  data1, data2, data1 ^ data2, failbuf,
 		  buffer1, buffer2);
-
+#endif
         if (errors == MAX_ERRORS_TO_REPORT-1)
             bdk_error("No further DRAM errors will be reported\n");
     }
@@ -596,21 +615,26 @@ int __bdk_dram_retry_failure(int burst, uint64_t address, uint64_t data, uint64_
 {
     int refail = 0;
 
-    /* Try re-reading the memory location. A transient error may fail
-     * on one read and work on another. Keep on retrying even when a
-     * read succeeds.
-     */
-    for (int i = 0; i < RETRY_LIMIT; i++)
-    {
-        __bdk_dram_flush_to_mem(address);
-	BDK_DCACHE_INVALIDATE;
+    // bypass the retries if we are already over the limit...
+    if (bdk_atomic_get64(&dram_test_thread_errors) < MAX_ERRORS_TO_REPORT) {
 
-        uint64_t new = __bdk_dram_read64(address);
+	/* Try re-reading the memory location. A transient error may fail
+	 * on one read and work on another. Keep on retrying even when a
+	 * read succeeds.
+	 */
+	for (int i = 0; i < RETRY_LIMIT; i++) {
 
-        if (new != expected) {
-            refail++;
-        }
-    }
+	    __bdk_dram_flush_to_mem(address);
+	    BDK_DCACHE_INVALIDATE;
+
+	    uint64_t new = __bdk_dram_read64(address);
+
+	    if (new != expected) {
+		refail++;
+	    }
+	}
+    } else
+	refail = -1;
 
     // this will increment the errors always, but maybe not print...
     __bdk_dram_report_error(address, data, expected, burst, refail);
@@ -629,19 +653,23 @@ int __bdk_dram_retry_failure2(int burst, uint64_t address1, uint64_t data1, uint
 {
     int refail = 0;
 
-    for (int i = 0; i < RETRY_LIMIT; i++)
-    {
-        __bdk_dram_flush_to_mem(address1);
-        __bdk_dram_flush_to_mem(address2);
-        BDK_DCACHE_INVALIDATE;
+    // bypass the retries if we are already over the limit...
+    if (bdk_atomic_get64(&dram_test_thread_errors) < MAX_ERRORS_TO_REPORT) {
 
-        uint64_t d1 = __bdk_dram_read64(address1);
-        uint64_t d2 = __bdk_dram_read64(address2);
+	for (int i = 0; i < RETRY_LIMIT; i++) {
+	    __bdk_dram_flush_to_mem(address1);
+	    __bdk_dram_flush_to_mem(address2);
+	    BDK_DCACHE_INVALIDATE;
 
-        if (d1 != d2) {
-            refail++;
+	    uint64_t d1 = __bdk_dram_read64(address1);
+	    uint64_t d2 = __bdk_dram_read64(address2);
+
+	    if (d1 != d2) {
+		refail++;
+	    }
 	}
-    }
+    } else
+	refail = -1;
 
     // this will increment the errors always, but maybe not print...
     __bdk_dram_report_error2(address1, data1, address2, data2, burst, refail);
