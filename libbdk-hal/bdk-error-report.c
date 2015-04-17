@@ -180,8 +180,8 @@ static void check_cn88xx(bdk_node_t node)
                 uint32_t fcol = fadr.s.fcol & __bdk_dram_get_col_mask(node, index);
                 uint64_t where = construct_address_info(node, index, fadr.s.fdimm, fadr.s.fbunk,
                                                         fadr.s.fbank, frow, fcol);
-                bdk_error("ECC %s: (N%d,LMC%d,DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x,FO=%d,%s)[0x%011lx]\n",
-                          err_type, node, index,
+                bdk_error("N%d.LMC%d: ECC %s (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x,FO=%d,%s)[0x%011lx]\n",
+                          node, index, err_type,
                           fadr.s.fdimm, fadr.s.fbunk, fadr.s.fbank,
                           frow, fcol, fadr.s.fill_order, synstr, where);
             }
