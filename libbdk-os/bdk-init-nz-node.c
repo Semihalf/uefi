@@ -10,18 +10,10 @@
 static bdk_node_t node;
 
 /**
-* Wait for TX fifo to empty
+ * Delay for the specified microseconds
+ *
+ * @param usec
  */
-static void uart_wait_idle()
-{
-    while (1)
-    {
-        BDK_CSR_INIT(fr, node, BDK_UAAX_FR(0));
-        if (fr.s.txfe)
-            break;
-    }
-}
-
 static void wait_usec(uint64_t usec)
 {
     uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_MAIN_REF) + bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF) * usec / 1000000;
@@ -148,6 +140,7 @@ static void monitor_ccpi(void)
 
     /* Loop forever trying to get CCPI links up */
     int loop_count = 0;
+    uint64_t link_up_time = -1;
     while (1)
     {
         /* The node ID may change while we're running */
@@ -325,7 +318,8 @@ static void monitor_ccpi(void)
                     valid_links++;
             }
         }
-        if (valid_links >= 2)
+        /* Rquire the links to be valid for a length of time before marking everything good */
+        if ((valid_links >= 2) && (bdk_clock_get_count(BDK_CLOCK_MAIN_REF) >= link_up_time))
         {
             bdk_dbg_uart_char('0' + valid_links);
             /* Disable watchdog */
@@ -335,6 +329,8 @@ static void monitor_ccpi(void)
             extern void __bdk_reset_thread(int arg1, void *arg2);
             __bdk_reset_thread(0, NULL);
         }
+        else if (valid_links < 2)
+            link_up_time = bdk_clock_get_count(BDK_CLOCK_MAIN_REF) + bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
     }
 }
 
