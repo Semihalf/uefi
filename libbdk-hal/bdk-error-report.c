@@ -199,8 +199,6 @@ static void check_cn88xx(bdk_node_t node)
         CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, copr_badid);
         CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, win_req_badid);
         CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, win_req_tout);
-        CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, win_req_xmit);
-        CHECK_CHIP_ERROR(BDK_OCX_COM_INT, s, win_rsp);
         if (c.s.rx_lane)
         {
             /* Check CCPI link errors */
