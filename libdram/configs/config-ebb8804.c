@@ -13,6 +13,7 @@
 #define DEFAULT_LMC_MASK   TWO_LMC_MASK
 #define DEFAULT_DIMM_MASK  ONE_DIMM_MASK
 
+#if 0
 static rlevel_table_t rlevel_rank_values[] =    {
     {
         .part = "36ASF2G72PZ-2G1A2",
@@ -46,6 +47,7 @@ static rlevel_table_t rlevel_rank_values[] =    {
     },
     {0}                             /* Terminator */
 };
+#endif
 
 
 static void setup_modereg_params1_1rank_1slot(bdk_lmcx_modereg_params1_t *modereg)
