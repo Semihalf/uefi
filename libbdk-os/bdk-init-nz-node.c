@@ -3,6 +3,7 @@
 /* If non-zero, enable a watchdog timer to reset the chip ifwe hang during init.
    Value is in 262144 SCLK cycle intervals, max of 16 bits */
 #define WATCHDOG_TIMEOUT 8010 /* 3sec at 700Mhz */
+#define CCPI_MIN_LANES 24
 
 /* The node number may change dynamically while this code is running. This
    variable contains its value after every update in the CCPI monitor loop */
@@ -18,6 +19,15 @@ static void uart_wait_idle()
         BDK_CSR_INIT(fr, node, BDK_UAAX_FR(0));
         if (fr.s.txfe)
             break;
+    }
+}
+
+static void wait_usec(uint64_t usec)
+{
+    uint64_t timeout = bdk_clock_get_count(BDK_CLOCK_MAIN_REF) + bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF) * usec / 1000000;
+    while (bdk_clock_get_count(BDK_CLOCK_MAIN_REF) < timeout)
+    {
+        /* Spin */
     }
 }
 
@@ -122,18 +132,22 @@ static void qlm_tune(int qlm)
  */
 static void monitor_ccpi(void)
 {
-    uint64_t loop_count = 0;
-    uint64_t training_timeout = 0;
     bdk_dbg_uart_str("Monitoring CCPI\r\n");
 
-    /* Reset if a link change state */
-    BDK_CSR_WRITE(node, BDK_RST_OCX, 0x7);
+    /* Don't reset if a link change state */
+    BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
+
+    /* Make sure the link layer is down using lane alignment */
+    for (int link = 0; link < 3; link++)
+        BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
+            c.s.lane_align_dis = 1);
 
     /* Apply CCPI custom tuning */
     for (int qlm = 8; qlm < 14; qlm++)
         qlm_tune(qlm);
 
     /* Loop forever trying to get CCPI links up */
+    int loop_count = 0;
     while (1)
     {
         /* The node ID may change while we're running */
@@ -151,68 +165,138 @@ static void monitor_ccpi(void)
         }
         loop_count++;
 
-        int ready_lanes = 0;
-        int stuck_lanes = 0;
-
+        int good_lanes = 0;
         /* Check status of the 6 CCPI QLMs */
-        for (int i = 0; i < 6; i++)
+        for (int ccpi_qlm = 0; ccpi_qlm < 6; ccpi_qlm++)
         {
-            /* Make sure the lane timer is disabled, no lanes are bad, and all
-               lanes are good */
-            BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(i));
-            ready_lanes += bdk_dpop(ocx_qlmx_cfg.s.ser_lane_ready);
-            if (!ocx_qlmx_cfg.s.timer_dis || ocx_qlmx_cfg.s.ser_lane_bad ||
-                (ocx_qlmx_cfg.s.ser_lane_ready != 0xf))
-            {
-                ocx_qlmx_cfg.s.timer_dis = 1;
-                ocx_qlmx_cfg.s.ser_lane_bad = 0;
-                ocx_qlmx_cfg.s.ser_lane_ready = 0xf;
-                BDK_CSR_WRITE(node, BDK_OCX_QLMX_CFG(i), ocx_qlmx_cfg.u);
-            }
-            if (ready_lanes && (training_timeout == 0))
-                training_timeout = bdk_clock_get_count(BDK_CLOCK_MAIN_REF) + bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
+            BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(ccpi_qlm));
 
-            /* Wait until some lanes are up before checking if training is
-               enabled and done. */
-            if ((ready_lanes > 0) && ocx_qlmx_cfg.s.trn_ena)
+            int stuck_training = 0;
+            /* If training is enabled, check that each lane has completed
+               training. */
+            if (ocx_qlmx_cfg.s.trn_ena)
             {
                 /* Make sure no lanes are stuck in training */
-                for (int lane = i * 4; lane < (i + 1) * 4; lane++)
+                for (int lane = ccpi_qlm * 4; lane < (ccpi_qlm + 1) * 4; lane++)
                 {
+                    int bad = (ocx_qlmx_cfg.s.ser_lane_bad >> (lane & 3)) & 1;
                     BDK_CSR_INIT(ocx_lnex_trn_ctl, node, BDK_OCX_LNEX_TRN_CTL(lane));
-                    if (!ocx_lnex_trn_ctl.s.done)
+                    /* CN88XX pass 1.x can get stuck in training. This code
+                       implements a workaround when this is detected. This
+                       is Errata (OCX-23422) */
+                    if (bad && !ocx_lnex_trn_ctl.s.done)
                     {
+                        stuck_training = 1;
+                        /* We can't start the workaround until both the valid
+                           bits are set */
+                        BDK_CSR_INIT(ocx_lnex_trn_ld, node, BDK_OCX_LNEX_TRN_LD(lane));
+                        if (!ocx_lnex_trn_ld.s.ld_cu_val || !ocx_lnex_trn_ld.s.ld_sr_val)
+                            continue;
+                        /* OCX_LNEX_TRN_LP must be read multiple times as the
+                           valid bit changes dynamically */
+                        BDK_CSR_INIT(ocx_lnex_trn_lp, node, BDK_OCX_LNEX_TRN_LP(lane));
+                        while (!ocx_lnex_trn_lp.s.lp_cu_val)
+                            ocx_lnex_trn_lp.u = BDK_CSR_READ(node, BDK_OCX_LNEX_TRN_LP(lane));
+                        const char *final_status = "";
+                        /* Check if a CU message was lost */
+                        if ((ocx_lnex_trn_ld.s.ld_cu_dat != 0) && (ocx_lnex_trn_ld.s.ld_sr_dat == 0))
+                        {
+                            /* We lost a CU message */
+                            BDK_CSR_DEFINE(trn_ld, BDK_OCX_LNEX_TRN_LD(lane));
+                            trn_ld.u = 0;
+                            BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(lane), trn_ld.u);
+                            BDK_CSR_READ(node, BDK_OCX_LNEX_TRN_LD(lane));
+                            wait_usec(1);
+                            trn_ld.s.ld_cu_dat = ocx_lnex_trn_ld.s.ld_cu_dat;
+                            BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(lane), trn_ld.u);
+                            wait_usec(300000);
+                            ocx_lnex_trn_ctl.u = BDK_CSR_READ(node, BDK_OCX_LNEX_TRN_CTL(lane));
+                            if (ocx_lnex_trn_ctl.s.done)
+                                final_status = " (CU lost, fixed)";
+                            else
+                                final_status = " (CU lost)";
+                        }
+                        /* Check if a SR message was lost */
+                        if ((ocx_lnex_trn_ld.s.ld_cu_dat == 0) && (ocx_lnex_trn_ld.s.ld_sr_dat == 0x8000))
+                        {
+                            /* We lost a SR message */
+                            BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(lane), 1);
+                            BDK_CSR_READ(node, BDK_OCX_LNEX_TRN_LD(lane));
+                            wait_usec(1);
+                            BDK_CSR_WRITE(node, BDK_OCX_LNEX_TRN_LD(lane), 0x8000);
+                            wait_usec(300000);
+                            ocx_lnex_trn_ctl.u = BDK_CSR_READ(node, BDK_OCX_LNEX_TRN_CTL(lane));
+                            if (ocx_lnex_trn_ctl.s.done)
+                                final_status = " (SR lost, fixed)";
+                            else
+                                final_status = " (SR lost)";
+                        }
                         bdk_dbg_uart_str("Lane ");
                         bdk_dbg_uart_char('0' + lane / 10);
                         bdk_dbg_uart_char('0' + lane % 10);
-                        bdk_dbg_uart_str(" stuck in training\r\n");
-                        stuck_lanes++;
+                        bdk_dbg_uart_str(" TRN_LD=");
+                        bdk_dbg_uart_hex(ocx_lnex_trn_ld.u);
+                        bdk_dbg_uart_str(" TRN_LP=");
+                        bdk_dbg_uart_hex(ocx_lnex_trn_lp.u);
+                        bdk_dbg_uart_str(final_status);
+                        bdk_dbg_uart_str("\r\n");
+                        break; /* Skip other lanes until this one works */
                     }
                 }
             }
-        }
+            /* Don't bother checking for up lanes if one is stuck in training */
+            if (stuck_training)
+                break;
 
-        /* Do a soft reset if lanes are still stuck after the training
-           timout expires */
-        if (stuck_lanes && (bdk_clock_get_count(BDK_CLOCK_MAIN_REF) > training_timeout))
-        {
-            bdk_dbg_uart_str("Doing soft reset due to stuck training\n");
-            uart_wait_idle();
-            bdk_rst_soft_rst_t rst_soft_rst;
-            rst_soft_rst.u = 0;
-            rst_soft_rst.s.soft_rst = 1;
-            BDK_CSR_WRITE(node, BDK_RST_SOFT_RST, rst_soft_rst.u);
-            while (1) {}
+#if 0       // FIXME: RX equalization
+            /* Do three time to make usre there are no glitches */
+            for (int repeat = 0; repeat < 3; repeat++)
+                while (bdk_qlm_rx_equalization(node, qlm))
+                    wait_usec(100);
+#endif
+            /* Make sure no lanes are bad, and all lanes are good */
+            if (ocx_qlmx_cfg.s.ser_lane_bad)
+            {
+                int qlm = ccpi_qlm + 8;
+                bdk_dbg_uart_str("QLM");
+                bdk_dbg_uart_char('0' + qlm / 10);
+                bdk_dbg_uart_char('0' + qlm % 10);
+                bdk_dbg_uart_str(": ready ");
+                bdk_dbg_uart_hex(ocx_qlmx_cfg.s.ser_lane_ready);
+                bdk_dbg_uart_str(", bad ");
+                bdk_dbg_uart_hex(ocx_qlmx_cfg.s.ser_lane_bad);
+                bdk_dbg_uart_str("\r\n");
+                ocx_qlmx_cfg.s.ser_lane_bad = 0;
+                ocx_qlmx_cfg.s.ser_lane_ready = 0xf;
+                BDK_CSR_WRITE(node, BDK_OCX_QLMX_CFG(ccpi_qlm), ocx_qlmx_cfg.u);
+                continue;
+            }
+            /* Add the good lanes to the lane count */
+            good_lanes += bdk_dpop(ocx_qlmx_cfg.s.ser_lane_ready);
         }
 
         /* Don't check links until all lanes are up */
-        if (ready_lanes != 24)
+        if (good_lanes != CCPI_MIN_LANES)
+        {
+            /* Make sure the link layer is down using lane alignment */
+            for (int link = 0; link < 3; link++)
+                BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
+                    c.s.lane_align_dis = 1);
             continue;
+        }
 
         int valid_links = 0;
         /* Check that the three CCPI links are operating */
         for (int link = 0; link < 3; link++)
         {
+            /* If lane alignment is disabled, enable it and wait 100ms */
+            BDK_CSR_INIT(ocx_lnkx_cfg, node, BDK_OCX_LNKX_CFG(link));
+            if (ocx_lnkx_cfg.s.lane_align_dis)
+            {
+                BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
+                    c.s.lane_align_dis = 0);
+                wait_usec(100000);
+            }
             BDK_CSR_INIT(ocx_com_linkx_ctl, node, BDK_OCX_COM_LINKX_CTL(link));
             /* Clear bits that can get set by hardware/software on error */
             if (ocx_com_linkx_ctl.s.auto_clr || ocx_com_linkx_ctl.s.drop ||

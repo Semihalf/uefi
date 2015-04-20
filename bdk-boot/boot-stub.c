@@ -447,7 +447,7 @@ static void ccpi_sw_init(void)
     printf("\n"
         "Secondary node with CCPI init in software. Starting CCPI\n"
         "\n");
-    if (bdk_init_ccpi_links(CCPI_INIT_SPEED))
+    if (__bdk_init_ccpi_links(CCPI_INIT_SPEED))
         bdk_fatal("CCPI init failed\n");
     bdk_dbg_uart_str("Putting core in reset\r\n");
     extern void __bdk_reset_thread(int arg1, void *arg2);

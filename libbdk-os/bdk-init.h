@@ -45,13 +45,27 @@ extern int bdk_reset_cores(bdk_node_t node, uint64_t coremask);
 extern int bdk_init_nodes(int skip_cores, int ccpi_sw_gbaud);
 
 /**
- * Call to manually bringup the CCPI links using software
+ * Brings the CCPI lanes and links into an operational state without enabling
+ * multi-node operation. Calling this function when the CCPI links are already
+ * up does nothing. This function must return zero before you can go multi-node
+ * by calling bdk_init_ccpi_multinode().
  *
- * @param gbaud  Baud rate to run links at
+ * @param gbaud  Baud rate to run links at. This is only used if the QLMs are in software init
+ *               mode. If they are strapped for hardware init, the strapping speed is used.
  *
- * @return Zero on success, negative on failure.
+ * @return Zero on success, negative on failure. Zero means all CCPI links are functional.
  */
-extern int bdk_init_ccpi_links(uint64_t gbaud);
+extern int __bdk_init_ccpi_links(uint64_t gbaud);
+
+/**
+ * Once CCPI links are operational, this function transitions the system to a
+ * multi-node setup. Note that this function only performs the low level CCPI
+ * details, not BDK software setup on the other nodes. Call bdk_init_nodes()
+ * for high level access to multi-node.
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int __bdk_init_ccpi_multinode(void);
 
 /**
  * This function is the first function run on all cores once the

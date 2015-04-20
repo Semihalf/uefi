@@ -341,7 +341,7 @@ int main(void)
         if (gserx_spd.s.spd == 0xf)
         {
             printf("Secondary node with CCPI init in software. Starting CCPI\n");
-            if (bdk_init_ccpi_links(CCPI_INIT_SPEED))
+            if (__bdk_init_ccpi_links(CCPI_INIT_SPEED))
                 bdk_fatal("CCPI init failed\n");
             extern void __bdk_reset_thread(int arg1, void *arg2);
             __bdk_reset_thread(0, NULL);
@@ -394,6 +394,14 @@ int main(void)
 
     /* Send status to the BMC: Multi-node setup complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
+
+    /* Put the core back in reset if we're the second node of a CCPI system */
+    if (node != BDK_NODE_0)
+    {
+        BDK_TRACE(BOOT_STUB, "CCPI ready. Putting core in reset\n");
+        extern void __bdk_reset_thread(int arg1, void *arg2);
+        __bdk_reset_thread(0, NULL);
+    }
 
     /* Initialize DRAM on the slave node */
 #ifdef DRAM_NODE1

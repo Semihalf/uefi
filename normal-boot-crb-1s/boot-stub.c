@@ -341,7 +341,7 @@ int main(void)
         if (gserx_spd.s.spd == 0xf)
         {
             printf("Secondary node with CCPI init in software. Starting CCPI\n");
-            if (bdk_init_ccpi_links(CCPI_INIT_SPEED))
+            if (__bdk_init_ccpi_links(CCPI_INIT_SPEED))
                 bdk_fatal("CCPI init failed\n");
             extern void __bdk_reset_thread(int arg1, void *arg2);
             __bdk_reset_thread(0, NULL);

@@ -54,17 +54,6 @@ static void __bdk_error_poll(int arg, void *arg1)
  */
 void __bdk_init_node(bdk_node_t node)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && !bdk_is_platform(BDK_PLATFORM_EMULATOR))
-    {
-        /* Disable the CCPI lane timers as early as possible. This will make
-           the hardware wait forever for CCPI lane to come up */
-        for (int i = 0; i<6; i++)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_OCX_QLMX_CFG(i),
-                c.s.timer_dis = 1);
-        }
-    }
-
     /* Enable the timer. Do this first as many things depend on the clock */
     bdk_clock_setup(node);
 
@@ -184,7 +173,11 @@ void __bdk_init_main(int arg, void *arg1)
         goes multicore later */
     if (bdk_is_boot_core())
     {
-        __bdk_init_node(node);
+        for (bdk_node_t n = 0; n < BDK_NUMA_MAX_NODES; n++)
+        {
+            if (bdk_numa_exists(n))
+                __bdk_init_node(n);
+        }
         extern int main(int argc, const char *argv);
         BDK_TRACE(INIT, "Switching to main\n");
         if (bdk_thread_create(node, 0, (bdk_thread_func_t)main, arg, arg1, BDK_THREAD_MAIN_STACK_SIZE))
