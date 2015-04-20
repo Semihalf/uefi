@@ -502,7 +502,9 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
  */
 static void __bdk_dram_report_address_decode(uint64_t address, char *buffer, int len)
 {
+#if !ENABLE_COMPACT_ERRORS
     int core = bdk_get_core_num();
+#endif
     int node, lmc, dimm, rank, bank, row, col;
 
     bdk_dram_address_extract_info(address, &node, &lmc, &dimm, &rank, &bank, &row, &col);
