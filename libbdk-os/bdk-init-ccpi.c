@@ -582,7 +582,7 @@ static int ccpi_wait_for_links(bdk_node_t node)
                 bdk_wait_usec(100000);
                 /* This timer represents how long all link need to be up
                    before we consider everything good */
-                all_good_timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(node, BDK_CLOCK_TIME);
+                all_good_timeout = bdk_clock_get_count(BDK_CLOCK_TIME) + bdk_clock_get_rate(node, BDK_CLOCK_TIME)*2;
             }
         }
         /* Only declare all links good if they have been up continuously for
