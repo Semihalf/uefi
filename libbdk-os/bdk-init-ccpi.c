@@ -907,14 +907,11 @@ int __bdk_init_ccpi_links(uint64_t gbaud)
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
         return -1; /* Emulator doesn't seem to have CCPI registers */
 
-    BDK_TRACE(CCPI, "N%d: CCPI checking lanes and links\n", node);
-    /* Return immediately if all lanes and links are already good */
-    if ((ccpi_report_lane(node, BDK_TRACE_ENABLE_CCPI) == CCPI_MIN_LANES) && ccpi_are_links_good(node, BDK_TRACE_ENABLE_CCPI))
-    {
-        BDK_TRACE(CCPI, "N%d:    CCPI lanes and links good\n", node);
-        goto skip_to_setup_nodes;
-    }
-    BDK_TRACE(CCPI, "N%d:    CCPI lanes or links bad\n", node);
+    /* Use the link reset control to determine if we've already done CCPI
+       setup */
+    BDK_CSR_INIT(rst_ocx, node, BDK_RST_OCX);
+    if (rst_ocx.s.rst_link)
+        return 0;
 
     /* Something is wrong, shutdown links before we make changes */
     BDK_TRACE(CCPI, "N%d: Disabling CCPI links\n", node);
@@ -949,7 +946,6 @@ int __bdk_init_ccpi_links(uint64_t gbaud)
     if (ccpi_wait_for_links(node))
         return -1;
 
-skip_to_setup_nodes:
     BDK_TRACE(CCPI, "N%d: Reseting if a link goes down\n", node);
     BDK_CSR_MODIFY(c, node, BDK_RST_OCX, c.s.rst_link = 7);
 
