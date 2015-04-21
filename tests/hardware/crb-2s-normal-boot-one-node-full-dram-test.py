@@ -6,7 +6,7 @@ import test_dram
 def main(log):
     console, mcu1, mcu2 = boards.parseArgs()
     count = 0
-    cnx = boards.Board_CRB_2S(console=console, serialbox=mcu1, logObject=log)
+    cnx = boards.Board_CRB_2S(console=console, bmc=mcu1, logObject=log)
     cnx.multinode = False # Override the default
     while True:
         count += 1

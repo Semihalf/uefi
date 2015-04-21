@@ -1,6 +1,7 @@
 #!/usr/bin/python
 
 import sys
+import os
 import time
 import connection
 
@@ -86,9 +87,9 @@ class Board_EVB(Board):
 # Class for controlling the CRB-2S. Requires an serial relay box for control
 #
 class Board_CRB_2S(Board):
-    def __init__(self, console, serialbox, logObject):
+    def __init__(self, console, bmc, logObject):
         Board.__init__(self, console, logObject)
-        self.serialbox = connection.GenericPort(serialbox, logObject)
+        self.bmc = bmc
         self.multinode = True
 
     def close(self):
@@ -97,13 +98,7 @@ class Board_CRB_2S(Board):
 
     def powerCycle(self):
         self.log("Power cycle board")
-        self.serialbox.send("F8")
-        time.sleep(5)
-        self.serialbox.send("N8")
-        time.sleep(3)
-        self.serialbox.send("N7")
-        time.sleep(0.2)
-        self.serialbox.send("F7")
+        os.system("ipmitool -H %s -U admin -P admin power cycle" % self.bmc)
 
 def parseArgs():
     try:
@@ -152,7 +147,5 @@ def parseArgs():
         print "    /dev/ttyUSB3 = MCU of second board in dual node setup (Optional)"
         print
         print "  In EBB / EVB setups, control uses commands to the MCU"
-        print "  In CRB-2S, control assumes a serial box connected as"
-        print "    Relay 7 = Main power"
-        print "    Relay 6 = Board power button"
+        print "  In CRB-2S, host2 should be the IP address or hostname of the BMC"
         sys.exit(2)
