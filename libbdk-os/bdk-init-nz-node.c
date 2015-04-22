@@ -400,6 +400,9 @@ void __bdk_init_incorrect_node(void)
         c.s.uarten = 1); /* Enable uart */
     BDK_CSR_READ(node, BDK_UAAX_CR(uart));
 
+    /* Power gate other cores */
+    BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -2);
+
     /* Spew out the node ID to uart0 as a hint that something is wrong */
     bdk_dbg_uart_str("\r\nNODE");
     bdk_dbg_uart_char('0' + node);
