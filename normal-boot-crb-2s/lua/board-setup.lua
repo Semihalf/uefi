@@ -12,5 +12,5 @@ local set_config = cavium.c.bdk_config_set
 set_config(cavium.CONFIG_PHY_IF0_PORT0, 0xff012356)
 
 -- Report boot OK to BMC
-cavium.csr.MIO_TWSX_SW_TWSI(2).data = 0x80
-cavium.csr.MIO_TWSX_SW_TWSI(2).v = 1
+cavium.csr.MIO_TWSX_SW_TWSI(1).data = 0x80
+cavium.csr.MIO_TWSX_SW_TWSI(1).v = 1
