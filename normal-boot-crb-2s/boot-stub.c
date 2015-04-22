@@ -404,6 +404,18 @@ int main(void)
         __bdk_reset_thread(0, NULL);
     }
 
+    if (MULTI_NODE)
+    {
+        BDK_TRACE(BOOT_STUB, "Initializing CCPI links\n");
+        if (__bdk_init_ccpi_links(CCPI_INIT_SPEED))
+        {
+            printf("CCPI: Link timeout\n");
+            /* Reset on failure if we're using the watchdog */
+            if (WATCHDOG_TIMEOUT)
+                reset_or_power_cycle();
+        }
+    }
+
     /* Initialize DRAM on the master node */
 #ifdef DRAM_NODE0
     if (DRAM_VERBOSE)
