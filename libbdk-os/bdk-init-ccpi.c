@@ -513,7 +513,7 @@ static int ccpi_wait_for_links(bdk_node_t node)
         BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(0));
         if (ocx_qlmx_cfg.s.ser_lane_rev)
         {
-            printf("N%d Applying lane reversal\n", node);
+            printf("N%d.CCPI: Applying lane reversal\n", node);
             for (int link = 0; link < MAX_LINKS; link++)
             {
                 /* QLM_SELECT must be zero before changing lane reversal */

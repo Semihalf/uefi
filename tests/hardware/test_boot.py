@@ -24,10 +24,6 @@ def wait_for_bootstub_messages(cnx):
     cnx.match("Trust: Disabled")
     cnx.waitforRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=10)
     if cnx.multinode:
-        try:
-            cnx.match("N0.CCPI Applying lane reversal")
-        except:
-            pass
         cnx.match("N0.CCPI Lanes([] is good):[0][1][2][3][4][5][6][7][8][9][10][11][12][13][14][15][16][17][18][19][20][21][22][23]")
         cnx.match("N1.CCPI Lanes([] is good):[0][1][2][3][4][5][6][7][8][9][10][11][12][13][14][15][16][17][18][19][20][21][22][23]")
         cnx.match("Node:  1")
