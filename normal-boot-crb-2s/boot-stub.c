@@ -19,6 +19,8 @@
 /* If non-zero, enable a watchdog timer to reset the chip ifwe hang during init.
    Value is in 262144 SCLK cycle intervals, max of 16 bits */
 #define WATCHDOG_TIMEOUT 8010 /* 3sec at 700Mhz */
+/* Control whether the boot stub request power cycles from the BMC (0 ro 1) */
+#define USE_POWER_CYCLE 1 /* Currently not requesting power cycles */
 /* How long to wait for selection of diagnostics (seconds) */
 #define DIAGS_TIMEOUT 3
 /* A GPIO can be used to select diagnostics without input. The following
@@ -55,6 +57,7 @@ typedef enum
     BMC_STATUS_BOOT_STUB_LOADING_ATF            = 0x005,
     BMC_STATUS_BOOT_STUB_LOADING_DIAGNOSTICS    = 0x006,
     BMC_STATUS_BOOT_STUB_COMPLETE               = 0x007,
+    BMC_STATUS_REQUEST_POWER_CYCLE              = 0x0f2,
 } bmc_status_t;
 
 /**
@@ -90,7 +93,21 @@ static void update_bmc_status(bmc_status_t status)
         BDK_CSR_MODIFY(c, bdk_numa_master(), BDK_MIO_TWSX_SW_TWSI(BMC_TWSI),
             c.s.v = 1;
             c.s.data = status);
+        if (status == BMC_STATUS_REQUEST_POWER_CYCLE)
+        {
+            printf("Requested power cycle\n");
+            bdk_wait_usec(5000000); /* 5 sec */
+            bdk_reset_chip(bdk_numa_local());
+        }
     }
+}
+
+static void reset_or_power_cycle(void)
+{
+    if (USE_POWER_CYCLE)
+        update_bmc_status(BMC_STATUS_REQUEST_POWER_CYCLE);
+    else
+        bdk_reset_chip(bdk_numa_local());
 }
 
 /**
@@ -306,6 +323,9 @@ int main(void)
     boot_count++;
     BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(0), boot_count);
 
+    if ((boot_count >= 3) && USE_POWER_CYCLE)
+        update_bmc_status(BMC_STATUS_REQUEST_POWER_CYCLE);
+
     /* Initialize TWSI interface TBD as a slave */
     if (BMC_TWSI != -1)
     {
@@ -408,7 +428,7 @@ int main(void)
             bdk_error("Failed DRAM init\n");
         /* Reset on failure if we're using the watchdog */
         if (WATCHDOG_TIMEOUT)
-            bdk_reset_chip(node);
+            reset_or_power_cycle();
     }
 
     /* Poke the watchdog */
@@ -438,7 +458,7 @@ int main(void)
         bdk_init_nodes(1, CCPI_INIT_SPEED);
         /* Reset if CCPI failed */
         if (bdk_numa_is_only_one())
-            bdk_reset_chip(node);
+            reset_or_power_cycle();
         /* Poke the watchdog */
         if (WATCHDOG_TIMEOUT)
             BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
@@ -476,7 +496,7 @@ int main(void)
                 bdk_error("Node %d failed DRAM init\n", other_node);
                 /* Reset on failure if we're using the watchdog */
                 if (WATCHDOG_TIMEOUT)
-                    bdk_reset_chip(node);
+                    reset_or_power_cycle();
             }
         }
         else
@@ -484,7 +504,7 @@ int main(void)
             printf("Node %d: Not found, skipping DRAM init\n", other_node);
             /* Reset on failure if we're using the watchdog */
             if (WATCHDOG_TIMEOUT)
-                bdk_reset_chip(node);
+                reset_or_power_cycle();
         }
         /* Poke the watchdog */
         if (WATCHDOG_TIMEOUT)
