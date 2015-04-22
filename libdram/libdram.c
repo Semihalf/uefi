@@ -31,6 +31,9 @@ dram_config_t __libdram_global_cfg;
  */
 int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_override)
 {
+    if (bdk_is_platform(BDK_PLATFORM_ASIM))
+        return bdk_dram_get_size_mbytes(node);
+
     const char *str;
     const ddr_configuration_t *ddr_config = dram_config->config;
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
