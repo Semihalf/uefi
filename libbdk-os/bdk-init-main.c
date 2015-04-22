@@ -64,6 +64,15 @@ void __bdk_init_node(bdk_node_t node)
     if (!bdk_is_platform(BDK_PLATFORM_ASIM))
         BDK_CSR_MODIFY(c, node, BDK_DAP_IMP_DAR, c.s.caben = 1);
 
+    /* Shut off cores in reset to save power. It is optional, but probably
+        good practice */
+    BDK_TRACE(INIT, "N%d: Enable power gating on cores\n", node);
+    if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    {
+        uint64_t in_reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
+        BDK_CSR_WRITE(node, BDK_RST_PP_POWER, in_reset);
+    }
+
     BDK_TRACE(INIT, "N%d: Initialize L2\n", node);
     bdk_l2c_initialize(node);
     BDK_TRACE(INIT, "N%d: Initialize random number generator\n", node);

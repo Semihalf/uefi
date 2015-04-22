@@ -156,11 +156,6 @@ void __bdk_init(uint32_t image_crc)
             }
         }
 
-        /* Shut off cores in reset to save power. It is optional, but probably
-            good practice */
-        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
-            BDK_CSR_WRITE(node, BDK_RST_PP_POWER, -2);
-
         /* Errata TBD: The DAP has an issue where its state isn't cleared for
            cores in reset. Put the DAPs in reset as their associated cores are
            also in reset */
