@@ -323,9 +323,6 @@ int main(void)
     boot_count++;
     BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(0), boot_count);
 
-    if ((boot_count >= 3) && USE_POWER_CYCLE)
-        update_bmc_status(BMC_STATUS_REQUEST_POWER_CYCLE);
-
     /* Initialize TWSI interface TBD as a slave */
     if (BMC_TWSI != -1)
     {
@@ -335,6 +332,9 @@ int main(void)
         sw_twsi.s.slonly = 1; /* Slave only */
         BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(BMC_TWSI), sw_twsi.u);
     }
+
+    if ((boot_count >= 3) && USE_POWER_CYCLE)
+        update_bmc_status(BMC_STATUS_REQUEST_POWER_CYCLE);
 
     /* Send status to the BMC: Started boot stub */
     update_bmc_status(BMC_STATUS_BOOT_STUB_STARTING);
