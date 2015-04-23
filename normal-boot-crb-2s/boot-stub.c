@@ -175,9 +175,25 @@ static void boot_image(const char *dev_filename, uint64_t loc)
     /* Send status to the BMC: Boot stub complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_COMPLETE);
 
-    /* Disable watchdog */
     if (WATCHDOG_TIMEOUT)
-        BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
+    {
+        if (loc == ATF_ADDRESS)
+        {
+            /* Software wants the watchdog running with a 15 second timout */
+            uint64_t timeout = 15 * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_SCLK) / 262144;
+            /* Check for overflow */
+            if (timeout > 0xffff)
+                timeout = 0xffff;
+            BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()),
+                c.s.len = timeout;
+                c.s.mode = 3);
+        }
+        else
+        {
+            /* Disable watchdog */
+            BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
+        }
+    }
     /* Clear the boot counter */
     BDK_CSR_WRITE(bdk_numa_local(), BDK_GSERX_SCRATCH(0), 0);
 
