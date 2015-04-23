@@ -911,7 +911,7 @@ int __bdk_init_ccpi_links(uint64_t gbaud)
        setup */
     BDK_CSR_INIT(rst_ocx, node, BDK_RST_OCX);
     if (rst_ocx.s.rst_link)
-        return 0;
+        goto skip_to_node_setup;
 
     /* Something is wrong, shutdown links before we make changes */
     BDK_TRACE(CCPI, "N%d: Disabling CCPI links\n", node);
@@ -949,6 +949,7 @@ int __bdk_init_ccpi_links(uint64_t gbaud)
     BDK_TRACE(CCPI, "N%d: Reseting if a link goes down\n", node);
     BDK_CSR_MODIFY(c, node, BDK_RST_OCX, c.s.rst_link = 7);
 
+skip_to_node_setup:
     if (node == 0)
     {
         BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
