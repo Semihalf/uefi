@@ -721,6 +721,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         case BDK_QLM_MODE_PCIE_1X4:
         case BDK_QLM_MODE_PCIE_1X8:
         {
+            /* Force a 100Mhz clock on PCIe */
+            if (bdk_is_platform(BDK_PLATFORM_ASIM))
+                ref_clk = REF_100MHZ;
             /* Note: PCIe ignores baud_mhz. Use the GEN 1/2/3 flags
                to control speed */
             is_pcie = 1;
