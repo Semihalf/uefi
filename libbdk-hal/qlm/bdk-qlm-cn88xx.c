@@ -591,12 +591,15 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             c.s.rx_bit_order         = 1);
     }
 
-    /* 8. Wait for GSER(0..13)_QLM_STAT[RST_RDY] = 1, indicating that the PHY
-       has been reconfigured and PLLs are locked. */
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
+    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
     {
-        bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
-        return -1;
+        /* 8. Wait for GSER(0..13)_QLM_STAT[RST_RDY] = 1, indicating that the PHY
+           has been reconfigured and PLLs are locked. */
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
+        {
+            bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
+            return -1;
+        }
     }
 
     /* 9. Clear the appropriate lane resets:
@@ -604,11 +607,14 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     BDK_CSR_WRITE(node, BDK_GSERX_SATA_LANE_RST(qlm), 0);
     BDK_CSR_READ(node, BDK_GSERX_SATA_LANE_RST(qlm));
 
-    /* Poll GSERX_SATA_STATUS for PX_RDY = 1 */
-    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_SATA_STATUS(qlm), p0_rdy, ==, 1, 10000))
+    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
     {
-        bdk_error("QLM%d: Timeout waiting for GSERX_SATA_STATUS[p0_rdy]\n", qlm);
-        return -1;
+        /* Poll GSERX_SATA_STATUS for PX_RDY = 1 */
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_SATA_STATUS(qlm), p0_rdy, ==, 1, 10000))
+        {
+            bdk_error("QLM%d: Timeout waiting for GSERX_SATA_STATUS[p0_rdy]\n", qlm);
+            return -1;
+        }
     }
 
     int spd;
