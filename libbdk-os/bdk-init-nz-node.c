@@ -140,7 +140,7 @@ static void monitor_ccpi(void)
 
     /* Loop forever trying to get CCPI links up */
     int loop_count = 0;
-    uint64_t link_up_time = -1;
+    uint64_t link_up_time = bdk_clock_get_count(BDK_CLOCK_MAIN_REF) + bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
     while (1)
     {
         /* The node ID may change while we're running */
@@ -321,6 +321,7 @@ static void monitor_ccpi(void)
         /* Rquire the links to be valid for a length of time before marking everything good */
         if ((valid_links >= 2) && (bdk_clock_get_count(BDK_CLOCK_MAIN_REF) >= link_up_time))
         {
+            BDK_CSR_MODIFY(c, node, BDK_RST_OCX, c.s.rst_link = 7);
             bdk_dbg_uart_char('0' + valid_links);
             /* Disable watchdog */
             if (WATCHDOG_TIMEOUT)
