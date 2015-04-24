@@ -10,6 +10,10 @@
 -- * Written by Chad Reese
 -- * Copyright (C) 2010-2014 Cavium Inc.
 --
+if rawget(_G, "cavium") then
+    return cavium
+end
+
 require("utils")
 
 local status, base = pcall(require, "cavium-internal")
@@ -40,14 +44,14 @@ else
     base.global = false
 end
 
+-- Make the cavium module global by default
+cavium = base
+
 -- Create the CSR table
 local status, lookup = pcall(require, "csr")
 if status then
     base.csr = lookup(base, base.c.bdk_csr_read, base.c.bdk_csr_write)
 end
-
--- Make the cavium module global by default
-cavium = base
 
 return base
 
