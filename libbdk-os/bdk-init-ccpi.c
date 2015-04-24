@@ -510,8 +510,9 @@ static int ccpi_wait_for_links(bdk_node_t node)
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (node == 0))
     {
         /* Check if we need to manually apply lane reversal */
-        BDK_CSR_INIT(ocx_qlmx_cfg, node, BDK_OCX_QLMX_CFG(0));
-        if (ocx_qlmx_cfg.s.ser_lane_rev)
+        BDK_CSR_INIT(ocx_qlmx_cfg0, node, BDK_OCX_QLMX_CFG(0));
+        BDK_CSR_INIT(ocx_qlmx_cfg2, node, BDK_OCX_QLMX_CFG(2));
+        if (ocx_qlmx_cfg2.s.ser_lane_rev && ocx_qlmx_cfg2.s.ser_lane_rev)
         {
             printf("N%d.CCPI: Applying lane reversal\n", node);
             for (int link = 0; link < MAX_LINKS; link++)
