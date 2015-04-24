@@ -16,11 +16,15 @@ void register_cavium_constants(lua_State* L)
             lua_pushnumber(L, enum);        \
             lua_setfield(L, -2, #enum + 4); \
         } while (0)
+    /* These need to be upeprcase for the lua host code to work */
+    const int BDK_CSR_TYPE_DAB32B = BDK_CSR_TYPE_DAB32b;
+    const int BDK_CSR_TYPE_NCB32B = BDK_CSR_TYPE_NCB32b;
+    const int BDK_CSR_TYPE_RSL32B = BDK_CSR_TYPE_RSL32b;
 
     push_bdk_enum(BDK_CSR_TYPE_DAB);
-    push_bdk_enum(BDK_CSR_TYPE_DAB32b);
+    push_bdk_enum(BDK_CSR_TYPE_DAB32B);
     push_bdk_enum(BDK_CSR_TYPE_NCB);
-    push_bdk_enum(BDK_CSR_TYPE_NCB32b);
+    push_bdk_enum(BDK_CSR_TYPE_NCB32B);
     push_bdk_enum(BDK_CSR_TYPE_PCCBR);
     push_bdk_enum(BDK_CSR_TYPE_PCCPF);
     push_bdk_enum(BDK_CSR_TYPE_PCCVF);
@@ -28,7 +32,7 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_CSR_TYPE_PEXP);
     push_bdk_enum(BDK_CSR_TYPE_PEXP_NCB);
     push_bdk_enum(BDK_CSR_TYPE_RSL);
-    push_bdk_enum(BDK_CSR_TYPE_RSL32b);
+    push_bdk_enum(BDK_CSR_TYPE_RSL32B);
 #ifndef BDK_BUILD_HOST
     push_bdk_enum(BDK_MPI_FLAGS_ENABLE_CS0);
     push_bdk_enum(BDK_MPI_FLAGS_ENABLE_CS1);
