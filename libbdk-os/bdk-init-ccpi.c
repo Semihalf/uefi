@@ -512,7 +512,8 @@ static int ccpi_wait_for_links(bdk_node_t node)
         /* Check if we need to manually apply lane reversal */
         BDK_CSR_INIT(ocx_qlmx_cfg0, node, BDK_OCX_QLMX_CFG(0));
         BDK_CSR_INIT(ocx_qlmx_cfg2, node, BDK_OCX_QLMX_CFG(2));
-        if (ocx_qlmx_cfg2.s.ser_lane_rev && ocx_qlmx_cfg2.s.ser_lane_rev)
+        BDK_CSR_INIT(ocx_lne_dbg, node, BDK_OCX_LNE_DBG);
+        if (ocx_qlmx_cfg0.s.ser_lane_rev && ocx_qlmx_cfg2.s.ser_lane_rev && !ocx_lne_dbg.s.tx_lane_rev)
         {
             printf("N%d.CCPI: Applying lane reversal\n", node);
             for (int link = 0; link < MAX_LINKS; link++)
