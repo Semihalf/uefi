@@ -68,6 +68,7 @@ static inline int __bdk_is_dram_enabled(bdk_node_t node)
  * @param start
  * @param length
  */
+static inline void bdk_zero_memory(void *start, uint64_t length) __attribute__((always_inline));
 static inline void bdk_zero_memory(void *start, uint64_t length)
 {
     if (((long)start & BDK_CACHE_LINE_MASK) || (length & BDK_CACHE_LINE_MASK))

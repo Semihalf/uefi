@@ -518,6 +518,10 @@ int main(void)
                     bdk_reset_chip(node);
                 /* Put other node core back in reset */
                 BDK_CSR_WRITE(other_node, BDK_RST_PP_RESET, -1);
+                uint64_t skip = bdk_dram_get_top_of_bdk();
+                bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
+                    ((uint64_t)mbytes << 20) - skip);
+                bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(other_node, 0)), (uint64_t)mbytes << 20);
             }
             else
             {
