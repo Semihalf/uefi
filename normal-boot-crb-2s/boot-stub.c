@@ -3,7 +3,7 @@
 
 /* Set this to 0 for PCIe on QLMs 6-7. Set it to 1 for SATA when using the
    PCIe to SATA breakout card*/
-#define USE_SATA_BREAKOUT_CARD 0
+#define USE_SATA_BREAKOUT_CARD 1
 /* Which TWSI interface to use for the BMC, -1 to disable */
 #define BMC_TWSI 1
 /* Control if we even try and do multi-node (0 or 1) */
