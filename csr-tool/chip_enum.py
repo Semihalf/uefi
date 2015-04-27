@@ -25,7 +25,7 @@ class ChipEnum:
             elif self.values[enum_value.name].description.upper().startswith("RESERVED"):
                 self.values[enum_value.name] = enum_value
             else:
-                assert false, "Duplicate enum name %s in enum %s" % (enum_value.name, self.name)
+                assert False, "Duplicate enum name %s in enum %s" % (enum_value.name, self.name)
         else:
             self.values[enum_value.name] = enum_value
 
