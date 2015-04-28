@@ -7,8 +7,8 @@
 #define DEFAULT_INTERNAL_SPD MT18ASF1G72AZ_2G1AYESZG_SPD
 
 #define DEFAULT_NAME   "ebb8804"
-//#define DEFAULT_SPEED  1066666666
-#define DEFAULT_SPEED  933333333
+#define DEFAULT_UDIMM_SPEED  1066666666
+#define DEFAULT_RDIMM_SPEED  933333333
 
 #define DEFAULT_LMC_MASK   TWO_LMC_MASK
 #define DEFAULT_DIMM_MASK  ONE_DIMM_MASK
@@ -85,7 +85,7 @@ static void setup_modereg_params1_1rank_2slot(bdk_lmcx_modereg_params1_t *modere
     modereg->s.pasr_00      = 0;
     modereg->s.asr_00       = 0;
     modereg->s.srt_00       = 0;
-    modereg->s.rtt_wr_00    = ddr4_rttwr_120ohm;
+    modereg->s.rtt_wr_00    = ddr4_rttwr_HiZ; /* Let HiZ signal to fixup to 80 ohms */
     modereg->s.dic_00       = ddr4_dic_34ohm;
     modereg->s.rtt_nom_00   = 0;
     modereg->s.pasr_01      = 0;
@@ -97,7 +97,7 @@ static void setup_modereg_params1_1rank_2slot(bdk_lmcx_modereg_params1_t *modere
     modereg->s.pasr_10      = 0;
     modereg->s.asr_10       = 0;
     modereg->s.srt_10       = 0;
-    modereg->s.rtt_wr_10    = ddr4_rttwr_120ohm;
+    modereg->s.rtt_wr_10    = ddr4_rttwr_HiZ; /* Let HiZ signal to fixup to 80 ohms */
     modereg->s.dic_10       = ddr4_dic_34ohm;
     modereg->s.rtt_nom_10   = 0;
     modereg->s.pasr_11      = 0;
@@ -114,13 +114,13 @@ static void setup_modereg_params1_2rank_1slot(bdk_lmcx_modereg_params1_t *modere
     modereg->s.pasr_00      = 0;
     modereg->s.asr_00       = 0;
     modereg->s.srt_00       = 0;
-    modereg->s.rtt_wr_00    = ddr4_rttwr_240ohm;
+    modereg->s.rtt_wr_00    = ddr4_rttwr_120ohm;
     modereg->s.dic_00       = ddr4_dic_34ohm;
     modereg->s.rtt_nom_00   = 0;
     modereg->s.pasr_01      = 0;
     modereg->s.asr_01       = 0;
     modereg->s.srt_01       = 0;
-    modereg->s.rtt_wr_01    = ddr4_rttwr_240ohm;
+    modereg->s.rtt_wr_01    = ddr4_rttwr_120ohm;
     modereg->s.dic_01       = ddr4_dic_34ohm;
     modereg->s.rtt_nom_01   = 0;
     modereg->s.pasr_10      = 0;
@@ -198,7 +198,7 @@ static void setup_modereg_params1_4rank_1slot(bdk_lmcx_modereg_params1_t *modere
 static void setup_modereg_params2_1rank_1slot(bdk_lmcx_modereg_params2_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.rtt_park_00    = ddr4_rttpark_40ohm;
+    modereg->s.rtt_park_00    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_00  = 0x22;
     modereg->s.vref_range_00  = 0;
     modereg->s.rtt_park_01    = 0;
@@ -232,10 +232,10 @@ static void setup_modereg_params2_1rank_2slot(bdk_lmcx_modereg_params2_t *modere
 static void setup_modereg_params2_2rank_1slot(bdk_lmcx_modereg_params2_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.rtt_park_00    = ddr4_rttpark_40ohm;
+    modereg->s.rtt_park_00    = ddr4_rttpark_80ohm;
     modereg->s.vref_value_00  = 0x19;
     modereg->s.vref_range_00  = 0;
-    modereg->s.rtt_park_01    = ddr4_rttpark_40ohm;
+    modereg->s.rtt_park_01    = ddr4_rttpark_80ohm;
     modereg->s.vref_value_01  = 0x19;
     modereg->s.vref_range_01  = 0;
     modereg->s.rtt_park_10    = 0;
@@ -249,16 +249,16 @@ static void setup_modereg_params2_2rank_1slot(bdk_lmcx_modereg_params2_t *modere
 static void setup_modereg_params2_2rank_2slot(bdk_lmcx_modereg_params2_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.rtt_park_00    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_00    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_00  = 0x19;
     modereg->s.vref_range_00  = 0;
-    modereg->s.rtt_park_01    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_01    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_01  = 0x19;
     modereg->s.vref_range_01  = 0;
-    modereg->s.rtt_park_10    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_10    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_10  = 0x19;
     modereg->s.vref_range_10  = 0;
-    modereg->s.rtt_park_11    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_11    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_11  = 0x19;
     modereg->s.vref_range_11  = 0;
 }
@@ -308,13 +308,13 @@ static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
     odt[dimm].odt_mask = 0x00000000ULL; /* WODT_MASK */
     setup_modereg_params1_2rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     setup_modereg_params2_2rank_1slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
-    odt[dimm].qs_dic = ddr4_rodt_ctl_80_ohm; /* RODT_CTL */
+    odt[dimm].qs_dic = ddr4_rodt_ctl_60_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x00000000ULL; /* RODT_MASK */
     odt[dimm].dic = 0; /* Reserved */
 
     dimm = 1;
     odt[dimm].odt_ena = ddr4_dqx_driver_34_ohm; /* DQX_CTL */
-    odt[dimm].odt_mask = 0x00000102ULL; /* WODT_MASK */
+    odt[dimm].odt_mask = 0x0c0c0303ULL; /* WODT_MASK */
     setup_modereg_params1_2rank_2slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     setup_modereg_params2_2rank_2slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
     odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
@@ -362,8 +362,8 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     cfg->dll_write_offset       = dll_write_offset;
     cfg->dll_read_offset        = dll_read_offset;
     cfg->parity                 = 0;
-    //cfg->rlevel_table		= rlevel_rank_values;
-    cfg->rlevel_table		= 0;
+    cfg->rlevel_table		= 0; /* Initialized later */
+    cfg->measured_vref		= 0;
 }
 
 const dram_config_t *dram_get_config_ebb8804(void)
@@ -375,7 +375,7 @@ const dram_config_t *dram_get_config_ebb8804(void)
 
     /* Set the config name and the default frequency */
     cfg->name = DEFAULT_NAME;
-    cfg->ddr_clock_hertz = DEFAULT_SPEED;
+    cfg->ddr_clock_hertz = DEFAULT_RDIMM_SPEED;
 
     /* Load the defaults for DIMMs on all four controllers */
     for (int lmc = 0; lmc < 4; lmc++)
@@ -417,5 +417,13 @@ const dram_config_t *dram_get_config_ebb8804(void)
         cfg->config[3].dimm_config_table[1].spd_addrs[0] = 0x1057;
     }
 
+    /* FIXME: Switch the speed for UDIMMs */
+    bdk_node_t node = bdk_numa_local();
+    int spd_dimm_type = 0xff & read_spd(node, &cfg->config[0].dimm_config_table[0], 0, DDR4_SPD_KEY_BYTE_MODULE_TYPE);
+    int spd_rdimm = (spd_dimm_type == 1);
+    if (!spd_rdimm)
+    {
+        cfg->ddr_clock_hertz = DEFAULT_UDIMM_SPEED;
+    }
     return cfg;
 };
