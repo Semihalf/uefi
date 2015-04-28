@@ -100,10 +100,10 @@ else
     BUILD_REV=unknown
     BUILD_DATE=$(shell date "+%Y %m %d")
 endif
-
+COMPILE_DATE=$(shell date -u)
 # Build the full BDK version string
 VERSION = "$(word 1, $(BUILD_DATE)).$(word 2, $(BUILD_DATE))"
-FULL_VERSION = "$(VERSION)-r$(BUILD_REV)"
+FULL_VERSION = "$(VERSION)-r$(BUILD_REV) built: $(COMPILE_DATE)"
 RELEASE_NAME = "thunderx-bdk"
 RELEASE_DIR = "$(RELEASE_NAME)-$(VERSION)"
 
