@@ -26,6 +26,8 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 {
     bdk_lmcx_phy_ctl_t phy_ctl;
     int byte_lane, bit_num;
+    bdk_lmcx_config_t  lmc_config;
+    lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
 
     counts->saturated = 0;
     counts->locked    = 0;
@@ -42,7 +44,7 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     }
     if (print_enable)
         ddr_print("\n");
-    for(byte_lane = 0; byte_lane < 9; byte_lane++){
+    for(byte_lane = 0; byte_lane < 8+lmc_config.s.ecc_ena; byte_lane++){
         if (print_enable)
             ddr_print("LMC%d    Bit Deskew Byte(%d)                    :",
                       ddr_interface_num, byte_lane);
@@ -93,14 +95,18 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 
 static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num)
 {
-    int unsaturated = 0;
-    int locked    = 0;
-    int sat_retries, sat_retry_limit = 10;
+    int unsaturated;
+    int locked;
+    int sat_retries, sat_retry_limit;
     int lck_retries;
     int rankx;
     deskew_counts_t dsk_counts;
 
+    sat_retry_limit = 10;
+    unsaturated = 0;
+    locked    = 0;
     sat_retries = 0;
+    ++sat_retry_limit;          /* do, while always does 1. Add one to limit. */
     do {
 
         /*
@@ -171,10 +177,11 @@ static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_
         if (unsaturated) break;
     } while (sat_retries < sat_retry_limit);
     ddr_print("Deskew Training %s. %d retries\n",
-              (sat_retries > sat_retry_limit) ? "Timed Out" : "Completed", sat_retries-1);
+              (sat_retries >= sat_retry_limit) ? "Timed Out" : "Completed", sat_retries-1);
 }
 
-int compute_Vref_float(int rtt_wr, int rtt_park, int dqx_ctl)
+#ifdef ENABLE_FP_COMPUTES
+static int compute_Vref_1slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl)
 {
     float Reff;
     float Rser = 15;
@@ -201,6 +208,144 @@ int compute_Vref_float(int rtt_wr, int rtt_park, int dqx_ctl)
 
     return Vref_value;
 }
+static int compute_Vref_2slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl, int rtt_nom)
+{
+    float Reff;
+    float Rser = 15;
+    float Vdd = 1200;
+    float Vref;
+    float Vl, Vlp, Vcm, Vrefpc;
+    float Rd0, Rd1, Rpullup;
+    int Vref_value;
+    float rtt_wr_f = (float) (rtt_wr == 0 ? 1*1024*1024 : rtt_wr);
+    float rtt_park_f = (float) (rtt_park == 0 ? 1*1024*1024 : rtt_park);
+    float dqx_ctl_f = (float) (dqx_ctl == 0 ? 1*1024*1024 : dqx_ctl);
+    float rtt_nom_f = (float) (rtt_nom == 0 ? 1*1024*1024 : rtt_nom);
+
+    // Rd0 = (RTT_NOM /*parallel*/ RTT_WR) + 15 = ((RTT_NOM * RTT_WR) / (RTT_NOM + RTT_WR)) + 15
+    Rd0 = (rtt_nom_f * rtt_wr_f) / (rtt_nom_f + rtt_wr_f) + 15.0;
+    //printf("Rd0 = %f\n", Rd0);
+
+    // Rd1 = (RTT_PARK / 2) + 15
+    Rd1 = (rtt_park_f / 2.0) + 15.0;
+    //printf("Rd1 = %f\n", Rd1);
+
+    // Rpullup = Rd0 /*parallel*/ Rd1 = (Rd0 * Rd1) / (Rd0 + Rd1)
+    Rpullup = (Rd0 * Rd1) / (Rd0 + Rd1);
+    //printf("Rpullup = %f\n", Rpullup);
+
+    // Vl = (DQX_CTL / (DQX_CTL + Rpullup)) * 1.2
+    Vl = (dqx_ctl_f / (dqx_ctl_f + Rpullup)) * 1.2;
+    //printf("Vl = %f\n", Vl);
+
+    // Vlp = ((15 / Rd0) * (1.2 - Vl)) + Vl
+    Vlp = ((15.0 / Rd0) * (1.2 - Vl)) + Vl;
+    //printf("Vlp = %f\n", Vlp);
+
+    // Vcm = (Vlp + 1.2) / 2
+    Vcm = (Vlp + 1.2) / 2.0;
+    //printf("Vcm = %f\n", Vcm);
+
+    // Vrefpc = (Vcm / 1.2) * 100
+    Vrefpc = (Vcm / 1.2) * 100.0;
+    //printf("Vrefpc = %f\n", Vrefpc);
+
+    Vref_value = divide_nint((Vrefpc * 100) - 6000, 65);
+    //printf("Vref_value = %d (0x%02x)\n", Vref_value, Vref_value);
+
+    debug_print("rtt_wr:%d, rtt_park:%d, dqx_ctl:%d, rtt_nom:%d, Vref_value:%d (0x%x)\n",
+		rtt_wr, rtt_park, dqx_ctl, rtt_nom, Vref_value, Vref_value);
+
+    return Vref_value;
+}
+#else /* ENABLE_FP_COMPUTES */
+#define SCALING_FACTOR (1000)
+static int compute_Vref_1slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl)
+{
+    uint64_t Reff_s;
+    uint64_t Rser_s = 15;
+    uint64_t Vdd = 1200;
+    uint64_t Vref;
+    //uint64_t Vl;
+    uint64_t rtt_wr_s = (rtt_wr == 0 ? 1*1024*1024 : rtt_wr);
+    uint64_t rtt_park_s = (rtt_park == 0 ? 1*1024*1024 : rtt_park);
+    uint64_t dqx_ctl_s = (dqx_ctl == 0 ? 1*1024*1024 : dqx_ctl);
+    int Vref_value;
+
+    //printf("rtt_wr = %d, rtt_park = %d, dqx_ctl = %d\n", rtt_wr, rtt_park, dqx_ctl);
+    //printf("rtt_wr_s = %d, rtt_park_s = %d, dqx_ctl_s = %d\n", rtt_wr_s, rtt_park_s, dqx_ctl_s);
+
+    Reff_s = divide_nint((rtt_wr_s * rtt_park_s) , (rtt_wr_s + rtt_park_s));
+    //printf("Reff_s = %d\n", Reff_s);
+
+    //Vl = (((Rser_s + dqx_ctl_s) * SCALING_FACTOR) / (Rser_s + dqx_ctl_s + Reff_s)) * Vdd / SCALING_FACTOR;
+    //printf("Vl = %d\n", Vl);
+
+    Vref = (((Rser_s + dqx_ctl_s) * SCALING_FACTOR) / (Rser_s + dqx_ctl_s + Reff_s)) + SCALING_FACTOR;
+    //printf("Vref = %d\n", Vref);
+
+    Vref = (Vref * Vdd) / 2 / SCALING_FACTOR;
+    //printf("Vref = %d\n", Vref);
+    //printf("Vref: %d percent of Vdd\n", (Vref * 100) / Vdd);
+
+    Vref_value = divide_nint(((Vref * 100 * 100) / Vdd) - 6000, 65);
+    //printf("Vref_value = %d (0x%02x)\n", Vref_value, Vref_value);
+
+    debug_print("rtt_wr:%d, rtt_park:%d, dqx_ctl:%d, Vref_value:%d (0x%x)\n",
+           rtt_wr, rtt_park, dqx_ctl, Vref_value, Vref_value);
+
+    return Vref_value;
+}
+static int compute_Vref_2slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl, int rtt_nom)
+{
+    //uint64_t Rser = 15;
+    uint64_t Vdd = 1200;
+    //uint64_t Vref;
+    uint64_t Vl, Vlp, Vcm, Vrefpc;
+    uint64_t Rd0, Rd1, Rpullup;
+    int Vref_value;
+    uint64_t rtt_wr_s = (rtt_wr == 0 ? 1*1024*1024 : rtt_wr);
+    uint64_t rtt_park_s = (rtt_park == 0 ? 1*1024*1024 : rtt_park);
+    uint64_t dqx_ctl_s = (dqx_ctl == 0 ? 1*1024*1024 : dqx_ctl);
+    uint64_t rtt_nom_s = (rtt_nom == 0 ? 1*1024*1024 : rtt_nom);
+
+    // Rd0 = (RTT_NOM /*parallel*/ RTT_WR) + 15 = ((RTT_NOM * RTT_WR) / (RTT_NOM + RTT_WR)) + 15
+    Rd0 = divide_nint((rtt_nom_s * rtt_wr_s), (rtt_nom_s + rtt_wr_s)) + 15;
+    //printf("Rd0 = %ld\n", Rd0);
+
+    // Rd1 = (RTT_PARK / 2) + 15
+    Rd1 = (rtt_park_s / 2) + 15;
+    //printf("Rd1 = %ld\n", Rd1);
+
+    // Rpullup = Rd0 /*parallel*/ Rd1 = (Rd0 * Rd1) / (Rd0 + Rd1)
+    Rpullup = divide_nint((Rd0 * Rd1), (Rd0 + Rd1));
+    //printf("Rpullup = %ld\n", Rpullup);
+
+    // Vl = (DQX_CTL / (DQX_CTL + Rpullup)) * 1.2
+    Vl = divide_nint((dqx_ctl_s * SCALING_FACTOR), (dqx_ctl_s + Rpullup)) * Vdd / SCALING_FACTOR;
+    //printf("Vl = %ld\n", Vl);
+
+    // Vlp = ((15 / Rd0) * (1.2 - Vl)) + Vl
+    Vlp = ((((15 * SCALING_FACTOR) / Rd0) * (Vdd - Vl)) / SCALING_FACTOR) + Vl;
+    //printf("Vlp = %ld\n", Vlp);
+
+    // Vcm = (Vlp + 1.2) / 2
+    Vcm = divide_nint((Vlp + Vdd), 2);
+    //printf("Vcm = %ld\n", Vcm);
+
+    // Vrefpc = (Vcm / 1.2) * 100
+    Vrefpc = (divide_nint((Vcm * SCALING_FACTOR), Vdd) * 100 * 100) / SCALING_FACTOR;
+    //printf("Vrefpc = %ld\n", Vrefpc);
+
+    Vref_value = divide_nint(Vrefpc - 6000, 65);
+    //printf("Vref_value = %d (0x%02x)\n", Vref_value, Vref_value);
+
+    debug_print("rtt_wr:%d, rtt_park:%d, dqx_ctl:%d, rtt_nom:%d, Vref_value:%d (0x%x)\n",
+		rtt_wr, rtt_park, dqx_ctl, rtt_nom, Vref_value, Vref_value);
+
+    return Vref_value;
+}
+#endif /* ENABLE_FP_COMPUTES */
 
 static int encode_row_lsb_ddr3(int row_lsb, int ddr_interface_wide)
 {
@@ -2037,10 +2182,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         wlevel_loops = strtoul(s, NULL, 0);
     }
 
-    if ((s = lookup_env_parameter("ddr_ranks")) != NULL) {
-        num_ranks = strtoul(s, NULL, 0);
-    }
-
     bunk_enable = (num_ranks > 1);
 
     column_bits_start = 3;
@@ -2307,31 +2448,18 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	ddr_print("Minimum Four Activate Window Delay (tFAW)     : %6d ps\n", tfaw);
     }
 
-#if 1
-    // FIXME: this is how 78xx SDK does it...
+
     /* When the cycle time is within 1 psec of the minimum accept it
        as a slight rounding error and adjust it to exactly the minimum
        cycle time. This avoids an unnecessary warning. */
     if (_abs(tclk_psecs - tCKmin) < 2)
         tclk_psecs = tCKmin;
-#else
-    /* This needs checking now, before we start depending on tclk_psecs
-     * for a number of calculations, so that we can do some fixup...
-     */
+
     if (tclk_psecs < (uint64_t)tCKmin) {
-	int percent = 100 - (int)(tclk_psecs * 100 / (uint64_t)tCKmin);
-	/* if within 1% of the specified rate, just set it to tCKmin, else complain more */
-	if (percent <= 1) {
-	    printf("NOTE: DDR Clock Rate (tCLK: %ld) within 1%% of DIMM specifications (tCKmin: %ld).\n",
-			tclk_psecs, (uint64_t)tCKmin);
-	    printf("NOTE: the DIMM specification rate will be used.\n");
-	    tclk_psecs = (uint64_t)tCKmin;
-	} else {
-	    error_print("WARNING!!!!: DDR Clock Rate (tCLK: %ld) exceeds DIMM specifications (tCKmin: %ld)!!!!\n",
-			tclk_psecs, (uint64_t)tCKmin);
-	}
+        error_print("WARNING!!!!: DDR Clock Rate (tCLK: %ld) exceeds DIMM specifications (tCKmin: %ld)!!!!\n",
+                    tclk_psecs, (uint64_t)tCKmin);
     }
-#endif
+
 
     ddr_print("DDR Clock Rate (tCLK)                         : %6lu ps\n", tclk_psecs);
     ddr_print("Core Clock Rate (eCLK)                        : %6lu ps\n", eclk_psecs);
@@ -2642,8 +2770,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmc_control.s.auto_dclkdis    = 1;
         lmc_control.s.int_zqcs_dis    = 0;
         lmc_control.s.ext_zqcs_dis    = 0;
-        lmc_control.s.bprch           = 0;
-        lmc_control.s.wodt_bprch      = 0;
+        lmc_control.s.bprch           = 1;
+        lmc_control.s.wodt_bprch      = 1;
         lmc_control.s.rodt_bprch      = 1;
 
         if ((s = lookup_env_parameter("ddr_xor_bank")) != NULL) {
@@ -2694,19 +2822,20 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         trp_value = divide_roundup(trp, tclk_psecs)
             + divide_roundup(max(4*tclk_psecs, 7500ull), tclk_psecs) - 5;
 
-        lmc_timing_params0.s.tzqcs    = divide_roundup(max(64*tclk_psecs, DDR3_ZQCS), (16*tclk_psecs));
         lmc_timing_params0.s.txpr     = divide_roundup(max(5*tclk_psecs, trfc+10000ull), 16*tclk_psecs);
         lmc_timing_params0.s.tzqinit  = divide_roundup(max(512*tclk_psecs, 640000ull), (256*tclk_psecs));
         lmc_timing_params0.s.trp      = trp_value & 0x1f;
         lmc_timing_params0.s.tcksre   = divide_roundup(max(5*tclk_psecs, 10000ull), tclk_psecs) - 1;
 
         if (ddr_type == DDR4_DRAM) {
+            lmc_timing_params0.s.tzqcs    = divide_roundup(128*tclk_psecs, (16*tclk_psecs)); /* Always 8. */
 	    lmc_timing_params0.s.tcke     = divide_roundup(max(3*tclk_psecs, (ulong) DDR3_tCKE), tclk_psecs) - 1;
 	    lmc_timing_params0.s.tmrd     = divide_roundup((DDR4_tMRD*tclk_psecs), tclk_psecs) - 1;
 	    //lmc_timing_params0.s.tmod     = divide_roundup(max(24*tclk_psecs, 15000ull), tclk_psecs) - 1;
 	    lmc_timing_params0.s.tmod     = 25; /* 25 is the max allowed */
 	    lmc_timing_params0.s.tdllk    = divide_roundup(DDR4_tDLLK, 256);
         } else {
+            lmc_timing_params0.s.tzqcs    = divide_roundup(max(64*tclk_psecs, DDR3_ZQCS), (16*tclk_psecs));
 	    lmc_timing_params0.s.tcke     = divide_roundup(DDR3_tCKE, tclk_psecs) - 1;
 	    lmc_timing_params0.s.tmrd     = divide_roundup((DDR3_tMRD*tclk_psecs), tclk_psecs) - 1;
 	    lmc_timing_params0.s.tmod     = divide_roundup(max(12*tclk_psecs, 15000ull), tclk_psecs) - 1;
@@ -2730,9 +2859,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         lmc_timing_params1.s.tmprr    = divide_roundup(DDR3_tMPRR*tclk_psecs, tclk_psecs) - 1;
 
         lmc_timing_params1.s.tras     = divide_roundup(tras, tclk_psecs) - 1;
-#if 0
-        lmc_timing_params1.s.trcd     = divide_roundup(trcd, tclk_psecs); // FIXME??
-#else
+
         if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
             /* Let .trcd=0 serve as a flag that the field has
                overflowed. Must use Additive Latency mode as a
@@ -2742,7 +2869,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         } else {
             lmc_timing_params1.s.trcd     = divide_roundup(trcd, tclk_psecs);
         }
-#endif
+
         lmc_timing_params1.s.twtr     = divide_roundup(twtr, tclk_psecs) - 1;
         lmc_timing_params1.s.trfc     = divide_roundup(trfc, 8*tclk_psecs);
         if ((ddr_type == DDR4_DRAM) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
@@ -3269,7 +3396,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     /* LMC(0)_COMP_CTL2 */
     {
         bdk_lmcx_comp_ctl2_t comp_ctl2;
-        const ddr3_custom_config_t *custom_lmc_config = &ddr_configuration->custom_lmc_config;
 
         comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
 
@@ -3874,7 +4000,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ext_config.s.read_ena_bprch = 1;
         ext_config.s.read_ena_fprch = 1;
         ext_config.s.drive_ena_fprch = 1;
-        ext_config.s.drive_ena_bprch = 0;
+        ext_config.s.drive_ena_bprch = 1;
 
         if ((s = lookup_env_parameter("ddr_read_fprch")) != NULL) {
             ext_config.s.read_ena_fprch = strtoul(s, NULL, 0);
@@ -4815,6 +4941,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		lmc_comp_ctl2.s.rodt_ctl = rodt_ctl;
 		DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
 		lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+                bdk_wait_usec(1); /* Give it a little time to take affect */
 		ddr_print("Read ODT_CTL                                  : 0x%x (%d ohms)\n",
 			  lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
 
@@ -4975,9 +5102,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				if ((ddr_interface_bytemask&0xff) == 0xff) {
 				    /* Evaluate delay sequence across the whole range of bytes for stantard dimms. */
 				    if ((spd_dimm_type == 1) || (spd_dimm_type == 5)) { /* 1=RDIMM, 5=Mini-RDIMM */
+                                        int register_adjacent_delay = _abs(rlevel_byte[4].delay - rlevel_byte[5].delay);
 					/* Registerd dimm topology routes from the center. */
 					rlevel_rank_errors += nonsequential_delays(rlevel_byte, 0, 3+ecc_ena, maximum_adjacent_rlevel_delay_increment);
-					rlevel_rank_errors += nonsequential_delays(rlevel_byte, 4, 7+ecc_ena, maximum_adjacent_rlevel_delay_increment);
+					rlevel_rank_errors += nonsequential_delays(rlevel_byte, 5, 7+ecc_ena, maximum_adjacent_rlevel_delay_increment);
+                                        if (register_adjacent_delay > 1) {
+                                            /* Assess proximity of bytes on opposite sides of register */
+                                            rlevel_rank_errors += (register_adjacent_delay-1) * RLEVEL_ADJACENT_DELAY_ERROR;
+                                        }
 				    }
 				    if ((spd_dimm_type == 2) || (spd_dimm_type == 6)) { /* 1=UDIMM, 5=Mini-UDIMM */
 					/* Unbuffered dimm topology routes from end to end. */
@@ -5476,6 +5608,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         int sw_wlevel_offset = 1;
         int sw_wlevel_enable = 1; /* FIX... Should be customizable. */
         int interfaces;
+	int measured_vref_flag;
         typedef enum {
             WL_ESTIMATED = 0,   /* HW/SW wleveling failed. Results
                                    estimated. */
@@ -5500,6 +5633,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         if (sw_wlevel_enable)
             ddr_print("LMC%d: Performing software Write-Leveling\n", ddr_interface_num);
+
+	/* Get the measured_vref setting from the config, check for an override... */
+	/* NOTE: measured_vref=1 (ON) means force use of MEASURED Vref... */
+        measured_vref_flag = custom_lmc_config->measured_vref;
+        if ((s = lookup_env_parameter("ddr_measured_vref")) != NULL) {
+            measured_vref_flag = strtoul(s, NULL, 0);
+        }
 
         /* Disable ECC for DRAM tests */
         lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
@@ -5579,9 +5719,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         }
                         debug_print(" (0x%02x)\n", final_vref_value);
 
-                        /* Override the measured Vref value with a calculated value */
-                        if (! custom_lmc_config->auto_vref) {
-                            int rtt_wr, rtt_park, dqx_ctl;
+                        /* Calculate an override of the measured Vref value
+			   but only for a configuration we know how to...*/
+			if (num_ranks == 2) // for now, we ony have code for 2-rank DIMMs
+			{
+                            int rtt_wr, rtt_park, dqx_ctl, rtt_nom;
                             bdk_lmcx_modereg_params1_t lmc_modereg_params1;
                             bdk_lmcx_modereg_params2_t lmc_modereg_params2;
                             bdk_lmcx_comp_ctl2_t comp_ctl2;
@@ -5592,25 +5734,41 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                             switch (rankx) {
                             case 0:
-                                rtt_wr = imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_00];
+                                rtt_wr   = imp_values->rtt_wr_ohms [lmc_modereg_params1.s.rtt_wr_00];
                                 rtt_park = imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_00];
+				rtt_nom  = imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00];
                                 break;
                             case 1:
-                                rtt_wr = imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_01];
+                                rtt_wr   = imp_values->rtt_wr_ohms [lmc_modereg_params1.s.rtt_wr_01];
                                 rtt_park = imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_01];
+				rtt_nom  = imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01];
                                 break;
                             case 2:
-                                rtt_wr = imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10];
+                                rtt_wr   = imp_values->rtt_wr_ohms [lmc_modereg_params1.s.rtt_wr_10];
                                 rtt_park = imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_10];
+				rtt_nom  = imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10];
                                 break;
                             case 3:
-                                rtt_wr = imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11];
+                                rtt_wr   = imp_values->rtt_wr_ohms [lmc_modereg_params1.s.rtt_wr_11];
                                 rtt_park = imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_11];
+				rtt_nom  = imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11];
                                 break;
                             }
                             dqx_ctl = imp_values->dqx_strength  [comp_ctl2.s.dqx_ctl    ];
-                            override_final_vref_value = compute_Vref_float(rtt_wr, rtt_park, dqx_ctl);
-                        }
+
+			    if (dimm_count == 1) // separate calcs for 1 vs 2 DIMMs per LMC
+				override_final_vref_value = compute_Vref_1slot_2rank(rtt_wr, rtt_park, dqx_ctl);
+			    else
+				override_final_vref_value = compute_Vref_2slot_2rank(rtt_wr, rtt_park, dqx_ctl, rtt_nom);
+
+			    ddr_print("Rank(%d) Vref Computed Summary                 :"
+				      "              %2d (0x%02x)\n",
+				      rankx, override_final_vref_value,
+				      override_final_vref_value);
+                        } else {
+			    ddr_print("Rank(%d) Vref NOT COMPUTED\n", rankx);
+			    override_final_vref_value = 0;
+			}
 
                         ddr_print("Rank(%d) Vref Training Summary                 :"
                                   "    %2d <----- %2d (0x%02x) -----> %2d range: %2d\n",
@@ -5619,22 +5777,30 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                                   best_vref_values_start+best_vref_values_count-1,
                                   best_vref_values_count-1);
 
-                        if (! custom_lmc_config->auto_vref) {
-                            ddr_print("Rank(%d) Using calculated Vref                 :"
-                                      "              %2d (0x%02x)\n",
-                                      rankx,
-                                      override_final_vref_value,
-                                      override_final_vref_value);
-                        }
-
                         if ((s = lookup_env_parameter("ddr%d_vref_value_%1d%1d",
                                                       ddr_interface_num, !!(rankx&2), !!(rankx&1))) != NULL) {
                             final_vref_value = strtoul(s, NULL, 0);
                         }
 
-                        set_vref(node, ddr_interface_num, rankx, 0,
-                                 custom_lmc_config->auto_vref ? 
-			         final_vref_value : override_final_vref_value );
+			// We can use COMPUTED Vref only for dual-rank DIMMS at the moment...
+			if (num_ranks == 2) {
+			    // but allow MEASURED Vref to be used...
+			    if (measured_vref_flag || (override_final_vref_value == 0)) {
+				ddr_print("Rank(%d) Using MEASURED Vref %2d (0x%02x) vs COMPUTED %2d (0x%02x)\n",
+				       rankx, final_vref_value, final_vref_value,
+				       override_final_vref_value, override_final_vref_value);
+				set_vref(node, ddr_interface_num, rankx, 0, final_vref_value);
+			    } else {
+				ddr_print("Rank(%d) Using COMPUTED Vref %2d (0x%02x) vs MEASURED %2d (0x%02x)\n",
+				       rankx, override_final_vref_value, override_final_vref_value,
+				       final_vref_value, final_vref_value);
+				set_vref(node, ddr_interface_num, rankx, 0, override_final_vref_value);
+			    }
+			} else { // always use measured for other DIMM configs (1rank or 4rank) for now
+			    ddr_print("Rank(%d) Using MEASURED Vref %2d (0x%02x)\n",
+				   rankx, final_vref_value, final_vref_value);
+			    set_vref(node, ddr_interface_num, rankx, 0, final_vref_value);
+			}
                     }
                 } /* if (ddr_type == DDR4_DRAM) */
                 lmc_wlevel_rank.u = lmc_wlevel_rank_hw_results.u; /* Restore the saved value */
@@ -5950,7 +6116,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             Display_MPR_Page(node, rank_mask, ddr_interface_num, dimm_count, 0);
     }
 
-#if 1 // FIXME: this used to be ifdef CAVIUM_ONLY
+#ifdef CAVIUM_ONLY
     {
         int i;
         int setting[9];
