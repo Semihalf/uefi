@@ -97,6 +97,45 @@ static uint64_t construct_address_info(bdk_node_t node, int lmc, int dimm,
     return address;
 }
 
+static void construct_phase_info(char *buffer, int fill_order, int fail_index, int err_bits)
+{
+    int basic_phase, bitno, bitmask, phase_no, read_no;
+    //printf("decode_err(%d, %d, %d)\n", fill_order, fail_index, err_bits);
+
+    if ((fill_order != 0) || ((err_bits & 15) == 0)) {
+	snprintf(buffer, 8, "BAD!");
+	return;
+    }
+
+    // fail_index determines the byte of the map associated with the fill_order
+    // FIXME: we only try for fill_order == 0 for now...
+    // for FO = 0, it is a direct map: fail_index == byte # in the map == byte #
+    // and the byte # maps directly to the basic phase #
+    read_no = ((fail_index & 7) >> 2) + 1;
+    basic_phase = (fail_index & 3) * 2;
+
+    bitno = 0;
+    bitmask = err_bits & 15;
+    while (!(bitmask & 1)) { bitno++; bitmask >>= 1; } // FIXME: better error detect
+    
+    //printf("basic phase = %d or %d\n", basic_phase, basic_phase + 1);
+    //printf("bitno phase = %d or %d\n", bitno, bitno + 4);
+
+    phase_no = -1;
+    if ((basic_phase == bitno) || (basic_phase == bitno + 4))
+        phase_no = basic_phase;
+    else if ((basic_phase + 1 == bitno) || (basic_phase + 1 == bitno + 4))
+        phase_no = basic_phase + 1;
+
+    if (phase_no < 0) { // better indication of not found/illegality
+	snprintf(buffer, 8, "ILL!");
+	return;
+    }
+
+    snprintf(buffer, 8, "R%dP%d", read_no, phase_no);
+    return;
+}
+
 static void check_cn88xx(bdk_node_t node)
 {
     for (int index = 0; index < 4; index++)
@@ -160,6 +199,8 @@ static void check_cn88xx(bdk_node_t node)
             {
                 char *err_type;
                 char synstr[20];
+		char phasestr[8];
+		int err_bits;
                 BDK_CSR_INIT(fadr, node, BDK_LMCX_FADR(index));
                 BDK_CSR_INIT(ecc_synd, node, BDK_LMCX_ECC_SYND(index));
                 uint64_t syndrome = ecc_synd.u;
@@ -168,22 +209,26 @@ static void check_cn88xx(bdk_node_t node)
                 if (c.s.ded_err) { // if DED, count it and do not count SEC
                     bdk_atomic_add64_nosync(&__bdk_dram_ecc_double_bit_errors[index], 1);
                     err_type = "double";
-                    snprintf(synstr, sizeof(synstr), "DED=%d", c.s.ded_err);
+		    err_bits = c.s.ded_err;
+                    snprintf(synstr, sizeof(synstr), "DED=%d", err_bits);
                 } else { // must be just SEC, also extract the syndrome byte
                     bdk_atomic_add64_nosync(&__bdk_dram_ecc_single_bit_errors[index], 1);
                     err_type = "single";
-                    int i = c.s.sec_err;
+		    err_bits = c.s.sec_err;
+                    int i = err_bits;
                     while ((i & 1) == 0) {syndrome >>= 8; i >>= 1; }
-                    snprintf(synstr, sizeof(synstr), "SYND 0x%02lx/%d", syndrome & 0xff, c.s.sec_err);
+                    snprintf(synstr, sizeof(synstr), "SYND 0x%02lx/%d", syndrome & 0xff, err_bits);
                 }
                 uint32_t frow = fadr.s.frow & __bdk_dram_get_row_mask(node, index);
                 uint32_t fcol = fadr.s.fcol & __bdk_dram_get_col_mask(node, index);
                 uint64_t where = construct_address_info(node, index, fadr.s.fdimm, fadr.s.fbunk,
                                                         fadr.s.fbank, frow, fcol);
-                bdk_error("N%d.LMC%d: ECC %s (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x,FO=%d,%s)[0x%011lx]\n",
+		construct_phase_info(phasestr, fadr.s.fill_order, EXTRACT(fadr.s.fcol, 1, 3), err_bits);
+
+                bdk_error("N%d.LMC%d: ECC %s (DIMM%d,Rank%d,Bank%02d,Row 0x%05x,Col 0x%04x,%s,%s)[0x%011lx]\n",
                           node, index, err_type,
                           fadr.s.fdimm, fadr.s.fbunk, fadr.s.fbank,
-                          frow, fcol, fadr.s.fill_order, synstr, where);
+                          frow, fcol, phasestr, synstr, where);
             }
         }
     }
