@@ -326,7 +326,7 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     cfg->dll_read_offset        = dll_read_offset;
     cfg->parity                 = 0;
     cfg->rlevel_table		= 0; /* Initialized later */
-    cfg->auto_vref		= 0;
+    cfg->measured_vref		= 0;
 }
 
 const dram_config_t *dram_get_config_crb_2s_V3(void)
