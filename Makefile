@@ -87,6 +87,10 @@ ifeq ($(shell test -d .git;echo $$?),0)
     BUILD_REV := $(word 4, $(BUILD_REV))
     BUILD_DATE := $(shell git svn info | grep "Last Changed Date:")
     BUILD_DATE := $(subst -, ,$(word 4, $(BUILD_DATE)))
+    BUILD_BRANCH := $(shell git svn info | grep "URL:")
+    BUILD_BRANCH := $(word 2, $(BUILD_BRANCH))
+    BUILD_BRANCH := $(subst /, ,$(BUILD_BRANCH))
+    BUILD_BRANCH := $(lastword $(BUILD_BRANCH))
 else ifeq ($(shell test -d .svn;echo $$?),0)
     # Using subversion
     BUILD_REV := $(shell svn info | grep "Last Changed Rev:")
@@ -95,22 +99,28 @@ else ifeq ($(shell test -d .svn;echo $$?),0)
     BUILD_REV := $(BUILD_REV)$(MOD)
     BUILD_DATE := $(shell svn info | grep "Last Changed Date:")
     BUILD_DATE := $(subst -, ,$(word 4, $(BUILD_DATE)))
+    BUILD_BRANCH := $(shell svn info | grep "URL:")
+    BUILD_BRANCH := $(word 2, $(BUILD_BRANCH))
+    BUILD_BRANCH := $(subst /, ,$(BUILD_BRANCH))
+    BUILD_BRANCH := $(lastword $(BUILD_BRANCH))
 else
     # Don't know, use the date as a backup
     BUILD_REV=unknown
     BUILD_DATE=$(shell date "+%Y %m %d")
+    BUILD_BRANCH=$(shell pwd)
 endif
-COMPILE_DATE=$(shell date -u)
+UTC_DATE=$(shell date -u)
 # Build the full BDK version string
 VERSION = "$(word 1, $(BUILD_DATE)).$(word 2, $(BUILD_DATE))"
-FULL_VERSION = "$(VERSION)-r$(BUILD_REV) built: $(COMPILE_DATE)"
+FULL_VERSION = "$(VERSION)-r$(BUILD_REV)"
+DISPLAY_VERSION = "$(FULL_VERSION), Branch: $(BUILD_BRANCH), Built: $(UTC_DATE)"
 RELEASE_NAME = "thunderx-bdk"
 RELEASE_DIR = "$(RELEASE_NAME)-$(VERSION)"
 
 .PHONY: version
 version:
-	echo "return \"$(FULL_VERSION)\"" > lua-modules/bdk-version.lua
-	echo "const char bdk_version_str[] = \"$(FULL_VERSION)\";" > libbdk-arch/bdk-version.c
+	echo "return \"$(DISPLAY_VERSION)\"" > lua-modules/bdk-version.lua
+	echo "const char bdk_version_str[] = \"$(DISPLAY_VERSION)\";" > libbdk-arch/bdk-version.c
 
 .PHONY: release
 release: all docs
