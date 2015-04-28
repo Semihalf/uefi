@@ -43,22 +43,6 @@ static inline int64_t _sign(int64_t v)
 }
 
 /**
- * Divide and round results to the nearest integer.
- *
- * @param dividend
- * @param divisor
- *
- * @return
- */
-static inline uint64_t divide_nint(uint64_t dividend, uint64_t divisor)
-{
-    uint64_t quotent, remainder;
-    quotent   = dividend / divisor;
-    remainder = dividend % divisor;
-    return quotent + ((remainder * 2) >= divisor);
-}
-
-/**
  * Divide and round results up to the next higher integer.
  *
  * @param dividend

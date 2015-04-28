@@ -65,5 +65,7 @@ extern int octeon_ddr_initialize(bdk_node_t node, uint32_t cpu_hertz,
     const ddr_configuration_t *ddr_configuration, uint32_t *measured_ddr_hertz,
     int board_type, int board_rev_maj, int board_rev_min);
 
+extern uint64_t divide_nint(uint64_t dividend, uint64_t divisor);
+
 #endif /* __DRAM_INTERNAL_H__ */
 

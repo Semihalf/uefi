@@ -73,6 +73,22 @@ static int global_ddr_memory_preserved  = 0;
  */
 
 
+/**
+ * Divide and round results to the nearest integer.
+ *
+ * @param dividend
+ * @param divisor
+ *
+ * @return
+ */
+uint64_t divide_nint(uint64_t dividend, uint64_t divisor)
+{
+    uint64_t quotent, remainder;
+    quotent   = dividend / divisor;
+    remainder = dividend % divisor;
+    return quotent + ((remainder * 2) >= divisor);
+}
+
 /* Sometimes the pass/fail results for all possible delay settings
  * determined by the read-leveling sequence is too forgiving.  This
  * usually occurs for DCLK speeds below 300 MHz. As a result the
@@ -1306,8 +1322,22 @@ int initialize_ddr_clock(bdk_node_t node,
             if (ddr_interface_mask == 0xf) {
                 cn78xx_lmc_dreset_init(node, 0);
                 cn78xx_lmc_dreset_init(node, 1);
+
+                /* Enable periodic recalibration of DDR90 delay line in. */
+		DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(0),
+				c.s.dclk90_recal_dis = 0);
+		DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(1),
+				c.s.dclk90_recal_dis = 0);
             }
 
+
+            /* Enable fine tune mode for all LMCs */
+            for (int lmc = 0; lmc<4; ++lmc) {
+                if ((ddr_interface_mask & (1 << lmc)) == 0)
+                    continue;
+		DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(1),
+				c.s.fine_tune_mode = 1);
+            }
         } /* Do this once */
 
 
