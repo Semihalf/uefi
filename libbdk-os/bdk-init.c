@@ -157,10 +157,10 @@ void __bdk_init(uint32_t image_crc)
             }
         }
 
-        /* Errata TBD: The DAP has an issue where its state isn't cleared for
+        /* AP-23192: The DAP in pass 1.0 has an issue where its state isn't cleared for
            cores in reset. Put the DAPs in reset as their associated cores are
            also in reset */
-        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
             BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, BDK_CSR_READ(node, BDK_RST_PP_RESET));
 
         /* Enable the timer */
@@ -284,10 +284,10 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
         bdk_wait_usec(1);
         if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_RST_PP_PENDING, pend, ==, 0, 100000))
             bdk_error("Timeout wating for reset pending to clear");
-        /* Errata TBD: The DAP has an issue where its state isn't cleared for
+        /* AP-23192: The DAP in pass 1.0 has an issue where its state isn't cleared for
            cores in reset. Put the DAPs in reset as their associated cores are
            also in reset */
-        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
             BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, reset & ~need_reset_off);
     }
 
@@ -359,10 +359,10 @@ int bdk_reset_cores(bdk_node_t node, uint64_t coremask)
             break;
         bdk_thread_yield();
     }
-    /* Errata TBD: The DAP has an issue where its state isn't cleared for
+    /* AP-23192: The DAP in pass 1.0 has an issue where its state isn't cleared for
        cores in reset. Put the DAPs in reset as their associated cores are
        also in reset */
-    if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    if (!bdk_is_platform(BDK_PLATFORM_EMULATOR) && CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
         BDK_CSR_WRITE(node, BDK_RST_DBG_RESET, BDK_CSR_READ(node, BDK_RST_PP_RESET));
 
     BDK_TRACE(INIT, "N%d: Cores now in reset: 0x%lx\n", node, reset);
