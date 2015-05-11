@@ -8,6 +8,7 @@ local bit64 = require("bit64")
 local set_config = cavium.c.bdk_config_set
 local node = 0
 local all_pass = true
+local bist_failures = 0
 
 local function tg_run(tg, ports, size, count, rate, to_secs)
     print("")
@@ -81,6 +82,78 @@ local function mmc_test(device)
     return mmc_pass
 end
 
+--Ported the function from bist.c
+local function check_bist_reg(reg_name, expected, mask)
+    local masked_val
+    
+    local bist_val = cavium.c.bdk_csr_read_by_name(node, reg_name)
+
+    printf("REG %s VALUE %x mask %x\n", reg_name, bist_val, mask);
+    -- Log complete value for reference.... 
+    mask = bit64.bxor(0xffffffffffffffff,mask)
+    masked_val = bit64.bxor(bit64.band(bist_val, mask),expected)
+    if (masked_val  ~= 0) then
+        bist_failures = bist_failures+1
+	    printf("BIST FAILURE: %s, error bits ((register & mask) ^ expected): 0x%016x\n", reg_name, masked_val);
+    end
+end
+
+local function tns_bist_check()
+    check_bist_reg("TNS_SE_AGE_MEM_BIST_STDN", 
+                    0, 
+                    (bit64.lshift(1, 4)-1)
+                   )
+
+    for i=0,7 do 
+        check_bist_reg("TNS_SE_SRAM_PAIRX_BIST_STDN("..i..")", 
+                        0, 
+                        (bit64.lshift(1, 4)-1)
+                       )
+    end
+
+    for i=0,7 do 
+        check_bist_reg("TNS_SE_TCAM_DBX_BIST_STDN("..i..")", 
+                        0, 
+                        bit64.bor(
+                            (bit64.lshift(1, 6)-1),--cam_bist_done
+                            bit64.lshift((bit64.lshift(1,6)-1),12) --bist_done
+                            )
+                       )
+    end
+
+    for i=0,7 do 
+        check_bist_reg("TNS_SE_TCAM_SRAMX_BIST_STDN("..i..")", 
+                        0, 
+                        (bit64.lshift(1, 2)-1)
+                       )
+    end
+
+
+    check_bist_reg("TNS_TXQ_CNT_QAC_BIST_STDN", 
+                    0, 
+                    (bit64.lshift(1, 12)-1)
+                   )
+    check_bist_reg("TNS_TXQ_DQ_BIST_STDN", 
+                    0, 
+                    (bit64.lshift(1, 14)-1)
+                   )
+    check_bist_reg("TNS_TXQ_EQ_BIST_STDN", 
+                    0, 
+                    (bit64.lshift(1, 1)-1)
+                   )
+    check_bist_reg("TNS_TXQ_TBC_BIST_STDN", 
+                    0, 
+                    (bit64.lshift(1, 7)-1)
+                   )
+
+    if(bist_failures) then
+        print("TNS BIST PASS\n")
+    else
+        print("TNS BIST FAIL\n")
+    end
+
+end
+
 local function check_ccpi(link)
     --
     -- MMC Tests
@@ -107,7 +180,7 @@ print("THUNDERX Chip Screen")
 print("Copyright (C) 2010-2014 Cavium Inc.")
 
 local coremask = menu.prompt_number("Coremask: ", 0xffffffffffff)
-local config_num = menu.prompt_number("Config Number (0,1 or 2): ", 0)
+local config_num = menu.prompt_number("Config Number: ", 0)
 -- Go multicore, based on coremask provided by script.
 printf("Using coremask: 0x%x\n", coremask)
 
@@ -221,6 +294,8 @@ elseif (config_num == 1) then
 elseif (config_num == 2) then
     tg_pass = tg_run(tg, "XAUI0", 60, 100000, 100, 2)
     tg_pass = tg_run(tg, "XAUI0", 1499, 1000, 100, 2) and tg_pass
+elseif (config_num == 3) then
+    tns_bist_check();
 end
 
 --
