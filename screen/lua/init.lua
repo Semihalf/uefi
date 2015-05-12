@@ -181,6 +181,13 @@ print("Copyright (C) 2010-2014 Cavium Inc.")
 
 local coremask = menu.prompt_number("Coremask: ", 0xffffffffffff)
 local config_num = menu.prompt_number("Config Number: ", 0)
+local use_tns = 0
+if (config_num == 4) then
+-- config_num = 4 means the regular chip-testing (config=0) with TNS
+    use_tns = 1
+    config_num = 0
+end
+
 -- Go multicore, based on coremask provided by script.
 printf("Using coremask: 0x%x\n", coremask)
 
@@ -276,6 +283,9 @@ print("test start: traffic")
 local tg_pass = true
 local trafficgen = require("trafficgen")
 local tg = trafficgen.new()
+if (use_tns == 1) then
+    tg:command("use_tns")
+end
 cavium.c.bdk_wait_usec(3 * 1000000) -- wait for links to come up.
 
 if (config_num == 0) then
@@ -297,7 +307,15 @@ elseif (config_num == 2) then
 elseif (config_num == 3) then
     tns_bist_check();
 end
-
+if ((use_tns == 1) or (config_num == 100))then
+    if (cavium.csr.TNS_SDE_PE_KPUX_KPU_DBG_W0(0).HIT == 1) then
+        print("TNS HIT TEST: PASS\n")
+    else
+        all_pass = 0
+        print("TNS HIT TEST: FAIL\n")
+    end
+end
+  
 --
 -- Summary
 --
