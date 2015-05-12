@@ -146,7 +146,7 @@ local function tns_bist_check()
                     (bit64.lshift(1, 7)-1)
                    )
 
-    if(bist_failures) then
+    if(bist_failures == 0) then
         print("TNS BIST PASS\n")
     else
         print("TNS BIST FAIL\n")
