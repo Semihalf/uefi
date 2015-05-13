@@ -523,10 +523,7 @@ static int validate_ddr3_rlevel_bitmask(const uint64_t bitmask, uint8_t *mstartp
 
 	/* Detect if bitmask is too narrow. */
 	if (width < 4)
-	    narrow = 4 - width;
-	if (width == 1)
-	    /* Excessively narrow */
-	    narrow += RLEVEL_BITMASK_NARROW_ERROR;
+	    narrow = (4-width) * RLEVEL_BITMASK_NARROW_ERROR;
 
 	/* detect leading bubble bits */
 	for (i = firstbit; i < mstart; ++i) {
