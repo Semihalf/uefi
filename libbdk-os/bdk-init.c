@@ -143,17 +143,20 @@ void __bdk_init(uint32_t image_crc)
         /* Initialize the platform */
         __bdk_platform_init();
 
-        /* If L2C_OCI_CTL[ENAOCI] shows we didn't bring up the CCPI link,
-           make sure it is down. We can't change the QLM tuning with it up */
-        BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
-        if (l2c_oci_ctl.s.enaoci == 0)
+        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
         {
-            BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
-            for (int link = 0; link < 3; link++)
+            /* If L2C_OCI_CTL[ENAOCI] shows we didn't bring up the CCPI link,
+               make sure it is down. We can't change the QLM tuning with it up */
+            BDK_CSR_INIT(l2c_oci_ctl, node, BDK_L2C_OCI_CTL);
+            if (l2c_oci_ctl.s.enaoci == 0)
             {
-                BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
-                    c.s.lane_align_dis = 1;
-                    c.s.qlm_select = 0);
+                BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
+                for (int link = 0; link < 3; link++)
+                {
+                    BDK_CSR_MODIFY(c, node, BDK_OCX_LNKX_CFG(link),
+                        c.s.lane_align_dis = 1;
+                        c.s.qlm_select = 0);
+                }
             }
         }
 
