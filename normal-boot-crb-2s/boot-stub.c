@@ -18,9 +18,13 @@
 #define DRAM_NODE1 crb_2s_V3
 /* If non-zero, enable a watchdog timer to reset the chip ifwe hang during init.
    Value is in 262144 SCLK cycle intervals, max of 16 bits */
-#define WATCHDOG_TIMEOUT 8010 /* 3sec at 700Mhz */
-/* Control whether the boot stub request power cycles from the BMC (0 ro 1) */
-#define USE_POWER_CYCLE 1 /* Currently not requesting power cycles */
+#define WATCHDOG_TIMEOUT 0 /* 8010 = 3sec at 700Mhz */
+/* Control whether the boot stub request power cycles from the BMC (0 or 1).
+   This is only useful in conjuction with WATCHDOG_TIMEOUT */
+#define USE_POWER_CYCLE (WATCHDOG_TIMEOUT != 0)
+/* Perform a fast DRAM test before booting, rebooting or pwoer cycling on
+   failure. Only useful if WATCHDOG_TIMEOUT */
+#define RUN_DRAM_TEST (WATCHDOG_TIMEOUT != 0)
 /* How long to wait for selection of diagnostics (seconds) */
 #define DIAGS_TIMEOUT 3
 /* A GPIO can be used to select diagnostics without input. The following
@@ -485,7 +489,7 @@ int main(void)
         bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
         bdk_init_nodes(1, CCPI_INIT_SPEED);
         /* Reset if CCPI failed */
-        if (bdk_numa_is_only_one())
+        if (bdk_numa_is_only_one() && WATCHDOG_TIMEOUT)
             reset_or_power_cycle();
         /* Poke the watchdog */
         if (WATCHDOG_TIMEOUT)
@@ -511,17 +515,20 @@ int main(void)
                 uint32_t freq = libdram_get_freq(other_node);
                 freq = (freq + 500000) / 1000000;
                 printf("Node %d: DRAM: %d MB, %u MHz\n", other_node, mbytes, freq);
-                /* Wake up one core on the other node */
-                bdk_init_cores(other_node, 1);
-                /* Run the address test to make sure DRAM works */
-                if (bdk_dram_test(13, 0, 0x10000000000ull))
-                    bdk_reset_chip(node);
-                /* Put other node core back in reset */
-                BDK_CSR_WRITE(other_node, BDK_RST_PP_RESET, -1);
-                uint64_t skip = bdk_dram_get_top_of_bdk();
-                bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
-                    ((uint64_t)mbytes << 20) - skip);
-                bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(other_node, 0)), (uint64_t)mbytes << 20);
+                if (RUN_DRAM_TEST)
+                {
+                    /* Wake up one core on the other node */
+                    bdk_init_cores(other_node, 1);
+                    /* Run the address test to make sure DRAM works */
+                    if (bdk_dram_test(13, 0, 0x10000000000ull))
+                        bdk_reset_chip(node);
+                    /* Put other node core back in reset */
+                    BDK_CSR_WRITE(other_node, BDK_RST_PP_RESET, -1);
+                    uint64_t skip = bdk_dram_get_top_of_bdk();
+                    bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
+                        ((uint64_t)mbytes << 20) - skip);
+                    bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(other_node, 0)), (uint64_t)mbytes << 20);
+                }
             }
             else
             {
