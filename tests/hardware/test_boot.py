@@ -22,7 +22,7 @@ def wait_for_bootstub_messages(cnx):
     cnx.match("Boot:  SPI24(5)")
     cnx.match("VRM:   Disabled")
     cnx.match("Trust: Disabled")
-    cnx.waitforRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=10)
+    cnx.waitforRE("Node 0: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=60)
     if cnx.multinode:
         cnx.match("N0.CCPI Lanes([] is good):[0][1][2][3][4][5][6][7][8][9][10][11][12][13][14][15][16][17][18][19][20][21][22][23]")
         cnx.match("N1.CCPI Lanes([] is good):[0][1][2][3][4][5][6][7][8][9][10][11][12][13][14][15][16][17][18][19][20][21][22][23]")
@@ -38,7 +38,7 @@ def wait_for_bootstub_messages(cnx):
         cnx.match("Boot:  SPI24(5)")
         cnx.match("VRM:   Disabled")
         cnx.match("Trust: Disabled")
-        cnx.waitforRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=20)
+        cnx.waitforRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=90)
     else:
         cnx.match("Node 1: Not found, skipping DRAM init")
     cnx.waitfor("Press 'D' within 3 seconds to boot diagnostics", timeout=5)
