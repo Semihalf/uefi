@@ -832,6 +832,15 @@ static int xaui_link(bdk_if_handle_t handle)
                 return -1;
             }
         }
+
+        /* With XFI and XLAUI, we need to perform RX equalization when the link
+           is receiving data the first time */
+        if ((priv->mode == BGX_MODE_XFI) || (priv->mode == BGX_MODE_XLAUI))
+        {
+            int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
+            bdk_qlm_rx_equalization(handle->node, qlm);
+        }
+
         /* Wait for PCS to come out of reset */
         if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_SPUX_CONTROL1(bgx_block, bgx_index), reset, ==, 0, TIMEOUT))
         {
