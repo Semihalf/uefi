@@ -63,6 +63,8 @@ def wait_for_dram_test(cnx, test_name):
     try:
         for i in range(7):
             cnx.matchRE("Node [0-1], LMC[0-3]: ops [0-9]*, cycles [0-9]*, used [0-9]*\\.[0-9]\\%", timeout=0.1)
+        for i in range(8):
+            cnx.matchRE("Node [0-1], CCPI[0-2]: busy [0-9]*, total [0-9]*, used [0-9]*\\.[0-9]\\%", timeout=0.1)
     except:
         pass
 
