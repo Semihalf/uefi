@@ -2004,11 +2004,6 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
     }
 
     bdk_wait_usec(10);
-    /* Modes other than CCPI using SERDES at 10G need RX equalization. We don't
-       do the KR modes here because they automatically do RX equalization as
-       part of training */
-    if ((mode == BDK_QLM_MODE_XFI_4X1) || (mode == BDK_QLM_MODE_XLAUI_1X4))
-        bdk_qlm_rx_equalization(node, qlm);
 }
 
 /**
