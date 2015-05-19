@@ -4,6 +4,7 @@ import re
 import sys
 import os
 import select
+import subprocess
 import time
 import telnetlib
 
@@ -109,6 +110,34 @@ class TelnetPort:
         return result
 
 #
+# Implements a Serial Over Lan connection. Used by GenericPort
+#
+class SerialOverLan:
+    def __init__(self, connect_str):
+        parts = connect_str.split(":")
+        assert len(parts) == 2, "Expected 'sol:host'"
+        self.host = parts[1]
+        ipmitool = ["ipmitool", "-H", self.host, "-I", "lanplus", "-U", "admin", "-P", "admin", "sol", "deactivate"]
+        subprocess.call(ipmitool)
+        ipmitool[-1] = "activate"
+        self.ipmitool = subprocess.Popen(ipmitool, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
+        self.poll = select.poll()
+        self.poll.register(self.ipmitool.stdout, select.POLLIN)
+
+    def close(self):
+        self.ipmitool.terminiate()
+
+    def write(self, data):
+        self.ipmitool.stdin.write(data)
+
+    def readChar(self, timeout):
+        ready = self.poll.poll(timeout * 1000)
+        if ready:
+            return self.ipmitool.stdout.read(1)
+        else:
+            raise Exception("Timeout")
+
+#
 # Port connection for scripting
 #
 class GenericPort:
@@ -116,6 +145,8 @@ class GenericPort:
         self.connect_str = connect_str
         if "/" in connect_str:
             self.port = SerialPort(connect_str)
+        elif connect_str.startswith("sol:"):
+            self.port = SerialOverLan(connect_str)
         else:
             self.port = TelnetPort(connect_str)
         self.log = logObject

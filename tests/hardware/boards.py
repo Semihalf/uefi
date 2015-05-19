@@ -120,7 +120,6 @@ class Board_CRB_2S(Board):
         self.multinode = True
 
     def close(self):
-        self.serialbox.close()
         Board.close(self)
 
     def powerCycle(self):
@@ -141,6 +140,12 @@ def parseArgs():
                 mcu2 = sys.argv[3]
             else:
                 mcu2 = None
+        elif sys.argv[1] == "sol":
+            # Use Serial Over Lan. The second argument must be a BMC nmae or IP
+            assert len(sys.argv) == 3
+            console = "sol:%s" % sys.argv[2]
+            mcu1 = sys.argv[2]
+            mcu2 = None
         else:
             # Using telnet with a hostname. Assume it is the name of a MCU
             # and the ports are 9761 and 9760
@@ -172,6 +177,10 @@ def parseArgs():
         print "    /dev/ttyUSB1 = Direct serial connection to the console"
         print "    /dev/ttyUSB2 = MCU/control of board"
         print "    /dev/ttyUSB3 = MCU of second board in dual node setup (Optional)"
+        print
+        print "  SCRIPT sol bmc"
+        print "    sol = Keyword to use ipmitool for console"
+        print "    bmc = BMC host name ir IP address"
         print
         print "  In EBB / EVB setups, control uses commands to the MCU"
         print "  In CRB-2S, host2 should be the IP address or hostname of the BMC"
