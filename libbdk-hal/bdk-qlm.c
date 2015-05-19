@@ -287,12 +287,13 @@ int bdk_qlm_auto_config(bdk_node_t node)
  *
  * @param node   Node the QLM is on
  * @param qlm    QLM to perform RX equalization on
+ * @param lane   Lane to use, or -1 for all lanes
  *
  * @return Zero on success, negative if any lane failed RX equalization
  */
-int bdk_qlm_rx_equalization(bdk_node_t node, int qlm)
+int bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int lane)
 {
-    return qlm_ops->rx_equalization(node, qlm);
+    return qlm_ops->rx_equalization(node, qlm, lane);
 }
 
 /**

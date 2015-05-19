@@ -838,7 +838,8 @@ static int xaui_link(bdk_if_handle_t handle)
         if ((priv->mode == BGX_MODE_XFI) || (priv->mode == BGX_MODE_XLAUI))
         {
             int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
-            bdk_qlm_rx_equalization(handle->node, qlm);
+            bdk_qlm_rx_equalization(handle->node, qlm,
+                (priv->mode == BGX_MODE_XLAUI) ? -1 : handle->index);
         }
 
         /* Wait for PCS to come out of reset */

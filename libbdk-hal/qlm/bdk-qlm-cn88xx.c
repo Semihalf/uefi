@@ -1606,12 +1606,13 @@ int qlm_auto_config(bdk_node_t node)
 /**
  * Perform RX equalization on a QLM
  *
- * @param node   Node the QLM is on
- * @param qlm    QLM to perform RX equalization on
+ * @param node     Node the QLM is on
+ * @param qlm      QLM to perform RX equalization on
+ * @param qlm_lane Lane to use, or -1 for all lanes
  *
  * @return Zero on success, negative if any lane failed RX equalization
  */
-static int rx_equalization(bdk_node_t node, int qlm)
+static int rx_equalization(bdk_node_t node, int qlm, int qlm_lane)
 {
     /* Don't touch QLMs is reset or powered down */
     BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
@@ -1647,6 +1648,8 @@ static int rx_equalization(bdk_node_t node, int qlm)
     BDK_TRACE(QLM, "N%d.QLM%d: Starting RX equalization\n", node, qlm);
     for (int lane = 0; lane < 4; lane++)
     {
+        if ((qlm_lane != -1) && (qlm_lane != lane))
+            continue;
         /* Enable software control */
         BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_CTL(qlm, lane),
             c.s.rxt_swm = 1);
@@ -1660,6 +1663,8 @@ static int rx_equalization(bdk_node_t node, int qlm)
     for (int lane = 0; lane < 4; lane++)
     {
         const int TIMEOUT_US = 100000; /* 100ms */
+        if ((qlm_lane != -1) && (qlm_lane != lane))
+            continue;
         BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_BR_RXX_EER(qlm, lane), rxt_esv, ==, 1, TIMEOUT_US);
         BDK_CSR_INIT(gserx_br_rxx_eer, node, BDK_GSERX_BR_RXX_EER(qlm, lane));
         if (gserx_br_rxx_eer.s.rxt_esv)
@@ -1677,6 +1682,8 @@ static int rx_equalization(bdk_node_t node, int qlm)
     /* Switch back to hardware control */
     for (int lane = 0; lane < 4; lane++)
     {
+        if ((qlm_lane != -1) && (qlm_lane != lane))
+            continue;
         BDK_CSR_MODIFY(c, node, BDK_GSERX_BR_RXX_CTL(qlm, lane),
             c.s.rxt_swm = 0);
     }

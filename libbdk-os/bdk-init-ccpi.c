@@ -463,7 +463,7 @@ static int ccpi_wait_for_lanes(bdk_node_t node)
 #if 0       // FIXME: RX equalization
             /* Do three time to make usre there are no glitches */
             for (int repeat = 0; repeat < 3; repeat++)
-                while (bdk_qlm_rx_equalization(node, qlm))
+                while (bdk_qlm_rx_equalization(node, qlm, -1))
                     bdk_wait_usec(100);
 #endif
             /* Make sure no lanes are bad, and all lanes are good */

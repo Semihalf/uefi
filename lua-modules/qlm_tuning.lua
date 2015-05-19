@@ -223,7 +223,7 @@ local function do_prbs(mode)
                     cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm_num,lane).cfg_tx_premptap = csr_setting
                     cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm_num,lane).tx_premptap_ovrd_val = 1
                 end
-                cavium.c.bdk_qlm_rx_equalization(menu.node, qlm_num)
+                cavium.c.bdk_qlm_rx_equalization(menu.node, qlm_num, -1)
             end
         end
         if (key == 's') or (key =='S') then
@@ -236,7 +236,7 @@ local function do_prbs(mode)
                     cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm_num,lane).cfg_tx_swing = csr_setting
                     cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm_num,lane).tx_swing_ovrd_en = 1
                 end
-                cavium.c.bdk_qlm_rx_equalization(menu.node, qlm_num)
+                cavium.c.bdk_qlm_rx_equalization(menu.node, qlm_num, -1)
             end
          end
 
@@ -255,7 +255,7 @@ local function set_preemphasis(qlm)
         cavium.csr[menu.node].GSERX_LANEX_TX_PRE_EMPHASIS(qlm,lane).cfg_tx_premptap = csr_setting
         cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_premptap_ovrd_val = 1
     end
-    cavium.c.bdk_qlm_rx_equalization(menu.node, qlm)
+    cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
 end
 
 local function set_preandpost(qlm)
@@ -270,11 +270,11 @@ local function set_preandpost(qlm)
         cavium.csr[menu.node].GSERX_LANEX_TX_CFG_0(qlm,lane).cfg_tx_swing = csr_setting
         cavium.csr[menu.node].GSERX_LANEX_TX_CFG_1(qlm,lane).tx_swing_ovrd_en = 1
     end
-    cavium.c.bdk_qlm_rx_equalization(menu.node, qlm)
+    cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
 end
 
 local function manual_rx_evaluation(qlm)
-    cavium.c.bdk_qlm_rx_equalization(menu.node, qlm)
+    cavium.c.bdk_qlm_rx_equalization(menu.node, qlm, -1)
 end
 
 local function do_custom(mode)
