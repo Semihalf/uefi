@@ -40,7 +40,7 @@ def wait_for_bootstub_messages(cnx):
         cnx.match("Trust: Disabled")
         cnx.waitforRE("Node 1: DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=90)
     else:
-        cnx.match("Node 1: Not found, skipping DRAM init")
+        cnx.match("Node 1: Not found, skipping DRAM init", timeout=15)
     cnx.waitfor("Press 'D' within 3 seconds to boot diagnostics", timeout=5)
     cnx.write("D")
     cnx.match("Loading image at 0x80000")

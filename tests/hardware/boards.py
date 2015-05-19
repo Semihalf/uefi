@@ -3,6 +3,7 @@
 import sys
 import os
 import time
+import traceback
 import connection
 
 #
@@ -43,6 +44,32 @@ class Board:
 
     def matchRE(self, correct, timeout=5):
         return self.console.matchRE(correct, timeout)
+
+    def runTestLoop(self, test_func):
+        # Runs a test, defined in "test_func", in an infinite loop tracking pass
+        # and fail statistics. The test is given one argument, the connection
+        # instance.
+        count = 0
+        pass_count = 0
+        fail_count = 0
+        while True:
+            count += 1
+            print "Starting loop %d: Pass %d, Fail %d" % (count, pass_count, fail_count)
+            try:
+                test_func(self)
+                pass_count += 1
+            except (KeyboardInterrupt, SystemExit):
+                self.log("Abort forced during loop %d: Pass %d, Fail %d" % (count, pass_count, fail_count))
+                raise
+            except:
+                fail_count += 1
+                ex_str = traceback.format_exc()
+                try:
+                    self.waitfor("JUNK", timeout=1)
+                except:
+                    pass
+                self.log("FAIL: Exception: %s" % ex_str)
+            self.log("After loop %d: Pass %d, Fail %d" % (count, pass_count, fail_count))
 
 #
 # Class for controlling EBB and EVB boards with MCUs that control power cycling
