@@ -593,11 +593,13 @@ function TrafficGen.new()
                 local chose0 = (args[1] == "0") or (args[2] == "0") or not args[1]
                 local chose1 = (args[1] == "1") or (args[2] == "1") or not args[1]
 
+                local tns_nici0_hdr = cavium.csr.TNS_RDMA_NB_HDR_SZ_CFG.nici0
                 local old_tns_nonbypass0 = cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_NONBYPASS
                 local old_credit_size0 = cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_CREDIT_SIZE
                 local old_block0 = cavium.csr.NIC_PF_INTFX_SEND_CFG(0).BLOCK
                 local old_bypass0_ena = cavium.csr.TNS_TDMA_CONFIG.BYPASS0_ENA
 
+                local tns_nici1_hdr = cavium.csr.TNS_RDMA_NB_HDR_SZ_CFG.nici1
                 local old_tns_nonbypass1 = cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_NONBYPASS
                 local old_credit_size1 = cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_CREDIT_SIZE
                 local old_block1 = cavium.csr.NIC_PF_INTFX_SEND_CFG(1).BLOCK
@@ -631,14 +633,14 @@ function TrafficGen.new()
                         if chose0 then
                             -- Use TNS0 (i.e. DON'T BYPASS it)
                             cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_NONBYPASS = 1
-                            cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_CREDIT_SIZE = 3
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(0).TNS_CREDIT_SIZE = tns_nici0_hdr
                             cavium.csr.NIC_PF_INTFX_SEND_CFG(0).BLOCK = 6
                             cavium.csr.TNS_TDMA_CONFIG.BYPASS0_ENA = 0
                         end
                         if chose1 then
                             -- Use TNS1 (i.e. DON'T BYPASS it)
                             cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_NONBYPASS = 1
-                            cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_CREDIT_SIZE = 3
+                            cavium.csr.NIC_PF_INTFX_SEND_CFG(1).TNS_CREDIT_SIZE = tns_nici1_hdr
                             cavium.csr.NIC_PF_INTFX_SEND_CFG(1).BLOCK = 7
                             cavium.csr.TNS_TDMA_CONFIG.BYPASS1_ENA = 0
                         end
@@ -665,6 +667,7 @@ function TrafficGen.new()
                     printf("TNS0 IS NOT now being used (it is BYPASSED)\n")
                 end
 
+                printf("  csr TNS_RDMA_NB_HDR_SZ_CFG.NICI0 = 0x%x\n", tns_nici0_hdr)
                 printf("  csr NIC_PF_INTFX_SEND_CFG(0).TNS_NONBYPASS = 0x%x (was 0x%x)\n", new_tns_nonbypass0, old_tns_nonbypass0)
                 printf("  csr NIC_PF_INTFX_SEND_CFG(0).TNS_CREDIT_SIZE = 0x%x (was 0x%x)\n", new_credit_size0, old_credit_size0)
                 printf("  csr NIC_PF_INTFX_SEND_CFG(0).BLOCK = 0x%x (was 0x%x)\n", new_block0, old_block0)
@@ -676,6 +679,7 @@ function TrafficGen.new()
                     printf("TNS1 IS NOT now being used (it is BYPASSED)\n")
                 end
 
+                printf("  csr TNS_RDMA_NB_HDR_SZ_CFG.NICI1 = 0x%x\n", tns_nici1_hdr)
                 printf("  csr NIC_PF_INTFX_SEND_CFG(1).TNS_NONBYPASS = 0x%x (was 0x%x)\n", new_tns_nonbypass1, old_tns_nonbypass1)
                 printf("  csr NIC_PF_INTFX_SEND_CFG(1).TNS_CREDIT_SIZE = 0x%x (was 0x%x)\n", new_credit_size1, old_credit_size1)
                 printf("  csr NIC_PF_INTFX_SEND_CFG(1).BLOCK = 0x%x (was 0x%x)\n", new_block1, old_block1)
