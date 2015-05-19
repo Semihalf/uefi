@@ -10,9 +10,6 @@
 #define ENABLE_DRAM_MENU 0
 #endif
 
-/* On boards using software CCPI init, this is the speed to bringup CCPI at */
-#define CCPI_INIT_SPEED 10312
-
 /**
  * This function is not defined by the BDK libraries. It must be
  * defined by all BDK applications. It should be empty except for
@@ -386,18 +383,6 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
         freq_mhz);
 }
 
-static void ccpi_sw_init(void)
-{
-    printf("\n"
-        "Secondary node with CCPI init in software. Starting CCPI\n"
-        "\n");
-    if (__bdk_init_ccpi_links(CCPI_INIT_SPEED))
-        bdk_fatal("CCPI init failed\n");
-    bdk_dbg_uart_str("Putting core in reset\r\n");
-    extern void __bdk_reset_thread(int arg1, void *arg2);
-    __bdk_reset_thread(0, NULL);
-}
-
 /**
  * Main entry point
  *
@@ -476,12 +461,6 @@ int main(void)
         boot_method_str, boot_method,
         (vrm_disable) ? "Disabled" : "Enabled",
         (trust_mode) ? "Enabled" : "Disabled");
-
-    /* Check if we're booting on a non-zero node and CCPI is in software mode.
-       This would mean we should setup CCPI and wait for the other node to
-       take over */
-    if ((node != 0) && (bdk_qlm_get_gbaud_mhz(node, 8) == 0))
-        ccpi_sw_init();
 
     extern int bdk_fs_mmc_init(void);
     extern int bdk_fs_mpi_init(void);

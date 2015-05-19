@@ -3,7 +3,7 @@ include $(BDK_ROOT)/libbdk/bdk.mk
 DIR=$(BDK_ROOT)/target-bin
 
 .PHONY: all
-all: ${DIR}/bdk.bin ${DIR}/bdk-node1.bin
+all: ${DIR}/bdk.bin
 
 #
 # Rules for node 0 boot stub
@@ -34,38 +34,6 @@ bdk.bin: stage1.bin stage2.bin
 diagnostics: diagnostics.o $(BDK_ROOT)/libbdk/libbdk.a
 boot-stub: boot-stub.o $(BDK_ROOT)/libbdk/libbdk.a
 
-#
-# Rules for node 1 boot stub
-#
-${DIR}/bdk-node1.bin: bdk-node1.bin
-	cp bdk-node1.bin ${DIR}/bdk-node1.bin
-
-boot-stub-node1: BDK_LINK_ADDRESS=0x10000000000
-boot-stub-node1: boot-stub.o $(BDK_ROOT)/libbdk/libbdk.a
-	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
-
-diagnostics-node1: BDK_LINK_ADDRESS=0x10000000000
-diagnostics-node1: diagnostics.o $(BDK_ROOT)/libbdk/libbdk.a
-	$(CC) $(LDFLAGS) $^ $(LDLIBS) -o $@
-
-bdk-node1.bin: boot-stub-node1.bin diagnostics-node1.bin lua/* stage2.bin
-	if [ `stat -c %s boot-stub-node1.bin` -gt 196608 ]; then echo "ERROR: boot-stub-node1.bin image must be 192KB or less";exit 1;fi
-	${BDK_ROOT}/bin/bdk-update-romfs stage1-node1.bin boot-stub-node1.bin
-	${BDK_ROOT}/bin/bdk-update-romfs stage2-node1.bin diagnostics-node1.bin lua/*
-	#
-	# 1) 64KB unused by Thunder
-	cat /dev/zero | head -q -c 65536 > $@
-	# 2) 64KB of CVM_CLIB header
-	echo -n CVM_CLIB | cat - /dev/zero | head -q -c 65536 >> $@
-	# 3) 192KB of boot-stub image (non-trusted)
-	cat stage1-node1.bin /dev/zero | head -q -c 196608 >> $@
-	# 4) 192KB of boot-stub image (trusted)
-	cat stage1-node1.bin /dev/zero | head -q -c 196608 >> $@
-	rm stage1-node1.bin
-	# 5) 8MB-512KB of diagnostics
-	cat stage2-node1.bin >> $@
-	rm stage2-node1.bin
-
 clean:
-	rm -f *.o *.map *.bin boot-stub boot-stub-node1 diagnostics diagnostics-node1 ${DIR}/bdk.bin ${DIR}/bdk-node1.bin
+	rm -f *.o *.map *.bin boot-stub diagnostics ${DIR}/bdk.bin
 
