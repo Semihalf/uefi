@@ -259,7 +259,7 @@ out:
  */
 static void choose_image(const char *dev_filename)
 {
-    const int MAX_IMAGES = 4;
+    const int MAX_IMAGES = 5;
     uint64_t image_address[MAX_IMAGES];
     int num_images = list_images(dev_filename, MAX_IMAGES, image_address);
 
