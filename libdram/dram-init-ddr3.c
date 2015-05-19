@@ -2901,7 +2901,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     /* LMC(0)_TIMING_PARAMS2 */
     if (ddr_type == DDR4_DRAM) {
+        bdk_lmcx_timing_params1_t lmc_timing_params1;
         bdk_lmcx_timing_params2_t lmc_timing_params2;
+        lmc_timing_params1.u = BDK_CSR_READ(node, BDK_LMCX_TIMING_PARAMS1(ddr_interface_num));
         lmc_timing_params2.u = BDK_CSR_READ(node, BDK_LMCX_TIMING_PARAMS2(ddr_interface_num));
         ddr_print("TIMING_PARAMS2                                : 0x%016lx\n", lmc_timing_params2.u);
 
@@ -2912,6 +2914,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         ddr_print("TIMING_PARAMS2                                : 0x%016lx\n", lmc_timing_params2.u);
         DRAM_CSR_WRITE(node, BDK_LMCX_TIMING_PARAMS2(ddr_interface_num), lmc_timing_params2.u);
+
+        /* Workaround Errata 25823 - LMC: Possible DDR4 tWTR_L not met
+           for Write-to-Read operations to the same Bank Group */
+        if (lmc_timing_params1.s.twtr < (lmc_timing_params2.s.twtr_l - 4)) {
+            lmc_timing_params1.s.twtr = lmc_timing_params2.s.twtr_l - 4;
+            ddr_print("TIMING_PARAMS1                                : 0x%016lx\n", lmc_timing_params1.u);
+            DRAM_CSR_WRITE(node, BDK_LMCX_TIMING_PARAMS1(ddr_interface_num), lmc_timing_params1.u);
+        }
+
     }
 
     /* LMC(0)_MODEREG_PARAMS0 */
