@@ -15,6 +15,7 @@ class Log:
     def __init__(self, filename):
         self.file = open(filename, "w")
         self.outputbuf = ""
+        self.saw_cr = False
 
     def close(self):
         self.flush()
@@ -39,9 +40,18 @@ class Log:
         print "<<< " + data
 
     def logOutput(self, data):
-        self.outputbuf += data
         if data == "\n":
+            # Flush after a NL
             self.flush()
+            self.saw_cr = False
+            return
+        elif self.saw_cr:
+            # Flush after a CR without a NL
+            self.flush()
+        # Remember CR s owe know to flush later
+        self.saw_cr = (data == "\r")
+        if not self.saw_cr:
+            self.outputbuf += data
 
     def logInfo(self, data):
         self._write("*** " + data + "\n")
