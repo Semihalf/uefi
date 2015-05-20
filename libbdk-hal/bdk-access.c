@@ -48,6 +48,11 @@ void bdk_reset_chip(bdk_node_t node)
         bdk_thread_yield();
     }
 
+    /* RST_OCX is not cleared by a chip reset. Clear it now to avoid repeated
+       resets due to CCPI state changes during reset */
+    BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
+    BDK_CSR_READ(node, BDK_RST_OCX);
+
     bdk_rst_soft_rst_t rst_soft_rst;
     rst_soft_rst.u = 0;
     rst_soft_rst.s.soft_rst = 1;
