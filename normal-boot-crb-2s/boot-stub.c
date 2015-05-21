@@ -8,8 +8,6 @@
 #define BMC_TWSI 1
 /* Control if we even try and do multi-node (0 or 1) */
 #define MULTI_NODE 1
-/* On boards using software CCPI init, this is the speed to bringup CCPI at */
-#define CCPI_INIT_SPEED 10312
 /* Name of DRAM config for master node 0 */
 #define DRAM_NODE0 crb_2s_V3
 /* Enable verbose logging from DRAM initialization (0 or 1) */
@@ -403,31 +401,10 @@ int main(void)
     if (WATCHDOG_TIMEOUT)
         BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
 
-    /* Setup CCPI if we're on the second node */
-    if (MULTI_NODE && (node != 0))
-    {
-        BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
-        /* Check if CCPI is in software init mode */
-        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(8));
-        if (gserx_spd.s.spd == 0xf)
-        {
-            printf("Secondary node with CCPI init in software. Starting CCPI\n");
-            if (__bdk_init_ccpi_links(CCPI_INIT_SPEED))
-                bdk_fatal("CCPI init failed\n");
-            extern void __bdk_reset_thread(int arg1, void *arg2);
-            __bdk_reset_thread(0, NULL);
-        }
-        /* Disable watchdog */
-        if (WATCHDOG_TIMEOUT)
-            BDK_CSR_WRITE(node, BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
-        extern void __bdk_reset_thread(int arg1, void *arg2);
-        __bdk_reset_thread(0, NULL);
-    }
-
     if (MULTI_NODE)
     {
         BDK_TRACE(BOOT_STUB, "Initializing CCPI links\n");
-        if (__bdk_init_ccpi_links(CCPI_INIT_SPEED))
+        if (__bdk_init_ccpi_links(0))
         {
             printf("CCPI: Link timeout\n");
             /* Reset on failure if we're using the watchdog */
@@ -487,7 +464,7 @@ int main(void)
     {
         BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
         bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
-        bdk_init_nodes(1, CCPI_INIT_SPEED);
+        bdk_init_nodes(1, 0);
         /* Reset if CCPI failed */
         if (bdk_numa_is_only_one() && WATCHDOG_TIMEOUT)
             reset_or_power_cycle();

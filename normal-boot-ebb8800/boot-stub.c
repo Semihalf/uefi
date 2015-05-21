@@ -5,8 +5,6 @@
 #define BMC_TWSI -1
 /* Control if we even try and do multi-node (0 or 1) */
 #define MULTI_NODE 1
-/* On boards using software CCPI init, this is the speed to bringup CCPI at */
-#define CCPI_INIT_SPEED 10312
 /* Name of DRAM config for master node 0 */
 #define DRAM_NODE0 ebb8800
 /* Enable verbose logging from DRAM initialization (0 or 1) */
@@ -332,22 +330,6 @@ int main(void)
         bdk_version_string());
     print_node_strapping(bdk_numa_master());
 
-    /* Setup CCPI if we're on the second node */
-    if (MULTI_NODE && (node != 0))
-    {
-        BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
-        /* Check if CCPI is in software init mode */
-        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(8));
-        if (gserx_spd.s.spd == 0xf)
-        {
-            printf("Secondary node with CCPI init in software. Starting CCPI\n");
-            if (__bdk_init_ccpi_links(CCPI_INIT_SPEED))
-                bdk_fatal("CCPI init failed\n");
-            extern void __bdk_reset_thread(int arg1, void *arg2);
-            __bdk_reset_thread(0, NULL);
-        }
-    }
-
     /* Initialize DRAM on the master node */
 #ifdef DRAM_NODE0
     if (DRAM_VERBOSE)
@@ -389,19 +371,11 @@ int main(void)
     {
         BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
         bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
-        bdk_init_nodes(1, CCPI_INIT_SPEED);
+        bdk_init_nodes(1, 0);
     }
 
     /* Send status to the BMC: Multi-node setup complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
-
-    /* Put the core back in reset if we're the second node of a CCPI system */
-    if (node != BDK_NODE_0)
-    {
-        BDK_TRACE(BOOT_STUB, "CCPI ready. Putting core in reset\n");
-        extern void __bdk_reset_thread(int arg1, void *arg2);
-        __bdk_reset_thread(0, NULL);
-    }
 
     /* Initialize DRAM on the slave node */
 #ifdef DRAM_NODE1
