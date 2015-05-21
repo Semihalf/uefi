@@ -11,10 +11,13 @@ static bdk_spinlock_t lock;
     {
         fputs(prefix, stderr);
         vfprintf(stderr, format, args);
+        fflush(stderr);
     }
     else
+    {
         vfprintf(stdout, format, args); /* printf goes to stdout */
-    fflush(NULL);
+        fflush(stdout);
+    }
 #ifndef BDK_BUILD_HOST
     bdk_spinlock_unlock(&lock);
 #endif
