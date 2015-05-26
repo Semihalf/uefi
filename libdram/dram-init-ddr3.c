@@ -1907,6 +1907,52 @@ static impedence_values_t ddr3_impedence_values = {
 };
 
 
+#define DEBUG_RC3X_COMPUTE 1
+#define rc3x_print(...) \
+    do { if (DEBUG_RC3X_COMPUTE) printf(__VA_ARGS__); } while (0)
+
+static int compute_rc3x (int64_t tclk_psecs)
+{
+    int speed;
+    long tclk_psecs_min, tclk_psecs_max;
+    long data_rate_mhz, data_rate_mhz_min, data_rate_mhz_max;
+    int rc3x;
+
+#define DIVIDEND_SCALE 1000      /* Scale by 100 to avoid rounding error. */
+#define ENCODING_BASE 1240
+
+    data_rate_mhz = divide_nint(divide_nint((2 * 1000000 * DIVIDEND_SCALE), (tclk_psecs)), DIVIDEND_SCALE);
+
+    for (speed = ENCODING_BASE; speed < 3200; speed += 20) {
+        int error = 0;
+        tclk_psecs_min = divide_nint((uint64_t) 1000*1000*1000*1000, (speed + 00) * 1000*1000 / 2 ); /* Clock in psecs */
+        tclk_psecs_max = divide_nint((uint64_t) 1000*1000*1000*1000, (speed + 18) * 1000*1000 / 2 ); /* Clock in psecs */
+
+        data_rate_mhz_min = divide_nint((2 * 1000000 * DIVIDEND_SCALE), (tclk_psecs_min)) / DIVIDEND_SCALE;
+        data_rate_mhz_max = divide_nint((2 * 1000000 * DIVIDEND_SCALE), (tclk_psecs_max)) / DIVIDEND_SCALE;
+
+        /* Force alingment to multiple to avound rounding errors. */
+        data_rate_mhz_min = ((data_rate_mhz_min + 18) / 20) * 20;
+        data_rate_mhz_max = ((data_rate_mhz_max + 18) / 20) * 20;
+
+        rc3x = (data_rate_mhz_min - ENCODING_BASE) / 20;
+
+        error += (speed + 00 != data_rate_mhz_min);
+        error += (speed + 20 != data_rate_mhz_max);
+
+        rc3x_print("rc3x: %02x speed: %4d MT/s < f <= %4d MT/s, psec: %3ld:%3ld %4ld:%4ld %s\n",
+                   rc3x,
+                   speed, speed + 20,
+                   tclk_psecs_min, tclk_psecs_max,
+                   data_rate_mhz_min, data_rate_mhz_max,
+                   error ? "****" : "");
+
+        if (data_rate_mhz <= data_rate_mhz_max)
+            break;
+    }
+    return rc3x;
+}
+
 static const int   run_init_sequence_1 = 1;
 static const int   run_init_sequence_2 = 0;
 static const int   run_init_sequence_3 = 0;
@@ -3535,11 +3581,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 lmc_dimmx_ddr4_params0.s.rc5x = 0;
                 lmc_dimmx_ddr4_params0.s.rc4x = 0;
 
-#define DIVIDEND_SCALE 100      /* Scale by 100 to avoid rounding error. */
-#define ENCODING_BASE 1240
-
-                lmc_dimmx_ddr4_params0.s.rc3x = divide_nint((((2 * 1000000 * DIVIDEND_SCALE)
-                                                              / (tclk_psecs * DIVIDEND_SCALE))), 20) - 62;
+                lmc_dimmx_ddr4_params0.s.rc3x = compute_rc3x(tclk_psecs);
 
                 lmc_dimmx_ddr4_params0.s.rc2x = 0;
                 lmc_dimmx_ddr4_params0.s.rc1x = 0;
