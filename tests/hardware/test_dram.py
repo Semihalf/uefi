@@ -58,7 +58,10 @@ def wait_for_test_menu(cnx):
 def wait_for_dram_test(cnx, test_name):
     cnx.match("Starting Test \"%s\" for" % test_name)
     cnx.matchRE("\\[0x[0-9a-fA-F]*:0x[0-9a-fA-F]*\\] using [0-9]* core\\(s\\)")
-    cnx.waitfor("Node", timeout=1800)
+    timeout = 600; # Default to 10 min
+    if test_name == "Random XOR (224 Burst)":
+        timeout = 3600; # This test is slow, allow 60 min
+    cnx.waitfor("Node", timeout=timeout)
     cnx.matchRE("0, LMC0: ops [0-9]*, cycles [0-9]*, used [0-9]*\\.[0-9]\\%")
     try:
         for i in range(7):
