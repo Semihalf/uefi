@@ -1907,13 +1907,13 @@ static impedence_values_t ddr3_impedence_values = {
 };
 
 
-#define DEBUG_RC3X_COMPUTE 0
+#define DEBUG_RC3X_COMPUTE 1
 #define rc3x_print(...) \
     do { if (DEBUG_RC3X_COMPUTE) printf(__VA_ARGS__); } while (0)
 
 static int compute_rc3x (int64_t tclk_psecs)
 {
-    int speed;
+    long speed;
     long tclk_psecs_min, tclk_psecs_max;
     long data_rate_mhz, data_rate_mhz_min, data_rate_mhz_max;
     int rc3x;
@@ -1922,6 +1922,12 @@ static int compute_rc3x (int64_t tclk_psecs)
 #define ENCODING_BASE 1240
 
     data_rate_mhz = divide_nint(divide_nint((2 * 1000000 * DIVIDEND_SCALE), (tclk_psecs)), DIVIDEND_SCALE);
+
+    /* 2400 MT/s is a special case. Using integer arithmetic it rounds
+       from 833 psecs to 2401 MT/s. Force it to 2400 to pick the
+       proper setting from the table. */
+    if (tclk_psecs == 833)
+        data_rate_mhz = 2400;
 
     for (speed = ENCODING_BASE; speed < 3200; speed += 20) {
         int error = 0;
@@ -1935,20 +1941,22 @@ static int compute_rc3x (int64_t tclk_psecs)
         data_rate_mhz_min = ((data_rate_mhz_min + 18) / 20) * 20;
         data_rate_mhz_max = ((data_rate_mhz_max + 18) / 20) * 20;
 
-        rc3x = (data_rate_mhz_min - ENCODING_BASE) / 20;
-
         error += (speed + 00 != data_rate_mhz_min);
         error += (speed + 20 != data_rate_mhz_max);
 
-        rc3x_print("rc3x: %02x speed: %4d MT/s < f <= %4d MT/s, psec: %3ld:%3ld %4ld:%4ld %s\n",
+        rc3x = (speed - ENCODING_BASE) / 20;
+
+        rc3x_print("rc3x: %02x speed: %4ld MT/s < f <= %4ld MT/s, psec: %3ld:%3ld %4ld:%4ld %s\n",
                    rc3x,
                    speed, speed + 20,
                    tclk_psecs_min, tclk_psecs_max,
                    data_rate_mhz_min, data_rate_mhz_max,
                    error ? "****" : "");
 
-        if (data_rate_mhz <= data_rate_mhz_max)
+        if (data_rate_mhz <= (speed + 20)) {
+            rc3x_print("rc3x: %4ld MT/s <= %4ld MT/s\n", data_rate_mhz, speed + 20);
             break;
+        }
     }
     return rc3x;
 }
