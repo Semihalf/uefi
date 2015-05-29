@@ -2041,6 +2041,7 @@ static void qlm_init(bdk_node_t node)
     }
 }
 
+extern int __bdk_qlm_eye_capture_cn8xxx(bdk_node_t node, int qlm, int lane, bdk_qlm_eye_t *eye_data);
 
 /* Each chip has its own QLM operation table */
 const bdk_qlm_ops_t bdk_qlm_ops_cn88xx = {
@@ -2060,5 +2061,6 @@ const bdk_qlm_ops_t bdk_qlm_ops_cn88xx = {
     .enable_loop = qlm_enable_loop,
     .auto_config = qlm_auto_config,
     .rx_equalization = rx_equalization,
+    .eye_capture = __bdk_qlm_eye_capture_cn8xxx,
 };
 

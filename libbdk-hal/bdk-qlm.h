@@ -49,6 +49,18 @@ typedef enum
     BDK_QLM_DIRECTION_BOTH = 3,
 } bdk_qlm_direction_t;
 
+
+/**
+ * Eye diagram captures are stored in the following structure
+ */
+typedef struct
+{
+    int width;              /* Width in the x direction (time) */
+    int height;             /* Height in the y direction (voltage) */
+    uint32_t data[64][128]; /* Error count at location, saturates as max */
+} bdk_qlm_eye_t;
+
+
 /**
  * How to do the various QLM operations changes greatly
  * between chips. Each chip has its specific operations
@@ -73,6 +85,7 @@ typedef struct
     int (*enable_loop)(bdk_node_t node, int qlm, bdk_qlm_loop_t loop);
     int (*auto_config)(bdk_node_t node);
     int (*rx_equalization)(bdk_node_t node, int qlm, int lane);
+    int (*eye_capture)(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_eye_t *eye);
 } bdk_qlm_ops_t;
 
 /**
@@ -236,17 +249,6 @@ extern void bdk_qlm_inject_prbs_error(bdk_node_t node, int qlm, int lane);
 extern int bdk_qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop);
 
 /**
- * Call the board specific method of determining the required QLM configuration
- * and automatically settign up the QLMs to match. For example, on the EBB8800
- * this function queries the MCU for the current setup.
- *
- * @param node   Node to configure
- *
- * @return Zero on success, negative on failure
- */
-extern int bdk_qlm_auto_config(bdk_node_t node);
-
-/**
  * Perform RX equalization on a QLM
  *
  * @param node   Node the QLM is on
@@ -256,5 +258,43 @@ extern int bdk_qlm_auto_config(bdk_node_t node);
  * @return Zero on success, negative if any lane failed RX equalization
  */
 extern int bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int lane);
+
+/**
+ * Capture an eye diagram for the given QLM lane. The output data is written
+ * to "eye".
+ *
+ * @param node     Node to use in numa setup
+ * @param qlm      QLM to use
+ * @param qlm_lane Which lane
+ * @param eye      Output eye data
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int bdk_qlm_eye_capture(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_eye_t *eye);
+
+/**
+ * Display an eye diagram for the given QLM lane. The eye data can be in "eye", or
+ * captured during the call if "eye" is NULL.
+ *
+ * @param node     Node to use in numa setup
+ * @param qlm      QLM to use
+ * @param qlm_lane Which lane
+ * @param format   Display format. 0 = raw, 1 = Color ASCII
+ * @param eye      Eye data to display, or NULL if the data should be captured.
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int bdk_qlm_eye_display(bdk_node_t node, int qlm, int qlm_lane, int format, const bdk_qlm_eye_t *eye);
+
+/**
+ * Call the board specific method of determining the required QLM configuration
+ * and automatically settign up the QLMs to match. For example, on the EBB8800
+ * this function queries the MCU for the current setup.
+ *
+ * @param node   Node to configure
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int bdk_qlm_auto_config(bdk_node_t node);
 
 /** @} */

@@ -112,6 +112,7 @@ local function do_prbs(mode)
         printf("\n\n");
         printf("Time: %d seconds (Press return to exit, 'E' to inject an error, 'C' to clear errors,\n", run_time)
         printf("                  'P' to change TX pre-emphasis, 'S' to change TX swing)\n")
+        printf("                  '0' - '3' to display the eye diagram for the lane)\n")
         for qlm_base=1,#qlm_list,3 do
             output_line(qlm_base, "", function(qlm, lane)
                 return (lane == 0) and ("--- QLM " .. qlm) or "----------"
@@ -239,7 +240,10 @@ local function do_prbs(mode)
                 cavium.c.bdk_qlm_rx_equalization(menu.node, qlm_num, -1)
             end
          end
-
+         if key and (key >= '0') and (key <= '3') then
+             local lane = tonumber(key)
+             cavium.c.bdk_qlm_eye_display(menu.node, qlm_tuning.qlm, lane, 1, nil)
+         end
     until key == '\r'
 end
 
@@ -282,6 +286,11 @@ local function do_custom(mode)
     do_prbs(pattern * 256 + mode)
 end
 
+local function do_eye()
+    local lane = select_lane(qlm_tuning.qlm, false)
+    cavium.c.bdk_qlm_eye_display(menu.node, qlm_tuning.qlm, lane, 1, nil)
+end
+
 -- Main menu
 function qlm_tuning.run()
     local m = menu.new("PRBS and SERDES Tuning Menu")
@@ -304,6 +313,7 @@ function qlm_tuning.run()
         m:item("preemphasis",  "Set QLM pre-emphasis", set_preemphasis, qlm_tuning.qlm)
         m:item("preandpost",  "Set QLM pre and post taps", set_preandpost, qlm_tuning.qlm)
         m:item("rx_eval",  "Perform a RX equalization evaluation", manual_rx_evaluation, qlm_tuning.qlm)
+        m:item("eye", "Display Eye", do_eye)
 
         m:item("quit",   "Main menu")
     until (m:show() == "quit")

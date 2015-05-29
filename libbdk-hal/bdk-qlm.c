@@ -1,5 +1,6 @@
 #include <bdk.h>
 #include <stdio.h>
+#include <math.h>
 
 /* This code is an optional part of the BDK. It is only linked in
     if BDK_REQUIRE() needs it */
@@ -192,7 +193,6 @@ int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
     return ref_clock;
 }
 
-
 /**
  * Reset a QLM to its initial state
  *
@@ -205,7 +205,6 @@ int bdk_qlm_reset(bdk_node_t node, int qlm)
 {
     return qlm_ops->reset(node, qlm);
 }
-
 
 /**
  * Enable PRBS on a QLM
@@ -222,7 +221,6 @@ int bdk_qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t 
 {
     return qlm_ops->enable_prbs(node, qlm, prbs, dir);
 }
-
 
 /**
  * Return the number of PRBS errors since PRBS started running
@@ -266,6 +264,124 @@ int bdk_qlm_enable_loop(bdk_node_t node, int qlm, bdk_qlm_loop_t loop)
 }
 
 /**
+ * Perform RX equalization on a QLM
+ *
+ * @param node   Node the QLM is on
+ * @param qlm    QLM to perform RX equalization on
+ * @param lane   Lane to use, or -1 for all lanes
+ *
+ * @return Zero on success, negative if any lane failed RX equalization
+ */
+int bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int lane)
+{
+    return qlm_ops->rx_equalization(node, qlm, lane);
+}
+
+/**
+ * Capture an eye diagram for the given QLM lane. The output data is written
+ * to "eye".
+ *
+ * @param node     Node to use in numa setup
+ * @param qlm      QLM to use
+ * @param qlm_lane Which lane
+ * @param eye      Output eye data
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_qlm_eye_capture(bdk_node_t node, int qlm, int qlm_lane, bdk_qlm_eye_t *eye)
+{
+    if (qlm_ops->eye_capture)
+        return qlm_ops->eye_capture(node, qlm, qlm_lane, eye);
+    else
+    {
+        bdk_error("Eye capture not supported on this chip\n");
+        return -1;
+    }
+}
+
+/**
+ * Display an eye diagram for the given QLM lane. The eye data can be in "eye", or
+ * captured during the call if "eye" is NULL.
+ *
+ * @param node     Node to use in numa setup
+ * @param qlm      QLM to use
+ * @param qlm_lane Which lane
+ * @param format   Display format. 0 = raw, 1 = Color ASCII
+ * @param eye      Eye data to display, or NULL if the data should be captured.
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_qlm_eye_display(bdk_node_t node, int qlm, int qlm_lane, int format, const bdk_qlm_eye_t *eye)
+{
+    int result;
+    int need_free = 0;
+    if (eye == NULL)
+    {
+        bdk_qlm_eye_t *eye_data = malloc(sizeof(bdk_qlm_eye_t));
+        if (eye_data == NULL)
+        {
+            bdk_error("Failed to allocate space for eye\n");
+            return -1;
+        }
+        if (bdk_qlm_eye_capture(node, qlm, qlm_lane, eye_data))
+            return -1;
+        eye = eye_data;
+    }
+
+    printf("\nEye Diagram for Node %d, QLM %d, Lane %d\n", node, qlm, qlm_lane);
+
+    if (format == 0) /* Raw */
+    {
+        for (int y = 0; y < eye->height; y++)
+        {
+            for (int x = 0; x < eye->width; x++)
+                printf("%u\t", eye->data[y][x]);
+            printf("\n");
+        }
+        result = 0;
+    }
+    else if (format == 1) /* Color ASCII */
+    {
+        int last_color = -1;
+        char color_str[] = "\33[40m"; /* Note: This is modified, not constant */
+
+        for (int y = 0; y < eye->height-1; y++)
+        {
+            for (int x = 0; x < eye->width-1; x++)
+            {
+                #define DIFF(a,b) (a<b) ? b-a : a-b
+                int64_t dy = DIFF(eye->data[y][x], eye->data[y + 1][x]);
+                int64_t dx = DIFF(eye->data[y][x], eye->data[y][x + 1]);
+                #undef DIFF
+                int64_t dist = dx * dx + dy * dy;
+                double f = log10(sqrt(dist) + 1);
+                const double MAX_LOG = 6;
+                if (f > MAX_LOG)
+                    f = MAX_LOG;
+                int level = 9 * f / MAX_LOG + 0.5;
+                int color = 7.0 * f / MAX_LOG + 0.5;
+                if (color != last_color)
+                {
+                    color_str[3] = '0' + color;
+                    fputs(color_str, stdout);
+                    last_color = color;
+                }
+                fputc('0' + level, stdout);
+            }
+            fputs("\33[0m\n", stdout);
+            last_color = -1;
+        }
+        result = 0;
+    }
+    else
+        result = -1;
+
+    if (need_free)
+        free((void*)eye);
+    return result;
+}
+
+/**
  * Call the board specific method of determining the required QLM configuration
  * and automatically settign up the QLMs to match. For example, on the EBB8800
  * this function queries the MCU for the current setup.
@@ -280,20 +396,6 @@ int bdk_qlm_auto_config(bdk_node_t node)
         return qlm_ops->auto_config(node);
     bdk_error("QLM auto config is not implemented for this setup");
     return -1;
-}
-
-/**
- * Perform RX equalization on a QLM
- *
- * @param node   Node the QLM is on
- * @param qlm    QLM to perform RX equalization on
- * @param lane   Lane to use, or -1 for all lanes
- *
- * @return Zero on success, negative if any lane failed RX equalization
- */
-int bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int lane)
-{
-    return qlm_ops->rx_equalization(node, qlm, lane);
 }
 
 /**
