@@ -111,8 +111,8 @@ local function do_prbs(mode)
     local function display_status(run_time)
         printf("\n\n");
         printf("Time: %d seconds (Press return to exit, 'E' to inject an error, 'C' to clear errors,\n", run_time)
-        printf("                  'P' to change TX pre-emphasis, 'S' to change TX swing)\n")
-        printf("                  '0' - '3' to display the eye diagram for the lane)\n")
+        printf("                  'P' to change TX pre-emphasis, 'S' to change TX swing,\n")
+        printf("                  '0' - '3' to display the eye diagram for the lane on QLM %d)\n", qlm_tuning.qlm)
         for qlm_base=1,#qlm_list,3 do
             output_line(qlm_base, "", function(qlm, lane)
                 return (lane == 0) and ("--- QLM " .. qlm) or "----------"
