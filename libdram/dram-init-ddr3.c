@@ -1907,7 +1907,7 @@ static impedence_values_t ddr3_impedence_values = {
 };
 
 
-#define DEBUG_RC3X_COMPUTE 1
+#define DEBUG_RC3X_COMPUTE 0
 #define rc3x_print(...) \
     do { if (DEBUG_RC3X_COMPUTE) printf(__VA_ARGS__); } while (0)
 
