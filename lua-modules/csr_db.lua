@@ -4,6 +4,4155 @@
 --
 local csr_db = {
     CN88XXP1 = {
+        AP_ACTLR_ELX = {
+            name = "AP_ACTLR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30001000100,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_AFSRX_ELX = {
+            name = "AP_AFSR#_EL#",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30005010000,
+            range1 = {0,1},
+            range1_inc = 0x100,
+            range2 = {1,3},
+            range2_inc = 0x200000000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_AFSRX_EL12 = {
+            name = "AP_AFSR#_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30505010000,
+            range1 = {0,1},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_AIDR_EL1 = {
+            name = "AP_AIDR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30100000700,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_AMAIR_ELX = {
+            name = "AP_AMAIR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a030000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_AMAIR_EL12 = {
+            name = "AP_AMAIR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3050a030000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_CCSIDR_EL1 = {
+            name = "AP_CCSIDR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30100000000,
+            fields = {
+                {name = "WT", start = 31, stop = 31},
+                {name = "WB", start = 30, stop = 30},
+                {name = "RA", start = 29, stop = 29},
+                {name = "WA", start = 28, stop = 28},
+                {name = "NUMSETS", start = 13, stop = 27},
+                {name = "ASSOCIATIVITY", start = 3, stop = 12},
+                {name = "LINESIZE", start = 0, stop = 2},
+            }
+        },
+        AP_CLIDR_EL1 = {
+            name = "AP_CLIDR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30100000100,
+            fields = {
+                {name = "RESERVED_30_31", start = 30, stop = 31},
+                {name = "LOUU", start = 27, stop = 29},
+                {name = "LOC", start = 24, stop = 26},
+                {name = "LOUIS", start = 21, stop = 23},
+                {name = "CTYPE7", start = 18, stop = 20},
+                {name = "CTYPE6", start = 15, stop = 17},
+                {name = "CTYPE5", start = 12, stop = 14},
+                {name = "CTYPE4", start = 9, stop = 11},
+                {name = "CTYPE3", start = 6, stop = 8},
+                {name = "CTYPE2", start = 3, stop = 5},
+                {name = "CTYPE1", start = 0, stop = 2},
+            }
+        },
+        AP_CNTFRQ_EL0 = {
+            name = "AP_CNTFRQ_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e000000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTHCTL_EL2 = {
+            name = "AP_CNTHCTL_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e010000,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "EVNTI", start = 4, stop = 7},
+                {name = "EVNTDIR", start = 3, stop = 3},
+                {name = "EVNTEN", start = 2, stop = 2},
+                {name = "EL1PCEN", start = 1, stop = 1},
+                {name = "EL1PCTEN", start = 0, stop = 0},
+            }
+        },
+        AP_CNTHCTL_EL2_E2H = {
+            name = "AP_CNTHCTL_EL2_E2H",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e010010,
+            fields = {
+                {name = "RESERVED_12_31", start = 12, stop = 31},
+                {name = "EL1PCEN", start = 11, stop = 11},
+                {name = "EL1PTEN", start = 10, stop = 10},
+                {name = "EL0PTEN", start = 9, stop = 9},
+                {name = "EL0VTEN", start = 8, stop = 8},
+                {name = "EVNTI", start = 4, stop = 7},
+                {name = "EVNTDIR", start = 3, stop = 3},
+                {name = "EVNTEN", start = 2, stop = 2},
+                {name = "EL0VCTEN", start = 1, stop = 1},
+                {name = "EL0PCTEN", start = 0, stop = 0},
+            }
+        },
+        AP_CNTHP_CTL_EL2 = {
+            name = "AP_CNTHP_CTL_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e020100,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "ISTATUS", start = 2, stop = 2},
+                {name = "IMASK", start = 1, stop = 1},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_CNTHP_CVAL_EL2 = {
+            name = "AP_CNTHP_CVAL_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3040e020200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTHP_TVAL_EL2 = {
+            name = "AP_CNTHP_TVAL_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e020000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTHV_CTL_EL2 = {
+            name = "AP_CNTHV_CTL_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e030100,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "ISTATUS", start = 2, stop = 2},
+                {name = "IMASK", start = 1, stop = 1},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_CNTHV_CVAL_EL2 = {
+            name = "AP_CNTHV_CVAL_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3040e030200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTHV_TVAL_EL2 = {
+            name = "AP_CNTHV_TVAL_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e030000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTKCTL_EL1 = {
+            name = "AP_CNTKCTL_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000e010000,
+            fields = {
+                {name = "RESERVED_10_31", start = 10, stop = 31},
+                {name = "EL0PTEN", start = 9, stop = 9},
+                {name = "EL0VTEN", start = 8, stop = 8},
+                {name = "EVNTI", start = 4, stop = 7},
+                {name = "EVNTDIR", start = 3, stop = 3},
+                {name = "EVNTEN", start = 2, stop = 2},
+                {name = "EL0VCTEN", start = 1, stop = 1},
+                {name = "EL0PCTEN", start = 0, stop = 0},
+            }
+        },
+        AP_CNTKCTL_EL12 = {
+            name = "AP_CNTKCTL_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050e010000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CNTP_CTL_EL0 = {
+            name = "AP_CNTP_CTL_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e020100,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "ISTATUS", start = 2, stop = 2},
+                {name = "IMASK", start = 1, stop = 1},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_CNTP_CTL_EL02 = {
+            name = "AP_CNTP_CTL_EL02",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050e020100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CNTP_CVAL_EL0 = {
+            name = "AP_CNTP_CVAL_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030e020200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTP_CVAL_EL02 = {
+            name = "AP_CNTP_CVAL_EL02",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3050e020200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_CNTP_TVAL_EL0 = {
+            name = "AP_CNTP_TVAL_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e020000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTP_TVAL_EL02 = {
+            name = "AP_CNTP_TVAL_EL02",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050e020000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CNTPCT_EL0 = {
+            name = "AP_CNTPCT_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030e000100,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTPS_CTL_EL1 = {
+            name = "AP_CNTPS_CTL_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3070e020100,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "ISTATUS", start = 2, stop = 2},
+                {name = "IMASK", start = 1, stop = 1},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_CNTPS_CVAL_EL1 = {
+            name = "AP_CNTPS_CVAL_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3070e020200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTPS_TVAL_EL1 = {
+            name = "AP_CNTPS_TVAL_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3070e020000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTV_CTL_EL0 = {
+            name = "AP_CNTV_CTL_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e030100,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "ISTATUS", start = 2, stop = 2},
+                {name = "IMASK", start = 1, stop = 1},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_CNTV_CTL_EL02 = {
+            name = "AP_CNTV_CTL_EL02",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050e030100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CNTV_CVAL_EL0 = {
+            name = "AP_CNTV_CVAL_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030e030200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTV_CVAL_EL02 = {
+            name = "AP_CNTV_CVAL_EL02",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3050e030200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_CNTV_TVAL_EL0 = {
+            name = "AP_CNTV_TVAL_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e030000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTV_TVAL_EL02 = {
+            name = "AP_CNTV_TVAL_EL02",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050e030000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CNTVCT_EL0 = {
+            name = "AP_CNTVCT_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030e000200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTVOFF_EL2 = {
+            name = "AP_CNTVOFF_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3040e000300,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CONTEXTIDR_EL1 = {
+            name = "AP_CONTEXTIDR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000d000100,
+            fields = {
+                {name = "PROCID", start = 0, stop = 31},
+            }
+        },
+        AP_CONTEXTIDR_EL12 = {
+            name = "AP_CONTEXTIDR_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050d000100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CONTEXTIDR_EL2 = {
+            name = "AP_CONTEXTIDR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040d000100,
+            fields = {
+                {name = "PROCID", start = 0, stop = 31},
+            }
+        },
+        AP_CPACR_EL1 = {
+            name = "AP_CPACR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30001000200,
+            fields = {
+                {name = "RESERVED_22_31", start = 22, stop = 31},
+                {name = "FPEN", start = 20, stop = 21},
+                {name = "RESERVED_0_19", start = 0, stop = 19},
+            }
+        },
+        AP_CPACR_EL12 = {
+            name = "AP_CPACR_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30501000200,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CPTR_EL2 = {
+            name = "AP_CPTR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401010200,
+            fields = {
+                {name = "TCPAC", start = 31, stop = 31},
+                {name = "RESERVED_14_30", start = 14, stop = 30},
+                {name = "RSVD_12_13", start = 12, stop = 13},
+                {name = "RESERVED_11_11", start = 11, stop = 11},
+                {name = "TFP", start = 10, stop = 10},
+                {name = "RSVD_0_9", start = 0, stop = 9},
+            }
+        },
+        AP_CPTR_EL2_E2H = {
+            name = "AP_CPTR_EL2_E2H",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401010210,
+            fields = {
+                {name = "TCPAC", start = 31, stop = 31},
+                {name = "RESERVED_22_30", start = 22, stop = 30},
+                {name = "FPEN", start = 20, stop = 21},
+                {name = "RESERVED_0_19", start = 0, stop = 19},
+            }
+        },
+        AP_CPTR_EL3 = {
+            name = "AP_CPTR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30601010200,
+            fields = {
+                {name = "TCPAC", start = 31, stop = 31},
+                {name = "RESERVED_11_30", start = 11, stop = 30},
+                {name = "TFP", start = 10, stop = 10},
+                {name = "RESERVED_0_9", start = 0, stop = 9},
+            }
+        },
+        AP_CSSELR_EL1 = {
+            name = "AP_CSSELR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30200000000,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "LEVEL", start = 1, stop = 3},
+                {name = "IND", start = 0, stop = 0},
+            }
+        },
+        AP_CTR_EL0 = {
+            name = "AP_CTR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30300000100,
+            fields = {
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "RESERVED_28_30", start = 28, stop = 30},
+                {name = "CWG", start = 24, stop = 27},
+                {name = "ERG", start = 20, stop = 23},
+                {name = "DMINLINE", start = 16, stop = 19},
+                {name = "L1IP", start = 14, stop = 15},
+                {name = "RESERVED_4_13", start = 4, stop = 13},
+                {name = "IMINLINE", start = 0, stop = 3},
+            }
+        },
+        AP_CURRENTEL = {
+            name = "AP_CURRENTEL",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30004020200,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "EL", start = 2, stop = 3},
+                {name = "RESERVED_0_1", start = 0, stop = 1},
+            }
+        },
+        AP_CVM_ACCESS_EL1 = {
+            name = "AP_CVM_ACCESS_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b000300,
+            fields = {
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "CVM_CACHE", start = 8, stop = 8},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "CVM_EVATTID", start = 5, stop = 5},
+                {name = "CVM_I_D_CACHE", start = 4, stop = 4},
+                {name = "CVM_ERR", start = 3, stop = 3},
+                {name = "CVM_BIST", start = 2, stop = 2},
+                {name = "POWTHROTTLE", start = 1, stop = 1},
+                {name = "CVM_CTL", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_ACCESS_EL2 = {
+            name = "AP_CVM_ACCESS_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3040b000300,
+            fields = {
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "CVM_CACHE", start = 8, stop = 8},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "CVM_EVATTID", start = 5, stop = 5},
+                {name = "CVM_I_D_CACHE", start = 4, stop = 4},
+                {name = "CVM_ERR", start = 3, stop = 3},
+                {name = "CVM_BIST", start = 2, stop = 2},
+                {name = "POWTHROTTLE", start = 1, stop = 1},
+                {name = "CVM_CTL", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_ACCESS_EL3 = {
+            name = "AP_CVM_ACCESS_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b000300,
+            fields = {
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "CVM_CACHE", start = 8, stop = 8},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "CVM_EVATTID", start = 5, stop = 5},
+                {name = "CVM_I_D_CACHE", start = 4, stop = 4},
+                {name = "CVM_ERR", start = 3, stop = 3},
+                {name = "CVM_BIST", start = 2, stop = 2},
+                {name = "POWTHROTTLE", start = 1, stop = 1},
+                {name = "CVM_CTL", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_BIST0_EL1 = {
+            name = "AP_CVM_BIST0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b010000,
+            fields = {
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "FUSE_CONTROLLER_REPORTS_HARD_REPAIR", start = 34, stop = 34},
+                {name = "CLEAR_BIST_WAS_RUN", start = 33, stop = 33},
+                {name = "MANUFACTURING_MODE", start = 32, stop = 32},
+                {name = "ICACHE_DATA_BANKS_WITH_UNREPAIRABLE_DEFECTS", start = 24, stop = 31},
+                {name = "ICACHE_DATA_BANKS_WITH_DEFECTS", start = 16, stop = 23},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "AES_ROMS_DEFECTIVE", start = 7, stop = 7},
+                {name = "FPU_ROMS_DEFECTIVE", start = 6, stop = 6},
+                {name = "FPU_RF_DEFECTIVE", start = 5, stop = 5},
+                {name = "INTEGER_RF_DEFECTIVE", start = 4, stop = 4},
+                {name = "JRT_DEFECTIVE", start = 3, stop = 3},
+                {name = "BHT_DEFECTIVE", start = 2, stop = 2},
+                {name = "ICACHE_TAG_DEFECTIVE", start = 1, stop = 1},
+                {name = "ICACHE_DATA_DEFECTIVE", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_BIST1_EL1 = {
+            name = "AP_CVM_BIST1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b010100,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "ICACHE_BANK7", start = 42, stop = 47},
+                {name = "ICACHE_BANK6", start = 36, stop = 41},
+                {name = "ICACHE_BANK5", start = 30, stop = 35},
+                {name = "ICACHE_BANK4", start = 24, stop = 29},
+                {name = "ICACHE_BANK3", start = 18, stop = 23},
+                {name = "ICACHE_BANK2", start = 12, stop = 17},
+                {name = "ICACHE_BANK1", start = 6, stop = 11},
+                {name = "ICACHE_BANK0", start = 0, stop = 5},
+            }
+        },
+        AP_CVM_BIST2_EL1 = {
+            name = "AP_CVM_BIST2_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b010400,
+            fields = {
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "WCU", start = 8, stop = 8},
+                {name = "DUT", start = 7, stop = 7},
+                {name = "WBF", start = 6, stop = 6},
+                {name = "MAF", start = 5, stop = 5},
+                {name = "UTLB", start = 4, stop = 4},
+                {name = "MTLB", start = 3, stop = 3},
+                {name = "L1DP", start = 2, stop = 2},
+                {name = "L1DV", start = 1, stop = 1},
+                {name = "L1DD", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_BIST3_EL1 = {
+            name = "AP_CVM_BIST3_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b010500,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "SET7", start = 42, stop = 47},
+                {name = "SET6", start = 36, stop = 41},
+                {name = "SET5", start = 30, stop = 35},
+                {name = "SET4", start = 24, stop = 29},
+                {name = "SET3", start = 18, stop = 23},
+                {name = "SET2", start = 12, stop = 17},
+                {name = "SET1", start = 6, stop = 11},
+                {name = "SET0", start = 0, stop = 5},
+            }
+        },
+        AP_CVM_DCACHEDATA0_EL1 = {
+            name = "AP_CVM_DCACHEDATA0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030400,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DCACHEDATA1_EL1 = {
+            name = "AP_CVM_DCACHEDATA1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030500,
+            fields = {
+                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "PARITY", start = 0, stop = 7},
+            }
+        },
+        AP_CVM_DCACHEPTAG0_EL1 = {
+            name = "AP_CVM_DCACHEPTAG0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b040400,
+            fields = {
+                {name = "RESERVED_44_63", start = 44, stop = 63},
+                {name = "NSEC", start = 43, stop = 43},
+                {name = "PTAG", start = 10, stop = 42},
+                {name = "RESERVED_1_9", start = 1, stop = 9},
+                {name = "VALID", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_DCACHEVTAG0_EL1 = {
+            name = "AP_CVM_DCACHEVTAG0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030600,
+            fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "EVA_VMID", start = 56, stop = 59},
+                {name = "RESERVED_49_55", start = 49, stop = 55},
+                {name = "R", start = 48, stop = 48},
+                {name = "VTAG", start = 10, stop = 47},
+                {name = "EVA_ASID", start = 4, stop = 9},
+                {name = "NG", start = 3, stop = 3},
+                {name = "EL_1OR0", start = 2, stop = 2},
+                {name = "NSEC", start = 1, stop = 1},
+                {name = "VALID", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_DCACHEVTAG1_EL1 = {
+            name = "AP_CVM_DCACHEVTAG1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030700,
+            fields = {
+                {name = "RESERVED_25_63", start = 25, stop = 63},
+                {name = "ENT1", start = 16, stop = 24},
+                {name = "RESERVED_9_15", start = 9, stop = 15},
+                {name = "ENT2", start = 0, stop = 8},
+            }
+        },
+        AP_CVM_DEBUG0_EL3 = {
+            name = "AP_CVM_DEBUG0_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040000,
+            fields = {
+                {name = "CURRENT_PC", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DEBUG1_EL3 = {
+            name = "AP_CVM_DEBUG1_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040100,
+            fields = {
+                {name = "CURRENT_FETCH", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DEBUG2_EL3 = {
+            name = "AP_CVM_DEBUG2_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040200,
+            fields = {
+                {name = "LAST_IFILL", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DEBUG3_EL3 = {
+            name = "AP_CVM_DEBUG3_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040300,
+            fields = {
+                {name = "LAST_COMMITTED", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DEBUG4_EL3 = {
+            name = "AP_CVM_DEBUG4_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050000,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "DUAL_ISSUE_REASON", start = 16, stop = 23},
+                {name = "ISSUE_REASON", start = 8, stop = 15},
+                {name = "RESERVED_5_7", start = 5, stop = 7},
+                {name = "MEM_STALL_4A", start = 4, stop = 4},
+                {name = "WAITING_FOR_PFILL_4A", start = 3, stop = 3},
+                {name = "WAITING_FOR_IFILL_4A", start = 2, stop = 2},
+                {name = "EXCEPTION_LEVEL", start = 0, stop = 1},
+            }
+        },
+        AP_CVM_DEBUG6_EL3 = {
+            name = "AP_CVM_DEBUG6_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "POWER_OFF", start = 40, stop = 40},
+                {name = "POWER_LONGTERM", start = 32, stop = 39},
+                {name = "POWER_SETTING", start = 24, stop = 31},
+                {name = "RESERVED_22_23", start = 22, stop = 23},
+                {name = "INTERVAL_POWER", start = 0, stop = 21},
+            }
+        },
+        AP_CVM_DEBUG7_EL3 = {
+            name = "AP_CVM_DEBUG7_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050300,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DEBUG8_EL3 = {
+            name = "AP_CVM_DEBUG8_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b070000,
+            fields = {
+                {name = "RDB_DSC_SET_ARRY_1", start = 46, stop = 63},
+                {name = "RDB_DSC_SET_ARRY_0", start = 10, stop = 45},
+                {name = "UWR_ACK_DEF_CNT", start = 8, stop = 9},
+                {name = "SGI_ACK_DEF_CNT", start = 6, stop = 7},
+                {name = "DCT_ACK_DEF_CNT", start = 4, stop = 5},
+                {name = "ACT_ACK_DEF_CNT", start = 2, stop = 3},
+                {name = "CLR_ACK_DEF_CNT", start = 0, stop = 1},
+            }
+        },
+        AP_CVM_DEBUG9_EL3 = {
+            name = "AP_CVM_DEBUG9_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b070100,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "DSC_FSM_ENC_STATE_1", start = 44, stop = 47},
+                {name = "DSC_FSM_ENC_STATE_0", start = 40, stop = 43},
+                {name = "CLR_FSM_ENC_STATE", start = 37, stop = 39},
+                {name = "QSC_FSM_ENC_STATE", start = 34, stop = 36},
+                {name = "DSC_FIFO", start = 30, stop = 33},
+                {name = "PPI_FIFO", start = 26, stop = 29},
+                {name = "CDC_FIFO", start = 22, stop = 25},
+                {name = "EAC_FIFO", start = 18, stop = 21},
+                {name = "RDB_DSC_SET_ARRY_1", start = 0, stop = 17},
+            }
+        },
+        AP_CVM_DLL_OBSERVABILTY_EL3 = {
+            name = "AP_CVM_DLL_OBSERVABILTY_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050100,
+            fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "MAX_SEEN", start = 48, stop = 59},
+                {name = "MIN_SEEN", start = 36, stop = 47},
+                {name = "RCLK_DLL_LOCK", start = 35, stop = 35},
+                {name = "DLL_STATE", start = 32, stop = 34},
+                {name = "DLL_SETTING", start = 20, stop = 31},
+                {name = "RAW_DLY_ELEM_ENABLE", start = 4, stop = 19},
+                {name = "CLK_INVERT", start = 3, stop = 3},
+                {name = "PD_POS_RCLK_REFCLK", start = 2, stop = 2},
+                {name = "PDL_RCLK_REFCLK", start = 1, stop = 1},
+                {name = "PDR_RCLK_REFCLK", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_ERRICACHE_EL1 = {
+            name = "AP_CVM_ERRICACHE_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b020000,
+            fields = {
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "SET", start = 11, stop = 16},
+                {name = "VA", start = 3, stop = 10},
+                {name = "RESERVED_1_2", start = 1, stop = 2},
+                {name = "ICACHE_DATA_ERROR", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_ERRMEM_EL1 = {
+            name = "AP_CVM_ERRMEM_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b020400,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "GSYNCTONOSW", start = 47, stop = 47},
+                {name = "GSYNCTODIS", start = 46, stop = 46},
+                {name = "GSYNCTO", start = 45, stop = 45},
+                {name = "WCUMULTDIS", start = 44, stop = 44},
+                {name = "WCUMULT", start = 43, stop = 43},
+                {name = "MTLBMULTDIS", start = 42, stop = 42},
+                {name = "MTLBMULT", start = 41, stop = 41},
+                {name = "BARRIERTOFORCE", start = 40, stop = 40},
+                {name = "BARRIERTONOSW", start = 39, stop = 39},
+                {name = "BARRIERTODIS", start = 38, stop = 38},
+                {name = "BARRIERTO", start = 37, stop = 37},
+                {name = "RBFTOFORCE", start = 36, stop = 36},
+                {name = "RBFTONOSW", start = 35, stop = 35},
+                {name = "RBFTODIS", start = 34, stop = 34},
+                {name = "RBFTO", start = 33, stop = 33},
+                {name = "WCUPERRFORCE", start = 32, stop = 32},
+                {name = "WCUPERRNOSW", start = 31, stop = 31},
+                {name = "WCUPERRDIS", start = 30, stop = 30},
+                {name = "WCUPERR", start = 29, stop = 29},
+                {name = "WBFDBEFORCE", start = 28, stop = 28},
+                {name = "WBFSBEFORCE", start = 27, stop = 27},
+                {name = "WBFPERRNOSW", start = 26, stop = 26},
+                {name = "WBFPERRDIS", start = 25, stop = 25},
+                {name = "WBFPERR", start = 24, stop = 24},
+                {name = "MAFPERRFORCE", start = 23, stop = 23},
+                {name = "MAFPERRNOSW", start = 22, stop = 22},
+                {name = "MAFPERRDIS", start = 21, stop = 21},
+                {name = "MAFPERR", start = 20, stop = 20},
+                {name = "UTLBPERRFORCE", start = 19, stop = 19},
+                {name = "UTLBPERRNOSW", start = 18, stop = 18},
+                {name = "UTLBPERRDIS", start = 17, stop = 17},
+                {name = "UTLBPERR", start = 16, stop = 16},
+                {name = "MTLBPERRFORCE", start = 15, stop = 15},
+                {name = "MTLBPERRNOSW", start = 14, stop = 14},
+                {name = "MTLBPERRDIS", start = 13, stop = 13},
+                {name = "MTLBPERR", start = 12, stop = 12},
+                {name = "L1DPERRFORCE", start = 11, stop = 11},
+                {name = "L1DPERRNOSW", start = 10, stop = 10},
+                {name = "L1DPERRDIS", start = 9, stop = 9},
+                {name = "L1DPERR", start = 8, stop = 8},
+                {name = "L1DWAY", start = 3, stop = 7},
+                {name = "L1DSET", start = 0, stop = 2},
+            }
+        },
+        AP_CVM_EVATTID_EL1 = {
+            name = "AP_CVM_EVATTID_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b020500,
+            fields = {
+                {name = "RESERVED_38_63", start = 38, stop = 63},
+                {name = "EL2_ASID", start = 32, stop = 37},
+                {name = "RESERVED_20_31", start = 20, stop = 31},
+                {name = "EL1_VMID", start = 16, stop = 19},
+                {name = "RESERVED_6_15", start = 6, stop = 15},
+                {name = "EL1_ASID", start = 0, stop = 5},
+            }
+        },
+        AP_CVM_ICACHEDATA0_EL1 = {
+            name = "AP_CVM_ICACHEDATA0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_ICACHEDATA1_EL1 = {
+            name = "AP_CVM_ICACHEDATA1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030100,
+            fields = {
+                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "DATA", start = 0, stop = 1},
+            }
+        },
+        AP_CVM_ICACHETAG0_EL1 = {
+            name = "AP_CVM_ICACHETAG0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030200,
+            fields = {
+                {name = "RESERVED_52_63", start = 52, stop = 63},
+                {name = "VALID", start = 51, stop = 51},
+                {name = "VA", start = 11, stop = 50},
+                {name = "ASID_VALID_IGNORED", start = 10, stop = 10},
+                {name = "ASID_INDEX", start = 4, stop = 9},
+                {name = "VMID_INDEX", start = 0, stop = 3},
+            }
+        },
+        AP_CVM_MEMDEBUG0_EL3 = {
+            name = "AP_CVM_MEMDEBUG0_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040400,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG1_EL3 = {
+            name = "AP_CVM_MEMDEBUG1_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040500,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG2_EL3 = {
+            name = "AP_CVM_MEMDEBUG2_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040600,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG3_EL3 = {
+            name = "AP_CVM_MEMDEBUG3_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040700,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG4_EL3 = {
+            name = "AP_CVM_MEMDEBUG4_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050400,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG5_EL3 = {
+            name = "AP_CVM_MEMDEBUG5_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050500,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG6_EL3 = {
+            name = "AP_CVM_MEMDEBUG6_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050600,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG7_EL3 = {
+            name = "AP_CVM_MEMDEBUG7_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050700,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_NVBAR_EL3 = {
+            name = "AP_CVM_NVBAR_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b060000,
+            fields = {
+                {name = "VECTOR_ADDRESS", start = 11, stop = 63},
+                {name = "RESERVED_0_10", start = 0, stop = 10},
+            }
+        },
+        AP_CVM_POWER_EL1 = {
+            name = "AP_CVM_POWER_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b000200,
+            fields = {
+                {name = "MAXPOW", start = 56, stop = 63},
+                {name = "AVERAGE_POWER", start = 48, stop = 55},
+                {name = "CURRENT_SETTING", start = 40, stop = 47},
+                {name = "HRM_ADJUSTMENT", start = 32, stop = 39},
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "SECRET_OVERRIDE", start = 28, stop = 28},
+                {name = "DISABLE_STAGGER", start = 27, stop = 27},
+                {name = "PERIOD", start = 24, stop = 26},
+                {name = "POWLIM", start = 16, stop = 23},
+                {name = "MAX_SETTING", start = 8, stop = 15},
+                {name = "MIN_SETTING", start = 0, stop = 7},
+            }
+        },
+        AP_CVM_XLATDATA0_EL1 = {
+            name = "AP_CVM_XLATDATA0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b050400,
+            fields = {
+                {name = "PAR", start = 62, stop = 63},
+                {name = "RESERVED_54_61", start = 54, stop = 61},
+                {name = "WALK", start = 52, stop = 53},
+                {name = "NG", start = 51, stop = 51},
+                {name = "RESERVED_50_50", start = 50, stop = 50},
+                {name = "NSEC", start = 49, stop = 49},
+                {name = "RESERVED_48_48", start = 48, stop = 48},
+                {name = "PPN", start = 12, stop = 47},
+                {name = "RESERVED_10_11", start = 10, stop = 11},
+                {name = "SH1", start = 8, stop = 9},
+                {name = "AP1", start = 6, stop = 7},
+                {name = "XN1", start = 5, stop = 5},
+                {name = "PXN1", start = 4, stop = 4},
+                {name = "ATTR1", start = 0, stop = 3},
+            }
+        },
+        AP_CVM_XLATDATA1_EL1 = {
+            name = "AP_CVM_XLATDATA1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b050500,
+            fields = {
+                {name = "RESERVED_63_63", start = 63, stop = 63},
+                {name = "ENT2", start = 54, stop = 62},
+                {name = "RESERVED_45_53", start = 45, stop = 53},
+                {name = "ENT1", start = 36, stop = 44},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "MASK", start = 12, stop = 33},
+                {name = "RESERVED_10_11", start = 10, stop = 11},
+                {name = "SH2", start = 8, stop = 9},
+                {name = "AP2", start = 6, stop = 7},
+                {name = "XN2", start = 5, stop = 5},
+                {name = "PXN2", start = 4, stop = 4},
+                {name = "ATTR2", start = 0, stop = 3},
+            }
+        },
+        AP_CVM_XLATVTAG0_EL1 = {
+            name = "AP_CVM_XLATVTAG0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b050600,
+            fields = {
+                {name = "LEVEL", start = 62, stop = 63},
+                {name = "EVA_ASID", start = 56, stop = 61},
+                {name = "EVA_VMID", start = 52, stop = 55},
+                {name = "NG", start = 51, stop = 51},
+                {name = "EL_1OR0", start = 50, stop = 50},
+                {name = "NSEC", start = 49, stop = 49},
+                {name = "R", start = 48, stop = 48},
+                {name = "VPN", start = 12, stop = 47},
+                {name = "RESERVED_1_11", start = 1, stop = 11},
+                {name = "VAL", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_XLATVTAG1_EL1 = {
+            name = "AP_CVM_XLATVTAG1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b050700,
+            fields = {
+                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "ENT2", start = 48, stop = 56},
+                {name = "RESERVED_45_47", start = 45, stop = 47},
+                {name = "ENT1", start = 36, stop = 44},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "MASK", start = 12, stop = 33},
+                {name = "RESERVED_2_11", start = 2, stop = 11},
+                {name = "STAGE2", start = 1, stop = 1},
+                {name = "STAGE1", start = 0, stop = 0},
+            }
+        },
+        AP_CVMCTL_EL1 = {
+            name = "AP_CVMCTL_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b000000,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "MRS_MSR_HAZARD", start = 39, stop = 39},
+                {name = "DISABLE_ERET_PRED", start = 38, stop = 38},
+                {name = "DISABLE_CASP", start = 37, stop = 37},
+                {name = "DISABLE_CAS", start = 36, stop = 36},
+                {name = "FORCE_CIM_ICH_VTR_TO1", start = 35, stop = 35},
+                {name = "DISABLE_WFE", start = 34, stop = 34},
+                {name = "ENABLE_V81", start = 33, stop = 33},
+                {name = "MAKE_ISB_UNNECESSARILY_SLOW", start = 32, stop = 32},
+                {name = "WFE_DEFER", start = 24, stop = 31},
+                {name = "DISABLE_ICACHE_PROBES", start = 23, stop = 23},
+                {name = "FORCE_ICACHE_PARITY", start = 22, stop = 22},
+                {name = "SUPPRESS_PARITY_CHECKING", start = 21, stop = 21},
+                {name = "NO_EXC_ICACHE_PARITY", start = 20, stop = 20},
+                {name = "STEP_RATE", start = 16, stop = 19},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "DISABLE_FLEX_EXECUTION", start = 9, stop = 9},
+                {name = "DISABLE_BRANCH_FOLDING", start = 8, stop = 8},
+                {name = "DISABLE_WFI", start = 7, stop = 7},
+                {name = "DISABLE_FETCH_UNDER_FILL", start = 6, stop = 6},
+                {name = "FORCE_ISSUE_CLOCK", start = 5, stop = 5},
+                {name = "FORCE_EXE_CLOCK", start = 4, stop = 4},
+                {name = "FORCE_CSR_CLOCK", start = 3, stop = 3},
+                {name = "DISABLE_ICACHE_PREFETCHING", start = 2, stop = 2},
+                {name = "RANDOM_ICACHE", start = 1, stop = 1},
+                {name = "DISABLE_ICACHE", start = 0, stop = 0},
+            }
+        },
+        AP_CVMMEMCTL0_EL1 = {
+            name = "AP_CVMMEMCTL0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b000400,
+            fields = {
+                {name = "RESERVED_63_63", start = 63, stop = 63},
+                {name = "NODE", start = 61, stop = 62},
+                {name = "STEXFAILCNT", start = 58, stop = 60},
+                {name = "RESERVED_57_57", start = 57, stop = 57},
+                {name = "STLSTALLFORCE", start = 56, stop = 56},
+                {name = "DMBSTALLFORCE", start = 55, stop = 55},
+                {name = "TLBINOPDIS", start = 54, stop = 54},
+                {name = "TLBIICFLUSH", start = 53, stop = 53},
+                {name = "GSYNCTO", start = 48, stop = 52},
+                {name = "UTLBFILLBYPDIS", start = 47, stop = 47},
+                {name = "TLBIALL", start = 46, stop = 46},
+                {name = "WBFDSBFLUSHALL", start = 45, stop = 45},
+                {name = "WBFDMBFLUSHNEXT", start = 44, stop = 44},
+                {name = "STEXL2CFORCE", start = 43, stop = 43},
+                {name = "IOGLOBALFORCE", start = 42, stop = 42},
+                {name = "WCUMISSFORCE", start = 41, stop = 41},
+                {name = "REPLAYPREFDIS", start = 40, stop = 40},
+                {name = "ZVAL2CDIS", start = 39, stop = 39},
+                {name = "LDIL2CDIS", start = 38, stop = 38},
+                {name = "DCVA47", start = 37, stop = 37},
+                {name = "STPREFDIS", start = 36, stop = 36},
+                {name = "LDPREFDIS", start = 35, stop = 35},
+                {name = "WFILDEXDIS", start = 34, stop = 34},
+                {name = "WFITO", start = 31, stop = 33},
+                {name = "RBFSHORTTO", start = 26, stop = 30},
+                {name = "RBFTO", start = 21, stop = 25},
+                {name = "WBFALLBARRIER", start = 20, stop = 20},
+                {name = "WBFNOMERGE", start = 19, stop = 19},
+                {name = "WBFTONSHENA", start = 18, stop = 18},
+                {name = "WBFTOMRGCLRENA", start = 17, stop = 17},
+                {name = "WBFTO", start = 12, stop = 16},
+                {name = "WBFTHRESH", start = 7, stop = 11},
+                {name = "UTLBENTRIESM1", start = 2, stop = 6},
+                {name = "CCLKFORCE", start = 1, stop = 1},
+                {name = "MCLKFORCE", start = 0, stop = 0},
+            }
+        },
+        AP_CVMMEMCTL1_EL1 = {
+            name = "AP_CVMMEMCTL1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b000500,
+            fields = {
+                {name = "RESERVED_7_63", start = 7, stop = 63},
+                {name = "SWITCHTAGENA", start = 6, stop = 6},
+                {name = "NODE1TRAPENA", start = 5, stop = 5},
+                {name = "IOATOMICENA", start = 4, stop = 4},
+                {name = "LMTSTENA", start = 3, stop = 3},
+                {name = "LODIGNORESH", start = 2, stop = 2},
+                {name = "LODISHENA", start = 1, stop = 1},
+                {name = "LODNSHENA", start = 0, stop = 0},
+            }
+        },
+        AP_DACR32_EL2 = {
+            name = "AP_DACR32_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30403000000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_DAIF = {
+            name = "AP_DAIF",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30304020100,
+            fields = {
+                {name = "RESERVED_10_31", start = 10, stop = 31},
+                {name = "DD", start = 9, stop = 9},
+                {name = "AA", start = 8, stop = 8},
+                {name = "I", start = 7, stop = 7},
+                {name = "F", start = 6, stop = 6},
+                {name = "RESERVED_0_5", start = 0, stop = 5},
+            }
+        },
+        AP_DBGAUTHSTATUS_EL1 = {
+            name = "AP_DBGAUTHSTATUS_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x200070e0600,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "SNID", start = 6, stop = 7},
+                {name = "SID", start = 4, stop = 5},
+                {name = "NSNID", start = 2, stop = 3},
+                {name = "NSID", start = 0, stop = 1},
+            }
+        },
+        AP_DBGBCRX_EL1 = {
+            name = "AP_DBGBCR#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000000500,
+            range1 = {0,15},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "BT", start = 20, stop = 23},
+                {name = "LBN", start = 16, stop = 19},
+                {name = "SSC", start = 14, stop = 15},
+                {name = "HMC", start = 13, stop = 13},
+                {name = "RESERVED_9_12", start = 9, stop = 12},
+                {name = "RSVD_5_8", start = 5, stop = 8},
+                {name = "RESERVED_3_4", start = 3, stop = 4},
+                {name = "PMC", start = 1, stop = 2},
+                {name = "EE", start = 0, stop = 0},
+            }
+        },
+        AP_DBGBVRX_EL1 = {
+            name = "AP_DBGBVR#_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20000000400,
+            range1 = {0,15},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_DBGCLAIMCLR_EL1 = {
+            name = "AP_DBGCLAIMCLR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20007090600,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "CLAIM", start = 0, stop = 7},
+            }
+        },
+        AP_DBGCLAIMSET_EL1 = {
+            name = "AP_DBGCLAIMSET_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20007080600,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "CLAIM", start = 0, stop = 7},
+            }
+        },
+        AP_DBGDTR_EL0 = {
+            name = "AP_DBGDTR_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20300040000,
+            fields = {
+                {name = "HIGHWORD", start = 32, stop = 63},
+                {name = "LOWWORD", start = 0, stop = 31},
+            }
+        },
+        AP_DBGDTRRX_EL0 = {
+            name = "AP_DBGDTRRX_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20300050000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_DBGDTRTX_EL0 = {
+            name = "AP_DBGDTRTX_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20300050010,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_DBGPRCR_EL1 = {
+            name = "AP_DBGPRCR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20001040400,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "CORENPDRQ", start = 0, stop = 0},
+            }
+        },
+        AP_DBGVCR32_EL2 = {
+            name = "AP_DBGVCR32_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20400070000,
+            fields = {
+                {name = "NSF", start = 31, stop = 31},
+                {name = "NSI", start = 30, stop = 30},
+                {name = "RESERVED_29_29", start = 29, stop = 29},
+                {name = "NSD", start = 28, stop = 28},
+                {name = "NSP", start = 27, stop = 27},
+                {name = "NSS", start = 26, stop = 26},
+                {name = "NSU", start = 25, stop = 25},
+                {name = "RESERVED_8_24", start = 8, stop = 24},
+                {name = "SF", start = 7, stop = 7},
+                {name = "SI", start = 6, stop = 6},
+                {name = "RESERVED_5_5", start = 5, stop = 5},
+                {name = "SD", start = 4, stop = 4},
+                {name = "SP", start = 3, stop = 3},
+                {name = "SS", start = 2, stop = 2},
+                {name = "SU", start = 1, stop = 1},
+                {name = "RESERVED_0_0", start = 0, stop = 0},
+            }
+        },
+        AP_DBGWCRX_EL1 = {
+            name = "AP_DBGWCR#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000000700,
+            range1 = {0,15},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "MASK", start = 24, stop = 28},
+                {name = "RESERVED_21_23", start = 21, stop = 23},
+                {name = "WT", start = 20, stop = 20},
+                {name = "LBN", start = 16, stop = 19},
+                {name = "SSC", start = 14, stop = 15},
+                {name = "HMC", start = 13, stop = 13},
+                {name = "BAS", start = 5, stop = 12},
+                {name = "LSC", start = 3, stop = 4},
+                {name = "PAC", start = 1, stop = 2},
+                {name = "EE", start = 0, stop = 0},
+            }
+        },
+        AP_DBGWVRX_EL1 = {
+            name = "AP_DBGWVR#_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20000000600,
+            range1 = {0,15},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESS", start = 49, stop = 63},
+                {name = "VA", start = 2, stop = 48},
+                {name = "RESERVED_0_1", start = 0, stop = 1},
+            }
+        },
+        AP_DCZID_EL0 = {
+            name = "AP_DCZID_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30300000700,
+            fields = {
+                {name = "RESERVED_5_31", start = 5, stop = 31},
+                {name = "DZP", start = 4, stop = 4},
+                {name = "BS", start = 0, stop = 3},
+            }
+        },
+        AP_DLR_EL0 = {
+            name = "AP_DLR_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30304050100,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_DSPSR_EL0 = {
+            name = "AP_DSPSR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30304050000,
+            fields = {
+                {name = "N", start = 31, stop = 31},
+                {name = "Z", start = 30, stop = 30},
+                {name = "CC", start = 29, stop = 29},
+                {name = "V", start = 28, stop = 28},
+                {name = "RESERVED_22_27", start = 22, stop = 27},
+                {name = "SS", start = 21, stop = 21},
+                {name = "IL", start = 20, stop = 20},
+                {name = "RESERVED_10_19", start = 10, stop = 19},
+                {name = "DD", start = 9, stop = 9},
+                {name = "AA", start = 8, stop = 8},
+                {name = "I", start = 7, stop = 7},
+                {name = "F", start = 6, stop = 6},
+                {name = "RESERVED_5_5", start = 5, stop = 5},
+                {name = "NRW", start = 4, stop = 4},
+                {name = "EL", start = 2, stop = 3},
+                {name = "RESERVED_1_1", start = 1, stop = 1},
+                {name = "SP", start = 0, stop = 0},
+            }
+        },
+        AP_ELR_ELX = {
+            name = "AP_ELR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30004000100,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "ADDRESS", start = 0, stop = 63},
+            }
+        },
+        AP_ELR_EL12 = {
+            name = "AP_ELR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30504000100,
+            fields = {
+                {name = "ADDRESS", start = 0, stop = 63},
+            }
+        },
+        AP_ESR_ELX = {
+            name = "AP_ESR_EL#",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30005020000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "EC", start = 26, stop = 31},
+                {name = "IL", start = 25, stop = 25},
+                {name = "ISS", start = 0, stop = 24},
+            }
+        },
+        AP_ESR_EL12 = {
+            name = "AP_ESR_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30505020000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_FAR_ELX = {
+            name = "AP_FAR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30006000000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_FAR_EL12 = {
+            name = "AP_FAR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30506000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_FPCR = {
+            name = "AP_FPCR",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30304040000,
+            fields = {
+                {name = "RESERVED_27_31", start = 27, stop = 31},
+                {name = "AHP", start = 26, stop = 26},
+                {name = "DN", start = 25, stop = 25},
+                {name = "FZ", start = 24, stop = 24},
+                {name = "RMODE", start = 22, stop = 23},
+                {name = "RESERVED_0_21", start = 0, stop = 21},
+            }
+        },
+        AP_FPEXC32_EL2 = {
+            name = "AP_FPEXC32_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30405030000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_FPSR = {
+            name = "AP_FPSR",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30304040100,
+            fields = {
+                {name = "RESERVED_28_31", start = 28, stop = 31},
+                {name = "QC", start = 27, stop = 27},
+                {name = "RESERVED_8_26", start = 8, stop = 26},
+                {name = "IDC", start = 7, stop = 7},
+                {name = "RESERVED_5_6", start = 5, stop = 6},
+                {name = "IXC", start = 4, stop = 4},
+                {name = "UFC", start = 3, stop = 3},
+                {name = "OFC", start = 2, stop = 2},
+                {name = "DZC", start = 1, stop = 1},
+                {name = "IOC", start = 0, stop = 0},
+            }
+        },
+        AP_HACR_EL2 = {
+            name = "AP_HACR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401010700,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_HCR_EL2 = {
+            name = "AP_HCR_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30401010000,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "TLOR", start = 35, stop = 35},
+                {name = "E2H", start = 34, stop = 34},
+                {name = "ID", start = 33, stop = 33},
+                {name = "CD", start = 32, stop = 32},
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "TRVM", start = 30, stop = 30},
+                {name = "RESERVED_29_29", start = 29, stop = 29},
+                {name = "TDZ", start = 28, stop = 28},
+                {name = "TGE", start = 27, stop = 27},
+                {name = "TVM", start = 26, stop = 26},
+                {name = "TTLB", start = 25, stop = 25},
+                {name = "TPU", start = 24, stop = 24},
+                {name = "TPC", start = 23, stop = 23},
+                {name = "TSW", start = 22, stop = 22},
+                {name = "TACR", start = 21, stop = 21},
+                {name = "TIDCP", start = 20, stop = 20},
+                {name = "TSC", start = 19, stop = 19},
+                {name = "TID3", start = 18, stop = 18},
+                {name = "TID2", start = 17, stop = 17},
+                {name = "TID1", start = 16, stop = 16},
+                {name = "TID0", start = 15, stop = 15},
+                {name = "TWE", start = 14, stop = 14},
+                {name = "TWI", start = 13, stop = 13},
+                {name = "DC", start = 12, stop = 12},
+                {name = "BSU", start = 10, stop = 11},
+                {name = "FB", start = 9, stop = 9},
+                {name = "VSE", start = 8, stop = 8},
+                {name = "VI", start = 7, stop = 7},
+                {name = "VF", start = 6, stop = 6},
+                {name = "AMO", start = 5, stop = 5},
+                {name = "IMO", start = 4, stop = 4},
+                {name = "FMO", start = 3, stop = 3},
+                {name = "PTW", start = 2, stop = 2},
+                {name = "SWIO", start = 1, stop = 1},
+                {name = "VM", start = 0, stop = 0},
+            }
+        },
+        AP_HPFAR_EL2 = {
+            name = "AP_HPFAR_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30406000400,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "FIPA", start = 4, stop = 39},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_HSTR_EL2 = {
+            name = "AP_HSTR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401010300,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ICC_AP0RX_EL1 = {
+            name = "AP_ICC_AP0R#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c080400,
+            range1 = {0,3},
+            range1_inc = 0x100,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICC_AP1RX_EL1 = {
+            name = "AP_ICC_AP1R#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c090000,
+            range1 = {0,3},
+            range1_inc = 0x100,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICC_ASGI1R_EL1 = {
+            name = "AP_ICC_ASGI1R_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000c0b0600,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "AFF3", start = 48, stop = 55},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "IRM", start = 40, stop = 40},
+                {name = "AFF2", start = 32, stop = 39},
+                {name = "RESERVED_28_31", start = 28, stop = 31},
+                {name = "SGIID", start = 24, stop = 27},
+                {name = "AFF1", start = 16, stop = 23},
+                {name = "TARGETLIST", start = 0, stop = 15},
+            }
+        },
+        AP_ICC_BPR0_EL1 = {
+            name = "AP_ICC_BPR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c080300,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "BINARYPOINT", start = 0, stop = 2},
+            }
+        },
+        AP_ICC_BPR1_EL1 = {
+            name = "AP_ICC_BPR1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0300,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "BINARYPOINT", start = 0, stop = 2},
+            }
+        },
+        AP_ICC_CTLR_EL1 = {
+            name = "AP_ICC_CTLR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0400,
+            fields = {
+                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "A3V", start = 15, stop = 15},
+                {name = "SEIS", start = 14, stop = 14},
+                {name = "IDBITS", start = 11, stop = 13},
+                {name = "PRIBITS", start = 8, stop = 10},
+                {name = "RESERVED_7_7", start = 7, stop = 7},
+                {name = "PMHE", start = 6, stop = 6},
+                {name = "RESERVED_2_5", start = 2, stop = 5},
+                {name = "EOIMODE", start = 1, stop = 1},
+                {name = "CBPR", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_CTLR_EL3 = {
+            name = "AP_ICC_CTLR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3060c0c0400,
+            fields = {
+                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "A3V", start = 15, stop = 15},
+                {name = "SEIS", start = 14, stop = 14},
+                {name = "IDBITS", start = 11, stop = 13},
+                {name = "PRIBITS", start = 8, stop = 10},
+                {name = "RESERVED_7_7", start = 7, stop = 7},
+                {name = "PMHE", start = 6, stop = 6},
+                {name = "RM", start = 5, stop = 5},
+                {name = "EOIMODE_EL1NS", start = 4, stop = 4},
+                {name = "EOIMODE_EL1S", start = 3, stop = 3},
+                {name = "EOIMODE_EL3", start = 2, stop = 2},
+                {name = "CBPR_EL1NS", start = 1, stop = 1},
+                {name = "CBPR_EL1S", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_DIR_EL1 = {
+            name = "AP_ICC_DIR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0b0100,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTERRUPTID", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_EOIR0_EL1 = {
+            name = "AP_ICC_EOIR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c080100,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_EOIR1_EL1 = {
+            name = "AP_ICC_EOIR1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0100,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_HPPIR0_EL1 = {
+            name = "AP_ICC_HPPIR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c080200,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_HPPIR1_EL1 = {
+            name = "AP_ICC_HPPIR1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0200,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_IAR0_EL1 = {
+            name = "AP_ICC_IAR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c080000,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_IAR1_EL1 = {
+            name = "AP_ICC_IAR1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0000,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_IGRPEN0_EL1 = {
+            name = "AP_ICC_IGRPEN0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0600,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_IGRPEN1_EL1 = {
+            name = "AP_ICC_IGRPEN1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0700,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_IGRPEN1_EL3 = {
+            name = "AP_ICC_IGRPEN1_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3060c0c0700,
+            fields = {
+                {name = "RESERVED_2_31", start = 2, stop = 31},
+                {name = "ENABLEGRP1S", start = 1, stop = 1},
+                {name = "ENABLEGRP1NS", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_PMR_EL1 = {
+            name = "AP_ICC_PMR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30004060000,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "PRI", start = 0, stop = 7},
+            }
+        },
+        AP_ICC_RPR_EL1 = {
+            name = "AP_ICC_RPR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0b0300,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "PRI", start = 0, stop = 7},
+            }
+        },
+        AP_ICC_SEIEN_EL1 = {
+            name = "AP_ICC_SEIEN_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0d0000,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_SGI0R_EL1 = {
+            name = "AP_ICC_SGI0R_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000c0b0700,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "AFF3", start = 48, stop = 55},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "IRM", start = 40, stop = 40},
+                {name = "AFF2", start = 32, stop = 39},
+                {name = "RESERVED_28_31", start = 28, stop = 31},
+                {name = "SGIID", start = 24, stop = 27},
+                {name = "AFF1", start = 16, stop = 23},
+                {name = "TARGETLIST", start = 0, stop = 15},
+            }
+        },
+        AP_ICC_SGI1R_EL1 = {
+            name = "AP_ICC_SGI1R_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000c0b0500,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "AFF3", start = 48, stop = 55},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "IRM", start = 40, stop = 40},
+                {name = "AFF2", start = 32, stop = 39},
+                {name = "RESERVED_28_31", start = 28, stop = 31},
+                {name = "SGIID", start = 24, stop = 27},
+                {name = "AFF1", start = 16, stop = 23},
+                {name = "TARGETLIST", start = 0, stop = 15},
+            }
+        },
+        AP_ICC_SRE_EL1 = {
+            name = "AP_ICC_SRE_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0500,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "DIB", start = 2, stop = 2},
+                {name = "DFB", start = 1, stop = 1},
+                {name = "SRE", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_SRE_EL2 = {
+            name = "AP_ICC_SRE_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090500,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "ENABLE", start = 3, stop = 3},
+                {name = "DIB", start = 2, stop = 2},
+                {name = "DFB", start = 1, stop = 1},
+                {name = "SRE", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_SRE_EL3 = {
+            name = "AP_ICC_SRE_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3060c0c0500,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "ENABLE", start = 3, stop = 3},
+                {name = "DIB", start = 2, stop = 2},
+                {name = "DFB", start = 1, stop = 1},
+                {name = "SRE", start = 0, stop = 0},
+            }
+        },
+        AP_ICH_AP0R0_EL2 = {
+            name = "AP_ICH_AP0R0_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c080000,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP0R1_EL2 = {
+            name = "AP_ICH_AP0R1_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c080100,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP0R2_EL2 = {
+            name = "AP_ICH_AP0R2_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c080200,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP0R3_EL2 = {
+            name = "AP_ICH_AP0R3_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c080300,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP1R0_EL2 = {
+            name = "AP_ICH_AP1R0_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090000,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP1R1_EL2 = {
+            name = "AP_ICH_AP1R1_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090100,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP1R2_EL2 = {
+            name = "AP_ICH_AP1R2_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090200,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP1R3_EL2 = {
+            name = "AP_ICH_AP1R3_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090300,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_EISR_EL2 = {
+            name = "AP_ICH_EISR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0300,
+            fields = {
+                {name = "STATUS_BITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_ELSR_EL2 = {
+            name = "AP_ICH_ELSR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0500,
+            fields = {
+                {name = "STATUS_BITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_HCR_EL2 = {
+            name = "AP_ICH_HCR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0000,
+            fields = {
+                {name = "EOICOUNT", start = 27, stop = 31},
+                {name = "RESERVED_14_26", start = 14, stop = 26},
+                {name = "TSEI", start = 13, stop = 13},
+                {name = "TALL1", start = 12, stop = 12},
+                {name = "TALL0", start = 11, stop = 11},
+                {name = "TC", start = 10, stop = 10},
+                {name = "RESERVED_8_9", start = 8, stop = 9},
+                {name = "VGRP1DIE", start = 7, stop = 7},
+                {name = "VGRP1EIE", start = 6, stop = 6},
+                {name = "VGRP0DIE", start = 5, stop = 5},
+                {name = "VGRP0EIE", start = 4, stop = 4},
+                {name = "NPIE", start = 3, stop = 3},
+                {name = "LRENPIE", start = 2, stop = 2},
+                {name = "UIE", start = 1, stop = 1},
+                {name = "EN", start = 0, stop = 0},
+            }
+        },
+        AP_ICH_LRX_EL2 = {
+            name = "AP_ICH_LR#_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3040c0c0000,
+            range1 = {0,15},
+            range1_inc = 0x100,
+            fields = {
+                {name = "STATE", start = 62, stop = 63},
+                {name = "HW", start = 61, stop = 61},
+                {name = "GROUP", start = 60, stop = 60},
+                {name = "RESERVED_56_59", start = 56, stop = 59},
+                {name = "PRI", start = 48, stop = 55},
+                {name = "RESERVED_42_47", start = 42, stop = 47},
+                {name = "PHYSICAL_ID", start = 32, stop = 41},
+                {name = "VIRTUAL_ID", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_LRCX = {
+            name = "AP_ICH_LRC#",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0e0000,
+            range1 = {0,15},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_MISR_EL2 = {
+            name = "AP_ICH_MISR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0200,
+            fields = {
+                {name = "RESERVED_9_31", start = 9, stop = 31},
+                {name = "VSEI", start = 8, stop = 8},
+                {name = "VGRP1D", start = 7, stop = 7},
+                {name = "VGRP1E", start = 6, stop = 6},
+                {name = "VGRP0D", start = 5, stop = 5},
+                {name = "VGRP0E", start = 4, stop = 4},
+                {name = "NP", start = 3, stop = 3},
+                {name = "LRENP", start = 2, stop = 2},
+                {name = "U", start = 1, stop = 1},
+                {name = "EOI", start = 0, stop = 0},
+            }
+        },
+        AP_ICH_VMCR_EL2 = {
+            name = "AP_ICH_VMCR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0700,
+            fields = {
+                {name = "VPMR", start = 24, stop = 31},
+                {name = "VBPR0", start = 21, stop = 23},
+                {name = "VBPR1", start = 18, stop = 20},
+                {name = "RESERVED_10_17", start = 10, stop = 17},
+                {name = "VEOIM", start = 9, stop = 9},
+                {name = "RESERVED_5_8", start = 5, stop = 8},
+                {name = "VCBPR", start = 4, stop = 4},
+                {name = "VFIQEN", start = 3, stop = 3},
+                {name = "VACKCTL", start = 2, stop = 2},
+                {name = "VENG1", start = 1, stop = 1},
+                {name = "VENG0", start = 0, stop = 0},
+            }
+        },
+        AP_ICH_VSEIR_EL2 = {
+            name = "AP_ICH_VSEIR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090400,
+            fields = {
+                {name = "VALID", start = 31, stop = 31},
+                {name = "RESERVED_25_30", start = 25, stop = 30},
+                {name = "SYNDROME", start = 0, stop = 24},
+            }
+        },
+        AP_ICH_VTR_EL2 = {
+            name = "AP_ICH_VTR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0100,
+            fields = {
+                {name = "PRIBITS", start = 29, stop = 31},
+                {name = "PREBITS", start = 26, stop = 28},
+                {name = "IDBITS", start = 23, stop = 25},
+                {name = "SEIS", start = 22, stop = 22},
+                {name = "A3V", start = 21, stop = 21},
+                {name = "RESERVED_5_20", start = 5, stop = 20},
+                {name = "LISTREGS", start = 0, stop = 4},
+            }
+        },
+        AP_ID_AA64AFRX_EL1_RES0 = {
+            name = "AP_ID_AA64AFR#_EL1_RES0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050400,
+            range1 = {2,3},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64AFR0_EL1 = {
+            name = "AP_ID_AA64AFR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64AFR1_EL1 = {
+            name = "AP_ID_AA64AFR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050500,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64DFRX_EL1_RES0 = {
+            name = "AP_ID_AA64DFR#_EL1_RES0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050000,
+            range1 = {2,3},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64DFR0_EL1 = {
+            name = "AP_ID_AA64DFR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "CTX_CMPS", start = 28, stop = 31},
+                {name = "RESERVED_24_27", start = 24, stop = 27},
+                {name = "WRPS", start = 20, stop = 23},
+                {name = "RESERVED_16_19", start = 16, stop = 19},
+                {name = "BRPS", start = 12, stop = 15},
+                {name = "PMUVER", start = 8, stop = 11},
+                {name = "TRACEVER", start = 4, stop = 7},
+                {name = "DEBUGVER", start = 0, stop = 3},
+            }
+        },
+        AP_ID_AA64DFR1_EL1 = {
+            name = "AP_ID_AA64DFR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64ISARX_EL1_RES0 = {
+            name = "AP_ID_AA64ISAR#_EL1_RES0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000060000,
+            range1 = {2,7},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64ISAR0_EL1 = {
+            name = "AP_ID_AA64ISAR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000060000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "SQRDML", start = 28, stop = 31},
+                {name = "RESERVED_24_27", start = 24, stop = 27},
+                {name = "ATOMIC", start = 20, stop = 23},
+                {name = "CRC32", start = 16, stop = 19},
+                {name = "SHA2", start = 12, stop = 15},
+                {name = "SHA1", start = 8, stop = 11},
+                {name = "AES", start = 4, stop = 7},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_ID_AA64ISAR1_EL1 = {
+            name = "AP_ID_AA64ISAR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000060100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64MMFRX_EL1_RES0 = {
+            name = "AP_ID_AA64MMFR#_EL1_RES0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000070000,
+            range1 = {2,7},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64MMFR0_EL1 = {
+            name = "AP_ID_AA64MMFR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000070000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "TGRAN4", start = 28, stop = 31},
+                {name = "TGRAN64", start = 24, stop = 27},
+                {name = "TGRAN16", start = 20, stop = 23},
+                {name = "BIGENDEL0", start = 16, stop = 19},
+                {name = "SNSMEM", start = 12, stop = 15},
+                {name = "BIGEND", start = 8, stop = 11},
+                {name = "ASIDBITS", start = 4, stop = 7},
+                {name = "PARANGE", start = 0, stop = 3},
+            }
+        },
+        AP_ID_AA64MMFR1_EL1 = {
+            name = "AP_ID_AA64MMFR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000070100,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "PAN", start = 20, stop = 23},
+                {name = "LO", start = 16, stop = 19},
+                {name = "HD", start = 12, stop = 15},
+                {name = "VH", start = 8, stop = 11},
+                {name = "VMIDBITS", start = 4, stop = 7},
+                {name = "HARDWARE_ACCESS_DIRTY", start = 0, stop = 3},
+            }
+        },
+        AP_ID_AA64PFRX_EL1_RES0 = {
+            name = "AP_ID_AA64PFR#_EL1_RES0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000040000,
+            range1 = {2,7},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64PFR0_EL1 = {
+            name = "AP_ID_AA64PFR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000040000,
+            fields = {
+                {name = "RESERVED_28_63", start = 28, stop = 63},
+                {name = "GIC", start = 24, stop = 27},
+                {name = "ADVSIMD", start = 20, stop = 23},
+                {name = "FP", start = 16, stop = 19},
+                {name = "EL3", start = 12, stop = 15},
+                {name = "EL2", start = 8, stop = 11},
+                {name = "EL1", start = 4, stop = 7},
+                {name = "EL0", start = 0, stop = 3},
+            }
+        },
+        AP_ID_AA64PFR1_EL1 = {
+            name = "AP_ID_AA64PFR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000040100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AFR0_EL1 = {
+            name = "AP_ID_AFR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000010300,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ID_DFR0_EL1 = {
+            name = "AP_ID_DFR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000010200,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ID_ISARX_EL1 = {
+            name = "AP_ID_ISAR#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000020000,
+            range1 = {0,5},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ID_ISARX_EL1_RES0 = {
+            name = "AP_ID_ISAR#_EL1_RES0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000020000,
+            range1 = {6,7},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ID_MMFRX_EL1 = {
+            name = "AP_ID_MMFR#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000010400,
+            range1 = {0,3},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ID_PFR0_EL1 = {
+            name = "AP_ID_PFR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000010000,
+            fields = {
+                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "STATE3", start = 12, stop = 15},
+                {name = "STATE2", start = 8, stop = 11},
+                {name = "STATE1", start = 4, stop = 7},
+                {name = "STATE0", start = 0, stop = 3},
+            }
+        },
+        AP_ID_PFR1_EL1 = {
+            name = "AP_ID_PFR1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000010100,
+            fields = {
+                {name = "GIC", start = 28, stop = 31},
+                {name = "VIRT_FRAC", start = 24, stop = 27},
+                {name = "SEC_FRAC", start = 20, stop = 23},
+                {name = "GENTIMER", start = 16, stop = 19},
+                {name = "VIRTUALIZATION", start = 12, stop = 15},
+                {name = "MPROGMOD", start = 8, stop = 11},
+                {name = "SECURITY", start = 4, stop = 7},
+                {name = "PROGMOD", start = 0, stop = 3},
+            }
+        },
+        AP_IFSR32_EL2 = {
+            name = "AP_IFSR32_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30405000100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ISR_EL1 = {
+            name = "AP_ISR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c010000,
+            fields = {
+                {name = "RESERVED_9_31", start = 9, stop = 31},
+                {name = "AA", start = 8, stop = 8},
+                {name = "I", start = 7, stop = 7},
+                {name = "F", start = 6, stop = 6},
+                {name = "RESERVED_0_5", start = 0, stop = 5},
+            }
+        },
+        AP_LORC_EL1 = {
+            name = "AP_LORC_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a040300,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "DS", start = 2, stop = 4},
+                {name = "RESERVED_1_1", start = 1, stop = 1},
+                {name = "EN", start = 0, stop = 0},
+            }
+        },
+        AP_LOREA_EL1 = {
+            name = "AP_LOREA_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a040100,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "EA", start = 16, stop = 47},
+                {name = "RESERVED_0_15", start = 0, stop = 15},
+            }
+        },
+        AP_LORID_EL1 = {
+            name = "AP_LORID_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a040700,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "LD", start = 16, stop = 23},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "LR", start = 0, stop = 7},
+            }
+        },
+        AP_LORN_EL1 = {
+            name = "AP_LORN_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a040200,
+            fields = {
+                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "NUM", start = 0, stop = 1},
+            }
+        },
+        AP_LORSA_EL1 = {
+            name = "AP_LORSA_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a040000,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "SA", start = 16, stop = 47},
+                {name = "RESERVED_1_15", start = 1, stop = 15},
+                {name = "VALID", start = 0, stop = 0},
+            }
+        },
+        AP_MAIR_ELX = {
+            name = "AP_MAIR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a020000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "ATTR_N", start = 0, stop = 63},
+            }
+        },
+        AP_MAIR_EL12 = {
+            name = "AP_MAIR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3050a020000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_MDCCINT_EL1 = {
+            name = "AP_MDCCINT_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000020000,
+            fields = {
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "RX", start = 30, stop = 30},
+                {name = "TX", start = 29, stop = 29},
+                {name = "RESERVED_0_28", start = 0, stop = 28},
+            }
+        },
+        AP_MDCCSR_EL0 = {
+            name = "AP_MDCCSR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20300010000,
+            fields = {
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "RXFULL", start = 30, stop = 30},
+                {name = "TXFULL", start = 29, stop = 29},
+                {name = "RESERVED_0_28", start = 0, stop = 28},
+            }
+        },
+        AP_MDCR_EL2 = {
+            name = "AP_MDCR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401010100,
+            fields = {
+                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "HPMD", start = 17, stop = 17},
+                {name = "RESERVED_12_16", start = 12, stop = 16},
+                {name = "TDRA", start = 11, stop = 11},
+                {name = "TDOSA", start = 10, stop = 10},
+                {name = "TDA", start = 9, stop = 9},
+                {name = "TDE", start = 8, stop = 8},
+                {name = "HPME", start = 7, stop = 7},
+                {name = "TPM", start = 6, stop = 6},
+                {name = "TPMCR", start = 5, stop = 5},
+                {name = "HPMN", start = 0, stop = 4},
+            }
+        },
+        AP_MDCR_EL3 = {
+            name = "AP_MDCR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30601030100,
+            fields = {
+                {name = "RESERVED_22_31", start = 22, stop = 31},
+                {name = "EPMAD", start = 21, stop = 21},
+                {name = "EDAD", start = 20, stop = 20},
+                {name = "RESERVED_18_19", start = 18, stop = 19},
+                {name = "SPME", start = 17, stop = 17},
+                {name = "SDD", start = 16, stop = 16},
+                {name = "RESERVED_11_15", start = 11, stop = 15},
+                {name = "TDOSA", start = 10, stop = 10},
+                {name = "TDA", start = 9, stop = 9},
+                {name = "RESERVED_7_8", start = 7, stop = 8},
+                {name = "TPM", start = 6, stop = 6},
+                {name = "RESERVED_0_5", start = 0, stop = 5},
+            }
+        },
+        AP_MDRAR_EL1 = {
+            name = "AP_MDRAR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20001000000,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "ROMADDR", start = 12, stop = 47},
+                {name = "RESERVED_2_11", start = 2, stop = 11},
+                {name = "VALID", start = 0, stop = 1},
+            }
+        },
+        AP_MDSCR_EL1 = {
+            name = "AP_MDSCR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000020200,
+            fields = {
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "RXFULL", start = 30, stop = 30},
+                {name = "TXFULL", start = 29, stop = 29},
+                {name = "RESERVED_28_28", start = 28, stop = 28},
+                {name = "RXO", start = 27, stop = 27},
+                {name = "TXU", start = 26, stop = 26},
+                {name = "RESERVED_24_25", start = 24, stop = 25},
+                {name = "INTDIS", start = 22, stop = 23},
+                {name = "TDA", start = 21, stop = 21},
+                {name = "RESERVED_16_20", start = 16, stop = 20},
+                {name = "MDE", start = 15, stop = 15},
+                {name = "HDE", start = 14, stop = 14},
+                {name = "KDE", start = 13, stop = 13},
+                {name = "TDCC", start = 12, stop = 12},
+                {name = "RESERVED_7_11", start = 7, stop = 11},
+                {name = "ERR", start = 6, stop = 6},
+                {name = "RESERVED_1_5", start = 1, stop = 5},
+                {name = "SS", start = 0, stop = 0},
+            }
+        },
+        AP_MIDR_EL1 = {
+            name = "AP_MIDR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000000000,
+            fields = {
+                {name = "IMPLEMENTER", start = 24, stop = 31},
+                {name = "VARIANT", start = 20, stop = 23},
+                {name = "ARCHITECTURE", start = 16, stop = 19},
+                {name = "PARTNUM", start = 4, stop = 15},
+                {name = "REVISION", start = 0, stop = 3},
+            }
+        },
+        AP_MPIDR_EL1 = {
+            name = "AP_MPIDR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000000500,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "AFF3", start = 32, stop = 39},
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "U", start = 30, stop = 30},
+                {name = "RESERVED_25_29", start = 25, stop = 29},
+                {name = "MT", start = 24, stop = 24},
+                {name = "AFF2", start = 16, stop = 23},
+                {name = "AFF1", start = 8, stop = 15},
+                {name = "AFF0", start = 0, stop = 7},
+            }
+        },
+        AP_MVFRX_EL1 = {
+            name = "AP_MVFR#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000030000,
+            range1 = {0,2},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_NZCV = {
+            name = "AP_NZCV",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30304020000,
+            fields = {
+                {name = "N", start = 31, stop = 31},
+                {name = "Z", start = 30, stop = 30},
+                {name = "CC", start = 29, stop = 29},
+                {name = "V", start = 28, stop = 28},
+                {name = "RESERVED_0_27", start = 0, stop = 27},
+            }
+        },
+        AP_OSDLR_EL1 = {
+            name = "AP_OSDLR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20001030400,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "DLK", start = 0, stop = 0},
+            }
+        },
+        AP_OSDTRRX_EL1 = {
+            name = "AP_OSDTRRX_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000000200,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_OSDTRTX_EL1 = {
+            name = "AP_OSDTRTX_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000030200,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_OSECCR_EL1 = {
+            name = "AP_OSECCR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000060200,
+            fields = {
+                {name = "EDECCR", start = 0, stop = 31},
+            }
+        },
+        AP_OSLAR_EL1 = {
+            name = "AP_OSLAR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20001000400,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "OSLK", start = 0, stop = 0},
+            }
+        },
+        AP_OSLSR_EL1 = {
+            name = "AP_OSLSR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20001010400,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "OSLM_HIGH", start = 3, stop = 3},
+                {name = "NTT", start = 2, stop = 2},
+                {name = "OSLK", start = 1, stop = 1},
+                {name = "OSLM_LOW", start = 0, stop = 0},
+            }
+        },
+        AP_PAN = {
+            name = "AP_PAN",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30004020300,
+            fields = {
+                {name = "RESERVED_23_63", start = 23, stop = 63},
+                {name = "PAN", start = 22, stop = 22},
+                {name = "RESERVED_0_21", start = 0, stop = 21},
+            }
+        },
+        AP_PAR_EL1 = {
+            name = "AP_PAR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30007040000,
+            fields = {
+                {name = "MAIR", start = 56, stop = 63},
+                {name = "RESERVED_48_55", start = 48, stop = 55},
+                {name = "PA", start = 12, stop = 47},
+                {name = "RSVD_11", start = 11, stop = 11},
+                {name = "RESERVED_10_10", start = 10, stop = 10},
+                {name = "NSEC", start = 9, stop = 9},
+                {name = "SHA", start = 7, stop = 8},
+                {name = "FS", start = 1, stop = 6},
+                {name = "F", start = 0, stop = 0},
+            }
+        },
+        AP_PMCCFILTR_EL0 = {
+            name = "AP_PMCCFILTR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e0f0700,
+            fields = {
+                {name = "P", start = 31, stop = 31},
+                {name = "U", start = 30, stop = 30},
+                {name = "NSK", start = 29, stop = 29},
+                {name = "NSU", start = 28, stop = 28},
+                {name = "NSH", start = 27, stop = 27},
+                {name = "M", start = 26, stop = 26},
+                {name = "RESERVED_0_25", start = 0, stop = 25},
+            }
+        },
+        AP_PMCCNTR_EL0 = {
+            name = "AP_PMCCNTR_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x303090d0000,
+            fields = {
+                {name = "CCNT", start = 0, stop = 63},
+            }
+        },
+        AP_PMCEID0_EL0 = {
+            name = "AP_PMCEID0_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x303090c0600,
+            fields = {
+                {name = "CE", start = 0, stop = 63},
+            }
+        },
+        AP_PMCEID1_EL0 = {
+            name = "AP_PMCEID1_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x303090c0700,
+            fields = {
+                {name = "CE", start = 0, stop = 63},
+            }
+        },
+        AP_PMCNTENCLR_EL0 = {
+            name = "AP_PMCNTENCLR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0200,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMCNTENSET_EL0 = {
+            name = "AP_PMCNTENSET_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0100,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMCR_EL0 = {
+            name = "AP_PMCR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0000,
+            fields = {
+                {name = "IMP", start = 24, stop = 31},
+                {name = "IDCODE", start = 16, stop = 23},
+                {name = "N", start = 11, stop = 15},
+                {name = "RESERVED_7_10", start = 7, stop = 10},
+                {name = "LC", start = 6, stop = 6},
+                {name = "DP", start = 5, stop = 5},
+                {name = "X", start = 4, stop = 4},
+                {name = "DD", start = 3, stop = 3},
+                {name = "CC", start = 2, stop = 2},
+                {name = "P", start = 1, stop = 1},
+                {name = "EE", start = 0, stop = 0},
+            }
+        },
+        AP_PMEVCNTRX_EL0 = {
+            name = "AP_PMEVCNTR#_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e080000,
+            range1 = {0,30},
+            range1_inc = 0x100,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_PMEVTYPERX_EL0 = {
+            name = "AP_PMEVTYPER#_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e0c0000,
+            range1 = {0,30},
+            range1_inc = 0x100,
+            fields = {
+                {name = "P", start = 31, stop = 31},
+                {name = "U", start = 30, stop = 30},
+                {name = "NSK", start = 29, stop = 29},
+                {name = "NSU", start = 28, stop = 28},
+                {name = "NSH", start = 27, stop = 27},
+                {name = "M", start = 26, stop = 26},
+                {name = "RESERVED_16_25", start = 16, stop = 25},
+                {name = "EVTCOUNT", start = 0, stop = 15},
+            }
+        },
+        AP_PMINTENCLR_EL1 = {
+            name = "AP_PMINTENCLR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x300090e0200,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMINTENSET_EL1 = {
+            name = "AP_PMINTENSET_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x300090e0100,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMOVSCLR_EL0 = {
+            name = "AP_PMOVSCLR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0300,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMOVSSET_EL0 = {
+            name = "AP_PMOVSSET_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090e0300,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMSELR_EL0 = {
+            name = "AP_PMSELR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0500,
+            fields = {
+                {name = "RESERVED_5_31", start = 5, stop = 31},
+                {name = "SEL", start = 0, stop = 4},
+            }
+        },
+        AP_PMSWINC_EL0 = {
+            name = "AP_PMSWINC_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0400,
+            fields = {
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMUSERENR_EL0 = {
+            name = "AP_PMUSERENR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090e0000,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "ER", start = 3, stop = 3},
+                {name = "CR", start = 2, stop = 2},
+                {name = "SW", start = 1, stop = 1},
+                {name = "EN", start = 0, stop = 0},
+            }
+        },
+        AP_PMXEVCNTR_EL0 = {
+            name = "AP_PMXEVCNTR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090d0200,
+            fields = {
+                {name = "PMEVCNTR", start = 0, stop = 31},
+            }
+        },
+        AP_PMXEVTYPER_EL0 = {
+            name = "AP_PMXEVTYPER_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090d0100,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_REVIDR_EL1 = {
+            name = "AP_REVIDR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000000600,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_RMR_ELX = {
+            name = "AP_RMR_EL#",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c000200,
+            range1 = {1,2},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_RMR_EL3 = {
+            name = "AP_RMR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3060c000200,
+            fields = {
+                {name = "RESERVED_2_31", start = 2, stop = 31},
+                {name = "RR", start = 1, stop = 1},
+                {name = "AA64", start = 0, stop = 0},
+            }
+        },
+        AP_RVBAR_ELX = {
+            name = "AP_RVBAR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000c000100,
+            range1 = {1,2},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_RVBAR_EL3 = {
+            name = "AP_RVBAR_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060c000100,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_SCR_EL3 = {
+            name = "AP_SCR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30601010000,
+            fields = {
+                {name = "RESERVED_15_31", start = 15, stop = 31},
+                {name = "TLOR", start = 14, stop = 14},
+                {name = "TWE", start = 13, stop = 13},
+                {name = "TWI", start = 12, stop = 12},
+                {name = "ST", start = 11, stop = 11},
+                {name = "RSVD_10", start = 10, stop = 10},
+                {name = "SIF", start = 9, stop = 9},
+                {name = "HCE", start = 8, stop = 8},
+                {name = "SMD", start = 7, stop = 7},
+                {name = "RESERVED_6_6", start = 6, stop = 6},
+                {name = "RSVD_4_5", start = 4, stop = 5},
+                {name = "EA", start = 3, stop = 3},
+                {name = "FIQ", start = 2, stop = 2},
+                {name = "IRQ", start = 1, stop = 1},
+                {name = "NSEC", start = 0, stop = 0},
+            }
+        },
+        AP_SCTLR_EL1 = {
+            name = "AP_SCTLR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30001000000,
+            fields = {
+                {name = "RESERVED_30_31", start = 30, stop = 31},
+                {name = "RSVD_28_29", start = 28, stop = 29},
+                {name = "RESERVED_27_27", start = 27, stop = 27},
+                {name = "UCI", start = 26, stop = 26},
+                {name = "EE", start = 25, stop = 25},
+                {name = "E0E", start = 24, stop = 24},
+                {name = "SPAN", start = 23, stop = 23},
+                {name = "RSVD_22", start = 22, stop = 22},
+                {name = "RESERVED_21_21", start = 21, stop = 21},
+                {name = "RSVD_20", start = 20, stop = 20},
+                {name = "WXN", start = 19, stop = 19},
+                {name = "NTWE", start = 18, stop = 18},
+                {name = "RESERVED_17_17", start = 17, stop = 17},
+                {name = "NTWI", start = 16, stop = 16},
+                {name = "UCT", start = 15, stop = 15},
+                {name = "DZE", start = 14, stop = 14},
+                {name = "RESERVED_13_13", start = 13, stop = 13},
+                {name = "I", start = 12, stop = 12},
+                {name = "RSVD_11", start = 11, stop = 11},
+                {name = "RESERVED_10_10", start = 10, stop = 10},
+                {name = "UMA", start = 9, stop = 9},
+                {name = "RSVD_8", start = 8, stop = 8},
+                {name = "RSVD_7", start = 7, stop = 7},
+                {name = "RESERVED_5_6", start = 5, stop = 6},
+                {name = "SA0", start = 4, stop = 4},
+                {name = "SA", start = 3, stop = 3},
+                {name = "CC", start = 2, stop = 2},
+                {name = "AA", start = 1, stop = 1},
+                {name = "M", start = 0, stop = 0},
+            }
+        },
+        AP_SCTLR_EL12 = {
+            name = "AP_SCTLR_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30501000000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_SCTLR_EL2 = {
+            name = "AP_SCTLR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401000000,
+            fields = {
+                {name = "RESERVED_30_31", start = 30, stop = 31},
+                {name = "RSVD_28_29", start = 28, stop = 29},
+                {name = "RESERVED_26_27", start = 26, stop = 27},
+                {name = "EE", start = 25, stop = 25},
+                {name = "RESERVED_24_24", start = 24, stop = 24},
+                {name = "SPAN", start = 23, stop = 23},
+                {name = "RSVD_22", start = 22, stop = 22},
+                {name = "RESERVED_20_21", start = 20, stop = 21},
+                {name = "WXN", start = 19, stop = 19},
+                {name = "RSVD_18", start = 18, stop = 18},
+                {name = "RESERVED_17_17", start = 17, stop = 17},
+                {name = "RSVD_16", start = 16, stop = 16},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "I", start = 12, stop = 12},
+                {name = "RSVD_11", start = 11, stop = 11},
+                {name = "RESERVED_6_10", start = 6, stop = 10},
+                {name = "RSVD_4_5", start = 4, stop = 5},
+                {name = "SA", start = 3, stop = 3},
+                {name = "CC", start = 2, stop = 2},
+                {name = "AA", start = 1, stop = 1},
+                {name = "M", start = 0, stop = 0},
+            }
+        },
+        AP_SCTLR_EL2_E2H = {
+            name = "AP_SCTLR_EL2_E2H",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401000010,
+            fields = {
+                {name = "RESERVED_30_31", start = 30, stop = 31},
+                {name = "RSVD_28_29", start = 28, stop = 29},
+                {name = "RESERVED_27_27", start = 27, stop = 27},
+                {name = "UCI", start = 26, stop = 26},
+                {name = "EE", start = 25, stop = 25},
+                {name = "E0E", start = 24, stop = 24},
+                {name = "SPAN", start = 23, stop = 23},
+                {name = "RSVD_22", start = 22, stop = 22},
+                {name = "RESERVED_21_21", start = 21, stop = 21},
+                {name = "RSVD_20", start = 20, stop = 20},
+                {name = "WXN", start = 19, stop = 19},
+                {name = "NTWE", start = 18, stop = 18},
+                {name = "RESERVED_17_17", start = 17, stop = 17},
+                {name = "NTWI", start = 16, stop = 16},
+                {name = "UCT", start = 15, stop = 15},
+                {name = "DZE", start = 14, stop = 14},
+                {name = "RESERVED_13_13", start = 13, stop = 13},
+                {name = "I", start = 12, stop = 12},
+                {name = "RSVD_11", start = 11, stop = 11},
+                {name = "RESERVED_10_10", start = 10, stop = 10},
+                {name = "UMA", start = 9, stop = 9},
+                {name = "RSVD_8", start = 8, stop = 8},
+                {name = "RSVD_7", start = 7, stop = 7},
+                {name = "RESERVED_5_6", start = 5, stop = 6},
+                {name = "SA0", start = 4, stop = 4},
+                {name = "SA", start = 3, stop = 3},
+                {name = "CC", start = 2, stop = 2},
+                {name = "AA", start = 1, stop = 1},
+                {name = "M", start = 0, stop = 0},
+            }
+        },
+        AP_SCTLR_EL3 = {
+            name = "AP_SCTLR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30601000000,
+            fields = {
+                {name = "RESERVED_30_31", start = 30, stop = 31},
+                {name = "RSVD_28_29", start = 28, stop = 29},
+                {name = "RESERVED_26_27", start = 26, stop = 27},
+                {name = "EE", start = 25, stop = 25},
+                {name = "RESERVED_24_24", start = 24, stop = 24},
+                {name = "RSVD_23", start = 23, stop = 23},
+                {name = "RSVD_22", start = 22, stop = 22},
+                {name = "RESERVED_20_21", start = 20, stop = 21},
+                {name = "WXN", start = 19, stop = 19},
+                {name = "RSVD_18", start = 18, stop = 18},
+                {name = "RESERVED_17_17", start = 17, stop = 17},
+                {name = "RSVD_16", start = 16, stop = 16},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "I", start = 12, stop = 12},
+                {name = "RSVD_11", start = 11, stop = 11},
+                {name = "RESERVED_6_10", start = 6, stop = 10},
+                {name = "RSVD_4_5", start = 4, stop = 5},
+                {name = "SA", start = 3, stop = 3},
+                {name = "CC", start = 2, stop = 2},
+                {name = "AA", start = 1, stop = 1},
+                {name = "M", start = 0, stop = 0},
+            }
+        },
+        AP_SDER32_EL3 = {
+            name = "AP_SDER32_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30601010100,
+            fields = {
+                {name = "RESERVED_2_31", start = 2, stop = 31},
+                {name = "SUNIDEN", start = 1, stop = 1},
+                {name = "SUIDEN", start = 0, stop = 0},
+            }
+        },
+        AP_SP_EL0 = {
+            name = "AP_SP_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30004010000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_SP_EL1 = {
+            name = "AP_SP_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30404010000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_SP_EL2 = {
+            name = "AP_SP_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30604010000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_SPSEL = {
+            name = "AP_SPSEL",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30004020000,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "SP", start = 0, stop = 0},
+            }
+        },
+        AP_SPSR_ABT = {
+            name = "AP_SPSR_ABT",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30404030100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_SPSR_ELX = {
+            name = "AP_SPSR_EL#",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30004000000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "N", start = 31, stop = 31},
+                {name = "Z", start = 30, stop = 30},
+                {name = "CC", start = 29, stop = 29},
+                {name = "V", start = 28, stop = 28},
+                {name = "RESERVED_23_27", start = 23, stop = 27},
+                {name = "PAN", start = 22, stop = 22},
+                {name = "SS", start = 21, stop = 21},
+                {name = "IL", start = 20, stop = 20},
+                {name = "RESERVED_10_19", start = 10, stop = 19},
+                {name = "DD", start = 9, stop = 9},
+                {name = "AA", start = 8, stop = 8},
+                {name = "I", start = 7, stop = 7},
+                {name = "F", start = 6, stop = 6},
+                {name = "RESERVED_5_5", start = 5, stop = 5},
+                {name = "FROM32", start = 4, stop = 4},
+                {name = "EL", start = 2, stop = 3},
+                {name = "RESERVED_1_1", start = 1, stop = 1},
+                {name = "SP", start = 0, stop = 0},
+            }
+        },
+        AP_SPSR_EL12 = {
+            name = "AP_SPSR_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30504000000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_SPSR_FIQ = {
+            name = "AP_SPSR_FIQ",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30404030300,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_SPSR_IRQ = {
+            name = "AP_SPSR_IRQ",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30404030000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_SPSR_UND = {
+            name = "AP_SPSR_UND",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30404030200,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_TCR_EL1 = {
+            name = "AP_TCR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30002000200,
+            fields = {
+                {name = "RESERVED_43_63", start = 43, stop = 63},
+                {name = "HAD1", start = 42, stop = 42},
+                {name = "HAD0", start = 41, stop = 41},
+                {name = "RESERVED_39_40", start = 39, stop = 40},
+                {name = "TBI1", start = 38, stop = 38},
+                {name = "TBI0", start = 37, stop = 37},
+                {name = "AS", start = 36, stop = 36},
+                {name = "RESERVED_35_35", start = 35, stop = 35},
+                {name = "IPS", start = 32, stop = 34},
+                {name = "TG1", start = 30, stop = 31},
+                {name = "SH1", start = 28, stop = 29},
+                {name = "ORGN1", start = 26, stop = 27},
+                {name = "IRGN1", start = 24, stop = 25},
+                {name = "EPD1", start = 23, stop = 23},
+                {name = "A1", start = 22, stop = 22},
+                {name = "T1SZ", start = 16, stop = 21},
+                {name = "TG0", start = 14, stop = 15},
+                {name = "SH0", start = 12, stop = 13},
+                {name = "ORGN0", start = 10, stop = 11},
+                {name = "IRGN0", start = 8, stop = 9},
+                {name = "EPD0", start = 7, stop = 7},
+                {name = "RESERVED_6_6", start = 6, stop = 6},
+                {name = "T0SZ", start = 0, stop = 5},
+            }
+        },
+        AP_TCR_EL12 = {
+            name = "AP_TCR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30502000200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TCR_EL2 = {
+            name = "AP_TCR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30402000200,
+            fields = {
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "RESERVED_25_30", start = 25, stop = 30},
+                {name = "HAD", start = 24, stop = 24},
+                {name = "RSVD_23", start = 23, stop = 23},
+                {name = "RESERVED_21_22", start = 21, stop = 22},
+                {name = "TBI", start = 20, stop = 20},
+                {name = "RESERVED_19_19", start = 19, stop = 19},
+                {name = "PS", start = 16, stop = 18},
+                {name = "TG0", start = 14, stop = 15},
+                {name = "SH0", start = 12, stop = 13},
+                {name = "ORGN0", start = 10, stop = 11},
+                {name = "IRGN0", start = 8, stop = 9},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "T0SZ", start = 0, stop = 5},
+            }
+        },
+        AP_TCR_EL2_E2H = {
+            name = "AP_TCR_EL2_E2H",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30402000210,
+            fields = {
+                {name = "RESERVED_43_63", start = 43, stop = 63},
+                {name = "HAD1", start = 42, stop = 42},
+                {name = "HAD0", start = 41, stop = 41},
+                {name = "RESERVED_39_40", start = 39, stop = 40},
+                {name = "TBI1", start = 38, stop = 38},
+                {name = "TBI0", start = 37, stop = 37},
+                {name = "AS", start = 36, stop = 36},
+                {name = "RESERVED_35_35", start = 35, stop = 35},
+                {name = "IPS", start = 32, stop = 34},
+                {name = "TG1", start = 30, stop = 31},
+                {name = "SH1", start = 28, stop = 29},
+                {name = "ORGN1", start = 26, stop = 27},
+                {name = "IRGN1", start = 24, stop = 25},
+                {name = "EPD1", start = 23, stop = 23},
+                {name = "A1", start = 22, stop = 22},
+                {name = "T1SZ", start = 16, stop = 21},
+                {name = "TG0", start = 14, stop = 15},
+                {name = "SH0", start = 12, stop = 13},
+                {name = "ORGN0", start = 10, stop = 11},
+                {name = "IRGN0", start = 8, stop = 9},
+                {name = "EPD0", start = 7, stop = 7},
+                {name = "RESERVED_6_6", start = 6, stop = 6},
+                {name = "T0SZ", start = 0, stop = 5},
+            }
+        },
+        AP_TCR_EL3 = {
+            name = "AP_TCR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30602000200,
+            fields = {
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "RESERVED_25_30", start = 25, stop = 30},
+                {name = "HAD", start = 24, stop = 24},
+                {name = "RSVD_23", start = 23, stop = 23},
+                {name = "RESERVED_21_22", start = 21, stop = 22},
+                {name = "TBI", start = 20, stop = 20},
+                {name = "RESERVED_19_19", start = 19, stop = 19},
+                {name = "PS", start = 16, stop = 18},
+                {name = "TG0", start = 14, stop = 15},
+                {name = "SH0", start = 12, stop = 13},
+                {name = "ORGN0", start = 10, stop = 11},
+                {name = "IRGN0", start = 8, stop = 9},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "T0SZ", start = 0, stop = 5},
+            }
+        },
+        AP_TEECR32_EL1 = {
+            name = "AP_TEECR32_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20200000000,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "XED", start = 0, stop = 0},
+            }
+        },
+        AP_TEEHBR32_EL1 = {
+            name = "AP_TEEHBR32_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20201000000,
+            fields = {
+                {name = "HANDLERBASE", start = 2, stop = 31},
+                {name = "RESERVED_0_1", start = 0, stop = 1},
+            }
+        },
+        AP_TPIDR_ELX = {
+            name = "AP_TPIDR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000d000200,
+            range1 = {2,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_TPIDR_EL0 = {
+            name = "AP_TPIDR_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030d000200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_TPIDR_EL1 = {
+            name = "AP_TPIDR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000d000400,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_TPIDRRO_EL0 = {
+            name = "AP_TPIDRRO_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030d000300,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_TRCACATRX = {
+            name = "AP_TRCACATR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20102000200,
+            range1 = {0,15},
+            range1_inc = 0x20000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCACVRX = {
+            name = "AP_TRCACVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20102000000,
+            range1 = {0,15},
+            range1_inc = 0x20000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCAUTHSTATUS = {
+            name = "AP_TRCAUTHSTATUS",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070e0600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCAUXCTLR = {
+            name = "AP_TRCAUXCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100060000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCBBCTLR = {
+            name = "AP_TRCBBCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000f0000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCCCTLR = {
+            name = "AP_TRCCCCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000e0000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCIDCCTLRX = {
+            name = "AP_TRCCIDCCTLR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20103000200,
+            range1 = {0,1},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCIDCVRX = {
+            name = "AP_TRCCIDCVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20103000000,
+            range1 = {0,7},
+            range1_inc = 0x20000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCIDRX = {
+            name = "AP_TRCCIDR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070c0700,
+            range1 = {0,3},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCLAIMCLR = {
+            name = "AP_TRCCLAIMCLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107090600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCLAIMSET = {
+            name = "AP_TRCCLAIMSET",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107080600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCNTCTLRX = {
+            name = "AP_TRCCNTCTLR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100040500,
+            range1 = {0,3},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCNTRLDVRX = {
+            name = "AP_TRCCNTRLDVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100000500,
+            range1 = {0,3},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCNTVRX = {
+            name = "AP_TRCCNTVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100080500,
+            range1 = {0,3},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCONFIGR = {
+            name = "AP_TRCCONFIGR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100040000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDEVAFFX = {
+            name = "AP_TRCDEVAFF#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070a0600,
+            range1 = {0,1},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDEVARCH = {
+            name = "AP_TRCDEVARCH",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070f0600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDEVID = {
+            name = "AP_TRCDEVID",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107020700,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDEVTYPE = {
+            name = "AP_TRCDEVTYPE",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107030700,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDVCMRX = {
+            name = "AP_TRCDVCMR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20102000600,
+            range1 = {0,7},
+            range1_inc = 0x40000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDVCVRX = {
+            name = "AP_TRCDVCVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20102000400,
+            range1 = {0,7},
+            range1_inc = 0x40000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCEVENTCTLXR = {
+            name = "AP_TRCEVENTCTL#R",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100080000,
+            range1 = {0,1},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCEXTINSELR = {
+            name = "AP_TRCEXTINSELR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100080400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCIDRX = {
+            name = "AP_TRCIDR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100080700,
+            range1 = {0,13},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCIMSPECX = {
+            name = "AP_TRCIMSPEC#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100000700,
+            range1 = {0,7},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCITCTRL = {
+            name = "AP_TRCITCTRL",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107000400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCLAR = {
+            name = "AP_TRCLAR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070c0600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCLSR = {
+            name = "AP_TRCLSR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070d0600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCOSLAR = {
+            name = "AP_TRCOSLAR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101000400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCOSLSR = {
+            name = "AP_TRCOSLSR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101010400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCPDCR = {
+            name = "AP_TRCPDCR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101040400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCPDSR = {
+            name = "AP_TRCPDSR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101050400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCPIDRX = {
+            name = "AP_TRCPIDR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107080700,
+            range1 = {0,7},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCPRGCTLR = {
+            name = "AP_TRCPRGCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100010000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCPROCSELR = {
+            name = "AP_TRCPROCSELR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100020000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCQCTLR = {
+            name = "AP_TRCQCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100010100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCRSCTLRX = {
+            name = "AP_TRCRSCTLR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101000000,
+            range1 = {2,31},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSEQEVRX = {
+            name = "AP_TRCSEQEVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100000400,
+            range1 = {0,2},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSEQRSTEVR = {
+            name = "AP_TRCSEQRSTEVR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100060400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSEQSTR = {
+            name = "AP_TRCSEQSTR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100070400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSSCCRX = {
+            name = "AP_TRCSSCCR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101000200,
+            range1 = {0,7},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSSCSRX = {
+            name = "AP_TRCSSCSR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101080200,
+            range1 = {0,7},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSSPCICRX = {
+            name = "AP_TRCSSPCICR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101000300,
+            range1 = {0,7},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSTALLCTLR = {
+            name = "AP_TRCSTALLCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000b0000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSTATR = {
+            name = "AP_TRCSTATR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100030000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSYNCPR = {
+            name = "AP_TRCSYNCPR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000d0000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCTRACEIDR = {
+            name = "AP_TRCTRACEIDR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100000100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCTSCTLR = {
+            name = "AP_TRCTSCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000c0000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVDARCCTLR = {
+            name = "AP_TRCVDARCCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000a0200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVDCTLR = {
+            name = "AP_TRCVDCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100080200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVDSACCTLR = {
+            name = "AP_TRCVDSACCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100090200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVICTLR = {
+            name = "AP_TRCVICTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100000200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVIIECTLR = {
+            name = "AP_TRCVIIECTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100010200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVIPCSSCTLR = {
+            name = "AP_TRCVIPCSSCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100030200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVISSCTLR = {
+            name = "AP_TRCVISSCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100020200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVMIDCCTLRX = {
+            name = "AP_TRCVMIDCCTLR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20103020200,
+            range1 = {0,1},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVMIDCVRX = {
+            name = "AP_TRCVMIDCVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20103000100,
+            range1 = {0,7},
+            range1_inc = 0x20000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TTBR0_EL1 = {
+            name = "AP_TTBR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30002000000,
+            fields = {
+                {name = "ASID", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_TTBR0_EL12 = {
+            name = "AP_TTBR0_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30502000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TTBR0_EL2 = {
+            name = "AP_TTBR0_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30402000000,
+            fields = {
+                {name = "ASID", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_TTBR0_EL3 = {
+            name = "AP_TTBR0_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30602000000,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_TTBR1_EL1 = {
+            name = "AP_TTBR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30002000100,
+            fields = {
+                {name = "ASID", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_TTBR1_EL12 = {
+            name = "AP_TTBR1_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30502000100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TTBR1_EL2 = {
+            name = "AP_TTBR1_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30402000100,
+            fields = {
+                {name = "ASID", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_VBAR_ELX = {
+            name = "AP_VBAR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000c000000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "DATA", start = 11, stop = 63},
+                {name = "RESERVED_0_10", start = 0, stop = 10},
+            }
+        },
+        AP_VBAR_EL12 = {
+            name = "AP_VBAR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3050c000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_VMPIDR_EL2 = {
+            name = "AP_VMPIDR_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30400000500,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "AFF3", start = 32, stop = 39},
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "U", start = 30, stop = 30},
+                {name = "RESERVED_25_29", start = 25, stop = 29},
+                {name = "MT", start = 24, stop = 24},
+                {name = "AFF2", start = 16, stop = 23},
+                {name = "AFF1", start = 8, stop = 15},
+                {name = "AFF0", start = 0, stop = 7},
+            }
+        },
+        AP_VPIDR_EL2 = {
+            name = "AP_VPIDR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30400000000,
+            fields = {
+                {name = "IMPLEMENTER", start = 24, stop = 31},
+                {name = "VARIANT", start = 20, stop = 23},
+                {name = "ARCHITECTURE", start = 16, stop = 19},
+                {name = "PARTNUM", start = 4, stop = 15},
+                {name = "REVISION", start = 0, stop = 3},
+            }
+        },
+        AP_VTCR_EL2 = {
+            name = "AP_VTCR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30402010200,
+            fields = {
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "RESERVED_20_30", start = 20, stop = 30},
+                {name = "VS", start = 19, stop = 19},
+                {name = "PS", start = 16, stop = 18},
+                {name = "TG0", start = 14, stop = 15},
+                {name = "SH0", start = 12, stop = 13},
+                {name = "ORGN0", start = 10, stop = 11},
+                {name = "IRGN0", start = 8, stop = 9},
+                {name = "SL0", start = 6, stop = 7},
+                {name = "T0SZ", start = 0, stop = 5},
+            }
+        },
+        AP_VTTBR_EL2 = {
+            name = "AP_VTTBR_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30402010000,
+            fields = {
+                {name = "VMID", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
         BGXX_CMRX_CONFIG = {
             name = "BGX#_CMR#_CONFIG",
             type = "RSL",
@@ -9757,6 +13906,24 @@ local csr_db = {
                 {name = "CFG_LANE_MODE_REQ_OVRRD_EN", start = 0, stop = 0},
             }
         },
+        GSERX_LANEX_PCS_MACIFC_MON_2 = {
+            name = "GSER#_LANE#_PCS_MACIFC_MON_2",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0904c0118,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "TX_COEFF_REQ", start = 15, stop = 15},
+                {name = "TX_VBOOST_EN", start = 14, stop = 14},
+                {name = "TX_SWING", start = 9, stop = 13},
+                {name = "TX_PRE", start = 5, stop = 8},
+                {name = "TX_POST", start = 0, stop = 4},
+            }
+        },
         GSERX_LANEX_PMA_LOOPBACK_CTRL = {
             name = "GSER#_LANE#_PMA_LOOPBACK_CTRL",
             type = "RSL",
@@ -14039,7 +18206,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "RESERVED_62_63", start = 62, stop = 63},
+                {name = "CMD_COUNT_EXT", start = 60, stop = 61},
                 {name = "DB_OUTPUT_IMPEDANCE", start = 57, stop = 59},
                 {name = "DB_SEL", start = 56, stop = 56},
                 {name = "TCCD_SEL", start = 55, stop = 55},
@@ -14342,7 +18510,14 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "RESERVED_21_63", start = 21, stop = 63},
+                {name = "DELAY_UNLOAD_R3", start = 20, stop = 20},
+                {name = "DELAY_UNLOAD_R2", start = 19, stop = 19},
+                {name = "DELAY_UNLOAD_R1", start = 18, stop = 18},
+                {name = "DELAY_UNLOAD_R0", start = 17, stop = 17},
+                {name = "EARLY_DQX2", start = 16, stop = 16},
+                {name = "XOR_BANK_SEL", start = 12, stop = 15},
+                {name = "RESERVED_10_11", start = 10, stop = 11},
                 {name = "ROW_COL_SWITCH", start = 9, stop = 9},
                 {name = "TRR_ON", start = 8, stop = 8},
                 {name = "MAC", start = 5, stop = 7},
@@ -14838,7 +19013,10 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "DSK_DBG_LOAD_DIS", start = 60, stop = 60},
+                {name = "DSK_DBG_OVERWRT_ENA", start = 59, stop = 59},
+                {name = "DSK_DBG_WR_MODE", start = 58, stop = 58},
                 {name = "DATA_RATE_LOOPBACK", start = 57, stop = 57},
                 {name = "DQ_SHALLOW_LOOPBACK", start = 56, stop = 56},
                 {name = "DM_DISABLE", start = 55, stop = 55},
@@ -14969,7 +19147,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "RESERVED_33_63", start = 33, stop = 63},
+                {name = "TCCD_SEL", start = 32, stop = 32},
                 {name = "PATTERN", start = 24, stop = 31},
                 {name = "RESERVED_22_23", start = 22, stop = 23},
                 {name = "DELAY_UNLOAD_3", start = 21, stop = 21},
@@ -16641,19 +20820,21 @@ local csr_db = {
         },
         MRML_INT_LOCAL_TO = {
             name = "MRML_INT_LOCAL_TO",
-            type = "RSL32B",
-            width = 4,
+            type = "RSL",
+            width = 8,
             address = 0x87e0fc000800,
             fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "TOVALUE", start = 0, stop = 31},
             }
         },
         MRML_INT_OCX_TO = {
             name = "MRML_INT_OCX_TO",
-            type = "RSL32B",
-            width = 4,
+            type = "RSL",
+            width = 8,
             address = 0x87e0fc000808,
             fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "TOVALUE", start = 0, stop = 31},
             }
         },
@@ -16764,7 +20945,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000110,
             fields = {
-                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "PKG_ID", start = 2, stop = 4},
                 {name = "PKG_DESEL_TX_CH_DIS", start = 1, stop = 1},
                 {name = "CAM_ACCEPT", start = 0, stop = 0},
             }
@@ -16784,7 +20966,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000000,
             fields = {
-                {name = "RESERVED_15_63", start = 15, stop = 63},
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "BMC2CPU", start = 15, stop = 15},
                 {name = "RX_RSP_OVERFL", start = 14, stop = 14},
                 {name = "RX_RSP_SBE", start = 13, stop = 13},
                 {name = "RX_RSP_DBE", start = 12, stop = 12},
@@ -16808,7 +20991,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000018,
             fields = {
-                {name = "RESERVED_15_63", start = 15, stop = 63},
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "BMC2CPU", start = 15, stop = 15},
                 {name = "RX_RSP_OVERFL", start = 14, stop = 14},
                 {name = "RX_RSP_SBE", start = 13, stop = 13},
                 {name = "RX_RSP_DBE", start = 12, stop = 12},
@@ -16832,7 +21016,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000010,
             fields = {
-                {name = "RESERVED_15_63", start = 15, stop = 63},
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "BMC2CPU", start = 15, stop = 15},
                 {name = "RX_RSP_OVERFL", start = 14, stop = 14},
                 {name = "RX_RSP_SBE", start = 13, stop = 13},
                 {name = "RX_RSP_DBE", start = 12, stop = 12},
@@ -16856,7 +21041,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000008,
             fields = {
-                {name = "RESERVED_15_63", start = 15, stop = 63},
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "BMC2CPU", start = 15, stop = 15},
                 {name = "RX_RSP_OVERFL", start = 14, stop = 14},
                 {name = "RX_RSP_SBE", start = 13, stop = 13},
                 {name = "RX_RSP_DBE", start = 12, stop = 12},
@@ -17018,7 +21204,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000120,
             fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "FCS_STRP", start = 4, stop = 4},
                 {name = "PRE_STRP", start = 3, stop = 3},
                 {name = "PRE_CHK_LEN", start = 0, stop = 2},
             }
@@ -50353,6 +54540,4155 @@ local csr_db = {
         },
     },
     CN88XX = {
+        AP_ACTLR_ELX = {
+            name = "AP_ACTLR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30001000100,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_AFSRX_ELX = {
+            name = "AP_AFSR#_EL#",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30005010000,
+            range1 = {0,1},
+            range1_inc = 0x100,
+            range2 = {1,3},
+            range2_inc = 0x200000000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_AFSRX_EL12 = {
+            name = "AP_AFSR#_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30505010000,
+            range1 = {0,1},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_AIDR_EL1 = {
+            name = "AP_AIDR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30100000700,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_AMAIR_ELX = {
+            name = "AP_AMAIR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a030000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_AMAIR_EL12 = {
+            name = "AP_AMAIR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3050a030000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_CCSIDR_EL1 = {
+            name = "AP_CCSIDR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30100000000,
+            fields = {
+                {name = "WT", start = 31, stop = 31},
+                {name = "WB", start = 30, stop = 30},
+                {name = "RA", start = 29, stop = 29},
+                {name = "WA", start = 28, stop = 28},
+                {name = "NUMSETS", start = 13, stop = 27},
+                {name = "ASSOCIATIVITY", start = 3, stop = 12},
+                {name = "LINESIZE", start = 0, stop = 2},
+            }
+        },
+        AP_CLIDR_EL1 = {
+            name = "AP_CLIDR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30100000100,
+            fields = {
+                {name = "RESERVED_30_31", start = 30, stop = 31},
+                {name = "LOUU", start = 27, stop = 29},
+                {name = "LOC", start = 24, stop = 26},
+                {name = "LOUIS", start = 21, stop = 23},
+                {name = "CTYPE7", start = 18, stop = 20},
+                {name = "CTYPE6", start = 15, stop = 17},
+                {name = "CTYPE5", start = 12, stop = 14},
+                {name = "CTYPE4", start = 9, stop = 11},
+                {name = "CTYPE3", start = 6, stop = 8},
+                {name = "CTYPE2", start = 3, stop = 5},
+                {name = "CTYPE1", start = 0, stop = 2},
+            }
+        },
+        AP_CNTFRQ_EL0 = {
+            name = "AP_CNTFRQ_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e000000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTHCTL_EL2 = {
+            name = "AP_CNTHCTL_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e010000,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "EVNTI", start = 4, stop = 7},
+                {name = "EVNTDIR", start = 3, stop = 3},
+                {name = "EVNTEN", start = 2, stop = 2},
+                {name = "EL1PCEN", start = 1, stop = 1},
+                {name = "EL1PCTEN", start = 0, stop = 0},
+            }
+        },
+        AP_CNTHCTL_EL2_E2H = {
+            name = "AP_CNTHCTL_EL2_E2H",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e010010,
+            fields = {
+                {name = "RESERVED_12_31", start = 12, stop = 31},
+                {name = "EL1PCEN", start = 11, stop = 11},
+                {name = "EL1PTEN", start = 10, stop = 10},
+                {name = "EL0PTEN", start = 9, stop = 9},
+                {name = "EL0VTEN", start = 8, stop = 8},
+                {name = "EVNTI", start = 4, stop = 7},
+                {name = "EVNTDIR", start = 3, stop = 3},
+                {name = "EVNTEN", start = 2, stop = 2},
+                {name = "EL0VCTEN", start = 1, stop = 1},
+                {name = "EL0PCTEN", start = 0, stop = 0},
+            }
+        },
+        AP_CNTHP_CTL_EL2 = {
+            name = "AP_CNTHP_CTL_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e020100,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "ISTATUS", start = 2, stop = 2},
+                {name = "IMASK", start = 1, stop = 1},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_CNTHP_CVAL_EL2 = {
+            name = "AP_CNTHP_CVAL_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3040e020200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTHP_TVAL_EL2 = {
+            name = "AP_CNTHP_TVAL_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e020000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTHV_CTL_EL2 = {
+            name = "AP_CNTHV_CTL_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e030100,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "ISTATUS", start = 2, stop = 2},
+                {name = "IMASK", start = 1, stop = 1},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_CNTHV_CVAL_EL2 = {
+            name = "AP_CNTHV_CVAL_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3040e030200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTHV_TVAL_EL2 = {
+            name = "AP_CNTHV_TVAL_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040e030000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTKCTL_EL1 = {
+            name = "AP_CNTKCTL_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000e010000,
+            fields = {
+                {name = "RESERVED_10_31", start = 10, stop = 31},
+                {name = "EL0PTEN", start = 9, stop = 9},
+                {name = "EL0VTEN", start = 8, stop = 8},
+                {name = "EVNTI", start = 4, stop = 7},
+                {name = "EVNTDIR", start = 3, stop = 3},
+                {name = "EVNTEN", start = 2, stop = 2},
+                {name = "EL0VCTEN", start = 1, stop = 1},
+                {name = "EL0PCTEN", start = 0, stop = 0},
+            }
+        },
+        AP_CNTKCTL_EL12 = {
+            name = "AP_CNTKCTL_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050e010000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CNTP_CTL_EL0 = {
+            name = "AP_CNTP_CTL_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e020100,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "ISTATUS", start = 2, stop = 2},
+                {name = "IMASK", start = 1, stop = 1},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_CNTP_CTL_EL02 = {
+            name = "AP_CNTP_CTL_EL02",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050e020100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CNTP_CVAL_EL0 = {
+            name = "AP_CNTP_CVAL_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030e020200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTP_CVAL_EL02 = {
+            name = "AP_CNTP_CVAL_EL02",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3050e020200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_CNTP_TVAL_EL0 = {
+            name = "AP_CNTP_TVAL_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e020000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTP_TVAL_EL02 = {
+            name = "AP_CNTP_TVAL_EL02",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050e020000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CNTPCT_EL0 = {
+            name = "AP_CNTPCT_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030e000100,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTPS_CTL_EL1 = {
+            name = "AP_CNTPS_CTL_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3070e020100,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "ISTATUS", start = 2, stop = 2},
+                {name = "IMASK", start = 1, stop = 1},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_CNTPS_CVAL_EL1 = {
+            name = "AP_CNTPS_CVAL_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3070e020200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTPS_TVAL_EL1 = {
+            name = "AP_CNTPS_TVAL_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3070e020000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTV_CTL_EL0 = {
+            name = "AP_CNTV_CTL_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e030100,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "ISTATUS", start = 2, stop = 2},
+                {name = "IMASK", start = 1, stop = 1},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_CNTV_CTL_EL02 = {
+            name = "AP_CNTV_CTL_EL02",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050e030100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CNTV_CVAL_EL0 = {
+            name = "AP_CNTV_CVAL_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030e030200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTV_CVAL_EL02 = {
+            name = "AP_CNTV_CVAL_EL02",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3050e030200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_CNTV_TVAL_EL0 = {
+            name = "AP_CNTV_TVAL_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e030000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_CNTV_TVAL_EL02 = {
+            name = "AP_CNTV_TVAL_EL02",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050e030000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CNTVCT_EL0 = {
+            name = "AP_CNTVCT_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030e000200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CNTVOFF_EL2 = {
+            name = "AP_CNTVOFF_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3040e000300,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CONTEXTIDR_EL1 = {
+            name = "AP_CONTEXTIDR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000d000100,
+            fields = {
+                {name = "PROCID", start = 0, stop = 31},
+            }
+        },
+        AP_CONTEXTIDR_EL12 = {
+            name = "AP_CONTEXTIDR_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3050d000100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CONTEXTIDR_EL2 = {
+            name = "AP_CONTEXTIDR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040d000100,
+            fields = {
+                {name = "PROCID", start = 0, stop = 31},
+            }
+        },
+        AP_CPACR_EL1 = {
+            name = "AP_CPACR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30001000200,
+            fields = {
+                {name = "RESERVED_22_31", start = 22, stop = 31},
+                {name = "FPEN", start = 20, stop = 21},
+                {name = "RESERVED_0_19", start = 0, stop = 19},
+            }
+        },
+        AP_CPACR_EL12 = {
+            name = "AP_CPACR_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30501000200,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_CPTR_EL2 = {
+            name = "AP_CPTR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401010200,
+            fields = {
+                {name = "TCPAC", start = 31, stop = 31},
+                {name = "RESERVED_14_30", start = 14, stop = 30},
+                {name = "RSVD_12_13", start = 12, stop = 13},
+                {name = "RESERVED_11_11", start = 11, stop = 11},
+                {name = "TFP", start = 10, stop = 10},
+                {name = "RSVD_0_9", start = 0, stop = 9},
+            }
+        },
+        AP_CPTR_EL2_E2H = {
+            name = "AP_CPTR_EL2_E2H",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401010210,
+            fields = {
+                {name = "TCPAC", start = 31, stop = 31},
+                {name = "RESERVED_22_30", start = 22, stop = 30},
+                {name = "FPEN", start = 20, stop = 21},
+                {name = "RESERVED_0_19", start = 0, stop = 19},
+            }
+        },
+        AP_CPTR_EL3 = {
+            name = "AP_CPTR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30601010200,
+            fields = {
+                {name = "TCPAC", start = 31, stop = 31},
+                {name = "RESERVED_11_30", start = 11, stop = 30},
+                {name = "TFP", start = 10, stop = 10},
+                {name = "RESERVED_0_9", start = 0, stop = 9},
+            }
+        },
+        AP_CSSELR_EL1 = {
+            name = "AP_CSSELR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30200000000,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "LEVEL", start = 1, stop = 3},
+                {name = "IND", start = 0, stop = 0},
+            }
+        },
+        AP_CTR_EL0 = {
+            name = "AP_CTR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30300000100,
+            fields = {
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "RESERVED_28_30", start = 28, stop = 30},
+                {name = "CWG", start = 24, stop = 27},
+                {name = "ERG", start = 20, stop = 23},
+                {name = "DMINLINE", start = 16, stop = 19},
+                {name = "L1IP", start = 14, stop = 15},
+                {name = "RESERVED_4_13", start = 4, stop = 13},
+                {name = "IMINLINE", start = 0, stop = 3},
+            }
+        },
+        AP_CURRENTEL = {
+            name = "AP_CURRENTEL",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30004020200,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "EL", start = 2, stop = 3},
+                {name = "RESERVED_0_1", start = 0, stop = 1},
+            }
+        },
+        AP_CVM_ACCESS_EL1 = {
+            name = "AP_CVM_ACCESS_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b000300,
+            fields = {
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "CVM_CACHE", start = 8, stop = 8},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "CVM_EVATTID", start = 5, stop = 5},
+                {name = "CVM_I_D_CACHE", start = 4, stop = 4},
+                {name = "CVM_ERR", start = 3, stop = 3},
+                {name = "CVM_BIST", start = 2, stop = 2},
+                {name = "POWTHROTTLE", start = 1, stop = 1},
+                {name = "CVM_CTL", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_ACCESS_EL2 = {
+            name = "AP_CVM_ACCESS_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3040b000300,
+            fields = {
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "CVM_CACHE", start = 8, stop = 8},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "CVM_EVATTID", start = 5, stop = 5},
+                {name = "CVM_I_D_CACHE", start = 4, stop = 4},
+                {name = "CVM_ERR", start = 3, stop = 3},
+                {name = "CVM_BIST", start = 2, stop = 2},
+                {name = "POWTHROTTLE", start = 1, stop = 1},
+                {name = "CVM_CTL", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_ACCESS_EL3 = {
+            name = "AP_CVM_ACCESS_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b000300,
+            fields = {
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "CVM_CACHE", start = 8, stop = 8},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "CVM_EVATTID", start = 5, stop = 5},
+                {name = "CVM_I_D_CACHE", start = 4, stop = 4},
+                {name = "CVM_ERR", start = 3, stop = 3},
+                {name = "CVM_BIST", start = 2, stop = 2},
+                {name = "POWTHROTTLE", start = 1, stop = 1},
+                {name = "CVM_CTL", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_BIST0_EL1 = {
+            name = "AP_CVM_BIST0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b010000,
+            fields = {
+                {name = "RESERVED_35_63", start = 35, stop = 63},
+                {name = "FUSE_CONTROLLER_REPORTS_HARD_REPAIR", start = 34, stop = 34},
+                {name = "CLEAR_BIST_WAS_RUN", start = 33, stop = 33},
+                {name = "MANUFACTURING_MODE", start = 32, stop = 32},
+                {name = "ICACHE_DATA_BANKS_WITH_UNREPAIRABLE_DEFECTS", start = 24, stop = 31},
+                {name = "ICACHE_DATA_BANKS_WITH_DEFECTS", start = 16, stop = 23},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "AES_ROMS_DEFECTIVE", start = 7, stop = 7},
+                {name = "FPU_ROMS_DEFECTIVE", start = 6, stop = 6},
+                {name = "FPU_RF_DEFECTIVE", start = 5, stop = 5},
+                {name = "INTEGER_RF_DEFECTIVE", start = 4, stop = 4},
+                {name = "JRT_DEFECTIVE", start = 3, stop = 3},
+                {name = "BHT_DEFECTIVE", start = 2, stop = 2},
+                {name = "ICACHE_TAG_DEFECTIVE", start = 1, stop = 1},
+                {name = "ICACHE_DATA_DEFECTIVE", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_BIST1_EL1 = {
+            name = "AP_CVM_BIST1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b010100,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "ICACHE_BANK7", start = 42, stop = 47},
+                {name = "ICACHE_BANK6", start = 36, stop = 41},
+                {name = "ICACHE_BANK5", start = 30, stop = 35},
+                {name = "ICACHE_BANK4", start = 24, stop = 29},
+                {name = "ICACHE_BANK3", start = 18, stop = 23},
+                {name = "ICACHE_BANK2", start = 12, stop = 17},
+                {name = "ICACHE_BANK1", start = 6, stop = 11},
+                {name = "ICACHE_BANK0", start = 0, stop = 5},
+            }
+        },
+        AP_CVM_BIST2_EL1 = {
+            name = "AP_CVM_BIST2_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b010400,
+            fields = {
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "WCU", start = 8, stop = 8},
+                {name = "DUT", start = 7, stop = 7},
+                {name = "WBF", start = 6, stop = 6},
+                {name = "MAF", start = 5, stop = 5},
+                {name = "UTLB", start = 4, stop = 4},
+                {name = "MTLB", start = 3, stop = 3},
+                {name = "L1DP", start = 2, stop = 2},
+                {name = "L1DV", start = 1, stop = 1},
+                {name = "L1DD", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_BIST3_EL1 = {
+            name = "AP_CVM_BIST3_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b010500,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "SET7", start = 42, stop = 47},
+                {name = "SET6", start = 36, stop = 41},
+                {name = "SET5", start = 30, stop = 35},
+                {name = "SET4", start = 24, stop = 29},
+                {name = "SET3", start = 18, stop = 23},
+                {name = "SET2", start = 12, stop = 17},
+                {name = "SET1", start = 6, stop = 11},
+                {name = "SET0", start = 0, stop = 5},
+            }
+        },
+        AP_CVM_DCACHEDATA0_EL1 = {
+            name = "AP_CVM_DCACHEDATA0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030400,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DCACHEDATA1_EL1 = {
+            name = "AP_CVM_DCACHEDATA1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030500,
+            fields = {
+                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "PARITY", start = 0, stop = 7},
+            }
+        },
+        AP_CVM_DCACHEPTAG0_EL1 = {
+            name = "AP_CVM_DCACHEPTAG0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b040400,
+            fields = {
+                {name = "RESERVED_44_63", start = 44, stop = 63},
+                {name = "NSEC", start = 43, stop = 43},
+                {name = "PTAG", start = 10, stop = 42},
+                {name = "RESERVED_1_9", start = 1, stop = 9},
+                {name = "VALID", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_DCACHEVTAG0_EL1 = {
+            name = "AP_CVM_DCACHEVTAG0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030600,
+            fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "EVA_VMID", start = 56, stop = 59},
+                {name = "RESERVED_49_55", start = 49, stop = 55},
+                {name = "R", start = 48, stop = 48},
+                {name = "VTAG", start = 10, stop = 47},
+                {name = "EVA_ASID", start = 4, stop = 9},
+                {name = "NG", start = 3, stop = 3},
+                {name = "EL_1OR0", start = 2, stop = 2},
+                {name = "NSEC", start = 1, stop = 1},
+                {name = "VALID", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_DCACHEVTAG1_EL1 = {
+            name = "AP_CVM_DCACHEVTAG1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030700,
+            fields = {
+                {name = "RESERVED_25_63", start = 25, stop = 63},
+                {name = "ENT1", start = 16, stop = 24},
+                {name = "RESERVED_9_15", start = 9, stop = 15},
+                {name = "ENT2", start = 0, stop = 8},
+            }
+        },
+        AP_CVM_DEBUG0_EL3 = {
+            name = "AP_CVM_DEBUG0_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040000,
+            fields = {
+                {name = "CURRENT_PC", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DEBUG1_EL3 = {
+            name = "AP_CVM_DEBUG1_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040100,
+            fields = {
+                {name = "CURRENT_FETCH", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DEBUG2_EL3 = {
+            name = "AP_CVM_DEBUG2_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040200,
+            fields = {
+                {name = "LAST_IFILL", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DEBUG3_EL3 = {
+            name = "AP_CVM_DEBUG3_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040300,
+            fields = {
+                {name = "LAST_COMMITTED", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DEBUG4_EL3 = {
+            name = "AP_CVM_DEBUG4_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050000,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "DUAL_ISSUE_REASON", start = 16, stop = 23},
+                {name = "ISSUE_REASON", start = 8, stop = 15},
+                {name = "RESERVED_5_7", start = 5, stop = 7},
+                {name = "MEM_STALL_4A", start = 4, stop = 4},
+                {name = "WAITING_FOR_PFILL_4A", start = 3, stop = 3},
+                {name = "WAITING_FOR_IFILL_4A", start = 2, stop = 2},
+                {name = "EXCEPTION_LEVEL", start = 0, stop = 1},
+            }
+        },
+        AP_CVM_DEBUG6_EL3 = {
+            name = "AP_CVM_DEBUG6_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050200,
+            fields = {
+                {name = "RESERVED_41_63", start = 41, stop = 63},
+                {name = "POWER_OFF", start = 40, stop = 40},
+                {name = "POWER_LONGTERM", start = 32, stop = 39},
+                {name = "POWER_SETTING", start = 24, stop = 31},
+                {name = "RESERVED_22_23", start = 22, stop = 23},
+                {name = "INTERVAL_POWER", start = 0, stop = 21},
+            }
+        },
+        AP_CVM_DEBUG7_EL3 = {
+            name = "AP_CVM_DEBUG7_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050300,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_DEBUG8_EL3 = {
+            name = "AP_CVM_DEBUG8_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b070000,
+            fields = {
+                {name = "RDB_DSC_SET_ARRY_1", start = 46, stop = 63},
+                {name = "RDB_DSC_SET_ARRY_0", start = 10, stop = 45},
+                {name = "UWR_ACK_DEF_CNT", start = 8, stop = 9},
+                {name = "SGI_ACK_DEF_CNT", start = 6, stop = 7},
+                {name = "DCT_ACK_DEF_CNT", start = 4, stop = 5},
+                {name = "ACT_ACK_DEF_CNT", start = 2, stop = 3},
+                {name = "CLR_ACK_DEF_CNT", start = 0, stop = 1},
+            }
+        },
+        AP_CVM_DEBUG9_EL3 = {
+            name = "AP_CVM_DEBUG9_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b070100,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "DSC_FSM_ENC_STATE_1", start = 44, stop = 47},
+                {name = "DSC_FSM_ENC_STATE_0", start = 40, stop = 43},
+                {name = "CLR_FSM_ENC_STATE", start = 37, stop = 39},
+                {name = "QSC_FSM_ENC_STATE", start = 34, stop = 36},
+                {name = "DSC_FIFO", start = 30, stop = 33},
+                {name = "PPI_FIFO", start = 26, stop = 29},
+                {name = "CDC_FIFO", start = 22, stop = 25},
+                {name = "EAC_FIFO", start = 18, stop = 21},
+                {name = "RDB_DSC_SET_ARRY_1", start = 0, stop = 17},
+            }
+        },
+        AP_CVM_DLL_OBSERVABILTY_EL3 = {
+            name = "AP_CVM_DLL_OBSERVABILTY_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050100,
+            fields = {
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "MAX_SEEN", start = 48, stop = 59},
+                {name = "MIN_SEEN", start = 36, stop = 47},
+                {name = "RCLK_DLL_LOCK", start = 35, stop = 35},
+                {name = "DLL_STATE", start = 32, stop = 34},
+                {name = "DLL_SETTING", start = 20, stop = 31},
+                {name = "RAW_DLY_ELEM_ENABLE", start = 4, stop = 19},
+                {name = "CLK_INVERT", start = 3, stop = 3},
+                {name = "PD_POS_RCLK_REFCLK", start = 2, stop = 2},
+                {name = "PDL_RCLK_REFCLK", start = 1, stop = 1},
+                {name = "PDR_RCLK_REFCLK", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_ERRICACHE_EL1 = {
+            name = "AP_CVM_ERRICACHE_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b020000,
+            fields = {
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "SET", start = 11, stop = 16},
+                {name = "VA", start = 3, stop = 10},
+                {name = "RESERVED_1_2", start = 1, stop = 2},
+                {name = "ICACHE_DATA_ERROR", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_ERRMEM_EL1 = {
+            name = "AP_CVM_ERRMEM_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b020400,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "GSYNCTONOSW", start = 47, stop = 47},
+                {name = "GSYNCTODIS", start = 46, stop = 46},
+                {name = "GSYNCTO", start = 45, stop = 45},
+                {name = "WCUMULTDIS", start = 44, stop = 44},
+                {name = "WCUMULT", start = 43, stop = 43},
+                {name = "MTLBMULTDIS", start = 42, stop = 42},
+                {name = "MTLBMULT", start = 41, stop = 41},
+                {name = "BARRIERTOFORCE", start = 40, stop = 40},
+                {name = "BARRIERTONOSW", start = 39, stop = 39},
+                {name = "BARRIERTODIS", start = 38, stop = 38},
+                {name = "BARRIERTO", start = 37, stop = 37},
+                {name = "RBFTOFORCE", start = 36, stop = 36},
+                {name = "RBFTONOSW", start = 35, stop = 35},
+                {name = "RBFTODIS", start = 34, stop = 34},
+                {name = "RBFTO", start = 33, stop = 33},
+                {name = "WCUPERRFORCE", start = 32, stop = 32},
+                {name = "WCUPERRNOSW", start = 31, stop = 31},
+                {name = "WCUPERRDIS", start = 30, stop = 30},
+                {name = "WCUPERR", start = 29, stop = 29},
+                {name = "WBFDBEFORCE", start = 28, stop = 28},
+                {name = "WBFSBEFORCE", start = 27, stop = 27},
+                {name = "WBFPERRNOSW", start = 26, stop = 26},
+                {name = "WBFPERRDIS", start = 25, stop = 25},
+                {name = "WBFPERR", start = 24, stop = 24},
+                {name = "MAFPERRFORCE", start = 23, stop = 23},
+                {name = "MAFPERRNOSW", start = 22, stop = 22},
+                {name = "MAFPERRDIS", start = 21, stop = 21},
+                {name = "MAFPERR", start = 20, stop = 20},
+                {name = "UTLBPERRFORCE", start = 19, stop = 19},
+                {name = "UTLBPERRNOSW", start = 18, stop = 18},
+                {name = "UTLBPERRDIS", start = 17, stop = 17},
+                {name = "UTLBPERR", start = 16, stop = 16},
+                {name = "MTLBPERRFORCE", start = 15, stop = 15},
+                {name = "MTLBPERRNOSW", start = 14, stop = 14},
+                {name = "MTLBPERRDIS", start = 13, stop = 13},
+                {name = "MTLBPERR", start = 12, stop = 12},
+                {name = "L1DPERRFORCE", start = 11, stop = 11},
+                {name = "L1DPERRNOSW", start = 10, stop = 10},
+                {name = "L1DPERRDIS", start = 9, stop = 9},
+                {name = "L1DPERR", start = 8, stop = 8},
+                {name = "L1DWAY", start = 3, stop = 7},
+                {name = "L1DSET", start = 0, stop = 2},
+            }
+        },
+        AP_CVM_EVATTID_EL1 = {
+            name = "AP_CVM_EVATTID_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b020500,
+            fields = {
+                {name = "RESERVED_38_63", start = 38, stop = 63},
+                {name = "EL2_ASID", start = 32, stop = 37},
+                {name = "RESERVED_20_31", start = 20, stop = 31},
+                {name = "EL1_VMID", start = 16, stop = 19},
+                {name = "RESERVED_6_15", start = 6, stop = 15},
+                {name = "EL1_ASID", start = 0, stop = 5},
+            }
+        },
+        AP_CVM_ICACHEDATA0_EL1 = {
+            name = "AP_CVM_ICACHEDATA0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_ICACHEDATA1_EL1 = {
+            name = "AP_CVM_ICACHEDATA1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030100,
+            fields = {
+                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "DATA", start = 0, stop = 1},
+            }
+        },
+        AP_CVM_ICACHETAG0_EL1 = {
+            name = "AP_CVM_ICACHETAG0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b030200,
+            fields = {
+                {name = "RESERVED_52_63", start = 52, stop = 63},
+                {name = "VALID", start = 51, stop = 51},
+                {name = "VA", start = 11, stop = 50},
+                {name = "ASID_VALID_IGNORED", start = 10, stop = 10},
+                {name = "ASID_INDEX", start = 4, stop = 9},
+                {name = "VMID_INDEX", start = 0, stop = 3},
+            }
+        },
+        AP_CVM_MEMDEBUG0_EL3 = {
+            name = "AP_CVM_MEMDEBUG0_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040400,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG1_EL3 = {
+            name = "AP_CVM_MEMDEBUG1_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040500,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG2_EL3 = {
+            name = "AP_CVM_MEMDEBUG2_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040600,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG3_EL3 = {
+            name = "AP_CVM_MEMDEBUG3_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b040700,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG4_EL3 = {
+            name = "AP_CVM_MEMDEBUG4_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050400,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG5_EL3 = {
+            name = "AP_CVM_MEMDEBUG5_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050500,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG6_EL3 = {
+            name = "AP_CVM_MEMDEBUG6_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050600,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_MEMDEBUG7_EL3 = {
+            name = "AP_CVM_MEMDEBUG7_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b050700,
+            fields = {
+                {name = "DEBUG", start = 0, stop = 63},
+            }
+        },
+        AP_CVM_NVBAR_EL3 = {
+            name = "AP_CVM_NVBAR_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060b060000,
+            fields = {
+                {name = "VECTOR_ADDRESS", start = 11, stop = 63},
+                {name = "RESERVED_0_10", start = 0, stop = 10},
+            }
+        },
+        AP_CVM_POWER_EL1 = {
+            name = "AP_CVM_POWER_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b000200,
+            fields = {
+                {name = "MAXPOW", start = 56, stop = 63},
+                {name = "AVERAGE_POWER", start = 48, stop = 55},
+                {name = "CURRENT_SETTING", start = 40, stop = 47},
+                {name = "HRM_ADJUSTMENT", start = 32, stop = 39},
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "SECRET_OVERRIDE", start = 28, stop = 28},
+                {name = "DISABLE_STAGGER", start = 27, stop = 27},
+                {name = "PERIOD", start = 24, stop = 26},
+                {name = "POWLIM", start = 16, stop = 23},
+                {name = "MAX_SETTING", start = 8, stop = 15},
+                {name = "MIN_SETTING", start = 0, stop = 7},
+            }
+        },
+        AP_CVM_XLATDATA0_EL1 = {
+            name = "AP_CVM_XLATDATA0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b050400,
+            fields = {
+                {name = "PAR", start = 62, stop = 63},
+                {name = "RESERVED_54_61", start = 54, stop = 61},
+                {name = "WALK", start = 52, stop = 53},
+                {name = "NG", start = 51, stop = 51},
+                {name = "RESERVED_50_50", start = 50, stop = 50},
+                {name = "NSEC", start = 49, stop = 49},
+                {name = "RESERVED_48_48", start = 48, stop = 48},
+                {name = "PPN", start = 12, stop = 47},
+                {name = "RESERVED_10_11", start = 10, stop = 11},
+                {name = "SH1", start = 8, stop = 9},
+                {name = "AP1", start = 6, stop = 7},
+                {name = "XN1", start = 5, stop = 5},
+                {name = "PXN1", start = 4, stop = 4},
+                {name = "ATTR1", start = 0, stop = 3},
+            }
+        },
+        AP_CVM_XLATDATA1_EL1 = {
+            name = "AP_CVM_XLATDATA1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b050500,
+            fields = {
+                {name = "RESERVED_63_63", start = 63, stop = 63},
+                {name = "ENT2", start = 54, stop = 62},
+                {name = "RESERVED_45_53", start = 45, stop = 53},
+                {name = "ENT1", start = 36, stop = 44},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "MASK", start = 12, stop = 33},
+                {name = "RESERVED_10_11", start = 10, stop = 11},
+                {name = "SH2", start = 8, stop = 9},
+                {name = "AP2", start = 6, stop = 7},
+                {name = "XN2", start = 5, stop = 5},
+                {name = "PXN2", start = 4, stop = 4},
+                {name = "ATTR2", start = 0, stop = 3},
+            }
+        },
+        AP_CVM_XLATVTAG0_EL1 = {
+            name = "AP_CVM_XLATVTAG0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b050600,
+            fields = {
+                {name = "LEVEL", start = 62, stop = 63},
+                {name = "EVA_ASID", start = 56, stop = 61},
+                {name = "EVA_VMID", start = 52, stop = 55},
+                {name = "NG", start = 51, stop = 51},
+                {name = "EL_1OR0", start = 50, stop = 50},
+                {name = "NSEC", start = 49, stop = 49},
+                {name = "R", start = 48, stop = 48},
+                {name = "VPN", start = 12, stop = 47},
+                {name = "RESERVED_1_11", start = 1, stop = 11},
+                {name = "VAL", start = 0, stop = 0},
+            }
+        },
+        AP_CVM_XLATVTAG1_EL1 = {
+            name = "AP_CVM_XLATVTAG1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b050700,
+            fields = {
+                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "ENT2", start = 48, stop = 56},
+                {name = "RESERVED_45_47", start = 45, stop = 47},
+                {name = "ENT1", start = 36, stop = 44},
+                {name = "RESERVED_34_35", start = 34, stop = 35},
+                {name = "MASK", start = 12, stop = 33},
+                {name = "RESERVED_2_11", start = 2, stop = 11},
+                {name = "STAGE2", start = 1, stop = 1},
+                {name = "STAGE1", start = 0, stop = 0},
+            }
+        },
+        AP_CVMCTL_EL1 = {
+            name = "AP_CVMCTL_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b000000,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "MRS_MSR_HAZARD", start = 39, stop = 39},
+                {name = "DISABLE_ERET_PRED", start = 38, stop = 38},
+                {name = "DISABLE_CASP", start = 37, stop = 37},
+                {name = "DISABLE_CAS", start = 36, stop = 36},
+                {name = "FORCE_CIM_ICH_VTR_TO1", start = 35, stop = 35},
+                {name = "DISABLE_WFE", start = 34, stop = 34},
+                {name = "ENABLE_V81", start = 33, stop = 33},
+                {name = "MAKE_ISB_UNNECESSARILY_SLOW", start = 32, stop = 32},
+                {name = "WFE_DEFER", start = 24, stop = 31},
+                {name = "DISABLE_ICACHE_PROBES", start = 23, stop = 23},
+                {name = "FORCE_ICACHE_PARITY", start = 22, stop = 22},
+                {name = "SUPPRESS_PARITY_CHECKING", start = 21, stop = 21},
+                {name = "NO_EXC_ICACHE_PARITY", start = 20, stop = 20},
+                {name = "STEP_RATE", start = 16, stop = 19},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "DISABLE_FLEX_EXECUTION", start = 9, stop = 9},
+                {name = "DISABLE_BRANCH_FOLDING", start = 8, stop = 8},
+                {name = "DISABLE_WFI", start = 7, stop = 7},
+                {name = "DISABLE_FETCH_UNDER_FILL", start = 6, stop = 6},
+                {name = "FORCE_ISSUE_CLOCK", start = 5, stop = 5},
+                {name = "FORCE_EXE_CLOCK", start = 4, stop = 4},
+                {name = "FORCE_CSR_CLOCK", start = 3, stop = 3},
+                {name = "DISABLE_ICACHE_PREFETCHING", start = 2, stop = 2},
+                {name = "RANDOM_ICACHE", start = 1, stop = 1},
+                {name = "DISABLE_ICACHE", start = 0, stop = 0},
+            }
+        },
+        AP_CVMMEMCTL0_EL1 = {
+            name = "AP_CVMMEMCTL0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b000400,
+            fields = {
+                {name = "RESERVED_63_63", start = 63, stop = 63},
+                {name = "NODE", start = 61, stop = 62},
+                {name = "STEXFAILCNT", start = 58, stop = 60},
+                {name = "RESERVED_57_57", start = 57, stop = 57},
+                {name = "STLSTALLFORCE", start = 56, stop = 56},
+                {name = "DMBSTALLFORCE", start = 55, stop = 55},
+                {name = "TLBINOPDIS", start = 54, stop = 54},
+                {name = "TLBIICFLUSH", start = 53, stop = 53},
+                {name = "GSYNCTO", start = 48, stop = 52},
+                {name = "UTLBFILLBYPDIS", start = 47, stop = 47},
+                {name = "TLBIALL", start = 46, stop = 46},
+                {name = "WBFDSBFLUSHALL", start = 45, stop = 45},
+                {name = "WBFDMBFLUSHNEXT", start = 44, stop = 44},
+                {name = "STEXL2CFORCE", start = 43, stop = 43},
+                {name = "IOGLOBALFORCE", start = 42, stop = 42},
+                {name = "WCUMISSFORCE", start = 41, stop = 41},
+                {name = "REPLAYPREFDIS", start = 40, stop = 40},
+                {name = "ZVAL2CDIS", start = 39, stop = 39},
+                {name = "LDIL2CDIS", start = 38, stop = 38},
+                {name = "DCVA47", start = 37, stop = 37},
+                {name = "STPREFDIS", start = 36, stop = 36},
+                {name = "LDPREFDIS", start = 35, stop = 35},
+                {name = "WFILDEXDIS", start = 34, stop = 34},
+                {name = "WFITO", start = 31, stop = 33},
+                {name = "RBFSHORTTO", start = 26, stop = 30},
+                {name = "RBFTO", start = 21, stop = 25},
+                {name = "WBFALLBARRIER", start = 20, stop = 20},
+                {name = "WBFNOMERGE", start = 19, stop = 19},
+                {name = "WBFTONSHENA", start = 18, stop = 18},
+                {name = "WBFTOMRGCLRENA", start = 17, stop = 17},
+                {name = "WBFTO", start = 12, stop = 16},
+                {name = "WBFTHRESH", start = 7, stop = 11},
+                {name = "UTLBENTRIESM1", start = 2, stop = 6},
+                {name = "CCLKFORCE", start = 1, stop = 1},
+                {name = "MCLKFORCE", start = 0, stop = 0},
+            }
+        },
+        AP_CVMMEMCTL1_EL1 = {
+            name = "AP_CVMMEMCTL1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000b000500,
+            fields = {
+                {name = "RESERVED_7_63", start = 7, stop = 63},
+                {name = "SWITCHTAGENA", start = 6, stop = 6},
+                {name = "NODE1TRAPENA", start = 5, stop = 5},
+                {name = "IOATOMICENA", start = 4, stop = 4},
+                {name = "LMTSTENA", start = 3, stop = 3},
+                {name = "LODIGNORESH", start = 2, stop = 2},
+                {name = "LODISHENA", start = 1, stop = 1},
+                {name = "LODNSHENA", start = 0, stop = 0},
+            }
+        },
+        AP_DACR32_EL2 = {
+            name = "AP_DACR32_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30403000000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_DAIF = {
+            name = "AP_DAIF",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30304020100,
+            fields = {
+                {name = "RESERVED_10_31", start = 10, stop = 31},
+                {name = "DD", start = 9, stop = 9},
+                {name = "AA", start = 8, stop = 8},
+                {name = "I", start = 7, stop = 7},
+                {name = "F", start = 6, stop = 6},
+                {name = "RESERVED_0_5", start = 0, stop = 5},
+            }
+        },
+        AP_DBGAUTHSTATUS_EL1 = {
+            name = "AP_DBGAUTHSTATUS_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x200070e0600,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "SNID", start = 6, stop = 7},
+                {name = "SID", start = 4, stop = 5},
+                {name = "NSNID", start = 2, stop = 3},
+                {name = "NSID", start = 0, stop = 1},
+            }
+        },
+        AP_DBGBCRX_EL1 = {
+            name = "AP_DBGBCR#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000000500,
+            range1 = {0,15},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "BT", start = 20, stop = 23},
+                {name = "LBN", start = 16, stop = 19},
+                {name = "SSC", start = 14, stop = 15},
+                {name = "HMC", start = 13, stop = 13},
+                {name = "RESERVED_9_12", start = 9, stop = 12},
+                {name = "RSVD_5_8", start = 5, stop = 8},
+                {name = "RESERVED_3_4", start = 3, stop = 4},
+                {name = "PMC", start = 1, stop = 2},
+                {name = "EE", start = 0, stop = 0},
+            }
+        },
+        AP_DBGBVRX_EL1 = {
+            name = "AP_DBGBVR#_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20000000400,
+            range1 = {0,15},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_DBGCLAIMCLR_EL1 = {
+            name = "AP_DBGCLAIMCLR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20007090600,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "CLAIM", start = 0, stop = 7},
+            }
+        },
+        AP_DBGCLAIMSET_EL1 = {
+            name = "AP_DBGCLAIMSET_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20007080600,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "CLAIM", start = 0, stop = 7},
+            }
+        },
+        AP_DBGDTR_EL0 = {
+            name = "AP_DBGDTR_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20300040000,
+            fields = {
+                {name = "HIGHWORD", start = 32, stop = 63},
+                {name = "LOWWORD", start = 0, stop = 31},
+            }
+        },
+        AP_DBGDTRRX_EL0 = {
+            name = "AP_DBGDTRRX_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20300050000,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_DBGDTRTX_EL0 = {
+            name = "AP_DBGDTRTX_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20300050010,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_DBGPRCR_EL1 = {
+            name = "AP_DBGPRCR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20001040400,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "CORENPDRQ", start = 0, stop = 0},
+            }
+        },
+        AP_DBGVCR32_EL2 = {
+            name = "AP_DBGVCR32_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20400070000,
+            fields = {
+                {name = "NSF", start = 31, stop = 31},
+                {name = "NSI", start = 30, stop = 30},
+                {name = "RESERVED_29_29", start = 29, stop = 29},
+                {name = "NSD", start = 28, stop = 28},
+                {name = "NSP", start = 27, stop = 27},
+                {name = "NSS", start = 26, stop = 26},
+                {name = "NSU", start = 25, stop = 25},
+                {name = "RESERVED_8_24", start = 8, stop = 24},
+                {name = "SF", start = 7, stop = 7},
+                {name = "SI", start = 6, stop = 6},
+                {name = "RESERVED_5_5", start = 5, stop = 5},
+                {name = "SD", start = 4, stop = 4},
+                {name = "SP", start = 3, stop = 3},
+                {name = "SS", start = 2, stop = 2},
+                {name = "SU", start = 1, stop = 1},
+                {name = "RESERVED_0_0", start = 0, stop = 0},
+            }
+        },
+        AP_DBGWCRX_EL1 = {
+            name = "AP_DBGWCR#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000000700,
+            range1 = {0,15},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "MASK", start = 24, stop = 28},
+                {name = "RESERVED_21_23", start = 21, stop = 23},
+                {name = "WT", start = 20, stop = 20},
+                {name = "LBN", start = 16, stop = 19},
+                {name = "SSC", start = 14, stop = 15},
+                {name = "HMC", start = 13, stop = 13},
+                {name = "BAS", start = 5, stop = 12},
+                {name = "LSC", start = 3, stop = 4},
+                {name = "PAC", start = 1, stop = 2},
+                {name = "EE", start = 0, stop = 0},
+            }
+        },
+        AP_DBGWVRX_EL1 = {
+            name = "AP_DBGWVR#_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20000000600,
+            range1 = {0,15},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESS", start = 49, stop = 63},
+                {name = "VA", start = 2, stop = 48},
+                {name = "RESERVED_0_1", start = 0, stop = 1},
+            }
+        },
+        AP_DCZID_EL0 = {
+            name = "AP_DCZID_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30300000700,
+            fields = {
+                {name = "RESERVED_5_31", start = 5, stop = 31},
+                {name = "DZP", start = 4, stop = 4},
+                {name = "BS", start = 0, stop = 3},
+            }
+        },
+        AP_DLR_EL0 = {
+            name = "AP_DLR_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30304050100,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_DSPSR_EL0 = {
+            name = "AP_DSPSR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30304050000,
+            fields = {
+                {name = "N", start = 31, stop = 31},
+                {name = "Z", start = 30, stop = 30},
+                {name = "CC", start = 29, stop = 29},
+                {name = "V", start = 28, stop = 28},
+                {name = "RESERVED_22_27", start = 22, stop = 27},
+                {name = "SS", start = 21, stop = 21},
+                {name = "IL", start = 20, stop = 20},
+                {name = "RESERVED_10_19", start = 10, stop = 19},
+                {name = "DD", start = 9, stop = 9},
+                {name = "AA", start = 8, stop = 8},
+                {name = "I", start = 7, stop = 7},
+                {name = "F", start = 6, stop = 6},
+                {name = "RESERVED_5_5", start = 5, stop = 5},
+                {name = "NRW", start = 4, stop = 4},
+                {name = "EL", start = 2, stop = 3},
+                {name = "RESERVED_1_1", start = 1, stop = 1},
+                {name = "SP", start = 0, stop = 0},
+            }
+        },
+        AP_ELR_ELX = {
+            name = "AP_ELR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30004000100,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "ADDRESS", start = 0, stop = 63},
+            }
+        },
+        AP_ELR_EL12 = {
+            name = "AP_ELR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30504000100,
+            fields = {
+                {name = "ADDRESS", start = 0, stop = 63},
+            }
+        },
+        AP_ESR_ELX = {
+            name = "AP_ESR_EL#",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30005020000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "EC", start = 26, stop = 31},
+                {name = "IL", start = 25, stop = 25},
+                {name = "ISS", start = 0, stop = 24},
+            }
+        },
+        AP_ESR_EL12 = {
+            name = "AP_ESR_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30505020000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_FAR_ELX = {
+            name = "AP_FAR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30006000000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_FAR_EL12 = {
+            name = "AP_FAR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30506000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_FPCR = {
+            name = "AP_FPCR",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30304040000,
+            fields = {
+                {name = "RESERVED_27_31", start = 27, stop = 31},
+                {name = "AHP", start = 26, stop = 26},
+                {name = "DN", start = 25, stop = 25},
+                {name = "FZ", start = 24, stop = 24},
+                {name = "RMODE", start = 22, stop = 23},
+                {name = "RESERVED_0_21", start = 0, stop = 21},
+            }
+        },
+        AP_FPEXC32_EL2 = {
+            name = "AP_FPEXC32_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30405030000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_FPSR = {
+            name = "AP_FPSR",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30304040100,
+            fields = {
+                {name = "RESERVED_28_31", start = 28, stop = 31},
+                {name = "QC", start = 27, stop = 27},
+                {name = "RESERVED_8_26", start = 8, stop = 26},
+                {name = "IDC", start = 7, stop = 7},
+                {name = "RESERVED_5_6", start = 5, stop = 6},
+                {name = "IXC", start = 4, stop = 4},
+                {name = "UFC", start = 3, stop = 3},
+                {name = "OFC", start = 2, stop = 2},
+                {name = "DZC", start = 1, stop = 1},
+                {name = "IOC", start = 0, stop = 0},
+            }
+        },
+        AP_HACR_EL2 = {
+            name = "AP_HACR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401010700,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_HCR_EL2 = {
+            name = "AP_HCR_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30401010000,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "TLOR", start = 35, stop = 35},
+                {name = "E2H", start = 34, stop = 34},
+                {name = "ID", start = 33, stop = 33},
+                {name = "CD", start = 32, stop = 32},
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "TRVM", start = 30, stop = 30},
+                {name = "RESERVED_29_29", start = 29, stop = 29},
+                {name = "TDZ", start = 28, stop = 28},
+                {name = "TGE", start = 27, stop = 27},
+                {name = "TVM", start = 26, stop = 26},
+                {name = "TTLB", start = 25, stop = 25},
+                {name = "TPU", start = 24, stop = 24},
+                {name = "TPC", start = 23, stop = 23},
+                {name = "TSW", start = 22, stop = 22},
+                {name = "TACR", start = 21, stop = 21},
+                {name = "TIDCP", start = 20, stop = 20},
+                {name = "TSC", start = 19, stop = 19},
+                {name = "TID3", start = 18, stop = 18},
+                {name = "TID2", start = 17, stop = 17},
+                {name = "TID1", start = 16, stop = 16},
+                {name = "TID0", start = 15, stop = 15},
+                {name = "TWE", start = 14, stop = 14},
+                {name = "TWI", start = 13, stop = 13},
+                {name = "DC", start = 12, stop = 12},
+                {name = "BSU", start = 10, stop = 11},
+                {name = "FB", start = 9, stop = 9},
+                {name = "VSE", start = 8, stop = 8},
+                {name = "VI", start = 7, stop = 7},
+                {name = "VF", start = 6, stop = 6},
+                {name = "AMO", start = 5, stop = 5},
+                {name = "IMO", start = 4, stop = 4},
+                {name = "FMO", start = 3, stop = 3},
+                {name = "PTW", start = 2, stop = 2},
+                {name = "SWIO", start = 1, stop = 1},
+                {name = "VM", start = 0, stop = 0},
+            }
+        },
+        AP_HPFAR_EL2 = {
+            name = "AP_HPFAR_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30406000400,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "FIPA", start = 4, stop = 39},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_HSTR_EL2 = {
+            name = "AP_HSTR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401010300,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ICC_AP0RX_EL1 = {
+            name = "AP_ICC_AP0R#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c080400,
+            range1 = {0,3},
+            range1_inc = 0x100,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICC_AP1RX_EL1 = {
+            name = "AP_ICC_AP1R#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c090000,
+            range1 = {0,3},
+            range1_inc = 0x100,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICC_ASGI1R_EL1 = {
+            name = "AP_ICC_ASGI1R_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000c0b0600,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "AFF3", start = 48, stop = 55},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "IRM", start = 40, stop = 40},
+                {name = "AFF2", start = 32, stop = 39},
+                {name = "RESERVED_28_31", start = 28, stop = 31},
+                {name = "SGIID", start = 24, stop = 27},
+                {name = "AFF1", start = 16, stop = 23},
+                {name = "TARGETLIST", start = 0, stop = 15},
+            }
+        },
+        AP_ICC_BPR0_EL1 = {
+            name = "AP_ICC_BPR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c080300,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "BINARYPOINT", start = 0, stop = 2},
+            }
+        },
+        AP_ICC_BPR1_EL1 = {
+            name = "AP_ICC_BPR1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0300,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "BINARYPOINT", start = 0, stop = 2},
+            }
+        },
+        AP_ICC_CTLR_EL1 = {
+            name = "AP_ICC_CTLR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0400,
+            fields = {
+                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "A3V", start = 15, stop = 15},
+                {name = "SEIS", start = 14, stop = 14},
+                {name = "IDBITS", start = 11, stop = 13},
+                {name = "PRIBITS", start = 8, stop = 10},
+                {name = "RESERVED_7_7", start = 7, stop = 7},
+                {name = "PMHE", start = 6, stop = 6},
+                {name = "RESERVED_2_5", start = 2, stop = 5},
+                {name = "EOIMODE", start = 1, stop = 1},
+                {name = "CBPR", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_CTLR_EL3 = {
+            name = "AP_ICC_CTLR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3060c0c0400,
+            fields = {
+                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "A3V", start = 15, stop = 15},
+                {name = "SEIS", start = 14, stop = 14},
+                {name = "IDBITS", start = 11, stop = 13},
+                {name = "PRIBITS", start = 8, stop = 10},
+                {name = "RESERVED_7_7", start = 7, stop = 7},
+                {name = "PMHE", start = 6, stop = 6},
+                {name = "RM", start = 5, stop = 5},
+                {name = "EOIMODE_EL1NS", start = 4, stop = 4},
+                {name = "EOIMODE_EL1S", start = 3, stop = 3},
+                {name = "EOIMODE_EL3", start = 2, stop = 2},
+                {name = "CBPR_EL1NS", start = 1, stop = 1},
+                {name = "CBPR_EL1S", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_DIR_EL1 = {
+            name = "AP_ICC_DIR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0b0100,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTERRUPTID", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_EOIR0_EL1 = {
+            name = "AP_ICC_EOIR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c080100,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_EOIR1_EL1 = {
+            name = "AP_ICC_EOIR1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0100,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_HPPIR0_EL1 = {
+            name = "AP_ICC_HPPIR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c080200,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_HPPIR1_EL1 = {
+            name = "AP_ICC_HPPIR1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0200,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_IAR0_EL1 = {
+            name = "AP_ICC_IAR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c080000,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_IAR1_EL1 = {
+            name = "AP_ICC_IAR1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0000,
+            fields = {
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "INTVECTOR", start = 0, stop = 23},
+            }
+        },
+        AP_ICC_IGRPEN0_EL1 = {
+            name = "AP_ICC_IGRPEN0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0600,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_IGRPEN1_EL1 = {
+            name = "AP_ICC_IGRPEN1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0700,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_IGRPEN1_EL3 = {
+            name = "AP_ICC_IGRPEN1_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3060c0c0700,
+            fields = {
+                {name = "RESERVED_2_31", start = 2, stop = 31},
+                {name = "ENABLEGRP1S", start = 1, stop = 1},
+                {name = "ENABLEGRP1NS", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_PMR_EL1 = {
+            name = "AP_ICC_PMR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30004060000,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "PRI", start = 0, stop = 7},
+            }
+        },
+        AP_ICC_RPR_EL1 = {
+            name = "AP_ICC_RPR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0b0300,
+            fields = {
+                {name = "RESERVED_8_31", start = 8, stop = 31},
+                {name = "PRI", start = 0, stop = 7},
+            }
+        },
+        AP_ICC_SEIEN_EL1 = {
+            name = "AP_ICC_SEIEN_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0d0000,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "ENABLE", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_SGI0R_EL1 = {
+            name = "AP_ICC_SGI0R_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000c0b0700,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "AFF3", start = 48, stop = 55},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "IRM", start = 40, stop = 40},
+                {name = "AFF2", start = 32, stop = 39},
+                {name = "RESERVED_28_31", start = 28, stop = 31},
+                {name = "SGIID", start = 24, stop = 27},
+                {name = "AFF1", start = 16, stop = 23},
+                {name = "TARGETLIST", start = 0, stop = 15},
+            }
+        },
+        AP_ICC_SGI1R_EL1 = {
+            name = "AP_ICC_SGI1R_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000c0b0500,
+            fields = {
+                {name = "RESERVED_56_63", start = 56, stop = 63},
+                {name = "AFF3", start = 48, stop = 55},
+                {name = "RESERVED_41_47", start = 41, stop = 47},
+                {name = "IRM", start = 40, stop = 40},
+                {name = "AFF2", start = 32, stop = 39},
+                {name = "RESERVED_28_31", start = 28, stop = 31},
+                {name = "SGIID", start = 24, stop = 27},
+                {name = "AFF1", start = 16, stop = 23},
+                {name = "TARGETLIST", start = 0, stop = 15},
+            }
+        },
+        AP_ICC_SRE_EL1 = {
+            name = "AP_ICC_SRE_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c0c0500,
+            fields = {
+                {name = "RESERVED_3_31", start = 3, stop = 31},
+                {name = "DIB", start = 2, stop = 2},
+                {name = "DFB", start = 1, stop = 1},
+                {name = "SRE", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_SRE_EL2 = {
+            name = "AP_ICC_SRE_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090500,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "ENABLE", start = 3, stop = 3},
+                {name = "DIB", start = 2, stop = 2},
+                {name = "DFB", start = 1, stop = 1},
+                {name = "SRE", start = 0, stop = 0},
+            }
+        },
+        AP_ICC_SRE_EL3 = {
+            name = "AP_ICC_SRE_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3060c0c0500,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "ENABLE", start = 3, stop = 3},
+                {name = "DIB", start = 2, stop = 2},
+                {name = "DFB", start = 1, stop = 1},
+                {name = "SRE", start = 0, stop = 0},
+            }
+        },
+        AP_ICH_AP0R0_EL2 = {
+            name = "AP_ICH_AP0R0_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c080000,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP0R1_EL2 = {
+            name = "AP_ICH_AP0R1_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c080100,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP0R2_EL2 = {
+            name = "AP_ICH_AP0R2_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c080200,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP0R3_EL2 = {
+            name = "AP_ICH_AP0R3_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c080300,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP1R0_EL2 = {
+            name = "AP_ICH_AP1R0_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090000,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP1R1_EL2 = {
+            name = "AP_ICH_AP1R1_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090100,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP1R2_EL2 = {
+            name = "AP_ICH_AP1R2_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090200,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_AP1R3_EL2 = {
+            name = "AP_ICH_AP1R3_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090300,
+            fields = {
+                {name = "PRIORITYBITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_EISR_EL2 = {
+            name = "AP_ICH_EISR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0300,
+            fields = {
+                {name = "STATUS_BITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_ELSR_EL2 = {
+            name = "AP_ICH_ELSR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0500,
+            fields = {
+                {name = "STATUS_BITS", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_HCR_EL2 = {
+            name = "AP_ICH_HCR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0000,
+            fields = {
+                {name = "EOICOUNT", start = 27, stop = 31},
+                {name = "RESERVED_14_26", start = 14, stop = 26},
+                {name = "TSEI", start = 13, stop = 13},
+                {name = "TALL1", start = 12, stop = 12},
+                {name = "TALL0", start = 11, stop = 11},
+                {name = "TC", start = 10, stop = 10},
+                {name = "RESERVED_8_9", start = 8, stop = 9},
+                {name = "VGRP1DIE", start = 7, stop = 7},
+                {name = "VGRP1EIE", start = 6, stop = 6},
+                {name = "VGRP0DIE", start = 5, stop = 5},
+                {name = "VGRP0EIE", start = 4, stop = 4},
+                {name = "NPIE", start = 3, stop = 3},
+                {name = "LRENPIE", start = 2, stop = 2},
+                {name = "UIE", start = 1, stop = 1},
+                {name = "EN", start = 0, stop = 0},
+            }
+        },
+        AP_ICH_LRX_EL2 = {
+            name = "AP_ICH_LR#_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3040c0c0000,
+            range1 = {0,15},
+            range1_inc = 0x100,
+            fields = {
+                {name = "STATE", start = 62, stop = 63},
+                {name = "HW", start = 61, stop = 61},
+                {name = "GROUP", start = 60, stop = 60},
+                {name = "RESERVED_56_59", start = 56, stop = 59},
+                {name = "PRI", start = 48, stop = 55},
+                {name = "RESERVED_42_47", start = 42, stop = 47},
+                {name = "PHYSICAL_ID", start = 32, stop = 41},
+                {name = "VIRTUAL_ID", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_LRCX = {
+            name = "AP_ICH_LRC#",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0e0000,
+            range1 = {0,15},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ICH_MISR_EL2 = {
+            name = "AP_ICH_MISR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0200,
+            fields = {
+                {name = "RESERVED_9_31", start = 9, stop = 31},
+                {name = "VSEI", start = 8, stop = 8},
+                {name = "VGRP1D", start = 7, stop = 7},
+                {name = "VGRP1E", start = 6, stop = 6},
+                {name = "VGRP0D", start = 5, stop = 5},
+                {name = "VGRP0E", start = 4, stop = 4},
+                {name = "NP", start = 3, stop = 3},
+                {name = "LRENP", start = 2, stop = 2},
+                {name = "U", start = 1, stop = 1},
+                {name = "EOI", start = 0, stop = 0},
+            }
+        },
+        AP_ICH_VMCR_EL2 = {
+            name = "AP_ICH_VMCR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0700,
+            fields = {
+                {name = "VPMR", start = 24, stop = 31},
+                {name = "VBPR0", start = 21, stop = 23},
+                {name = "VBPR1", start = 18, stop = 20},
+                {name = "RESERVED_10_17", start = 10, stop = 17},
+                {name = "VEOIM", start = 9, stop = 9},
+                {name = "RESERVED_5_8", start = 5, stop = 8},
+                {name = "VCBPR", start = 4, stop = 4},
+                {name = "VFIQEN", start = 3, stop = 3},
+                {name = "VACKCTL", start = 2, stop = 2},
+                {name = "VENG1", start = 1, stop = 1},
+                {name = "VENG0", start = 0, stop = 0},
+            }
+        },
+        AP_ICH_VSEIR_EL2 = {
+            name = "AP_ICH_VSEIR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c090400,
+            fields = {
+                {name = "VALID", start = 31, stop = 31},
+                {name = "RESERVED_25_30", start = 25, stop = 30},
+                {name = "SYNDROME", start = 0, stop = 24},
+            }
+        },
+        AP_ICH_VTR_EL2 = {
+            name = "AP_ICH_VTR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3040c0b0100,
+            fields = {
+                {name = "PRIBITS", start = 29, stop = 31},
+                {name = "PREBITS", start = 26, stop = 28},
+                {name = "IDBITS", start = 23, stop = 25},
+                {name = "SEIS", start = 22, stop = 22},
+                {name = "A3V", start = 21, stop = 21},
+                {name = "RESERVED_5_20", start = 5, stop = 20},
+                {name = "LISTREGS", start = 0, stop = 4},
+            }
+        },
+        AP_ID_AA64AFRX_EL1_RES0 = {
+            name = "AP_ID_AA64AFR#_EL1_RES0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050400,
+            range1 = {2,3},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64AFR0_EL1 = {
+            name = "AP_ID_AA64AFR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64AFR1_EL1 = {
+            name = "AP_ID_AA64AFR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050500,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64DFRX_EL1_RES0 = {
+            name = "AP_ID_AA64DFR#_EL1_RES0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050000,
+            range1 = {2,3},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64DFR0_EL1 = {
+            name = "AP_ID_AA64DFR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "CTX_CMPS", start = 28, stop = 31},
+                {name = "RESERVED_24_27", start = 24, stop = 27},
+                {name = "WRPS", start = 20, stop = 23},
+                {name = "RESERVED_16_19", start = 16, stop = 19},
+                {name = "BRPS", start = 12, stop = 15},
+                {name = "PMUVER", start = 8, stop = 11},
+                {name = "TRACEVER", start = 4, stop = 7},
+                {name = "DEBUGVER", start = 0, stop = 3},
+            }
+        },
+        AP_ID_AA64DFR1_EL1 = {
+            name = "AP_ID_AA64DFR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000050100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64ISARX_EL1_RES0 = {
+            name = "AP_ID_AA64ISAR#_EL1_RES0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000060000,
+            range1 = {2,7},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64ISAR0_EL1 = {
+            name = "AP_ID_AA64ISAR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000060000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "SQRDML", start = 28, stop = 31},
+                {name = "RESERVED_24_27", start = 24, stop = 27},
+                {name = "ATOMIC", start = 20, stop = 23},
+                {name = "CRC32", start = 16, stop = 19},
+                {name = "SHA2", start = 12, stop = 15},
+                {name = "SHA1", start = 8, stop = 11},
+                {name = "AES", start = 4, stop = 7},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_ID_AA64ISAR1_EL1 = {
+            name = "AP_ID_AA64ISAR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000060100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64MMFRX_EL1_RES0 = {
+            name = "AP_ID_AA64MMFR#_EL1_RES0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000070000,
+            range1 = {2,7},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64MMFR0_EL1 = {
+            name = "AP_ID_AA64MMFR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000070000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "TGRAN4", start = 28, stop = 31},
+                {name = "TGRAN64", start = 24, stop = 27},
+                {name = "TGRAN16", start = 20, stop = 23},
+                {name = "BIGENDEL0", start = 16, stop = 19},
+                {name = "SNSMEM", start = 12, stop = 15},
+                {name = "BIGEND", start = 8, stop = 11},
+                {name = "ASIDBITS", start = 4, stop = 7},
+                {name = "PARANGE", start = 0, stop = 3},
+            }
+        },
+        AP_ID_AA64MMFR1_EL1 = {
+            name = "AP_ID_AA64MMFR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000070100,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "PAN", start = 20, stop = 23},
+                {name = "LO", start = 16, stop = 19},
+                {name = "HD", start = 12, stop = 15},
+                {name = "VH", start = 8, stop = 11},
+                {name = "VMIDBITS", start = 4, stop = 7},
+                {name = "HARDWARE_ACCESS_DIRTY", start = 0, stop = 3},
+            }
+        },
+        AP_ID_AA64PFRX_EL1_RES0 = {
+            name = "AP_ID_AA64PFR#_EL1_RES0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000040000,
+            range1 = {2,7},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AA64PFR0_EL1 = {
+            name = "AP_ID_AA64PFR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000040000,
+            fields = {
+                {name = "RESERVED_28_63", start = 28, stop = 63},
+                {name = "GIC", start = 24, stop = 27},
+                {name = "ADVSIMD", start = 20, stop = 23},
+                {name = "FP", start = 16, stop = 19},
+                {name = "EL3", start = 12, stop = 15},
+                {name = "EL2", start = 8, stop = 11},
+                {name = "EL1", start = 4, stop = 7},
+                {name = "EL0", start = 0, stop = 3},
+            }
+        },
+        AP_ID_AA64PFR1_EL1 = {
+            name = "AP_ID_AA64PFR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000040100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_ID_AFR0_EL1 = {
+            name = "AP_ID_AFR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000010300,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ID_DFR0_EL1 = {
+            name = "AP_ID_DFR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000010200,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ID_ISARX_EL1 = {
+            name = "AP_ID_ISAR#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000020000,
+            range1 = {0,5},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ID_ISARX_EL1_RES0 = {
+            name = "AP_ID_ISAR#_EL1_RES0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000020000,
+            range1 = {6,7},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ID_MMFRX_EL1 = {
+            name = "AP_ID_MMFR#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000010400,
+            range1 = {0,3},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ID_PFR0_EL1 = {
+            name = "AP_ID_PFR0_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000010000,
+            fields = {
+                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "STATE3", start = 12, stop = 15},
+                {name = "STATE2", start = 8, stop = 11},
+                {name = "STATE1", start = 4, stop = 7},
+                {name = "STATE0", start = 0, stop = 3},
+            }
+        },
+        AP_ID_PFR1_EL1 = {
+            name = "AP_ID_PFR1_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000010100,
+            fields = {
+                {name = "GIC", start = 28, stop = 31},
+                {name = "VIRT_FRAC", start = 24, stop = 27},
+                {name = "SEC_FRAC", start = 20, stop = 23},
+                {name = "GENTIMER", start = 16, stop = 19},
+                {name = "VIRTUALIZATION", start = 12, stop = 15},
+                {name = "MPROGMOD", start = 8, stop = 11},
+                {name = "SECURITY", start = 4, stop = 7},
+                {name = "PROGMOD", start = 0, stop = 3},
+            }
+        },
+        AP_IFSR32_EL2 = {
+            name = "AP_IFSR32_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30405000100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_ISR_EL1 = {
+            name = "AP_ISR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c010000,
+            fields = {
+                {name = "RESERVED_9_31", start = 9, stop = 31},
+                {name = "AA", start = 8, stop = 8},
+                {name = "I", start = 7, stop = 7},
+                {name = "F", start = 6, stop = 6},
+                {name = "RESERVED_0_5", start = 0, stop = 5},
+            }
+        },
+        AP_LORC_EL1 = {
+            name = "AP_LORC_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a040300,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "DS", start = 2, stop = 4},
+                {name = "RESERVED_1_1", start = 1, stop = 1},
+                {name = "EN", start = 0, stop = 0},
+            }
+        },
+        AP_LOREA_EL1 = {
+            name = "AP_LOREA_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a040100,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "EA", start = 16, stop = 47},
+                {name = "RESERVED_0_15", start = 0, stop = 15},
+            }
+        },
+        AP_LORID_EL1 = {
+            name = "AP_LORID_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a040700,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "LD", start = 16, stop = 23},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "LR", start = 0, stop = 7},
+            }
+        },
+        AP_LORN_EL1 = {
+            name = "AP_LORN_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a040200,
+            fields = {
+                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "NUM", start = 0, stop = 1},
+            }
+        },
+        AP_LORSA_EL1 = {
+            name = "AP_LORSA_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a040000,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "SA", start = 16, stop = 47},
+                {name = "RESERVED_1_15", start = 1, stop = 15},
+                {name = "VALID", start = 0, stop = 0},
+            }
+        },
+        AP_MAIR_ELX = {
+            name = "AP_MAIR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000a020000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "ATTR_N", start = 0, stop = 63},
+            }
+        },
+        AP_MAIR_EL12 = {
+            name = "AP_MAIR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3050a020000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_MDCCINT_EL1 = {
+            name = "AP_MDCCINT_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000020000,
+            fields = {
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "RX", start = 30, stop = 30},
+                {name = "TX", start = 29, stop = 29},
+                {name = "RESERVED_0_28", start = 0, stop = 28},
+            }
+        },
+        AP_MDCCSR_EL0 = {
+            name = "AP_MDCCSR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20300010000,
+            fields = {
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "RXFULL", start = 30, stop = 30},
+                {name = "TXFULL", start = 29, stop = 29},
+                {name = "RESERVED_0_28", start = 0, stop = 28},
+            }
+        },
+        AP_MDCR_EL2 = {
+            name = "AP_MDCR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401010100,
+            fields = {
+                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "HPMD", start = 17, stop = 17},
+                {name = "RESERVED_12_16", start = 12, stop = 16},
+                {name = "TDRA", start = 11, stop = 11},
+                {name = "TDOSA", start = 10, stop = 10},
+                {name = "TDA", start = 9, stop = 9},
+                {name = "TDE", start = 8, stop = 8},
+                {name = "HPME", start = 7, stop = 7},
+                {name = "TPM", start = 6, stop = 6},
+                {name = "TPMCR", start = 5, stop = 5},
+                {name = "HPMN", start = 0, stop = 4},
+            }
+        },
+        AP_MDCR_EL3 = {
+            name = "AP_MDCR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30601030100,
+            fields = {
+                {name = "RESERVED_22_31", start = 22, stop = 31},
+                {name = "EPMAD", start = 21, stop = 21},
+                {name = "EDAD", start = 20, stop = 20},
+                {name = "RESERVED_18_19", start = 18, stop = 19},
+                {name = "SPME", start = 17, stop = 17},
+                {name = "SDD", start = 16, stop = 16},
+                {name = "RESERVED_11_15", start = 11, stop = 15},
+                {name = "TDOSA", start = 10, stop = 10},
+                {name = "TDA", start = 9, stop = 9},
+                {name = "RESERVED_7_8", start = 7, stop = 8},
+                {name = "TPM", start = 6, stop = 6},
+                {name = "RESERVED_0_5", start = 0, stop = 5},
+            }
+        },
+        AP_MDRAR_EL1 = {
+            name = "AP_MDRAR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20001000000,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "ROMADDR", start = 12, stop = 47},
+                {name = "RESERVED_2_11", start = 2, stop = 11},
+                {name = "VALID", start = 0, stop = 1},
+            }
+        },
+        AP_MDSCR_EL1 = {
+            name = "AP_MDSCR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000020200,
+            fields = {
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "RXFULL", start = 30, stop = 30},
+                {name = "TXFULL", start = 29, stop = 29},
+                {name = "RESERVED_28_28", start = 28, stop = 28},
+                {name = "RXO", start = 27, stop = 27},
+                {name = "TXU", start = 26, stop = 26},
+                {name = "RESERVED_24_25", start = 24, stop = 25},
+                {name = "INTDIS", start = 22, stop = 23},
+                {name = "TDA", start = 21, stop = 21},
+                {name = "RESERVED_16_20", start = 16, stop = 20},
+                {name = "MDE", start = 15, stop = 15},
+                {name = "HDE", start = 14, stop = 14},
+                {name = "KDE", start = 13, stop = 13},
+                {name = "TDCC", start = 12, stop = 12},
+                {name = "RESERVED_7_11", start = 7, stop = 11},
+                {name = "ERR", start = 6, stop = 6},
+                {name = "RESERVED_1_5", start = 1, stop = 5},
+                {name = "SS", start = 0, stop = 0},
+            }
+        },
+        AP_MIDR_EL1 = {
+            name = "AP_MIDR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000000000,
+            fields = {
+                {name = "IMPLEMENTER", start = 24, stop = 31},
+                {name = "VARIANT", start = 20, stop = 23},
+                {name = "ARCHITECTURE", start = 16, stop = 19},
+                {name = "PARTNUM", start = 4, stop = 15},
+                {name = "REVISION", start = 0, stop = 3},
+            }
+        },
+        AP_MPIDR_EL1 = {
+            name = "AP_MPIDR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30000000500,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "AFF3", start = 32, stop = 39},
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "U", start = 30, stop = 30},
+                {name = "RESERVED_25_29", start = 25, stop = 29},
+                {name = "MT", start = 24, stop = 24},
+                {name = "AFF2", start = 16, stop = 23},
+                {name = "AFF1", start = 8, stop = 15},
+                {name = "AFF0", start = 0, stop = 7},
+            }
+        },
+        AP_MVFRX_EL1 = {
+            name = "AP_MVFR#_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000030000,
+            range1 = {0,2},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_NZCV = {
+            name = "AP_NZCV",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30304020000,
+            fields = {
+                {name = "N", start = 31, stop = 31},
+                {name = "Z", start = 30, stop = 30},
+                {name = "CC", start = 29, stop = 29},
+                {name = "V", start = 28, stop = 28},
+                {name = "RESERVED_0_27", start = 0, stop = 27},
+            }
+        },
+        AP_OSDLR_EL1 = {
+            name = "AP_OSDLR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20001030400,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "DLK", start = 0, stop = 0},
+            }
+        },
+        AP_OSDTRRX_EL1 = {
+            name = "AP_OSDTRRX_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000000200,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_OSDTRTX_EL1 = {
+            name = "AP_OSDTRTX_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000030200,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_OSECCR_EL1 = {
+            name = "AP_OSECCR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20000060200,
+            fields = {
+                {name = "EDECCR", start = 0, stop = 31},
+            }
+        },
+        AP_OSLAR_EL1 = {
+            name = "AP_OSLAR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20001000400,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "OSLK", start = 0, stop = 0},
+            }
+        },
+        AP_OSLSR_EL1 = {
+            name = "AP_OSLSR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20001010400,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "OSLM_HIGH", start = 3, stop = 3},
+                {name = "NTT", start = 2, stop = 2},
+                {name = "OSLK", start = 1, stop = 1},
+                {name = "OSLM_LOW", start = 0, stop = 0},
+            }
+        },
+        AP_PAN = {
+            name = "AP_PAN",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30004020300,
+            fields = {
+                {name = "RESERVED_23_63", start = 23, stop = 63},
+                {name = "PAN", start = 22, stop = 22},
+                {name = "RESERVED_0_21", start = 0, stop = 21},
+            }
+        },
+        AP_PAR_EL1 = {
+            name = "AP_PAR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30007040000,
+            fields = {
+                {name = "MAIR", start = 56, stop = 63},
+                {name = "RESERVED_48_55", start = 48, stop = 55},
+                {name = "PA", start = 12, stop = 47},
+                {name = "RSVD_11", start = 11, stop = 11},
+                {name = "RESERVED_10_10", start = 10, stop = 10},
+                {name = "NSEC", start = 9, stop = 9},
+                {name = "SHA", start = 7, stop = 8},
+                {name = "FS", start = 1, stop = 6},
+                {name = "F", start = 0, stop = 0},
+            }
+        },
+        AP_PMCCFILTR_EL0 = {
+            name = "AP_PMCCFILTR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e0f0700,
+            fields = {
+                {name = "P", start = 31, stop = 31},
+                {name = "U", start = 30, stop = 30},
+                {name = "NSK", start = 29, stop = 29},
+                {name = "NSU", start = 28, stop = 28},
+                {name = "NSH", start = 27, stop = 27},
+                {name = "M", start = 26, stop = 26},
+                {name = "RESERVED_0_25", start = 0, stop = 25},
+            }
+        },
+        AP_PMCCNTR_EL0 = {
+            name = "AP_PMCCNTR_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x303090d0000,
+            fields = {
+                {name = "CCNT", start = 0, stop = 63},
+            }
+        },
+        AP_PMCEID0_EL0 = {
+            name = "AP_PMCEID0_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x303090c0600,
+            fields = {
+                {name = "CE", start = 0, stop = 63},
+            }
+        },
+        AP_PMCEID1_EL0 = {
+            name = "AP_PMCEID1_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x303090c0700,
+            fields = {
+                {name = "CE", start = 0, stop = 63},
+            }
+        },
+        AP_PMCNTENCLR_EL0 = {
+            name = "AP_PMCNTENCLR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0200,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMCNTENSET_EL0 = {
+            name = "AP_PMCNTENSET_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0100,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMCR_EL0 = {
+            name = "AP_PMCR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0000,
+            fields = {
+                {name = "IMP", start = 24, stop = 31},
+                {name = "IDCODE", start = 16, stop = 23},
+                {name = "N", start = 11, stop = 15},
+                {name = "RESERVED_7_10", start = 7, stop = 10},
+                {name = "LC", start = 6, stop = 6},
+                {name = "DP", start = 5, stop = 5},
+                {name = "X", start = 4, stop = 4},
+                {name = "DD", start = 3, stop = 3},
+                {name = "CC", start = 2, stop = 2},
+                {name = "P", start = 1, stop = 1},
+                {name = "EE", start = 0, stop = 0},
+            }
+        },
+        AP_PMEVCNTRX_EL0 = {
+            name = "AP_PMEVCNTR#_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e080000,
+            range1 = {0,30},
+            range1_inc = 0x100,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_PMEVTYPERX_EL0 = {
+            name = "AP_PMEVTYPER#_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3030e0c0000,
+            range1 = {0,30},
+            range1_inc = 0x100,
+            fields = {
+                {name = "P", start = 31, stop = 31},
+                {name = "U", start = 30, stop = 30},
+                {name = "NSK", start = 29, stop = 29},
+                {name = "NSU", start = 28, stop = 28},
+                {name = "NSH", start = 27, stop = 27},
+                {name = "M", start = 26, stop = 26},
+                {name = "RESERVED_16_25", start = 16, stop = 25},
+                {name = "EVTCOUNT", start = 0, stop = 15},
+            }
+        },
+        AP_PMINTENCLR_EL1 = {
+            name = "AP_PMINTENCLR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x300090e0200,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMINTENSET_EL1 = {
+            name = "AP_PMINTENSET_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x300090e0100,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMOVSCLR_EL0 = {
+            name = "AP_PMOVSCLR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0300,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMOVSSET_EL0 = {
+            name = "AP_PMOVSSET_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090e0300,
+            fields = {
+                {name = "CC", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMSELR_EL0 = {
+            name = "AP_PMSELR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0500,
+            fields = {
+                {name = "RESERVED_5_31", start = 5, stop = 31},
+                {name = "SEL", start = 0, stop = 4},
+            }
+        },
+        AP_PMSWINC_EL0 = {
+            name = "AP_PMSWINC_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090c0400,
+            fields = {
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "P", start = 0, stop = 30},
+            }
+        },
+        AP_PMUSERENR_EL0 = {
+            name = "AP_PMUSERENR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090e0000,
+            fields = {
+                {name = "RESERVED_4_31", start = 4, stop = 31},
+                {name = "ER", start = 3, stop = 3},
+                {name = "CR", start = 2, stop = 2},
+                {name = "SW", start = 1, stop = 1},
+                {name = "EN", start = 0, stop = 0},
+            }
+        },
+        AP_PMXEVCNTR_EL0 = {
+            name = "AP_PMXEVCNTR_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090d0200,
+            fields = {
+                {name = "PMEVCNTR", start = 0, stop = 31},
+            }
+        },
+        AP_PMXEVTYPER_EL0 = {
+            name = "AP_PMXEVTYPER_EL0",
+            type = "SYSREG",
+            width = 4,
+            address = 0x303090d0100,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
+            }
+        },
+        AP_REVIDR_EL1 = {
+            name = "AP_REVIDR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30000000600,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_RMR_ELX = {
+            name = "AP_RMR_EL#",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3000c000200,
+            range1 = {1,2},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_RMR_EL3 = {
+            name = "AP_RMR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x3060c000200,
+            fields = {
+                {name = "RESERVED_2_31", start = 2, stop = 31},
+                {name = "RR", start = 1, stop = 1},
+                {name = "AA64", start = 0, stop = 0},
+            }
+        },
+        AP_RVBAR_ELX = {
+            name = "AP_RVBAR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000c000100,
+            range1 = {1,2},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_RVBAR_EL3 = {
+            name = "AP_RVBAR_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3060c000100,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_SCR_EL3 = {
+            name = "AP_SCR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30601010000,
+            fields = {
+                {name = "RESERVED_15_31", start = 15, stop = 31},
+                {name = "TLOR", start = 14, stop = 14},
+                {name = "TWE", start = 13, stop = 13},
+                {name = "TWI", start = 12, stop = 12},
+                {name = "ST", start = 11, stop = 11},
+                {name = "RSVD_10", start = 10, stop = 10},
+                {name = "SIF", start = 9, stop = 9},
+                {name = "HCE", start = 8, stop = 8},
+                {name = "SMD", start = 7, stop = 7},
+                {name = "RESERVED_6_6", start = 6, stop = 6},
+                {name = "RSVD_4_5", start = 4, stop = 5},
+                {name = "EA", start = 3, stop = 3},
+                {name = "FIQ", start = 2, stop = 2},
+                {name = "IRQ", start = 1, stop = 1},
+                {name = "NSEC", start = 0, stop = 0},
+            }
+        },
+        AP_SCTLR_EL1 = {
+            name = "AP_SCTLR_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30001000000,
+            fields = {
+                {name = "RESERVED_30_31", start = 30, stop = 31},
+                {name = "RSVD_28_29", start = 28, stop = 29},
+                {name = "RESERVED_27_27", start = 27, stop = 27},
+                {name = "UCI", start = 26, stop = 26},
+                {name = "EE", start = 25, stop = 25},
+                {name = "E0E", start = 24, stop = 24},
+                {name = "SPAN", start = 23, stop = 23},
+                {name = "RSVD_22", start = 22, stop = 22},
+                {name = "RESERVED_21_21", start = 21, stop = 21},
+                {name = "RSVD_20", start = 20, stop = 20},
+                {name = "WXN", start = 19, stop = 19},
+                {name = "NTWE", start = 18, stop = 18},
+                {name = "RESERVED_17_17", start = 17, stop = 17},
+                {name = "NTWI", start = 16, stop = 16},
+                {name = "UCT", start = 15, stop = 15},
+                {name = "DZE", start = 14, stop = 14},
+                {name = "RESERVED_13_13", start = 13, stop = 13},
+                {name = "I", start = 12, stop = 12},
+                {name = "RSVD_11", start = 11, stop = 11},
+                {name = "RESERVED_10_10", start = 10, stop = 10},
+                {name = "UMA", start = 9, stop = 9},
+                {name = "RSVD_8", start = 8, stop = 8},
+                {name = "RSVD_7", start = 7, stop = 7},
+                {name = "RESERVED_5_6", start = 5, stop = 6},
+                {name = "SA0", start = 4, stop = 4},
+                {name = "SA", start = 3, stop = 3},
+                {name = "CC", start = 2, stop = 2},
+                {name = "AA", start = 1, stop = 1},
+                {name = "M", start = 0, stop = 0},
+            }
+        },
+        AP_SCTLR_EL12 = {
+            name = "AP_SCTLR_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30501000000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_SCTLR_EL2 = {
+            name = "AP_SCTLR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401000000,
+            fields = {
+                {name = "RESERVED_30_31", start = 30, stop = 31},
+                {name = "RSVD_28_29", start = 28, stop = 29},
+                {name = "RESERVED_26_27", start = 26, stop = 27},
+                {name = "EE", start = 25, stop = 25},
+                {name = "RESERVED_24_24", start = 24, stop = 24},
+                {name = "SPAN", start = 23, stop = 23},
+                {name = "RSVD_22", start = 22, stop = 22},
+                {name = "RESERVED_20_21", start = 20, stop = 21},
+                {name = "WXN", start = 19, stop = 19},
+                {name = "RSVD_18", start = 18, stop = 18},
+                {name = "RESERVED_17_17", start = 17, stop = 17},
+                {name = "RSVD_16", start = 16, stop = 16},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "I", start = 12, stop = 12},
+                {name = "RSVD_11", start = 11, stop = 11},
+                {name = "RESERVED_6_10", start = 6, stop = 10},
+                {name = "RSVD_4_5", start = 4, stop = 5},
+                {name = "SA", start = 3, stop = 3},
+                {name = "CC", start = 2, stop = 2},
+                {name = "AA", start = 1, stop = 1},
+                {name = "M", start = 0, stop = 0},
+            }
+        },
+        AP_SCTLR_EL2_E2H = {
+            name = "AP_SCTLR_EL2_E2H",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30401000010,
+            fields = {
+                {name = "RESERVED_30_31", start = 30, stop = 31},
+                {name = "RSVD_28_29", start = 28, stop = 29},
+                {name = "RESERVED_27_27", start = 27, stop = 27},
+                {name = "UCI", start = 26, stop = 26},
+                {name = "EE", start = 25, stop = 25},
+                {name = "E0E", start = 24, stop = 24},
+                {name = "SPAN", start = 23, stop = 23},
+                {name = "RSVD_22", start = 22, stop = 22},
+                {name = "RESERVED_21_21", start = 21, stop = 21},
+                {name = "RSVD_20", start = 20, stop = 20},
+                {name = "WXN", start = 19, stop = 19},
+                {name = "NTWE", start = 18, stop = 18},
+                {name = "RESERVED_17_17", start = 17, stop = 17},
+                {name = "NTWI", start = 16, stop = 16},
+                {name = "UCT", start = 15, stop = 15},
+                {name = "DZE", start = 14, stop = 14},
+                {name = "RESERVED_13_13", start = 13, stop = 13},
+                {name = "I", start = 12, stop = 12},
+                {name = "RSVD_11", start = 11, stop = 11},
+                {name = "RESERVED_10_10", start = 10, stop = 10},
+                {name = "UMA", start = 9, stop = 9},
+                {name = "RSVD_8", start = 8, stop = 8},
+                {name = "RSVD_7", start = 7, stop = 7},
+                {name = "RESERVED_5_6", start = 5, stop = 6},
+                {name = "SA0", start = 4, stop = 4},
+                {name = "SA", start = 3, stop = 3},
+                {name = "CC", start = 2, stop = 2},
+                {name = "AA", start = 1, stop = 1},
+                {name = "M", start = 0, stop = 0},
+            }
+        },
+        AP_SCTLR_EL3 = {
+            name = "AP_SCTLR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30601000000,
+            fields = {
+                {name = "RESERVED_30_31", start = 30, stop = 31},
+                {name = "RSVD_28_29", start = 28, stop = 29},
+                {name = "RESERVED_26_27", start = 26, stop = 27},
+                {name = "EE", start = 25, stop = 25},
+                {name = "RESERVED_24_24", start = 24, stop = 24},
+                {name = "RSVD_23", start = 23, stop = 23},
+                {name = "RSVD_22", start = 22, stop = 22},
+                {name = "RESERVED_20_21", start = 20, stop = 21},
+                {name = "WXN", start = 19, stop = 19},
+                {name = "RSVD_18", start = 18, stop = 18},
+                {name = "RESERVED_17_17", start = 17, stop = 17},
+                {name = "RSVD_16", start = 16, stop = 16},
+                {name = "RESERVED_13_15", start = 13, stop = 15},
+                {name = "I", start = 12, stop = 12},
+                {name = "RSVD_11", start = 11, stop = 11},
+                {name = "RESERVED_6_10", start = 6, stop = 10},
+                {name = "RSVD_4_5", start = 4, stop = 5},
+                {name = "SA", start = 3, stop = 3},
+                {name = "CC", start = 2, stop = 2},
+                {name = "AA", start = 1, stop = 1},
+                {name = "M", start = 0, stop = 0},
+            }
+        },
+        AP_SDER32_EL3 = {
+            name = "AP_SDER32_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30601010100,
+            fields = {
+                {name = "RESERVED_2_31", start = 2, stop = 31},
+                {name = "SUNIDEN", start = 1, stop = 1},
+                {name = "SUIDEN", start = 0, stop = 0},
+            }
+        },
+        AP_SP_EL0 = {
+            name = "AP_SP_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30004010000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_SP_EL1 = {
+            name = "AP_SP_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30404010000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_SP_EL2 = {
+            name = "AP_SP_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30604010000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_SPSEL = {
+            name = "AP_SPSEL",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30004020000,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "SP", start = 0, stop = 0},
+            }
+        },
+        AP_SPSR_ABT = {
+            name = "AP_SPSR_ABT",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30404030100,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_SPSR_ELX = {
+            name = "AP_SPSR_EL#",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30004000000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "N", start = 31, stop = 31},
+                {name = "Z", start = 30, stop = 30},
+                {name = "CC", start = 29, stop = 29},
+                {name = "V", start = 28, stop = 28},
+                {name = "RESERVED_23_27", start = 23, stop = 27},
+                {name = "PAN", start = 22, stop = 22},
+                {name = "SS", start = 21, stop = 21},
+                {name = "IL", start = 20, stop = 20},
+                {name = "RESERVED_10_19", start = 10, stop = 19},
+                {name = "DD", start = 9, stop = 9},
+                {name = "AA", start = 8, stop = 8},
+                {name = "I", start = 7, stop = 7},
+                {name = "F", start = 6, stop = 6},
+                {name = "RESERVED_5_5", start = 5, stop = 5},
+                {name = "FROM32", start = 4, stop = 4},
+                {name = "EL", start = 2, stop = 3},
+                {name = "RESERVED_1_1", start = 1, stop = 1},
+                {name = "SP", start = 0, stop = 0},
+            }
+        },
+        AP_SPSR_EL12 = {
+            name = "AP_SPSR_EL12",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30504000000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_SPSR_FIQ = {
+            name = "AP_SPSR_FIQ",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30404030300,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_SPSR_IRQ = {
+            name = "AP_SPSR_IRQ",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30404030000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_SPSR_UND = {
+            name = "AP_SPSR_UND",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30404030200,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        AP_TCR_EL1 = {
+            name = "AP_TCR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30002000200,
+            fields = {
+                {name = "RESERVED_43_63", start = 43, stop = 63},
+                {name = "HAD1", start = 42, stop = 42},
+                {name = "HAD0", start = 41, stop = 41},
+                {name = "RESERVED_39_40", start = 39, stop = 40},
+                {name = "TBI1", start = 38, stop = 38},
+                {name = "TBI0", start = 37, stop = 37},
+                {name = "AS", start = 36, stop = 36},
+                {name = "RESERVED_35_35", start = 35, stop = 35},
+                {name = "IPS", start = 32, stop = 34},
+                {name = "TG1", start = 30, stop = 31},
+                {name = "SH1", start = 28, stop = 29},
+                {name = "ORGN1", start = 26, stop = 27},
+                {name = "IRGN1", start = 24, stop = 25},
+                {name = "EPD1", start = 23, stop = 23},
+                {name = "A1", start = 22, stop = 22},
+                {name = "T1SZ", start = 16, stop = 21},
+                {name = "TG0", start = 14, stop = 15},
+                {name = "SH0", start = 12, stop = 13},
+                {name = "ORGN0", start = 10, stop = 11},
+                {name = "IRGN0", start = 8, stop = 9},
+                {name = "EPD0", start = 7, stop = 7},
+                {name = "RESERVED_6_6", start = 6, stop = 6},
+                {name = "T0SZ", start = 0, stop = 5},
+            }
+        },
+        AP_TCR_EL12 = {
+            name = "AP_TCR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30502000200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TCR_EL2 = {
+            name = "AP_TCR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30402000200,
+            fields = {
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "RESERVED_25_30", start = 25, stop = 30},
+                {name = "HAD", start = 24, stop = 24},
+                {name = "RSVD_23", start = 23, stop = 23},
+                {name = "RESERVED_21_22", start = 21, stop = 22},
+                {name = "TBI", start = 20, stop = 20},
+                {name = "RESERVED_19_19", start = 19, stop = 19},
+                {name = "PS", start = 16, stop = 18},
+                {name = "TG0", start = 14, stop = 15},
+                {name = "SH0", start = 12, stop = 13},
+                {name = "ORGN0", start = 10, stop = 11},
+                {name = "IRGN0", start = 8, stop = 9},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "T0SZ", start = 0, stop = 5},
+            }
+        },
+        AP_TCR_EL2_E2H = {
+            name = "AP_TCR_EL2_E2H",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30402000210,
+            fields = {
+                {name = "RESERVED_43_63", start = 43, stop = 63},
+                {name = "HAD1", start = 42, stop = 42},
+                {name = "HAD0", start = 41, stop = 41},
+                {name = "RESERVED_39_40", start = 39, stop = 40},
+                {name = "TBI1", start = 38, stop = 38},
+                {name = "TBI0", start = 37, stop = 37},
+                {name = "AS", start = 36, stop = 36},
+                {name = "RESERVED_35_35", start = 35, stop = 35},
+                {name = "IPS", start = 32, stop = 34},
+                {name = "TG1", start = 30, stop = 31},
+                {name = "SH1", start = 28, stop = 29},
+                {name = "ORGN1", start = 26, stop = 27},
+                {name = "IRGN1", start = 24, stop = 25},
+                {name = "EPD1", start = 23, stop = 23},
+                {name = "A1", start = 22, stop = 22},
+                {name = "T1SZ", start = 16, stop = 21},
+                {name = "TG0", start = 14, stop = 15},
+                {name = "SH0", start = 12, stop = 13},
+                {name = "ORGN0", start = 10, stop = 11},
+                {name = "IRGN0", start = 8, stop = 9},
+                {name = "EPD0", start = 7, stop = 7},
+                {name = "RESERVED_6_6", start = 6, stop = 6},
+                {name = "T0SZ", start = 0, stop = 5},
+            }
+        },
+        AP_TCR_EL3 = {
+            name = "AP_TCR_EL3",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30602000200,
+            fields = {
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "RESERVED_25_30", start = 25, stop = 30},
+                {name = "HAD", start = 24, stop = 24},
+                {name = "RSVD_23", start = 23, stop = 23},
+                {name = "RESERVED_21_22", start = 21, stop = 22},
+                {name = "TBI", start = 20, stop = 20},
+                {name = "RESERVED_19_19", start = 19, stop = 19},
+                {name = "PS", start = 16, stop = 18},
+                {name = "TG0", start = 14, stop = 15},
+                {name = "SH0", start = 12, stop = 13},
+                {name = "ORGN0", start = 10, stop = 11},
+                {name = "IRGN0", start = 8, stop = 9},
+                {name = "RESERVED_6_7", start = 6, stop = 7},
+                {name = "T0SZ", start = 0, stop = 5},
+            }
+        },
+        AP_TEECR32_EL1 = {
+            name = "AP_TEECR32_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20200000000,
+            fields = {
+                {name = "RESERVED_1_31", start = 1, stop = 31},
+                {name = "XED", start = 0, stop = 0},
+            }
+        },
+        AP_TEEHBR32_EL1 = {
+            name = "AP_TEEHBR32_EL1",
+            type = "SYSREG",
+            width = 4,
+            address = 0x20201000000,
+            fields = {
+                {name = "HANDLERBASE", start = 2, stop = 31},
+                {name = "RESERVED_0_1", start = 0, stop = 1},
+            }
+        },
+        AP_TPIDR_ELX = {
+            name = "AP_TPIDR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000d000200,
+            range1 = {2,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_TPIDR_EL0 = {
+            name = "AP_TPIDR_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030d000200,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_TPIDR_EL1 = {
+            name = "AP_TPIDR_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000d000400,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_TPIDRRO_EL0 = {
+            name = "AP_TPIDRRO_EL0",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3030d000300,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
+            }
+        },
+        AP_TRCACATRX = {
+            name = "AP_TRCACATR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20102000200,
+            range1 = {0,15},
+            range1_inc = 0x20000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCACVRX = {
+            name = "AP_TRCACVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20102000000,
+            range1 = {0,15},
+            range1_inc = 0x20000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCAUTHSTATUS = {
+            name = "AP_TRCAUTHSTATUS",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070e0600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCAUXCTLR = {
+            name = "AP_TRCAUXCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100060000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCBBCTLR = {
+            name = "AP_TRCBBCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000f0000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCCCTLR = {
+            name = "AP_TRCCCCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000e0000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCIDCCTLRX = {
+            name = "AP_TRCCIDCCTLR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20103000200,
+            range1 = {0,1},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCIDCVRX = {
+            name = "AP_TRCCIDCVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20103000000,
+            range1 = {0,7},
+            range1_inc = 0x20000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCIDRX = {
+            name = "AP_TRCCIDR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070c0700,
+            range1 = {0,3},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCLAIMCLR = {
+            name = "AP_TRCCLAIMCLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107090600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCLAIMSET = {
+            name = "AP_TRCCLAIMSET",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107080600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCNTCTLRX = {
+            name = "AP_TRCCNTCTLR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100040500,
+            range1 = {0,3},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCNTRLDVRX = {
+            name = "AP_TRCCNTRLDVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100000500,
+            range1 = {0,3},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCNTVRX = {
+            name = "AP_TRCCNTVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100080500,
+            range1 = {0,3},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCCONFIGR = {
+            name = "AP_TRCCONFIGR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100040000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDEVAFFX = {
+            name = "AP_TRCDEVAFF#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070a0600,
+            range1 = {0,1},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDEVARCH = {
+            name = "AP_TRCDEVARCH",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070f0600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDEVID = {
+            name = "AP_TRCDEVID",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107020700,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDEVTYPE = {
+            name = "AP_TRCDEVTYPE",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107030700,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDVCMRX = {
+            name = "AP_TRCDVCMR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20102000600,
+            range1 = {0,7},
+            range1_inc = 0x40000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCDVCVRX = {
+            name = "AP_TRCDVCVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20102000400,
+            range1 = {0,7},
+            range1_inc = 0x40000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCEVENTCTLXR = {
+            name = "AP_TRCEVENTCTL#R",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100080000,
+            range1 = {0,1},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCEXTINSELR = {
+            name = "AP_TRCEXTINSELR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100080400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCIDRX = {
+            name = "AP_TRCIDR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100080700,
+            range1 = {0,13},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCIMSPECX = {
+            name = "AP_TRCIMSPEC#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100000700,
+            range1 = {0,7},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCITCTRL = {
+            name = "AP_TRCITCTRL",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107000400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCLAR = {
+            name = "AP_TRCLAR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070c0600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCLSR = {
+            name = "AP_TRCLSR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201070d0600,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCOSLAR = {
+            name = "AP_TRCOSLAR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101000400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCOSLSR = {
+            name = "AP_TRCOSLSR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101010400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCPDCR = {
+            name = "AP_TRCPDCR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101040400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCPDSR = {
+            name = "AP_TRCPDSR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101050400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCPIDRX = {
+            name = "AP_TRCPIDR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20107080700,
+            range1 = {0,7},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCPRGCTLR = {
+            name = "AP_TRCPRGCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100010000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCPROCSELR = {
+            name = "AP_TRCPROCSELR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100020000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCQCTLR = {
+            name = "AP_TRCQCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100010100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCRSCTLRX = {
+            name = "AP_TRCRSCTLR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101000000,
+            range1 = {2,31},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSEQEVRX = {
+            name = "AP_TRCSEQEVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100000400,
+            range1 = {0,2},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSEQRSTEVR = {
+            name = "AP_TRCSEQRSTEVR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100060400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSEQSTR = {
+            name = "AP_TRCSEQSTR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100070400,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSSCCRX = {
+            name = "AP_TRCSSCCR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101000200,
+            range1 = {0,7},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSSCSRX = {
+            name = "AP_TRCSSCSR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101080200,
+            range1 = {0,7},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSSPCICRX = {
+            name = "AP_TRCSSPCICR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20101000300,
+            range1 = {0,7},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSTALLCTLR = {
+            name = "AP_TRCSTALLCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000b0000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSTATR = {
+            name = "AP_TRCSTATR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100030000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCSYNCPR = {
+            name = "AP_TRCSYNCPR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000d0000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCTRACEIDR = {
+            name = "AP_TRCTRACEIDR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100000100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCTSCTLR = {
+            name = "AP_TRCTSCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000c0000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVDARCCTLR = {
+            name = "AP_TRCVDARCCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x201000a0200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVDCTLR = {
+            name = "AP_TRCVDCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100080200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVDSACCTLR = {
+            name = "AP_TRCVDSACCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100090200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVICTLR = {
+            name = "AP_TRCVICTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100000200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVIIECTLR = {
+            name = "AP_TRCVIIECTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100010200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVIPCSSCTLR = {
+            name = "AP_TRCVIPCSSCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100030200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVISSCTLR = {
+            name = "AP_TRCVISSCTLR",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20100020200,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVMIDCCTLRX = {
+            name = "AP_TRCVMIDCCTLR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20103020200,
+            range1 = {0,1},
+            range1_inc = 0x10000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TRCVMIDCVRX = {
+            name = "AP_TRCVMIDCVR#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x20103000100,
+            range1 = {0,7},
+            range1_inc = 0x20000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TTBR0_EL1 = {
+            name = "AP_TTBR0_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30002000000,
+            fields = {
+                {name = "ASID", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_TTBR0_EL12 = {
+            name = "AP_TTBR0_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30502000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TTBR0_EL2 = {
+            name = "AP_TTBR0_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30402000000,
+            fields = {
+                {name = "ASID", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_TTBR0_EL3 = {
+            name = "AP_TTBR0_EL3",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30602000000,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_TTBR1_EL1 = {
+            name = "AP_TTBR1_EL1",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30002000100,
+            fields = {
+                {name = "ASID", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_TTBR1_EL12 = {
+            name = "AP_TTBR1_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30502000100,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_TTBR1_EL2 = {
+            name = "AP_TTBR1_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30402000100,
+            fields = {
+                {name = "ASID", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
+        AP_VBAR_ELX = {
+            name = "AP_VBAR_EL#",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3000c000000,
+            range1 = {1,3},
+            range1_inc = 0x200000000,
+            fields = {
+                {name = "DATA", start = 11, stop = 63},
+                {name = "RESERVED_0_10", start = 0, stop = 10},
+            }
+        },
+        AP_VBAR_EL12 = {
+            name = "AP_VBAR_EL12",
+            type = "SYSREG",
+            width = 8,
+            address = 0x3050c000000,
+            fields = {
+                {name = "RESERVED_0_63", start = 0, stop = 63},
+            }
+        },
+        AP_VMPIDR_EL2 = {
+            name = "AP_VMPIDR_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30400000500,
+            fields = {
+                {name = "RESERVED_40_63", start = 40, stop = 63},
+                {name = "AFF3", start = 32, stop = 39},
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "U", start = 30, stop = 30},
+                {name = "RESERVED_25_29", start = 25, stop = 29},
+                {name = "MT", start = 24, stop = 24},
+                {name = "AFF2", start = 16, stop = 23},
+                {name = "AFF1", start = 8, stop = 15},
+                {name = "AFF0", start = 0, stop = 7},
+            }
+        },
+        AP_VPIDR_EL2 = {
+            name = "AP_VPIDR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30400000000,
+            fields = {
+                {name = "IMPLEMENTER", start = 24, stop = 31},
+                {name = "VARIANT", start = 20, stop = 23},
+                {name = "ARCHITECTURE", start = 16, stop = 19},
+                {name = "PARTNUM", start = 4, stop = 15},
+                {name = "REVISION", start = 0, stop = 3},
+            }
+        },
+        AP_VTCR_EL2 = {
+            name = "AP_VTCR_EL2",
+            type = "SYSREG",
+            width = 4,
+            address = 0x30402010200,
+            fields = {
+                {name = "RSVD_31", start = 31, stop = 31},
+                {name = "RESERVED_20_30", start = 20, stop = 30},
+                {name = "VS", start = 19, stop = 19},
+                {name = "PS", start = 16, stop = 18},
+                {name = "TG0", start = 14, stop = 15},
+                {name = "SH0", start = 12, stop = 13},
+                {name = "ORGN0", start = 10, stop = 11},
+                {name = "IRGN0", start = 8, stop = 9},
+                {name = "SL0", start = 6, stop = 7},
+                {name = "T0SZ", start = 0, stop = 5},
+            }
+        },
+        AP_VTTBR_EL2 = {
+            name = "AP_VTTBR_EL2",
+            type = "SYSREG",
+            width = 8,
+            address = 0x30402010000,
+            fields = {
+                {name = "VMID", start = 48, stop = 63},
+                {name = "BADDR", start = 4, stop = 47},
+                {name = "RESERVED_0_3", start = 0, stop = 3},
+            }
+        },
         BGXX_CMRX_CONFIG = {
             name = "BGX#_CMR#_CONFIG",
             type = "RSL",
@@ -51091,6 +59427,18 @@ local csr_db = {
             range1_inc = 0x1000000,
             fields = {
                 {name = "MSK_OR", start = 0, stop = 63},
+            }
+        },
+        BGXX_CMR_ECO = {
+            name = "BGX#_CMR_ECO",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0e0001028,
+            range1 = {0,1},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "ECO_RO", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
             }
         },
         BGXX_CMR_GLOBAL_CONFIG = {
@@ -54923,13 +63271,25 @@ local csr_db = {
                 {name = "RESERVED_31_0", start = 0, stop = 31},
             }
         },
+        DAP_ECO = {
+            name = "DAP_ECO",
+            type = "RSL",
+            width = 8,
+            address = 0x87e002000120,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RO", start = 16, stop = 31},
+                {name = "ECO_RW", start = 0, stop = 15},
+            }
+        },
         DAP_HWPOLL_CNT = {
             name = "DAP_HWPOLL_CNT",
             type = "RSL32B",
             width = 4,
             address = 0x87e002000114,
             fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "POLL_DIS", start = 31, stop = 31},
+                {name = "RESERVED_16_30", start = 16, stop = 30},
                 {name = "COUNT", start = 0, stop = 15},
             }
         },
@@ -54939,7 +63299,10 @@ local csr_db = {
             width = 4,
             address = 0x87e002000100,
             fields = {
-                {name = "RESERVED_11_31", start = 11, stop = 31},
+                {name = "RESERVED_30_31", start = 30, stop = 31},
+                {name = "DISTRACEFEATURE", start = 29, stop = 29},
+                {name = "DISTRACE", start = 28, stop = 28},
+                {name = "RESERVED_11_27", start = 11, stop = 27},
                 {name = "CABNSEN", start = 10, stop = 10},
                 {name = "CABEN", start = 9, stop = 9},
                 {name = "RESERVED_6_8", start = 6, stop = 8},
@@ -54957,8 +63320,28 @@ local csr_db = {
             width = 4,
             address = 0x87e002000110,
             fields = {
-                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "TO_DIS", start = 31, stop = 31},
+                {name = "RESERVED_16_30", start = 16, stop = 30},
                 {name = "TOVALUE", start = 0, stop = 15},
+            }
+        },
+        DAP_RST_ON_WARM = {
+            name = "DAP_RST_ON_WARM",
+            type = "RSL",
+            width = 8,
+            address = 0x87e002000128,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "RST_ON_WARM", start = 0, stop = 0},
+            }
+        },
+        DAP_SCRATCH = {
+            name = "DAP_SCRATCH",
+            type = "RSL",
+            width = 8,
+            address = 0x87e002000118,
+            fields = {
+                {name = "DATA", start = 0, stop = 63},
             }
         },
         DAP_SRAADDR = {
@@ -58396,6 +66779,17 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 63},
             }
         },
+        GIC_SYNC_CFG = {
+            name = "GIC_SYNC_CFG",
+            type = "NCB",
+            width = 8,
+            address = 0x801000010050,
+            fields = {
+                {name = "TE", start = 63, stop = 63},
+                {name = "RESERVED_32_62", start = 32, stop = 62},
+                {name = "TOL", start = 0, stop = 31},
+            }
+        },
         GICD_CIDR0 = {
             name = "GICD_CIDR0",
             type = "NCB32B",
@@ -59026,9 +67420,14 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_63_63", start = 63, stop = 63},
                 {name = "PENDING_TABLE_ZERO", start = 62, stop = 62},
-                {name = "RESERVED_48_61", start = 48, stop = 61},
+                {name = "RESERVED_59_61", start = 59, stop = 61},
+                {name = "OUTER_CACHEABILITY", start = 56, stop = 58},
+                {name = "RESERVED_48_55", start = 48, stop = 55},
                 {name = "PA", start = 16, stop = 47},
-                {name = "RESERVED_0_15", start = 0, stop = 15},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "SHAREABILITY", start = 10, stop = 11},
+                {name = "CACHEABILITY", start = 7, stop = 9},
+                {name = "RESERVED_0_6", start = 0, stop = 6},
             }
         },
         GICRX_PIDR0 = {
@@ -59137,9 +67536,13 @@ local csr_db = {
             range1 = {0,47},
             range1_inc = 0x20000,
             fields = {
-                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "RESERVED_59_63", start = 59, stop = 63},
+                {name = "OUTER_CACHEABILITY", start = 56, stop = 58},
+                {name = "RESERVED_48_55", start = 48, stop = 55},
                 {name = "PA", start = 12, stop = 47},
-                {name = "RESERVED_5_11", start = 5, stop = 11},
+                {name = "SHAREABILITY", start = 10, stop = 11},
+                {name = "CACHEABILITY", start = 7, stop = 9},
+                {name = "RESERVED_5_6", start = 5, stop = 6},
                 {name = "NUM_BITS", start = 0, stop = 4},
             }
         },
@@ -59269,7 +67672,8 @@ local csr_db = {
                 {name = "INDIRECT", start = 62, stop = 62},
                 {name = "CACHEABILITY", start = 59, stop = 61},
                 {name = "TBL_TYPE", start = 56, stop = 58},
-                {name = "ENTRY_SIZE", start = 48, stop = 55},
+                {name = "OUTER_CACHEABILITY", start = 53, stop = 55},
+                {name = "ENTRY_SIZE", start = 48, stop = 52},
                 {name = "ARSVD", start = 42, stop = 47},
                 {name = "PHYSICAL_ADDRESS", start = 12, stop = 41},
                 {name = "SHAREABILITY", start = 10, stop = 11},
@@ -59297,7 +67701,9 @@ local csr_db = {
                 {name = "VALID", start = 63, stop = 63},
                 {name = "RESERVED_62_62", start = 62, stop = 62},
                 {name = "CACHEABILITY", start = 59, stop = 61},
-                {name = "RESERVED_48_58", start = 48, stop = 58},
+                {name = "RESERVED_56_58", start = 56, stop = 58},
+                {name = "OUTER_CACHEABILITY", start = 53, stop = 55},
+                {name = "RESERVED_48_52", start = 48, stop = 52},
                 {name = "ARSVD", start = 42, stop = 47},
                 {name = "PHYSICAL_ADDRESS", start = 12, stop = 41},
                 {name = "SHAREABILITY", start = 10, stop = 11},
@@ -59520,7 +67926,9 @@ local csr_db = {
             width = 8,
             address = 0x801000020008,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "RESERVED_37_63", start = 37, stop = 63},
+                {name = "CIL", start = 36, stop = 36},
+                {name = "CID_BITS", start = 32, stop = 35},
                 {name = "HCC", start = 24, stop = 31},
                 {name = "RESERVED_20_23", start = 20, stop = 23},
                 {name = "PTA", start = 19, stop = 19},
@@ -59529,7 +67937,8 @@ local csr_db = {
                 {name = "IDBITS", start = 8, stop = 12},
                 {name = "ITTE_SIZE", start = 4, stop = 7},
                 {name = "DISTRIBUTED", start = 3, stop = 3},
-                {name = "RESERVED_1_2", start = 1, stop = 2},
+                {name = "RESERVED_2_2", start = 2, stop = 2},
+                {name = "VLPI", start = 1, stop = 1},
                 {name = "PHYSICAL", start = 0, stop = 0},
             }
         },
@@ -59789,7 +68198,8 @@ local csr_db = {
             range2 = {0,3},
             range2_inc = 0x80,
             fields = {
-                {name = "RESERVED_3_63", start = 3, stop = 63},
+                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "RXT_ADTMOUT_DISABLE", start = 3, stop = 3},
                 {name = "RXT_SWM", start = 2, stop = 2},
                 {name = "RXT_PRESET", start = 1, stop = 1},
                 {name = "RXT_INITIALIZE", start = 0, stop = 0},
@@ -60104,6 +68514,24 @@ local csr_db = {
                 {name = "CFG_TX_PSTATE_REQ_OVRRD_EN", start = 2, stop = 2},
                 {name = "CFG_RX_PSTATE_REQ_OVRRD_EN", start = 1, stop = 1},
                 {name = "CFG_LANE_MODE_REQ_OVRRD_EN", start = 0, stop = 0},
+            }
+        },
+        GSERX_LANEX_PCS_MACIFC_MON_2 = {
+            name = "GSER#_LANE#_PCS_MACIFC_MON_2",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0904c0118,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            range2 = {0,3},
+            range2_inc = 0x100000,
+            fields = {
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "TX_COEFF_REQ", start = 15, stop = 15},
+                {name = "TX_VBOOST_EN", start = 14, stop = 14},
+                {name = "TX_SWING", start = 9, stop = 13},
+                {name = "TX_PRE", start = 5, stop = 8},
+                {name = "TX_POST", start = 0, stop = 4},
             }
         },
         GSERX_LANEX_PMA_LOOPBACK_CTRL = {
@@ -60423,7 +68851,8 @@ local csr_db = {
                 {name = "RESERVED_6_6", start = 6, stop = 6},
                 {name = "CFG_RX_DLL_LOCKEN_OVVRD_EN", start = 5, stop = 5},
                 {name = "CFG_RX_ERRDET_CTRL_OVVRD_EN", start = 4, stop = 4},
-                {name = "RESERVED_3_0", start = 0, stop = 3},
+                {name = "RESERVED_3_1", start = 1, stop = 3},
+                {name = "CFG_RXEQ_EVAL_RESTORE_EN", start = 0, stop = 0},
             }
         },
         GSERX_LANEX_RX_PRECORR_CTRL = {
@@ -62756,10 +71185,11 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_60_63", start = 60, stop = 63},
-                {name = "IED0_DBE", start = 32, stop = 59},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "IED0_SBE", start = 0, stop = 27},
+                {name = "PEM_SIE", start = 63, stop = 63},
+                {name = "RESERVED_61_62", start = 61, stop = 62},
+                {name = "IED0_DBE", start = 32, stop = 60},
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "IED0_SBE", start = 0, stop = 28},
             }
         },
         IOBNX_INT_ENA_W1S = {
@@ -62770,10 +71200,11 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_60_63", start = 60, stop = 63},
-                {name = "IED0_DBE", start = 32, stop = 59},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "IED0_SBE", start = 0, stop = 27},
+                {name = "PEM_SIE", start = 63, stop = 63},
+                {name = "RESERVED_61_62", start = 61, stop = 62},
+                {name = "IED0_DBE", start = 32, stop = 60},
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "IED0_SBE", start = 0, stop = 28},
             }
         },
         IOBNX_INT_SUM = {
@@ -62784,10 +71215,11 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_60_63", start = 60, stop = 63},
-                {name = "IED0_DBE", start = 32, stop = 59},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "IED0_SBE", start = 0, stop = 27},
+                {name = "PEM_SIE", start = 63, stop = 63},
+                {name = "RESERVED_61_62", start = 61, stop = 62},
+                {name = "IED0_DBE", start = 32, stop = 60},
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "IED0_SBE", start = 0, stop = 28},
             }
         },
         IOBNX_INT_SUM_W1S = {
@@ -62798,10 +71230,11 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_60_63", start = 60, stop = 63},
-                {name = "IED0_DBE", start = 32, stop = 59},
-                {name = "RESERVED_28_31", start = 28, stop = 31},
-                {name = "IED0_SBE", start = 0, stop = 27},
+                {name = "PEM_SIE", start = 63, stop = 63},
+                {name = "RESERVED_61_62", start = 61, stop = 62},
+                {name = "IED0_DBE", start = 32, stop = 60},
+                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "IED0_SBE", start = 0, stop = 28},
             }
         },
         IOBNX_MCTLR_REG = {
@@ -62944,7 +71377,10 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "MAX_DLL_SETTING", start = 48, stop = 59},
+                {name = "MIN_DLL_SETTING", start = 36, stop = 47},
+                {name = "RESERVED_32_35", start = 32, stop = 35},
                 {name = "PDR_RCLK_REFCLK", start = 31, stop = 31},
                 {name = "PDL_RCLK_REFCLK", start = 30, stop = 30},
                 {name = "PD_POS_RCLK_REFCLK", start = 29, stop = 29},
@@ -63070,6 +71506,16 @@ local csr_db = {
                 {name = "KMEM", start = 0, stop = 63},
             }
         },
+        KEY_MEM_ACCESS = {
+            name = "KEY_MEM_ACCESS",
+            type = "RSL",
+            width = 8,
+            address = 0x87e041000020,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "RSLDIS", start = 0, stop = 0},
+            }
+        },
         KEY_MSIX_PBAX = {
             name = "KEY_MSIX_PBA#",
             type = "RSL",
@@ -63190,7 +71636,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "GSYNCTO", start = 8, stop = 8},
                 {name = "IOWRDISOCI", start = 7, stop = 7},
                 {name = "IORDDISOCI", start = 6, stop = 6},
                 {name = "MIBDBE", start = 5, stop = 5},
@@ -63208,7 +71655,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "GSYNCTO", start = 8, stop = 8},
                 {name = "IOWRDISOCI", start = 7, stop = 7},
                 {name = "IORDDISOCI", start = 6, stop = 6},
                 {name = "MIBDBE", start = 5, stop = 5},
@@ -63226,7 +71674,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "GSYNCTO", start = 8, stop = 8},
                 {name = "IOWRDISOCI", start = 7, stop = 7},
                 {name = "IORDDISOCI", start = 6, stop = 6},
                 {name = "MIBDBE", start = 5, stop = 5},
@@ -63244,7 +71693,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RESERVED_9_63", start = 9, stop = 63},
+                {name = "GSYNCTO", start = 8, stop = 8},
                 {name = "IOWRDISOCI", start = 7, stop = 7},
                 {name = "IORDDISOCI", start = 6, stop = 6},
                 {name = "MIBDBE", start = 5, stop = 5},
@@ -63502,7 +71952,8 @@ local csr_db = {
                 {name = "RSP_ARB_MODE", start = 15, stop = 15},
                 {name = "XMC_ARB_MODE", start = 14, stop = 14},
                 {name = "RDF_CNT", start = 6, stop = 13},
-                {name = "RESERVED_4_5", start = 4, stop = 5},
+                {name = "RESERVED_5_5", start = 5, stop = 5},
+                {name = "DISGSYNCTO", start = 4, stop = 4},
                 {name = "DISLDWB", start = 3, stop = 3},
                 {name = "DISSBLKDTY", start = 2, stop = 2},
                 {name = "DISECC", start = 1, stop = 1},
@@ -63674,7 +72125,8 @@ local csr_db = {
             width = 8,
             address = 0x87e080800020,
             fields = {
-                {name = "RESERVED_30_63", start = 30, stop = 63},
+                {name = "RESERVED_31_63", start = 31, stop = 63},
+                {name = "NCPEND", start = 30, stop = 30},
                 {name = "LOCK_LOCAL_CAS", start = 29, stop = 29},
                 {name = "LOCK_LOCAL_STC", start = 28, stop = 28},
                 {name = "LOCK_LOCAL_PP", start = 27, stop = 27},
@@ -63774,7 +72226,8 @@ local csr_db = {
                 {name = "RDDISOCI", start = 34, stop = 34},
                 {name = "RTGDBE", start = 33, stop = 33},
                 {name = "RTGSBE", start = 32, stop = 32},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "GSYNCTO", start = 18, stop = 18},
                 {name = "LFBTO", start = 17, stop = 17},
                 {name = "WRDISLMC", start = 16, stop = 16},
                 {name = "RDDISLMC", start = 15, stop = 15},
@@ -63806,7 +72259,8 @@ local csr_db = {
                 {name = "RDDISOCI", start = 34, stop = 34},
                 {name = "RTGDBE", start = 33, stop = 33},
                 {name = "RTGSBE", start = 32, stop = 32},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "GSYNCTO", start = 18, stop = 18},
                 {name = "LFBTO", start = 17, stop = 17},
                 {name = "WRDISLMC", start = 16, stop = 16},
                 {name = "RDDISLMC", start = 15, stop = 15},
@@ -63838,7 +72292,8 @@ local csr_db = {
                 {name = "RDDISOCI", start = 34, stop = 34},
                 {name = "RTGDBE", start = 33, stop = 33},
                 {name = "RTGSBE", start = 32, stop = 32},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "GSYNCTO", start = 18, stop = 18},
                 {name = "LFBTO", start = 17, stop = 17},
                 {name = "WRDISLMC", start = 16, stop = 16},
                 {name = "RDDISLMC", start = 15, stop = 15},
@@ -63870,7 +72325,8 @@ local csr_db = {
                 {name = "RDDISOCI", start = 34, stop = 34},
                 {name = "RTGDBE", start = 33, stop = 33},
                 {name = "RTGSBE", start = 32, stop = 32},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "RESERVED_19_31", start = 19, stop = 31},
+                {name = "GSYNCTO", start = 18, stop = 18},
                 {name = "LFBTO", start = 17, stop = 17},
                 {name = "WRDISLMC", start = 16, stop = 16},
                 {name = "RDDISLMC", start = 15, stop = 15},
@@ -63960,6 +72416,24 @@ local csr_db = {
                 {name = "CNT2SEL", start = 16, stop = 23},
                 {name = "CNT1SEL", start = 8, stop = 15},
                 {name = "CNT0SEL", start = 0, stop = 7},
+            }
+        },
+        L2C_TADX_RTG_ERR = {
+            name = "L2C_TAD#_RTG_ERR",
+            type = "RSL",
+            width = 8,
+            address = 0x87e050060300,
+            range1 = {0,7},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RTGDBE", start = 63, stop = 63},
+                {name = "RTGSBE", start = 62, stop = 62},
+                {name = "RESERVED_39_61", start = 39, stop = 61},
+                {name = "SYN", start = 32, stop = 38},
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "WAY", start = 20, stop = 23},
+                {name = "L2IDX", start = 7, stop = 19},
+                {name = "RESERVED_0_6", start = 0, stop = 6},
             }
         },
         L2C_TADX_STAT = {
@@ -64159,6 +72633,28 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
                 {name = "MASK", start = 0, stop = 15},
+            }
+        },
+        LMCX_BANK_CONFLICT1 = {
+            name = "LMC#_BANK_CONFLICT1",
+            type = "RSL",
+            width = 8,
+            address = 0x87e088000360,
+            range1 = {0,3},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "CNT", start = 0, stop = 63},
+            }
+        },
+        LMCX_BANK_CONFLICT2 = {
+            name = "LMC#_BANK_CONFLICT2",
+            type = "RSL",
+            width = 8,
+            address = 0x87e088000368,
+            range1 = {0,3},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "CNT", start = 0, stop = 63},
             }
         },
         LMCX_BIST_CTL = {
@@ -64388,7 +72884,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_60_63", start = 60, stop = 63},
+                {name = "RESERVED_62_63", start = 62, stop = 63},
+                {name = "CMD_COUNT_EXT", start = 60, stop = 61},
                 {name = "DB_OUTPUT_IMPEDANCE", start = 57, stop = 59},
                 {name = "DB_SEL", start = 56, stop = 56},
                 {name = "TCCD_SEL", start = 55, stop = 55},
@@ -64691,7 +73188,14 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "RESERVED_21_63", start = 21, stop = 63},
+                {name = "DELAY_UNLOAD_R3", start = 20, stop = 20},
+                {name = "DELAY_UNLOAD_R2", start = 19, stop = 19},
+                {name = "DELAY_UNLOAD_R1", start = 18, stop = 18},
+                {name = "DELAY_UNLOAD_R0", start = 17, stop = 17},
+                {name = "EARLY_DQX2", start = 16, stop = 16},
+                {name = "XOR_BANK_SEL", start = 12, stop = 15},
+                {name = "RESERVED_10_11", start = 10, stop = 11},
                 {name = "ROW_COL_SWITCH", start = 9, stop = 9},
                 {name = "TRR_ON", start = 8, stop = 8},
                 {name = "MAC", start = 5, stop = 7},
@@ -65187,7 +73691,10 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_58_63", start = 58, stop = 63},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "DSK_DBG_LOAD_DIS", start = 60, stop = 60},
+                {name = "DSK_DBG_OVERWRT_ENA", start = 59, stop = 59},
+                {name = "DSK_DBG_WR_MODE", start = 58, stop = 58},
                 {name = "DATA_RATE_LOOPBACK", start = 57, stop = 57},
                 {name = "DQ_SHALLOW_LOOPBACK", start = 56, stop = 56},
                 {name = "DM_DISABLE", start = 55, stop = 55},
@@ -65221,6 +73728,26 @@ local csr_db = {
                 {name = "LOOPBACK", start = 2, stop = 2},
                 {name = "LOOPBACK_POS", start = 1, stop = 1},
                 {name = "TS_STAGGER", start = 0, stop = 0},
+            }
+        },
+        LMCX_PHY_CTL2 = {
+            name = "LMC#_PHY_CTL2",
+            type = "RSL",
+            width = 8,
+            address = 0x87e088000250,
+            range1 = {0,3},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_27_63", start = 27, stop = 63},
+                {name = "DQS8_DSK_ADJ", start = 24, stop = 26},
+                {name = "DQS7_DSK_ADJ", start = 21, stop = 23},
+                {name = "DQS6_DSK_ADJ", start = 18, stop = 20},
+                {name = "DQS5_DSK_ADJ", start = 15, stop = 17},
+                {name = "DQS4_DSK_ADJ", start = 12, stop = 14},
+                {name = "DQS3_DSK_ADJ", start = 9, stop = 11},
+                {name = "DQS2_DSK_ADJ", start = 6, stop = 8},
+                {name = "DQS1_DSK_ADJ", start = 3, stop = 5},
+                {name = "DQS0_DSK_ADJ", start = 0, stop = 2},
             }
         },
         LMCX_PPR_CTL = {
@@ -65318,7 +73845,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "RESERVED_33_63", start = 33, stop = 63},
+                {name = "TCCD_SEL", start = 32, stop = 32},
                 {name = "PATTERN", start = 24, stop = 31},
                 {name = "RESERVED_22_23", start = 22, stop = 23},
                 {name = "DELAY_UNLOAD_3", start = 21, stop = 21},
@@ -65529,8 +74057,8 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_53_63", start = 53, stop = 63},
-                {name = "TBCW", start = 48, stop = 52},
+                {name = "RESERVED_54_63", start = 54, stop = 63},
+                {name = "TBCW", start = 48, stop = 53},
                 {name = "TCKSRE", start = 44, stop = 47},
                 {name = "TRP", start = 39, stop = 43},
                 {name = "TZQINIT", start = 35, stop = 38},
@@ -65850,7 +74378,8 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_63_63", start = 63, stop = 63},
                 {name = "RW", start = 62, stop = 62},
-                {name = "RESERVED_60_61", start = 60, stop = 61},
+                {name = "RESERVED_61_61", start = 61, stop = 61},
+                {name = "INTDIS", start = 60, stop = 60},
                 {name = "SWAP32", start = 59, stop = 59},
                 {name = "SWAP16", start = 58, stop = 58},
                 {name = "SWAP8", start = 57, stop = 57},
@@ -66179,7 +74708,7 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_59_63", start = 59, stop = 63},
                 {name = "RUN_PLATFORM", start = 56, stop = 58},
-                {name = "RESERVED_48_55", start = 48, stop = 55},
+                {name = "GBL_PWR_THROTTLE", start = 48, stop = 55},
                 {name = "FUS118", start = 47, stop = 47},
                 {name = "ROM_INFO", start = 37, stop = 46},
                 {name = "POWER_LIMIT", start = 35, stop = 36},
@@ -66286,6 +74815,17 @@ local csr_db = {
                 {name = "PNR_COUT_RST", start = 4, stop = 4},
                 {name = "PNR_COUT_SEL", start = 2, stop = 3},
                 {name = "RESERVED_0_1", start = 0, stop = 1},
+            }
+        },
+        MIO_FUS_PNAMEX = {
+            name = "MIO_FUS_PNAME#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e003001440,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "DAT", start = 0, stop = 63},
             }
         },
         MIO_FUS_PROG = {
@@ -66990,19 +75530,21 @@ local csr_db = {
         },
         MRML_INT_LOCAL_TO = {
             name = "MRML_INT_LOCAL_TO",
-            type = "RSL32B",
-            width = 4,
+            type = "RSL",
+            width = 8,
             address = 0x87e0fc000800,
             fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "TOVALUE", start = 0, stop = 31},
             }
         },
         MRML_INT_OCX_TO = {
             name = "MRML_INT_OCX_TO",
-            type = "RSL32B",
-            width = 4,
+            type = "RSL",
+            width = 8,
             address = 0x87e0fc000808,
             fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "TOVALUE", start = 0, stop = 31},
             }
         },
@@ -67113,7 +75655,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000110,
             fields = {
-                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "PKG_ID", start = 2, stop = 4},
                 {name = "PKG_DESEL_TX_CH_DIS", start = 1, stop = 1},
                 {name = "CAM_ACCEPT", start = 0, stop = 0},
             }
@@ -67133,7 +75676,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000000,
             fields = {
-                {name = "RESERVED_15_63", start = 15, stop = 63},
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "BMC2CPU", start = 15, stop = 15},
                 {name = "RX_RSP_OVERFL", start = 14, stop = 14},
                 {name = "RX_RSP_SBE", start = 13, stop = 13},
                 {name = "RX_RSP_DBE", start = 12, stop = 12},
@@ -67157,7 +75701,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000018,
             fields = {
-                {name = "RESERVED_15_63", start = 15, stop = 63},
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "BMC2CPU", start = 15, stop = 15},
                 {name = "RX_RSP_OVERFL", start = 14, stop = 14},
                 {name = "RX_RSP_SBE", start = 13, stop = 13},
                 {name = "RX_RSP_DBE", start = 12, stop = 12},
@@ -67181,7 +75726,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000010,
             fields = {
-                {name = "RESERVED_15_63", start = 15, stop = 63},
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "BMC2CPU", start = 15, stop = 15},
                 {name = "RX_RSP_OVERFL", start = 14, stop = 14},
                 {name = "RX_RSP_SBE", start = 13, stop = 13},
                 {name = "RX_RSP_DBE", start = 12, stop = 12},
@@ -67205,7 +75751,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000008,
             fields = {
-                {name = "RESERVED_15_63", start = 15, stop = 63},
+                {name = "RESERVED_16_63", start = 16, stop = 63},
+                {name = "BMC2CPU", start = 15, stop = 15},
                 {name = "RX_RSP_OVERFL", start = 14, stop = 14},
                 {name = "RX_RSP_SBE", start = 13, stop = 13},
                 {name = "RX_RSP_DBE", start = 12, stop = 12},
@@ -67367,7 +75914,8 @@ local csr_db = {
             width = 8,
             address = 0x87e00b000120,
             fields = {
-                {name = "RESERVED_4_63", start = 4, stop = 63},
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "FCS_STRP", start = 4, stop = 4},
                 {name = "PRE_STRP", start = 3, stop = 3},
                 {name = "PRE_CHK_LEN", start = 0, stop = 2},
             }
@@ -67484,7 +76032,7 @@ local csr_db = {
             width = 8,
             address = 0x843000001280,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67520,6 +76068,16 @@ local csr_db = {
                 {name = "RESERVED_40_63", start = 40, stop = 63},
                 {name = "BLK1", start = 24, stop = 39},
                 {name = "BLK0", start = 0, stop = 23},
+            }
+        },
+        NIC_PF_BIST4_STATUS = {
+            name = "NIC_PF_BIST4_STATUS",
+            type = "NCB",
+            width = 8,
+            address = 0x8430000012a0,
+            fields = {
+                {name = "RESERVED_3_63", start = 3, stop = 63},
+                {name = "MCAM", start = 0, stop = 2},
             }
         },
         NIC_PF_BP_CFG = {
@@ -67682,7 +76240,7 @@ local csr_db = {
             width = 8,
             address = 0x843000001100,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67694,7 +76252,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002110,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67706,7 +76264,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002118,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67718,7 +76276,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002100,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67730,7 +76288,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002108,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67742,7 +76300,7 @@ local csr_db = {
             width = 8,
             address = 0x843000001000,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67754,7 +76312,7 @@ local csr_db = {
             width = 8,
             address = 0x843000001080,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67766,7 +76324,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002010,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67778,7 +76336,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002018,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67790,7 +76348,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002000,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -67802,7 +76360,7 @@ local csr_db = {
             width = 8,
             address = 0x843000002008,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "BLK3", start = 32, stop = 63},
                 {name = "BLK2", start = 16, stop = 31},
                 {name = "BLK1", start = 8, stop = 15},
                 {name = "BLK0", start = 0, stop = 7},
@@ -68160,6 +76718,66 @@ local csr_db = {
                 {name = "BLK0", start = 0, stop = 23},
             }
         },
+        NIC_PF_ECO0 = {
+            name = "NIC_PF_ECO0",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
+        NIC_PF_ECO1 = {
+            name = "NIC_PF_ECO1",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003010,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
+        NIC_PF_ECO2 = {
+            name = "NIC_PF_ECO2",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003020,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
+        NIC_PF_ECO3 = {
+            name = "NIC_PF_ECO3",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003030,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
+        NIC_PF_ECO4 = {
+            name = "NIC_PF_ECO4",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003040,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
+        NIC_PF_ECO5 = {
+            name = "NIC_PF_ECO5",
+            type = "NCB",
+            width = 8,
+            address = 0x843000003050,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
         NIC_PF_INT_TIMER_CFG = {
             name = "NIC_PF_INT_TIMER_CFG",
             type = "NCB",
@@ -68230,6 +76848,18 @@ local csr_db = {
                 {name = "BLOCK", start = 0, stop = 3},
             }
         },
+        NIC_PF_INTFX_TX_FIFO_STATUS = {
+            name = "NIC_PF_INTF#_TX_FIFO_STATUS",
+            type = "NCB",
+            width = 8,
+            address = 0x843000000230,
+            range1 = {0,1},
+            range1_inc = 0x100,
+            fields = {
+                {name = "RESERVED_11_63", start = 11, stop = 63},
+                {name = "COUNT", start = 0, stop = 10},
+            }
+        },
         NIC_PF_LMACX_CFG = {
             name = "NIC_PF_LMAC#_CFG",
             type = "NCB",
@@ -68243,6 +76873,18 @@ local csr_db = {
                 {name = "RESERVED_6_7", start = 6, stop = 7},
                 {name = "MIN_PKT_SIZE", start = 2, stop = 5},
                 {name = "RESERVED_0_1", start = 0, stop = 1},
+            }
+        },
+        NIC_PF_LMACX_CFG2 = {
+            name = "NIC_PF_LMAC#_CFG2",
+            type = "NCB",
+            width = 8,
+            address = 0x843000240100,
+            range1 = {0,7},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_14_63", start = 14, stop = 63},
+                {name = "MAX_PKT_SIZE", start = 0, stop = 13},
             }
         },
         NIC_PF_LMACX_CREDIT = {
@@ -68314,6 +76956,58 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "MBOX", start = 0, stop = 63},
+            }
+        },
+        NIC_PF_MCAMX_ENA = {
+            name = "NIC_PF_MCAM#_ENA",
+            type = "NCB",
+            width = 8,
+            address = 0x843000100000,
+            range1 = {0,191},
+            range1_inc = 0x10,
+            fields = {
+                {name = "VALID", start = 63, stop = 63},
+                {name = "RESERVED_0_62", start = 0, stop = 62},
+            }
+        },
+        NIC_PF_MCAMX_MX_DATA = {
+            name = "NIC_PF_MCAM#_M#_DATA",
+            type = "NCB",
+            width = 8,
+            address = 0x843000110000,
+            range1 = {0,191},
+            range1_inc = 0x40,
+            range2 = {0,5},
+            range2_inc = 0x8,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "MCAM_DATA1", start = 24, stop = 47},
+                {name = "MCAM_DATA0", start = 0, stop = 23},
+            }
+        },
+        NIC_PF_MCAM_CTRL = {
+            name = "NIC_PF_MCAM_CTRL",
+            type = "NCB",
+            width = 8,
+            address = 0x843000120000,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA_SCRUB", start = 0, stop = 0},
+            }
+        },
+        NIC_PF_MPIX_CFG = {
+            name = "NIC_PF_MPI#_CFG",
+            type = "NCB",
+            width = 8,
+            address = 0x843000210000,
+            range1 = {0,2047},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_31_63", start = 31, stop = 63},
+                {name = "VNIC", start = 24, stop = 30},
+                {name = "RSS_SIZE", start = 20, stop = 23},
+                {name = "RESERVED_12_19", start = 12, stop = 19},
+                {name = "RSSI_BASE", start = 0, stop = 11},
             }
         },
         NIC_PF_MSIX_PBAX = {
@@ -68402,7 +77096,7 @@ local csr_db = {
             address = 0x843020006000,
             range1 = {0,127},
             range1_inc = 0x200000,
-            range2 = {0,15},
+            range2 = {0,23},
             range2_inc = 0x8,
             fields = {
                 {name = "RESERVED_36_63", start = 36, stop = 63},
@@ -68606,6 +77300,16 @@ local csr_db = {
                 {name = "RQ_IDX", start = 0, stop = 2},
             }
         },
+        NIC_PF_RX_CFG = {
+            name = "NIC_PF_RX_CFG",
+            type = "NCB",
+            width = 8,
+            address = 0x8430000005d0,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "CQE_RX2_ENA", start = 0, stop = 0},
+            }
+        },
         NIC_PF_RX_ETYPEX = {
             name = "NIC_PF_RX_ETYPE#",
             type = "NCB",
@@ -68620,6 +77324,89 @@ local csr_db = {
                 {name = "ETYPE", start = 0, stop = 15},
             }
         },
+        NIC_PF_RX_GENEVE_DEF = {
+            name = "NIC_PF_RX_GENEVE_DEF",
+            type = "NCB",
+            width = 8,
+            address = 0x843000000580,
+            fields = {
+                {name = "ENA", start = 63, stop = 63},
+                {name = "RESERVED_16_62", start = 16, stop = 62},
+                {name = "UDP_PORT_NUM", start = 0, stop = 15},
+            }
+        },
+        NIC_PF_RX_GENEVE_PROT_DEF = {
+            name = "NIC_PF_RX_GENEVE_PROT_DEF",
+            type = "NCB",
+            width = 8,
+            address = 0x843000000588,
+            fields = {
+                {name = "ENA_IPV6", start = 63, stop = 63},
+                {name = "ENA_IPV4", start = 62, stop = 62},
+                {name = "ENA_ET", start = 61, stop = 61},
+                {name = "RESERVED_48_60", start = 48, stop = 60},
+                {name = "IPV6_PROT", start = 32, stop = 47},
+                {name = "IPV4_PROT", start = 16, stop = 31},
+                {name = "ET_PROT", start = 0, stop = 15},
+            }
+        },
+        NIC_PF_RX_NVGRE_PROT_DEF = {
+            name = "NIC_PF_RX_NVGRE_PROT_DEF",
+            type = "NCB",
+            width = 8,
+            address = 0x843000000598,
+            fields = {
+                {name = "ENA_IPV6", start = 63, stop = 63},
+                {name = "ENA_IPV4", start = 62, stop = 62},
+                {name = "ENA_ET", start = 61, stop = 61},
+                {name = "RESERVED_48_60", start = 48, stop = 60},
+                {name = "IPV6_PROT", start = 32, stop = 47},
+                {name = "IPV4_PROT", start = 16, stop = 31},
+                {name = "ET_PROT", start = 0, stop = 15},
+            }
+        },
+        NIC_PF_RX_ROCEV2_DEF = {
+            name = "NIC_PF_RX_ROCEV2_DEF",
+            type = "NCB",
+            width = 8,
+            address = 0x8430000005c0,
+            fields = {
+                {name = "ENA", start = 63, stop = 63},
+                {name = "RESERVED_16_62", start = 16, stop = 62},
+                {name = "UDP_PORT_NUM", start = 0, stop = 15},
+            }
+        },
+        NIC_PF_RX_VXLAN_DEFX = {
+            name = "NIC_PF_RX_VXLAN_DEF#",
+            type = "NCB",
+            width = 8,
+            address = 0x8430000005a0,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "ENA", start = 63, stop = 63},
+                {name = "RESERVED_16_62", start = 16, stop = 62},
+                {name = "UDP_PORT_NUM", start = 0, stop = 15},
+            }
+        },
+        NIC_PF_RX_VXLAN_PROT_DEF = {
+            name = "NIC_PF_RX_VXLAN_PROT_DEF",
+            type = "NCB",
+            width = 8,
+            address = 0x8430000005b0,
+            fields = {
+                {name = "ENA_IPV6", start = 63, stop = 63},
+                {name = "ENA_IPV4", start = 62, stop = 62},
+                {name = "ENA_ET", start = 61, stop = 61},
+                {name = "ENA_PROT", start = 60, stop = 60},
+                {name = "RESERVED_40_59", start = 40, stop = 59},
+                {name = "IPV6_PROT", start = 32, stop = 39},
+                {name = "RESERVED_24_31", start = 24, stop = 31},
+                {name = "IPV4_PROT", start = 16, stop = 23},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "ET_PROT", start = 0, stop = 7},
+            }
+        },
         NIC_PF_SEB_TEST = {
             name = "NIC_PF_SEB_TEST",
             type = "NCB",
@@ -68627,10 +77414,21 @@ local csr_db = {
             address = 0x8430000000e0,
             fields = {
                 {name = "ENABLE", start = 60, stop = 63},
-                {name = "RESERVED_24_59", start = 24, stop = 59},
+                {name = "RESERVED_25_59", start = 25, stop = 59},
+                {name = "TIMEOUT_TICK_TEST", start = 24, stop = 24},
                 {name = "BP_CFG", start = 16, stop = 23},
                 {name = "RESERVED_12_15", start = 12, stop = 15},
                 {name = "LFSR_FREQ", start = 0, stop = 11},
+            }
+        },
+        NIC_PF_SOFT_RESET = {
+            name = "NIC_PF_SOFT_RESET",
+            type = "NCB",
+            width = 8,
+            address = 0x843000000050,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "RESET", start = 0, stop = 0},
             }
         },
         NIC_PF_SQM_TEST1 = {
@@ -68669,6 +77467,30 @@ local csr_db = {
                 {name = "BLK_BUSY", start = 0, stop = 9},
             }
         },
+        NIC_PF_SW_SYNC_PIPEX_CQ_CNTS = {
+            name = "NIC_PF_SW_SYNC_PIPE#_CQ_CNTS",
+            type = "NCB",
+            width = 8,
+            address = 0x843000490280,
+            range1 = {0,7},
+            range1_inc = 0x8,
+            fields = {
+                {name = "OUT_CNT", start = 32, stop = 63},
+                {name = "IN_CNT", start = 0, stop = 31},
+            }
+        },
+        NIC_PF_SW_SYNC_PIPEX_PKT_CNTS = {
+            name = "NIC_PF_SW_SYNC_PIPE#_PKT_CNTS",
+            type = "NCB",
+            width = 8,
+            address = 0x843000490200,
+            range1 = {0,7},
+            range1_inc = 0x8,
+            fields = {
+                {name = "OUT_CNT", start = 32, stop = 63},
+                {name = "IN_CNT", start = 0, stop = 31},
+            }
+        },
         NIC_PF_SW_SYNC_RX = {
             name = "NIC_PF_SW_SYNC_RX",
             type = "NCB",
@@ -68677,18 +77499,6 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_1_63", start = 1, stop = 63},
                 {name = "SW_RX_SYNC", start = 0, stop = 0},
-            }
-        },
-        NIC_PF_SW_SYNC_RX_CNTSX = {
-            name = "NIC_PF_SW_SYNC_RX_CNTS#",
-            type = "NCB",
-            width = 8,
-            address = 0x843000490200,
-            range1 = {0,3},
-            range1_inc = 0x8,
-            fields = {
-                {name = "OUT_CNT", start = 32, stop = 63},
-                {name = "IN_CNT", start = 0, stop = 31},
             }
         },
         NIC_PF_SW_SYNC_RX_DONE = {
@@ -68783,9 +77593,7 @@ local csr_db = {
             range1 = {0,255},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_63_63", start = 63, stop = 63},
-                {name = "PIR_COUNT", start = 51, stop = 62},
-                {name = "PIR_ACCUM", start = 25, stop = 50},
+                {name = "RESERVED_25_63", start = 25, stop = 63},
                 {name = "RR_COUNT", start = 0, stop = 24},
             }
         },
@@ -68862,6 +77670,21 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_7_63", start = 7, stop = 63},
                 {name = "TL4A", start = 0, stop = 6},
+            }
+        },
+        NIC_PF_TSO_CFG = {
+            name = "NIC_PF_TSO_CFG",
+            type = "NCB",
+            width = 8,
+            address = 0x843000000070,
+            fields = {
+                {name = "ENABLE", start = 63, stop = 63},
+                {name = "RESERVED_44_62", start = 44, stop = 62},
+                {name = "FSF", start = 32, stop = 43},
+                {name = "RESERVED_28_31", start = 28, stop = 31},
+                {name = "MSF", start = 16, stop = 27},
+                {name = "RESERVED_12_15", start = 12, stop = 15},
+                {name = "LSF", start = 0, stop = 11},
             }
         },
         NIC_PF_VFX_MBOXX = {
@@ -69096,8 +77919,8 @@ local csr_db = {
                 {name = "QSIZE", start = 32, stop = 35},
                 {name = "RESERVED_25_31", start = 25, stop = 31},
                 {name = "AVG_CON", start = 16, stop = 24},
-                {name = "RESERVED_12_15", start = 12, stop = 15},
-                {name = "LINES", start = 0, stop = 11},
+                {name = "RESERVED_9_15", start = 9, stop = 15},
+                {name = "LINES", start = 0, stop = 8},
             }
         },
         NIC_QSX_RBDRX_DOOR = {
@@ -69248,7 +78071,7 @@ local csr_db = {
                 {name = "VLAN_STRIP", start = 25, stop = 26},
                 {name = "LEN_L4", start = 24, stop = 24},
                 {name = "LEN_L3", start = 23, stop = 23},
-                {name = "CSUM_SCTP", start = 22, stop = 22},
+                {name = "RESERVED_22_22", start = 22, stop = 22},
                 {name = "CSUM_L4", start = 21, stop = 21},
                 {name = "IP6_UDP_OPT", start = 20, stop = 20},
                 {name = "SPLT_HDR_ENA", start = 19, stop = 19},
@@ -69682,6 +78505,18 @@ local csr_db = {
                 {name = "WMARK", start = 61, stop = 61},
                 {name = "RESERVED_38_60", start = 38, stop = 60},
                 {name = "ENTRY", start = 0, stop = 37},
+            }
+        },
+        OCLAX_ECO = {
+            name = "OCLA#_ECO",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0a83200d0,
+            range1 = {0,4},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
             }
         },
         OCLAX_FIFO_DEPTH = {
@@ -70163,8 +78998,7 @@ local csr_db = {
             range1 = {0,4},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_32_63", start = 32, stop = 63},
-                {name = "CYCLE", start = 0, stop = 31},
+                {name = "CYCLE", start = 0, stop = 63},
             }
         },
         OCX_COM_BIST_STATUS = {
@@ -71102,6 +79936,23 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 63},
             }
         },
+        OCX_STRAP = {
+            name = "OCX_STRAP",
+            type = "RSL",
+            width = 8,
+            address = 0x87e01100ff08,
+            fields = {
+                {name = "RESERVED_26_63", start = 26, stop = 63},
+                {name = "OCI3_LNK1", start = 25, stop = 25},
+                {name = "OCI2_LNK1", start = 24, stop = 24},
+                {name = "RESERVED_17_23", start = 17, stop = 23},
+                {name = "OCI_FIXED_NODE", start = 16, stop = 16},
+                {name = "RESERVED_10_15", start = 10, stop = 15},
+                {name = "OCI_NODE_ID", start = 8, stop = 9},
+                {name = "RESERVED_4_7", start = 4, stop = 7},
+                {name = "OCI_SPD", start = 0, stop = 3},
+            }
+        },
         OCX_TLKX_BIST_STATUS = {
             name = "OCX_TLK#_BIST_STATUS",
             type = "RSL",
@@ -71112,6 +79963,19 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
                 {name = "STATUS", start = 0, stop = 15},
+            }
+        },
+        OCX_TLKX_BYP_CTL = {
+            name = "OCX_TLK#_BYP_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x87e011010030,
+            range1 = {0,2},
+            range1_inc = 0x2000,
+            fields = {
+                {name = "RESERVED_12_63", start = 12, stop = 63},
+                {name = "VC_DIS", start = 1, stop = 11},
+                {name = "RESERVED_0_0", start = 0, stop = 0},
             }
         },
         OCX_TLKX_ECC_CTL = {
@@ -71547,6 +80411,29 @@ local csr_db = {
                 {name = "PCIEID", start = 0, stop = 7},
             }
         },
+        PCCBR_XXX_EA_BR = {
+            name = "PCCBR_XXX_EA_BR",
+            type = "PCCBR",
+            width = 4,
+            address = 0xb4,
+            fields = {
+                {name = "RESERVED_16_31", start = 16, stop = 31},
+                {name = "FIXED_SUBBNUM", start = 8, stop = 15},
+                {name = "FIXED_SBNUM", start = 0, stop = 7},
+            }
+        },
+        PCCBR_XXX_EA_CAP_HDR = {
+            name = "PCCBR_XXX_EA_CAP_HDR",
+            type = "PCCBR",
+            width = 4,
+            address = 0xb0,
+            fields = {
+                {name = "RESERVED_22_31", start = 22, stop = 31},
+                {name = "NUM_ENTRIES", start = 16, stop = 21},
+                {name = "NCP", start = 8, stop = 15},
+                {name = "PCIEID", start = 0, stop = 7},
+            }
+        },
         PCCBR_XXX_ID = {
             name = "PCCBR_XXX_ID",
             type = "PCCBR",
@@ -71730,12 +80617,35 @@ local csr_db = {
             name = "PCCPF_XXX_E_CAP_HDR",
             type = "PCCPF",
             width = 4,
-            address = 0x70,
+            address = 0x40,
             fields = {
                 {name = "RESERVED_20_31", start = 20, stop = 31},
                 {name = "PCIECV", start = 16, stop = 19},
                 {name = "NCP", start = 8, stop = 15},
                 {name = "PCIEID", start = 0, stop = 7},
+            }
+        },
+        PCCPF_XXX_EA_CAP_HDR = {
+            name = "PCCPF_XXX_EA_CAP_HDR",
+            type = "PCCPF",
+            width = 4,
+            address = 0x98,
+            fields = {
+                {name = "RESERVED_22_31", start = 22, stop = 31},
+                {name = "NUM_ENTRIES", start = 16, stop = 21},
+                {name = "NCP", start = 8, stop = 15},
+                {name = "PCIEID", start = 0, stop = 7},
+            }
+        },
+        PCCPF_XXX_EA_ENTRYX = {
+            name = "PCCPF_XXX_EA_ENTRY#",
+            type = "PCCPF",
+            width = 4,
+            address = 0x9c,
+            range1 = {0,19},
+            range1_inc = 0x4,
+            fields = {
+                {name = "DATA", start = 0, stop = 31},
             }
         },
         PCCPF_XXX_ID = {
@@ -71752,7 +80662,7 @@ local csr_db = {
             name = "PCCPF_XXX_MSIX_CAP_HDR",
             type = "PCCPF",
             width = 4,
-            address = 0xb0,
+            address = 0x80,
             fields = {
                 {name = "MSIXEN", start = 31, stop = 31},
                 {name = "FUNM", start = 30, stop = 30},
@@ -71766,7 +80676,7 @@ local csr_db = {
             name = "PCCPF_XXX_MSIX_PBA",
             type = "PCCPF",
             width = 4,
-            address = 0xb8,
+            address = 0x88,
             fields = {
                 {name = "MSIXPOFFS", start = 3, stop = 31},
                 {name = "MSIXPBIR", start = 0, stop = 2},
@@ -71776,7 +80686,7 @@ local csr_db = {
             name = "PCCPF_XXX_MSIX_TABLE",
             type = "PCCPF",
             width = 4,
-            address = 0xb4,
+            address = 0x84,
             fields = {
                 {name = "MSIXTOFFS", start = 3, stop = 31},
                 {name = "MSIXTBIR", start = 0, stop = 2},
@@ -73873,8 +82783,9 @@ local csr_db = {
             range1 = {0,5},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_52_63", start = 52, stop = 63},
-                {name = "RD_FLT", start = 51, stop = 51},
+                {name = "RESERVED_55_63", start = 55, stop = 63},
+                {name = "INB_GRANT_LIMIT", start = 52, stop = 54},
+                {name = "RESERVED_51_51", start = 51, stop = 51},
                 {name = "INV_DPAR", start = 50, stop = 50},
                 {name = "RESERVED_48_49", start = 48, stop = 49},
                 {name = "AUTO_SD", start = 47, stop = 47},
@@ -73913,7 +82824,11 @@ local csr_db = {
             range1 = {0,5},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "M2S_D1_DBE", start = 60, stop = 60},
+                {name = "M2S_D1_SBE", start = 59, stop = 59},
+                {name = "M2S_D0_DBE", start = 58, stop = 58},
+                {name = "M2S_D0_SBE", start = 57, stop = 57},
                 {name = "QHDR_B1_DBE", start = 56, stop = 56},
                 {name = "QHDR_B1_SBE", start = 55, stop = 55},
                 {name = "QHDR_B0_DBE", start = 54, stop = 54},
@@ -73981,7 +82896,11 @@ local csr_db = {
             range1 = {0,5},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "M2S_D1_DBE", start = 60, stop = 60},
+                {name = "M2S_D1_SBE", start = 59, stop = 59},
+                {name = "M2S_D0_DBE", start = 58, stop = 58},
+                {name = "M2S_D0_SBE", start = 57, stop = 57},
                 {name = "QHDR_B1_DBE", start = 56, stop = 56},
                 {name = "QHDR_B1_SBE", start = 55, stop = 55},
                 {name = "QHDR_B0_DBE", start = 54, stop = 54},
@@ -74049,7 +82968,11 @@ local csr_db = {
             range1 = {0,5},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "M2S_D1_DBE", start = 60, stop = 60},
+                {name = "M2S_D1_SBE", start = 59, stop = 59},
+                {name = "M2S_D0_DBE", start = 58, stop = 58},
+                {name = "M2S_D0_SBE", start = 57, stop = 57},
                 {name = "QHDR_B1_DBE", start = 56, stop = 56},
                 {name = "QHDR_B1_SBE", start = 55, stop = 55},
                 {name = "QHDR_B0_DBE", start = 54, stop = 54},
@@ -74117,7 +83040,11 @@ local csr_db = {
             range1 = {0,5},
             range1_inc = 0x1000000,
             fields = {
-                {name = "RESERVED_57_63", start = 57, stop = 63},
+                {name = "RESERVED_61_63", start = 61, stop = 63},
+                {name = "M2S_D1_DBE", start = 60, stop = 60},
+                {name = "M2S_D1_SBE", start = 59, stop = 59},
+                {name = "M2S_D0_DBE", start = 58, stop = 58},
+                {name = "M2S_D0_SBE", start = 57, stop = 57},
                 {name = "QHDR_B1_DBE", start = 56, stop = 56},
                 {name = "QHDR_B1_SBE", start = 55, stop = 55},
                 {name = "QHDR_B0_DBE", start = 54, stop = 54},
@@ -74217,7 +83144,9 @@ local csr_db = {
                 {name = "QHDR_B1_ENA", start = 34, stop = 34},
                 {name = "QHDR_B0_ENA", start = 33, stop = 33},
                 {name = "RTRY_ENA", start = 32, stop = 32},
-                {name = "RESERVED_9_31", start = 9, stop = 31},
+                {name = "RESERVED_11_31", start = 11, stop = 31},
+                {name = "M2S_D1_ENA", start = 10, stop = 10},
+                {name = "M2S_D0_ENA", start = 9, stop = 9},
                 {name = "C_C_ENA", start = 8, stop = 8},
                 {name = "C_D1_ENA", start = 7, stop = 7},
                 {name = "C_D0_ENA", start = 6, stop = 6},
@@ -74241,7 +83170,9 @@ local csr_db = {
                 {name = "QHDR_B1_SYN", start = 36, stop = 37},
                 {name = "QHDR_B0_SYN", start = 34, stop = 35},
                 {name = "RTRY_SYN", start = 32, stop = 33},
-                {name = "RESERVED_18_31", start = 18, stop = 31},
+                {name = "RESERVED_22_31", start = 22, stop = 31},
+                {name = "M2S_D1_SYN", start = 20, stop = 21},
+                {name = "M2S_D0_SYN", start = 18, stop = 19},
                 {name = "C_C_SYN", start = 16, stop = 17},
                 {name = "C_D1_SYN", start = 14, stop = 15},
                 {name = "C_D0_SYN", start = 12, stop = 13},
@@ -74381,7 +83312,7 @@ local csr_db = {
             address = 0x87e0c0f00000,
             range1 = {0,5},
             range1_inc = 0x1000000,
-            range2 = {0,13},
+            range2 = {0,15},
             range2_inc = 0x10,
             fields = {
                 {name = "RESERVED_49_63", start = 49, stop = 63},
@@ -74397,7 +83328,7 @@ local csr_db = {
             address = 0x87e0c0f00008,
             range1 = {0,5},
             range1_inc = 0x1000000,
-            range2 = {0,13},
+            range2 = {0,15},
             range2_inc = 0x10,
             fields = {
                 {name = "RESERVED_33_63", start = 33, stop = 63},
@@ -74756,8 +83687,8 @@ local csr_db = {
                 {name = "NSU", start = 28, stop = 28},
                 {name = "NSH", start = 27, stop = 27},
                 {name = "M", start = 26, stop = 26},
-                {name = "RESERVED_10_25", start = 10, stop = 25},
-                {name = "EVTCOUNT", start = 0, stop = 9},
+                {name = "RESERVED_16_25", start = 16, stop = 25},
+                {name = "EVTCOUNT", start = 0, stop = 15},
             }
         },
         PMUX_PMINTENCLR_EL1 = {
@@ -75523,6 +84454,16 @@ local csr_db = {
                 {name = "RST", start = 0, stop = 47},
             }
         },
+        RST_DEBUG = {
+            name = "RST_DEBUG",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0060017b0,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "CLK_ON", start = 0, stop = 0},
+            }
+        },
         RST_DELAY = {
             name = "RST_DELAY",
             type = "RSL",
@@ -75532,6 +84473,16 @@ local csr_db = {
                 {name = "RESERVED_32_63", start = 32, stop = 63},
                 {name = "WARM_RST_DLY", start = 16, stop = 31},
                 {name = "SOFT_RST_DLY", start = 0, stop = 15},
+            }
+        },
+        RST_ECO = {
+            name = "RST_ECO",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0060017b8,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
             }
         },
         RST_INT = {
@@ -75631,6 +84582,15 @@ local csr_db = {
                 {name = "RST_LINK", start = 0, stop = 2},
             }
         },
+        RST_OSC_CNTR = {
+            name = "RST_OSC_CNTR",
+            type = "RSL",
+            width = 8,
+            address = 0x87e006001778,
+            fields = {
+                {name = "CNT", start = 0, stop = 63},
+            }
+        },
         RST_OUT_CTL = {
             name = "RST_OUT_CTL",
             type = "RSL",
@@ -75700,6 +84660,18 @@ local csr_db = {
                 {name = "RESERVED_48_63", start = 48, stop = 63},
                 {name = "RST", start = 1, stop = 47},
                 {name = "RST0", start = 0, stop = 0},
+            }
+        },
+        RST_REF_CHECK = {
+            name = "RST_REF_CHECK",
+            type = "RSL",
+            width = 8,
+            address = 0x87e006001770,
+            fields = {
+                {name = "RANGE", start = 63, stop = 63},
+                {name = "RESERVED_32_62", start = 32, stop = 62},
+                {name = "CNT1", start = 16, stop = 31},
+                {name = "CNT0", start = 0, stop = 15},
             }
         },
         RST_REF_CNTR = {
@@ -75786,7 +84758,7 @@ local csr_db = {
             address = 0x810000200000,
             range1 = {0,15},
             range1_inc = 0x1000000000,
-            range2 = {0,4},
+            range2 = {0,3},
             range2_inc = 0x10,
             fields = {
                 {name = "RESERVED_49_63", start = 49, stop = 63},
@@ -75802,7 +84774,7 @@ local csr_db = {
             address = 0x810000200008,
             range1 = {0,15},
             range1_inc = 0x1000000000,
-            range2 = {0,4},
+            range2 = {0,3},
             range2_inc = 0x10,
             fields = {
                 {name = "RESERVED_33_63", start = 33, stop = 63},
@@ -76860,7 +85832,8 @@ local csr_db = {
             range2 = {0,2},
             range2_inc = 0x10,
             fields = {
-                {name = "RESERVED_19_63", start = 19, stop = 63},
+                {name = "RESERVED_20_63", start = 20, stop = 63},
+                {name = "WAIT_PXFR", start = 19, stop = 19},
                 {name = "WVIRT", start = 18, stop = 18},
                 {name = "DIS_PORT", start = 17, stop = 17},
                 {name = "WAITL_COM", start = 16, stop = 16},
@@ -77079,7 +86052,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "RESERVED_14_63", start = 14, stop = 63},
+                {name = "RESERVED_15_63", start = 15, stop = 63},
+                {name = "RD_FLT", start = 14, stop = 14},
                 {name = "MAX_WORD", start = 10, stop = 13},
                 {name = "TIMER", start = 0, stop = 9},
             }
@@ -77146,6 +86120,18 @@ local csr_db = {
                 {name = "DATA", start = 0, stop = 63},
             }
         },
+        SLIX_SCTL = {
+            name = "SLI#_SCTL",
+            type = "NCB",
+            width = 8,
+            address = 0x874001002010,
+            range1 = {0,1},
+            range1_inc = 0x1000000000,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "SCEN", start = 0, stop = 0},
+            }
+        },
         SLIX_WIN_RD_ADDR = {
             name = "SLI#_WIN_RD_ADDR",
             type = "PEXP",
@@ -77154,7 +86140,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x10000000000,
             fields = {
-                {name = "RESERVED_51_63", start = 51, stop = 63},
+                {name = "SECEN", start = 63, stop = 63},
+                {name = "RESERVED_51_62", start = 51, stop = 62},
                 {name = "LD_CMD", start = 49, stop = 50},
                 {name = "RD_ADDR", start = 0, stop = 48},
             }
@@ -77178,7 +86165,8 @@ local csr_db = {
             range1 = {0,1},
             range1_inc = 0x10000000000,
             fields = {
-                {name = "RESERVED_49_63", start = 49, stop = 63},
+                {name = "SECEN", start = 63, stop = 63},
+                {name = "RESERVED_49_62", start = 49, stop = 62},
                 {name = "WR_ADDR", start = 3, stop = 48},
                 {name = "RESERVED_0_2", start = 0, stop = 2},
             }
@@ -77766,8 +86754,7 @@ local csr_db = {
             range2_inc = 0x4,
             fields = {
                 {name = "VMID16", start = 16, stop = 31},
-                {name = "RESERVED_3_15", start = 3, stop = 15},
-                {name = "E2HC", start = 2, stop = 2},
+                {name = "RESERVED_2_15", start = 2, stop = 15},
                 {name = "MONC", start = 1, stop = 1},
                 {name = "VA64", start = 0, stop = 0},
             }
@@ -77854,6 +86841,21 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_8_31", start = 8, stop = 31},
                 {name = "PREAMBLE", start = 0, stop = 7},
+            }
+        },
+        SMMUX_DEBUG = {
+            name = "SMMU#_DEBUG",
+            type = "NCB",
+            width = 8,
+            address = 0x830000021070,
+            range1 = {0,3},
+            range1_inc = 0x1000000000,
+            fields = {
+                {name = "RESERVED_30_63", start = 30, stop = 63},
+                {name = "INFLIGHT", start = 21, stop = 29},
+                {name = "WALKER", start = 16, stop = 20},
+                {name = "TRANSLATION_CH1", start = 8, stop = 15},
+                {name = "TRANSLATION_CH0", start = 0, stop = 7},
             }
         },
         SMMUX_DIAG_CTL = {
@@ -78563,8 +87565,7 @@ local csr_db = {
             range1 = {0,3},
             range1_inc = 0x1000000000,
             fields = {
-                {name = "RESERVED_31_31", start = 31, stop = 31},
-                {name = "NSHYPMODEDISABLE", start = 30, stop = 30},
+                {name = "RESERVED_30_31", start = 30, stop = 31},
                 {name = "NSCOMPINDEXDISABLE", start = 29, stop = 29},
                 {name = "NSCAFRO", start = 28, stop = 28},
                 {name = "SPMEN", start = 27, stop = 27},
@@ -80256,6 +89257,30 @@ local csr_db = {
                 {name = "PACKETS", start = 0, stop = 23},
             }
         },
+        TNS_RDMA_CNT_BYTESX = {
+            name = "TNS_RDMA_CNT_BYTES#",
+            type = "NCB",
+            width = 8,
+            address = 0x842000001480,
+            range1 = {0,9},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "BYTES", start = 0, stop = 47},
+            }
+        },
+        TNS_RDMA_CNT_PKTSX = {
+            name = "TNS_RDMA_CNT_PKTS#",
+            type = "NCB",
+            width = 8,
+            address = 0x842000001400,
+            range1 = {0,9},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "PACKETS", start = 0, stop = 35},
+            }
+        },
         TNS_RDMA_CONFIG = {
             name = "TNS_RDMA_CONFIG",
             type = "NCB",
@@ -80364,17 +89389,6 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_2_63", start = 2, stop = 63},
                 {name = "RTN_NICI_CDT", start = 0, stop = 1},
-            }
-        },
-        TNS_RDMA_DBGB_SEL = {
-            name = "TNS_RDMA_DBGB_SEL",
-            type = "NCB",
-            width = 8,
-            address = 0x842000001e00,
-            fields = {
-                {name = "RESERVED_48_63", start = 48, stop = 63},
-                {name = "SEL1", start = 24, stop = 47},
-                {name = "SEL0", start = 0, stop = 23},
             }
         },
         TNS_RDMA_ECC_CTL = {
@@ -80629,17 +89643,6 @@ local csr_db = {
                 {name = "NICI1_TX_CHAN_BP", start = 8, stop = 12},
                 {name = "RESERVED_5_7", start = 5, stop = 7},
                 {name = "NICI0_TX_CHAN_BP", start = 0, stop = 4},
-            }
-        },
-        TNS_RDMA_NB_DBGB_SEL = {
-            name = "TNS_RDMA_NB_DBGB_SEL",
-            type = "NCB",
-            width = 8,
-            address = 0x842042004700,
-            fields = {
-                {name = "RESERVED_48_63", start = 48, stop = 63},
-                {name = "SEL1", start = 24, stop = 47},
-                {name = "SEL0", start = 0, stop = 23},
             }
         },
         TNS_RDMA_NB_ECC_CTL = {
@@ -81002,6 +90005,16 @@ local csr_db = {
                 {name = "BYTES", start = 0, stop = 7},
             }
         },
+        TNS_RDMA_NB_PARSER = {
+            name = "TNS_RDMA_NB_PARSER",
+            type = "NCB",
+            width = 8,
+            address = 0x842042004900,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "FC", start = 0, stop = 0},
+            }
+        },
         TNS_RDMA_NB_PATH_ENABLE = {
             name = "TNS_RDMA_NB_PATH_ENABLE",
             type = "NCB",
@@ -81018,6 +90031,38 @@ local csr_db = {
                 {name = "NICI1", start = 9, stop = 9},
                 {name = "NICI0", start = 8, stop = 8},
                 {name = "LMAC", start = 0, stop = 7},
+            }
+        },
+        TNS_RDMA_NB_PERF_CNTRLX = {
+            name = "TNS_RDMA_NB_PERF_CNTRL#",
+            type = "NCB",
+            width = 8,
+            address = 0x842042000300,
+            range1 = {0,3},
+            range1_inc = 0x10,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "FROZEN", start = 31, stop = 31},
+                {name = "CLEAR", start = 30, stop = 30},
+                {name = "ENABLE", start = 29, stop = 29},
+                {name = "GLOBAL_STOP", start = 28, stop = 28},
+                {name = "RESERVED_27_27", start = 27, stop = 27},
+                {name = "MODE", start = 24, stop = 26},
+                {name = "SEL2", start = 16, stop = 23},
+                {name = "SEL1", start = 8, stop = 15},
+                {name = "SEL0", start = 0, stop = 7},
+            }
+        },
+        TNS_RDMA_NB_PERF_STATUSX = {
+            name = "TNS_RDMA_NB_PERF_STATUS#",
+            type = "NCB",
+            width = 8,
+            address = 0x842042000340,
+            range1 = {0,3},
+            range1_inc = 0x10,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "COUNT", start = 0, stop = 31},
             }
         },
         TNS_RDMA_NB_RPKT_DATAX = {
@@ -81070,6 +90115,38 @@ local csr_db = {
                 {name = "CHANNEL", start = 4, stop = 10},
                 {name = "RESERVED_1_3", start = 1, stop = 3},
                 {name = "EOP", start = 0, stop = 0},
+            }
+        },
+        TNS_RDMA_PERF_CNTRLX = {
+            name = "TNS_RDMA_PERF_CNTRL#",
+            type = "NCB",
+            width = 8,
+            address = 0x842000001900,
+            range1 = {0,3},
+            range1_inc = 0x10,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "FROZEN", start = 31, stop = 31},
+                {name = "CLEAR", start = 30, stop = 30},
+                {name = "ENABLE", start = 29, stop = 29},
+                {name = "GLOBAL_STOP", start = 28, stop = 28},
+                {name = "RESERVED_27_27", start = 27, stop = 27},
+                {name = "MODE", start = 24, stop = 26},
+                {name = "SEL2", start = 16, stop = 23},
+                {name = "SEL1", start = 8, stop = 15},
+                {name = "SEL0", start = 0, stop = 7},
+            }
+        },
+        TNS_RDMA_PERF_STATUSX = {
+            name = "TNS_RDMA_PERF_STATUS#",
+            type = "NCB",
+            width = 8,
+            address = 0x842000001940,
+            range1 = {0,3},
+            range1_inc = 0x10,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "COUNT", start = 0, stop = 31},
             }
         },
         TNS_SDE_CFG_SPARE = {
@@ -91369,6 +100446,30 @@ local csr_db = {
                 {name = "PACKETS", start = 0, stop = 23},
             }
         },
+        TNS_TDMA_CNT_BYTESX = {
+            name = "TNS_TDMA_CNT_BYTES#",
+            type = "NCB",
+            width = 8,
+            address = 0x842000000780,
+            range1 = {0,9},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_48_63", start = 48, stop = 63},
+                {name = "BYTES", start = 0, stop = 47},
+            }
+        },
+        TNS_TDMA_CNT_PKTSX = {
+            name = "TNS_TDMA_CNT_PKTS#",
+            type = "NCB",
+            width = 8,
+            address = 0x842000000700,
+            range1 = {0,9},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "PACKETS", start = 0, stop = 35},
+            }
+        },
         TNS_TDMA_CONFIG = {
             name = "TNS_TDMA_CONFIG",
             type = "NCB",
@@ -92094,6 +101195,38 @@ local csr_db = {
                 {name = "CNT", start = 0, stop = 13},
             }
         },
+        TNS_TDMA_NB_PERF_CNTRLX = {
+            name = "TNS_TDMA_NB_PERF_CNTRL#",
+            type = "NCB",
+            width = 8,
+            address = 0x842041000b00,
+            range1 = {0,3},
+            range1_inc = 0x10,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "FROZEN", start = 31, stop = 31},
+                {name = "CLEAR", start = 30, stop = 30},
+                {name = "ENABLE", start = 29, stop = 29},
+                {name = "GLOBAL_STOP", start = 28, stop = 28},
+                {name = "RESERVED_27_27", start = 27, stop = 27},
+                {name = "MODE", start = 24, stop = 26},
+                {name = "SEL2", start = 16, stop = 23},
+                {name = "SEL1", start = 8, stop = 15},
+                {name = "SEL0", start = 0, stop = 7},
+            }
+        },
+        TNS_TDMA_NB_PERF_STATUSX = {
+            name = "TNS_TDMA_NB_PERF_STATUS#",
+            type = "NCB",
+            width = 8,
+            address = 0x842041000b40,
+            range1 = {0,3},
+            range1_inc = 0x10,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "COUNT", start = 0, stop = 31},
+            }
+        },
         TNS_TDMA_NB_PRC_ACCX = {
             name = "TNS_TDMA_NB_PRC_ACC#",
             type = "NCB",
@@ -92160,6 +101293,54 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_9_63", start = 9, stop = 63},
                 {name = "LENGTH", start = 0, stop = 8},
+            }
+        },
+        TNS_TDMA_PERF_CNTRLX = {
+            name = "TNS_TDMA_PERF_CNTRL#",
+            type = "NCB",
+            width = 8,
+            address = 0x842000000900,
+            range1 = {0,3},
+            range1_inc = 0x10,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "FROZEN", start = 31, stop = 31},
+                {name = "CLEAR", start = 30, stop = 30},
+                {name = "ENABLE", start = 29, stop = 29},
+                {name = "GLOBAL_STOP", start = 28, stop = 28},
+                {name = "BANK_SELECT", start = 27, stop = 27},
+                {name = "MODE", start = 24, stop = 26},
+                {name = "SEL2", start = 16, stop = 23},
+                {name = "SEL1", start = 8, stop = 15},
+                {name = "SEL0", start = 0, stop = 7},
+            }
+        },
+        TNS_TDMA_PERF_STATUSX = {
+            name = "TNS_TDMA_PERF_STATUS#",
+            type = "NCB",
+            width = 8,
+            address = 0x842000000940,
+            range1 = {0,3},
+            range1_inc = 0x10,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "COUNT", start = 0, stop = 31},
+            }
+        },
+        TNS_TDMA_PKT_X2P_CNTRSX = {
+            name = "TNS_TDMA_PKT_X2P_CNTRS#",
+            type = "NCB",
+            width = 8,
+            address = 0x842000000d00,
+            range1 = {0,1},
+            range1_inc = 0x10,
+            fields = {
+                {name = "RESERVED_31_63", start = 31, stop = 63},
+                {name = "REQ_PENDING_CNT", start = 24, stop = 30},
+                {name = "RESERVED_21_23", start = 21, stop = 23},
+                {name = "REQ_CREDITS", start = 16, stop = 20},
+                {name = "RESERVED_8_15", start = 8, stop = 15},
+                {name = "FIFO_CNT", start = 0, stop = 7},
             }
         },
         TNS_TDMA_RESET_CTL = {
@@ -97231,6 +106412,50 @@ local csr_db = {
                 {name = "REVISION", start = 0, stop = 3},
             }
         },
+        TRCX_TRCIDR10 = {
+            name = "TRC#_TRCIDR10",
+            type = "DAB32B",
+            width = 4,
+            address = 0x87a00fc30188,
+            range1 = {0,7},
+            range1_inc = 0x80000,
+            fields = {
+                {name = "NUMP1KEY", start = 0, stop = 31},
+            }
+        },
+        TRCX_TRCIDR11 = {
+            name = "TRC#_TRCIDR11",
+            type = "DAB32B",
+            width = 4,
+            address = 0x87a00fc3018c,
+            range1 = {0,7},
+            range1_inc = 0x80000,
+            fields = {
+                {name = "NUMP1SPC", start = 0, stop = 31},
+            }
+        },
+        TRCX_TRCIDR12 = {
+            name = "TRC#_TRCIDR12",
+            type = "DAB32B",
+            width = 4,
+            address = 0x87a00fc30190,
+            range1 = {0,7},
+            range1_inc = 0x80000,
+            fields = {
+                {name = "NUMCONDKEY", start = 0, stop = 31},
+            }
+        },
+        TRCX_TRCIDR13 = {
+            name = "TRC#_TRCIDR13",
+            type = "DAB32B",
+            width = 4,
+            address = 0x87a00fc30194,
+            range1 = {0,7},
+            range1_inc = 0x80000,
+            fields = {
+                {name = "NUMCONDSPC", start = 0, stop = 31},
+            }
+        },
         TRCX_TRCIDR2 = {
             name = "TRC#_TRCIDR2",
             type = "DAB32B",
@@ -97239,7 +106464,8 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0x80000,
             fields = {
-                {name = "RESERVED_29_31", start = 29, stop = 31},
+                {name = "RESERVED_31_31", start = 31, stop = 31},
+                {name = "VMIDOPT", start = 29, stop = 30},
                 {name = "CCSIZE", start = 25, stop = 28},
                 {name = "DVSIZE", start = 20, stop = 24},
                 {name = "DASIZE", start = 15, stop = 19},
@@ -97305,6 +106531,50 @@ local csr_db = {
                 {name = "RESERVED_12_15", start = 12, stop = 15},
                 {name = "NUMEXTINSEL", start = 9, stop = 11},
                 {name = "NUMEXTIN", start = 0, stop = 8},
+            }
+        },
+        TRCX_TRCIDR6 = {
+            name = "TRC#_TRCIDR6",
+            type = "DAB32B",
+            width = 4,
+            address = 0x87a00fc301f8,
+            range1 = {0,7},
+            range1_inc = 0x80000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        TRCX_TRCIDR7 = {
+            name = "TRC#_TRCIDR7",
+            type = "DAB32B",
+            width = 4,
+            address = 0x87a00fc301fc,
+            range1 = {0,7},
+            range1_inc = 0x80000,
+            fields = {
+                {name = "RESERVED_0_31", start = 0, stop = 31},
+            }
+        },
+        TRCX_TRCIDR8 = {
+            name = "TRC#_TRCIDR8",
+            type = "DAB32B",
+            width = 4,
+            address = 0x87a00fc30180,
+            range1 = {0,7},
+            range1_inc = 0x80000,
+            fields = {
+                {name = "MAXSPEC", start = 0, stop = 31},
+            }
+        },
+        TRCX_TRCIDR9 = {
+            name = "TRC#_TRCIDR9",
+            type = "DAB32B",
+            width = 4,
+            address = 0x87a00fc30184,
+            range1 = {0,7},
+            range1_inc = 0x80000,
+            fields = {
+                {name = "NUMP0KEY", start = 0, stop = 31},
             }
         },
         TRCX_TRCITCTRL = {
@@ -100060,6 +109330,18 @@ local csr_db = {
                 {name = "STATUS_CML", start = 0, stop = 7},
             }
         },
+        VRMX_ECO = {
+            name = "VRM#_ECO",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0210000c8,
+            range1 = {0,1},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
+            }
+        },
         VRMX_FUSE_BYPASS = {
             name = "VRM#_FUSE_BYPASS",
             type = "RSL",
@@ -100255,6 +109537,40 @@ local csr_db = {
                 {name = "BSTATUS", start = 0, stop = 52},
             }
         },
+        ZIP_COREX_TO_STA = {
+            name = "ZIP_CORE#_TO_STA",
+            type = "NCB",
+            width = 8,
+            address = 0x838000000780,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "CNT", start = 0, stop = 31},
+            }
+        },
+        ZIP_CORE_RESET = {
+            name = "ZIP_CORE_RESET",
+            type = "NCB",
+            width = 8,
+            address = 0x838000000300,
+            fields = {
+                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "RESET", start = 0, stop = 1},
+            }
+        },
+        ZIP_CORE_TO_CFG = {
+            name = "ZIP_CORE_TO_CFG",
+            type = "NCB",
+            width = 8,
+            address = 0x838000000700,
+            fields = {
+                {name = "HALT", start = 63, stop = 63},
+                {name = "AR", start = 62, stop = 62},
+                {name = "RESERVED_32_61", start = 32, stop = 61},
+                {name = "TIMEOUT", start = 0, stop = 31},
+            }
+        },
         ZIP_CTL_BIST_STATUS = {
             name = "ZIP_CTL_BIST_STATUS",
             type = "NCB",
@@ -100293,7 +109609,9 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "BUSY", start = 63, stop = 63},
-                {name = "RESERVED_35_62", start = 35, stop = 62},
+                {name = "OUTSTANDING", start = 62, stop = 62},
+                {name = "CTO", start = 61, stop = 61},
+                {name = "RESERVED_35_60", start = 35, stop = 60},
                 {name = "QID", start = 32, stop = 34},
                 {name = "IID", start = 0, stop = 31},
             }
@@ -100321,7 +109639,8 @@ local csr_db = {
             range1_inc = 0x8,
             fields = {
                 {name = "BUSY", start = 63, stop = 63},
-                {name = "RESERVED_56_62", start = 56, stop = 62},
+                {name = "OUTSTANDING", start = 62, stop = 62},
+                {name = "RESERVED_56_61", start = 56, stop = 61},
                 {name = "RQWC", start = 32, stop = 55},
                 {name = "NII", start = 0, stop = 31},
             }
@@ -100395,6 +109714,16 @@ local csr_db = {
                 {name = "DBE", start = 32, stop = 36},
                 {name = "RESERVED_5_31", start = 5, stop = 31},
                 {name = "SBE", start = 0, stop = 4},
+            }
+        },
+        ZIP_ECO = {
+            name = "ZIP_ECO",
+            type = "NCB",
+            width = 8,
+            address = 0x8380000005f0,
+            fields = {
+                {name = "RESERVED_32_63", start = 32, stop = 63},
+                {name = "ECO_RW", start = 0, stop = 31},
             }
         },
         ZIP_FIFE_ENA_W1C = {
@@ -100558,7 +109887,9 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "CTO", start = 16, stop = 16},
+                {name = "RESERVED_5_15", start = 5, stop = 15},
                 {name = "MDBE", start = 4, stop = 4},
                 {name = "NWRP", start = 3, stop = 3},
                 {name = "NRRP", start = 2, stop = 2},
@@ -100574,7 +109905,9 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "CTO", start = 16, stop = 16},
+                {name = "RESERVED_5_15", start = 5, stop = 15},
                 {name = "MDBE", start = 4, stop = 4},
                 {name = "NWRP", start = 3, stop = 3},
                 {name = "NRRP", start = 2, stop = 2},
@@ -100590,7 +109923,9 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "CTO", start = 16, stop = 16},
+                {name = "RESERVED_5_15", start = 5, stop = 15},
                 {name = "MDBE", start = 4, stop = 4},
                 {name = "NWRP", start = 3, stop = 3},
                 {name = "NRRP", start = 2, stop = 2},
@@ -100606,7 +109941,9 @@ local csr_db = {
             range1 = {0,7},
             range1_inc = 0x8,
             fields = {
-                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "RESERVED_17_63", start = 17, stop = 63},
+                {name = "CTO", start = 16, stop = 16},
+                {name = "RESERVED_5_15", start = 5, stop = 15},
                 {name = "MDBE", start = 4, stop = 4},
                 {name = "NWRP", start = 3, stop = 3},
                 {name = "NRRP", start = 2, stop = 2},
@@ -100688,6 +110025,16 @@ local csr_db = {
             fields = {
                 {name = "RESERVED_8_63", start = 8, stop = 63},
                 {name = "PRI", start = 0, stop = 7},
+            }
+        },
+        ZIP_QUE_RESET = {
+            name = "ZIP_QUE_RESET",
+            type = "NCB",
+            width = 8,
+            address = 0x838000000400,
+            fields = {
+                {name = "RESERVED_8_63", start = 8, stop = 63},
+                {name = "RESET", start = 0, stop = 7},
             }
         },
         ZIP_THROTTLE = {

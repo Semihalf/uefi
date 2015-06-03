@@ -68,7 +68,7 @@ class ChipStructField:
         assert isinstance(description, StringType), type(description)
         assert start_bit >= 0, start_bit
         assert stop_bit >= start_bit, stop_bit
-        assert start_bit/64 == stop_bit/64
+        #assert start_bit/64 == stop_bit/64
         # FIXME: Handle bits in next word
         if name == "--":
             name = "reserved_%d_%d" % (start_bit, stop_bit)

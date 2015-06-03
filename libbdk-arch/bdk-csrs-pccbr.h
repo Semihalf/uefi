@@ -342,6 +342,85 @@ static inline uint64_t BDK_PCCBR_XXX_E_CAP_HDR_FUNC(void)
 
 
 /**
+ * PCCBR - pccbr_xxx_ea_br
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_pccbr_xxx_ea_br {
+	uint32_t u;
+	struct bdk_pccbr_xxx_ea_br_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_16_31              : 16;
+		uint32_t fixed_subbnum               : 8;  /**< RO - PCI bus segment to which the subordinate interface is connected.
+                                                                 Resets to PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM]. */
+		uint32_t fixed_sbnum                 : 8;  /**< RO - PCI bus segment to which the secondary interface is connected.
+                                                                 Resets to PCCBR_XXX_VSEC_CTL[STATIC_SUBBNUM]. */
+#else
+		uint32_t fixed_sbnum                 : 8;
+		uint32_t fixed_subbnum               : 8;
+		uint32_t reserved_16_31              : 16;
+#endif
+	} s;
+	/* struct bdk_pccbr_xxx_ea_br_s       cn88xx; */
+} bdk_pccbr_xxx_ea_br_t;
+
+#define BDK_PCCBR_XXX_EA_BR BDK_PCCBR_XXX_EA_BR_FUNC()
+static inline uint64_t BDK_PCCBR_XXX_EA_BR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCCBR_XXX_EA_BR_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x00000000000000B4ull;
+	else 		csr_fatal("BDK_PCCBR_XXX_EA_BR", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_PCCBR_XXX_EA_BR bdk_pccbr_xxx_ea_br_t
+#define bustype_BDK_PCCBR_XXX_EA_BR BDK_CSR_TYPE_PCCBR
+#define busnum_BDK_PCCBR_XXX_EA_BR 0
+#define arguments_BDK_PCCBR_XXX_EA_BR -1,-1,-1,-1
+#define basename_BDK_PCCBR_XXX_EA_BR "PCCBR_XXX_EA_BR"
+
+
+/**
+ * PCCBR - pccbr_xxx_ea_cap_hdr
+ *
+ * This register is the header of the 8-byte PCI enhanced allocation capability
+ * structure for type 1 bridges.
+ * Added in pass 2.
+ */
+typedef union bdk_pccbr_xxx_ea_cap_hdr {
+	uint32_t u;
+	struct bdk_pccbr_xxx_ea_cap_hdr_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_22_31              : 10;
+		uint32_t num_entries                 : 6;  /**< RO - Number of enhanced entries. */
+		uint32_t ncp                         : 8;  /**< RO - Next capability pointer. No additional PCI capabilities. */
+		uint32_t pcieid                      : 8;  /**< RO - Enhanced allocation capability ID. */
+#else
+		uint32_t pcieid                      : 8;
+		uint32_t ncp                         : 8;
+		uint32_t num_entries                 : 6;
+		uint32_t reserved_22_31              : 10;
+#endif
+	} s;
+	/* struct bdk_pccbr_xxx_ea_cap_hdr_s  cn88xx; */
+} bdk_pccbr_xxx_ea_cap_hdr_t;
+
+#define BDK_PCCBR_XXX_EA_CAP_HDR BDK_PCCBR_XXX_EA_CAP_HDR_FUNC()
+static inline uint64_t BDK_PCCBR_XXX_EA_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCCBR_XXX_EA_CAP_HDR_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x00000000000000B0ull;
+	else 		csr_fatal("BDK_PCCBR_XXX_EA_CAP_HDR", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_PCCBR_XXX_EA_CAP_HDR bdk_pccbr_xxx_ea_cap_hdr_t
+#define bustype_BDK_PCCBR_XXX_EA_CAP_HDR BDK_CSR_TYPE_PCCBR
+#define busnum_BDK_PCCBR_XXX_EA_CAP_HDR 0
+#define arguments_BDK_PCCBR_XXX_EA_CAP_HDR -1,-1,-1,-1
+#define basename_BDK_PCCBR_XXX_EA_CAP_HDR "PCCBR_XXX_EA_CAP_HDR"
+
+
+/**
  * PCCBR - pccbr_xxx_id
  *
  * This register is the header of the 64-byte PCI type 1 configuration structure.

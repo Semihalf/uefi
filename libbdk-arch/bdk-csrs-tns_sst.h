@@ -1225,16 +1225,17 @@ static inline uint64_t BDK_TNS_SDE_HDBF_FLST_CTL_FUNC(void)
 /**
  * NCB32b - tns_sde_hdbf_flst_dbg
  *
- * Free List debug access
- *
+ * Free List debug access. TNS_SDE_HDBF_GEN[CHANNEL_ENABLE]
+ * (XP_HDBF_CFG_GENERAL[CHANNEL_ENABLE])
+ * must be set to 1 before any read/write access is attempted to this
+ * register.
  */
 typedef union bdk_tns_sde_hdbf_flst_dbg {
 	uint32_t u;
 	struct bdk_tns_sde_hdbf_flst_dbg_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_18_31              : 14;
-		uint32_t field                       : 18; /**< R/W/H - Freelist field debug access. TND_SDE_HDBF_GEN.channel_enable must be set before
-                                                                 any read/write access is attempted. */
+		uint32_t field                       : 18; /**< R/W/H - -- */
 #else
 		uint32_t field                       : 18;
 		uint32_t reserved_18_31              : 14;
@@ -21599,7 +21600,7 @@ typedef union bdk_tns_sde_urw2b_mre_dcnt_w0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t mtu_err                     : 6;  /**< RO/H - -- */
 		uint32_t mre_ptr                     : 13; /**< RO/H - -- */
-		uint32_t qcn_sample                  : 13; /**< RO/H - -- */
+		uint32_t qcn_sample                  : 13; /**< RO/H - Reserved. INTERNAL: Defeatured. */
 #else
 		uint32_t qcn_sample                  : 13;
 		uint32_t mre_ptr                     : 13;
@@ -21782,7 +21783,7 @@ typedef union bdk_tns_sde_urw2b_mreptr_w0 {
 	struct bdk_tns_sde_urw2b_mreptr_w0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t cpu                         : 14; /**< R/W - -- */
-		uint32_t qcn_sample                  : 18; /**< R/W - -- */
+		uint32_t qcn_sample                  : 18; /**< R/W - Reserved. INTERNAL: Defeatured. */
 #else
 		uint32_t qcn_sample                  : 18;
 		uint32_t cpu                         : 14;
@@ -33496,12 +33497,17 @@ typedef union bdk_tns_txq_dq_h1s_ecc_ctl {
 	struct bdk_tns_txq_dq_h1s_ecc_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_27_31              : 5;
-		uint32_t qcn_db_ecc                  : 1;  /**< R/W - Flip 2 bits of ECC syndrome in QCN configuration and state memory */
-		uint32_t qcn_sb_ecc                  : 1;  /**< R/W - Flip 1 bit of ECC syndrome in QCN configuration and state  memory */
-		uint32_t qcn_ecc_dis                 : 1;  /**< R/W - Disable ECC for QCN configuration and state memory */
-		uint32_t qcn_qmap_db_ecc             : 1;  /**< R/W - Flip 2 bits of ECC syndrome in QCN Q mapping memory */
-		uint32_t qcn_qmap_sb_ecc             : 1;  /**< R/W - Flip 1 bit of ECC syndrome in QCN Q mapping  memory */
-		uint32_t qcn_qmap_ecc_dis            : 1;  /**< R/W - Disable ECC for QCN Q mapping memory */
+		uint32_t qcn_db_ecc                  : 1;  /**< R/W - Reserved. INTERNAL: Flip 2 bits of ECC syndrome in QCN (defeatured)
+                                                                 configuration and state memory */
+		uint32_t qcn_sb_ecc                  : 1;  /**< R/W - Reserved. INTERNAL: Flip 1 bit of ECC syndrome in QCN (defeatured)
+                                                                 configuration and state  memory */
+		uint32_t qcn_ecc_dis                 : 1;  /**< R/W - Reserved. INTERNAL: Disable ECC for QCN (defeatured) configuration and state
+                                                                 memory */
+		uint32_t qcn_qmap_db_ecc             : 1;  /**< R/W - Reserved. INTERNAL: Flip 2 bits of ECC syndrome in QCN (defeatured) Q mapping
+                                                                 memory */
+		uint32_t qcn_qmap_sb_ecc             : 1;  /**< R/W - Reserved. INTERNAL: Flip 1 bit of ECC syndrome in QCN (defeatured) Q mapping
+                                                                 memory */
+		uint32_t qcn_qmap_ecc_dis            : 1;  /**< R/W - Reserved. INTERNAL: Disable ECC for QCN (defeatured) Q mapping memory */
 		uint32_t h1_sch_tm_db_ecc            : 7;  /**< R/W - Flip 2 bits of ECC syndrome in H1 scheduler TM config and state memory */
 		uint32_t h1_sch_tm_sb_ecc            : 7;  /**< R/W - Flip 1 bit of ECC syndrome in H1 scheduler TM config and state  memory */
 		uint32_t h1_sch_tm_ecc_dis           : 1;  /**< R/W - Disable ECC for H1 scheduler TM config and state memory */
@@ -33712,10 +33718,12 @@ typedef union bdk_tns_txq_dq_h1s_int_en_hi {
 		uint32_t q_slow_shp_neg_wrap_err     : 1;  /**< R/W - Q shaper credits wrapped from negative to positive */
 		uint32_t q_pkt_ct_rollover_err       : 1;  /**< R/W - Q packet count rolled over */
 		uint32_t q_pkt_ct_neg_err            : 1;  /**< R/W - Q packet count tried to decrement when count was zero */
-		uint32_t qcn_mem_db_err              : 1;  /**< R/W - QCN configuration and state memory double bit ECC interrupt */
-		uint32_t qcn_mem_sb_err              : 1;  /**< R/W - QCN configuration and state memory single bit ECC interrupt */
-		uint32_t qcn_qmap_mem_db_err         : 1;  /**< R/W - QCN Q mapping memory double bit ECC interrupt */
-		uint32_t qcn_qmap_mem_sb_err         : 1;  /**< R/W - QCN Q mapping memory single bit ECC interrupt */
+		uint32_t qcn_mem_db_err              : 1;  /**< R/W - Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+                                                                 ECC interrupt */
+		uint32_t qcn_mem_sb_err              : 1;  /**< R/W - Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+                                                                 ECC interrupt */
+		uint32_t qcn_qmap_mem_db_err         : 1;  /**< R/W - Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
+		uint32_t qcn_qmap_mem_sb_err         : 1;  /**< R/W - Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
 		uint32_t h1_sch_tm_mem_db_err        : 7;  /**< R/W - H1 scheduler TM config and state memory double bit ECC interrupt */
 		uint32_t h1_sch_tm_mem_sb_err        : 7;  /**< R/W - H1 scheduler TM config and state memory single bit ECC interrupt */
 		uint32_t q_slow_shp_mem_db_err       : 1;  /**< R/W - Q slow shaper memory double bit ECC interrupt */
@@ -33772,10 +33780,12 @@ typedef union bdk_tns_txq_dq_h1s_int_en_lo {
 		uint32_t q_slow_shp_neg_wrap_err     : 1;  /**< R/W - Q shaper credits wrapped from negative to positive */
 		uint32_t q_pkt_ct_rollover_err       : 1;  /**< R/W - Q packet count rolled over */
 		uint32_t q_pkt_ct_neg_err            : 1;  /**< R/W - Q packet count tried to decrement when count was zero */
-		uint32_t qcn_mem_db_err              : 1;  /**< R/W - QCN configuration and state memory double bit ECC interrupt */
-		uint32_t qcn_mem_sb_err              : 1;  /**< R/W - QCN configuration and state memory single bit ECC interrupt */
-		uint32_t qcn_qmap_mem_db_err         : 1;  /**< R/W - QCN Q mapping memory double bit ECC interrupt */
-		uint32_t qcn_qmap_mem_sb_err         : 1;  /**< R/W - QCN Q mapping memory single bit ECC interrupt */
+		uint32_t qcn_mem_db_err              : 1;  /**< R/W - Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+                                                                 ECC interrupt */
+		uint32_t qcn_mem_sb_err              : 1;  /**< R/W - Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+                                                                 ECC interrupt */
+		uint32_t qcn_qmap_mem_db_err         : 1;  /**< R/W - Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
+		uint32_t qcn_qmap_mem_sb_err         : 1;  /**< R/W - Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
 		uint32_t h1_sch_tm_mem_db_err        : 7;  /**< R/W - H1 scheduler TM config and state memory double bit ECC interrupt */
 		uint32_t h1_sch_tm_mem_sb_err        : 7;  /**< R/W - H1 scheduler TM config and state memory single bit ECC interrupt */
 		uint32_t q_slow_shp_mem_db_err       : 1;  /**< R/W - Q slow shaper memory double bit ECC interrupt */
@@ -33832,10 +33842,12 @@ typedef union bdk_tns_txq_dq_h1s_int_frc {
 		uint32_t q_slow_shp_neg_wrap_err     : 1;  /**< WO - Q shaper credits wrapped from negative to positive */
 		uint32_t q_pkt_ct_rollover_err       : 1;  /**< WO - Q packet count rolled over */
 		uint32_t q_pkt_ct_neg_err            : 1;  /**< WO - Q packet count tried to decrement when count was zero */
-		uint32_t qcn_mem_db_err              : 1;  /**< WO - QCN configuration and state memory double bit ECC interrupt */
-		uint32_t qcn_mem_sb_err              : 1;  /**< WO - QCN configuration and state memory single bit ECC interrupt */
-		uint32_t qcn_qmap_mem_db_err         : 1;  /**< WO - QCN Q mapping memory double bit ECC interrupt */
-		uint32_t qcn_qmap_mem_sb_err         : 1;  /**< WO - QCN Q mapping memory single bit ECC interrupt */
+		uint32_t qcn_mem_db_err              : 1;  /**< WO - Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+                                                                 ECC interrupt */
+		uint32_t qcn_mem_sb_err              : 1;  /**< WO - Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+                                                                 ECC interrupt */
+		uint32_t qcn_qmap_mem_db_err         : 1;  /**< WO - Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
+		uint32_t qcn_qmap_mem_sb_err         : 1;  /**< WO - Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
 		uint32_t h1_sch_tm_mem_db_err        : 7;  /**< WO - H1 scheduler TM config and state memory double bit ECC interrupt */
 		uint32_t h1_sch_tm_mem_sb_err        : 7;  /**< WO - H1 scheduler TM config and state memory single bit ECC interrupt */
 		uint32_t q_slow_shp_mem_db_err       : 1;  /**< WO - Q slow shaper memory double bit ECC interrupt */
@@ -33892,10 +33904,12 @@ typedef union bdk_tns_txq_dq_h1s_int_w1c {
 		uint32_t q_slow_shp_neg_wrap_err     : 1;  /**< R/W1C/H - Q shaper credits wrapped from negative to positive */
 		uint32_t q_pkt_ct_rollover_err       : 1;  /**< R/W1C/H - Q packet count rolled over */
 		uint32_t q_pkt_ct_neg_err            : 1;  /**< R/W1C/H - Q packet count tried to decrement when count was zero */
-		uint32_t qcn_mem_db_err              : 1;  /**< R/W1C/H - QCN configuration and state memory double bit ECC interrupt */
-		uint32_t qcn_mem_sb_err              : 1;  /**< R/W1C/H - QCN configuration and state memory single bit ECC interrupt */
-		uint32_t qcn_qmap_mem_db_err         : 1;  /**< R/W1C/H - QCN Q mapping memory double bit ECC interrupt */
-		uint32_t qcn_qmap_mem_sb_err         : 1;  /**< R/W1C/H - QCN Q mapping memory single bit ECC interrupt */
+		uint32_t qcn_mem_db_err              : 1;  /**< R/W1C/H - Reserved. INTERNAL: QCN (defeatured) configuration and state memory double bit
+                                                                 ECC interrupt */
+		uint32_t qcn_mem_sb_err              : 1;  /**< R/W1C/H - Reserved. INTERNAL: QCN (defeatured) configuration and state memory single bit
+                                                                 ECC interrupt */
+		uint32_t qcn_qmap_mem_db_err         : 1;  /**< R/W1C/H - Reserved. INTERNAL: QCN (defeatured) Q mapping memory double bit ECC interrupt */
+		uint32_t qcn_qmap_mem_sb_err         : 1;  /**< R/W1C/H - Reserved. INTERNAL: QCN (defeatured) Q mapping memory single bit ECC interrupt */
 		uint32_t h1_sch_tm_mem_db_err        : 7;  /**< R/W1C/H - H1 scheduler TM config and state memory double bit ECC interrupt */
 		uint32_t h1_sch_tm_mem_sb_err        : 7;  /**< R/W1C/H - H1 scheduler TM config and state memory single bit ECC interrupt */
 		uint32_t q_slow_shp_mem_db_err       : 1;  /**< R/W1C/H - Q slow shaper memory double bit ECC interrupt */
@@ -36760,7 +36774,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_FSHP_MEMX_W2(unsigned long param1)
 /**
  * NCB32b - tns_txq_dq_pts_h1_gen_cfg
  *
- * Enable for shapers, DWRR, and propagated priority
+ * Enable for shapers, DWRR.
  *
  */
 typedef union bdk_tns_txq_dq_pts_h1_gen_cfg {
@@ -36769,7 +36783,8 @@ typedef union bdk_tns_txq_dq_pts_h1_gen_cfg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_5_31               : 27;
 		uint32_t h1_pkt_ct_neg_en            : 1;  /**< R/W - -- */
-		uint32_t prop_prio_en                : 1;  /**< R/W - -- */
+		uint32_t prop_prio_en                : 1;  /**< R/W - Reserved. It must be set to 0 after reset. INTERNAL: Propagated priority
+                                                                 enable. Propagated priority is defeatured. */
 		uint32_t shapers_en                  : 1;  /**< R/W - -- */
 		uint32_t dwrr_en                     : 1;  /**< R/W - -- */
 		uint32_t slow_compensation_en        : 1;  /**< R/W - -- */
@@ -37827,8 +37842,9 @@ static inline uint64_t BDK_TNS_TXQ_DQ_PTS_TM_STTX(unsigned long param1)
 /**
  * NCB - tns_txq_dq_qcn_change
  *
- * This register is written when a QCN packet arrives and the shaper rates need to
- * be updated.  Software determines the new target rate and current rate to use.
+ * This register is written when a QCN (defeatured) packet arrives and the shaper
+ * rates need to be updated.  Software determines the new target rate and current
+ * rate to use.
  */
 typedef union bdk_tns_txq_dq_qcn_change {
 	uint64_t u;
@@ -37869,8 +37885,8 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_CHANGE_FUNC(void)
 /**
  * NCB32b - tns_txq_dq_qcn_ecc_log
  *
- * QCN configuration and state memory ECC error log.  Address is sticky on first
- * error.  Re-armed after reading
+ * QCN (defeatured) configuration and state memory ECC error log.  Address is
+ * sticky on first error.  Re-armed after reading
  */
 typedef union bdk_tns_txq_dq_qcn_ecc_log {
 	uint32_t u;
@@ -37903,8 +37919,9 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_ECC_LOG_FUNC(void)
 /**
  * NCB32b - tns_txq_dq_qcn_gbl_cfg_w0
  *
- * QCN global configuration registers.  These configuration parameters apply to
- * all QCN CCF Queues
+ * QCN (defeatured) global configuration registers.  These configuration
+ * parameters apply to all QCN CCF Queues. QCN has been defeatured and software is
+ * not allowed to enable and/or configure QCN in any circumstance.
  */
 typedef union bdk_tns_txq_dq_qcn_gbl_cfg_w0 {
 	uint32_t u;
@@ -38036,7 +38053,8 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_GBL_CFG_W1_FUNC(void)
 /**
  * NCB - tns_txq_dq_qcn_mem#_w0
  *
- * QCN configuration and state memory
+ * QCN (defeatured) configuration and state memory. QCN has been defeatured and
+ * this memory must not be accessed by software in any circumstance.
  * Bits[63:48] in _W[1] are unused.
  * When writing, the MSBs (word 1) of the entry must be written last.
  * When writing, make the access to this decoder atomic w.r.t. other writes to
@@ -38136,8 +38154,8 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_MEMX_W1(unsigned long param1)
 /**
  * NCB32b - tns_txq_dq_qcn_qmap_ecc_log
  *
- * QCN Q mapping memory ECC error log.  Address is sticky on first error.  Re-
- * armed after reading
+ * QCN (defeatured) Q mapping memory ECC error log.  Address is sticky on first
+ * error.  Re-armed after reading
  */
 typedef union bdk_tns_txq_dq_qcn_qmap_ecc_log {
 	uint32_t u;
@@ -38170,9 +38188,9 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_ECC_LOG_FUNC(void)
 /**
  * NCB32b - tns_txq_dq_qcn_qmap_mem#_w0
  *
- * Map Queue to a QCN RP.  8 queue mappings to the QCN RPs are stored per line.
- * Software must ensure that only one queue is mapped to each reaction point, and
- * that only 512 of the possible 2048 queues are enabled.
+ * Map Queue to a QCN (defeatured) RP.  8 queue mappings to the QCN RPs are stored
+ * per line.  Software must ensure that only one queue is mapped to each reaction
+ * point, and that only 512 of the possible 2048 queues are enabled.
  * Bits[31:16] in _W[2] are unused.
  * When writing, the MSBs (word 2) of the entry must be written last.
  * When writing, make the access to this decoder atomic w.r.t. other writes to
@@ -38306,7 +38324,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_QMAP_MEMX_W2(unsigned long param1)
 /**
  * NCB32b - tns_txq_dq_qcn_rng_cfg
  *
- * QCN random number generator configuration
+ * QCN (defeatured) random number generator configuration
  *
  */
 typedef union bdk_tns_txq_dq_qcn_rng_cfg {
@@ -38340,7 +38358,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_RNG_CFG_FUNC(void)
 /**
  * NCB32b - tns_txq_dq_qcn_supd_fif#
  *
- * QCN slow update FIFO data
+ * QCN (defeatured) slow update FIFO data
  *
  */
 typedef union bdk_tns_txq_dq_qcn_supd_fifx {
@@ -38377,7 +38395,7 @@ static inline uint64_t BDK_TNS_TXQ_DQ_QCN_SUPD_FIFX(unsigned long param1)
 /**
  * NCB - tns_txq_dq_qcn_time
  *
- * Status of QCN timer and RNG
+ * Status of QCN (defeatured) timer and RNG
  *
  */
 typedef union bdk_tns_txq_dq_qcn_time {
@@ -38762,7 +38780,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_AQMQ_WSARB_MODE_FUNC(void)
 /**
  * NCB32b - tns_txq_eq_aqmq_wsarb_wgt
  *
- * AQM_query arbiter weights for egress mirror  and Multi-cast packets
+ * AQM_query arbiter weights for egress mirror (defeatured) and Multi-cast packets
  *
  */
 typedef union bdk_tns_txq_eq_aqmq_wsarb_wgt {
@@ -38770,8 +38788,8 @@ typedef union bdk_tns_txq_eq_aqmq_wsarb_wgt {
 	struct bdk_tns_txq_eq_aqmq_wsarb_wgt_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_16_31              : 16;
-		uint32_t em_weight                   : 8;  /**< R/W - -- */
-		uint32_t mc_weight                   : 8;  /**< R/W - -- */
+		uint32_t em_weight                   : 8;  /**< R/W - Reserved. INTERNAL: Defeatured. */
+		uint32_t mc_weight                   : 8;  /**< R/W - MC weight. */
 #else
 		uint32_t mc_weight                   : 8;
 		uint32_t em_weight                   : 8;
@@ -38974,7 +38992,7 @@ typedef union bdk_tns_txq_eq_dist_fif_usage {
 	struct bdk_tns_txq_eq_dist_fif_usage_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_46_63              : 18;
-		uint64_t source_em_fifo              : 5;  /**< RO/H - Distributor source egress mirror FIFO usage */
+		uint64_t source_em_fifo              : 5;  /**< RO/H - Reserved. INTERNAL: Defeatured. Distributor source egress mirror FIFO usage */
 		uint64_t mc_fifo                     : 5;  /**< RO/H - Distributor source multi-cast FIFO usage */
 		uint64_t uc_drop_fifo                : 5;  /**< RO/H - Distributor source unicast and drop FIFO usage */
 		uint64_t mc_40g_fifo                 : 5;  /**< RO/H - Distributor 40G speed multi-cast FIFO usage */
@@ -39050,15 +39068,15 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DISTO_WSARB_MODE_FUNC(void)
 /**
  * NCB32b - tns_txq_eq_disto_wsarb_wgt
  *
- * Distributer Output ariber weights for Unicast, MC drop, and MC/EM packets
- *
+ * Distributer Output ariber weights for Unicast, MC drop, and MC/EM packets. EM
+ * is defeatured.
  */
 typedef union bdk_tns_txq_eq_disto_wsarb_wgt {
 	uint32_t u;
 	struct bdk_tns_txq_eq_disto_wsarb_wgt_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_24_31              : 8;
-		uint32_t mc_em_weight                : 8;  /**< R/W - -- */
+		uint32_t mc_em_weight                : 8;  /**< R/W - MC weight. INTERNAL: EM is defeatured. */
 		uint32_t mc_drop_weight              : 8;  /**< R/W - -- */
 		uint32_t uc_weight                   : 8;  /**< R/W - -- */
 #else
@@ -39088,8 +39106,9 @@ static inline uint64_t BDK_TNS_TXQ_EQ_DISTO_WSARB_WGT_FUNC(void)
 /**
  * NCB32b - tns_txq_eq_dists_em_drp_ct
  *
- * Counter of Egress Mirror packet drops made by distributor (source) due to EM
- * copy FIFO being full.  Saturates at 32'hffffffff.  Read only, clear on read.
+ * Counter of Egress Mirror (defeatured) packet drops made by distributor (source)
+ * due to EM copy FIFO being full.  Saturates at 32'hffffffff.  Read only, clear
+ * on read.
  */
 typedef union bdk_tns_txq_eq_dists_em_drp_ct {
 	uint32_t u;
@@ -39228,7 +39247,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_COPY_CFG_FUNC(void)
 /**
  * NCB32b - tns_txq_eq_em_fif#_w#
  *
- * EM_token input FIFO to Cut-thru check
+ * EM_token input FIFO to Cut-thru check. EM is defeatued.
  * Bits[31:26] in _W[4] are unused.
  * When writing, the MSBs (word 4) of the entry must be written last.
  * When writing, make the access to this decoder atomic w.r.t. other writes to
@@ -39264,7 +39283,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_FIFX_WX(unsigned long param1, unsigned 
 /**
  * NCB32b - tns_txq_eq_em_fif_fc_thr
  *
- * Distributor egress mirror input FIFO flow control threshold
+ * Distributor egress (defeatured) mirror input FIFO flow control threshold
  *
  */
 typedef union bdk_tns_txq_eq_em_fif_fc_thr {
@@ -39298,8 +39317,8 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_FIF_FC_THR_FUNC(void)
 /**
  * NCB32b - tns_txq_eq_em_pkt_drp_ct
  *
- * Egress Mirror drop count due to FIFO full in Egress mirror generation.
- * Saturates at 32'hffffffff.  Read-only, clear on read.
+ * Egress Mirror (defeatured) drop count due to FIFO full in Egress mirror
+ * generation.  Saturates at 32'hffffffff.  Read-only, clear on read.
  */
 typedef union bdk_tns_txq_eq_em_pkt_drp_ct {
 	uint32_t u;
@@ -39330,8 +39349,8 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EM_PKT_DRP_CT_FUNC(void)
 /**
  * NCB32b - tns_txq_eq_emsd_wsarb_mode
  *
- * Cut-thru Egress Mirror and SDMA token WRR/SP arbiter mode; '0' - WRR, '1' - SP
- * for SDMA
+ * Cut-thru Egress Mirror (defeatured) and SDMA token WRR/SP arbiter mode; '0' -
+ * WRR, '1' - SP for SDMA
  */
 typedef union bdk_tns_txq_eq_emsd_wsarb_mode {
 	uint32_t u;
@@ -39364,7 +39383,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EMSD_WSARB_MODE_FUNC(void)
 /**
  * NCB32b - tns_txq_eq_emsd_wsarb_wgt
  *
- * Cut-Thru Egress Mirror and SDMA WRR/SP arbiter weights
+ * Cut-Thru Egress Mirror (defeatured) and SDMA WRR/SP arbiter weights
  *
  */
 typedef union bdk_tns_txq_eq_emsd_wsarb_wgt {
@@ -39372,7 +39391,7 @@ typedef union bdk_tns_txq_eq_emsd_wsarb_wgt {
 	struct bdk_tns_txq_eq_emsd_wsarb_wgt_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_16_31              : 16;
-		uint32_t em_weight                   : 8;  /**< R/W - -- */
+		uint32_t em_weight                   : 8;  /**< R/W - Reserved. INTERNAL: Defeatured. */
 		uint32_t sdma_weight                 : 8;  /**< R/W - -- */
 #else
 		uint32_t sdma_weight                 : 8;
@@ -39435,7 +39454,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_EOP_MEMX(unsigned long param1)
 /**
  * NCB32b - tns_txq_eq_eqem_fif#_w#
  *
- * Source pipe based FIFOs used in emcopy path
+ * Source pipe based FIFOs used in emcopy path. EM is defeatured.
  * Bits[31:26] in _W[4] are unused.
  * When writing, the MSBs (word 4) of the entry must be written last.
  * When writing, make the access to this decoder atomic w.r.t. other writes to
@@ -39479,7 +39498,7 @@ typedef union bdk_tns_txq_eq_fif_usage {
 	struct bdk_tns_txq_eq_fif_usage_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_20_31              : 12;
-		uint32_t em_fifo                     : 5;  /**< RO/H - Cut-thru EM FIFO usage */
+		uint32_t em_fifo                     : 5;  /**< RO/H - Reserved. INTERNAL: Defeatured. Cut-thru EM FIFO usage */
 		uint32_t lat_fifo                    : 5;  /**< RO/H - Write token latency FIFO usage */
 		uint32_t pool_fifo                   : 5;  /**< RO/H - Write token pool FIFO usage */
 		uint32_t tail_fifo                   : 5;  /**< RO/H - Write token tail FIFO usage */
@@ -39524,7 +39543,7 @@ typedef union bdk_tns_txq_eq_int_en_hi {
 		uint32_t lat_fifo_ovfl               : 1;  /**< R/W - -- */
 		uint32_t pool_fifo_ovfl              : 1;  /**< R/W - -- */
 		uint32_t tail_fifo_ovfl              : 1;  /**< R/W - -- */
-		uint32_t em_pkt_drop                 : 1;  /**< R/W - -- */
+		uint32_t em_pkt_drop                 : 1;  /**< R/W - Reserved. INTERNAL: Defeatured. */
 		uint32_t dfc_rx_cfg_i_ovfl_err       : 1;  /**< R/W - EQ configuration input DFC Rx overflow */
 		uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1; /**< R/W - TBM to EQ tail pointer input DFC Rx overflow */
 		uint32_t sdma_eq_dfc_ovfl_err        : 1;  /**< R/W - SDMA to EQ token input DFC Rx overflow */
@@ -39578,7 +39597,7 @@ typedef union bdk_tns_txq_eq_int_en_lo {
 		uint32_t lat_fifo_ovfl               : 1;  /**< R/W - -- */
 		uint32_t pool_fifo_ovfl              : 1;  /**< R/W - -- */
 		uint32_t tail_fifo_ovfl              : 1;  /**< R/W - -- */
-		uint32_t em_pkt_drop                 : 1;  /**< R/W - -- */
+		uint32_t em_pkt_drop                 : 1;  /**< R/W - Reserved. INTERNAL: Defeatured. */
 		uint32_t dfc_rx_cfg_i_ovfl_err       : 1;  /**< R/W - EQ configuration input DFC Rx overflow */
 		uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1; /**< R/W - TBM to EQ tail pointer input DFC Rx overflow */
 		uint32_t sdma_eq_dfc_ovfl_err        : 1;  /**< R/W - SDMA to EQ token input DFC Rx overflow */
@@ -39632,7 +39651,7 @@ typedef union bdk_tns_txq_eq_int_frc {
 		uint32_t lat_fifo_ovfl               : 1;  /**< WO - -- */
 		uint32_t pool_fifo_ovfl              : 1;  /**< WO - -- */
 		uint32_t tail_fifo_ovfl              : 1;  /**< WO - -- */
-		uint32_t em_pkt_drop                 : 1;  /**< WO - -- */
+		uint32_t em_pkt_drop                 : 1;  /**< WO - Reserved. INTERNAL: Defeatured. */
 		uint32_t dfc_rx_cfg_i_ovfl_err       : 1;  /**< WO - EQ configuration input DFC Rx overflow */
 		uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1; /**< WO - TBM to EQ tail pointer input DFC Rx overflow */
 		uint32_t sdma_eq_dfc_ovfl_err        : 1;  /**< WO - SDMA to EQ token input DFC Rx overflow */
@@ -39686,7 +39705,7 @@ typedef union bdk_tns_txq_eq_int_w1c {
 		uint32_t lat_fifo_ovfl               : 1;  /**< R/W1C/H - -- */
 		uint32_t pool_fifo_ovfl              : 1;  /**< R/W1C/H - -- */
 		uint32_t tail_fifo_ovfl              : 1;  /**< R/W1C/H - -- */
-		uint32_t em_pkt_drop                 : 1;  /**< R/W1C/H - -- */
+		uint32_t em_pkt_drop                 : 1;  /**< R/W1C/H - Reserved. INTERNAL: Defeatured. */
 		uint32_t dfc_rx_cfg_i_ovfl_err       : 1;  /**< R/W1C/H - EQ configuration input DFC Rx overflow */
 		uint32_t tbm_eq_tail_ptr_dfc_ovfl_err : 1; /**< R/W1C/H - TBM to EQ tail pointer input DFC Rx overflow */
 		uint32_t sdma_eq_dfc_ovfl_err        : 1;  /**< R/W1C/H - SDMA to EQ token input DFC Rx overflow */
@@ -40971,9 +40990,9 @@ typedef union bdk_tns_txq_qmap_eq_cfg_memx {
 		uint64_t q_eq_en                     : 1;  /**< R/W - -- */
 		uint64_t h1_eq_en                    : 1;  /**< R/W - -- */
 		uint64_t p_eq_en                     : 1;  /**< R/W - -- */
-		uint64_t q_em_en                     : 1;  /**< R/W - -- */
-		uint64_t h1_em_en                    : 1;  /**< R/W - -- */
-		uint64_t p_em_en                     : 1;  /**< R/W - -- */
+		uint64_t q_em_en                     : 1;  /**< R/W - Reserved and must be set to 0. INTERNAL: Defeatured. */
+		uint64_t h1_em_en                    : 1;  /**< R/W - Reserved and must be set to 0. INTERNAL: Defeatured. */
+		uint64_t p_em_en                     : 1;  /**< R/W - Reserved and must be set to 0. INTERNAL: Defeatured. */
 #else
 		uint64_t p_em_en                     : 1;
 		uint64_t h1_em_en                    : 1;
@@ -41407,7 +41426,7 @@ static inline uint64_t BDK_TNS_TXQ_QMAP_Q_FULL_CFG_MEMX(unsigned long param1)
 /**
  * NCB - tns_txq_qmap_qcn_cp_rng
  *
- * QCN congestion point RNG configuration
+ * QCN (defeatured) congestion point RNG configuration.
  *
  */
 typedef union bdk_tns_txq_qmap_qcn_cp_rng {

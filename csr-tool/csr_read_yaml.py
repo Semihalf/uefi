@@ -54,8 +54,8 @@ def parseBitRange(bits):
         start_bit = long(bits)
         stop_bit = start_bit
     assert word < 32
-    assert (start_bit >= 0) and (start_bit < 64)
-    assert (stop_bit >= start_bit) and (stop_bit < 64)
+    assert (start_bit >= 0) #and (start_bit < 64)
+    assert (stop_bit >= start_bit) #and (stop_bit < 64)
     start_bit = start_bit + word*64
     stop_bit = stop_bit + word*64
     return start_bit, stop_bit
@@ -275,8 +275,10 @@ def build_csr(chip_info, group, register, raw):
                    "dv_force_no_compare",
                    "dv_testbuilder_no_create",
                    "dv_uvm_no_create",
+                   "dv_uvm_no_rand_flag",
                    "eco_reserved",
                    "exempt_easy_decode",
+                   "exempt_equation_subtraction",
                    "exempt_name_length",
                    "exempt_name_inherits",
                    "exempt_natural_alignment",
@@ -287,6 +289,7 @@ def build_csr(chip_info, group, register, raw):
                    "mem_to_csr",
                    "min_stride",
                    "min_write_size",
+                   "mif_exclude",
                    "pcc_capability_bytes",
                    "pcc_capability_offset",
                    "pcc_present_if",
@@ -305,6 +308,8 @@ def build_csr(chip_info, group, register, raw):
                    "secure_banked",
                    "secure_ignore_aware",
                    "stage",
+                   "sysreg_exists",
+                   "sysreg_name",
                    "subblock",
                    "tns_fused",
                    "uvm_default_constraint",
@@ -364,13 +369,17 @@ def build_csr(chip_info, group, register, raw):
             check_keys("register.field[attributes]", field["attributes"], [
                       "no_soft_reset",
                       "chip_pass",
+                      "dv_fc_scratch_ignore",
                       "dv_uvm_force_compare",
                       "dv_uvm_cov_val_disable",
                       "exempt_keyword",
                       "exempt_name_double_underscore",
+                      "exempt_name_length",
                       "regtest_force",
+                      "sysreg_name",
                       "pcc_conditional",
                       "pcc_exempt_access",
+                      "sysreg_aem_reset",
                       "tns_fused",
                       "xpliant_name",
                       "uvm_default_constraint"])

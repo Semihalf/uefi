@@ -1,0 +1,74 @@
+--- usbh.csr	2015-06-03 15:07:08.000000000 -0700
++++ cn88xx/usbh.csr	2015-06-03 15:08:10.000000000 -0700
+@@ -257,32 +257,13 @@
+       - name: UAHC_IMAN_IP
+         value: 0x000
+         attributes:
+-          chip_pass: "t88>=1.1;t83"
+-          exempt_pass1_address_change: "True"
+-          pib_int_field: "IMAN_IP"
+-        description: Changed in pass 1.1. See UAHC(0)_IMAN(0)[IP].
+-
+-      - name: UAHC_IMAN_IP
+-        value: 0x002
+-        attributes:
+-          chip_pass: "t88<1.1;!t83"
+           exempt_pass1_address_change: "True"
+           pib_int_field: "IMAN_IP"
+         description: Changed in pass 1.1. See UAHC(0)_IMAN(0)[IP].
+ 
+       - name: UAHC_USBSTS_HSE
+-        value: 0x000
+-        attributes:
+-          chip_pass: "t88<1.1;!t83"
+-          exempt_pass1_address_change: "True"
+-          intsn_level_sensitive: "True"
+-          pib_int_field: "USBSTS_HSE"
+-        description: Changed in pass 1.1. See UAHC(0..1)_USBSTS[HSE].
+-
+-      - name: UAHC_USBSTS_HSE
+         value: 0x002
+         attributes:
+-          chip_pass: "t88>=1.1;t83"
+           exempt_pass1_address_change: "True"
+           intsn_level_sensitive: "True"
+           pib_int_field: "USBSTS_HSE"
+@@ -291,7 +272,6 @@
+       - name: UCTL_INTSTAT
+         value: 0x001
+         attributes:
+-          chip_pass: "t88>=1.1;t83"
+           exempt_pass1_address_change: "True"
+           pib_rtl_module: "usbh"
+         description: |
+@@ -301,30 +281,9 @@
+           enable clears USBH(0..1)_UCTL_INTENA_W1C,
+           and enable sets USBH(0..1)_UCTL_INTENA_W1S.
+ 
+-      - name: UCTL_INTSTAT
+-        value: 0x003
+-        attributes:
+-          chip_pass: "t88<1.1;!t83"
+-          exempt_pass1_address_change: "True"
+-          pib_rtl_module: "usbh"
+-        description: |
+-          Changed in pass 1.1.
+-          See interrupt clears USBH(0..1)_UCTL_INTSTAT,
+-          interrupt sets USBH(0..1)_UCTL_INTSTAT_W1S,
+-          enable clears USBH(0..1)_UCTL_INTENA_W1C,
+-          and enable sets USBH(0..1)_UCTL_INTENA_W1S.
+-
+-      - name: UAHC_USBSTS_HSE_CLEAR
+-        value: 0x001
+-        attributes:
+-          chip_pass: "t88<1.1;!t83"
+-          intsn_level_sensitive: "True"
+-        description: Changed in pass 1.1. Level sensitive interrupt clear vector.
+-
+       - name: UAHC_USBSTS_HSE_CLEAR
+         value: 0x003
+         attributes:
+-          chip_pass: "t88>=1.1;t83"
+           exempt_pass1_address_change: "True"
+           intsn_level_sensitive: "True"
+         description: Changed in pass 1.1. Level sensitive interrupt clear vector.

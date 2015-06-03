@@ -886,7 +886,7 @@ static inline uint64_t BDK_PCCPF_XXX_CMD_FUNC(void)
 /**
  * PCCPF - pccpf_xxx_e_cap_hdr
  *
- * This register is the header of the 64-byte PCIe capability header.
+ * This register is the header of the 64-byte PCIe capability header.  Address changed in pass 2.
  *
  */
 typedef union bdk_pccpf_xxx_e_cap_hdr {
@@ -913,13 +913,99 @@ typedef union bdk_pccpf_xxx_e_cap_hdr {
 static inline uint64_t BDK_PCCPF_XXX_E_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_E_CAP_HDR_FUNC(void)
 {
-	return 0x0000000000000070ull;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+		return 0x0000000000000070ull;
+	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000000000000040ull;
+	else 		csr_fatal("BDK_PCCPF_XXX_E_CAP_HDR", 0, 0, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_PCCPF_XXX_E_CAP_HDR bdk_pccpf_xxx_e_cap_hdr_t
 #define bustype_BDK_PCCPF_XXX_E_CAP_HDR BDK_CSR_TYPE_PCCPF
 #define busnum_BDK_PCCPF_XXX_E_CAP_HDR 0
 #define arguments_BDK_PCCPF_XXX_E_CAP_HDR -1,-1,-1,-1
 #define basename_BDK_PCCPF_XXX_E_CAP_HDR "PCCPF_XXX_E_CAP_HDR"
+
+
+/**
+ * PCCPF - pccpf_xxx_ea_cap_hdr
+ *
+ * This register is the header of the variable-sized PCI enhanced allocation capability
+ * structure for type 0 devices.
+ * The register is RAZ when PCCPF_XXX_VSEC_SCTL[EA] is clear.
+ * Added in pass 2.
+ */
+typedef union bdk_pccpf_xxx_ea_cap_hdr {
+	uint32_t u;
+	struct bdk_pccpf_xxx_ea_cap_hdr_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_22_31              : 10;
+		uint32_t num_entries                 : 6;  /**< RO/H - Number of enhanced entries:
+                                                                   0x0 = No non-zero BARs.
+                                                                   0x1 = 1 non-zero normal or SR-IOV BARs.
+                                                                   0x2 = 2 non-zero normal or SR-IOV BARs.
+                                                                   0x3 = 3 non-zero normal or SR-IOV BARs.
+                                                                   0x4 = 4 non-zero normal or SR-IOV BARs.
+
+                                                                 CNXXXX never has more than four normal or SR-IOV BARs. */
+		uint32_t ncp                         : 8;  /**< RO - Next capability pointer.  No next capability. */
+		uint32_t pcieid                      : 8;  /**< RO/H - Enhanced allocation capability ID. */
+#else
+		uint32_t pcieid                      : 8;
+		uint32_t ncp                         : 8;
+		uint32_t num_entries                 : 6;
+		uint32_t reserved_22_31              : 10;
+#endif
+	} s;
+	/* struct bdk_pccpf_xxx_ea_cap_hdr_s  cn88xx; */
+} bdk_pccpf_xxx_ea_cap_hdr_t;
+
+#define BDK_PCCPF_XXX_EA_CAP_HDR BDK_PCCPF_XXX_EA_CAP_HDR_FUNC()
+static inline uint64_t BDK_PCCPF_XXX_EA_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCCPF_XXX_EA_CAP_HDR_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000000000000098ull;
+	else 		csr_fatal("BDK_PCCPF_XXX_EA_CAP_HDR", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_PCCPF_XXX_EA_CAP_HDR bdk_pccpf_xxx_ea_cap_hdr_t
+#define bustype_BDK_PCCPF_XXX_EA_CAP_HDR BDK_CSR_TYPE_PCCPF
+#define busnum_BDK_PCCPF_XXX_EA_CAP_HDR 0
+#define arguments_BDK_PCCPF_XXX_EA_CAP_HDR -1,-1,-1,-1
+#define basename_BDK_PCCPF_XXX_EA_CAP_HDR "PCCPF_XXX_EA_CAP_HDR"
+
+
+/**
+ * PCCPF - pccpf_xxx_ea_entry#
+ *
+ * These registers contain up to four sequential enhanced allocation entries. Each
+ * entry consists of 5 sequential words described by PCC_EA_ENTRY_S.
+ * All entries are RAZ when PCCPF_XXX_VSEC_SCTL[EA] is clear.
+ * Added in pass 2.
+ */
+typedef union bdk_pccpf_xxx_ea_entryx {
+	uint32_t u;
+	struct bdk_pccpf_xxx_ea_entryx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t data                        : 32; /**< RO/H - Entry data.  See PCC_EA_ENTRY_S. */
+#else
+		uint32_t data                        : 32;
+#endif
+	} s;
+	/* struct bdk_pccpf_xxx_ea_entryx_s   cn88xx; */
+} bdk_pccpf_xxx_ea_entryx_t;
+
+static inline uint64_t BDK_PCCPF_XXX_EA_ENTRYX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCCPF_XXX_EA_ENTRYX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 19)))
+		return 0x000000000000009Cull + (param1 & 31) * 0x4ull;
+	else 		csr_fatal("BDK_PCCPF_XXX_EA_ENTRYX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_PCCPF_XXX_EA_ENTRYX(...) bdk_pccpf_xxx_ea_entryx_t
+#define bustype_BDK_PCCPF_XXX_EA_ENTRYX(...) BDK_CSR_TYPE_PCCPF
+#define busnum_BDK_PCCPF_XXX_EA_ENTRYX(p1) (p1)
+#define arguments_BDK_PCCPF_XXX_EA_ENTRYX(p1) (p1),-1,-1,-1
+#define basename_BDK_PCCPF_XXX_EA_ENTRYX(...) "PCCPF_XXX_EA_ENTRYX"
 
 
 /**
@@ -998,7 +1084,11 @@ typedef union bdk_pccpf_xxx_msix_cap_hdr {
 static inline uint64_t BDK_PCCPF_XXX_MSIX_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_MSIX_CAP_HDR_FUNC(void)
 {
-	return 0x00000000000000B0ull;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+		return 0x00000000000000B0ull;
+	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000000000000080ull;
+	else 		csr_fatal("BDK_PCCPF_XXX_MSIX_CAP_HDR", 0, 0, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_PCCPF_XXX_MSIX_CAP_HDR bdk_pccpf_xxx_msix_cap_hdr_t
 #define bustype_BDK_PCCPF_XXX_MSIX_CAP_HDR BDK_CSR_TYPE_PCCPF
@@ -1034,7 +1124,11 @@ typedef union bdk_pccpf_xxx_msix_pba {
 static inline uint64_t BDK_PCCPF_XXX_MSIX_PBA_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_MSIX_PBA_FUNC(void)
 {
-	return 0x00000000000000B8ull;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+		return 0x00000000000000B8ull;
+	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000000000000088ull;
+	else 		csr_fatal("BDK_PCCPF_XXX_MSIX_PBA", 0, 0, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_PCCPF_XXX_MSIX_PBA bdk_pccpf_xxx_msix_pba_t
 #define bustype_BDK_PCCPF_XXX_MSIX_PBA BDK_CSR_TYPE_PCCPF
@@ -1070,7 +1164,11 @@ typedef union bdk_pccpf_xxx_msix_table {
 static inline uint64_t BDK_PCCPF_XXX_MSIX_TABLE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_MSIX_TABLE_FUNC(void)
 {
-	return 0x00000000000000B4ull;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+		return 0x00000000000000B4ull;
+	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000000000000084ull;
+	else 		csr_fatal("BDK_PCCPF_XXX_MSIX_TABLE", 0, 0, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_PCCPF_XXX_MSIX_TABLE bdk_pccpf_xxx_msix_table_t
 #define bustype_BDK_PCCPF_XXX_MSIX_TABLE BDK_CSR_TYPE_PCCPF

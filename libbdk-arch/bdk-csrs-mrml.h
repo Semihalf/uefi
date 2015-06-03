@@ -137,18 +137,20 @@ static inline uint64_t BDK_MRML_INT_ENA_W1S_FUNC(void)
 
 
 /**
- * RSL32b - mrml_int_local_to
+ * RSL - mrml_int_local_to
  *
  * Configures local-node timeouts.
  *
  */
 typedef union bdk_mrml_int_local_to {
-	uint32_t u;
+	uint64_t u;
 	struct bdk_mrml_int_local_to_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t tovalue                     : 32; /**< SR/W - Local timeout value, in coprocessor-clocks. */
+		uint64_t reserved_32_63              : 32;
+		uint64_t tovalue                     : 32; /**< SR/W - Local timeout value, in coprocessor-clocks. */
 #else
-		uint32_t tovalue                     : 32;
+		uint64_t tovalue                     : 32;
+		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
 	/* struct bdk_mrml_int_local_to_s     cn88xx; */
@@ -162,25 +164,27 @@ static inline uint64_t BDK_MRML_INT_LOCAL_TO_FUNC(void)
 	return 0x000087E0FC000800ull;
 }
 #define typedef_BDK_MRML_INT_LOCAL_TO bdk_mrml_int_local_to_t
-#define bustype_BDK_MRML_INT_LOCAL_TO BDK_CSR_TYPE_RSL32b
+#define bustype_BDK_MRML_INT_LOCAL_TO BDK_CSR_TYPE_RSL
 #define busnum_BDK_MRML_INT_LOCAL_TO 0
 #define arguments_BDK_MRML_INT_LOCAL_TO -1,-1,-1,-1
 #define basename_BDK_MRML_INT_LOCAL_TO "MRML_INT_LOCAL_TO"
 
 
 /**
- * RSL32b - mrml_int_ocx_to
+ * RSL - mrml_int_ocx_to
  *
  * Configures remote-node timeouts.
  *
  */
 typedef union bdk_mrml_int_ocx_to {
-	uint32_t u;
+	uint64_t u;
 	struct bdk_mrml_int_ocx_to_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t tovalue                     : 32; /**< SR/W - OCX timeout value, in coprocessor-clocks. */
+		uint64_t reserved_32_63              : 32;
+		uint64_t tovalue                     : 32; /**< SR/W - OCX timeout value, in coprocessor-clocks. */
 #else
-		uint32_t tovalue                     : 32;
+		uint64_t tovalue                     : 32;
+		uint64_t reserved_32_63              : 32;
 #endif
 	} s;
 	/* struct bdk_mrml_int_ocx_to_s       cn88xx; */
@@ -194,7 +198,7 @@ static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void)
 	return 0x000087E0FC000808ull;
 }
 #define typedef_BDK_MRML_INT_OCX_TO bdk_mrml_int_ocx_to_t
-#define bustype_BDK_MRML_INT_OCX_TO BDK_CSR_TYPE_RSL32b
+#define bustype_BDK_MRML_INT_OCX_TO BDK_CSR_TYPE_RSL
 #define busnum_BDK_MRML_INT_OCX_TO 0
 #define arguments_BDK_MRML_INT_OCX_TO -1,-1,-1,-1
 #define basename_BDK_MRML_INT_OCX_TO "MRML_INT_OCX_TO"

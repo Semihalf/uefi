@@ -69,6 +69,8 @@ enum pem_int_vec_e {
 	PEM_INT_VEC_E_ERROR_AERI_CLEAR = 0x1,
 	PEM_INT_VEC_E_ERROR_PMEI = 0x2,
 	PEM_INT_VEC_E_ERROR_PMEI_CLEAR = 0x3,
+	PEM_INT_VEC_E_HP_INT = 0xe,
+	PEM_INT_VEC_E_HP_INT_CLEAR = 0xf,
 	PEM_INT_VEC_E_INTA = 0x4,
 	PEM_INT_VEC_E_INTA_CLEAR = 0x5,
 	PEM_INT_VEC_E_INTB = 0x6,
@@ -78,7 +80,7 @@ enum pem_int_vec_e {
 	PEM_INT_VEC_E_INTD = 0xa,
 	PEM_INT_VEC_E_INTD_CLEAR = 0xb,
 	PEM_INT_VEC_E_INT_SUM = 0xc,
-	PEM_INT_VEC_E_ENUM_LAST = 0xe,
+	PEM_INT_VEC_E_ENUM_LAST = 0x10,
 };
 
 
@@ -504,6 +506,119 @@ typedef union bdk_pemx_ctl_status {
 	uint64_t u;
 	struct bdk_pemx_ctl_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_55_63              : 9;
+		uint64_t inb_grant_limit             : 3;  /**< R/W - The number of inbound TLPs allowed in flight in PEM. Added in pass 2 to improve
+                                                                 small TLP performance. */
+		uint64_t rd_flt                      : 1;  /**< RO - Read fault.
+
+                                                                   0 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will
+                                                                       return to the NCB/cores all-ones and non-fault.
+                                                                       This is compatible with CN88XX pass 1.0.
+                                                                   1 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will
+                                                                       return to the NCB/cores all-ones and fault. In the case of a read by a core,
+                                                                       this fault will cause a synchronous external abort in the core.
+
+                                                                 Config reads which are terminated by PCIe with an error (UR, etc), or config reads
+                                                                 when the PEM is disabled or link is down, will return to the NCB/cores all-ones and
+                                                                 non-fault regardless of this bit. */
+		uint64_t inv_dpar                    : 1;  /**< R/W - Invert the generated parity to be written into the most significant data queue buffer RAM
+                                                                 block to force a parity error when it is later read. */
+		uint64_t reserved_48_49              : 2;
+		uint64_t auto_sd                     : 1;  /**< RO/H - Link hardware autonomous speed disable. */
+		uint64_t dnum                        : 5;  /**< RO/H - Primary bus device number. */
+		uint64_t pbus                        : 8;  /**< RO/H - Primary bus number. */
+		uint64_t reserved_32_33              : 2;
+		uint64_t cfg_rtry                    : 16; /**< R/W - The time in units of 0x10000 coprocessor-clocks, during which retry completions to
+                                                                 configuration
+                                                                 reads will result in PCIE retries, but after which they shall result in a response error
+                                                                 to the SLI and no retries. A value of 0 disables retries and treats a CPL Retry as a CPL
+                                                                 UR.
+                                                                 When non-zero, only one CFG RD may be issued until either successful completion or CPL UR. */
+		uint64_t reserved_12_15              : 4;
+		uint64_t pm_xtoff                    : 1;  /**< R/W/H - When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
+		uint64_t reserved_6_10               : 5;
+		uint64_t dly_one                     : 1;  /**< R/W/H - When set the output client state machines will wait one cycle before starting a new TLP out. */
+		uint64_t lnk_enb                     : 1;  /**< R/W - When set, the link is enabled; when clear (0) the link is disabled. This bit only is
+                                                                 active when in RC mode. */
+		uint64_t ro_ctlp                     : 1;  /**< R/W - When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
+		uint64_t fast_lm                     : 1;  /**< R/W - When set, forces fast link mode. */
+		uint64_t inv_ecrc                    : 1;  /**< R/W - When set, causes the LSB of the ECRC to be inverted. */
+		uint64_t inv_lcrc                    : 1;  /**< R/W - When set, causes the LSB of the LCRC to be inverted. */
+#else
+		uint64_t inv_lcrc                    : 1;
+		uint64_t inv_ecrc                    : 1;
+		uint64_t fast_lm                     : 1;
+		uint64_t ro_ctlp                     : 1;
+		uint64_t lnk_enb                     : 1;
+		uint64_t dly_one                     : 1;
+		uint64_t reserved_6_10               : 5;
+		uint64_t pm_xtoff                    : 1;
+		uint64_t reserved_12_15              : 4;
+		uint64_t cfg_rtry                    : 16;
+		uint64_t reserved_32_33              : 2;
+		uint64_t pbus                        : 8;
+		uint64_t dnum                        : 5;
+		uint64_t auto_sd                     : 1;
+		uint64_t reserved_48_49              : 2;
+		uint64_t inv_dpar                    : 1;
+		uint64_t rd_flt                      : 1;
+		uint64_t inb_grant_limit             : 3;
+		uint64_t reserved_55_63              : 9;
+#endif
+	} s;
+	struct bdk_pemx_ctl_status_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_55_63              : 9;
+		uint64_t inb_grant_limit             : 3;  /**< R/W - The number of inbound TLPs allowed in flight in PEM. Added in pass 2 to improve
+                                                                 small TLP performance. */
+		uint64_t reserved_51_51              : 1;
+		uint64_t inv_dpar                    : 1;  /**< R/W - Invert the generated parity to be written into the most significant data queue buffer RAM
+                                                                 block to force a parity error when it is later read. */
+		uint64_t reserved_48_49              : 2;
+		uint64_t auto_sd                     : 1;  /**< RO/H - Link hardware autonomous speed disable. */
+		uint64_t dnum                        : 5;  /**< RO/H - Primary bus device number. */
+		uint64_t pbus                        : 8;  /**< RO/H - Primary bus number. */
+		uint64_t reserved_32_33              : 2;
+		uint64_t cfg_rtry                    : 16; /**< R/W - The time in units of 0x10000 coprocessor-clocks, during which retry completions to
+                                                                 configuration
+                                                                 reads will result in PCIE retries, but after which they shall result in a response error
+                                                                 to the SLI and no retries. A value of 0 disables retries and treats a CPL Retry as a CPL
+                                                                 UR.
+                                                                 When non-zero, only one CFG RD may be issued until either successful completion or CPL UR. */
+		uint64_t reserved_12_15              : 4;
+		uint64_t pm_xtoff                    : 1;  /**< R/W/H - When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
+		uint64_t reserved_6_10               : 5;
+		uint64_t dly_one                     : 1;  /**< R/W/H - When set the output client state machines will wait one cycle before starting a new TLP out. */
+		uint64_t lnk_enb                     : 1;  /**< R/W - When set, the link is enabled; when clear (0) the link is disabled. This bit only is
+                                                                 active when in RC mode. */
+		uint64_t ro_ctlp                     : 1;  /**< R/W - When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
+		uint64_t fast_lm                     : 1;  /**< R/W - When set, forces fast link mode. */
+		uint64_t inv_ecrc                    : 1;  /**< R/W - When set, causes the LSB of the ECRC to be inverted. */
+		uint64_t inv_lcrc                    : 1;  /**< R/W - When set, causes the LSB of the LCRC to be inverted. */
+#else
+		uint64_t inv_lcrc                    : 1;
+		uint64_t inv_ecrc                    : 1;
+		uint64_t fast_lm                     : 1;
+		uint64_t ro_ctlp                     : 1;
+		uint64_t lnk_enb                     : 1;
+		uint64_t dly_one                     : 1;
+		uint64_t reserved_6_10               : 5;
+		uint64_t pm_xtoff                    : 1;
+		uint64_t reserved_12_15              : 4;
+		uint64_t cfg_rtry                    : 16;
+		uint64_t reserved_32_33              : 2;
+		uint64_t pbus                        : 8;
+		uint64_t dnum                        : 5;
+		uint64_t auto_sd                     : 1;
+		uint64_t reserved_48_49              : 2;
+		uint64_t inv_dpar                    : 1;
+		uint64_t reserved_51_51              : 1;
+		uint64_t inb_grant_limit             : 3;
+		uint64_t reserved_55_63              : 9;
+#endif
+	} cn88xx;
+	struct bdk_pemx_ctl_status_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_52_63              : 12;
 		uint64_t rd_flt                      : 1;  /**< RO - Read fault.
 
@@ -560,9 +675,7 @@ typedef union bdk_pemx_ctl_status {
 		uint64_t rd_flt                      : 1;
 		uint64_t reserved_52_63              : 12;
 #endif
-	} s;
-	/* struct bdk_pemx_ctl_status_s       cn88xx; */
-	/* struct bdk_pemx_ctl_status_s       cn88xxp1; */
+	} cn88xxp1;
 } bdk_pemx_ctl_status_t;
 
 static inline uint64_t BDK_PEMX_CTL_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -626,7 +739,11 @@ typedef union bdk_pemx_dbg_ena_w1c {
 	uint64_t u;
 	struct bdk_pemx_dbg_ena_w1c_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_57_63              : 7;
+		uint64_t reserved_61_63              : 3;
+		uint64_t m2s_d1_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 double bit error. Added in pass 2. */
+		uint64_t m2s_d1_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 single bit error. Added in pass 2. */
+		uint64_t m2s_d0_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 double bit error. Added in pass 2. */
+		uint64_t m2s_d0_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 single bit error. Added in pass 2. */
 		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
 		uint64_t qhdr_b1_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 single bit error. */
 		uint64_t qhdr_b0_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 double bit error. */
@@ -752,33 +869,15 @@ typedef union bdk_pemx_dbg_ena_w1c {
 		uint64_t qhdr_b0_dbe                 : 1;
 		uint64_t qhdr_b1_sbe                 : 1;
 		uint64_t qhdr_b1_dbe                 : 1;
-		uint64_t reserved_57_63              : 7;
+		uint64_t m2s_d0_sbe                  : 1;
+		uint64_t m2s_d0_dbe                  : 1;
+		uint64_t m2s_d1_sbe                  : 1;
+		uint64_t m2s_d1_dbe                  : 1;
+		uint64_t reserved_61_63              : 3;
 #endif
 	} s;
 	/* struct bdk_pemx_dbg_ena_w1c_s      cn88xx; */
-	/* struct bdk_pemx_dbg_ena_w1c_s      cn88xxp1; */
-} bdk_pemx_dbg_ena_w1c_t;
-
-static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long param1)
-{
-	if (((param1 <= 5)))
-		return 0x000087E0C0000458ull + (param1 & 7) * 0x1000000ull;
-	csr_fatal("BDK_PEMX_DBG_ENA_W1C", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_PEMX_DBG_ENA_W1C(...) bdk_pemx_dbg_ena_w1c_t
-#define bustype_BDK_PEMX_DBG_ENA_W1C(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_PEMX_DBG_ENA_W1C(p1) (p1)
-#define arguments_BDK_PEMX_DBG_ENA_W1C(p1) (p1),-1,-1,-1
-#define basename_BDK_PEMX_DBG_ENA_W1C(...) "PEMX_DBG_ENA_W1C"
-
-
-/**
- * RSL - pem#_dbg_ena_w1s
- */
-typedef union bdk_pemx_dbg_ena_w1s {
-	uint64_t u;
-	struct bdk_pemx_dbg_ena_w1s_s {
+	struct bdk_pemx_dbg_ena_w1c_cn88xxp1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_57_63              : 7;
 		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
@@ -908,9 +1007,299 @@ typedef union bdk_pemx_dbg_ena_w1s {
 		uint64_t qhdr_b1_dbe                 : 1;
 		uint64_t reserved_57_63              : 7;
 #endif
+	} cn88xxp1;
+} bdk_pemx_dbg_ena_w1c_t;
+
+static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long param1)
+{
+	if (((param1 <= 5)))
+		return 0x000087E0C0000458ull + (param1 & 7) * 0x1000000ull;
+	csr_fatal("BDK_PEMX_DBG_ENA_W1C", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_PEMX_DBG_ENA_W1C(...) bdk_pemx_dbg_ena_w1c_t
+#define bustype_BDK_PEMX_DBG_ENA_W1C(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_PEMX_DBG_ENA_W1C(p1) (p1)
+#define arguments_BDK_PEMX_DBG_ENA_W1C(p1) (p1),-1,-1,-1
+#define basename_BDK_PEMX_DBG_ENA_W1C(...) "PEMX_DBG_ENA_W1C"
+
+
+/**
+ * RSL - pem#_dbg_ena_w1s
+ */
+typedef union bdk_pemx_dbg_ena_w1s {
+	uint64_t u;
+	struct bdk_pemx_dbg_ena_w1s_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_61_63              : 3;
+		uint64_t m2s_d1_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 double bit error. Added in pass 2. */
+		uint64_t m2s_d1_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 single bit error. Added in pass 2. */
+		uint64_t m2s_d0_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 double bit error. Added in pass 2. */
+		uint64_t m2s_d0_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 single bit error. Added in pass 2. */
+		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
+		uint64_t qhdr_b1_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 single bit error. */
+		uint64_t qhdr_b0_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 double bit error. */
+		uint64_t qhdr_b0_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 single bit error. */
+		uint64_t rtry_dbe                    : 1;  /**< R/W1C/H - Detected a core retry RAM double bit error. */
+		uint64_t rtry_sbe                    : 1;  /**< R/W1C/H - Detected a core retry RAM single bit error. */
+		uint64_t c_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO control double bit error. */
+		uint64_t c_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO control single bit error. */
+		uint64_t c_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data1 double bit error. */
+		uint64_t c_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data1 single bit error. */
+		uint64_t c_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data0 double bit error. */
+		uint64_t c_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data0 single bit error. */
+		uint64_t n_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP NP FIFO control double bit error. */
+		uint64_t n_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP NP FIFO control single bit error. */
+		uint64_t n_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data1 double bit error. */
+		uint64_t n_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data1 single bit error. */
+		uint64_t n_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data0 double bit error. */
+		uint64_t n_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data0 single bit error. */
+		uint64_t p_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP posted FIFO control double bit error. */
+		uint64_t p_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP posted FIFO control single bit error. */
+		uint64_t p_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data1 double bit error. */
+		uint64_t p_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data1 single bit error. */
+		uint64_t p_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data0 double bit error. */
+		uint64_t p_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data0 single bit error. */
+		uint64_t datq_pe                     : 1;  /**< R/W1C/H - Detected a data queue RAM parity error. */
+		uint64_t lofp                        : 1;  /**< R/W1C/H - Lack of forward progress at TLP FIFOs timeout occurred. */
+		uint64_t ecrc_e                      : 1;  /**< R/W1C/H - Received an ECRC error. */
+		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. INTERNAL: radm_rcvd_wreq_poisoned. */
+		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. INTERNAL: radm_rcvd_cpl_poisoned. */
+		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. INTERNAL: radm_mlf_tlp_err. */
+		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. INTERNAL: radm_rcvd_ur_req. */
+		uint64_t caar                        : 1;  /**< R/W1C/H - Completer aborted a request. This bit is never set because CNXXXX does not generate
+                                                                 completer aborts. */
+		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. INTERNAL: radm_rcvd_cpl_ca. */
+		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. INTERNAL: radm_rcvd_cpl_ur. */
+		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. INTERNAL: radm_unexp_cpl_err. */
+		uint64_t rqo                         : 1;  /**< R/W1C/H - Receive queue overflow. Normally happens only when flow control advertisements are
+                                                                 ignored. INTERNAL: radm_qoverflow. */
+		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. INTERNAL: (opt. checks) int_xadm_fc_prot_err. */
+		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 0x4) or disparity error (RxStatus =
+                                                                 0x7). INTERNAL: rmlh_rcvd_err. */
+		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). INTERNAL: rtlh_fc_prot_err. */
+		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). INTERNAL: rdlh_prot_err. */
+		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. INTERNAL: rdlh_bad_tlp_err. */
+		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. INTERNAL: rdlh_bad_dllp_err. */
+		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. INTERNAL: xdlh_replay_num_rlover_err. */
+		uint64_t rte                         : 1;  /**< R/W1C/H - Replay timer expired. This bit is set when the REPLAY_TIMER expires in the PCIe core. The
+                                                                 probability of this bit being set increases with the traffic load.
+                                                                 INTERNAL: xdlh_replay_timeout_err. */
+		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. INTERNAL: pedc_radm_cpl_timeout. */
+		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. INTERNAL: pedc_radm_vendor_msg. */
+		uint64_t reserved_10_10              : 1;
+		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). INTERNAL: pedc_radm_pm_to_ack. */
+		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). INTERNAL: pedc_radm_pm_pme. */
+		uint64_t rfemrc                      : 1;  /**< R/W1C/H - Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
+                                                                 is set. INTERNAL: pedc_radm_fatal_err. */
+		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). INTERNAL: pedc_radm_nonfatal_err. */
+		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). INTERNAL: pedc_radm_correctable_err. */
+		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. INTERNAL: pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv. */
+		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. INTERNAL: pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot. */
+		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. INTERNAL: pedc_radm_trgt1_dllp_abort &
+                                                                 pedc__radm_trgt1_eot. */
+		uint64_t rtlpmal                     : 1;  /**< R/W1C/H - Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
+                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 INTERNAL: pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
+		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. INTERNAL: peai__client0_tlp_ep & peai__client0_tlp_hv or
+                                                                 peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
+#else
+		uint64_t spoison                     : 1;
+		uint64_t rtlpmal                     : 1;
+		uint64_t rtlplle                     : 1;
+		uint64_t recrce                      : 1;
+		uint64_t rpoison                     : 1;
+		uint64_t rcemrc                      : 1;
+		uint64_t rnfemrc                     : 1;
+		uint64_t rfemrc                      : 1;
+		uint64_t rpmerc                      : 1;
+		uint64_t rptamrc                     : 1;
+		uint64_t reserved_10_10              : 1;
+		uint64_t rvdm                        : 1;
+		uint64_t acto                        : 1;
+		uint64_t rte                         : 1;
+		uint64_t mre                         : 1;
+		uint64_t rdwdle                      : 1;
+		uint64_t rtwdle                      : 1;
+		uint64_t dpeoosd                     : 1;
+		uint64_t fcpvwt                      : 1;
+		uint64_t rpe                         : 1;
+		uint64_t fcuv                        : 1;
+		uint64_t rqo                         : 1;
+		uint64_t rauc                        : 1;
+		uint64_t racur                       : 1;
+		uint64_t racca                       : 1;
+		uint64_t caar                        : 1;
+		uint64_t rarwdns                     : 1;
+		uint64_t ramtlp                      : 1;
+		uint64_t racpp                       : 1;
+		uint64_t rawwpp                      : 1;
+		uint64_t ecrc_e                      : 1;
+		uint64_t lofp                        : 1;
+		uint64_t datq_pe                     : 1;
+		uint64_t p_d0_sbe                    : 1;
+		uint64_t p_d0_dbe                    : 1;
+		uint64_t p_d1_sbe                    : 1;
+		uint64_t p_d1_dbe                    : 1;
+		uint64_t p_c_sbe                     : 1;
+		uint64_t p_c_dbe                     : 1;
+		uint64_t n_d0_sbe                    : 1;
+		uint64_t n_d0_dbe                    : 1;
+		uint64_t n_d1_sbe                    : 1;
+		uint64_t n_d1_dbe                    : 1;
+		uint64_t n_c_sbe                     : 1;
+		uint64_t n_c_dbe                     : 1;
+		uint64_t c_d0_sbe                    : 1;
+		uint64_t c_d0_dbe                    : 1;
+		uint64_t c_d1_sbe                    : 1;
+		uint64_t c_d1_dbe                    : 1;
+		uint64_t c_c_sbe                     : 1;
+		uint64_t c_c_dbe                     : 1;
+		uint64_t rtry_sbe                    : 1;
+		uint64_t rtry_dbe                    : 1;
+		uint64_t qhdr_b0_sbe                 : 1;
+		uint64_t qhdr_b0_dbe                 : 1;
+		uint64_t qhdr_b1_sbe                 : 1;
+		uint64_t qhdr_b1_dbe                 : 1;
+		uint64_t m2s_d0_sbe                  : 1;
+		uint64_t m2s_d0_dbe                  : 1;
+		uint64_t m2s_d1_sbe                  : 1;
+		uint64_t m2s_d1_dbe                  : 1;
+		uint64_t reserved_61_63              : 3;
+#endif
 	} s;
 	/* struct bdk_pemx_dbg_ena_w1s_s      cn88xx; */
-	/* struct bdk_pemx_dbg_ena_w1s_s      cn88xxp1; */
+	struct bdk_pemx_dbg_ena_w1s_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_57_63              : 7;
+		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
+		uint64_t qhdr_b1_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 single bit error. */
+		uint64_t qhdr_b0_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 double bit error. */
+		uint64_t qhdr_b0_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 single bit error. */
+		uint64_t rtry_dbe                    : 1;  /**< R/W1C/H - Detected a core retry RAM double bit error. */
+		uint64_t rtry_sbe                    : 1;  /**< R/W1C/H - Detected a core retry RAM single bit error. */
+		uint64_t c_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO control double bit error. */
+		uint64_t c_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO control single bit error. */
+		uint64_t c_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data1 double bit error. */
+		uint64_t c_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data1 single bit error. */
+		uint64_t c_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data0 double bit error. */
+		uint64_t c_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data0 single bit error. */
+		uint64_t n_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP NP FIFO control double bit error. */
+		uint64_t n_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP NP FIFO control single bit error. */
+		uint64_t n_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data1 double bit error. */
+		uint64_t n_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data1 single bit error. */
+		uint64_t n_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data0 double bit error. */
+		uint64_t n_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data0 single bit error. */
+		uint64_t p_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP posted FIFO control double bit error. */
+		uint64_t p_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP posted FIFO control single bit error. */
+		uint64_t p_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data1 double bit error. */
+		uint64_t p_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data1 single bit error. */
+		uint64_t p_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data0 double bit error. */
+		uint64_t p_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data0 single bit error. */
+		uint64_t datq_pe                     : 1;  /**< R/W1C/H - Detected a data queue RAM parity error. */
+		uint64_t lofp                        : 1;  /**< R/W1C/H - Lack of forward progress at TLP FIFOs timeout occurred. */
+		uint64_t ecrc_e                      : 1;  /**< R/W1C/H - Received an ECRC error. */
+		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. INTERNAL: radm_rcvd_wreq_poisoned. */
+		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. INTERNAL: radm_rcvd_cpl_poisoned. */
+		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. INTERNAL: radm_mlf_tlp_err. */
+		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. INTERNAL: radm_rcvd_ur_req. */
+		uint64_t caar                        : 1;  /**< R/W1C/H - Completer aborted a request. This bit is never set because CNXXXX does not generate
+                                                                 completer aborts. */
+		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. INTERNAL: radm_rcvd_cpl_ca. */
+		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. INTERNAL: radm_rcvd_cpl_ur. */
+		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. INTERNAL: radm_unexp_cpl_err. */
+		uint64_t rqo                         : 1;  /**< R/W1C/H - Receive queue overflow. Normally happens only when flow control advertisements are
+                                                                 ignored. INTERNAL: radm_qoverflow. */
+		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. INTERNAL: (opt. checks) int_xadm_fc_prot_err. */
+		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 0x4) or disparity error (RxStatus =
+                                                                 0x7). INTERNAL: rmlh_rcvd_err. */
+		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). INTERNAL: rtlh_fc_prot_err. */
+		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). INTERNAL: rdlh_prot_err. */
+		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. INTERNAL: rdlh_bad_tlp_err. */
+		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. INTERNAL: rdlh_bad_dllp_err. */
+		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. INTERNAL: xdlh_replay_num_rlover_err. */
+		uint64_t rte                         : 1;  /**< R/W1C/H - Replay timer expired. This bit is set when the REPLAY_TIMER expires in the PCIe core. The
+                                                                 probability of this bit being set increases with the traffic load.
+                                                                 INTERNAL: xdlh_replay_timeout_err. */
+		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. INTERNAL: pedc_radm_cpl_timeout. */
+		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. INTERNAL: pedc_radm_vendor_msg. */
+		uint64_t reserved_10_10              : 1;
+		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). INTERNAL: pedc_radm_pm_to_ack. */
+		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). INTERNAL: pedc_radm_pm_pme. */
+		uint64_t rfemrc                      : 1;  /**< R/W1C/H - Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
+                                                                 is set. INTERNAL: pedc_radm_fatal_err. */
+		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). INTERNAL: pedc_radm_nonfatal_err. */
+		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). INTERNAL: pedc_radm_correctable_err. */
+		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. INTERNAL: pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv. */
+		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. INTERNAL: pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot. */
+		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. INTERNAL: pedc_radm_trgt1_dllp_abort &
+                                                                 pedc__radm_trgt1_eot. */
+		uint64_t rtlpmal                     : 1;  /**< R/W1C/H - Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
+                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 INTERNAL: pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
+		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. INTERNAL: peai__client0_tlp_ep & peai__client0_tlp_hv or
+                                                                 peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
+#else
+		uint64_t spoison                     : 1;
+		uint64_t rtlpmal                     : 1;
+		uint64_t rtlplle                     : 1;
+		uint64_t recrce                      : 1;
+		uint64_t rpoison                     : 1;
+		uint64_t rcemrc                      : 1;
+		uint64_t rnfemrc                     : 1;
+		uint64_t rfemrc                      : 1;
+		uint64_t rpmerc                      : 1;
+		uint64_t rptamrc                     : 1;
+		uint64_t reserved_10_10              : 1;
+		uint64_t rvdm                        : 1;
+		uint64_t acto                        : 1;
+		uint64_t rte                         : 1;
+		uint64_t mre                         : 1;
+		uint64_t rdwdle                      : 1;
+		uint64_t rtwdle                      : 1;
+		uint64_t dpeoosd                     : 1;
+		uint64_t fcpvwt                      : 1;
+		uint64_t rpe                         : 1;
+		uint64_t fcuv                        : 1;
+		uint64_t rqo                         : 1;
+		uint64_t rauc                        : 1;
+		uint64_t racur                       : 1;
+		uint64_t racca                       : 1;
+		uint64_t caar                        : 1;
+		uint64_t rarwdns                     : 1;
+		uint64_t ramtlp                      : 1;
+		uint64_t racpp                       : 1;
+		uint64_t rawwpp                      : 1;
+		uint64_t ecrc_e                      : 1;
+		uint64_t lofp                        : 1;
+		uint64_t datq_pe                     : 1;
+		uint64_t p_d0_sbe                    : 1;
+		uint64_t p_d0_dbe                    : 1;
+		uint64_t p_d1_sbe                    : 1;
+		uint64_t p_d1_dbe                    : 1;
+		uint64_t p_c_sbe                     : 1;
+		uint64_t p_c_dbe                     : 1;
+		uint64_t n_d0_sbe                    : 1;
+		uint64_t n_d0_dbe                    : 1;
+		uint64_t n_d1_sbe                    : 1;
+		uint64_t n_d1_dbe                    : 1;
+		uint64_t n_c_sbe                     : 1;
+		uint64_t n_c_dbe                     : 1;
+		uint64_t c_d0_sbe                    : 1;
+		uint64_t c_d0_dbe                    : 1;
+		uint64_t c_d1_sbe                    : 1;
+		uint64_t c_d1_dbe                    : 1;
+		uint64_t c_c_sbe                     : 1;
+		uint64_t c_c_dbe                     : 1;
+		uint64_t rtry_sbe                    : 1;
+		uint64_t rtry_dbe                    : 1;
+		uint64_t qhdr_b0_sbe                 : 1;
+		uint64_t qhdr_b0_dbe                 : 1;
+		uint64_t qhdr_b1_sbe                 : 1;
+		uint64_t qhdr_b1_dbe                 : 1;
+		uint64_t reserved_57_63              : 7;
+#endif
+	} cn88xxp1;
 } bdk_pemx_dbg_ena_w1s_t;
 
 static inline uint64_t BDK_PEMX_DBG_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -937,7 +1326,11 @@ typedef union bdk_pemx_dbg_info {
 	uint64_t u;
 	struct bdk_pemx_dbg_info_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_57_63              : 7;
+		uint64_t reserved_61_63              : 3;
+		uint64_t m2s_d1_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 double bit error. Added in pass 2. */
+		uint64_t m2s_d1_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 single bit error. Added in pass 2. */
+		uint64_t m2s_d0_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 double bit error. Added in pass 2. */
+		uint64_t m2s_d0_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 single bit error. Added in pass 2. */
 		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
 		uint64_t qhdr_b1_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 single bit error. */
 		uint64_t qhdr_b0_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 double bit error. */
@@ -1063,33 +1456,15 @@ typedef union bdk_pemx_dbg_info {
 		uint64_t qhdr_b0_dbe                 : 1;
 		uint64_t qhdr_b1_sbe                 : 1;
 		uint64_t qhdr_b1_dbe                 : 1;
-		uint64_t reserved_57_63              : 7;
+		uint64_t m2s_d0_sbe                  : 1;
+		uint64_t m2s_d0_dbe                  : 1;
+		uint64_t m2s_d1_sbe                  : 1;
+		uint64_t m2s_d1_dbe                  : 1;
+		uint64_t reserved_61_63              : 3;
 #endif
 	} s;
 	/* struct bdk_pemx_dbg_info_s         cn88xx; */
-	/* struct bdk_pemx_dbg_info_s         cn88xxp1; */
-} bdk_pemx_dbg_info_t;
-
-static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long param1)
-{
-	if (((param1 <= 5)))
-		return 0x000087E0C0000448ull + (param1 & 7) * 0x1000000ull;
-	csr_fatal("BDK_PEMX_DBG_INFO", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_PEMX_DBG_INFO(...) bdk_pemx_dbg_info_t
-#define bustype_BDK_PEMX_DBG_INFO(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_PEMX_DBG_INFO(p1) (p1)
-#define arguments_BDK_PEMX_DBG_INFO(p1) (p1),-1,-1,-1
-#define basename_BDK_PEMX_DBG_INFO(...) "PEMX_DBG_INFO"
-
-
-/**
- * RSL - pem#_dbg_info_w1s
- */
-typedef union bdk_pemx_dbg_info_w1s {
-	uint64_t u;
-	struct bdk_pemx_dbg_info_w1s_s {
+	struct bdk_pemx_dbg_info_cn88xxp1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_57_63              : 7;
 		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
@@ -1219,9 +1594,299 @@ typedef union bdk_pemx_dbg_info_w1s {
 		uint64_t qhdr_b1_dbe                 : 1;
 		uint64_t reserved_57_63              : 7;
 #endif
+	} cn88xxp1;
+} bdk_pemx_dbg_info_t;
+
+static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long param1)
+{
+	if (((param1 <= 5)))
+		return 0x000087E0C0000448ull + (param1 & 7) * 0x1000000ull;
+	csr_fatal("BDK_PEMX_DBG_INFO", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_PEMX_DBG_INFO(...) bdk_pemx_dbg_info_t
+#define bustype_BDK_PEMX_DBG_INFO(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_PEMX_DBG_INFO(p1) (p1)
+#define arguments_BDK_PEMX_DBG_INFO(p1) (p1),-1,-1,-1
+#define basename_BDK_PEMX_DBG_INFO(...) "PEMX_DBG_INFO"
+
+
+/**
+ * RSL - pem#_dbg_info_w1s
+ */
+typedef union bdk_pemx_dbg_info_w1s {
+	uint64_t u;
+	struct bdk_pemx_dbg_info_w1s_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_61_63              : 3;
+		uint64_t m2s_d1_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 double bit error. Added in pass 2. */
+		uint64_t m2s_d1_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 single bit error. Added in pass 2. */
+		uint64_t m2s_d0_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 double bit error. Added in pass 2. */
+		uint64_t m2s_d0_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 single bit error. Added in pass 2. */
+		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
+		uint64_t qhdr_b1_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 single bit error. */
+		uint64_t qhdr_b0_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 double bit error. */
+		uint64_t qhdr_b0_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 single bit error. */
+		uint64_t rtry_dbe                    : 1;  /**< R/W1C/H - Detected a core retry RAM double bit error. */
+		uint64_t rtry_sbe                    : 1;  /**< R/W1C/H - Detected a core retry RAM single bit error. */
+		uint64_t c_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO control double bit error. */
+		uint64_t c_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO control single bit error. */
+		uint64_t c_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data1 double bit error. */
+		uint64_t c_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data1 single bit error. */
+		uint64_t c_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data0 double bit error. */
+		uint64_t c_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data0 single bit error. */
+		uint64_t n_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP NP FIFO control double bit error. */
+		uint64_t n_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP NP FIFO control single bit error. */
+		uint64_t n_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data1 double bit error. */
+		uint64_t n_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data1 single bit error. */
+		uint64_t n_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data0 double bit error. */
+		uint64_t n_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data0 single bit error. */
+		uint64_t p_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP posted FIFO control double bit error. */
+		uint64_t p_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP posted FIFO control single bit error. */
+		uint64_t p_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data1 double bit error. */
+		uint64_t p_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data1 single bit error. */
+		uint64_t p_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data0 double bit error. */
+		uint64_t p_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data0 single bit error. */
+		uint64_t datq_pe                     : 1;  /**< R/W1C/H - Detected a data queue RAM parity error. */
+		uint64_t lofp                        : 1;  /**< R/W1C/H - Lack of forward progress at TLP FIFOs timeout occurred. */
+		uint64_t ecrc_e                      : 1;  /**< R/W1C/H - Received an ECRC error. */
+		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. INTERNAL: radm_rcvd_wreq_poisoned. */
+		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. INTERNAL: radm_rcvd_cpl_poisoned. */
+		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. INTERNAL: radm_mlf_tlp_err. */
+		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. INTERNAL: radm_rcvd_ur_req. */
+		uint64_t caar                        : 1;  /**< R/W1C/H - Completer aborted a request. This bit is never set because CNXXXX does not generate
+                                                                 completer aborts. */
+		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. INTERNAL: radm_rcvd_cpl_ca. */
+		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. INTERNAL: radm_rcvd_cpl_ur. */
+		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. INTERNAL: radm_unexp_cpl_err. */
+		uint64_t rqo                         : 1;  /**< R/W1C/H - Receive queue overflow. Normally happens only when flow control advertisements are
+                                                                 ignored. INTERNAL: radm_qoverflow. */
+		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. INTERNAL: (opt. checks) int_xadm_fc_prot_err. */
+		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 0x4) or disparity error (RxStatus =
+                                                                 0x7). INTERNAL: rmlh_rcvd_err. */
+		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). INTERNAL: rtlh_fc_prot_err. */
+		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). INTERNAL: rdlh_prot_err. */
+		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. INTERNAL: rdlh_bad_tlp_err. */
+		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. INTERNAL: rdlh_bad_dllp_err. */
+		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. INTERNAL: xdlh_replay_num_rlover_err. */
+		uint64_t rte                         : 1;  /**< R/W1C/H - Replay timer expired. This bit is set when the REPLAY_TIMER expires in the PCIe core. The
+                                                                 probability of this bit being set increases with the traffic load.
+                                                                 INTERNAL: xdlh_replay_timeout_err. */
+		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. INTERNAL: pedc_radm_cpl_timeout. */
+		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. INTERNAL: pedc_radm_vendor_msg. */
+		uint64_t reserved_10_10              : 1;
+		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). INTERNAL: pedc_radm_pm_to_ack. */
+		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). INTERNAL: pedc_radm_pm_pme. */
+		uint64_t rfemrc                      : 1;  /**< R/W1C/H - Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
+                                                                 is set. INTERNAL: pedc_radm_fatal_err. */
+		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). INTERNAL: pedc_radm_nonfatal_err. */
+		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). INTERNAL: pedc_radm_correctable_err. */
+		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. INTERNAL: pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv. */
+		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. INTERNAL: pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot. */
+		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. INTERNAL: pedc_radm_trgt1_dllp_abort &
+                                                                 pedc__radm_trgt1_eot. */
+		uint64_t rtlpmal                     : 1;  /**< R/W1C/H - Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
+                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 INTERNAL: pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
+		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. INTERNAL: peai__client0_tlp_ep & peai__client0_tlp_hv or
+                                                                 peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
+#else
+		uint64_t spoison                     : 1;
+		uint64_t rtlpmal                     : 1;
+		uint64_t rtlplle                     : 1;
+		uint64_t recrce                      : 1;
+		uint64_t rpoison                     : 1;
+		uint64_t rcemrc                      : 1;
+		uint64_t rnfemrc                     : 1;
+		uint64_t rfemrc                      : 1;
+		uint64_t rpmerc                      : 1;
+		uint64_t rptamrc                     : 1;
+		uint64_t reserved_10_10              : 1;
+		uint64_t rvdm                        : 1;
+		uint64_t acto                        : 1;
+		uint64_t rte                         : 1;
+		uint64_t mre                         : 1;
+		uint64_t rdwdle                      : 1;
+		uint64_t rtwdle                      : 1;
+		uint64_t dpeoosd                     : 1;
+		uint64_t fcpvwt                      : 1;
+		uint64_t rpe                         : 1;
+		uint64_t fcuv                        : 1;
+		uint64_t rqo                         : 1;
+		uint64_t rauc                        : 1;
+		uint64_t racur                       : 1;
+		uint64_t racca                       : 1;
+		uint64_t caar                        : 1;
+		uint64_t rarwdns                     : 1;
+		uint64_t ramtlp                      : 1;
+		uint64_t racpp                       : 1;
+		uint64_t rawwpp                      : 1;
+		uint64_t ecrc_e                      : 1;
+		uint64_t lofp                        : 1;
+		uint64_t datq_pe                     : 1;
+		uint64_t p_d0_sbe                    : 1;
+		uint64_t p_d0_dbe                    : 1;
+		uint64_t p_d1_sbe                    : 1;
+		uint64_t p_d1_dbe                    : 1;
+		uint64_t p_c_sbe                     : 1;
+		uint64_t p_c_dbe                     : 1;
+		uint64_t n_d0_sbe                    : 1;
+		uint64_t n_d0_dbe                    : 1;
+		uint64_t n_d1_sbe                    : 1;
+		uint64_t n_d1_dbe                    : 1;
+		uint64_t n_c_sbe                     : 1;
+		uint64_t n_c_dbe                     : 1;
+		uint64_t c_d0_sbe                    : 1;
+		uint64_t c_d0_dbe                    : 1;
+		uint64_t c_d1_sbe                    : 1;
+		uint64_t c_d1_dbe                    : 1;
+		uint64_t c_c_sbe                     : 1;
+		uint64_t c_c_dbe                     : 1;
+		uint64_t rtry_sbe                    : 1;
+		uint64_t rtry_dbe                    : 1;
+		uint64_t qhdr_b0_sbe                 : 1;
+		uint64_t qhdr_b0_dbe                 : 1;
+		uint64_t qhdr_b1_sbe                 : 1;
+		uint64_t qhdr_b1_dbe                 : 1;
+		uint64_t m2s_d0_sbe                  : 1;
+		uint64_t m2s_d0_dbe                  : 1;
+		uint64_t m2s_d1_sbe                  : 1;
+		uint64_t m2s_d1_dbe                  : 1;
+		uint64_t reserved_61_63              : 3;
+#endif
 	} s;
 	/* struct bdk_pemx_dbg_info_w1s_s     cn88xx; */
-	/* struct bdk_pemx_dbg_info_w1s_s     cn88xxp1; */
+	struct bdk_pemx_dbg_info_w1s_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_57_63              : 7;
+		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
+		uint64_t qhdr_b1_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 single bit error. */
+		uint64_t qhdr_b0_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 double bit error. */
+		uint64_t qhdr_b0_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 single bit error. */
+		uint64_t rtry_dbe                    : 1;  /**< R/W1C/H - Detected a core retry RAM double bit error. */
+		uint64_t rtry_sbe                    : 1;  /**< R/W1C/H - Detected a core retry RAM single bit error. */
+		uint64_t c_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO control double bit error. */
+		uint64_t c_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO control single bit error. */
+		uint64_t c_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data1 double bit error. */
+		uint64_t c_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data1 single bit error. */
+		uint64_t c_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data0 double bit error. */
+		uint64_t c_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP CPL FIFO data0 single bit error. */
+		uint64_t n_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP NP FIFO control double bit error. */
+		uint64_t n_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP NP FIFO control single bit error. */
+		uint64_t n_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data1 double bit error. */
+		uint64_t n_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data1 single bit error. */
+		uint64_t n_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data0 double bit error. */
+		uint64_t n_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP NP FIFO data0 single bit error. */
+		uint64_t p_c_dbe                     : 1;  /**< R/W1C/H - Detected a TLP posted FIFO control double bit error. */
+		uint64_t p_c_sbe                     : 1;  /**< R/W1C/H - Detected a TLP posted FIFO control single bit error. */
+		uint64_t p_d1_dbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data1 double bit error. */
+		uint64_t p_d1_sbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data1 single bit error. */
+		uint64_t p_d0_dbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data0 double bit error. */
+		uint64_t p_d0_sbe                    : 1;  /**< R/W1C/H - Detected a TLP posted FIFO data0 single bit error. */
+		uint64_t datq_pe                     : 1;  /**< R/W1C/H - Detected a data queue RAM parity error. */
+		uint64_t lofp                        : 1;  /**< R/W1C/H - Lack of forward progress at TLP FIFOs timeout occurred. */
+		uint64_t ecrc_e                      : 1;  /**< R/W1C/H - Received an ECRC error. */
+		uint64_t rawwpp                      : 1;  /**< R/W1C/H - Received a write with poisoned payload. INTERNAL: radm_rcvd_wreq_poisoned. */
+		uint64_t racpp                       : 1;  /**< R/W1C/H - Received a completion with poisoned payload. INTERNAL: radm_rcvd_cpl_poisoned. */
+		uint64_t ramtlp                      : 1;  /**< R/W1C/H - Received a malformed TLP. INTERNAL: radm_mlf_tlp_err. */
+		uint64_t rarwdns                     : 1;  /**< R/W1C/H - Received a request which device does not support. INTERNAL: radm_rcvd_ur_req. */
+		uint64_t caar                        : 1;  /**< R/W1C/H - Completer aborted a request. This bit is never set because CNXXXX does not generate
+                                                                 completer aborts. */
+		uint64_t racca                       : 1;  /**< R/W1C/H - Received a completion with CA status. INTERNAL: radm_rcvd_cpl_ca. */
+		uint64_t racur                       : 1;  /**< R/W1C/H - Received a completion with UR status. INTERNAL: radm_rcvd_cpl_ur. */
+		uint64_t rauc                        : 1;  /**< R/W1C/H - Received an unexpected completion. INTERNAL: radm_unexp_cpl_err. */
+		uint64_t rqo                         : 1;  /**< R/W1C/H - Receive queue overflow. Normally happens only when flow control advertisements are
+                                                                 ignored. INTERNAL: radm_qoverflow. */
+		uint64_t fcuv                        : 1;  /**< R/W1C/H - Flow control update violation. INTERNAL: (opt. checks) int_xadm_fc_prot_err. */
+		uint64_t rpe                         : 1;  /**< R/W1C/H - PHY reported an 8B/10B decode error (RxStatus = 0x4) or disparity error (RxStatus =
+                                                                 0x7). INTERNAL: rmlh_rcvd_err. */
+		uint64_t fcpvwt                      : 1;  /**< R/W1C/H - Flow control protocol violation (watchdog timer). INTERNAL: rtlh_fc_prot_err. */
+		uint64_t dpeoosd                     : 1;  /**< R/W1C/H - DLLP protocol error (out of sequence DLLP). INTERNAL: rdlh_prot_err. */
+		uint64_t rtwdle                      : 1;  /**< R/W1C/H - Received TLP with datalink layer error. INTERNAL: rdlh_bad_tlp_err. */
+		uint64_t rdwdle                      : 1;  /**< R/W1C/H - Received DLLP with datalink layer error. INTERNAL: rdlh_bad_dllp_err. */
+		uint64_t mre                         : 1;  /**< R/W1C/H - Maximum number of retries exceeded. INTERNAL: xdlh_replay_num_rlover_err. */
+		uint64_t rte                         : 1;  /**< R/W1C/H - Replay timer expired. This bit is set when the REPLAY_TIMER expires in the PCIe core. The
+                                                                 probability of this bit being set increases with the traffic load.
+                                                                 INTERNAL: xdlh_replay_timeout_err. */
+		uint64_t acto                        : 1;  /**< R/W1C/H - A completion timeout occurred. INTERNAL: pedc_radm_cpl_timeout. */
+		uint64_t rvdm                        : 1;  /**< R/W1C/H - Received vendor-defined message. INTERNAL: pedc_radm_vendor_msg. */
+		uint64_t reserved_10_10              : 1;
+		uint64_t rptamrc                     : 1;  /**< R/W1C/H - Received PME turnoff acknowledge message (RC mode only). INTERNAL: pedc_radm_pm_to_ack. */
+		uint64_t rpmerc                      : 1;  /**< R/W1C/H - Received PME message (RC mode only). INTERNAL: pedc_radm_pm_pme. */
+		uint64_t rfemrc                      : 1;  /**< R/W1C/H - Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
+                                                                 is set. INTERNAL: pedc_radm_fatal_err. */
+		uint64_t rnfemrc                     : 1;  /**< R/W1C/H - Received nonfatal error message (RC mode only). INTERNAL: pedc_radm_nonfatal_err. */
+		uint64_t rcemrc                      : 1;  /**< R/W1C/H - Received correctable error message (RC mode only). INTERNAL: pedc_radm_correctable_err. */
+		uint64_t rpoison                     : 1;  /**< R/W1C/H - Received poisoned TLP. INTERNAL: pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv. */
+		uint64_t recrce                      : 1;  /**< R/W1C/H - Received ECRC error. INTERNAL: pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot. */
+		uint64_t rtlplle                     : 1;  /**< R/W1C/H - Received TLP has link layer error. INTERNAL: pedc_radm_trgt1_dllp_abort &
+                                                                 pedc__radm_trgt1_eot. */
+		uint64_t rtlpmal                     : 1;  /**< R/W1C/H - Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
+                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 INTERNAL: pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
+		uint64_t spoison                     : 1;  /**< R/W1C/H - Poisoned TLP sent. INTERNAL: peai__client0_tlp_ep & peai__client0_tlp_hv or
+                                                                 peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
+#else
+		uint64_t spoison                     : 1;
+		uint64_t rtlpmal                     : 1;
+		uint64_t rtlplle                     : 1;
+		uint64_t recrce                      : 1;
+		uint64_t rpoison                     : 1;
+		uint64_t rcemrc                      : 1;
+		uint64_t rnfemrc                     : 1;
+		uint64_t rfemrc                      : 1;
+		uint64_t rpmerc                      : 1;
+		uint64_t rptamrc                     : 1;
+		uint64_t reserved_10_10              : 1;
+		uint64_t rvdm                        : 1;
+		uint64_t acto                        : 1;
+		uint64_t rte                         : 1;
+		uint64_t mre                         : 1;
+		uint64_t rdwdle                      : 1;
+		uint64_t rtwdle                      : 1;
+		uint64_t dpeoosd                     : 1;
+		uint64_t fcpvwt                      : 1;
+		uint64_t rpe                         : 1;
+		uint64_t fcuv                        : 1;
+		uint64_t rqo                         : 1;
+		uint64_t rauc                        : 1;
+		uint64_t racur                       : 1;
+		uint64_t racca                       : 1;
+		uint64_t caar                        : 1;
+		uint64_t rarwdns                     : 1;
+		uint64_t ramtlp                      : 1;
+		uint64_t racpp                       : 1;
+		uint64_t rawwpp                      : 1;
+		uint64_t ecrc_e                      : 1;
+		uint64_t lofp                        : 1;
+		uint64_t datq_pe                     : 1;
+		uint64_t p_d0_sbe                    : 1;
+		uint64_t p_d0_dbe                    : 1;
+		uint64_t p_d1_sbe                    : 1;
+		uint64_t p_d1_dbe                    : 1;
+		uint64_t p_c_sbe                     : 1;
+		uint64_t p_c_dbe                     : 1;
+		uint64_t n_d0_sbe                    : 1;
+		uint64_t n_d0_dbe                    : 1;
+		uint64_t n_d1_sbe                    : 1;
+		uint64_t n_d1_dbe                    : 1;
+		uint64_t n_c_sbe                     : 1;
+		uint64_t n_c_dbe                     : 1;
+		uint64_t c_d0_sbe                    : 1;
+		uint64_t c_d0_dbe                    : 1;
+		uint64_t c_d1_sbe                    : 1;
+		uint64_t c_d1_dbe                    : 1;
+		uint64_t c_c_sbe                     : 1;
+		uint64_t c_c_dbe                     : 1;
+		uint64_t rtry_sbe                    : 1;
+		uint64_t rtry_dbe                    : 1;
+		uint64_t qhdr_b0_sbe                 : 1;
+		uint64_t qhdr_b0_dbe                 : 1;
+		uint64_t qhdr_b1_sbe                 : 1;
+		uint64_t qhdr_b1_dbe                 : 1;
+		uint64_t reserved_57_63              : 7;
+#endif
+	} cn88xxp1;
 } bdk_pemx_dbg_info_w1s_t;
 
 static inline uint64_t BDK_PEMX_DBG_INFO_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1346,6 +2011,44 @@ typedef union bdk_pemx_ecc_ena {
 		uint64_t qhdr_b1_ena                 : 1;  /**< R/W - ECC enable for Core's Q HDR Bank1 RAM. */
 		uint64_t qhdr_b0_ena                 : 1;  /**< R/W - ECC enable for Core's Q HDR Bank0 RAM. */
 		uint64_t rtry_ena                    : 1;  /**< R/W - ECC enable for Core's RETRY RA. */
+		uint64_t reserved_11_31              : 21;
+		uint64_t m2s_d1_ena                  : 1;  /**< R/W - ECC enable for M2S Data1 FIFO. Added in pass 2. */
+		uint64_t m2s_d0_ena                  : 1;  /**< R/W - ECC enable for M2S Data0 FIFO. Added in pass 2. */
+		uint64_t c_c_ena                     : 1;  /**< R/W - ECC enable for TLP CPL control FIFO. */
+		uint64_t c_d1_ena                    : 1;  /**< R/W - ECC enable for TLP CPL data1 FIFO. */
+		uint64_t c_d0_ena                    : 1;  /**< R/W - ECC enable for TLP CPL data0 FIFO. */
+		uint64_t n_c_ena                     : 1;  /**< R/W - ECC enable for TLP NP control FIFO. */
+		uint64_t n_d1_ena                    : 1;  /**< R/W - ECC enable for TLP NP data1 FIFO. */
+		uint64_t n_d0_ena                    : 1;  /**< R/W - ECC enable for TLP NP data0 FIFO. */
+		uint64_t p_c_ena                     : 1;  /**< R/W - ECC enable for TLP posted control FIFO. */
+		uint64_t p_d1_ena                    : 1;  /**< R/W - ECC enable for TLP posted data1 FIFO. */
+		uint64_t p_d0_ena                    : 1;  /**< R/W - ECC enable for TLP posted data0 FIFO. */
+#else
+		uint64_t p_d0_ena                    : 1;
+		uint64_t p_d1_ena                    : 1;
+		uint64_t p_c_ena                     : 1;
+		uint64_t n_d0_ena                    : 1;
+		uint64_t n_d1_ena                    : 1;
+		uint64_t n_c_ena                     : 1;
+		uint64_t c_d0_ena                    : 1;
+		uint64_t c_d1_ena                    : 1;
+		uint64_t c_c_ena                     : 1;
+		uint64_t m2s_d0_ena                  : 1;
+		uint64_t m2s_d1_ena                  : 1;
+		uint64_t reserved_11_31              : 21;
+		uint64_t rtry_ena                    : 1;
+		uint64_t qhdr_b0_ena                 : 1;
+		uint64_t qhdr_b1_ena                 : 1;
+		uint64_t reserved_35_63              : 29;
+#endif
+	} s;
+	/* struct bdk_pemx_ecc_ena_s          cn88xx; */
+	struct bdk_pemx_ecc_ena_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_35_63              : 29;
+		uint64_t qhdr_b1_ena                 : 1;  /**< R/W - ECC enable for Core's Q HDR Bank1 RAM. */
+		uint64_t qhdr_b0_ena                 : 1;  /**< R/W - ECC enable for Core's Q HDR Bank0 RAM. */
+		uint64_t rtry_ena                    : 1;  /**< R/W - ECC enable for Core's RETRY RA. */
 		uint64_t reserved_9_31               : 23;
 		uint64_t c_c_ena                     : 1;  /**< R/W - ECC enable for TLP CPL control FIFO. */
 		uint64_t c_d1_ena                    : 1;  /**< R/W - ECC enable for TLP CPL data1 FIFO. */
@@ -1372,9 +2075,7 @@ typedef union bdk_pemx_ecc_ena {
 		uint64_t qhdr_b1_ena                 : 1;
 		uint64_t reserved_35_63              : 29;
 #endif
-	} s;
-	/* struct bdk_pemx_ecc_ena_s          cn88xx; */
-	/* struct bdk_pemx_ecc_ena_s          cn88xxp1; */
+	} cn88xxp1;
 } bdk_pemx_ecc_ena_t;
 
 static inline uint64_t BDK_PEMX_ECC_ENA(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1400,6 +2101,44 @@ static inline uint64_t BDK_PEMX_ECC_ENA(unsigned long param1)
 typedef union bdk_pemx_ecc_synd_ctrl {
 	uint64_t u;
 	struct bdk_pemx_ecc_synd_ctrl_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_38_63              : 26;
+		uint64_t qhdr_b1_syn                 : 2;  /**< R/W - Syndrome flip bits for Core's Q HDR Bank1 RAM. */
+		uint64_t qhdr_b0_syn                 : 2;  /**< R/W - Syndrome flip bits for Core's Q HDR Bank0 RAM. */
+		uint64_t rtry_syn                    : 2;  /**< R/W - Syndrome flip bits for Core's RETRY RAM. */
+		uint64_t reserved_22_31              : 10;
+		uint64_t m2s_d1_syn                  : 2;  /**< R/W - Syndrome flip bits for M2S data1 FIFO. Added in pass 2. */
+		uint64_t m2s_d0_syn                  : 2;  /**< R/W - Syndrome flip bits for M2S data0 FIFO. Added in pass 2. */
+		uint64_t c_c_syn                     : 2;  /**< R/W - Syndrome flip bits for TLP CPL control FIFO. */
+		uint64_t c_d1_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP CPL data1 FIFO. */
+		uint64_t c_d0_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP CPL data0 FIFO. */
+		uint64_t n_c_syn                     : 2;  /**< R/W - Syndrome flip bits for TLP NP control FIFO. */
+		uint64_t n_d1_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP NP data1 FIFO. */
+		uint64_t n_d0_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP NP data0 FIFO. */
+		uint64_t p_c_syn                     : 2;  /**< R/W - Syndrome flip bits for TLP posted control FIFO. */
+		uint64_t p_d1_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP posted data1 FIFO. */
+		uint64_t p_d0_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP posted data0 FIFO. */
+#else
+		uint64_t p_d0_syn                    : 2;
+		uint64_t p_d1_syn                    : 2;
+		uint64_t p_c_syn                     : 2;
+		uint64_t n_d0_syn                    : 2;
+		uint64_t n_d1_syn                    : 2;
+		uint64_t n_c_syn                     : 2;
+		uint64_t c_d0_syn                    : 2;
+		uint64_t c_d1_syn                    : 2;
+		uint64_t c_c_syn                     : 2;
+		uint64_t m2s_d0_syn                  : 2;
+		uint64_t m2s_d1_syn                  : 2;
+		uint64_t reserved_22_31              : 10;
+		uint64_t rtry_syn                    : 2;
+		uint64_t qhdr_b0_syn                 : 2;
+		uint64_t qhdr_b1_syn                 : 2;
+		uint64_t reserved_38_63              : 26;
+#endif
+	} s;
+	/* struct bdk_pemx_ecc_synd_ctrl_s    cn88xx; */
+	struct bdk_pemx_ecc_synd_ctrl_cn88xxp1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_38_63              : 26;
 		uint64_t qhdr_b1_syn                 : 2;  /**< R/W - Syndrome flip bits for Core's Q HDR Bank1 RAM. */
@@ -1431,9 +2170,7 @@ typedef union bdk_pemx_ecc_synd_ctrl {
 		uint64_t qhdr_b1_syn                 : 2;
 		uint64_t reserved_38_63              : 26;
 #endif
-	} s;
-	/* struct bdk_pemx_ecc_synd_ctrl_s    cn88xx; */
-	/* struct bdk_pemx_ecc_synd_ctrl_s    cn88xxp1; */
+	} cn88xxp1;
 } bdk_pemx_ecc_synd_ctrl_t;
 
 static inline uint64_t BDK_PEMX_ECC_SYND_CTRL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1751,7 +2488,7 @@ static inline uint64_t BDK_PEMX_MSIX_PBAX(unsigned long param1, unsigned long pa
  * RSL - pem#_msix_vec#_addr
  *
  * This register is the MSI-X vector table, indexed by the PEM_INT_VEC_E enumeration.
- *
+ * Changed in pass 2.
  */
 typedef union bdk_pemx_msix_vecx_addr {
 	uint64_t u;
@@ -1783,9 +2520,11 @@ typedef union bdk_pemx_msix_vecx_addr {
 static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2)
 {
-	if (((param1 <= 5)) && ((param2 <= 13)))
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((param1 <= 5)) && ((param2 <= 13)))
 		return 0x000087E0C0F00000ull + (param1 & 7) * 0x1000000ull + (param2 & 15) * 0x10ull;
-	csr_fatal("BDK_PEMX_MSIX_VECX_ADDR", 2, param1, param2, 0, 0); /* No return */
+	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 5)) && ((param2 <= 15)))
+		return 0x000087E0C0F00000ull + (param1 & 7) * 0x1000000ull + (param2 & 15) * 0x10ull;
+	else 		csr_fatal("BDK_PEMX_MSIX_VECX_ADDR", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_PEMX_MSIX_VECX_ADDR(...) bdk_pemx_msix_vecx_addr_t
 #define bustype_BDK_PEMX_MSIX_VECX_ADDR(...) BDK_CSR_TYPE_RSL
@@ -1798,7 +2537,7 @@ static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long param1, unsigned lo
  * RSL - pem#_msix_vec#_ctl
  *
  * This register is the MSI-X vector table, indexed by the PEM_INT_VEC_E enumeration.
- *
+ * Changed in pass 2.
  */
 typedef union bdk_pemx_msix_vecx_ctl {
 	uint64_t u;
@@ -1822,9 +2561,11 @@ typedef union bdk_pemx_msix_vecx_ctl {
 static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2)
 {
-	if (((param1 <= 5)) && ((param2 <= 13)))
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((param1 <= 5)) && ((param2 <= 13)))
 		return 0x000087E0C0F00008ull + (param1 & 7) * 0x1000000ull + (param2 & 15) * 0x10ull;
-	csr_fatal("BDK_PEMX_MSIX_VECX_CTL", 2, param1, param2, 0, 0); /* No return */
+	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 5)) && ((param2 <= 15)))
+		return 0x000087E0C0F00008ull + (param1 & 7) * 0x1000000ull + (param2 & 15) * 0x10ull;
+	else 		csr_fatal("BDK_PEMX_MSIX_VECX_CTL", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_PEMX_MSIX_VECX_CTL(...) bdk_pemx_msix_vecx_ctl_t
 #define bustype_BDK_PEMX_MSIX_VECX_CTL(...) BDK_CSR_TYPE_RSL

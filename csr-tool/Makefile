@@ -6,14 +6,17 @@ all: fetch generate copy-headers
 .PHONY: fetch
 fetch: clean
 	svn export -q ${SVNROOT}/t88/trunk/hwcode/regs/gen cn88xx
+	patch -p0 -i t88-nic.patch
+	patch -p0 -i t88-sata.patch
+	patch -p0 -i t88-usbh.patch
 
 .PHONY: generate
 generate:
 	rm -rf html output
 	mkdir html output
 	./csr-tool.py --html \
-	    --csr cn88xxp1,cn88xx,t88=1.0 \
-	    --csr cn88xx,cn88xx,t88=1.1
+	    --csr cn88xxp1,cn88xx,t88=1.1 \
+	    --csr cn88xx,cn88xx,t88=2.0
 
 .PHONY: copy-headers
 copy-headers:

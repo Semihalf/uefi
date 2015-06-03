@@ -891,6 +891,74 @@ static inline uint64_t BDK_TNS_RDMA_CNTX(unsigned long param1)
 
 
 /**
+ * NCB - tns_rdma_cnt_bytes#
+ *
+ * Bytes received by the physical port. All fields have roll over counters. Register
+ * number enumerated by TNS_PHYS_PORT_E (added pass 2.0).
+ */
+typedef union bdk_tns_rdma_cnt_bytesx {
+	uint64_t u;
+	struct bdk_tns_rdma_cnt_bytesx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_48_63              : 16;
+		uint64_t bytes                       : 48; /**< R/W/H - Packet bytes. */
+#else
+		uint64_t bytes                       : 48;
+		uint64_t reserved_48_63              : 16;
+#endif
+	} s;
+	/* struct bdk_tns_rdma_cnt_bytesx_s   cn88xx; */
+} bdk_tns_rdma_cnt_bytesx_t;
+
+static inline uint64_t BDK_TNS_RDMA_CNT_BYTESX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_RDMA_CNT_BYTESX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 9)))
+		return 0x0000842000001480ull + (param1 & 15) * 0x8ull;
+	else 		csr_fatal("BDK_TNS_RDMA_CNT_BYTESX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_RDMA_CNT_BYTESX(...) bdk_tns_rdma_cnt_bytesx_t
+#define bustype_BDK_TNS_RDMA_CNT_BYTESX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_RDMA_CNT_BYTESX(p1) (p1)
+#define arguments_BDK_TNS_RDMA_CNT_BYTESX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_RDMA_CNT_BYTESX(...) "TNS_RDMA_CNT_BYTESX"
+
+
+/**
+ * NCB - tns_rdma_cnt_pkts#
+ *
+ * Packets received by the physical port. All fields have roll over counters. Register
+ * number enumerated by TNS_PHYS_PORT_E (added pass 2.0).
+ */
+typedef union bdk_tns_rdma_cnt_pktsx {
+	uint64_t u;
+	struct bdk_tns_rdma_cnt_pktsx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_36_63              : 28;
+		uint64_t packets                     : 36; /**< R/W/H - Packets. */
+#else
+		uint64_t packets                     : 36;
+		uint64_t reserved_36_63              : 28;
+#endif
+	} s;
+	/* struct bdk_tns_rdma_cnt_pktsx_s    cn88xx; */
+} bdk_tns_rdma_cnt_pktsx_t;
+
+static inline uint64_t BDK_TNS_RDMA_CNT_PKTSX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_RDMA_CNT_PKTSX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 9)))
+		return 0x0000842000001400ull + (param1 & 15) * 0x8ull;
+	else 		csr_fatal("BDK_TNS_RDMA_CNT_PKTSX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_RDMA_CNT_PKTSX(...) bdk_tns_rdma_cnt_pktsx_t
+#define bustype_BDK_TNS_RDMA_CNT_PKTSX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_RDMA_CNT_PKTSX(p1) (p1)
+#define arguments_BDK_TNS_RDMA_CNT_PKTSX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_RDMA_CNT_PKTSX(...) "TNS_RDMA_CNT_PKTSX"
+
+
+/**
  * NCB - tns_rdma_config
  */
 typedef union bdk_tns_rdma_config {
@@ -1246,7 +1314,6 @@ typedef union bdk_tns_rdma_dbgb_sel {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_rdma_dbgb_sel_s     cn88xx; */
 	/* struct bdk_tns_rdma_dbgb_sel_s     cn88xxp1; */
 } bdk_tns_rdma_dbgb_sel_t;
 
@@ -1254,7 +1321,9 @@ typedef union bdk_tns_rdma_dbgb_sel {
 static inline uint64_t BDK_TNS_RDMA_DBGB_SEL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_DBGB_SEL_FUNC(void)
 {
-	return 0x0000842000001E00ull;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+		return 0x0000842000001E00ull;
+	else 		csr_fatal("BDK_TNS_RDMA_DBGB_SEL", 0, 0, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_RDMA_DBGB_SEL bdk_tns_rdma_dbgb_sel_t
 #define bustype_BDK_TNS_RDMA_DBGB_SEL BDK_CSR_TYPE_NCB
@@ -1267,8 +1336,8 @@ static inline uint64_t BDK_TNS_RDMA_DBGB_SEL_FUNC(void)
  * NCB - tns_rdma_ecc_ctl
  *
  * This register can be used to disable ECC checks, insert ECC errors.
- * Fields *ECC_DIS disable SBE detection/correction and DBE detection. If ECC_DIS is 0x1, then no
- * errors are detected.
+ * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
+ * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
  * * 0x0 = normal operation
  * * 0x1 = SBE on bit\<0\>
@@ -2067,7 +2136,6 @@ typedef union bdk_tns_rdma_nb_dbgb_sel {
 		uint64_t reserved_48_63              : 16;
 #endif
 	} s;
-	/* struct bdk_tns_rdma_nb_dbgb_sel_s  cn88xx; */
 	/* struct bdk_tns_rdma_nb_dbgb_sel_s  cn88xxp1; */
 } bdk_tns_rdma_nb_dbgb_sel_t;
 
@@ -2075,7 +2143,9 @@ typedef union bdk_tns_rdma_nb_dbgb_sel {
 static inline uint64_t BDK_TNS_RDMA_NB_DBGB_SEL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TNS_RDMA_NB_DBGB_SEL_FUNC(void)
 {
-	return 0x0000842042004700ull;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+		return 0x0000842042004700ull;
+	else 		csr_fatal("BDK_TNS_RDMA_NB_DBGB_SEL", 0, 0, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_TNS_RDMA_NB_DBGB_SEL bdk_tns_rdma_nb_dbgb_sel_t
 #define bustype_BDK_TNS_RDMA_NB_DBGB_SEL BDK_CSR_TYPE_NCB
@@ -2088,8 +2158,8 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBGB_SEL_FUNC(void)
  * NCB - tns_rdma_nb_ecc_ctl
  *
  * This register can be used to disable ECC checks, insert ECC errors.
- * Fields *ECC_DIS disable SBE detection/correction and DBE detection. If ECC_DIS is 0x1, then no
- * errors are detected.
+ * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
+ * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
  * * 0x0 = normal operation
  * * 0x1 = SBE on bit\<0\>
@@ -2881,6 +2951,9 @@ static inline uint64_t BDK_TNS_RDMA_NB_LMACX_RPKT_SZ(unsigned long param1)
  *   * 8 LMAC ports
  *   * 1 Loopback port
  * Use of logical port numbers 137 through 255 may result in unintended behavior.
+ *
+ * During operation, hardware only performs reads from this table and addresses this table as:
+ * Address = {BGX(1),LMAC(2)}
  */
 typedef union bdk_tns_rdma_nb_lmac_plutx {
 	uint64_t u;
@@ -3031,6 +3104,9 @@ static inline uint64_t BDK_TNS_RDMA_NB_NIC_C_CDT_PNDX(unsigned long param1)
  *   * 8 LMAC ports
  *   * 1 Loopback port
  * Use of logical port numbers 137 through 255 may result in unintended behavior.
+ *
+ * During operation, hardware only performs reads from this table and addresses this table as:
+ * Address = {NICI(1),channel(7)}
  */
 typedef union bdk_tns_rdma_nb_nic_plutx {
 	uint64_t u;
@@ -3098,6 +3174,41 @@ static inline uint64_t BDK_TNS_RDMA_NB_NICIX_RPKT_SZ(unsigned long param1)
 
 
 /**
+ * NCB - tns_rdma_nb_parser
+ *
+ * Parser to RDMA status register (added pass 2.0).
+ *
+ */
+typedef union bdk_tns_rdma_nb_parser {
+	uint64_t u;
+	struct bdk_tns_rdma_nb_parser_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1_63               : 63;
+		uint64_t fc                          : 1;  /**< RO/H - Flow control status from parser. */
+#else
+		uint64_t fc                          : 1;
+		uint64_t reserved_1_63               : 63;
+#endif
+	} s;
+	/* struct bdk_tns_rdma_nb_parser_s    cn88xx; */
+} bdk_tns_rdma_nb_parser_t;
+
+#define BDK_TNS_RDMA_NB_PARSER BDK_TNS_RDMA_NB_PARSER_FUNC()
+static inline uint64_t BDK_TNS_RDMA_NB_PARSER_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_RDMA_NB_PARSER_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000842042004900ull;
+	else 		csr_fatal("BDK_TNS_RDMA_NB_PARSER", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_RDMA_NB_PARSER bdk_tns_rdma_nb_parser_t
+#define bustype_BDK_TNS_RDMA_NB_PARSER BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_RDMA_NB_PARSER 0
+#define arguments_BDK_TNS_RDMA_NB_PARSER -1,-1,-1,-1
+#define basename_BDK_TNS_RDMA_NB_PARSER "TNS_RDMA_NB_PARSER"
+
+
+/**
  * NCB - tns_rdma_nb_path_enable
  *
  * When 1, allows the RDMA to accept packets and return credits;
@@ -3154,6 +3265,107 @@ static inline uint64_t BDK_TNS_RDMA_NB_PATH_ENABLE_FUNC(void)
 #define busnum_BDK_TNS_RDMA_NB_PATH_ENABLE 0
 #define arguments_BDK_TNS_RDMA_NB_PATH_ENABLE -1,-1,-1,-1
 #define basename_BDK_TNS_RDMA_NB_PATH_ENABLE "TNS_RDMA_NB_PATH_ENABLE"
+
+
+/**
+ * NCB - tns_rdma_nb_perf_cntrl#
+ *
+ * Performance counter control register (added pass 2.0).
+ *
+ */
+typedef union bdk_tns_rdma_nb_perf_cntrlx {
+	uint64_t u;
+	struct bdk_tns_rdma_nb_perf_cntrlx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t frozen                      : 1;  /**< RO/H - Indicates that the counter is frozen (i.e one shot event occurred) and remains
+                                                                 frozen until the clear bit written. */
+		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
+                                                                 TNS_TDMA_NB_PERF and field FROZEN of this register. */
+		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
+		uint64_t global_stop                 : 1;  /**< R/W - Writing a 1 to this bit stops all the counters in the group of eight
+                                                                 counters. This bit is only implemented in the first control register of a
+                                                                 counter group. */
+		uint64_t reserved_27_27              : 1;
+		uint64_t mode                        : 3;  /**< R/W - Performance counter mode.
+
+                                                                 Bit\<24\>:
+                                                                 1 = Event counted SEL0.
+                                                                 0 = Event counted SEL0 & SEL1 & SEL2.
+
+                                                                 Bits\<26:25\>:
+                                                                 0x0 = Pos edge.
+                                                                 0x1 = Neg edge.
+                                                                 0x2 = Level.
+                                                                 0x3 = One shot. */
+		uint64_t sel2                        : 8;  /**< R/W - Performance counter event select, third mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+		uint64_t sel1                        : 8;  /**< R/W - Performance counter event select, second mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+		uint64_t sel0                        : 8;  /**< R/W - Performance counter event select, first mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+#else
+		uint64_t sel0                        : 8;
+		uint64_t sel1                        : 8;
+		uint64_t sel2                        : 8;
+		uint64_t mode                        : 3;
+		uint64_t reserved_27_27              : 1;
+		uint64_t global_stop                 : 1;
+		uint64_t enable                      : 1;
+		uint64_t clear                       : 1;
+		uint64_t frozen                      : 1;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_tns_rdma_nb_perf_cntrlx_s cn88xx; */
+} bdk_tns_rdma_nb_perf_cntrlx_t;
+
+static inline uint64_t BDK_TNS_RDMA_NB_PERF_CNTRLX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_RDMA_NB_PERF_CNTRLX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 3)))
+		return 0x0000842042000300ull + (param1 & 3) * 0x10ull;
+	else 		csr_fatal("BDK_TNS_RDMA_NB_PERF_CNTRLX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_RDMA_NB_PERF_CNTRLX(...) bdk_tns_rdma_nb_perf_cntrlx_t
+#define bustype_BDK_TNS_RDMA_NB_PERF_CNTRLX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_RDMA_NB_PERF_CNTRLX(p1) (p1)
+#define arguments_BDK_TNS_RDMA_NB_PERF_CNTRLX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_RDMA_NB_PERF_CNTRLX(...) "TNS_RDMA_NB_PERF_CNTRLX"
+
+
+/**
+ * NCB - tns_rdma_nb_perf_status#
+ *
+ * Performance counter status register (added pass 2.0).
+ *
+ */
+typedef union bdk_tns_rdma_nb_perf_statusx {
+	uint64_t u;
+	struct bdk_tns_rdma_nb_perf_statusx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t count                       : 32; /**< RO/H - Event counter */
+#else
+		uint64_t count                       : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_tns_rdma_nb_perf_statusx_s cn88xx; */
+} bdk_tns_rdma_nb_perf_statusx_t;
+
+static inline uint64_t BDK_TNS_RDMA_NB_PERF_STATUSX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_RDMA_NB_PERF_STATUSX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 3)))
+		return 0x0000842042000340ull + (param1 & 3) * 0x10ull;
+	else 		csr_fatal("BDK_TNS_RDMA_NB_PERF_STATUSX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_RDMA_NB_PERF_STATUSX(...) bdk_tns_rdma_nb_perf_statusx_t
+#define bustype_BDK_TNS_RDMA_NB_PERF_STATUSX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_RDMA_NB_PERF_STATUSX(p1) (p1)
+#define arguments_BDK_TNS_RDMA_NB_PERF_STATUSX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_RDMA_NB_PERF_STATUSX(...) "TNS_RDMA_NB_PERF_STATUSX"
 
 
 /**
@@ -3316,6 +3528,107 @@ static inline uint64_t BDK_TNS_RDMA_NIC_CDT_RTN_FUNC(void)
 #define busnum_BDK_TNS_RDMA_NIC_CDT_RTN 0
 #define arguments_BDK_TNS_RDMA_NIC_CDT_RTN -1,-1,-1,-1
 #define basename_BDK_TNS_RDMA_NIC_CDT_RTN "TNS_RDMA_NIC_CDT_RTN"
+
+
+/**
+ * NCB - tns_rdma_perf_cntrl#
+ *
+ * Performance counter control register (added pass 2.0).
+ *
+ */
+typedef union bdk_tns_rdma_perf_cntrlx {
+	uint64_t u;
+	struct bdk_tns_rdma_perf_cntrlx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t frozen                      : 1;  /**< RO/H - Indicates that the counter is frozen (i.e one shot event occurred) and remains
+                                                                 frozen until the clear bit written. */
+		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
+                                                                 TNS_TDMA_NB_PERF and field FROZEN of this register. */
+		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
+		uint64_t global_stop                 : 1;  /**< R/W - Writing a 1 to this bit stops all the counters in the group of eight
+                                                                 counters. This bit is only implemented in the first control register of a
+                                                                 counter group. */
+		uint64_t reserved_27_27              : 1;
+		uint64_t mode                        : 3;  /**< R/W - Performance counter mode.
+
+                                                                 Bit\<24\>:
+                                                                 1 = Event counted SEL0.
+                                                                 0 = Event counted SEL0 & SEL1 & SEL2.
+
+                                                                 Bits\<26:25\>:
+                                                                 0x0 = Pos edge.
+                                                                 0x1 = Neg edge.
+                                                                 0x2 = Level.
+                                                                 0x3 = One shot. */
+		uint64_t sel2                        : 8;  /**< R/W - Performance counter event select, third mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+		uint64_t sel1                        : 8;  /**< R/W - Performance counter event select, second mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+		uint64_t sel0                        : 8;  /**< R/W - Performance counter event select, first mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+#else
+		uint64_t sel0                        : 8;
+		uint64_t sel1                        : 8;
+		uint64_t sel2                        : 8;
+		uint64_t mode                        : 3;
+		uint64_t reserved_27_27              : 1;
+		uint64_t global_stop                 : 1;
+		uint64_t enable                      : 1;
+		uint64_t clear                       : 1;
+		uint64_t frozen                      : 1;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_tns_rdma_perf_cntrlx_s  cn88xx; */
+} bdk_tns_rdma_perf_cntrlx_t;
+
+static inline uint64_t BDK_TNS_RDMA_PERF_CNTRLX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_RDMA_PERF_CNTRLX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 3)))
+		return 0x0000842000001900ull + (param1 & 3) * 0x10ull;
+	else 		csr_fatal("BDK_TNS_RDMA_PERF_CNTRLX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_RDMA_PERF_CNTRLX(...) bdk_tns_rdma_perf_cntrlx_t
+#define bustype_BDK_TNS_RDMA_PERF_CNTRLX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_RDMA_PERF_CNTRLX(p1) (p1)
+#define arguments_BDK_TNS_RDMA_PERF_CNTRLX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_RDMA_PERF_CNTRLX(...) "TNS_RDMA_PERF_CNTRLX"
+
+
+/**
+ * NCB - tns_rdma_perf_status#
+ *
+ * Performance counter status register (added pass 2.0).
+ *
+ */
+typedef union bdk_tns_rdma_perf_statusx {
+	uint64_t u;
+	struct bdk_tns_rdma_perf_statusx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t count                       : 32; /**< RO/H - Event counter */
+#else
+		uint64_t count                       : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_tns_rdma_perf_statusx_s cn88xx; */
+} bdk_tns_rdma_perf_statusx_t;
+
+static inline uint64_t BDK_TNS_RDMA_PERF_STATUSX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_RDMA_PERF_STATUSX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 3)))
+		return 0x0000842000001940ull + (param1 & 3) * 0x10ull;
+	else 		csr_fatal("BDK_TNS_RDMA_PERF_STATUSX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_RDMA_PERF_STATUSX(...) bdk_tns_rdma_perf_statusx_t
+#define bustype_BDK_TNS_RDMA_PERF_STATUSX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_RDMA_PERF_STATUSX(p1) (p1)
+#define arguments_BDK_TNS_RDMA_PERF_STATUSX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_RDMA_PERF_STATUSX(...) "TNS_RDMA_PERF_STATUSX"
 
 
 /**
@@ -3515,6 +3828,74 @@ static inline uint64_t BDK_TNS_TDMA_CNTX(unsigned long param1)
 #define busnum_BDK_TNS_TDMA_CNTX(p1) (p1)
 #define arguments_BDK_TNS_TDMA_CNTX(p1) (p1),-1,-1,-1
 #define basename_BDK_TNS_TDMA_CNTX(...) "TNS_TDMA_CNTX"
+
+
+/**
+ * NCB - tns_tdma_cnt_bytes#
+ *
+ * Bytes transmitted by the physical port. All fields have roll over counters. Register
+ * number enumerated by TNS_PHYS_PORT_E (added pass 2.0).
+ */
+typedef union bdk_tns_tdma_cnt_bytesx {
+	uint64_t u;
+	struct bdk_tns_tdma_cnt_bytesx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_48_63              : 16;
+		uint64_t bytes                       : 48; /**< R/W/H - Packet bytes. */
+#else
+		uint64_t bytes                       : 48;
+		uint64_t reserved_48_63              : 16;
+#endif
+	} s;
+	/* struct bdk_tns_tdma_cnt_bytesx_s   cn88xx; */
+} bdk_tns_tdma_cnt_bytesx_t;
+
+static inline uint64_t BDK_TNS_TDMA_CNT_BYTESX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_TDMA_CNT_BYTESX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 9)))
+		return 0x0000842000000780ull + (param1 & 15) * 0x8ull;
+	else 		csr_fatal("BDK_TNS_TDMA_CNT_BYTESX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_TDMA_CNT_BYTESX(...) bdk_tns_tdma_cnt_bytesx_t
+#define bustype_BDK_TNS_TDMA_CNT_BYTESX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_TDMA_CNT_BYTESX(p1) (p1)
+#define arguments_BDK_TNS_TDMA_CNT_BYTESX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_TDMA_CNT_BYTESX(...) "TNS_TDMA_CNT_BYTESX"
+
+
+/**
+ * NCB - tns_tdma_cnt_pkts#
+ *
+ * Packets transmitted by the physical port. All fields have roll over
+ * counters. Register number enumerated by TNS_PHYS_PORT_E (added pass 2.0).
+ */
+typedef union bdk_tns_tdma_cnt_pktsx {
+	uint64_t u;
+	struct bdk_tns_tdma_cnt_pktsx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_36_63              : 28;
+		uint64_t packets                     : 36; /**< R/W/H - Packets. */
+#else
+		uint64_t packets                     : 36;
+		uint64_t reserved_36_63              : 28;
+#endif
+	} s;
+	/* struct bdk_tns_tdma_cnt_pktsx_s    cn88xx; */
+} bdk_tns_tdma_cnt_pktsx_t;
+
+static inline uint64_t BDK_TNS_TDMA_CNT_PKTSX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_TDMA_CNT_PKTSX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 9)))
+		return 0x0000842000000700ull + (param1 & 15) * 0x8ull;
+	else 		csr_fatal("BDK_TNS_TDMA_CNT_PKTSX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_TDMA_CNT_PKTSX(...) bdk_tns_tdma_cnt_pktsx_t
+#define bustype_BDK_TNS_TDMA_CNT_PKTSX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_TDMA_CNT_PKTSX(p1) (p1)
+#define arguments_BDK_TNS_TDMA_CNT_PKTSX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_TDMA_CNT_PKTSX(...) "TNS_TDMA_CNT_PKTSX"
 
 
 /**
@@ -3750,8 +4131,8 @@ static inline uint64_t BDK_TNS_TDMA_DBG_NICIX_CONFIG(unsigned long param1)
  * NCB - tns_tdma_ecc_ctl
  *
  * This register can be used to disable ECC checks, insert ECC errors.
- * Fields *ECC_DIS disable SBE detection/correction and DBE detection. If ECC_DIS is 0x1, then no
- * errors are detected.
+ * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
+ * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
  * * 0x0 = normal operation
  * * 0x1 = SBE on bit\<0\>
@@ -4620,8 +5001,8 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(unsigned long param1)
  * NCB - tns_tdma_nb_ecc_ctl
  *
  * This register can be used to disable ECC checks, insert ECC errors.
- * Fields *ECC_DIS disable SBE detection/correction and DBE detection. If ECC_DIS is 0x1, then no
- * errors are detected.
+ * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
+ * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
  * * 0x0 = normal operation
  * * 0x1 = SBE on bit\<0\>
@@ -5678,6 +6059,107 @@ static inline uint64_t BDK_TNS_TDMA_NB_PAGES_USED_FUNC(void)
 
 
 /**
+ * NCB - tns_tdma_nb_perf_cntrl#
+ *
+ * Performance counter control register (added pass 2.0).
+ *
+ */
+typedef union bdk_tns_tdma_nb_perf_cntrlx {
+	uint64_t u;
+	struct bdk_tns_tdma_nb_perf_cntrlx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t frozen                      : 1;  /**< RO/H - Indicates that the counter is frozen (i.e one shot event occurred) and remains
+                                                                 frozen until the clear bit written. */
+		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
+                                                                 TNS_TDMA_NB_PERF and field FROZEN of this register. */
+		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
+		uint64_t global_stop                 : 1;  /**< R/W - Writing a 1 to this bit stops all the counters in the group of eight
+                                                                 counters. This bit is only implemented in the first control register of a
+                                                                 counter group. */
+		uint64_t reserved_27_27              : 1;
+		uint64_t mode                        : 3;  /**< R/W - Performance counter mode.
+
+                                                                 Bit\<24\>:
+                                                                 1 = Event counted SEL0.
+                                                                 0 = Event counted SEL0 & SEL1 & SEL2.
+
+                                                                 Bits\<26:25\>:
+                                                                 0x0 = Pos edge.
+                                                                 0x1 = Neg edge.
+                                                                 0x2 = Level.
+                                                                 0x3 = One shot. */
+		uint64_t sel2                        : 8;  /**< R/W - Performance counter event select, third mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+		uint64_t sel1                        : 8;  /**< R/W - Performance counter event select, second mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+		uint64_t sel0                        : 8;  /**< R/W - Performance counter event select, first mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+#else
+		uint64_t sel0                        : 8;
+		uint64_t sel1                        : 8;
+		uint64_t sel2                        : 8;
+		uint64_t mode                        : 3;
+		uint64_t reserved_27_27              : 1;
+		uint64_t global_stop                 : 1;
+		uint64_t enable                      : 1;
+		uint64_t clear                       : 1;
+		uint64_t frozen                      : 1;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_tns_tdma_nb_perf_cntrlx_s cn88xx; */
+} bdk_tns_tdma_nb_perf_cntrlx_t;
+
+static inline uint64_t BDK_TNS_TDMA_NB_PERF_CNTRLX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_TDMA_NB_PERF_CNTRLX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 3)))
+		return 0x0000842041000B00ull + (param1 & 3) * 0x10ull;
+	else 		csr_fatal("BDK_TNS_TDMA_NB_PERF_CNTRLX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_TDMA_NB_PERF_CNTRLX(...) bdk_tns_tdma_nb_perf_cntrlx_t
+#define bustype_BDK_TNS_TDMA_NB_PERF_CNTRLX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_TDMA_NB_PERF_CNTRLX(p1) (p1)
+#define arguments_BDK_TNS_TDMA_NB_PERF_CNTRLX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_TDMA_NB_PERF_CNTRLX(...) "TNS_TDMA_NB_PERF_CNTRLX"
+
+
+/**
+ * NCB - tns_tdma_nb_perf_status#
+ *
+ * Performance counter status register (added pass 2.0).
+ *
+ */
+typedef union bdk_tns_tdma_nb_perf_statusx {
+	uint64_t u;
+	struct bdk_tns_tdma_nb_perf_statusx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t count                       : 32; /**< RO/H - Event counter */
+#else
+		uint64_t count                       : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_tns_tdma_nb_perf_statusx_s cn88xx; */
+} bdk_tns_tdma_nb_perf_statusx_t;
+
+static inline uint64_t BDK_TNS_TDMA_NB_PERF_STATUSX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_TDMA_NB_PERF_STATUSX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 3)))
+		return 0x0000842041000B40ull + (param1 & 3) * 0x10ull;
+	else 		csr_fatal("BDK_TNS_TDMA_NB_PERF_STATUSX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_TDMA_NB_PERF_STATUSX(...) bdk_tns_tdma_nb_perf_statusx_t
+#define bustype_BDK_TNS_TDMA_NB_PERF_STATUSX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_TDMA_NB_PERF_STATUSX(p1) (p1)
+#define arguments_BDK_TNS_TDMA_NB_PERF_STATUSX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_TDMA_NB_PERF_STATUSX(...) "TNS_TDMA_NB_PERF_STATUSX"
+
+
+/**
  * NCB - tns_tdma_nb_prc_acc#
  *
  * Provides the ability for software to access the TDMA Page Reference Count memory.
@@ -5890,6 +6372,150 @@ static inline uint64_t BDK_TNS_TDMA_NB_TRUNCATEX_LEN(unsigned long param1)
 #define busnum_BDK_TNS_TDMA_NB_TRUNCATEX_LEN(p1) (p1)
 #define arguments_BDK_TNS_TDMA_NB_TRUNCATEX_LEN(p1) (p1),-1,-1,-1
 #define basename_BDK_TNS_TDMA_NB_TRUNCATEX_LEN(...) "TNS_TDMA_NB_TRUNCATEX_LEN"
+
+
+/**
+ * NCB - tns_tdma_perf_cntrl#
+ *
+ * Performance counter control register (added pass 2.0).
+ *
+ */
+typedef union bdk_tns_tdma_perf_cntrlx {
+	uint64_t u;
+	struct bdk_tns_tdma_perf_cntrlx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t frozen                      : 1;  /**< RO/H - Indicates that the counter is frozen (i.e one shot event occurred) and remains
+                                                                 frozen until the clear bit written. */
+		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
+                                                                 TNS_TDMA_NB_PERF and field FROZEN of this register. */
+		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
+		uint64_t global_stop                 : 1;  /**< R/W - Writing a 1 to this bit stops all the counters in the group of eight
+                                                                 counters. This bit is only implemented in the first control register of a
+                                                                 counter group. */
+		uint64_t bank_select                 : 1;  /**< R/W - Selection of event bank, where bank 0 corresponds to events [0..256)
+                                                                 and bank 1 corresponds to events [256..512). */
+		uint64_t mode                        : 3;  /**< R/W - Performance counter mode.
+
+                                                                 Bit\<24\>:
+                                                                 1 = Event counted SEL0.
+                                                                 0 = Event counted SEL0 & SEL1 & SEL2.
+
+                                                                 Bits\<26:25\>:
+                                                                 0x0 = Pos edge.
+                                                                 0x1 = Neg edge.
+                                                                 0x2 = Level.
+                                                                 0x3 = One shot. */
+		uint64_t sel2                        : 8;  /**< R/W - Performance counter event select, third mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+		uint64_t sel1                        : 8;  /**< R/W - Performance counter event select, second mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+		uint64_t sel0                        : 8;  /**< R/W - Performance counter event select, first mux.
+                                                                 INTERNAL: For details of mapping of events to selects, see tns.perf. */
+#else
+		uint64_t sel0                        : 8;
+		uint64_t sel1                        : 8;
+		uint64_t sel2                        : 8;
+		uint64_t mode                        : 3;
+		uint64_t bank_select                 : 1;
+		uint64_t global_stop                 : 1;
+		uint64_t enable                      : 1;
+		uint64_t clear                       : 1;
+		uint64_t frozen                      : 1;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_tns_tdma_perf_cntrlx_s  cn88xx; */
+} bdk_tns_tdma_perf_cntrlx_t;
+
+static inline uint64_t BDK_TNS_TDMA_PERF_CNTRLX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_TDMA_PERF_CNTRLX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 3)))
+		return 0x0000842000000900ull + (param1 & 3) * 0x10ull;
+	else 		csr_fatal("BDK_TNS_TDMA_PERF_CNTRLX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_TDMA_PERF_CNTRLX(...) bdk_tns_tdma_perf_cntrlx_t
+#define bustype_BDK_TNS_TDMA_PERF_CNTRLX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_TDMA_PERF_CNTRLX(p1) (p1)
+#define arguments_BDK_TNS_TDMA_PERF_CNTRLX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_TDMA_PERF_CNTRLX(...) "TNS_TDMA_PERF_CNTRLX"
+
+
+/**
+ * NCB - tns_tdma_perf_status#
+ *
+ * Performance counter status register (added pass 2.0).
+ *
+ */
+typedef union bdk_tns_tdma_perf_statusx {
+	uint64_t u;
+	struct bdk_tns_tdma_perf_statusx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t count                       : 32; /**< RO/H - Event counter */
+#else
+		uint64_t count                       : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_tns_tdma_perf_statusx_s cn88xx; */
+} bdk_tns_tdma_perf_statusx_t;
+
+static inline uint64_t BDK_TNS_TDMA_PERF_STATUSX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_TDMA_PERF_STATUSX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 3)))
+		return 0x0000842000000940ull + (param1 & 3) * 0x10ull;
+	else 		csr_fatal("BDK_TNS_TDMA_PERF_STATUSX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_TDMA_PERF_STATUSX(...) bdk_tns_tdma_perf_statusx_t
+#define bustype_BDK_TNS_TDMA_PERF_STATUSX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_TDMA_PERF_STATUSX(p1) (p1)
+#define arguments_BDK_TNS_TDMA_PERF_STATUSX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_TDMA_PERF_STATUSX(...) "TNS_TDMA_PERF_STATUSX"
+
+
+/**
+ * NCB - tns_tdma_pkt_x2p_cntrs#
+ *
+ * X2P related state belonging to the bypassed packet data path that is exposed to SW
+ * to assist in debug (added pass 2.0).
+ */
+typedef union bdk_tns_tdma_pkt_x2p_cntrsx {
+	uint64_t u;
+	struct bdk_tns_tdma_pkt_x2p_cntrsx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_31_63              : 33;
+		uint64_t req_pending_cnt             : 7;  /**< RO/H - Pending credits. */
+		uint64_t reserved_21_23              : 3;
+		uint64_t req_credits                 : 5;  /**< RO/H - Request credits. */
+		uint64_t reserved_8_15               : 8;
+		uint64_t fifo_cnt                    : 8;  /**< RO/H - Fifo occupancy count. */
+#else
+		uint64_t fifo_cnt                    : 8;
+		uint64_t reserved_8_15               : 8;
+		uint64_t req_credits                 : 5;
+		uint64_t reserved_21_23              : 3;
+		uint64_t req_pending_cnt             : 7;
+		uint64_t reserved_31_63              : 33;
+#endif
+	} s;
+	/* struct bdk_tns_tdma_pkt_x2p_cntrsx_s cn88xx; */
+} bdk_tns_tdma_pkt_x2p_cntrsx_t;
+
+static inline uint64_t BDK_TNS_TDMA_PKT_X2P_CNTRSX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_TDMA_PKT_X2P_CNTRSX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
+		return 0x0000842000000D00ull + (param1 & 1) * 0x10ull;
+	else 		csr_fatal("BDK_TNS_TDMA_PKT_X2P_CNTRSX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TNS_TDMA_PKT_X2P_CNTRSX(...) bdk_tns_tdma_pkt_x2p_cntrsx_t
+#define bustype_BDK_TNS_TDMA_PKT_X2P_CNTRSX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_TNS_TDMA_PKT_X2P_CNTRSX(p1) (p1)
+#define arguments_BDK_TNS_TDMA_PKT_X2P_CNTRSX(p1) (p1),-1,-1,-1
+#define basename_BDK_TNS_TDMA_PKT_X2P_CNTRSX(...) "TNS_TDMA_PKT_X2P_CNTRSX"
 
 
 /**

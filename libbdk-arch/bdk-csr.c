@@ -32,6 +32,7 @@ uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, i
         case BDK_CSR_TYPE_PCCPF:
         case BDK_CSR_TYPE_PCCVF:
         case BDK_CSR_TYPE_PEXP:
+        case BDK_CSR_TYPE_SYSREG:
             bdk_error("%s: Register not supported\n", __FUNCTION__);
             break;
 
@@ -97,6 +98,7 @@ void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int 
         case BDK_CSR_TYPE_PCCPF:
         case BDK_CSR_TYPE_PCCVF:
         case BDK_CSR_TYPE_PEXP:
+        case BDK_CSR_TYPE_SYSREG:
             bdk_error("%s: Register not supported\n", __FUNCTION__);
             break;
 

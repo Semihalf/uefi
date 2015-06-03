@@ -342,6 +342,40 @@ static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long param1)
 
 
 /**
+ * RSL - ocla#_eco
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_oclax_eco {
+	uint64_t u;
+	struct bdk_oclax_eco_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
+#else
+		uint64_t eco_rw                      : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_oclax_eco_s             cn88xx; */
+} bdk_oclax_eco_t;
+
+static inline uint64_t BDK_OCLAX_ECO(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_OCLAX_ECO(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 4)))
+		return 0x000087E0A83200D0ull + (param1 & 7) * 0x1000000ull;
+	else 		csr_fatal("BDK_OCLAX_ECO", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_OCLAX_ECO(...) bdk_oclax_eco_t
+#define bustype_BDK_OCLAX_ECO(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_OCLAX_ECO(p1) (p1)
+#define arguments_BDK_OCLAX_ECO(p1) (p1),-1,-1,-1
+#define basename_BDK_OCLAX_ECO(...) "OCLAX_ECO"
+
+
+/**
  * RSL - ocla#_fifo_depth
  */
 typedef union bdk_oclax_fifo_depth {
@@ -386,7 +420,7 @@ typedef union bdk_oclax_fifo_limit {
                                                                  detected. */
 		uint64_t ddr                         : 16; /**< R/W - DDR level. When OCLA()_FIFO_DEPTH \> [DDR], FIFO entries will be removed, packed into a
                                                                  cache line, and overflowed to DDR/L2. All-ones disables overflow to DDR/L2. If non-zero
-                                                                 must be at least 28. */
+                                                                 must be at least 52. */
 		uint64_t bp                          : 16; /**< R/W - Backpressure level. When OCLA()_FIFO_DEPTH \> [BP], OCLA will signal backpressure to
                                                                  coprocessors. All-ones disables indicating backpressure. */
 		uint64_t wmark                       : 16; /**< R/W - Interrupt watermark level. When OCLA()_FIFO_DEPTH \> [WMARK], OCLA will set
@@ -1536,6 +1570,15 @@ typedef union bdk_oclax_time {
 	uint64_t u;
 	struct bdk_oclax_time_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t cycle                       : 64; /**< R/W/H - Current time as free running counter. Loaded into captured control packets.
+                                                                 Unconditionally clocked, independent of OCLA()_SFT_RST. */
+#else
+		uint64_t cycle                       : 64;
+#endif
+	} s;
+	/* struct bdk_oclax_time_s            cn88xx; */
+	struct bdk_oclax_time_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t cycle                       : 32; /**< R/W/H - Current time as free running counter. Loaded into captured control packets.
                                                                  Unconditionally clocked, independent of OCLA()_SFT_RST. */
@@ -1543,9 +1586,7 @@ typedef union bdk_oclax_time {
 		uint64_t cycle                       : 32;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_oclax_time_s            cn88xx; */
-	/* struct bdk_oclax_time_s            cn88xxp1; */
+	} cn88xxp1;
 } bdk_oclax_time_t;
 
 static inline uint64_t BDK_OCLAX_TIME(unsigned long param1) __attribute__ ((pure, always_inline));

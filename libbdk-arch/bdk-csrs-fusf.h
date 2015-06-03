@@ -112,8 +112,8 @@ typedef union bdk_fusf_ctl {
 		uint64_t crypt_no_dis                : 1;  /**< SRO - No-crypt disable.
                                                                  When set, the non-encryption method of ROM_CSIB_S[CRYPT] is not allowed. */
 		uint64_t fj_dis_huk                  : 1;  /**< SRO - Flash-jump HUK secret hiding.
-                                                                 When set, FUSF_SSK(), FUSF_ROTPK(), FUSF_HUK(), FUSF_EK(),
-                                                                 and FUSF_SW() cannot be read unless trusted code authenticates.
+                                                                 When set, FUSF_SSK(), FUSF_HUK(), FUSF_EK() and FUSF_SW() cannot be read
+                                                                 unless trusted code authenticates.
                                                                  This fuse is typically set when [ROT_LCK] is set. */
 		uint64_t fj_core0                    : 1;  /**< SRO - Flash-jump core 0 only.
                                                                  When set, only core 0 is available unless code authenticates.

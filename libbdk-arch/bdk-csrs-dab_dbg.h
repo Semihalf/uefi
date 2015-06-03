@@ -1144,6 +1144,7 @@ typedef union bdk_dbgx_eddfr {
                                                                    0x0 = Performance monitors extension system registers not implemented.
                                                                    0x1 =Support for performance monitors extension system registers, version 3, as
                                                                  defined in Part C, performance monitors extension.
+                                                                   0x4 =Support for 16 bit even field.
                                                                    0xF = Implementation defined form of performance monitors supported, PMUv3 not
                                                                  supported.
                                                                    _ All other values are reserved. */
@@ -1947,7 +1948,7 @@ typedef union bdk_dbgx_edprcr {
 	struct bdk_dbgx_edprcr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_4_31               : 28;
-		uint32_t corepurq                    : 1;  /**< R/W/H - Software write "1" to set the powerup reuqest.
+		uint32_t corepurq                    : 1;  /**< R/W - Software write "1" to set the powerup reuqest.
                                                                  Core powerup request. Allows a debugger to request that the
                                                                      power controller power up the core, enabling access to the
                                                                      debug register in the Core power domain. The actions on
@@ -2003,6 +2004,7 @@ static inline uint64_t BDK_DBGX_EDPRCR(unsigned long param1)
 /**
  * DAB32b - dbg#_edprsr
  *
+ * Changed in pass 2, removed from DAP.
  * Holds information about the reset and powerdown state of the
  *     processor.
  * RTL: Powerup status for ap core and only bit[1:0] used

@@ -253,6 +253,64 @@ typedef union bdk_slix_m2s_macx_ctl {
 	uint64_t u;
 	struct bdk_slix_m2s_macx_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_20_63              : 44;
+		uint64_t wait_pxfr                   : 1;  /**< R/W - When set, will cause a Posted TLP write from a MAC to follow the following sequence:
+                                                                 (having this bit set will cut the Posted-TLP performance about 50%).
+                                                                 _ 1. Request the NCBI.
+                                                                 _ 2. Wait for the grant and send the transfer on the NCBI.
+                                                                 _ 3. Start the next Posted TLP.
+
+                                                                 For diagnostic use only.
+                                                                 Changed in pass 2. */
+		uint64_t wvirt                       : 1;  /**< R/W - Write virtual:
+                                                                 1 = Addresses in SLI()_WIN_WR_ADDR and SLI()_WIN_RD_ADDR are virtual addresses.
+                                                                 0 = Addresses are physical addresses. */
+		uint64_t dis_port                    : 1;  /**< R/W1C/H - When set, the output to the MAC is disabled. This occurs when the MAC reset line
+                                                                 transitions from de-asserted to asserted. Writing a 1 to this location clears this
+                                                                 condition when the MAC is no longer in reset and the output to the MAC is at the beginning
+                                                                 of a transfer. */
+		uint64_t waitl_com                   : 1;  /**< R/W - When set, causes the SLI to wait for a store done from the L2C for any previously sent
+                                                                 stores,
+                                                                 before sending additional completions to the L2C from the MAC.
+                                                                 Set this for more conservative behavior. Clear this for more aggressive, higher-
+                                                                 performance behavior. */
+		uint64_t reserved_7_15               : 9;
+		uint64_t ctlp_ro                     : 1;  /**< R/W - Relaxed ordering enable for completion TLPS. This permits the SLI to use the RO bit sent
+                                                                 from
+                                                                 the MACs. See WAITL_COM. */
+		uint64_t ptlp_ro                     : 1;  /**< R/W - Relaxed ordering enable for posted TLPS. This permitsthe SLI to use the RO bit sent from
+                                                                 the MACs. See WAIT_COM. */
+		uint64_t wind_d                      : 1;  /**< R/W - Window disable. When set, disables access to the window registers from the MAC. */
+		uint64_t bar0_d                      : 1;  /**< R/W - BAR0 disable. When set, disables access from the MAC to SLI BAR0 registers. */
+		uint64_t ld_cmd                      : 2;  /**< R/W - When SLI issues a load command to the L2C that is to be cached, this field selects the
+                                                                 type of load command to use. Un-cached loads will use LDT:
+                                                                 0 = LDD.
+                                                                 1 = LDI.
+                                                                 2 = LDE.
+                                                                 3 = LDY. */
+		uint64_t wait_com                    : 1;  /**< R/W - Wait for commit. When set, causes the SLI to wait for a store done from the L2C before
+                                                                 sending additional stores to the L2C from the MAC. The SLI requests a commit on the last
+                                                                 store if more than one STORE operation is required on the NCB. Most applications will not
+                                                                 notice a difference, so this bit should not be set. Setting the bit is more conservative
+                                                                 on ordering, lower performance. */
+#else
+		uint64_t wait_com                    : 1;
+		uint64_t ld_cmd                      : 2;
+		uint64_t bar0_d                      : 1;
+		uint64_t wind_d                      : 1;
+		uint64_t ptlp_ro                     : 1;
+		uint64_t ctlp_ro                     : 1;
+		uint64_t reserved_7_15               : 9;
+		uint64_t waitl_com                   : 1;
+		uint64_t dis_port                    : 1;
+		uint64_t wvirt                       : 1;
+		uint64_t wait_pxfr                   : 1;
+		uint64_t reserved_20_63              : 44;
+#endif
+	} s;
+	/* struct bdk_slix_m2s_macx_ctl_s     cn88xx; */
+	struct bdk_slix_m2s_macx_ctl_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_19_63              : 45;
 		uint64_t wvirt                       : 1;  /**< R/W - Write virtual:
                                                                  1 = Addresses in SLI()_WIN_WR_ADDR and SLI()_WIN_RD_ADDR are virtual addresses.
@@ -298,9 +356,7 @@ typedef union bdk_slix_m2s_macx_ctl {
 		uint64_t wvirt                       : 1;
 		uint64_t reserved_19_63              : 45;
 #endif
-	} s;
-	/* struct bdk_slix_m2s_macx_ctl_s     cn88xx; */
-	/* struct bdk_slix_m2s_macx_ctl_s     cn88xxp1; */
+	} cn88xxp1;
 } bdk_slix_m2s_macx_ctl_t;
 
 static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -867,6 +923,36 @@ typedef union bdk_slix_s2m_ctl {
 	uint64_t u;
 	struct bdk_slix_s2m_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_15_63              : 49;
+		uint64_t rd_flt                      : 1;  /**< R/W - Read Fault.
+                                                                 0 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
+                                                                 to the NCB/cores all-ones and non-fault.  This is compatible with CN88XX pass 1.0.
+
+                                                                 1 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
+                                                                 to the NCB/cores all-zeros and fault.  In the case of a read by a core, this fault will
+                                                                 cause an synchronous external abort in the core.
+
+                                                                 Config reads which are terminated by PCIe in with an error (UR, etc), or config reads when
+                                                                 the PEM is disabled or link is down, will return to the NCB/cores all-ones and non-fault
+                                                                 regardless of this bit.
+
+                                                                 Added in pass 2. */
+		uint64_t max_word                    : 4;  /**< R/W - Maximum number of words. Specifies the maximum number of 8-byte words to merge into a
+                                                                 single write operation from the cores to the MAC. Legal values are 1 to 8, with 0 treated
+                                                                 as 16. */
+		uint64_t timer                       : 10; /**< R/W - Merge timer. When the SLI starts a core-to-MAC write, TIMER specifies the maximum wait, in
+                                                                 coprocessor-clock cycles, to merge additional write operations from the cores into one
+                                                                 large write. The values for this field range from 1 to 1024, with 0 treated as 1024. */
+#else
+		uint64_t timer                       : 10;
+		uint64_t max_word                    : 4;
+		uint64_t rd_flt                      : 1;
+		uint64_t reserved_15_63              : 49;
+#endif
+	} s;
+	/* struct bdk_slix_s2m_ctl_s          cn88xx; */
+	struct bdk_slix_s2m_ctl_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_14_63              : 50;
 		uint64_t max_word                    : 4;  /**< R/W - Maximum number of words. Specifies the maximum number of 8-byte words to merge into a
                                                                  single write operation from the cores to the MAC. Legal values are 1 to 8, with 0 treated
@@ -879,9 +965,7 @@ typedef union bdk_slix_s2m_ctl {
 		uint64_t max_word                    : 4;
 		uint64_t reserved_14_63              : 50;
 #endif
-	} s;
-	/* struct bdk_slix_s2m_ctl_s          cn88xx; */
-	/* struct bdk_slix_s2m_ctl_s          cn88xxp1; */
+	} cn88xxp1;
 } bdk_slix_s2m_ctl_t;
 
 static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1073,6 +1157,50 @@ static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long param1)
 
 
 /**
+ * NCB - sli#_sctl
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_slix_sctl {
+	uint64_t u;
+	struct bdk_slix_sctl_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1_63               : 63;
+		uint64_t scen                        : 1;  /**< SR/W - Allow SLI window transactions to request secure-world accesses.
+
+                                                                 0 = SLI()_WIN_RD_ADDR[RD_SEC], SLI()_WIN_WR_ADDR[WR_SEC] are ignored and treated
+                                                                 as if zero. Window transactions onto NCB are non-secure, though the SMMU may
+                                                                 later promote them to secure.
+
+                                                                 1 = SLI()_WIN_RD_ADDR[RD_SEC], SLI()_WIN_WR_ADDR[WR_SEC] are honored. Window
+                                                                 transactions may request non-secure or secure world. This bit should not be set
+                                                                 in trusted-mode.
+
+                                                                 Resets to 0 when in trusted-mode (RST_BOOT[TRUSTED_MODE]), else resets to 1. */
+#else
+		uint64_t scen                        : 1;
+		uint64_t reserved_1_63               : 63;
+#endif
+	} s;
+	/* struct bdk_slix_sctl_s             cn88xx; */
+} bdk_slix_sctl_t;
+
+static inline uint64_t BDK_SLIX_SCTL(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SLIX_SCTL(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
+		return 0x0000874001002010ull + (param1 & 1) * 0x1000000000ull;
+	else 		csr_fatal("BDK_SLIX_SCTL", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_SLIX_SCTL(...) bdk_slix_sctl_t
+#define bustype_BDK_SLIX_SCTL(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_SLIX_SCTL(p1) (p1)
+#define arguments_BDK_SLIX_SCTL(p1) (p1),-1,-1,-1
+#define basename_BDK_SLIX_SCTL(...) "SLIX_SCTL"
+
+
+/**
  * PEXP - sli#_win_rd_addr
  *
  * This register contains the address to be read when SLI()_WIN_RD_DATA is read.
@@ -1082,6 +1210,31 @@ static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long param1)
 typedef union bdk_slix_win_rd_addr {
 	uint64_t u;
 	struct bdk_slix_win_rd_addr_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t secen                       : 1;  /**< R/W - This request is a secure-world transaction. This is intended to be set only for
+                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
+                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
+
+                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
+                                                                 onto the NCB, though the SMMU may later promote them to secure.
+
+                                                                 Added in pass 2. */
+		uint64_t reserved_51_62              : 12;
+		uint64_t ld_cmd                      : 2;  /**< R/W - The load command size.
+                                                                 0x3 = Load 8 bytes.
+                                                                 0x2 = Load 4 bytes.
+                                                                 0x1 = Load 2 bytes.
+                                                                 0x0 = Load 1 bytes. */
+		uint64_t rd_addr                     : 49; /**< R/W - The address sent to the NCB for this load request. */
+#else
+		uint64_t rd_addr                     : 49;
+		uint64_t ld_cmd                      : 2;
+		uint64_t reserved_51_62              : 12;
+		uint64_t secen                       : 1;
+#endif
+	} s;
+	/* struct bdk_slix_win_rd_addr_s      cn88xx; */
+	struct bdk_slix_win_rd_addr_cn88xxp1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_51_63              : 13;
 		uint64_t ld_cmd                      : 2;  /**< R/W - The load command size.
@@ -1095,9 +1248,7 @@ typedef union bdk_slix_win_rd_addr {
 		uint64_t ld_cmd                      : 2;
 		uint64_t reserved_51_63              : 13;
 #endif
-	} s;
-	/* struct bdk_slix_win_rd_addr_s      cn88xx; */
-	/* struct bdk_slix_win_rd_addr_s      cn88xxp1; */
+	} cn88xxp1;
 } bdk_slix_win_rd_addr_t;
 
 static inline uint64_t BDK_SLIX_WIN_RD_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1158,6 +1309,27 @@ typedef union bdk_slix_win_wr_addr {
 	uint64_t u;
 	struct bdk_slix_win_wr_addr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t secen                       : 1;  /**< R/W - This request is a secure-world transaction. This is intended to be set only for
+                                                                 transactions during early boot when the SMMU is in bypass mode; after SMMU
+                                                                 initialization SMMU()_SDDR() may be used to control which SLI streams are secure.
+
+                                                                 If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
+                                                                 onto the NCB, though the SMMU may later promote them to secure.
+
+                                                                 Added in pass 2. */
+		uint64_t reserved_49_62              : 14;
+		uint64_t wr_addr                     : 46; /**< R/W - The address sent to the NCB for this store request. */
+		uint64_t reserved_0_2                : 3;
+#else
+		uint64_t reserved_0_2                : 3;
+		uint64_t wr_addr                     : 46;
+		uint64_t reserved_49_62              : 14;
+		uint64_t secen                       : 1;
+#endif
+	} s;
+	/* struct bdk_slix_win_wr_addr_s      cn88xx; */
+	struct bdk_slix_win_wr_addr_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
 		uint64_t wr_addr                     : 46; /**< R/W - The address sent to the NCB for this store request. */
 		uint64_t reserved_0_2                : 3;
@@ -1166,9 +1338,7 @@ typedef union bdk_slix_win_wr_addr {
 		uint64_t wr_addr                     : 46;
 		uint64_t reserved_49_63              : 15;
 #endif
-	} s;
-	/* struct bdk_slix_win_wr_addr_s      cn88xx; */
-	/* struct bdk_slix_win_wr_addr_s      cn88xxp1; */
+	} cn88xxp1;
 } bdk_slix_win_wr_addr_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long param1) __attribute__ ((pure, always_inline));

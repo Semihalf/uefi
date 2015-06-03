@@ -75,8 +75,9 @@ enum zip_comp_e {
 	ZIP_COMP_E_RBLOCK = 0x5,
 	ZIP_COMP_E_STOP = 0x3,
 	ZIP_COMP_E_SUCCESS = 0x1,
+	ZIP_COMP_E_TIMEOUT = 0xc,
 	ZIP_COMP_E_ZERO_LEN = 0x9,
-	ZIP_COMP_E_ENUM_LAST = 0xc,
+	ZIP_COMP_E_ENUM_LAST = 0xd,
 };
 
 /**
@@ -972,6 +973,136 @@ static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long param1)
 
 
 /**
+ * NCB - zip_core#_to_sta
+ *
+ * These registers reflect the timeout status of zip cores.
+ * Added in pass 2.
+ */
+typedef union bdk_zip_corex_to_sta {
+	uint64_t u;
+	struct bdk_zip_corex_to_sta_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t cnt                         : 32; /**< RO/H - Timeout counter value. The counter is reset to 0x0 whenever there is a output
+                                                                 from ZIP engine or there is no output buffer credit for the ZIP
+                                                                 engine. Otherwise counts up to compare with ZIP_CORE_TO_CFG[TIMEOUT]. */
+#else
+		uint64_t cnt                         : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_zip_corex_to_sta_s      cn88xx; */
+} bdk_zip_corex_to_sta_t;
+
+static inline uint64_t BDK_ZIP_COREX_TO_STA(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ZIP_COREX_TO_STA(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
+		return 0x0000838000000780ull + (param1 & 1) * 0x8ull;
+	else 		csr_fatal("BDK_ZIP_COREX_TO_STA", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_ZIP_COREX_TO_STA(...) bdk_zip_corex_to_sta_t
+#define bustype_BDK_ZIP_COREX_TO_STA(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_ZIP_COREX_TO_STA(p1) (p1)
+#define arguments_BDK_ZIP_COREX_TO_STA(p1) (p1),-1,-1,-1
+#define basename_BDK_ZIP_COREX_TO_STA(...) "ZIP_COREX_TO_STA"
+
+
+/**
+ * NCB - zip_core_reset
+ *
+ * This register resets the ZIP cores. For diagnostic use only. Added in pass 2.
+ *
+ */
+typedef union bdk_zip_core_reset {
+	uint64_t u;
+	struct bdk_zip_core_reset_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_2_63               : 62;
+		uint64_t reset                       : 2;  /**< R/W - When set, the conresponding core will be put into reset. When clear, the core is out of
+                                                                 reset.  Bit[\<a\>] resets zip core \<a\>. */
+#else
+		uint64_t reset                       : 2;
+		uint64_t reserved_2_63               : 62;
+#endif
+	} s;
+	/* struct bdk_zip_core_reset_s        cn88xx; */
+} bdk_zip_core_reset_t;
+
+#define BDK_ZIP_CORE_RESET BDK_ZIP_CORE_RESET_FUNC()
+static inline uint64_t BDK_ZIP_CORE_RESET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ZIP_CORE_RESET_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000838000000300ull;
+	else 		csr_fatal("BDK_ZIP_CORE_RESET", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_ZIP_CORE_RESET bdk_zip_core_reset_t
+#define bustype_BDK_ZIP_CORE_RESET BDK_CSR_TYPE_NCB
+#define busnum_BDK_ZIP_CORE_RESET 0
+#define arguments_BDK_ZIP_CORE_RESET -1,-1,-1,-1
+#define basename_BDK_ZIP_CORE_RESET "ZIP_CORE_RESET"
+
+
+/**
+ * NCB - zip_core_to_cfg
+ *
+ * Configure the core timeout value in term of clock cycles. Added in pass 2.
+ *
+ */
+typedef union bdk_zip_core_to_cfg {
+	uint64_t u;
+	struct bdk_zip_core_to_cfg_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t halt                        : 1;  /**< R/W - If set, when timeout is detected, control will halt input and output and set the
+                                                                 completion code in
+                                                                 result buffer to ZIP_COMP_E[TIMEOUT]. If cleared (for diagnostic use only), if zip core
+                                                                 continues
+                                                                 outputing after timeout period the instruction will still be finished by the zip core. */
+		uint64_t ar                          : 1;  /**< R/W - Auto reset. This bit only takes effect when [HALT] is set. When [HALT] is cleared, [AR] is
+                                                                 ignored.
+                                                                 0 = On a timeout, the timed-out core will hold the timed-out operation and not be auto-
+                                                                 reset.
+                                                                 1 = On a timeout, the timed-out core will be auto-reset. */
+		uint64_t reserved_32_61              : 30;
+		uint64_t timeout                     : 32; /**< R/W - Number of coprocessor-clocks before a ZIP engine is considered hung. When the
+                                                                 ZIP_CORE()_TO_STA[CNT] reaches ZIP_CORE_TO_CFG[TIMEOUT], the zip engine hang
+                                                                 can be reported through interrupt ZIP_QUE()_ERR_INT[CTO] if the interrupt is enabled.
+                                                                 If [TIMEOUT] is 0, engine timeout detection is disabled. INTERNAL: Decompression
+                                                                 could be very slow if someone created a malicious compressed stream. Compression is
+                                                                 much more bounded. The worst case would be .5B/cycle plus the Huffman encoding delay of
+                                                                 around 8K cycles. Also note the cripple feature can increase the worst case delay 4x.
+                                                                 If hangs are just theoretical and therefore very rare, using a large number say 1M
+                                                                 cycles is recommended. Assume 1K cycels to cover the decompressing time plus 8K
+                                                                 Huffman encoding delay, the total is 9K cycles. In the worst crippled case, the
+                                                                 timeout upper limit is 9K x 4 x4 = 36K x 4 = 0x24000. For skew without cripple, S/W can
+                                                                 overwrite this value to 0x2400. */
+#else
+		uint64_t timeout                     : 32;
+		uint64_t reserved_32_61              : 30;
+		uint64_t ar                          : 1;
+		uint64_t halt                        : 1;
+#endif
+	} s;
+	/* struct bdk_zip_core_to_cfg_s       cn88xx; */
+} bdk_zip_core_to_cfg_t;
+
+#define BDK_ZIP_CORE_TO_CFG BDK_ZIP_CORE_TO_CFG_FUNC()
+static inline uint64_t BDK_ZIP_CORE_TO_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ZIP_CORE_TO_CFG_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000838000000700ull;
+	else 		csr_fatal("BDK_ZIP_CORE_TO_CFG", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_ZIP_CORE_TO_CFG bdk_zip_core_to_cfg_t
+#define bustype_BDK_ZIP_CORE_TO_CFG BDK_CSR_TYPE_NCB
+#define busnum_BDK_ZIP_CORE_TO_CFG 0
+#define arguments_BDK_ZIP_CORE_TO_CFG -1,-1,-1,-1
+#define basename_BDK_ZIP_CORE_TO_CFG "ZIP_CORE_TO_CFG"
+
+
+/**
  * NCB - zip_ctl_bist_status
  *
  * This register has the BIST status of memories in ZIP_CTL (instruction buffer, G/S pointer
@@ -1070,6 +1201,28 @@ typedef union bdk_zip_dbg_corex_inst {
 	struct bdk_zip_dbg_corex_inst_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t busy                        : 1;  /**< RO/H - Core state. 0 = core is idle; 1 = core is busy. */
+		uint64_t outstanding                 : 1;  /**< RO/H - When set, core is wait for outstanding L2C transaction(s).
+                                                                 Otherwise, there is no outstanding L2C transaction and core can be reset if needed. Added
+                                                                 in pass 2. */
+		uint64_t cto                         : 1;  /**< RO/H - Core timeout detected. When set, it indicated this core is timed out when
+                                                                 executig the current instruction with instruction ID [IID] from queue [QID].
+                                                                 Added in pass 2. */
+		uint64_t reserved_35_60              : 26;
+		uint64_t qid                         : 3;  /**< RO/H - Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
+		uint64_t iid                         : 32; /**< RO/H - Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
+#else
+		uint64_t iid                         : 32;
+		uint64_t qid                         : 3;
+		uint64_t reserved_35_60              : 26;
+		uint64_t cto                         : 1;
+		uint64_t outstanding                 : 1;
+		uint64_t busy                        : 1;
+#endif
+	} s;
+	/* struct bdk_zip_dbg_corex_inst_s    cn88xx; */
+	struct bdk_zip_dbg_corex_inst_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t busy                        : 1;  /**< RO/H - Core state. 0 = core is idle; 1 = core is busy. */
 		uint64_t reserved_35_62              : 28;
 		uint64_t qid                         : 3;  /**< RO/H - Queue index of instruction executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
 		uint64_t iid                         : 32; /**< RO/H - Instruction index executed (BUSY = 0) or being executed (BUSY = 1) on this core. */
@@ -1079,9 +1232,7 @@ typedef union bdk_zip_dbg_corex_inst {
 		uint64_t reserved_35_62              : 28;
 		uint64_t busy                        : 1;
 #endif
-	} s;
-	/* struct bdk_zip_dbg_corex_inst_s    cn88xx; */
-	/* struct bdk_zip_dbg_corex_inst_s    cn88xxp1; */
+	} cn88xxp1;
 } bdk_zip_dbg_corex_inst_t;
 
 static inline uint64_t BDK_ZIP_DBG_COREX_INST(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1148,6 +1299,25 @@ typedef union bdk_zip_dbg_quex_sta {
 	struct bdk_zip_dbg_quex_sta_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t busy                        : 1;  /**< RO/H - Queue state. 0 = queue is idle; 1 = queue is busy. */
+		uint64_t outstanding                 : 1;  /**< RO/H - When set, queue is wait for outstanding L2C transaction(s).
+                                                                 Otherwise, there are no outstanding L2C transaction and queue can be reset if
+                                                                 needed. Added in pass 2. */
+		uint64_t reserved_56_61              : 6;
+		uint64_t rqwc                        : 24; /**< RO/H - Number of remaining instruction qwords to be fetched. */
+		uint64_t nii                         : 32; /**< RO/H - Number of instructions issued from this queue. Reset to 0x0 when ZIP_QUE(0..7)_SBUF_ADDR
+                                                                 is written. */
+#else
+		uint64_t nii                         : 32;
+		uint64_t rqwc                        : 24;
+		uint64_t reserved_56_61              : 6;
+		uint64_t outstanding                 : 1;
+		uint64_t busy                        : 1;
+#endif
+	} s;
+	/* struct bdk_zip_dbg_quex_sta_s      cn88xx; */
+	struct bdk_zip_dbg_quex_sta_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t busy                        : 1;  /**< RO/H - Queue state. 0 = queue is idle; 1 = queue is busy. */
 		uint64_t reserved_56_62              : 7;
 		uint64_t rqwc                        : 24; /**< RO/H - Number of remaining instruction qwords to be fetched. */
 		uint64_t nii                         : 32; /**< RO/H - Number of instructions issued from this queue. Reset to 0x0 when ZIP_QUE(0..7)_SBUF_ADDR
@@ -1158,9 +1328,7 @@ typedef union bdk_zip_dbg_quex_sta {
 		uint64_t reserved_56_62              : 7;
 		uint64_t busy                        : 1;
 #endif
-	} s;
-	/* struct bdk_zip_dbg_quex_sta_s      cn88xx; */
-	/* struct bdk_zip_dbg_quex_sta_s      cn88xxp1; */
+	} cn88xxp1;
 } bdk_zip_dbg_quex_sta_t;
 
 static inline uint64_t BDK_ZIP_DBG_QUEX_STA(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1390,6 +1558,41 @@ static inline uint64_t BDK_ZIP_ECCE_INT_W1S_FUNC(void)
 #define busnum_BDK_ZIP_ECCE_INT_W1S 0
 #define arguments_BDK_ZIP_ECCE_INT_W1S -1,-1,-1,-1
 #define basename_BDK_ZIP_ECCE_INT_W1S "ZIP_ECCE_INT_W1S"
+
+
+/**
+ * NCB - zip_eco
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_zip_eco {
+	uint64_t u;
+	struct bdk_zip_eco_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
+#else
+		uint64_t eco_rw                      : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_zip_eco_s               cn88xx; */
+} bdk_zip_eco_t;
+
+#define BDK_ZIP_ECO BDK_ZIP_ECO_FUNC()
+static inline uint64_t BDK_ZIP_ECO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ZIP_ECO_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x00008380000005F0ull;
+	else 		csr_fatal("BDK_ZIP_ECO", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_ZIP_ECO bdk_zip_eco_t
+#define bustype_BDK_ZIP_ECO BDK_CSR_TYPE_NCB
+#define busnum_BDK_ZIP_ECO 0
+#define arguments_BDK_ZIP_ECO -1,-1,-1,-1
+#define basename_BDK_ZIP_ECO "ZIP_ECO"
 
 
 /**
@@ -1898,6 +2101,28 @@ typedef union bdk_zip_quex_err_ena_w1c {
 	uint64_t u;
 	struct bdk_zip_quex_err_ena_w1c_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_17_63              : 47;
+		uint64_t cto                         : 1;  /**< R/W1C/H - Core time out detected. Added pass 2. */
+		uint64_t reserved_5_15               : 11;
+		uint64_t mdbe                        : 1;  /**< R/W1C/H - SRAM ECC double-bit error. */
+		uint64_t nwrp                        : 1;  /**< R/W1C/H - NCB write response error. */
+		uint64_t nrrp                        : 1;  /**< R/W1C/H - NCB read response error. */
+		uint64_t irde                        : 1;  /**< R/W1C/H - Instruction NCB read response error. */
+		uint64_t dovf                        : 1;  /**< R/W1C/H - Doorbell overflow. */
+#else
+		uint64_t dovf                        : 1;
+		uint64_t irde                        : 1;
+		uint64_t nrrp                        : 1;
+		uint64_t nwrp                        : 1;
+		uint64_t mdbe                        : 1;
+		uint64_t reserved_5_15               : 11;
+		uint64_t cto                         : 1;
+		uint64_t reserved_17_63              : 47;
+#endif
+	} s;
+	/* struct bdk_zip_quex_err_ena_w1c_s  cn88xx; */
+	struct bdk_zip_quex_err_ena_w1c_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_5_63               : 59;
 		uint64_t mdbe                        : 1;  /**< R/W1C/H - SRAM ECC double-bit error. */
 		uint64_t nwrp                        : 1;  /**< R/W1C/H - NCB write response error. */
@@ -1912,9 +2137,7 @@ typedef union bdk_zip_quex_err_ena_w1c {
 		uint64_t mdbe                        : 1;
 		uint64_t reserved_5_63               : 59;
 #endif
-	} s;
-	/* struct bdk_zip_quex_err_ena_w1c_s  cn88xx; */
-	/* struct bdk_zip_quex_err_ena_w1c_s  cn88xxp1; */
+	} cn88xxp1;
 } bdk_zip_quex_err_ena_w1c_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1C(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1938,6 +2161,28 @@ typedef union bdk_zip_quex_err_ena_w1s {
 	uint64_t u;
 	struct bdk_zip_quex_err_ena_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_17_63              : 47;
+		uint64_t cto                         : 1;  /**< R/W1C/H - Core time out detected. Added pass 2. */
+		uint64_t reserved_5_15               : 11;
+		uint64_t mdbe                        : 1;  /**< R/W1C/H - SRAM ECC double-bit error. */
+		uint64_t nwrp                        : 1;  /**< R/W1C/H - NCB write response error. */
+		uint64_t nrrp                        : 1;  /**< R/W1C/H - NCB read response error. */
+		uint64_t irde                        : 1;  /**< R/W1C/H - Instruction NCB read response error. */
+		uint64_t dovf                        : 1;  /**< R/W1C/H - Doorbell overflow. */
+#else
+		uint64_t dovf                        : 1;
+		uint64_t irde                        : 1;
+		uint64_t nrrp                        : 1;
+		uint64_t nwrp                        : 1;
+		uint64_t mdbe                        : 1;
+		uint64_t reserved_5_15               : 11;
+		uint64_t cto                         : 1;
+		uint64_t reserved_17_63              : 47;
+#endif
+	} s;
+	/* struct bdk_zip_quex_err_ena_w1s_s  cn88xx; */
+	struct bdk_zip_quex_err_ena_w1s_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_5_63               : 59;
 		uint64_t mdbe                        : 1;  /**< R/W1C/H - SRAM ECC double-bit error. */
 		uint64_t nwrp                        : 1;  /**< R/W1C/H - NCB write response error. */
@@ -1952,9 +2197,7 @@ typedef union bdk_zip_quex_err_ena_w1s {
 		uint64_t mdbe                        : 1;
 		uint64_t reserved_5_63               : 59;
 #endif
-	} s;
-	/* struct bdk_zip_quex_err_ena_w1s_s  cn88xx; */
-	/* struct bdk_zip_quex_err_ena_w1s_s  cn88xxp1; */
+	} cn88xxp1;
 } bdk_zip_quex_err_ena_w1s_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1981,6 +2224,28 @@ typedef union bdk_zip_quex_err_int {
 	uint64_t u;
 	struct bdk_zip_quex_err_int_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_17_63              : 47;
+		uint64_t cto                         : 1;  /**< R/W1C/H - Core time out detected. Added pass 2. */
+		uint64_t reserved_5_15               : 11;
+		uint64_t mdbe                        : 1;  /**< R/W1C/H - SRAM ECC double-bit error. */
+		uint64_t nwrp                        : 1;  /**< R/W1C/H - NCB write response error. */
+		uint64_t nrrp                        : 1;  /**< R/W1C/H - NCB read response error. */
+		uint64_t irde                        : 1;  /**< R/W1C/H - Instruction NCB read response error. */
+		uint64_t dovf                        : 1;  /**< R/W1C/H - Doorbell overflow. */
+#else
+		uint64_t dovf                        : 1;
+		uint64_t irde                        : 1;
+		uint64_t nrrp                        : 1;
+		uint64_t nwrp                        : 1;
+		uint64_t mdbe                        : 1;
+		uint64_t reserved_5_15               : 11;
+		uint64_t cto                         : 1;
+		uint64_t reserved_17_63              : 47;
+#endif
+	} s;
+	/* struct bdk_zip_quex_err_int_s      cn88xx; */
+	struct bdk_zip_quex_err_int_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_5_63               : 59;
 		uint64_t mdbe                        : 1;  /**< R/W1C/H - SRAM ECC double-bit error. */
 		uint64_t nwrp                        : 1;  /**< R/W1C/H - NCB write response error. */
@@ -1995,9 +2260,7 @@ typedef union bdk_zip_quex_err_int {
 		uint64_t mdbe                        : 1;
 		uint64_t reserved_5_63               : 59;
 #endif
-	} s;
-	/* struct bdk_zip_quex_err_int_s      cn88xx; */
-	/* struct bdk_zip_quex_err_int_s      cn88xxp1; */
+	} cn88xxp1;
 } bdk_zip_quex_err_int_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2021,6 +2284,28 @@ typedef union bdk_zip_quex_err_int_w1s {
 	uint64_t u;
 	struct bdk_zip_quex_err_int_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_17_63              : 47;
+		uint64_t cto                         : 1;  /**< R/W1C/H - Core time out detected. Added pass 2. */
+		uint64_t reserved_5_15               : 11;
+		uint64_t mdbe                        : 1;  /**< R/W1C/H - SRAM ECC double-bit error. */
+		uint64_t nwrp                        : 1;  /**< R/W1C/H - NCB write response error. */
+		uint64_t nrrp                        : 1;  /**< R/W1C/H - NCB read response error. */
+		uint64_t irde                        : 1;  /**< R/W1C/H - Instruction NCB read response error. */
+		uint64_t dovf                        : 1;  /**< R/W1C/H - Doorbell overflow. */
+#else
+		uint64_t dovf                        : 1;
+		uint64_t irde                        : 1;
+		uint64_t nrrp                        : 1;
+		uint64_t nwrp                        : 1;
+		uint64_t mdbe                        : 1;
+		uint64_t reserved_5_15               : 11;
+		uint64_t cto                         : 1;
+		uint64_t reserved_17_63              : 47;
+#endif
+	} s;
+	/* struct bdk_zip_quex_err_int_w1s_s  cn88xx; */
+	struct bdk_zip_quex_err_int_w1s_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_5_63               : 59;
 		uint64_t mdbe                        : 1;  /**< R/W1C/H - SRAM ECC double-bit error. */
 		uint64_t nwrp                        : 1;  /**< R/W1C/H - NCB write response error. */
@@ -2035,9 +2320,7 @@ typedef union bdk_zip_quex_err_int_w1s {
 		uint64_t mdbe                        : 1;
 		uint64_t reserved_5_63               : 59;
 #endif
-	} s;
-	/* struct bdk_zip_quex_err_int_w1s_s  cn88xx; */
-	/* struct bdk_zip_quex_err_int_w1s_s  cn88xxp1; */
+	} cn88xxp1;
 } bdk_zip_quex_err_int_w1s_t;
 
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT_W1S(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2302,6 +2585,42 @@ static inline uint64_t BDK_ZIP_QUE_PRI_FUNC(void)
 #define busnum_BDK_ZIP_QUE_PRI 0
 #define arguments_BDK_ZIP_QUE_PRI -1,-1,-1,-1
 #define basename_BDK_ZIP_QUE_PRI "ZIP_QUE_PRI"
+
+
+/**
+ * NCB - zip_que_reset
+ *
+ * This register resets the ZIP instruction queues. Added in pass 2.
+ *
+ */
+typedef union bdk_zip_que_reset {
+	uint64_t u;
+	struct bdk_zip_que_reset_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_8_63               : 56;
+		uint64_t reset                       : 8;  /**< R/W - When set, the conresponding queue will be put into reset. When clear, the queue is out of
+                                                                 reset. Bit[\<a\>] resets queue \<a\>. */
+#else
+		uint64_t reset                       : 8;
+		uint64_t reserved_8_63               : 56;
+#endif
+	} s;
+	/* struct bdk_zip_que_reset_s         cn88xx; */
+} bdk_zip_que_reset_t;
+
+#define BDK_ZIP_QUE_RESET BDK_ZIP_QUE_RESET_FUNC()
+static inline uint64_t BDK_ZIP_QUE_RESET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ZIP_QUE_RESET_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000838000000400ull;
+	else 		csr_fatal("BDK_ZIP_QUE_RESET", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_ZIP_QUE_RESET bdk_zip_que_reset_t
+#define bustype_BDK_ZIP_QUE_RESET BDK_CSR_TYPE_NCB
+#define busnum_BDK_ZIP_QUE_RESET 0
+#define arguments_BDK_ZIP_QUE_RESET -1,-1,-1,-1
+#define basename_BDK_ZIP_QUE_RESET "ZIP_QUE_RESET"
 
 
 /**

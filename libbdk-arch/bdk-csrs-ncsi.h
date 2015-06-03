@@ -178,7 +178,8 @@ typedef union bdk_ncsi_config {
 	uint64_t u;
 	struct bdk_ncsi_config_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_2_63               : 62;
+		uint64_t reserved_5_63               : 59;
+		uint64_t pkg_id                      : 3;  /**< RAZ - Reserved. */
 		uint64_t pkg_desel_tx_ch_dis         : 1;  /**< R/W - This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
                                                                  0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
                                                                  BGX.
@@ -190,7 +191,8 @@ typedef union bdk_ncsi_config {
 #else
 		uint64_t cam_accept                  : 1;
 		uint64_t pkg_desel_tx_ch_dis         : 1;
-		uint64_t reserved_2_63               : 62;
+		uint64_t pkg_id                      : 3;
+		uint64_t reserved_5_63               : 59;
 #endif
 	} s;
 	/* struct bdk_ncsi_config_s           cn88xx; */
@@ -248,7 +250,8 @@ typedef union bdk_ncsi_int {
 	uint64_t u;
 	struct bdk_ncsi_int_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_15_63              : 49;
+		uint64_t reserved_16_63              : 48;
+		uint64_t bmc2cpu                     : 1;  /**< R/W1C/H - Reserved. */
 		uint64_t rx_rsp_overfl               : 1;  /**< R/W1C/H - RX RSP FIFO overflow. */
 		uint64_t rx_rsp_sbe                  : 1;  /**< R/W1C/H - RX RSP FIFO single-bit error. */
 		uint64_t rx_rsp_dbe                  : 1;  /**< R/W1C/H - RX RSP FIFO double-bit error. */
@@ -284,7 +287,8 @@ typedef union bdk_ncsi_int {
 		uint64_t rx_rsp_dbe                  : 1;
 		uint64_t rx_rsp_sbe                  : 1;
 		uint64_t rx_rsp_overfl               : 1;
-		uint64_t reserved_15_63              : 49;
+		uint64_t bmc2cpu                     : 1;
+		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
 	/* struct bdk_ncsi_int_s              cn88xx; */
@@ -311,7 +315,8 @@ typedef union bdk_ncsi_int_ena_w1c {
 	uint64_t u;
 	struct bdk_ncsi_int_ena_w1c_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_15_63              : 49;
+		uint64_t reserved_16_63              : 48;
+		uint64_t bmc2cpu                     : 1;  /**< R/W1C/H - Reserved. */
 		uint64_t rx_rsp_overfl               : 1;  /**< R/W1C/H - RX RSP FIFO overflow. */
 		uint64_t rx_rsp_sbe                  : 1;  /**< R/W1C/H - RX RSP FIFO single-bit error. */
 		uint64_t rx_rsp_dbe                  : 1;  /**< R/W1C/H - RX RSP FIFO double-bit error. */
@@ -347,7 +352,8 @@ typedef union bdk_ncsi_int_ena_w1c {
 		uint64_t rx_rsp_dbe                  : 1;
 		uint64_t rx_rsp_sbe                  : 1;
 		uint64_t rx_rsp_overfl               : 1;
-		uint64_t reserved_15_63              : 49;
+		uint64_t bmc2cpu                     : 1;
+		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
 	/* struct bdk_ncsi_int_ena_w1c_s      cn88xx; */
@@ -374,7 +380,8 @@ typedef union bdk_ncsi_int_ena_w1s {
 	uint64_t u;
 	struct bdk_ncsi_int_ena_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_15_63              : 49;
+		uint64_t reserved_16_63              : 48;
+		uint64_t bmc2cpu                     : 1;  /**< R/W1C/H - Reserved. */
 		uint64_t rx_rsp_overfl               : 1;  /**< R/W1C/H - RX RSP FIFO overflow. */
 		uint64_t rx_rsp_sbe                  : 1;  /**< R/W1C/H - RX RSP FIFO single-bit error. */
 		uint64_t rx_rsp_dbe                  : 1;  /**< R/W1C/H - RX RSP FIFO double-bit error. */
@@ -410,7 +417,8 @@ typedef union bdk_ncsi_int_ena_w1s {
 		uint64_t rx_rsp_dbe                  : 1;
 		uint64_t rx_rsp_sbe                  : 1;
 		uint64_t rx_rsp_overfl               : 1;
-		uint64_t reserved_15_63              : 49;
+		uint64_t bmc2cpu                     : 1;
+		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
 	/* struct bdk_ncsi_int_ena_w1s_s      cn88xx; */
@@ -437,7 +445,8 @@ typedef union bdk_ncsi_int_w1s {
 	uint64_t u;
 	struct bdk_ncsi_int_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_15_63              : 49;
+		uint64_t reserved_16_63              : 48;
+		uint64_t bmc2cpu                     : 1;  /**< R/W1C/H - Reserved. */
 		uint64_t rx_rsp_overfl               : 1;  /**< R/W1C/H - RX RSP FIFO overflow. */
 		uint64_t rx_rsp_sbe                  : 1;  /**< R/W1C/H - RX RSP FIFO single-bit error. */
 		uint64_t rx_rsp_dbe                  : 1;  /**< R/W1C/H - RX RSP FIFO double-bit error. */
@@ -473,7 +482,8 @@ typedef union bdk_ncsi_int_w1s {
 		uint64_t rx_rsp_dbe                  : 1;
 		uint64_t rx_rsp_sbe                  : 1;
 		uint64_t rx_rsp_overfl               : 1;
-		uint64_t reserved_15_63              : 49;
+		uint64_t bmc2cpu                     : 1;
+		uint64_t reserved_16_63              : 48;
 #endif
 	} s;
 	/* struct bdk_ncsi_int_w1s_s          cn88xx; */
@@ -966,7 +976,8 @@ typedef union bdk_ncsi_tx_frm_ctl {
 	uint64_t u;
 	struct bdk_ncsi_tx_frm_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_4_63               : 60;
+		uint64_t reserved_5_63               : 59;
+		uint64_t fcs_strp                    : 1;  /**< RAZ - Reserved. */
 		uint64_t pre_strp                    : 1;  /**< R/W - Strip off the PREAMBLE and SFD:
                                                                  0 = PREAMBLE + SFD is sent to core as part of frame.
                                                                  1 = PREAMBLE + SFD is dropped.
@@ -987,7 +998,8 @@ typedef union bdk_ncsi_tx_frm_ctl {
 #else
 		uint64_t pre_chk_len                 : 3;
 		uint64_t pre_strp                    : 1;
-		uint64_t reserved_4_63               : 60;
+		uint64_t fcs_strp                    : 1;
+		uint64_t reserved_5_63               : 59;
 #endif
 	} s;
 	/* struct bdk_ncsi_tx_frm_ctl_s       cn88xx; */

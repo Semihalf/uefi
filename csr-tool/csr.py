@@ -11,11 +11,12 @@ VALID_CSR_TYPES = ["RSL",           # Slow CSR
                    "PEXPV_NCB",     # Virtual NCB-direct and PCIe BAR0 address
                    "PCICONFIGEP",   # PCIe config space in EP mode
                    "PCICONFIGRC",   # PCIe config space in RC mode
-                   "PCCBR",
-                   "PCCPF",
-                   "PCCVF",
-                   "DAB32b",
-                   "DAB"]
+                   "PCCBR",         # ECAM virtual bridges
+                   "PCCPF",         # PCIe physical functions
+                   "PCCVF",         # PCIe virtual functions
+                   "SYSREG",        # CPU system registers
+                   "DAB32b",        # 32 bit Debug Access Port
+                   "DAB"]           # 64 bit Debug Access Port
 
 def getBitMask(max_number):
     mask = 0;

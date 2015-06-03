@@ -68,8 +68,8 @@ enum sata_int_vec_e {
 	SATA_INT_VEC_E_UAHC_INTRQ_IP_CLEAR = 0x1,
 	SATA_INT_VEC_E_UAHC_PME_REQ_IP = 0x2,
 	SATA_INT_VEC_E_UAHC_PME_REQ_IP_CLEAR = 0x3,
-	SATA_INT_VEC_E_UCTL_INTSTAT = 0x4,
-	SATA_INT_VEC_E_ENUM_LAST = 0x5,
+	SATA_INT_VEC_E_UCTL_INTSTAT = 0x1,
+	SATA_INT_VEC_E_ENUM_LAST = 0x4,
 };
 
 /**
@@ -174,8 +174,8 @@ static inline uint64_t BDK_SATAX_MSIX_PBAX(unsigned long param1, unsigned long p
 /**
  * NCB - sata#_msix_vec#_addr
  *
- * This register is the MSI-X vector table, indexed by the SATA_INT_VEC_E enumeration.
- *
+ * This register is the MSI-X vector table, indexed by the SATA_INT_VEC_E enumeration. Changed in
+ * pass 2
  */
 typedef union bdk_satax_msix_vecx_addr {
 	uint64_t u;
@@ -208,9 +208,11 @@ typedef union bdk_satax_msix_vecx_addr {
 static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long param1, unsigned long param2)
 {
-	if (((param1 <= 15)) && ((param2 <= 4)))
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((param1 <= 15)) && ((param2 <= 4)))
 		return 0x0000810000200000ull + (param1 & 15) * 0x1000000000ull + (param2 & 7) * 0x10ull;
-	csr_fatal("BDK_SATAX_MSIX_VECX_ADDR", 2, param1, param2, 0, 0); /* No return */
+	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 15)) && ((param2 <= 3)))
+		return 0x0000810000200000ull + (param1 & 15) * 0x1000000000ull + (param2 & 3) * 0x10ull;
+	else 		csr_fatal("BDK_SATAX_MSIX_VECX_ADDR", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_SATAX_MSIX_VECX_ADDR(...) bdk_satax_msix_vecx_addr_t
 #define bustype_BDK_SATAX_MSIX_VECX_ADDR(...) BDK_CSR_TYPE_NCB
@@ -222,8 +224,8 @@ static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long param1, unsigned l
 /**
  * NCB - sata#_msix_vec#_ctl
  *
- * This register is the MSI-X vector table, indexed by the SATA_INT_VEC_E enumeration.
- *
+ * This register is the MSI-X vector table, indexed by the SATA_INT_VEC_E enumeration. Changed in
+ * pass 2
  */
 typedef union bdk_satax_msix_vecx_ctl {
 	uint64_t u;
@@ -247,9 +249,11 @@ typedef union bdk_satax_msix_vecx_ctl {
 static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long param1, unsigned long param2)
 {
-	if (((param1 <= 15)) && ((param2 <= 4)))
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((param1 <= 15)) && ((param2 <= 4)))
 		return 0x0000810000200008ull + (param1 & 15) * 0x1000000000ull + (param2 & 7) * 0x10ull;
-	csr_fatal("BDK_SATAX_MSIX_VECX_CTL", 2, param1, param2, 0, 0); /* No return */
+	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 15)) && ((param2 <= 3)))
+		return 0x0000810000200008ull + (param1 & 15) * 0x1000000000ull + (param2 & 3) * 0x10ull;
+	else 		csr_fatal("BDK_SATAX_MSIX_VECX_CTL", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_SATAX_MSIX_VECX_CTL(...) bdk_satax_msix_vecx_ctl_t
 #define bustype_BDK_SATAX_MSIX_VECX_CTL(...) BDK_CSR_TYPE_NCB
@@ -2075,7 +2079,8 @@ typedef union bdk_satax_uctl_ctl {
                                                                  0x7 = divide by 24. */
 		uint64_t reserved_5_23               : 19;
 		uint64_t csclk_en                    : 1;  /**< R/W - Turns on the SATA UCTL interface clock (coprocessor clock). This enables access to UAHC
-                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030. */
+                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030.
+                                                                 Changed in pass 2. */
 		uint64_t reserved_2_3                : 2;
 		uint64_t sata_uahc_rst               : 1;  /**< R/W - Software reset; resets UAHC; active-high.
                                                                  INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL

@@ -25,6 +25,7 @@ typedef enum {
    BDK_CSR_TYPE_PEXP_NCB,       /**< NCB-direct and PCIe BAR0 address */
    BDK_CSR_TYPE_RSL,            /**< Slow 64bit CSR */
    BDK_CSR_TYPE_RSL32b,         /**< Slow 32bit CSR */
+   BDK_CSR_TYPE_SYSREG,         /**< Core system register */
 } bdk_csr_type_t;
 
 #define BDK_CSR_DB_MAX_PARAM 4

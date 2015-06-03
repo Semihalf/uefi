@@ -33,6 +33,7 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_CSR_TYPE_PEXP_NCB);
     push_bdk_enum(BDK_CSR_TYPE_RSL);
     push_bdk_enum(BDK_CSR_TYPE_RSL32B);
+    push_bdk_enum(BDK_CSR_TYPE_SYSREG);
 #ifndef BDK_BUILD_HOST
     push_bdk_enum(BDK_MPI_FLAGS_ENABLE_CS0);
     push_bdk_enum(BDK_MPI_FLAGS_ENABLE_CS1);

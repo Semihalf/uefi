@@ -309,6 +309,45 @@ static inline uint64_t BDK_KEY_MEMX(unsigned long param1)
 
 
 /**
+ * RSL - key_mem_access
+ *
+ * This register contains the controls to allow local and remote RSL access to KEY MEM.
+ * This register was added in pass 2.
+ */
+typedef union bdk_key_mem_access {
+	uint64_t u;
+	struct bdk_key_mem_access_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1_63               : 63;
+		uint64_t rsldis                      : 1;  /**< SR/W1S - Disable RSL access to KEY_MEM.
+                                                                   0 = RSL accesses to KEY_MEM are processed (and do not fault).
+                                                                   1 = RSL accesses to KEY_MEM will fault.
+
+                                                                 Once this bit is written with one it will remain set until chip reset. */
+#else
+		uint64_t rsldis                      : 1;
+		uint64_t reserved_1_63               : 63;
+#endif
+	} s;
+	/* struct bdk_key_mem_access_s        cn88xx; */
+} bdk_key_mem_access_t;
+
+#define BDK_KEY_MEM_ACCESS BDK_KEY_MEM_ACCESS_FUNC()
+static inline uint64_t BDK_KEY_MEM_ACCESS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_KEY_MEM_ACCESS_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x000087E041000020ull;
+	else 		csr_fatal("BDK_KEY_MEM_ACCESS", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_KEY_MEM_ACCESS bdk_key_mem_access_t
+#define bustype_BDK_KEY_MEM_ACCESS BDK_CSR_TYPE_RSL
+#define busnum_BDK_KEY_MEM_ACCESS 0
+#define arguments_BDK_KEY_MEM_ACCESS -1,-1,-1,-1
+#define basename_BDK_KEY_MEM_ACCESS "KEY_MEM_ACCESS"
+
+
+/**
  * RSL - key_msix_pba#
  *
  * This register is the MSI-X PBA table; the bit number is indexed by the KEY_INT_VEC_E enumeration.

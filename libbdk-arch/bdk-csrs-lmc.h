@@ -71,6 +71,76 @@ enum lmc_int_vec_e {
 
 
 /**
+ * RSL - lmc#_bank_conflict1
+ *
+ * Added in pass 2.0.
+ *
+ */
+typedef union bdk_lmcx_bank_conflict1 {
+	uint64_t u;
+	struct bdk_lmcx_bank_conflict1_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t cnt                         : 64; /**< RO/H - Bank conflict counter. A 64-bit counter that increments at every dclk
+                                                                 cycles when LMC could not issue R/W operations to the DRAM due to
+                                                                 bank conflict. This increments when all 8 in-flight buffers are not
+                                                                 utilized. */
+#else
+		uint64_t cnt                         : 64;
+#endif
+	} s;
+	/* struct bdk_lmcx_bank_conflict1_s   cn88xx; */
+} bdk_lmcx_bank_conflict1_t;
+
+static inline uint64_t BDK_LMCX_BANK_CONFLICT1(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LMCX_BANK_CONFLICT1(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 3)))
+		return 0x000087E088000360ull + (param1 & 3) * 0x1000000ull;
+	else 		csr_fatal("BDK_LMCX_BANK_CONFLICT1", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_LMCX_BANK_CONFLICT1(...) bdk_lmcx_bank_conflict1_t
+#define bustype_BDK_LMCX_BANK_CONFLICT1(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_LMCX_BANK_CONFLICT1(p1) (p1)
+#define arguments_BDK_LMCX_BANK_CONFLICT1(p1) (p1),-1,-1,-1
+#define basename_BDK_LMCX_BANK_CONFLICT1(...) "LMCX_BANK_CONFLICT1"
+
+
+/**
+ * RSL - lmc#_bank_conflict2
+ *
+ * Added in pass 2.0.
+ *
+ */
+typedef union bdk_lmcx_bank_conflict2 {
+	uint64_t u;
+	struct bdk_lmcx_bank_conflict2_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t cnt                         : 64; /**< RO/H - Bank conflict counter. A 64-bit counter that increments at every dclk
+                                                                 cycles when LMC could not issue R/W operations to the DRAM due to
+                                                                 bank conflict. This increments only when there are less than 4 in-flight
+                                                                 buffers occupied. */
+#else
+		uint64_t cnt                         : 64;
+#endif
+	} s;
+	/* struct bdk_lmcx_bank_conflict2_s   cn88xx; */
+} bdk_lmcx_bank_conflict2_t;
+
+static inline uint64_t BDK_LMCX_BANK_CONFLICT2(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LMCX_BANK_CONFLICT2(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 3)))
+		return 0x000087E088000368ull + (param1 & 3) * 0x1000000ull;
+	else 		csr_fatal("BDK_LMCX_BANK_CONFLICT2", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_LMCX_BANK_CONFLICT2(...) bdk_lmcx_bank_conflict2_t
+#define bustype_BDK_LMCX_BANK_CONFLICT2(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_LMCX_BANK_CONFLICT2(p1) (p1)
+#define arguments_BDK_LMCX_BANK_CONFLICT2(p1) (p1),-1,-1,-1
+#define basename_BDK_LMCX_BANK_CONFLICT2(...) "LMCX_BANK_CONFLICT2"
+
+
+/**
  * RSL - lmc#_bist_ctl
  *
  * This register has fields to control BIST operation.
@@ -737,7 +807,7 @@ typedef union bdk_lmcx_config {
                                                                  With RANK_ENA = 0, PBANK_LSB = 2.
                                                                  With RANK_ENA = 1, PBANK_LSB = 3.
 
-                                                                 TBD for interfacing with 8H 3DS, regardless of RANK_ENA value, set this 0xA. */
+                                                                 When interfacing with 8H 3DS, set this 0xA regardless of RANK_ENA value. */
 		uint64_t row_lsb                     : 3;  /**< R/W - "Row address bit select.
                                                                  0x0 = Address bit 14 is LSB.
                                                                  0x1 = Address bit 15 is LSB.
@@ -951,7 +1021,8 @@ typedef union bdk_lmcx_dbtrain_ctl {
 	uint64_t u;
 	struct bdk_lmcx_dbtrain_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_60_63              : 4;
+		uint64_t reserved_62_63              : 2;
+		uint64_t cmd_count_ext               : 2;  /**< RO - Reserved. */
 		uint64_t db_output_impedance         : 3;  /**< R/W - Host Interface DQ/DQS Output Driver Impedance control.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., CONFIG[LRDIMM_ENA] = 1, SEQ_CTL[SEQ_SEL] = 0x6.
@@ -987,7 +1058,7 @@ typedef union bdk_lmcx_dbtrain_ctl {
                                                                  Read commands to accommodate for the DWL training mode. */
 		uint64_t write_ena                   : 1;  /**< R/W - Enables the write operation. This is mainly used to accomplish the MWD
                                                                  training sequence of the data buffer.
-                                                                 DBTRAIN_CTL[ACTIVATE] must be set to 1 for this to take effect. */
+                                                                 LMC()_DBTRAIN_CTL[ACTIVATE] must be set to 1 for this to take effect. */
 		uint64_t activate                    : 1;  /**< R/W - Enables the activate command during the data buffer training sequence. */
 		uint64_t prank                       : 2;  /**< R/W - Physical Rank bits for Read/Write/Activate operation during the data buffer
                                                                  training. */
@@ -1014,7 +1085,8 @@ typedef union bdk_lmcx_dbtrain_ctl {
 		uint64_t tccd_sel                    : 1;
 		uint64_t db_sel                      : 1;
 		uint64_t db_output_impedance         : 3;
-		uint64_t reserved_60_63              : 4;
+		uint64_t cmd_count_ext               : 2;
+		uint64_t reserved_62_63              : 2;
 #endif
 	} s;
 	/* struct bdk_lmcx_dbtrain_ctl_s      cn88xx; */
@@ -1927,7 +1999,14 @@ typedef union bdk_lmcx_ext_config2 {
 	uint64_t u;
 	struct bdk_lmcx_ext_config2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_10_63              : 54;
+		uint64_t reserved_21_63              : 43;
+		uint64_t delay_unload_r3             : 1;  /**< RO - Reserved. */
+		uint64_t delay_unload_r2             : 1;  /**< RO - Reserved. */
+		uint64_t delay_unload_r1             : 1;  /**< RO - Reserved. */
+		uint64_t delay_unload_r0             : 1;  /**< RO - Reserved. */
+		uint64_t early_dqx2                  : 1;  /**< RO - Reserved. */
+		uint64_t xor_bank_sel                : 4;  /**< RO - Reserved. */
+		uint64_t reserved_10_11              : 2;
 		uint64_t row_col_switch              : 1;  /**< R/W - When set, the memory address bit position that represents bit 4 of the COLUMN
                                                                  address (bit 5 in 32-bit mode) becomes the low order DDR ROW address bit.
                                                                  The upper DDR COLUMN address portion is selected using LMC()_CONFIG[ROW_LSB]
@@ -1961,7 +2040,14 @@ typedef union bdk_lmcx_ext_config2 {
 		uint64_t mac                         : 3;
 		uint64_t trr_on                      : 1;
 		uint64_t row_col_switch              : 1;
-		uint64_t reserved_10_63              : 54;
+		uint64_t reserved_10_11              : 2;
+		uint64_t xor_bank_sel                : 4;
+		uint64_t early_dqx2                  : 1;
+		uint64_t delay_unload_r0             : 1;
+		uint64_t delay_unload_r1             : 1;
+		uint64_t delay_unload_r2             : 1;
+		uint64_t delay_unload_r3             : 1;
+		uint64_t reserved_21_63              : 43;
 #endif
 	} s;
 	/* struct bdk_lmcx_ext_config2_s      cn88xx; */
@@ -2809,7 +2895,7 @@ typedef union bdk_lmcx_modereg_params1 {
 		uint64_t rtt_wr_00_ext               : 1;  /**< RO - Reserved. */
 		uint64_t db_output_impedance         : 3;  /**< R/W - Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
-                                                                 environment, i.e., CONFIG[LRDIMM_ENA] = 1, SEQ_CTL[SEQ_SEL] = 0x6.
+                                                                 environment, i.e., LMC()_CONFIG[LRDIMM_ENA] = 1, LMC()_SEQ_CTL[SEQ_SEL] = 0x6.
                                                                  0x0 = RZQ/6 (40 ohm).
                                                                  0x1 = RZQ/7 (34 ohm).
                                                                  0x2 = RZQ/5 (48 ohm).
@@ -3668,7 +3754,10 @@ typedef union bdk_lmcx_phy_ctl {
 	uint64_t u;
 	struct bdk_lmcx_phy_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_58_63              : 6;
+		uint64_t reserved_61_63              : 3;
+		uint64_t dsk_dbg_load_dis            : 1;  /**< RO - Reserved. */
+		uint64_t dsk_dbg_overwrt_ena         : 1;  /**< RO - Reserved. */
+		uint64_t dsk_dbg_wr_mode             : 1;  /**< RO - Reserved. */
 		uint64_t data_rate_loopback          : 1;  /**< RO - Reserved. */
 		uint64_t dq_shallow_loopback         : 1;  /**< RO - Reserved. */
 		uint64_t dm_disable                  : 1;  /**< RO - Reserved. */
@@ -3769,7 +3858,10 @@ typedef union bdk_lmcx_phy_ctl {
 		uint64_t dm_disable                  : 1;
 		uint64_t dq_shallow_loopback         : 1;
 		uint64_t data_rate_loopback          : 1;
-		uint64_t reserved_58_63              : 6;
+		uint64_t dsk_dbg_wr_mode             : 1;
+		uint64_t dsk_dbg_overwrt_ena         : 1;
+		uint64_t dsk_dbg_load_dis            : 1;
+		uint64_t reserved_61_63              : 3;
 #endif
 	} s;
 	/* struct bdk_lmcx_phy_ctl_s          cn88xx; */
@@ -3788,6 +3880,56 @@ static inline uint64_t BDK_LMCX_PHY_CTL(unsigned long param1)
 #define busnum_BDK_LMCX_PHY_CTL(p1) (p1)
 #define arguments_BDK_LMCX_PHY_CTL(p1) (p1),-1,-1,-1
 #define basename_BDK_LMCX_PHY_CTL(...) "LMCX_PHY_CTL"
+
+
+/**
+ * RSL - lmc#_phy_ctl2
+ *
+ * Added in pass 2.0.
+ *
+ */
+typedef union bdk_lmcx_phy_ctl2 {
+	uint64_t u;
+	struct bdk_lmcx_phy_ctl2_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_27_63              : 37;
+		uint64_t dqs8_dsk_adj                : 3;  /**< R/W - Provides adjustable deskew settings for DQS signal of the ECC byte. */
+		uint64_t dqs7_dsk_adj                : 3;  /**< R/W - Provides adjustable deskew settings for DQS signal of byte 7. */
+		uint64_t dqs6_dsk_adj                : 3;  /**< R/W - Provides adjustable deskew settings for DQS signal of byte 6. */
+		uint64_t dqs5_dsk_adj                : 3;  /**< R/W - Provides adjustable deskew settings for DQS signal of byte 5. */
+		uint64_t dqs4_dsk_adj                : 3;  /**< R/W - Provides adjustable deskew settings for DQS signal of byte 4. */
+		uint64_t dqs3_dsk_adj                : 3;  /**< R/W - Provides adjustable deskew settings for DQS signal of byte 3. */
+		uint64_t dqs2_dsk_adj                : 3;  /**< R/W - Provides adjustable deskew settings for DQS signal of byte 2. */
+		uint64_t dqs1_dsk_adj                : 3;  /**< R/W - Provides adjustable deskew settings for DQS signal of byte 1. */
+		uint64_t dqs0_dsk_adj                : 3;  /**< R/W - Provides adjustable deskew settings for DQS signal of byte 0. */
+#else
+		uint64_t dqs0_dsk_adj                : 3;
+		uint64_t dqs1_dsk_adj                : 3;
+		uint64_t dqs2_dsk_adj                : 3;
+		uint64_t dqs3_dsk_adj                : 3;
+		uint64_t dqs4_dsk_adj                : 3;
+		uint64_t dqs5_dsk_adj                : 3;
+		uint64_t dqs6_dsk_adj                : 3;
+		uint64_t dqs7_dsk_adj                : 3;
+		uint64_t dqs8_dsk_adj                : 3;
+		uint64_t reserved_27_63              : 37;
+#endif
+	} s;
+	/* struct bdk_lmcx_phy_ctl2_s         cn88xx; */
+} bdk_lmcx_phy_ctl2_t;
+
+static inline uint64_t BDK_LMCX_PHY_CTL2(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LMCX_PHY_CTL2(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 3)))
+		return 0x000087E088000250ull + (param1 & 3) * 0x1000000ull;
+	else 		csr_fatal("BDK_LMCX_PHY_CTL2", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_LMCX_PHY_CTL2(...) bdk_lmcx_phy_ctl2_t
+#define bustype_BDK_LMCX_PHY_CTL2(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_LMCX_PHY_CTL2(p1) (p1)
+#define arguments_BDK_LMCX_PHY_CTL2(p1) (p1),-1,-1,-1
+#define basename_BDK_LMCX_PHY_CTL2(...) "LMCX_PHY_CTL2"
 
 
 /**
@@ -4118,7 +4260,8 @@ typedef union bdk_lmcx_rlevel_ctl {
 	uint64_t u;
 	struct bdk_lmcx_rlevel_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_32_63              : 32;
+		uint64_t reserved_33_63              : 31;
+		uint64_t tccd_sel                    : 1;  /**< RO - Reserved. */
 		uint64_t pattern                     : 8;  /**< R/W - Sets the data pattern used to match in read-leveling operations. */
 		uint64_t reserved_22_23              : 2;
 		uint64_t delay_unload_3              : 1;  /**< R/W - Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
@@ -4155,7 +4298,8 @@ typedef union bdk_lmcx_rlevel_ctl {
 		uint64_t delay_unload_3              : 1;
 		uint64_t reserved_22_23              : 2;
 		uint64_t pattern                     : 8;
-		uint64_t reserved_32_63              : 32;
+		uint64_t tccd_sel                    : 1;
+		uint64_t reserved_33_63              : 31;
 #endif
 	} s;
 	/* struct bdk_lmcx_rlevel_ctl_s       cn88xx; */
@@ -4878,6 +5022,113 @@ typedef union bdk_lmcx_timing_params0 {
 	uint64_t u;
 	struct bdk_lmcx_timing_params0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_54_63              : 10;
+		uint64_t tbcw                        : 6;  /**< R/W - Indicates tBCW constraints. Set this field as follows:
+                                                                 _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
+
+                                                                 where TBCW is from the JEDEC DDR4DB spec, and TCYC(ns) is the DDR clock frequency (not
+                                                                 data rate).
+
+                                                                 TYP = 16. */
+		uint64_t tcksre                      : 4;  /**< R/W - Indicates TCKSRE constraints. Set this field as follows:
+                                                                 _ RNDUP[TCKSRE(ns) / TCYC(ns)] - 1
+
+                                                                 where TCKSRE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(5nCK, 10 ns). */
+		uint64_t trp                         : 5;  /**< R/W - Indicates TRP constraints. Set TRP as follows:
+
+                                                                 _ RNDUP[TRP(ns) / TCYC(ns)] - 1
+
+                                                                 where TRP and TRTP are from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency
+                                                                 (not data rate).
+
+                                                                 TYP TRP = 10-15ns.
+
+                                                                 TYP TRTP = max(4nCK, 7.5 ns). */
+		uint64_t tzqinit                     : 4;  /**< R/W - Indicates TZQINIT constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TZQINIT(ns) / (256 * TCYC(ns))]
+
+                                                                 where TZQINIT is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = 2 (equivalent to 512). */
+		uint64_t tdllk                       : 4;  /**< R/W - Indicates TDLLK constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TDLLK(ns) / (256 * TCYC(ns))]
+
+                                                                 where TDLLK is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = 2 (equivalent to 512).
+
+                                                                 This parameter is used in self-refresh exit and assumed to be greater than TRFC. */
+		uint64_t tmod                        : 5;  /**< R/W - Indicates tMOD constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TMOD(ns) / TCYC(ns)] - 1
+
+                                                                 where TMOD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(12nCK, 15 ns). */
+		uint64_t tmrd                        : 4;  /**< R/W - Indicates TMRD constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TMRD(ns) / TCYC(ns)] - 1
+
+                                                                 where TMRD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = 4nCK. */
+		uint64_t txpr                        : 6;  /**< R/W - Indicates TXPR constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TXPR(ns) / (16 * TCYC(ns))]
+
+                                                                 where TXPR is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(5nCK, TRFC+10 ns). */
+		uint64_t tcke                        : 4;  /**< R/W - Indicates TCKE constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TCKE(ns) / TCYC(ns)] - 1
+
+                                                                 where TCKE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(3nCK, 7.5/5.625/5.625/5 ns).
+
+                                                                 Because a DDR4 register can shorten the pulse width of CKE (it delays the falling edge
+                                                                 but does not delay the rising edge), care must be taken to set this parameter larger
+                                                                 to account for this effective reduction in the pulse width. */
+		uint64_t tzqcs                       : 4;  /**< R/W - Indicates TZQCS constraints. This field is set as follows:
+
+                                                                 _ RNDUP[(2 * TZQCS(ns)) / (16 * TCYC(ns))]
+
+                                                                 where TZQCS is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP \>= 8 (greater-than-or-equal-to 128), to allow for dclk90 calibration. */
+		uint64_t reserved_0_7                : 8;
+#else
+		uint64_t reserved_0_7                : 8;
+		uint64_t tzqcs                       : 4;
+		uint64_t tcke                        : 4;
+		uint64_t txpr                        : 6;
+		uint64_t tmrd                        : 4;
+		uint64_t tmod                        : 5;
+		uint64_t tdllk                       : 4;
+		uint64_t tzqinit                     : 4;
+		uint64_t trp                         : 5;
+		uint64_t tcksre                      : 4;
+		uint64_t tbcw                        : 6;
+		uint64_t reserved_54_63              : 10;
+#endif
+	} s;
+	/* struct bdk_lmcx_timing_params0_s   cn88xx; */
+	struct bdk_lmcx_timing_params0_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_53_63              : 11;
 		uint64_t tbcw                        : 5;  /**< R/W - Indicates tBCW constraints. Set this field as follows:
                                                                  _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
@@ -4981,9 +5232,7 @@ typedef union bdk_lmcx_timing_params0 {
 		uint64_t tbcw                        : 5;
 		uint64_t reserved_53_63              : 11;
 #endif
-	} s;
-	/* struct bdk_lmcx_timing_params0_s   cn88xx; */
-	/* struct bdk_lmcx_timing_params0_s   cn88xxp1; */
+	} cn88xxp1;
 } bdk_lmcx_timing_params0_t;
 
 static inline uint64_t BDK_LMCX_TIMING_PARAMS0(unsigned long param1) __attribute__ ((pure, always_inline));

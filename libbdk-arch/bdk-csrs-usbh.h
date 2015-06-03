@@ -2587,9 +2587,13 @@ typedef union bdk_usbhx_uahc_gsbuscfg0 {
 		uint32_t deswrreqinfo                : 4;  /**< R/W - AXI-cache for descriptor-write operations. Always set to 0x0. */
 		uint32_t reserved_12_15              : 4;
 		uint32_t datbigend                   : 1;  /**< R/W - Data access is big-endian. Keep this set to 0 (little-endian) and use the
-                                                                 USBH()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead. */
+                                                                 USBH()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
+
+                                                                 For diagnostic use only, drivers should be written assuming little-endian. */
 		uint32_t descbigend                  : 1;  /**< R/W - Descriptor access is big-endian. Keep this set to 0 (little-endian) and use the
-                                                                 USBH()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead. */
+                                                                 USBH()_UCTL_SHIM_CFG[DMA_ENDIAN_MODE] setting instead.
+
+                                                                 For diagnostic use only, drivers should be written assuming little-endian. */
 		uint32_t reserved_8_9                : 2;
 		uint32_t incr256brstena              : 1;  /**< R/W - INCR256 burst-type enable. Always set to 0. */
 		uint32_t incr128brstena              : 1;  /**< R/W - INCR128 burst-type enable. Always set to 0. */
@@ -3312,8 +3316,9 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long param1, unsigne
  *
  * Do not make changes to this register after the initial programming.
  *
+ * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.1.
- * Reset by: NCB reset or USBH()_UCTL_CTL[UAHC_RST].
  */
 typedef union bdk_usbhx_uahc_gusb2phycfgx {
 	uint32_t u;
@@ -3437,8 +3442,9 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB2PHYCFGX(unsigned long param1, unsigne
  *
  * Do not make changes to this register after the initial programming.
  *
+ * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ *
  * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.5.4.
- * Reset by: NCB reset or USBH()_UCTL_CTL[UAHC_RST].
  */
 typedef union bdk_usbhx_uahc_gusb3pipectlx {
 	uint32_t u;
@@ -4306,9 +4312,9 @@ typedef union bdk_usbhx_uahc_portpmsc_ssx {
 	struct bdk_usbhx_uahc_portpmsc_ssx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_17_31              : 15;
-		uint32_t fla                         : 1;  /**< R/W - Force link PM accept. */
-		uint32_t u2_timeout                  : 8;  /**< R/W - U2 timeout. */
-		uint32_t u1_timeout                  : 8;  /**< R/W - U1 timeout. */
+		uint32_t fla                         : 1;  /**< R/W/H - Force link PM accept. */
+		uint32_t u2_timeout                  : 8;  /**< R/W/H - U2 timeout. */
+		uint32_t u1_timeout                  : 8;  /**< R/W/H - U1 timeout. */
 #else
 		uint32_t u1_timeout                  : 8;
 		uint32_t u2_timeout                  : 8;
@@ -4319,9 +4325,9 @@ typedef union bdk_usbhx_uahc_portpmsc_ssx {
 	struct bdk_usbhx_uahc_portpmsc_ssx_cn88xx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_31_17              : 15;
-		uint32_t fla                         : 1;  /**< R/W - Force link PM accept. */
-		uint32_t u2_timeout                  : 8;  /**< R/W - U2 timeout. */
-		uint32_t u1_timeout                  : 8;  /**< R/W - U1 timeout. */
+		uint32_t fla                         : 1;  /**< R/W/H - Force link PM accept. */
+		uint32_t u2_timeout                  : 8;  /**< R/W/H - U2 timeout. */
+		uint32_t u1_timeout                  : 8;  /**< R/W/H - U1 timeout. */
 #else
 		uint32_t u1_timeout                  : 8;
 		uint32_t u2_timeout                  : 8;
@@ -5459,16 +5465,16 @@ typedef union bdk_usbhx_uctl_ctl {
                                                                  This is a strap signal; it should only be modified when UPHY_RST is asserted. */
 		uint64_t reserved_5_11               : 7;
 		uint64_t csclk_en                    : 1;  /**< R/W - Turns on the USB UCTL interface clock (coprocessor clock). This enables access to UAHC
-                                                                 registers via the NCB, as well as UCTL registers starting from 0x30 via the RSL bus. */
+                                                                 and UCTL registers starting from 0x30. */
 		uint64_t reserved_3_3                : 1;
 		uint64_t uphy_rst                    : 1;  /**< R/W - PHY reset; resets UPHY; active-high. */
 		uint64_t uahc_rst                    : 1;  /**< R/W - Software reset; resets UAHC; active-high.
                                                                  INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
                                                                  or NCB protocols. */
 		uint64_t uctl_rst                    : 1;  /**< R/W - Software reset; resets UCTL; active-high.
-                                                                 Resets UAHC DMA and register shims. Resets UCTL RSL registers 0x30-0xF8.
-                                                                 Does not reset UCTL RSL registers 0x0-0x28.
-                                                                 UCTL RSL registers starting from 0x30 can be accessed only after the controller clock is
+                                                                 Resets UAHC DMA and register shims. Resets UCTL registers 0x30-0xF8.
+                                                                 Does not reset UCTL registers 0x0-0x28.
+                                                                 UCTL registers starting from 0x30 can be accessed only after the controller clock is
                                                                  active and UCTL_RST is deasserted.
                                                                  INTERNAL: Note that soft-resetting the UCTL while it is active may cause violations of
                                                                  RSL, NCB, and CIB protocols. */
@@ -5859,7 +5865,7 @@ static inline uint64_t BDK_USBHX_UCTL_INTENA_W1S(unsigned long param1)
 /**
  * NCB - usbh#_uctl_intstat
  *
- * This register provides a summary of different bits of RSL interrupts. DBEs are detected and
+ * This register provides a summary of interrupts. DBEs are detected and
  * SBE are corrected. For debugging output for ECC DBEs/SBEs, see USBH()_UCTL_ECC. This register
  * can
  * be reset by NCB reset.

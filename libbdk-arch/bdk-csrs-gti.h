@@ -2351,7 +2351,9 @@ typedef union bdk_gti_cwd_wdogx {
 		uint64_t gstop                       : 1;  /**< R/W - Global-stop enable. */
 		uint64_t dstop                       : 1;  /**< R/W - Debug-stop enable. */
 		uint64_t cnt                         : 24; /**< R/W/H - Number of 1024-cycle intervals until next watchdog expiration. Set on write to
-                                                                 associated GTI_CWD_WDOG_POKE(). */
+                                                                 associated GTI_CWD_WDOG_POKE().
+
+                                                                 Typically on each write to CTI_CMD_WDOG(), [CNT] should be set to [LEN] * 0x256. */
 		uint64_t len                         : 16; /**< R/W - Watchdog time-expiration length. The most-significant 16 bits of a 24-bit value to be
                                                                  decremented every 1024 cycles. */
 		uint64_t state                       : 2;  /**< R/W/H - Watchdog state. The number of watchdog time expirations since last core poke. Cleared on

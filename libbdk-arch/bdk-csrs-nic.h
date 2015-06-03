@@ -479,6 +479,7 @@ enum nic_cqe_send_status_e {
 	NIC_CQE_SEND_STATUS_E_DATA_FAULT = 0x84,
 	NIC_CQE_SEND_STATUS_E_DATA_SEQUENCE_ERR = 0x81,
 	NIC_CQE_SEND_STATUS_E_DESC_FAULT = 0x10,
+	NIC_CQE_SEND_STATUS_E_DESC_SEQUENCE_ERR = 0x8c,
 	NIC_CQE_SEND_STATUS_E_GOOD = 0x0,
 	NIC_CQE_SEND_STATUS_E_HDR_CONS_ERR = 0x11,
 	NIC_CQE_SEND_STATUS_E_IMM_SIZE_OFLOW = 0x80,
@@ -489,7 +490,7 @@ enum nic_cqe_send_status_e {
 	NIC_CQE_SEND_STATUS_E_SUBDC_ERR = 0x12,
 	NIC_CQE_SEND_STATUS_E_TSTMP_CONFLICT = 0x85,
 	NIC_CQE_SEND_STATUS_E_TSTMP_TIMEOUT = 0x86,
-	NIC_CQE_SEND_STATUS_E_ENUM_LAST = 0x8c,
+	NIC_CQE_SEND_STATUS_E_ENUM_LAST = 0x8d,
 };
 
 /**
@@ -669,7 +670,7 @@ enum nic_l3type_e {
  * NIC_CQE_RX_S[L4TY].
  */
 enum nic_l4type_e {
-	NIC_L4TYPE_E_BTH = 0x8,
+	NIC_L4TYPE_E_BTH = 0x5,
 	NIC_L4TYPE_E_GRE = 0x7,
 	NIC_L4TYPE_E_IPCOMP = 0x3,
 	NIC_L4TYPE_E_IPFRAG = 0x2,
@@ -679,7 +680,7 @@ enum nic_l4type_e {
 	NIC_L4TYPE_E_OTHER = 0xe,
 	NIC_L4TYPE_E_SCTP = 0x6,
 	NIC_L4TYPE_E_TCP = 0x4,
-	NIC_L4TYPE_E_UDP = 0x5,
+	NIC_L4TYPE_E_UDP = 0x8,
 	NIC_L4TYPE_E_UDP_BTH = 0xb,
 	NIC_L4TYPE_E_UDP_GENEVE = 0x9,
 	NIC_L4TYPE_E_UDP_VXLAN = 0xa,
@@ -1374,6 +1375,54 @@ enum nic_vf_int_vec_e {
 
 
 /**
+ * Structure NIC_CQE_RX2_S
+ *
+ * NIC CQE Receive Tunneling Extension Structure
+ * Format of receive completion queue entry optional tunneling extension. When
+ * NIC_PF_RX_CFG[CQE_RX2_ENA] is set, this extension structure is inserted at
+ * word 6 of a CQE, immediately following the NIC_CQE_RX_S.
+ * Added in pass 2.
+ */
+union nic_cqe_rx2_s {
+	uint64_t u;
+	struct {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t vv_i                        : 1;  /**< [ 63: 63] Same as NIC_CQE_RX_S[VV], but for the inner layer. */
+		uint64_t vv_gone_i                   : 1;  /**< [ 62: 62] Same as NIC_CQE_RX_S[VV_GONE], but for the inner layer. */
+		uint64_t vs_i                        : 1;  /**< [ 61: 61] Same as NIC_CQE_RX_S[VS], but for the inner layer. */
+		uint64_t vs_gone_i                   : 1;  /**< [ 60: 60] Same as NIC_CQE_RX_S[VS_GONE], but for the inner layer. */
+		uint64_t reserved_57_59              : 3;  /**< [ 59: 57] Reserved. */
+		uint64_t l2e_i                       : 1;  /**< [ 56: 56] Indicates a L2 Ethernet layer was detected on the inner layer of a tunneled
+                                                                 packet. */
+		uint64_t lfty                        : 4;  /**< [ 55: 52] Same as NIC_CQE_RX_S[L4TY], but for the inner layer. */
+		uint64_t lety                        : 4;  /**< [ 51: 48] Same as NIC_CQE_RX_S[L3TY], but for the inner layer. */
+		uint64_t vvptr_i                     : 8;  /**< [ 47: 40] Same as NIC_CQE_RX_S[VVPTR], but for the inner layer. */
+		uint64_t vsptr_i                     : 8;  /**< [ 39: 32] Same as NIC_CQE_RX_S[VSPTR], but for the inner layer. */
+		uint64_t reserved_24_31              : 8;  /**< [ 31: 24] Reserved. */
+		uint64_t reserved_16_23              : 8;  /**< [ 23: 16] Reserved. */
+		uint64_t leptr                       : 8;  /**< [ 15:  8] Same as NIC_CQE_RX_S[L3PTR], but for the inner layer. */
+		uint64_t lfptr                       : 8;  /**< [  7:  0] Same as NIC_CQE_RX_S[L4PTR], but for the inner layer. */
+#else
+		uint64_t lfptr                       : 8;  /**< [  7:  0] Same as NIC_CQE_RX_S[L4PTR], but for the inner layer. */
+		uint64_t leptr                       : 8;  /**< [ 15:  8] Same as NIC_CQE_RX_S[L3PTR], but for the inner layer. */
+		uint64_t reserved_16_23              : 8;  /**< [ 23: 16] Reserved. */
+		uint64_t reserved_24_31              : 8;  /**< [ 31: 24] Reserved. */
+		uint64_t vsptr_i                     : 8;  /**< [ 39: 32] Same as NIC_CQE_RX_S[VSPTR], but for the inner layer. */
+		uint64_t vvptr_i                     : 8;  /**< [ 47: 40] Same as NIC_CQE_RX_S[VVPTR], but for the inner layer. */
+		uint64_t lety                        : 4;  /**< [ 51: 48] Same as NIC_CQE_RX_S[L3TY], but for the inner layer. */
+		uint64_t lfty                        : 4;  /**< [ 55: 52] Same as NIC_CQE_RX_S[L4TY], but for the inner layer. */
+		uint64_t l2e_i                       : 1;  /**< [ 56: 56] Indicates a L2 Ethernet layer was detected on the inner layer of a tunneled
+                                                                 packet. */
+		uint64_t reserved_57_59              : 3;  /**< [ 59: 57] Reserved. */
+		uint64_t vs_gone_i                   : 1;  /**< [ 60: 60] Same as NIC_CQE_RX_S[VS_GONE], but for the inner layer. */
+		uint64_t vs_i                        : 1;  /**< [ 61: 61] Same as NIC_CQE_RX_S[VS], but for the inner layer. */
+		uint64_t vv_gone_i                   : 1;  /**< [ 62: 62] Same as NIC_CQE_RX_S[VV_GONE], but for the inner layer. */
+		uint64_t vv_i                        : 1;  /**< [ 63: 63] Same as NIC_CQE_RX_S[VV], but for the inner layer. */
+#endif
+	} s;
+};
+
+/**
  * Structure NIC_CQE_RX_S
  *
  * NIC CQE Receive Structure
@@ -1657,6 +1706,88 @@ union nic_rx_hdr_s {
 };
 
 /**
+ * Structure NIC_RX_MCAM_SFIELD_S
+ *
+ * NIC Receive MCAM Search Fields Structure
+ * This structure describes the parser-derived fields of NIC_PF_MCAM()_M()_DATA.
+ * Added in pass 2.
+ */
+union nic_rx_mcam_sfield_s {
+	uint64_t u[3];
+	struct {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t l34id                       : 24; /**< [ 71: 48] Layer 3/4 identifier.
+                                                                 _ If L3TY/L4TY = VXLAN/NVGRE/GENEVE, the VXLAN/NVGRE/GENEVE tunnel id.
+                                                                 _ else if L3/L4TY = RoCE/RoCE2, the BTH dest QP.
+                                                                 _ else if L4TY = all UDP Decodes/TCP/SCTP, the outer *destination* port number.
+                                                                 _ else 0x0. */
+		uint64_t dext                        : 48; /**< [ 47:  0] DMAC extracted bytes N..N+5. This allows matching either the destination MAC
+                                                                 address, or a fixed header, where N is configured by
+                                                                 NIC_PF_PKIND()_CFG[DEXT_L2], NIC_PF_PKIND()_CFG[DEXT_ABS]. */
+#else
+		uint64_t dext                        : 48; /**< [ 47:  0] DMAC extracted bytes N..N+5. This allows matching either the destination MAC
+                                                                 address, or a fixed header, where N is configured by
+                                                                 NIC_PF_PKIND()_CFG[DEXT_L2], NIC_PF_PKIND()_CFG[DEXT_ABS]. */
+		uint64_t l34id                       : 24; /**< [ 71: 48] Layer 3/4 identifier.
+                                                                 _ If L3TY/L4TY = VXLAN/NVGRE/GENEVE, the VXLAN/NVGRE/GENEVE tunnel id.
+                                                                 _ else if L3/L4TY = RoCE/RoCE2, the BTH dest QP.
+                                                                 _ else if L4TY = all UDP Decodes/TCP/SCTP, the outer *destination* port number.
+                                                                 _ else 0x0. */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t l3ty                        : 4;  /**< [127:124] L3 type from NIC_CQE_RX_S[L3TY], however if there was an L3 or below error,
+                                                                 exlcuding checksum errors, will be 0x0. (e.g. to match a TCP socket it must be a
+                                                                 valid TCP flow.) */
+		uint64_t chan                        : 12; /**< [123:112] Channel number after NIC_PF_CPI()_CFG[PADD] adder. */
+		uint64_t vtci                        : 16; /**< [111: 96] Outer 802.1Q VLAN ID/CFI (16-bits). Zero unless [VV] is set. */
+		uint64_t lefid                       : 24; /**< [ 95: 72] Layer E/F identifier.
+                                                                 _ If LETY/LFTY = RoCE/RoCE2, the BTH dest QP.
+                                                                 _ else if LFTY = all UDP decodes/TCP/SCTP, the inner *destination* port number.
+                                                                 _ else 0x0. */
+#else
+		uint64_t lefid                       : 24; /**< [ 95: 72] Layer E/F identifier.
+                                                                 _ If LETY/LFTY = RoCE/RoCE2, the BTH dest QP.
+                                                                 _ else if LFTY = all UDP decodes/TCP/SCTP, the inner *destination* port number.
+                                                                 _ else 0x0. */
+		uint64_t vtci                        : 16; /**< [111: 96] Outer 802.1Q VLAN ID/CFI (16-bits). Zero unless [VV] is set. */
+		uint64_t chan                        : 12; /**< [123:112] Channel number after NIC_PF_CPI()_CFG[PADD] adder. */
+		uint64_t l3ty                        : 4;  /**< [127:124] L3 type from NIC_CQE_RX_S[L3TY], however if there was an L3 or below error,
+                                                                 exlcuding checksum errors, will be 0x0. (e.g. to match a TCP socket it must be a
+                                                                 valid TCP flow.) */
+#endif
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved */
+		uint64_t spare                       : 1;  /**< [143:143] Reserved. Software should not compare this bit in the MCAM for forward
+                                                                 compatibility. */
+		uint64_t l2_val                      : 1;  /**< [142:142] The L2 layer of the packet was valid.  This bit must be set when matching on a DEXT field. */
+		uint64_t l4oam                       : 1;  /**< [141:141] Tunnel OAM bit.
+                                                                 If tunneling layer has an OAM bit.  Otherwise hardware forces it to 0. */
+		uint64_t vv                          : 1;  /**< [140:140] Set if outer VLAN was found, from NIC_CQE_RX_S[VV]. */
+		uint64_t lfty                        : 4;  /**< [139:136] Inner L4 type from NIC_CQE_RX_S[LFTY], however if there was an LF or below
+                                                                 error, excluding checksum errors, will be 0x0. */
+		uint64_t lety                        : 4;  /**< [135:132] Inner L3 type from NIC_CQE_RX_S[LETY], however if there was an LE or below
+                                                                 error, excluding checksum errors, will be 0x0. */
+		uint64_t l4ty                        : 4;  /**< [131:128] L4 type from NIC_CQE_RX_S[L4TY], however if there was an L4 or below error,
+                                                                 excluding checksum errors, will be 0x0. */
+#else
+		uint64_t l4ty                        : 4;  /**< [131:128] L4 type from NIC_CQE_RX_S[L4TY], however if there was an L4 or below error,
+                                                                 excluding checksum errors, will be 0x0. */
+		uint64_t lety                        : 4;  /**< [135:132] Inner L3 type from NIC_CQE_RX_S[LETY], however if there was an LE or below
+                                                                 error, excluding checksum errors, will be 0x0. */
+		uint64_t lfty                        : 4;  /**< [139:136] Inner L4 type from NIC_CQE_RX_S[LFTY], however if there was an LF or below
+                                                                 error, excluding checksum errors, will be 0x0. */
+		uint64_t vv                          : 1;  /**< [140:140] Set if outer VLAN was found, from NIC_CQE_RX_S[VV]. */
+		uint64_t l4oam                       : 1;  /**< [141:141] Tunnel OAM bit.
+                                                                 If tunneling layer has an OAM bit.  Otherwise hardware forces it to 0. */
+		uint64_t l2_val                      : 1;  /**< [142:142] The L2 layer of the packet was valid.  This bit must be set when matching on a DEXT field. */
+		uint64_t spare                       : 1;  /**< [143:143] Reserved. Software should not compare this bit in the MCAM for forward
+                                                                 compatibility. */
+		uint64_t reserved_144_191            : 48; /**< [191:144] Reserved */
+#endif
+	} s;
+};
+
+/**
  * Structure NIC_SEND_CRC_S
  *
  * NIC Send-CRC Subdescriptor Structure
@@ -1713,12 +1844,14 @@ union nic_send_crc_s {
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
-		uint64_t iv                          : 32; /**< [ 95: 64] Initial value of the checksum. If [ALG] = CKSUM, then only bits \<15:0\> in big-endian
-                                                                 format are valid. INTERNAL: Pass 2 feature [ALG] = CRC, functional only with IV =
+		uint64_t iv                          : 32; /**< [ 95: 64] Initial value of the checksum, valid only if it is non-zero. If [ALG] = CKSUM, then only
+                                                                 bits \<15:0\> in big-endian format are valid. INTERNAL: Pass 1 feature [ALG] = CRC,
+                                                                 functional only with IV =
                                                                  0xffffffff. */
 #else
-		uint64_t iv                          : 32; /**< [ 95: 64] Initial value of the checksum. If [ALG] = CKSUM, then only bits \<15:0\> in big-endian
-                                                                 format are valid. INTERNAL: Pass 2 feature [ALG] = CRC, functional only with IV =
+		uint64_t iv                          : 32; /**< [ 95: 64] Initial value of the checksum, valid only if it is non-zero. If [ALG] = CKSUM, then only
+                                                                 bits \<15:0\> in big-endian format are valid. INTERNAL: Pass 1 feature [ALG] = CRC,
+                                                                 functional only with IV =
                                                                  0xffffffff. */
 		uint64_t reserved_96_127             : 32; /**< [127: 96] Reserved. */
 #endif
@@ -1741,11 +1874,11 @@ union nic_send_gather_s {
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Gather. Enumerated by NIC_SEND_SUBDC_E::GATHER. */
 		uint64_t ld_type                     : 2;  /**< [ 59: 58] Specifies load transaction type to use for reading segment bytes. Enumerated by
                                                                  NIC_SEND_LD_TYPE_E. */
-		uint64_t reserved_16_57              : 42; /**< [ 57: 16] Reserved. */
+		uint64_t reserved_16_57              : 42; /**< [ 57: 16] Reserved. INTERNAL: NIC hardware uses w0(16) for LDD_LAST flag. */
 		uint64_t size                        : 16; /**< [ 15:  0] Size of segment, in bytes. [SIZE] must be nonzero, else the subdescriptor is ignored. */
 #else
 		uint64_t size                        : 16; /**< [ 15:  0] Size of segment, in bytes. [SIZE] must be nonzero, else the subdescriptor is ignored. */
-		uint64_t reserved_16_57              : 42; /**< [ 57: 16] Reserved. */
+		uint64_t reserved_16_57              : 42; /**< [ 57: 16] Reserved. INTERNAL: NIC hardware uses w0(16) for LDD_LAST flag. */
 		uint64_t ld_type                     : 2;  /**< [ 59: 58] Specifies load transaction type to use for reading segment bytes. Enumerated by
                                                                  NIC_SEND_LD_TYPE_E. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Gather. Enumerated by NIC_SEND_SUBDC_E::GATHER. */
@@ -1773,9 +1906,16 @@ union nic_send_hdr_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
-		uint64_t tso                         : 1;  /**< [ 59: 59] TCP segmentation offload. When set, the send descriptor is for a TCP segmentation
+		uint64_t tso                         : 1;  /**< [ 59: 59] TCP segmentation offload. Ignored and treated as clear when NIC_PF_TSO_CFG[ENABLE] is
+                                                                 clear. When set along with NIC_PF_TSO_CFG[ENABLE], the send descriptor is for a TCP
+                                                                 segmentation
                                                                  operation to send one or more packets of a TCP flow, and the related [TSO_*] fields are
-                                                                 valid. */
+                                                                 valid.
+                                                                 TSO can be tunneled or non-tunneled as follows:
+                                                                 * If [CKLF] = NIC_SEND_CKL4_E::TCP, TSO is tunneled and [CKLF] must point to the TCP
+                                                                 header to be modified by hardware.
+                                                                 * Otherwise, TSO is non-tunneled and [CKL4] must point to the TCP
+                                                                 header to be modified by hardware. */
 		uint64_t pnc                         : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
                                                                  NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
                                                                  error. If clear, no CQE is added on normal completion.
@@ -1790,7 +1930,8 @@ union nic_send_hdr_s {
                                                                  the CQE until all NIC_SEND_MEM_S subdescriptors in the descriptor complete and commit. */
 		uint64_t ds                          : 1;  /**< [ 57: 57] Don't send. If set, NIC hardware will not send the packet bytes to the interface; however
                                                                  it will still perform any NIC_SEND_MEM_S operations. */
-		uint64_t tstmp                       : 1;  /**< [ 56: 56] PTP timestamp. When this is set, [DS] is clear and NIC_PF_QS()_CFG[SEND_TSTMP_ENA]
+		uint64_t tstmp                       : 1;  /**< [ 56: 56] PTP timestamp. When this is set, [DS] is clear, [TSO] is clear and
+                                                                 NIC_PF_QS()_CFG[SEND_TSTMP_ENA]
                                                                  is set, a CQE of NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP is posted when the
                                                                  packet is transmitted by the targeted Ethernet port. NIC_CQE_SEND_S[PTP_TIMESTAMP] is set
                                                                  to the packet's timestamp. The posted NIC_CQE_TYPE_E::SEND_PTP CQ entry is asynchronous
@@ -1803,7 +1944,7 @@ union nic_send_hdr_s {
                                                                  captured or times out.
 
                                                                  Only one timestamp operation may be outstanding at once for a given Ethernet port.
-                                                                 Ignored when [DS] is set or NIC_PF_QS()_CFG[SEND_TSTMP_ENA] is clear. */
+                                                                 Ignored when [DS] is set, [TSO] is set or NIC_PF_QS()_CFG[SEND_TSTMP_ENA] is clear. */
 		uint64_t subdcnt                     : 8;  /**< [ 55: 48] Subdescriptor count. Number of 128-bit subdescriptors following the send header
                                                                  subdescriptor, including immediate data. Must be between 1 and 255, thus the maximum send
                                                                  descriptor size is 256 subdescriptors (4KB). */
@@ -1827,7 +1968,8 @@ union nic_send_hdr_s {
                                                                  Added in pass 2. */
 		uint64_t reserved_40_41              : 2;  /**< [ 41: 40] Reserved. */
 		uint64_t l4ptr                       : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for L4
-                                                                 checksumming. The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
+                                                                 checksumming and non-tunneled TCP.
+                                                                 The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
                                                                  packet. Software might populate this field for forwarded packets from a computation based
                                                                  off NIC_CQE_RX_S[L4PTR], which is the IP location computed by NIC when the packet is
                                                                  parsed. When [CKL4] is nonzero, no L4 header bytes indicated by [L4PTR] can overlap with
@@ -1841,11 +1983,13 @@ union nic_send_hdr_s {
                                                                  calculations/modifications, then no L3 nor L2 header bytes indicated by [L3PTR] can
                                                                  overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
 		uint64_t reserved_20_23              : 4;  /**< [ 23: 20] Reserved. */
-		uint64_t total                       : 20; /**< [ 19:  0] Total Byte Count. Must be greater than 0. If [TSO] is clear, the total number of bytes to
+		uint64_t total                       : 20; /**< [ 19:  0] Total byte count. Must be greater than 0. For a non-TSO descriptor, the total number of
+                                                                 bytes to
                                                                  send, including zero pad (if any), and should not exceed the lesser of 9212 (9216 minus 4
                                                                  byte FCS) or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE].
 
-                                                                 If [TSO] is set, the total TCP payload size plus the size of the first packet's L2, L3 and
+                                                                 For a TSO send descriptor, the total TCP payload size plus the size of the first packet's
+                                                                 L2, L3 and
                                                                  L4 headers. In other words, the total TCP data payload size is [TOTAL] - [TSO_SB].
 
                                                                  [TOTAL] does not include any of the outside FCS bytes that BGX may append to the
@@ -1853,11 +1997,13 @@ union nic_send_hdr_s {
                                                                  NIC_SEND_GATHER_S[SIZE]s and NIC_SEND_IMM_S[SIZE]s in the descriptor, or when the packet
                                                                  is less than the minimum size for the interface. */
 #else
-		uint64_t total                       : 20; /**< [ 19:  0] Total Byte Count. Must be greater than 0. If [TSO] is clear, the total number of bytes to
+		uint64_t total                       : 20; /**< [ 19:  0] Total byte count. Must be greater than 0. For a non-TSO descriptor, the total number of
+                                                                 bytes to
                                                                  send, including zero pad (if any), and should not exceed the lesser of 9212 (9216 minus 4
                                                                  byte FCS) or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE].
 
-                                                                 If [TSO] is set, the total TCP payload size plus the size of the first packet's L2, L3 and
+                                                                 For a TSO send descriptor, the total TCP payload size plus the size of the first packet's
+                                                                 L2, L3 and
                                                                  L4 headers. In other words, the total TCP data payload size is [TOTAL] - [TSO_SB].
 
                                                                  [TOTAL] does not include any of the outside FCS bytes that BGX may append to the
@@ -1873,7 +2019,8 @@ union nic_send_hdr_s {
                                                                  calculations/modifications, then no L3 nor L2 header bytes indicated by [L3PTR] can
                                                                  overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
 		uint64_t l4ptr                       : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for L4
-                                                                 checksumming. The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
+                                                                 checksumming and non-tunneled TCP.
+                                                                 The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
                                                                  packet. Software might populate this field for forwarded packets from a computation based
                                                                  off NIC_CQE_RX_S[L4PTR], which is the IP location computed by NIC when the packet is
                                                                  parsed. When [CKL4] is nonzero, no L4 header bytes indicated by [L4PTR] can overlap with
@@ -1901,7 +2048,8 @@ union nic_send_hdr_s {
 		uint64_t subdcnt                     : 8;  /**< [ 55: 48] Subdescriptor count. Number of 128-bit subdescriptors following the send header
                                                                  subdescriptor, including immediate data. Must be between 1 and 255, thus the maximum send
                                                                  descriptor size is 256 subdescriptors (4KB). */
-		uint64_t tstmp                       : 1;  /**< [ 56: 56] PTP timestamp. When this is set, [DS] is clear and NIC_PF_QS()_CFG[SEND_TSTMP_ENA]
+		uint64_t tstmp                       : 1;  /**< [ 56: 56] PTP timestamp. When this is set, [DS] is clear, [TSO] is clear and
+                                                                 NIC_PF_QS()_CFG[SEND_TSTMP_ENA]
                                                                  is set, a CQE of NIC_CQE_SEND_S[CQE_TYPE] = NIC_CQE_TYPE_E::SEND_PTP is posted when the
                                                                  packet is transmitted by the targeted Ethernet port. NIC_CQE_SEND_S[PTP_TIMESTAMP] is set
                                                                  to the packet's timestamp. The posted NIC_CQE_TYPE_E::SEND_PTP CQ entry is asynchronous
@@ -1914,7 +2062,7 @@ union nic_send_hdr_s {
                                                                  captured or times out.
 
                                                                  Only one timestamp operation may be outstanding at once for a given Ethernet port.
-                                                                 Ignored when [DS] is set or NIC_PF_QS()_CFG[SEND_TSTMP_ENA] is clear. */
+                                                                 Ignored when [DS] is set, [TSO] is set or NIC_PF_QS()_CFG[SEND_TSTMP_ENA] is clear. */
 		uint64_t ds                          : 1;  /**< [ 57: 57] Don't send. If set, NIC hardware will not send the packet bytes to the interface; however
                                                                  it will still perform any NIC_SEND_MEM_S operations. */
 		uint64_t pnc                         : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
@@ -1929,47 +2077,62 @@ union nic_send_hdr_s {
                                                                  fetches that service all prior NIC_SEND_GATHER_S subdescriptors, and it has fetched all
                                                                  subdescriptors in the send descriptor. If NIC_SEND_MEM_S[WMEM]=1, NIC also will not post
                                                                  the CQE until all NIC_SEND_MEM_S subdescriptors in the descriptor complete and commit. */
-		uint64_t tso                         : 1;  /**< [ 59: 59] TCP segmentation offload. When set, the send descriptor is for a TCP segmentation
+		uint64_t tso                         : 1;  /**< [ 59: 59] TCP segmentation offload. Ignored and treated as clear when NIC_PF_TSO_CFG[ENABLE] is
+                                                                 clear. When set along with NIC_PF_TSO_CFG[ENABLE], the send descriptor is for a TCP
+                                                                 segmentation
                                                                  operation to send one or more packets of a TCP flow, and the related [TSO_*] fields are
-                                                                 valid. */
+                                                                 valid.
+                                                                 TSO can be tunneled or non-tunneled as follows:
+                                                                 * If [CKLF] = NIC_SEND_CKL4_E::TCP, TSO is tunneled and [CKLF] must point to the TCP
+                                                                 header to be modified by hardware.
+                                                                 * Otherwise, TSO is non-tunneled and [CKL4] must point to the TCP
+                                                                 header to be modified by hardware. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_104_127            : 24; /**< [127:104] Reserved. */
-		uint64_t lfptr                       : 8;  /**< [103: 96] Inner Layer 4 Offset. Similar to [L4PTR] but for inner L4 as directed by [CKLF]. If
-                                                                 [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be \> [L4PTR] + 20.
+		uint64_t reserved_104_127            : 24; /**< [127:104] Reserved. INTERNAL: NIC hardware uses this for TSO_FLAGS_MASK and TSO_PKTNUM. */
+		uint64_t lfptr                       : 8;  /**< [103: 96] Inner Layer 4 Offset. Similar to [L4PTR], but specifies the location of the first byte of
+                                                                 inner the TCP/UDP header for inner L4 checksumming and tunneled TCP, as directed by
+                                                                 [CKLF].
+                                                                 If [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be \> [L4PTR] + 20.
                                                                  Added in pass 2. */
 		uint64_t leptr                       : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Similar to [L3PTR] but for inner IP as directed by [CKLE]. If
                                                                  [CKLE] and [CKL3] are set, then [LEPTR] must be \> [L3PTR] + 20.
                                                                  Added in pass 2. */
 		uint64_t tso_sb                      : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
-                                                                 the size of the headers preceding the payload). Must be less than [TOTAL], else the send
-                                                                 descriptor is treated as non-TSO.
+                                                                 the size of the headers preceding the payload). Must be non-zero and less than [TOTAL],
+                                                                 else the send descriptor is treated as non-TSO.
+
                                                                  Added in pass 2. */
-		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. */
+		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. INTERNAL: NIC hardware uses this for TSO_FIRST and TSO_LAST. */
 		uint64_t tso_mps                     : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
                                                                  size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which should not exceed the
                                                                  lesser of 9212 bytes or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]. Must be non-zero, else the send
                                                                  descriptor is treated as non-TSO.
+                                                                 Must be greater than 256 to ensure a unique IPv4 ID per segment.
                                                                  Added in pass 2. */
 #else
 		uint64_t tso_mps                     : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
                                                                  size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which should not exceed the
                                                                  lesser of 9212 bytes or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]. Must be non-zero, else the send
                                                                  descriptor is treated as non-TSO.
+                                                                 Must be greater than 256 to ensure a unique IPv4 ID per segment.
                                                                  Added in pass 2. */
-		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. */
+		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. INTERNAL: NIC hardware uses this for TSO_FIRST and TSO_LAST. */
 		uint64_t tso_sb                      : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
-                                                                 the size of the headers preceding the payload). Must be less than [TOTAL], else the send
-                                                                 descriptor is treated as non-TSO.
+                                                                 the size of the headers preceding the payload). Must be non-zero and less than [TOTAL],
+                                                                 else the send descriptor is treated as non-TSO.
+
                                                                  Added in pass 2. */
 		uint64_t leptr                       : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Similar to [L3PTR] but for inner IP as directed by [CKLE]. If
                                                                  [CKLE] and [CKL3] are set, then [LEPTR] must be \> [L3PTR] + 20.
                                                                  Added in pass 2. */
-		uint64_t lfptr                       : 8;  /**< [103: 96] Inner Layer 4 Offset. Similar to [L4PTR] but for inner L4 as directed by [CKLF]. If
-                                                                 [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be \> [L4PTR] + 20.
+		uint64_t lfptr                       : 8;  /**< [103: 96] Inner Layer 4 Offset. Similar to [L4PTR], but specifies the location of the first byte of
+                                                                 inner the TCP/UDP header for inner L4 checksumming and tunneled TCP, as directed by
+                                                                 [CKLF].
+                                                                 If [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be \> [L4PTR] + 20.
                                                                  Added in pass 2. */
-		uint64_t reserved_104_127            : 24; /**< [127:104] Reserved. */
+		uint64_t reserved_104_127            : 24; /**< [127:104] Reserved. INTERNAL: NIC hardware uses this for TSO_FLAGS_MASK and TSO_PKTNUM. */
 #endif
 	} s;
 };
@@ -1992,7 +2155,7 @@ union nic_send_imm_s {
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Immediate. Enumerated by NIC_SEND_SUBDC_E::IMM. */
-		uint64_t reserved_12_59              : 48; /**< [ 59: 12] Reserved. */
+		uint64_t reserved_12_59              : 48; /**< [ 59: 12] Reserved. INTERNAL: NIC hardware uses w0(15..12) for OFFSET (TSO skip byte offset). */
 		uint64_t size                        : 12; /**< [ 11:  0] Size of immediate data in bytes immediately following this subdescriptor, including the
                                                                  first 8 bytes in the [DATA] field. Size must be between 1 and 4072, and the total send
                                                                  descriptor size cannot exceed 4096 bytes. The next subdescriptor will follow SIZE+8 bytes
@@ -2004,7 +2167,7 @@ union nic_send_imm_s {
                                                                  descriptor size cannot exceed 4096 bytes. The next subdescriptor will follow SIZE+8 bytes
                                                                  later, rounded up to the next 16-byte aligned boundary. The subdescriptor is ignored if
                                                                  SIZE is 0x0. */
-		uint64_t reserved_12_59              : 48; /**< [ 59: 12] Reserved. */
+		uint64_t reserved_12_59              : 48; /**< [ 59: 12] Reserved. INTERNAL: NIC hardware uses w0(15..12) for OFFSET (TSO skip byte offset). */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates Send Immediate. Enumerated by NIC_SEND_SUBDC_E::IMM. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -2023,6 +2186,9 @@ union nic_send_imm_s {
  * will not initiate the memory update for this subdescriptor until after it has processed all
  * other subdescriptors for the packet and all L2/DRAM fetches that service all NIC_SEND_GATHER_S
  * subdescriptors.
+ *
+ * The atomic memory operation is big-endian if NIC_PF_QS()_CFG[BE] is set and little-endian
+ * otherwise.
  *
  * Performance is best if a memory decrement by one is used rather than any other memory
  * set/increment/decrement. (Less internal bus bandwidth is used with memory decrements by one.)
@@ -2084,6 +2250,21 @@ typedef union bdk_nic_pf_bist0_status {
 	uint64_t u;
 	struct bdk_nic_pf_bist0_status_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< RO/H - Group 0 Block 3 memories.
+                                                                 Added in pass 2. */
+		uint64_t blk2                        : 16; /**< RO/H - Group 0 Block 2 memories. */
+		uint64_t blk1                        : 8;  /**< RO/H - Group 0 Block 1 memories. */
+		uint64_t blk0                        : 8;  /**< RO/H - Group 0 Block 0 memories. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_bist0_status_s   cn88xx; */
+	struct bdk_nic_pf_bist0_status_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< RO/H - Group 0 Block 2 memories. */
 		uint64_t blk1                        : 8;  /**< RO/H - Group 0 Block 1 memories. */
@@ -2094,9 +2275,7 @@ typedef union bdk_nic_pf_bist0_status {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_bist0_status_s   cn88xx; */
-	/* struct bdk_nic_pf_bist0_status_s   cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_bist0_status_t;
 
 #define BDK_NIC_PF_BIST0_STATUS BDK_NIC_PF_BIST0_STATUS_FUNC()
@@ -2216,6 +2395,41 @@ static inline uint64_t BDK_NIC_PF_BIST3_STATUS_FUNC(void)
 #define busnum_BDK_NIC_PF_BIST3_STATUS 0
 #define arguments_BDK_NIC_PF_BIST3_STATUS -1,-1,-1,-1
 #define basename_BDK_NIC_PF_BIST3_STATUS "NIC_PF_BIST3_STATUS"
+
+
+/**
+ * NCB - nic_pf_bist4_status
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_bist4_status {
+	uint64_t u;
+	struct bdk_nic_pf_bist4_status_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_3_63               : 61;
+		uint64_t mcam                        : 3;  /**< RO/H - MCAM bist status signals. */
+#else
+		uint64_t mcam                        : 3;
+		uint64_t reserved_3_63               : 61;
+#endif
+	} s;
+	/* struct bdk_nic_pf_bist4_status_s   cn88xx; */
+} bdk_nic_pf_bist4_status_t;
+
+#define BDK_NIC_PF_BIST4_STATUS BDK_NIC_PF_BIST4_STATUS_FUNC()
+static inline uint64_t BDK_NIC_PF_BIST4_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_BIST4_STATUS_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x00008430000012A0ull;
+	else 		csr_fatal("BDK_NIC_PF_BIST4_STATUS", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_BIST4_STATUS bdk_nic_pf_bist4_status_t
+#define bustype_BDK_NIC_PF_BIST4_STATUS BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_BIST4_STATUS 0
+#define arguments_BDK_NIC_PF_BIST4_STATUS -1,-1,-1,-1
+#define basename_BDK_NIC_PF_BIST4_STATUS "NIC_PF_BIST4_STATUS"
 
 
 /**
@@ -2741,6 +2955,66 @@ typedef union bdk_nic_pf_ecc0_cdis {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_cdis_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< R/W - Group 0 Block 3 memories.
+                                                                 Added in pass 2.
+
+                                                                 INTERNAL: REB memories:
+
+                                                                 Pass 1:
+                                                                   \<31:0\> = Reserved
+
+                                                                 Pass 2+:
+                                                                   \<31:26\> = Reserved.
+                                                                   \<25\>  =
+                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
+                                                                 mem_128x128.
+                                                                   \<24\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   \<23:16\>  =
+                                                                 nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   \<15:8\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
+                                                                   \<7:0\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
+		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
+
+                                                                 Changed in pass 2.
+
+                                                                 Pass 1:
+                                                                   \<15:9\> = Reserved.
+                                                                   \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   \<6:5\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   \<4:3\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
+                                                                   \<2:1\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_128x132.nic_reb_fifomem.
+                                                                   \<0\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+
+                                                                 Pass 2+:
+                                                                   \<15:0\> = Reserved. */
+		uint64_t blk1                        : 8;  /**< R/W - Group 0 Block 1 memories. INTERNAL: CSI memories:
+                                                                 \<7:0\> = Reserved.
+                                                                 \<4\>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
+                                                                 \<3\>   = nic_l.core.csi.rpi.msix_pmem.
+                                                                 \<2\>   = nic_l.core.csi.rpi.msix_vmem.
+                                                                 \<1\>   = nic_l.core.csi.mbox.mbox_mem_mem.
+                                                                 \<0\>   = nic_l.core.csi.bcast.bcast_mem_mem. */
+		uint64_t blk0                        : 8;  /**< R/W - Group 0 Block 0 memories. INTERNAL: CQM memories:
+                                                                 \<7:2\> = Reserved.
+                                                                 \<1\>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
+                                                                 \<0\>   = nic_l.core.cqm.cin.cq.cq_mem. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_ecc0_cdis_s      cn88xx; */
+	struct bdk_nic_pf_ecc0_cdis_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
 
@@ -2777,9 +3051,7 @@ typedef union bdk_nic_pf_ecc0_cdis {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_ecc0_cdis_s      cn88xx; */
-	/* struct bdk_nic_pf_ecc0_cdis_s      cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_ecc0_cdis_t;
 
 #define BDK_NIC_PF_ECC0_CDIS BDK_NIC_PF_ECC0_CDIS_FUNC()
@@ -2802,6 +3074,21 @@ typedef union bdk_nic_pf_ecc0_dbe_ena_w1c {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_dbe_ena_w1c_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< R/W1C/H - Group 0 Block 3 memories.
+                                                                 Added in pass 2. */
+		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
+		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
+		uint64_t blk0                        : 8;  /**< R/W1C/H - Group 0 Block 0 memories. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn88xx; */
+	struct bdk_nic_pf_ecc0_dbe_ena_w1c_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
 		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
@@ -2812,9 +3099,7 @@ typedef union bdk_nic_pf_ecc0_dbe_ena_w1c {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn88xx; */
-	/* struct bdk_nic_pf_ecc0_dbe_ena_w1c_s cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_ecc0_dbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC0_DBE_ENA_W1C BDK_NIC_PF_ECC0_DBE_ENA_W1C_FUNC()
@@ -2837,6 +3122,21 @@ typedef union bdk_nic_pf_ecc0_dbe_ena_w1s {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_dbe_ena_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< R/W1C/H - Group 0 Block 3 memories.
+                                                                 Added in pass 2. */
+		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
+		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
+		uint64_t blk0                        : 8;  /**< R/W1C/H - Group 0 Block 0 memories. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn88xx; */
+	struct bdk_nic_pf_ecc0_dbe_ena_w1s_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
 		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
@@ -2847,9 +3147,7 @@ typedef union bdk_nic_pf_ecc0_dbe_ena_w1s {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn88xx; */
-	/* struct bdk_nic_pf_ecc0_dbe_ena_w1s_s cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_ecc0_dbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC0_DBE_ENA_W1S BDK_NIC_PF_ECC0_DBE_ENA_W1S_FUNC()
@@ -2875,6 +3173,21 @@ typedef union bdk_nic_pf_ecc0_dbe_int {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_dbe_int_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< R/W1C/H - Group 0 Block 3 memories.
+                                                                 Added in pass 2. */
+		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
+		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
+		uint64_t blk0                        : 8;  /**< R/W1C/H - Group 0 Block 0 memories. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_ecc0_dbe_int_s   cn88xx; */
+	struct bdk_nic_pf_ecc0_dbe_int_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
 		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
@@ -2885,9 +3198,7 @@ typedef union bdk_nic_pf_ecc0_dbe_int {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_ecc0_dbe_int_s   cn88xx; */
-	/* struct bdk_nic_pf_ecc0_dbe_int_s   cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_ecc0_dbe_int_t;
 
 #define BDK_NIC_PF_ECC0_DBE_INT BDK_NIC_PF_ECC0_DBE_INT_FUNC()
@@ -2910,6 +3221,21 @@ typedef union bdk_nic_pf_ecc0_dbe_int_w1s {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_dbe_int_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< R/W1C/H - Group 0 Block 3 memories.
+                                                                 Added in pass 2. */
+		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
+		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
+		uint64_t blk0                        : 8;  /**< R/W1C/H - Group 0 Block 0 memories. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn88xx; */
+	struct bdk_nic_pf_ecc0_dbe_int_w1s_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
 		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
@@ -2920,9 +3246,7 @@ typedef union bdk_nic_pf_ecc0_dbe_int_w1s {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn88xx; */
-	/* struct bdk_nic_pf_ecc0_dbe_int_w1s_s cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_ecc0_dbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC0_DBE_INT_W1S BDK_NIC_PF_ECC0_DBE_INT_W1S_FUNC()
@@ -2948,6 +3272,66 @@ typedef union bdk_nic_pf_ecc0_flip0 {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_flip0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< R/W - Group 0 Block 3 memories.
+                                                                 Added in pass 2.
+
+                                                                 INTERNAL: REB memories:
+
+                                                                 Pass 1:
+                                                                   \<31:0\> = Reserved
+
+                                                                 Pass 2+:
+                                                                   \<31:26\> = Reserved.
+                                                                   \<25\>  =
+                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
+                                                                 mem_128x128.
+                                                                   \<24\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   \<23:16\>  =
+                                                                 nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   \<15:8\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
+                                                                   \<7:0\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
+		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
+
+                                                                 Changed in pass 2.
+
+                                                                 Pass 1:
+                                                                   \<15:9\> = Reserved.
+                                                                   \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   \<6:5\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   \<4:3\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
+                                                                   \<2:1\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_128x132.nic_reb_fifomem.
+                                                                   \<0\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+
+                                                                 Pass 2+:
+                                                                   \<15:0\> = Reserved. */
+		uint64_t blk1                        : 8;  /**< R/W - Group 0 Block 1 memories. INTERNAL: CSI memories:
+                                                                 \<7:0\> = Reserved.
+                                                                 \<4\>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
+                                                                 \<3\>   = nic_l.core.csi.rpi.msix_pmem.
+                                                                 \<2\>   = nic_l.core.csi.rpi.msix_vmem.
+                                                                 \<1\>   = nic_l.core.csi.mbox.mbox_mem_mem.
+                                                                 \<0\>   = nic_l.core.csi.bcast.bcast_mem_mem. */
+		uint64_t blk0                        : 8;  /**< R/W - Group 0 Block 0 memories. INTERNAL: CQM memories:
+                                                                 \<7:2\> = Reserved.
+                                                                 \<1\>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
+                                                                 \<0\>   = nic_l.core.cqm.cin.cq.cq_mem. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_ecc0_flip0_s     cn88xx; */
+	struct bdk_nic_pf_ecc0_flip0_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
 
@@ -2984,9 +3368,7 @@ typedef union bdk_nic_pf_ecc0_flip0 {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_ecc0_flip0_s     cn88xx; */
-	/* struct bdk_nic_pf_ecc0_flip0_s     cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_ecc0_flip0_t;
 
 #define BDK_NIC_PF_ECC0_FLIP0 BDK_NIC_PF_ECC0_FLIP0_FUNC()
@@ -3012,6 +3394,66 @@ typedef union bdk_nic_pf_ecc0_flip1 {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_flip1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< R/W - Group 0 Block 3 memories.
+                                                                 Added in pass 2.
+
+                                                                 INTERNAL: REB memories:
+
+                                                                 Pass 1:
+                                                                   \<31:0\> = Reserved
+
+                                                                 Pass 2+:
+                                                                   \<31:26\> = Reserved.
+                                                                   \<25\>  =
+                                                                 nic_l.core.reb.nic_reb_core.nic_reb_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifo
+                                                                 mem_128x128.
+                                                                   \<24\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+                                                                   \<23:16\>  =
+                                                                 nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   \<15:8\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_no_rd_lat.nic_reb_fifo.nic_reb_fifomem.
+                                                                   \<7:0\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{7..0}.nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_bulk.nic_reb_fifomem. */
+		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
+
+                                                                 Changed in pass 2.
+
+                                                                 Pass 1:
+                                                                   \<15:9\> = Reserved.
+                                                                   \<8:7\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.nic_reb_cqe_stdn_buffer.nic_reb_fifo_128x128.nic_reb_fifomem_128x128.
+                                                                   \<6:5\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_cq_pi
+                                                                 peline.cq_main_body_fifo.nic_reb_fifo_16x128.nic_reb_fifomem_16x128.
+                                                                   \<4:3\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_ncx_f
+                                                                 ifo.nic_reb_fifo_35x144_no_rd_lat.nic_reb_fifo_32x144.nic_reb_fifomem_32x144.
+                                                                   \<2:1\>  = nic_l.core.reb.nic_reb_core.reb_pipeline{1..0}.nic_reb_data_proc.nic_reb_datap
+                                                                 ath_fifo.nic_reb_fifo_128x132.nic_reb_fifomem.
+                                                                   \<0\>  = nic_l.core.reb.nic_reb_core.nic_reb_resp_fifo.data_fifo.nic_reb_fifomem.
+
+                                                                 Pass 2+:
+                                                                   \<15:0\> = Reserved. */
+		uint64_t blk1                        : 8;  /**< R/W - Group 0 Block 1 memories. INTERNAL: CSI memories:
+                                                                 \<7:0\> = Reserved.
+                                                                 \<4\>   = nic_l.core.csi.rpi.vfi.int_mem_mem.
+                                                                 \<3\>   = nic_l.core.csi.rpi.msix_pmem.
+                                                                 \<2\>   = nic_l.core.csi.rpi.msix_vmem.
+                                                                 \<1\>   = nic_l.core.csi.mbox.mbox_mem_mem.
+                                                                 \<0\>   = nic_l.core.csi.bcast.bcast_mem_mem. */
+		uint64_t blk0                        : 8;  /**< R/W - Group 0 Block 0 memories. INTERNAL: CQM memories:
+                                                                 \<7:2\> = Reserved.
+                                                                 \<1\>   = nic_l.core.cqm.cin.cq_timer.cq_timer_mem.
+                                                                 \<0\>   = nic_l.core.cqm.cin.cq.cq_mem. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_ecc0_flip1_s     cn88xx; */
+	struct bdk_nic_pf_ecc0_flip1_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W - Group 0 Block 2 memories. INTERNAL: REB memories:
 
@@ -3048,9 +3490,7 @@ typedef union bdk_nic_pf_ecc0_flip1 {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_ecc0_flip1_s     cn88xx; */
-	/* struct bdk_nic_pf_ecc0_flip1_s     cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_ecc0_flip1_t;
 
 #define BDK_NIC_PF_ECC0_FLIP1 BDK_NIC_PF_ECC0_FLIP1_FUNC()
@@ -3073,6 +3513,21 @@ typedef union bdk_nic_pf_ecc0_sbe_ena_w1c {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_sbe_ena_w1c_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< R/W1C/H - Group 0 Block 3 memories.
+                                                                 Added in pass 2. */
+		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
+		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
+		uint64_t blk0                        : 8;  /**< R/W1C/H - Group 0 Block 0 memories. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn88xx; */
+	struct bdk_nic_pf_ecc0_sbe_ena_w1c_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
 		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
@@ -3083,9 +3538,7 @@ typedef union bdk_nic_pf_ecc0_sbe_ena_w1c {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn88xx; */
-	/* struct bdk_nic_pf_ecc0_sbe_ena_w1c_s cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_ecc0_sbe_ena_w1c_t;
 
 #define BDK_NIC_PF_ECC0_SBE_ENA_W1C BDK_NIC_PF_ECC0_SBE_ENA_W1C_FUNC()
@@ -3108,6 +3561,21 @@ typedef union bdk_nic_pf_ecc0_sbe_ena_w1s {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_sbe_ena_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< R/W1C/H - Group 0 Block 3 memories.
+                                                                 Added in pass 2. */
+		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
+		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
+		uint64_t blk0                        : 8;  /**< R/W1C/H - Group 0 Block 0 memories. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn88xx; */
+	struct bdk_nic_pf_ecc0_sbe_ena_w1s_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
 		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
@@ -3118,9 +3586,7 @@ typedef union bdk_nic_pf_ecc0_sbe_ena_w1s {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn88xx; */
-	/* struct bdk_nic_pf_ecc0_sbe_ena_w1s_s cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_ecc0_sbe_ena_w1s_t;
 
 #define BDK_NIC_PF_ECC0_SBE_ENA_W1S BDK_NIC_PF_ECC0_SBE_ENA_W1S_FUNC()
@@ -3146,6 +3612,21 @@ typedef union bdk_nic_pf_ecc0_sbe_int {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_sbe_int_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< R/W1C/H - Group 0 Block 3 memories.
+                                                                 Added in pass 2. */
+		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
+		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
+		uint64_t blk0                        : 8;  /**< R/W1C/H - Group 0 Block 0 memories. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_ecc0_sbe_int_s   cn88xx; */
+	struct bdk_nic_pf_ecc0_sbe_int_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
 		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
@@ -3156,9 +3637,7 @@ typedef union bdk_nic_pf_ecc0_sbe_int {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_ecc0_sbe_int_s   cn88xx; */
-	/* struct bdk_nic_pf_ecc0_sbe_int_s   cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_ecc0_sbe_int_t;
 
 #define BDK_NIC_PF_ECC0_SBE_INT BDK_NIC_PF_ECC0_SBE_INT_FUNC()
@@ -3181,6 +3660,21 @@ typedef union bdk_nic_pf_ecc0_sbe_int_w1s {
 	uint64_t u;
 	struct bdk_nic_pf_ecc0_sbe_int_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t blk3                        : 32; /**< R/W1C/H - Group 0 Block 3 memories.
+                                                                 Added in pass 2. */
+		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
+		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
+		uint64_t blk0                        : 8;  /**< R/W1C/H - Group 0 Block 0 memories. */
+#else
+		uint64_t blk0                        : 8;
+		uint64_t blk1                        : 8;
+		uint64_t blk2                        : 16;
+		uint64_t blk3                        : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn88xx; */
+	struct bdk_nic_pf_ecc0_sbe_int_w1s_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
 		uint64_t blk2                        : 16; /**< R/W1C/H - Group 0 Block 2 memories. */
 		uint64_t blk1                        : 8;  /**< R/W1C/H - Group 0 Block 1 memories. */
@@ -3191,9 +3685,7 @@ typedef union bdk_nic_pf_ecc0_sbe_int_w1s {
 		uint64_t blk2                        : 16;
 		uint64_t reserved_32_63              : 32;
 #endif
-	} s;
-	/* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn88xx; */
-	/* struct bdk_nic_pf_ecc0_sbe_int_w1s_s cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_ecc0_sbe_int_w1s_t;
 
 #define BDK_NIC_PF_ECC0_SBE_INT_W1S BDK_NIC_PF_ECC0_SBE_INT_W1S_FUNC()
@@ -3261,7 +3753,7 @@ typedef union bdk_nic_pf_ecc1_cdis {
 
                                                                  Pass 2+:
                                                                    \<23:20\> = Reserved.
-                                                                   \<19:18\> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   \<19:17\> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    \<16\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                    \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
@@ -3483,7 +3975,7 @@ typedef union bdk_nic_pf_ecc1_flip0 {
 
                                                                  Pass 2+:
                                                                    \<23:20\> = Reserved.
-                                                                   \<19:18\> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   \<19:17\> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    \<16\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                    \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
@@ -3570,7 +4062,7 @@ typedef union bdk_nic_pf_ecc1_flip1 {
 
                                                                  Pass 2+:
                                                                    \<23:20\> = Reserved.
-                                                                   \<19:18\> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
+                                                                   \<19:17\> = nic_l.core.rqm.nic_rqm_rq_wrap.mcam_wrap.mram_ecc.loop{2..0}.mem
                                                                    \<16\>  = nic_l.core.rqm.nic_rqm_rss_wrap.nic_pf_mpi_cfg_regs.
                                                                    \<15\> = nic_l.core.rqm.nic_rqm_rq_wrap.pf_qs_rq_cfg_regs.
                                                                    \<14\> = nic_l.core.rqm.nic_rqm_rq_wrap.qs_rq_gen_cfg_regs.
@@ -3752,7 +4244,8 @@ typedef union bdk_nic_pf_ecc2_cdis {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_50_63              : 14;
 		uint64_t blk0                        : 50; /**< R/W - Group 2 Block 0 memories. INTERNAL: SEB memories.
-                                                                 \<49:42\> = Reserved.
+                                                                 \<49:43\> = Reserved.
+                                                                 \<42\>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  \<41\>    = nic_u1.seb.mem.dmem.simm_fptr.
                                                                  \<40:39\> = nic_u1.seb.mem.dmem.simm_iptr_fifos{1..0}.simm_iptr.
                                                                  \<38:37\> = nic_u1.seb.mem.dmem.simm_fpa_mem{1..0}.simm_dmem.
@@ -3762,8 +4255,8 @@ typedef union bdk_nic_pf_ecc2_cdis {
                                                                  \<29\>    = nic_u1.seb.mem.dmem.dsze_fptr.
                                                                  \<28:27\> = nic_u1.seb.mem.dmem.dsze_iptr_fifos{1..0}.dsze_iptr.
                                                                  \<26:25\> = nic_u1.seb.mem.dmem.dsze_fpa_mem{1..0}.dsze_dmem.
-                                                                 \<24\>    = nic_u1.seb.mem.dmem.lock_data.
-                                                                 \<23\>    = nic_u1.seb.mem.dmem.lock_be.
+                                                                 \<24\>    = nic_u1.seb.mem.dmem.lock_be
+                                                                 \<23\>    = nic_u1.seb.mem.dmem.lock_data
                                                                  \<22:21\> = nic_u1.seb.mem.imem.crc_dmem{1..0}.crc_drf.
                                                                  \<20:19\> = nic_u1.seb.mem.imem.smem_dmem{1..0}.smem_drf.
                                                                  \<18\>    = nic_u1.seb.ctx.fptr.
@@ -3938,7 +4431,8 @@ typedef union bdk_nic_pf_ecc2_flip0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_50_63              : 14;
 		uint64_t blk0                        : 50; /**< R/W - Group 2 Block 0 memories. INTERNAL: SEB memories.
-                                                                 \<49:42\> = Reserved.
+                                                                 \<49:43\> = Reserved.
+                                                                 \<42\>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  \<41\>    = nic_u1.seb.mem.dmem.simm_fptr.
                                                                  \<40:39\> = nic_u1.seb.mem.dmem.simm_iptr_fifos{1..0}.simm_iptr.
                                                                  \<38:37\> = nic_u1.seb.mem.dmem.simm_fpa_mem{1..0}.simm_dmem.
@@ -3948,8 +4442,8 @@ typedef union bdk_nic_pf_ecc2_flip0 {
                                                                  \<29\>    = nic_u1.seb.mem.dmem.dsze_fptr.
                                                                  \<28:27\> = nic_u1.seb.mem.dmem.dsze_iptr_fifos{1..0}.dsze_iptr.
                                                                  \<26:25\> = nic_u1.seb.mem.dmem.dsze_fpa_mem{1..0}.dsze_dmem.
-                                                                 \<24\>    = nic_u1.seb.mem.dmem.lock_data.
-                                                                 \<23\>    = nic_u1.seb.mem.dmem.lock_be.
+                                                                 \<24\>    = nic_u1.seb.mem.dmem.lock_be
+                                                                 \<23\>    = nic_u1.seb.mem.dmem.lock_data
                                                                  \<22:21\> = nic_u1.seb.mem.imem.crc_dmem{1..0}.crc_drf.
                                                                  \<20:19\> = nic_u1.seb.mem.imem.smem_dmem{1..0}.smem_drf.
                                                                  \<18\>    = nic_u1.seb.ctx.fptr.
@@ -3997,7 +4491,8 @@ typedef union bdk_nic_pf_ecc2_flip1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_50_63              : 14;
 		uint64_t blk0                        : 50; /**< R/W - Group 2 Block 0 memories. INTERNAL: SEB memories.
-                                                                 \<49:42\> = Reserved.
+                                                                 \<49:43\> = Reserved.
+                                                                 \<42\>    = nic_u1.seb.mem.dmem.tso_crc.
                                                                  \<41\>    = nic_u1.seb.mem.dmem.simm_fptr.
                                                                  \<40:39\> = nic_u1.seb.mem.dmem.simm_iptr_fifos{1..0}.simm_iptr.
                                                                  \<38:37\> = nic_u1.seb.mem.dmem.simm_fpa_mem{1..0}.simm_dmem.
@@ -4007,8 +4502,8 @@ typedef union bdk_nic_pf_ecc2_flip1 {
                                                                  \<29\>    = nic_u1.seb.mem.dmem.dsze_fptr.
                                                                  \<28:27\> = nic_u1.seb.mem.dmem.dsze_iptr_fifos{1..0}.dsze_iptr.
                                                                  \<26:25\> = nic_u1.seb.mem.dmem.dsze_fpa_mem{1..0}.dsze_dmem.
-                                                                 \<24\>    = nic_u1.seb.mem.dmem.lock_data.
-                                                                 \<23\>    = nic_u1.seb.mem.dmem.lock_be.
+                                                                 \<24\>    = nic_u1.seb.mem.dmem.lock_be
+                                                                 \<23\>    = nic_u1.seb.mem.dmem.lock_data
                                                                  \<22:21\> = nic_u1.seb.mem.imem.crc_dmem{1..0}.crc_drf.
                                                                  \<20:19\> = nic_u1.seb.mem.imem.smem_dmem{1..0}.smem_drf.
                                                                  \<18\>    = nic_u1.seb.ctx.fptr.
@@ -4198,10 +4693,10 @@ typedef union bdk_nic_pf_ecc3_cdis {
                                                                    \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    \<0\>  = nic_u1.sqm.mqm.mdmem_mem.
 
-                                                                 Pass 2+ (add tsosn_mem, mdmem2_mem, remove lock_mem):
+                                                                 Pass 2+ (add tsopn_mem, mdmem2_mem, remove lock_mem):
                                                                    \<15:13\> = Reserved.
                                                                    \<12\> = nic_u1.sqm.mqm.mdmem2_mem.
-                                                                   \<11\> = nic_u1.sqm.dse.send.tsosn_mem.
+                                                                   \<11\> = nic_u1.sqm.dse.send.tsopn_mem.
                                                                    \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
                                                                    \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
                                                                    \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
@@ -4215,41 +4710,21 @@ typedef union bdk_nic_pf_ecc3_cdis {
                                                                    \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
 		uint64_t blk0                        : 24; /**< R/W - Group 3 Block 0 memories. INTERNAL: SPS memories:
 
-                                                                 Pass 1:
-                                                                   \<23:18\> = Reserved
-                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
-                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
-                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
-                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                   \<13\> = nic_u2.sps.tl4.mem.ptrmem.
-                                                                   \<12\> = nic_u2.sps.tl4.mem.aggrmem.
-                                                                   \<11:9\> = Reserved
-                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
-                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
-                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
-                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
-                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                   \<3\>  = nic_u2.sps.tl3.mem.aggrmem.
-                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
-                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
-                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem.
-
-                                                                 Pass 2+:
-                                                                   \<23:18\> = Reserved
-                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
-                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
-                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
-                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                   \<13:9\> = Reserved
-                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
-                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
-                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
-                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
-                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                   \<3\>  = Reserved
-                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
-                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
-                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
+                                                                 \<23:18\> = Reserved
+                                                                 \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
+                                                                 \<16\> = nic_u2.sps.tl4.mem.rtmem.
+                                                                 \<15\> = nic_u2.sps.tl4.mem.stsmem.
+                                                                 \<14\> = nic_u2.sps.tl4.mem.stdmem.
+                                                                 \<13:9\> = Reserved
+                                                                 \<8\>  = nic_u2.sps.tl3.mem.rtmem.
+                                                                 \<7\>  = nic_u2.sps.tl3.mem.stsmem.
+                                                                 \<6\>  = nic_u2.sps.tl3.mem.stdmem.
+                                                                 \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
+                                                                 \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
+                                                                 \<3\>  = Reserved
+                                                                 \<2\>  = nic_u2.sps.tl2.mem.rtmem.
+                                                                 \<1\>  = nic_u2.sps.tl2.mem.stsmem.
+                                                                 \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
 #else
 		uint64_t blk0                        : 24;
 		uint64_t blk1                        : 16;
@@ -4435,10 +4910,10 @@ typedef union bdk_nic_pf_ecc3_flip0 {
                                                                    \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    \<0\>  = nic_u1.sqm.mqm.mdmem_mem.
 
-                                                                 Pass 2+ (add tsosn_mem, mdmem2_mem, remove lock_mem):
+                                                                 Pass 2+ (add tsopn_mem, mdmem2_mem, remove lock_mem):
                                                                    \<15:13\> = Reserved.
                                                                    \<12\> = nic_u1.sqm.mqm.mdmem2_mem.
-                                                                   \<11\> = nic_u1.sqm.dse.send.tsosn_mem.
+                                                                   \<11\> = nic_u1.sqm.dse.send.tsopn_mem.
                                                                    \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
                                                                    \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
                                                                    \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
@@ -4452,41 +4927,21 @@ typedef union bdk_nic_pf_ecc3_flip0 {
                                                                    \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
 		uint64_t blk0                        : 24; /**< R/W - Group 3 Block 0 memories. INTERNAL: SPS memories:
 
-                                                                 Pass 1:
-                                                                   \<23:18\> = Reserved
-                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
-                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
-                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
-                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                   \<13\> = nic_u2.sps.tl4.mem.ptrmem.
-                                                                   \<12\> = nic_u2.sps.tl4.mem.aggrmem.
-                                                                   \<11:9\> = Reserved
-                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
-                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
-                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
-                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
-                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                   \<3\>  = nic_u2.sps.tl3.mem.aggrmem.
-                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
-                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
-                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem.
-
-                                                                 Pass 2+:
-                                                                   \<23:18\> = Reserved
-                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
-                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
-                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
-                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                   \<13:9\> = Reserved
-                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
-                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
-                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
-                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
-                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                   \<3\>  = Reserved
-                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
-                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
-                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
+                                                                 \<23:18\> = Reserved
+                                                                 \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
+                                                                 \<16\> = nic_u2.sps.tl4.mem.rtmem.
+                                                                 \<15\> = nic_u2.sps.tl4.mem.stsmem.
+                                                                 \<14\> = nic_u2.sps.tl4.mem.stdmem.
+                                                                 \<13:9\> = Reserved
+                                                                 \<8\>  = nic_u2.sps.tl3.mem.rtmem.
+                                                                 \<7\>  = nic_u2.sps.tl3.mem.stsmem.
+                                                                 \<6\>  = nic_u2.sps.tl3.mem.stdmem.
+                                                                 \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
+                                                                 \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
+                                                                 \<3\>  = Reserved
+                                                                 \<2\>  = nic_u2.sps.tl2.mem.rtmem.
+                                                                 \<1\>  = nic_u2.sps.tl2.mem.stsmem.
+                                                                 \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
 #else
 		uint64_t blk0                        : 24;
 		uint64_t blk1                        : 16;
@@ -4537,10 +4992,10 @@ typedef union bdk_nic_pf_ecc3_flip1 {
                                                                    \<1\>  = nic_u1.sqm.mqm.qsmem_mem.
                                                                    \<0\>  = nic_u1.sqm.mqm.mdmem_mem.
 
-                                                                 Pass 2+ (add tsosn_mem, mdmem2_mem, remove lock_mem):
+                                                                 Pass 2+ (add tsopn_mem, mdmem2_mem, remove lock_mem):
                                                                    \<15:13\> = Reserved.
                                                                    \<12\> = nic_u1.sqm.mqm.mdmem2_mem.
-                                                                   \<11\> = nic_u1.sqm.dse.send.tsosn_mem.
+                                                                   \<11\> = nic_u1.sqm.dse.send.tsopn_mem.
                                                                    \<10\> = nic_u1.sqm.dpe.arb.sq_arb_mem_mem.
                                                                    \<9\>  = nic_u1.sqm.ctl.sq.sq_mem_mem.
                                                                    \<8\>  = nic_u1.sqm.ctl.sq.qs_mem.
@@ -4554,41 +5009,21 @@ typedef union bdk_nic_pf_ecc3_flip1 {
                                                                    \<0\>  = nic_u1.sqm.mqm.mdmem_mem. */
 		uint64_t blk0                        : 24; /**< R/W - Group 3 Block 0 memories. INTERNAL: SPS memories:
 
-                                                                 Pass 1:
-                                                                   \<23:18\> = Reserved
-                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
-                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
-                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
-                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                   \<13\> = nic_u2.sps.tl4.mem.ptrmem.
-                                                                   \<12\> = nic_u2.sps.tl4.mem.aggrmem.
-                                                                   \<11:9\> = Reserved
-                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
-                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
-                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
-                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
-                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                   \<3\>  = nic_u2.sps.tl3.mem.aggrmem.
-                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
-                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
-                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem.
-
-                                                                 Pass 2+:
-                                                                   \<23:18\> = Reserved
-                                                                   \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
-                                                                   \<16\> = nic_u2.sps.tl4.mem.rtmem.
-                                                                   \<15\> = nic_u2.sps.tl4.mem.stsmem.
-                                                                   \<14\> = nic_u2.sps.tl4.mem.stdmem.
-                                                                   \<13:9\> = Reserved
-                                                                   \<8\>  = nic_u2.sps.tl3.mem.rtmem.
-                                                                   \<7\>  = nic_u2.sps.tl3.mem.stsmem.
-                                                                   \<6\>  = nic_u2.sps.tl3.mem.stdmem.
-                                                                   \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
-                                                                   \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
-                                                                   \<3\>  = Reserved
-                                                                   \<2\>  = nic_u2.sps.tl2.mem.rtmem.
-                                                                   \<1\>  = nic_u2.sps.tl2.mem.stsmem.
-                                                                   \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
+                                                                 \<23:18\> = Reserved
+                                                                 \<17\> = nic_u2.sps.sqm_intf.mem.sqcfgmem.
+                                                                 \<16\> = nic_u2.sps.tl4.mem.rtmem.
+                                                                 \<15\> = nic_u2.sps.tl4.mem.stsmem.
+                                                                 \<14\> = nic_u2.sps.tl4.mem.stdmem.
+                                                                 \<13:9\> = Reserved
+                                                                 \<8\>  = nic_u2.sps.tl3.mem.rtmem.
+                                                                 \<7\>  = nic_u2.sps.tl3.mem.stsmem.
+                                                                 \<6\>  = nic_u2.sps.tl3.mem.stdmem.
+                                                                 \<5\>  = nic_u2.sps.tl3.mem.ccdtmem.
+                                                                 \<4\>  = nic_u2.sps.tl3.mem.lcdtmem.
+                                                                 \<3\>  = Reserved
+                                                                 \<2\>  = nic_u2.sps.tl2.mem.rtmem.
+                                                                 \<1\>  = nic_u2.sps.tl2.mem.stsmem.
+                                                                 \<0\>  = nic_u2.sps.tl2.mem.stdmem. */
 #else
 		uint64_t blk0                        : 24;
 		uint64_t blk1                        : 16;
@@ -4748,6 +5183,216 @@ static inline uint64_t BDK_NIC_PF_ECC3_SBE_INT_W1S_FUNC(void)
 
 
 /**
+ * NCB - nic_pf_eco0
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_eco0 {
+	uint64_t u;
+	struct bdk_nic_pf_eco0_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
+#else
+		uint64_t eco_rw                      : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_eco0_s           cn88xx; */
+} bdk_nic_pf_eco0_t;
+
+#define BDK_NIC_PF_ECO0 BDK_NIC_PF_ECO0_FUNC()
+static inline uint64_t BDK_NIC_PF_ECO0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_ECO0_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000003000ull;
+	else 		csr_fatal("BDK_NIC_PF_ECO0", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_ECO0 bdk_nic_pf_eco0_t
+#define bustype_BDK_NIC_PF_ECO0 BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_ECO0 0
+#define arguments_BDK_NIC_PF_ECO0 -1,-1,-1,-1
+#define basename_BDK_NIC_PF_ECO0 "NIC_PF_ECO0"
+
+
+/**
+ * NCB - nic_pf_eco1
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_eco1 {
+	uint64_t u;
+	struct bdk_nic_pf_eco1_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
+#else
+		uint64_t eco_rw                      : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_eco1_s           cn88xx; */
+} bdk_nic_pf_eco1_t;
+
+#define BDK_NIC_PF_ECO1 BDK_NIC_PF_ECO1_FUNC()
+static inline uint64_t BDK_NIC_PF_ECO1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_ECO1_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000003010ull;
+	else 		csr_fatal("BDK_NIC_PF_ECO1", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_ECO1 bdk_nic_pf_eco1_t
+#define bustype_BDK_NIC_PF_ECO1 BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_ECO1 0
+#define arguments_BDK_NIC_PF_ECO1 -1,-1,-1,-1
+#define basename_BDK_NIC_PF_ECO1 "NIC_PF_ECO1"
+
+
+/**
+ * NCB - nic_pf_eco2
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_eco2 {
+	uint64_t u;
+	struct bdk_nic_pf_eco2_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
+#else
+		uint64_t eco_rw                      : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_eco2_s           cn88xx; */
+} bdk_nic_pf_eco2_t;
+
+#define BDK_NIC_PF_ECO2 BDK_NIC_PF_ECO2_FUNC()
+static inline uint64_t BDK_NIC_PF_ECO2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_ECO2_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000003020ull;
+	else 		csr_fatal("BDK_NIC_PF_ECO2", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_ECO2 bdk_nic_pf_eco2_t
+#define bustype_BDK_NIC_PF_ECO2 BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_ECO2 0
+#define arguments_BDK_NIC_PF_ECO2 -1,-1,-1,-1
+#define basename_BDK_NIC_PF_ECO2 "NIC_PF_ECO2"
+
+
+/**
+ * NCB - nic_pf_eco3
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_eco3 {
+	uint64_t u;
+	struct bdk_nic_pf_eco3_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
+#else
+		uint64_t eco_rw                      : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_eco3_s           cn88xx; */
+} bdk_nic_pf_eco3_t;
+
+#define BDK_NIC_PF_ECO3 BDK_NIC_PF_ECO3_FUNC()
+static inline uint64_t BDK_NIC_PF_ECO3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_ECO3_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000003030ull;
+	else 		csr_fatal("BDK_NIC_PF_ECO3", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_ECO3 bdk_nic_pf_eco3_t
+#define bustype_BDK_NIC_PF_ECO3 BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_ECO3 0
+#define arguments_BDK_NIC_PF_ECO3 -1,-1,-1,-1
+#define basename_BDK_NIC_PF_ECO3 "NIC_PF_ECO3"
+
+
+/**
+ * NCB - nic_pf_eco4
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_eco4 {
+	uint64_t u;
+	struct bdk_nic_pf_eco4_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
+#else
+		uint64_t eco_rw                      : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_eco4_s           cn88xx; */
+} bdk_nic_pf_eco4_t;
+
+#define BDK_NIC_PF_ECO4 BDK_NIC_PF_ECO4_FUNC()
+static inline uint64_t BDK_NIC_PF_ECO4_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_ECO4_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000003040ull;
+	else 		csr_fatal("BDK_NIC_PF_ECO4", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_ECO4 bdk_nic_pf_eco4_t
+#define bustype_BDK_NIC_PF_ECO4 BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_ECO4 0
+#define arguments_BDK_NIC_PF_ECO4 -1,-1,-1,-1
+#define basename_BDK_NIC_PF_ECO4 "NIC_PF_ECO4"
+
+
+/**
+ * NCB - nic_pf_eco5
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_eco5 {
+	uint64_t u;
+	struct bdk_nic_pf_eco5_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t eco_rw                      : 32; /**< R/W - INTERNAL: Reserved for ECO usage. */
+#else
+		uint64_t eco_rw                      : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_eco5_s           cn88xx; */
+} bdk_nic_pf_eco5_t;
+
+#define BDK_NIC_PF_ECO5 BDK_NIC_PF_ECO5_FUNC()
+static inline uint64_t BDK_NIC_PF_ECO5_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_ECO5_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000003050ull;
+	else 		csr_fatal("BDK_NIC_PF_ECO5", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_ECO5 bdk_nic_pf_eco5_t
+#define bustype_BDK_NIC_PF_ECO5 BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_ECO5 0
+#define arguments_BDK_NIC_PF_ECO5 -1,-1,-1,-1
+#define basename_BDK_NIC_PF_ECO5 "NIC_PF_ECO5"
+
+
+/**
  * NCB - nic_pf_int_timer_cfg
  */
 typedef union bdk_nic_pf_int_timer_cfg {
@@ -4898,7 +5543,7 @@ typedef union bdk_nic_pf_intfx_send_cfg {
 		uint64_t reserved_22_63              : 42;
 		uint64_t cksum_enable                : 1;  /**< R/W - NIC_SEND_CRC_S checksum algorithm enable (NIC_SEND_CRCALG_E::CKSUM). Keeping the bit clear
                                                                  for either interface disables the checksum algorithm for both interfaces. When disabled, a
-                                                                 NIC_SEND_CRC_S with NIC_SEND_CRCALG_E::CKSUM is treated as an error. */
+                                                                 NIC_SEND_CRC_S with NIC_SEND_CRCALG_E::CKSUM is ignored. */
 		uint64_t cut_disable                 : 1;  /**< R/W - Send cut-through context disable. Used for debug, should be clear for normal operation.
                                                                  Setting the bit for either TNS interface disables cut-through for both interfaces. */
 		uint64_t tstmp_wd_period             : 4;  /**< R/W - Timestamp watchdog timeout count. The timeout period is 4*(2^TSTMP_WD_PERIOD) timer ticks,
@@ -4958,6 +5603,40 @@ static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long param1)
 
 
 /**
+ * NCB - nic_pf_intf#_tx_fifo_status
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_intfx_tx_fifo_status {
+	uint64_t u;
+	struct bdk_nic_pf_intfx_tx_fifo_status_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_11_63              : 53;
+		uint64_t count                       : 11; /**< RO/H - Number of 128-bit entries in the TX FIFO. */
+#else
+		uint64_t count                       : 11;
+		uint64_t reserved_11_63              : 53;
+#endif
+	} s;
+	/* struct bdk_nic_pf_intfx_tx_fifo_status_s cn88xx; */
+} bdk_nic_pf_intfx_tx_fifo_status_t;
+
+static inline uint64_t BDK_NIC_PF_INTFX_TX_FIFO_STATUS(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_INTFX_TX_FIFO_STATUS(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
+		return 0x0000843000000230ull + (param1 & 1) * 0x100ull;
+	else 		csr_fatal("BDK_NIC_PF_INTFX_TX_FIFO_STATUS", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(...) bdk_nic_pf_intfx_tx_fifo_status_t
+#define bustype_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(p1) (p1)
+#define arguments_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_INTFX_TX_FIFO_STATUS(...) "NIC_PF_INTFX_TX_FIFO_STATUS"
+
+
+/**
  * NCB - nic_pf_lmac#_cfg
  *
  * Index enumerated by NIC_TX_LMAC_E.
@@ -4999,6 +5678,43 @@ static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long param1)
 #define busnum_BDK_NIC_PF_LMACX_CFG(p1) (p1)
 #define arguments_BDK_NIC_PF_LMACX_CFG(p1) (p1),-1,-1,-1
 #define basename_BDK_NIC_PF_LMACX_CFG(...) "NIC_PF_LMACX_CFG"
+
+
+/**
+ * NCB - nic_pf_lmac#_cfg2
+ *
+ * Added in pass 2. Index enumerated by NIC_TX_LMAC_E.
+ *
+ */
+typedef union bdk_nic_pf_lmacx_cfg2 {
+	uint64_t u;
+	struct bdk_nic_pf_lmacx_cfg2_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_14_63              : 50;
+		uint64_t max_pkt_size                : 14; /**< R/W - Minimum packet size in bytes, excluding FCS potentially appended outside NIC by BGX.
+                                                                 Should not exceed 9212 (9216 minus 4 byte FCS). If a send descriptor specifies sending a
+                                                                 larger packet than this value, NIC drops the packet and posts a CQE with
+                                                                 NIC_CQE_SEND_STATUS_E::MAX_SIZE_VIOL. */
+#else
+		uint64_t max_pkt_size                : 14;
+		uint64_t reserved_14_63              : 50;
+#endif
+	} s;
+	/* struct bdk_nic_pf_lmacx_cfg2_s     cn88xx; */
+} bdk_nic_pf_lmacx_cfg2_t;
+
+static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x0000843000240100ull + (param1 & 7) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_LMACX_CFG2", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_LMACX_CFG2(...) bdk_nic_pf_lmacx_cfg2_t
+#define bustype_BDK_NIC_PF_LMACX_CFG2(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_LMACX_CFG2(p1) (p1)
+#define arguments_BDK_NIC_PF_LMACX_CFG2(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_LMACX_CFG2(...) "NIC_PF_LMACX_CFG2"
 
 
 /**
@@ -5225,6 +5941,183 @@ static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long param1)
 #define busnum_BDK_NIC_PF_MBOX_INT_W1SX(p1) (p1)
 #define arguments_BDK_NIC_PF_MBOX_INT_W1SX(p1) (p1),-1,-1,-1
 #define basename_BDK_NIC_PF_MBOX_INT_W1SX(...) "NIC_PF_MBOX_INT_W1SX"
+
+
+/**
+ * NCB - nic_pf_mcam#_ena
+ *
+ * This register enables the corresponding ECAM entry number.
+ * Added in pass 2.
+ */
+typedef union bdk_nic_pf_mcamx_ena {
+	uint64_t u;
+	struct bdk_nic_pf_mcamx_ena_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t valid                       : 1;  /**< R/W - Valid. */
+		uint64_t reserved_0_62               : 63;
+#else
+		uint64_t reserved_0_62               : 63;
+		uint64_t valid                       : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_mcamx_ena_s      cn88xx; */
+} bdk_nic_pf_mcamx_ena_t;
+
+static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 191)))
+		return 0x0000843000100000ull + (param1 & 255) * 0x10ull;
+	else 		csr_fatal("BDK_NIC_PF_MCAMX_ENA", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_MCAMX_ENA(...) bdk_nic_pf_mcamx_ena_t
+#define bustype_BDK_NIC_PF_MCAMX_ENA(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_MCAMX_ENA(p1) (p1)
+#define arguments_BDK_NIC_PF_MCAMX_ENA(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_MCAMX_ENA(...) "NIC_PF_MCAMX_ENA"
+
+
+/**
+ * NCB - nic_pf_mcam#_m#_data
+ *
+ * This register specifies the ternary match data for the corresponding ECAM entry
+ * number.
+ * Added in pass 2.
+ */
+typedef union bdk_nic_pf_mcamx_mx_data {
+	uint64_t u;
+	struct bdk_nic_pf_mcamx_mx_data_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_48_63              : 16;
+		uint64_t mcam_data1                  : 24; /**< R/W - See description for [MCAM_DATA0]. */
+		uint64_t mcam_data0                  : 24; /**< R/W - Comparison ternary data. The meaning of each data bit uses the
+                                                                 NIC_RX_MCAM_SFIELD_S structure.
+
+                                                                 The field value is ternary, where each bit matches as follows:
+
+                                                                 _ [MCAM_DATA1]\<n\>=0, [MCAM_DATA0]\<n\>=0: Always match; data\<n\> don't care.
+                                                                 _ [MCAM_DATA1]\<n\>=0, [MCAM_DATA0]\<n\>=1: Match when data\<n\> == 0.
+                                                                 _ [MCAM_DATA1]\<n\>=1, [MCAM_DATA0]\<n\>=0: Match when data\<n\> == 1.
+                                                                 _ [MCAM_DATA1]\<n\>=1, [MCAM_DATA0]\<n\>=1: Reserved.
+
+                                                                 Note hardware does not allow the "reserved" combination to get written to the MCAM.
+
+                                                                 _ NIC_PF_MCAM()_M(0)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<23:0\>.
+                                                                 _ NIC_PF_MCAM()_M(1)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<47:24\>.
+                                                                 _ NIC_PF_MCAM()_M(2)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<71:48\>.
+                                                                 _ NIC_PF_MCAM()_M(3)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<95:72\>.
+                                                                 _ NIC_PF_MCAM()_M(4)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<119:96\>.
+                                                                 _ NIC_PF_MCAM()_M(5)_DATA() corresponds to NIC_RX_MCAM_SFIELD_S\<143:120\>. */
+#else
+		uint64_t mcam_data0                  : 24;
+		uint64_t mcam_data1                  : 24;
+		uint64_t reserved_48_63              : 16;
+#endif
+	} s;
+	/* struct bdk_nic_pf_mcamx_mx_data_s  cn88xx; */
+} bdk_nic_pf_mcamx_mx_data_t;
+
+static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long param1, unsigned long param2)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 191)) && ((param2 <= 5)))
+		return 0x0000843000110000ull + (param1 & 255) * 0x40ull + (param2 & 7) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_MCAMX_MX_DATA", 2, param1, param2, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_MCAMX_MX_DATA(...) bdk_nic_pf_mcamx_mx_data_t
+#define bustype_BDK_NIC_PF_MCAMX_MX_DATA(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_MCAMX_MX_DATA(p1,p2) (p1)
+#define arguments_BDK_NIC_PF_MCAMX_MX_DATA(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_NIC_PF_MCAMX_MX_DATA(...) "NIC_PF_MCAMX_MX_DATA"
+
+
+/**
+ * NCB - nic_pf_mcam_ctrl
+ *
+ * This register controls the MCAM.
+ * Added in pass 2.
+ */
+typedef union bdk_nic_pf_mcam_ctrl {
+	uint64_t u;
+	struct bdk_nic_pf_mcam_ctrl_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1_63               : 63;
+		uint64_t ena_scrub                   : 1;  /**< R/W - Enable MCAM ECC scrubber.
+                                                                 When the scrubber detects a SBE in the MCAM, it writes the corrected data back to this
+                                                                 row.
+                                                                 When the scrubber detects a DBE in the MCAM, it writes all 0x0s to disable this line. */
+#else
+		uint64_t ena_scrub                   : 1;
+		uint64_t reserved_1_63               : 63;
+#endif
+	} s;
+	/* struct bdk_nic_pf_mcam_ctrl_s      cn88xx; */
+} bdk_nic_pf_mcam_ctrl_t;
+
+#define BDK_NIC_PF_MCAM_CTRL BDK_NIC_PF_MCAM_CTRL_FUNC()
+static inline uint64_t BDK_NIC_PF_MCAM_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_MCAM_CTRL_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000120000ull;
+	else 		csr_fatal("BDK_NIC_PF_MCAM_CTRL", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_MCAM_CTRL bdk_nic_pf_mcam_ctrl_t
+#define bustype_BDK_NIC_PF_MCAM_CTRL BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_MCAM_CTRL 0
+#define arguments_BDK_NIC_PF_MCAM_CTRL -1,-1,-1,-1
+#define basename_BDK_NIC_PF_MCAM_CTRL "NIC_PF_MCAM_CTRL"
+
+
+/**
+ * NCB - nic_pf_mpi#_cfg
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_mpix_cfg {
+	uint64_t u;
+	struct bdk_nic_pf_mpix_cfg_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_31_63              : 33;
+		uint64_t vnic                        : 7;  /**< R/W - VNIC receiving this channel, and determines which RSS algorithms are enabled using
+                                                                 NIC_VNIC()_RSS_CFG. */
+		uint64_t rss_size                    : 4;  /**< R/W - Bits of RSS hash to add in RSSI calculation.
+                                                                 0x0 = RSS is disabled.
+                                                                 0x1 = RSS_TAG\<0\> included in RSSI.
+                                                                 0x2 = RSS_TAG\<1:0\> included in RSSI.
+                                                                 0x3 = RSS_TAG\<2:0\> included in RSSI.
+                                                                 0x4 = RSS_TAG\<3:0\> included in RSSI.
+                                                                 0x5 = RSS_TAG\<4:0\> included in RSSI.
+                                                                 0x6 = RSS_TAG\<5:0\> included in RSSI.
+                                                                 0x7 = RSS_TAG\<6:0\> included in RSSI.
+                                                                 0x8 = RSS_TAG\<7:0\> included in RSSI.
+                                                                 0x9-0xF = Reserved. */
+		uint64_t reserved_12_19              : 8;
+		uint64_t rssi_base                   : 12; /**< R/W - Base index into NIC_PF_RSSI()_RQ. */
+#else
+		uint64_t rssi_base                   : 12;
+		uint64_t reserved_12_19              : 8;
+		uint64_t rss_size                    : 4;
+		uint64_t vnic                        : 7;
+		uint64_t reserved_31_63              : 33;
+#endif
+	} s;
+	/* struct bdk_nic_pf_mpix_cfg_s       cn88xx; */
+} bdk_nic_pf_mpix_cfg_t;
+
+static inline uint64_t BDK_NIC_PF_MPIX_CFG(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_MPIX_CFG(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 2047)))
+		return 0x0000843000210000ull + (param1 & 2047) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_MPIX_CFG", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_MPIX_CFG(...) bdk_nic_pf_mpix_cfg_t
+#define bustype_BDK_NIC_PF_MPIX_CFG(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_MPIX_CFG(p1) (p1)
+#define arguments_BDK_NIC_PF_MPIX_CFG(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_MPIX_CFG(...) "NIC_PF_MPIX_CFG"
 
 
 /**
@@ -5484,6 +6377,9 @@ static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long param1)
 
 /**
  * NCB - nic_pf_qs#_lock#
+ *
+ * Changed in pass 2 to increase lockdown bytes per QS from 64 to 96.
+ *
  */
 typedef union bdk_nic_pf_qsx_lockx {
 	uint64_t u;
@@ -5516,9 +6412,11 @@ typedef union bdk_nic_pf_qsx_lockx {
 static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long param1, unsigned long param2)
 {
-	if (((param1 <= 127)) && ((param2 <= 15)))
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((param1 <= 127)) && ((param2 <= 15)))
 		return 0x0000843020006000ull + (param1 & 127) * 0x200000ull + (param2 & 15) * 0x8ull;
-	csr_fatal("BDK_NIC_PF_QSX_LOCKX", 2, param1, param2, 0, 0); /* No return */
+	else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 127)) && ((param2 <= 23)))
+		return 0x0000843020006000ull + (param1 & 127) * 0x200000ull + (param2 & 31) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_QSX_LOCKX", 2, param1, param2, 0, 0); /* No return */
 }
 #define typedef_BDK_NIC_PF_QSX_LOCKX(...) bdk_nic_pf_qsx_lockx_t
 #define bustype_BDK_NIC_PF_QSX_LOCKX(...) BDK_CSR_TYPE_NCB
@@ -6077,6 +6975,43 @@ static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long param1)
 
 
 /**
+ * NCB - nic_pf_rx_cfg
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_rx_cfg {
+	uint64_t u;
+	struct bdk_nic_pf_rx_cfg_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1_63               : 63;
+		uint64_t cqe_rx2_ena                 : 1;  /**< R/W - Enable the NIC_CQE_RX2_S extension in CQM RX messages.
+                                                                 0 = Deprecated, only for backward compatibility.
+                                                                 1 = Enabled. */
+#else
+		uint64_t cqe_rx2_ena                 : 1;
+		uint64_t reserved_1_63               : 63;
+#endif
+	} s;
+	/* struct bdk_nic_pf_rx_cfg_s         cn88xx; */
+} bdk_nic_pf_rx_cfg_t;
+
+#define BDK_NIC_PF_RX_CFG BDK_NIC_PF_RX_CFG_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_CFG_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x00008430000005D0ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_CFG", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_RX_CFG bdk_nic_pf_rx_cfg_t
+#define bustype_BDK_NIC_PF_RX_CFG BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_CFG 0
+#define arguments_BDK_NIC_PF_RX_CFG -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_CFG "NIC_PF_RX_CFG"
+
+
+/**
  * NCB - nic_pf_rx_etype#
  */
 typedef union bdk_nic_pf_rx_etypex {
@@ -6118,11 +7053,298 @@ static inline uint64_t BDK_NIC_PF_RX_ETYPEX(unsigned long param1)
 
 
 /**
+ * NCB - nic_pf_rx_geneve_def
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_rx_geneve_def {
+	uint64_t u;
+	struct bdk_nic_pf_rx_geneve_def_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t ena                         : 1;  /**< R/W - Enables the parsing of GENEVE headers. */
+		uint64_t reserved_16_62              : 47;
+		uint64_t udp_port_num                : 16; /**< R/W - UDP destination port number that indicates a GENEVE header. */
+#else
+		uint64_t udp_port_num                : 16;
+		uint64_t reserved_16_62              : 47;
+		uint64_t ena                         : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_rx_geneve_def_s  cn88xx; */
+} bdk_nic_pf_rx_geneve_def_t;
+
+#define BDK_NIC_PF_RX_GENEVE_DEF BDK_NIC_PF_RX_GENEVE_DEF_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_GENEVE_DEF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_GENEVE_DEF_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000000580ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_GENEVE_DEF", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_RX_GENEVE_DEF bdk_nic_pf_rx_geneve_def_t
+#define bustype_BDK_NIC_PF_RX_GENEVE_DEF BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_GENEVE_DEF 0
+#define arguments_BDK_NIC_PF_RX_GENEVE_DEF -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_GENEVE_DEF "NIC_PF_RX_GENEVE_DEF"
+
+
+/**
+ * NCB - nic_pf_rx_geneve_prot_def
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_rx_geneve_prot_def {
+	uint64_t u;
+	struct bdk_nic_pf_rx_geneve_prot_def_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t ena_ipv6                    : 1;  /**< R/W - Enables the [IPV6_PROT] value. */
+		uint64_t ena_ipv4                    : 1;  /**< R/W - Enables the [IPV4_PROT] value. */
+		uint64_t ena_et                      : 1;  /**< R/W - Enables the [ET_PROT] value. */
+		uint64_t reserved_48_60              : 13;
+		uint64_t ipv6_prot                   : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv6 layer. */
+		uint64_t ipv4_prot                   : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv4 layer. */
+		uint64_t et_prot                     : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner Ethernet layer. */
+#else
+		uint64_t et_prot                     : 16;
+		uint64_t ipv4_prot                   : 16;
+		uint64_t ipv6_prot                   : 16;
+		uint64_t reserved_48_60              : 13;
+		uint64_t ena_et                      : 1;
+		uint64_t ena_ipv4                    : 1;
+		uint64_t ena_ipv6                    : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_rx_geneve_prot_def_s cn88xx; */
+} bdk_nic_pf_rx_geneve_prot_def_t;
+
+#define BDK_NIC_PF_RX_GENEVE_PROT_DEF BDK_NIC_PF_RX_GENEVE_PROT_DEF_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_GENEVE_PROT_DEF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_GENEVE_PROT_DEF_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000000588ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_GENEVE_PROT_DEF", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_RX_GENEVE_PROT_DEF bdk_nic_pf_rx_geneve_prot_def_t
+#define bustype_BDK_NIC_PF_RX_GENEVE_PROT_DEF BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_GENEVE_PROT_DEF 0
+#define arguments_BDK_NIC_PF_RX_GENEVE_PROT_DEF -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_GENEVE_PROT_DEF "NIC_PF_RX_GENEVE_PROT_DEF"
+
+
+/**
+ * NCB - nic_pf_rx_nvgre_prot_def
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_rx_nvgre_prot_def {
+	uint64_t u;
+	struct bdk_nic_pf_rx_nvgre_prot_def_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t ena_ipv6                    : 1;  /**< R/W - Enables the IPV6_PROT value. */
+		uint64_t ena_ipv4                    : 1;  /**< R/W - Enables the IPV4_PROT value. */
+		uint64_t ena_et                      : 1;  /**< R/W - Enables the ET_PROT value. */
+		uint64_t reserved_48_60              : 13;
+		uint64_t ipv6_prot                   : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv6 layer. */
+		uint64_t ipv4_prot                   : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv4 layer. */
+		uint64_t et_prot                     : 16; /**< R/W - Protocal number to definite the next layer of the packet is an inner Ethernet layer. */
+#else
+		uint64_t et_prot                     : 16;
+		uint64_t ipv4_prot                   : 16;
+		uint64_t ipv6_prot                   : 16;
+		uint64_t reserved_48_60              : 13;
+		uint64_t ena_et                      : 1;
+		uint64_t ena_ipv4                    : 1;
+		uint64_t ena_ipv6                    : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_rx_nvgre_prot_def_s cn88xx; */
+} bdk_nic_pf_rx_nvgre_prot_def_t;
+
+#define BDK_NIC_PF_RX_NVGRE_PROT_DEF BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_NVGRE_PROT_DEF_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000000598ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_NVGRE_PROT_DEF", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_RX_NVGRE_PROT_DEF bdk_nic_pf_rx_nvgre_prot_def_t
+#define bustype_BDK_NIC_PF_RX_NVGRE_PROT_DEF BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_NVGRE_PROT_DEF 0
+#define arguments_BDK_NIC_PF_RX_NVGRE_PROT_DEF -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_NVGRE_PROT_DEF "NIC_PF_RX_NVGRE_PROT_DEF"
+
+
+/**
+ * NCB - nic_pf_rx_rocev2_def
+ *
+ * This register defines and enables RoCE version 2 parsing.
+ * Added in pass 2.
+ */
+typedef union bdk_nic_pf_rx_rocev2_def {
+	uint64_t u;
+	struct bdk_nic_pf_rx_rocev2_def_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t ena                         : 1;  /**< R/W - Enables the detection of RoCEv2 headers. */
+		uint64_t reserved_16_62              : 47;
+		uint64_t udp_port_num                : 16; /**< R/W - UDP destination port number that indicates a RoCEv2 header. */
+#else
+		uint64_t udp_port_num                : 16;
+		uint64_t reserved_16_62              : 47;
+		uint64_t ena                         : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_rx_rocev2_def_s  cn88xx; */
+} bdk_nic_pf_rx_rocev2_def_t;
+
+#define BDK_NIC_PF_RX_ROCEV2_DEF BDK_NIC_PF_RX_ROCEV2_DEF_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_ROCEV2_DEF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_ROCEV2_DEF_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x00008430000005C0ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_ROCEV2_DEF", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_RX_ROCEV2_DEF bdk_nic_pf_rx_rocev2_def_t
+#define bustype_BDK_NIC_PF_RX_ROCEV2_DEF BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_ROCEV2_DEF 0
+#define arguments_BDK_NIC_PF_RX_ROCEV2_DEF -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_ROCEV2_DEF "NIC_PF_RX_ROCEV2_DEF"
+
+
+/**
+ * NCB - nic_pf_rx_vxlan_def#
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_rx_vxlan_defx {
+	uint64_t u;
+	struct bdk_nic_pf_rx_vxlan_defx_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t ena                         : 1;  /**< R/W - Enables the detection of VXLAN headers. */
+		uint64_t reserved_16_62              : 47;
+		uint64_t udp_port_num                : 16; /**< R/W - UDP destination port number that indicates a VXLAN header to enable tunneling into the
+                                                                 inner layers
+                                                                 for further parsing. */
+#else
+		uint64_t udp_port_num                : 16;
+		uint64_t reserved_16_62              : 47;
+		uint64_t ena                         : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_rx_vxlan_defx_s  cn88xx; */
+} bdk_nic_pf_rx_vxlan_defx_t;
+
+static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 1)))
+		return 0x00008430000005A0ull + (param1 & 1) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_VXLAN_DEFX", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_RX_VXLAN_DEFX(...) bdk_nic_pf_rx_vxlan_defx_t
+#define bustype_BDK_NIC_PF_RX_VXLAN_DEFX(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_VXLAN_DEFX(p1) (p1)
+#define arguments_BDK_NIC_PF_RX_VXLAN_DEFX(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_RX_VXLAN_DEFX(...) "NIC_PF_RX_VXLAN_DEFX"
+
+
+/**
+ * NCB - nic_pf_rx_vxlan_prot_def
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_rx_vxlan_prot_def {
+	uint64_t u;
+	struct bdk_nic_pf_rx_vxlan_prot_def_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t ena_ipv6                    : 1;  /**< R/W - Enables the IPV6_PROT value (ENA_PROT must be also set). */
+		uint64_t ena_ipv4                    : 1;  /**< R/W - Enables the IPV4_PROT value (ENA_PROT must be also set). */
+		uint64_t ena_et                      : 1;  /**< R/W - Enables the ET_PROT value (ENA_PROT must be also set). */
+		uint64_t ena_prot                    : 1;  /**< R/W - This enables protocal field checking inside the VXLAN header. */
+		uint64_t reserved_40_59              : 20;
+		uint64_t ipv6_prot                   : 8;  /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv6 layer. */
+		uint64_t reserved_24_31              : 8;
+		uint64_t ipv4_prot                   : 8;  /**< R/W - Protocal number to definite the next layer of the packet is an inner IPv4 layer. */
+		uint64_t reserved_8_15               : 8;
+		uint64_t et_prot                     : 8;  /**< R/W - Protocal number to definite the next layer of the packet is an inner Ethernet layer. */
+#else
+		uint64_t et_prot                     : 8;
+		uint64_t reserved_8_15               : 8;
+		uint64_t ipv4_prot                   : 8;
+		uint64_t reserved_24_31              : 8;
+		uint64_t ipv6_prot                   : 8;
+		uint64_t reserved_40_59              : 20;
+		uint64_t ena_prot                    : 1;
+		uint64_t ena_et                      : 1;
+		uint64_t ena_ipv4                    : 1;
+		uint64_t ena_ipv6                    : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_rx_vxlan_prot_def_s cn88xx; */
+} bdk_nic_pf_rx_vxlan_prot_def_t;
+
+#define BDK_NIC_PF_RX_VXLAN_PROT_DEF BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC()
+static inline uint64_t BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_RX_VXLAN_PROT_DEF_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x00008430000005B0ull;
+	else 		csr_fatal("BDK_NIC_PF_RX_VXLAN_PROT_DEF", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_RX_VXLAN_PROT_DEF bdk_nic_pf_rx_vxlan_prot_def_t
+#define bustype_BDK_NIC_PF_RX_VXLAN_PROT_DEF BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_RX_VXLAN_PROT_DEF 0
+#define arguments_BDK_NIC_PF_RX_VXLAN_PROT_DEF -1,-1,-1,-1
+#define basename_BDK_NIC_PF_RX_VXLAN_PROT_DEF "NIC_PF_RX_VXLAN_PROT_DEF"
+
+
+/**
  * NCB - nic_pf_seb_test
  */
 typedef union bdk_nic_pf_seb_test {
 	uint64_t u;
 	struct bdk_nic_pf_seb_test_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t enable                      : 4;  /**< R/W - Enable test mode. For diagnostic use only.
+                                                                 INTERNAL: Once a bit is set, random backpressure is generated
+                                                                 at the corresponding point to allow for more frequent backpressure.
+                                                                 \<63\> = Reserved.
+                                                                 \<62\> = SEB_INTERFACE_1_STALL.
+                                                                 \<61\> = SEB_INTERFACE_0_STALL.
+                                                                 \<60\> = SEB_FIFO_STALL. */
+		uint64_t reserved_25_59              : 35;
+		uint64_t timeout_tick_test           : 1;  /**< R/W - Enable timeout testing. For diagnostic use only.
+                                                                 INTERNAL: Once the bit is set, it reduces the number of co-processor cycles from 1024
+                                                                 cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD].
+                                                                 Added in pass 2. */
+		uint64_t bp_cfg                      : 8;  /**< R/W - Enable NIC block random backpressure. For diagnostic use only.
+                                                                 INTERNAL:
+                                                                   There are 2 BP_CFG bits per enable.  The definition is
+                                                                   0=100% of the time, 1=25% of the time, 2=50% of the time, 3=75% of the time.
+                                                                   \<23:22\> = BP_CFG3.
+                                                                   \<21:20\> = BP_CFG2.
+                                                                   \<19:18\> = BP_CFG1.
+                                                                   \<17:16\> = BP_CFG0. */
+		uint64_t reserved_12_15              : 4;
+		uint64_t lfsr_freq                   : 12; /**< R/W - Test LFSR update frequency in coprocessor-clocks minus one. */
+#else
+		uint64_t lfsr_freq                   : 12;
+		uint64_t reserved_12_15              : 4;
+		uint64_t bp_cfg                      : 8;
+		uint64_t timeout_tick_test           : 1;
+		uint64_t reserved_25_59              : 35;
+		uint64_t enable                      : 4;
+#endif
+	} s;
+	/* struct bdk_nic_pf_seb_test_s       cn88xx; */
+	struct bdk_nic_pf_seb_test_cn88xxp1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t enable                      : 4;  /**< R/W - Enable test mode. For diagnostic use only.
                                                                  INTERNAL: Once a bit is set, random backpressure is generated
@@ -6149,9 +7371,7 @@ typedef union bdk_nic_pf_seb_test {
 		uint64_t reserved_24_59              : 36;
 		uint64_t enable                      : 4;
 #endif
-	} s;
-	/* struct bdk_nic_pf_seb_test_s       cn88xx; */
-	/* struct bdk_nic_pf_seb_test_s       cn88xxp1; */
+	} cn88xxp1;
 } bdk_nic_pf_seb_test_t;
 
 #define BDK_NIC_PF_SEB_TEST BDK_NIC_PF_SEB_TEST_FUNC()
@@ -6165,6 +7385,50 @@ static inline uint64_t BDK_NIC_PF_SEB_TEST_FUNC(void)
 #define busnum_BDK_NIC_PF_SEB_TEST 0
 #define arguments_BDK_NIC_PF_SEB_TEST -1,-1,-1,-1
 #define basename_BDK_NIC_PF_SEB_TEST "NIC_PF_SEB_TEST"
+
+
+/**
+ * NCB - nic_pf_soft_reset
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_soft_reset {
+	uint64_t u;
+	struct bdk_nic_pf_soft_reset_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1_63               : 63;
+		uint64_t reset                       : 1;  /**< WO - Write 1 to reset the NIC block. Software must ensure the following before writing 1:
+                                                                 * NIC_PF_CFG[ENA] = 1.
+                                                                 * All NIC queues (CQ, SQ, RQ, RDBR) are idle.
+                                                                 * Transmit FIFOs are empty, i.e. NIC_PF_INTF()_TX_FIFO_STATUS[COUNT] = 0.
+                                                                 * TNS send and receive interfaces are quiesced.
+                                                                 * NIC has no outstanding interrupts.
+
+                                                                 Note that this operation resets all NIC registers, including MSI-X registers
+                                                                 (NIC_PF_MSIX_*, NIC_VF()_MSIX_*) and PCC config space registers (PCCBR_NIC_*, PCCPF_NIC_*,
+                                                                 PCCVF_NIC_*). */
+#else
+		uint64_t reset                       : 1;
+		uint64_t reserved_1_63               : 63;
+#endif
+	} s;
+	/* struct bdk_nic_pf_soft_reset_s     cn88xx; */
+} bdk_nic_pf_soft_reset_t;
+
+#define BDK_NIC_PF_SOFT_RESET BDK_NIC_PF_SOFT_RESET_FUNC()
+static inline uint64_t BDK_NIC_PF_SOFT_RESET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_SOFT_RESET_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000000050ull;
+	else 		csr_fatal("BDK_NIC_PF_SOFT_RESET", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_SOFT_RESET bdk_nic_pf_soft_reset_t
+#define bustype_BDK_NIC_PF_SOFT_RESET BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_SOFT_RESET 0
+#define arguments_BDK_NIC_PF_SOFT_RESET -1,-1,-1,-1
+#define basename_BDK_NIC_PF_SOFT_RESET "NIC_PF_SOFT_RESET"
 
 
 /**
@@ -6310,6 +7574,74 @@ static inline uint64_t BDK_NIC_PF_STATUS_FUNC(void)
 
 
 /**
+ * NCB - nic_pf_sw_sync_pipe#_cq_cnts
+ *
+ * For diagnostic use only for debug of the SW_SYNC function.
+ * Added in pass 2:
+ */
+typedef union bdk_nic_pf_sw_sync_pipex_cq_cnts {
+	uint64_t u;
+	struct bdk_nic_pf_sw_sync_pipex_cq_cnts_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t out_cnt                     : 32; /**< RO/H - Running count at output of machine. */
+		uint64_t in_cnt                      : 32; /**< RO/H - Running count at input of machine. */
+#else
+		uint64_t in_cnt                      : 32;
+		uint64_t out_cnt                     : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_sw_sync_pipex_cq_cnts_s cn88xx; */
+} bdk_nic_pf_sw_sync_pipex_cq_cnts_t;
+
+static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x0000843000490280ull + (param1 & 7) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(...) bdk_nic_pf_sw_sync_pipex_cq_cnts_t
+#define bustype_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(p1) (p1)
+#define arguments_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(...) "NIC_PF_SW_SYNC_PIPEX_CQ_CNTS"
+
+
+/**
+ * NCB - nic_pf_sw_sync_pipe#_pkt_cnts
+ *
+ * For diagnostic use only for debug of the SW_SYNC function.
+ * Added in pass 2.
+ */
+typedef union bdk_nic_pf_sw_sync_pipex_pkt_cnts {
+	uint64_t u;
+	struct bdk_nic_pf_sw_sync_pipex_pkt_cnts_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t out_cnt                     : 32; /**< RO/H - Running count at output of machine. */
+		uint64_t in_cnt                      : 32; /**< RO/H - Running count at input of machine. */
+#else
+		uint64_t in_cnt                      : 32;
+		uint64_t out_cnt                     : 32;
+#endif
+	} s;
+	/* struct bdk_nic_pf_sw_sync_pipex_pkt_cnts_s cn88xx; */
+} bdk_nic_pf_sw_sync_pipex_pkt_cnts_t;
+
+static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x0000843000490200ull + (param1 & 7) * 0x8ull;
+	else 		csr_fatal("BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(...) bdk_nic_pf_sw_sync_pipex_pkt_cnts_t
+#define bustype_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(...) BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(p1) (p1)
+#define arguments_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(p1) (p1),-1,-1,-1
+#define basename_BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(...) "NIC_PF_SW_SYNC_PIPEX_PKT_CNTS"
+
+
+/**
  * NCB - nic_pf_sw_sync_rx
  */
 typedef union bdk_nic_pf_sw_sync_rx {
@@ -6360,16 +7692,15 @@ typedef union bdk_nic_pf_sw_sync_rx_cntsx {
 		uint64_t out_cnt                     : 32;
 #endif
 	} s;
-	/* struct bdk_nic_pf_sw_sync_rx_cntsx_s cn88xx; */
 	/* struct bdk_nic_pf_sw_sync_rx_cntsx_s cn88xxp1; */
 } bdk_nic_pf_sw_sync_rx_cntsx_t;
 
 static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_CNTSX(unsigned long param1) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_CNTSX(unsigned long param1)
 {
-	if (((param1 <= 3)))
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((param1 <= 3)))
 		return 0x0000843000490200ull + (param1 & 3) * 0x8ull;
-	csr_fatal("BDK_NIC_PF_SW_SYNC_RX_CNTSX", 1, param1, 0, 0, 0); /* No return */
+	else 		csr_fatal("BDK_NIC_PF_SW_SYNC_RX_CNTSX", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_NIC_PF_SW_SYNC_RX_CNTSX(...) bdk_nic_pf_sw_sync_rx_cntsx_t
 #define bustype_BDK_NIC_PF_SW_SYNC_RX_CNTSX(...) BDK_CSR_TYPE_NCB
@@ -6645,7 +7976,15 @@ typedef union bdk_nic_pf_tl3x_sh_status {
 		uint64_t reserved_63_63              : 1;
 #endif
 	} s;
-	/* struct bdk_nic_pf_tl3x_sh_status_s cn88xx; */
+	struct bdk_nic_pf_tl3x_sh_status_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_25_63              : 39;
+		uint64_t rr_count                    : 25; /**< R/W/H - Round-robin (DWRR) deficit counter. A 25-bit signed integer count. For diagnostic use. */
+#else
+		uint64_t rr_count                    : 25;
+		uint64_t reserved_25_63              : 39;
+#endif
+	} cn88xx;
 	/* struct bdk_nic_pf_tl3x_sh_status_s cn88xxp1; */
 } bdk_nic_pf_tl3x_sh_status_t;
 
@@ -6869,6 +8208,61 @@ static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long param1)
 #define busnum_BDK_NIC_PF_TL4AX_CFG(p1) (p1)
 #define arguments_BDK_NIC_PF_TL4AX_CFG(p1) (p1),-1,-1,-1
 #define basename_BDK_NIC_PF_TL4AX_CFG(...) "NIC_PF_TL4AX_CFG"
+
+
+/**
+ * NCB - nic_pf_tso_cfg
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_nic_pf_tso_cfg {
+	uint64_t u;
+	struct bdk_nic_pf_tso_cfg_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t enable                      : 1;  /**< R/W - TCP segmentation offload enable. When clear, NIC ignores NIC_SEND_HDR_S[TSO] and treats
+                                                                 all send descriptors as non-TSO. */
+		uint64_t reserved_44_62              : 19;
+		uint64_t fsf                         : 12; /**< R/W - Modify the TCP header flags for the first TSO segmented packet by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [FSF]. */
+		uint64_t reserved_28_31              : 4;
+		uint64_t msf                         : 12; /**< R/W - Modify the TCP header flags for the middle TSO segmented packets by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [MSF]. */
+		uint64_t reserved_12_15              : 4;
+		uint64_t lsf                         : 12; /**< R/W - Modify the TCP header flags for the last TSO segmented packet by logical AND
+                                                                 with this configuration.
+
+                                                                 _ FLAGS_new = (FLAGS_original) AND [LSF]. */
+#else
+		uint64_t lsf                         : 12;
+		uint64_t reserved_12_15              : 4;
+		uint64_t msf                         : 12;
+		uint64_t reserved_28_31              : 4;
+		uint64_t fsf                         : 12;
+		uint64_t reserved_44_62              : 19;
+		uint64_t enable                      : 1;
+#endif
+	} s;
+	/* struct bdk_nic_pf_tso_cfg_s        cn88xx; */
+} bdk_nic_pf_tso_cfg_t;
+
+#define BDK_NIC_PF_TSO_CFG BDK_NIC_PF_TSO_CFG_FUNC()
+static inline uint64_t BDK_NIC_PF_TSO_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_TSO_CFG_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000843000000070ull;
+	else 		csr_fatal("BDK_NIC_PF_TSO_CFG", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_NIC_PF_TSO_CFG bdk_nic_pf_tso_cfg_t
+#define bustype_BDK_NIC_PF_TSO_CFG BDK_CSR_TYPE_NCB
+#define busnum_BDK_NIC_PF_TSO_CFG 0
+#define arguments_BDK_NIC_PF_TSO_CFG -1,-1,-1,-1
+#define basename_BDK_NIC_PF_TSO_CFG "NIC_PF_TSO_CFG"
 
 
 /**
@@ -7459,7 +8853,7 @@ typedef union bdk_nic_qsx_rbdrx_cfg {
 		uint64_t reserved_45_63              : 19;
 		uint64_t ena                         : 1;  /**< R/W - Enable RBDR. */
 		uint64_t reset                       : 1;  /**< R/W - RBDR Reset. Writing a 1 resets all the NIC_QS(0..127)_RBDR(0..1)_* registers and internal
-                                                                 state for this RBDR. Cleared by hardware when reset is complete. */
+                                                                 state for this RBDR. Software clears after the reset sequence is complete. */
 		uint64_t ldwb                        : 1;  /**< R/W - When reading RBDR entry cache lines, use LDWB transactions to invalidate the cache line. */
 		uint64_t reserved_36_41              : 6;
 		uint64_t qsize                       : 4;  /**< R/W - Specifies RBDR size in entries of 8 bytes, as follows:
@@ -7500,7 +8894,53 @@ typedef union bdk_nic_qsx_rbdrx_cfg {
 		uint64_t reserved_45_63              : 19;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rbdrx_cfg_s     cn88xx; */
+	struct bdk_nic_qsx_rbdrx_cfg_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_45_63              : 19;
+		uint64_t ena                         : 1;  /**< R/W - Enable RBDR. */
+		uint64_t reset                       : 1;  /**< R/W - RBDR Reset. Writing a 1 resets all the NIC_QS(0..127)_RBDR(0..1)_* registers and internal
+                                                                 state for this RBDR. Software clears after the reset sequence is complete. */
+		uint64_t ldwb                        : 1;  /**< R/W - When reading RBDR entry cache lines, use LDWB transactions to invalidate the cache line. */
+		uint64_t reserved_36_41              : 6;
+		uint64_t qsize                       : 4;  /**< R/W - Specifies RBDR size in entries of 8 bytes, as follows:
+                                                                 0x0 = 8K entries.
+                                                                 0x1 = 16K entries.
+                                                                 0x2 = 32K entries.
+                                                                 0x3 = 64K entries.
+                                                                 0x4 = 128K entries.
+                                                                 0x5 = 256K entries.
+                                                                 0x6 = 512K entries.
+                                                                 else = Reserved.
+
+                                                                 Note that the usable size of the ring is the specified size minus 1 (HEAD==TAIL always
+                                                                 means empty). */
+		uint64_t reserved_25_31              : 7;
+		uint64_t avg_con                     : 9;  /**< R/W - This value controls how much of each present average resource level is used to calculate
+                                                                 the new resource level. The value is a number from 0 to 256, which represents AVG_CON/256
+                                                                 of the average resource level that will be used in the calculation:
+
+                                                                 next_LEVEL = (AVG_CON/256) * prev_LEVEL + (1-(AVG_CON/256)) * count
+
+                                                                 Note setting this value to zero will disable averaging, and always use the most immediate
+                                                                 levels. NIC_PF_RRM_AVG_CFG[AVG_EN] must be set and NIC_PF_RRM_AVG_CFG[LVL_DLY] must be
+                                                                 nonzero to globally enable averaging. NIC_PF_RRM_AVG_CFG[AVG_DLY] controls the periodicity
+                                                                 of the level calculations. */
+		uint64_t reserved_9_15               : 7;
+		uint64_t lines                       : 9;  /**< R/W - Changed in pass 2. Size of buffers linked to this ring in 128-byte cache lines.  Note, 0x0
+                                                                 is illegal and will get aliased to a setting of 0x1 */
+#else
+		uint64_t lines                       : 9;
+		uint64_t reserved_9_15               : 7;
+		uint64_t avg_con                     : 9;
+		uint64_t reserved_25_31              : 7;
+		uint64_t qsize                       : 4;
+		uint64_t reserved_36_41              : 6;
+		uint64_t ldwb                        : 1;
+		uint64_t reset                       : 1;
+		uint64_t ena                         : 1;
+		uint64_t reserved_45_63              : 19;
+#endif
+	} cn88xx;
 	/* struct bdk_nic_qsx_rbdrx_cfg_s     cn88xxp1; */
 } bdk_nic_qsx_rbdrx_cfg_t;
 
@@ -7903,7 +9343,52 @@ typedef union bdk_nic_qsx_rq_gen_cfg {
 		uint64_t reserved_27_63              : 37;
 #endif
 	} s;
-	/* struct bdk_nic_qsx_rq_gen_cfg_s    cn88xx; */
+	struct bdk_nic_qsx_rq_gen_cfg_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_27_63              : 37;
+		uint64_t vlan_strip                  : 2;  /**< R/W - Controls the stripping of any VLAN tags:
+                                                                 0 = No strip.
+                                                                 1 = Strip first VLAN if exists (NIC_CQE_RX_S[VV] set).
+                                                                 2 = Strip second VLAN if exists (NIC_CQE_RX_S[VS] set).
+                                                                 3 = Reserved. */
+		uint64_t len_l4                      : 1;  /**< R/W - Check length of L4. */
+		uint64_t len_l3                      : 1;  /**< R/W - Check length of IPv4/IPv6. */
+		uint64_t reserved_22_22              : 1;
+		uint64_t csum_l4                     : 1;  /**< R/W - Compute checksum on TCP/UDP packets. */
+		uint64_t ip6_udp_opt                 : 1;  /**< R/W - IPv6/UDP checksum is optional. IPv4 allows an optional UDP checksum by sending the all-0s
+                                                                 patterns. IPv6 outlaws this and the spec says to always check UDP checksum.
+                                                                 0 = Spec compliant, do not allow optional code.
+                                                                 1 = Treat IPv6 as IPv4; the all-0s pattern will cause a UDP checksum pass. */
+		uint64_t splt_hdr_ena                : 1;  /**< R/W - When set, any packet with a valid header stack down to the end of the L4 layer has its
+                                                                 header split into a separate RBDR buffer. */
+		uint64_t cq_hdr_copy                 : 1;  /**< R/W - If set, the header is copied into the CQE as well as existing in the packet buffer. The
+                                                                 hardware will copy all defined headers. */
+		uint64_t max_tcp_reass               : 2;  /**< R/W - Reserved. INTERNAL: Reserved for future use - Maximum TCP reassembled packet:
+                                                                 0x0 = 64Kbytes.
+                                                                 0x1 = 256Kbytes.
+                                                                 0x2-0x3 = Reserved. */
+		uint64_t cq_pkt_size                 : 8;  /**< R/W - Packet size in bytes. If a packet (including the TNS_HEADER field) is smaller than this
+                                                                 value, the entire packet is sent to the CQ buffer and no RB is used. Maximum number of
+                                                                 bytes is 249, to allow for up to 7 byte alignment pad. */
+		uint64_t later_skip                  : 4;  /**< R/W - Number of eight-byte words that are skipped at the beginning of other than the first RB
+                                                                 for a packet. */
+		uint64_t first_skip                  : 4;  /**< R/W - Number of eight-byte words that are skipped at the beginning of the first RB for a packet. */
+#else
+		uint64_t first_skip                  : 4;
+		uint64_t later_skip                  : 4;
+		uint64_t cq_pkt_size                 : 8;
+		uint64_t max_tcp_reass               : 2;
+		uint64_t cq_hdr_copy                 : 1;
+		uint64_t splt_hdr_ena                : 1;
+		uint64_t ip6_udp_opt                 : 1;
+		uint64_t csum_l4                     : 1;
+		uint64_t reserved_22_22              : 1;
+		uint64_t len_l3                      : 1;
+		uint64_t len_l4                      : 1;
+		uint64_t vlan_strip                  : 2;
+		uint64_t reserved_27_63              : 37;
+#endif
+	} cn88xx;
 	/* struct bdk_nic_qsx_rq_gen_cfg_s    cn88xxp1; */
 } bdk_nic_qsx_rq_gen_cfg_t;
 
@@ -7978,7 +9463,6 @@ typedef union bdk_nic_qsx_sqx_cfg {
                                                                  done. */
 		uint64_t reserved_18_18              : 1;
 		uint64_t reset                       : 1;  /**< WO - SQ Reset. Writing a 1 resets internal state for this SQ and the following registers:
-                                                                 * NIC_PF_QS()_SQ()_CFG.
                                                                  * NIC_PF_QS()_SQ()_STAT().
                                                                  * NIC_QS()_SQ()_CFG.
                                                                  * NIC_QS()_SQ()_THRESH.
@@ -7989,7 +9473,9 @@ typedef union bdk_nic_qsx_sqx_cfg {
                                                                  * NIC_QS()_SQ()_STATUS.
                                                                  * NIC_QS()_SQ()_STAT(). */
 		uint64_t ldwb                        : 1;  /**< R/W/H - When reading SQEs for a scheduled send packet that include the last byte of the SQE cache
-                                                                 line, use LDWB transaction to invalidate the cache line. */
+                                                                 line, use LDWB transaction to invalidate the cache line. When set, software must reserve
+                                                                 one cache line of unused SQEs in the SQ ring, i.e. SQ should be considered full when
+                                                                 NIC_QS()_SQ()_STATUS[QCOUNT] equals the SQ ring size minus 8. */
 		uint64_t reserved_11_15              : 5;
 		uint64_t qsize                       : 3;  /**< R/W/H - Specifies SQ ring size in entries of 16 bytes:
                                                                  0x0 = 1K entries.
@@ -8001,8 +9487,9 @@ typedef union bdk_nic_qsx_sqx_cfg {
                                                                  0x6 = 64K entries.
                                                                  0x7 = Reserved.
 
-                                                                 Note that the usable size of the ring is the specified size minus 1 (HEAD==TAIL always
-                                                                 means empty). */
+                                                                 Note that the usable size of the ring is the specified size minus 1 when [LDWB] is clear
+                                                                 (HEAD==TAIL always means empty). If [LDWB] is set, the usable size of the ring is the
+                                                                 specified size minus 8. */
 		uint64_t reserved_3_7                : 5;
 		uint64_t tstmp_bgx_intf              : 3;  /**< R/W/H - Selects the BGX interface for send timestamp capture. The upper bit selects the BGX block;
                                                                  the lower 2 bits selects the BGX interface/LMAC/port within the block. If the SQ sends a
@@ -8214,11 +9701,17 @@ typedef union bdk_nic_qsx_sqx_status {
                                                                  * The first SQE of the send descriptor is not NIC_SEND_HDR_S, i.e. [SUBDC] is not HDR.
                                                                  * NIC_SEND_HDR_S[SUBDCNT] is 0.
                                                                  * NIC_SEND_HDR_S[TOTAL] is 0.
-                                                                 * Memory fault on NIC_SEND_HDR_S read.
 
                                                                  When this bit is set, NIC stops servicing the SQ and sets [STOPPED] in this register when
                                                                  the stop operation done. A NIC_CQE_SEND_S is not created for a descriptor error that sets
-                                                                 this bit. */
+                                                                 this bit.
+
+                                                                 INTERNAL: The following DPE error is also checked in pass 1:
+                                                                 * Memory fault on NIC_SEND_HDR_S read.
+
+                                                                 This check in DPE is unnecessary and has been removed in pass 2 in order to simplify
+                                                                 verification. Memory faults on a send descriptor are always detected on the second pass
+                                                                 read by DSE. */
 		uint64_t soft_stop                   : 1;  /**< RAZ - Reserved. */
 		uint64_t reserved_16_17              : 2;
 		uint64_t qcount                      : 16; /**< RO/H - Number of valid entries in the SQ. Computed by hardware from

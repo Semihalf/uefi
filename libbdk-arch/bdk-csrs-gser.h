@@ -187,6 +187,45 @@ typedef union bdk_gserx_br_rxx_ctl {
 	uint64_t u;
 	struct bdk_gserx_br_rxx_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_4_63               : 60;
+		uint64_t rxt_adtmout_disable         : 1;  /**< R/W - For Base-R links the terminating condition for link training receiver adaptation
+                                                                 is a 330 milliseconds time-out timer.  When the receiver adaptation time-out timer
+                                                                 expires the receiver adaptation process is concluded and the link is considered good.
+                                                                 Note that when Base-R link training is performed under software control,
+                                                                 (GSER()_BR_RX()_CTL[RXT_SWM] is set), the receiver adaptation time-out timer is disabled
+                                                                 and not used.
+
+                                                                 Set this bit to a one to disable the link training receiver adaptation time-out
+                                                                 timer during Base-R link training under hardware control.  For diagnostic use only.
+                                                                 Added in pass 2. */
+		uint64_t rxt_swm                     : 1;  /**< R/W - Set when RX Base-R Link Training is to be performed under software control. For diagnostic
+                                                                 use only. */
+		uint64_t rxt_preset                  : 1;  /**< R/W - For all link training, this bit determines how to configure the preset bit in the
+                                                                 coefficient update message that is sent to the far end transmitter. When set, a one time
+                                                                 request is made that the coefficients be set to a state where equalization is turned off.
+
+                                                                 To perform a preset, set this bit prior to link training. Link training needs to be
+                                                                 disabled to complete the request and get the rxtrain state machine back to idle. Note that
+                                                                 it is illegal to set both the preset and initialize bits at the same time. For diagnostic
+                                                                 use only. */
+		uint64_t rxt_initialize              : 1;  /**< R/W - For all link training, this bit determines how to configure the initialize bit in the
+                                                                 coefficient update message that is sent to the far end transmitter of RX training. When
+                                                                 set, a request is made that the coefficients be set to its INITIALIZE state. To perform an
+                                                                 initialize prior to link training, set this bit prior to performing link training. Note
+                                                                 that it is illegal to set both the preset and initialize bits at the same time. Since the
+                                                                 far end transmitter is required to be initialized prior to starting link training, it is
+                                                                 not expected that software will need to set this bit. For diagnostic use only. */
+#else
+		uint64_t rxt_initialize              : 1;
+		uint64_t rxt_preset                  : 1;
+		uint64_t rxt_swm                     : 1;
+		uint64_t rxt_adtmout_disable         : 1;
+		uint64_t reserved_4_63               : 60;
+#endif
+	} s;
+	/* struct bdk_gserx_br_rxx_ctl_s      cn88xx; */
+	struct bdk_gserx_br_rxx_ctl_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_3_63               : 61;
 		uint64_t rxt_swm                     : 1;  /**< R/W - Set when RX Base-R Link Training is to be performed under software control. For diagnostic
                                                                  use only. */
@@ -211,9 +250,7 @@ typedef union bdk_gserx_br_rxx_ctl {
 		uint64_t rxt_swm                     : 1;
 		uint64_t reserved_3_63               : 61;
 #endif
-	} s;
-	/* struct bdk_gserx_br_rxx_ctl_s      cn88xx; */
-	/* struct bdk_gserx_br_rxx_ctl_s      cn88xxp1; */
+	} cn88xxp1;
 } bdk_gserx_br_rxx_ctl_t;
 
 static inline uint64_t BDK_GSERX_BR_RXX_CTL(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
@@ -622,7 +659,8 @@ typedef union bdk_gserx_glbl_tad {
                                                                  0x01 = DFE Edge I.
                                                                  0x02 = DFE CK Q.
                                                                  0x03 = DFE CK I.
-                                                                 0x04 = TBD.
+                                                                 0x04 = DLL use GSER()_SLICE()_RX_SDLL_CTRL.PCS_SDS_RX_SDLL_SWSEL to select signal
+                                                                 in the slice DLL.
                                                                  0x05-0x7 = Reserved.
                                                                  0x08 = RX ld_rx[0].
                                                                  0x09 = RX rx_clk.
@@ -1320,6 +1358,56 @@ static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_2(unsigned long param1, unsign
 #define busnum_BDK_GSERX_LANEX_PCS_CTLIFC_2(p1,p2) (p1)
 #define arguments_BDK_GSERX_LANEX_PCS_CTLIFC_2(p1,p2) (p1),(p2),-1,-1
 #define basename_BDK_GSERX_LANEX_PCS_CTLIFC_2(...) "GSERX_LANEX_PCS_CTLIFC_2"
+
+
+/**
+ * RSL - gser#_lane#_pcs_macifc_mon_2
+ *
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ * Added pass 2.
+ */
+typedef union bdk_gserx_lanex_pcs_macifc_mon_2 {
+	uint64_t u;
+	struct bdk_gserx_lanex_pcs_macifc_mon_2_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_16_63              : 48;
+		uint64_t tx_coeff_req                : 1;  /**< RO/H - Indicates current state of the MAC to PCS Tx Coefficient Request input.
+                                                                 INTERNAL: mac_pcs_txX_coeff_req. */
+		uint64_t tx_vboost_en                : 1;  /**< RO/H - Indicates current state of the MAC to PCS Tx Vboost Enable input.
+                                                                 INTERNAL: mac_pcs_txX_vboost_en. */
+		uint64_t tx_swing                    : 5;  /**< RO/H - Indicates current state of the MAC to PCS Tx Equalizer Swing\<4:0\> input.
+                                                                 INTERNAL: mac_pcs_txX_swing[4:0]. */
+		uint64_t tx_pre                      : 4;  /**< RO/H - Indicates current state of the MAC to PCS Tx Equalizer Pre Emphasis\<3:0\> input.
+                                                                 INTERNAL: mac_pcs_txX_pre[3:0]. */
+		uint64_t tx_post                     : 5;  /**< RO/H - Indicates current state of the MAC to PCS Tx Equalizer Post Emphasis\<4:0\> input.
+                                                                 INTERNAL: mac_pcs_txX_post[4:0]. */
+#else
+		uint64_t tx_post                     : 5;
+		uint64_t tx_pre                      : 4;
+		uint64_t tx_swing                    : 5;
+		uint64_t tx_vboost_en                : 1;
+		uint64_t tx_coeff_req                : 1;
+		uint64_t reserved_16_63              : 48;
+#endif
+	} s;
+	/* struct bdk_gserx_lanex_pcs_macifc_mon_2_s cn88xx; */
+	/* struct bdk_gserx_lanex_pcs_macifc_mon_2_s cn88xxp1; */
+} bdk_gserx_lanex_pcs_macifc_mon_2_t;
+
+static inline uint64_t BDK_GSERX_LANEX_PCS_MACIFC_MON_2(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_LANEX_PCS_MACIFC_MON_2(unsigned long param1, unsigned long param2)
+{
+	if (((param1 <= 13)) && ((param2 <= 3)))
+		return 0x000087E0904C0118ull + (param1 & 15) * 0x1000000ull + (param2 & 3) * 0x100000ull;
+	csr_fatal("BDK_GSERX_LANEX_PCS_MACIFC_MON_2", 2, param1, param2, 0, 0); /* No return */
+}
+#define typedef_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(...) bdk_gserx_lanex_pcs_macifc_mon_2_t
+#define bustype_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(p1,p2) (p1)
+#define arguments_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(p1,p2) (p1),(p2),-1,-1
+#define basename_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(...) "GSERX_LANEX_PCS_MACIFC_MON_2"
 
 
 /**
@@ -2307,9 +2395,13 @@ typedef union bdk_gserx_lanex_rx_misc_ovrrd {
 		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;  /**< R/W - When asserted, pcs_sds_rx_err_det_ctrl is set
                                                                  to cfg_rx_errdet_ctrl in registers
                                                                  GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
-		uint64_t reserved_0_3                : 4;
+		uint64_t reserved_1_3                : 3;
+		uint64_t cfg_rxeq_eval_restore_en    : 1;  /**< R/W - When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
+                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
+                                                                 Added in pass 2. */
 #else
-		uint64_t reserved_0_3                : 4;
+		uint64_t cfg_rxeq_eval_restore_en    : 1;
+		uint64_t reserved_1_3                : 3;
 		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;
 		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;
 		uint64_t reserved_6_6                : 1;
@@ -2324,6 +2416,48 @@ typedef union bdk_gserx_lanex_rx_misc_ovrrd {
 #endif
 	} s;
 	struct bdk_gserx_lanex_rx_misc_ovrrd_cn88xx {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_14_63              : 50;
+		uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;  /**< R/W - Override value for RX OOB Clock Enable. */
+		uint64_t cfg_rx_oob_clk_en_ovrrd_en  : 1;  /**< R/W - Override enable for RX OOB Clock Enable. */
+		uint64_t cfg_rx_eie_det_ovrrd_val    : 1;  /**< R/W - Override value for RX Electrical-Idle-Exit
+                                                                 Detect Enable. */
+		uint64_t cfg_rx_eie_det_ovrrd_en     : 1;  /**< R/W - Override enable for RX Electrical-Idle-Exit
+                                                                 Detect Enable. */
+		uint64_t cfg_rx_cdr_ctrl_ovvrd_en    : 1;  /**< R/W - Not supported. */
+		uint64_t cfg_rx_eq_eval_ovrrd_val    : 1;  /**< R/W - Training mode control in override mode. */
+		uint64_t cfg_rx_eq_eval_ovrrd_en     : 1;  /**< R/W - Override enable for RX-EQ Eval
+                                                                 When asserted, training mode is controlled by
+                                                                 CFG_RX_EQ_EVAL_OVRRD_VAL. */
+		uint64_t reserved_6_6                : 1;
+		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;  /**< R/W - When asserted, override DLL lock enable
+                                                                 signal from the RX Power State machine with
+                                                                 CFG_RX_DLL_LOCKEN in register
+                                                                 GSER()_LANE()_RX_CFG_1. */
+		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;  /**< R/W - When asserted, pcs_sds_rx_err_det_ctrl is set
+                                                                 to cfg_rx_errdet_ctrl in registers
+                                                                 GSER()_LANE()_RX_CFG_3 and GSER()_LANE()_RX_CFG_4. */
+		uint64_t reserved_3_1                : 3;
+		uint64_t cfg_rxeq_eval_restore_en    : 1;  /**< R/W - When asserted, AGC and CTLE use the RX EQ settings determined from RX EQ
+                                                                 evaluation process when VMA is not in manual mode. Otherwise, default settings are used.
+                                                                 Added in pass 2. */
+#else
+		uint64_t cfg_rxeq_eval_restore_en    : 1;
+		uint64_t reserved_3_1                : 3;
+		uint64_t cfg_rx_errdet_ctrl_ovvrd_en : 1;
+		uint64_t cfg_rx_dll_locken_ovvrd_en  : 1;
+		uint64_t reserved_6_6                : 1;
+		uint64_t cfg_rx_eq_eval_ovrrd_en     : 1;
+		uint64_t cfg_rx_eq_eval_ovrrd_val    : 1;
+		uint64_t cfg_rx_cdr_ctrl_ovvrd_en    : 1;
+		uint64_t cfg_rx_eie_det_ovrrd_en     : 1;
+		uint64_t cfg_rx_eie_det_ovrrd_val    : 1;
+		uint64_t cfg_rx_oob_clk_en_ovrrd_en  : 1;
+		uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;
+		uint64_t reserved_14_63              : 50;
+#endif
+	} cn88xx;
+	struct bdk_gserx_lanex_rx_misc_ovrrd_cn88xxp1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_14_63              : 50;
 		uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;  /**< R/W - Override value for RX OOB Clock Enable. */
@@ -2360,8 +2494,7 @@ typedef union bdk_gserx_lanex_rx_misc_ovrrd {
 		uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;
 		uint64_t reserved_14_63              : 50;
 #endif
-	} cn88xx;
-	struct bdk_gserx_lanex_rx_misc_ovrrd_cn88xx cn88xxp1;
+	} cn88xxp1;
 } bdk_gserx_lanex_rx_misc_ovrrd_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_MISC_OVRRD(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));

@@ -2827,6 +2827,55 @@ static inline uint64_t BDK_OCX_RLKX_SALT_LOW(unsigned long param1)
 
 
 /**
+ * RSL - ocx_strap
+ *
+ * This register provide read-only access to OCI straps.  Added in pass 2.
+ *
+ */
+typedef union bdk_ocx_strap {
+	uint64_t u;
+	struct bdk_ocx_strap_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_26_63              : 38;
+		uint64_t oci3_lnk1                   : 1;  /**< RO - OCI3_LNK1 strap. */
+		uint64_t oci2_lnk1                   : 1;  /**< RO - OCI2_LNK1 strap. */
+		uint64_t reserved_17_23              : 7;
+		uint64_t oci_fixed_node              : 1;  /**< RO - OCI_FIXED_NODE strap. */
+		uint64_t reserved_10_15              : 6;
+		uint64_t oci_node_id                 : 2;  /**< RO - OCI_NODE_ID\<1:0\> straps. */
+		uint64_t reserved_4_7                : 4;
+		uint64_t oci_spd                     : 4;  /**< RO - OCI_SPD\<3:0\> straps. */
+#else
+		uint64_t oci_spd                     : 4;
+		uint64_t reserved_4_7                : 4;
+		uint64_t oci_node_id                 : 2;
+		uint64_t reserved_10_15              : 6;
+		uint64_t oci_fixed_node              : 1;
+		uint64_t reserved_17_23              : 7;
+		uint64_t oci2_lnk1                   : 1;
+		uint64_t oci3_lnk1                   : 1;
+		uint64_t reserved_26_63              : 38;
+#endif
+	} s;
+	/* struct bdk_ocx_strap_s             cn88xx; */
+} bdk_ocx_strap_t;
+
+#define BDK_OCX_STRAP BDK_OCX_STRAP_FUNC()
+static inline uint64_t BDK_OCX_STRAP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_OCX_STRAP_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x000087E01100FF08ull;
+	else 		csr_fatal("BDK_OCX_STRAP", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_OCX_STRAP bdk_ocx_strap_t
+#define bustype_BDK_OCX_STRAP BDK_CSR_TYPE_RSL
+#define busnum_BDK_OCX_STRAP 0
+#define arguments_BDK_OCX_STRAP -1,-1,-1,-1
+#define basename_BDK_OCX_STRAP "OCX_STRAP"
+
+
+/**
  * RSL - ocx_tlk#_bist_status
  *
  * Contains status from last memory BIST for all TX FIFO memories and REPLAY memories in this
@@ -2861,6 +2910,44 @@ static inline uint64_t BDK_OCX_TLKX_BIST_STATUS(unsigned long param1)
 #define busnum_BDK_OCX_TLKX_BIST_STATUS(p1) (p1)
 #define arguments_BDK_OCX_TLKX_BIST_STATUS(p1) (p1),-1,-1,-1
 #define basename_BDK_OCX_TLKX_BIST_STATUS(...) "OCX_TLKX_BIST_STATUS"
+
+
+/**
+ * RSL - ocx_tlk#_byp_ctl
+ *
+ * This register is for diagnostic use.  Added in pass 2.
+ *
+ */
+typedef union bdk_ocx_tlkx_byp_ctl {
+	uint64_t u;
+	struct bdk_ocx_tlkx_byp_ctl_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_12_63              : 52;
+		uint64_t vc_dis                      : 11; /**< R/W - VC bypass disable.  When set, the corresponding VC is restricted from using
+                                                                 the low latency TX FIFO bypass logic.  This logic is typically disabled for
+                                                                 VC0 only.  For diagnostic use only. */
+		uint64_t reserved_0_0                : 1;
+#else
+		uint64_t reserved_0_0                : 1;
+		uint64_t vc_dis                      : 11;
+		uint64_t reserved_12_63              : 52;
+#endif
+	} s;
+	/* struct bdk_ocx_tlkx_byp_ctl_s      cn88xx; */
+} bdk_ocx_tlkx_byp_ctl_t;
+
+static inline uint64_t BDK_OCX_TLKX_BYP_CTL(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_OCX_TLKX_BYP_CTL(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 2)))
+		return 0x000087E011010030ull + (param1 & 3) * 0x2000ull;
+	else 		csr_fatal("BDK_OCX_TLKX_BYP_CTL", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_OCX_TLKX_BYP_CTL(...) bdk_ocx_tlkx_byp_ctl_t
+#define bustype_BDK_OCX_TLKX_BYP_CTL(...) BDK_CSR_TYPE_RSL
+#define busnum_BDK_OCX_TLKX_BYP_CTL(p1) (p1)
+#define arguments_BDK_OCX_TLKX_BYP_CTL(p1) (p1),-1,-1,-1
+#define basename_BDK_OCX_TLKX_BYP_CTL(...) "OCX_TLKX_BYP_CTL"
 
 
 /**

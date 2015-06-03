@@ -1,0 +1,29 @@
+--- nic.csr	2015-06-03 15:43:18.000000000 -0700
++++ cn88xx/nic.csr	2015-06-03 15:43:50.000000000 -0700
+@@ -895,26 +895,12 @@
+       - name: BTH
+         value: 0x5
+         attributes:
+-          chip_pass: "t88>=2.0;t83"
+           exempt_pass1_address_change: "True"
+         description: RoCE base transport header. Changed mapping in pass 2.
+ 
+-      - name: BTH
+-        value: 0x8
+-        attributes:
+-          chip_pass: "t88<2.0;!t83"
+-        description: RoCE base transport header.
+-
+-      - name: UDP
+-        value: 0x5
+-        attributes:
+-          chip_pass: "t88<2.0;!t83"
+-        description: UDP.
+-
+       - name: UDP
+         value: 0x8
+         attributes:
+-          chip_pass: "t88>=2.0;t83"
+           exempt_pass1_address_change: "True"
+         description: UDP. Changed mapping in pass 2.
+ 

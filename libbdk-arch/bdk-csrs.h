@@ -43,6 +43,7 @@
 
 
 /* Include all CSR files for easy access */
+#include "bdk-csrs-ap.h"
 #include "bdk-csrs-bgx.h"
 #include "bdk-csrs-cim.h"
 #include "bdk-csrs-dab_cti.h"

@@ -94,6 +94,7 @@ enum pmu_perf_e {
 	PMU_PERF_E_BRMIS = 0xc8,
 	PMU_PERF_E_BR_FOLDED = 0xc5,
 	PMU_PERF_E_BR_FOLDED_RAW = 0xc6,
+	PMU_PERF_E_BR_FOLDED_SPEC = 0xc6,
 	PMU_PERF_E_BR_IMMED_RETIRED = 0xd,
 	PMU_PERF_E_BR_IMMED_SPEC = 0x78,
 	PMU_PERF_E_BR_INDIRECT_SPEC = 0x7a,
@@ -2086,17 +2087,15 @@ static inline uint64_t BDK_PMUX_PMDEVTYPE(unsigned long param1)
 /**
  * DAB - pmu#_pmevcntr#_el0
  *
- * Holds event counter n, which counts events, where n is 0 to
- * 30.
+ * This register contains the event counters.
+ *
  */
 typedef union bdk_pmux_pmevcntrx_el0 {
 	uint64_t u;
 	struct bdk_pmux_pmevcntrx_el0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_32_63              : 32;
-		uint64_t data                        : 32; /**< R/W - Event counter n
-                                                                 Event counter n. Value of event counter n, where n is the
-                                                                     number of this register and is a number from 0 to 30. */
+		uint64_t data                        : 32; /**< R/W - Event counter. */
 #else
 		uint64_t data                        : 32;
 		uint64_t reserved_32_63              : 32;
@@ -2123,7 +2122,7 @@ static inline uint64_t BDK_PMUX_PMEVCNTRX_EL0(unsigned long param1, unsigned lon
 /**
  * DAB32b - pmu#_pmevtyper#_el0
  *
- * Configures event counter n, where n is 0 to 30.
+ * This register contains the event counters.
  *
  */
 typedef union bdk_pmux_pmevtyperx_el0 {
@@ -2162,29 +2161,56 @@ typedef union bdk_pmux_pmevtyperx_el0 {
                                                                  If the value of this bit is equal to the value of P, events in
                                                                      Secure EL3 are counted.
                                                                  Otherwise, events in Secure EL3 are not counted. */
+		uint32_t reserved_16_25              : 10;
+		uint32_t evtcount                    : 16; /**< R/W - Event to count. */
+#else
+		uint32_t evtcount                    : 16;
+		uint32_t reserved_16_25              : 10;
+		uint32_t m                           : 1;
+		uint32_t nsh                         : 1;
+		uint32_t nsu                         : 1;
+		uint32_t nsk                         : 1;
+		uint32_t u                           : 1;
+		uint32_t p                           : 1;
+#endif
+	} s;
+	/* struct bdk_pmux_pmevtyperx_el0_s   cn88xx; */
+	struct bdk_pmux_pmevtyperx_el0_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t p                           : 1;  /**< R/W - EL1 modes filtering bit. Controls counting in EL1. If EL3 is
+                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     controlled by the NSK bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count events in EL1.
+                                                                 1 = Do not count events in EL1. */
+		uint32_t u                           : 1;  /**< R/W - EL0 filtering bit. Controls counting in EL0. If EL3 is
+                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     controlled by the NSU bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count events in EL0.
+                                                                 1 = Do not count events in EL0. */
+		uint32_t nsk                         : 1;  /**< R/W - Non-secure kernel modes filtering bit. Controls counting in
+                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, events in
+                                                                     Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+		uint32_t nsu                         : 1;  /**< R/W - Non-secure user modes filtering bit. Controls counting in Non-
+                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of U, events in
+                                                                     Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+		uint32_t nsh                         : 1;  /**< R/W - Non-secure Hyp modes filtering bit. Controls counting in Non-
+                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                 0 = Do not count events in EL2.
+                                                                 1 = Count events in EL2. */
+		uint32_t m                           : 1;  /**< R/W - Secure EL3 filtering bit. Most applications can ignore this
+                                                                     bit and set the value to zero. If EL3 is not implemented, this
+                                                                     bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, events in
+                                                                     Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted. */
 		uint32_t reserved_10_25              : 16;
-		uint32_t evtcount                    : 10; /**< R/W - Event to count. The event number of the event that is counted
-                                                                     by event counter PMEVCNTR\<n\>_EL0.
-                                                                 Enumerated by PMU_PERF_E.
-
-                                                                 Software must program this field with an event defined by the
-                                                                     processor or a common event defined by the architecture.
-                                                                 If evtCount is programmed to an event that is reserved or not
-                                                                     implemented, the behavior depends on the event type.
-                                                                 For common architectural and microarchitectural events:
-                                                                  No events are counted.
-                                                                  The value read back on evtCount is the value written.
-                                                                 For implementation defined events:
-                                                                  It is UNPREDICTABLE what event, if any, is counted.
-                                                                     UNPREDICTABLE in this case means the event must not expose
-                                                                     privileged information.
-                                                                  The value read back on evtCount is an UNKNOWN value with the
-                                                                     same effect.
-                                                                 ARM recommends that the behavior across a family of
-                                                                     implementations is defined such that if a given implementation
-                                                                     does not include an event from a set of common implementation
-                                                                     defined events, then no event is counted and the value read
-                                                                     back on evtCount is the value written. */
+		uint32_t evtcount                    : 10; /**< R/W - Event to count. */
 #else
 		uint32_t evtcount                    : 10;
 		uint32_t reserved_10_25              : 16;
@@ -2195,9 +2221,7 @@ typedef union bdk_pmux_pmevtyperx_el0 {
 		uint32_t u                           : 1;
 		uint32_t p                           : 1;
 #endif
-	} s;
-	/* struct bdk_pmux_pmevtyperx_el0_s   cn88xx; */
-	/* struct bdk_pmux_pmevtyperx_el0_s   cn88xxp1; */
+	} cn88xxp1;
 } bdk_pmux_pmevtyperx_el0_t;
 
 static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));

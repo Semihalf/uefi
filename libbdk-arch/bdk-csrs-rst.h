@@ -178,10 +178,10 @@ typedef union bdk_rst_boot {
                                                                  expires, internal chip reset is asserted forever until the next chip reset. The CHIPKILL
                                                                  timer can be stopped only by a chip (cold, warm, soft) reset. The length of the CHIPKILL
                                                                  timer is specified by RST_CKILL[TIMER]. */
-		uint64_t jtcsrdis                    : 1;  /**< R/W - JTAG CSR disable. When set to 1, internal CSR access via the JTAG TAP controller
-                                                                 is disabled This field resets to 1 in trusted-mode, else 0. */
-		uint64_t ejtagdis                    : 1;  /**< R/W - EJTAG CSR disable. When set, external EJTAG access is disabled. This field resets to 1 in
-                                                                 trusted-mode, else 0. */
+		uint64_t jtcsrdis                    : 1;  /**< R/W - JTAG CSR disable. When set to 1, during the next warm or soft reset the JTAG TAP
+                                                                 controller will be disabled, ie. DAP_IMP_DAR will be 0.  This field resets to 1
+                                                                 in trusted-mode, else 0. */
+		uint64_t ejtagdis                    : 1;  /**< R/W - Reserved. */
 		uint64_t trusted_mode                : 1;  /**< RO - When set, chip is operating as a trusted device. This bit is asserted when
                                                                  either MIO_FUS_DAT2[TRUSTZONE_EN], FUSF_CTL[TZ_FORCE2], or the trusted-mode
                                                                  strap GPIO_STRAP\<10\> are set. */
@@ -190,13 +190,13 @@ typedef union bdk_rst_boot {
 		uint64_t jt_tstmode                  : 1;  /**< RO - JTAG test mode. */
 		uint64_t vrm_err                     : 1;  /**< RO - VRM error. VRM did not complete operations within 5.25mS of PLL_DC_OK being
                                                                  asserted. PLLs were released automatically. */
-		uint64_t dis_huk                     : 1;  /**< R/W1S - Disable HUK. Secure only and W1S set-only. When set to 1, FUSF_SSK(), FUSF_ROTPK(),
-                                                                 FUSF_HUK(), FUSF_EK(), and FUSF_SW()
-                                                                 cannot be read. Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
+		uint64_t dis_huk                     : 1;  /**< R/W1S - Disable HUK. Secure only and W1S set-only. When set FUSF_SSK(),
+                                                                 FUSF_HUK(), FUSF_EK(), and FUSF_SW() cannot be read.
+                                                                 Resets to (!trusted_mode && FUSF_CTL[FJ_DIS_HUK]). */
 		uint64_t dis_scan                    : 1;  /**< R/W1S - Disable scan. When written to 1, and FUSF_CTL[ROT_LCK] = 1, reads as 1 and scan is not
                                                                  allowed in the part.
                                                                  This state persists across soft and warm resets.
-                                                                 INTERNAL:  This state will presist across a simulations */
+                                                                 INTERNAL:  This state will persist across a simulation */
 		uint64_t reserved_47_54              : 8;
 		uint64_t c_mul                       : 7;  /**< RO/H - Core-clock multiplier. C_MUL = (core-clock speed) / (ref-clock speed). The value
                                                                  ref-clock speed should always be 50 MHz.
@@ -486,7 +486,7 @@ static inline uint64_t BDK_RST_CTLX(unsigned long param1)
  * RSL - rst_dbg_reset
  *
  * This register contains the reset control for each core's debug logic.
- *
+ * Debug reset is not support in pass 2.
  */
 typedef union bdk_rst_dbg_reset {
 	uint64_t u;
@@ -519,6 +519,41 @@ static inline uint64_t BDK_RST_DBG_RESET_FUNC(void)
 #define busnum_BDK_RST_DBG_RESET 0
 #define arguments_BDK_RST_DBG_RESET -1,-1,-1,-1
 #define basename_BDK_RST_DBG_RESET "RST_DBG_RESET"
+
+
+/**
+ * RSL - rst_debug
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_rst_debug {
+	uint64_t u;
+	struct bdk_rst_debug_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_1_63               : 63;
+		uint64_t clk_on                      : 1;  /**< R/W - Force conditional clock used for interrupt logic to always be on. For diagnostic use only. */
+#else
+		uint64_t clk_on                      : 1;
+		uint64_t reserved_1_63               : 63;
+#endif
+	} s;
+	/* struct bdk_rst_debug_s             cn88xx; */
+} bdk_rst_debug_t;
+
+#define BDK_RST_DEBUG BDK_RST_DEBUG_FUNC()
+static inline uint64_t BDK_RST_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_RST_DEBUG_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x000087E0060017B0ull;
+	else 		csr_fatal("BDK_RST_DEBUG", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_RST_DEBUG bdk_rst_debug_t
+#define bustype_BDK_RST_DEBUG BDK_CSR_TYPE_RSL
+#define busnum_BDK_RST_DEBUG 0
+#define arguments_BDK_RST_DEBUG -1,-1,-1,-1
+#define basename_BDK_RST_DEBUG "RST_DEBUG"
 
 
 /**
@@ -558,6 +593,41 @@ static inline uint64_t BDK_RST_DELAY_FUNC(void)
 #define busnum_BDK_RST_DELAY 0
 #define arguments_BDK_RST_DELAY -1,-1,-1,-1
 #define basename_BDK_RST_DELAY "RST_DELAY"
+
+
+/**
+ * RSL - rst_eco
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_rst_eco {
+	uint64_t u;
+	struct bdk_rst_eco_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_32_63              : 32;
+		uint64_t eco_rw                      : 32; /**< R/W - ECO flops. */
+#else
+		uint64_t eco_rw                      : 32;
+		uint64_t reserved_32_63              : 32;
+#endif
+	} s;
+	/* struct bdk_rst_eco_s               cn88xx; */
+} bdk_rst_eco_t;
+
+#define BDK_RST_ECO BDK_RST_ECO_FUNC()
+static inline uint64_t BDK_RST_ECO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_RST_ECO_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x000087E0060017B8ull;
+	else 		csr_fatal("BDK_RST_ECO", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_RST_ECO bdk_rst_eco_t
+#define bustype_BDK_RST_ECO BDK_CSR_TYPE_RSL
+#define busnum_BDK_RST_ECO 0
+#define arguments_BDK_RST_ECO -1,-1,-1,-1
+#define basename_BDK_RST_ECO "RST_ECO"
 
 
 /**
@@ -863,6 +933,39 @@ static inline uint64_t BDK_RST_OCX_FUNC(void)
 
 
 /**
+ * RSL - rst_osc_cntr
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_rst_osc_cntr {
+	uint64_t u;
+	struct bdk_rst_osc_cntr_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t cnt                         : 64; /**< RO/H - Internal ring-oscillator clock count.  Updated every 16 reference clocks. */
+#else
+		uint64_t cnt                         : 64;
+#endif
+	} s;
+	/* struct bdk_rst_osc_cntr_s          cn88xx; */
+} bdk_rst_osc_cntr_t;
+
+#define BDK_RST_OSC_CNTR BDK_RST_OSC_CNTR_FUNC()
+static inline uint64_t BDK_RST_OSC_CNTR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_RST_OSC_CNTR_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x000087E006001778ull;
+	else 		csr_fatal("BDK_RST_OSC_CNTR", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_RST_OSC_CNTR bdk_rst_osc_cntr_t
+#define bustype_BDK_RST_OSC_CNTR BDK_CSR_TYPE_RSL
+#define busnum_BDK_RST_OSC_CNTR 0
+#define arguments_BDK_RST_OSC_CNTR -1,-1,-1,-1
+#define basename_BDK_RST_OSC_CNTR "RST_OSC_CNTR"
+
+
+/**
  * RSL - rst_out_ctl
  */
 typedef union bdk_rst_out_ctl {
@@ -1105,6 +1208,52 @@ static inline uint64_t BDK_RST_PP_RESET_FUNC(void)
 #define busnum_BDK_RST_PP_RESET 0
 #define arguments_BDK_RST_PP_RESET -1,-1,-1,-1
 #define basename_BDK_RST_PP_RESET "RST_PP_RESET"
+
+
+/**
+ * RSL - rst_ref_check
+ *
+ * Added in pass 2.
+ *
+ */
+typedef union bdk_rst_ref_check {
+	uint64_t u;
+	struct bdk_rst_ref_check_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t range                       : 1;  /**< RO/H - Reference ever out of range. Set when either:
+                                                                 * Reference clock was outside operating range of 25 to 100 MHz.
+                                                                 * Reference clock duty cycle outside 50% +/- 20%.
+                                                                 * Reference increased or decreased in frequency. */
+		uint64_t reserved_32_62              : 31;
+		uint64_t cnt1                        : 16; /**< RO/H - Number of internal ring-oscillator clock pulses counted over 16 reference clocks
+                                                                 while reference clock was high.
+                                                                 When used with [CNT0] the internal ring-oscillator frequency can be determined. */
+		uint64_t cnt0                        : 16; /**< RO/H - Number of internal ring-oscillator clock pulses counted over 16 reference clocks
+                                                                 while reference clock was low.
+                                                                 When used with [CNT1] the internal ring-oscillator frequency can be determined. */
+#else
+		uint64_t cnt0                        : 16;
+		uint64_t cnt1                        : 16;
+		uint64_t reserved_32_62              : 31;
+		uint64_t range                       : 1;
+#endif
+	} s;
+	/* struct bdk_rst_ref_check_s         cn88xx; */
+} bdk_rst_ref_check_t;
+
+#define BDK_RST_REF_CHECK BDK_RST_REF_CHECK_FUNC()
+static inline uint64_t BDK_RST_REF_CHECK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_RST_REF_CHECK_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x000087E006001770ull;
+	else 		csr_fatal("BDK_RST_REF_CHECK", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_RST_REF_CHECK bdk_rst_ref_check_t
+#define bustype_BDK_RST_REF_CHECK BDK_CSR_TYPE_RSL
+#define busnum_BDK_RST_REF_CHECK 0
+#define arguments_BDK_RST_REF_CHECK -1,-1,-1,-1
+#define basename_BDK_RST_REF_CHECK "RST_REF_CHECK"
 
 
 /**

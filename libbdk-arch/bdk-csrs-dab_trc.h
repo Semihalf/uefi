@@ -335,11 +335,11 @@ typedef union bdk_trcx_trcauthstatus {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_4_31               : 28;
 		uint32_t nsnid                       : 2;  /**< RO - If EL3 is not implemented and the processor is Secure, holds
-                                                                     the same value as DBGAUTHSTATUS_EL1.SNID.
-                                                                 Otherwise, holds the same value as DBGAUTHSTATUS_EL1.NSNID. */
+                                                                     the same value as TRC()_DBGAUTHSTATUS_EL1[SNID].
+                                                                 Otherwise, holds the same value as TRC()_DBGAUTHSTATUS_EL1[NSNID]. */
 		uint32_t nsid                        : 2;  /**< RO - If EL3 is not implemented and the processor is Secure, holds
-                                                                     the same value as DBGAUTHSTATUS_EL1.SID.
-                                                                 Otherwise, holds the same value as DBGAUTHSTATUS_EL1.NSID. */
+                                                                     the same value as TRC()_DBGAUTHSTATUS_EL1[SID].
+                                                                 Otherwise, holds the same value as TRC()_DBGAUTHSTATUS_EL1[NSID]. */
 #else
 		uint32_t nsid                        : 2;
 		uint32_t nsnid                       : 2;
@@ -880,7 +880,7 @@ static inline uint64_t BDK_TRCX_TRCCNTRLDVR1(unsigned long param1)
 /**
  * DAB32b - trc#_trccntvr0
  *
- * return the value of counter n.
+ * This register returns the value of counter n.
  *
  */
 typedef union bdk_trcx_trccntvr0 {
@@ -915,7 +915,7 @@ static inline uint64_t BDK_TRCX_TRCCNTVR0(unsigned long param1)
 /**
  * DAB32b - trc#_trccntvr1
  *
- * return the value of counter n.
+ * This register returns the value of counter n.
  *
  */
 typedef union bdk_trcx_trccntvr1 {
@@ -973,9 +973,9 @@ typedef union bdk_trcx_trcconfigr {
                                                                  0x3 Q elements with and without instruction counts are enabled.
 
                                                                  These fields must be set to 0x0 if any of the following are true:
-                                                                      1. TRCCONFIGR.INSTP0 is not 0x0.
-                                                                      2. TRCCONFIGR.COND is not 0x0.
-                                                                      3. TRCCONFIGR.BB is not 0. */
+                                                                      1. TRC()_TRCCONFIGR[INSTP0] is not 0x0.
+                                                                      2. TRC()_TRCCONFIGR[COND] is not 0x0.
+                                                                      3. TRC()_TRCCONFIGR[BB] is not 0. */
 		uint32_t rs                          : 1;  /**< R/W - Return stack enable bit.
                                                                  0 = Return stack is not enabled.
                                                                  1 = Return stack is enabled. */
@@ -1177,9 +1177,9 @@ typedef union bdk_trcx_trcdevid {
 		uint32_t inout_gate                  : 2;  /**< RO - Input/output options. Indicates presence of the input gate. If
                                                                      the CTM is not implemented, this field is RAZ.
                                                                  All other values are reserved.
-                                                                 0x0 = TRCGATE does not mask propagation of input events from
+                                                                 0x0 = TRC()_TRCGATE does not mask propagation of input events from
                                                                      external channels.
-                                                                 0x1 = TRCGATE masks propagation of input events from external
+                                                                 0x1 = TRC()_TRCGATE masks propagation of input events from external
                                                                      channels. */
 		uint32_t reserved_22_23              : 2;
 		uint32_t numchan                     : 6;  /**< RO - Number of ECT channels implemented. Implementation defined.
@@ -1249,7 +1249,7 @@ typedef union bdk_trcx_trcdevtype {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_8_31               : 24;
 		uint32_t sub                         : 4;  /**< RO - Subtype. Must read as 0x1. */
-		uint32_t major                       : 4;  /**< RO - Major type. Must read as 0x4. */
+		uint32_t major                       : 4;  /**< RO - Major type. Must read as 0x3. */
 #else
 		uint32_t major                       : 4;
 		uint32_t sub                         : 4;
@@ -1350,9 +1350,9 @@ typedef union bdk_trcx_trceventctl0r {
 	uint32_t u;
 	struct bdk_trcx_trceventctl0r_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t event3                      : 8;  /**< R/W - Only supported if TRCIDR0.NUMEVENT = 0x3. */
-		uint32_t event2                      : 8;  /**< R/W - Only supported if TRCIDR0.NUMEVENT = 0x3, 0x2. */
-		uint32_t event1                      : 8;  /**< R/W - Only supported if TRCIDR0.NUMEVENT = 0x3, 0x2, 0x1. */
+		uint32_t event3                      : 8;  /**< R/W - Only supported if TRC()_TRCIDR0[NUMEVENT] = 0x3. */
+		uint32_t event2                      : 8;  /**< R/W - Only supported if TRC()_TRCIDR0[NUMEVENT] = 0x3, 0x2. */
+		uint32_t event1                      : 8;  /**< R/W - Only supported if TRC()_TRCIDR0[NUMEVENT] = 0x3, 0x2, 0x1. */
 		uint32_t event0                      : 8;  /**< R/W - always supported. */
 #else
 		uint32_t event0                      : 8;
@@ -1382,7 +1382,7 @@ static inline uint64_t BDK_TRCX_TRCEVENTCTL0R(unsigned long param1)
 /**
  * DAB32b - trc#_trceventctl1r
  *
- * Control the behavior of events that TRCEVENTCTL0R selects.
+ * Control the behavior of events that TRC()_TRCEVENTCTL0R selects.
  *
  */
 typedef union bdk_trcx_trceventctl1r {
@@ -1473,7 +1473,7 @@ static inline uint64_t BDK_TRCX_TRCEXTINSELR(unsigned long param1)
 /**
  * DAB32b - trc#_trcidr0
  *
- * Returns the trace capability of the trace unit.
+ * This register indicates the capabilities of the trace unit. Changed in pass 2.
  *
  */
 typedef union bdk_trcx_trcidr0 {
@@ -1482,8 +1482,10 @@ typedef union bdk_trcx_trcidr0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_30_31              : 2;
 		uint32_t commopt                     : 1;  /**< R/W - Common mode field:
-                                                                 0 = common mode 0.
-                                                                 1 = common mode 1. */
+                                                                    0 = common mode 0.
+                                                                    1 = common mode 1.
+
+                                                                 For CNXXXX irrelevant since cycle counting is not implemented. */
 		uint32_t tssize                      : 5;  /**< R/W - Global timestamp size field. The permitted values are:
                                                                  0x0 = Global timestamping is not implemented.
                                                                  0x6 = Implementation supports a maximum Global timestamp of 48 bits.
@@ -1531,10 +1533,10 @@ typedef union bdk_trcx_trcidr0 {
 		uint32_t trcdata                     : 2;  /**< R/W - Conditional tracing field. The permitted values are:
                                                                  0x0 = Data tracing is not supported.
                                                                  0x3 = Data tracing is supported. */
-		uint32_t intp0                       : 2;  /**< R/W - P0 traing support field. The permitted values are:
+		uint32_t intp0                       : 2;  /**< R/W - P0 tracing support field. The permitted values are:
                                                                  0x0 = Tracing of load and store instruction as P0 element is not supported.
                                                                  0x3 = Tracing of load and store instruction as P0 element is supported. */
-		uint32_t bit0                        : 1;
+		uint32_t bit0                        : 1;  /**< RO - Reserved 1. */
 #else
 		uint32_t bit0                        : 1;
 		uint32_t intp0                       : 2;
@@ -1576,19 +1578,19 @@ static inline uint64_t BDK_TRCX_TRCIDR0(unsigned long param1)
 /**
  * DAB32b - trc#_trcidr1
  *
- * Returns the basic architecture of the trace unit.
+ * This register indicates the capabilities of the trace unit. Changed in pass 2.
  *
  */
 typedef union bdk_trcx_trcidr1 {
 	uint32_t u;
 	struct bdk_trcx_trcidr1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t designer                    : 8;
+		uint32_t designer                    : 8;  /**< RO - Designer Cavium. */
 		uint32_t reserved_16_23              : 8;
-		uint32_t val1                        : 4;
-		uint32_t archmaj                     : 4;
-		uint32_t archmin                     : 4;
-		uint32_t revision                    : 4;
+		uint32_t val1                        : 4;  /**< RO - Reserved one. */
+		uint32_t archmaj                     : 4;  /**< RO - ETMv4. */
+		uint32_t archmin                     : 4;  /**< RO - ETMv4.0. */
+		uint32_t revision                    : 4;  /**< RO - Revision 0. */
 #else
 		uint32_t revision                    : 4;
 		uint32_t archmin                     : 4;
@@ -1617,22 +1619,225 @@ static inline uint64_t BDK_TRCX_TRCIDR1(unsigned long param1)
 
 
 /**
+ * DAB32b - trc#_trcidr10
+ *
+ * This register indicates the capabilities of the trace unit. Added in pass 2.
+ *
+ */
+typedef union bdk_trcx_trcidr10 {
+	uint32_t u;
+	struct bdk_trcx_trcidr10_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t nump1key                    : 32; /**< RO - Indicates the number of P1 right-hand keys that the trace unit can use. The
+                                                                 number includes normal and special keys. */
+#else
+		uint32_t nump1key                    : 32;
+#endif
+	} s;
+	/* struct bdk_trcx_trcidr10_s         cn88xx; */
+} bdk_trcx_trcidr10_t;
+
+static inline uint64_t BDK_TRCX_TRCIDR10(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCIDR10(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x000087A00FC30188ull + (param1 & 7) * 0x80000ull;
+	else 		csr_fatal("BDK_TRCX_TRCIDR10", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TRCX_TRCIDR10(...) bdk_trcx_trcidr10_t
+#define bustype_BDK_TRCX_TRCIDR10(...) BDK_CSR_TYPE_DAB32b
+#define busnum_BDK_TRCX_TRCIDR10(p1) (p1)
+#define arguments_BDK_TRCX_TRCIDR10(p1) (p1),-1,-1,-1
+#define basename_BDK_TRCX_TRCIDR10(...) "TRCX_TRCIDR10"
+
+
+/**
+ * DAB32b - trc#_trcidr11
+ *
+ * This register indicates the capabilities of the trace unit. Added in pass 2.
+ *
+ */
+typedef union bdk_trcx_trcidr11 {
+	uint32_t u;
+	struct bdk_trcx_trcidr11_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t nump1spc                    : 32; /**< RO - Indicates the number of special P1 right-hand keys that the trace unit can use. */
+#else
+		uint32_t nump1spc                    : 32;
+#endif
+	} s;
+	/* struct bdk_trcx_trcidr11_s         cn88xx; */
+} bdk_trcx_trcidr11_t;
+
+static inline uint64_t BDK_TRCX_TRCIDR11(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCIDR11(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x000087A00FC3018Cull + (param1 & 7) * 0x80000ull;
+	else 		csr_fatal("BDK_TRCX_TRCIDR11", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TRCX_TRCIDR11(...) bdk_trcx_trcidr11_t
+#define bustype_BDK_TRCX_TRCIDR11(...) BDK_CSR_TYPE_DAB32b
+#define busnum_BDK_TRCX_TRCIDR11(p1) (p1)
+#define arguments_BDK_TRCX_TRCIDR11(p1) (p1),-1,-1,-1
+#define basename_BDK_TRCX_TRCIDR11(...) "TRCX_TRCIDR11"
+
+
+/**
+ * DAB32b - trc#_trcidr12
+ *
+ * This register indicates the capabilities of the trace unit. Added in pass 2.
+ *
+ */
+typedef union bdk_trcx_trcidr12 {
+	uint32_t u;
+	struct bdk_trcx_trcidr12_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t numcondkey                  : 32; /**< RO - Indicates the number of conditional instruction right-hand keys that the trace
+                                                                 unit can use. The number includes normal and special keys. */
+#else
+		uint32_t numcondkey                  : 32;
+#endif
+	} s;
+	/* struct bdk_trcx_trcidr12_s         cn88xx; */
+} bdk_trcx_trcidr12_t;
+
+static inline uint64_t BDK_TRCX_TRCIDR12(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCIDR12(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x000087A00FC30190ull + (param1 & 7) * 0x80000ull;
+	else 		csr_fatal("BDK_TRCX_TRCIDR12", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TRCX_TRCIDR12(...) bdk_trcx_trcidr12_t
+#define bustype_BDK_TRCX_TRCIDR12(...) BDK_CSR_TYPE_DAB32b
+#define busnum_BDK_TRCX_TRCIDR12(p1) (p1)
+#define arguments_BDK_TRCX_TRCIDR12(p1) (p1),-1,-1,-1
+#define basename_BDK_TRCX_TRCIDR12(...) "TRCX_TRCIDR12"
+
+
+/**
+ * DAB32b - trc#_trcidr13
+ *
+ * This register indicates the capabilities of the trace unit. Added in pass 2.
+ *
+ */
+typedef union bdk_trcx_trcidr13 {
+	uint32_t u;
+	struct bdk_trcx_trcidr13_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t numcondspc                  : 32; /**< RO - Indicates the number of special conditional instruction right-hand keys that the
+                                                                 trace unit can use. */
+#else
+		uint32_t numcondspc                  : 32;
+#endif
+	} s;
+	/* struct bdk_trcx_trcidr13_s         cn88xx; */
+} bdk_trcx_trcidr13_t;
+
+static inline uint64_t BDK_TRCX_TRCIDR13(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCIDR13(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x000087A00FC30194ull + (param1 & 7) * 0x80000ull;
+	else 		csr_fatal("BDK_TRCX_TRCIDR13", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TRCX_TRCIDR13(...) bdk_trcx_trcidr13_t
+#define bustype_BDK_TRCX_TRCIDR13(...) BDK_CSR_TYPE_DAB32b
+#define busnum_BDK_TRCX_TRCIDR13(p1) (p1)
+#define arguments_BDK_TRCX_TRCIDR13(p1) (p1),-1,-1,-1
+#define basename_BDK_TRCX_TRCIDR13(...) "TRCX_TRCIDR13"
+
+
+/**
  * DAB32b - trc#_trcidr2
  *
- * return the maximum size of data address and data value.
+ * This register returns the maximum size of data address and data value. Changed in pass 2.
  *
  */
 typedef union bdk_trcx_trcidr2 {
 	uint32_t u;
 	struct bdk_trcx_trcidr2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_29_31              : 3;
-		uint32_t ccsize                      : 4;
-		uint32_t dvsize                      : 5;
-		uint32_t dasize                      : 5;
-		uint32_t vmidsize                    : 5;
-		uint32_t cidsize                     : 5;
+		uint32_t reserved_31_31              : 1;
+		uint32_t vmidopt                     : 2;  /**< RO - Read as one. added in Pass 2. */
+		uint32_t ccsize                      : 4;  /**< RO - Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
+                                                                 cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
+
+                                                                 For CNXXXX, 0x0 as does not implement a counter. */
+		uint32_t dvsize                      : 5;  /**< RO - Indicates the data value size in bytes.
+                                                                 0x0 = Data value tracing is not supported. Therefore, an implementation must set
+                                                                 TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                 0x4 = Maximum of 32-bit data value size.
+                                                                 0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
+                                                                 ARMv6 and ARMv7 PEs. */
+		uint32_t dasize                      : 5;  /**< RO - Indicates the data address size in bytes.
+                                                                 0x0 = Data address tracing is not supported. Therefore, an implementation must
+                                                                 also set TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                 0x4 = Maximum of 32-bit data address size.
+                                                                 0x8 = Maximum of 64-bit data address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs.
+
+                                                                 For CNXXXX, not supported. */
+		uint32_t vmidsize                    : 5;  /**< RO - Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
+                                                                 size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
+                                                                 TRC()_TRCCONFIGR[VMID] is supported. */
+		uint32_t cidsize                     : 5;  /**< RO - Indicates the Context ID size. The permitted values are:
+                                                                   0x0 = Context ID tracing is not supported.
+                                                                   0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
+                                                                 supported.  32 bit contextID supported.
+
+                                                                 For CNXXXX, 32-bit. */
+		uint32_t iasize                      : 5;  /**< RO - Indicates the instruction address size.
+                                                                 0x4 = Maximum of 32-bit address size.
+                                                                 0x8 = Maximum of 64-bit address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs. */
+#else
 		uint32_t iasize                      : 5;
+		uint32_t cidsize                     : 5;
+		uint32_t vmidsize                    : 5;
+		uint32_t dasize                      : 5;
+		uint32_t dvsize                      : 5;
+		uint32_t ccsize                      : 4;
+		uint32_t vmidopt                     : 2;
+		uint32_t reserved_31_31              : 1;
+#endif
+	} s;
+	/* struct bdk_trcx_trcidr2_s          cn88xx; */
+	struct bdk_trcx_trcidr2_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_29_31              : 3;
+		uint32_t ccsize                      : 4;  /**< RO - Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
+                                                                 cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
+
+                                                                 For CNXXXX, 0x0 as does not implement a counter. */
+		uint32_t dvsize                      : 5;  /**< RO - Indicates the data value size in bytes.
+                                                                 0x0 = Data value tracing is not supported. Therefore, an implementation must set
+                                                                 TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                 0x4 = Maximum of 32-bit data value size.
+                                                                 0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
+                                                                 ARMv6 and ARMv7 PEs. */
+		uint32_t dasize                      : 5;  /**< RO - Indicates the data address size in bytes.
+                                                                 0x0 = Data address tracing is not supported. Therefore, an implementation must
+                                                                 also set TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                 0x4 = Maximum of 32-bit data address size.
+                                                                 0x8 = Maximum of 64-bit data address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs.
+
+                                                                 For CNXXXX, not supported. */
+		uint32_t vmidsize                    : 5;  /**< RO - Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
+                                                                 size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
+                                                                 TRC()_TRCCONFIGR[VMID] is supported. */
+		uint32_t cidsize                     : 5;  /**< RO - Indicates the Context ID size. The permitted values are:
+                                                                   0x0 = Context ID tracing is not supported.
+                                                                   0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
+                                                                 supported.  32 bit contextID supported.
+
+                                                                 For CNXXXX, 32-bit. */
+		uint32_t iasize                      : 5;  /**< RO - Indicates the instruction address size.
+                                                                 0x4 = Maximum of 32-bit address size.
+                                                                 0x8 = Maximum of 64-bit address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs. */
 #else
 		uint32_t iasize                      : 5;
 		uint32_t cidsize                     : 5;
@@ -1642,9 +1847,7 @@ typedef union bdk_trcx_trcidr2 {
 		uint32_t ccsize                      : 4;
 		uint32_t reserved_29_31              : 3;
 #endif
-	} s;
-	/* struct bdk_trcx_trcidr2_s          cn88xx; */
-	/* struct bdk_trcx_trcidr2_s          cn88xxp1; */
+	} cn88xxp1;
 } bdk_trcx_trcidr2_t;
 
 static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1664,23 +1867,41 @@ static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long param1)
 /**
  * DAB32b - trc#_trcidr3
  *
- * return charactristics of the trace unit.
+ * This register indicates the capabilities of the trace unit. Changed in pass 2.
  *
  */
 typedef union bdk_trcx_trcidr3 {
 	uint32_t u;
 	struct bdk_trcx_trcidr3_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t noovflw                     : 1;
-		uint32_t numproc                     : 3;
-		uint32_t sysstall                    : 1;
-		uint32_t stallctl                    : 1;
-		uint32_t syncpr                      : 1;
-		uint32_t trcerr                      : 1;
-		uint32_t elns                        : 4;
-		uint32_t els                         : 4;
+		uint32_t noovflw                     : 1;  /**< RO - Indicates if TRC()_TRCSTALLCTLR[NOOVERFLOW] is supported.
+
+                                                                 For CNXXXX not supported. */
+		uint32_t numproc                     : 3;  /**< RO - Indicates the number of PEs available for tracing minus one. */
+		uint32_t sysstall                    : 1;  /**< RO - Indicates if the implementation can support stall control:
+                                                                   0 = The system does not support stall control of the PE.
+                                                                   1 = The system can support stall control of the PE.
+
+                                                                 CNXXXX supports stalling the PE. */
+		uint32_t stallctl                    : 1;  /**< RO - Indicates if the implementation can support stall control. */
+		uint32_t syncpr                      : 1;  /**< RO - Indicates if an implementation has a fixed synchronization period:
+                                                                 0 = TRC()_TRCSYNCPR is read-write so software can change the synchronization period.
+                                                                 1 = TRC()_TRCSYNCPR is read-only so the synchronization period is fixed. */
+		uint32_t trcerr                      : 1;  /**< RO - Indicates if TRC()_TRCVICTLR[TRCERR] is supported.
+                                                                 For CNXXXX not supported, this means system errors are not traced. */
+		uint32_t elns                        : 4;  /**< RO - In non-secure state, each bit indicates whether instruction tracing is supported
+                                                                 for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_NS] and
+                                                                 TRC()_TRCVICTLR[EXLEVEL_NS] are supported. */
+		uint32_t els                         : 4;  /**< RO - In secure state, each bit indicates whether instruction tracing is supported
+                                                                 for the corresponding exception level, and TRC()_TRCACATR()[EXLEVEL_S] and
+                                                                 TRC()_TRCVICTLR[EXLEVEL_S] are supported.
+
+                                                                 For CNXXXX, secure exception level tracing of EL0, EL1, and EL3 is supported. */
 		uint32_t reserved_12_15              : 4;
-		uint32_t ccitmin                     : 12;
+		uint32_t ccitmin                     : 12; /**< RO - Indicates the minimum value that can be programmed in
+                                                                 TRC()_TRCCCCTLR[THRESHOLD]. When cycle counting in the instruction trace is
+                                                                 supported, that is TRC()_TRCIDR0[TRCCCI]=1, then the minimum value of this field
+                                                                 is 0x1, otherwise it is 0x0. */
 #else
 		uint32_t ccitmin                     : 12;
 		uint32_t reserved_12_15              : 4;
@@ -1715,22 +1936,27 @@ static inline uint64_t BDK_TRCX_TRCIDR3(unsigned long param1)
 /**
  * DAB32b - trc#_trcidr4
  *
- * return how many resources the trace unit supports.
+ * This register indicates the capabilities of the trace unit. Changed in pass 2.
  *
  */
 typedef union bdk_trcx_trcidr4 {
 	uint32_t u;
 	struct bdk_trcx_trcidr4_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t numvmidc                    : 4;
-		uint32_t numcidc                     : 4;
-		uint32_t numsscc                     : 4;
-		uint32_t numrspair                   : 4;
-		uint32_t numpc                       : 4;
+		uint32_t numvmidc                    : 4;  /**< RO - Indicates the number of VMID comparators that are available for tracing.
+                                                                 For CNXXXX, one vmid comparator supported. */
+		uint32_t numcidc                     : 4;  /**< RO - Indicates the number of Context ID comparators that are available for tracing.
+                                                                 For CNXXXX, one ContextID comparator supported. */
+		uint32_t numsscc                     : 4;  /**< RO - Indicates the number of single-shot comparator controls that are available for tracing. */
+		uint32_t numrspair                   : 4;  /**< RO - Indicates the number of resource selection pairs that are available for tracing minus one. */
+		uint32_t numpc                       : 4;  /**< RO - Indicates the number of PE comparator inputs that are available for tracing.
+                                                                 For CNXXXX, No PE comparator inputs. */
 		uint32_t reserved_9_11               : 3;
-		uint32_t suppdac                     : 1;
-		uint32_t numdvc                      : 4;
-		uint32_t numacpairs                  : 4;
+		uint32_t suppdac                     : 1;  /**< RO - Indicates if the implementation can support data address comparisons.
+                                                                 For CNXXXX, no data address comparators supported. */
+		uint32_t numdvc                      : 4;  /**< RO - Indicates if the implementation can support data address comparisons.
+                                                                 For CNXXXX, no data address comparators. */
+		uint32_t numacpairs                  : 4;  /**< RO - Indicates the number of address comparator pairs that are available for tracing. */
 #else
 		uint32_t numacpairs                  : 4;
 		uint32_t numdvc                      : 4;
@@ -1764,23 +1990,50 @@ static inline uint64_t BDK_TRCX_TRCIDR4(unsigned long param1)
 /**
  * DAB32b - trc#_trcidr5
  *
- * return how many resources the trace unit supports.
+ * This register indicates the capabilities of the trace unit. Changed in pass 2.
  *
  */
 typedef union bdk_trcx_trcidr5 {
 	uint32_t u;
 	struct bdk_trcx_trcidr5_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t redfuncntr                  : 1;
-		uint32_t numcntr                     : 3;
-		uint32_t numseqstate                 : 3;
+		uint32_t redfuncntr                  : 1;  /**< RO - Indicates if the reduced function counter is implemented:
+                                                                   0 = The reduced function counter is not supported.
+                                                                   1 = Counter 0 is implemented as a reduced function counter.
+
+                                                                 For CNXXXX, not supported. */
+		uint32_t numcntr                     : 3;  /**< RO - Indicates the number of counters that are available for tracing. */
+		uint32_t numseqstate                 : 3;  /**< RO - Indicates the number of sequencer states that are implemented. */
 		uint32_t reserved_24_24              : 1;
-		uint32_t lpoverride                  : 1;
-		uint32_t atbtrig                     : 1;
-		uint32_t traceidsize                 : 6;
+		uint32_t lpoverride                  : 1;  /**< RO - Indicates if the implementation can support low-power state override:
+                                                                   0 = The implementation does not support low-power state override.
+                                                                   1 = The implementation supports low-power state override, and the
+                                                                   TRC()_TRCEVENTCTL1R[LPOVERRIDE] field is implemented.
+
+                                                                   The trace unit must support low-power state override if it can enter a
+                                                                 low-power mode where the resources and event trace generation are disabled.
+
+                                                                 For CNXXXX, low power state overwrite is not implemented. */
+		uint32_t atbtrig                     : 1;  /**< RO - Indicates if the implementation can support ATB triggers:
+                                                                 0 = The implementation does not support ATB triggers.
+                                                                 1 = The implementation supports ATB triggers, and the
+                                                                 TRC()_TRCEVENTCTL1R[ATBTRIG] field is implemented.
+
+                                                                 For CNXXXX, no support for ATB triggers. */
+		uint32_t traceidsize                 : 6;  /**< RO - Indicates the trace ID width.
+                                                                 0x07 = The implementation supports a 7-bit trace ID. This defines the width of
+                                                                 the TRC()_TRCTRACEIDR[TRACEID] field.
+
+                                                                 For CNXXXX, 7 bit trace ID size. */
 		uint32_t reserved_12_15              : 4;
-		uint32_t numextinsel                 : 3;
-		uint32_t numextin                    : 9;
+		uint32_t numextinsel                 : 3;  /**< RO - Indicates how many external input select resources are implemented.
+                                                                 0x0 = No external input select resources are available and TRC()_TRCEXTINSELR is
+                                                                 not implemented.
+                                                                 0x1 = The implementation has one external input select resource.
+                                                                 0x2 = The implementation has two external input select resources.
+                                                                 0x3 = The implementation has three external input select resources.
+                                                                 0x4 = The implementation has four external input select resources. */
+		uint32_t numextin                    : 9;  /**< RO - Indicates how many external inputs are implemented. */
 #else
 		uint32_t numextin                    : 9;
 		uint32_t numextinsel                 : 3;
@@ -1810,6 +2063,147 @@ static inline uint64_t BDK_TRCX_TRCIDR5(unsigned long param1)
 #define busnum_BDK_TRCX_TRCIDR5(p1) (p1)
 #define arguments_BDK_TRCX_TRCIDR5(p1) (p1),-1,-1,-1
 #define basename_BDK_TRCX_TRCIDR5(...) "TRCX_TRCIDR5"
+
+
+/**
+ * DAB32b - trc#_trcidr6
+ *
+ * This register indicates the capabilities of the trace unit. Added in pass 2.
+ *
+ */
+typedef union bdk_trcx_trcidr6 {
+	uint32_t u;
+	struct bdk_trcx_trcidr6_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_0_31               : 32;
+#else
+		uint32_t reserved_0_31               : 32;
+#endif
+	} s;
+	/* struct bdk_trcx_trcidr6_s          cn88xx; */
+} bdk_trcx_trcidr6_t;
+
+static inline uint64_t BDK_TRCX_TRCIDR6(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCIDR6(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x000087A00FC301F8ull + (param1 & 7) * 0x80000ull;
+	else 		csr_fatal("BDK_TRCX_TRCIDR6", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TRCX_TRCIDR6(...) bdk_trcx_trcidr6_t
+#define bustype_BDK_TRCX_TRCIDR6(...) BDK_CSR_TYPE_DAB32b
+#define busnum_BDK_TRCX_TRCIDR6(p1) (p1)
+#define arguments_BDK_TRCX_TRCIDR6(p1) (p1),-1,-1,-1
+#define basename_BDK_TRCX_TRCIDR6(...) "TRCX_TRCIDR6"
+
+
+/**
+ * DAB32b - trc#_trcidr7
+ *
+ * This register indicates the capabilities of the trace unit. Added in pass 2.
+ *
+ */
+typedef union bdk_trcx_trcidr7 {
+	uint32_t u;
+	struct bdk_trcx_trcidr7_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_0_31               : 32;
+#else
+		uint32_t reserved_0_31               : 32;
+#endif
+	} s;
+	/* struct bdk_trcx_trcidr7_s          cn88xx; */
+} bdk_trcx_trcidr7_t;
+
+static inline uint64_t BDK_TRCX_TRCIDR7(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCIDR7(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x000087A00FC301FCull + (param1 & 7) * 0x80000ull;
+	else 		csr_fatal("BDK_TRCX_TRCIDR7", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TRCX_TRCIDR7(...) bdk_trcx_trcidr7_t
+#define bustype_BDK_TRCX_TRCIDR7(...) BDK_CSR_TYPE_DAB32b
+#define busnum_BDK_TRCX_TRCIDR7(p1) (p1)
+#define arguments_BDK_TRCX_TRCIDR7(p1) (p1),-1,-1,-1
+#define basename_BDK_TRCX_TRCIDR7(...) "TRCX_TRCIDR7"
+
+
+/**
+ * DAB32b - trc#_trcidr8
+ *
+ * This register indicates the capabilities of the trace unit. Added in pass 2.
+ *
+ */
+typedef union bdk_trcx_trcidr8 {
+	uint32_t u;
+	struct bdk_trcx_trcidr8_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t maxspec                     : 32; /**< RO - Indicates the maximum speculation depth of the instruction trace stream. This is
+                                                                 the maximum number of P0 elements in the trace stream that can be speculative at
+                                                                 any time.
+
+                                                                 For CNXXXX, speculative tracing is not supported. */
+#else
+		uint32_t maxspec                     : 32;
+#endif
+	} s;
+	/* struct bdk_trcx_trcidr8_s          cn88xx; */
+} bdk_trcx_trcidr8_t;
+
+static inline uint64_t BDK_TRCX_TRCIDR8(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCIDR8(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x000087A00FC30180ull + (param1 & 7) * 0x80000ull;
+	else 		csr_fatal("BDK_TRCX_TRCIDR8", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TRCX_TRCIDR8(...) bdk_trcx_trcidr8_t
+#define bustype_BDK_TRCX_TRCIDR8(...) BDK_CSR_TYPE_DAB32b
+#define busnum_BDK_TRCX_TRCIDR8(p1) (p1)
+#define arguments_BDK_TRCX_TRCIDR8(p1) (p1),-1,-1,-1
+#define basename_BDK_TRCX_TRCIDR8(...) "TRCX_TRCIDR8"
+
+
+/**
+ * DAB32b - trc#_trcidr9
+ *
+ * This register indicates the capabilities of the trace unit. Added in pass 2.
+ *
+ */
+typedef union bdk_trcx_trcidr9 {
+	uint32_t u;
+	struct bdk_trcx_trcidr9_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t nump0key                    : 32; /**< RO - Indicates the number of P0 right-hand keys that the trace unit can use. A value of 0 or 1
+                                                                 indicates one P0 key.
+
+                                                                 The value of this bit can be less than the value of TRC()_TRCIDR8[MAXSPEC].
+
+                                                                 ARM recommends a minimum of 32 P0 keys for an implementation that supports data
+                                                                 tracing. If TRC()_TRCIDR9[NUMP0KEY] \< 32 this can result in a large number of
+                                                                 data synchronization markers in the trace stream.
+
+                                                                 For CNXXXX, one right-hand key. */
+#else
+		uint32_t nump0key                    : 32;
+#endif
+	} s;
+	/* struct bdk_trcx_trcidr9_s          cn88xx; */
+} bdk_trcx_trcidr9_t;
+
+static inline uint64_t BDK_TRCX_TRCIDR9(unsigned long param1) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCIDR9(unsigned long param1)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 7)))
+		return 0x000087A00FC30184ull + (param1 & 7) * 0x80000ull;
+	else 		csr_fatal("BDK_TRCX_TRCIDR9", 1, param1, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_TRCX_TRCIDR9(...) bdk_trcx_trcidr9_t
+#define bustype_BDK_TRCX_TRCIDR9(...) BDK_CSR_TYPE_DAB32b
+#define busnum_BDK_TRCX_TRCIDR9(p1) (p1)
+#define arguments_BDK_TRCX_TRCIDR9(p1) (p1),-1,-1,-1
+#define basename_BDK_TRCX_TRCIDR9(...) "TRCX_TRCIDR9"
 
 
 /**
@@ -1987,7 +2381,7 @@ typedef union bdk_trcx_trcoslsr {
 		uint32_t reserved_3_31               : 29;
 		uint32_t apppulse                    : 3;  /**< RO - Generate event pulse on ECT channel \<x\>.
                                                                  N is the number of ECT channels implemented as defined by the
-                                                                     TRCDEVID.NUMCHAN field.
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
                                                                  Bits [31:N] are RAZ/WI.
 
                                                                  Writing to this bit has the following effect:
@@ -2029,7 +2423,7 @@ typedef union bdk_trcx_trcpdcr {
 		uint32_t reserved_3_31               : 29;
 		uint32_t inen                        : 3;  /**< R/W - Input trigger \<n\> to output channel \<x\> enable.
                                                                  N is the number of ECT channels implemented as defined by the
-                                                                     TRCDEVID.NUMCHAN field.
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
                                                                  Bits [31:N] are RAZ/WI.
 
                                                                  0 = Input trigger \<n\> will not generate an event on output channel
@@ -2037,7 +2431,7 @@ typedef union bdk_trcx_trcpdcr {
                                                                  1 = Input trigger \<n\> will generate an event on output channel
                                                                      \<x\>.
 
-                                                                 In CNXXXX TRCINEN(3..31) are ignored as there are only 3 channels. */
+                                                                 In CNXXXX TRC()_TRCINEN(3..31) are ignored as there are only 3 channels. */
 #else
 		uint32_t inen                        : 3;
 		uint32_t reserved_3_31               : 29;
@@ -2074,7 +2468,7 @@ typedef union bdk_trcx_trcpdsr {
 		uint32_t reserved_3_31               : 29;
 		uint32_t outen                       : 3;  /**< R/W - Input channel \<x\> to output trigger \<n\> enable.
                                                                  N is the number of ECT channels implemented as defined by the
-                                                                     TRCDEVID.NUMCHAN field.
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
                                                                  Bits [31:N] are RAZ/WI.
 
                                                                  0 = An event on input channel \<x\> will not cause output trigger
@@ -2082,7 +2476,7 @@ typedef union bdk_trcx_trcpdsr {
                                                                  1 = An event on input channel \<x\> will cause output trigger \<n\> to
                                                                      be asserted.
 
-                                                                 In CNXXXX TRCOUTEN(3..31) are ignored as there are only 3 channels. */
+                                                                 In CNXXXX TRC()_TRCOUTEN(3..31) are ignored as there are only 3 channels. */
 #else
 		uint32_t outen                       : 3;
 		uint32_t reserved_3_31               : 29;
@@ -2403,9 +2797,9 @@ typedef union bdk_trcx_trcprgctlr {
 	struct bdk_trcx_trcprgctlr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_1_31               : 31;
-		uint32_t en                          : 1;  /**< R/W - Enables or disables the Tace Unit:
+		uint32_t en                          : 1;  /**< R/W - Enables or disables the Trace Unit:
                                                                  0 = Trace Unit is disabled.
-                                                                     All tace resources are inactive and no Trace is generated.
+                                                                     All trace resources are inactive and no Trace is generated.
                                                                  1 = Trace Unit is enabled. */
 #else
 		uint32_t en                          : 1;
@@ -2442,7 +2836,7 @@ typedef union bdk_trcx_trcprocselr {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_6_31               : 26;
 		uint32_t procsel                     : 6;  /**< R/W - Only accepts writes when the trace unit is disabled. Before writing to this
-                                                                 register, ensure that TRCSTATR.IDLE = 1 so that the trace unit can synchronize
+                                                                 register, ensure that TRC()_TRCSTATR[IDLE] = 1 so that the trace unit can synchronize
                                                                  with the chosed PE. */
 #else
 		uint32_t procsel                     : 6;
@@ -3174,7 +3568,7 @@ typedef union bdk_trcx_trcstatr {
 	struct bdk_trcx_trcstatr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_2_31               : 30;
-		uint32_t pmstable                    : 1;  /**< RO - This bit is valid only when either TRCPRGCTRL.EN = 0 or the OS Lock is locked.
+		uint32_t pmstable                    : 1;  /**< RO - This bit is valid only when either TRC()_TRCPRGCTRL[EN] = 0 or the OS Lock is locked.
                                                                  0 = Programmer's model is not stable.
                                                                  1 = Programmer's model is stable. */
 		uint32_t idle                        : 1;  /**< RO - Idle status bit.

@@ -112,7 +112,7 @@ def writeStruct(out, struct):
             # This code doesn't support the case where fields cross 64 bit
             # word boundaries. Currently this isn't needed, so assert if
             # this ever changes
-            assert (field.stop_bit >= min_bit) and (field.stop_bit <= max_bit), "Field crosses word boundary %s.%s[%d:%d]" % (struct.name, field.name, field.start_bit, field.stop_bit)
+            #assert (field.stop_bit >= min_bit) and (field.stop_bit <= max_bit), "Field crosses word boundary %s.%s[%d:%d]" % (struct.name, field.name, field.start_bit, field.stop_bit)
             line = ("\t\t" + field.enum_type + " " + field.name).ljust(38) + " : " + str(field.stop_bit-field.start_bit+1) + ";"
             if field.description:
                 l = line.ljust(45) + "/**< [%3d:%3d] %s */" % (field.stop_bit, field.start_bit, "\n".ljust(66).join(field.description).strip())
