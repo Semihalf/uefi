@@ -1335,7 +1335,7 @@ int initialize_ddr_clock(bdk_node_t node,
             for (int lmc = 0; lmc<4; ++lmc) {
                 if ((ddr_interface_mask & (1 << lmc)) == 0)
                     continue;
-		DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(1),
+		DRAM_CSR_MODIFY(c, node, BDK_LMCX_DLL_CTL3(lmc),
 				c.s.fine_tune_mode = 1);
             }
         } /* Do this once */
