@@ -1211,6 +1211,8 @@ static int vnic_setup(bdk_if_handle_t handle)
     BDK_CSR_WRITE(handle->node, BDK_NIC_QSX_SQX_BASE(sq, sq_idx),
         bdk_ptr_to_phys(sq_memory));
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_QSX_SQX_CFG(sq, sq_idx),
+        if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+            c.s.cq_limit = 1;
         c.s.ena = 1;
         c.s.ldwb = BDK_USE_DWB;
         c.s.qsize = SQ_ENTRIES_QSIZE);
@@ -1255,11 +1257,24 @@ static int vnic_setup(bdk_if_handle_t handle)
         c.s.bp_ena = 1);
     /* CPI is the output of the above alogrithm, this is used to lookup the
        VNIC for receive and RSSI */
-    BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CPIX_CFG(cpi),
-        c.s.vnic = priv->vnic; /* TX and RX use the same VNIC */
-        c.s.rss_size = 0; /* RSS hash is disabled */
-        c.s.padd = priv->channel; /* Used if we have multiple channels per port */
-        c.s.rssi_base = rssi); /* Base RSSI */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CPIX_CFG(cpi),
+            c.s.vnic = priv->vnic; /* TX and RX use the same VNIC */
+            c.s.rss_size = 0; /* RSS hash is disabled */
+            c.s.padd = priv->channel; /* Used if we have multiple channels per port */
+            c.s.rssi_base = rssi); /* Base RSSI */
+    }
+    else
+    {
+        /* CN88XX pass 2 moved some fields to a different CSR */
+        BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CPIX_CFG(cpi),
+            c.s.padd = priv->channel); /* Used if we have multiple channels per port */
+        BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_MPIX_CFG(cpi),
+            c.s.vnic = priv->vnic; /* TX and RX use the same VNIC */
+            c.s.rss_size = 0; /* RSS hash is disabled */
+            c.s.rssi_base = rssi); /* Base RSSI */
+    }
     /* The RSSI is used to determine which Receive Queue (RQ) we use */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_RSSIX_RQ(rssi),
         c.s.rq_qs = rq;
