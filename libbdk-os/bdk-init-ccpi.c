@@ -509,11 +509,23 @@ static int ccpi_wait_for_links(bdk_node_t node)
     /* Errata (OCX-21847) OCX does not deal with reversed lanes automatically */
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (node == 0))
     {
+        /* Check that all lanes have scrambler sync */
+        int all_sync = 1;
+        for (int lane = 0; lane < 24; lane++)
+        {
+            BDK_CSR_INIT(status, node, BDK_OCX_LNEX_STATUS(lane));
+            if (!status.s.rx_scrm_sync)
+            {
+                all_sync = 0;
+                break;
+            }
+        }
+
         /* Check if we need to manually apply lane reversal */
         BDK_CSR_INIT(ocx_qlmx_cfg0, node, BDK_OCX_QLMX_CFG(0));
         BDK_CSR_INIT(ocx_qlmx_cfg2, node, BDK_OCX_QLMX_CFG(2));
         BDK_CSR_INIT(ocx_lne_dbg, node, BDK_OCX_LNE_DBG);
-        if (ocx_qlmx_cfg0.s.ser_lane_rev && ocx_qlmx_cfg2.s.ser_lane_rev && !ocx_lne_dbg.s.tx_lane_rev)
+        if (all_sync && ocx_qlmx_cfg0.s.ser_lane_rev && ocx_qlmx_cfg2.s.ser_lane_rev && !ocx_lne_dbg.s.tx_lane_rev)
         {
             printf("N%d.CCPI: Applying lane reversal\n", node);
             for (int link = 0; link < MAX_LINKS; link++)
