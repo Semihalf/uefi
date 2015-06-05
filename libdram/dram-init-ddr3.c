@@ -16,6 +16,13 @@
 #define debug_bitmask_print(...)
 #endif
 
+#define DEBUG_EXTRA_PRINTS 0
+#if DEBUG_EXTRA_PRINTS
+#define extra_ddr_print ddr_print
+#else
+#define extra_ddr_print(...)
+#endif
+
 #define RUN_INIT_SEQ_1      1
 #define RUN_INIT_SEQ_2      0
 #define RUN_INIT_SEQ_3      0
@@ -764,6 +771,7 @@ static void display_read_leveling_settings_with_average(bdk_lmcx_rlevel_rankx_t 
     do_display_read_leveling_settings(lmc_rlevel_rank, rank, 3, score);
 }
 
+#if DEBUG_EXTRA_PRINTS
 static void do_display_read_leveling_settings_with_RODT(bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank, int score,
 							int rtt_nom, int nom_ohms, int rodt_ctl, int rodt_ohms, int flag)
 {
@@ -799,11 +807,11 @@ static void display_read_leveling_settings_with_RODT_skip(bdk_lmcx_rlevel_rankx_
 {
     //do_display_read_leveling_settings_with_RODT(lmc_rlevel_rank, rank, score, rtt_nom, nom_ohms, rodt_ctl, ohms, 1); // skipping
 }
-
+#endif /* DEBUG_EXTRA_PRINTS */
 static void display_read_leveling_settings_with_RODT_best(bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank,
 							  int score, int rtt_nom, int nom_ohms, int rodt_ctl, int ohms)
 {
-    do_display_read_leveling_settings_with_RODT(lmc_rlevel_rank, rank, score, rtt_nom, nom_ohms, rodt_ctl, ohms, 2); // best row
+    //do_display_read_leveling_settings_with_RODT(lmc_rlevel_rank, rank, score, rtt_nom, nom_ohms, rodt_ctl, ohms, 2); // best row
 }
 
 static void display_write_leveling_settings(bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank, int rank)
@@ -5569,7 +5577,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			if (rankx >= 2)
 			    dimm_rank_mask <<= 2; // doing a rank on the second DIMM, should be 0100 or 1100
 		    }
-		    ddr_print("DIMM rank mask: 0x%x, rank mask: 0x%x, rankx: %d\n", dimm_rank_mask, rank_mask, rankx);
+		    //ddr_print("DIMM rank mask: 0x%x, rank mask: 0x%x, rankx: %d\n", dimm_rank_mask, rank_mask, rankx);
 
 		    for (rtt_idx = min_rtt_nom_idx; rtt_idx <= max_rtt_nom_idx; ++rtt_idx) {
 			int rtt_nom_ohms;
@@ -5583,7 +5591,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
 			    continue;
 
-			ddr_print("RANK%d: starting RTT_NOM %d (%d)\n", rankx, rtt_nom, rtt_nom_ohms);
+			extra_ddr_print("RANK%d: starting RTT_NOM %d (%d)\n", rankx, rtt_nom, rtt_nom_ohms);
 
 			for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) {
 			    int next_ohms = imp_values->rodt_ohms[rodt_ctl];
@@ -5605,7 +5613,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    ((next_score == best_rank_score) && // but if same score, choose the higher OHMS
 				     (next_ohms > best_rank_ohms)))
 				    {
-					ddr_print("RANK%d: new best score from rank %d for rodt:%d (%d), new best:%d, previous best:%d (%d)\n",
+					extra_ddr_print("RANK%d: new best score from rank %d for rodt:%d (%d), new best:%d, previous best:%d (%d)\n",
 						  rankx, orankx, rodt_ctl, next_ohms, next_score, best_rank_score, best_rank_ohms);
 					best_rank_score	    = next_score;
 					best_rank_rtt_nom   = rtt_nom;
@@ -5634,6 +5642,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    }
 		    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), lmc_rlevel_rank.u);
 		    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
+
+		    // print the best row selected
 		    display_read_leveling_settings_with_RODT_best(lmc_rlevel_rank, best_rankx, best_rank_score,
 								  best_rank_rtt_nom, best_rank_nom_ohms,
 								  best_rank_ctl, best_rank_ohms);
@@ -5641,8 +5651,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    bdk_lmcx_rlevel_rankx_t saved_rlevel_rank;
 		    saved_rlevel_rank.u = lmc_rlevel_rank.u;
 
+#if DEBUG_EXTRA_PRINTS
 		    // this is the print loop
-
 		    // for pass==0, print current rank, pass==1 print other rank(s) 
 		    // this is done because we want to show each ranks RODT values together, not interlaced
 		    for (int pass = 0; pass < 2; pass++ ) {
@@ -5682,7 +5692,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    } /* for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) */
 			} /* for (int orankx = 0; orankx < dimm_count * 4; orankx++) { */
 		    } /* for (int pass = 0; pass < 2; pass++ ) */
-
+#endif /* DEBUG_EXTRA_PRINTS */
 		    // end of the print loop
 
 		    // now evaluate which bytes need adjusting
@@ -5734,11 +5744,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			if (avg_diff != 0) { 
 			    // bump best up/dn by 1, not necessarily all the way to avg
 			    new_byte = best_byte + ((avg_diff > 0) ? -1: 1);
-			    ddr_print("START: Byte %d: best %d is different by %d from average %d, changing to %d.\n",
+			    extra_ddr_print("START: Byte %d: best %d is different by %d from average %d, changing to %d.\n",
 				      byte_idx, (int)best_byte, avg_diff, (int)avg_byte, (int)new_byte);
 			    best_byte = new_byte;
 			} else {
-			    ddr_print("START: Byte %d: best %d is NOT different from average %d, leaving it...\n",
+			    extra_ddr_print("START: Byte %d: best %d is NOT different from average %d, leaving it...\n",
 				      byte_idx, (int)best_byte, (int)avg_byte);
 			}
 
@@ -5793,7 +5803,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    } /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
 			} /* for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) */
 
-			ddr_print("COUNT: Byte %d: orig %d now %d, more %d same %d less %d\n",
+			extra_ddr_print("COUNT: Byte %d: orig %d now %d, more %d same %d less %d\n",
 				  byte_idx, (int)orig_best_byte, (int)best_byte,
 				  count_more, count_same, count_less);
 
@@ -5819,26 +5829,26 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #if NOROEND_PATCH
 					// this is the "no rounding on any end byte" patch aka NOROEND (:-)
 					if (byte_idx == 0 || byte_idx == 7) { // must be on the "end"...
-					    ddr_print("ROUND: Byte %d: NOROEND: end value is %d, leaving it...\n",
+					    extra_ddr_print("ROUND: Byte %d: NOROEND: end value is %d, leaving it...\n",
 						      byte_idx, (int)best_byte);
 					    new_byte = best_byte;
 					    goto finish_rnd_avg;
 					}
 #endif
 					if (byte_idx != 0 && byte_idx != 7) { // must not be on the "end"...
-					    ddr_print("ROUND: Byte %d: majority value is %d, leaving it...\n",
+					    extra_ddr_print("ROUND: Byte %d: majority value is %d, leaving it...\n",
 						      byte_idx, (int)best_byte);
 					    new_byte = best_byte;
 					    goto finish_rnd_avg;
 					} else if ((byte_idx == 7) && (best_byte < rank_best_bytes[0])) {  // ROFFIX includes this - 20150527
-					    ddr_print("ROUND: Byte %d: majority value is %d and less than byte 0 best %d, leaving it...\n",
+					    extra_ddr_print("ROUND: Byte %d: majority value is %d and less than byte 0 best %d, leaving it...\n",
 						      byte_idx, (int)best_byte, (int)rank_best_bytes[0]);
 					    new_byte = best_byte;
 					    goto finish_rnd_avg;
 					}
 				    } else {
 					if (byte_idx != 7) { // must not be on the "end"...
-					    ddr_print("ROUND: Byte %d: majority value is %d, leaving it...\n",
+					    extra_ddr_print("ROUND: Byte %d: majority value is %d, leaving it...\n",
 						      byte_idx, (int)best_byte);
 					    new_byte = best_byte;
 					    goto finish_rnd_avg;
@@ -5854,19 +5864,19 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    else if ((count_more == 0) || (count_less > count_more)) // all are same or less, or less > more
 				incr = -1; // bump down no choice
 			    else { // no clear winner, report and choose something // FIXME?
-				printf("ROUND: Byte %d: no winner, choosing UP.\n", byte_idx);
+				extra_ddr_print("ROUND: Byte %d: no winner, choosing UP.\n", byte_idx);
 				incr = 1;
 			    }
 
 			    new_byte = best_byte + incr;
 			    if (_abs(neigh_byte - new_byte) > 2) { // check neighbor
-				ddr_print("ROUND: Byte %d: neighbor %d too different %d from %d, choosing %d.\n",
+				extra_ddr_print("ROUND: Byte %d: neighbor %d too different %d from %d, choosing %d.\n",
 					  byte_idx, neighbor, (int)neigh_byte,
 					  (int)new_byte, (int)best_byte - 1);
 				// force it in the other direction
 				new_byte = best_byte - incr;
 			    } else {
-				ddr_print("ROUND: Byte %d: best %d must move (<%d/=%d/>%d), choosing %d.\n",
+				extra_ddr_print("ROUND: Byte %d: best %d must move (<%d/=%d/>%d), choosing %d.\n",
 					  byte_idx, (int)best_byte, count_less, count_same, count_more, (int)new_byte);
 			    }
 
@@ -5874,7 +5884,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			    // and then we just moved even further away from the original
 			    if (!MUST_ROUND(orig_best_byte)) { // we know best_byte is already must-round, so moved already
 				if (_abs(new_byte - orig_best_byte) >= 2) {
-				    ddr_print("ROUND: Byte %d: WARNING: new_byte %d too far from orig_byte %d; going back to best_byte %d\n",
+				    extra_ddr_print("ROUND: Byte %d: WARNING: new_byte %d too far from orig_byte %d; going back to best_byte %d\n",
 					      byte_idx, (int)new_byte, (int)orig_best_byte, (int)best_byte);
 				    new_byte = best_byte;
 				}
@@ -5888,32 +5898,32 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 			    // use neighbor to help choose with average
 			    if (_abs(neigh_byte - new_byte) > 2) {
-				ddr_print("AVERAGE: Byte %d: neighbor %d too different %d from choice %d.\n",
+				extra_ddr_print("AVERAGE: Byte %d: neighbor %d too different %d from choice %d.\n",
 					  byte_idx, neighbor, (int)neigh_byte, (int)new_byte);
 				if ((new_byte - best_byte) != 0)
 				    new_byte = best_byte; // back to best, moving did not get 
 				else // avg was the same, now move it towards the neighbor
 				    new_byte += (neigh_byte > new_byte) ? 1 : -1;
 
-				ddr_print("AVERAGE: Byte %d: now choosing %d.\n", byte_idx, (int)new_byte);
+				extra_ddr_print("AVERAGE: Byte %d: now choosing %d.\n", byte_idx, (int)new_byte);
 			    }
 
 			    // new_byte could need rounding, so choose to stay with best_byte if it is
 			    if ((new_byte != best_byte) && MUST_ROUND(new_byte)) {
-				ddr_print("AVERAGE: Byte %d: avoiding average %d, choosing %d.\n",
+				extra_ddr_print("AVERAGE: Byte %d: avoiding average %d, choosing %d.\n",
 					  byte_idx, (int)new_byte, (int)best_byte);
 				new_byte = best_byte;
 			    } else {
-				ddr_print("AVERAGE: Byte %d: picking average of %d.\n", byte_idx, (int)new_byte);
+				extra_ddr_print("AVERAGE: Byte %d: picking average of %d.\n", byte_idx, (int)new_byte);
 			    }
 			} /* if (must_round) */
 		    finish_rnd_avg:
 			if (new_byte != best_byte) {
-			    ddr_print("SUMMARY: Byte %d: %s: orig %d now %d, more %d same %d less %d, choosing %d\n",
+			    extra_ddr_print("SUMMARY: Byte %d: %s: orig %d now %d, more %d same %d less %d, choosing %d\n",
 				      byte_idx, (must_round) ? "RND" : "AVG", (int)orig_best_byte, 
 				      (int)best_byte, count_more, count_same, count_less, (int)new_byte);
 			} else {
-			    ddr_print("SUMMARY: Byte %d: %s: orig %d now %d, more %d same %d less %d, leaving it...\n",
+			    extra_ddr_print("SUMMARY: Byte %d: %s: orig %d now %d, more %d same %d less %d, leaving it...\n",
 				      byte_idx, (must_round) ? "RND" : "AVG", (int)orig_best_byte,
 				      (int)best_byte, count_more, count_same, count_less);
 			}
@@ -5929,9 +5939,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    if (saved_rlevel_rank.u != lmc_rlevel_rank.u) {
 			DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), lmc_rlevel_rank.u);
 			lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
-			ddr_print("Adjusting Read-Leveling per-RANK settings.\n");
+			extra_ddr_print("Adjusting Read-Leveling per-RANK settings.\n");
 		    } else {
-			ddr_print("Not Adjusting Read-Leveling per-RANK settings.\n");
+			extra_ddr_print("Not Adjusting Read-Leveling per-RANK settings.\n");
 		    }
 		    display_read_leveling_settings_with_score(lmc_rlevel_rank, rankx, best_rank_score);
 
@@ -5941,7 +5951,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			bdk_lmcx_rlevel_rankx_t temp_rlevel_rank = lmc_rlevel_rank;
 			int byte, delay;
 			if (rankx < 3) {
-			    ddr_print("RANK%d: writing RLEVEL_RANK unused entries.\n", rankx);
+			    ddr_print("LMC%d.RANK%d: writing RLEVEL_RANK unused entries.\n", ddr_interface_num, rankx);
 			    for (byte = 0; byte < 9; byte++) {
 				delay = get_rlevel_rank_struct(&temp_rlevel_rank, byte) + RLEVEL_RANKX_EXTRAS_INCR;
 				if (delay > (int)RLEVEL_BYTE_MSK) delay = RLEVEL_BYTE_MSK;
