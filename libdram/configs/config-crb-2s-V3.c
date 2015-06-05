@@ -7,8 +7,9 @@
 #define DEFAULT_INTERNAL_SPD MT18ASF1G72AZ_2G1AYESZG_SPD
 
 #define DEFAULT_NAME   "cn88xx-crb-2s-V3"
+
 #define DEFAULT_UDIMM_SPEED  1066666666
-#define DEFAULT_RDIMM_SPEED  933333333
+#define DEFAULT_RDIMM_SPEED  940000000
 
 #define DEFAULT_LMC_MASK   TWO_LMC_MASK
 #define DEFAULT_DIMM_MASK  ONE_DIMM_MASK
@@ -212,16 +213,16 @@ static void setup_modereg_params2_2rank_1slot(bdk_lmcx_modereg_params2_t *modere
 static void setup_modereg_params2_2rank_2slot(bdk_lmcx_modereg_params2_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.rtt_park_00    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_00    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_00  = 0x19;
     modereg->s.vref_range_00  = 0;
-    modereg->s.rtt_park_01    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_01    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_01  = 0x19;
     modereg->s.vref_range_01  = 0;
-    modereg->s.rtt_park_10    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_10    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_10  = 0x19;
     modereg->s.vref_range_10  = 0;
-    modereg->s.rtt_park_11    = ddr4_rttpark_80ohm;
+    modereg->s.rtt_park_11    = ddr4_rttpark_60ohm;
     modereg->s.vref_value_11  = 0x19;
     modereg->s.vref_range_11  = 0;
 }
@@ -250,7 +251,7 @@ static void setup_dram_odt_1rank_configuration(dimm_odt_config_t odt[4])
     odt[dimm].odt_mask = 0x00000000ULL; /* WODT_MASK */
     setup_modereg_params1_1rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     setup_modereg_params2_1rank_1slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
-    odt[dimm].qs_dic = ddr4_rodt_ctl_40_ohm; /* RODT_CTL */
+    odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
     odt[dimm].rodt_ctl = 0x00000000ULL; /* RODT_MASK */
     odt[dimm].dic = 0; /* Reserved */
 
@@ -277,7 +278,7 @@ static void setup_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
 
     dimm = 1;
     odt[dimm].odt_ena = ddr4_dqx_driver_34_ohm; /* DQX_CTL */
-    odt[dimm].odt_mask = 0x00000102ULL; /* WODT_MASK */
+    odt[dimm].odt_mask = 0x0c0c0303ULL; /* WODT_MASK */
     setup_modereg_params1_2rank_2slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
     setup_modereg_params2_2rank_2slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
     odt[dimm].qs_dic = ddr4_rodt_ctl_48_ohm; /* RODT_CTL */
@@ -297,10 +298,49 @@ static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
     odt[dimm].dic = 0; /* Reserved */
 }
 
-static const int8_t dll_read_offset  [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-static const int8_t dll_write_offset [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
+/////////////////////////////////////
+// FIXUPS
+//
+// #1 is for RDIMM 2Rx4 1-slot only, at this time...
 
-static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
+static void fixup_1_dram_odt_2rank_configuration(dimm_odt_config_t odt[4])
+{
+    int dimm = 0; 
+
+    //setup_modereg_params1_2rank_1slot(&odt[dimm].odt_mask1); /* LMCX_MODEREG_PARAMS1 */
+    bdk_lmcx_modereg_params1_t *modereg1 = &odt[dimm].odt_mask1;
+    modereg1->s.rtt_wr_00       = ddr4_rttwr_240ohm/* default currently ddr4_rttwr_240ohm */;
+    modereg1->s.rtt_wr_01       = ddr4_rttwr_240ohm/* default currently ddr4_rttwr_240ohm */;
+
+    //setup_modereg_params2_2rank_1slot(&odt[dimm].odt_mask2); /* LMCX_MODEREG_PARAMS2 */
+    bdk_lmcx_modereg_params2_t *modereg2 = &odt[dimm].odt_mask2;
+
+    modereg2->s.rtt_park_00    = ddr4_rttpark_40ohm/* default currently ddr4_rttpark_120ohm */;
+    modereg2->s.rtt_park_01    = ddr4_rttpark_40ohm/* default currently ddr4_rttpark_120ohm */;
+
+    odt[dimm].qs_dic = ddr4_rodt_ctl_120_ohm; /* RODT_CTL */
+}
+
+/////////////////////////////////////
+
+// DLL read Offset table for the #122 INPHI DIMMs
+static const int8_t inphi_122_dll_read_offset  [4][9]    = { {-5, 0, 5, 5, 0,  0, 5, 0, 0}, // LMC 0
+							     {-5, 5, 0, 5, 0,  0, 5, 0, 0}, // LMC 1
+							     {-5, 5,10, 5, 0, -5, 5, 0, 0}, // LMC 2
+							     { 5, 5, 5, 5, 0,-10, 5, 0, 0}  // LMC 3
+							   };
+static const int8_t generic_dll_read_offset  [4][9]      = { {0, 0,  0, 0, 0,  0, 0, 0, 0}, // LMC 0
+							     {0, 0,  0, 0, 0,  0, 0, 0, 0}, // LMC 1
+							     {0, 0,  0, 0, 0,  0, 0, 0, 0}, // LMC 2
+							     {0, 0,  0, 0, 0,  0, 0, 0, 0}  // LMC 3
+						   	   };
+static const int8_t generic_dll_write_offset  [4][9]     = { {0, 0,  0, 0, 0,  0, 0, 0, 0}, // LMC 0
+							     {0, 0,  0, 0, 0,  0, 0, 0, 0}, // LMC 1
+							     {0, 0,  0, 0, 0,  0, 0, 0, 0}, // LMC 2
+							     {0, 0,  0, 0, 0,  0, 0, 0, 0}  // LMC 3
+						   	   };
+
+static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg, int lmc)
 {
     cfg->min_rtt_nom_idx        = 1;
     cfg->max_rtt_nom_idx        = 7;
@@ -322,8 +362,8 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     cfg->ddr2t_rdimm            = 1;
     cfg->maximum_adjacent_rlevel_delay_increment = 2;
     cfg->fprch2                 = 2;
-    cfg->dll_write_offset       = dll_write_offset;
-    cfg->dll_read_offset        = dll_read_offset;
+    cfg->dll_write_offset       = &generic_dll_write_offset [lmc][0];
+    cfg->dll_read_offset        = &generic_dll_read_offset  [lmc][0];
     cfg->parity                 = 0;
     cfg->rlevel_table		= 0; /* Initialized later */
     cfg->measured_vref		= 0;
@@ -332,6 +372,7 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
 const dram_config_t *dram_get_config_crb_2s_V3(void)
 {
     dram_config_t *cfg = &__libdram_global_cfg;
+    int lmc;
 
     /* Make all fields for the node default to zero */
     memset(cfg, 0, sizeof(*cfg));
@@ -341,9 +382,9 @@ const dram_config_t *dram_get_config_crb_2s_V3(void)
     cfg->ddr_clock_hertz = DEFAULT_RDIMM_SPEED;
 
     /* Load the defaults for DIMMs on all four controllers */
-    for (int lmc = 0; lmc < 4; lmc++)
+    for (lmc = 0; lmc < 4; lmc++)
     {
-        setup_dram_custom_lmc_config(&cfg->config[lmc].custom_lmc_config);
+        setup_dram_custom_lmc_config(&cfg->config[lmc].custom_lmc_config, lmc);
 
         setup_dram_odt_1rank_configuration(cfg->config[lmc].odt_1rank_config);
         setup_dram_odt_2rank_configuration(cfg->config[lmc].odt_2rank_config);
@@ -354,7 +395,7 @@ const dram_config_t *dram_get_config_crb_2s_V3(void)
     {
 	int lmc_mask  = DEFAULT_LMC_MASK;
         int dimm_mask = DEFAULT_DIMM_MASK;
-	for (int lmc = 0; lmc < 4; lmc++)
+	for (lmc = 0; lmc < 4; lmc++)
         {
             if (! (lmc_mask & (1 << lmc))) /* Could use the testbit macro */
                 continue;
@@ -385,5 +426,43 @@ const dram_config_t *dram_get_config_crb_2s_V3(void)
     {
         cfg->ddr_clock_hertz = DEFAULT_UDIMM_SPEED;
     }
+
+    /* FIXME: FIXUPS
+     * Here is where we can fix up configuration values dependent on the SPD contents.
+     * For example, we may want to change MODEREG_PARAMSx fields like rtt_wr dependent on the DIMM.
+     */
+    int spd_package = 0xff & read_spd(node, &cfg->config[0].dimm_config_table[0], 0, DDR4_SPD_PACKAGE_TYPE);
+    int spd_org     = 0xff & read_spd(node, &cfg->config[0].dimm_config_table[0], 0, DDR4_SPD_MODULE_ORGANIZATION);
+    int num_ranks   = 1 +  ((spd_org >> 3) & 0x7);
+    int dram_width  = 4 << ((spd_org >> 0) & 0x7);
+    char part_number[21] = {0};
+
+    // look for RDIMM && 2Rx4 && stacked die
+    if (spd_rdimm && (num_ranks == 2) && (dram_width == 4) && ((spd_package & 0xf3) == 0x91))
+    {
+	// fixup ONLY the items that need to be different
+	//printf("CONFIG_EBB8804: fixups for RDIMM 2Rx4 stacked die\n");
+
+	// do each LMC
+	for (lmc = 0; lmc < 4; lmc++) {
+	    //fixup_dram_custom_lmc_config(&cfg->config[lmc].custom_lmc_config);
+	    //fixup_dram_odt_1rank_configuration(cfg->config[lmc].odt_1rank_config);
+	    fixup_1_dram_odt_2rank_configuration(cfg->config[lmc].odt_2rank_config);
+	    //fixup_dram_odt_4rank_configuration(cfg->config[lmc].odt_4rank_config);
+	}
+    }
+
+    // Check for specific DIMM part number and set a different DLL Read Offset table
+    get_dimm_part_number(part_number, node, &cfg->config[0].dimm_config_table[0], 0);
+    if (strcmp(part_number, "36ASF2G72PZ-2G1A2") == 0)
+    {
+	//printf("CONFIG_EBB8804: fixup for RDIMM #122 part number '%s'\n", part_number);
+
+	// do each LMC
+	for (lmc = 0; lmc < 4; lmc++) {
+	    cfg->config[lmc].custom_lmc_config.dll_read_offset = &inphi_122_dll_read_offset[lmc][0];
+	}
+    }
+
     return cfg;
 };

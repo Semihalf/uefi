@@ -19,10 +19,17 @@
 #include "dram-l2c.h"
 #include "dram-init-ddr3.h"
 
+#define RLEVEL_AVG_LOOPS_DEFAULT 1
+
+#define RLEVEL_AVG_LOOPS_DEBUG   0
 typedef struct {
-	int delay;
-	int loop_total;
-	int loop_count;
+    int delay;
+    int loop_total;
+    int loop_count;
+#if RLEVEL_AVG_LOOPS_DEBUG
+    int last;
+    int diffs;
+#endif
 } rlevel_byte_data_t;
 
 

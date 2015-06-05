@@ -1,6 +1,14 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
+#define NOROEND_PATCH  0
+#define RLEXTRAS_PATCH 0
+
+#define MUST_ROUND(b) ((((b) & 3) == 3) ? 1 : 0)  // are both low-order bits set
+
+#define DEFAULT_BEST_RANK_SCORE  9999999
+#define MAX_RANK_SCORE_LIMIT     99 // FIXME? 
+
 #define DEBUG_VALIDATE_BITMASK 0
 #if DEBUG_VALIDATE_BITMASK
 #define debug_bitmask_print printf
@@ -8,11 +16,20 @@
 #define debug_bitmask_print(...)
 #endif
 
+#define RUN_INIT_SEQ_1      1
+#define RUN_INIT_SEQ_2      0
+#define RUN_INIT_SEQ_3      0
+
+#undef ENABLE_LOCK_RETRIES
+#undef ENABLE_SLOT_CTL_ACCESS
 #undef DEBUG_PERFORM_DDR3_SEQUENCE
 
+#define ENABLE_DISPLAY_MPR_PAGE 0
+#if ENABLE_DISPLAY_MPR_PAGE
 static void Display_MPR_Page_Location(bdk_node_t node, int rank,
                                       int ddr_interface_num, int dimm_count,
                                       int page, int location, uint64_t *mpr_data);
+#endif
 
 /* Read out Deskew Settings for DDR */
 
@@ -96,15 +113,13 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num)
 {
     int unsaturated;
-    int locked;
     int sat_retries, sat_retry_limit;
-    int lck_retries;
-    int rankx;
     deskew_counts_t dsk_counts;
+
+    ddr_print("LMC%d: Performing Deskew Training.\n", ddr_interface_num);
 
     sat_retry_limit = 10;
     unsaturated = 0;
-    locked    = 0;
     sat_retries = 0;
     ++sat_retry_limit;          /* do, while always does 1. Add one to limit. */
     do {
@@ -151,114 +166,49 @@ static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_
 
         perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
 
-        Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 0);
+#define PRINT_RETRY_LIMIT 0 // make equal to sat_retry_limit if you want all of them
+	if (sat_retries <= PRINT_RETRY_LIMIT)
+	    ddr_print("LMC%d: Deskew Training: retry %d: Training Results.\n",
+		      ddr_interface_num, sat_retries);
+
+        Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts,
+				 (sat_retries <= PRINT_RETRY_LIMIT) ? 1 : 0);
+
         unsaturated = (dsk_counts.saturated == 0);
 
+#ifdef ENABLE_LOCK_RETRIES
+	{
+	    int lck_retries;
+	    int locked = 0;
+	    int rankx;
+	    lck_retries = 0;
+	    while (lck_retries--) {
+		for (rankx = 0; rankx < 4;rankx++) {
+		    if (!(rank_mask & (1 << rankx)))
+			continue;
+		    //Display_MPR_Page(node, rank_mask, ddr_interface_num, 2, 0);
+		    //Display_MPR_Page(node, rank_mask, ddr_interface_num, 2, 2);
+		    //perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
+		    //perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 6); /* write-leveling */
+		}
 
-        lck_retries = 0;
-        while (lck_retries--) {
-            for (rankx = 0; rankx < 4;rankx++) {
-                if (!(rank_mask & (1 << rankx)))
-                    continue;
-                //Display_MPR_Page(node, rank_mask, ddr_interface_num, 2, 0);
-                //Display_MPR_Page(node, rank_mask, ddr_interface_num, 2, 2);
-                //perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
-                //perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 6); /* write-leveling */
-            }
+		Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 0);
+		locked      = (dsk_counts.locked    == 0);
 
-            Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 0);
-            locked      = (dsk_counts.locked    == 0);
-
-            if (locked) break;
-        }
-
+		if (locked) break;
+	    }
+	}
+#endif /* ENABLE_LOCK_RETRIES */
         ++sat_retries;
 
         if (unsaturated) break;
     } while (sat_retries < sat_retry_limit);
-    ddr_print("Deskew Training %s. %d retries\n",
+
+    ddr_print("LMC%d: Deskew Training %s. %d retries\n", ddr_interface_num,
               (sat_retries >= sat_retry_limit) ? "Timed Out" : "Completed", sat_retries-1);
+    // NOTE: we (currently) always print one last training validation before starting Read Leveling... 
 }
 
-#ifdef ENABLE_FP_COMPUTES
-static int compute_Vref_1slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl)
-{
-    float Reff;
-    float Rser = 15;
-    float Vdd = 1200;
-    float Vref;
-    int Vref_value;
-    float rtt_wr_f = (float) (rtt_wr == 0 ? 1*1024*1024 : rtt_wr);
-    float rtt_park_f = (float) (rtt_park == 0 ? 1*1024*1024 : rtt_park);
-    float dqx_ctl_f = (float) (dqx_ctl == 0 ? 1*1024*1024 : dqx_ctl);
-
-    Reff = (rtt_wr_f * rtt_park_f) / (rtt_wr_f + rtt_park_f);
-    //printf("Reff = %f\n", Reff);
-
-    Vref = ((Rser + dqx_ctl_f) / (Rser + dqx_ctl_f + Reff)) + 1;
-    Vref = (Vref * Vdd) / 2;
-    //printf("Vref = %f\n", Vref);
-    //printf("Vref: %f percent of Vdd\n", (Vref * 100) / Vdd);
-
-    Vref_value = divide_nint(((Vref * 100 * 100) / Vdd) - 6000, 65);
-    //printf("Vref_value = %d (0x%02x)\n", Vref_value, Vref_value);
-
-    debug_print("rtt_wr:%d, rtt_park:%d, dqx_ctl:%d, Vref_value:%d (0x%x)\n",
-           rtt_wr, rtt_park, dqx_ctl, Vref_value, Vref_value);
-
-    return Vref_value;
-}
-static int compute_Vref_2slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl, int rtt_nom)
-{
-    float Reff;
-    float Rser = 15;
-    float Vdd = 1200;
-    float Vref;
-    float Vl, Vlp, Vcm, Vrefpc;
-    float Rd0, Rd1, Rpullup;
-    int Vref_value;
-    float rtt_wr_f = (float) (rtt_wr == 0 ? 1*1024*1024 : rtt_wr);
-    float rtt_park_f = (float) (rtt_park == 0 ? 1*1024*1024 : rtt_park);
-    float dqx_ctl_f = (float) (dqx_ctl == 0 ? 1*1024*1024 : dqx_ctl);
-    float rtt_nom_f = (float) (rtt_nom == 0 ? 1*1024*1024 : rtt_nom);
-
-    // Rd0 = (RTT_NOM /*parallel*/ RTT_WR) + 15 = ((RTT_NOM * RTT_WR) / (RTT_NOM + RTT_WR)) + 15
-    Rd0 = (rtt_nom_f * rtt_wr_f) / (rtt_nom_f + rtt_wr_f) + 15.0;
-    //printf("Rd0 = %f\n", Rd0);
-
-    // Rd1 = (RTT_PARK / 2) + 15
-    Rd1 = (rtt_park_f / 2.0) + 15.0;
-    //printf("Rd1 = %f\n", Rd1);
-
-    // Rpullup = Rd0 /*parallel*/ Rd1 = (Rd0 * Rd1) / (Rd0 + Rd1)
-    Rpullup = (Rd0 * Rd1) / (Rd0 + Rd1);
-    //printf("Rpullup = %f\n", Rpullup);
-
-    // Vl = (DQX_CTL / (DQX_CTL + Rpullup)) * 1.2
-    Vl = (dqx_ctl_f / (dqx_ctl_f + Rpullup)) * 1.2;
-    //printf("Vl = %f\n", Vl);
-
-    // Vlp = ((15 / Rd0) * (1.2 - Vl)) + Vl
-    Vlp = ((15.0 / Rd0) * (1.2 - Vl)) + Vl;
-    //printf("Vlp = %f\n", Vlp);
-
-    // Vcm = (Vlp + 1.2) / 2
-    Vcm = (Vlp + 1.2) / 2.0;
-    //printf("Vcm = %f\n", Vcm);
-
-    // Vrefpc = (Vcm / 1.2) * 100
-    Vrefpc = (Vcm / 1.2) * 100.0;
-    //printf("Vrefpc = %f\n", Vrefpc);
-
-    Vref_value = divide_nint((Vrefpc * 100) - 6000, 65);
-    //printf("Vref_value = %d (0x%02x)\n", Vref_value, Vref_value);
-
-    debug_print("rtt_wr:%d, rtt_park:%d, dqx_ctl:%d, rtt_nom:%d, Vref_value:%d (0x%x)\n",
-		rtt_wr, rtt_park, dqx_ctl, rtt_nom, Vref_value, Vref_value);
-
-    return Vref_value;
-}
-#else /* ENABLE_FP_COMPUTES */
 #define SCALING_FACTOR (1000)
 static int compute_Vref_1slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl)
 {
@@ -271,6 +221,9 @@ static int compute_Vref_1slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl)
     uint64_t rtt_park_s = (rtt_park == 0 ? 1*1024*1024 : rtt_park);
     uint64_t dqx_ctl_s = (dqx_ctl == 0 ? 1*1024*1024 : dqx_ctl);
     int Vref_value;
+    uint64_t Rangepc = 6000; // range1 base
+    uint64_t Vrefpc;
+    int Vref_range = 0;
 
     //printf("rtt_wr = %d, rtt_park = %d, dqx_ctl = %d\n", rtt_wr, rtt_park, dqx_ctl);
     //printf("rtt_wr_s = %d, rtt_park_s = %d, dqx_ctl_s = %d\n", rtt_wr_s, rtt_park_s, dqx_ctl_s);
@@ -286,9 +239,20 @@ static int compute_Vref_1slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl)
 
     Vref = (Vref * Vdd) / 2 / SCALING_FACTOR;
     //printf("Vref = %d\n", Vref);
-    //printf("Vref: %d percent of Vdd\n", (Vref * 100) / Vdd);
 
-    Vref_value = divide_nint(((Vref * 100 * 100) / Vdd) - 6000, 65);
+    Vrefpc = (Vref * 100 * 100) / Vdd;
+    //printf("Vrefpc = %d\n", Vrefpc);
+
+    if (Vrefpc < Rangepc) { // < range1 base, use range2
+	Vref_range = 1 << 6; // set bit A6 for range2
+	Rangepc = 4500; // range2 base is 45%
+    }
+
+    Vref_value = divide_nint(Vrefpc - Rangepc, 65);
+    if (Vref_value < 0)
+	Vref_value = Vref_range; // set to base of range
+    else
+	Vref_value |= Vref_range;
     //printf("Vref_value = %d (0x%02x)\n", Vref_value, Vref_value);
 
     debug_print("rtt_wr:%d, rtt_park:%d, dqx_ctl:%d, Vref_value:%d (0x%x)\n",
@@ -301,13 +265,16 @@ static int compute_Vref_2slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl, int r
     //uint64_t Rser = 15;
     uint64_t Vdd = 1200;
     //uint64_t Vref;
-    uint64_t Vl, Vlp, Vcm, Vrefpc;
+    uint64_t Vl, Vlp, Vcm;
     uint64_t Rd0, Rd1, Rpullup;
-    int Vref_value;
     uint64_t rtt_wr_s = (rtt_wr == 0 ? 1*1024*1024 : rtt_wr);
     uint64_t rtt_park_s = (rtt_park == 0 ? 1*1024*1024 : rtt_park);
     uint64_t dqx_ctl_s = (dqx_ctl == 0 ? 1*1024*1024 : dqx_ctl);
     uint64_t rtt_nom_s = (rtt_nom == 0 ? 1*1024*1024 : rtt_nom);
+    int Vref_value;
+    uint64_t Rangepc = 6000; // range1 base
+    uint64_t Vrefpc;
+    int Vref_range = 0;
 
     // Rd0 = (RTT_NOM /*parallel*/ RTT_WR) + 15 = ((RTT_NOM * RTT_WR) / (RTT_NOM + RTT_WR)) + 15
     Rd0 = divide_nint((rtt_nom_s * rtt_wr_s), (rtt_nom_s + rtt_wr_s)) + 15;
@@ -322,11 +289,11 @@ static int compute_Vref_2slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl, int r
     //printf("Rpullup = %ld\n", Rpullup);
 
     // Vl = (DQX_CTL / (DQX_CTL + Rpullup)) * 1.2
-    Vl = divide_nint((dqx_ctl_s * SCALING_FACTOR), (dqx_ctl_s + Rpullup)) * Vdd / SCALING_FACTOR;
+    Vl = divide_nint((dqx_ctl_s * Vdd), (dqx_ctl_s + Rpullup));
     //printf("Vl = %ld\n", Vl);
 
     // Vlp = ((15 / Rd0) * (1.2 - Vl)) + Vl
-    Vlp = ((((15 * SCALING_FACTOR) / Rd0) * (Vdd - Vl)) / SCALING_FACTOR) + Vl;
+    Vlp = divide_nint((15 * (Vdd - Vl)), Rd0) + Vl;
     //printf("Vlp = %ld\n", Vlp);
 
     // Vcm = (Vlp + 1.2) / 2
@@ -334,10 +301,19 @@ static int compute_Vref_2slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl, int r
     //printf("Vcm = %ld\n", Vcm);
 
     // Vrefpc = (Vcm / 1.2) * 100
-    Vrefpc = (divide_nint((Vcm * SCALING_FACTOR), Vdd) * 100 * 100) / SCALING_FACTOR;
+    Vrefpc = divide_nint((Vcm * 100 * 100), Vdd);
     //printf("Vrefpc = %ld\n", Vrefpc);
 
-    Vref_value = divide_nint(Vrefpc - 6000, 65);
+    if (Vrefpc < Rangepc) { // < range1 base, use range2
+	Vref_range = 1 << 6; // set bit A6 for range2
+	Rangepc = 4500; // range2 base is 45%
+    }
+
+    Vref_value = divide_nint(Vrefpc - Rangepc, 65);
+    if (Vref_value < 0)
+	Vref_value = Vref_range; // set to base of range
+    else
+	Vref_value |= Vref_range;
     //printf("Vref_value = %d (0x%02x)\n", Vref_value, Vref_value);
 
     debug_print("rtt_wr:%d, rtt_park:%d, dqx_ctl:%d, rtt_nom:%d, Vref_value:%d (0x%x)\n",
@@ -345,7 +321,6 @@ static int compute_Vref_2slot_2rank(int rtt_wr, int rtt_park, int dqx_ctl, int r
 
     return Vref_value;
 }
-#endif /* ENABLE_FP_COMPUTES */
 
 static int encode_row_lsb_ddr3(int row_lsb, int ddr_interface_wide)
 {
@@ -593,37 +568,18 @@ static int compute_ddr3_rlevel_delay(uint8_t mstart, uint8_t width, bdk_lmcx_rle
     return delay;
 }
 
+#define WLEVEL_BYTE_BITS 5
+#define WLEVEL_BYTE_MSK  ((1UL << 5) - 1)
+
 static void update_wlevel_rank_struct(bdk_lmcx_wlevel_rankx_t *lmc_wlevel_rank,
 				      int byte, int delay)
 {
-    switch(byte) {
-    case 0:
-	lmc_wlevel_rank->s.byte0 = delay;
-	break;
-    case 1:
-	lmc_wlevel_rank->s.byte1 = delay;
-	break;
-    case 2:
-	lmc_wlevel_rank->s.byte2 = delay;
-	break;
-    case 3:
-	lmc_wlevel_rank->s.byte3 = delay;
-	break;
-    case 4:
-	lmc_wlevel_rank->s.byte4 = delay;
-	break;
-    case 5:
-	lmc_wlevel_rank->s.byte5 = delay;
-	break;
-    case 6:
-	lmc_wlevel_rank->s.byte6 = delay;
-	break;
-    case 7:
-	lmc_wlevel_rank->s.byte7 = delay;
-	break;
-    case 8:
-	lmc_wlevel_rank->s.byte8 = delay;
-	break;
+    bdk_lmcx_wlevel_rankx_t temp_wlevel_rank;
+    if (byte >= 0 && byte <= 8) {
+	temp_wlevel_rank.u = lmc_wlevel_rank->u;
+	temp_wlevel_rank.u &= ~(WLEVEL_BYTE_MSK << (WLEVEL_BYTE_BITS * byte));
+	temp_wlevel_rank.u |= ((delay & WLEVEL_BYTE_MSK) << (WLEVEL_BYTE_BITS * byte));
+	lmc_wlevel_rank->u = temp_wlevel_rank.u;
     }
 }
 
@@ -631,69 +587,23 @@ static int  get_wlevel_rank_struct(bdk_lmcx_wlevel_rankx_t *lmc_wlevel_rank,
 				   int byte)
 {
     int delay = 0;
-    switch(byte) {
-    case 0:
-	delay = lmc_wlevel_rank->s.byte0;
-	break;
-    case 1:
-	delay = lmc_wlevel_rank->s.byte1;
-	break;
-    case 2:
-	delay = lmc_wlevel_rank->s.byte2;
-	break;
-    case 3:
-	delay = lmc_wlevel_rank->s.byte3;
-	break;
-    case 4:
-	delay = lmc_wlevel_rank->s.byte4;
-	break;
-    case 5:
-	delay = lmc_wlevel_rank->s.byte5;
-	break;
-    case 6:
-	delay = lmc_wlevel_rank->s.byte6;
-	break;
-    case 7:
-	delay = lmc_wlevel_rank->s.byte7;
-	break;
-    case 8:
-	delay = lmc_wlevel_rank->s.byte8;
-	break;
+    if (byte >= 0 && byte <= 8) {
+	delay = ((lmc_wlevel_rank->u) >> (WLEVEL_BYTE_BITS * byte)) & WLEVEL_BYTE_MSK;
     }
     return delay;
 }
 
+#define RLEVEL_BYTE_BITS 6
+#define RLEVEL_BYTE_MSK  ((1UL << 6) - 1)
+
 static void update_rlevel_rank_struct(bdk_lmcx_rlevel_rankx_t *lmc_rlevel_rank,
 				      int byte, int delay)
 {
-    switch (byte) {
-    case 0:
-	lmc_rlevel_rank->s.byte0 = delay;
-	break;
-    case 1:
-	lmc_rlevel_rank->s.byte1 = delay;
-	break;
-    case 2:
-	lmc_rlevel_rank->s.byte2 = delay;
-	break;
-    case 3:
-	lmc_rlevel_rank->s.byte3 = delay;
-	break;
-    case 4:
-	lmc_rlevel_rank->s.byte4 = delay;
-	break;
-    case 5:
-	lmc_rlevel_rank->s.byte5 = delay;
-	break;
-    case 6:
-	lmc_rlevel_rank->s.byte6 = delay;
-	break;
-    case 7:
-	lmc_rlevel_rank->s.byte7 = delay;
-	break;
-    case 8:
-	lmc_rlevel_rank->s.byte8 = delay;
-	break;
+    bdk_lmcx_rlevel_rankx_t temp_rlevel_rank;
+    if (byte >= 0 && byte <= 8) {
+	temp_rlevel_rank.u = lmc_rlevel_rank->u & ~(RLEVEL_BYTE_MSK << (RLEVEL_BYTE_BITS * byte));
+	temp_rlevel_rank.u |= ((delay & RLEVEL_BYTE_MSK) << (RLEVEL_BYTE_BITS * byte));
+	lmc_rlevel_rank->u = temp_rlevel_rank.u;
     }
 }
 
@@ -701,34 +611,8 @@ static int  get_rlevel_rank_struct(bdk_lmcx_rlevel_rankx_t *lmc_rlevel_rank,
 				   int byte)
 {
     int delay = 0;
-    switch (byte) {
-    case 0:
-	delay = lmc_rlevel_rank->s.byte0;
-	break;
-    case 1:
-	delay = lmc_rlevel_rank->s.byte1;
-	break;
-    case 2:
-	delay = lmc_rlevel_rank->s.byte2;
-	break;
-    case 3:
-	delay = lmc_rlevel_rank->s.byte3;
-	break;
-    case 4:
-	delay = lmc_rlevel_rank->s.byte4;
-	break;
-    case 5:
-	delay = lmc_rlevel_rank->s.byte5;
-	break;
-    case 6:
-	delay = lmc_rlevel_rank->s.byte6;
-	break;
-    case 7:
-	delay = lmc_rlevel_rank->s.byte7;
-	break;
-    case 8:
-	delay = lmc_rlevel_rank->s.byte8;
-	break;
+    if (byte >= 0 && byte <= 8) {
+	delay = ((lmc_rlevel_rank->u) >> (RLEVEL_BYTE_BITS * byte)) & RLEVEL_BYTE_MSK;
     }
     return delay;
 }
@@ -829,12 +713,29 @@ static int is_dll_offset_enabled(const int8_t *dll_offset_table)
     return (0);
 }
 
-static void display_read_leveling_settings(bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank)
+// flags bit 0=score, bit 1=AVERAGE
+static void do_display_read_leveling_settings(bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank, int flags, int score)
 {
-    ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+    char score_buf[16];
+    if (flags & 1)
+	snprintf(score_buf, sizeof(score_buf), "(%d)", score);
+    else {
+	score_buf[0] = ' '; score_buf[1] = 0;
+    }
+
+    char *msg_buf;
+    char hex_buf[20];
+    if (flags & 2) {
+	msg_buf = "  DELAY AVERAGES  ";
+    } else {
+	snprintf(hex_buf, sizeof(hex_buf), "0x%016lX", lmc_rlevel_rank.u);
+	msg_buf = hex_buf;
+    }
+
+    ddr_print("Rank(%d) Rlevel Rank %#5x, %s : %5d %5d %5d %5d %5d %5d %5d %5d %5d %s\n",
               rank,
               lmc_rlevel_rank.s.status,
-              lmc_rlevel_rank.u,
+              msg_buf,
               lmc_rlevel_rank.s.byte8,
               lmc_rlevel_rank.s.byte7,
               lmc_rlevel_rank.s.byte6,
@@ -843,8 +744,84 @@ static void display_read_leveling_settings(bdk_lmcx_rlevel_rankx_t lmc_rlevel_ra
               lmc_rlevel_rank.s.byte3,
               lmc_rlevel_rank.s.byte2,
               lmc_rlevel_rank.s.byte1,
-              lmc_rlevel_rank.s.byte0
+              lmc_rlevel_rank.s.byte0,
+	      score_buf
               );
+}
+
+static void display_read_leveling_settings(bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank)
+{
+    do_display_read_leveling_settings(lmc_rlevel_rank, rank, 0, 0);
+}
+
+static void display_read_leveling_settings_with_score(bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank, int score)
+{
+    do_display_read_leveling_settings(lmc_rlevel_rank, rank, 1, score);
+}
+
+static void display_read_leveling_settings_with_average(bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank, int score)
+{
+    do_display_read_leveling_settings(lmc_rlevel_rank, rank, 3, score);
+}
+
+static void do_display_read_leveling_settings_with_RODT(bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank, int score,
+							int rtt_nom, int nom_ohms, int rodt_ctl, int rodt_ohms, int flag)
+{
+    char *msg_buf;
+    msg_buf = (flag == 1) ? "SKIPPING" : ((flag == 2) ? "BEST ROW" : "        ");
+    
+    ddr_print("Rank(%d) Rlevel NOM %1d/%3d RODT %1d/%3d  %s : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
+	      rank,
+	      rtt_nom, nom_ohms,
+	      rodt_ctl, rodt_ohms,
+	      msg_buf,
+	      lmc_rlevel_rank.s.byte8,
+	      lmc_rlevel_rank.s.byte7,
+	      lmc_rlevel_rank.s.byte6,
+	      lmc_rlevel_rank.s.byte5,
+	      lmc_rlevel_rank.s.byte4,
+	      lmc_rlevel_rank.s.byte3,
+	      lmc_rlevel_rank.s.byte2,
+	      lmc_rlevel_rank.s.byte1,
+	      lmc_rlevel_rank.s.byte0,
+	      score
+	      );
+}
+
+static void display_read_leveling_settings_with_RODT(bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank,
+						     int score, int rtt_nom, int nom_ohms, int rodt_ctl, int ohms)
+{
+    do_display_read_leveling_settings_with_RODT(lmc_rlevel_rank, rank, score, rtt_nom, nom_ohms, rodt_ctl, ohms, 0); // blank
+}
+
+static void display_read_leveling_settings_with_RODT_skip(bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank,
+							  int score, int rtt_nom, int nom_ohms, int rodt_ctl, int ohms)
+{
+    //do_display_read_leveling_settings_with_RODT(lmc_rlevel_rank, rank, score, rtt_nom, nom_ohms, rodt_ctl, ohms, 1); // skipping
+}
+
+static void display_read_leveling_settings_with_RODT_best(bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank, int rank,
+							  int score, int rtt_nom, int nom_ohms, int rodt_ctl, int ohms)
+{
+    do_display_read_leveling_settings_with_RODT(lmc_rlevel_rank, rank, score, rtt_nom, nom_ohms, rodt_ctl, ohms, 2); // best row
+}
+
+static void display_write_leveling_settings(bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank, int rank)
+{
+    ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+	      rank,
+	      lmc_wlevel_rank.s.status,
+	      lmc_wlevel_rank.u,
+	      lmc_wlevel_rank.s.byte8,
+	      lmc_wlevel_rank.s.byte7,
+	      lmc_wlevel_rank.s.byte6,
+	      lmc_wlevel_rank.s.byte5,
+	      lmc_wlevel_rank.s.byte4,
+	      lmc_wlevel_rank.s.byte3,
+	      lmc_wlevel_rank.s.byte2,
+	      lmc_wlevel_rank.s.byte1,
+	      lmc_wlevel_rank.s.byte0
+	      );
 }
 
 static unsigned short load_dll_offset(bdk_node_t node, int ddr_interface_num, int dll_offset_mode, int byte_offset, int byte)
@@ -1108,6 +1085,7 @@ static void set_mpr_mode (bdk_node_t node, int rank_mask,
     }
 }
 
+#if ENABLE_DISPLAY_MPR_PAGE
 static void do_ddr4_mpr_read(bdk_node_t node, int ddr_interface_num, int rank,
                       int page, int location)
 {
@@ -1140,6 +1118,7 @@ static void do_ddr4_mpr_read(bdk_node_t node, int ddr_interface_num, int rank,
     debug_print("lmc_mr_mpr_ctl.s.mpr_wr    : 0x%02x\n", lmc_mr_mpr_ctl.s.mpr_wr);
 
 }
+#endif
 
 int set_rdimm_mode(bdk_node_t node, int ddr_interface_num, int enable)
 {
@@ -1155,6 +1134,7 @@ int set_rdimm_mode(bdk_node_t node, int ddr_interface_num, int enable)
     return (save_rdimm_mode);
 }
 
+#if ENABLE_DISPLAY_MPR_PAGE
 static void ddr4_mpr_read(bdk_node_t node, int ddr_interface_num, int rank,
 			  int page, int location, uint64_t *mpr_data)
 {
@@ -1196,6 +1176,7 @@ static void Display_MPR_Page(bdk_node_t node, int rank_mask,
 
     } /* for (rankx = 0; rankx < dimm_count * 4; rankx++) */
 }
+#endif
 
 void ddr4_mpr_write(bdk_node_t node, int ddr_interface_num, int rank,
                     int page, int location, uint8_t mpr_data)
@@ -1457,6 +1438,7 @@ static void change_rdimm_mpr_pattern (bdk_node_t node, int rank_mask,
 
 }
 
+#if RUN_INIT_SEQ_2
 static void change_rdimm_mpr_pattern2 (bdk_node_t node, int rank_mask,
                                       int ddr_interface_num, int dimm_count)
 {
@@ -1547,7 +1529,8 @@ static void change_rdimm_mpr_pattern2 (bdk_node_t node, int rank_mask,
     lmc_config.s.ref_zqcs_int = save_ref_zqcs_int;
     DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
 }
-
+#endif
+#if RUN_INIT_SEQ_3
 static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
 				       int ddr_interface_num, int dimm_count)
 {
@@ -1872,6 +1855,7 @@ static void change_rdimm_mpr_pattern3 (bdk_node_t node, int rank_mask,
 
     set_rdimm_mode(node, ddr_interface_num, 0);
 }
+#endif
 
 static unsigned char ddr4_rodt_ohms     [RODT_OHMS_COUNT     ] = {  0,  40,  60, 80, 120, 240, 34, 48 };
 static unsigned char ddr4_rtt_nom_ohms  [RTT_NOM_OHMS_COUNT  ] = {  0,  60, 120, 40, 240,  48, 80, 34 };
@@ -1961,9 +1945,10 @@ static int compute_rc3x (int64_t tclk_psecs)
     return rc3x;
 }
 
-static const int   run_init_sequence_1 = 1;
-static const int   run_init_sequence_2 = 0;
-static const int   run_init_sequence_3 = 0;
+static const int   run_init_sequence_1 = RUN_INIT_SEQ_1;
+static const int   run_init_sequence_2 = RUN_INIT_SEQ_2;
+static const int   run_init_sequence_3 = RUN_INIT_SEQ_3;
+
 static const int   rlevel_separate_ab  = 1;
 
 int init_octeon3_ddr3_interface(bdk_node_t node,
@@ -2041,6 +2026,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int spd_trtp;
     int spd_tfaw;
     int spd_addr_mirror;
+    int spd_package = 0;
 
     /* FTB values are two's complement ranging from +127 to -128. */
     typedef signed char SC_t;
@@ -2166,6 +2152,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         bank_bits = (2 + ((spd_banks >> 4) & 0x3)) + ((spd_banks >> 6) & 0x3);
         bank_bits = min((int)bank_bits, 4); /* Controller can only address 4 bits. */
+
+	spd_package = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_PACKAGE_TYPE);
+	debug_print("DDR4: Package Type 0x%x \n", spd_package);
     } else {
         imp_values = &ddr3_impedence_values;
 
@@ -2962,7 +2951,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ddr_print("TIMING_PARAMS2                                : 0x%016lx\n", lmc_timing_params2.u);
 
         lmc_timing_params2.s.trrd_l = divide_roundup(ddr4_tRRD_Lmin, tclk_psecs) - 1;
-        lmc_timing_params2.s.twtr_l = divide_roundup(max(4*tclk_psecs, 7500ull), tclk_psecs) - 1;
+        lmc_timing_params2.s.twtr_l = divide_nint(max(4*tclk_psecs, 7500ull), tclk_psecs) - 1; // correct for 1600-2400
         lmc_timing_params2.s.t_rw_op_max = 7;
         lmc_timing_params2.s.trtp = divide_roundup(max(4*tclk_psecs, 7500ull), tclk_psecs) - 1;
 
@@ -2973,10 +2962,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
            for Write-to-Read operations to the same Bank Group */
         if (lmc_timing_params1.s.twtr < (lmc_timing_params2.s.twtr_l - 4)) {
             lmc_timing_params1.s.twtr = lmc_timing_params2.s.twtr_l - 4;
+	    ddr_print("ERRATA 25823: NEW: TWTR: %d, TWTR_L: %d\n", lmc_timing_params1.s.twtr, lmc_timing_params2.s.twtr_l);
             ddr_print("TIMING_PARAMS1                                : 0x%016lx\n", lmc_timing_params1.u);
             DRAM_CSR_WRITE(node, BDK_LMCX_TIMING_PARAMS1(ddr_interface_num), lmc_timing_params1.u);
         }
-
     }
 
     /* LMC(0)_MODEREG_PARAMS0 */
@@ -3882,18 +3871,24 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (spd_rdimm) && (ddr_type == DDR4_DRAM)) {
+#if RUN_INIT_SEQ_1
         if (run_init_sequence_1) {
             ddr_print("Running init sequence 1\n");
             change_rdimm_mpr_pattern(node, rank_mask, ddr_interface_num, dimm_count);
         }
+#endif
+#if RUN_INIT_SEQ_2
         if (run_init_sequence_2) {
             ddr_print("Running init sequence 2\n");
             change_rdimm_mpr_pattern2(node, rank_mask, ddr_interface_num, dimm_count);
         }
+#endif
+#if RUN_INIT_SEQ_3
         if (run_init_sequence_3) {
             ddr_print("Running init sequence 3\n");
             change_rdimm_mpr_pattern3(node, rank_mask, ddr_interface_num, dimm_count);
         }
+#endif
     }
 
     int offset_vref_training_loops = 2;
@@ -3905,10 +3900,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      * 
      * 1. Write LMC(0)_PHY_CTL[DAC_ON] = 1
      */
+#if RUN_INIT_SEQ_3
     if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
         ddr_print("24) Offset Training sequence=0xb\n");
     }
-
+#endif
     if (ddr_interface_num != 1)
     {
         bdk_lmcx_phy_ctl_t lmc_phy_ctl;
@@ -3947,14 +3943,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      * 
      * 1. Write LMC(0)_EXT_CONFIG[VREFINT_SEQ_DESKEW] = 0.
      */
-
+#if RUN_INIT_SEQ_3
     if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
         ddr_print("25) VREF internal training (sequence = 0xa). At this point, the B-side is still in MPR mode.\n");
         ddr_print("25a) Put the B side only of rank 0 into MPR mode\n");
 
         set_mpr_mode(node, 1, ddr_interface_num, dimm_count, /* mpr */ 1, /* bg1 */ 1); /* B-side */
     }
-
+#endif
     {
         bdk_lmcx_ext_config_t ext_config;
         ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
@@ -3984,6 +3980,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num);
 
 
+#if RUN_INIT_SEQ_3
     if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
 
 #if 0
@@ -4049,6 +4046,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         set_rdimm_mode(node, ddr_interface_num, 0);
 #endif
     }
+#endif
 
     /* LMC(0)_EXT_CONFIG */
     {
@@ -4251,8 +4249,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #pragma pack(push,1)
         bdk_lmcx_wlevel_ctl_t wlevel_ctl;
         bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank;
+#if RUN_INIT_SEQ_3
         bdk_lmcx_modereg_params0_t lmc_modereg_params0;
         bdk_lmcx_modereg_params1_t lmc_modereg_params1;
+#endif
         bdk_lmcx_config_t lmc_config;
         int rankx = 0;
         int wlevel_bitmask[9];
@@ -4271,7 +4271,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             ddr_print("Forcing software Write-Leveling\n");
 #endif
 	}
-
+#if RUN_INIT_SEQ_3
         if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
             /* 
              * 36) Hardware Write leveling (sequence = 6)
@@ -4279,7 +4279,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
              */
             ddr_print("36) Hardware Write leveling (sequence = 6) Write leveling to both A and B sides.\n");
         }
-
+#endif
         lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
         save_mode32b = lmc_config.s.mode32b;
         lmc_config.s.mode32b         = (! ddr_interface_64b);
@@ -4291,12 +4291,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	    if ((s = lookup_env_parameter("ddr_wlevel_roundup")) != NULL) {
 		ddr_wlevel_roundup = strtoul(s, NULL, 0);
 	    }
-
+#if RUN_INIT_SEQ_3
 	    lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
 	    lmc_modereg_params1.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num));
-
+#endif
 	    for (rankx = 0; rankx < dimm_count * 4; rankx++) {
+#if RUN_INIT_SEQ_3
 		uint32_t mr_wr_addr;
+#endif
 
 		if (!(rank_mask & (1 << rankx)))
 		    continue;
@@ -4311,7 +4313,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    wlevel_ctl.s.rtt_nom   = strtoul(s, NULL, 0);
 		}
 
-
+#if RUN_INIT_SEQ_3
 		if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
 		    int rank_disable;
 		    int rank_disable_mask = rank_mask & ~(1 << rankx); /* Disable all the others */
@@ -4400,7 +4402,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    mr_wr_addr |=     1                                             << 17; /* RFU */
 		    ddr4_mrw(node, ddr_interface_num, rankx, mr_wr_addr, ~1, 1); /* MR1 B-side */ // FIXME??
 		}
-
+#endif
 		DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), 0); /* Clear write-level delays */
 		wlevel_bitmask_errors = 0; /* Reset error counter */
 
@@ -4480,20 +4482,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			  wlevel_bitmask[0]
 			  );
 
-		ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
-			  rankx,
-			  lmc_wlevel_rank.s.status,
-			  lmc_wlevel_rank.u,
-			  lmc_wlevel_rank.s.byte8,
-			  lmc_wlevel_rank.s.byte7,
-			  lmc_wlevel_rank.s.byte6,
-			  lmc_wlevel_rank.s.byte5,
-			  lmc_wlevel_rank.s.byte4,
-			  lmc_wlevel_rank.s.byte3,
-			  lmc_wlevel_rank.s.byte2,
-			  lmc_wlevel_rank.s.byte1,
-			  lmc_wlevel_rank.s.byte0
-			  );
+		display_write_leveling_settings(lmc_wlevel_rank, rankx);
 
 		if (ddr_wlevel_roundup) { /* Round up odd bitmask delays */
 		    for (byte_idx=0; byte_idx<(8+ecc_ena); ++byte_idx) {
@@ -4504,26 +4493,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 						  roundup_ddr3_wlevel_bitmask(wlevel_bitmask[byte_idx]));
 		    }
 		    DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
-		    ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
-			      rankx,
-			      lmc_wlevel_rank.s.status,
-			      lmc_wlevel_rank.u,
-			      lmc_wlevel_rank.s.byte8,
-			      lmc_wlevel_rank.s.byte7,
-			      lmc_wlevel_rank.s.byte6,
-			      lmc_wlevel_rank.s.byte5,
-			      lmc_wlevel_rank.s.byte4,
-			      lmc_wlevel_rank.s.byte3,
-			      lmc_wlevel_rank.s.byte2,
-			      lmc_wlevel_rank.s.byte1,
-			      lmc_wlevel_rank.s.byte0
-			      );
+		    display_write_leveling_settings(lmc_wlevel_rank, rankx);
 		}
 
 		if (wlevel_bitmask_errors != 0) {
 		    ddr_print("Rank(%d) Write-Leveling Failed: %d Bitmask errors\n", rankx, wlevel_bitmask_errors);
 		}
-
+#if RUN_INIT_SEQ_3
 		if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
 		    /*
 		     * 37) Disable write-leveling on the B side. Re-enable output buffer on all ranks that were not 
@@ -4571,11 +4547,11 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 		    ddr_print("38) Repeat Step 31-34 for all ranks that needed to be write leveled.\n");
 		}
-
+#endif
 	    } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
         } /* while(wlevel_loops--) */
 
-
+#if RUN_INIT_SEQ_3
         if (run_init_sequence_3 && (ddr_type == DDR4_DRAM) && spd_rdimm) {
 
             /*
@@ -4586,7 +4562,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
             set_rdimm_mode(node, ddr_interface_num, 1);
         }
-
+#endif
         lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
         lmc_config.s.mode32b         = save_mode32b;
         DRAM_CSR_WRITE(node, BDK_LMCX_CONFIG(ddr_interface_num), lmc_config.u);
@@ -4595,7 +4571,18 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     {
         deskew_counts_t dsk_counts;
+	ddr_print("LMC%d: Check Deskew Settings before Read-Leveling.\n", ddr_interface_num);
         Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 1);
+
+	// at this point, we may still have some saturation - look for it
+	// Only do this for the 2Rx4 stacked die DIMMs...
+	if ((((spd_package & 0xf3) == 0x91) && (num_ranks == 2) && (dram_width == 4))) // 2Rx4 stacked die
+	{
+	    if (dsk_counts.saturated > 0) {
+		ddr_print("LMC%d: Deskew Status indicates some saturation - retry Training.\n", ddr_interface_num);
+		perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num);
+	    }
+	}
     }
 
     /*
@@ -4778,7 +4765,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         rlevel_ctl.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_CTL(ddr_interface_num));
 
         rlevel_avg_loops = custom_lmc_config->rlevel_average_loops;
-        if (rlevel_avg_loops == 0) rlevel_avg_loops = 1;
+        if (rlevel_avg_loops == 0) rlevel_avg_loops = RLEVEL_AVG_LOOPS_DEFAULT;
 
         ddr_rlevel_compute = custom_lmc_config->rlevel_compute;
         rlevel_ctl.s.offset_en = custom_lmc_config->offset_en;
@@ -4799,7 +4786,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             if (! ddr_interface_64b)
                 byte_bitmask = 0x0f;
 
-            rlevel_ctl.s.or_dis   = 1;
+	    rlevel_ctl.s.or_dis = 1;
             rlevel_ctl.s.bitmask  = byte_bitmask;
         }
 
@@ -4892,7 +4879,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 while (custom_lmc_config->rlevel_table[i].part != NULL) {
                     debug_print("DIMM part number:\"%s\", SPD: \"%s\"\n", custom_lmc_config->rlevel_table[i].part, part_number);
                     if ((strcmp(part_number, custom_lmc_config->rlevel_table[i].part) == 0) 
-                        && (_abs(custom_lmc_config->rlevel_table[i].speed - 2*ddr_hertz/(1000*1000)) < 10 )) {
+                        && (_abs(custom_lmc_config->rlevel_table[i].speed - 2*ddr_hertz/(1000*1000)) < 10 ))
+		    {
                         ddr_print("Using hard-coded read leveling for DIMM part number: \"%s\"\n", part_number);
                         lmc_rlevel_rank.u = custom_lmc_config->rlevel_table[i].rlevel_rank[ddr_interface_num][rankx];
                         DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), lmc_rlevel_rank.u);
@@ -4920,306 +4908,222 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		}
 	    }
 
-        if ((s = lookup_env_parameter("ddr_rlevel_comp_offset")) != NULL) {
-            rlevel_comp_offset = strtoul(s, NULL, 0);
-        }
+	    if ((s = lookup_env_parameter("ddr_rlevel_comp_offset")) != NULL) {
+		rlevel_comp_offset = strtoul(s, NULL, 0);
+	    }
 
-        disable_sequential_delay_check = custom_lmc_config->disable_sequential_delay_check;
+	    disable_sequential_delay_check = custom_lmc_config->disable_sequential_delay_check;
 
-        if ((s = lookup_env_parameter("ddr_disable_sequential_delay_check")) != NULL) {
-            disable_sequential_delay_check = strtoul(s, NULL, 0);
-        }
+	    if ((s = lookup_env_parameter("ddr_disable_sequential_delay_check")) != NULL) {
+		disable_sequential_delay_check = strtoul(s, NULL, 0);
+	    }
 
-        maximum_adjacent_rlevel_delay_increment = custom_lmc_config->maximum_adjacent_rlevel_delay_increment;
+	    maximum_adjacent_rlevel_delay_increment = custom_lmc_config->maximum_adjacent_rlevel_delay_increment;
 
-        if ((s = lookup_env_parameter("ddr_maximum_adjacent_rlevel_delay_increment")) != NULL) {
-            maximum_adjacent_rlevel_delay_increment = strtoul(s, NULL, 0);
-        }
+	    if ((s = lookup_env_parameter("ddr_maximum_adjacent_rlevel_delay_increment")) != NULL) {
+		maximum_adjacent_rlevel_delay_increment = strtoul(s, NULL, 0);
+	    }
 
-        lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
-        saved_ddr__ptune = lmc_comp_ctl2.s.ddr__ptune;
-        saved_ddr__ntune = lmc_comp_ctl2.s.ddr__ntune;
+	    lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+	    saved_ddr__ptune = lmc_comp_ctl2.s.ddr__ptune;
+	    saved_ddr__ntune = lmc_comp_ctl2.s.ddr__ntune;
 
-        /* Disable dynamic compensation settings */
-        if (rlevel_comp_offset != 0) {
-            lmc_comp_ctl2.s.ptune = saved_ddr__ptune;
-            lmc_comp_ctl2.s.ntune = saved_ddr__ntune;
+	    /* Disable dynamic compensation settings */
+	    if (rlevel_comp_offset != 0) {
+		lmc_comp_ctl2.s.ptune = saved_ddr__ptune;
+		lmc_comp_ctl2.s.ntune = saved_ddr__ntune;
 
-            /* Round up the ptune calculation to bias the odd cases toward ptune */
-            lmc_comp_ctl2.s.ptune += divide_roundup(rlevel_comp_offset, 2);
-            lmc_comp_ctl2.s.ntune -= rlevel_comp_offset/2;
+		/* Round up the ptune calculation to bias the odd cases toward ptune */
+		lmc_comp_ctl2.s.ptune += divide_roundup(rlevel_comp_offset, 2);
+		lmc_comp_ctl2.s.ntune -= rlevel_comp_offset/2;
 
-            lmc_control.u = BDK_CSR_READ(node, BDK_LMCX_CONTROL(ddr_interface_num));
-            saved_int_zqcs_dis = lmc_control.s.int_zqcs_dis;
-            lmc_control.s.int_zqcs_dis    = 1; /* Disable ZQCS while in bypass. */
-            DRAM_CSR_WRITE(node, BDK_LMCX_CONTROL(ddr_interface_num), lmc_control.u);
+		lmc_control.u = BDK_CSR_READ(node, BDK_LMCX_CONTROL(ddr_interface_num));
+		saved_int_zqcs_dis = lmc_control.s.int_zqcs_dis;
+		lmc_control.s.int_zqcs_dis    = 1; /* Disable ZQCS while in bypass. */
+		DRAM_CSR_WRITE(node, BDK_LMCX_CONTROL(ddr_interface_num), lmc_control.u);
 
-            lmc_comp_ctl2.s.byp = 1; /* Enable bypass mode */
-            DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
-            BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
-            lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num)); /* Read again */
-            ddr_print("DDR__PTUNE/DDR__NTUNE                         : %d/%d\n",
-                      lmc_comp_ctl2.s.ddr__ptune, lmc_comp_ctl2.s.ddr__ntune);
-        }
-
-        lmc_modereg_params1.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num));
-
-        for (rtt_idx = min_rtt_nom_idx; rtt_idx <= max_rtt_nom_idx; ++rtt_idx) {
-            rtt_nom = imp_values->rtt_nom_table[rtt_idx];
-
-            /* When the read ODT mask is zero the dyn_rtt_nom_mask is
-               zero than RTT_NOM will not be changing during
-               read-leveling.  Since the value is fixed we only need
-               to test it once. */
-            if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
-                continue;
-
-            if (dyn_rtt_nom_mask & 1) lmc_modereg_params1.s.rtt_nom_00 = rtt_nom;
-            if (dyn_rtt_nom_mask & 2) lmc_modereg_params1.s.rtt_nom_01 = rtt_nom;
-            if (dyn_rtt_nom_mask & 4) lmc_modereg_params1.s.rtt_nom_10 = rtt_nom;
-            if (dyn_rtt_nom_mask & 8) lmc_modereg_params1.s.rtt_nom_11 = rtt_nom;
-
-            DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num), lmc_modereg_params1.u);
-            ddr_print("\n");
-            ddr_print("RTT_NOM     %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11],
-                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10],
-                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01],
-                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00],
-                      lmc_modereg_params1.s.rtt_nom_11,
-                      lmc_modereg_params1.s.rtt_nom_10,
-                      lmc_modereg_params1.s.rtt_nom_01,
-                      lmc_modereg_params1.s.rtt_nom_00);
-
-            perform_ddr3_init_sequence(node, rank_mask, ddr_interface_num);
-
-	    for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) {
-		rlevel_rodt_errors = 0;
-		lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
-		lmc_comp_ctl2.s.rodt_ctl = rodt_ctl;
+		lmc_comp_ctl2.s.byp = 1; /* Enable bypass mode */
 		DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
-		lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
-                bdk_wait_usec(1); /* Give it a little time to take affect */
-		ddr_print("Read ODT_CTL                                  : 0x%x (%d ohms)\n",
-			  lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
+		BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+		lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num)); /* Read again */
+		ddr_print("DDR__PTUNE/DDR__NTUNE                         : %d/%d\n",
+			  lmc_comp_ctl2.s.ddr__ptune, lmc_comp_ctl2.s.ddr__ntune);
+	    }
 
-		for (rankx = 0; rankx < dimm_count * 4; rankx++) {
-		    int byte_idx;
-		    rlevel_byte_data_t rlevel_byte[9] = {{0, 0, 0}};
-		    int average_loops;
-		    int rlevel_rank_errors;
+	    lmc_modereg_params1.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num));
 
-		    if (!(rank_mask & (1 << rankx)))
-			continue;
+	    for (rtt_idx = min_rtt_nom_idx; rtt_idx <= max_rtt_nom_idx; ++rtt_idx) {
+		rtt_nom = imp_values->rtt_nom_table[rtt_idx];
 
-		    average_loops = rlevel_avg_loops;
-		    while (average_loops--) {
-			rlevel_rank_errors = 0;
+		/* When the read ODT mask is zero the dyn_rtt_nom_mask is
+		   zero than RTT_NOM will not be changing during
+		   read-leveling.  Since the value is fixed we only need
+		   to test it once. */
+		if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
+		    continue;
 
-			if (! (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM))) {
-			    /* Clear read-level delays */
-			    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), 0);
+		if (dyn_rtt_nom_mask & 1) lmc_modereg_params1.s.rtt_nom_00 = rtt_nom;
+		if (dyn_rtt_nom_mask & 2) lmc_modereg_params1.s.rtt_nom_01 = rtt_nom;
+		if (dyn_rtt_nom_mask & 4) lmc_modereg_params1.s.rtt_nom_10 = rtt_nom;
+		if (dyn_rtt_nom_mask & 8) lmc_modereg_params1.s.rtt_nom_11 = rtt_nom;
 
-			    perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
+		DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num), lmc_modereg_params1.u);
+		ddr_print("\n");
+		ddr_print("RTT_NOM     %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
+			  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11],
+			  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10],
+			  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01],
+			  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00],
+			  lmc_modereg_params1.s.rtt_nom_11,
+			  lmc_modereg_params1.s.rtt_nom_10,
+			  lmc_modereg_params1.s.rtt_nom_01,
+			  lmc_modereg_params1.s.rtt_nom_00);
 
-			    if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
-				BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx),
-						       status, ==, 3, 1000000))
-			    {
-				error_print("ERROR: Timeout waiting for RLEVEL\n");
+		perform_ddr3_init_sequence(node, rank_mask, ddr_interface_num);
+
+		for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) {
+		    rlevel_rodt_errors = 0;
+		    lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+		    lmc_comp_ctl2.s.rodt_ctl = rodt_ctl;
+		    DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
+		    lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+		    bdk_wait_usec(1); /* Give it a little time to take affect */
+		    ddr_print("Read ODT_CTL                                  : 0x%x (%d ohms)\n",
+			      lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
+
+		    for (rankx = 0; rankx < dimm_count * 4; rankx++) {
+			int byte_idx;
+#if RLEVEL_AVG_LOOPS_DEBUG
+			rlevel_byte_data_t rlevel_byte[9] = {{0, 0, 0, 0, 0}};
+#else
+			rlevel_byte_data_t rlevel_byte[9] = {{0, 0, 0}};
+#endif
+			int average_loops;
+			int rlevel_rank_errors;
+
+			if (!(rank_mask & (1 << rankx)))
+			    continue;
+
+			for (average_loops = 0; average_loops < rlevel_avg_loops; average_loops++) {
+			    rlevel_rank_errors = 0;
+
+			    if (! (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM))) {
+				/* Clear read-level delays */
+				DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), 0);
+
+				perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
+
+				if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
+				    BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx),
+							   status, ==, 3, 1000000))
+				    {
+					error_print("ERROR: Timeout waiting for RLEVEL\n");
+				    }
 			    }
-			}
 
-			lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
+			    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
-			{
-			    struct {
-				uint64_t bm;
-				uint8_t mstart;
-				uint8_t width;
-			    } rlevel_bitmask[9]={{0, 0, 0}};
+			    {
+				struct {
+				    uint64_t bm;
+				    uint8_t mstart;
+				    uint8_t width;
+				} rlevel_bitmask[9]={{0, 0, 0}};
 
-			    if (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM)) {
-				bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank_aside;
-				bdk_lmcx_modereg_params0_t lmc_modereg_params0;
+				if (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM)) {
+				    bdk_lmcx_rlevel_rankx_t lmc_rlevel_rank_aside;
+				    bdk_lmcx_modereg_params0_t lmc_modereg_params0;
 
-				/* A-side */
-				lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
-				lmc_modereg_params0.s.mprloc = 0; /* MPR Page 0 Location 0 */
-				DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
+				    /* A-side */
+				    lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
+				    lmc_modereg_params0.s.mprloc = 0; /* MPR Page 0 Location 0 */
+				    DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
 
-				/* Clear read-level delays */
-				DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), 0);
+				    /* Clear read-level delays */
+				    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), 0);
 
-				perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
+				    perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
 
-				if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
-				    BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx),
-							   status, ==, 3, 1000000))
-				{
-				    error_print("ERROR: Timeout waiting for RLEVEL\n");
-				}
-				lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
+				    if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
+					BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx),
+							       status, ==, 3, 1000000))
+					{
+					    error_print("ERROR: Timeout waiting for RLEVEL\n");
 
-				lmc_rlevel_rank_aside.u = lmc_rlevel_rank.u;
+					}
+				    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
-				rlevel_bitmask[0].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 0);
-				rlevel_bitmask[1].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 1);
-				rlevel_bitmask[2].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 2);
-				rlevel_bitmask[3].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 3);
-				rlevel_bitmask[8].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 8);
-				/* A-side complete */
+				    lmc_rlevel_rank_aside.u = lmc_rlevel_rank.u;
+
+				    rlevel_bitmask[0].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 0);
+				    rlevel_bitmask[1].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 1);
+				    rlevel_bitmask[2].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 2);
+				    rlevel_bitmask[3].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 3);
+				    rlevel_bitmask[8].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 8);
+				    /* A-side complete */
 
 
-				/* B-side */
-				lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
-				lmc_modereg_params0.s.mprloc = 3; /* MPR Page 0 Location 3 */
-				DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
+				    /* B-side */
+				    lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
+				    lmc_modereg_params0.s.mprloc = 3; /* MPR Page 0 Location 3 */
+				    DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
 
-				/* Clear read-level delays */
-				DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), 0);
+				    /* Clear read-level delays */
+				    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), 0);
 
-				perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
+				    perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
 
-				if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
-				    BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx),
-							   status, ==, 3, 1000000))
-				{
-				    error_print("ERROR: Timeout waiting for RLEVEL\n");
-				}
-				lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
+				    if (!bdk_is_platform(BDK_PLATFORM_ASIM) &&
+					BDK_CSR_WAIT_FOR_FIELD(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx),
+							       status, ==, 3, 1000000))
+					{
+					    error_print("ERROR: Timeout waiting for RLEVEL\n");
+					}
+				    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
-				rlevel_bitmask[4].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 4);
-				rlevel_bitmask[5].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 5);
-				rlevel_bitmask[6].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 6);
-				rlevel_bitmask[7].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 7);
-				/* B-side complete */
+				    rlevel_bitmask[4].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 4);
+				    rlevel_bitmask[5].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 5);
+				    rlevel_bitmask[6].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 6);
+				    rlevel_bitmask[7].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, 7);
+				    /* B-side complete */
 
                         
-				update_rlevel_rank_struct(&lmc_rlevel_rank, 0, lmc_rlevel_rank_aside.s.byte0);
-				update_rlevel_rank_struct(&lmc_rlevel_rank, 1, lmc_rlevel_rank_aside.s.byte1);
-				update_rlevel_rank_struct(&lmc_rlevel_rank, 2, lmc_rlevel_rank_aside.s.byte2);
-				update_rlevel_rank_struct(&lmc_rlevel_rank, 3, lmc_rlevel_rank_aside.s.byte3);
-				update_rlevel_rank_struct(&lmc_rlevel_rank, 8, lmc_rlevel_rank_aside.s.byte8); /* ECC A-side */
+				    update_rlevel_rank_struct(&lmc_rlevel_rank, 0, lmc_rlevel_rank_aside.s.byte0);
+				    update_rlevel_rank_struct(&lmc_rlevel_rank, 1, lmc_rlevel_rank_aside.s.byte1);
+				    update_rlevel_rank_struct(&lmc_rlevel_rank, 2, lmc_rlevel_rank_aside.s.byte2);
+				    update_rlevel_rank_struct(&lmc_rlevel_rank, 3, lmc_rlevel_rank_aside.s.byte3);
+				    update_rlevel_rank_struct(&lmc_rlevel_rank, 8, lmc_rlevel_rank_aside.s.byte8); /* ECC A-side */
 
-				lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
-				lmc_modereg_params0.s.mprloc = 0; /* MPR Page 0 Location 0 */
-				DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
-			    }
+				    lmc_modereg_params0.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num));
+				    lmc_modereg_params0.s.mprloc = 0; /* MPR Page 0 Location 0 */
+				    DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS0(ddr_interface_num), lmc_modereg_params0.u);
+				} /* if (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM)) */
 
-			    /* Evaluate the quality of the read-leveling
-			       delays. Also save off a software computed
-			       read-leveling mask that may be used later
-			       to qualify the delay results from Octeon. */
-			    for (byte_idx = 0; byte_idx < (8+ecc_ena); ++byte_idx) {
-				if (!(ddr_interface_bytemask&(1<<byte_idx)))
-				    continue;
-				if (! (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM))) {
-				    rlevel_bitmask[byte_idx].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, byte_idx);
-				}
-				rlevel_rank_errors += validate_ddr3_rlevel_bitmask(rlevel_bitmask[byte_idx].bm,
-										   &rlevel_bitmask[byte_idx].mstart,
-										   &rlevel_bitmask[byte_idx].width);
-			    }
-
-			    /* Set delays for unused bytes to match byte 0. */
-			    for (byte_idx=0; byte_idx<9; ++byte_idx) {
-				if (ddr_interface_bytemask&(1<<byte_idx))
-				    continue;
-				update_rlevel_rank_struct(&lmc_rlevel_rank, byte_idx, lmc_rlevel_rank.s.byte0);
-			    }
-
-			    /* Save a copy of the byte delays in physical
-			       order for sequential evaluation. */
-			    if ((ddr_interface_bytemask&0xff) == 0xff) {
-				if (ecc_ena) {
-				    rlevel_byte[8].delay = lmc_rlevel_rank.s.byte7;
-				    rlevel_byte[7].delay = lmc_rlevel_rank.s.byte6;
-				    rlevel_byte[6].delay = lmc_rlevel_rank.s.byte5;
-				    rlevel_byte[5].delay = lmc_rlevel_rank.s.byte4;
-				    rlevel_byte[4].delay = lmc_rlevel_rank.s.byte8; /* ECC */
-				} else {
-				    rlevel_byte[7].delay = lmc_rlevel_rank.s.byte7;
-				    rlevel_byte[6].delay = lmc_rlevel_rank.s.byte6;
-				    rlevel_byte[5].delay = lmc_rlevel_rank.s.byte5;
-				    rlevel_byte[4].delay = lmc_rlevel_rank.s.byte4;
-				}
-			    } else {
-				rlevel_byte[8].delay = lmc_rlevel_rank.s.byte8; /* unused */
-				rlevel_byte[7].delay = lmc_rlevel_rank.s.byte7; /* unused */
-				rlevel_byte[6].delay = lmc_rlevel_rank.s.byte6; /* unused */
-				rlevel_byte[5].delay = lmc_rlevel_rank.s.byte5; /* unused */
-				rlevel_byte[4].delay = lmc_rlevel_rank.s.byte4; /* ECC */
-			    }
-			    rlevel_byte[3].delay = lmc_rlevel_rank.s.byte3;
-			    rlevel_byte[2].delay = lmc_rlevel_rank.s.byte2;
-			    rlevel_byte[1].delay = lmc_rlevel_rank.s.byte1;
-			    rlevel_byte[0].delay = lmc_rlevel_rank.s.byte0;
-
-			    if (! disable_sequential_delay_check) {
-				if ((ddr_interface_bytemask&0xff) == 0xff) {
-				    /* Evaluate delay sequence across the whole range of bytes for stantard dimms. */
-				    if ((spd_dimm_type == 1) || (spd_dimm_type == 5)) { /* 1=RDIMM, 5=Mini-RDIMM */
-                                        int register_adjacent_delay = _abs(rlevel_byte[4].delay - rlevel_byte[5].delay);
-					/* Registerd dimm topology routes from the center. */
-					rlevel_rank_errors += nonsequential_delays(rlevel_byte, 0, 3+ecc_ena, maximum_adjacent_rlevel_delay_increment);
-					rlevel_rank_errors += nonsequential_delays(rlevel_byte, 5, 7+ecc_ena, maximum_adjacent_rlevel_delay_increment);
-                                        if (register_adjacent_delay > 1) {
-                                            /* Assess proximity of bytes on opposite sides of register */
-                                            rlevel_rank_errors += (register_adjacent_delay-1) * RLEVEL_ADJACENT_DELAY_ERROR;
-                                        }
-				    }
-				    if ((spd_dimm_type == 2) || (spd_dimm_type == 6)) { /* 1=UDIMM, 5=Mini-UDIMM */
-					/* Unbuffered dimm topology routes from end to end. */
-					rlevel_rank_errors += nonsequential_delays(rlevel_byte, 0, 7+ecc_ena, maximum_adjacent_rlevel_delay_increment);
-				    }
-				} else {
-				    rlevel_rank_errors += nonsequential_delays(rlevel_byte, 0, 3+ecc_ena, maximum_adjacent_rlevel_delay_increment);
-				}
-			    }
-
-			    ddr_print("Rank(%d) Rlevel Debug Test Results  8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
-				      rankx,
-				      rlevel_bitmask[8].bm,
-				      rlevel_bitmask[7].bm,
-				      rlevel_bitmask[6].bm,
-				      rlevel_bitmask[5].bm,
-				      rlevel_bitmask[4].bm,
-				      rlevel_bitmask[3].bm,
-				      rlevel_bitmask[2].bm,
-				      rlevel_bitmask[1].bm,
-				      rlevel_bitmask[0].bm
-				      );
-
-			    ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
-				      rankx,
-				      lmc_rlevel_rank.s.status,
-				      lmc_rlevel_rank.u,
-				      lmc_rlevel_rank.s.byte8,
-				      lmc_rlevel_rank.s.byte7,
-				      lmc_rlevel_rank.s.byte6,
-				      lmc_rlevel_rank.s.byte5,
-				      lmc_rlevel_rank.s.byte4,
-				      lmc_rlevel_rank.s.byte3,
-				      lmc_rlevel_rank.s.byte2,
-				      lmc_rlevel_rank.s.byte1,
-				      lmc_rlevel_rank.s.byte0,
-				      rlevel_rank_errors
-				      );
-
-			    if (ddr_rlevel_compute) {
-				/* Recompute the delays based on the bitmask */
-				for (byte_idx=0; byte_idx<(8+ecc_ena); ++byte_idx) {
+				/* Evaluate the quality of the read-leveling
+				   delays. Also save off a software computed
+				   read-leveling mask that may be used later
+				   to qualify the delay results from Octeon. */
+				for (byte_idx = 0; byte_idx < (8+ecc_ena); ++byte_idx) {
 				    if (!(ddr_interface_bytemask&(1<<byte_idx)))
 					continue;
-				    update_rlevel_rank_struct(&lmc_rlevel_rank, byte_idx,
-							      compute_ddr3_rlevel_delay(rlevel_bitmask[byte_idx].mstart,
-											rlevel_bitmask[byte_idx].width,
-											rlevel_ctl));
+				    if (! (rlevel_separate_ab && spd_rdimm && (ddr_type == DDR4_DRAM))) {
+					rlevel_bitmask[byte_idx].bm = octeon_read_lmcx_ddr3_rlevel_dbg(node, ddr_interface_num, byte_idx);
+				    }
+				    rlevel_rank_errors += validate_ddr3_rlevel_bitmask(rlevel_bitmask[byte_idx].bm,
+										       &rlevel_bitmask[byte_idx].mstart,
+										       &rlevel_bitmask[byte_idx].width);
 				}
 
-				/* Override the copy of byte delays with the computed results. */
-				if ((ddr_interface_bytemask&0xff) == 0xff) {
+				/* Set delays for unused bytes to match byte 0. */
+				for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
+				    if (ddr_interface_bytemask & (1 << byte_idx))
+					continue;
+				    update_rlevel_rank_struct(&lmc_rlevel_rank, byte_idx, lmc_rlevel_rank.s.byte0);
+				}
+
+				/* Save a copy of the byte delays in physical
+				   order for sequential evaluation. */
+				if ((ddr_interface_bytemask & 0xff) == 0xff) {
 				    if (ecc_ena) {
 					rlevel_byte[8].delay = lmc_rlevel_rank.s.byte7;
 					rlevel_byte[7].delay = lmc_rlevel_rank.s.byte6;
@@ -5233,7 +5137,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					rlevel_byte[4].delay = lmc_rlevel_rank.s.byte4;
 				    }
 				} else {
-				    rlevel_byte[4].delay = lmc_rlevel_rank.s.byte8; /* unused */
+				    rlevel_byte[8].delay = lmc_rlevel_rank.s.byte8; /* unused */
 				    rlevel_byte[7].delay = lmc_rlevel_rank.s.byte7; /* unused */
 				    rlevel_byte[6].delay = lmc_rlevel_rank.s.byte6; /* unused */
 				    rlevel_byte[5].delay = lmc_rlevel_rank.s.byte5; /* unused */
@@ -5244,322 +5148,816 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				rlevel_byte[1].delay = lmc_rlevel_rank.s.byte1;
 				rlevel_byte[0].delay = lmc_rlevel_rank.s.byte0;
 
-				ddr_print("Rank(%d) Computed delays                       : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+				if (! disable_sequential_delay_check) {
+				    if ((ddr_interface_bytemask & 0xff) == 0xff) {
+					/* Evaluate delay sequence across the whole range of bytes for stantard dimms. */
+					if ((spd_dimm_type == 1) || (spd_dimm_type == 5)) { /* 1=RDIMM, 5=Mini-RDIMM */
+					    int register_adjacent_delay = _abs(rlevel_byte[4].delay - rlevel_byte[5].delay);
+					    /* Registered dimm topology routes from the center. */
+					    rlevel_rank_errors += nonsequential_delays(rlevel_byte, 0, 3+ecc_ena, maximum_adjacent_rlevel_delay_increment);
+					    rlevel_rank_errors += nonsequential_delays(rlevel_byte, 5, 7+ecc_ena, maximum_adjacent_rlevel_delay_increment);
+					    if (register_adjacent_delay > 1) {
+						/* Assess proximity of bytes on opposite sides of register */
+						rlevel_rank_errors += (register_adjacent_delay-1) * RLEVEL_ADJACENT_DELAY_ERROR;
+					    }
+					}
+					if ((spd_dimm_type == 2) || (spd_dimm_type == 6)) { /* 1=UDIMM, 5=Mini-UDIMM */
+					    /* Unbuffered dimm topology routes from end to end. */
+					    rlevel_rank_errors += nonsequential_delays(rlevel_byte, 0, 7+ecc_ena, maximum_adjacent_rlevel_delay_increment);
+					}
+				    } else {
+					rlevel_rank_errors += nonsequential_delays(rlevel_byte, 0, 3+ecc_ena, maximum_adjacent_rlevel_delay_increment);
+				    }
+				}
+
+				ddr_print("Rank(%d) Rlevel Debug Test Results  8:0        : %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx %05lx\n",
 					  rankx,
-					  lmc_rlevel_rank.s.byte8,
-					  lmc_rlevel_rank.s.byte7,
-					  lmc_rlevel_rank.s.byte6,
-					  lmc_rlevel_rank.s.byte5,
-					  lmc_rlevel_rank.s.byte4,
-					  lmc_rlevel_rank.s.byte3,
-					  lmc_rlevel_rank.s.byte2,
-					  lmc_rlevel_rank.s.byte1,
-					  lmc_rlevel_rank.s.byte0
+					  rlevel_bitmask[8].bm,
+					  rlevel_bitmask[7].bm,
+					  rlevel_bitmask[6].bm,
+					  rlevel_bitmask[5].bm,
+					  rlevel_bitmask[4].bm,
+					  rlevel_bitmask[3].bm,
+					  rlevel_bitmask[2].bm,
+					  rlevel_bitmask[1].bm,
+					  rlevel_bitmask[0].bm
 					  );
+
+				display_read_leveling_settings_with_score(lmc_rlevel_rank, rankx, rlevel_rank_errors);
+
+				if (ddr_rlevel_compute) {
+				    /* Recompute the delays based on the bitmask */
+				    for (byte_idx = 0; byte_idx < (8+ecc_ena); ++byte_idx) {
+					if (!(ddr_interface_bytemask & (1 << byte_idx)))
+					    continue;
+					update_rlevel_rank_struct(&lmc_rlevel_rank, byte_idx,
+								  compute_ddr3_rlevel_delay(rlevel_bitmask[byte_idx].mstart,
+											    rlevel_bitmask[byte_idx].width,
+											    rlevel_ctl));
+				    }
+
+				    /* Override the copy of byte delays with the computed results. */
+				    if ((ddr_interface_bytemask & 0xff) == 0xff) {
+					if (ecc_ena) {
+					    rlevel_byte[8].delay = lmc_rlevel_rank.s.byte7;
+					    rlevel_byte[7].delay = lmc_rlevel_rank.s.byte6;
+					    rlevel_byte[6].delay = lmc_rlevel_rank.s.byte5;
+					    rlevel_byte[5].delay = lmc_rlevel_rank.s.byte4;
+					    rlevel_byte[4].delay = lmc_rlevel_rank.s.byte8; /* ECC */
+					} else {
+					    rlevel_byte[7].delay = lmc_rlevel_rank.s.byte7;
+					    rlevel_byte[6].delay = lmc_rlevel_rank.s.byte6;
+					    rlevel_byte[5].delay = lmc_rlevel_rank.s.byte5;
+					    rlevel_byte[4].delay = lmc_rlevel_rank.s.byte4;
+					}
+				    } else {
+					rlevel_byte[4].delay = lmc_rlevel_rank.s.byte8; /* unused */
+					rlevel_byte[7].delay = lmc_rlevel_rank.s.byte7; /* unused */
+					rlevel_byte[6].delay = lmc_rlevel_rank.s.byte6; /* unused */
+					rlevel_byte[5].delay = lmc_rlevel_rank.s.byte5; /* unused */
+					rlevel_byte[4].delay = lmc_rlevel_rank.s.byte4; /* ECC */
+				    }
+				    rlevel_byte[3].delay = lmc_rlevel_rank.s.byte3;
+				    rlevel_byte[2].delay = lmc_rlevel_rank.s.byte2;
+				    rlevel_byte[1].delay = lmc_rlevel_rank.s.byte1;
+				    rlevel_byte[0].delay = lmc_rlevel_rank.s.byte0;
+
+				    ddr_print("Rank(%d) Computed delays                       : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+					      rankx,
+					      lmc_rlevel_rank.s.byte8,
+					      lmc_rlevel_rank.s.byte7,
+					      lmc_rlevel_rank.s.byte6,
+					      lmc_rlevel_rank.s.byte5,
+					      lmc_rlevel_rank.s.byte4,
+					      lmc_rlevel_rank.s.byte3,
+					      lmc_rlevel_rank.s.byte2,
+					      lmc_rlevel_rank.s.byte1,
+					      lmc_rlevel_rank.s.byte0
+					      );
+				} /* if (ddr_rlevel_compute) */
 			    }
+
+			    /* Accumulate the total score across averaging loops for this setting */
+			    rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score += rlevel_rank_errors;
+			    debug_print("rlevel_scoreboard[rtt_nom=%d][rodt_ctl=%d][rankx=%d].score:%d\n",
+					rtt_nom, rodt_ctl, rankx,
+					rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score);
+
+			    /* Accumulate the delay totals and loop counts
+			       necessary to compute average delay results */
+			    for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
+				if (rlevel_byte[byte_idx].delay != 0) { /* Don't include delay=0 in the average */
+				    ++rlevel_byte[byte_idx].loop_count;
+				    rlevel_byte[byte_idx].loop_total += rlevel_byte[byte_idx].delay;
+#if RLEVEL_AVG_LOOPS_DEBUG
+				    if (average_loops > 0) {
+					// incr diffs if delay != last
+					rlevel_byte[byte_idx].diffs += (rlevel_byte[byte_idx].delay != rlevel_byte[byte_idx].last) ? 1 : 0;
+				    } else {
+					// zero diffs on first loop
+					rlevel_byte[byte_idx].diffs = 0;
+				    }
+				    // always copy delays to lasts
+				    rlevel_byte[byte_idx].last = rlevel_byte[byte_idx].delay;
+#endif
+				}
+			    }
+
+			    rlevel_rodt_errors += rlevel_rank_errors;
+			} /* for (average_loops = 0; average_loops < rlevel_avg_loops; average_loops++) */
+
+			/* Compute the average score across averaging loops */
+			rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score =
+			    divide_nint(rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score, rlevel_avg_loops);
+
+			/* Compute the average delay results */
+			for (byte_idx=0; byte_idx < 9; ++byte_idx) {
+			    if (rlevel_byte[byte_idx].loop_count == 0)
+				rlevel_byte[byte_idx].loop_count = 1;
+			    rlevel_byte[byte_idx].delay = divide_nint(rlevel_byte[byte_idx].loop_total,
+								      rlevel_byte[byte_idx].loop_count);
 			}
 
-			/* Accumulate the total score across averaging loops for this setting */
-			rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score += rlevel_rank_errors;
-			debug_print("rlevel_scoreboard[rtt_nom=%d][rodt_ctl=%d][rankx=%d].score:%d\n",
-				    rtt_nom, rodt_ctl, rankx,
-				    rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score);
+			lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
-			/* Accumulate the delay totals and loop counts
-			   necessary to compute average delay results */
-			for (byte_idx = 0; byte_idx < 9; ++byte_idx) {
-			    rlevel_byte[byte_idx].loop_total += rlevel_byte[byte_idx].delay;
-			    if (rlevel_byte[byte_idx].delay != 0) /* Don't include delay=0 in the average */
-				++rlevel_byte[byte_idx].loop_count;
-			}
-
-			rlevel_rodt_errors += rlevel_rank_errors;
-		    } /* while (rlevel_avg_loops--) */
-
-		    /* Compute the average score across averaging loops */
-		    rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score =
-			divide_nint(rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score, rlevel_avg_loops);
-
-		    /* Compute the average delay results */
-		    for (byte_idx=0; byte_idx<9; ++byte_idx) {
-			if (rlevel_byte[byte_idx].loop_count == 0)
-			    rlevel_byte[byte_idx].loop_count = 1;
-			rlevel_byte[byte_idx].delay = divide_nint(rlevel_byte[byte_idx].loop_total,
-								  rlevel_byte[byte_idx].loop_count);
-		    }
-
-		    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
-
-		    if ((ddr_interface_bytemask&0xff) == 0xff) {
-			if (ecc_ena) {
-			    lmc_rlevel_rank.s.byte7 = rlevel_byte[8].delay;
-			    lmc_rlevel_rank.s.byte6 = rlevel_byte[7].delay;
-			    lmc_rlevel_rank.s.byte5 = rlevel_byte[6].delay;
-			    lmc_rlevel_rank.s.byte4 = rlevel_byte[5].delay;
-			    lmc_rlevel_rank.s.byte8 = rlevel_byte[4].delay; /* ECC */
+			if ((ddr_interface_bytemask & 0xff) == 0xff) {
+			    if (ecc_ena) {
+				lmc_rlevel_rank.s.byte7 = rlevel_byte[8].delay;
+				lmc_rlevel_rank.s.byte6 = rlevel_byte[7].delay;
+				lmc_rlevel_rank.s.byte5 = rlevel_byte[6].delay;
+				lmc_rlevel_rank.s.byte4 = rlevel_byte[5].delay;
+				lmc_rlevel_rank.s.byte8 = rlevel_byte[4].delay; /* ECC */
+			    } else {
+				lmc_rlevel_rank.s.byte7 = rlevel_byte[7].delay;
+				lmc_rlevel_rank.s.byte6 = rlevel_byte[6].delay;
+				lmc_rlevel_rank.s.byte5 = rlevel_byte[5].delay;
+				lmc_rlevel_rank.s.byte4 = rlevel_byte[4].delay;
+			    }
 			} else {
+			    lmc_rlevel_rank.s.byte8 = rlevel_byte[8].delay;
 			    lmc_rlevel_rank.s.byte7 = rlevel_byte[7].delay;
 			    lmc_rlevel_rank.s.byte6 = rlevel_byte[6].delay;
 			    lmc_rlevel_rank.s.byte5 = rlevel_byte[5].delay;
 			    lmc_rlevel_rank.s.byte4 = rlevel_byte[4].delay;
 			}
+			lmc_rlevel_rank.s.byte3 = rlevel_byte[3].delay;
+			lmc_rlevel_rank.s.byte2 = rlevel_byte[2].delay;
+			lmc_rlevel_rank.s.byte1 = rlevel_byte[1].delay;
+			lmc_rlevel_rank.s.byte0 = rlevel_byte[0].delay;
+
+			if (rlevel_avg_loops > 1) {
+
+			    display_read_leveling_settings_with_average(lmc_rlevel_rank, rankx,
+									rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score);
+#if RLEVEL_AVG_LOOPS_DEBUG
+			    /* Display the average delay loop debug info */
+			    if (((ddr_interface_bytemask & 0xff) == 0xff) && ecc_ena) {
+				ddr_print("Rank(%d) Average of %d, delay diffs             : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+					  rankx, rlevel_avg_loops,
+					  rlevel_byte[4].diffs,
+					  rlevel_byte[8].diffs,
+					  rlevel_byte[7].diffs,
+					  rlevel_byte[6].diffs,
+					  rlevel_byte[5].diffs,
+					  rlevel_byte[3].diffs,
+					  rlevel_byte[2].diffs,
+					  rlevel_byte[1].diffs,
+					  rlevel_byte[0].diffs
+					  );
+			    } else {
+				ddr_print("Rank(%d) Average %d delay diffs                 : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
+					  rankx, rlevel_avg_loops,
+					  rlevel_byte[8].diffs,
+					  rlevel_byte[7].diffs,
+					  rlevel_byte[6].diffs,
+					  rlevel_byte[5].diffs,
+					  rlevel_byte[4].diffs,
+					  rlevel_byte[3].diffs,
+					  rlevel_byte[2].diffs,
+					  rlevel_byte[1].diffs,
+					  rlevel_byte[0].diffs
+					  );
+			    }
+#endif
+			}
+
+			rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].setting = lmc_rlevel_rank.u;
+		    } /* for (rankx = 0; rankx < dimm_count*4; rankx++) */
+		} /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
+	    } /*  for (rtt_idx=min_rtt_nom_idx; rtt_idx<max_rtt_nom_idx; ++rtt_idx) */
+
+
+	    /* Re-enable dynamic compensation settings. */
+	    if (rlevel_comp_offset != 0) {
+		lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+
+		lmc_comp_ctl2.s.ptune = 0;
+		lmc_comp_ctl2.s.ntune = 0;
+		lmc_comp_ctl2.s.byp = 0; /* Disable bypass mode */
+		DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
+		BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num)); /* Read once */
+
+		lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num)); /* Read again */
+		ddr_print("DDR__PTUNE/DDR__NTUNE                         : %d/%d\n",
+			  lmc_comp_ctl2.s.ddr__ptune, lmc_comp_ctl2.s.ddr__ntune);
+
+		lmc_control.u = BDK_CSR_READ(node, BDK_LMCX_CONTROL(ddr_interface_num));
+		lmc_control.s.int_zqcs_dis    = saved_int_zqcs_dis; /* Restore original setting */
+		DRAM_CSR_WRITE(node, BDK_LMCX_CONTROL(ddr_interface_num), lmc_control.u);
+
+	    }
+
+
+	    {
+		int override_compensation = 0;
+		if ((s = lookup_env_parameter("ddr__ptune")) != NULL) {
+		    saved_ddr__ptune = strtoul(s, NULL, 0);
+		    override_compensation = 1;
+		}
+		if ((s = lookup_env_parameter("ddr__ntune")) != NULL) {
+		    saved_ddr__ntune = strtoul(s, NULL, 0);
+		    override_compensation = 1;
+		}
+		if (override_compensation) {
+		    lmc_comp_ctl2.s.ptune = saved_ddr__ptune;
+		    lmc_comp_ctl2.s.ntune = saved_ddr__ntune;
+
+		    lmc_control.u = BDK_CSR_READ(node, BDK_LMCX_CONTROL(ddr_interface_num));
+		    saved_int_zqcs_dis = lmc_control.s.int_zqcs_dis;
+		    lmc_control.s.int_zqcs_dis    = 1; /* Disable ZQCS while in bypass. */
+		    DRAM_CSR_WRITE(node, BDK_LMCX_CONTROL(ddr_interface_num), lmc_control.u);
+
+		    lmc_comp_ctl2.s.byp = 1; /* Enable bypass mode */
+		    DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
+		    lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num)); /* Read again */
+
+		    ddr_print("DDR__PTUNE/DDR__NTUNE                         : %d/%d\n",
+			      lmc_comp_ctl2.s.ptune, lmc_comp_ctl2.s.ntune);
+		}
+	    }
+
+	    { /* Evaluation block */
+		int      best_rodt_score = DEFAULT_BEST_RANK_SCORE; /* Start with an arbitrarily high score */
+		int      auto_rodt_ctl = 0;
+		int      auto_rtt_nom  = 0;
+		int      rodt_score;
+		int      rodt_row_skip_mask = 0;
+
+		// just add specific RODT rows to the skip mask for DDR4 at this time...
+		if (ddr_type == DDR4_DRAM) {
+		    rodt_row_skip_mask |= (1 << ddr4_rodt_ctl_34_ohm); // skip RODT row 34 ohms for all DDR4 types
+		    rodt_row_skip_mask |= (1 << ddr4_rodt_ctl_40_ohm); // skip RODT row 40 ohms for all DDR4 types
+
+		    // For now, add in skip of RODT row 48 ohm when ddr_hertz is at or above 1000 MHz,
+		    // but only for the 2Rx4 stacked die DIMMs
+		    if ((((spd_package & 0xf3) == 0x91) && (num_ranks == 2) && (dram_width == 4)) // 2Rx4 stacked die
+			&& (ddr_hertz >= 1000000000))
+			{
+			    rodt_row_skip_mask |= (1 << ddr4_rodt_ctl_48_ohm); // skip RODT row 48 ohms
+			}
+		}
+
+		ddr_print("Evaluating Read-Leveling Scoreboard for AUTO settings.\n");
+		for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) {
+		    rtt_nom = imp_values->rtt_nom_table[rtt_idx];
+
+		    /* When the read ODT mask is zero the dyn_rtt_nom_mask is
+		       zero than RTT_NOM will not be changing during
+		       read-leveling.  Since the value is fixed we only need
+		       to test it once. */
+		    if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
+			continue;
+
+		    for (rodt_ctl=max_rodt_ctl; rodt_ctl>=min_rodt_ctl; --rodt_ctl) {
+			rodt_score = 0;
+			for (rankx = 0; rankx < dimm_count * 4;rankx++) {
+			    if (!(rank_mask & (1 << rankx)))
+				continue;
+			    debug_print("rlevel_scoreboard[rtt_nom=%d][rodt_ctl=%d][rankx=%d].score:%d\n",
+					rtt_nom, rodt_ctl, rankx, rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score);
+			    rodt_score += rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score;
+			}
+			// FIXME: do we need to skip RODT rows here, like we do below in the by-RANK settings?
+
+			/* When using automatic ODT settings use the ODT
+			   settings associated with the best score for
+			   all of the tested ODT combinations. */
+
+			if ((rodt_score < best_rodt_score) || // always take lower score, OR
+			    ((rodt_score == best_rodt_score) && // take same score if RODT ohms are higher
+			     (imp_values->rodt_ohms[rodt_ctl] > imp_values->rodt_ohms[auto_rodt_ctl])))
+			    {
+				debug_print("AUTO: new best score for rodt:%d (%d), new score:%d, previous score:%d\n",
+					    rodt_ctl, imp_values->rodt_ohms[rodt_ctl], rodt_score, best_rodt_score);
+				best_rodt_score = rodt_score;
+				auto_rodt_ctl   = rodt_ctl;
+				auto_rtt_nom    = rtt_nom;
+			    }
+		    } /* for (rodt_ctl=max_rodt_ctl; rodt_ctl>=min_rodt_ctl; --rodt_ctl) */
+		} /* for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) */
+
+		lmc_modereg_params1.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num));
+
+		if (ddr_rtt_nom_auto) {
+		    /* Store the automatically set RTT_NOM value */
+		    if (dyn_rtt_nom_mask & 1) lmc_modereg_params1.s.rtt_nom_00 = auto_rtt_nom;
+		    if (dyn_rtt_nom_mask & 2) lmc_modereg_params1.s.rtt_nom_01 = auto_rtt_nom;
+		    if (dyn_rtt_nom_mask & 4) lmc_modereg_params1.s.rtt_nom_10 = auto_rtt_nom;
+		    if (dyn_rtt_nom_mask & 8) lmc_modereg_params1.s.rtt_nom_11 = auto_rtt_nom;
+		} else {
+		    /* restore the manual settings to the register */
+		    lmc_modereg_params1.s.rtt_nom_00 = default_rtt_nom[0];
+		    lmc_modereg_params1.s.rtt_nom_01 = default_rtt_nom[1];
+		    lmc_modereg_params1.s.rtt_nom_10 = default_rtt_nom[2];
+		    lmc_modereg_params1.s.rtt_nom_11 = default_rtt_nom[3];
+		}
+
+		DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num), lmc_modereg_params1.u);
+		ddr_print("RTT_NOM     %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
+			  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11],
+			  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10],
+			  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01],
+			  imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00],
+			  lmc_modereg_params1.s.rtt_nom_11,
+			  lmc_modereg_params1.s.rtt_nom_10,
+			  lmc_modereg_params1.s.rtt_nom_01,
+			  lmc_modereg_params1.s.rtt_nom_00);
+
+		ddr_print("RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
+			  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11],
+			  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10],
+			  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_01],
+			  imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_00],
+			  lmc_modereg_params1.s.rtt_wr_11,
+			  lmc_modereg_params1.s.rtt_wr_10,
+			  lmc_modereg_params1.s.rtt_wr_01,
+			  lmc_modereg_params1.s.rtt_wr_00);
+
+		ddr_print("DIC         %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
+			  imp_values->dic_ohms[lmc_modereg_params1.s.dic_11],
+			  imp_values->dic_ohms[lmc_modereg_params1.s.dic_10],
+			  imp_values->dic_ohms[lmc_modereg_params1.s.dic_01],
+			  imp_values->dic_ohms[lmc_modereg_params1.s.dic_00],
+			  lmc_modereg_params1.s.dic_11,
+			  lmc_modereg_params1.s.dic_10,
+			  lmc_modereg_params1.s.dic_01,
+			  lmc_modereg_params1.s.dic_00);
+
+		if (ddr_type == DDR4_DRAM) {
+		    bdk_lmcx_modereg_params2_t lmc_modereg_params2;
+		    /*
+		     * We must read the CSR, and not depend on odt_config[odt_idx].odt_mask2,
+		     * since we could have overridden values with envvars.
+		     * NOTE: this corrects the printout, since the CSR is not written with the old values...
+		     */
+		    lmc_modereg_params2.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS2(ddr_interface_num));
+
+		    ddr_print("RTT_PARK    %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
+			      imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_11],
+			      imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_10],
+			      imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_01],
+			      imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_00],
+			      lmc_modereg_params2.s.rtt_park_11,
+			      lmc_modereg_params2.s.rtt_park_10,
+			      lmc_modereg_params2.s.rtt_park_01,
+			      lmc_modereg_params2.s.rtt_park_00);
+
+		    ddr_print("%-45s :  0x%x,0x%x,0x%x,0x%x\n", "VREF_RANGE",
+			      lmc_modereg_params2.s.vref_range_11,
+			      lmc_modereg_params2.s.vref_range_10,
+			      lmc_modereg_params2.s.vref_range_01,
+			      lmc_modereg_params2.s.vref_range_00);
+
+		    ddr_print("%-45s :  0x%x,0x%x,0x%x,0x%x\n", "VREF_VALUE",
+			      lmc_modereg_params2.s.vref_value_11,
+			      lmc_modereg_params2.s.vref_value_10,
+			      lmc_modereg_params2.s.vref_value_01,
+			      lmc_modereg_params2.s.vref_value_00);
+		}
+
+		lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+		if (ddr_rodt_ctl_auto)
+		    lmc_comp_ctl2.s.rodt_ctl = auto_rodt_ctl;
+		else
+		    lmc_comp_ctl2.s.rodt_ctl = default_rodt_ctl;
+		DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
+		lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
+		ddr_print("Read ODT_CTL                                  : 0x%x (%d ohms)\n",
+			  lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
+
+		/* Use the delays associated with the best score for each individual rank */
+		ddr_print("Evaluating Read-Leveling Scoreboard for per-RANK settings.\n");
+
+		for (rankx = 0; rankx < dimm_count * 4; rankx++) {
+		    int best_rank_score = DEFAULT_BEST_RANK_SCORE; /* Start with an arbitrarily high score */
+		    int best_rank_rtt_nom = 0;
+		    int best_rank_nom_ohms = 0;
+		    int best_rank_ctl = 0;
+		    int best_rank_ohms = 0;
+		    int best_rankx = 0;
+
+		    if (!(rank_mask & (1 << rankx)))
+			continue;
+
+		    // some of the rank-related loops below need to operate only on the ranks of a single DIMM,
+		    // so create a mask for their use here
+		    int dimm_rank_mask;
+		    if (num_ranks == 4)
+			dimm_rank_mask = rank_mask; // should be 1111
+		    else {
+			dimm_rank_mask = rank_mask & 3; // should be 01 or 11
+			if (rankx >= 2)
+			    dimm_rank_mask <<= 2; // doing a rank on the second DIMM, should be 0100 or 1100
+		    }
+		    ddr_print("DIMM rank mask: 0x%x, rank mask: 0x%x, rankx: %d\n", dimm_rank_mask, rank_mask, rankx);
+
+		    for (rtt_idx = min_rtt_nom_idx; rtt_idx <= max_rtt_nom_idx; ++rtt_idx) {
+			int rtt_nom_ohms;
+			rtt_nom = imp_values->rtt_nom_table[rtt_idx];
+			rtt_nom_ohms = imp_values->rtt_nom_ohms[rtt_nom];
+
+			/* When the read ODT mask is zero the dyn_rtt_nom_mask is
+			   zero than RTT_NOM will not be changing during
+			   read-leveling.  Since the value is fixed we only need
+			   to test it once. */
+			if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
+			    continue;
+
+			ddr_print("RANK%d: starting RTT_NOM %d (%d)\n", rankx, rtt_nom, rtt_nom_ohms);
+
+			for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) {
+			    int next_ohms = imp_values->rodt_ohms[rodt_ctl];
+
+			    // skip RODT rows in mask, but *NOT* rows with too high a score;
+			    // we will not use the skipped ones for printing or evaluating, but
+			    // we need to allow all the non-skipped ones to be candidates for "best"
+			    if (((1 << rodt_ctl) & rodt_row_skip_mask) != 0) {
+				debug_print("RANK%d: SKIPPING rodt:%d (%d) with rank_score:%d\n",
+					    rankx, rodt_ctl, next_ohms, next_score);
+				continue;
+			    }
+			    for (int orankx = 0; orankx < dimm_count * 4; orankx++) { // this is ROFFIX-0528
+				if (!(dimm_rank_mask & (1 << orankx))) // stay on the same DIMM
+				    continue;
+
+				int next_score = rlevel_scoreboard[rtt_nom][rodt_ctl][orankx].score;
+				if ((next_score < best_rank_score) || // always choose a lower score
+				    ((next_score == best_rank_score) && // but if same score, choose the higher OHMS
+				     (next_ohms > best_rank_ohms)))
+				    {
+					ddr_print("RANK%d: new best score from rank %d for rodt:%d (%d), new best:%d, previous best:%d (%d)\n",
+						  rankx, orankx, rodt_ctl, next_ohms, next_score, best_rank_score, best_rank_ohms);
+					best_rank_score	    = next_score;
+					best_rank_rtt_nom   = rtt_nom;
+					best_rank_nom_ohms  = rtt_nom_ohms;
+					best_rank_ctl       = rodt_ctl;
+					best_rank_ohms      = next_ohms;
+					best_rankx          = orankx;
+					lmc_rlevel_rank.u   = rlevel_scoreboard[rtt_nom][rodt_ctl][orankx].setting;
+				    }
+			    } /* for (int orankx = 0; orankx < dimm_count * 4; orankx++) */
+			} /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
+		    } /* for (rtt_idx = min_rtt_nom_idx; rtt_idx <= max_rtt_nom_idx; ++rtt_idx) */
+
+		    // DANGER, Will Robinson!! Abort now if we did not find a best score at all...
+		    if (best_rank_score == DEFAULT_BEST_RANK_SCORE) {
+			error_print("WARNING: no best rank score found for N%d.LMC%d.R%d - resetting node...\n",
+				    node, ddr_interface_num, rankx);
+			bdk_wait_usec(500000);
+			bdk_reset_chip(node);
+		    }
+
+		    int MAX_RANK_SCORE = best_rank_score + (MAX_RANK_SCORE_LIMIT / dimm_count); // FIXME: relative now, but still arbitrary...
+
+		    if (!ecc_ena){
+			lmc_rlevel_rank.s.byte8 = lmc_rlevel_rank.s.byte0; /* ECC is not used */
+		    }
+		    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), lmc_rlevel_rank.u);
+		    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
+		    display_read_leveling_settings_with_RODT_best(lmc_rlevel_rank, best_rankx, best_rank_score,
+								  best_rank_rtt_nom, best_rank_nom_ohms,
+								  best_rank_ctl, best_rank_ohms);
+
+		    bdk_lmcx_rlevel_rankx_t saved_rlevel_rank;
+		    saved_rlevel_rank.u = lmc_rlevel_rank.u;
+
+		    // this is the print loop
+
+		    // for pass==0, print current rank, pass==1 print other rank(s) 
+		    // this is done because we want to show each ranks RODT values together, not interlaced
+		    for (int pass = 0; pass < 2; pass++ ) {
+			for (int orankx = 0; orankx < dimm_count * 4; orankx++) {
+			    if (!(dimm_rank_mask & (1 << orankx))) // stay on the same DIMM
+				continue;
+
+			    if (((pass == 0) && (orankx != rankx)) || ((pass != 0) && (orankx == rankx)))
+				continue;
+
+			    for (rtt_idx = min_rtt_nom_idx; rtt_idx <= max_rtt_nom_idx; ++rtt_idx) {
+				rtt_nom = imp_values->rtt_nom_table[rtt_idx];
+				if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
+				    continue;
+
+				// cycle through all the RODT values...
+				for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) {
+				    bdk_lmcx_rlevel_rankx_t temp_rlevel_rank;
+				    int temp_score = rlevel_scoreboard[rtt_nom][rodt_ctl][orankx].score;
+				    temp_rlevel_rank.u = rlevel_scoreboard[rtt_nom][rodt_ctl][orankx].setting;
+
+				    // skip RODT rows in mask, or rows with too high a score;
+				    // we will not use them for printing or evaluating...
+				    if (((1 << rodt_ctl) & rodt_row_skip_mask) ||
+					(temp_score > MAX_RANK_SCORE))
+					{
+					    display_read_leveling_settings_with_RODT_skip(temp_rlevel_rank, orankx, temp_score,
+											  rtt_nom,  imp_values->rtt_nom_ohms[rtt_nom],
+											  rodt_ctl, imp_values->rodt_ohms[rodt_ctl]);
+					} else {
+					display_read_leveling_settings_with_RODT(temp_rlevel_rank, orankx, temp_score,
+										 rtt_nom,  imp_values->rtt_nom_ohms[rtt_nom],
+										 rodt_ctl, imp_values->rodt_ohms[rodt_ctl]);
+				    }
+
+				} /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
+			    } /* for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) */
+			} /* for (int orankx = 0; orankx < dimm_count * 4; orankx++) { */
+		    } /* for (int pass = 0; pass < 2; pass++ ) */
+
+		    // end of the print loop
+
+		    // now evaluate which bytes need adjusting
+		    uint64_t byte_msk = 0x3f; // 6-byte fields
+		    uint64_t best_byte, new_byte, temp_byte, orig_best_byte;
+
+		    uint64_t rank_best_bytes[9]; // collect the new byte values; first init with current best for neighbor use
+		    for (int byte_idx = 0, byte_sh = 0; byte_idx < 8+ecc_ena; byte_idx++, byte_sh += 6) {
+			rank_best_bytes[byte_idx] = (lmc_rlevel_rank.u >> byte_sh) & byte_msk;
+		    }
+
+		    for (int byte_idx = 0, byte_sh = 0; byte_idx < 8+ecc_ena; byte_idx++, byte_sh += 6) {
+			best_byte = orig_best_byte = rank_best_bytes[byte_idx];
+
+			// validate the initial "best" byte by looking at the average of the unskipped byte-column entries
+			// we want to do this before we go further, so we can try to start with a better initial value
+			// this is the so-called "BESTBUY" patch set
+			int sum = 0, count = 0;
+
+			for (rtt_idx = min_rtt_nom_idx; rtt_idx <= max_rtt_nom_idx; ++rtt_idx) {
+			    rtt_nom = imp_values->rtt_nom_table[rtt_idx];
+			    if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
+				continue;
+
+			    for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) {
+				bdk_lmcx_rlevel_rankx_t temp_rlevel_rank;
+				int temp_score;
+				for (int orankx = 0; orankx < dimm_count * 4; orankx++) { // average over all the ranks
+				    if (!(dimm_rank_mask & (1 << orankx))) // stay on the same DIMM
+					continue;
+				    temp_score = rlevel_scoreboard[rtt_nom][rodt_ctl][orankx].score;
+				    // skip RODT rows in mask, or rows with too high a score;
+				    // we will not use them for printing or evaluating...
+				    if (((1 << rodt_ctl) & rodt_row_skip_mask) ||
+					(temp_score > MAX_RANK_SCORE))
+					{
+					    continue;
+					}
+				    temp_rlevel_rank.u = rlevel_scoreboard[rtt_nom][rodt_ctl][orankx].setting;
+				    temp_byte = (temp_rlevel_rank.u >> byte_sh) & byte_msk;
+				    sum += temp_byte;
+				    count++;
+				} /* for (int orankx = 0; orankx < dimm_count * 4; orankx++) */
+			    } /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
+			} /* for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) */
+
+			uint64_t avg_byte = divide_nint(sum, count); // FIXME: validate count and sum??
+			int avg_diff = (int)best_byte - (int)avg_byte;
+			if (avg_diff != 0) { 
+			    // bump best up/dn by 1, not necessarily all the way to avg
+			    new_byte = best_byte + ((avg_diff > 0) ? -1: 1);
+			    ddr_print("START: Byte %d: best %d is different by %d from average %d, changing to %d.\n",
+				      byte_idx, (int)best_byte, avg_diff, (int)avg_byte, (int)new_byte);
+			    best_byte = new_byte;
+			} else {
+			    ddr_print("START: Byte %d: best %d is NOT different from average %d, leaving it...\n",
+				      byte_idx, (int)best_byte, (int)avg_byte);
+			}
+
+			// At this point best_byte is either:
+			// 1. the original byte-column value from the best scoring RODT row, OR
+			// 2. that value bumped toward the average of all the byte-column values
+			//
+			// best_byte will not change from here on...
+
+			// We must cause the best bytes that have both low-order bits set to move away from
+			// their current value.
+			// To that purpose, count the number of byte-column bytes above/below/same as best.
+
+			int must_round = MUST_ROUND(best_byte);
+
+			// NOTE: we do this next loop separately from above, because we count relative to "best_byte"
+			// which may have been modified by that averaging loop...
+			int count_less = 0, count_same = 0, count_more = 0;
+
+			for (rtt_idx = min_rtt_nom_idx; rtt_idx <= max_rtt_nom_idx; ++rtt_idx) {
+			    rtt_nom = imp_values->rtt_nom_table[rtt_idx];
+			    if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
+				continue;
+
+			    for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) {
+				bdk_lmcx_rlevel_rankx_t temp_rlevel_rank;
+				int temp_score;
+				for (int orankx = 0; orankx < dimm_count * 4; orankx++) { // count over all the ranks
+				    if (!(dimm_rank_mask & (1 << orankx))) // stay on the same DIMM
+					continue;
+				    temp_score = rlevel_scoreboard[rtt_nom][rodt_ctl][orankx].score;
+				    // skip RODT rows in mask, or rows with too high a score;
+				    // we will not use them for printing or evaluating...
+				    if (((1 << rodt_ctl) & rodt_row_skip_mask) ||
+					(temp_score > MAX_RANK_SCORE))
+					{
+					    continue;
+					}
+				    temp_rlevel_rank.u = rlevel_scoreboard[rtt_nom][rodt_ctl][orankx].setting;
+				    temp_byte = (temp_rlevel_rank.u >> byte_sh) & byte_msk;
+
+				    if (temp_byte == 0) // do not count it if illegal
+					;//continue;
+				    else if (temp_byte == best_byte)
+					count_same++;
+				    else if (temp_byte == best_byte - 1)
+					count_less++;
+				    else if (temp_byte == best_byte + 1)
+					count_more++;
+				    // else do not count anything more than 1 away from the best
+				} /* for (int orankx = 0; orankx < dimm_count * 4; orankx++) */
+			    } /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
+			} /* for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) */
+
+			ddr_print("COUNT: Byte %d: orig %d now %d, more %d same %d less %d\n",
+				  byte_idx, (int)orig_best_byte, (int)best_byte,
+				  count_more, count_same, count_less);
+
+			// choose the new byte value
+			// we need to check that there is no gap greater than 2 between adjacent bytes
+			//  (adjacency depends on DIMM type)
+			// use the neighbor value and the direction bias to help decide
+			// initially, the rank_best_bytes[] will contain values from the chosen lowest score rank
+			new_byte = 0;
+
+			// neighbor is index-1 unless we are index 0 or index 8 (ECC)
+			int neighbor = (byte_idx == 8) ? 3 : ((byte_idx == 0) ? 1 : byte_idx - 1);
+			uint64_t neigh_byte = rank_best_bytes[neighbor];
+
+			if (must_round) { // MUST go up 1 or down 1 in ALL these cases...
+
+			    // well, maybe not...
+			    if (((count_less + count_more) == 0) || // no outlying values
+				// ROFFIX-0528-late added this majority clause
+				((count_less + count_more) < count_same)) // but the majority(?) indicates we should stay the same...
+				{
+				    if (spd_rdimm) { // for RDIMMs, must test differently
+#if NOROEND_PATCH
+					// this is the "no rounding on any end byte" patch aka NOROEND (:-)
+					if (byte_idx == 0 || byte_idx == 7) { // must be on the "end"...
+					    ddr_print("ROUND: Byte %d: NOROEND: end value is %d, leaving it...\n",
+						      byte_idx, (int)best_byte);
+					    new_byte = best_byte;
+					    goto finish_rnd_avg;
+					}
+#endif
+					if (byte_idx != 0 && byte_idx != 7) { // must not be on the "end"...
+					    ddr_print("ROUND: Byte %d: majority value is %d, leaving it...\n",
+						      byte_idx, (int)best_byte);
+					    new_byte = best_byte;
+					    goto finish_rnd_avg;
+					} else if ((byte_idx == 7) && (best_byte < rank_best_bytes[0])) {  // ROFFIX includes this - 20150527
+					    ddr_print("ROUND: Byte %d: majority value is %d and less than byte 0 best %d, leaving it...\n",
+						      byte_idx, (int)best_byte, (int)rank_best_bytes[0]);
+					    new_byte = best_byte;
+					    goto finish_rnd_avg;
+					}
+				    } else {
+					if (byte_idx != 7) { // must not be on the "end"...
+					    ddr_print("ROUND: Byte %d: majority value is %d, leaving it...\n",
+						      byte_idx, (int)best_byte);
+					    new_byte = best_byte;
+					    goto finish_rnd_avg;
+					}
+				    }
+				}
+
+			    // this is ROFFIX-0528
+			    // try to make the choice without bias, except when unable to
+			    int incr;
+			    if ((count_less == 0) || (count_more > count_less)) // all are same or more, or more > less
+				incr = 1; // bump up no choice
+			    else if ((count_more == 0) || (count_less > count_more)) // all are same or less, or less > more
+				incr = -1; // bump down no choice
+			    else { // no clear winner, report and choose something // FIXME?
+				printf("ROUND: Byte %d: no winner, choosing UP.\n", byte_idx);
+				incr = 1;
+			    }
+
+			    new_byte = best_byte + incr;
+			    if (_abs(neigh_byte - new_byte) > 2) { // check neighbor
+				ddr_print("ROUND: Byte %d: neighbor %d too different %d from %d, choosing %d.\n",
+					  byte_idx, neighbor, (int)neigh_byte,
+					  (int)new_byte, (int)best_byte - 1);
+				// force it in the other direction
+				new_byte = best_byte - incr;
+			    } else {
+				ddr_print("ROUND: Byte %d: best %d must move (<%d/=%d/>%d), choosing %d.\n",
+					  byte_idx, (int)best_byte, count_less, count_same, count_more, (int)new_byte);
+			    }
+
+			    // check if average caused orig_best_byte to move +1 or -1 to a must-round state
+			    // and then we just moved even further away from the original
+			    if (!MUST_ROUND(orig_best_byte)) { // we know best_byte is already must-round, so moved already
+				if (_abs(new_byte - orig_best_byte) >= 2) {
+				    ddr_print("ROUND: Byte %d: WARNING: new_byte %d too far from orig_byte %d; going back to best_byte %d\n",
+					      byte_idx, (int)new_byte, (int)orig_best_byte, (int)best_byte);
+				    new_byte = best_byte;
+				}
+			    }
+
+			} else { // can go up or down or stay the same, so look at a numeric average to help
+			    new_byte = divide_nint(((count_more * (best_byte + 1)) +
+						    (count_same * (best_byte + 0)) +
+						    (count_less * (best_byte - 1))),
+						   (count_more + count_same + count_less));
+
+			    // use neighbor to help choose with average
+			    if (_abs(neigh_byte - new_byte) > 2) {
+				ddr_print("AVERAGE: Byte %d: neighbor %d too different %d from choice %d.\n",
+					  byte_idx, neighbor, (int)neigh_byte, (int)new_byte);
+				if ((new_byte - best_byte) != 0)
+				    new_byte = best_byte; // back to best, moving did not get 
+				else // avg was the same, now move it towards the neighbor
+				    new_byte += (neigh_byte > new_byte) ? 1 : -1;
+
+				ddr_print("AVERAGE: Byte %d: now choosing %d.\n", byte_idx, (int)new_byte);
+			    }
+
+			    // new_byte could need rounding, so choose to stay with best_byte if it is
+			    if ((new_byte != best_byte) && MUST_ROUND(new_byte)) {
+				ddr_print("AVERAGE: Byte %d: avoiding average %d, choosing %d.\n",
+					  byte_idx, (int)new_byte, (int)best_byte);
+				new_byte = best_byte;
+			    } else {
+				ddr_print("AVERAGE: Byte %d: picking average of %d.\n", byte_idx, (int)new_byte);
+			    }
+			} /* if (must_round) */
+		    finish_rnd_avg:
+			if (new_byte != best_byte) {
+			    ddr_print("SUMMARY: Byte %d: %s: orig %d now %d, more %d same %d less %d, choosing %d\n",
+				      byte_idx, (must_round) ? "RND" : "AVG", (int)orig_best_byte, 
+				      (int)best_byte, count_more, count_same, count_less, (int)new_byte);
+			} else {
+			    ddr_print("SUMMARY: Byte %d: %s: orig %d now %d, more %d same %d less %d, leaving it...\n",
+				      byte_idx, (must_round) ? "RND" : "AVG", (int)orig_best_byte,
+				      (int)best_byte, count_more, count_same, count_less);
+			}
+
+			// update the byte with the new value (NOTE: orig value in the CSR may not be current "best")
+			lmc_rlevel_rank.u &= ~(byte_msk << byte_sh);
+			lmc_rlevel_rank.u |= (new_byte << byte_sh);
+
+			rank_best_bytes[byte_idx] = new_byte; // save new best for neighbor use
+
+		    } /* for (byte_idx = 0; byte_idx < 8+ecc_ena; byte_idx++) */
+
+		    if (saved_rlevel_rank.u != lmc_rlevel_rank.u) {
+			DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), lmc_rlevel_rank.u);
+			lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
+			ddr_print("Adjusting Read-Leveling per-RANK settings.\n");
 		    } else {
-			lmc_rlevel_rank.s.byte8 = rlevel_byte[8].delay;
-			lmc_rlevel_rank.s.byte7 = rlevel_byte[7].delay;
-			lmc_rlevel_rank.s.byte6 = rlevel_byte[6].delay;
-			lmc_rlevel_rank.s.byte5 = rlevel_byte[5].delay;
-			lmc_rlevel_rank.s.byte4 = rlevel_byte[4].delay;
+			ddr_print("Not Adjusting Read-Leveling per-RANK settings.\n");
 		    }
-		    lmc_rlevel_rank.s.byte3 = rlevel_byte[3].delay;
-		    lmc_rlevel_rank.s.byte2 = rlevel_byte[2].delay;
-		    lmc_rlevel_rank.s.byte1 = rlevel_byte[1].delay;
-		    lmc_rlevel_rank.s.byte0 = rlevel_byte[0].delay;
+		    display_read_leveling_settings_with_score(lmc_rlevel_rank, rankx, best_rank_score);
 
-		    if (rlevel_avg_loops > 1) {
-			ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d) Average\n\n",
-				  rankx,
-				  lmc_rlevel_rank.s.status,
-				  lmc_rlevel_rank.u,
-				  lmc_rlevel_rank.s.byte8,
-				  lmc_rlevel_rank.s.byte7,
-				  lmc_rlevel_rank.s.byte6,
-				  lmc_rlevel_rank.s.byte5,
-				  lmc_rlevel_rank.s.byte4,
-				  lmc_rlevel_rank.s.byte3,
-				  lmc_rlevel_rank.s.byte2,
-				  lmc_rlevel_rank.s.byte1,
-				  lmc_rlevel_rank.s.byte0,
-				  rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score
-				  );
+#if RLEXTRAS_PATCH
+		    {
+#define RLEVEL_RANKX_EXTRAS_INCR  4
+			bdk_lmcx_rlevel_rankx_t temp_rlevel_rank = lmc_rlevel_rank;
+			int byte, delay;
+			if (rankx < 3) {
+			    ddr_print("RANK%d: writing RLEVEL_RANK unused entries.\n", rankx);
+			    for (byte = 0; byte < 9; byte++) {
+				delay = get_rlevel_rank_struct(&temp_rlevel_rank, byte) + RLEVEL_RANKX_EXTRAS_INCR;
+				if (delay > (int)RLEVEL_BYTE_MSK) delay = RLEVEL_BYTE_MSK;
+				update_rlevel_rank_struct(&temp_rlevel_rank, byte, delay);
+			    }
+			    if (rankx == 0) { // if 0, write 1, and 2
+				DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 1), temp_rlevel_rank.u);
+				DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 2), temp_rlevel_rank.u);
+			    }
+			    // if 0, 1 or 2, write 3
+			    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, 3), temp_rlevel_rank.u);
+			}
 		    }
-
-		    rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].setting = lmc_rlevel_rank.u;
-		} /* for (rankx = 0; rankx < dimm_count*4; rankx++) */
-	    } /* for (rodt_ctl=odt_config[odt_idx].qs_dic; rodt_ctl>0; --rodt_ctl) */
-        } /*  for (rtt_idx=min_rtt_nom_idx; rtt_idx<max_rtt_nom_idx; ++rtt_idx) */
-
-
-        /* Re-enable dynamic compensation settings. */
-        if (rlevel_comp_offset != 0) {
-            lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
-
-            lmc_comp_ctl2.s.ptune = 0;
-            lmc_comp_ctl2.s.ntune = 0;
-            lmc_comp_ctl2.s.byp = 0; /* Disable bypass mode */
-            DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
-            BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num)); /* Read once */
-
-            lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num)); /* Read again */
-            ddr_print("DDR__PTUNE/DDR__NTUNE                         : %d/%d\n",
-                      lmc_comp_ctl2.s.ddr__ptune, lmc_comp_ctl2.s.ddr__ntune);
-
-            lmc_control.u = BDK_CSR_READ(node, BDK_LMCX_CONTROL(ddr_interface_num));
-            lmc_control.s.int_zqcs_dis    = saved_int_zqcs_dis; /* Restore original setting */
-            DRAM_CSR_WRITE(node, BDK_LMCX_CONTROL(ddr_interface_num), lmc_control.u);
-
-        }
-
-
-        {
-            int override_compensation = 0;
-            if ((s = lookup_env_parameter("ddr__ptune")) != NULL) {
-                saved_ddr__ptune = strtoul(s, NULL, 0);
-                override_compensation = 1;
-            }
-            if ((s = lookup_env_parameter("ddr__ntune")) != NULL) {
-                saved_ddr__ntune = strtoul(s, NULL, 0);
-                override_compensation = 1;
-            }
-            if (override_compensation) {
-                lmc_comp_ctl2.s.ptune = saved_ddr__ptune;
-                lmc_comp_ctl2.s.ntune = saved_ddr__ntune;
-
-                lmc_control.u = BDK_CSR_READ(node, BDK_LMCX_CONTROL(ddr_interface_num));
-                saved_int_zqcs_dis = lmc_control.s.int_zqcs_dis;
-                lmc_control.s.int_zqcs_dis    = 1; /* Disable ZQCS while in bypass. */
-                DRAM_CSR_WRITE(node, BDK_LMCX_CONTROL(ddr_interface_num), lmc_control.u);
-
-                lmc_comp_ctl2.s.byp = 1; /* Enable bypass mode */
-                DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
-                lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num)); /* Read again */
-
-                ddr_print("DDR__PTUNE/DDR__NTUNE                         : %d/%d\n",
-                          lmc_comp_ctl2.s.ptune, lmc_comp_ctl2.s.ntune);
-            }
-        }
-
-        {
-            int      best_rodt_score = 9999999; /* Start with an arbitrarily high score */
-            int      auto_rodt_ctl = 0;
-            int      auto_rtt_nom  = 0;
-            int      rodt_score;
-
-            ddr_print("Evaluating Read-Leveling Scoreboard.\n");
-            for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) {
-                rtt_nom = imp_values->rtt_nom_table[rtt_idx];
-
-                /* When the read ODT mask is zero the dyn_rtt_nom_mask is
-                   zero than RTT_NOM will not be changing during
-                   read-leveling.  Since the value is fixed we only need
-                   to test it once. */
-                if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
-                    continue;
-
-                for (rodt_ctl=max_rodt_ctl; rodt_ctl>=min_rodt_ctl; --rodt_ctl) {
-                    rodt_score = 0;
-                    for (rankx = 0; rankx < dimm_count * 4;rankx++) {
-                        if (!(rank_mask & (1 << rankx)))
-                            continue;
-                        debug_print("rlevel_scoreboard[rtt_nom=%d][rodt_ctl=%d][rankx=%d].score:%d\n",
-                                    rtt_nom, rodt_ctl, rankx, rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score);
-                        rodt_score += rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score;
-                    }
-                    debug_print("rodt_score:%d, best_rodt_score:%d\n", rodt_score, best_rodt_score);
-
-                    /* When using automatic ODT settings use the ODT
-                       settings associated with the best score for
-                       all of the tested ODT combinations. */
-                    if (rodt_score < best_rodt_score) {
-                        best_rodt_score = rodt_score;
-                        auto_rodt_ctl   = rodt_ctl;
-                        auto_rtt_nom    = rtt_nom;
-                    }
-                }
-            }
-
-            lmc_modereg_params1.u = BDK_CSR_READ(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num));
-
-            if (ddr_rtt_nom_auto) {
-                /* Store the automatically set RTT_NOM value */
-                if (dyn_rtt_nom_mask & 1) lmc_modereg_params1.s.rtt_nom_00 = auto_rtt_nom;
-                if (dyn_rtt_nom_mask & 2) lmc_modereg_params1.s.rtt_nom_01 = auto_rtt_nom;
-                if (dyn_rtt_nom_mask & 4) lmc_modereg_params1.s.rtt_nom_10 = auto_rtt_nom;
-                if (dyn_rtt_nom_mask & 8) lmc_modereg_params1.s.rtt_nom_11 = auto_rtt_nom;
-            } else {
-                /* restore the manual settings to the register */
-                lmc_modereg_params1.s.rtt_nom_00 = default_rtt_nom[0];
-                lmc_modereg_params1.s.rtt_nom_01 = default_rtt_nom[1];
-                lmc_modereg_params1.s.rtt_nom_10 = default_rtt_nom[2];
-                lmc_modereg_params1.s.rtt_nom_11 = default_rtt_nom[3];
-            }
-
-            DRAM_CSR_WRITE(node, BDK_LMCX_MODEREG_PARAMS1(ddr_interface_num), lmc_modereg_params1.u);
-            ddr_print("RTT_NOM     %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_11],
-                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_10],
-                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_01],
-                      imp_values->rtt_nom_ohms[lmc_modereg_params1.s.rtt_nom_00],
-                      lmc_modereg_params1.s.rtt_nom_11,
-                      lmc_modereg_params1.s.rtt_nom_10,
-                      lmc_modereg_params1.s.rtt_nom_01,
-                      lmc_modereg_params1.s.rtt_nom_00);
-
-            ddr_print("RTT_WR      %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                      imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_11],
-                      imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_10],
-                      imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_01],
-                      imp_values->rtt_wr_ohms[lmc_modereg_params1.s.rtt_wr_00],
-                      lmc_modereg_params1.s.rtt_wr_11,
-                      lmc_modereg_params1.s.rtt_wr_10,
-                      lmc_modereg_params1.s.rtt_wr_01,
-                      lmc_modereg_params1.s.rtt_wr_00);
-
-            ddr_print("DIC         %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-                      imp_values->dic_ohms[lmc_modereg_params1.s.dic_11],
-                      imp_values->dic_ohms[lmc_modereg_params1.s.dic_10],
-                      imp_values->dic_ohms[lmc_modereg_params1.s.dic_01],
-                      imp_values->dic_ohms[lmc_modereg_params1.s.dic_00],
-                      lmc_modereg_params1.s.dic_11,
-                      lmc_modereg_params1.s.dic_10,
-                      lmc_modereg_params1.s.dic_01,
-                      lmc_modereg_params1.s.dic_00);
-
-            if (ddr_type == DDR4_DRAM) {
-		bdk_lmcx_modereg_params2_t lmc_modereg_params2;
-		lmc_modereg_params2.u = odt_config[odt_idx].odt_mask2.u;
-		ddr_print("RTT_PARK    %3d, %3d, %3d, %3d ohms           :  %x,%x,%x,%x\n",
-			  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_11],
-			  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_10],
-			  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_01],
-			  imp_values->rtt_nom_ohms[lmc_modereg_params2.s.rtt_park_00],
-			  lmc_modereg_params2.s.rtt_park_11,
-			  lmc_modereg_params2.s.rtt_park_10,
-			  lmc_modereg_params2.s.rtt_park_01,
-			  lmc_modereg_params2.s.rtt_park_00);
-
-		ddr_print("%-45s :  0x%x,0x%x,0x%x,0x%x\n", "VREF_RANGE",
-			  lmc_modereg_params2.s.vref_range_11,
-			  lmc_modereg_params2.s.vref_range_10,
-			  lmc_modereg_params2.s.vref_range_01,
-			  lmc_modereg_params2.s.vref_range_00);
-
-		ddr_print("%-45s :  0x%x,0x%x,0x%x,0x%x\n", "VREF_VALUE",
-			  lmc_modereg_params2.s.vref_value_11,
-			  lmc_modereg_params2.s.vref_value_10,
-			  lmc_modereg_params2.s.vref_value_01,
-			  lmc_modereg_params2.s.vref_value_00);
-            }
-
-            lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
-            if (ddr_rodt_ctl_auto)
-                lmc_comp_ctl2.s.rodt_ctl = auto_rodt_ctl;
-            else
-                lmc_comp_ctl2.s.rodt_ctl = default_rodt_ctl;
-            DRAM_CSR_WRITE(node, BDK_LMCX_COMP_CTL2(ddr_interface_num), lmc_comp_ctl2.u);
-            lmc_comp_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_COMP_CTL2(ddr_interface_num));
-            ddr_print("Read ODT_CTL                                  : 0x%x (%d ohms)\n",
-                      lmc_comp_ctl2.s.rodt_ctl, imp_values->rodt_ohms[lmc_comp_ctl2.s.rodt_ctl]);
-
-            /* Use the delays associated with the best score for each individual rank */
-            for (rankx = 0; rankx < dimm_count * 4;rankx++) {
-                int best_rank_score = 9999999; /* Start with an arbitrarily high score */
-                if (!(rank_mask & (1 << rankx)))
-                    continue;
-
-                for (rtt_idx=min_rtt_nom_idx; rtt_idx<=max_rtt_nom_idx; ++rtt_idx) {
-                    rtt_nom = imp_values->rtt_nom_table[rtt_idx];
-
-                    /* When the read ODT mask is zero the dyn_rtt_nom_mask is
-                       zero than RTT_NOM will not be changing during
-                       read-leveling.  Since the value is fixed we only need
-                       to test it once. */
-                    if ((dyn_rtt_nom_mask == 0) && (rtt_idx != min_rtt_nom_idx))
-                        continue;
-
-                    for (rodt_ctl=max_rodt_ctl; rodt_ctl>=min_rodt_ctl; --rodt_ctl) {
-                        if (rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score <= best_rank_score) {
-                            best_rank_score	= rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score;
-                            lmc_rlevel_rank.u	= rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].setting;
-
-                            debug_print("rlevel_scoreboard[rtt_nom=%d][rodt_ctl=%d][rankx=%d].score:%d, best_rank_score:%d\n",
-                                        rtt_nom, rodt_ctl, rankx, rlevel_scoreboard[rtt_nom][rodt_ctl][rankx].score,
-                                        best_rank_score);
-                        }
-                    }
-                }
-
-                if (!ecc_ena){
-                    lmc_rlevel_rank.s.byte8 = lmc_rlevel_rank.s.byte0; /* ECC is not used */
-                }
-                DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), lmc_rlevel_rank.u);
-                lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
-                ddr_print("Rank(%d) Rlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d (%d)\n",
-                          rankx,
-                          lmc_rlevel_rank.s.status,
-                          lmc_rlevel_rank.u,
-                          lmc_rlevel_rank.s.byte8,
-                          lmc_rlevel_rank.s.byte7,
-                          lmc_rlevel_rank.s.byte6,
-                          lmc_rlevel_rank.s.byte5,
-                          lmc_rlevel_rank.s.byte4,
-                          lmc_rlevel_rank.s.byte3,
-                          lmc_rlevel_rank.s.byte2,
-                          lmc_rlevel_rank.s.byte1,
-                          lmc_rlevel_rank.s.byte0,
-                          best_rank_score
-                          );
-            }
-        }
+#endif /* RLEXTRAS_PATCH */
+		} /* for (rankx = 0; rankx < dimm_count * 4; rankx++) */
+	    }  /* Evaluation block */
         } /* while(rlevel_debug_loops--) */
 
         lmc_control.s.ddr2t           = save_ddr2t;
@@ -5651,6 +6049,12 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
     }
 
+    // this is here just for output, to allow check of the Deskew settings one last time...
+    {
+        deskew_counts_t dsk_counts;
+	ddr_print("LMC%d: Check Deskew Settings before software Write-Leveling.\n", ddr_interface_num);
+        Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 1);
+    }
     {
         /* Try to determine/optimize write-level delays experimentally. */
 #pragma pack(push,1)
@@ -5778,8 +6182,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         debug_print(" (0x%02x)\n", final_vref_value);
 
                         /* Calculate an override of the measured Vref value
-			   but only for a configuration we know how to...*/
-			if (num_ranks == 2) // for now, we ony have code for 2-rank DIMMs
+			   but only for configurations we know how to...*/
+			// we have code for 2-rank DIMMs in both 1-slot or 2-slot configs,
+			// and can use the 2-rank 1-slot code for 1-rank DIMMs in 1-slot configs
+			if ((num_ranks == 2) || ((num_ranks == 1) && (dimm_count == 1)))
 			{
                             int rtt_wr, rtt_park, dqx_ctl, rtt_nom;
                             bdk_lmcx_modereg_params1_t lmc_modereg_params1;
@@ -5840,8 +6246,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             final_vref_value = strtoul(s, NULL, 0);
                         }
 
-			// We can use COMPUTED Vref only for dual-rank DIMMS at the moment...
-			if (num_ranks == 2) {
+			// We can use COMPUTED Vref only for some configs (see above)
+			if ((num_ranks == 2) || ((num_ranks == 1) && (dimm_count == 1))) {
 			    // but allow MEASURED Vref to be used...
 			    if (measured_vref_flag || (override_final_vref_value == 0)) {
 				ddr_print("Rank(%d) Using MEASURED Vref %2d (0x%02x) vs COMPUTED %2d (0x%02x)\n",
@@ -5854,7 +6260,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				       final_vref_value, final_vref_value);
 				set_vref(node, ddr_interface_num, rankx, 0, override_final_vref_value);
 			    }
-			} else { // always use measured for other DIMM configs (1rank or 4rank) for now
+			} else { // always use measured for other DIMM configs for now
 			    ddr_print("Rank(%d) Using MEASURED Vref %2d (0x%02x)\n",
 				   rankx, final_vref_value, final_vref_value);
 			    set_vref(node, ddr_interface_num, rankx, 0, final_vref_value);
@@ -6086,7 +6492,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                       );
 
             if ((ddr_type == DDR4_DRAM) && (best_vref_values_count == 0)) {
-                error_print("ERROR: Vref training failed.  Resetting node(%d)...\n", node);
+                error_print("WARNING: Vref training failed. N%d.LMC%d.R%d: Resetting node...\n",
+			    node, ddr_interface_num, rankx);
                 bdk_wait_usec(500000);
                 bdk_reset_chip(node);
             }
@@ -6134,21 +6541,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             if (parameter_set) {
                 DRAM_CSR_WRITE(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx), lmc_wlevel_rank.u);
                 lmc_wlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_WLEVEL_RANKX(ddr_interface_num, rankx));
-
-                ddr_print("Rank(%d) Wlevel Rank %#5x, 0x%016lX : %5d %5d %5d %5d %5d %5d %5d %5d %5d\n",
-                          rankx,
-                          lmc_wlevel_rank.s.status,
-                          lmc_wlevel_rank.u,
-                          lmc_wlevel_rank.s.byte8,
-                          lmc_wlevel_rank.s.byte7,
-                          lmc_wlevel_rank.s.byte6,
-                          lmc_wlevel_rank.s.byte5,
-                          lmc_wlevel_rank.s.byte4,
-                          lmc_wlevel_rank.s.byte3,
-                          lmc_wlevel_rank.s.byte2,
-                          lmc_wlevel_rank.s.byte1,
-                          lmc_wlevel_rank.s.byte0
-                          );
+		display_write_leveling_settings(lmc_wlevel_rank, rankx);
             }
         } /* for (rankx = 0; rankx < dimm_count * 4;rankx++) */
 
@@ -6169,12 +6562,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
     }
 
+#if ENABLE_DISPLAY_MPR_PAGE
     if (ddr_type == DDR4_DRAM) {
             Display_MPR_Page(node, rank_mask, ddr_interface_num, dimm_count, 2);
             Display_MPR_Page(node, rank_mask, ddr_interface_num, dimm_count, 0);
     }
+#endif
 
-#ifdef CAVIUM_ONLY
+#if 1 // was #ifdef CAVIUM_ONLY
     {
         int i;
         int setting[9];
@@ -6248,8 +6643,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         SET_DDR_DLL_CTL3(offset_ena, 1);
         DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
 
-        ddr_print("%-45s :  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x\n",
-                  "DLL Read Offset 8:0",
+        ddr_print("LMC%d %-40s :  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x\n",
+                  ddr_interface_num, "DLL Read Offset 8:0",
                   offset[8], offset[7], offset[6], offset[5], offset[4],
                   offset[3], offset[2], offset[1], offset[0]);
     }
@@ -6302,6 +6697,46 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      * properly. This should be done prior to the first read.
      */
 
+#ifdef ENABLE_SLOT_CTL_ACCESS
+    {
+	bdk_lmcx_slot_ctl0_t lmc_slot_ctl0;
+	bdk_lmcx_slot_ctl1_t lmc_slot_ctl1;
+	bdk_lmcx_slot_ctl2_t lmc_slot_ctl2;
+	bdk_lmcx_slot_ctl3_t lmc_slot_ctl3;
+
+        lmc_slot_ctl0.u = BDK_CSR_READ(node, BDK_LMCX_SLOT_CTL0(ddr_interface_num));
+        lmc_slot_ctl1.u = BDK_CSR_READ(node, BDK_LMCX_SLOT_CTL1(ddr_interface_num));
+        lmc_slot_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_SLOT_CTL2(ddr_interface_num));
+        lmc_slot_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_SLOT_CTL3(ddr_interface_num));
+
+        ddr_print("%-45s : 0x%016lx\n", "LMC_SLOT_CTL0", lmc_slot_ctl0.u);
+        ddr_print("%-45s : 0x%016lx\n", "LMC_SLOT_CTL1", lmc_slot_ctl1.u);
+        ddr_print("%-45s : 0x%016lx\n", "LMC_SLOT_CTL2", lmc_slot_ctl2.u);
+        ddr_print("%-45s : 0x%016lx\n", "LMC_SLOT_CTL3", lmc_slot_ctl3.u);
+
+	// for now, look only for SLOT_CTL1 envvar for override of contents
+	if ((s = lookup_env_parameter("ddr%d_slot_ctl1", ddr_interface_num)) != NULL) {
+	    int slot_ctl1_incr = strtoul(s, NULL, 0);
+	    // validate the value
+	    if ((slot_ctl1_incr < 1) || (slot_ctl1_incr > 3)) {
+		error_print("ddr%d_slot_ctl1 illegal value (%d); must be 1-3\n",
+			    ddr_interface_num, slot_ctl1_incr);
+	    } else {
+
+#define INCR(csr, chip, field, incr)  \
+		csr.chip.field = (csr.chip.field < (64 - incr)) ? (csr.chip.field + incr) : 63
+
+		// modify all the SLOT_CTL1 fields by the increment, for now...
+		// but make sure the value will not overflow!!!
+		INCR(lmc_slot_ctl1, s, r2r_xrank_init, slot_ctl1_incr);
+		INCR(lmc_slot_ctl1, s, r2w_xrank_init, slot_ctl1_incr);
+		INCR(lmc_slot_ctl1, s, w2r_xrank_init, slot_ctl1_incr);
+		INCR(lmc_slot_ctl1, s, w2w_xrank_init, slot_ctl1_incr);
+		DRAM_CSR_WRITE(node, BDK_LMCX_SLOT_CTL1(ddr_interface_num), lmc_slot_ctl1.u);
+	    }
+	}
+    }
+#endif /* ENABLE_SLOT_CTL_ACCESS */
     {
         /* Clear any residual ECC errors */
         int num_tads = 1;
