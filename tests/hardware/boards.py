@@ -124,7 +124,9 @@ class Board_CRB_2S(Board):
 
     def powerCycle(self):
         self.log("Power cycle board")
-        os.system("ipmitool -H %s -U admin -P admin power cycle" % self.bmc)
+        os.system("ipmitool -H %s -U admin -P admin power off" % self.bmc)
+        time.sleep(7)
+        os.system("ipmitool -H %s -U admin -P admin power on" % self.bmc)
 
 def parseArgs():
     try:
