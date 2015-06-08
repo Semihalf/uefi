@@ -127,9 +127,18 @@ class SerialOverLan:
         parts = connect_str.split(":")
         assert len(parts) == 2, "Expected 'sol:host'"
         self.host = parts[1]
-        ipmitool = ["ipmitool", "-H", self.host, "-I", "lanplus", "-U", "admin", "-P", "admin", "sol", "deactivate"]
+        ipmitool = ["ipmitool", "-H", self.host, "-I", "lanplus", "-U", "admin", "-P", "admin", "sol"]
+        ipmi_len = len(ipmitool)
+        ipmitool.append("deactivate")
         subprocess.call(ipmitool)
-        ipmitool[-1] = "activate"
+        ipmitool = ipmitool[0:ipmi_len]
+        ipmitool.extend(["set", "character-send-threshold", "1"])
+        subprocess.call(ipmitool)
+        ipmitool = ipmitool[0:ipmi_len]
+        ipmitool.append("info")
+        subprocess.call(ipmitool)
+        ipmitool = ipmitool[0:ipmi_len]
+        ipmitool.append("activate")
         self.ipmitool = subprocess.Popen(ipmitool, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         self.poll = select.poll()
         self.poll.register(self.ipmitool.stdout, select.POLLIN)
