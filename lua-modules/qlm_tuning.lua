@@ -291,6 +291,20 @@ local function do_eye()
     cavium.c.bdk_qlm_eye_display(menu.node, qlm_tuning.qlm, lane, 1, nil)
 end
 
+local function do_loopback()
+    local old = cavium.csr[menu.node].GSERX_LANEX_MISC_CFG_0(qlm_tuning.qlm, 0).CFG_PCS_LOOPBACK
+    local loopback = (old == 0) and 1 or 0
+    if loopback == 0 then
+        printf("Disabling loopback on QLM %d", qlm_tuning.qlm)
+    else
+        printf("Looping TX to RX on QLM %d", qlm_tuning.qlm)
+    end
+    local num_lanes = cavium.c.bdk_qlm_get_lanes(menu.node, qlm_tuning.qlm)
+    for lane=0, num_lanes-1 do
+        cavium.csr[menu.node].GSERX_LANEX_MISC_CFG_0(qlm_tuning.qlm, lane).CFG_PCS_LOOPBACK = loopback
+    end
+end
+
 -- Main menu
 function qlm_tuning.run()
     local m = menu.new("PRBS and SERDES Tuning Menu")
@@ -313,6 +327,7 @@ function qlm_tuning.run()
         m:item("preemphasis",  "Set QLM pre-emphasis", set_preemphasis, qlm_tuning.qlm)
         m:item("preandpost",  "Set QLM pre and post taps", set_preandpost, qlm_tuning.qlm)
         m:item("rx_eval",  "Perform a RX equalization evaluation", manual_rx_evaluation, qlm_tuning.qlm)
+        m:item("loop", "Toggle loopback of TX to RX", do_loopback)
         m:item("eye", "Display Eye", do_eye)
 
         m:item("quit",   "Main menu")
