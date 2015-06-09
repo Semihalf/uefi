@@ -679,9 +679,9 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
 
     // Change the clock
     uint64_t CLOCK_HZ = BDK_MMC_CLOCK_HZ;
-    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
-        CLOCK_HZ = 40000000;
     uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        CLOCK_HZ = sclk / 4;
     sclk /= CLOCK_HZ;
     sclk /= 2; /* Half is time hi/lo */
     BDK_CSR_INIT(emm_mode, node, BDK_MIO_EMM_MODEX(chip_sel));
