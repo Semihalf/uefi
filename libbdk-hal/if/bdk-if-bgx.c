@@ -750,19 +750,6 @@ static void restart_training(bdk_if_handle_t handle)
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
     BDK_CSR_DEFINE(spux_int, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
-
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-    {
-        /* Errata (BGX-21957) GSER enhancement to allow auto RX equalization */
-        const int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
-        for (int lane = 0; lane < 4; lane++)
-        {
-            BDK_CSR_MODIFY(c, handle->node, BDK_GSERX_BR_RXX_EER(qlm, lane),
-                c.s.rxt_eer = 1;
-                c.s.rxt_esv = 0);
-        }
-    }
-
     /* Clear the training interrupts (W1C) */
     spux_int.u = 0;
     spux_int.s.training_failure = 1;
@@ -838,13 +825,25 @@ static int xaui_link(bdk_if_handle_t handle)
             }
         }
 
-        /* With XFI and XLAUI, we need to perform RX equalization when the link
-           is receiving data the first time */
-        if ((priv->mode == BGX_MODE_XFI) || (priv->mode == BGX_MODE_XLAUI))
+        /* (GSER-21957) GSER RX Equalization may make >= 5gbaud non-KR channel better
+           With DXAUI, RXAUI, XFI and XLAUI, we need to perform RX equalization when
+           the link is receiving data the first time */
+        if ((priv->mode == BGX_MODE_XFI) || (priv->mode == BGX_MODE_XLAUI) ||
+            (priv->mode == BGX_MODE_DXAUI))
         {
             int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
-            bdk_qlm_rx_equalization(handle->node, qlm,
-                (priv->mode == BGX_MODE_XLAUI) ? -1 : handle->index);
+            int lane = -1; /* Default to all lanes */
+            if (priv->mode == BGX_MODE_XFI) /* XFI affects only one lane */
+                lane = handle->index;
+            bdk_qlm_rx_equalization(handle->node, qlm, lane);
+        }
+        else if (priv->mode == BGX_MODE_RXAUI)
+        {
+            /* We need to do two lanes for RXAUI */
+            int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
+            int lane = handle->index * 2;
+            bdk_qlm_rx_equalization(handle->node, qlm, lane);
+            bdk_qlm_rx_equalization(handle->node, qlm, lane+1);
         }
 
         /* Wait for PCS to come out of reset */
