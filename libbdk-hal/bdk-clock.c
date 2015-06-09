@@ -35,6 +35,12 @@ uint64_t __bdk_clock_get_count_slow(bdk_clock_t clock)
 {
     bdk_node_t node = bdk_numa_local();
     BDK_CSR_INIT(rst_boot, node, BDK_RST_BOOT);
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    {
+        /* Force RCLK and SCLK to be 1GHz on emulator */
+        rst_boot.s.c_mul = 20;
+        rst_boot.s.pnr_mul = 20;
+    }
     uint64_t ref_cntr = BDK_CSR_READ(node, BDK_RST_REF_CNTR);
     switch(clock)
     {
@@ -63,6 +69,12 @@ uint64_t __bdk_clock_get_rate_slow(bdk_node_t node, bdk_clock_t clock)
     const uint64_t REF_CLOCK = 50000000;
 
     BDK_CSR_INIT(mio_rst_boot, node, BDK_RST_BOOT);
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    {
+        /* Force RCLK and SCLK to be 1GHz on emulator */
+        mio_rst_boot.s.c_mul = 20;
+        mio_rst_boot.s.pnr_mul = 20;
+    }
     switch (clock)
     {
         case BDK_CLOCK_TIME:
