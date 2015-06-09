@@ -1614,6 +1614,8 @@ int qlm_auto_config(bdk_node_t node)
  */
 static int rx_equalization(bdk_node_t node, int qlm, int qlm_lane)
 {
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        return 0;
     /* Don't touch QLMs is reset or powered down */
     BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
     if (phy_ctl.s.phy_pd || phy_ctl.s.phy_reset)
