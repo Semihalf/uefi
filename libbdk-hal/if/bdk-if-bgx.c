@@ -245,6 +245,11 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     /* Disable MAC steering */
     for (int i = 0; i < 8; i++)
         BDK_CSR_WRITE(handle->node, BDK_BGXX_CMR_RX_STEERINGX(handle->interface, i), 0);
+
+    /* Calculate the number of s-clk cycles per usec. */
+    uint64_t usec_cycles = bdk_clock_get_rate(handle->node, BDK_CLOCK_SCLK) / 1000000;
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPU_DBG_CONTROL(handle->interface),
+        c.s.us_clk_period = usec_cycles-1);
     return 0;
 }
 
