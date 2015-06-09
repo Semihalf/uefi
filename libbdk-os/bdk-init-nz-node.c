@@ -2,7 +2,7 @@
 
 /* If non-zero, enable a watchdog timer to reset the chip ifwe hang during init.
    Value is in 262144 SCLK cycle intervals, max of 16 bits */
-#define WATCHDOG_TIMEOUT 13351 /* 5sec at 700Mhz */
+#define WATCHDOG_TIMEOUT (13351*3) /* 15sec at 700Mhz */
 #define CCPI_MIN_LANES 24
 
 /* The node number may change dynamically while this code is running. This
