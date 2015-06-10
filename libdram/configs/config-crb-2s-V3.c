@@ -453,7 +453,7 @@ const dram_config_t *dram_get_config_crb_2s_V3(void)
     }
 
     // Check for specific DIMM part number and set a different DLL Read Offset table
-    get_dimm_part_number(part_number, node, &cfg->config[0].dimm_config_table[0], 0);
+    get_dimm_part_number(part_number, node, &cfg->config[0].dimm_config_table[0], 0, DDR4_DRAM);
     if (strcmp(part_number, "36ASF2G72PZ-2G1A2") == 0)
     {
 	//printf("CONFIG_EBB8804: fixup for RDIMM #122 part number '%s'\n", part_number);

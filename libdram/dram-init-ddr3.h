@@ -30,8 +30,3 @@ typedef struct {
 #define DIC_OHMS_COUNT         3
 #define DRIVE_STRENGTH_COUNT  15
 
-typedef enum {
-    DDR3_DRAM = 3,
-    DDR4_DRAM = 4,
-} ddr_type_t;
-

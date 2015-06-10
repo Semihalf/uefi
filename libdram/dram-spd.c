@@ -62,6 +62,7 @@ static int validate_spd_checksum_ddr3(bdk_node_t node, int twsi_addr, int silent
     uint16_t crc_comp;
     int i;
     int rv;
+    int ret = 1;
     for (i = 0; i < 128; i++)
     {
         rv = bdk_twsix_read_ia(node, twsi_addr >> 12, twsi_addr & 0x7f, i, 1, 1);
@@ -75,20 +76,18 @@ static int validate_spd_checksum_ddr3(bdk_node_t node, int twsi_addr, int silent
 
     crc_comp = ddr3_crc16(spd_data, crc_bytes);
 
-    if (spd_data[DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_LOWER_NIBBLE] == (crc_comp & 0xff) &&
-        spd_data[DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_UPPER_NIBBLE] == (crc_comp >> 8))
+    if (spd_data[DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_LOWER_NIBBLE] != (crc_comp & 0xff) ||
+        spd_data[DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_UPPER_NIBBLE] != (crc_comp >> 8))
     {
-        return 1;
-    }
-    else
-    {
-        if (!silent)
+        if (!silent) {
             printf("DDR3 SPD CRC error, spd addr: 0x%x, calculated crc: 0x%04x, read crc: 0x%02x%02x\n",
 		   twsi_addr, crc_comp,
 		   spd_data[DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_UPPER_NIBBLE],
 		   spd_data[DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_LOWER_NIBBLE]);
-        return 0;
+	}
+        ret = 0;
     }
+    return ret;
 }
 
 static int validate_spd_checksum(bdk_node_t node, int twsi_addr, int silent)
@@ -103,17 +102,14 @@ static int validate_spd_checksum(bdk_node_t node, int twsi_addr, int silent)
 
     /* Look up module type to determine if DDR3 or DDR4 */
     rv = bdk_twsix_read_ia(node, twsi_addr >> 12, twsi_addr & 0x7f, 2, 1, 1);
-    if (rv < 0)
-        return 0;   /* TWSI read error */
-    if (rv >= 0x8 && rv <= 0xA)
-        printf("%s: Error: DDR2 support disabled\n", __func__);
-    if (rv >= 0xB && rv <= 0xB) /* this is DDR3 */
+
+    if (rv >= 0xB && rv <= 0xC) /* this is DDR3 or DDR4, do same */
         return validate_spd_checksum_ddr3(node, twsi_addr, silent);
-    if (rv >= 0xC && rv <= 0xC) /* this is DDR4, do like DDR3 */
-	return validate_spd_checksum_ddr3(node, twsi_addr, silent);
-     if (!silent)
+
+    if (!silent)
         printf("Unrecognized DIMM type: 0x%x at spd address: 0x%x\n",
-            rv, twsi_addr);
+	       rv, twsi_addr);
+
     return 0;
 }
 
@@ -121,6 +117,7 @@ static int validate_spd_checksum(bdk_node_t node, int twsi_addr, int silent)
 int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_index)
 {
     int spd_addr;
+
     dimm_index = !!dimm_index;  /* Normalize to 0/1 */
     spd_addr = dimm_config->spd_addrs[dimm_index];
 
@@ -138,38 +135,26 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
 #endif
     {
         int val0, val1;
-        int dimm_type = read_spd(node, dimm_config, dimm_index,
-				 DDR3_SPD_KEY_BYTE_DEVICE_TYPE) & 0xff;
-        switch (dimm_type)
+        int ddr_type = get_ddr_type(node, dimm_config, dimm_index);
+
+        switch (ddr_type)
         {
-            case 0x0B:              /* DDR3 */
+            case DDR3_DRAM:              /* DDR3 */
+	    case DDR4_DRAM:              /* DDR4 */
+
 #ifdef DDR3_ENHANCE_PRINT
-                debug_print("Validating DDR3 DIMM %d\n", dimm_index);
+		debug_print("Validating DDR%d DIMM %d\n", ((dimm_type >> 2) & 3) + 1, dimm_index);
 #else
                 debug_print("Validating DIMM %d\n", dimm_index);
 #endif
-                val0 = read_spd(node, dimm_config, dimm_index, DDR3_SPD_DENSITY_BANKS);
-                val1 = read_spd(node, dimm_config, dimm_index, DDR3_SPD_ADDRESSING_ROW_COL_BITS);
-                if (val0 < 0 && val1 < 0)
-                {
-                    ddr_print("Error reading SPD for DIMM %d\n", dimm_index);
-                    return 0; /* Failed to read dimm */
-                }
-                if (val0 == 0xff && val1 == 0xff)
-                {
-                    ddr_print("Blank or unreadable SPD for DIMM %d\n", dimm_index);
-                    return 0; /* Blank SPD or otherwise unreadable device */
-                }
 
-                /* Don't treat bad checksums as fatal. */
-                validate_spd_checksum(node, spd_addr, 0);
-                break;
-	    case 0x0C:              /* DDR4 */
-		ddr_print("Validating DDR4 DIMM %d\n", dimm_index);
-		val0 = read_spd(node, dimm_config, dimm_index, DDR4_SPD_DENSITY_BANKS);
-		val1 = read_spd(node, dimm_config, dimm_index, DDR4_SPD_ADDRESSING_ROW_COL_BITS);
+#define DENSITY_BANKS DDR4_SPD_DENSITY_BANKS           // same for DDR3 and DDR4
+#define ROW_COL_BITS  DDR4_SPD_ADDRESSING_ROW_COL_BITS // same for DDR3 and DDR4
+
+		val0 = read_spd(node, dimm_config, dimm_index, DENSITY_BANKS);
+		val1 = read_spd(node, dimm_config, dimm_index, ROW_COL_BITS);
 		if (val0 < 0 && val1 < 0) {
-		    ddr_print("Error reading SPD for DIMM %d\n", dimm_index);
+		    debug_print("Error reading SPD for DIMM %d\n", dimm_index);
 		    return 0; /* Failed to read dimm */
 		}
 		if (val0 == 0xff && val1 == 0xff) {
@@ -180,6 +165,7 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
 		/* Don't treat bad checksums as fatal. */
 		validate_spd_checksum(node, spd_addr, 0);
 		break;
+
             default:
 #ifdef DDR3_ENHANCE_PRINT
 		debug_print("Unknown DIMM type 0x%x for DIMM %d @ 0x%x\n",
@@ -187,8 +173,8 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
 			     dimm_config->spd_addrs[dimm_index]);
 #else
 		debug_print("Unknown DIMM type 0x%x for DIMM %d @ 0x%x\n",
-			  dimm_type, dimm_index,
-			  dimm_config->spd_addrs[dimm_index]);
+			    dimm_type, dimm_index,
+			    dimm_config->spd_addrs[dimm_index]);
 #endif
                 return 0;      /* Failed to read dimm */
         }
@@ -197,16 +183,116 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
     return 1;
 }
 
+int get_dimm_part_number(char *buffer, bdk_node_t node,
+			   const dimm_config_t *dimm_config, int dimm_index,
+			   int ddr_type)
+{
+    int i;
+    int c;
+    int skipping = 1;
+    int strlen   = 0;
+
+#define PART_LIMIT(t)  (((t) == DDR4_DRAM) ? 19 : 18)
+#define PART_NUMBER(t) (((t) == DDR4_DRAM) ? DDR4_SPD_MODULE_PART_NUMBER : DDR3_SPD_MODULE_PART_NUMBER)
+
+    int limit  = PART_LIMIT(ddr_type);
+    int offset = PART_NUMBER(ddr_type);
+
+    for (i = 0; i < limit; ++i) {
+
+	c = (read_spd(node, dimm_config, dimm_index, offset+i) & 0xff);
+	if (c == 0) // any null, we are done
+	    break;
+
+	/* Skip leading spaces. */
+	if (skipping) {
+	    if (isspace(c))
+		continue;
+	    else
+		skipping = 0;
+	}
+
+	/* Put non-null non-leading-space-skipped char into buffer */
+	buffer[strlen] = c;
+	++strlen;
+    }
+
+    if (strlen > 0) {
+	i = strlen - 1; // last char put into buf
+	while (i >= 0 && isspace((int)buffer[i])) { // still in buf and a space
+	    --i;
+	    --strlen;
+	}
+    }
+    buffer[strlen] = 0;       /* Insure that the string is terminated */
+
+    return strlen;
+}
+
+uint32_t get_dimm_serial_number(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_index, int ddr_type)
+{
+    uint32_t serial_number = 0;
+    int offset;
+
+#define SERIAL_NUMBER(t) (((t) == DDR4_DRAM) ? DDR4_SPD_MODULE_SERIAL_NUMBER : DDR3_SPD_MODULE_SERIAL_NUMBER)
+
+    offset = SERIAL_NUMBER(ddr_type);
+
+    for (int i = 0, j = 24; i < 4; ++i, j -= 8) {
+        serial_number |= ((read_spd(node, dimm_config, dimm_index, offset + i) & 0xff) << j);
+    }
+
+    return serial_number;
+}
+
+static uint32_t get_dimm_checksum(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_index, int ddr_type)
+{
+    uint32_t spd_chksum;
+
+#define LOWER_NIBBLE(t) (((t) == DDR4_DRAM) ? DDR4_SPD_CYCLICAL_REDUNDANCY_CODE_LOWER_NIBBLE : DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_LOWER_NIBBLE)
+#define UPPER_NIBBLE(t) (((t) == DDR4_DRAM) ? DDR4_SPD_CYCLICAL_REDUNDANCY_CODE_UPPER_NIBBLE : DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_UPPER_NIBBLE)
+
+    spd_chksum  =   0xff & read_spd(node, dimm_config, dimm_index, LOWER_NIBBLE(ddr_type));
+    spd_chksum |= ((0xff & read_spd(node, dimm_config, dimm_index, UPPER_NIBBLE(ddr_type))) << 8);
+
+    return spd_chksum;
+}
+
 static
-void report_ddr3_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm, int dimm)
+void report_common_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm, int dimm,
+			const char **dimm_types, int ddr_type, char *volt_str)
 {
     int spd_ecc;
     unsigned spd_module_type;
-    int i;
-    int strlen;
     uint32_t serial_number;
+    char part_number[21]; /* 20 bytes plus string terminator is big enough for either */
+    char *sn_str;
+
+    spd_module_type = get_dimm_module_type(node, dimm_config, upper_dimm, ddr_type);
+    spd_ecc = get_dimm_ecc(node, dimm_config, upper_dimm, ddr_type);
+
+    (void) get_dimm_part_number(part_number, node, dimm_config, upper_dimm, ddr_type);
+
+    serial_number = get_dimm_serial_number(node, dimm_config, upper_dimm, ddr_type);
+    if ((serial_number != 0) && (serial_number != 0xffffffff)) {
+        sn_str = "s/n";
+    } else {
+        serial_number = get_dimm_checksum(node, dimm_config, upper_dimm, ddr_type);
+        sn_str = "chksum";
+    }
+
+    // FIXME: add output of DIMM rank/width, as in: 2Rx4, 1Rx8, etc
+    printf("DIMM %d: DDR%d %s, %s  %s  %s: %u   %s\n", dimm, ddr_type, dimm_types[spd_module_type],
+	   (spd_ecc ? "ECC" : "non-ECC"), part_number, sn_str, serial_number, volt_str);
+}
+
+static
+void report_ddr3_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm, int dimm)
+{
     int spd_voltage;
-    static const char *dimm_types[] = {
+    char *volt_str;
+
+    static const char *dimm_types[16] = {
         /* 0000	*/ "Undefined",
         /* 0001	*/ "RDIMM",
         /* 0010	*/ "UDIMM",
@@ -218,114 +304,32 @@ void report_ddr3_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upp
         /* 1000	*/ "72b-SO-UDIMM",
         /* 1001	*/ "72b-SO-RDIMM",
         /* 1010	*/ "72b-SO-CDIMM"
+	/* 1011 */ "LRDIMM",
+	/* 1100 */ "16b-SO-DIMM",
+	/* 1101 */ "32b-SO-DIMM",
+	/* 1110 */ "Reserved",
+	/* 1111 */ "Reserved"
     };
-    char part_number[19] = { 0 }; /* 18 bytes plus string terminator */
-
-    upper_dimm = !!upper_dimm;  /* Normalize to 0/1 */
-
-    spd_module_type = read_spd(node, dimm_config, upper_dimm,
-        DDR3_SPD_KEY_BYTE_MODULE_TYPE);
-
-    /* Validate dimm type */
-    spd_module_type = (spd_module_type >= (sizeof(dimm_types) / sizeof(char *)))
-        ? 0 : spd_module_type;
-
-    spd_ecc = !!(read_spd(node, dimm_config, upper_dimm, DDR3_SPD_MEMORY_BUS_WIDTH) & 8);
-
-    printf("DIMM %d: DDR3 %s, %s", dimm,
-        dimm_types[spd_module_type], (spd_ecc ? "ECC" : "non-ECC"));
-
-    strlen = 0;
-    for (i = 0; i < 18; ++i)
-    {
-        part_number[i] = (read_spd(node, dimm_config, upper_dimm, i + 128) & 0xff);
-        if (part_number[i])
-            ++strlen;
-        /* debug_print("spd[%d]: 0x%02x\n", i+128, part_number[i]); */
-    }
-    if (strlen)
-        printf("  %s", part_number);
-
-    serial_number = 0;
-    for (i = 0; i < 4; ++i)
-    {
-        serial_number |= ((read_spd(node, dimm_config, upper_dimm, 122 + i) & 0xff) << ((3 - i) * 8));
-    }
-    if ((serial_number != 0) && (serial_number != 0xffffffff))
-    {
-        printf("  s/n %u", serial_number);
-    }
-    else
-    {
-        unsigned spd_chksum;
-        spd_chksum  =   0xff & read_spd(node, dimm_config, upper_dimm,
-            DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_LOWER_NIBBLE);
-        spd_chksum |= ((0xff & read_spd(node, dimm_config, upper_dimm,
-                    DDR3_SPD_CYCLICAL_REDUNDANCY_CODE_UPPER_NIBBLE)) << 8);
-        printf("  chksum: %u (0x%04x)", spd_chksum, spd_chksum);
-    }
 
     spd_voltage = read_spd(node, dimm_config, upper_dimm, DDR3_SPD_NOMINAL_VOLTAGE);
     if ((spd_voltage == 0) || (spd_voltage & 3))
-        printf(" 1.5V");
+        volt_str = "1.5V";
     if (spd_voltage & 2)
-        printf(" 1.35V");
+        volt_str = "1.35V";
     if (spd_voltage & 4)
-        printf(" 1.2xV");
+        volt_str = "1.2xV";
 
-    printf("\n");
+    report_common_dimm(node, dimm_config, upper_dimm, dimm, dimm_types, DDR3_DRAM, volt_str);
 }
 
-
-int get_dimm_part_number(char *buffer, bdk_node_t node, const dimm_config_t *dimm_config, int dimm_index)
+static
+void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm, int dimm)
 {
-    int i;
-    int strlen = 0;
-    int c;
-
-    /* Skip leading spaces. */
-    for (i = 0; i < 19; ++i) {
-	c = (read_spd(node, dimm_config, dimm_index,
-                      DDR4_SPD_MODULE_PART_NUMBER+i) & 0xff);
-        if (!isspace(c)) {
-            break;
-        }
-    }
-
-    /* Copy the part number into the buffer */
-    for (i = i; i < 19; ++i) {
-	buffer[strlen] = (read_spd(node, dimm_config, dimm_index,
-				   DDR4_SPD_MODULE_PART_NUMBER+i) & 0xff);
-	if (buffer[strlen])
-	    ++strlen;
-        else
-            break;
-
-	/* debug_print("spd[%d]: 0x%02x\n", DDR4_SPD_MODULE_PART_NUMBER+i, part_number[i]); */
-    }
-
-    --strlen; /* point to the last character */
-
-    /* Remove trailing spaces */
-    while (isspace((int)buffer[strlen]) && strlen) {
-        --strlen;
-    }
-
-    buffer[strlen+1] = 0;       /* Insure that the string is terminated */
-    return strlen;
-}
-
-static void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm,
-			     int dimm)
-{
-    int spd_ecc;
-    unsigned spd_module_type;
-    int i;
-    int strlen;
-    uint32_t serial_number;
     int spd_voltage;
-    static const char *dimm_types[] = {
-	/* 0000 */ "Undefined",
+    char *volt_str;
+
+    static const char *dimm_types[16] = {
+	/* 0000 */ "Extended",
 	/* 0001 */ "RDIMM",
 	/* 0010 */ "UDIMM",
 	/* 0011 */ "SO-DIMM",
@@ -335,74 +339,33 @@ static void report_ddr4_dimm(bdk_node_t node, const dimm_config_t *dimm_config, 
 	/* 0111 */ "Reserved",
 	/* 1000 */ "72b-SO-RDIMM",
 	/* 1001 */ "72b-SO-UDIMM",
+	/* 1010 */ "Reserved",
 	/* 1011 */ "Reserved",
 	/* 1100 */ "16b-SO-DIMM",
 	/* 1101 */ "32b-SO-DIMM",
 	/* 1110 */ "Reserved",
-	/* 1111 */ "Undefined"
+	/* 1111 */ "Reserved"
     };
-
-    char part_number[20] = {0}; /* 18 bytes plus string terminator */
-
-    upper_dimm = !!upper_dimm;  /* Normalize to 0/1 */
-
-    spd_module_type = read_spd(node, dimm_config, upper_dimm,
-			       DDR4_SPD_KEY_BYTE_MODULE_TYPE);
-
-    /* Validate dimm type */
-    spd_module_type = (spd_module_type > (sizeof(dimm_types)/sizeof(char*)))
-	? 0 : spd_module_type;
-
-    spd_ecc = !!(read_spd(node, dimm_config, upper_dimm, DDR4_SPD_MODULE_MEMORY_BUS_WIDTH) & 8);
-
-    printf("DIMM %d: DDR4 %s, %s", dimm,
-	   dimm_types[spd_module_type], (spd_ecc ? "ECC" : "non-ECC"));
-
-    strlen = get_dimm_part_number(part_number, node, dimm_config, upper_dimm);
-    if (strlen)
-	printf("  %s", part_number);
-
-    serial_number = 0;
-    for (i = 0 ; i < 4; ++i) {
-	serial_number |= ((read_spd(node, dimm_config, upper_dimm,
-				    DDR4_SPD_MODULE_SERIAL_NUMBER+i) & 0xff) << ((3-i)*8));
-    }
-    if ((serial_number!=0) && (serial_number!=0xffffffff)) {
-	printf("  s/n %u", serial_number);
-    } else {
-	unsigned spd_chksum;
-	spd_chksum  =   0xff & read_spd(node, dimm_config, upper_dimm,
-					DDR4_SPD_CYCLICAL_REDUNDANCY_CODE_LOWER_NIBBLE);
-	spd_chksum |= ((0xff & read_spd(node, dimm_config, upper_dimm,
-					DDR4_SPD_CYCLICAL_REDUNDANCY_CODE_UPPER_NIBBLE)) << 8);
-	printf("  chksum: %u (0x%04x)", spd_chksum, spd_chksum);
-    }
 
     spd_voltage = read_spd(node, dimm_config, upper_dimm, DDR4_SPD_MODULE_NOMINAL_VOLTAGE);
     if ((spd_voltage == 0x01) || (spd_voltage & 0x02))
-	printf(" 1.2V");
+	volt_str = "1.2V";
     if ((spd_voltage == 0x04) || (spd_voltage & 0x08))
-	printf(" TBD1 V");
+	volt_str = "TBD1 V";
     if ((spd_voltage == 0x10) || (spd_voltage & 0x20))
-	printf(" TBD2 V");
+	volt_str = "TBD2 V";
 
-    printf("\n");
+    report_common_dimm(node, dimm_config, upper_dimm, dimm, dimm_types, DDR4_DRAM, volt_str);
 }
 
-void report_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm,
-			     int dimm)
+void report_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int upper_dimm, int dimm)
 {
-        int spd_ddr_type;
         int ddr_type;
-	upper_dimm = !!upper_dimm;  /* Normalize to 0/1 */
-        spd_ddr_type = read_spd(node, dimm_config, upper_dimm, DDR4_SPD_KEY_BYTE_DEVICE_TYPE);
-
-        debug_print("%s:%d spd_ddr_type=0x%02x\n", __FUNCTION__, __LINE__, spd_ddr_type);
 
         /* ddr_type only indicates DDR4 or DDR3 */
-        ddr_type = (spd_ddr_type == 0x0C) ? 4 : 3;
+        ddr_type = get_ddr_type(node, dimm_config, upper_dimm);
 
-        if (ddr_type == 4)
+        if (ddr_type == DDR4_DRAM)
 	    report_ddr4_dimm(node, dimm_config, 0, dimm);
         else
 	    report_ddr3_dimm(node, dimm_config, 0, dimm);
