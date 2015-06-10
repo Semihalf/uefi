@@ -16,115 +16,115 @@
 static void setup_modereg_params1_1rank_1slot(bdk_lmcx_modereg_params1_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.pasr_00      = 0;
-    modereg->s.asr_00       = 0;
-    modereg->s.srt_00       = 0;
-    modereg->s.rtt_wr_00    = 0;
-    modereg->s.dic_00       = 0;
+    //modereg->s.pasr_00      = 0;
+    //modereg->s.asr_00       = 0;
+    //modereg->s.srt_00       = 0;
+    //modereg->s.rtt_wr_00    = 0;
+    //modereg->s.dic_00       = 0;
     modereg->s.rtt_nom_00   = rttnom_40ohm;
-    modereg->s.pasr_01      = 0;
-    modereg->s.asr_01       = 0;
-    modereg->s.srt_01       = 0;
-    modereg->s.rtt_wr_01    = 0;
-    modereg->s.dic_01       = 0;
-    modereg->s.rtt_nom_01   = 0;
-    modereg->s.pasr_10      = 0;
-    modereg->s.asr_10       = 0;
-    modereg->s.srt_10       = 0;
-    modereg->s.rtt_wr_10    = 0;
-    modereg->s.dic_10       = 0;
-    modereg->s.rtt_nom_10   = 0;
-    modereg->s.pasr_11      = 0;
-    modereg->s.asr_11       = 0;
-    modereg->s.srt_11       = 0;
-    modereg->s.rtt_wr_11    = 0;
-    modereg->s.dic_11       = 0;
-    modereg->s.rtt_nom_11   = 0;
+    //modereg->s.pasr_01      = 0;
+    //modereg->s.asr_01       = 0;
+    //modereg->s.srt_01       = 0;
+    //modereg->s.rtt_wr_01    = 0;
+    //modereg->s.dic_01       = 0;
+    //modereg->s.rtt_nom_01   = 0;
+    //modereg->s.pasr_10      = 0;
+    //modereg->s.asr_10       = 0;
+    //modereg->s.srt_10       = 0;
+    //modereg->s.rtt_wr_10    = 0;
+    //modereg->s.dic_10       = 0;
+    //modereg->s.rtt_nom_10   = 0;
+    //modereg->s.pasr_11      = 0;
+    //modereg->s.asr_11       = 0;
+    //modereg->s.srt_11       = 0;
+    //modereg->s.rtt_wr_11    = 0;
+    //modereg->s.dic_11       = 0;
+    //modereg->s.rtt_nom_11   = 0;
 }
 
 static void setup_modereg_params1_1rank_2slot(bdk_lmcx_modereg_params1_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.pasr_00      = 0;
-    modereg->s.asr_00       = 0;
-    modereg->s.srt_00       = 0;
+    //modereg->s.pasr_00      = 0;
+    //modereg->s.asr_00       = 0;
+    //modereg->s.srt_00       = 0;
     modereg->s.rtt_wr_00    = rttwr_120ohm;
-    modereg->s.dic_00       = 0;
+    //modereg->s.dic_00       = 0;
     modereg->s.rtt_nom_00   = rttnom_20ohm;
-    modereg->s.pasr_01      = 0;
-    modereg->s.asr_01       = 0;
-    modereg->s.srt_01       = 0;
-    modereg->s.rtt_wr_01    = 0;
-    modereg->s.dic_01       = 0;
-    modereg->s.rtt_nom_01   = 0;
-    modereg->s.pasr_10      = 0;
-    modereg->s.asr_10       = 0;
-    modereg->s.srt_10       = 0;
+    //modereg->s.pasr_01      = 0;
+    //modereg->s.asr_01       = 0;
+    //modereg->s.srt_01       = 0;
+    //modereg->s.rtt_wr_01    = 0;
+    //modereg->s.dic_01       = 0;
+    //modereg->s.rtt_nom_01   = 0;
+    //modereg->s.pasr_10      = 0;
+    //modereg->s.asr_10       = 0;
+    //modereg->s.srt_10       = 0;
     modereg->s.rtt_wr_10    = rttwr_120ohm;
-    modereg->s.dic_10       = 0;
+    //modereg->s.dic_10       = 0;
     modereg->s.rtt_nom_10   = rttnom_20ohm;
-    modereg->s.pasr_11      = 0;
-    modereg->s.asr_11       = 0;
-    modereg->s.srt_11       = 0;
-    modereg->s.rtt_wr_11    = 0;
-    modereg->s.dic_11       = 0;
-    modereg->s.rtt_nom_11   = 0;
+    //modereg->s.pasr_11      = 0;
+    //modereg->s.asr_11       = 0;
+    //modereg->s.srt_11       = 0;
+    //modereg->s.rtt_wr_11    = 0;
+    //modereg->s.dic_11       = 0;
+    //modereg->s.rtt_nom_11   = 0;
 }
 
 static void setup_modereg_params1_2rank_1slot(bdk_lmcx_modereg_params1_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.pasr_00      = 0;
-    modereg->s.asr_00       = 0;
-    modereg->s.srt_00       = 0;
-    modereg->s.rtt_wr_00    = 0;
-    modereg->s.dic_00       = 0;
+    //modereg->s.pasr_00      = 0;
+    //modereg->s.asr_00       = 0;
+    //modereg->s.srt_00       = 0;
+    //modereg->s.rtt_wr_00    = 0;
+    //modereg->s.dic_00       = 0;
     modereg->s.rtt_nom_00   = rttnom_40ohm;
-    modereg->s.pasr_01      = 0;
-    modereg->s.asr_01       = 0;
-    modereg->s.srt_01       = 0;
-    modereg->s.rtt_wr_01    = 0;
-    modereg->s.dic_01       = 0;
-    modereg->s.rtt_nom_01   = 0;
-    modereg->s.pasr_10      = 0;
-    modereg->s.asr_10       = 0;
-    modereg->s.srt_10       = 0;
-    modereg->s.rtt_wr_10    = 0;
-    modereg->s.dic_10       = 0;
-    modereg->s.rtt_nom_10   = 0;
-    modereg->s.pasr_11      = 0;
-    modereg->s.asr_11       = 0;
-    modereg->s.srt_11       = 0;
-    modereg->s.rtt_wr_11    = 0;
-    modereg->s.dic_11       = 0;
-    modereg->s.rtt_nom_11   = 0;
+    //modereg->s.pasr_01      = 0;
+    //modereg->s.asr_01       = 0;
+    //modereg->s.srt_01       = 0;
+    //modereg->s.rtt_wr_01    = 0;
+    //modereg->s.dic_01       = 0;
+    //modereg->s.rtt_nom_01   = 0;
+    //modereg->s.pasr_10      = 0;
+    //modereg->s.asr_10       = 0;
+    //modereg->s.srt_10       = 0;
+    //modereg->s.rtt_wr_10    = 0;
+    //modereg->s.dic_10       = 0;
+    //modereg->s.rtt_nom_10   = 0;
+    //modereg->s.pasr_11      = 0;
+    //modereg->s.asr_11       = 0;
+    //modereg->s.srt_11       = 0;
+    //modereg->s.rtt_wr_11    = 0;
+    //modereg->s.dic_11       = 0;
+    //modereg->s.rtt_nom_11   = 0;
 }
 
 static void setup_modereg_params1_2rank_2slot(bdk_lmcx_modereg_params1_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.pasr_00      = 0;
-    modereg->s.asr_00       = 0;
-    modereg->s.srt_00       = 0;
-    modereg->s.rtt_wr_00    = 0;
+    //modereg->s.pasr_00      = 0;
+    //modereg->s.asr_00       = 0;
+    //modereg->s.srt_00       = 0;
+    //modereg->s.rtt_wr_00    = 0;
     modereg->s.dic_00       = dic_34ohm;
     modereg->s.rtt_nom_00   = rttnom_20ohm;
-    modereg->s.pasr_01      = 0;
-    modereg->s.asr_01       = 0;
-    modereg->s.srt_01       = 0;
-    modereg->s.rtt_wr_01    = 0;
+    //modereg->s.pasr_01      = 0;
+    //modereg->s.asr_01       = 0;
+    //modereg->s.srt_01       = 0;
+    //modereg->s.rtt_wr_01    = 0;
     modereg->s.dic_01       = dic_34ohm;
     modereg->s.rtt_nom_01   = rttnom_60ohm;
-    modereg->s.pasr_10      = 0;
-    modereg->s.asr_10       = 0;
-    modereg->s.srt_10       = 0;
-    modereg->s.rtt_wr_10    = 0;
+    //modereg->s.pasr_10      = 0;
+    //modereg->s.asr_10       = 0;
+    //modereg->s.srt_10       = 0;
+    //modereg->s.rtt_wr_10    = 0;
     modereg->s.dic_10       = dic_34ohm;
     modereg->s.rtt_nom_10   = rttnom_20ohm;
-    modereg->s.pasr_11      = 0;
-    modereg->s.asr_11       = 0;
-    modereg->s.srt_11       = 0;
-    modereg->s.rtt_wr_11    = 0;
+    //modereg->s.pasr_11      = 0;
+    //modereg->s.asr_11       = 0;
+    //modereg->s.srt_11       = 0;
+    //modereg->s.rtt_wr_11    = 0;
     modereg->s.dic_11       = dic_34ohm;
     modereg->s.rtt_nom_11   = rttnom_60ohm;
 }
@@ -132,27 +132,27 @@ static void setup_modereg_params1_2rank_2slot(bdk_lmcx_modereg_params1_t *modere
 static void setup_modereg_params1_4rank_1slot(bdk_lmcx_modereg_params1_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.pasr_00      = 0;
-    modereg->s.asr_00       = 0;
-    modereg->s.srt_00       = 0;
+    //modereg->s.pasr_00      = 0;
+    //modereg->s.asr_00       = 0;
+    //modereg->s.srt_00       = 0;
     modereg->s.rtt_wr_00    = rttwr_60ohm;
     modereg->s.dic_00       = dic_34ohm;
     modereg->s.rtt_nom_00   = rttnom_20ohm;
-    modereg->s.pasr_01      = 0;
-    modereg->s.asr_01       = 0;
-    modereg->s.srt_01       = 0;
+    //modereg->s.pasr_01      = 0;
+    //modereg->s.asr_01       = 0;
+    //modereg->s.srt_01       = 0;
     modereg->s.rtt_wr_01    = rttwr_60ohm;
     modereg->s.dic_01       = dic_34ohm;
     modereg->s.rtt_nom_01   = rttnom_none;
-    modereg->s.pasr_10      = 0;
-    modereg->s.asr_10       = 0;
-    modereg->s.srt_10       = 0;
+    //modereg->s.pasr_10      = 0;
+    //modereg->s.asr_10       = 0;
+    //modereg->s.srt_10       = 0;
     modereg->s.rtt_wr_10    = rttwr_60ohm;
     modereg->s.dic_10       = dic_34ohm;
     modereg->s.rtt_nom_10   = rttnom_20ohm;
-    modereg->s.pasr_11      = 0;
-    modereg->s.asr_11       = 0;
-    modereg->s.srt_11       = 0;
+    //modereg->s.pasr_11      = 0;
+    //modereg->s.asr_11       = 0;
+    //modereg->s.srt_11       = 0;
     modereg->s.rtt_wr_11    = rttwr_60ohm;
     modereg->s.dic_11       = dic_34ohm;
     modereg->s.rtt_nom_11   = rttnom_none;
@@ -207,9 +207,6 @@ static void setup_dram_odt_4rank_configuration(dimm_odt_config_t odt[4])
     odt[dimm].dic = 0; /* Reserved */
 }
 
-static const int8_t dll_read_offset  [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-static const int8_t dll_write_offset [9]      = {0, 0, 0, 0, 0, 0, 0, 0, 0};
-
 static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
 {
     cfg->min_rtt_nom_idx        = 1;
@@ -232,8 +229,8 @@ static void setup_dram_custom_lmc_config(ddr3_custom_config_t *cfg)
     cfg->ddr2t_rdimm            = 1;
     cfg->maximum_adjacent_rlevel_delay_increment = 1;
     cfg->fprch2                 = 2;
-    cfg->dll_write_offset       = dll_write_offset;
-    cfg->dll_read_offset        = dll_read_offset;
+    cfg->dll_write_offset       = NULL; // was: dll_write_offset;
+    cfg->dll_read_offset        = NULL; // was: dll_read_offset;
     cfg->parity                 = 0;
     cfg->rlevel_table		= 0;
 }

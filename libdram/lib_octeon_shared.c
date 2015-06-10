@@ -627,6 +627,24 @@ static void cn78xx_lmc_dreset_init (bdk_node_t node, int ddr_interface_num)
 			c.s.dreset = 0);
 }
 
+#define LMC_DDR3_RESET_ASSERT   0
+#define LMC_DDR3_RESET_DEASSERT 1
+static void cn88xx_lmc_ddr3_reset(bdk_node_t node, int ddr_interface_num, int reset)
+{
+    /*
+     * 4. Deassert DDRn_RESET_L pin by writing LMC(0..3)_RESET_CTL[DDR3RST] = 1
+     *    without modifying any other LMC(0..3)_RESET_CTL fields.
+     * 5. Read LMC(0..3)_RESET_CTL and wait for the result.
+     * 6. Wait a minimum of 500us. This guarantees the necessary T = 500us
+     *    delay between DDRn_RESET_L deassertion and DDRn_DIMM*_CKE* assertion.
+     */
+    ddr_print("LMC%d %s DDR_RESET_L\n", ddr_interface_num,
+	      (reset == LMC_DDR3_RESET_DEASSERT) ? "De-asserting" : "Asserting");
+    DRAM_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
+		    c.s.ddr3rst = reset);
+    BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(ddr_interface_num));
+    bdk_wait_usec(500);
+}
 
 int initialize_ddr_clock(bdk_node_t node,
 			 const ddr_configuration_t *ddr_configuration,
@@ -667,11 +685,9 @@ int initialize_ddr_clock(bdk_node_t node,
 
         bdk_lmcx_ddr_pll_ctl_t ddr_pll_ctl;
         const dimm_config_t *dimm_config_table = ddr_configuration->dimm_config_table;
-        int ddr_type;
 
         /* ddr_type only indicates DDR4 or DDR3 */
-        ddr_type = (read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_KEY_BYTE_DEVICE_TYPE) == 0x0C)
-	    ? DDR4_DRAM : DDR3_DRAM;
+        int ddr_type = get_ddr_type(node, &dimm_config_table[0], 0);
 
         /*
          * 6.9 LMC Initialization Sequence
@@ -833,17 +849,13 @@ int initialize_ddr_clock(bdk_node_t node,
 
             for (loop_interface_num = 0;
                  ( !ddr_memory_preserved(node)) && loop_interface_num < 4;
-                 ++loop_interface_num) {
-                bdk_lmcx_reset_ctl_t reset_ctl;
+                 ++loop_interface_num)
+	    {
 
                 if ((ddr_interface_mask & (1 << loop_interface_num)) == 0)
                     continue;
 
-                reset_ctl.u = BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(loop_interface_num));
-                reset_ctl.s.ddr3rst = 0; /* Reset asserted */
-                ddr_print("LMC%d Asserting DDR_RESET_L\n", loop_interface_num);
-                DRAM_CSR_WRITE(node, BDK_LMCX_RESET_CTL(loop_interface_num), reset_ctl.u);
-                BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(loop_interface_num));
+		cn88xx_lmc_ddr3_reset(node, loop_interface_num, LMC_DDR3_RESET_ASSERT);
             }
 
             /*
@@ -1391,38 +1403,16 @@ int initialize_ddr_clock(bdk_node_t node,
             /*
              * 4. Deassert DDRn_RESET_L pin by writing LMC(0..3)_RESET_CTL[DDR3RST] = 1
              *    without modifying any other LMC(0..3)_RESET_CTL fields.
-             */
-
-            ddr_print("LMC%d De-asserting DDR_RESET_L\n", ddr_interface_num);
-            DRAM_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
-			    c.s.ddr3rst = 1);
-
-            /*
              * 5. Read LMC(0..3)_RESET_CTL and wait for the result.
-             */
-
-            BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(ddr_interface_num));
-
-            /*
              * 6. Wait a minimum of 500us. This guarantees the necessary T = 500us
              *    delay between DDRn_RESET_L deassertion and DDRn_DIMM*_CKE* assertion.
              */
-
-            bdk_wait_usec(500);
+	    cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_DEASSERT);
 
             /* Toggle Reset Again */
 	    /* That is, assert, then de-assert, one more time */
-            ddr_print("LMC%d Asserting DDR_RESET_L\n", ddr_interface_num);
-            DRAM_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
-			    c.s.ddr3rst = 0);
-            BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(ddr_interface_num));
-            bdk_wait_usec(500);
-
-            ddr_print("LMC%d De-asserting DDR_RESET_L\n", ddr_interface_num);
-            DRAM_CSR_MODIFY(c, node, BDK_LMCX_RESET_CTL(ddr_interface_num),
-			    c.s.ddr3rst = 1);
-            BDK_CSR_READ(node, BDK_LMCX_RESET_CTL(ddr_interface_num));
-            bdk_wait_usec(500);
+	    cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_ASSERT);
+	    cn88xx_lmc_ddr3_reset(node, ddr_interface_num, LMC_DDR3_RESET_DEASSERT);
 
         } /* if ( !ddr_memory_preserved(node)) */
     } /* if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) */
@@ -1550,7 +1540,9 @@ int octeon_ddr_initialize(bdk_node_t node,
     for (interface_index=0; interface_index<4; ++interface_index) {
 	if ((ddr_interface_mask & (1<<interface_index))
 	    && validate_dimm(node, &ddr_configuration[(int)interface_index].dimm_config_table[0], 0))
+	{
 	    ddr_config_valid_mask |= (1 << interface_index);
+	}
     }
 
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX)) {
@@ -1590,8 +1582,11 @@ int octeon_ddr_initialize(bdk_node_t node,
 					     ddr_config_valid_mask);
 	if (tmp_hertz > 0)
 	    calc_ddr_hertz = tmp_hertz;
+
+#if 0 // this should already be printed in more detail before returning from the above...
 	ddr_print("LMC%d: measured speed: %u hz\n",
 		  interface_index, tmp_hertz);
+#endif
     }
 
     if (measured_ddr_hertz)
