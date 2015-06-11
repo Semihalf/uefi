@@ -1357,6 +1357,16 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
             return -1;
     }
 
+    /* For some reason PRBS doesn't work if GSER is configured for PCIe.
+       Disconnect PCIe when we start PRBS */
+    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+    if (gserx_cfg.s.pcie)
+    {
+        gserx_cfg.s.pcie = 0;
+        BDK_CSR_WRITE(node, BDK_GSERX_CFG(qlm), gserx_cfg.u);
+        bdk_warn("N%d.QLM%d: Disabling PCIe for PRBS\n", node, qlm);
+    }
+
     BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
         c.s.phy_reset = 0);
 
