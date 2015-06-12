@@ -13,6 +13,7 @@ import telnetlib
 #
 class Log:
     def __init__(self, filename):
+        filename += time.strftime("-%Y-%m-%d-%H:%M:%S")
         self.file = open(filename, "w")
         self.outputbuf = ""
         self.saw_cr = False
