@@ -1664,7 +1664,9 @@ typedef union bdk_iobnx_slitagx_control {
 	uint64_t u;
 	struct bdk_iobnx_slitagx_control_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_4_63               : 60;
+		uint64_t reserved_9_63               : 55;
+		uint64_t bits_dis                    : 1;  /**< RAZ - Reserved. */
+		uint64_t reserved_4_7                : 4;
 		uint64_t ld_ld_ord                   : 1;  /**< R/W - Enforce load-following-load ordering for SLI operations. A load operation must
                                                                  wait for all previous load operations' FILLs before issuing.
 
@@ -1687,7 +1689,9 @@ typedef union bdk_iobnx_slitagx_control {
 		uint64_t st_ld_ord                   : 1;
 		uint64_t ld_st_ord                   : 1;
 		uint64_t ld_ld_ord                   : 1;
-		uint64_t reserved_4_63               : 60;
+		uint64_t reserved_4_7                : 4;
+		uint64_t bits_dis                    : 1;
+		uint64_t reserved_9_63               : 55;
 #endif
 	} s;
 	/* struct bdk_iobnx_slitagx_control_s cn88xx; */

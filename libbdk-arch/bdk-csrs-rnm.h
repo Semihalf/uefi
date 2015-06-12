@@ -188,7 +188,6 @@ typedef union bdk_rnm_eer_dbg {
 		uint64_t dat                         : 64;
 #endif
 	} s;
-	/* struct bdk_rnm_eer_dbg_s           cn88xx; */
 	/* struct bdk_rnm_eer_dbg_s           cn88xxp1; */
 } bdk_rnm_eer_dbg_t;
 
@@ -196,7 +195,9 @@ typedef union bdk_rnm_eer_dbg {
 static inline uint64_t BDK_RNM_EER_DBG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RNM_EER_DBG_FUNC(void)
 {
-	return 0x000087E040000018ull;
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+		return 0x000087E040000018ull;
+	else 		csr_fatal("BDK_RNM_EER_DBG", 0, 0, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_RNM_EER_DBG bdk_rnm_eer_dbg_t
 #define bustype_BDK_RNM_EER_DBG BDK_CSR_TYPE_RSL

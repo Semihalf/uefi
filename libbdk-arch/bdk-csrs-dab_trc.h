@@ -1055,13 +1055,27 @@ typedef union bdk_trcx_trcdevaff0 {
 	uint32_t u;
 	struct bdk_trcx_trcdevaff0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_24_31              : 8;
+		uint32_t aff2                        : 8;  /**< RO/H - AFF2, this is node id. Added in pass 2. */
+		uint32_t aff1                        : 8;  /**< RO/H - AFF1, this is the group of 16 cores within a node
+                                                                 Added in pass 2. */
+		uint32_t aff0                        : 8;  /**< RO/H - AFF0, this is the core within a group of 16
+                                                                 Added in pass 2. */
+#else
+		uint32_t aff0                        : 8;
+		uint32_t aff1                        : 8;
+		uint32_t aff2                        : 8;
+		uint32_t reserved_24_31              : 8;
+#endif
+	} s;
+	/* struct bdk_trcx_trcdevaff0_s       cn88xx; */
+	struct bdk_trcx_trcdevaff0_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_0_31               : 32;
 #else
 		uint32_t reserved_0_31               : 32;
 #endif
-	} s;
-	/* struct bdk_trcx_trcdevaff0_s       cn88xx; */
-	/* struct bdk_trcx_trcdevaff0_s       cn88xxp1; */
+	} cn88xxp1;
 } bdk_trcx_trcdevaff0_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -1760,7 +1774,7 @@ typedef union bdk_trcx_trcidr2 {
 	struct bdk_trcx_trcidr2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_31_31              : 1;
-		uint32_t vmidopt                     : 2;  /**< RO - Read as one. added in Pass 2. */
+		uint32_t vmidopt                     : 2;  /**< RO - Read as one. Added in pass 2. */
 		uint32_t ccsize                      : 4;  /**< RO - Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
                                                                  cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
 

@@ -739,11 +739,8 @@ typedef union bdk_pemx_dbg_ena_w1c {
 	uint64_t u;
 	struct bdk_pemx_dbg_ena_w1c_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_61_63              : 3;
-		uint64_t m2s_d1_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 double bit error. Added in pass 2. */
-		uint64_t m2s_d1_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 single bit error. Added in pass 2. */
-		uint64_t m2s_d0_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 double bit error. Added in pass 2. */
-		uint64_t m2s_d0_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 single bit error. Added in pass 2. */
+		uint64_t reserved_58_63              : 6;
+		uint64_t m2s_pe                      : 1;  /**< R/W1C/H - Detected a M2S FIFO parity error. Added in pass 2. */
 		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
 		uint64_t qhdr_b1_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 single bit error. */
 		uint64_t qhdr_b0_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 double bit error. */
@@ -869,11 +866,8 @@ typedef union bdk_pemx_dbg_ena_w1c {
 		uint64_t qhdr_b0_dbe                 : 1;
 		uint64_t qhdr_b1_sbe                 : 1;
 		uint64_t qhdr_b1_dbe                 : 1;
-		uint64_t m2s_d0_sbe                  : 1;
-		uint64_t m2s_d0_dbe                  : 1;
-		uint64_t m2s_d1_sbe                  : 1;
-		uint64_t m2s_d1_dbe                  : 1;
-		uint64_t reserved_61_63              : 3;
+		uint64_t m2s_pe                      : 1;
+		uint64_t reserved_58_63              : 6;
 #endif
 	} s;
 	/* struct bdk_pemx_dbg_ena_w1c_s      cn88xx; */
@@ -1031,11 +1025,8 @@ typedef union bdk_pemx_dbg_ena_w1s {
 	uint64_t u;
 	struct bdk_pemx_dbg_ena_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_61_63              : 3;
-		uint64_t m2s_d1_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 double bit error. Added in pass 2. */
-		uint64_t m2s_d1_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 single bit error. Added in pass 2. */
-		uint64_t m2s_d0_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 double bit error. Added in pass 2. */
-		uint64_t m2s_d0_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 single bit error. Added in pass 2. */
+		uint64_t reserved_58_63              : 6;
+		uint64_t m2s_pe                      : 1;  /**< R/W1C/H - Detected a M2S FIFO parity error. Added in pass 2. */
 		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
 		uint64_t qhdr_b1_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 single bit error. */
 		uint64_t qhdr_b0_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 double bit error. */
@@ -1161,11 +1152,8 @@ typedef union bdk_pemx_dbg_ena_w1s {
 		uint64_t qhdr_b0_dbe                 : 1;
 		uint64_t qhdr_b1_sbe                 : 1;
 		uint64_t qhdr_b1_dbe                 : 1;
-		uint64_t m2s_d0_sbe                  : 1;
-		uint64_t m2s_d0_dbe                  : 1;
-		uint64_t m2s_d1_sbe                  : 1;
-		uint64_t m2s_d1_dbe                  : 1;
-		uint64_t reserved_61_63              : 3;
+		uint64_t m2s_pe                      : 1;
+		uint64_t reserved_58_63              : 6;
 #endif
 	} s;
 	/* struct bdk_pemx_dbg_ena_w1s_s      cn88xx; */
@@ -1326,11 +1314,8 @@ typedef union bdk_pemx_dbg_info {
 	uint64_t u;
 	struct bdk_pemx_dbg_info_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_61_63              : 3;
-		uint64_t m2s_d1_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 double bit error. Added in pass 2. */
-		uint64_t m2s_d1_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 single bit error. Added in pass 2. */
-		uint64_t m2s_d0_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 double bit error. Added in pass 2. */
-		uint64_t m2s_d0_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 single bit error. Added in pass 2. */
+		uint64_t reserved_58_63              : 6;
+		uint64_t m2s_pe                      : 1;  /**< R/W1C/H - Detected a M2S FIFO parity error. Added in pass 2. */
 		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
 		uint64_t qhdr_b1_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 single bit error. */
 		uint64_t qhdr_b0_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 double bit error. */
@@ -1456,11 +1441,8 @@ typedef union bdk_pemx_dbg_info {
 		uint64_t qhdr_b0_dbe                 : 1;
 		uint64_t qhdr_b1_sbe                 : 1;
 		uint64_t qhdr_b1_dbe                 : 1;
-		uint64_t m2s_d0_sbe                  : 1;
-		uint64_t m2s_d0_dbe                  : 1;
-		uint64_t m2s_d1_sbe                  : 1;
-		uint64_t m2s_d1_dbe                  : 1;
-		uint64_t reserved_61_63              : 3;
+		uint64_t m2s_pe                      : 1;
+		uint64_t reserved_58_63              : 6;
 #endif
 	} s;
 	/* struct bdk_pemx_dbg_info_s         cn88xx; */
@@ -1618,11 +1600,8 @@ typedef union bdk_pemx_dbg_info_w1s {
 	uint64_t u;
 	struct bdk_pemx_dbg_info_w1s_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_61_63              : 3;
-		uint64_t m2s_d1_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 double bit error. Added in pass 2. */
-		uint64_t m2s_d1_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data1 single bit error. Added in pass 2. */
-		uint64_t m2s_d0_dbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 double bit error. Added in pass 2. */
-		uint64_t m2s_d0_sbe                  : 1;  /**< R/W1C/H - Detected a M2S FIFO data0 single bit error. Added in pass 2. */
+		uint64_t reserved_58_63              : 6;
+		uint64_t m2s_pe                      : 1;  /**< R/W1C/H - Detected a M2S FIFO parity error. Added in pass 2. */
 		uint64_t qhdr_b1_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 double bit error. */
 		uint64_t qhdr_b1_sbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank1 single bit error. */
 		uint64_t qhdr_b0_dbe                 : 1;  /**< R/W1C/H - Detected a core header queue bank0 double bit error. */
@@ -1748,11 +1727,8 @@ typedef union bdk_pemx_dbg_info_w1s {
 		uint64_t qhdr_b0_dbe                 : 1;
 		uint64_t qhdr_b1_sbe                 : 1;
 		uint64_t qhdr_b1_dbe                 : 1;
-		uint64_t m2s_d0_sbe                  : 1;
-		uint64_t m2s_d0_dbe                  : 1;
-		uint64_t m2s_d1_sbe                  : 1;
-		uint64_t m2s_d1_dbe                  : 1;
-		uint64_t reserved_61_63              : 3;
+		uint64_t m2s_pe                      : 1;
+		uint64_t reserved_58_63              : 6;
 #endif
 	} s;
 	/* struct bdk_pemx_dbg_info_w1s_s     cn88xx; */
@@ -1913,15 +1889,26 @@ typedef union bdk_pemx_debug {
 	uint64_t u;
 	struct bdk_pemx_debug_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_8_63               : 56;
+		uint64_t inv_m2s_par                 : 1;  /**< R/W - Invert the generated parity to be written into the M2S FIFO
+                                                                 to force a parity error when it is later read. Added in pass 2. */
+		uint64_t intval                      : 7;  /**< RO/H - Status of INTX, PMEI, and AERI interrupts. */
+#else
+		uint64_t intval                      : 7;
+		uint64_t inv_m2s_par                 : 1;
+		uint64_t reserved_8_63               : 56;
+#endif
+	} s;
+	/* struct bdk_pemx_debug_s            cn88xx; */
+	struct bdk_pemx_debug_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_7_63               : 57;
 		uint64_t intval                      : 7;  /**< RO/H - Status of INTX, PMEI, and AERI interrupts. */
 #else
 		uint64_t intval                      : 7;
 		uint64_t reserved_7_63               : 57;
 #endif
-	} s;
-	/* struct bdk_pemx_debug_s            cn88xx; */
-	/* struct bdk_pemx_debug_s            cn88xxp1; */
+	} cn88xxp1;
 } bdk_pemx_debug_t;
 
 static inline uint64_t BDK_PEMX_DEBUG(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2011,9 +1998,7 @@ typedef union bdk_pemx_ecc_ena {
 		uint64_t qhdr_b1_ena                 : 1;  /**< R/W - ECC enable for Core's Q HDR Bank1 RAM. */
 		uint64_t qhdr_b0_ena                 : 1;  /**< R/W - ECC enable for Core's Q HDR Bank0 RAM. */
 		uint64_t rtry_ena                    : 1;  /**< R/W - ECC enable for Core's RETRY RA. */
-		uint64_t reserved_11_31              : 21;
-		uint64_t m2s_d1_ena                  : 1;  /**< R/W - ECC enable for M2S Data1 FIFO. Added in pass 2. */
-		uint64_t m2s_d0_ena                  : 1;  /**< R/W - ECC enable for M2S Data0 FIFO. Added in pass 2. */
+		uint64_t reserved_9_31               : 23;
 		uint64_t c_c_ena                     : 1;  /**< R/W - ECC enable for TLP CPL control FIFO. */
 		uint64_t c_d1_ena                    : 1;  /**< R/W - ECC enable for TLP CPL data1 FIFO. */
 		uint64_t c_d0_ena                    : 1;  /**< R/W - ECC enable for TLP CPL data0 FIFO. */
@@ -2033,9 +2018,7 @@ typedef union bdk_pemx_ecc_ena {
 		uint64_t c_d0_ena                    : 1;
 		uint64_t c_d1_ena                    : 1;
 		uint64_t c_c_ena                     : 1;
-		uint64_t m2s_d0_ena                  : 1;
-		uint64_t m2s_d1_ena                  : 1;
-		uint64_t reserved_11_31              : 21;
+		uint64_t reserved_9_31               : 23;
 		uint64_t rtry_ena                    : 1;
 		uint64_t qhdr_b0_ena                 : 1;
 		uint64_t qhdr_b1_ena                 : 1;
@@ -2043,39 +2026,7 @@ typedef union bdk_pemx_ecc_ena {
 #endif
 	} s;
 	/* struct bdk_pemx_ecc_ena_s          cn88xx; */
-	struct bdk_pemx_ecc_ena_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_35_63              : 29;
-		uint64_t qhdr_b1_ena                 : 1;  /**< R/W - ECC enable for Core's Q HDR Bank1 RAM. */
-		uint64_t qhdr_b0_ena                 : 1;  /**< R/W - ECC enable for Core's Q HDR Bank0 RAM. */
-		uint64_t rtry_ena                    : 1;  /**< R/W - ECC enable for Core's RETRY RA. */
-		uint64_t reserved_9_31               : 23;
-		uint64_t c_c_ena                     : 1;  /**< R/W - ECC enable for TLP CPL control FIFO. */
-		uint64_t c_d1_ena                    : 1;  /**< R/W - ECC enable for TLP CPL data1 FIFO. */
-		uint64_t c_d0_ena                    : 1;  /**< R/W - ECC enable for TLP CPL data0 FIFO. */
-		uint64_t n_c_ena                     : 1;  /**< R/W - ECC enable for TLP NP control FIFO. */
-		uint64_t n_d1_ena                    : 1;  /**< R/W - ECC enable for TLP NP data1 FIFO. */
-		uint64_t n_d0_ena                    : 1;  /**< R/W - ECC enable for TLP NP data0 FIFO. */
-		uint64_t p_c_ena                     : 1;  /**< R/W - ECC enable for TLP posted control FIFO. */
-		uint64_t p_d1_ena                    : 1;  /**< R/W - ECC enable for TLP posted data1 FIFO. */
-		uint64_t p_d0_ena                    : 1;  /**< R/W - ECC enable for TLP posted data0 FIFO. */
-#else
-		uint64_t p_d0_ena                    : 1;
-		uint64_t p_d1_ena                    : 1;
-		uint64_t p_c_ena                     : 1;
-		uint64_t n_d0_ena                    : 1;
-		uint64_t n_d1_ena                    : 1;
-		uint64_t n_c_ena                     : 1;
-		uint64_t c_d0_ena                    : 1;
-		uint64_t c_d1_ena                    : 1;
-		uint64_t c_c_ena                     : 1;
-		uint64_t reserved_9_31               : 23;
-		uint64_t rtry_ena                    : 1;
-		uint64_t qhdr_b0_ena                 : 1;
-		uint64_t qhdr_b1_ena                 : 1;
-		uint64_t reserved_35_63              : 29;
-#endif
-	} cn88xxp1;
+	/* struct bdk_pemx_ecc_ena_s          cn88xxp1; */
 } bdk_pemx_ecc_ena_t;
 
 static inline uint64_t BDK_PEMX_ECC_ENA(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -2106,9 +2057,7 @@ typedef union bdk_pemx_ecc_synd_ctrl {
 		uint64_t qhdr_b1_syn                 : 2;  /**< R/W - Syndrome flip bits for Core's Q HDR Bank1 RAM. */
 		uint64_t qhdr_b0_syn                 : 2;  /**< R/W - Syndrome flip bits for Core's Q HDR Bank0 RAM. */
 		uint64_t rtry_syn                    : 2;  /**< R/W - Syndrome flip bits for Core's RETRY RAM. */
-		uint64_t reserved_22_31              : 10;
-		uint64_t m2s_d1_syn                  : 2;  /**< R/W - Syndrome flip bits for M2S data1 FIFO. Added in pass 2. */
-		uint64_t m2s_d0_syn                  : 2;  /**< R/W - Syndrome flip bits for M2S data0 FIFO. Added in pass 2. */
+		uint64_t reserved_18_31              : 14;
 		uint64_t c_c_syn                     : 2;  /**< R/W - Syndrome flip bits for TLP CPL control FIFO. */
 		uint64_t c_d1_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP CPL data1 FIFO. */
 		uint64_t c_d0_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP CPL data0 FIFO. */
@@ -2128,9 +2077,7 @@ typedef union bdk_pemx_ecc_synd_ctrl {
 		uint64_t c_d0_syn                    : 2;
 		uint64_t c_d1_syn                    : 2;
 		uint64_t c_c_syn                     : 2;
-		uint64_t m2s_d0_syn                  : 2;
-		uint64_t m2s_d1_syn                  : 2;
-		uint64_t reserved_22_31              : 10;
+		uint64_t reserved_18_31              : 14;
 		uint64_t rtry_syn                    : 2;
 		uint64_t qhdr_b0_syn                 : 2;
 		uint64_t qhdr_b1_syn                 : 2;
@@ -2138,39 +2085,7 @@ typedef union bdk_pemx_ecc_synd_ctrl {
 #endif
 	} s;
 	/* struct bdk_pemx_ecc_synd_ctrl_s    cn88xx; */
-	struct bdk_pemx_ecc_synd_ctrl_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_38_63              : 26;
-		uint64_t qhdr_b1_syn                 : 2;  /**< R/W - Syndrome flip bits for Core's Q HDR Bank1 RAM. */
-		uint64_t qhdr_b0_syn                 : 2;  /**< R/W - Syndrome flip bits for Core's Q HDR Bank0 RAM. */
-		uint64_t rtry_syn                    : 2;  /**< R/W - Syndrome flip bits for Core's RETRY RAM. */
-		uint64_t reserved_18_31              : 14;
-		uint64_t c_c_syn                     : 2;  /**< R/W - Syndrome flip bits for TLP CPL control FIFO. */
-		uint64_t c_d1_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP CPL data1 FIFO. */
-		uint64_t c_d0_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP CPL data0 FIFO. */
-		uint64_t n_c_syn                     : 2;  /**< R/W - Syndrome flip bits for TLP NP control FIFO. */
-		uint64_t n_d1_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP NP data1 FIFO. */
-		uint64_t n_d0_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP NP data0 FIFO. */
-		uint64_t p_c_syn                     : 2;  /**< R/W - Syndrome flip bits for TLP posted control FIFO. */
-		uint64_t p_d1_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP posted data1 FIFO. */
-		uint64_t p_d0_syn                    : 2;  /**< R/W - Syndrome flip bits for TLP posted data0 FIFO. */
-#else
-		uint64_t p_d0_syn                    : 2;
-		uint64_t p_d1_syn                    : 2;
-		uint64_t p_c_syn                     : 2;
-		uint64_t n_d0_syn                    : 2;
-		uint64_t n_d1_syn                    : 2;
-		uint64_t n_c_syn                     : 2;
-		uint64_t c_d0_syn                    : 2;
-		uint64_t c_d1_syn                    : 2;
-		uint64_t c_c_syn                     : 2;
-		uint64_t reserved_18_31              : 14;
-		uint64_t rtry_syn                    : 2;
-		uint64_t qhdr_b0_syn                 : 2;
-		uint64_t qhdr_b1_syn                 : 2;
-		uint64_t reserved_38_63              : 26;
-#endif
-	} cn88xxp1;
+	/* struct bdk_pemx_ecc_synd_ctrl_s    cn88xxp1; */
 } bdk_pemx_ecc_synd_ctrl_t;
 
 static inline uint64_t BDK_PEMX_ECC_SYND_CTRL(unsigned long param1) __attribute__ ((pure, always_inline));

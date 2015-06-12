@@ -3558,7 +3558,8 @@ typedef union bdk_lmcx_ns_ctl {
                                                                  When data scrambling is enabled by setting CONTROL[SCRAMBLE_ENA] to 1, this
                                                                  field needs to be cleared to 0 in order to enable data scrambling on
                                                                  non-secure mode. */
-		uint64_t reserved_18_24              : 7;
+		uint64_t ns_dynamic_dis              : 1;  /**< RO - Reserved. */
+		uint64_t reserved_18_23              : 6;
 		uint64_t adr_offset                  : 18; /**< R/W - Sets the offset to the non-secure region of the DRAM/L2 address space.
 
                                                                  In 4 LMC mode, this specifies the address offset \<39:22\> for non-secure transaction.
@@ -3566,7 +3567,8 @@ typedef union bdk_lmcx_ns_ctl {
                                                                  In 2 LMC mode, this specifies the address offset \<38:21\> for non-secure transaction. */
 #else
 		uint64_t adr_offset                  : 18;
-		uint64_t reserved_18_24              : 7;
+		uint64_t reserved_18_23              : 6;
+		uint64_t ns_dynamic_dis              : 1;
 		uint64_t ns_scramble_dis             : 1;
 		uint64_t reserved_26_63              : 38;
 #endif

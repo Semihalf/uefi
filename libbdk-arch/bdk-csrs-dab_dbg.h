@@ -309,7 +309,7 @@ static inline uint64_t BDK_DBGX_DBGBVRX_EL1_HI(unsigned long param1, unsigned lo
 /**
  * DAB32b - dbg#_dbgbvr#_el1_lo
  *
- * FIXME
+ * Accesses the low bits of the breakpoint value.
  *
  */
 typedef union bdk_dbgx_dbgbvrx_el1_lo {
@@ -2158,8 +2158,7 @@ typedef union bdk_dbgx_edrcr {
                                                                      are:
                                                                  \<0\> No action.
                                                                  \<1\> Clear the EDSCR.PipeAdv bit to 0. */
-		uint32_t cse                         : 1;  /**< WO - FIXME
-                                                                 Clear Sticky Error. Used to clear the EDSCR cumulative error
+		uint32_t cse                         : 1;  /**< WO - Clear Sticky Error. Used to clear the EDSCR cumulative error
                                                                      bits to 0. The actions on writing to this bit are:
                                                                  \<0\> No action.
                                                                  \<1\> Clear the EDSCR.{TXU, RXO, ERR} bits, and, if the processor is

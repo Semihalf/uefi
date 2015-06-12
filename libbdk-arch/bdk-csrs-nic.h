@@ -2773,7 +2773,7 @@ typedef union bdk_nic_pf_cq_avg_cfg {
 		uint64_t reserved_21_63              : 43;
 		uint64_t avg_en                      : 1;  /**< R/W - QoS averaging enable. When set, compute average buffer levels. When clear, do not compute
                                                                  averages and save a few mW of power. */
-		uint64_t lvl_dly                     : 6;  /**< R/W - Levelizer delay. Number of cycles between level computations for backpressure and RED.
+		uint64_t lvl_dly                     : 6;  /**< R/W - Levelizer delay. Number of cycles between level computations for RED.
                                                                  Increasing values decrease power. Zero disables, one indicates a level computation every
                                                                  other cycle, etc. Once set to nonzero must not be later set to zero without resetting NIC. */
 		uint64_t avg_dly                     : 14; /**< R/W - Average-queue-size delay. The number of levelizer-clock cycles to wait (1024 *
@@ -5691,8 +5691,9 @@ typedef union bdk_nic_pf_lmacx_cfg2 {
 	struct bdk_nic_pf_lmacx_cfg2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_14_63              : 50;
-		uint64_t max_pkt_size                : 14; /**< R/W - Minimum packet size in bytes, excluding FCS potentially appended outside NIC by BGX.
-                                                                 Should not exceed 9212 (9216 minus 4 byte FCS). If a send descriptor specifies sending a
+		uint64_t max_pkt_size                : 14; /**< R/W - Maximum packet size in bytes, excluding FCS potentially appended outside NIC by BGX.
+                                                                 Must not be less than the minimum packet size (4*NIC_PF_LMAC()_CFG[MIN_PKT_SIZE]), and
+                                                                 should not exceed 9212 (9216 minus 4 byte FCS). If a send descriptor specifies sending a
                                                                  larger packet than this value, NIC drops the packet and posts a CQE with
                                                                  NIC_CQE_SEND_STATUS_E::MAX_SIZE_VIOL. */
 #else

@@ -74,8 +74,8 @@ typedef union bdk_sysctix_asicctl {
                                                                  external multiplexing of additional triggers.
                                                                  If external multiplexing of trigger signals is implemented
                                                                      then the number of multiplexed signals on each trigger must be
-                                                                     reflected in SYSCTIDEVID.EXTMUXNUM.
-                                                                 If SYSCTIDEVID.EXTMUXNUM is zero, this field is RAZ. */
+                                                                     reflected in SYSCTI()_CTIDEVID[EXTMUXNUM].
+                                                                 If SYSCTI()_CTIDEVID[EXTMUXNUM] is zero, this field is RAZ. */
 #else
 		uint32_t asicctl                     : 3;
 		uint32_t reserved_3_31               : 29;
@@ -223,8 +223,8 @@ typedef union bdk_sysctix_ctiapppulse {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t apppulse                    : 3;  /**< WO - Generate event pulse on ECT channel \<x\>.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     SYSCTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     SYSCTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ/WI.
 
                                                                  Writing to this bit has the following effect:
@@ -263,13 +263,39 @@ typedef union bdk_sysctix_ctiappset {
 	uint32_t u;
 	struct bdk_sysctix_ctiappset_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_3_31               : 29;
+		uint32_t trig                        : 3;  /**< R/W1S/H - Application trigger \<x\> enable.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     SYSCTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 If the ECT does not support multicycle channel events, use of
+                                                                     CTIAPPSET is deprecated and the debugger must only use
+                                                                     CTIAPPPULSE.
+
+                                                                 0 = Reading this means the application trigger is inactive.
+                                                                     Writing this has no effect.
+                                                                 1 = Reading this means the application trigger is active. Writing
+                                                                     this sets the corresponding bit in SYSCTI()_CTIAPPTRIG to 1 and
+                                                                     generates a channel event.
+
+                                                                 In CNXXXX always 0x0 as it doesn't support multicycle channel events.
+
+                                                                 For pass 1 is RO, for pass 2 changed to R/W.
+                                                                 Added in pass 2. */
+#else
+		uint32_t trig                        : 3;
+		uint32_t reserved_3_31               : 29;
+#endif
+	} s;
+	/* struct bdk_sysctix_ctiappset_s     cn88xx; */
+	struct bdk_sysctix_ctiappset_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_0_31               : 32;
 #else
 		uint32_t reserved_0_31               : 32;
 #endif
-	} s;
-	/* struct bdk_sysctix_ctiappset_s     cn88xx; */
-	/* struct bdk_sysctix_ctiappset_s     cn88xxp1; */
+	} cn88xxp1;
 } bdk_sysctix_ctiappset_t;
 
 static inline uint64_t BDK_SYSCTIX_CTIAPPSET(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -343,8 +369,8 @@ typedef union bdk_sysctix_ctichinstatus {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t chin                        : 3;  /**< RO - Input channel \<n\> status.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     SYSCTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     SYSCTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ.
 
                                                                  0 = Input channel \<n\> is inactive.
@@ -384,8 +410,8 @@ typedef union bdk_sysctix_ctichoutstatus {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t chout                       : 3;  /**< RO - Output channel \<n\> status.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     SYSCTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     SYSCTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ.
 
                                                                  0 = Output channel \<n\> is inactive.
@@ -735,9 +761,9 @@ typedef union bdk_sysctix_ctidevid {
 		uint32_t inout_gate                  : 2;  /**< RO - Input/output options. Indicates presence of the input gate. If
                                                                      the CTM is not implemented, this field is RAZ.
                                                                  All other values are reserved.
-                                                                 0x0 = SYSCTIGATE does not mask propagation of input events from
+                                                                 0x0 = SYSCTI()_CTIGATE does not mask propagation of input events from
                                                                      external channels.
-                                                                 0x1 = SYSCTIGATE masks propagation of input events from external
+                                                                 0x1 = SYSCTI()_CTIGATE masks propagation of input events from external
                                                                      channels. */
 		uint32_t reserved_22_23              : 2;
 		uint32_t numchan                     : 6;  /**< RO - Number of ECT channels implemented. Implementation defined.
@@ -910,12 +936,12 @@ typedef union bdk_sysctix_ctigate {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t gate                        : 3;  /**< R/W - Channel \<x\> gate enable.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     SYSCTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     SYSCTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ/WI.
 
-                                                                 0 = Disable output and, if SYSCTIDEVID.INOUT = 0x1.
-                                                                 1 = Enable output and, if SYSCTIDEVID.INOUT = 0x1. */
+                                                                 0 = Disable output and, if SYSCTI()_CTIDEVID[INOUT] = 0x1.
+                                                                 1 = Enable output and, if SYSCTI()_CTIDEVID[INOUT] = 0x1. */
 #else
 		uint32_t gate                        : 3;
 		uint32_t reserved_3_31               : 29;
@@ -951,8 +977,8 @@ typedef union bdk_sysctix_ctiinenx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t inen                        : 3;  /**< R/W - Input trigger \<n\> to output channel \<x\> enable.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     SYSCTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     SYSCTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ/WI.
 
                                                                  0 = Input trigger \<n\> will not generate an event on output channel
@@ -960,7 +986,7 @@ typedef union bdk_sysctix_ctiinenx {
                                                                  1 = Input trigger \<n\> will generate an event on output channel
                                                                      \<x\>.
 
-                                                                 In CNXXXX SYSCTIINEN(3..31) are ignored as there are only 3 channels. */
+                                                                 In CNXXXX SYSCTI()_CTIINEN(3..31) are ignored as there are only 3 channels. */
 #else
 		uint32_t inen                        : 3;
 		uint32_t reserved_3_31               : 29;
@@ -996,14 +1022,14 @@ typedef union bdk_sysctix_ctiintack {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t ack                         : 3;  /**< RO - Acknowledge for output trigger \<n\>.
-                                                                 N is the number of SYSCTI triggers implemented as defined by the
-                                                                     SYSCTIDEVID.NUMTRIG field. Bits [31:N] are RAZ/WI.
+                                                                 N is the number of SYSCTI triggers implemented as defined by
+                                                                     SYSCTI()_CTIDEVID[NUMTRIG]. Bits [31:N] are RAZ/WI.
 
                                                                  If any of the following is true, writes to ACK\<n\> are ignored:
-                                                                 * n \>= SYSCTIDEVID.NUMTRIG, the number of implemented triggers.
+                                                                 * n \>= SYSCTI()_CTIDEVID[NUMTRIG], the number of implemented triggers.
                                                                  * Output trigger n is not active
                                                                  * The channel mapping function output, as controlled by
-                                                                     SYSCTIOUTEN\<n\>, is still active.
+                                                                     SYSCTI()_CTIOUTEN\<n\>, is still active.
 
                                                                  Otherwise, if any of the following are true, it is
                                                                      implementation defined whether writes to ACK\<n\> are ignored:
@@ -1179,8 +1205,8 @@ typedef union bdk_sysctix_ctioutenx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t outen                       : 3;  /**< R/W - Input channel \<x\> to output trigger \<n\> enable.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     SYSCTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     SYSCTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ/WI.
 
                                                                  0 = An event on input channel \<x\> will not cause output trigger
@@ -1188,7 +1214,7 @@ typedef union bdk_sysctix_ctioutenx {
                                                                  1 = An event on input channel \<x\> will cause output trigger \<n\> to
                                                                      be asserted.
 
-                                                                 In CNXXXX SYSCTIOUTEN(3..31) are ignored as there are only 3 channels. */
+                                                                 In CNXXXX SYSCTI()_CTIOUTEN(3..31) are ignored as there are only 3 channels. */
 #else
 		uint32_t outen                       : 3;
 		uint32_t reserved_3_31               : 29;
@@ -1510,8 +1536,8 @@ typedef union bdk_sysctix_ctitriginstatus {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t trin                        : 3;  /**< RO - Trigger input \<n\> status.
-                                                                 N is the number of triggers implemented as defined by the
-                                                                     SYSCTIDEVID.NUMTRIG field.
+                                                                 N is the number of triggers implemented as defined by
+                                                                     SYSCTI()_CTIDEVID[NUMTRIG].
                                                                  Bits [31:N] are RAZ.
 
                                                                  Not implemented and not-connected input triggers are always inactive.
@@ -1552,8 +1578,8 @@ typedef union bdk_sysctix_ctitrigoutstatus {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t trout                       : 3;  /**< RO - Trigger output \<n\> status.
-                                                                 N is the number of triggers implemented as defined by the
-                                                                     SYSCTIDEVID.NUMTRIG field.
+                                                                 N is the number of triggers implemented as defined by
+                                                                     SYSCTI()_CTIDEVID[NUMTRIG].
                                                                  Bits [31:N] are RAZ.
 
                                                                  If output trigger \<n\> is implemented and connected, possible

@@ -74,8 +74,8 @@ typedef union bdk_ctix_asicctl {
                                                                  external multiplexing of additional triggers.
                                                                  If external multiplexing of trigger signals is implemented
                                                                      then the number of multiplexed signals on each trigger must be
-                                                                     reflected in CTIDEVID.EXTMUXNUM.
-                                                                 If CTIDEVID.EXTMUXNUM is zero, this field is RAZ. */
+                                                                     reflected in CTI()_CTIDEVID[EXTMUXNUM].
+                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is RAZ. */
 #else
 		uint32_t asicctl                     : 3;
 		uint32_t reserved_3_31               : 29;
@@ -223,8 +223,8 @@ typedef union bdk_ctix_ctiapppulse {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t apppulse                    : 3;  /**< WO - Generate event pulse on ECT channel \<x\>.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     CTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ/WI.
 
                                                                  Writing to this bit has the following effect:
@@ -263,13 +263,38 @@ typedef union bdk_ctix_ctiappset {
 	uint32_t u;
 	struct bdk_ctix_ctiappset_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint32_t reserved_3_31               : 29;
+		uint32_t trig                        : 3;  /**< R/W1S/H - Application trigger \<x\> enable.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 If the ECT does not support multicycle channel events, use of
+                                                                     CTIAPPSET is deprecated and the debugger must only use
+                                                                     CTIAPPPULSE.
+                                                                 0 = Reading this means the application trigger is inactive.
+                                                                     Writing this has no effect.
+                                                                 1 = Reading this means the application trigger is active. Writing
+                                                                     this sets the corresponding bit in CTIAPPTRIG to 1 and
+                                                                     generates a channel event.
+
+                                                                 In CNXXXX always 0x0 as it doesn't support multicycle channel events.
+
+                                                                 For pass 1 is RO, for pass 2 changed to R/W.
+                                                                 Added in pass 2. */
+#else
+		uint32_t trig                        : 3;
+		uint32_t reserved_3_31               : 29;
+#endif
+	} s;
+	/* struct bdk_ctix_ctiappset_s        cn88xx; */
+	struct bdk_ctix_ctiappset_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_0_31               : 32;
 #else
 		uint32_t reserved_0_31               : 32;
 #endif
-	} s;
-	/* struct bdk_ctix_ctiappset_s        cn88xx; */
-	/* struct bdk_ctix_ctiappset_s        cn88xxp1; */
+	} cn88xxp1;
 } bdk_ctix_ctiappset_t;
 
 static inline uint64_t BDK_CTIX_CTIAPPSET(unsigned long param1) __attribute__ ((pure, always_inline));
@@ -343,8 +368,8 @@ typedef union bdk_ctix_ctichinstatus {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t chin                        : 3;  /**< RO - Input channel \<n\> status.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     CTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ.
 
                                                                  0 = Input channel \<n\> is inactive.
@@ -384,8 +409,8 @@ typedef union bdk_ctix_ctichoutstatus {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t chout                       : 3;  /**< RO - Output channel \<n\> status.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     CTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ.
 
                                                                  0 = Output channel \<n\> is inactive.
@@ -909,12 +934,12 @@ typedef union bdk_ctix_ctigate {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t gate                        : 3;  /**< R/W - Channel \<x\> gate enable.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     CTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ/WI.
 
-                                                                 0 = Disable output and, if CTIDEVID[INOUT] = 0x1.
-                                                                 1 = Enable output and, if CTIDEVID[INOUT] = 0x1. */
+                                                                 0 = Disable output and, if CTI()_CTIDEVID[INOUT] = 0x1.
+                                                                 1 = Enable output and, if CTI()_CTIDEVID[INOUT] = 0x1. */
 #else
 		uint32_t gate                        : 3;
 		uint32_t reserved_3_31               : 29;
@@ -950,8 +975,8 @@ typedef union bdk_ctix_ctiinenx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t inen                        : 3;  /**< R/W - Input trigger \<n\> to output channel \<x\> enable.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     CTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ/WI.
 
                                                                  0 = Input trigger \<n\> will not generate an event on output channel
@@ -995,11 +1020,11 @@ typedef union bdk_ctix_ctiintack {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t ack                         : 3;  /**< RO - Acknowledge for output trigger \<n\>.
-                                                                 N is the number of CTI triggers implemented as defined by the
-                                                                     CTIDEVID.NUMTRIG field. Bits [31:N] are RAZ/WI.
+                                                                 N is the number of CTI triggers implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMTRIG]. Bits [31:N] are RAZ/WI.
 
                                                                  If any of the following is true, writes to ACK\<n\> are ignored:
-                                                                 * n \>= CTIDEVID.NUMTRIG, the number of implemented triggers.
+                                                                 * n \>= CTI()_CTIDEVID[NUMTRIG], the number of implemented triggers.
                                                                  * Output trigger n is not active
                                                                  * The channel mapping function output, as controlled by
                                                                      CTIOUTEN\<n\>, is still active.
@@ -1178,8 +1203,8 @@ typedef union bdk_ctix_ctioutenx {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t outen                       : 3;  /**< R/W - Input channel \<x\> to output trigger \<n\> enable.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     CTIDEVID.NUMCHAN field.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ/WI.
 
                                                                  0 = An event on input channel \<x\> will not cause output trigger
@@ -1509,8 +1534,8 @@ typedef union bdk_ctix_ctitriginstatus {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t trin                        : 3;  /**< RO - Trigger input \<n\> status.
-                                                                 N is the number of CTI triggers implemented as defined by the
-                                                                     CTIDEVID.NUMTRIG field.
+                                                                 N is the number of CTI triggers implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMTRIG].
                                                                  Bits [31:N] are RAZ.
 
                                                                  Not implemented and not-connected input triggers are always inactive.
@@ -1551,8 +1576,8 @@ typedef union bdk_ctix_ctitrigoutstatus {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_3_31               : 29;
 		uint32_t trout                       : 3;  /**< RO - Trigger output \<n\> status.
-                                                                 N is the number of CTI triggers implemented as defined by the
-                                                                     CTIDEVID.NUMTRIG field.
+                                                                 N is the number of CTI triggers implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMTRIG].
                                                                  Bits [31:N] are RAZ.
 
                                                                  If output trigger \<n\> is implemented and connected, possible

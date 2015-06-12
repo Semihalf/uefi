@@ -694,6 +694,48 @@ static inline uint64_t BDK_GIC_CFG_CTLR_FUNC(void)
 
 
 /**
+ * NCB - gic_del3t_ctlr
+ *
+ * This register allows disabling the signaling of some DEL3T errors. Added in pass 2.
+ *
+ */
+typedef union bdk_gic_del3t_ctlr {
+	uint64_t u;
+	struct bdk_gic_del3t_ctlr_s {
+#if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_38_63              : 26;
+		uint64_t del3t_core_id               : 6;  /**< SR/W - Target CoreID for signaling of GIC DEL3T Errors. Legal range is [0,47]. */
+		uint64_t reserved_11_31              : 21;
+		uint64_t del3t_dis                   : 11; /**< SR/W - Disable signaling of DEL3T Errors. INTERNAL: for del3t_dis[10:0]=
+                                                                 [ncbr_stdn,ncbr_fill,cic2cic_ig_buf, lpi_cfg_buf,
+                                                                 lip_rmw_buf,
+                                                                 dtlb_mem,itlb_mem,hct_mem,cqf_mem,rdb_pktf_mem,aprf_mem]  in GIC. */
+#else
+		uint64_t del3t_dis                   : 11;
+		uint64_t reserved_11_31              : 21;
+		uint64_t del3t_core_id               : 6;
+		uint64_t reserved_38_63              : 26;
+#endif
+	} s;
+	/* struct bdk_gic_del3t_ctlr_s        cn88xx; */
+} bdk_gic_del3t_ctlr_t;
+
+#define BDK_GIC_DEL3T_CTLR BDK_GIC_DEL3T_CTLR_FUNC()
+static inline uint64_t BDK_GIC_DEL3T_CTLR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GIC_DEL3T_CTLR_FUNC(void)
+{
+	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+		return 0x0000801000010060ull;
+	else 		csr_fatal("BDK_GIC_DEL3T_CTLR", 0, 0, 0, 0, 0); /* No return */
+}
+#define typedef_BDK_GIC_DEL3T_CTLR bdk_gic_del3t_ctlr_t
+#define bustype_BDK_GIC_DEL3T_CTLR BDK_CSR_TYPE_NCB
+#define busnum_BDK_GIC_DEL3T_CTLR 0
+#define arguments_BDK_GIC_DEL3T_CTLR -1,-1,-1,-1
+#define basename_BDK_GIC_DEL3T_CTLR "GIC_DEL3T_CTLR"
+
+
+/**
  * NCB - gic_ecc_ctlr
  *
  * This register allows inserting ECC errors for testing.
