@@ -341,10 +341,16 @@ typedef struct
     int64_t init_status;
 } mmc_card_state_t;
 
-#define MSEC 1000 /* 1000 usec */
 #define ULL unsigned long long
 static mmc_card_state_t card_state[4];
 
+static void mmc_delay_msec(uint64_t msec)
+{
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        bdk_wait_usec(msec); /* Speed up 1000x */
+    else
+        bdk_wait_usec(msec * 1000);
+}
 
 /**
  * print_cmd_status
@@ -415,7 +421,7 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(bdk_node_t node, uint64_t cmd, uint64_t arg
         code isn't needed to keep track of accurate time on both host and
         target */
     BDK_TRACE(EMMC, "Waiting for command completion\n");
-    int wait_loops = 100000 / MSEC;
+    int wait_loops = bdk_is_platform(BDK_PLATFORM_EMULATOR) ? 100000 : 100;
     while (sts_reg.s.cmd_done != 1)
     {
         if (--wait_loops <= 0)
@@ -423,7 +429,7 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(bdk_node_t node, uint64_t cmd, uint64_t arg
             BDK_TRACE(EMMC, "No response, timeout.\n");
             return sts_reg;
         }
-        bdk_wait_usec(MSEC);
+        mmc_delay_msec(1);
         sts_reg.u = BDK_CSR_READ(node, BDK_MIO_EMM_RSP_STS);
     }
 
@@ -655,24 +661,24 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
     // Disable bus 1, casues the clocking to reset to the default
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
     BDK_TRACE(EMMC, "Delay 200ms\n");
-    bdk_wait_usec(200 * MSEC);
+    mmc_delay_msec(200);
 
     // Disable buses and reset device using GPIO8
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
     BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(8),
                    c.s.tx_oe = 1);
     BDK_TRACE(EMMC, "Delay 1ms\n");
-    bdk_wait_usec(MSEC);
+    mmc_delay_msec(1);
 
     BDK_CSR_WRITE(node, BDK_GPIO_TX_CLR, 1<<8);
 
     BDK_TRACE(EMMC, "Delay 200ms\n");
-    bdk_wait_usec(200 * MSEC);
+    mmc_delay_msec(200);
 
     BDK_CSR_WRITE(node, BDK_GPIO_TX_SET, 1<<8);
 
     BDK_TRACE(EMMC, "Delay 2ms\n");
-    bdk_wait_usec(2 * MSEC);
+    mmc_delay_msec(2);
 
     // Enable bus
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 1<<chip_sel);
@@ -696,7 +702,7 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
     emm_switch.s.clk_lo = sclk;
     BDK_CSR_WRITE(node, BDK_MIO_EMM_SWITCH, emm_switch.u);
     BDK_TRACE(EMMC, "Delay 2ms\n");
-    bdk_wait_usec(2 * MSEC);
+    mmc_delay_msec(2);
 
     // Assume card is eMMC
     card_state[chip_sel].card_is_sd = 0;
@@ -705,7 +711,7 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
     BDK_CSR_WRITE(node, BDK_MIO_EMM_STS_MASK, 0xE4390080);
 
     BDK_TRACE(EMMC, "Delay 2ms\n");
-    bdk_wait_usec(2 * MSEC);
+    mmc_delay_msec(2);
 
     // Setup watchdog timer
     wdog_default(node);
