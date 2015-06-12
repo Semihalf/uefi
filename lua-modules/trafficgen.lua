@@ -860,6 +860,9 @@ function TrafficGen.new()
 
     function self:cmdp_perf_test(port_range, args)
         local USEC = 1000000
+        if cavium.is_platform(cavium.PLATFORM_EMULATOR) then
+            USEC = 1000 -- Speed up test 1000x on the emulator
+        end
         -- These are the packet sizes we're try
         local PACKET_SIZES = {60, 128, 256, 512, 1024, 2048, 4096, 8192, 9212}
         -- Results will be stored here, index by packet size
