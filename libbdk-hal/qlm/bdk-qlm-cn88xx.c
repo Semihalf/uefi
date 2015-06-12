@@ -1354,7 +1354,7 @@ static int qlm_enable_prbs(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction
             for (int lane = 0; lane < NUM_LANES; lane++)
                 BDK_CSR_WRITE(node, BDK_GSERX_LANEX_LBERT_PAT_CFG(qlm, lane), prbs >> 8);
             BDK_TRACE(QLM, "Using mode 0x%x with custom pattern 0x%x\n", mode, prbs >> 8);
-            return -1;
+            break;
     }
 
     /* For some reason PRBS doesn't work if GSER is configured for PCIe.
