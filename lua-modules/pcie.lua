@@ -96,7 +96,10 @@ local DEVICE_NAME = {
     [0xa030] = "L2C_MCI",
     [0xa031] = "MIO_FUS",
     [0xa032] = "FUSF",
-    [0xa100] = "THUNDERX",
+    [0xa033] = "RNM_VF",
+    [0xa034] = "NIC_VF",
+    [0xa100] = "THUNDERX_CN88XX",
+    [0xa300] = "THUNDERX_CN83XX",
 }
 
 local configr8 = cavium.c.bdk_pcie_config_read8
