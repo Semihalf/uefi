@@ -183,7 +183,7 @@ void __bdk_init(uint32_t image_crc)
             write(1, BANNER_1, sizeof(BANNER_1)-1);
 
         /* Only lock L2 if DDR3 isn't initialized */
-        if (!__bdk_is_dram_enabled(node) && !bdk_is_platform(BDK_PLATFORM_ASIM))
+        if (bdk_is_platform(BDK_PLATFORM_HW) && !__bdk_is_dram_enabled(node))
         {
             if (BDK_TRACE_ENABLE_INIT)
                 write(1, BANNER_2, sizeof(BANNER_2)-1);
