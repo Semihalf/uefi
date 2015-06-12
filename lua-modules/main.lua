@@ -36,7 +36,22 @@ BOARD_SETUP_DONE = true
 local function do_trafficgen()
     local trafficgen = require("trafficgen")
     local tg = trafficgen.new()
+    if cavium.is_platform(cavium.PLATFORM_EMULATOR) then
+        tg:command("csr RST_PP_RESET")
+        tg:command("csr RST_PP_AVAILABLE")
+        tg:command("loopback all internal")
+        cavium.c.bdk_if_link_wait_all(100000);
+        tg:command("default up")
+        tg:command("perf_test")
+        tg:command("tx_packets_total")
+        tg:command("rx_packets_total")
+        tg:command("rx_errors")
+    end
     return tg:run()
+end
+
+if cavium.is_platform(cavium.PLATFORM_EMULATOR) then
+    do_trafficgen()
 end
 
 local function do_throttle()
