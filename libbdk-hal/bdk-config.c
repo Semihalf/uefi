@@ -120,7 +120,7 @@ const char *bdk_config_get_name(bdk_config_t cfg)
 void __bdk_config_init(void)
 {
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
-        bdk_config_set(BDK_CONFIG_COREMASK, 0xf);
+        bdk_config_set(BDK_CONFIG_COREMASK, 0xff);
 
     /* Set the lower MAC address bits based on the chip manufacturing
         information. This should give reasonable MAC address defaults
