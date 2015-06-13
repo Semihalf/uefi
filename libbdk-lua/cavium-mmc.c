@@ -8,7 +8,7 @@
 
 /**
  *  Module for the eMMC/MMC/SD interface
- *  Copyright 2014 Cavium, Inc.
+ *  Copyright 2015 Cavium, Inc.
  */
 
 #define ULL unsigned long long

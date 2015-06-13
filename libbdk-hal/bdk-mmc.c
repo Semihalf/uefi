@@ -1,7 +1,7 @@
 #include <bdk.h>
 
 // Basic definitions for the eMMC interface
-// Copyright 2014 Cavium,Inc.
+// Copyright 2015 Cavium,Inc.
 
 #ifndef BDK_MMC_CLOCK_HZ
 #define BDK_MMC_CLOCK_HZ 10000000

@@ -10,7 +10,7 @@
 -- bdk-lua -l coverage script.lua
 --
 -- * Written by Chad Reese
--- * Copyright (C) 2010-2014 Cavium Inc.
+-- * Copyright (C) 2010-2015 Cavium Inc.
 -- * This module is released under the standard Lua MIT license
 --
 

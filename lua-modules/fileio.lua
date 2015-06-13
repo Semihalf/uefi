@@ -3,7 +3,7 @@
 -- that are common using the BDK's virtual filesystem.
 --
 -- * Written by Chad Reese
--- * Copyright (C) 2010-2014 Cavium Inc.
+-- * Copyright (C) 2010-2015 Cavium Inc.
 --
 require("strict")
 require("utils")

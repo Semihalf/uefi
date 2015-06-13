@@ -54,7 +54,7 @@ def wait_for_bdk_boot(cnx):
     cnx.match("PASS: CRC32 verification")
     cnx.match("Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio")
     cnx.match("THUNDERX Diagnostics")
-    cnx.match("Copyright (C) 2010-2014 Cavium Inc.")
+    cnx.match("Copyright (C) 2010-2015 Cavium Inc.")
     cnx.matchRE("Version 201[5-9].[0-2][0-9]-r")
     cnx.waitforRE("Configuring for the [A-Za-z0-9-]+")
     cnx.waitfor("=================================")

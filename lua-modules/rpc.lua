@@ -2,7 +2,7 @@
 -- Lua RPC implementation.
 --
 -- * Written by Chad Reese
--- * Copyright (C) 2010-2014 Cavium Inc.
+-- * Copyright (C) 2010-2015 Cavium Inc.
 --
 require("utils")
 local bit64 = require("bit64")

@@ -177,7 +177,7 @@ end
 print("")
 print("BDK version ".. require("bdk-version"))
 print("THUNDERX Chip Screen")
-print("Copyright (C) 2010-2014 Cavium Inc.")
+print("Copyright (C) 2010-2015 Cavium Inc.")
 
 local coremask = menu.prompt_number("Coremask: ", 0xffffffffffff)
 local config_num = menu.prompt_number("Config Number: ", 0)

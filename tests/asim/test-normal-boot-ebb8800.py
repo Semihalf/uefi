@@ -96,7 +96,7 @@ wait_for("PASS: CRC32 verification")
 wait_for("Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio")
 
 wait_for("THUNDERX Diagnostics")
-wait_for("Copyright (C) 2010-2014 Cavium Inc.")
+wait_for("Copyright (C) 2010-2015 Cavium Inc.")
 wait_for("Version")
 
 wait_for("Configuring for the EBB8800")
