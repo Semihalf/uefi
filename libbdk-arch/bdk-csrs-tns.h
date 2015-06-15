@@ -1349,8 +1349,8 @@ typedef union bdk_tns_rdma_ecc_ctl {
 	struct bdk_tns_rdma_ecc_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_35_63              : 29;
-		uint64_t b_x2p_ecc_dis               : 2;  /**< R/W - Disable ECC for B_X2P[1..0] RAM. */
-		uint64_t b_p2x_ecc_dis               : 1;  /**< R/W - Disable ECC for B_P2X RAM. */
+		uint64_t b_x2p_ecc_dis               : 2;  /**< R/W - Disable ECC data correction for B_X2P[1..0] RAM. */
+		uint64_t b_p2x_ecc_dis               : 1;  /**< R/W - Disable ECC data correction for B_P2X RAM. */
 		uint64_t reserved_6_31               : 26;
 		uint64_t b_x2p1_ecc_flip_synd        : 2;  /**< R/W - Flip syndrome for all data written to B_X2P1 RAM. */
 		uint64_t b_x2p0_ecc_flip_synd        : 2;  /**< R/W - Flip syndrome for all data written to B_X2P0 RAM. */
@@ -2171,13 +2171,13 @@ typedef union bdk_tns_rdma_nb_ecc_ctl {
 	struct bdk_tns_rdma_nb_ecc_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_40_63              : 24;
-		uint64_t sdma_ecc_dis                : 1;  /**< R/W - Disable ECC for SDMA path. */
-		uint64_t plut_sdma_ecc_dis           : 1;  /**< R/W - Disable ECC for SDMA port LUT. */
-		uint64_t plut_p2x_ecc_dis            : 1;  /**< R/W - Disable ECC for P2X port LUT. */
-		uint64_t pkt_lb_ecc_dis              : 1;  /**< R/W - Disable ECC for loopback packet path FIFOs. */
-		uint64_t pkt_lmacts_ecc_dis          : 1;  /**< R/W - Disable ECC for LMAC packet path timestamp FIFOs. */
-		uint64_t pkt_lmac_ecc_dis            : 1;  /**< R/W - Disable ECC for LMAC packet path FIFOs. */
-		uint64_t pkt_nici_ecc_dis            : 2;  /**< R/W - Disable ECC for NICI[1..0] packet path FIFOs. */
+		uint64_t sdma_ecc_dis                : 1;  /**< R/W - Disable ECC data correction for SDMA path. */
+		uint64_t plut_sdma_ecc_dis           : 1;  /**< R/W - Disable ECC data correction for SDMA port LUT. */
+		uint64_t plut_p2x_ecc_dis            : 1;  /**< R/W - Disable ECC data correction for P2X port LUT. */
+		uint64_t pkt_lb_ecc_dis              : 1;  /**< R/W - Disable ECC data correction for loopback packet path FIFOs. */
+		uint64_t pkt_lmacts_ecc_dis          : 1;  /**< R/W - Disable ECC data correction for LMAC packet path timestamp FIFOs. */
+		uint64_t pkt_lmac_ecc_dis            : 1;  /**< R/W - Disable ECC data correction for LMAC packet path FIFOs. */
+		uint64_t pkt_nici_ecc_dis            : 2;  /**< R/W - Disable ECC data correction for NICI[1..0] packet path FIFOs. */
 		uint64_t reserved_16_31              : 16;
 		uint64_t pm_ecc_flip_synd            : 2;  /**< R/W - Flip syndrome for all data written to the packet memory. */
 		uint64_t sdma_ecc_flip_synd          : 2;  /**< R/W - Flip syndrome for all data written to the SDMA FIFOs. */
@@ -4144,21 +4144,24 @@ typedef union bdk_tns_tdma_ecc_ctl {
 	struct bdk_tns_tdma_ecc_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_43_63              : 21;
-		uint64_t vmem_ecc_dis                : 1;  /**< R/W - Disable ECC for MSIX VMEM. */
-		uint64_t nici_ecc_dis                : 2;  /**< R/W - Disable ECC for NICI FIFOs. */
-		uint64_t lmac_ecc_dis                : 8;  /**< R/W - Disable ECC for LMAC FIFOs. */
+		uint64_t vmem_ecc_dis                : 1;  /**< R/W - Disable ECC data correction for MSIX VMEM. */
+		uint64_t nici_ecc_dis                : 2;  /**< R/W - Disable ECC data correction for NICI FIFOs. */
+		uint64_t lmac_ecc_dis                : 8;  /**< R/W - Disable ECC data correction for LMAC FIFOs.
+                                                                 Bit [32] applies to all BGX0-bound (LMAC0-LMAC3) packets.
+                                                                 Bit [33] applies to all BGX1-bound (LMAC4-LMAC7) packets.
+                                                                 Bits [39:34] are reserved and should not be written. */
 		uint64_t reserved_22_31              : 10;
 		uint64_t vmem_ecc_flip_synd          : 2;  /**< R/W - Flip syndrome for all data written to MSIX VMEM. */
 		uint64_t nici1_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to NICI1 packet path FIFOs. */
 		uint64_t nici0_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to NICI0 packet path FIFOs. */
-		uint64_t lmac7_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to LMAC7 packet path FIFOs. */
-		uint64_t lmac6_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to LMAC6 packet path FIFOs. */
-		uint64_t lmac5_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to LMAC5 packet path FIFOs. */
-		uint64_t lmac4_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to LMAC4 packet path FIFOs. */
-		uint64_t lmac3_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to LMAC3 packet path FIFOs. */
-		uint64_t lmac2_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to LMAC2 packet path FIFOs. */
-		uint64_t lmac1_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to LMAC1 packet path FIFOs. */
-		uint64_t lmac0_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to LMAC0 packet path FIFOs. */
+		uint64_t lmac7_ecc_flip_synd         : 2;  /**< R/W - This field is reserved and should not be written. */
+		uint64_t lmac6_ecc_flip_synd         : 2;  /**< R/W - This field is reserved and should not be written. */
+		uint64_t lmac5_ecc_flip_synd         : 2;  /**< R/W - This field is reserved and should not be written. */
+		uint64_t lmac4_ecc_flip_synd         : 2;  /**< R/W - This field is reserved and should not be written. */
+		uint64_t lmac3_ecc_flip_synd         : 2;  /**< R/W - This field is reserved and should not be written. */
+		uint64_t lmac2_ecc_flip_synd         : 2;  /**< R/W - This field is reserved and should not be written. */
+		uint64_t lmac1_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to BGX1 (LMAC4-LMAC7) packet path FIFOs. */
+		uint64_t lmac0_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to BGX0 (LMAC0-LMAC3) packet path FIFOs. */
 #else
 		uint64_t lmac0_ecc_flip_synd         : 2;
 		uint64_t lmac1_ecc_flip_synd         : 2;
@@ -4768,10 +4771,176 @@ typedef union bdk_tns_tdma_nb_dbg_config1 {
 	uint64_t u;
 	struct bdk_tns_tdma_nb_dbg_config1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
+		uint64_t reserved_44_63              : 20;
+		uint64_t cutthru_chk                 : 1;  /**< R/W - Enable cut-thru packet checks.
+                                                                 When set, the TDMA performs additional checks to avoid reading
+                                                                 too far in to the page pointer link list if the sequence number of
+                                                                 the packet to be transmitted matches the sequence number of the
+                                                                 packet currently being received on the physical source port on which
+                                                                 the packet to be transmitted had arrived.
+                                                                 For each port where CUTTHRU_CHK is set and the corresponding
+                                                                 *_CUTTHRU_EN field is 0, the data path will operate in a
+                                                                 store-and-forward mode, stopping packet transmission if the packet
+                                                                 being transmitted appears to be in receipt.
+                                                                 When this field is 0, the TDMA packet checks are disabled and the
+                                                                 data path will walk the packet link list until the packet's EOP
+                                                                 is reached.
+                                                                 In order to prevent unnecessary stalling during packet
+                                                                 transmission, this field should be 0 when the TNS Parser or TxQ
+                                                                 is configured for all ports to operate in a store-and-forward mode.
+                                                                 This field has no effect on those TDMA ports where the associated
+                                                                 *_CUTTHRU_EN field is set.
+                                                                 This field was added in pass 2.0. */
+		uint64_t lb_cutthru_en               : 1;  /**< R/W - Enable cut-thru packet checks and transmission on the internal
+                                                                 loopback bus.
+                                                                 When set, the TDMA performs packet checks to avoid reading
+                                                                 too far in to the page pointer link list if the sequence number of
+                                                                 the packet to be transmitted matches the sequence number of the
+                                                                 packet currently being received on the physical source port on which
+                                                                 the packet to be transmitted had arrived (or is arriving).
+                                                                 Setting this bit turns on the cut-through packet checks for the
+                                                                 internal loopback path that otherwise would be enabled by CUTTHRU_CHK,
+                                                                 with the added benefit of allowing cut-through packet transmission
+                                                                 on the internal loopback bus for packets that enter the TDMA.
+                                                                 This bit must be set if the TNS is to operate in cut-through mode.
+                                                                 If the TNS is operating in a store-and-forward mode this bit should
+                                                                 be cleared to prevent unnecessary stalling during packet transmission
+                                                                 due to the cut-through packet checks possibly determining the packet
+                                                                 to be transmitted is currently being received. */
+		uint64_t lmac_cutthru_en             : 1;  /**< R/W - Enable cut-thru packet checks and transmission towards the LMAC ports.
+                                                                 When set, the TDMA performs packet checks to avoid reading
+                                                                 too far in to the page pointer link list if the sequence number of
+                                                                 the packet to be transmitted matches the sequence number of the
+                                                                 packet currently being received on the physical source port on which
+                                                                 the packet to be transmitted had arrived (or is arriving).
+                                                                 Setting this bit turns on the cut-through packet checks for
+                                                                 LMAC-destined packets that otherwise would be enabled by CUTTHRU_CHK,
+                                                                 with the added benefit of allowing cut-through packet transmission
+                                                                 towards the LMACs for packets that enter the TDMA.
+                                                                 This bit must be set if the TNS is to operate in cut-through mode.
+                                                                 If the TNS is operating in a store-and-forward mode this bit should
+                                                                 be cleared to prevent unnecessary stalling during packet transmission
+                                                                 due to the cut-through packet checks possibly determining the packet
+                                                                 to be transmitted is currently being received. */
+		uint64_t nic_cutthru_en              : 1;  /**< R/W - Enable cut-thru packet checks and transmission towards the NIC.
+                                                                 When set, the TDMA performs packet checks to avoid reading
+                                                                 too far in to the page pointer link list if the sequence number of
+                                                                 the packet to be transmitted matches the sequence number of the
+                                                                 packet currently being received on the physical source port on which
+                                                                 the packet to be transmitted had arrived (or is arriving).
+                                                                 Setting this bit turns on the cut-through packet checks for
+                                                                 NIC-destined packets that otherwise would be enabled by CUTTHRU_CHK,
+                                                                 with the added benefit of allowing cut-through packet transmission
+                                                                 towards the NIC for packets that enter the TDMA.
+                                                                 This bit must be set if the TNS is to operate in cut-through mode.
+                                                                 If the TNS is operating in a store-and-forward mode this bit should
+                                                                 be cleared to prevent unnecessary stalling during packet transmission
+                                                                 due to the cut-through packet checks possibly determining the packet
+                                                                 to be transmitted is currently being received. */
+		uint64_t reserved_37_39              : 3;
+		uint64_t lb_init_cdts                : 5;  /**< R/W - The flow of data from the TDMA to the RDMA along the internal loopback path is
+                                                                 metered by credits.
+                                                                 Each credit represents the transfer of a 32-byte flit.
+                                                                 A maximum of 16 (decimal) credits is allowed.
+                                                                 A minimum of 2 credits is required for proper operation. */
+		uint64_t reserved_29_31              : 3;
+		uint64_t txq_drop_req_thresh         : 5;  /**< R/W - Requests to drop packets are received from the TxQ.
+                                                                 Arriving requests can take one of two paths:
+                                                                 _ 1) If the packet is a single-copy packet, the packet is pushed to a 16-entry FIFO
+                                                                 _    in the Link List walker logic.
+                                                                 _ 2) If the packet is a multiple-copy packet the packet is pushed to a 16-entry FIFO
+                                                                 _    in the Page Reference Count logic.
+                                                                 If the occupancy of either of these FIFOs reaches the value programmed in this field
+                                                                 the data path will assert flow control to the TxQ to prevent additional drop messages
+                                                                 from arriving. */
+		uint64_t reserved_21_23              : 3;
+		uint64_t p2x_tkn_sch_thresh          : 5;  /**< R/W - Each of the 8 BGX ports has a FIFO for receiving tokens from the port's per-priority
+                                                                 Token FIFOs.
+                                                                 Each FIFO can store 8 tokens.
+                                                                 This value indicates the number of tokens at which the FIFO will stop pulling tokens
+                                                                 from the port's per-priority Token FIFOs. */
+		uint64_t reserved_13_15              : 3;
+		uint64_t lb_tkn_sch_thresh           : 5;  /**< R/W - The internal loopback path has a FIFO for receiving tokens from the TxQ block.
+                                                                 The FIFO can store 8 tokens.
+                                                                 This value indicates the number of tokens at which the port available signal to
+                                                                 the TxQ is to be de-asserted.
+                                                                 The value includes tokens in the FIFO as well as the in-flight tokens
+                                                                 (schedule received but token not yet received). */
+		uint64_t reserved_5_7                : 3;
+		uint64_t x2p_tkn_sch_thresh          : 5;  /**< R/W - Both NIC Interfaces have a FIFO for receiving tokens from the TxQ block.
+                                                                 Each FIFO can store 8 tokens.
+                                                                 This value indicates the number of tokens at which the port available signal to
+                                                                 the TxQ is to be de-asserted.
+                                                                 The value includes tokens in the FIFO as well as the in-flight tokens
+                                                                 (schedule received but token not yet received). */
+#else
+		uint64_t x2p_tkn_sch_thresh          : 5;
+		uint64_t reserved_5_7                : 3;
+		uint64_t lb_tkn_sch_thresh           : 5;
+		uint64_t reserved_13_15              : 3;
+		uint64_t p2x_tkn_sch_thresh          : 5;
+		uint64_t reserved_21_23              : 3;
+		uint64_t txq_drop_req_thresh         : 5;
+		uint64_t reserved_29_31              : 3;
+		uint64_t lb_init_cdts                : 5;
+		uint64_t reserved_37_39              : 3;
+		uint64_t nic_cutthru_en              : 1;
+		uint64_t lmac_cutthru_en             : 1;
+		uint64_t lb_cutthru_en               : 1;
+		uint64_t cutthru_chk                 : 1;
+		uint64_t reserved_44_63              : 20;
+#endif
+	} s;
+	/* struct bdk_tns_tdma_nb_dbg_config1_s cn88xx; */
+	struct bdk_tns_tdma_nb_dbg_config1_cn88xxp1 {
+#if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_43_63              : 21;
-		uint64_t lb_cutthru_en               : 1;  /**< R/W - Enable cut-thru packet transmission on the internal loopback bus. */
-		uint64_t lmac_cutthru_en             : 1;  /**< R/W - Enable cut-thru packet transmission towards the LMAC ports. */
-		uint64_t nic_cutthru_en              : 1;  /**< R/W - Enable cut-thru packet transmission towards the NIC. */
+		uint64_t lb_cutthru_en               : 1;  /**< R/W - Enable cut-thru packet checks and transmission on the internal
+                                                                 loopback bus.
+                                                                 When set, the TDMA performs packet checks to avoid reading
+                                                                 too far in to the page pointer link list if the sequence number of
+                                                                 the packet to be transmitted matches the sequence number of the
+                                                                 packet currently being received on the physical source port on which
+                                                                 the packet to be transmitted had arrived (or is arriving).
+                                                                 Setting this bit turns on the cut-through packet checks for the
+                                                                 internal loopback path that otherwise would be enabled by CUTTHRU_CHK,
+                                                                 with the added benefit of allowing cut-through packet transmission
+                                                                 on the internal loopback bus for packets that enter the TDMA.
+                                                                 This bit must be set if the TNS is to operate in cut-through mode.
+                                                                 If the TNS is operating in a store-and-forward mode this bit should
+                                                                 be cleared to prevent unnecessary stalling during packet transmission
+                                                                 due to the cut-through packet checks possibly determining the packet
+                                                                 to be transmitted is currently being received. */
+		uint64_t lmac_cutthru_en             : 1;  /**< R/W - Enable cut-thru packet checks and transmission towards the LMAC ports.
+                                                                 When set, the TDMA performs packet checks to avoid reading
+                                                                 too far in to the page pointer link list if the sequence number of
+                                                                 the packet to be transmitted matches the sequence number of the
+                                                                 packet currently being received on the physical source port on which
+                                                                 the packet to be transmitted had arrived (or is arriving).
+                                                                 Setting this bit turns on the cut-through packet checks for
+                                                                 LMAC-destined packets that otherwise would be enabled by CUTTHRU_CHK,
+                                                                 with the added benefit of allowing cut-through packet transmission
+                                                                 towards the LMACs for packets that enter the TDMA.
+                                                                 This bit must be set if the TNS is to operate in cut-through mode.
+                                                                 If the TNS is operating in a store-and-forward mode this bit should
+                                                                 be cleared to prevent unnecessary stalling during packet transmission
+                                                                 due to the cut-through packet checks possibly determining the packet
+                                                                 to be transmitted is currently being received. */
+		uint64_t nic_cutthru_en              : 1;  /**< R/W - Enable cut-thru packet checks and transmission towards the NIC.
+                                                                 When set, the TDMA performs packet checks to avoid reading
+                                                                 too far in to the page pointer link list if the sequence number of
+                                                                 the packet to be transmitted matches the sequence number of the
+                                                                 packet currently being received on the physical source port on which
+                                                                 the packet to be transmitted had arrived (or is arriving).
+                                                                 Setting this bit turns on the cut-through packet checks for
+                                                                 NIC-destined packets that otherwise would be enabled by CUTTHRU_CHK,
+                                                                 with the added benefit of allowing cut-through packet transmission
+                                                                 towards the NIC for packets that enter the TDMA.
+                                                                 This bit must be set if the TNS is to operate in cut-through mode.
+                                                                 If the TNS is operating in a store-and-forward mode this bit should
+                                                                 be cleared to prevent unnecessary stalling during packet transmission
+                                                                 due to the cut-through packet checks possibly determining the packet
+                                                                 to be transmitted is currently being received. */
 		uint64_t reserved_37_39              : 3;
 		uint64_t lb_init_cdts                : 5;  /**< R/W - The flow of data from the TDMA to the RDMA along the internal loopback path is
                                                                  metered by credits.
@@ -4824,9 +4993,7 @@ typedef union bdk_tns_tdma_nb_dbg_config1 {
 		uint64_t lb_cutthru_en               : 1;
 		uint64_t reserved_43_63              : 21;
 #endif
-	} s;
-	/* struct bdk_tns_tdma_nb_dbg_config1_s cn88xx; */
-	/* struct bdk_tns_tdma_nb_dbg_config1_s cn88xxp1; */
+	} cn88xxp1;
 } bdk_tns_tdma_nb_dbg_config1_t;
 
 #define BDK_TNS_TDMA_NB_DBG_CONFIG1 BDK_TNS_TDMA_NB_DBG_CONFIG1_FUNC()
@@ -5014,14 +5181,14 @@ typedef union bdk_tns_tdma_nb_ecc_ctl {
 	struct bdk_tns_tdma_nb_ecc_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_40_63              : 24;
-		uint64_t pm_ecc_dis                  : 1;  /**< R/W - Disable ECC for PM RAM. */
-		uint64_t prc_ecc_dis                 : 1;  /**< R/W - Disable ECC for PRC RAM. */
-		uint64_t ll_ecc_dis                  : 1;  /**< R/W - Disable ECC for LL RAM. */
-		uint64_t fpm_ecc_dis                 : 1;  /**< R/W - Disable ECC for FPM RAM. */
-		uint64_t pkt_lb_ecc_dis              : 1;  /**< R/W - Disable ECC for PKT_LB RAM. */
-		uint64_t pkt_x2p_ecc_dis             : 1;  /**< R/W - Disable ECC for PKT_X2P RAM. */
-		uint64_t pkt_p2x_data_ecc_dis        : 1;  /**< R/W - Disable ECC for PKT_P2X_DATA RAM. */
-		uint64_t pkt_p2x_tkn_ecc_dis         : 1;  /**< R/W - Disable ECC for PKT_P2X_TKN RAM. */
+		uint64_t pm_ecc_dis                  : 1;  /**< R/W - Disable ECC data correction for PM RAM. */
+		uint64_t prc_ecc_dis                 : 1;  /**< R/W - Disable ECC data correction for PRC RAM. */
+		uint64_t ll_ecc_dis                  : 1;  /**< R/W - Disable ECC data correction for LL RAM. */
+		uint64_t fpm_ecc_dis                 : 1;  /**< R/W - Disable ECC data correction for FPM RAM. */
+		uint64_t pkt_lb_ecc_dis              : 1;  /**< R/W - Disable ECC data correction for PKT_LB RAM. */
+		uint64_t pkt_x2p_ecc_dis             : 1;  /**< R/W - Disable ECC data correction for PKT_X2P RAM. */
+		uint64_t pkt_p2x_data_ecc_dis        : 1;  /**< R/W - Disable ECC data correction for PKT_P2X_DATA RAM. */
+		uint64_t pkt_p2x_tkn_ecc_dis         : 1;  /**< R/W - Disable ECC data correction for PKT_P2X_TKN RAM. */
 		uint64_t reserved_14_31              : 18;
 		uint64_t prc_ecc_flip_synd           : 2;  /**< R/W - Flip syndrome for all data written to PRC RAM. */
 		uint64_t ll_ecc_flip_synd            : 2;  /**< R/W - Flip syndrome for all data written to LL RAM. */

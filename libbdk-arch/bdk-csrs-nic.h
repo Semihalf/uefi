@@ -2194,6 +2194,13 @@ union nic_send_imm_s {
  * set/increment/decrement. (Less internal bus bandwidth is used with memory decrements by one.)
  * NIC performance may be impacted if a send descriptor has more than 4 NIC_SEND_MEM_S
  * subdescriptors.
+ *
+ * When a NIC_SEND_HDR_S[TSO] is set, NIC executes the NIC_SEND_MEM_S only while processing the
+ * last TSO segment, after processing prior segments.
+ *
+ * NIC_SEND_MEM_S subdescriptors must precede all NIC_SEND_GATHER_S and NIC_SEND_IMM_S
+ * subdescriptors in the send descriptor. INTERNAL: This constraint was added in pass 2 to
+ * simplify NIC_SEND_MEM_S handling for TSO.
  */
 union nic_send_mem_s {
 	uint64_t u[2];
@@ -9416,10 +9423,8 @@ typedef union bdk_nic_qsx_sqx_base {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
 		uint64_t base_addr                   : 42; /**< R/W/H - Base byte address\<48:7\> of SQ ring in DRAM (VA, IPA or PA depending on VNIC
-                                                                 configuration). Address bits \<6:0\> are always 0.  Writes are ignored when the SQ ring is
-                                                                 active, i.e.:
-                                                                 * NIC_QS()_SQ()_HEAD[HEAD_PTR]!=NIC_QS()_SQ()_TAIL[TAIL_PTR], and
-                                                                 * NIC_QS()_SQ()_STATUS[STOPPED]==0. */
+                                                                 configuration). Address bits \<6:0\> are always 0. Writes are ignored when the SQ ring is
+                                                                 not empty, i.e. NIC_QS()_SQ()_HEAD[HEAD_PTR]!=NIC_QS()_SQ()_TAIL[TAIL_PTR]. */
 		uint64_t reserved_0_6                : 7;
 #else
 		uint64_t reserved_0_6                : 7;
@@ -9448,7 +9453,8 @@ static inline uint64_t BDK_NIC_QSX_SQX_BASE(unsigned long param1, unsigned long 
 /**
  * NCB - nic_qs#_sq#_cfg
  *
- * Writes to all fields except for [ENA] are ignored when the SQ ring is active, i.e.:
+ * Writes to all fields except for [ENA] are ignored when the SQ ring is active, which is
+ * generally when:
  * * NIC_QS()_SQ()_HEAD[HEAD_PTR]!=NIC_QS()_SQ()_TAIL[TAIL_PTR], and
  * * NIC_QS()_SQ()_STATUS[STOPPED]==0.
  */

@@ -3939,7 +3939,7 @@ typedef union bdk_ap_cvmctl_el1 {
 		uint64_t disable_eret_pred           : 1;  /**< R/W - Disable ERET prediction. */
 		uint64_t disable_casp                : 1;  /**< R/W - Disable the CASP instruction. */
 		uint64_t disable_cas                 : 1;  /**< R/W - Disable the CAS instruction. */
-		uint64_t force_cim_ich_vtr_to1       : 1;  /**< R/W - Set CIM AP_ICH_VTR_EL2[ListRegs] to 0x1 (i.e. two LRs). */
+		uint64_t force_cim_ich_vtr_to1       : 1;  /**< R/W - Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
 		uint64_t disable_wfe                 : 1;  /**< R/W - Disable WFE. */
 		uint64_t enable_v81                  : 1;  /**< R/W - Enable v8.1 features, modifying the ID registers to show v8.1. */
 		uint64_t make_isb_unnecessarily_slow : 1;  /**< R/W - Make ISB unnecessarily slow. */

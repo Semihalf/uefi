@@ -74,7 +74,8 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  *      0x0180 to 0x01B7     Cavium Misc Counters
  *      0x01B8 to 0x01FF     Cavium - special instructions and events
  *      0x0300 to 0x03FF     Cavium - can be secure mode only
- *    0x4000 to 0x403F    Common architectural and microarchitectural events
+ *    0x4000 to 0x403F    Common architectural and microarchitectural events (PMCEID0_EL0[63:32],
+ * PMCEID0_EL1[63:32])
  *    0x4040 to 0x40BF    ARM recommended common architectural and microarchitectural events.
  * IMPLEMENTATION DEFINED
  *    0x40C0 to 0x7FFF    IMPLEMENTATION DEFINED

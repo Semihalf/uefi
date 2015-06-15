@@ -25918,7 +25918,8 @@ local csr_db = {
             fields = {
                 {name = "NXTFN_S", start = 24, stop = 31},
                 {name = "RID", start = 16, stop = 23},
-                {name = "RESERVED_4_15", start = 4, stop = 15},
+                {name = "RESERVED_6_15", start = 6, stop = 15},
+                {name = "NODE", start = 4, stop = 5},
                 {name = "EA", start = 3, stop = 3},
                 {name = "BCST_RSP", start = 2, stop = 2},
                 {name = "MSIX_SEC", start = 1, stop = 1},
@@ -81006,7 +81007,8 @@ local csr_db = {
             fields = {
                 {name = "NXTFN_S", start = 24, stop = 31},
                 {name = "RID", start = 16, stop = 23},
-                {name = "RESERVED_4_15", start = 4, stop = 15},
+                {name = "RESERVED_6_15", start = 6, stop = 15},
+                {name = "NODE", start = 4, stop = 5},
                 {name = "EA", start = 3, stop = 3},
                 {name = "BCST_RSP", start = 2, stop = 2},
                 {name = "MSIX_SEC", start = 1, stop = 1},
@@ -100745,7 +100747,8 @@ local csr_db = {
             width = 8,
             address = 0x842041000c00,
             fields = {
-                {name = "RESERVED_43_63", start = 43, stop = 63},
+                {name = "RESERVED_44_63", start = 44, stop = 63},
+                {name = "CUTTHRU_CHK", start = 43, stop = 43},
                 {name = "LB_CUTTHRU_EN", start = 42, stop = 42},
                 {name = "LMAC_CUTTHRU_EN", start = 41, stop = 41},
                 {name = "NIC_CUTTHRU_EN", start = 40, stop = 40},

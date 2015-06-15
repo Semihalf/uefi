@@ -3690,7 +3690,7 @@ typedef union bdk_bgxx_gmp_gmi_rxx_ifg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_4_63               : 60;
 		uint64_t ifg                         : 4;  /**< R/W - Min IFG (in IFG * 8 bits) between packets used to determine IFGERR. Normally IFG is 96
-                                                                 bits.
+                                                                 bits. Values 0x1 or smaller are illegal.
 
                                                                  Note that in some operating modes, IFG cycles can be inserted or removed in order to
                                                                  achieve clock rate adaptation. For these reasons, the default value is slightly

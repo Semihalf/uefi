@@ -175,9 +175,9 @@ typedef union bdk_sgp_cfg1 {
                                                                  SGP_TX(0..3)[*_ACT] is 0x4 or 0x5. Note all drives will not reach the MAX_ON time
                                                                  simultaneously, the pattern will appear somewhat random.
                                                                  0x0 = No maximum.
-                                                                 0x1 = 1/8 second.
+                                                                 0x1 = 1/4 second.
                                                                  ...
-                                                                 0xF = 15/8 seconds. */
+                                                                 0xF = 15/4 seconds. */
 		uint32_t stretch_off                 : 4;  /**< R/W - Stretch activity off. The minimum amount of time to disable the activity indicator if
                                                                  SGP_TX(0..3)[*_ACT] is 0x4 or 0x5.
                                                                  0x0 = No minimum.

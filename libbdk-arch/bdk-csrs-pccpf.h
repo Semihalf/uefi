@@ -2100,7 +2100,8 @@ typedef union bdk_pccpf_xxx_vsec_sctl {
                                                                  the next valid function number for this device. Must be 0x0 for non-MRML PCC
                                                                  devices. */
 		uint32_t rid                         : 8;  /**< SR/W - Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
-		uint32_t reserved_4_15               : 12;
+		uint32_t reserved_6_15               : 10;
+		uint32_t node                        : 2;  /**< SRO - Reserved. */
 		uint32_t ea                          : 1;  /**< SRO - Reserved. */
 		uint32_t bcst_rsp                    : 1;  /**< SR/W - Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
                                                                  instance as the responder to PCC broadcast reads/writes. */
@@ -2116,7 +2117,8 @@ typedef union bdk_pccpf_xxx_vsec_sctl {
 		uint32_t msix_sec                    : 1;
 		uint32_t bcst_rsp                    : 1;
 		uint32_t ea                          : 1;
-		uint32_t reserved_4_15               : 12;
+		uint32_t node                        : 2;
+		uint32_t reserved_6_15               : 10;
 		uint32_t rid                         : 8;
 		uint32_t nxtfn_s                     : 8;
 #endif

@@ -433,8 +433,12 @@ typedef union bdk_mrml_rslx_sdev {
                                                                  only. Read/writes from non-secure agents will be RAZ/WI.
                                                                  The register index 0..3 indicates which group of 64 functions, and bit index indicates
                                                                  which mod-64 function, for 256 function bits total.
+
                                                                  For compatiblity with ARM secure boot the following RSL devices
-                                                                 should be marked secure: TBD (DTX, KEY, MIO_FUS, OCLA, RST, SPI). */
+                                                                 should be marked secure: TBD (DTX, KEY, MIO_FUS, OCLA, RST, SPI).
+
+                                                                 RSL function number 0xFF, which is not present but used internally by MRML, must
+                                                                 be marked secure. */
 #else
 		uint64_t sec                         : 64;
 #endif

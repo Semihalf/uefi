@@ -299,6 +299,7 @@ def build_csr(chip_info, group, register, raw):
                    "rtlgen_cib",
                    "rtlgen_reg_data_out",
                    "rtlgen_extern",
+                   "rtlgen_force_raz_in",
                    "rtlgen_msix",
                    "rtlgen_pib",
                    "rtlgen_soft_reset",
