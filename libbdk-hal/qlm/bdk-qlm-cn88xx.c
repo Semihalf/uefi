@@ -1195,26 +1195,55 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
         /* Use the OCI strapping to find the speed. This will not work if
            the OCI is in SW_MODE */
         BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
-        switch (gserx_spd.s.spd)
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
         {
-            case 0x0: return 1250; /* Ref 100Mhz */
-            case 0x1: return 2500;
-            case 0x2: return 5000;
-            case 0x3: return 8000;
-            case 0x4: return 1250; /* Ref 125Mhz */
-            case 0x5: return 2500;
-            case 0x6: return 3125;
-            case 0x7: return 5000;
-            case 0x8: return 6250;
-            case 0x9: return 8000;
-            case 0xa: return 2500; /* Ref 156.25Mhz */
-            case 0xb: return 3125;
-            case 0xc: return 5000;
-            case 0xd: return 6250;
-            case 0xe: return 10312;
-            default: /* Software mode */
-                /* Fall through to lane mode check below */
-                break;
+            /* Pass 1.x used a different encoding than pass 2.x */
+            switch (gserx_spd.s.spd)
+            {
+                case 0x0: return 1250; /* Ref 100Mhz */
+                case 0x1: return 2500;
+                case 0x2: return 5000;
+                case 0x3: return 8000;
+                case 0x4: return 1250; /* Ref 125Mhz */
+                case 0x5: return 2500;
+                case 0x6: return 3125;
+                case 0x7: return 5000;
+                case 0x8: return 6250;
+                case 0x9: return 8000;
+                case 0xa: return 2500; /* Ref 156.25Mhz */
+                case 0xb: return 3125;
+                case 0xc: return 5000;
+                case 0xd: return 6250;
+                case 0xe: return 10312; /* KR training */
+                default: /* Software mode */
+                    /* Fall through to lane mode check below */
+                    break;
+            }
+        }
+        else
+        {
+            /* This is for pass 2.x (and beyond) */
+            switch (gserx_spd.s.spd)
+            {
+                case 0x0: return 5000; /* Ref 100Mhz, Training short (Rx EQ only) */
+                case 0x1: return 2500; /* Ref 100Mhz, No training */
+                case 0x2: return 5000; /* Ref 100Mhz, No training */
+                case 0x3: return 8000; /* Ref 100Mhz, No training */
+                case 0x4: return 8000; /* Ref 100Mhz, Training short (Rx EQ only) */
+                case 0x5: return 8000; /* Ref 100Mhz, KR training */
+                case 0x6: return 3125; /* Ref 156.25Mhz, No training */
+                case 0x7: return 5000; /* Ref 125Mhz, No training */
+                case 0x8: return 6250; /* Ref 156.25Mhz, No training */
+                case 0x9: return 8000; /* Ref 125Mhz, No training */
+                case 0xa: return 10312;/* Ref 156.25Mhz, Training short (Rx EQ only) */
+                case 0xb: return 3125; /* Ref 156.25Mhz, No training */
+                case 0xc: return 5000; /* Ref 125Mhz, Training short (Rx EQ only) */
+                case 0xd: return 6250; /* Ref 156.25Mhz, Training short (Rx EQ only) */
+                case 0xe: return 10312;/* Ref 156.25Mhz, KR training */
+                default: /* Software mode */
+                    /* Fall through to lane mode check below */
+                    break;
+            }
         }
     }
 
