@@ -520,6 +520,13 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG452(pcie_port),
             c.s.lme = (pemx_cfg.s.lanes8) ? 0xf : 0x7);
     }
+    /* Errata PEM-26189 - PEM EQ Preset Removal */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        /* CFG554.PRV default changed from 16'h7ff to 16'h593. */
+        BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG554(pcie_port),
+            c.s.prv = 0x593);
+    }
 }
 
 
