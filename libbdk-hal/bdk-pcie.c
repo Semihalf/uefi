@@ -203,6 +203,10 @@ static void pcie_internal_init_dev(bdk_node_t node, int ecam, int bus, int dev, 
     sctl.s.node = node; /* Program node bits, added in pass 2 */
     bdk_pcie_config_write32(node, 100 + ecam, bus, dev, fn, BDK_PCCPF_XXX_VSEC_SCTL, sctl.u);
 
+    /* Skip programming legacy BARs if Enhanced Allocation is in use */
+    if (sctl.s.ea)
+        return;
+
     /* PCCPF_XXX_BAR0U, PCCPF_XXX_BAR2U, PCCPF_XXX_SRIOV_BAR0U,
        PCCPF_XXX_SRIOV_BAR2U with the address node number bits, read from
        OCX */
