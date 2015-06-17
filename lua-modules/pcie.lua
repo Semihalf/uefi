@@ -400,9 +400,9 @@ local function create_device(root, bus, deviceid, func)
         --printf("%s    Expansion ROM:%08x\n",
         --    indent,
         --    self:read32(PCICONFIG_ROM))
-        --printf("%s    Capabilities Pointer:%02x\n",
-        --    indent,
-        --    self:read8(PCICONFIG_CAP_PTR))
+        printf("%s    Capabilities Pointer:%02x\n",
+            indent,
+            self:read8(PCICONFIG_CAP_PTR))
         --printf("%s    Interrupt Line:%02x Interrupt Pin:%02x Min Grant:%02x Max Latency:%02x\n",
         --    indent,
         --    self:read8(PCICONFIG_INT_LINE),
@@ -468,6 +468,48 @@ local function create_device(root, bus, deviceid, func)
             end
             barno = barno + 1
         end
+
+        -- Display the PCI capabilities headers
+        local has_pcie = false
+        local cap_loc = self:read8(PCICONFIG_CAP_PTR)
+        while cap_loc ~= 0 do
+            local cap_id = self:read8(cap_loc)
+            local cap_next = self:read8(cap_loc + 1)
+            printf("%s    PCI Capability %02x ID:%02x Next:%02x\n",
+                   indent, cap_loc, cap_id, cap_next)
+            if cap_id == 0x10 then
+                has_pcie = true
+                printf("%s        PCIe\n", indent)
+            end
+            if cap_id == 0x11 then
+                printf("%s        MSI-X\n", indent)
+            end
+            if cap_id == 0x14 then
+                printf("%s        Enhanced Allocation\n", indent)
+            end
+            cap_loc = cap_next
+        end
+
+        -- Display the PCIe capabilities headers
+        if has_pcie then
+            cap_loc = 0x100
+            while cap_loc ~= 0 do
+                local cap = self:read32(cap_loc)
+                local cap_id = bit64.bextract(cap, 0, 15)
+                local cap_ver = bit64.bextract(cap, 16, 19)
+                local cap_next = bit64.bextract(cap, 20, 31)
+                printf("%s    PCIe Capability %03x ID:%04x Version:%x Next:%03x\n",
+                       indent, cap_loc, cap_id, cap_ver, cap_next)
+                if cap_id == 0xe then
+                    printf("%s        ARI\n", indent)
+                end
+                if cap_id == 0xb then
+                    printf("%s        Vendor Specific\n", indent)
+                end
+                cap_loc = cap_next
+            end
+        end
+
         if self.isbridge then
             indent = indent .. "    "
             for _,device in ipairs(self.devices) do
