@@ -250,6 +250,10 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     uint64_t usec_cycles = bdk_clock_get_rate(handle->node, BDK_CLOCK_SCLK) / 1000000;
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPU_DBG_CONTROL(handle->interface),
         c.s.us_clk_period = usec_cycles-1);
+
+    /* Set the default pause interval as the hardware default is too short */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_PAUSE_PKT_TIME(handle->interface, handle->index),
+            c.s.p_time = 0x100);
     return 0;
 }
 
