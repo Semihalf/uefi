@@ -2,19 +2,15 @@ include $(BDK_ROOT)/libbdk/bdk.mk
 
 DIR=$(BDK_ROOT)/target-bin
 IMAGE_NAME=chainboot
-IMAGE_NAME_NONFAT=chainboot-nonfat
 
 .PHONY: all
-all: ${DIR}/${IMAGE_NAME}.bin ${DIR}/${IMAGE_NAME_NONFAT}.bin
+all: ${DIR}/${IMAGE_NAME}.bin
 
 #
 # Rules for node 0 boot stub
 #
 ${DIR}/${IMAGE_NAME}.bin: ${IMAGE_NAME}.bin
 	cp ${IMAGE_NAME}.bin ${DIR}/${IMAGE_NAME}.bin
-
-${DIR}/${IMAGE_NAME_NONFAT}.bin: ${IMAGE_NAME_NONFAT}.bin
-	cp ${IMAGE_NAME_NONFAT}.bin ${DIR}/${IMAGE_NAME_NONFAT}.bin
 
 # Initial stage 0 chainloader
 stage0.bin: chainloader.bin
@@ -49,27 +45,10 @@ ${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin
 	# 8) 0x300000: Free space until 0x400000
 	# You need to install ATF starting at 0x400000
 
-${IMAGE_NAME_NONFAT}.bin: stage0.bin stage1.bin stage2.bin
-	#
-	# 1) 0x000000: 64KB unused by Thunder
-	cat /dev/zero | head -q -c 65536 > ${IMAGE_NAME_NONFAT}.bin
-	# 2) 0x010000: 64KB of CVM_CLIB header
-	echo -n CVM_CLIB | cat - /dev/zero | head -q -c 65536 >> ${IMAGE_NAME_NONFAT}.bin
-	# 3) 0x020000: 192KB of chainloader image (non-trusted)
-	cat stage0.bin /dev/zero | head -q -c 196608 >> ${IMAGE_NAME_NONFAT}.bin
-	# 4) 0x050000: 192KB of chainloader image (trusted)
-	cat stage0.bin /dev/zero | head -q -c 196608 >> ${IMAGE_NAME_NONFAT}.bin
-	# 5) 0x080000: 512k of BDK image
-	cat stage1.bin /dev/zero | head -q -c 524288 >> ${IMAGE_NAME_NONFAT}.bin
-	# 6) 0x100000: 1.5MB of diagnostics
-	cat stage2.bin /dev/zero | head -q -c 1572864 >> ${IMAGE_NAME_NONFAT}.bin
-	# 7) 0x300000: Free space until 0x400000
-	# You need to install ATF starting at 0x400000
-
 chainloader: chainloader.o $(BDK_ROOT)/libbdk/libbdk.a
 diagnostics: diagnostics.o tuning.o $(BDK_ROOT)/libbdk/libbdk.a
 boot-stub: boot-stub.o tuning.o $(BDK_ROOT)/libbdk/libbdk.a
 
 clean:
-	rm -f *.o *.map *.bin boot-stub diagnostics ${DIR}/${IMAGE_NAME}.bin ${DIR}/${IMAGE_NAME_NONFAT}.bin
+	rm -f *.o *.map *.bin boot-stub diagnostics ${DIR}/${IMAGE_NAME}.bin
 
