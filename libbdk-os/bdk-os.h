@@ -14,6 +14,7 @@
 #include "bdk-fs.h"
 #include "bdk-init.h"
 #include "bdk-image.h"
+#include "bdk-env.h"
 #endif
 #include "bdk-readline.h"
 

@@ -32,6 +32,7 @@ extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 
 #define BDK_TRACE_ENABLE_CCPI       0   /* Multi-node related debug */
 #define BDK_TRACE_ENABLE_FATFS      0   /* FatFs related debug */
 #define BDK_TRACE_ENABLE_MPI        0   /* MPI related debug */
+#define BDK_TRACE_ENABLE_ENV        0   /* Environment variables related debug */
 
 /**
  * Macro for low level tracing of BDK functions. When enabled,
