@@ -13,18 +13,21 @@
 void bdk_board_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
     /* Tune the SATA links */
-    if ((qlm == 3) || (qlm == 6) || (qlm == 7))
+    for (int lane = 0; lane < 4; lane++)
     {
-        for (int lane = 0; lane < 4; lane++)
-        {
+        int swing = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_SWING, node, qlm, lane);
+        if (-1 != swing)
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
-                c.s.cfg_tx_swing = 0xc);
+                c.s.cfg_tx_swing = swing);
+
+        int premptap = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_PREMPTAP, node, qlm, lane);
+        if (-1 != premptap)
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
-                c.s.cfg_tx_premptap = 0xc0);
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-                c.s.tx_swing_ovrd_en = 1;
-                c.s.tx_premptap_ovrd_val = 1);
-        }
+                c.s.cfg_tx_premptap = premptap);
+
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
+            c.s.tx_swing_ovrd_en = (swing != -1 ? 1 : 0);
+            c.s.tx_premptap_ovrd_val = (premptap != -1 ? 1 : 0));
     }
 #if 0 /* This tuning is for the EVT2 and is incorrect for the EVT3 */
     /* Tune the CCPI links */

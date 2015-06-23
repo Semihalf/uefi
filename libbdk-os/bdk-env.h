@@ -67,6 +67,8 @@ extern void bdk_showenv(void);
 #define BDK_BRD_CFG_QLM_MODE                "QLM.MODE.N%d.QLM%d"
 #define BDK_BRD_CFG_QLM_FREQ                "QLM.FREQ.N%d.QLM%d"
 #define BDK_BRD_CFG_QLM_CLK                 "QLM.CLK.N%d.QLM%d"
+#define BDK_BRD_CFG_QLM_TUNING_TX_SWING     "QLM.TUNING.TX_SWING.N%d.QLM%d.LANE%d"
+#define BDK_BRD_CFG_QLM_TUNING_TX_PREMPTAP  "QLM.TUNING.TX_PREMPTAP.N%d.QLM%d.LANE%d"
 #define BDK_BRD_CFG_DDR_UDIMM_SPEED         "DDR.SPEED.UDIMM.N%d"
 #define BDK_BRD_CFG_DDR_RDIMM_SPEED         "DDR.SPEED.RDIMM.N%d"
 #define BDK_BRD_CFG_BGX_ENABLE              "BGX.ENABLE.N%d.BGX%d.P%d"
