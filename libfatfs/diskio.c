@@ -10,15 +10,48 @@
 #include <bdk.h>
 #include "diskio.h"		/* FatFs lower layer API */
 
-#define DEFAULT_SECTOR_SIZE		512
-#define DEFAULT_DEVICE_STRING	"/dev/n0.mpi0/cs-l,2wire,idle-h,msb,24bit,12"
-#define FATFS_IMAGE_OFFSET		0x080000
+#define DRV_SPI		0
+#define DRV_MMC		1
 
-/* Definitions of physical drive number for each drive */
-#define ATA		0	/* Example: Map ATA harddisk to physical drive 0 */
-#define MMC		1	/* Example: Map MMC/SD card to physical drive 1 */
-#define USB		2	/* Example: Map USB MSD to physical drive 2 */
+PARTITION VolToPart[] =
+{
+	{ DRV_SPI, 1 },	/* spi0 - device 0, partition 1 */
+	{ DRV_MMC, 1 },	/* mmc0 - device 1, partition 1 */
+};
 
+
+static struct
+{
+	/* device config */
+	const char    *dev_string;
+	const int     sector_size;
+	const DWORD   img_offset;
+
+	/* work area for diskio */
+	FILE *fp;
+	int dev_init;
+} drv_list[] = {
+	{
+		"/dev/n0.mpi0/cs-l,2wire,idle-h,msb,24bit,12",
+		512,
+		0x00000,
+		NULL,
+		0
+	},
+	{
+		"/dev/mmc-not-yet-implemented",
+		0,
+		0x0000,
+		NULL,
+		0
+	}
+};
+
+#define DRV_DEVSTR(drv)      (drv_list[drv].dev_string)
+#define DRV_SECTOR_SIZE(drv) (drv_list[drv].sector_size)
+#define DRV_IMG_OFFSET(drv)  (drv_list[drv].img_offset)
+#define DRV_FP(drv)          (drv_list[drv].fp)
+#define DRV_INIT(drv)        (drv_list[drv].dev_init)
 
 /*-----------------------------------------------------------------------*/
 /* Get Drive Status                                                      */
@@ -28,8 +61,23 @@ DSTATUS disk_status (
 	BYTE pdrv		/* Physical drive nmuber to identify the drive */
 )
 {
+	DSTATUS stat;
+
 	BDK_TRACE(FATFS, "%s:%d\n", __FUNCTION__, __LINE__);
-	DSTATUS stat = RES_OK;
+
+	switch(pdrv)
+	{
+	case DRV_SPI:
+		stat = RES_OK;
+		break;
+	case DRV_MMC:
+		stat = STA_NODISK;
+		break;
+	default:
+		stat = STA_NODISK;
+		break;
+	}
+
 	return stat;
 }
 
@@ -39,39 +87,48 @@ DSTATUS disk_status (
 /* Initialize a Drive                                                    */
 /*-----------------------------------------------------------------------*/
 
-static FILE *mpi_fp = NULL; /* only one device supported for now */
-
 DSTATUS disk_initialize (
 	BYTE pdrv				/* Physical drive nmuber to identify the drive */
 )
 {
-	static int mpi_initialized = 0;
-
 	BDK_TRACE(FATFS, "disk_initialize(): drv:%d\n", pdrv);
 
-	if (mpi_fp)
+	if (DRV_FP(pdrv))
 	{
-		bdk_warn("FatFs: Drive %d already initialized in disk_initialize(). "
+		bdk_warn("FatFs: Drive %d device already opened in disk_initialize(). "
 					"Closing it first...\n", pdrv);
-		fclose(mpi_fp);
+		fclose(DRV_FP(pdrv));
 	}
 
-	if (!mpi_initialized)
+	switch (pdrv)
 	{
-		/* Initialize mpi_fp for FatFs access */
-		extern int bdk_fs_mpi_init(void);
-		if (0 != bdk_fs_mpi_init())
+	case DRV_SPI:
+		if (!DRV_INIT(pdrv))
 		{
-			return RES_NOTRDY;
+			extern int bdk_fs_mpi_init(void);
+			if (0 != bdk_fs_mpi_init())
+			{
+				return RES_NOTRDY;
+			}
+			DRV_INIT(pdrv) = 1;
 		}
-		mpi_initialized++;
+		break;
+
+	case DRV_MMC:
+		bdk_warn("FatFs: Support for MMC (drive %d) not yet implemented.\n", pdrv);
+		break;
+
+	default:
+		bdk_error("FatFs: Invalid drive number: %d\n", pdrv);
+		return STA_NODISK;
 	}
 
-	mpi_fp = fopen(DEFAULT_DEVICE_STRING, "r+b");
-	if (!mpi_fp)
+
+	DRV_FP(pdrv) = fopen(DRV_DEVSTR(pdrv), "r+b");
+	if (!DRV_FP(pdrv))
 	{
-		bdk_error("FatFs: Could not open device " DEFAULT_DEVICE_STRING
-					" for drive %d\n", pdrv);
+		bdk_error("FatFs: Could not open device %s for drive %d\n",
+					DRV_DEVSTR(pdrv), pdrv);
 		return RES_NOTRDY;
 	}
 
@@ -92,13 +149,13 @@ DRESULT disk_read (
 )
 {
 	int total;
-	int num_bytes = count * DEFAULT_SECTOR_SIZE;
+	int num_bytes = count * DRV_SECTOR_SIZE(pdrv);
 
 	BDK_TRACE(FATFS, "disk_read(): drv:%d - buf:%p - sec:%d - cnt:%d\n", pdrv, buff, sector, count);
 
-	fseek(mpi_fp, sector * DEFAULT_SECTOR_SIZE + FATFS_IMAGE_OFFSET, SEEK_SET);
+	fseek(DRV_FP(pdrv), sector * DRV_SECTOR_SIZE(pdrv) + DRV_IMG_OFFSET(pdrv), SEEK_SET);
 
-	total = fread(buff, num_bytes, 1, mpi_fp);
+	total = fread(buff, num_bytes, 1, DRV_FP(pdrv));
 	if (total != 1)
 	{
 		bdk_error("FatFs: disk_read() failed: drv:%d - buf:%p - sec:%d - cnt:%d\n",
@@ -127,9 +184,9 @@ DRESULT disk_write (
 
 	BDK_TRACE(FATFS, "disk_write(): drv:%d - buf:%p - sec:%d - cnt:%d\n", pdrv, buff, sector, count);
 
-	fseek(mpi_fp, sector * DEFAULT_SECTOR_SIZE + FATFS_IMAGE_OFFSET, SEEK_SET);
+	fseek(DRV_FP(pdrv), sector * DRV_SECTOR_SIZE(pdrv) + DRV_IMG_OFFSET(pdrv), SEEK_SET);
 
-	total = fwrite(buff, DEFAULT_SECTOR_SIZE * count, 1, mpi_fp);
+	total = fwrite(buff, DRV_SECTOR_SIZE(pdrv) * count, 1, DRV_FP(pdrv));
 	if (1 != count)
 	{
 		bdk_error("FatFs: disk_write(): failed drv:%d - buf:%p - sec:%d - cnt:%d - total:%d\n",
