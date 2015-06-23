@@ -29,8 +29,6 @@
 #define DIAGS_GPIO 0
 #define DIAGS_GPIO_VALUE -1
 /* Address of the diagnostics in flash */
-#define DIAGS_ADDRESS 0x00100000
-/* Address of ATF in flash */
 #define ATF_ADDRESS 0x00400000
 /* Enable or disable detailed tracing of the boot stub (0 or 1) */
 #define BDK_TRACE_ENABLE_BOOT_STUB 0
@@ -722,7 +720,7 @@ int main(void)
         printf("Trying diagnostics\n");
     }
     BDK_TRACE(BOOT_STUB, "Looking for Diagnostics image\n");
-    boot_image(boot_device_name, DIAGS_ADDRESS);
+    boot_image("/fatfs/stage2.bin", 0);
 
     bdk_error("Image load failed\n");
 }

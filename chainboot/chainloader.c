@@ -8,8 +8,6 @@
 #define WATCHDOG_TIMEOUT 8010 /* 3sec at 700Mhz */
 /* Control whether the boot stub request power cycles from the BMC (0 ro 1) */
 #define USE_POWER_CYCLE 1 /* Currently not requesting power cycles */
-/* Address of the diagnostics in flash (512KB is right after boot stubs) */
-#define BDK_ADDRESS 0x00080000
 /* Enable or disable detailed tracing of the boot stub (0 or 1) */
 #define BDK_TRACE_ENABLE_CHAINLOADER 0
 
@@ -61,25 +59,22 @@ static void update_bmc_status(bmc_status_t status)
 }
 
 /**
- * Boot an image from a device file at the specified location
+ * Boot an image from a filesystem
  *
- * @param dev_filename
- *               Device file to read image from
- * @param loc    Location offset in the device file
+ * @param filename  Filename of image file to load
  */
-static void boot_image(const char *dev_filename, uint64_t loc)
+static void boot_image(const char *filename)
 {
     void *image = NULL;
 
-    FILE *inf = fopen(dev_filename, "rb");
+    FILE *inf = fopen(filename, "rb");
     if (!inf)
     {
-        bdk_error("Failed to open %s\n", dev_filename);
+        bdk_error("Failed to open %s\n", filename);
         return;
     }
 
-    printf("    Loading image at 0x%lx\n", loc);
-    fseek(inf, loc, SEEK_SET);
+    printf("    Loading image '%s'\n", filename);
 
     bdk_image_header_t header;
     int status = bdk_image_read_header(inf, &header);
@@ -327,61 +322,17 @@ int main(void)
     if (WATCHDOG_TIMEOUT)
         BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
 
-#if 0
-    /* Test code file read() / create() / write(). */
+    /* Send status to the BMC: Loading BDK */
+    update_bmc_status(BMC_STATUS_CHAINLOADER_LOADING_BDK);
 
     /* Initialize the FAT filesystems be need to load the next stage */
     extern int bdk_fs_fatfs_init(void);
     bdk_fs_fatfs_init();
 
-    FILE *foo = fopen("/fatfs/info.txt", "rb");
-    if (!foo)
-    {
-        printf("##### file info.txt not found. Creating.\n");
-        foo = fopen("/fatfs/info.txt", "wb");
-        if (!foo)
-        {
-            printf("##### ERROR: Could not create info.txt.\n");
-        }
-        else
-        {
-            char *text = "If you read this, it works.";
-            int n = fwrite(text, strlen(text)+1, 1, foo);
-            if (n != 1)
-            {
-                printf("##### ERROR writing to info.txt.\n");
-            }
-            fclose(foo);
-        }
-    }
-    else
-    {
-        printf("##### File info.txt opened OK, fp:%p\n", foo);
-        char buf[256];
-        int count;
-        while (0 != (count = fread(buf, 1, sizeof(buf), foo)))
-        {
-            printf("##### Read %d bytes: '%s'\n", count, buf);
-        }
-        fclose(foo);
-    }
-#endif
-
-    /* Poke the watchdog */
-    if (WATCHDOG_TIMEOUT)
-        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
-
-    /* Send status to the BMC: Loading BDK */
-    update_bmc_status(BMC_STATUS_CHAINLOADER_LOADING_BDK);
-
-    /* Initialize the filesystems be need to load code from SPI */
-    extern int bdk_fs_mpi_init(void);
-    bdk_fs_mpi_init();
-
     /* Load the next image */
     /* Transfer control to next image */
     BDK_TRACE(CHAINLOADER, "Looking for BDK image\n");
-    boot_image(boot_device_name, BDK_ADDRESS);
+    boot_image("/fatfs/stage1.bin");
 
     bdk_error("Image load failed\n");
 }
