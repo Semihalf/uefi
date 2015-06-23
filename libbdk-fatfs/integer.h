@@ -5,12 +5,7 @@
 #ifndef _FF_INTEGER
 #define _FF_INTEGER
 
-#ifdef _WIN32	/* FatFs development platform */
-
-#include <windows.h>
-#include <tchar.h>
-
-#else			/* Embedded platform */
+/* Definitions for ThunderX CN88XX architecture (AARCH64) */
 
 /* This type MUST be 8 bit */
 typedef unsigned char	BYTE;
@@ -25,9 +20,7 @@ typedef int				INT;
 typedef unsigned int	UINT;
 
 /* These types MUST be 32 bit */
-typedef long			LONG;
-typedef unsigned long	DWORD;
-
-#endif
+typedef int				LONG;
+typedef unsigned int	DWORD;
 
 #endif

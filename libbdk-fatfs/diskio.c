@@ -7,7 +7,19 @@
 /* storage control modules to the FatFs module with a defined API.       */
 /*-----------------------------------------------------------------------*/
 
+#include <bdk.h>
 #include "diskio.h"		/* FatFs lower layer API */
+
+#define DEFAULT_SECTOR_SIZE		512
+#define DEFAULT_DEVICE_STRING	"/dev/n0.mpi0/cs-l,2wire,idle-h,msb,24bit,12"
+#define FATFS_IMAGE_OFFSET		0x80000
+
+#undef DEBUG
+#if 0
+#define DEBUG(args...) printf(args)
+#else
+#define DEBUG(args...)
+#endif
 
 /* Definitions of physical drive number for each drive */
 #define ATA		0	/* Example: Map ATA harddisk to physical drive 0 */
@@ -23,22 +35,51 @@ DSTATUS disk_status (
 	BYTE pdrv		/* Physical drive nmuber to identify the drive */
 )
 {
-	DSTATUS stat = 0;
+	DEBUG("##### %s:%d\n", __FUNCTION__, __LINE__);
+	DSTATUS stat = RES_OK;
 	return stat;
 }
 
 
 
 /*-----------------------------------------------------------------------*/
-/* Inidialize a Drive                                                    */
+/* Initialize a Drive                                                    */
 /*-----------------------------------------------------------------------*/
+
+static FILE *mpi_fp = NULL; /* only one device supported for now */
 
 DSTATUS disk_initialize (
 	BYTE pdrv				/* Physical drive nmuber to identify the drive */
 )
 {
-	DSTATUS stat = 0;
-	return stat;
+	static int mpi_initialized = 0;
+
+	DEBUG("##### disk_initialize(): drv:%d\n", pdrv);
+
+	if (mpi_fp)
+	{
+		bdk_warn("FatFs: Drive %d already initialized in disk_initialize(). "
+					"Closing it first...\n", pdrv);
+		fclose(mpi_fp);
+	}
+
+	if (!mpi_initialized)
+	{
+		/* Initialize mpi_fp for FatFs access */
+		extern int bdk_fs_mpi_init(void);
+		bdk_fs_mpi_init();
+		mpi_initialized++;
+	}
+
+	mpi_fp = fopen(DEFAULT_DEVICE_STRING, "r+b");
+	if (!mpi_fp)
+	{
+		bdk_error("FatFs: Could not open device " DEFAULT_DEVICE_STRING
+					" for drive %d\n", pdrv);
+		return RES_NOTRDY;
+	}
+
+	return RES_OK;
 }
 
 
@@ -54,8 +95,22 @@ DRESULT disk_read (
 	UINT count		/* Number of sectors to read */
 )
 {
-	DSTATUS stat = 0;
-	return stat;
+	int total;
+	int num_bytes = count * DEFAULT_SECTOR_SIZE;
+
+	DEBUG("##### disk_read(): drv:%d - buf:%p - sec:%d - cnt:%d\n", pdrv, buff, sector, count);
+
+	fseek(mpi_fp, sector * DEFAULT_SECTOR_SIZE + FATFS_IMAGE_OFFSET, SEEK_SET);
+
+	total = fread(buff, num_bytes, 1, mpi_fp);
+	if (total != 1)
+	{
+		bdk_error("FatFs: disk_read() failed: drv:%d - buf:%p - sec:%d - cnt:%d\n",
+						pdrv, buff, sector, count);
+		return RES_ERROR;
+	}
+
+	return RES_OK;
 }
 
 
@@ -72,6 +127,20 @@ DRESULT disk_write (
 	UINT count			/* Number of sectors to write */
 )
 {
+	int total;
+
+	DEBUG("##### disk_write(): drv:%d - buf:%p - sec:%d - cnt:%d\n", pdrv, buff, sector, count);
+
+	fseek(mpi_fp, sector * DEFAULT_SECTOR_SIZE + FATFS_IMAGE_OFFSET, SEEK_SET);
+
+	total = fwrite(buff, DEFAULT_SECTOR_SIZE * count, 1, mpi_fp);
+	if (1 != count)
+	{
+		bdk_error("FatFs: disk_write(): failed drv:%d - buf:%p - sec:%d - cnt:%d - total:%d\n",
+						pdrv, buff, sector, count, total);
+		return RES_ERROR;
+	}
+
 	return RES_OK;
 }
 #endif
@@ -88,6 +157,7 @@ DRESULT disk_ioctl (
 	void *buff		/* Buffer to send/receive control data */
 )
 {
+	DEBUG("##### %s:%d\n", __FUNCTION__, __LINE__);
 	return RES_OK;
 }
 #endif
