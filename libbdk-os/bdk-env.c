@@ -90,7 +90,6 @@ static int bdk_env_file_write(const char *filename)
 "#    QLM_MODE_XLAUI_1X4     /* 1 XLAUI, 4 lanes each */\n"
 "#    QLM_MODE_10G_KR_4X1    /* 4 10GBASE-KR, 1 lane each */\n"
 "#    QLM_MODE_40G_KR4_1X4   /* 1 40GBASE-KR4, 4 lanes each */\n"
-"#    QLM_MODE_SKIP          /* Skip configuration of this QLM */\n"
 "#\n"
 "# Valid modes for QLM.CLK configuration:\n"
 "#\n"

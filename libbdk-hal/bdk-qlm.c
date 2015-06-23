@@ -84,9 +84,8 @@ const char *bdk_qlm_mode_to_cfg_str(bdk_qlm_modes_t mode)
         MODE_CASE(BDK_QLM_MODE_XLAUI_1X4);
         MODE_CASE(BDK_QLM_MODE_10G_KR_4X1);
         MODE_CASE(BDK_QLM_MODE_40G_KR4_1X4);
-        MODE_CASE(BDK_QLM_MODE_SKIP);
 
-        case BDK_QLM_MODE_MAX: break; /* fall through error */
+        case BDK_QLM_MODE_LAST: break; /* fall through error */
     }
     return "INVALID_QLM_MODE_VALUE";
 }
@@ -102,7 +101,7 @@ bdk_qlm_modes_t bdk_qlm_cfg_string_to_mode(const char *val)
 {
     bdk_qlm_modes_t mode;
 
-    for (mode = 0; mode < BDK_QLM_MODE_MAX; mode++)
+    for (mode = 0; mode < BDK_QLM_MODE_LAST; mode++)
     {
         if (0 == strcmp(val, bdk_qlm_mode_to_cfg_str(mode)))
         {
@@ -174,10 +173,7 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
         case BDK_QLM_MODE_40G_KR4_1X4:
             result = "1 40GBASE-KR4, 4 lanes";
             break;
-        case BDK_QLM_MODE_SKIP:
-            result = "Not configured";
-            break;
-        case BDK_QLM_MODE_MAX:
+        case BDK_QLM_MODE_LAST:
             break; /* fallthrough error */
     }
     return result;

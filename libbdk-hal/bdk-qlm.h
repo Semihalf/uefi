@@ -30,8 +30,7 @@ typedef enum
     BDK_QLM_MODE_XLAUI_1X4,     /* 1 XLAUI, 4 lanes each (cn88xx) */
     BDK_QLM_MODE_10G_KR_4X1,    /* 4 10GBASE-KR, 1 lane each (cn88xx) */
     BDK_QLM_MODE_40G_KR4_1X4,   /* 1 40GBASE-KR4, 4 lanes each (cn88xx) */
-    BDK_QLM_MODE_SKIP,          /* Skip configuration of this QLM */
-    BDK_QLM_MODE_MAX,
+    BDK_QLM_MODE_LAST,
 } bdk_qlm_modes_t;
 
 typedef enum
@@ -39,8 +38,7 @@ typedef enum
     BDK_QLM_CLK_COMMON_0,
     BDK_QLM_CLK_COMMON_1,
     BDK_QLM_CLK_EXTERNAL,
-    BDK_QLM_CLK_SKIP,
-    BDK_QLM_CLK_MAX,
+    BDK_QLM_CLK_LAST,
 } bdk_qlm_clock_t;
 
 typedef enum
