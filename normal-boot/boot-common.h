@@ -23,6 +23,8 @@ typedef enum
    This is only useful in conjuction with WATCHDOG_TIMEOUT */
 #define USE_POWER_CYCLE (WATCHDOG_TIMEOUT != 0)
 
+/* Address of the diagnostics in flash (512KB is right after boot stubs) */
+#define DIAGS_ADDRESS 0x00080000
 /* Address of ATF in flash */
 #define ATF_ADDRESS 0x00400000
 

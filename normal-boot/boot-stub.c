@@ -187,10 +187,10 @@ int main(void)
         update_bmc_status(BMC_STATUS_BOOT_STUB_LOADING_DIAGNOSTICS);
 
     /* Transfer control to next image */
+    const char *boot_device_name = boot_device_name_for_boot_method(boot_method);
     if (use_atf)
     {
         /* Try to load ATF image from raw flash */
-        const char *boot_device_name = boot_device_name_for_boot_method(boot_method);
         BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
         boot_image(boot_device_name, ATF_ADDRESS);
         bdk_error("Unable to load image\n");
@@ -203,5 +203,8 @@ int main(void)
     snprintf(filename, sizeof(filename), "/fatfs/%s:/stage2.bin", boot_volume_id);
     boot_image(filename, 0);
 
+    /* Loading stage 1 from FAT fs failed. Try raw flash */
+    bdk_error("Failed to load Diagnostics from FAT fs. Trying raw flash.\n");
+    boot_image(boot_device_name, DIAGS_ADDRESS);
     bdk_error("Image load failed\n");
 }
