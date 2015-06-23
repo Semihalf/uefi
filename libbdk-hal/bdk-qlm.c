@@ -229,8 +229,8 @@ int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
          * variables in the environment.
          */
         const char *mode_str = bdk_qlm_mode_to_cfg_str(mode);
-        bdk_brd_cfg_set_str(mode_str, "QLM.MODE.N%d.I%d", node, qlm);
-        bdk_brd_cfg_set_int(baud_mhz, "QLM.FREQ.N%d.I%d", node, qlm);
+        bdk_brd_cfg_set_str(mode_str, BRD_CFG_QLM_MODE, node, qlm);
+        bdk_brd_cfg_set_int(baud_mhz, BRD_CFG_QLM_FREQ, node, qlm);
     }
     return rc;
 }

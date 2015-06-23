@@ -528,9 +528,15 @@ int main(void)
             {
                 const char *cfg_val;
 
-                cfg_val   = bdk_brd_cfg_get_str("QLM.MODE.N%d.I%d", n, qlm);
+                cfg_val   = bdk_brd_cfg_get_str(BRD_CFG_QLM_MODE, n, qlm);
                 int mode  = bdk_qlm_cfg_string_to_mode(cfg_val);
-                int freq  = bdk_brd_cfg_get_int("QLM.FREQ.N%d.I%d", n, qlm);
+                if (-1 == mode)
+                {
+                    bdk_error("Invalid QLM mode string '%s' for QLM%d on node %d. "
+                                "Not configuring.\n", cfg_val, qlm, n);
+                    continue;
+                }
+                int freq  = bdk_brd_cfg_get_int(BRD_CFG_QLM_FREQ, n, qlm);
 
                 /* Only configure QLMs with defined modes. */
                 if (mode != BDK_QLM_MODE_SKIP)

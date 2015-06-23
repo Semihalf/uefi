@@ -63,6 +63,9 @@ extern void bdk_showenv(void);
 /*
  * Definitions related to board configuration.
  */
+#define BRD_CFG_QLM_MODE    "QLM.MODE.N%d.I%d"
+#define BRD_CFG_QLM_FREQ    "QLM.FREQ.N%d.I%d"
+
 /**
  * Get a board configuration variable as integer
  *
