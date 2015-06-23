@@ -29,8 +29,6 @@ int main(void)
 {
     bdk_node_t node = bdk_numa_local();
 
-    watchdog_set(WATCHDOG_TIMEOUT); /* Enable watchdog */
-
     /* Drive GPIO 10 high, signalling success transferring from the boot ROM */
     BDK_TRACE(CHAINLOADER, "Driving GPIO10 high\n");
     bdk_gpio_initialize(node, 10, 1, 1);
@@ -66,8 +64,6 @@ int main(void)
         "\n",
         bdk_version_string(), boot_count);
     print_node_strapping(bdk_numa_master());
-
-    watchdog_poke(); /* Poke the watchdog */
 
     /* Initialize the FAT filesystems be need to load the next stage */
     extern int bdk_fs_fatfs_init(void);

@@ -10,6 +10,7 @@
 static int BMC_TWSI     = -1;
 static int MULTI_NODE   = 0;
 static int DRAM_VERBOSE = 0;
+static int WATCHDOG_TIMEOUT = 0;
 
 static int BRD_DISABLE_TWSI  = 0;
 static int BRD_DISABLE_DRAM  = 0;
@@ -21,9 +22,10 @@ static int BRD_DISABLE_PCI   = 0;
 
 void boot_read_config()
 {
-    MULTI_NODE   = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_MULTI_NODE);
-    BMC_TWSI     = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_BMC_TWSI);
-    DRAM_VERBOSE = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DRAM_VERBOSE);
+    MULTI_NODE        = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_MULTI_NODE);
+    BMC_TWSI          = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_BMC_TWSI);
+    DRAM_VERBOSE      = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DRAM_VERBOSE);
+    WATCHDOG_TIMEOUT  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_WATCHDOG_TIMEOUT);
 
     BRD_DISABLE_TWSI  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_TWSI);
     BRD_DISABLE_DRAM  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_DRAM);

@@ -72,7 +72,7 @@ int main(void)
                  "Will use empty configuration...\n");
 
     /* Enable watchdog */
-    watchdog_set(WATCHDOG_TIMEOUT);
+    watchdog_set(bdk_brd_cfg_get_int(0, BDK_BRD_CFG_WATCHDOG_TIMEOUT));
 
     boot_read_config();     /* Load configuration settings from config file */
 
