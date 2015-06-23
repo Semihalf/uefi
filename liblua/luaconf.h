@@ -111,8 +111,8 @@
         #define LUA_ROOT       "/"
     #endif
 #endif
-#define LUA_LDIR       LUA_ROOT "fatfs/" //LUA_VDIR
-#define LUA_CDIR       LUA_ROOT "fatfs/" //LUA_VDIR
+#define LUA_LDIR       LUA_ROOT "fatfs/lua/" //LUA_VDIR
+#define LUA_CDIR       LUA_ROOT "fatfs/lua/" //LUA_VDIR
 #define LUA_PATH_DEFAULT  \
 		LUA_LDIR"?.lua;"  LUA_LDIR"?/init.lua;" \
 		LUA_CDIR"?.lua;"  LUA_CDIR"?/init.lua;" "./?.lua"

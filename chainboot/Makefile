@@ -31,10 +31,11 @@ fatfs.bin: stage1.bin stage2.bin lua/*
 	# Create FAT filesystem in image file
 	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin mkfs
 	# Copy stage 1 & 2 images into FAT filesystem
-	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin put stage1.bin
-	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin put stage2.bin
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp stage1.bin /
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp stage2.bin /
 	# Add all the Lua files to the FAT fs
-	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin put lua/*.lua
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin mkdir /lua
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp lua/*.lua /lua
 
 ${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin fatfs.bin
 	#

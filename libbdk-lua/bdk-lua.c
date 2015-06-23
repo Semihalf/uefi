@@ -105,7 +105,7 @@ int bdk_lua_start(void)
     static const char *argv[] = {
         "lua",
         "-i",
-        "/fatfs/init.lua",
+        "/fatfs/lua/init.lua",
         NULL,
     };
 
