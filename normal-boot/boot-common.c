@@ -451,6 +451,9 @@ void boot_init_dram(bdk_node_t node)
 
 void boot_init_ccpi_link()
 {
+    if (BRD_DISABLE_CCPI || !MULTI_NODE)
+        return;
+
     BDK_TRACE(BOOT_STUB, "Initializing CCPI links\n");
     if (__bdk_init_ccpi_links(0))
     {
@@ -465,11 +468,7 @@ void boot_init_ccpi_link()
 
 void boot_init_ccpi_node()
 {
-    if (BRD_DISABLE_CCPI)
-        return;
-
-    /* Setup CCPI such that both nodes can communicate */
-    if (!MULTI_NODE)
+    if (BRD_DISABLE_CCPI || !MULTI_NODE)
         return;
 
     BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
