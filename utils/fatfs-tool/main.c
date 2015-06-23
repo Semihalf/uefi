@@ -30,6 +30,7 @@ static void usage()
 		"        cp    src... target_dir   - cp files into filesystem image\n"
 		"        mkfs                      - Create new FAT filesystem in image\n"
 		"                                    WARNING: This will erase all existing data in image file\n"
+		"        mkdir target_dir          - Create new directory in target\n"
 		);
 	exit(-1);
 }
