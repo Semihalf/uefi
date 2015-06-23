@@ -231,13 +231,6 @@ static int eeprom_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
  *
  * @return Number of bytes written, negative on failure
  */
-#undef DEBUG
-#if 0
-#define DEBUG(args...) printf(args)
-#else
-#define DEBUG(args...)
-#endif
-
 static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
 {
     /* From datasheet for N25Q128A13ESE40. It is a 16MB NOR flash with
@@ -302,7 +295,7 @@ static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
             }
 
             /* READ */
-            DEBUG("##### nor_write(): READING sector loc:0x%08lx - sector_addr:0x%08lx\n", loc, sector_addr);
+            BDK_TRACE(MPI,"nor_write(): READING sector loc:0x%08lx - sector_addr:0x%08lx\n", loc, sector_addr);
             mpi_read_buffer(node, chip_sel, address_width, sector_addr, sector_buf, ERASE_SIZE);
 
             /* MODIFY */
@@ -316,7 +309,7 @@ static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
         }
 
         /* ERASE */
-        DEBUG("##### nor_write(): ERASING sector @ 0x%08lx\n", sector_addr);
+        BDK_TRACE(MPI,"nor_write(): ERASING sector @ 0x%08lx\n", sector_addr);
         bdk_mpi_transfer(node, chip_sel, 0, 1, CMD_WREN, 0);
         /* We need to erase the next block */
         bdk_mpi_transfer(node, chip_sel, 0, /* Disable chip select */
@@ -325,10 +318,10 @@ static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
             0); /* No receive data */
         if (wait_for_write_complete(node, chip_sel))
             return -1;
-        DEBUG("##### nor_write(): Done\n");
+        BDK_TRACE(MPI,"nor_write(): Done\n");
 
         /* WRITE */
-        DEBUG("##### nor_write(): WRITING sector @ 0x%08lx\n", sector_addr);
+        BDK_TRACE(MPI,"nor_write(): WRITING sector @ 0x%08lx\n", sector_addr);
         int data_left = ERASE_SIZE;
         while (data_left)
         {
@@ -358,7 +351,7 @@ static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
             if (wait_for_write_complete(node, chip_sel))
                 return -1;
         }
-        DEBUG("##### nor_write(): Done\n");
+        BDK_TRACE(MPI,"nor_write(): Done\n");
 
         bytes_remain -= chunk;
         buffer       += chunk;
