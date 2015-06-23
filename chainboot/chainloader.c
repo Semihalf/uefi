@@ -6,8 +6,9 @@
 /* If non-zero, enable a watchdog timer to reset the chip ifwe hang during init.
    Value is in 262144 SCLK cycle intervals, max of 16 bits */
 #define WATCHDOG_TIMEOUT 8010 /* 3sec at 700Mhz */
-/* Control whether the boot stub request power cycles from the BMC (0 ro 1) */
-#define USE_POWER_CYCLE 1 /* Currently not requesting power cycles */
+/* Control whether the boot stub request power cycles from the BMC (0 or 1).
+   This is only useful in conjuction with WATCHDOG_TIMEOUT */
+#define USE_POWER_CYCLE (WATCHDOG_TIMEOUT != 0)
 /* Enable or disable detailed tracing of the boot stub (0 or 1) */
 #define BDK_TRACE_ENABLE_CHAINLOADER 0
 
@@ -210,12 +211,7 @@ int main(void)
     bdk_node_t node = bdk_numa_local();
 
     /* Enable watchdog */
-    if (WATCHDOG_TIMEOUT)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_GTI_CWD_WDOGX(bdk_get_core_num()),
-            c.s.len = WATCHDOG_TIMEOUT;
-            c.s.mode = 3);
-    }
+    watchdog_set(WATCHDOG_TIMEOUT);
 
     /* Drive GPIO 10 high, signalling success transferring from the boot ROM */
     BDK_TRACE(CHAINLOADER, "Driving GPIO10 high\n");
@@ -269,8 +265,7 @@ int main(void)
     print_node_strapping(bdk_numa_master());
 
     /* Poke the watchdog */
-    if (WATCHDOG_TIMEOUT)
-        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+    watchdog_poke();
 
     /* Send status to the BMC: Loading BDK */
     update_bmc_status(BMC_STATUS_CHAINLOADER_LOADING_BDK);

@@ -8,19 +8,21 @@
 #define BMC_TWSI 1
 /* Control if we even try and do multi-node (0 or 1) */
 #define MULTI_NODE 1
-/* On boards using software CCPI init, this is the speed to bringup CCPI at */
-#define CCPI_INIT_SPEED 10312
 /* Name of DRAM config for master node 0 */
 #define DRAM_NODE0 crb_2s_V3
 /* Enable verbose logging from DRAM initialization (0 or 1) */
 #define DRAM_VERBOSE 0
 /* Name of DRAM config for slave node 1 */
 #define DRAM_NODE1 crb_2s_V3
+/* Control whether the boot stub request power cycles from the BMC (0 or 1).
+   This is only useful in conjuction with WATCHDOG_TIMEOUT */
+#define USE_POWER_CYCLE (WATCHDOG_TIMEOUT != 0)
+/* Perform a fast DRAM test before booting, rebooting or pwoer cycling on
+   failure. Only useful if WATCHDOG_TIMEOUT */
+#define RUN_DRAM_TEST (WATCHDOG_TIMEOUT != 0)
 /* If non-zero, enable a watchdog timer to reset the chip ifwe hang during init.
    Value is in 262144 SCLK cycle intervals, max of 16 bits */
 #define WATCHDOG_TIMEOUT 8010 /* 3sec at 700Mhz */
-/* Control whether the boot stub request power cycles from the BMC (0 ro 1) */
-#define USE_POWER_CYCLE 1 /* Currently not requesting power cycles */
 /* How long to wait for selection of save boot (seconds) */
 #define DIAGS_TIMEOUT 3
 /* How long to wait for selection of diagnostics (seconds) */
@@ -363,31 +365,11 @@ int main(void)
     if (WATCHDOG_TIMEOUT)
         BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
 
-    /* Setup CCPI if we're on the second node */
-    if (MULTI_NODE && (node != 0))
-    {
-        BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
-        /* Check if CCPI is in software init mode */
-        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(8));
-        if (gserx_spd.s.spd == 0xf)
-        {
-            printf("Secondary node with CCPI init in software. Starting CCPI\n");
-            if (__bdk_init_ccpi_links(CCPI_INIT_SPEED))
-                bdk_fatal("CCPI init failed\n");
-            extern void __bdk_reset_thread(int arg1, void *arg2);
-            __bdk_reset_thread(0, NULL);
-        }
-        /* Disable watchdog */
-        if (WATCHDOG_TIMEOUT)
-            BDK_CSR_WRITE(node, BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
-        extern void __bdk_reset_thread(int arg1, void *arg2);
-        __bdk_reset_thread(0, NULL);
-    }
 
     if (MULTI_NODE)
     {
         BDK_TRACE(BOOT_STUB, "Initializing CCPI links\n");
-        if (__bdk_init_ccpi_links(CCPI_INIT_SPEED))
+        if (__bdk_init_ccpi_links(0))
         {
             printf("CCPI: Link timeout\n");
             /* Reset on failure if we're using the watchdog */
@@ -447,9 +429,9 @@ int main(void)
     {
         BDK_TRACE(BOOT_STUB, "Initializing CCPI\n");
         bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
-        bdk_init_nodes(1, CCPI_INIT_SPEED);
+        bdk_init_nodes(1, 0);
         /* Reset if CCPI failed */
-        if (bdk_numa_is_only_one())
+        if (bdk_numa_is_only_one() && WATCHDOG_TIMEOUT)
             reset_or_power_cycle();
         /* Poke the watchdog */
         if (WATCHDOG_TIMEOUT)
@@ -475,17 +457,20 @@ int main(void)
                 uint32_t freq = libdram_get_freq(other_node);
                 freq = (freq + 500000) / 1000000;
                 printf("Node %d: DRAM: %d MB, %u MHz\n", other_node, mbytes, freq);
-                /* Wake up one core on the other node */
-                bdk_init_cores(other_node, 1);
-                /* Run the address test to make sure DRAM works */
-                if (bdk_dram_test(13, 0, 0x10000000000ull))
-                    bdk_reset_chip(node);
-                /* Put other node core back in reset */
-                BDK_CSR_WRITE(other_node, BDK_RST_PP_RESET, -1);
-                uint64_t skip = bdk_dram_get_top_of_bdk();
-                bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
-                    ((uint64_t)mbytes << 20) - skip);
-                bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(other_node, 0)), (uint64_t)mbytes << 20);
+                if (RUN_DRAM_TEST)
+                {
+                    /* Wake up one core on the other node */
+                    bdk_init_cores(other_node, 1);
+                    /* Run the address test to make sure DRAM works */
+                    if (bdk_dram_test(13, 0, 0x10000000000ull))
+                        bdk_reset_chip(node);
+                    /* Put other node core back in reset */
+                    BDK_CSR_WRITE(other_node, BDK_RST_PP_RESET, -1);
+                    uint64_t skip = bdk_dram_get_top_of_bdk();
+                    bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
+                        ((uint64_t)mbytes << 20) - skip);
+                    bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(other_node, 0)), (uint64_t)mbytes << 20);
+                }
             }
             else
             {
@@ -578,6 +563,36 @@ int main(void)
                     bdk_qlm_set_mode(n, qlm, mode, freq, 0);
             }
         }
+    }
+
+    /* Setup the status lights for the PHYs */
+    if (bdk_numa_exists(BDK_NODE_0))
+    {
+        int bus = 1;
+        int phy_id = 1;
+        int device = 0;
+        /* CPU0 SFP+ */
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x010c, 0xB610);
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x010d, 0x0012);
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x0110, 0x0000);
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x0111, 0x0000);
+        /* CPU0 QSFP+ */
+        phy_id = 0;
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x0106, 0x6610);
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x0107, 0x0012);
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x010a, 0x0000);
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x010b, 0x0000);
+    }
+    if (bdk_numa_exists(BDK_NODE_1))
+    {
+        int bus = 1;
+        int phy_id = 1;
+        int device = 0;
+        /* CPU1 SFP+ */
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x0106, 0x6610);
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x0107, 0x0032);
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x010a, 0x0000);
+        bdk_mdio_45_write(node, bus, phy_id, device, 0x010b, 0x0000);
     }
 
     /* Initialize BGX, ready for driver */
