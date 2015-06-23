@@ -97,11 +97,12 @@ extern void bdk_showenv(void);
 /**
  * Get a board configuration variable as integer
  *
+ * @param dflt      Default value to return on error.
  * @param format    Format for the variable name. Follows printf convention.
  *
- * @return          Variable value in long format
+ * @return          Variable value in int64_t format
  */
-extern long bdk_brd_cfg_get_int(const char *format, ...);
+extern int64_t bdk_brd_cfg_get_int(int64_t dflt, const char *format, ...);
 
 /**
  * Set a board configuration variable as long
@@ -116,11 +117,12 @@ extern void bdk_brd_cfg_set_int(long value, const char *format, ...);
 /**
  * Get a board configuration variable as string
  *
+ * @param dflt      Default value to return on error.
  * @param format    Format for the variable name. Follows printf convention.
  *
  * @return          Variable value in string format
  */
-extern const char *bdk_brd_cfg_get_str(const char *format, ...);
+extern const char *bdk_brd_cfg_get_str(const char *dflt, const char *format, ...);
 
 /**
  * Set a board configuration variable as string

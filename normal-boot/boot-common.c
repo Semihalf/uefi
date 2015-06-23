@@ -21,17 +21,17 @@ static int BRD_DISABLE_PCI   = 0;
 
 void boot_read_config()
 {
-    MULTI_NODE   = bdk_brd_cfg_get_int(BDK_BRD_CFG_MULTI_NODE);
-    BMC_TWSI     = bdk_brd_cfg_get_int(BDK_BRD_CFG_BMC_TWSI);
-    DRAM_VERBOSE = bdk_brd_cfg_get_int(BDK_BRD_CFG_DRAM_VERBOSE);
+    MULTI_NODE   = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_MULTI_NODE);
+    BMC_TWSI     = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_BMC_TWSI);
+    DRAM_VERBOSE = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DRAM_VERBOSE);
 
-    BRD_DISABLE_TWSI  = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_TWSI);
-    BRD_DISABLE_DRAM  = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_DRAM);
-    BRD_DISABLE_CCPI  = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_CCPI);
-    BRD_DISABLE_QLM   = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_QLM);
-    BRD_DISABLE_BGX   = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_BGX);
-    BRD_DISABLE_USB   = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_USB);
-    BRD_DISABLE_PCI   = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_PCI);
+    BRD_DISABLE_TWSI  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_TWSI);
+    BRD_DISABLE_DRAM  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_DRAM);
+    BRD_DISABLE_CCPI  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_CCPI);
+    BRD_DISABLE_QLM   = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_QLM);
+    BRD_DISABLE_BGX   = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_BGX);
+    BRD_DISABLE_USB   = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_USB);
+    BRD_DISABLE_PCI   = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_PCI);
 }
 
 
@@ -313,7 +313,7 @@ void boot_image(const char *filename, uint64_t loc)
        series of NAME=VALUE pairs separated by '\0'. The end is marked with
        two '\0' in a row. */
     static char image_env[64] = { 0 };
-    const char  *board = bdk_brd_cfg_get_str(BDK_BRD_CFG_BOARD);
+    const char  *board = bdk_brd_cfg_get_str("not-defined", BDK_BRD_CFG_BOARD);
     snprintf(image_env, sizeof(image_env), "BOARD=%s", board ? board : "none");
 
     if (bdk_jump_address(bdk_ptr_to_phys(image), bdk_ptr_to_phys(image_env)))

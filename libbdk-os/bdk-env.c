@@ -227,7 +227,7 @@ static void bdk_board_cfg_set_value(const char *id, const char *value)
  * The variable name  is constructed by using the format string and the
  * arguments, following the printf() convention.
  */
-long bdk_brd_cfg_get_int(const char *format, ...)
+int64_t bdk_brd_cfg_get_int(int64_t dflt, const char *format, ...)
 {
     char name[BDK_BRD_CFG_MAX_VAR_NAME_LEN];
     va_list args;
@@ -236,7 +236,9 @@ long bdk_brd_cfg_get_int(const char *format, ...)
     vsnprintf(name, sizeof(name)-1, format, args);
     name[sizeof(name)-1] = '\0';
     va_end(args);
-    return atol(bdk_board_cfg_get_value(name, 1));
+
+    const char *val = bdk_board_cfg_get_value(name, 1);
+    return val ? atol(val) : dflt;
 }
 
 /* Set a board configuration variable.
@@ -264,7 +266,7 @@ void bdk_brd_cfg_set_int(long value, const char *format, ...)
  * The variable name  is constructed by using the format string and the
  * arguments, following the printf() convention.
  */
-const char *bdk_brd_cfg_get_str(const char *format, ...)
+const char *bdk_brd_cfg_get_str(const char *dflt, const char *format, ...)
 {
     char name[BDK_BRD_CFG_MAX_VAR_NAME_LEN];
     va_list args;
@@ -273,7 +275,8 @@ const char *bdk_brd_cfg_get_str(const char *format, ...)
     vsnprintf(name, sizeof(name)-1, format, args);
     name[sizeof(name)-1] = '\0';
     va_end(args);
-    return bdk_board_cfg_get_value(name, 1);
+    const char *val = bdk_board_cfg_get_value(name, 1);
+    return val ? val : dflt;
 }
 
 /* Set a board configuration variable.

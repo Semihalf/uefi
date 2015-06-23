@@ -41,7 +41,7 @@ int main(void)
 {
     bdk_node_t node = bdk_numa_local();
 
-    /* Initialize the FAT filesystems be need to load the next stage */
+    /* Initialize the FAT filesystems we need to load the next stage */
     bdk_fs_fatfs_init();
 
     /* Check for safe mode boot.
@@ -153,10 +153,10 @@ int main(void)
     int use_atf = 1;
 
     /* A GPIO can be used to select diagnostics without input */
-    int DIAGS_GPIO_VALUE = bdk_brd_cfg_get_int(BDK_BRD_CFG_DIAGS_GPIO_VALUE);
+    int DIAGS_GPIO_VALUE = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_DIAGS_GPIO_VALUE);
     if (-1 != DIAGS_GPIO_VALUE)
     {
-        int DIAGS_GPIO = bdk_brd_cfg_get_int(BDK_BRD_CFG_DIAGS_GPIO);
+        int DIAGS_GPIO = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DIAGS_GPIO);
         int gpio = bdk_gpio_read(bdk_numa_master()) >> DIAGS_GPIO;
         gpio &= 1;
         if (gpio == DIAGS_GPIO_VALUE)
