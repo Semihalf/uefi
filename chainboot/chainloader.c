@@ -132,42 +132,6 @@ out:
     fclose(inf);
 }
 
-/**
- * Create a BDK style device name to access SPI. This name can then be
- * passed to standard C functions to open the device.
- *
- * @param buffer Buffer to fill with the device name
- * @param buffer_size
- *               Length of the buffer
- * @param boot_method
- *               Value of the pin strap choosing the boot method
- */
-static void create_spi_device_name(char *buffer, int buffer_size, int boot_method)
-{
-    bdk_node_t node = bdk_numa_local();
-    BDK_CSR_INIT(mpi_cfg, node, BDK_MPI_CFG);
-    int chip_select = 0;
-    int address_width;
-    int active_high = mpi_cfg.s.cshi;
-    int idle_mode = (mpi_cfg.s.idleclks) ? 'r' : (mpi_cfg.s.idlelo) ? 'l' : 'h';
-    int is_msb = !mpi_cfg.s.lsbfirst;
-    int freq_mhz = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (2 * mpi_cfg.s.clkdiv) / 1000000;
-
-    if (boot_method == RST_BOOT_METHOD_E_SPI24)
-        address_width = 24;
-    else
-        address_width = 32;
-
-    snprintf(buffer, buffer_size, "/dev/n%d.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
-        node,
-        chip_select,
-        (active_high) ? 'h' : 'l',
-        idle_mode,
-        (is_msb) ? 'm' : 'l',
-        address_width,
-        freq_mhz);
-}
-
 static void print_node_strapping(bdk_node_t node)
 {
     BDK_CSR_INIT(ocx_com_node, node, BDK_OCX_COM_NODE);
