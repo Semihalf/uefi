@@ -16,11 +16,6 @@ void board_init_late()
 {
     bdk_node_t node = bdk_numa_local();
 
-    int timestamp = bdk_mdio_45_read(node, 1, 1, 0, 0xa);
-    int is_sgmii = (timestamp == 0x1722);
-    printf("Configured networking for %s\n",
-        (is_sgmii) ? "1 Gbit" : "10 Gbit");
-
     /* Setup the status lights for the PHYs */
     if (bdk_numa_exists(BDK_NODE_0))
     {
