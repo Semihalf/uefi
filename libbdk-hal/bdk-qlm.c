@@ -63,7 +63,7 @@ int bdk_qlm_get_lanes(bdk_node_t node, int qlm)
  */
 const char *bdk_qlm_mode_to_cfg_str(bdk_qlm_modes_t mode)
 {
-#define MODE_CASE(m) case m: return #m+4
+#define MODE_CASE(m) case m: return #m+13
     switch (mode)
     {
         MODE_CASE(BDK_QLM_MODE_DISABLED);
