@@ -78,7 +78,7 @@ $(BDK_ROOT)/libbdk/bdk.d: $(BDK_ROOT)/libbdk/bdk.h
 # Clean targets
 #
 clean:
-	rm -f $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o
+	rm -rf $(BDK_ROOT)/libbdk/libbdk.a $(objs) tmp bdk-functions.c bdk-functions.o
 distclean: clean
 	rm -f $(deps) bdk.pch
 
