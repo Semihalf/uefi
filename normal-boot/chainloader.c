@@ -1,6 +1,5 @@
 #include <bdk.h>
 #include <malloc.h>
-#include <board.h>
 
 #include "boot-common.h"
 

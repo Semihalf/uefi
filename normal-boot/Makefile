@@ -19,7 +19,7 @@ COMMON_OBJS	:= $(addsuffix .o, $(basename $(COMMON_SRC)))
 COMMON_OBJS := $(foreach o,$(COMMON_OBJS),$(BOARD_ROOT)/$(o))
 
 CFG_FILES  = $(BOARD_TYPE)/*.cfg
-HEADERS    = *.h $(BOARD_TYPE)/*.h
+HEADERS    = *.h
 
 FATFS_IMG  = $(BOARD_ROOT)/fatfs.bin
 STAGE0_BIN = $(BOARD_ROOT)/stage0.bin

@@ -50,6 +50,10 @@ void boot_init_bgx();
 void boot_init_usb();
 void boot_init_pci();
 
+void watchdog_set(int timeout);
+void watchdog_poke();
+void watchdog_disable();
+
 /* Weakly bound default functions. Can be overwritten by board specific
  * functions in board/$(BOARD_TYPE)/board_init.c
  */
