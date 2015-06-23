@@ -10,7 +10,7 @@ local debug = require("debug")
 
 -- Start the main menu.
 while true do
-    local status, result = xpcall(dofile, debug.traceback, "/rom/main.lua")
+    local status, result = xpcall(dofile, debug.traceback, "/fatfs/lua/main.lua")
     if not status then
         print("ERROR:", result)
     end

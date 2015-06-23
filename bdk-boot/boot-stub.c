@@ -69,9 +69,8 @@ static void write_thread(int unused, void *handle)
  *
  * @author creese (10/10/2013)
  * @param dest_file File to write to
- * @param offset    Offset into the file to start at
  */
-static void do_upload(const char *dest_file, int offset)
+static void do_upload(const char *dest_file)
 {
     /* Open the output file */
     FILE *outf = fopen(dest_file, "w");
@@ -80,7 +79,6 @@ static void do_upload(const char *dest_file, int offset)
         bdk_error("Failed to open %s\n", dest_file);
         return;
     }
-    fseek(outf, offset, SEEK_SET);
 
     /* Create a thread that does the write so Xmodem doesn't stall
        during slow flash accesses */
@@ -135,70 +133,95 @@ static void do_upload(const char *dest_file, int offset)
  * Search the given device file (SPI or eMMC) and return a list of BDK images
  * available. The iamges will also be displayed on the console.
  *
- * @param dev_filename
+ * @param path
  *                   Device file to search
  * @param max_images Max number of images to return
- * @param image_address
- *                   List of image addresses
+ * @param image_names
+ *                   List of image names
  *
  * @return Number of images found
  */
-static int list_images(const char *dev_filename, int max_images, uint64_t image_address[])
+static int list_images(const char *path, int max_images, char *image_names[])
 {
     int num_images = 0;
-    printf("\nLooking for images in %s\n\n", dev_filename);
+    DIR dp;
 
-    FILE *inf = fopen(dev_filename, "rb");
-    if (!inf)
+    printf("\nLooking for images in %s\n\n", path);
+    FRESULT res = f_opendir(&dp, path);
+    if (res)
     {
-        bdk_error("Failed to open %s\n", dev_filename);
+        bdk_warn("Target directory %s does not exist (res:%d). Aborting.\n", path, res);
         return 0;
     }
-    uint64_t loc = BDK_IMAGE_FIRST_OFFSET;
-    uint64_t end = 1 << 24; /* Only look through the first 16MB, limit of 24bit SPI */
-    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
-        end = BDK_IMAGE_FIRST_OFFSET + 1;
-    while ((loc < end) && (num_images < max_images))
+
+    FILINFO info;
+#if _USE_LFN
+    char lfn[_MAX_LFN + 1] = {0};
+    info.lfname = lfn;
+    info.lfsize = sizeof(lfn);
+#endif
+    res = f_findfirst(&dp, &info, path, "*.bin");
+    while (FR_OK == res && info.fname[0] && num_images < max_images)
     {
+        char fullpath[_MAX_LFN + 1];
+        char *dirstr = info.fattrib & AM_DIR ? "/" : "";
+        char *pd = path[strlen(path)-1] == '/' ? "" : "/";
+#if _USE_LFN
+        /* Note:
+         * We have to add the "/fatfs/" prefix as WE are working directly on
+         * the FATFS API while the calling code works on libc file operation
+         * API.
+         *
+         * Also, the strdup() below will leak mem. We don't really care...
+         */
+        if (info.lfname[0])
+            snprintf(fullpath, sizeof(fullpath), "/fatfs/%s%s%s%s", path, pd, info.lfname, dirstr);
+        else
+            snprintf(fullpath, sizeof(fullpath), "/fatfs/%s%s%s%s", path, pd, info.fname, dirstr);
+#else
+        snprintf(fullpath, sizeof(fullpath), "/fatfs/%s%s%s%s", path, pd, info.fname, dirstr);
+#endif
+
         bdk_image_header_t header;
-
-        printf("0x%06lx\r", loc);
-
-        fseek(inf, loc, SEEK_SET);
-        int status = bdk_image_read_header(inf, &header);
-        if (status == 0)
+        FILE *fp = fopen(fullpath, "rb");
+        if (fp)
         {
-            printf("  %d) 0x%06lx: %s, version %s, %u bytes\n",
-                num_images+1, loc, header.name, header.version, header.length);
-            image_address[num_images++] = loc;
+            fseek(fp, 0, SEEK_SET);
+            int status = bdk_image_read_header(fp, &header);
+            if (status == 0)
+            {
+                printf("  %d) %s: %s, version %s, %u bytes\n",
+                    num_images+1, fullpath, header.name, header.version, header.length);
+                image_names[num_images] = strdup(fullpath);
+                num_images++;
+            }
+            fclose(fp);
         }
-        loc += BDK_IMAGE_ALIGN;
+        res = f_findnext(&dp, &info);
     }
-    printf("\n");
-    fclose(inf);
+
+    f_closedir(&dp);
     return num_images;
 }
 
 /**
  * Boot an image from a device file at the specified location
  *
- * @param dev_filename
+ * @param path
  *               Device file to read image from
- * @param loc    Location offset in the device file
  */
-static void boot_image(const char *dev_filename, uint64_t loc)
+static void boot_image(const char *path)
 {
     void *image = NULL;
 
-    FILE *inf = fopen(dev_filename, "rb");
+    FILE *inf = fopen(path, "rb");
     if (!inf)
     {
-        bdk_error("Failed to open %s\n", dev_filename);
+        bdk_error("Failed to open %s\n", path);
         return;
     }
 
-    printf("    Loading image at 0x%lx\n", loc);
-    fseek(inf, loc, SEEK_SET);
+    printf("    Loading image %s\n", path);
 
     bdk_image_header_t header;
     int status = bdk_image_read_header(inf, &header);
@@ -251,14 +274,14 @@ out:
  * Display a list of images the user can boot from a device file and let
  * them choose oen to boot.
  *
- * @param dev_filename
+ * @param path
  *               Device file to search
  */
-static void choose_image(const char *dev_filename)
+static void choose_image(const char *path)
 {
-    const int MAX_IMAGES = 5;
-    uint64_t image_address[MAX_IMAGES];
-    int num_images = list_images(dev_filename, MAX_IMAGES, image_address);
+    const int MAX_IMAGES = 20;
+    char *image_names[MAX_IMAGES];
+    int num_images = list_images(path, MAX_IMAGES, image_names);
 
     if (num_images == 0)
     {
@@ -278,7 +301,7 @@ static void choose_image(const char *dev_filename)
     int use_image = 0;
     if (num_images > 1)
     {
-        const char *input = bdk_readline("Image address to load: ", NULL, 0);
+        const char *input = bdk_readline("Image to load: ", NULL, 0);
         use_image = atoi(input);
         if ((use_image < 1) || (use_image > num_images))
         {
@@ -289,7 +312,7 @@ static void choose_image(const char *dev_filename)
     }
     else
         printf("One image found, automatically loading\n");
-    boot_image(dev_filename, image_address[use_image]);
+    boot_image(image_names[use_image]);
 }
 
 #if ENABLE_DRAM_MENU
@@ -354,34 +377,6 @@ static void dram_menu()
 }
 
 #endif
-
-static void create_spi_device_name(char *buffer, int buffer_size, int boot_method)
-{
-    bdk_node_t node = bdk_numa_local();
-    BDK_CSR_INIT(mpi_cfg, node, BDK_MPI_CFG);
-    int chip_select = 0;
-    int address_width;
-    int active_high = mpi_cfg.s.cshi;
-    int idle_mode = (mpi_cfg.s.idleclks) ? 'r' : (mpi_cfg.s.idlelo) ? 'l' : 'h';
-    int is_msb = !mpi_cfg.s.lsbfirst;
-    int freq_mhz = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (2 * mpi_cfg.s.clkdiv) / 1000000;
-
-    if (boot_method == RST_BOOT_METHOD_E_SPI32)
-        address_width = 32;
-    else
-        address_width = 24;
-    if (freq_mhz == 0)
-        freq_mhz = 10;
-
-    snprintf(buffer, buffer_size, "/dev/n%d.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
-        node,
-        chip_select,
-        (active_high) ? 'h' : 'l',
-        idle_mode,
-        (is_msb) ? 'm' : 'l',
-        address_width,
-        freq_mhz);
-}
 
 /**
  * Main entry point
@@ -465,9 +460,11 @@ int main(void)
     extern int bdk_fs_mmc_init(void);
     extern int bdk_fs_mpi_init(void);
     extern int bdk_fs_xmodem_init(void);
+    extern int bdk_fs_fatfs_init(void);
     bdk_fs_mmc_init();
     bdk_fs_mpi_init();
     bdk_fs_xmodem_init();
+    bdk_fs_fatfs_init();
 
     while (1)
     {
@@ -514,36 +511,34 @@ int main(void)
             }
             case 2: /* eMMC / SD */
             {
-                char name[48];
-                sprintf(name, "/dev/n%d.mmc0", node);
-                choose_image(name);
+                /* no need for '/fatfs/' prefix. choose_image() uses raw FATFS
+                 * API. */
+                choose_image("MMC0:");
                 break;
             }
             case 3: /* SPI */
             {
-                char name[48];
-                create_spi_device_name(name, sizeof(name), boot_method);
-                choose_image(name);
+                /* no need for '/fatfs/' prefix. choose_image() uses raw FATFS
+                 * API. */
+                choose_image("SPI0:");
                 break;
             }
             case 4: /* eMMC / SD upload */
             case 5: /* SPI upload */
             {
-                const char *offset_str = bdk_readline("Offset into flash [0]: ", NULL, 0);
-                int offset = atoi(offset_str);
-                if ((offset < 0) || (offset > (1 << 30)))
+                const char *filename = bdk_readline("Filename: ", NULL, 0);
+                if (!filename || 0 == strlen(filename))
                 {
-                    bdk_error("Illegal offset\n");
+                    bdk_error("Illegal filename\n");
                     break;
                 }
+
                 printf("\n");
 
-                char name[48];
-                if (option == 5)
-                    create_spi_device_name(name, sizeof(name), boot_method);
-                else
-                    sprintf(name, "/dev/n%d.mmc0", node);
-                do_upload(name, offset);
+                char name[_MAX_LFN +1];
+                char *vol = option == 5 ? "SPI0:" : "MMC0:";
+                snprintf(name, sizeof(name), "/fatfs/%s/%s", vol, filename);
+                do_upload(name);
                 break;
             }
 #if ENABLE_DRAM_MENU
