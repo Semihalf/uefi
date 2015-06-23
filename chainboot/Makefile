@@ -23,9 +23,9 @@ stage1.bin: boot-stub.bin
 
 # Diagnostics image
 stage2.bin: diagnostics.bin lua/*
-	${BDK_ROOT}/bin/bdk-update-romfs stage2.bin diagnostics.bin lua/*
+	cp diagnostics.bin stage2.bin
 
-fatfs.bin: stage1.bin stage2.bin
+fatfs.bin: stage1.bin stage2.bin lua/*
 	# Create empty 2.5MB image file
 	dd if=/dev/zero of=fatfs.bin bs=1k count=2560 status=none
 	# Create FAT filesystem in image file
