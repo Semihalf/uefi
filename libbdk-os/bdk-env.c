@@ -127,7 +127,7 @@ static int bdk_env_file_write(const char *filename)
 out:
     if (fp)
         if (0 != fclose(fp))
-            bdk_warn("Could not close BDK configuration file (i%s)\n", strerror(errno));
+            bdk_warn("Could not close BDK configuration file (%s)\n", strerror(errno));
     return rc;
 }
 
