@@ -16,8 +16,8 @@ stage1.bin: boot-stub.bin
 	if [ `stat -c %s $^` -gt 196608 ]; then echo "ERROR: $^ image must be 192KB or less";exit 1;fi
 	${BDK_ROOT}/bin/bdk-update-romfs stage1.bin boot-stub.bin
 
-stage2.bin: diagnostics.bin lua/*
-	${BDK_ROOT}/bin/bdk-update-romfs stage2.bin diagnostics.bin lua/*
+stage2.bin: diagnostics.bin
+	${BDK_ROOT}/bin/bdk-update-romfs stage2.bin diagnostics.bin
 
 ${IMAGE_NAME}.bin: stage1.bin stage2.bin
 	#
