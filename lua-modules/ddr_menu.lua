@@ -25,11 +25,11 @@ m:item_node() -- Adds option to choose the node number
 
 local function update_verbose_label()
     local label = "Toggle verbose output (Currently OFF)"
-    if cavium.c.bdk_getenv("ddr_verbose") then
+    if getenv("ddr_verbose") then
         label = "Toggle verbose output (Currently ON)"
     end
     m:item("verbose", label, function()
-        local value = cavium.c.bdk_getenv("ddr_verbose")
+        local value = getenv("ddr_verbose")
         if value then
             cavium.c.bdk_setenv("ddr_verbose", nil)
         else
@@ -51,7 +51,7 @@ end)
 
 m:item("getenv", "Get environment variable", function()
     local name = menu.prompt_string("Name")
-    local value = cavium.c.bdk_getenv(name)
+    local value = getenv(name)
     if value then
         printf("%s = %s\n", name, value)
     else

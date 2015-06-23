@@ -12,7 +12,7 @@ const char* lookup_env_parameter(const char *format, ...)
     vsnprintf(buffer, sizeof(buffer), format, args);
     va_end(args);
 
-    if ((s = bdk_getenv(buffer)) != NULL)
+    if ((s = getenv(buffer)) != NULL)
     {
         value = strtoul(s, NULL, 0);
         error_print("Parameter found in environment: %s = \"%s\" 0x%lx (%ld)\n",
@@ -32,7 +32,7 @@ const char* lookup_env_parameter_ull(const char *format, ...)
     vsnprintf(buffer, sizeof(buffer), format, args);
     va_end(args);
 
-    if ((s = bdk_getenv(buffer)) != NULL)
+    if ((s = getenv(buffer)) != NULL)
     {
         value = strtoull(s, NULL, 0);
         error_print("Parameter found in environment: %s = 0x%016llx\n",
