@@ -9,10 +9,15 @@
  */
 
 /*
+ * Default filename for the board configuration file.
+ */
+#define BDK_BRD_CFG_MAX_VAR_NAME_LEN    200
+
+/*
  * Default filename and max file line length for the BDK configuration file to
  * save environment variables.
  */
-#define BDK_ENV_CFG_FILE_NAME           "/fatfs/bdk.cfg"
+#define BDK_ENV_CFG_FILE_NAME           "/fatfs/default.cfg"
 
 /*
  * Maximum line length allowed for key/value pair in configuration file.
@@ -53,5 +58,46 @@ extern void bdk_setenv(const char *name, const char *value);
  * @return
  */
 extern void bdk_showenv(void);
+
+
+/*
+ * Definitions related to board configuration.
+ */
+/**
+ * Get a board configuration variable as integer
+ *
+ * @param format    Format for the variable name. Follows printf convention.
+ *
+ * @return          Variable value in long format
+ */
+extern long bdk_brd_cfg_get_int(const char *format, ...);
+
+/**
+ * Set a board configuration variable as long
+ *
+ * @param format    Format for the variable name. Follows printf convention.
+ *
+ * @return
+ */
+extern void bdk_brd_cfg_set_int(long value, const char *format, ...);
+
+/**
+ * Get a board configuration variable as string
+ *
+ * @param format    Format for the variable name. Follows printf convention.
+ *
+ * @return          Variable value in string format
+ */
+extern const char *bdk_brd_cfg_get_str(const char *format, ...);
+
+/**
+ * Set a board configuration variable as string
+ *
+ * @param format    Format for the variable name. Follows printf convention.
+ *
+ * @return
+ */
+extern void bdk_brd_cfg_set_str(const char *value, const char *format, ...);
+
 /** @} */
 #endif /* __BDK_ENV_H__ */

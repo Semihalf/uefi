@@ -144,3 +144,117 @@ void bdk_showenv(void)
         ptr++;
     }
 }
+
+/*
+ * API for board configuration.
+ */
+/* Clip off the last dotted segment of the id string */
+static void bdk_board_cfg_clip_end(char *id)
+{
+    char *p = id;
+
+    while (*p++) ;
+    while ('.' != *--p && p != id) ;
+    *p = '\0';
+}
+
+/* Look up a board configuration variable in the environment. */
+static const char *bdk_board_cfg_get_value(const char *id, int recursive)
+{
+    char name[BDK_BRD_CFG_MAX_VAR_NAME_LEN];
+    const char *val;
+
+    /* copy the id so we can clip it if we need to */
+    strncpy(name, id, sizeof(name));
+
+    while (*name)
+    {
+        if (NULL != (val = getenv(name)))
+            return val;
+
+        /* If the recursive flag is set we'll try to find a parent entry that
+         * has a value we can use.
+         */
+        if (recursive)
+            bdk_board_cfg_clip_end(name);
+        else
+            return NULL;
+    }
+    return NULL;
+}
+
+/* Set a board configuration variable in the environment. */
+static void bdk_board_cfg_set_value(const char *id, const char *value)
+{
+    bdk_setenv(id, value);
+}
+
+/*
+ * Public API
+ */
+/* Look up a board configuration variable.
+ *
+ * The variable name  is constructed by using the format string and the
+ * arguments, following the printf() convention.
+ */
+long bdk_brd_cfg_get_int(const char *format, ...)
+{
+    char name[BDK_BRD_CFG_MAX_VAR_NAME_LEN];
+    va_list args;
+
+    va_start(args, format);
+    vsnprintf(name, sizeof(name), format, args);
+    va_end(args);
+    return atol(bdk_board_cfg_get_value(name, 1));
+}
+
+/* Set a board configuration variable.
+ *
+ * The variable name  is constructed by using the format string and the
+ * arguments, following the printf() convention.
+ */
+void bdk_brd_cfg_set_int(long value, const char *format, ...)
+{
+    char name[BDK_BRD_CFG_MAX_VAR_NAME_LEN];
+    char valstr[32];
+    va_list args;
+
+    va_start(args, format);
+    vsnprintf(name, sizeof(name), format, args);
+    va_end(args);
+
+    snprintf(valstr, sizeof(valstr), "%ld", value);
+    bdk_board_cfg_set_value(name, valstr);
+}
+
+/* Look up a board configuration variable.
+ *
+ * The variable name  is constructed by using the format string and the
+ * arguments, following the printf() convention.
+ */
+const char *bdk_brd_cfg_get_str(const char *format, ...)
+{
+    char name[BDK_BRD_CFG_MAX_VAR_NAME_LEN];
+    va_list args;
+
+    va_start(args, format);
+    vsnprintf(name, sizeof(name), format, args);
+    va_end(args);
+    return bdk_board_cfg_get_value(name, 1);
+}
+
+/* Set a board configuration variable.
+ *
+ * The variable name  is constructed by using the format string and the
+ * arguments, following the printf() convention.
+ */
+void bdk_brd_cfg_set_str(const char *value, const char *format, ...)
+{
+    char name[BDK_BRD_CFG_MAX_VAR_NAME_LEN];
+    va_list args;
+
+    va_start(args, format);
+    vsnprintf(name, sizeof(name), format, args);
+    va_end(args);
+    bdk_board_cfg_set_value(name, value);
+}
