@@ -10,8 +10,6 @@
  * @{
  */
 
-#define BDK_QLM_MAX     8
-
 typedef enum
 {
     BDK_QLM_MODE_DISABLED,  /* QLM is disabled (all chips) */

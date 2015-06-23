@@ -493,8 +493,10 @@ void boot_init_qlm_clk()
         if (!bdk_numa_exists(n))
             continue;
 
+        int num_qlms = bdk_qlm_get_num(n);
+
         BDK_TRACE(BOOT_STUB, "Initializing QLM clocks on Node %d\n", n);
-        for (int qlm = 0; qlm < BDK_QLM_MAX; qlm++)
+        for (int qlm = 0; qlm < num_qlms; qlm++)
         {
             bdk_qlm_clock_t clk = bdk_brd_cfg_get_int(BDK_BRD_CFG_QLM_CLK, n, qlm);
             if (clk == BDK_QLM_CLK_SKIP)
@@ -527,8 +529,10 @@ void boot_init_qlm_mode()
         if (!bdk_numa_exists(n))
             continue;
 
+        int num_qlms = bdk_qlm_get_num(n);
+
         BDK_TRACE(BOOT_STUB, "Initializing QLMs on Node %d\n", n);
-        for (int qlm = 0; qlm < BDK_QLM_MAX; qlm++)
+        for (int qlm = 0; qlm < num_qlms; qlm++)
         {
             const char *cfg_val;
 
