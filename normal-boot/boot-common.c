@@ -11,11 +11,27 @@ static int BMC_TWSI     = -1;
 static int MULTI_NODE   = 0;
 static int DRAM_VERBOSE = 0;
 
+static int BRD_DISABLE_TWSI  = 0;
+static int BRD_DISABLE_DRAM  = 0;
+static int BRD_DISABLE_CCPI  = 0;
+static int BRD_DISABLE_QLM   = 0;
+static int BRD_DISABLE_BGX   = 0;
+static int BRD_DISABLE_USB   = 0;
+static int BRD_DISABLE_PCI   = 0;
+
 void boot_read_config()
 {
     MULTI_NODE   = bdk_brd_cfg_get_int(BDK_BRD_CFG_MULTI_NODE);
     BMC_TWSI     = bdk_brd_cfg_get_int(BDK_BRD_CFG_BMC_TWSI);
     DRAM_VERBOSE = bdk_brd_cfg_get_int(BDK_BRD_CFG_DRAM_VERBOSE);
+
+    BRD_DISABLE_TWSI  = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_TWSI);
+    BRD_DISABLE_DRAM  = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_DRAM);
+    BRD_DISABLE_CCPI  = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_CCPI);
+    BRD_DISABLE_QLM   = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_QLM);
+    BRD_DISABLE_BGX   = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_BGX);
+    BRD_DISABLE_USB   = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_USB);
+    BRD_DISABLE_PCI   = bdk_brd_cfg_get_int(BDK_BRD_CFG_DISABLE_PCI);
 }
 
 
@@ -317,6 +333,9 @@ out:
  */
 void boot_init_twsi()
 {
+    if (BRD_DISABLE_TWSI)
+        return;
+
     bdk_node_t node = bdk_numa_local();
 
     if (BMC_TWSI != -1)
@@ -331,6 +350,9 @@ void boot_init_twsi()
 
 void boot_init_dram(bdk_node_t node)
 {
+    if (BRD_DISABLE_DRAM)
+        return;
+
 #ifdef DRAM_NODE0
     if (node == BDK_NODE_0)
     {
@@ -429,6 +451,9 @@ void boot_init_dram(bdk_node_t node)
 
 void boot_init_ccpi()
 {
+    if (BRD_DISABLE_CCPI)
+        return;
+
     /* Setup CCPI such that both nodes can communicate */
     if (!MULTI_NODE)
         return;
@@ -456,6 +481,9 @@ void boot_init_ccpi()
 
 void boot_init_qlm_clk()
 {
+    if (BRD_DISABLE_QLM)
+        return;
+
     /* Setup reference clocks */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {
@@ -487,6 +515,9 @@ void boot_init_qlm_clk()
 
 void boot_init_qlm_mode()
 {
+    if (BRD_DISABLE_QLM)
+        return;
+
     /* Initialize the QLMs */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {
@@ -517,6 +548,9 @@ void boot_init_qlm_mode()
 
 void boot_init_bgx()
 {
+    if (BRD_DISABLE_BGX)
+        return;
+
     /* Initialize BGX, ready for driver */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {
@@ -532,6 +566,9 @@ void boot_init_bgx()
 
 void boot_init_usb()
 {
+    if (BRD_DISABLE_USB)
+        return;
+
     /* Initialize USB, ready for standard XHCI driver */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {
@@ -551,6 +588,9 @@ void boot_init_usb()
 
 void boot_init_pci()
 {
+    if (BRD_DISABLE_PCI)
+        return;
+
     /* Initialize PCIe and bring up the link */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {

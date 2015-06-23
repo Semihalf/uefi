@@ -74,6 +74,24 @@ extern void bdk_showenv(void);
 #define BDK_BRD_CFG_DRAM_VERBOSE            "BRD.CFG.DRAM_VERBOSE"
 #define BDK_BRD_CFG_BOARD                   "BRD.CFG.BOARD"
 
+/*
+ * Which peripherals to configure at boot time.
+ *
+ * By default the generic boot code tries to initialize all peripherals on the
+ * board. Initialization of peripherals can be disabled by adding:
+ *
+ *   BRD.CFG.DISABLE_xxxx=1
+ *
+ * to the configuration file, where xxxx is the ID of the peripheral.
+ */
+#define BDK_BRD_CFG_DISABLE_TWSI            "BRD.CFG.DISABLE_TWSI"
+#define BDK_BRD_CFG_DISABLE_DRAM            "BRD.CFG.DISABLE_DRAM"
+#define BDK_BRD_CFG_DISABLE_CCPI            "BRD.CFG.DISABLE_CCPI"
+#define BDK_BRD_CFG_DISABLE_QLM             "BRD.CFG.DISABLE_QLM"
+#define BDK_BRD_CFG_DISABLE_BGX             "BRD.CFG.DISABLE_BGX"
+#define BDK_BRD_CFG_DISABLE_USB             "BRD.CFG.DISABLE_USB"
+#define BDK_BRD_CFG_DISABLE_PCI             "BRD.CFG.DISABLE_PCI"
+
 /**
  * Get a board configuration variable as integer
  *
