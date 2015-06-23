@@ -17,6 +17,7 @@
  * @param address
  * @param value
  */
+#ifdef DRAM_CSR_WRITE_INLINE
 static inline void dram_csr_write(bdk_node_t node, const char *csr_name, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value) __attribute__((always_inline));
 static inline void dram_csr_write(bdk_node_t node, const char *csr_name, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value)
 {
@@ -24,6 +25,9 @@ static inline void dram_csr_write(bdk_node_t node, const char *csr_name, bdk_csr
         printf("DDR Config %s[%016lx] => %016lx\n", csr_name, address, value);
     bdk_csr_write(node, type, busnum, size, address, value);
 }
+#else
+extern void dram_csr_write(bdk_node_t node, const char *csr_name, bdk_csr_type_t type, int busnum, int size, uint64_t address, uint64_t value);
+#endif
 
 /**
  * Macro to write a CSR, logging if necessary

@@ -19,6 +19,8 @@
 #include "dram-l2c.h"
 #include "dram-init-ddr3.h"
 
+#undef DRAM_CSR_WRITE_INLINE
+
 #define RLEVEL_AVG_LOOPS_DEFAULT 1
 
 #define RLEVEL_AVG_LOOPS_DEBUG   0
