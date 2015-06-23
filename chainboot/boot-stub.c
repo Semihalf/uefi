@@ -6,8 +6,6 @@
 /* Set this to 0 for PCIe on QLMs 6-7. Set it to 1 for SATA when using the
    PCIe to SATA breakout card*/
 #define USE_SATA_BREAKOUT_CARD 1
-/* Which TWSI interface to use for the BMC, -1 to disable */
-#define BMC_TWSI 1
 /* Enable verbose logging from DRAM initialization (0 or 1) */
 #define DRAM_VERBOSE 0
 /* Control whether the boot stub request power cycles from the BMC (0 or 1).
@@ -81,6 +79,8 @@ void __bdk_require_depends(void)
  *
  * @param status Status to report
  */
+static int BMC_TWSI   = -1;
+
 static void update_bmc_status(bmc_status_t status)
 {
     if (BMC_TWSI != -1)
@@ -310,6 +310,9 @@ int main(void)
 
     /* Enable watchdog */
     watchdog_set(WATCHDOG_TIMEOUT);
+
+    /* Read initial board configuration variables from config file. */
+    BMC_TWSI   = bdk_brd_cfg_get_int(BDK_BRD_CFG_BMC_TWSI);
 
     /* Initialize TWSI interface TBD as a slave */
     if (BMC_TWSI != -1)
