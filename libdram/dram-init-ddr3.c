@@ -29,7 +29,9 @@
 #define RUN_INIT_SEQ_2      0
 #define RUN_INIT_SEQ_3      0
 
-#undef ENABLE_LOCK_RETRIES
+#define ENABLE_LOCK_RETRIES
+#define DEFAULT_LOCK_RETRIES  5 // FIXME: is this enough? too much?
+
 #undef ENABLE_SLOT_CTL_ACCESS
 #undef ENABLE_CUSTOM_RLEVEL_TABLE
 
@@ -44,8 +46,10 @@ static void Display_MPR_Page_Location(bdk_node_t node, int rank,
 
 typedef struct {
     int saturated;
-    int locked;
+    int unlocked;
 } deskew_counts_t;
+
+deskew_counts_t deskew_training_results;
 
 static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num,
                                      deskew_counts_t *counts, int print_enable)
@@ -56,25 +60,24 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
 
     counts->saturated = 0;
-    counts->locked    = 0;
+    counts->unlocked    = 0;
 
     BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                    phy_ctl.s.dsk_dbg_clk_scaler = 3);
 
-    if (print_enable)
-        ddr_print("Deskew Settings:                  Bit =>      :");
-    for(bit_num = 8; bit_num >= 0; --bit_num){
-        if (bit_num == 4) continue;
-        if (print_enable)
-            ddr_print(" %3d  ", (bit_num > 4) ? bit_num - 1 : bit_num);
-    }
-    if (print_enable)
+    if (print_enable) {
+        ddr_print("Deskew Settings:                   Bit =>         :");
+	for (bit_num = 8; bit_num >= 0; --bit_num) {
+	    if (bit_num != 4)
+		ddr_print(" %3d  ", (bit_num > 4) ? bit_num - 1 : bit_num);
+	}
         ddr_print("\n");
-    for(byte_lane = 0; byte_lane < 8+lmc_config.s.ecc_ena; byte_lane++){
+    }
+    for (byte_lane = 0; byte_lane < 8+lmc_config.s.ecc_ena; byte_lane++){
         if (print_enable)
-            ddr_print("LMC%d    Bit Deskew Byte(%d)                    :",
-                      ddr_interface_num, byte_lane);
-        for(bit_num = 8; bit_num >= 0; --bit_num){
+            ddr_print("N%d.LMC%d: Bit Deskew Byte %d                        :",
+                      node, ddr_interface_num, byte_lane);
+        for (bit_num = 8; bit_num >= 0; --bit_num){
             int c;
             if (bit_num == 4) continue;
 
@@ -106,32 +109,36 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
             if (! (phy_ctl.s.dsk_dbg_rd_data & 0x1))
             {
                 c = '?';        /* Failed to Lock */
-                ++counts->locked;
+                ++counts->unlocked;
             }
 
             if (print_enable)
                 ddr_print(" %3d %c", phy_ctl.s.dsk_dbg_rd_data >> 3, c);
-        }
+        } /* for (bit_num = 8; bit_num >= 0; --bit_num) */
         if (print_enable)
             ddr_print("\n");
-    }
+    } /* for (byte_lane = 0; byte_lane < 8+lmc_config.s.ecc_ena; byte_lane++) */
 	
     return;
 }
 
-static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num)
+#define DEFAULT_SAT_RETRY_LIMIT  11    // 1 + 10 retries
+#define DEFAULT_LOCK_RETRY_LIMIT 10    // 10 retries
+#define PRINT_RETRY_LIMIT         0    // make equal to sat_retry_limit if you want all of them
+
+static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num, int spd_rawcard)
 {
-    int unsaturated;
-    int sat_retries, sat_retry_limit;
+    int unsaturated, locked;
+    int sat_retries, lock_retries;
+    int do_print;
     deskew_counts_t dsk_counts;
 
-    ddr_print("LMC%d: Performing Deskew Training.\n", ddr_interface_num);
+    ddr_print("N%d.LMC%d: Performing Deskew Training.\n", node, ddr_interface_num);
 
-    sat_retry_limit = 10;
-    unsaturated = 0;
     sat_retries = 0;
-    ++sat_retry_limit;          /* do, while always does 1. Add one to limit. */
-    do {
+    unsaturated = 0;
+
+    do { /* while (sat_retries < sat_retry_limit) */
 
         /*
          * 4.8.8 LMC Deskew Training
@@ -140,21 +147,9 @@ static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_
          * 
          * 1. Write LMC(0)_EXT_CONFIG[VREFINT_SEQ_DESKEW] = 1.
          */
-
-        {
-            bdk_lmcx_ext_config_t ext_config;
-            ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
-            ext_config.s.vrefint_seq_deskew = 1;
-
-#ifdef DEBUG_PERFORM_DDR3_SEQUENCE
-            if (dram_is_verbose(TRACE_SEQUENCES))
-            {
-                ddr_print("Performing LMC sequence: vrefint_seq_deskew = %d\n",
-                          ext_config.s.vrefint_seq_deskew);
-            }
-#endif
-            DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
-        }
+	ddr_seq_print("Performing LMC sequence: Set vrefint_seq_deskew = 1\n");
+        DRAM_CSR_MODIFY(ext_config, node, BDK_LMCX_EXT_CONFIG(ddr_interface_num),
+			ext_config.s.vrefint_seq_deskew = 1); /* Set Deskew sequence */
 
         /*
          * 2. Write LMC(0)_SEQ_CTL[SEQ_SEL] = 0x0A and
@@ -162,59 +157,67 @@ static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_
          * 
          * 3. Wait for LMC(0)_SEQ_CTL[SEQ_COMPLETE] to be set to 1.
          */
-
-        BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
-                       phy_ctl.s.phy_dsk_reset = 1); /* Reset Deskew sequence */
-
+        DRAM_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+			phy_ctl.s.phy_dsk_reset = 1); /* Reset Deskew sequence */
         perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
 
         Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 0);
 
-        BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
-                       phy_ctl.s.phy_dsk_reset = 0);
+	lock_retries = 0;
 
+    perform_deskew_training:
+        DRAM_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
+			phy_ctl.s.phy_dsk_reset = 0);
         perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Deskew Training */
 
-#define PRINT_RETRY_LIMIT 0 // make equal to sat_retry_limit if you want all of them
-	if (sat_retries <= PRINT_RETRY_LIMIT)
-	    ddr_print("LMC%d: Deskew Training: retry %d: Training Results.\n",
-		      ddr_interface_num, sat_retries);
+	do_print = 0;
+	if (1/*(sat_retries <= PRINT_RETRY_LIMIT) && (lock_retries == 0)*/) {
+	    ddr_print("N%d.LMC%d: Deskew Training: retry %d/%d: Training Results.\n",
+		      node, ddr_interface_num, sat_retries, lock_retries);
+	    do_print = 1;
+	}
 
-        Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts,
-				 (sat_retries <= PRINT_RETRY_LIMIT) ? 1 : 0);
+        Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, do_print);
 
         unsaturated = (dsk_counts.saturated == 0);
+	locked = (dsk_counts.unlocked == 0);
+
+	/*
+	 * At this point, check for a DDR4 RDIMM that will not benefit from retries; if so, exit loop
+	 */
+	// RAW CARD must be bit 7=0 and bits 4-0 either 00000 or 00001 for this to be true 
+	if (spd_rawcard) { // 
+	    ddr_print("N%d.LMC%d: Deskew Training Loop: Exiting for RAWCARD == A|B.\n",
+		      node, ddr_interface_num);
+	    break; // no sat or lock retries
+	}
 
 #ifdef ENABLE_LOCK_RETRIES
-	{
-	    int lck_retries;
-	    int locked = 0;
-	    int rankx;
-	    lck_retries = 0;
-	    while (lck_retries--) {
-		for (rankx = 0; rankx < 4;rankx++) {
-		    if (!(rank_mask & (1 << rankx)))
-			continue;
-		    //Display_MPR_Page(node, rank_mask, ddr_interface_num, 2, 0);
-		    //Display_MPR_Page(node, rank_mask, ddr_interface_num, 2, 2);
-		    //perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 1); /* read-leveling */
-		    //perform_octeon3_ddr3_sequence(node, 1 << rankx, ddr_interface_num, 6); /* write-leveling */
+
+	if (unsaturated) { // only do locking retries if unsaturated, otherwise full SAT retry
+	    if (!locked) { // and not locked
+		lock_retries++;
+		if (lock_retries <= DEFAULT_LOCK_RETRY_LIMIT) {
+		    goto perform_deskew_training;
+		} else {
+		    ddr_print("N%d.LMC%d: LOCK RETRIES failed after %d retries\n",
+			      node, ddr_interface_num, DEFAULT_LOCK_RETRY_LIMIT);
 		}
-
-		Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 0);
-		locked      = (dsk_counts.locked    == 0);
-
-		if (locked) break;
+	    } else {
+		ddr_print("N%d.LMC%d: LOCK RETRIES successful after %d retries\n",
+			  node, ddr_interface_num, lock_retries);
 	    }
-	}
+	} /* if (unsaturated) */
+
 #endif /* ENABLE_LOCK_RETRIES */
+
         ++sat_retries;
 
-        if (unsaturated) break;
-    } while (sat_retries < sat_retry_limit);
+    } while (!unsaturated && (sat_retries < DEFAULT_SAT_RETRY_LIMIT));
 
-    ddr_print("LMC%d: Deskew Training %s. %d retries\n", ddr_interface_num,
-              (sat_retries >= sat_retry_limit) ? "Timed Out" : "Completed", sat_retries-1);
+    ddr_print("N%d.LMC%d: Deskew Training %s. %d retries\n", node, ddr_interface_num,
+              (sat_retries >= DEFAULT_SAT_RETRY_LIMIT) ? "Timed Out" : "Completed", sat_retries-1);
+
     // NOTE: we (currently) always print one last training validation before starting Read Leveling... 
 }
 
@@ -1061,7 +1064,7 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
     seq_ctl.s.seq_sel    = sequence;
 
     ddr_seq_print("Performing LMC sequence: rank_mask=0x%02x, sequence=%x, %s\n",
-	       rank_mask, sequence, sequence_str[sequence]);
+		  rank_mask, sequence, sequence_str[sequence]);
 
     if ((s = lookup_env_parameter("ddr_trigger_sequence%d", sequence)) != NULL) {
 	int trigger = strtoul(s, NULL, 0);
@@ -2068,6 +2071,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int spd_tfaw;
     int spd_addr_mirror;
     int spd_package = 0;
+    int spd_rawcard = 0;
 
     /* FTB values are two's complement ranging from +127 to -128. */
     typedef signed char SC_t;
@@ -2182,9 +2186,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 
     /* ddr_type only indicates DDR4 or DDR3 */
-    ddr_type = (read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_KEY_BYTE_DEVICE_TYPE) == 0x0C)
-	? DDR4_DRAM : DDR3_DRAM;
+    ddr_type = get_ddr_type(node, &dimm_config_table[0], 0);
     debug_print("DRAM Device Type: DDR%d\n", ddr_type);
+
+    spd_dimm_type = get_dimm_module_type(node, &dimm_config_table[0], 0, ddr_type);
 
     if (ddr_type == DDR4_DRAM) {
         imp_values = &ddr4_impedence_values;
@@ -2198,6 +2203,18 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 	spd_package = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_PACKAGE_TYPE);
 	debug_print("DDR4: Package Type 0x%x \n", spd_package);
+
+        spd_rdimm       = (spd_dimm_type == 1);
+	if (spd_rdimm) {
+	    int spd_mfgr_id = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REGISTER_MANUFACTURER_ID_LSB) |
+		(read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REGISTER_MANUFACTURER_ID_MSB) << 8);
+	    extra_ddr_print("DDR4: RDIMM Register Manufacturer ID 0x%x \n", spd_mfgr_id);
+
+	    // RAW CARD must be bit 7=0 and bits 4-0 either 00000 or 00001 
+	    spd_rawcard = 0xFF & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_RDIMM_REFERENCE_RAW_CARD);
+	    extra_ddr_print("DDR4: RDIMM Reference Raw Card 0x%x \n", spd_rawcard);
+	    spd_rawcard = ((spd_rawcard & 0x9fUL) <= 1);
+	}
     } else {
         imp_values = &ddr3_impedence_values;
 
@@ -2207,7 +2224,15 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         bank_bits = 3 + ((spd_banks >> 4) & 0x7);
         bank_bits = min((int)bank_bits, 3); /* Controller can only address 3 bits. */
+
+        spd_rdimm       = (spd_dimm_type == 1) || (spd_dimm_type == 5) || (spd_dimm_type == 9);
     }
+
+#if 0 // FIXME: why should this be possible OR needed?
+    if ((s = lookup_env_parameter("ddr_rdimm_ena")) != NULL) {
+        spd_rdimm = !!strtoul(s, NULL, 0);
+    }
+#endif
 
     debug_print("spd_addr        : %#06x\n", spd_addr );
     debug_print("spd_org         : %#06x\n", spd_org );
@@ -2243,20 +2268,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         error_print("Unsupported number of Row Bits: %d\n", row_bits);
         ++fatal_error;
     }
-
-    if (ddr_type == DDR4_DRAM) {
-        spd_dimm_type   = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_KEY_BYTE_MODULE_TYPE);
-        spd_rdimm       = (spd_dimm_type == 1);
-    } else {
-        spd_dimm_type   = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_KEY_BYTE_MODULE_TYPE);
-        spd_rdimm       = (spd_dimm_type == 1) || (spd_dimm_type == 5) || (spd_dimm_type == 9);
-    }
-
-#if 0 // FIXME: why should this be possible OR needed?
-    if ((s = lookup_env_parameter("ddr_rdimm_ena")) != NULL) {
-        spd_rdimm = !!strtoul(s, NULL, 0);
-    }
-#endif
 
     wlevel_loops = 1;
 
@@ -2341,14 +2352,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     ddr_print("row bits: %d, col bits: %d, bank bits: %d, banks: %d, ranks: %d, dram width: %d, size: %d MB\n",
               row_bits, col_bits, bank_bits, num_banks, num_ranks, dram_width, mem_size_mbytes);
 
+    spd_ecc = get_dimm_ecc(node, &dimm_config_table[0], 0, ddr_type);
+
     if (ddr_type == DDR4_DRAM) {
-	spd_ecc          = !!(read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_MODULE_MEMORY_BUS_WIDTH) & 8);
 	spd_cas_latency  = ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_CAS_LATENCIES_BYTE0)) <<  0);
 	spd_cas_latency |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_CAS_LATENCIES_BYTE1)) <<  8);
 	spd_cas_latency |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_CAS_LATENCIES_BYTE2)) << 16);
 	spd_cas_latency |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_CAS_LATENCIES_BYTE3)) << 24);
     } else {
-	spd_ecc          = !!(read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_MEMORY_BUS_WIDTH) & 8);
 	spd_cas_latency  = 0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_CAS_LATENCIES_LSB);
 	spd_cas_latency |= ((0xff & read_spd(node, &dimm_config_table[0], 0, DDR3_SPD_CAS_LATENCIES_MSB)) << 8);
     }
@@ -3265,6 +3276,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             ddr_rtt_nom_auto = 0;
         }
 
+#if 0
+	// FIXME: this is a duplicate of code just above, and uses an invalid mask - 3 should be 7
+	// FIXME: disabled, awaiting removal...
         for (i=0; i<4; ++i) {
             uint64_t value;
             if ((s = lookup_env_parameter("ddr_rtt_nom_%1d%1d", !!(i&2), !!(i&1))) == NULL)
@@ -3277,6 +3291,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                 ddr_rtt_nom_auto = 0;
             }
         }
+#endif
 
         for (i=0; i<4; ++i) {
             uint64_t value;
@@ -3505,10 +3520,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         comp_ctl2.s.rodt_ctl = odt_config[odt_idx].qs_dic;
 
-        if ((s = lookup_env_parameter("ddr_clk_ctl")) != NULL) {
-            comp_ctl2.s.ck_ctl  = strtoul(s, NULL, 0);
-        }
-
         if ((s = lookup_env_parameter("ddr_ck_ctl")) != NULL) {
             comp_ctl2.s.ck_ctl  = strtoul(s, NULL, 0);
         }
@@ -3523,10 +3534,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
         if ((s = lookup_env_parameter("ddr_dqx_ctl")) != NULL) {
             comp_ctl2.s.dqx_ctl  = strtoul(s, NULL, 0);
-        }
-
-        if ((s = lookup_env_parameter("ddr_ctl_ctl")) != NULL) {
-            comp_ctl2.s.control_ctl  = strtoul(s, NULL, 0);
         }
 
 #ifdef DDR3_ENHANCE_PRINT
@@ -4015,9 +4022,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      */
 
     perform_octeon3_ddr3_sequence(node, rank_mask, ddr_interface_num, 0x0A); /* LMC Internal Vref Training */
-    }
 
-    perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num);
+    } /* while (--offset_vref_training_loops) */
+
+    perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard);
+
+    // save the results of the original training
+    Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &deskew_training_results, 0);
 
 
 #if RUN_INIT_SEQ_3
@@ -4619,8 +4630,9 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	if ((((spd_package & 0xf3) == 0x91) && (num_ranks == 2) && (dram_width == 4))) // 2Rx4 stacked die
 	{
 	    if (dsk_counts.saturated > 0) {
-		ddr_print("LMC%d: Deskew Status indicates some saturation - retry Training.\n", ddr_interface_num);
-		perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num);
+		ddr_print("N%d.LMC%d: Deskew Status indicates some saturation - retry Training.\n",
+			  node, ddr_interface_num);
+		perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard);
 	    }
 	}
     }
@@ -6539,7 +6551,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                       );
 
             if ((ddr_type == DDR4_DRAM) && (best_vref_values_count == 0)) {
-                error_print("WARNING: Vref training failed. N%d.LMC%d.R%d: Resetting node...\n",
+                error_print("INFO: Training results poor, need retry on N%d.LMC%d.R%d. Resetting node...\n",
 			    node, ddr_interface_num, rankx);
                 bdk_wait_usec(500000);
                 bdk_reset_chip(node);
