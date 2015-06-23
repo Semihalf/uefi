@@ -60,7 +60,10 @@ DSTATUS disk_initialize (
 	{
 		/* Initialize mpi_fp for FatFs access */
 		extern int bdk_fs_mpi_init(void);
-		bdk_fs_mpi_init();
+		if (0 != bdk_fs_mpi_init())
+		{
+			return RES_NOTRDY;
+		}
 		mpi_initialized++;
 	}
 
