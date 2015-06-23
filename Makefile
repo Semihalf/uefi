@@ -11,7 +11,7 @@ all: version
 	$(MAKE) -C libc
 	$(MAKE) -C libbdk
 	$(MAKE) -C utils
-#	$(MAKE) -C bdk-boot
+	$(MAKE) -C bdk-boot
 #	$(MAKE) -C normal-boot-ebb8800
 #	$(MAKE) -C normal-boot-ebb8804
 #	$(MAKE) -C normal-boot-crb-1s
