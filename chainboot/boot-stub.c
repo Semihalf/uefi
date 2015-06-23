@@ -517,7 +517,7 @@ int main(void)
         if (bdk_numa_exists(n))
         {
             BDK_TRACE(BOOT_STUB, "Initializing QLM clocks on Node %d\n", n);
-            for (int qlm=0; qlm < BDK_QLM_MAX; qlm++)
+            for (int qlm = 0; qlm < BDK_QLM_MAX; qlm++)
             {
                 /* Node 0:
                     QLM0-1: External ref clock (156.25Mhz)
@@ -527,10 +527,22 @@ int main(void)
                     QLM1-2: Disabled, use external
                     QLM3: External ref clock (100Mhz)
                     QLM4-7: Disabled, use external */
-                int use_common = (n == BDK_NODE_0) && (qlm >= 2);
-                BDK_CSR_MODIFY(c, n, BDK_GSERX_REFCLK_SEL(qlm),
-                    c.s.com_clk_sel = use_common;
-                    c.s.use_com1 = 0);
+                bdk_qlm_clock_t clk = bdk_brd_cfg_get_int(BRD_CFG_QLM_CLK, n, qlm);
+                if (clk == BDK_QLM_CLK_SKIP)
+                    continue;
+
+                if (clk >= BDK_QLM_CLK_MAX)
+                {
+                    bdk_warn("Invalid clock source %d for QLM%d on node %d. Not configuring.\n",
+                             clk, qlm, n);
+                    continue;
+                }
+
+                if (0 != bdk_qlm_set_clock(n, qlm, clk))
+                {
+                    bdk_error("Error setting clock source %d for QLM%d on node %d. Ignoring.\n",
+                              clk, qlm, n);
+                }
             }
         }
     }
