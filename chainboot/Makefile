@@ -3,6 +3,19 @@ include $(BDK_ROOT)/libbdk/bdk.mk
 DIR=$(BDK_ROOT)/target-bin
 IMAGE_NAME=chainboot
 
+# Board specific modules and includes
+ifndef BOARD_TYPE
+$(info ********************************************************************************)
+$(info * BOARD_TYPE not defined. Using default 'crb-2s')
+$(info ********************************************************************************)
+BOARD_TYPE=crb-2s
+endif
+
+BOARD_ROOT 	= $(BDK_ROOT)/chainboot/board/$(BOARD_TYPE)
+BOARD_SRC   := $(wildcard $(BOARD_ROOT)/*.c)
+BOARD_OBJS  := $(addsuffix .o, $(basename $(BOARD_SRC)))
+CPPFLAGS 	+= -I $(BOARD_ROOT)
+
 .PHONY: all
 all: ${DIR}/${IMAGE_NAME}.bin
 
@@ -36,10 +49,10 @@ ${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin
 	# 4) 0x050000: 192KB of chainloader image (trusted)
 	cat stage0.bin /dev/zero | head -q -c 196608 >> ${IMAGE_NAME}.bin
 
-chainloader: chainloader.o $(BDK_ROOT)/libbdk/libbdk.a
-diagnostics: diagnostics.o tuning.o $(BDK_ROOT)/libbdk/libbdk.a
-boot-stub: boot-stub.o tuning.o $(BDK_ROOT)/libbdk/libbdk.a
+chainloader: chainloader.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
+diagnostics: diagnostics.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
+boot-stub: boot-stub.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
 
 clean:
-	rm -f *.o *.map *.bin boot-stub diagnostics ${DIR}/${IMAGE_NAME}.bin
+	rm -f *.o *.map *.bin $(BOARD_ROOT)/*.o boot-stub diagnostics ${DIR}/${IMAGE_NAME}.bin
 

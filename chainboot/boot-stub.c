@@ -1,6 +1,8 @@
 #include <bdk.h>
 #include <malloc.h>
 
+#include <board.h>
+
 /* Set this to 0 for PCIe on QLMs 6-7. Set it to 1 for SATA when using the
    PCIe to SATA breakout card*/
 #define USE_SATA_BREAKOUT_CARD 1
@@ -20,9 +22,6 @@
 /* Perform a fast DRAM test before booting, rebooting or pwoer cycling on
    failure. Only useful if WATCHDOG_TIMEOUT */
 #define RUN_DRAM_TEST (WATCHDOG_TIMEOUT != 0)
-/* If non-zero, enable a watchdog timer to reset the chip ifwe hang during init.
-   Value is in 262144 SCLK cycle intervals, max of 16 bits */
-#define WATCHDOG_TIMEOUT 8010 /* 3sec at 700Mhz */
 /* How long to wait for selection of diagnostics (seconds) */
 #define DIAGS_TIMEOUT 3
 /* How long to wait for selection of save boot (seconds) */
@@ -184,14 +183,12 @@ static void boot_image(const char *filename)
             /* Check for overflow */
             if (timeout > 0xffff)
                 timeout = 0xffff;
-            BDK_CSR_MODIFY(c, bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()),
-                c.s.len = timeout;
-                c.s.mode = 3);
+            watchdog_set(timeout);
         }
         else
         {
             /* Disable watchdog */
-            BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
+            watchdog_disable();
         }
     }
 
@@ -318,12 +315,7 @@ int main(void)
                  "Will use empty configuration...\n");
 
     /* Enable watchdog */
-    if (WATCHDOG_TIMEOUT)
-    {
-        BDK_CSR_MODIFY(c, node, BDK_GTI_CWD_WDOGX(bdk_get_core_num()),
-            c.s.len = WATCHDOG_TIMEOUT;
-            c.s.mode = 3);
-    }
+    watchdog_set(WATCHDOG_TIMEOUT);
 
     /* Initialize TWSI interface TBD as a slave */
     if (BMC_TWSI != -1)
@@ -362,9 +354,7 @@ int main(void)
         bdk_version_string());
 
     /* Poke the watchdog */
-    if (WATCHDOG_TIMEOUT)
-        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
-
+    watchdog_poke();
 
     if (MULTI_NODE)
     {
@@ -406,8 +396,7 @@ int main(void)
     }
 
     /* Poke the watchdog */
-    if (WATCHDOG_TIMEOUT)
-        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+    watchdog_poke();
 
     /* Unlock L2 now that DRAM works */
     if (mbytes > 0)
@@ -416,8 +405,7 @@ int main(void)
         BDK_TRACE(BOOT_STUB, "Unlocking L2\n");
         bdk_l2c_unlock_mem_region(node, 0, l2_size);
         /* Poke the watchdog */
-        if (WATCHDOG_TIMEOUT)
-            BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+        watchdog_poke();
     }
 #endif
 
@@ -434,8 +422,7 @@ int main(void)
         if (bdk_numa_is_only_one() && WATCHDOG_TIMEOUT)
             reset_or_power_cycle();
         /* Poke the watchdog */
-        if (WATCHDOG_TIMEOUT)
-            BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+        watchdog_poke();
     }
 
     /* Send status to the BMC: Multi-node setup complete */
@@ -488,8 +475,7 @@ int main(void)
                 reset_or_power_cycle();
         }
         /* Poke the watchdog */
-        if (WATCHDOG_TIMEOUT)
-            BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+        watchdog_poke();
     }
 #endif
 
@@ -536,7 +522,6 @@ int main(void)
     int is_sgmii = (timestamp == 0x1722);
     printf("Configuring networking for %s\n",
         (is_sgmii) ? "1 Gbit" : "10 Gbit");
-
 
     /* Initialize the QLMs */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
@@ -630,8 +615,7 @@ int main(void)
     }
 
     /* Poke the watchdog */
-    if (WATCHDOG_TIMEOUT)
-        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+    watchdog_poke();
 
     /* Initialize PCIe and bring up the link */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
@@ -665,8 +649,7 @@ int main(void)
     }
 
     /* Poke the watchdog */
-    if (WATCHDOG_TIMEOUT)
-        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+    watchdog_poke();
 
     /* Check for 'D' override */
     if (use_atf && (DIAGS_TIMEOUT > 0))
@@ -677,8 +660,7 @@ int main(void)
     }
 
     /* Poke the watchdog */
-    if (WATCHDOG_TIMEOUT)
-        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+    watchdog_poke();
 
     /* Initialize the filesystems be need to load code from SPI */
     extern int bdk_fs_mpi_init(void);
