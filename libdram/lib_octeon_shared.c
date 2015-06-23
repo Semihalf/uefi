@@ -1106,10 +1106,6 @@ int initialize_ddr_clock(bdk_node_t node,
 
 		    comp_ctl2.s.rodt_ctl           = 0x4; /* 60 ohm */
 
-		    if ((s = lookup_env_parameter("ddr_clk_ctl")) != NULL) {
-			comp_ctl2.s.ck_ctl  = strtoul(s, NULL, 0);
-		    }
-
 		    if ((s = lookup_env_parameter("ddr_ck_ctl")) != NULL) {
 			comp_ctl2.s.ck_ctl  = strtoul(s, NULL, 0);
 		    }
