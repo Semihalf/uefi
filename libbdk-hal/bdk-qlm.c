@@ -63,28 +63,29 @@ int bdk_qlm_get_lanes(bdk_node_t node, int qlm)
  */
 const char *bdk_qlm_mode_to_cfg_str(bdk_qlm_modes_t mode)
 {
-#define MODE_CASE(m) case BDK_##m: return #m
+#define MODE_CASE(m) case m: return #m+4
     switch (mode)
     {
-        case BDK_QLM_MODE_DISABLED:     return "QLM_MODE_DISABLED";
-        case BDK_QLM_MODE_PCIE_1X1:     return "QLM_MODE_PCIE_1X1";
-        case BDK_QLM_MODE_PCIE_2X1:     return "QLM_MODE_PCIE_2X1";
-        case BDK_QLM_MODE_PCIE_1X2:     return "QLM_MODE_PCIE_1X2";
-        case BDK_QLM_MODE_PCIE_1X4:     return "QLM_MODE_PCIE_1X4";
-        case BDK_QLM_MODE_PCIE_1X8:     return "QLM_MODE_PCIE_1X8";
+        MODE_CASE(BDK_QLM_MODE_DISABLED);
+        MODE_CASE(BDK_QLM_MODE_PCIE_1X1);
+        MODE_CASE(BDK_QLM_MODE_PCIE_2X1);
+        MODE_CASE(BDK_QLM_MODE_PCIE_1X2);
+        MODE_CASE(BDK_QLM_MODE_PCIE_1X4);
+        MODE_CASE(BDK_QLM_MODE_PCIE_1X8);
 
-        case BDK_QLM_MODE_SATA_4X1:     return "QLM_MODE_SATA_4X1";
+        MODE_CASE(BDK_QLM_MODE_SATA_4X1);
 
-        case BDK_QLM_MODE_ILK:          return "QLM_MODE_ILK";
-        case BDK_QLM_MODE_SGMII:        return "QLM_MODE_SGMII";
-        case BDK_QLM_MODE_XAUI_1X4:     return "QLM_MODE_XAUI_1X4";
-        case BDK_QLM_MODE_RXAUI_2X2:    return "QLM_MODE_RXAUI_2X2";
-        case BDK_QLM_MODE_OCI:          return "QLM_MODE_OCI";
-        case BDK_QLM_MODE_XFI_4X1:      return "QLM_MODE_XFI_4X1";
-        case BDK_QLM_MODE_XLAUI_1X4:    return "QLM_MODE_XLAUI_1X4";
-        case BDK_QLM_MODE_10G_KR_4X1:   return "QLM_MODE_10G_KR_4X1";
-        case BDK_QLM_MODE_40G_KR4_1X4:  return "QLM_MODE_40G_KR4_1X4";
-        case BDK_QLM_MODE_SKIP:         return "QLM_MODE_SKIP";
+        MODE_CASE(BDK_QLM_MODE_ILK);
+        MODE_CASE(BDK_QLM_MODE_SGMII);
+        MODE_CASE(BDK_QLM_MODE_XAUI_1X4);
+        MODE_CASE(BDK_QLM_MODE_RXAUI_2X2);
+        MODE_CASE(BDK_QLM_MODE_OCI);
+        MODE_CASE(BDK_QLM_MODE_XFI_4X1);
+        MODE_CASE(BDK_QLM_MODE_XLAUI_1X4);
+        MODE_CASE(BDK_QLM_MODE_10G_KR_4X1);
+        MODE_CASE(BDK_QLM_MODE_40G_KR4_1X4);
+        MODE_CASE(BDK_QLM_MODE_SKIP);
+
         case BDK_QLM_MODE_MAX: break; /* fall through error */
     }
     return "INVALID_QLM_MODE_VALUE";
@@ -262,6 +263,7 @@ int bdk_qlm_set_clock(bdk_node_t node, int qlm, bdk_qlm_clock_t clk)
     BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
         c.s.com_clk_sel = sel;
         c.s.use_com1 = com1);
+    printf("##### bdk_qlm_set_clock(): clk:%d\n", clk);
     bdk_brd_cfg_set_int(clk, BRD_CFG_QLM_CLK, node, qlm);
     return 0;
 }
