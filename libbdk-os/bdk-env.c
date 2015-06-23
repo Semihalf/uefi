@@ -1,5 +1,6 @@
 #include <bdk.h>
 #include <errno.h>
+#include <string.h>
 
 /* This code is an optional part of the BDK. It is only linked in
     if BDK_REQUIRE() needs it */
@@ -29,25 +30,19 @@ static int bdk_env_file_read(const char *filename)
             continue;
 
         /* find the '=' */
-        pv = line;
-        while (*pv && '=' != *pv)
-            pv++;
-
-        if ('=' != *pv)
+        pv = strchr(pv, '=');
+        if (!pv)
         {
             bdk_warn("Malformed entry in BDK configuration file. Missing '=':\n"
                      "  %s\n", line);
             continue; /* no '=' in line, skip */
         }
-
         *pv = '\0'; /* split name and value */
         pv++;       /* now points to value */
 
         /* find '\n' and remove it */
-        p = pv;
-        while (*p && '\n' != *p)
-            p++;
-        if ('\n' == *p)
+        p = strchr(pv, '\n');
+        if (p)
             *p = '\0';
         else
             bdk_warn("Possibly truncated variable '%s', value '%s'\n", line, pv);
