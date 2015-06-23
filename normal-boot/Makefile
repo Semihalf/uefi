@@ -17,7 +17,9 @@ CPPFLAGS 	+= -I $(BOARD_ROOT)
 COMMON_SRC	:= $(wildcard *.c)
 COMMON_OBJS	:= $(addsuffix .o, $(basename $(COMMON_SRC)))
 COMMON_OBJS := $(foreach o,$(COMMON_OBJS),$(BOARD_ROOT)/$(o))
-$(info $(COMMON_OBJS))
+
+CFG_FILES  = $(BOARD_TYPE)/*.cfg
+HEADERS    = *.h $(BOARD_TYPE)/*.h
 
 FATFS_IMG  = $(BOARD_ROOT)/fatfs.bin
 STAGE0_BIN = $(BOARD_ROOT)/stage0.bin
@@ -55,7 +57,7 @@ $(STAGE1_BIN): $(BOOT_STUB_BIN)
 $(STAGE2_BIN): $(DIAGNOSTICS_BIN)
 	cp $(DIAGNOSTICS_BIN) $(STAGE2_BIN)
 
-$(FATFS_IMG): $(STAGE1_BIN) $(STAGE2_BIN) $(BOARD_ROOT)/lua/*
+$(FATFS_IMG): $(STAGE1_BIN) $(STAGE2_BIN) $(BOARD_ROOT)/lua/* $(CFG_FILES)
 	# Create empty 3.5MB image file
 	dd if=/dev/zero of=$(FATFS_IMG) bs=1k count=3584 2>/dev/null
 
@@ -94,7 +96,7 @@ $(CHAINLOADER): $(BOARD_ROOT)/chainloader.o $(BOARD_ROOT)/boot-common.o $(BOARD_
 $(DIAGNOSTICS): $(BOARD_ROOT)/diagnostics.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
 $(BOOT_STUB):   $(BOARD_ROOT)/boot-stub.o   $(BOARD_ROOT)/boot-common.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
 
-$(COMMON_OBJS): $(BOARD_ROOT)/%.o: %.c
+$(COMMON_OBJS): $(BOARD_ROOT)/%.o: %.c $(HEADERS)
 	$(CC) $(CFLAGS) $(CPPFLAGS) -c $< -o $@
 
 clean:
