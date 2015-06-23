@@ -9,11 +9,16 @@
 extern "C" {
 #endif
 
+#include "integer.h"
+#include <main.h>
+
+#include <stdio.h> /* for printf in DEBUG */
+#define DEBUG(args...) \
+	do { extern int fatfs_tool_debug; if (fatfs_tool_debug) printf(args); } while (0)
+
 #define _USE_WRITE	1	/* 1: Enable disk_write function */
 #define _USE_IOCTL	1	/* 1: Enable disk_ioctl fucntion */
 
-#include "integer.h"
-#include <main.h>
 
 
 /* Status of Disk Functions */

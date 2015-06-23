@@ -5,9 +5,6 @@
 
 #include <stdio.h> /* for printf in DEBUG */
 
-#define DEBUG(args...) \
-	do { extern int fatfs_tool_debug; if (fatfs_tool_debug) printf(args); } while (0)
-
 void diskio_img_file_set_filename(const char *img_name);
 int  diskio_img_file_close();
 
