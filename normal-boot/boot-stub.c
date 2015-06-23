@@ -115,13 +115,15 @@ int main(void)
     watchdog_poke();
 
 
-    boot_init_ccpi();       /* Set up CCPI */
-    update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
-
+    boot_init_ccpi_link();      /* Set up CCPI */
 
 
     boot_init_dram(BDK_NODE_0); /* Initialize DRAM on node 0 */
     update_bmc_status(BMC_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
+
+    boot_init_ccpi_node();      /* Set up CCPI */
+    update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
+
     boot_init_dram(BDK_NODE_1); /* Initialize DRAM on node 1 */
     update_bmc_status(BMC_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
 

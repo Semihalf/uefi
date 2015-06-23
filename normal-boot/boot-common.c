@@ -449,7 +449,21 @@ void boot_init_dram(bdk_node_t node)
 #endif
 }
 
-void boot_init_ccpi()
+void boot_init_ccpi_link()
+{
+    BDK_TRACE(BOOT_STUB, "Initializing CCPI links\n");
+    if (__bdk_init_ccpi_links(0))
+    {
+        printf("CCPI: Link timeout\n");
+        /* Reset on failure if we're using the watchdog */
+        if (WATCHDOG_TIMEOUT)
+            reset_or_power_cycle();
+    }
+
+    watchdog_poke();
+}
+
+void boot_init_ccpi_node()
 {
     if (BRD_DISABLE_CCPI)
         return;
@@ -464,17 +478,6 @@ void boot_init_ccpi()
     /* Reset if CCPI failed */
     if (bdk_numa_is_only_one() && WATCHDOG_TIMEOUT)
         reset_or_power_cycle();
-
-    watchdog_poke();
-
-    BDK_TRACE(BOOT_STUB, "Initializing CCPI links\n");
-    if (__bdk_init_ccpi_links(0))
-    {
-        printf("CCPI: Link timeout\n");
-        /* Reset on failure if we're using the watchdog */
-        if (WATCHDOG_TIMEOUT)
-            reset_or_power_cycle();
-    }
 
     watchdog_poke();
 }

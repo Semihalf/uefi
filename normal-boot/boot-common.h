@@ -40,7 +40,8 @@ void boot_image(const char *filename, uint64_t loc);
 
 void boot_init_twsi();
 void boot_init_dram(bdk_node_t node);
-void boot_init_ccpi();
+void boot_init_ccpi_link();
+void boot_init_ccpi_node();
 void boot_init_qlm_clk();
 void boot_init_qlm_mode();
 void boot_init_bgx();
