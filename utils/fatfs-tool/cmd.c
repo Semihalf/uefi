@@ -5,6 +5,19 @@
 
 #include "main.h"
 
+static const char *get_basename(const char *filename)
+{
+	const char *base = filename;
+
+	while (filename)
+	{
+		if (NULL == (filename = strchr(filename, '/')))
+			break;
+		base = ++filename; /* skip '/' */
+	}
+	return base;
+}
+
 static int copy_file(const char *filename)
 {
 	int  rc = -1;
@@ -20,7 +33,10 @@ static int copy_file(const char *filename)
 	if (!sfp)
 		goto out;
 
-	res = f_open(&tfp, filename, FA_WRITE | FA_CREATE_ALWAYS);
+	/* Get the file's base name */
+	const char *base = get_basename(filename);
+
+	res = f_open(&tfp, base, FA_WRITE | FA_CREATE_ALWAYS);
 	if (res)
 		goto out;
 
