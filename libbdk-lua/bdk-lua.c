@@ -117,6 +117,14 @@ int bdk_lua_start(void)
     bdk_fs_mmc_init();
     extern int bdk_fs_mpi_init(void);
     bdk_fs_mpi_init();
+    extern int bdk_fs_fatfs_init(void);
+    bdk_fs_fatfs_init();
+
+    /* Read saved environment variables form config file. */
+    if (bdk_loadenv(NULL)) /* NULL == default filename */
+        bdk_warn("Could not read environment variables from config file. "
+                 "Will continue with defaults...\n");
+
     if (BDK_IS_REQUIRED(FS_PCIE))
     {
         extern int bdk_fs_pcie_init(void) BDK_WEAK;

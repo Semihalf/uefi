@@ -323,6 +323,15 @@ int main(void)
 {
     bdk_node_t node = bdk_numa_local();
 
+    /* Initialize the FAT filesystems be need to load the next stage */
+    extern int bdk_fs_fatfs_init(void);
+    bdk_fs_fatfs_init();
+
+    /* Read saved environment variables form config file. */
+    if (bdk_loadenv(NULL)) /* NULL == default filename */
+        bdk_warn("Could not read environment variables from config file. "
+                 "Will continue with defaults...\n");
+
     /* Enable watchdog */
     if (WATCHDOG_TIMEOUT)
     {
