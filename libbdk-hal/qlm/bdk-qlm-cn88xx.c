@@ -640,6 +640,8 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_IS(p), -1);
     }
 
+    /* Apply any custom tuning */
+    qlm_tune(node, qlm, mode, baud_mhz);
     return 0;
 }
 
