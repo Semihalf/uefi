@@ -18,6 +18,7 @@
  * save environment variables.
  */
 #define BDK_ENV_CFG_FILE_NAME           "/fatfs/default.cfg"
+#define BDK_ENV_CFG_FILE_NAME_SAVE_MODE "/fatfs/save-mode.cfg"
 
 /*
  * Maximum line length allowed for key/value pair in configuration file.

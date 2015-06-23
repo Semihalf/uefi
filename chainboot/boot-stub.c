@@ -21,8 +21,10 @@
 #define WATCHDOG_TIMEOUT 8010 /* 3sec at 700Mhz */
 /* Control whether the boot stub request power cycles from the BMC (0 ro 1) */
 #define USE_POWER_CYCLE 1 /* Currently not requesting power cycles */
-/* How long to wait for selection of diagnostics (seconds) */
+/* How long to wait for selection of save boot (seconds) */
 #define DIAGS_TIMEOUT 3
+/* How long to wait for selection of diagnostics (seconds) */
+#define SAVE_BOOT_TIMEOUT 1
 /* A GPIO can be used to select diagnostics without input. The following
    define controls which GPIO and the value that starts daignostics. Set
    DIAGS_GPIO_VALUE to -1 to disable */
@@ -282,15 +284,36 @@ static void print_node_strapping(bdk_node_t node)
 int main(void)
 {
     bdk_node_t node = bdk_numa_local();
+    char *cfgfile;
 
     /* Initialize the FAT filesystems be need to load the next stage */
     extern int bdk_fs_fatfs_init(void);
     bdk_fs_fatfs_init();
 
-    /* Read saved environment variables form config file. */
-    if (bdk_loadenv(NULL)) /* NULL == default filename */
+    /* Check for save mode boot.
+     *
+     * This allows the user to boot in save mode in case the configuration file
+     * does not work on the system and prevents boot.
+     */
+    printf("Press X to boot in save mode...\n");
+    int key = bdk_readline_getkey(SAVE_BOOT_TIMEOUT * 1000000);
+    if ((key == 'x') || (key == 'X'))
+    {
+        printf("=================================================\n"
+               "= BOOTING in SAVE MODE\n"
+               "=================================================\n");
+
+        /* Use the safe mode configuration file. */
+        cfgfile = BDK_ENV_CFG_FILE_NAME_SAVE_MODE;
+    }
+    else
+    {
+        cfgfile = NULL; /* NULL == default filename */
+    }
+
+    if (bdk_loadenv(cfgfile))
         bdk_warn("Could not read environment variables from config file. "
-                 "Will continue with defaults...\n");
+                 "Will use empty configuration...\n");
 
     /* Enable watchdog */
     if (WATCHDOG_TIMEOUT)
