@@ -73,9 +73,9 @@ ${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin fatfs.bin
 	# 6) 0x300000: Free space until 0x400000
 	# You need to install ATF starting at 0x400000
 
-chainloader: chainloader.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
+chainloader: chainloader.o boot-common.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
 diagnostics: diagnostics.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
-boot-stub: boot-stub.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
+boot-stub: boot-stub.o boot-common.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
 
 clean:
 	rm -f *.o *.map *.bin $(BOARD_ROOT)/*.o boot-stub diagnostics ${DIR}/${IMAGE_NAME}.bin
