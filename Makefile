@@ -11,13 +11,13 @@ all: version
 	$(MAKE) -C libc
 	$(MAKE) -C libbdk
 	$(MAKE) -C utils
-	$(MAKE) -C bdk-boot
-	$(MAKE) -C normal-boot-ebb8800
-	$(MAKE) -C normal-boot-ebb8804
-	$(MAKE) -C normal-boot-crb-1s
-	$(MAKE) -C normal-boot-crb-2s
+#	$(MAKE) -C bdk-boot
+#	$(MAKE) -C normal-boot-ebb8800
+#	$(MAKE) -C normal-boot-ebb8804
+#	$(MAKE) -C normal-boot-crb-1s
+#	$(MAKE) -C normal-boot-crb-2s
 	$(MAKE) -C chainboot
-	$(MAKE) -C screen # REMOVE-RELEASE
+#	$(MAKE) -C screen # REMOVE-RELEASE
 
 #
 # Split docs out from all to allow build to reach tftp when docs fails.
