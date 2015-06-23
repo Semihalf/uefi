@@ -71,9 +71,9 @@ $(FATFS_IMG): $(STAGE1_BIN) $(STAGE2_BIN) $(BOARD_ROOT)/lua/*
 	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) cp $(BOARD_ROOT)/lua/*.lua /lua
 
 	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) cp $(BOARD_ROOT)/default.cfg /
-	@cp $(BOARD_ROOT)/default.cfg ./save-mode.cfg
-	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) cp ./save-mode.cfg /
-	@rm ./save-mode.cfg
+	@cp $(BOARD_ROOT)/default.cfg ./safe-mode.cfg
+	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) cp ./safe-mode.cfg /
+	@rm ./safe-mode.cfg
 
 
 $(IMAGE_NAME).bin: $(STAGE0_BIN) $(STAGE1_BIN) $(STAGE2_BIN) $(FATFS_IMG)

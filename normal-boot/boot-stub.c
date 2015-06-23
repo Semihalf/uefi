@@ -5,8 +5,8 @@
 
 /* How long to wait for selection of diagnostics (seconds) */
 #define DIAGS_TIMEOUT 3
-/* How long to wait for selection of save boot (seconds) */
-#define SAVE_BOOT_TIMEOUT 1
+/* How long to wait for selection of safe boot (seconds) */
+#define SAFE_BOOT_TIMEOUT 1
 
 /**
  * This function is not defined by the BDK libraries. It must be
@@ -44,23 +44,23 @@ int main(void)
     /* Initialize the FAT filesystems be need to load the next stage */
     bdk_fs_fatfs_init();
 
-    /* Check for save mode boot.
+    /* Check for safe mode boot.
      *
-     * This allows the user to boot in save mode in case the configuration file
+     * This allows the user to boot in safe mode in case the configuration file
      * does not work on the system and prevents boot.
      */
     char *cfgfile;
 
-    printf("Press X to boot in save mode...\n");
-    int key = bdk_readline_getkey(SAVE_BOOT_TIMEOUT * 1000000);
+    printf("Press X to boot in safe mode...\n");
+    int key = bdk_readline_getkey(SAFE_BOOT_TIMEOUT * 1000000);
     if ((key == 'x') || (key == 'X'))
     {
         printf("=================================================\n"
-               "= BOOTING in SAVE MODE\n"
+               "= BOOTING in SAFE MODE\n"
                "=================================================\n");
 
         /* Use the safe mode configuration file. */
-        cfgfile = BDK_ENV_CFG_FILE_NAME_SAVE_MODE;
+        cfgfile = BDK_ENV_CFG_FILE_NAME_SAFE_MODE;
     }
     else
     {
