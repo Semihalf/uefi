@@ -27,8 +27,8 @@ void boot_read_config()
     BMC_TWSI          = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_BMC_TWSI);
     DRAM_VERBOSE      = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DRAM_VERBOSE);
     WATCHDOG_TIMEOUT  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_WATCHDOG_TIMEOUT);
-    DRAM_NODE0        = bdk_brd_cfg_get_str(0, BDK_BRD_CFG_DRAM_NODE, 0);
-    DRAM_NODE1        = bdk_brd_cfg_get_str(0, BDK_BRD_CFG_DRAM_NODE, 1);
+    DRAM_NODE0        = bdk_brd_cfg_get_str(NULL, BDK_BRD_CFG_DRAM_NODE, 0);
+    DRAM_NODE1        = bdk_brd_cfg_get_str(NULL, BDK_BRD_CFG_DRAM_NODE, 1);
 
     BRD_DISABLE_TWSI  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_TWSI);
     BRD_DISABLE_DRAM  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_DRAM);
@@ -556,7 +556,7 @@ void boot_init_qlm_mode()
             {
                 const char *cfg_val;
 
-                cfg_val = bdk_brd_cfg_get_str(0, BDK_BRD_CFG_QLM_MODE, n, qlm);
+                cfg_val = bdk_brd_cfg_get_str(NULL, BDK_BRD_CFG_QLM_MODE, n, qlm);
                 if (!cfg_val)
                     continue;
 
