@@ -57,7 +57,7 @@ $(STAGE2_BIN): $(DIAGNOSTICS_BIN)
 
 $(FATFS_IMG): $(STAGE1_BIN) $(STAGE2_BIN) $(BOARD_ROOT)/lua/*
 	# Create empty 2.5MB image file
-	dd if=/dev/zero of=$(FATFS_IMG) bs=1k count=2560 status=none
+	dd if=/dev/zero of=$(FATFS_IMG) bs=1k count=2560 2>/dev/null
 
 	# Create FAT filesystem in image file
 	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) mkfs
