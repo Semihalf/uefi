@@ -1,6 +1,10 @@
 #include <bdk.h>
 #include <fcntl.h>
 
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(FS_FATFS);
+
 /* This is a BDK wrapper around FatFs for accessing files in a FAT filesystem. */
 
 static void *fatfs_open(const char *name, int flags)
