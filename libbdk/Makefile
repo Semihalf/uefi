@@ -4,7 +4,6 @@ include bdk.mk
 # These are the directories where source files are found
 #
 dirs  = libbdk-arch
-dirs += libbdk-fatfs
 dirs += libbdk-hal
 dirs += libbdk-hal/if
 dirs += libbdk-hal/qlm
@@ -14,6 +13,7 @@ dirs += liblua
 dirs += libbdk-lua
 dirs += libdram
 dirs += libdram/configs
+dirs += libfatfs
 
 #
 # Create a list of all source files

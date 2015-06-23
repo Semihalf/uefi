@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include "../libbdk-arch/bdk-arch.h"
 #include "../libbdk-os/bdk-os.h"
-#include "../libbdk-fatfs/ff.h"
+#include "../libfatfs/ff.h"
 #ifndef BDK_BUILD_HOST
 #include "../libbdk-hal/bdk-hal.h"
 #include "../libbdk-dram/bdk-dram.h"
