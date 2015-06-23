@@ -76,6 +76,7 @@ extern long bdk_brd_cfg_get_int(const char *format, ...);
  * Set a board configuration variable as long
  *
  * @param format    Format for the variable name. Follows printf convention.
+ * @param value     Value to set
  *
  * @return
  */
@@ -94,6 +95,7 @@ extern const char *bdk_brd_cfg_get_str(const char *format, ...);
  * Set a board configuration variable as string
  *
  * @param format    Format for the variable name. Follows printf convention.
+ * @param value     Value to set
  *
  * @return
  */
