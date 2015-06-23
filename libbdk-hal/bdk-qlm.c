@@ -55,6 +55,63 @@ int bdk_qlm_get_lanes(bdk_node_t node, int qlm)
 }
 
 /**
+ * Convert a mode into a configuration variable string value
+ *
+ * @param mode   Mode to convert
+ *
+ * @return configuration value string
+ */
+const char *bdk_qlm_mode_to_cfg_str(bdk_qlm_modes_t mode)
+{
+#define MODE_CASE(m) case BDK_##m: return #m
+    switch (mode)
+    {
+        case BDK_QLM_MODE_DISABLED:     return "QLM_MODE_DISABLED";
+        case BDK_QLM_MODE_PCIE_1X1:     return "QLM_MODE_PCIE_1X1";
+        case BDK_QLM_MODE_PCIE_2X1:     return "QLM_MODE_PCIE_2X1";
+        case BDK_QLM_MODE_PCIE_1X2:     return "QLM_MODE_PCIE_1X2";
+        case BDK_QLM_MODE_PCIE_1X4:     return "QLM_MODE_PCIE_1X4";
+        case BDK_QLM_MODE_PCIE_1X8:     return "QLM_MODE_PCIE_1X8";
+
+        case BDK_QLM_MODE_SATA_4X1:     return "QLM_MODE_SATA_4X1";
+
+        case BDK_QLM_MODE_ILK:          return "QLM_MODE_ILK";
+        case BDK_QLM_MODE_SGMII:        return "QLM_MODE_SGMII";
+        case BDK_QLM_MODE_XAUI_1X4:     return "QLM_MODE_XAUI_1X4";
+        case BDK_QLM_MODE_RXAUI_2X2:    return "QLM_MODE_RXAUI_2X2";
+        case BDK_QLM_MODE_OCI:          return "QLM_MODE_OCI";
+        case BDK_QLM_MODE_XFI_4X1:      return "QLM_MODE_XFI_4X1";
+        case BDK_QLM_MODE_XLAUI_1X4:    return "QLM_MODE_XLAUI_1X4";
+        case BDK_QLM_MODE_10G_KR_4X1:   return "QLM_MODE_10G_KR_4X1";
+        case BDK_QLM_MODE_40G_KR4_1X4:  return "QLM_MODE_40G_KR4_1X4";
+        case BDK_QLM_MODE_SKIP:         return "QLM_MODE_SKIP";
+        case BDK_QLM_MODE_MAX: break; /* fall through error */
+    }
+    return "INVALID_QLM_MODE_VALUE";
+}
+
+/**
+ * Convert a configuration variable value string into a mode
+ *
+ * @param val  Configuration variable value
+ *
+ * @return mode
+ */
+bdk_qlm_modes_t bdk_qlm_cfg_string_to_mode(const char *val)
+{
+    bdk_qlm_modes_t mode;
+
+    for (mode = 0; mode < BDK_QLM_MODE_MAX; mode++)
+    {
+        if (0 == strcmp(val, bdk_qlm_mode_to_cfg_str(mode)))
+        {
+            return mode;
+        }
+    }
+    return -1;
+}
+
+/**
  * Convert a mode into a human understandable string
  *
  * @param mode   Mode to convert
@@ -116,6 +173,8 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
         case BDK_QLM_MODE_40G_KR4_1X4:
             result = "1 40GBASE-KR4, 4 lanes";
             break;
+        case BDK_QLM_MODE_MAX:
+            break; /* fallthrough error */
     }
     return result;
 }

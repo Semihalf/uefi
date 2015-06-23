@@ -10,6 +10,8 @@
  * @{
  */
 
+#define BDK_QLM_MAX     8
+
 typedef enum
 {
     BDK_QLM_MODE_DISABLED,  /* QLM is disabled (all chips) */
@@ -30,6 +32,8 @@ typedef enum
     BDK_QLM_MODE_XLAUI_1X4,     /* 1 XLAUI, 4 lanes each (cn88xx) */
     BDK_QLM_MODE_10G_KR_4X1,    /* 4 10GBASE-KR, 1 lane each (cn88xx) */
     BDK_QLM_MODE_40G_KR4_1X4,   /* 1 40GBASE-KR4, 4 lanes each (cn88xx) */
+    BDK_QLM_MODE_SKIP,          /* Skip configuration of this QLM */
+    BDK_QLM_MODE_MAX,
 } bdk_qlm_modes_t;
 
 typedef enum
@@ -125,6 +129,15 @@ extern int bdk_qlm_get_num(bdk_node_t node);
 extern int bdk_qlm_get_lanes(bdk_node_t node, int qlm);
 
 /**
+ * Convert a mode into a configuration variable string value
+ *
+ * @param mode   Mode to convert
+ *
+ * @return configuration value string
+ */
+extern const char *bdk_qlm_mode_to_cfg_str(bdk_qlm_modes_t mode);
+
+/**
  * Convert a mode into a human understandable string
  *
  * @param mode   Mode to convert
@@ -132,6 +145,15 @@ extern int bdk_qlm_get_lanes(bdk_node_t node, int qlm);
  * @return Easy to read string
  */
 extern const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode);
+
+/**
+ * Convert a configuration variable value string into a mode
+ *
+ * @param val  Configuration variable value
+ *
+ * @return mode
+ */
+extern bdk_qlm_modes_t bdk_qlm_cfg_string_to_mode(const char *val);
 
 /**
  * Get the mode of a QLM as a human readable string
