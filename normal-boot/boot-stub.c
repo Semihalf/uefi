@@ -105,7 +105,7 @@ int main(void)
 
     printf(
         "=========================\n"
-        "Cavium THUNDERX BDK image\n"
+        "Cavium THUNDERX Boot Stub\n"
         "=========================\n"
         "BDK version: %s\n"
         "\n",
