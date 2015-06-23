@@ -30,3 +30,16 @@ typedef struct {
 #define DIC_OHMS_COUNT         3
 #define DRIVE_STRENGTH_COUNT  15
 
+#undef DEBUG_PERFORM_DDR3_SEQUENCE
+
+#ifdef DEBUG_PERFORM_DDR3_SEQUENCE
+#define ddr_seq_print(format, ...) \
+ do { \
+     if (dram_is_verbose(TRACE_SEQUENCES)) { \
+            printf(format, ##__VA_ARGS__); \
+     } \
+ } while (0)
+#else
+#define ddr_seq_print(format, ...) do {} while (0)
+#endif
+

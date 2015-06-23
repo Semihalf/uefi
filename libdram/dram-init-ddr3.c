@@ -33,8 +33,6 @@
 #undef ENABLE_SLOT_CTL_ACCESS
 #undef ENABLE_CUSTOM_RLEVEL_TABLE
 
-#undef DEBUG_PERFORM_DDR3_SEQUENCE
-
 #define ENABLE_DISPLAY_MPR_PAGE 0
 #if ENABLE_DISPLAY_MPR_PAGE
 static void Display_MPR_Page_Location(bdk_node_t node, int rank,
@@ -1062,11 +1060,8 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
     seq_ctl.s.init_start  = 1;
     seq_ctl.s.seq_sel    = sequence;
 
-#ifdef DEBUG_PERFORM_DDR3_SEQUENCE
-    if (dram_is_verbose(TRACE_SEQUENCES))
-	printf("Performing LMC sequence: rank_mask=0x%02x, sequence=%x, %s\n",
+    ddr_seq_print("Performing LMC sequence: rank_mask=0x%02x, sequence=%x, %s\n",
 	       rank_mask, sequence, sequence_str[sequence]);
-#endif
 
     if ((s = lookup_env_parameter("ddr_trigger_sequence%d", sequence)) != NULL) {
 	int trigger = strtoul(s, NULL, 0);
@@ -1085,11 +1080,8 @@ void perform_octeon3_ddr3_sequence(bdk_node_t node, int rank_mask, int ddr_inter
 	error_print("Timeout waiting for LMC sequence, ignoring: rank_mask=0x%02x, sequence=%x\n",
 		    rank_mask, sequence);
     }
-#ifdef DEBUG_PERFORM_DDR3_SEQUENCE
     else
-	if (dram_is_verbose(TRACE_SEQUENCES))
-	    printf("           LMC sequence=%x: Completed.\n", sequence);
-#endif
+	ddr_seq_print("           LMC sequence=%x: Completed.\n", sequence);
 }
 
 static void ddr4_mrw(bdk_node_t node, int ddr_interface_num, int rank,
@@ -4009,13 +4001,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
         ext_config.s.vrefint_seq_deskew = 0;
 
-#ifdef DEBUG_PERFORM_DDR3_SEQUENCE
-        if (dram_is_verbose(TRACE_SEQUENCES))
-        {
-            ddr_print("Performing LMC sequence: vrefint_seq_deskew = %d\n",
+	ddr_seq_print("Performing LMC sequence: vrefint_seq_deskew = %d\n",
                       ext_config.s.vrefint_seq_deskew);
-        }
-#endif
 
         DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num), ext_config.u);
     }
