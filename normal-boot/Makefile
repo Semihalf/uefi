@@ -9,7 +9,7 @@ $(info * BOARD_TYPE not defined. Using default 'crb-2s')
 $(info ********************************************************************************)
 BOARD_TYPE=crb-2s
 endif
-BOARD_ROOT 	= $(BDK_ROOT)/chainboot/board/$(BOARD_TYPE)
+BOARD_ROOT 	= board/$(BOARD_TYPE)
 BOARD_SRC   := $(wildcard $(BOARD_ROOT)/*.c)
 BOARD_OBJS  := $(addsuffix .o, $(basename $(BOARD_SRC)))
 CPPFLAGS 	+= -I $(BOARD_ROOT)

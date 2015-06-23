@@ -16,7 +16,7 @@ all: version
 #	$(MAKE) -C normal-boot-ebb8804
 #	$(MAKE) -C normal-boot-crb-1s
 #	$(MAKE) -C normal-boot-crb-2s
-	$(MAKE) -C chainboot
+	$(MAKE) -C normal-boot
 #	$(MAKE) -C screen # REMOVE-RELEASE
 
 #
@@ -35,7 +35,7 @@ clean:
 	$(MAKE) -C normal-boot-ebb8804 clean
 	$(MAKE) -C normal-boot-crb-1s clean
 	$(MAKE) -C normal-boot-crb-2s clean
-	$(MAKE) -C chainboot clean
+	$(MAKE) -C normal-boot clean
 	$(MAKE) -C screen clean # REMOVE-RELEASE
 	$(MAKE) -C docs clean # REMOVE-RELEASE
 	rm -f target-bin/*.bin
