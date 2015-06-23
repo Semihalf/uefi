@@ -70,6 +70,7 @@ extern void bdk_showenv(void);
 #define BDK_BRD_CFG_DDR_UDIMM_SPEED         "DDR.SPEED.UDIMM.N%d"
 #define BDK_BRD_CFG_DDR_RDIMM_SPEED         "DDR.SPEED.RDIMM.N%d"
 #define BDK_BRD_CFG_BMC_TWSI                "BRD.CFG.BMC_TWSI"
+#define BDK_BRD_CFG_MULTI_NODE              "BRD.CFG.MULTI_NODE"
 
 /**
  * Get a board configuration variable as integer

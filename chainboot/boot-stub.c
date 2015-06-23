@@ -80,6 +80,7 @@ void __bdk_require_depends(void)
  * @param status Status to report
  */
 static int BMC_TWSI   = -1;
+static int MULTI_NODE = 0;
 
 static void update_bmc_status(bmc_status_t status)
 {
@@ -313,6 +314,7 @@ int main(void)
 
     /* Read initial board configuration variables from config file. */
     BMC_TWSI   = bdk_brd_cfg_get_int(BDK_BRD_CFG_BMC_TWSI);
+    MULTI_NODE = bdk_brd_cfg_get_int(BDK_BRD_CFG_MULTI_NODE);
 
     /* Initialize TWSI interface TBD as a slave */
     if (BMC_TWSI != -1)
