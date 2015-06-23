@@ -86,7 +86,6 @@ static FATFS fatfs; /* only one filesystem mount supported at this time */
 
 int bdk_fs_fatfs_init(void)
 {
-    /* We only use a single device, no device mapping used. Hence "IGNORED". */
-    f_mount(&fatfs, "spi0:", 0);
+    f_mount(&fatfs, "", 0);
     return bdk_fs_register("/fatfs/", &bdk_fs_fatfs_ops);
 }
