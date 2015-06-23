@@ -314,12 +314,12 @@ int main(void)
     }
 
     printf(
-        "Chainloader version: %s\n"
-        "Boot Attempt: %lu\n"
-        "\n"
         "===========================\n"
         "Cavium THUNDERX Chainloader\n"
-        "===========================\n",
+        "===========================\n"
+        "Chainloader version: %s\n"
+        "Boot Attempt: %lu\n"
+        "\n",
         bdk_version_string(), boot_count);
     print_node_strapping(bdk_numa_master());
 

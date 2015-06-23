@@ -375,13 +375,12 @@ int main(void)
     }
 
     printf(
-        "BDK version: %s\n"
-        "\n"
         "=========================\n"
-        "Cavium THUNDERX Boot Stub\n"
-        "=========================\n",
+        "Cavium THUNDERX BDK image\n"
+        "=========================\n"
+        "BDK version: %s\n"
+        "\n",
         bdk_version_string());
-    print_node_strapping(bdk_numa_master());
 
     /* Poke the watchdog */
     if (WATCHDOG_TIMEOUT)
