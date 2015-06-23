@@ -60,14 +60,6 @@ static void update_bmc_status(bmc_status_t status)
     }
 }
 
-static void reset_or_power_cycle(void)
-{
-    if (USE_POWER_CYCLE)
-        update_bmc_status(BMC_STATUS_REQUEST_POWER_CYCLE);
-    else
-        bdk_reset_chip(bdk_numa_local());
-}
-
 /**
  * Boot an image from a device file at the specified location
  *
