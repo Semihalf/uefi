@@ -10,26 +10,41 @@
 #include <bdk.h>
 #include "diskio.h"		/* FatFs lower layer API */
 
+
+/* Physical drive numbers. Passed into diskio API as pdrv. */
 #define DRV_SPI		0
 #define DRV_MMC		1
 
 PARTITION VolToPart[] =
 {
-	{ DRV_SPI, 1 },	/* spi0 - device 0, partition 1 */
-	{ DRV_MMC, 1 },	/* mmc0 - device 1, partition 1 */
+	/* List of logical drives. Each line is a logical drive, drive numbers are
+	 * incremented for each line. Drive numbers can be substituded by drive
+	 * strings as defined by _VOLUME_STRS.
+	 *
+	 * Table entry format is:
+	 *   { physical_drive_nr, partition_nr },
+	 *
+	 * physical_drive_nr:
+	 *   Passed into all diskio API functions as pdrv.
+	 * partition_nr:
+	 *   Logical primary partition number of drive (1-4).
+	 *   No extended partitions are supported.
+	 */
+	{ DRV_SPI, 1 },	/* SPI0 - device 0, partition 1, logical drive 0 */
+	{ DRV_MMC, 1 },	/* MMC0 - device 1, partition 1, logical drive 1 */
 };
 
 
 static struct
 {
-	/* device config */
-	const char    *dev_string;
-	const int     sector_size;
-	const DWORD   img_offset;
+	/* device configuration list */
+	const char    *dev_string; /* device string to access raw block data */
+	const int     sector_size; /* sector size for the device */
+	const DWORD   img_offset;  /* offset of the FAT fs image on the device */
 
 	/* work area for diskio */
-	FILE *fp;
-	int dev_init;
+	FILE *fp;     /* used internally, initialize as NULL */
+	int dev_init; /* used internally, initialize as 0 */
 } drv_list[] = {
 	{
 		"/dev/n0.mpi0/cs-l,2wire,idle-h,msb,24bit,12",
