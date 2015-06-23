@@ -8,7 +8,7 @@
  * Configuration variables read from the board config file.
  */
 static int BMC_TWSI     = -1;
-static int MULTI_NODE   = 0;
+static int MULTI_NODE   = 2; /* 'auto' is default */
 static int DRAM_VERBOSE = 0;
 static int WATCHDOG_TIMEOUT = 0;
 
@@ -22,7 +22,7 @@ static int BRD_DISABLE_PCI   = 0;
 
 void boot_read_config()
 {
-    MULTI_NODE        = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_MULTI_NODE);
+    MULTI_NODE        = bdk_brd_cfg_get_int(2, BDK_BRD_CFG_MULTI_NODE); /* 'auto' is default */
     BMC_TWSI          = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_BMC_TWSI);
     DRAM_VERBOSE      = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DRAM_VERBOSE);
     WATCHDOG_TIMEOUT  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_WATCHDOG_TIMEOUT);
@@ -459,11 +459,21 @@ void boot_init_ccpi_link()
     BDK_TRACE(BOOT_STUB, "Initializing CCPI links\n");
     if (__bdk_init_ccpi_links(0))
     {
-        printf("CCPI: Link timeout\n");
-        /* Reset on failure if we're using the watchdog */
-        if (WATCHDOG_TIMEOUT)
-            reset_or_power_cycle();
+        if (1 == MULTI_NODE) /* fail case for 'on' setting */
+        {
+            printf("CCPI: Link timeout\n");
+            /* Reset on failure if we're using the watchdog */
+            if (WATCHDOG_TIMEOUT)
+                reset_or_power_cycle();
+        }
+        else /* fail case for 'auto' setting */
+        {
+            printf("Auto configured 1 node.\n");
+            MULTI_NODE = 0;
+        }
     }
+    else if (2 == MULTI_NODE) /* success case for 'auto' setting */
+        printf("Auto configured 2 nodes.\n");
 
     watchdog_poke();
 }

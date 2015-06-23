@@ -97,6 +97,12 @@ static int bdk_env_file_write(const char *filename)
 "#    1      /* common clock 1 */\n"
 "#    2      /* use external clock */\n"
 "#    3      /* skip clock configuration */\n"
+"#\n"
+"# Valid modes BRD.CFG.MULTI_NODE configuration:\n"
+"#\n"
+"#    0      /* off */\n"
+"#    1      /* on */\n"
+"#    2      /* auto */\n"
 "#\n";
 
     fp = fopen(filename, "w");
