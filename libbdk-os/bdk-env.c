@@ -1,104 +1,15 @@
-#include <errno.h>
 #include <bdk.h>
+#include <errno.h>
 
 /* This code is an optional part of the BDK. It is only linked in
     if BDK_REQUIRE() needs it */
-BDK_REQUIRE_DEFINE(ENV);
+BDK_REQUIRE_DEFINE(ENVIRONMENT);
 
-/* Variable key/value entry */
-typedef struct bdk_env_entry
-{
-    char name[BDK_ENV_ENTRY_NAME_MAX_LEN];
-    char value[BDK_ENV_ENTRY_VAL_MAX_LEN];
-} bdk_env_entry_t;
-
-
-/* Let's use a simple static table for our variables to make our lives
- * easier... */
-static bdk_env_entry_t  entry_table[BDK_ENV_MAX_ENTRIES];
-static int              entry_table_last = 0;
-
-static bdk_env_entry_t *bdk_env_entry_new()
-{
-    int idx;
-
-    /* first, try to get a new one from the end of the list */
-    if (entry_table_last < BDK_ENV_MAX_ENTRIES)
-        return &entry_table[entry_table_last++];
-
-    /* no more entries, try to find a deleted one (name == "\0") */
-    for (idx = 0; idx < BDK_ENV_MAX_ENTRIES; idx++)
-        if (!*entry_table[idx].name)
-            return &entry_table[idx];
-
-    return NULL; /* no more entries */
-}
-
-static bdk_env_entry_t *bdk_env_entry_find(const char *name)
-{
-    int idx;
-
-    for (idx = 0; idx < entry_table_last; idx++)
-        if (0 == strncmp(entry_table[idx].name, name, BDK_ENV_ENTRY_NAME_MAX_LEN))
-            return &entry_table[idx];
-
-    return NULL;
-}
-
-static void bdk_env_entry_delete_all()
-{
-    entry_table_last = 0;
-}
-
-static const char *bdk_env_getenv(const char *name)
-{
-    bdk_env_entry_t *entry = bdk_env_entry_find(name);
-
-    return entry ? entry->value : NULL;
-}
-
-static int bdk_env_set_env(const char *name, const char *value)
-{
-    struct bdk_env_entry *entry;
-
-    entry = bdk_env_entry_find(name);   /* does entry already exist? */
-
-    /* delete case */
-    if (!value)
-    {
-        if (entry)
-            *entry->name = '\0';
-        return 0; /* deleting non-existing entry is OK */
-    }
-
-    /* set case */
-    if (!entry)
-        entry = bdk_env_entry_new();/* get a new entry */
-    if (!entry)
-    {                                   /* we're out of space */
-        bdk_error("Environment variable table overflow.\n");
-        return -1;
-    }
-
-    if (strlen(name) > BDK_ENV_ENTRY_NAME_MAX_LEN -1)
-        bdk_warn("Variable name '%s' longer than %d characters. Truncating.\n",
-                    name, BDK_ENV_ENTRY_NAME_MAX_LEN -1);
-    strncpy(entry->name, name, BDK_ENV_ENTRY_NAME_MAX_LEN);
-    
-    if (strlen(value) > BDK_ENV_ENTRY_VAL_MAX_LEN -1)
-        bdk_warn("Variable value '%s' for '%s' longer than %d characters. Truncating.\n",
-                    value, name, BDK_ENV_ENTRY_VAL_MAX_LEN -1);
-    strncpy(entry->value, value, BDK_ENV_ENTRY_VAL_MAX_LEN);
-
-    return 0;
-}
+extern char **environ;
 
 static int bdk_env_file_read(const char *filename)
 {
-    char line[BDK_ENV_CFG_FILE_LINE_MAX_LEN]; /* lines should not be longer if
-                                                 the file has been generated */
-
-    bdk_env_entry_delete_all();
+    char line[BDK_ENV_MAX_LINE_LEN];
 
     FILE *fp = fopen(filename, "r");
     if (!fp)
@@ -110,32 +21,41 @@ static int bdk_env_file_read(const char *filename)
 
     while (fgets(line, sizeof(line), fp))
     {
-        char name[BDK_ENV_ENTRY_NAME_MAX_LEN];
-        char value[BDK_ENV_ENTRY_VAL_MAX_LEN];
+        char *pv = line;
         char *p;
-        char *lp = line;
 
         /* ignore comments, empty lines and lines that start with a whitespace */
-        if ('#' == *lp || '\n' == *lp || '\t' == *lp || ' ' == *lp)
+        if ('#' == *pv || '\n' == *pv || '\t' == *pv || ' ' == *pv)
             continue;
 
-        /* read name */
-        p = name;
-        while (*lp && *lp != '=' && (p - name) < (int) sizeof(name))
-            *p++ = *lp++;
-        *p = '\0';
-        lp++; /* skip '=' */
+        /* find the '=' */
+        pv = line;
+        while (*pv && '=' != *pv)
+            pv++;
 
-        /* read value */
-        p = value;
-        while (*lp && *lp != '\n' && (p - value) < (int) sizeof(value))
-            *p++ = *lp++;
-        *p = '\0';
+        if ('=' != *pv)
+        {
+            bdk_warn("Malformed entry in BDK configuration file. Missing '=':\n"
+                     "  %s\n", line);
+            continue; /* no '=' in line, skip */
+        }
 
-        BDK_TRACE(ENV, "Read env variable %s=%s\n", name, value);
+        *pv = '\0'; /* split name and value */
+        pv++;       /* now points to value */
 
-        /* add variable to table */
-        if (0 != bdk_env_set_env(name, value))
+        /* find '\n' and remove it */
+        p = pv;
+        while (*p && '\n' != *p)
+            p++;
+        if ('\n' == *p)
+            *p = '\0';
+        else
+            bdk_warn("Possibly truncated variable '%s', value '%s'\n", line, pv);
+
+        BDK_TRACE(ENV, "Read env variable %s=%s\n", line, pv);
+
+        /* set variable */
+        if (0 != setenv(line, pv, 1))
             break; /* bail on error */
     }
 
@@ -145,16 +65,15 @@ static int bdk_env_file_read(const char *filename)
         /* Should this return -1? */
     }
 
-    BDK_TRACE(ENV, "Read configuration file %s. Got %d entries.\n", filename, entry_table_last);
+    BDK_TRACE(ENV, "Read configuration file %s.\n", filename);
     return 0;
 }
 
 static int bdk_env_file_write(const char *filename)
 {
+    char **ep;
     int rc = -1;
     FILE *fp;
-    int idx;
-    int num_saved = 0;
     char *header = "# Automatically generated BDK configuration file.\n"
                    "#   DO NOT EDIT THIS FILE BY HAND!\n"
                    "#   YOUR CHANGES WILL BE OVERWRITTEN.\n"
@@ -171,59 +90,26 @@ static int bdk_env_file_write(const char *filename)
 
     /* Write file header */
     if (1 != fwrite(header, strlen(header), 1, fp))
-    {
         goto out;
-    }
 
     /* Write out variable entries */
-    /* wgr: not so happy about using idx here. need to think about it. */
-    for (idx = 0; idx < entry_table_last; idx++)
+    ep = environ;
+    while (*ep)
     {
-        if (*entry_table[idx].value)
-        {
-            char line[BDK_ENV_CFG_FILE_LINE_MAX_LEN];
-            sprintf(line, "%s=%s\n", entry_table[idx].name, entry_table[idx].value);
-            if (1 != fwrite(line, strlen(line), 1, fp))
-            {
-                goto out;
-            }
-            num_saved++;
-        }
+        if (1 != fwrite(*ep, strlen(*ep), 1, fp))
+            goto out;
+        if (EOF == fputc('\n', fp))
+            goto out;
+        ep++;
     }
-    BDK_TRACE(ENV, "Saved %d entries in BDK configuration file %s\n", num_saved, filename);
+    BDK_TRACE(ENV, "Saved environment variables to BDK configuration file %s\n", filename);
 
     rc = 0;
 out:
     if (fp)
         if (0 != fclose(fp))
-        {
             bdk_warn("Could not close BDK configuration file (i%s)\n", strerror(errno));
-            /* Should this return -1? */
-        }
-
     return rc;
-}
-
-void bdk_setenv(const char *name, const char *value)
-{
-    if (value)
-       setenv(name, value, 1);
-    else
-       unsetenv(name);
-
-    if (0 != bdk_env_set_env(name, value))
-        bdk_warn("Could not store env variable %s=%s\n", name, value);
-}
-
-const char *bdk_getenv(const char *name)
-{
-    const char *value;
-
-    value = bdk_env_getenv(name);   /* is the variable cached? */
-    if (!value)
-        value = getenv(name);       /* no, grab it from environment */
-
-    return value;
 }
 
 int bdk_loadenv(const char *filename)
@@ -238,4 +124,28 @@ int bdk_saveenv(const char *filename)
     if (!filename)
         filename = BDK_ENV_CFG_FILE_NAME;
     return bdk_env_file_write(filename);
+}
+
+void bdk_setenv(const char *name, const char *value)
+{
+    if (value)
+       setenv(name, value, 1);
+    else
+       unsetenv(name);
+}
+
+void bdk_showenv(void)
+{
+    if (!environ)
+    {
+        bdk_error("Environment not allocated\n");
+        return;
+    }
+
+    char **ptr = environ;
+    while (*ptr)
+    {
+        printf("    %s\n", *ptr);
+        ptr++;
+    }
 }
