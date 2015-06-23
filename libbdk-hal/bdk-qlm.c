@@ -210,6 +210,8 @@ bdk_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm)
  */
 int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
 {
+    int rc;
+
     bdk_qlm_modes_t old_mode = bdk_qlm_get_mode(node, qlm);
     if (old_mode == mode)
     {
@@ -220,7 +222,17 @@ int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
             return 0;
         }
     }
-    return qlm_ops->set_mode(node, qlm, mode, baud_mhz, flags);
+    rc = qlm_ops->set_mode(node, qlm, mode, baud_mhz, flags);
+    if (!rc)
+    {
+        /* If we succeeded to set the QLM mode, we also set the configuration
+         * variables in the environment.
+         */
+        const char *mode_str = bdk_qlm_mode_to_cfg_str(mode);
+        bdk_brd_cfg_set_str(mode_str, "QLM.MODE.N%d.I%d", node, qlm);
+        bdk_brd_cfg_set_int(baud_mhz, "QLM.FREQ.N%d.I%d", node, qlm);
+    }
+    return rc;
 }
 
 /**
