@@ -14,13 +14,6 @@
 #define DEFAULT_DEVICE_STRING	"/dev/n0.mpi0/cs-l,2wire,idle-h,msb,24bit,12"
 #define FATFS_IMAGE_OFFSET		0x80000
 
-#undef DEBUG
-#if 0
-#define DEBUG(args...) printf(args)
-#else
-#define DEBUG(args...)
-#endif
-
 /* Definitions of physical drive number for each drive */
 #define ATA		0	/* Example: Map ATA harddisk to physical drive 0 */
 #define MMC		1	/* Example: Map MMC/SD card to physical drive 1 */
@@ -35,7 +28,7 @@ DSTATUS disk_status (
 	BYTE pdrv		/* Physical drive nmuber to identify the drive */
 )
 {
-	DEBUG("##### %s:%d\n", __FUNCTION__, __LINE__);
+	BDK_TRACE(FATFS, "%s:%d\n", __FUNCTION__, __LINE__);
 	DSTATUS stat = RES_OK;
 	return stat;
 }
@@ -54,7 +47,7 @@ DSTATUS disk_initialize (
 {
 	static int mpi_initialized = 0;
 
-	DEBUG("##### disk_initialize(): drv:%d\n", pdrv);
+	BDK_TRACE(FATFS, "disk_initialize(): drv:%d\n", pdrv);
 
 	if (mpi_fp)
 	{
@@ -98,7 +91,7 @@ DRESULT disk_read (
 	int total;
 	int num_bytes = count * DEFAULT_SECTOR_SIZE;
 
-	DEBUG("##### disk_read(): drv:%d - buf:%p - sec:%d - cnt:%d\n", pdrv, buff, sector, count);
+	BDK_TRACE(FATFS, "disk_read(): drv:%d - buf:%p - sec:%d - cnt:%d\n", pdrv, buff, sector, count);
 
 	fseek(mpi_fp, sector * DEFAULT_SECTOR_SIZE + FATFS_IMAGE_OFFSET, SEEK_SET);
 
@@ -129,7 +122,7 @@ DRESULT disk_write (
 {
 	int total;
 
-	DEBUG("##### disk_write(): drv:%d - buf:%p - sec:%d - cnt:%d\n", pdrv, buff, sector, count);
+	BDK_TRACE(FATFS, "disk_write(): drv:%d - buf:%p - sec:%d - cnt:%d\n", pdrv, buff, sector, count);
 
 	fseek(mpi_fp, sector * DEFAULT_SECTOR_SIZE + FATFS_IMAGE_OFFSET, SEEK_SET);
 
@@ -157,7 +150,7 @@ DRESULT disk_ioctl (
 	void *buff		/* Buffer to send/receive control data */
 )
 {
-	DEBUG("##### %s:%d\n", __FUNCTION__, __LINE__);
+	BDK_TRACE(FATFS, "%s:%d\n", __FUNCTION__, __LINE__);
 	return RES_OK;
 }
 #endif

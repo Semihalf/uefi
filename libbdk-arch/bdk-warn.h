@@ -30,6 +30,7 @@ extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 
 #define BDK_TRACE_ENABLE_PCIE_CONFIG 0  /* PCIe config space reads / writes */
 #define BDK_TRACE_ENABLE_SATA       0   /* SATA/AHCI related debug */
 #define BDK_TRACE_ENABLE_CCPI       0   /* Multi-node related debug */
+#define BDK_TRACE_ENABLE_FATFS      0   /* FatFs related debug */
 
 /**
  * Macro for low level tracing of BDK functions. When enabled,
