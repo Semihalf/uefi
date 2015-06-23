@@ -76,6 +76,7 @@ extern void bdk_showenv(void);
 #define BDK_BRD_CFG_DIAGS_GPIO_VALUE        "BRD.CFG.DIAGS_GPIO_VALUE"
 #define BDK_BRD_CFG_DIAGS_GPIO              "BRD.CFG.DIAGS_GPIO"
 #define BDK_BRD_CFG_BOARD                   "BRD.CFG.BOARD"
+#define BDK_BRD_CFG_USB_PWR_GPIO            "BRD.CFG.USB_PWR_GPIO.N%d"
 
 /*
  * Which peripherals to configure at boot time.
