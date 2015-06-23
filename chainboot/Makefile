@@ -19,7 +19,7 @@ stage0.bin: chainloader.bin
 
 # BDK image
 stage1.bin: boot-stub.bin
-	${BDK_ROOT}/bin/bdk-update-romfs stage1.bin boot-stub.bin
+	cp boot-stub.bin stage1.bin
 
 # Diagnostics image
 stage2.bin: diagnostics.bin lua/*
@@ -33,6 +33,8 @@ fatfs.bin: stage1.bin stage2.bin
 	# Copy stage 1 & 2 images into FAT filesystem
 	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin put stage1.bin
 	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin put stage2.bin
+	# Add all the Lua files to the FAT fs
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin put lua/*.lua
 
 ${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin fatfs.bin
 	#
