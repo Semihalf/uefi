@@ -10,15 +10,12 @@
  */
 static const char *get_basename(const char *filename)
 {
-	const char *base = filename;
+	const char *p = filename;
 
-	while (filename)
-	{
-		if (NULL == (filename = strchr(filename, '/')))
-			break;
-		base = ++filename; /* skip '/' */
-	}
-	return base;
+	while (*p++) ; /* find end of line */
+	while (*--p != '/' && p != filename) ; /* walk back until '/' or beginning */
+
+	return p == filename ? p : ++p;
 }
 
 static int copy_file(const char *filename, const char *target_dir)
