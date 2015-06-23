@@ -63,9 +63,8 @@ int main(void)
         "===========================\n"
         "Chainloader version: %s\n"
         "Boot Attempt: %lu\n"
-        "Boot Volume:  %s\n"
         "\n",
-        bdk_version_string(), boot_count, boot_volume_id);
+        bdk_version_string(), boot_count);
     print_node_strapping(bdk_numa_master());
 
     watchdog_poke(); /* Poke the watchdog */
