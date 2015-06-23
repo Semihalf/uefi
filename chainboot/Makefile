@@ -38,7 +38,22 @@ stage1.bin: boot-stub.bin
 stage2.bin: diagnostics.bin
 	cp diagnostics.bin stage2.bin
 
-${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin
+fatfs.bin: stage1.bin stage2.bin ${BOARD_ROOT}/lua/*
+	# Create empty 2.5MB image file
+	dd if=/dev/zero of=fatfs.bin bs=1k count=2560 status=none
+	# Create FAT filesystem in image file
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin mkfs
+	# Copy stage 1 & 2 images into FAT filesystem
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp stage1.bin /
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp stage2.bin /
+	# Add all the Lua files to the FAT fs
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin mkdir /lua
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp ${BOARD_ROOT}/lua/*.lua /lua
+
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp ${BOARD_ROOT}/default.cfg /
+
+
+${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin fatfs.bin
 	#
 	# 1) 0x000000: 64KB unused by Thunder
 	cat ptable-16MB-0x080000-0x300000-2.5M.img /dev/zero | head -q -c 65536 > ${IMAGE_NAME}.bin
@@ -48,6 +63,10 @@ ${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin
 	cat stage0.bin /dev/zero | head -q -c 196608 >> ${IMAGE_NAME}.bin
 	# 4) 0x050000: 192KB of chainloader image (trusted)
 	cat stage0.bin /dev/zero | head -q -c 196608 >> ${IMAGE_NAME}.bin
+	# 5) 0x080000: 2.5MB FAT filesystem
+	cat fatfs.bin /dev/zero | head -q -c 2621440 >> ${IMAGE_NAME}.bin
+	# 6) 0x300000: Free space until 0x400000
+	# You need to install ATF starting at 0x400000
 
 chainloader: chainloader.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
 diagnostics: diagnostics.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
