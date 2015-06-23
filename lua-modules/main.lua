@@ -87,6 +87,7 @@ m:item("usb",   "USB options",              menu.dofile, "usb_menu")
 m:item("ilua",  "Interactive Lua prompt",   menu.dofile, "ilua")
 m:item("tg",    "Traffic Generator",        do_trafficgen)
 m:item("burn",  "Burn power",               do_burn)
+m:item("save",  "Save board configuration", cavium.c.bdk_saveenv, 0)
 -- Disable due to errata DAP-24000
 if not cavium.is_model(cavium.CN88XXP1) then
     m:item("throt", "Set power throttle level", do_throttle)

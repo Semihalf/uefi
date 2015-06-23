@@ -64,8 +64,6 @@ m:item("showenv", "Show environment variables", function()
     cavium.c.bdk_showenv()
 end)
 
-m:item("saveenv", "Save environment variables", cavium.c.bdk_saveenv, 0)
-
 -- Build a list of choice for each CONFIG
 for _,name in ipairs(CONFIG_CHOICES) do
     local text = "Initialize DRAM using config \"%s\"" % name
