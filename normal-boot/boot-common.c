@@ -522,39 +522,58 @@ void boot_init_qlm_mode()
     if (BRD_DISABLE_QLM)
         return;
 
-    /* Initialize the QLMs */
-    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+    /* Check if QLM autoconfig is requested */
+    int qlm_auto = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_QLM_MODE_AUTO_CONFIG);
+    if (qlm_auto)
     {
-        if (!bdk_numa_exists(n))
-            continue;
-
-        int num_qlms = bdk_qlm_get_num(n);
-
-        BDK_TRACE(BOOT_STUB, "Initializing QLMs on Node %d\n", n);
-        for (int qlm = 0; qlm < num_qlms; qlm++)
+        /* Auto configuration of QLMs
+         */
+        for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
         {
-            const char *cfg_val;
-
-            cfg_val = bdk_brd_cfg_get_str(0, BDK_BRD_CFG_QLM_MODE, n, qlm);
-            if (!cfg_val)
-                continue;
-
-            int mode = bdk_qlm_cfg_string_to_mode(cfg_val);
-            if (-1 == mode)
+            if (bdk_numa_exists(n))
             {
-                bdk_error("Invalid QLM mode string '%s' for QLM%d on node %d. "
-                            "Not configuring.\n", cfg_val, qlm, n);
-                continue;
+                BDK_TRACE(BOOT_STUB, "Initializing QLMs on Node %d\n", n);
+                bdk_qlm_auto_config(n);
             }
-            int freq = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_FREQ, n, qlm);
-            if (-1 == freq)
-            {
-                bdk_error("No frequency setting for QLM%d on node %d. "
-                            "Not configuring.\n", qlm, n);
+        }
+    }
+    else
+    {
+        /* Initialize the QLMs based on configuration file settings
+         */
+        for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+        {
+            if (!bdk_numa_exists(n))
                 continue;
-            }
 
-            bdk_qlm_set_mode(n, qlm, mode, freq, 0);
+            int num_qlms = bdk_qlm_get_num(n);
+
+            BDK_TRACE(BOOT_STUB, "Initializing QLMs on Node %d\n", n);
+            for (int qlm = 0; qlm < num_qlms; qlm++)
+            {
+                const char *cfg_val;
+
+                cfg_val = bdk_brd_cfg_get_str(0, BDK_BRD_CFG_QLM_MODE, n, qlm);
+                if (!cfg_val)
+                    continue;
+
+                int mode = bdk_qlm_cfg_string_to_mode(cfg_val);
+                if (-1 == mode)
+                {
+                    bdk_error("Invalid QLM mode string '%s' for QLM%d on node %d. "
+                                "Not configuring.\n", cfg_val, qlm, n);
+                    continue;
+                }
+                int freq = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_FREQ, n, qlm);
+                if (-1 == freq)
+                {
+                    bdk_error("No frequency setting for QLM%d on node %d. "
+                                "Not configuring.\n", qlm, n);
+                    continue;
+                }
+
+                bdk_qlm_set_mode(n, qlm, mode, freq, 0);
+            }
         }
     }
 }
