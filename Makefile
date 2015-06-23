@@ -12,10 +12,6 @@ all: version
 	$(MAKE) -C libbdk
 	$(MAKE) -C utils
 	$(MAKE) -C bdk-boot
-#	$(MAKE) -C normal-boot-ebb8800
-#	$(MAKE) -C normal-boot-ebb8804
-#	$(MAKE) -C normal-boot-crb-1s
-#	$(MAKE) -C normal-boot-crb-2s
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-1s
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-2s
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800
@@ -34,10 +30,6 @@ clean:
 	$(MAKE) -C libbdk clean
 	$(MAKE) -C utils clean
 	$(MAKE) -C bdk-boot clean
-#	$(MAKE) -C normal-boot-ebb8800 clean
-#	$(MAKE) -C normal-boot-ebb8804 clean
-#	$(MAKE) -C normal-boot-crb-1s clean
-#	$(MAKE) -C normal-boot-crb-2s clean
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-1s clean
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-2s clean
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800 clean
@@ -71,7 +63,7 @@ run-normal:
 ifndef ASIM
 	echo ERROR: Define ASIM in the environment, the directory of asim && false
 endif
-	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot-ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
+	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
 
 .PHONY: run-screen
 run-screen:
@@ -164,7 +156,7 @@ release: all docs
 	grep -v "REMOVE-RELEASE" Makefile > $(RELEASE_DIR)/Makefile
 	# Copy boot stubs
 	cp -a bdk-boot $(RELEASE_DIR)/
-	cp -a normal-boot-* $(RELEASE_DIR)/
+	cp -a normal-boot $(RELEASE_DIR)/
 	# Copy lua-modules dir
 	cp -a lua-modules $(RELEASE_DIR)/
 	rm $(RELEASE_DIR)/lua-modules/*.luadoc
