@@ -263,7 +263,6 @@ int bdk_qlm_set_clock(bdk_node_t node, int qlm, bdk_qlm_clock_t clk)
     BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
         c.s.com_clk_sel = sel;
         c.s.use_com1 = com1);
-    printf("##### bdk_qlm_set_clock(): clk:%d\n", clk);
     bdk_brd_cfg_set_int(clk, BDK_BRD_CFG_QLM_CLK, node, qlm);
     return 0;
 }
