@@ -569,10 +569,16 @@ void boot_init_bgx()
     {
         if (bdk_numa_exists(n))
         {
-            /* Ports 1-3 of BGX 0 aren't used. Use BGXX_CMRX_RX_DMAC_CTL
-               to signal this to following software */
-            for (int p = 1; p < 4; p++)
-                BDK_CSR_WRITE(n, BDK_BGXX_CMRX_RX_DMAC_CTL(0, p), 0);
+            /* Enable ports based on config file. */
+            for (int bgx = 0; bgx < 2; bgx++)
+            {
+                for (int p = 0; p < 4; p++)
+                {
+                    int en = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_BGX_ENABLE, n, bgx, p);
+                    if (-1 != en)
+                        BDK_CSR_WRITE(n, BDK_BGXX_CMRX_RX_DMAC_CTL(bgx, p), en);
+                }
+            }
         }
     }
 }
