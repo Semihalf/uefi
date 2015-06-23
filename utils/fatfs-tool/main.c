@@ -27,9 +27,9 @@ static void usage()
 		"        command          - Command to execute\n"
 		"\n"
 		"        Available commands:\n"
-		"        put     [files]...   - Put files into filesystem image\n"
-		"        mkfs                 - Create new FAT filesystem in image\n"
-		"                               WARNING: This will erase all existing data in image file\n"
+		"        cp    src... target_dir   - cp files into filesystem image\n"
+		"        mkfs                      - Create new FAT filesystem in image\n"
+		"                                    WARNING: This will erase all existing data in image file\n"
 		);
 	exit(-1);
 }
@@ -84,9 +84,8 @@ int main(int argc, char **argv)
 		goto out;
 	}
 
-
 	/* run the command that is left on the command line. */
-	run_command(argv);
+	run_command(argc, argv);
 
 
 	CHAT("Done.\n");
