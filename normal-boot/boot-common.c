@@ -11,6 +11,8 @@ static int BMC_TWSI     = -1;
 static int MULTI_NODE   = 2; /* 'auto' is default */
 static int DRAM_VERBOSE = 0;
 static int WATCHDOG_TIMEOUT = 0;
+static const char *DRAM_NODE0 = 0;
+static const char *DRAM_NODE1 = 0;
 
 static int BRD_DISABLE_TWSI  = 0;
 static int BRD_DISABLE_DRAM  = 0;
@@ -26,6 +28,8 @@ void boot_read_config()
     BMC_TWSI          = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_BMC_TWSI);
     DRAM_VERBOSE      = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DRAM_VERBOSE);
     WATCHDOG_TIMEOUT  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_WATCHDOG_TIMEOUT);
+    DRAM_NODE0        = bdk_brd_cfg_get_str(0, BDK_BRD_CFG_DRAM_NODE, 0);
+    DRAM_NODE1        = bdk_brd_cfg_get_str(0, BDK_BRD_CFG_DRAM_NODE, 1);
 
     BRD_DISABLE_TWSI  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_TWSI);
     BRD_DISABLE_DRAM  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_DRAM);
@@ -36,12 +40,6 @@ void boot_read_config()
     BRD_DISABLE_PCI   = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_PCI);
 }
 
-
-/* This macro simplifies referencing DRAM configurations later in the
-   code. It converts a DRAM_NODE* macro into a C function name. If
-   DRAM_NODE0 is X, the function required is dram_get_config_X() */
-#define _CONFIG_FUNC_NAME(n) dram_get_config_ ## n
-#define CONFIG_FUNC_NAME(n) _CONFIG_FUNC_NAME(n)
 #define XCONFIG_STR_NAME(n)	#n
 #define CONFIG_STR_NAME(n) XCONFIG_STR_NAME(n)
 
@@ -355,15 +353,13 @@ void boot_init_dram(bdk_node_t node)
     if (BRD_DISABLE_DRAM)
         return;
 
-#ifdef DRAM_NODE0
-    if (node == BDK_NODE_0)
+    if (DRAM_NODE0 && node == BDK_NODE_0)
     {
         /* Initialize DRAM on the master node */
         if (DRAM_VERBOSE)
             setenv("ddr_verbose", CONFIG_STR_NAME(DRAM_VERBOSE), 1);
         BDK_TRACE(BOOT_STUB, "Initializing DRAM on this node\n");
-        extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE0)(void);
-        int mbytes = libdram_config(bdk_numa_master(), CONFIG_FUNC_NAME(DRAM_NODE0)(), 0);
+        int mbytes = bdk_dram_config(bdk_numa_master(), DRAM_NODE0, 0);
         if (mbytes > 0)
         {
             uint32_t freq = libdram_get_freq(bdk_numa_master());
@@ -397,19 +393,16 @@ void boot_init_dram(bdk_node_t node)
             watchdog_poke();
         }
     }
-#endif
 
-#ifdef DRAM_NODE1
     /* Initialize DRAM on the slave node */
-    if (node == BDK_NODE_1 && MULTI_NODE)
+    if (DRAM_NODE1 && node == BDK_NODE_1 && MULTI_NODE)
     {
         bdk_node_t other_node = 1;
         if (bdk_numa_exists(other_node))
         {
             print_node_strapping(other_node);
             BDK_TRACE(BOOT_STUB, "Initializing DRAM on other node\n");
-            extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE1)(void);
-            int mbytes = libdram_config(other_node, CONFIG_FUNC_NAME(DRAM_NODE1)(), 0);
+            int mbytes = bdk_dram_config(other_node, DRAM_NODE1, 0);
             if (mbytes > 0)
             {
                 uint32_t freq = libdram_get_freq(other_node);
@@ -448,7 +441,6 @@ void boot_init_dram(bdk_node_t node)
         /* Poke the watchdog */
         watchdog_poke();
     }
-#endif
 }
 
 void boot_init_ccpi_link()
