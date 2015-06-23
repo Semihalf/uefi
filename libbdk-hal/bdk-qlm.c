@@ -236,6 +236,37 @@ int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
 }
 
 /**
+ * Set the QLM's clock source.
+ *
+ * @param node     Node to use in a Numa setup
+ * @param qlm      QLM to configure
+ * @param clk      Clock source for QLM
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_qlm_set_clock(bdk_node_t node, int qlm, bdk_qlm_clock_t clk)
+{
+    int sel;
+    int com1;
+    switch (clk)
+    {
+    case BDK_QLM_CLK_COMMON_0: sel = 1; com1 = 0; break;
+    case BDK_QLM_CLK_COMMON_1: sel = 1; com1 = 1; break;
+    case BDK_QLM_CLK_EXTERNAL: sel = 0; com1 = 0; break;
+    default:
+        bdk_warn("Unrecognized clock mode %d for QLM%d on node %d.\n",
+                 clk, qlm, node);
+        return -1;
+    }
+
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
+        c.s.com_clk_sel = sel;
+        c.s.use_com1 = com1);
+    bdk_brd_cfg_set_int(clk, BRD_CFG_QLM_CLK, node, qlm);
+    return 0;
+}
+
+/**
  * Get the speed (Gbaud) of the QLM in Mhz.
  *
  * @param qlm    QLM to examine

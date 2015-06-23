@@ -38,6 +38,15 @@ typedef enum
 
 typedef enum
 {
+    BDK_QLM_CLK_COMMON_0,
+    BDK_QLM_CLK_COMMON_1,
+    BDK_QLM_CLK_EXTERNAL,
+    BDK_QLM_CLK_SKIP,
+    BDK_QLM_CLK_MAX,
+} bdk_qlm_clock_t;
+
+typedef enum
+{
     BDK_QLM_MODE_FLAG_ENDPOINT = 1, /* PCIe in EP instead of RC */
 } bdk_qlm_mode_flags_t;
 
@@ -179,6 +188,17 @@ extern bdk_qlm_modes_t bdk_qlm_get_mode(bdk_node_t node, int qlm);
  * @return Zero on success, negative on failure
  */
 extern int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags);
+
+/**
+ * Set the QLM's clock source.
+ *
+ * @param node     Node to use in a Numa setup
+ * @param qlm      QLM to configure
+ * @param clk      Clock source for QLM
+ *
+ * @return Zero on success, negative on failure
+ */
+extern int bdk_qlm_set_clock(bdk_node_t node, int qlm, bdk_qlm_clock_t clk);
 
 /**
  * Get the speed (Gbaud) of the QLM in Mhz.
