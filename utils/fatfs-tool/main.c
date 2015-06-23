@@ -27,10 +27,11 @@ static void usage()
 		"        command          - Command to execute\n"
 		"\n"
 		"        Available commands:\n"
-		"        cp    src... target_dir   - cp files into filesystem image\n"
-		"        mkfs                      - Create new FAT filesystem in image\n"
-		"                                    WARNING: This will erase all existing data in image file\n"
+		"        cp    src... target_dir   - copy files into filesystem target\n"
+		"        ls    target_dir          - list the files in a directory\n"
 		"        mkdir target_dir          - Create new directory in target\n"
+		"        mkfs                      - Create new FAT filesystem in target\n"
+		"                                    WARNING: This will erase all existing data in target file\n"
 		);
 	exit(-1);
 }

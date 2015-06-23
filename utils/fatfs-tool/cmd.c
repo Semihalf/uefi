@@ -157,6 +157,49 @@ static int cp(int argc, char **argv)
 	return 0;
 }
 
+static int ls(int argc, char **argv)
+{
+	CHAT("List files:\n");
+	char *path;
+
+	if (1 == argc)
+		path = "0:"; /* no arg, use default path */
+	else
+		path = argv[1];
+
+	if (!dir_exists(path))
+	{
+		fprintf(stderr, "ls: Target directory %s does not exist. Aborting.\n", path);
+		return -1;
+	}
+
+	DIR dir;
+	FILINFO info;
+#if _USE_LFN
+	char lfn[_MAX_LFN + 1] = {0};
+	info.lfname = lfn;
+	info.lfsize = sizeof(lfn);
+#endif
+	FRESULT res = f_findfirst(&dir, &info, path, "*");
+	while (FR_OK == res && info.fname[0])
+	{
+		char *dirstr = info.fattrib & AM_DIR ? "/" : "";
+		char *pd = path[strlen(path)-1] == '/' ? "" : "/";
+#if _USE_LFN
+		printf("%s%s%s%s", path, pd, info.fname, dirstr);
+		if (info.lfname[0])
+			printf("    (%s%s%s%s)", path, pd, info.lfname, dirstr);
+		printf("\n");
+#else
+		printf("%s%s%s%s\n", path, pd, info.fname, dirstr);
+#endif
+		res = f_findnext(&dir, &info);
+	}
+
+	f_closedir(&dir);
+	return 0;
+}
+
 /*
  * Main handler
  */
@@ -170,6 +213,7 @@ cmd_list[] =
 	{ "mkfs",	mkfs },
 	{ "mkdir",	mkdir },
 	{ "cp",		cp },
+	{ "ls",		ls },
 	{ NULL,		NULL },
 };
 
