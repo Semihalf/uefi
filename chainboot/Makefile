@@ -35,7 +35,7 @@ stage1.bin: boot-stub.bin
 	cp boot-stub.bin stage1.bin
 
 # Diagnostics image
-stage2.bin: diagnostics.bin lua/*
+stage2.bin: diagnostics.bin
 	cp diagnostics.bin stage2.bin
 
 ${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin
