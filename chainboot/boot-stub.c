@@ -30,6 +30,8 @@
 #define DIAGS_GPIO_VALUE -1
 /* Enable or disable detailed tracing of the boot stub (0 or 1) */
 #define BDK_TRACE_ENABLE_BOOT_STUB 0
+/* Filename for bootstrap image on FATF filesystem */
+#define BOOTSTRAP_IMAGE_FILENAME "bootstrap.bin"
 
 /* This macro simplifies referencing DRAM configurations later in the
    code. It converts a DRAM_NODE* macro into a C function name. If
@@ -171,7 +173,7 @@ static void boot_image(const char *filename)
     if (WATCHDOG_TIMEOUT)
     {
         /* Check if we are loading the ATF image. */
-        if (strstr(filename, "atf.bin"))
+        if (strstr(filename, BOOTSTRAP_IMAGE_FILENAME))
         {
             /* Software wants the watchdog running with a 15 second timout */
             uint64_t timeout = 15 * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_SCLK) / 262144;
@@ -661,7 +663,7 @@ int main(void)
     if (use_atf)
     {
         BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
-        snprintf(filename, sizeof(filename), "/fatfs/%s:/atf.bin", boot_volume_id);
+        snprintf(filename, sizeof(filename), "/fatfs/%s:/" BOOTSTRAP_IMAGE_FILENAME, boot_volume_id);
         boot_image(filename);
         bdk_error("Unable to load image\n");
         printf("Trying diagnostics\n");
