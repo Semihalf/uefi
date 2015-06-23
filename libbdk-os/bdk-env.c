@@ -170,7 +170,10 @@ static const char *bdk_board_cfg_get_value(const char *id, int recursive)
     while (*name)
     {
         if (NULL != (val = getenv(name)))
+        {
+            BDK_TRACE(ENV, "GET %s (using %s) -> %s\n", id, name, val);
             return val;
+        }
 
         /* If the recursive flag is set we'll try to find a parent entry that
          * has a value we can use.
@@ -178,14 +181,16 @@ static const char *bdk_board_cfg_get_value(const char *id, int recursive)
         if (recursive)
             bdk_board_cfg_clip_end(name);
         else
-            return NULL;
+            break;
     }
+    BDK_TRACE(ENV, "GET %s -> NOT FOUND\n", id);
     return NULL;
 }
 
 /* Set a board configuration variable in the environment. */
 static void bdk_board_cfg_set_value(const char *id, const char *value)
 {
+    BDK_TRACE(ENV, "SET %s=%s\n", id, value);
     bdk_setenv(id, value);
 }
 
