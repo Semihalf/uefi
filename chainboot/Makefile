@@ -37,6 +37,10 @@ fatfs.bin: stage1.bin stage2.bin lua/*
 	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin mkdir /lua
 	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp lua/*.lua /lua
 
+	# Test config file
+	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp default.cfg /
+
+
 ${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin fatfs.bin
 	#
 	# 1) 0x000000: 64KB unused by Thunder
