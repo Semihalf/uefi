@@ -8,14 +8,8 @@
 #define USE_SATA_BREAKOUT_CARD 1
 /* Which TWSI interface to use for the BMC, -1 to disable */
 #define BMC_TWSI 1
-/* Control if we even try and do multi-node (0 or 1) */
-#define MULTI_NODE 1
-/* Name of DRAM config for master node 0 */
-#define DRAM_NODE0 crb_2s_V3
 /* Enable verbose logging from DRAM initialization (0 or 1) */
 #define DRAM_VERBOSE 0
-/* Name of DRAM config for slave node 1 */
-#define DRAM_NODE1 crb_2s_V3
 /* Control whether the boot stub request power cycles from the BMC (0 or 1).
    This is only useful in conjuction with WATCHDOG_TIMEOUT */
 #define USE_POWER_CYCLE (WATCHDOG_TIMEOUT != 0)
