@@ -283,30 +283,14 @@ int main(void)
     /* Decode how we booted and display a banner */
     BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
     int boot_method;
-    char *boot_partition_name = "none";
-    char boot_device_name[48];
     BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
-    boot_device_name[0] = 0;
 
-    switch (boot_method)
+    /* remove this declaration once we find a good header file for this API. */
+    extern const char *boot_device_volstr_for_boot_method(int boot_method);
+    const char *boot_volume_id = boot_device_volstr_for_boot_method(boot_method);
+    if (!boot_volume_id)
     {
-        case RST_BOOT_METHOD_E_CCPI0:
-        case RST_BOOT_METHOD_E_CCPI1:
-        case RST_BOOT_METHOD_E_CCPI2:
-        case RST_BOOT_METHOD_E_PCIE0:
-        case RST_BOOT_METHOD_E_REMOTE:
-            /* Boot device controlled externally */
-            break;
-        case RST_BOOT_METHOD_E_EMMC_LS:
-        case RST_BOOT_METHOD_E_EMMC_SS:
-            boot_partition_name = "mmc0"; /* MMC */
-            break;
-        case RST_BOOT_METHOD_E_SPI24:
-        case RST_BOOT_METHOD_E_SPI32:
-            boot_partition_name = "spi0"; /* SPI */
-            break;
-        default:
-            break;
+        bdk_error("No valid boot volume id found for boot method (%d)\n", boot_method);
     }
 
     printf(
@@ -315,8 +299,9 @@ int main(void)
         "===========================\n"
         "Chainloader version: %s\n"
         "Boot Attempt: %lu\n"
+        "Boot Volume:  %s\n"
         "\n",
-        bdk_version_string(), boot_count);
+        bdk_version_string(), boot_count, boot_volume_id);
     print_node_strapping(bdk_numa_master());
 
     /* Poke the watchdog */
@@ -334,7 +319,7 @@ int main(void)
     /* Transfer control to next image */
     char filename[64];
     BDK_TRACE(CHAINLOADER, "Looking for BDK image\n");
-    snprintf(filename, sizeof(filename), "/fatfs/%s:/stage1.bin", boot_partition_name);
+    snprintf(filename, sizeof(filename), "/fatfs/%s:/stage1.bin", boot_volume_id);
     boot_image(filename);
 
     bdk_error("Image load failed\n");

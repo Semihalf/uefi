@@ -38,6 +38,7 @@ PARTITION VolToPart[] =
 static struct
 {
 	/* device configuration list */
+	const int     boot_method; /* boot method ID for this device setup */
 	const char    *dev_string; /* device string to access raw block data */
 	const int     sector_size; /* sector size for the device */
 	const DWORD   img_offset;  /* offset of the FAT fs image on the device */
@@ -47,6 +48,7 @@ static struct
 	int dev_init; /* used internally, initialize as 0 */
 } drv_list[] = {
 	{
+		RST_BOOT_METHOD_E_SPI24,
 		"/dev/n0.mpi0/cs-l,2wire,idle-h,msb,24bit,12",
 		512,
 		0x00000,
@@ -54,11 +56,15 @@ static struct
 		0
 	},
 	{
+		RST_BOOT_METHOD_E_EMMC_LS,
 		"/dev/mmc-not-yet-implemented",
 		0,
-		0x0000,
+		0x00000,
 		NULL,
 		0
+	},
+	{
+		0, NULL, 0, 0x0000, NULL, 0
 	}
 };
 
@@ -67,6 +73,29 @@ static struct
 #define DRV_IMG_OFFSET(drv)  (drv_list[drv].img_offset)
 #define DRV_FP(drv)          (drv_list[drv].fp)
 #define DRV_INIT(drv)        (drv_list[drv].dev_init)
+
+int boot_device_id_for_boot_method(int boot_method)
+{
+	int id = 0;
+
+	while (drv_list[id].boot_method)
+	{
+		if (drv_list[id].boot_method == boot_method)
+			return id;
+		id++;
+	}
+	return -1;
+}
+
+const char *boot_device_volstr_for_boot_method(int boot_method)
+{
+	static const char *str[] = { _VOLUME_STRS };
+	int id;
+
+	id = boot_device_id_for_boot_method(boot_method);
+	return id == -1 ? NULL : str[id];
+}
+
 
 /*-----------------------------------------------------------------------*/
 /* Get Drive Status                                                      */
