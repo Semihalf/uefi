@@ -33,7 +33,7 @@ stage2.bin: diagnostics.bin lua/*
 ${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin
 	#
 	# 1) 0x000000: 64KB unused by Thunder
-	cat /dev/zero | head -q -c 65536 > ${IMAGE_NAME}.bin
+	cat ptable-16MB-0x280000-0x300000-512k.img /dev/zero | head -q -c 65536 > ${IMAGE_NAME}.bin
 	# 2) 0x010000: 64KB of CVM_CLIB header
 	echo -n CVM_CLIB | cat - /dev/zero | head -q -c 65536 >> ${IMAGE_NAME}.bin
 	# 3) 0x020000: 192KB of chainloader image (non-trusted)
