@@ -91,7 +91,7 @@ endif
 #
 ifeq ($(shell test -d .git;echo $$?),0)
     # Using git, check for git svn or raw git
-    ifeq ($(shell grep -q svn-remote .git/config;echo $$?),0)
+    ifneq ($(shell  git svn find-rev HEAD;echo $$?),0)
       # Using git svn
       BUILD_REV := $(shell git svn info | grep "Last Changed Rev:")
       BUILD_REV := "r$(word 4, $(BUILD_REV))"
