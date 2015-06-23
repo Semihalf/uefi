@@ -30,6 +30,9 @@ cscope.out
 /bdk-boot/boot-stub-node1
 /bdk-boot/diagnostics
 /bdk-boot/diagnostics-node1
+/normal-boot/*/boot-stub
+/normal-boot/*/chainloader
+/normal-boot/*/diagnostics
 /normal-boot-ebb8800/boot-stub
 /normal-boot-ebb8800/boot-stub-node1
 /normal-boot-ebb8800/diagnostics
@@ -48,5 +51,6 @@ cscope.out
 /tests/hw-and-sim/passthrough/passthrough
 /utils/bdk-lua/bdk-lua-*
 /utils/bdk-luac/bdk-luac-*
+/utils/fatfs-tool/fatfs-tool
 /target-bin/original
 /lua-modules/bdk-version.lua
