@@ -12,6 +12,7 @@ CPP_LINK_FLAGS		= $(LIB_DIR) $(LIBS)
 OBJS =	main.o \
 		cmd.o \
 		$(FATFS_DIR)/src/ff.o \
+		$(FATFS_DIR)/src/option/unicode.o \
 		$(FATFS_DIR)/src/diskio.o \
 		$(FATFS_DIR)/src/diskio_img_file.o
 
