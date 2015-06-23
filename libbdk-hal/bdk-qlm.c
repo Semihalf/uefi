@@ -173,6 +173,9 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
         case BDK_QLM_MODE_40G_KR4_1X4:
             result = "1 40GBASE-KR4, 4 lanes";
             break;
+        case BDK_QLM_MODE_SKIP:
+            result = "Not configured";
+            break;
         case BDK_QLM_MODE_MAX:
             break; /* fallthrough error */
     }
