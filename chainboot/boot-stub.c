@@ -494,7 +494,7 @@ int main(void)
         if (bdk_numa_exists(n))
         {
             BDK_TRACE(BOOT_STUB, "Initializing QLM clocks on Node %d\n", n);
-            for (int qlm=0; qlm<8; qlm++)
+            for (int qlm=0; qlm < BDK_QLM_MAX; qlm++)
             {
                 /* Node 0:
                     QLM0-1: External ref clock (156.25Mhz)
@@ -517,47 +517,24 @@ int main(void)
     printf("Configuring networking for %s\n",
         (is_sgmii) ? "1 Gbit" : "10 Gbit");
 
+
     /* Initialize the QLMs */
     for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
     {
         if (bdk_numa_exists(n))
         {
             BDK_TRACE(BOOT_STUB, "Initializing QLMs on Node %d\n", n);
-            if (n == BDK_NODE_0)
+            for (int qlm = 0; qlm < BDK_QLM_MAX; qlm++)
             {
-                if (is_sgmii)
-                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_SGMII, 1250, 0);
-                else
-                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XFI_4X1, 10312, 0);
-                bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XLAUI_1X4, 10312, 0);
-                bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_PCIE_1X4, 8000, 0);
-                bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
-                bdk_qlm_set_mode(n, 4, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
-                if (USE_SATA_BREAKOUT_CARD)
-                {
-                    /* Use for SATA breakout card */
-                    bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_SATA_4X1, 6000, 0);
-                    bdk_qlm_set_mode(n, 7, BDK_QLM_MODE_SATA_4X1, 6000, 0);
-                }
-                else
-                {
-                    /* Use for PCIe x8 */
-                    bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
-                }
-            }
-            else
-            {
-                if (is_sgmii)
-                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_SGMII, 1250, 0);
-                else
-                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XFI_4X1, 10312, 0);
-                bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_DISABLED, 0, 0);
-                bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_DISABLED, 0, 0);
-                bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
-                bdk_qlm_set_mode(n, 4, BDK_QLM_MODE_DISABLED, 0, 0);
-                bdk_qlm_set_mode(n, 5, BDK_QLM_MODE_DISABLED, 0, 0);
-                bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_DISABLED, 0, 0);
-                bdk_qlm_set_mode(n, 7, BDK_QLM_MODE_DISABLED, 0, 0);
+                const char *cfg_val;
+
+                cfg_val   = bdk_brd_cfg_get_str("QLM.MODE.N%d.I%d", n, qlm);
+                int mode  = bdk_qlm_cfg_string_to_mode(cfg_val);
+                int freq  = bdk_brd_cfg_get_int("QLM.FREQ.N%d.I%d", n, qlm);
+
+                /* Only configure QLMs with defined modes. */
+                if (mode != BDK_QLM_MODE_SKIP)
+                    bdk_qlm_set_mode(n, qlm, mode, freq, 0);
             }
         }
     }
