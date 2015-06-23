@@ -81,34 +81,37 @@ static int get_address_width(const char *name)
 }
 
 /**
+ * Support function for mpi_read() / mpi_write(). mpi_write() uses this
+ * function during its read-modify-write operation.
  * Read bytes from a MPI/SPI device. This function supports reading from a
  * SPI EEPROM, a SPI NOR, or a SPI NAND. All three use a common read comamnd
  * and format.
  *
- * @param handle Handle to file state
+ * @param node Node number
+ * @param chip_sel Chip select for device
+ * @param address_width Address width (24/32bits)
+ * @param loc Location address to read from
  * @param buffer Buffer to fill
  * @param length Number of bytes to read
  *
  * @return Number of bytes read, negative on failure
  */
-static int mpi_read(__bdk_fs_dev_t *handle, void *buffer, int length)
+
+static int mpi_read_buffer(bdk_node_t node, int chip_sel, int address_width,
+                           uint64_t loc, void *buffer, int length)
 {
     const int CMD_READ = 0x03;
-    const bdk_node_t node = handle->dev_node;
-    const int chip_sel = handle->dev_index;
-    const int address_width = get_address_width(handle->filename);
-
     uint64_t tx_data;
 
     BDK_CSR_INIT(mpi_cfg, node, BDK_MPI_CFG);
     if (mpi_cfg.s.lsbfirst)
     {
-        tx_data = handle->location << 8;
+        tx_data = loc << 8;
         tx_data |= CMD_READ;
     }
     else
     {
-        tx_data = handle->location & bdk_build_mask(address_width);
+        tx_data = loc & bdk_build_mask(address_width);
         tx_data |= CMD_READ << address_width;
     }
 
@@ -121,6 +124,27 @@ static int mpi_read(__bdk_fs_dev_t *handle, void *buffer, int length)
         data_left-=8;
     }
     return length;
+}
+
+/**
+ * Read bytes from a MPI/SPI device. This function supports reading from a
+ * SPI EEPROM, a SPI NOR, or a SPI NAND. All three use a common read comamnd
+ * and format.
+ *
+ * @param handle Handle to file state
+ * @param buffer Buffer to fill
+ * @param length Number of bytes to read
+ *
+ * @return Number of bytes read, negative on failure
+ */
+
+static int mpi_read(__bdk_fs_dev_t *handle, void *buffer, int length)
+{
+    const bdk_node_t node = handle->dev_node;
+    const int chip_sel = handle->dev_index;
+    const int address_width = get_address_width(handle->filename);
+
+    return mpi_read_buffer(node, chip_sel, address_width, handle->location, buffer, length);
 }
 
 /**
@@ -207,6 +231,13 @@ static int eeprom_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
  *
  * @return Number of bytes written, negative on failure
  */
+#undef DEBUG
+#if 0
+#define DEBUG(args...) printf(args)
+#else
+#define DEBUG(args...)
+#endif
+
 static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
 {
     /* From datasheet for N25Q128A13ESE40. It is a 16MB NOR flash with
@@ -221,7 +252,7 @@ static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
     const int CMD_PP    = 0x02; /* Page program */
     const int CMD_SSE   = 0x20; /* Subsector erase */
     const int CMD_SE    = 0xd8; /* Sector erase */
-    const int USE_SECTOR_ERASE = 1;
+    const int USE_SECTOR_ERASE = 0;
     const int ERASE_CMD = (USE_SECTOR_ERASE) ? CMD_SE : CMD_SSE;
     const int ERASE_SIZE = (USE_SECTOR_ERASE) ? SECTOR_SIZE : SUBSECTOR_SIZE;
 
@@ -239,48 +270,99 @@ static int nor_write(__bdk_fs_dev_t *handle, const void *buffer, int length)
         return -1;
 
     uint64_t loc = handle->location;
-    int data_left = length;
-    while (data_left)
+    int      bytes_remain = length; /* total length of input buffer */
+    while (bytes_remain)
     {
-        /* See if we're at the start of an erase block */
-        if ((loc & (ERASE_SIZE-1)) == 0)
+        uint64_t sector_addr   = loc & ~(ERASE_SIZE-1); /* target sector address in NOR */
+        uint64_t sector_offset = loc &  (ERASE_SIZE-1); /* offset in sector where write buffer needs to go */
+
+        int chunk = ERASE_SIZE - sector_offset; /* number of bytes to write in this loop */
+        chunk = chunk <= bytes_remain ? chunk : bytes_remain;
+
+        /* We only need to read-modify-erase-write if we:
+         *  - are NOT on a sector boundary
+         *  or
+         *  - have less data than fits in the sector.
+         * Otherwise we can skip the read - modify and just erase - write.
+         */
+        const void *write_buffer;
+
+        if (0 != sector_offset || chunk < ERASE_SIZE)
+        {
+            /* Allocate a buffer for the sector read. */
+            static char *sector_buf = NULL;
+            if (!sector_buf)
+            {
+                sector_buf = malloc(ERASE_SIZE);
+                if (!sector_buf)
+                {
+                    bdk_error("SPI-NOR: Could not allocate sector buffer\n");
+                    return -1;
+                }
+            }
+
+            /* READ */
+            DEBUG("##### nor_write(): READING sector loc:0x%08lx - sector_addr:0x%08lx\n", loc, sector_addr);
+            mpi_read_buffer(node, chip_sel, address_width, sector_addr, sector_buf, ERASE_SIZE);
+
+            /* MODIFY */
+            memcpy(sector_buf + sector_offset, buffer, chunk);
+
+            write_buffer = sector_buf;
+        }
+        else
+        {
+            write_buffer = buffer;
+        }
+
+        /* ERASE */
+        DEBUG("##### nor_write(): ERASING sector @ 0x%08lx\n", sector_addr);
+        bdk_mpi_transfer(node, chip_sel, 0, 1, CMD_WREN, 0);
+        /* We need to erase the next block */
+        bdk_mpi_transfer(node, chip_sel, 0, /* Disable chip select */
+            1 + address_width/8, /* One command byte plus address */
+            (ERASE_CMD << address_width) | sector_addr, /* Command and address */
+            0); /* No receive data */
+        if (wait_for_write_complete(node, chip_sel))
+            return -1;
+        DEBUG("##### nor_write(): Done\n");
+
+        /* WRITE */
+        DEBUG("##### nor_write(): WRITING sector @ 0x%08lx\n", sector_addr);
+        int data_left = ERASE_SIZE;
+        while (data_left)
         {
             bdk_mpi_transfer(node, chip_sel, 0, 1, CMD_WREN, 0);
-            /* We need to erase the next block */
-            bdk_mpi_transfer(node, chip_sel, 0, /* Disable chip select */
+            /* Begin page program */
+            bdk_mpi_transfer(node, chip_sel, 1, /* Keep chip select active */
                 1 + address_width/8, /* One command byte plus address */
-                (ERASE_CMD << address_width) | loc, /* Command and address */
+                (CMD_PP << address_width) | sector_addr, /* Command and address */
                 0); /* No receive data */
+
+            /* Write a page at a time */
+            int len = PAGE_SIZE;
+            if (len > data_left)
+                len = data_left;
+            while (len--)
+            {
+                /* The last byte written deassert the chip select */
+                bdk_mpi_transfer(node, chip_sel, (len != 0),
+                    1, /* One data byte */
+                    *(uint8_t*)write_buffer, /* Data to write */
+                    0); /* No receive data */
+                write_buffer++;
+                sector_addr++;
+                data_left--;
+            }
+
             if (wait_for_write_complete(node, chip_sel))
                 return -1;
         }
+        DEBUG("##### nor_write(): Done\n");
 
-        bdk_mpi_transfer(node, chip_sel, 0, 1, CMD_WREN, 0);
-        /* Begin page program */
-        bdk_mpi_transfer(node, chip_sel, 1, /* Keep chip select active */
-            1 + address_width/8, /* One command byte plus address */
-            (CMD_PP << address_width) | loc, /* Command and address */
-            0); /* No receive data */
-
-        /* Write a page at a time */
-        int len = PAGE_SIZE;
-        if (len > data_left)
-            len = data_left;
-        while (len--)
-        {
-            /* The last byte written deassert the chip select */
-            bdk_mpi_transfer(node, chip_sel, (len != 0),
-                1, /* One data byte */
-                *(uint8_t*)buffer, /* Data to write */
-                0); /* No receive data */
-            buffer++;
-            loc++;
-            data_left--;
-        }
-
-        if (wait_for_write_complete(node, chip_sel))
-            return -1;
-    }
+        bytes_remain -= chunk;
+        buffer       += chunk;
+    } /* while (bytes_remain) */
 
     return length;
 }
