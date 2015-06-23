@@ -12,7 +12,7 @@
 
 #define DEFAULT_SECTOR_SIZE		512
 #define DEFAULT_DEVICE_STRING	"/dev/n0.mpi0/cs-l,2wire,idle-h,msb,24bit,12"
-#define FATFS_IMAGE_OFFSET		0x80000
+#define FATFS_IMAGE_OFFSET		0x280000
 
 /* Definitions of physical drive number for each drive */
 #define ATA		0	/* Example: Map ATA harddisk to physical drive 0 */

@@ -29,7 +29,7 @@
 #define DIAGS_GPIO 0
 #define DIAGS_GPIO_VALUE -1
 /* Address of the diagnostics in flash (512KB is right after boot stubs) */
-#define DIAGS_ADDRESS 0x00080000
+#define DIAGS_ADDRESS 0x00100000
 /* Address of ATF in flash */
 #define ATF_ADDRESS 0x00400000
 /* Enable or disable detailed tracing of the boot stub (0 or 1) */
@@ -70,9 +70,15 @@ typedef enum
 void __bdk_require_depends(void)
 {
     BDK_REQUIRE(QLM);
+    BDK_REQUIRE(MDIO);
+    BDK_REQUIRE(PCIE);
     BDK_REQUIRE(GPIO);
+    BDK_REQUIRE(RNG);
+    BDK_REQUIRE(KEY_MEMORY);
     BDK_REQUIRE(MPI);
+    BDK_REQUIRE(DRAM_CONFIG);
     BDK_REQUIRE(TWSI);
+    BDK_REQUIRE(USB);
 }
 
 /**
@@ -105,24 +111,25 @@ static void reset_or_power_cycle(void)
 }
 
 /**
- * Boot an image from an image file.
+ * Boot an image from a device file at the specified location
  *
- * @param img_filename
- *               Name of image file to load
+ * @param dev_filename
+ *               Device file to read image from
  * @param loc    Location offset in the device file
  */
-static void boot_image(const char *img_filename, uint64_t loc)
+static void boot_image(const char *dev_filename, uint64_t loc)
 {
     void *image = NULL;
 
-    FILE *inf = fopen(img_filename, "rb");
+    FILE *inf = fopen(dev_filename, "rb");
     if (!inf)
     {
-        bdk_error("Failed to open %s\n", img_filename);
+        bdk_error("Failed to open %s\n", dev_filename);
         return;
     }
 
-    printf("    Loading image file %s.\n", img_filename);
+    printf("    Loading image at 0x%lx\n", loc);
+    fseek(inf, loc, SEEK_SET);
 
     bdk_image_header_t header;
     int status = bdk_image_read_header(inf, &header);
@@ -382,56 +389,15 @@ int main(void)
         "BDK version: %s\n"
         "Boot Attempt: %lu\n"
         "\n"
-        "===========================\n"
-        "Cavium THUNDERX Chainloader\n"
-        "===========================\n",
+        "=========================\n"
+        "Cavium THUNDERX Boot Stub\n"
+        "=========================\n",
         bdk_version_string(), boot_count);
     print_node_strapping(bdk_numa_master());
 
     /* Poke the watchdog */
     if (WATCHDOG_TIMEOUT)
         BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
-
-#if 1
-    /* Test code file read() / create() / write(). */
-
-    /* Initialize the FAT filesystems be need to load the next stage */
-    extern int bdk_fs_fatfs_init(void);
-    bdk_fs_fatfs_init();
-
-    FILE *foo = fopen("/fatfs/info.txt", "rb");
-    if (!foo)
-    {
-        printf("##### file info.txt not found. Creating.\n");
-        foo = fopen("/fatfs/info.txt", "wb");
-        if (!foo)
-        {
-            printf("##### ERROR: Could not create info.txt.\n");
-        }
-        else
-        {
-            char *text = "If you read this, it works.";
-            int n = fwrite(text, strlen(text)+1, 1, foo);
-            if (n != 1)
-            {
-                printf("##### ERROR writing to info.txt.\n");
-            }
-            fclose(foo);
-        }
-    }
-    else
-    {
-        printf("##### File info.txt opened OK, fp:%p\n", foo);
-        char buf[256];
-        int count;
-        while (0 != (count = fread(buf, 1, sizeof(buf), foo)))
-        {
-            printf("##### Read %d bytes: '%s'\n", count, buf);
-        }
-        fclose(foo);
-    }
-#endif
-
 
     /* Setup CCPI if we're on the second node */
     if (MULTI_NODE && (node != 0))
@@ -466,6 +432,48 @@ int main(void)
         }
     }
 
+    /* Initialize DRAM on the master node */
+#ifdef DRAM_NODE0
+    if (DRAM_VERBOSE)
+        setenv("ddr_verbose", CONFIG_STR_NAME(DRAM_VERBOSE), 1);
+    BDK_TRACE(BOOT_STUB, "Initializing DRAM on this node\n");
+    extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE0)(void);
+    int mbytes = libdram_config(bdk_numa_master(), CONFIG_FUNC_NAME(DRAM_NODE0)(), 0);
+    if (mbytes > 0)
+    {
+        uint32_t freq = libdram_get_freq(bdk_numa_master());
+        freq = (freq + 500000) / 1000000;
+        if (MULTI_NODE)
+            printf("Node %d: DRAM: %d MB, %u MHz\n", bdk_numa_master(), mbytes, freq);
+        else
+            printf("DRAM:  %d MB, %u MHz\n", mbytes, freq);
+    }
+    else
+    {
+        if (MULTI_NODE)
+            bdk_error("Node %d failed DRAM init\n", bdk_numa_master());
+        else
+            bdk_error("Failed DRAM init\n");
+        /* Reset on failure if we're using the watchdog */
+        if (WATCHDOG_TIMEOUT)
+            reset_or_power_cycle();
+    }
+
+    /* Poke the watchdog */
+    if (WATCHDOG_TIMEOUT)
+        BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+
+    /* Unlock L2 now that DRAM works */
+    if (mbytes > 0)
+    {
+        uint64_t l2_size = bdk_l2c_get_cache_size_bytes(node);
+        BDK_TRACE(BOOT_STUB, "Unlocking L2\n");
+        bdk_l2c_unlock_mem_region(node, 0, l2_size);
+        /* Poke the watchdog */
+        if (WATCHDOG_TIMEOUT)
+            BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+    }
+#endif
 
     /* Send status to the BMC: Master DRAM init complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
@@ -486,6 +494,55 @@ int main(void)
 
     /* Send status to the BMC: Multi-node setup complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
+
+    /* Initialize DRAM on the slave node */
+#ifdef DRAM_NODE1
+    if (MULTI_NODE)
+    {
+        bdk_node_t other_node = 1;
+        if (bdk_numa_exists(other_node))
+        {
+            print_node_strapping(other_node);
+            BDK_TRACE(BOOT_STUB, "Initializing DRAM on other node\n");
+            extern const dram_config_t* CONFIG_FUNC_NAME(DRAM_NODE1)(void);
+            int mbytes = libdram_config(other_node, CONFIG_FUNC_NAME(DRAM_NODE1)(), 0);
+            if (mbytes > 0)
+            {
+                uint32_t freq = libdram_get_freq(other_node);
+                freq = (freq + 500000) / 1000000;
+                printf("Node %d: DRAM: %d MB, %u MHz\n", other_node, mbytes, freq);
+                /* Wake up one core on the other node */
+                bdk_init_cores(other_node, 1);
+                /* Run the address test to make sure DRAM works */
+                if (bdk_dram_test(13, 0, 0x10000000000ull))
+                    bdk_reset_chip(node);
+                /* Put other node core back in reset */
+                BDK_CSR_WRITE(other_node, BDK_RST_PP_RESET, -1);
+                uint64_t skip = bdk_dram_get_top_of_bdk();
+                bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(node, skip)),
+                    ((uint64_t)mbytes << 20) - skip);
+                bdk_zero_memory(bdk_phys_to_ptr(bdk_numa_get_address(other_node, 0)), (uint64_t)mbytes << 20);
+            }
+            else
+            {
+                bdk_error("Node %d failed DRAM init\n", other_node);
+                /* Reset on failure if we're using the watchdog */
+                if (WATCHDOG_TIMEOUT)
+                    reset_or_power_cycle();
+            }
+        }
+        else
+        {
+            printf("Node %d: Not found, skipping DRAM init\n", other_node);
+            /* Reset on failure if we're using the watchdog */
+            if (WATCHDOG_TIMEOUT)
+                reset_or_power_cycle();
+        }
+        /* Poke the watchdog */
+        if (WATCHDOG_TIMEOUT)
+            BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+    }
+#endif
 
     /* Send status to the BMC: Slave DRAM init complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
@@ -514,15 +571,110 @@ int main(void)
         }
     }
 
+    int timestamp = bdk_mdio_45_read(node, 1, 1, 0, 0xa);
+    int is_sgmii = (timestamp == 0x1722);
+    printf("Configuring networking for %s\n",
+        (is_sgmii) ? "1 Gbit" : "10 Gbit");
+
+    /* Initialize the QLMs */
+    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+    {
+        if (bdk_numa_exists(n))
+        {
+            BDK_TRACE(BOOT_STUB, "Initializing QLMs on Node %d\n", n);
+            if (n == BDK_NODE_0)
+            {
+                if (is_sgmii)
+                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_SGMII, 1250, 0);
+                else
+                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XFI_4X1, 10312, 0);
+                bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_XLAUI_1X4, 10312, 0);
+                bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_PCIE_1X4, 8000, 0);
+                bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
+                bdk_qlm_set_mode(n, 4, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
+                if (USE_SATA_BREAKOUT_CARD)
+                {
+                    /* Use for SATA breakout card */
+                    bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_SATA_4X1, 6000, 0);
+                    bdk_qlm_set_mode(n, 7, BDK_QLM_MODE_SATA_4X1, 6000, 0);
+                }
+                else
+                {
+                    /* Use for PCIe x8 */
+                    bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
+                }
+            }
+            else
+            {
+                if (is_sgmii)
+                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_SGMII, 1250, 0);
+                else
+                    bdk_qlm_set_mode(n, 0, BDK_QLM_MODE_XFI_4X1, 10312, 0);
+                bdk_qlm_set_mode(n, 1, BDK_QLM_MODE_DISABLED, 0, 0);
+                bdk_qlm_set_mode(n, 2, BDK_QLM_MODE_DISABLED, 0, 0);
+                bdk_qlm_set_mode(n, 3, BDK_QLM_MODE_SATA_4X1, 6000, 0);
+                bdk_qlm_set_mode(n, 4, BDK_QLM_MODE_DISABLED, 0, 0);
+                bdk_qlm_set_mode(n, 5, BDK_QLM_MODE_DISABLED, 0, 0);
+                bdk_qlm_set_mode(n, 6, BDK_QLM_MODE_DISABLED, 0, 0);
+                bdk_qlm_set_mode(n, 7, BDK_QLM_MODE_DISABLED, 0, 0);
+            }
+        }
+    }
+
+    /* Initialize BGX, ready for driver */
+    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+    {
+        if (bdk_numa_exists(n))
+        {
+            /* Ports 1-3 of BGX 0 aren't used. Use BGXX_CMRX_RX_DMAC_CTL
+               to signal this to following software */
+            for (int p = 1; p < 4; p++)
+                BDK_CSR_WRITE(n, BDK_BGXX_CMRX_RX_DMAC_CTL(0, p), 0);
+        }
+    }
+
     /* Send status to the BMC: QLM setup complete */
     update_bmc_status(BMC_STATUS_BOOT_STUB_QLM_COMPLETE);
 
     /* Initialize SATA, ready for standard AHCI driver */
     /* This has already been done by bdk_qlm_set_mode() */
 
+    /* Initialize USB, ready for standard XHCI driver */
+    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+    {
+        if (bdk_numa_exists(n))
+        {
+            /* GPIO 38 controls USB power */
+            bdk_gpio_initialize(n, 38, 1, 1);
+
+            for (int p = 0; p < 2; p++)
+            {
+                BDK_TRACE(BOOT_STUB, "Initializing USB%d on Node %d\n", p, n);
+                bdk_usb_intialize(n, p, 0);
+            }
+        }
+    }
+
     /* Poke the watchdog */
     if (WATCHDOG_TIMEOUT)
         BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
+
+    /* Initialize PCIe and bring up the link */
+    for (int n = 0; n < BDK_NUMA_MAX_NODES; n++)
+    {
+        if (bdk_numa_exists(n))
+        {
+            for (int p = 0; p < bdk_pcie_get_num_ports(n); p++)
+            {
+                /* Only init PCIe that are attached to QLMs */
+                if (bdk_qlm_get(n, BDK_IF_PCIE, p) != -1)
+                {
+                    BDK_TRACE(BOOT_STUB, "Initializing PCIe%d on Node %d\n", p, n);
+                    bdk_pcie_rc_initialize(n, p);
+                }
+            }
+        }
+    }
 
     /* Select ATF or diagnostics image */
     int use_atf = 1;
@@ -554,15 +706,15 @@ int main(void)
     if (WATCHDOG_TIMEOUT)
         BDK_CSR_WRITE(node, BDK_GTI_CWD_POKEX(bdk_get_core_num()), 0);
 
+    /* Initialize the filesystems be need to load code from SPI */
+    extern int bdk_fs_mpi_init(void);
+    bdk_fs_mpi_init();
+
     /* Send status to the BMC: Loading ATF */
     if (use_atf)
         update_bmc_status(BMC_STATUS_BOOT_STUB_LOADING_ATF);
     else
         update_bmc_status(BMC_STATUS_BOOT_STUB_LOADING_DIAGNOSTICS);
-
-    /* Initialize the FAT filesystems be need to load the next stage */
-    extern int bdk_fs_fatfs_init(void);
-    bdk_fs_fatfs_init();
 
     /* Load the next image */
     /* Transfer control to next image */
@@ -574,7 +726,7 @@ int main(void)
         printf("Trying diagnostics\n");
     }
     BDK_TRACE(BOOT_STUB, "Looking for Diagnostics image\n");
-    boot_image("/fatfs/stages/stage2.bin", DIAGS_ADDRESS);
+    boot_image(boot_device_name, DIAGS_ADDRESS);
 
     bdk_error("Image load failed\n");
 }
