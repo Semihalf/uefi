@@ -56,8 +56,8 @@ $(STAGE2_BIN): $(DIAGNOSTICS_BIN)
 	cp $(DIAGNOSTICS_BIN) $(STAGE2_BIN)
 
 $(FATFS_IMG): $(STAGE1_BIN) $(STAGE2_BIN) $(BOARD_ROOT)/lua/*
-	# Create empty 2.5MB image file
-	dd if=/dev/zero of=$(FATFS_IMG) bs=1k count=2560 2>/dev/null
+	# Create empty 3.5MB image file
+	dd if=/dev/zero of=$(FATFS_IMG) bs=1k count=3584 2>/dev/null
 
 	# Create FAT filesystem in image file
 	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) mkfs
@@ -86,9 +86,8 @@ $(IMAGE_NAME).bin: $(STAGE0_BIN) $(STAGE1_BIN) $(STAGE2_BIN) $(FATFS_IMG)
 	cat $(STAGE0_BIN) /dev/zero | head -q -c 196608 >> $(IMAGE_NAME).bin
 	# 4) 0x050000: 192KB of chainloader image (trusted)
 	cat $(STAGE0_BIN) /dev/zero | head -q -c 196608 >> $(IMAGE_NAME).bin
-	# 5) 0x080000: 2.5MB FAT filesystem
-	cat $(FATFS_IMG) /dev/zero | head -q -c 2621440 >> $(IMAGE_NAME).bin
-	# 6) 0x300000: Free space until 0x400000
+	# 5) 0x080000: 3.5MB FAT filesystem
+	cat $(FATFS_IMG) /dev/zero | head -q -c 3670016 >> $(IMAGE_NAME).bin
 	# You need to install ATF starting at 0x400000
 
 $(CHAINLOADER): $(BOARD_ROOT)/chainloader.o $(BOARD_ROOT)/boot-common.o $(BOARD_OBJS) $(BDK_ROOT)/libbdk/libbdk.a
