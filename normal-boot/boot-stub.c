@@ -8,12 +8,6 @@
 /* How long to wait for selection of save boot (seconds) */
 #define SAVE_BOOT_TIMEOUT 1
 
-/* A GPIO can be used to select diagnostics without input. The following
-   define controls which GPIO and the value that starts daignostics. Set
-   DIAGS_GPIO_VALUE to -1 to disable */
-#define DIAGS_GPIO 0
-#define DIAGS_GPIO_VALUE 0
-
 /**
  * This function is not defined by the BDK libraries. It must be
  * defined by all BDK applications. It should be empty except for
@@ -155,9 +149,12 @@ int main(void)
 
     /* Select ATF or diagnostics image */
     int use_atf = 1;
+
     /* A GPIO can be used to select diagnostics without input */
-    if (DIAGS_GPIO_VALUE != -1)
+    int DIAGS_GPIO_VALUE = bdk_brd_cfg_get_int(BDK_BRD_CFG_DIAGS_GPIO_VALUE);
+    if (-1 != DIAGS_GPIO_VALUE)
     {
+        int DIAGS_GPIO = bdk_brd_cfg_get_int(BDK_BRD_CFG_DIAGS_GPIO);
         int gpio = bdk_gpio_read(bdk_numa_master()) >> DIAGS_GPIO;
         gpio &= 1;
         if (gpio == DIAGS_GPIO_VALUE)

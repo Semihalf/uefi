@@ -72,6 +72,8 @@ extern void bdk_showenv(void);
 #define BDK_BRD_CFG_BMC_TWSI                "BRD.CFG.BMC_TWSI"
 #define BDK_BRD_CFG_MULTI_NODE              "BRD.CFG.MULTI_NODE"
 #define BDK_BRD_CFG_DRAM_VERBOSE            "BRD.CFG.DRAM_VERBOSE"
+#define BDK_BRD_CFG_DIAGS_GPIO_VALUE        "BRD.CFG.DIAGS_GPIO_VALUE"
+#define BDK_BRD_CFG_DIAGS_GPIO              "BRD.CFG.DIAGS_GPIO"
 #define BDK_BRD_CFG_BOARD                   "BRD.CFG.BOARD"
 
 /*
