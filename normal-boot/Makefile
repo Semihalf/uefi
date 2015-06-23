@@ -41,16 +41,21 @@ stage2.bin: diagnostics.bin
 fatfs.bin: stage1.bin stage2.bin ${BOARD_ROOT}/lua/*
 	# Create empty 2.5MB image file
 	dd if=/dev/zero of=fatfs.bin bs=1k count=2560 status=none
-	# Create FAT filesystem in image file
-	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin mkfs
-	# Copy stage 1 & 2 images into FAT filesystem
-	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp stage1.bin /
-	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp stage2.bin /
-	# Add all the Lua files to the FAT fs
-	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin mkdir /lua
-	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp ${BOARD_ROOT}/lua/*.lua /lua
 
-	${BDK_ROOT}/bin/fatfs-tool -i fatfs.bin cp ${BOARD_ROOT}/default.cfg /
+	# Create FAT filesystem in image file
+	${BDK_ROOT}/bin/fatfs-tool -q -i fatfs.bin mkfs
+
+	# Copy stage 1 & 2 images into FAT filesystem
+	${BDK_ROOT}/bin/fatfs-tool -q -i fatfs.bin cp stage1.bin /
+	${BDK_ROOT}/bin/fatfs-tool -q -i fatfs.bin cp stage2.bin /
+
+	# Add all the Lua files to the FAT fs
+	${BDK_ROOT}/bin/fatfs-tool -q -i fatfs.bin mkdir /lua
+	${BDK_ROOT}/bin/fatfs-tool -q -i fatfs.bin cp ${BOARD_ROOT}/lua/*.lua /lua
+
+	${BDK_ROOT}/bin/fatfs-tool -q -i fatfs.bin cp ${BOARD_ROOT}/default.cfg /
+	@cp ${BOARD_ROOT}/default.cfg ${BOARD_ROOT}/save-mode.cfg
+	${BDK_ROOT}/bin/fatfs-tool -q -i fatfs.bin cp ${BOARD_ROOT}/save-mode.cfg /
 
 
 ${IMAGE_NAME}.bin: stage0.bin stage1.bin stage2.bin fatfs.bin
