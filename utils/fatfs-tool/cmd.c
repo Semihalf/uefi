@@ -47,10 +47,10 @@ static int copy_file(const char *filename, const char *target_dir)
 		f_write(&tfp, buf, n, &count);
 
 	rc = 0;
+	f_close(&tfp);
 out:
 	if (sfp)
 		fclose(sfp);
-	f_close(&tfp);
 	return rc;
 }
 
