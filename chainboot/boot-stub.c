@@ -527,7 +527,7 @@ int main(void)
                     QLM1-2: Disabled, use external
                     QLM3: External ref clock (100Mhz)
                     QLM4-7: Disabled, use external */
-                bdk_qlm_clock_t clk = bdk_brd_cfg_get_int(BRD_CFG_QLM_CLK, n, qlm);
+                bdk_qlm_clock_t clk = bdk_brd_cfg_get_int(BDK_BRD_CFG_QLM_CLK, n, qlm);
                 if (clk == BDK_QLM_CLK_SKIP)
                     continue;
 
@@ -563,7 +563,7 @@ int main(void)
             {
                 const char *cfg_val;
 
-                cfg_val   = bdk_brd_cfg_get_str(BRD_CFG_QLM_MODE, n, qlm);
+                cfg_val   = bdk_brd_cfg_get_str(BDK_BRD_CFG_QLM_MODE, n, qlm);
                 int mode  = bdk_qlm_cfg_string_to_mode(cfg_val);
                 if (-1 == mode)
                 {
@@ -571,7 +571,7 @@ int main(void)
                                 "Not configuring.\n", cfg_val, qlm, n);
                     continue;
                 }
-                int freq  = bdk_brd_cfg_get_int(BRD_CFG_QLM_FREQ, n, qlm);
+                int freq  = bdk_brd_cfg_get_int(BDK_BRD_CFG_QLM_FREQ, n, qlm);
 
                 /* Only configure QLMs with defined modes. */
                 if (mode != BDK_QLM_MODE_SKIP)

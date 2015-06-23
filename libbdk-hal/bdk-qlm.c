@@ -230,8 +230,8 @@ int bdk_qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
          * variables in the environment.
          */
         const char *mode_str = bdk_qlm_mode_to_cfg_str(mode);
-        bdk_brd_cfg_set_str(mode_str, BRD_CFG_QLM_MODE, node, qlm);
-        bdk_brd_cfg_set_int(baud_mhz, BRD_CFG_QLM_FREQ, node, qlm);
+        bdk_brd_cfg_set_str(mode_str, BDK_BRD_CFG_QLM_MODE, node, qlm);
+        bdk_brd_cfg_set_int(baud_mhz, BDK_BRD_CFG_QLM_FREQ, node, qlm);
     }
     return rc;
 }
@@ -264,7 +264,7 @@ int bdk_qlm_set_clock(bdk_node_t node, int qlm, bdk_qlm_clock_t clk)
         c.s.com_clk_sel = sel;
         c.s.use_com1 = com1);
     printf("##### bdk_qlm_set_clock(): clk:%d\n", clk);
-    bdk_brd_cfg_set_int(clk, BRD_CFG_QLM_CLK, node, qlm);
+    bdk_brd_cfg_set_int(clk, BDK_BRD_CFG_QLM_CLK, node, qlm);
     return 0;
 }
 

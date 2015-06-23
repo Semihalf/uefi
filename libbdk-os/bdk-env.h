@@ -64,11 +64,11 @@ extern void bdk_showenv(void);
 /*
  * Definitions related to board configuration.
  */
-#define BRD_CFG_QLM_MODE                "QLM.MODE.N%d.QLM%d"
-#define BRD_CFG_QLM_FREQ                "QLM.FREQ.N%d.QLM%d"
-#define BRD_CFG_QLM_CLK                 "QLM.CLK.N%d.QLM%d"
-#define BRD_CFG_DDR_UDIMM_SPEED         "DDR.SPEED.UDIMM.N%d"
-#define BRD_CFG_DDR_RDIMM_SPEED         "DDR.SPEED.RDIMM.N%d"
+#define BDK_BRD_CFG_QLM_MODE                "QLM.MODE.N%d.QLM%d"
+#define BDK_BRD_CFG_QLM_FREQ                "QLM.FREQ.N%d.QLM%d"
+#define BDK_BRD_CFG_QLM_CLK                 "QLM.CLK.N%d.QLM%d"
+#define BDK_BRD_CFG_DDR_UDIMM_SPEED         "DDR.SPEED.UDIMM.N%d"
+#define BDK_BRD_CFG_DDR_RDIMM_SPEED         "DDR.SPEED.RDIMM.N%d"
 
 /**
  * Get a board configuration variable as integer
