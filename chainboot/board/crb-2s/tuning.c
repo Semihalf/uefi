@@ -26,6 +26,7 @@ void bdk_board_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 c.s.tx_premptap_ovrd_val = 1);
         }
     }
+#if 0 /* This tuning is for the EVT2 and is incorrect for the EVT3 */
     /* Tune the CCPI links */
     if ((qlm >= 8) && (qlm < 14))
     {
@@ -48,4 +49,5 @@ void bdk_board_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 c.s.tx_premptap_ovrd_val = 1);
         }
     }
+#endif
 }
