@@ -6,7 +6,7 @@ BDK_REQUIRE_DEFINE(ENVIRONMENT);
 
 extern char **environ;
 
-void __bdk_setenv(const char *name, const char *value)
+void bdk_setenv(const char *name, const char *value)
 {
     if (value)
        setenv(name, value, 1);
@@ -14,7 +14,7 @@ void __bdk_setenv(const char *name, const char *value)
        unsetenv(name);
 }
 
-void __bdk_showenv(void)
+void bdk_showenv(void)
 {
     if (!environ)
     {
