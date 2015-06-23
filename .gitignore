@@ -8,6 +8,10 @@
 *.pickle
 *.coverage
 *.map
+*.swp
+*.orig
+tags
+cscope.out
 /bdk.vpwhistu
 /bdk.vtg
 /csr-tool/output
