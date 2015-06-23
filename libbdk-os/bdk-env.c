@@ -189,7 +189,8 @@ static const char *bdk_board_cfg_get_value(const char *id, int recursive)
     const char *val;
 
     /* copy the id so we can clip it if we need to */
-    strncpy(name, id, sizeof(name));
+    strncpy(name, id, sizeof(name)-1);
+    name[sizeof(name)-1] = '\0';
 
     while (*name)
     {
@@ -232,7 +233,8 @@ long bdk_brd_cfg_get_int(const char *format, ...)
     va_list args;
 
     va_start(args, format);
-    vsnprintf(name, sizeof(name), format, args);
+    vsnprintf(name, sizeof(name)-1, format, args);
+    name[sizeof(name)-1] = '\0';
     va_end(args);
     return atol(bdk_board_cfg_get_value(name, 1));
 }
@@ -249,7 +251,8 @@ void bdk_brd_cfg_set_int(long value, const char *format, ...)
     va_list args;
 
     va_start(args, format);
-    vsnprintf(name, sizeof(name), format, args);
+    vsnprintf(name, sizeof(name)-1, format, args);
+    name[sizeof(name)-1] = '\0';
     va_end(args);
 
     snprintf(valstr, sizeof(valstr), "%ld", value);
@@ -267,7 +270,8 @@ const char *bdk_brd_cfg_get_str(const char *format, ...)
     va_list args;
 
     va_start(args, format);
-    vsnprintf(name, sizeof(name), format, args);
+    vsnprintf(name, sizeof(name)-1, format, args);
+    name[sizeof(name)-1] = '\0';
     va_end(args);
     return bdk_board_cfg_get_value(name, 1);
 }
@@ -283,7 +287,8 @@ void bdk_brd_cfg_set_str(const char *value, const char *format, ...)
     va_list args;
 
     va_start(args, format);
-    vsnprintf(name, sizeof(name), format, args);
+    vsnprintf(name, sizeof(name)-1, format, args);
+    name[sizeof(name)-1] = '\0';
     va_end(args);
     bdk_board_cfg_set_value(name, value);
 }

@@ -9,7 +9,8 @@ const char* lookup_env_parameter(const char *format, ...)
     char buffer[64];
 
     va_start(args, format);
-    vsnprintf(buffer, sizeof(buffer), format, args);
+    vsnprintf(buffer, sizeof(buffer)-1, format, args);
+    buffer[sizeof(buffer)-1] = '\0';
     va_end(args);
 
     if ((s = getenv(buffer)) != NULL)
@@ -29,7 +30,8 @@ const char* lookup_env_parameter_ull(const char *format, ...)
     char buffer[64];
 
     va_start(args, format);
-    vsnprintf(buffer, sizeof(buffer), format, args);
+    vsnprintf(buffer, sizeof(buffer)-1, format, args);
+    buffer[sizeof(buffer)-1] = '\0';
     va_end(args);
 
     if ((s = getenv(buffer)) != NULL)
