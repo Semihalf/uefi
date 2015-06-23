@@ -262,7 +262,7 @@ int main(void)
     BDK_TRACE(CHAINLOADER, "Driving GPIO10 high\n");
     bdk_gpio_initialize(node, 10, 1, 1);
 
-    /* Update the boot counter help in GESR0_SCRATCH */
+    /* Update the boot counter held in GESR0_SCRATCH */
     uint64_t boot_count = BDK_CSR_READ(node, BDK_GSERX_SCRATCH(0));
     boot_count++;
     BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(0), boot_count);

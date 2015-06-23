@@ -194,6 +194,7 @@ static void boot_image(const char *dev_filename, uint64_t loc)
             BDK_CSR_WRITE(bdk_numa_local(), BDK_GTI_CWD_WDOGX(bdk_get_core_num()), 0);
         }
     }
+
     /* Clear the boot counter */
     BDK_CSR_WRITE(bdk_numa_local(), BDK_GSERX_SCRATCH(0), 0);
 
@@ -330,15 +331,6 @@ int main(void)
             c.s.mode = 3);
     }
 
-    /* Drive GPIO 10 high, signalling success transferring from the boot ROM */
-    BDK_TRACE(BOOT_STUB, "Driving GPIO10 high\n");
-    bdk_gpio_initialize(node, 10, 1, 1);
-
-    /* Update the boot counter help in GESR0_SCRATCH */
-    uint64_t boot_count = BDK_CSR_READ(node, BDK_GSERX_SCRATCH(0));
-    boot_count++;
-    BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(0), boot_count);
-
     /* Initialize TWSI interface TBD as a slave */
     if (BMC_TWSI != -1)
     {
@@ -348,9 +340,6 @@ int main(void)
         sw_twsi.s.slonly = 1; /* Slave only */
         BDK_CSR_WRITE(node, BDK_MIO_TWSX_SW_TWSI(BMC_TWSI), sw_twsi.u);
     }
-
-    if ((boot_count >= 3) && USE_POWER_CYCLE)
-        update_bmc_status(BMC_STATUS_REQUEST_POWER_CYCLE);
 
     /* Send status to the BMC: Started boot stub */
     update_bmc_status(BMC_STATUS_BOOT_STUB_STARTING);
@@ -387,12 +376,11 @@ int main(void)
 
     printf(
         "BDK version: %s\n"
-        "Boot Attempt: %lu\n"
         "\n"
         "=========================\n"
         "Cavium THUNDERX Boot Stub\n"
         "=========================\n",
-        bdk_version_string(), boot_count);
+        bdk_version_string());
     print_node_strapping(bdk_numa_master());
 
     /* Poke the watchdog */
