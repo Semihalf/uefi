@@ -283,6 +283,7 @@ int main(void)
     /* Decode how we booted and display a banner */
     BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
     int boot_method;
+    char *boot_partition_name = "none";
     char boot_device_name[48];
     BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
     boot_device_name[0] = 0;
@@ -298,11 +299,11 @@ int main(void)
             break;
         case RST_BOOT_METHOD_E_EMMC_LS:
         case RST_BOOT_METHOD_E_EMMC_SS:
-            sprintf(boot_device_name, "/dev/n%d.mmc0", node);
+            boot_partition_name = "mmc0"; /* MMC */
             break;
         case RST_BOOT_METHOD_E_SPI24:
         case RST_BOOT_METHOD_E_SPI32:
-            create_spi_device_name(boot_device_name, sizeof(boot_device_name), boot_method);
+            boot_partition_name = "spi0"; /* SPI */
             break;
         default:
             break;
@@ -331,8 +332,10 @@ int main(void)
 
     /* Load the next image */
     /* Transfer control to next image */
+    char filename[64];
     BDK_TRACE(CHAINLOADER, "Looking for BDK image\n");
-    boot_image("/fatfs/stage1.bin");
+    snprintf(filename, sizeof(filename), "/fatfs/%s:/stage1.bin", boot_partition_name);
+    boot_image(filename);
 
     bdk_error("Image load failed\n");
 }

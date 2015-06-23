@@ -28,8 +28,6 @@
    DIAGS_GPIO_VALUE to -1 to disable */
 #define DIAGS_GPIO 0
 #define DIAGS_GPIO_VALUE -1
-/* Address of the diagnostics in flash */
-#define ATF_ADDRESS 0x00400000
 /* Enable or disable detailed tracing of the boot stub (0 or 1) */
 #define BDK_TRACE_ENABLE_BOOT_STUB 0
 
@@ -111,23 +109,20 @@ static void reset_or_power_cycle(void)
 /**
  * Boot an image from a device file at the specified location
  *
- * @param dev_filename
- *               Device file to read image from
- * @param loc    Location offset in the device file
+ * @param filename      Filename of image to load
  */
-static void boot_image(const char *dev_filename, uint64_t loc)
+static void boot_image(const char *filename)
 {
     void *image = NULL;
 
-    FILE *inf = fopen(dev_filename, "rb");
+    FILE *inf = fopen(filename, "rb");
     if (!inf)
     {
-        bdk_error("Failed to open %s\n", dev_filename);
+        bdk_error("Failed to open %s\n", filename);
         return;
     }
 
-    printf("    Loading image at 0x%lx\n", loc);
-    fseek(inf, loc, SEEK_SET);
+    printf("    Loading image '%s'\n", filename);
 
     bdk_image_header_t header;
     int status = bdk_image_read_header(inf, &header);
@@ -175,7 +170,8 @@ static void boot_image(const char *dev_filename, uint64_t loc)
 
     if (WATCHDOG_TIMEOUT)
     {
-        if (loc == ATF_ADDRESS)
+        /* Check if we are loading the ATF image. */
+        if (strstr(filename, "atf.bin"))
         {
             /* Software wants the watchdog running with a 15 second timout */
             uint64_t timeout = 15 * bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_SCLK) / 262144;
@@ -206,42 +202,6 @@ out:
     if (image)
         free(image);
     fclose(inf);
-}
-
-/**
- * Create a BDK style device name to access SPI. This name can then be
- * passed to standard C functions to open the device.
- *
- * @param buffer Buffer to fill with the device name
- * @param buffer_size
- *               Length of the buffer
- * @param boot_method
- *               Value of the pin strap choosing the boot method
- */
-static void create_spi_device_name(char *buffer, int buffer_size, int boot_method)
-{
-    bdk_node_t node = bdk_numa_local();
-    BDK_CSR_INIT(mpi_cfg, node, BDK_MPI_CFG);
-    int chip_select = 0;
-    int address_width;
-    int active_high = mpi_cfg.s.cshi;
-    int idle_mode = (mpi_cfg.s.idleclks) ? 'r' : (mpi_cfg.s.idlelo) ? 'l' : 'h';
-    int is_msb = !mpi_cfg.s.lsbfirst;
-    int freq_mhz = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (2 * mpi_cfg.s.clkdiv) / 1000000;
-
-    if (boot_method == RST_BOOT_METHOD_E_SPI24)
-        address_width = 24;
-    else
-        address_width = 32;
-
-    snprintf(buffer, buffer_size, "/dev/n%d.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
-        node,
-        chip_select,
-        (active_high) ? 'h' : 'l',
-        idle_mode,
-        (is_msb) ? 'm' : 'l',
-        address_width,
-        freq_mhz);
 }
 
 static void print_node_strapping(bdk_node_t node)
@@ -356,9 +316,8 @@ int main(void)
     /* Decode how we booted and display a banner */
     BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
     int boot_method;
-    char boot_device_name[48];
+    char *boot_partition_name = "none";
     BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
-    boot_device_name[0] = 0;
 
     switch (boot_method)
     {
@@ -371,11 +330,11 @@ int main(void)
             break;
         case RST_BOOT_METHOD_E_EMMC_LS:
         case RST_BOOT_METHOD_E_EMMC_SS:
-            sprintf(boot_device_name, "/dev/n%d.mmc0", node);
+            boot_partition_name = "mmc0"; /* MMC */
             break;
         case RST_BOOT_METHOD_E_SPI24:
         case RST_BOOT_METHOD_E_SPI32:
-            create_spi_device_name(boot_device_name, sizeof(boot_device_name), boot_method);
+            boot_partition_name = "spi0"; /* SPI */
             break;
         default:
             break;
@@ -712,15 +671,18 @@ int main(void)
 
     /* Load the next image */
     /* Transfer control to next image */
+    char filename[64];
     if (use_atf)
     {
         BDK_TRACE(BOOT_STUB, "Looking for ATF image\n");
-        boot_image(boot_device_name, ATF_ADDRESS);
+        snprintf(filename, sizeof(filename), "/fatfs/%s:/atf.bin", boot_partition_name);
+        boot_image(filename);
         bdk_error("Unable to load image\n");
         printf("Trying diagnostics\n");
     }
     BDK_TRACE(BOOT_STUB, "Looking for Diagnostics image\n");
-    boot_image("/fatfs/stage2.bin", 0);
+    snprintf(filename, sizeof(filename), "/fatfs/%s:/stage2.bin", boot_partition_name);
+    boot_image(filename);
 
     bdk_error("Image load failed\n");
 }
