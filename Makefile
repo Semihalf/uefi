@@ -16,6 +16,7 @@ all: version
 	$(MAKE) -C normal-boot-ebb8804
 	$(MAKE) -C normal-boot-crb-1s
 	$(MAKE) -C normal-boot-crb-2s
+	$(MAKE) -C chainboot
 	$(MAKE) -C screen # REMOVE-RELEASE
 
 #
