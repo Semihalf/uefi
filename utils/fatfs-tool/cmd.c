@@ -70,6 +70,8 @@ static int dir_exists(const char *path)
  */
 static int mkfs(int argc, char **argv)
 {
+	argv++; /* skip to first argument */
+
 	if (*argv)
 	{
 		fprintf(stderr, "WARNING: Ignoring arguments for mkfs:");
@@ -97,6 +99,8 @@ static int mkfs(int argc, char **argv)
 
 static int mkdir(int argc, char **argv)
 {
+	argv++; /* skip to first argument */
+
 	while (*argv)
 	{
 		CHAT("Creating directory %s\n", *argv);
@@ -125,7 +129,7 @@ static int cp(int argc, char **argv)
 		return -1;
 	}
 
-	const char *target_dir = argv[argc -2];
+	const char *target_dir = argv[argc -1];
 
 	if (!dir_exists(target_dir))
 	{
@@ -134,6 +138,8 @@ static int cp(int argc, char **argv)
 	}
 
 	int is_root = *target_dir == '/' && !*(target_dir +1);
+
+	argv++; /* skip to first argument */
 
 	while (argc > 2)
 	{
@@ -175,7 +181,6 @@ int run_command(int argc, char **argv)
 	{
 		if (0 == strcmp(*argv, cmd->cmd))
 		{
-			argv++;
 			if (cmd->f)
 				return (*cmd->f)(argc, argv);
 			return -1;
