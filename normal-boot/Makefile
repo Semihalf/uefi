@@ -57,7 +57,7 @@ $(STAGE1_BIN): $(BOOT_STUB_BIN)
 $(STAGE2_BIN): $(DIAGNOSTICS_BIN)
 	cp $(DIAGNOSTICS_BIN) $(STAGE2_BIN)
 
-$(FATFS_IMG): $(STAGE1_BIN) $(STAGE2_BIN) $(BOARD_ROOT)/lua/* $(CFG_FILES)
+$(FATFS_IMG): $(STAGE1_BIN) $(STAGE2_BIN) lua-common/* $(BOARD_ROOT)/lua/* $(CFG_FILES)
 	# Create empty 3.5MB image file
 	dd if=/dev/zero of=$(FATFS_IMG) bs=1k count=3584 2>/dev/null
 
@@ -71,6 +71,7 @@ $(FATFS_IMG): $(STAGE1_BIN) $(STAGE2_BIN) $(BOARD_ROOT)/lua/* $(CFG_FILES)
 	# Add all the Lua files to the FAT fs
 	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) mkdir /lua
 	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) cp $(BOARD_ROOT)/lua/*.lua /lua
+	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) cp lua-common/*.lua /lua
 
 	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) cp $(BOARD_ROOT)/default.cfg /
 	@cp $(BOARD_ROOT)/default.cfg ./safe-mode.cfg
