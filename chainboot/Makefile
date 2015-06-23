@@ -1,7 +1,6 @@
 include $(BDK_ROOT)/libbdk/bdk.mk
 
 DIR=$(BDK_ROOT)/target-bin
-IMAGE_NAME=chainboot
 
 # Board specific modules and includes
 ifndef BOARD_TYPE
@@ -10,11 +9,12 @@ $(info * BOARD_TYPE not defined. Using default 'crb-2s')
 $(info ********************************************************************************)
 BOARD_TYPE=crb-2s
 endif
-
 BOARD_ROOT 	= $(BDK_ROOT)/chainboot/board/$(BOARD_TYPE)
 BOARD_SRC   := $(wildcard $(BOARD_ROOT)/*.c)
 BOARD_OBJS  := $(addsuffix .o, $(basename $(BOARD_SRC)))
 CPPFLAGS 	+= -I $(BOARD_ROOT)
+
+IMAGE_NAME=normal-${BOARD_TYPE}
 
 .PHONY: all
 all: ${DIR}/${IMAGE_NAME}.bin
