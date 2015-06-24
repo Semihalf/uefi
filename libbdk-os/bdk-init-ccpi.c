@@ -7,7 +7,7 @@
    multi-node. Only after these functions have brought CCPI inot a work state
    can the node functions in bdk-init.c start using the other nodes */
 
-#define CCPI_LANE_TIMEOUT 10 /* Seconds to wait for CCPI lanes */
+#define CCPI_LANE_TIMEOUT 3 /* Seconds to wait for CCPI lanes */
 #define CCPI_LINK_TIMEOUT 10 /* Seconds to wait for CCPI links */
 #define CCPI_MIN_LANES 24
 #define MAX_LINKS 3
