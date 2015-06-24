@@ -15,6 +15,9 @@
  */
 void __bdk_require_depends(void)
 {
+    BDK_REQUIRE(FS_FATFS);
+    BDK_REQUIRE(FS_MMC);
+    BDK_REQUIRE(FS_MPI);
     BDK_REQUIRE(GPIO);
     BDK_REQUIRE(MPI);
 }
@@ -63,10 +66,6 @@ int main(void)
         "\n",
         bdk_version_string(), boot_count);
     print_node_strapping(bdk_numa_master());
-
-    /* Initialize the FAT filesystems be need to load the next stage */
-    extern int bdk_fs_fatfs_init(void);
-    bdk_fs_fatfs_init();
 
     /* Load the next image */
     /* Transfer control to next image */

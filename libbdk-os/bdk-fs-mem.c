@@ -1,6 +1,10 @@
 #include <bdk.h>
 #include <fcntl.h>
 
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(FS_MEM);
+
 static int mem_read(__bdk_fs_dev_t *handle, void *buffer, int length)
 {
     uint64_t address = bdk_numa_get_address(handle->dev_node, handle->location);
@@ -28,7 +32,7 @@ static const __bdk_fs_dev_ops_t bdk_fs_mem_ops =
     .write = mem_write,
 };
 
-int bdk_fs_mem_init(void)
+int __bdk_fs_mem_init(void)
 {
     return bdk_fs_register_dev("mem", 0, &bdk_fs_mem_ops);
 }

@@ -17,6 +17,9 @@
  */
 void __bdk_require_depends(void)
 {
+    BDK_REQUIRE(FS_FATFS);
+    BDK_REQUIRE(FS_MMC);
+    BDK_REQUIRE(FS_MPI);
     BDK_REQUIRE(QLM);
     BDK_REQUIRE(MDIO);
     BDK_REQUIRE(PCIE);
@@ -29,7 +32,6 @@ void __bdk_require_depends(void)
     BDK_REQUIRE(USB);
 }
 
-extern int bdk_fs_fatfs_init(void);
 extern const char *boot_device_volstr_for_boot_method(int boot_method);
 
 /**
@@ -40,9 +42,6 @@ extern const char *boot_device_volstr_for_boot_method(int boot_method);
 int main(void)
 {
     bdk_node_t node = bdk_numa_local();
-
-    /* Initialize the FAT filesystems we need to load the next stage */
-    bdk_fs_fatfs_init();
 
     /* Check for safe mode boot.
      *

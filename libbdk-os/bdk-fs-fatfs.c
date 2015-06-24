@@ -84,7 +84,7 @@ static const __bdk_fs_ops_t bdk_fs_fatfs_ops =
 
 static FATFS fatfs; /* only one filesystem mount supported at this time */
 
-int bdk_fs_fatfs_init(void)
+int __bdk_fs_fatfs_init(void)
 {
     f_mount(&fatfs, "", 0);
     return bdk_fs_register("/fatfs/", &bdk_fs_fatfs_ops);

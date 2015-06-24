@@ -148,14 +148,7 @@ DSTATUS disk_initialize (
 	{
 	case DRV_SPI:
 		if (!DRV_INIT(pdrv))
-		{
-			extern int bdk_fs_mpi_init(void);
-			if (0 != bdk_fs_mpi_init())
-			{
-				return RES_NOTRDY;
-			}
 			DRV_INIT(pdrv) = 1;
-		}
 		break;
 
 	case DRV_MMC:

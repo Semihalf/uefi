@@ -570,7 +570,7 @@ static const __bdk_fs_ops_t bdk_fs_xmodem_ops =
     .write = xmodem_write,
 };
 
-int bdk_fs_xmodem_init(void)
+int __bdk_fs_xmodem_init(void)
 {
     return bdk_fs_register("/xmodem", &bdk_fs_xmodem_ops);
 }

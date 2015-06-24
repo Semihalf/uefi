@@ -1,6 +1,10 @@
 #include <bdk.h>
 #include <fcntl.h>
 
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(FS_MPI);
+
 /* MPI/SPI filenames are of the format:
    n0.mpi0/cs-[hl],[12]wire,idle-[rhl],[ml]sb,##bit,<freq>
     - mpi0 = Chip select to use [0-3]
@@ -389,7 +393,7 @@ static const __bdk_fs_dev_ops_t bdk_fs_mpi_ops =
     .write = mpi_write,
 };
 
-int bdk_fs_mpi_init(void)
+int __bdk_fs_mpi_init(void)
 {
     for (int cs = 0; cs < 4; cs++)
     {

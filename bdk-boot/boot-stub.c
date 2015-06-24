@@ -19,6 +19,9 @@
  */
 void __bdk_require_depends(void)
 {
+    BDK_REQUIRE(FS_FATFS);
+    BDK_REQUIRE(FS_MMC);
+    BDK_REQUIRE(FS_MPI);
     BDK_REQUIRE(FS_XMODEM);
 }
 
@@ -456,15 +459,6 @@ int main(void)
         boot_method_str, boot_method,
         (vrm_disable) ? "Disabled" : "Enabled",
         (trust_mode) ? "Enabled" : "Disabled");
-
-    extern int bdk_fs_mmc_init(void);
-    extern int bdk_fs_mpi_init(void);
-    extern int bdk_fs_xmodem_init(void);
-    extern int bdk_fs_fatfs_init(void);
-    bdk_fs_mmc_init();
-    bdk_fs_mpi_init();
-    bdk_fs_xmodem_init();
-    bdk_fs_fatfs_init();
 
     while (1)
     {

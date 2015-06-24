@@ -118,7 +118,7 @@ static const __bdk_fs_dev_ops_t bdk_fs_sata_ops =
     .write = sata_write,
 };
 
-int bdk_fs_sata_init(void)
+int __bdk_fs_sata_init(void)
 {
     int num_sata = bdk_sata_get_controllers(bdk_numa_master());
     for (int sata = 0; sata < num_sata; sata++)

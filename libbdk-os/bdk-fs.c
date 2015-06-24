@@ -28,7 +28,7 @@ static bdk_fs_mount_t mount_points[MAX_MOUNT_POINTS] = {
     {NULL, NULL}
 };
 
-/* Node number will be fixed in __bdk_fs_init */
+/* Node number will be fixed in __bdk_fs_init_early */
 static char dev_uart0[] = "/dev/n0.uart0";
 static char dev_uart1[] = "/dev/n0.uart1";
 
@@ -47,16 +47,46 @@ static __bdk_fs_file_t file_handle[MAX_FILE_HANDLES] = {
 extern int errno;
 
 /**
- * Called early in init to setup the filesystem code
+ * Called early in init to setup the filesystem core
  *
  * @return Zero on success, negative on failure
  */
-int __bdk_fs_init(void)
+int __bdk_fs_init_early(void)
 {
     bdk_node_t node = bdk_numa_local();
     dev_uart0[6] = '0' + node;
     dev_uart1[6] = '0' + node;
     return 0;
+}
+
+/**
+ * Called late in init to setup all the filesystems
+ *
+ * @return Zero on success, negative on failure
+ */
+int __bdk_fs_init_late(void)
+{
+    int result = 0;
+    /* Init all filesystems where their init function was linked in */
+    if (__bdk_fs_mem_init)
+        result |= __bdk_fs_mem_init();
+    if (__bdk_fs_mmc_init)
+        result |= __bdk_fs_mmc_init();
+    if (__bdk_fs_mpi_init)
+        result |= __bdk_fs_mpi_init();
+    if (__bdk_fs_pcie_init)
+        result |= __bdk_fs_pcie_init();
+    if (__bdk_fs_ram_init)
+        result |= __bdk_fs_ram_init();
+    if (__bdk_fs_rom_init)
+        result |= __bdk_fs_rom_init();
+    if (__bdk_fs_sata_init)
+        result |= __bdk_fs_sata_init();
+    if (__bdk_fs_xmodem_init)
+        result |= __bdk_fs_xmodem_init();
+    if (__bdk_fs_fatfs_init)
+        result |= __bdk_fs_fatfs_init();
+    return result;
 }
 
 /**

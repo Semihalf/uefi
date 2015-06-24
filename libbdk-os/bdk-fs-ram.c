@@ -131,7 +131,7 @@ static const __bdk_fs_ops_t bdk_fs_ram_ops =
     .write = ram_write,
 };
 
-int bdk_fs_ram_init(void)
+int __bdk_fs_ram_init(void)
 {
     return bdk_fs_register("/ram/", &bdk_fs_ram_ops);
 }

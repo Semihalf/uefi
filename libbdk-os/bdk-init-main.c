@@ -181,18 +181,19 @@ void __bdk_init_main(int arg, void *arg1)
         }
         if (!bdk_numa_is_only_one())
             bdk_config_set(BDK_CONFIG_ENABLE_MULTINODE, 1);
-    }
 
-    /* Core 0 start main as another thread. We create a new thread so that
-        the coremask will allow all cores in case the application
-        goes multicore later */
-    if (bdk_is_boot_core())
-    {
         for (bdk_node_t n = 0; n < BDK_NUMA_MAX_NODES; n++)
         {
             if (bdk_numa_exists(n))
                 __bdk_init_node(n);
         }
+
+        /* Load all file systems */
+        __bdk_fs_init_late();
+
+        /* Core 0 start main as another thread. We create a new thread so that
+            the coremask will allow all cores in case the application
+            goes multicore later */
         extern int main(int argc, const char *argv);
         BDK_TRACE(INIT, "Switching to main\n");
         if (bdk_thread_create(node, 0, (bdk_thread_func_t)main, arg, arg1, BDK_THREAD_MAIN_STACK_SIZE))

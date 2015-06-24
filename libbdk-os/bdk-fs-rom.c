@@ -1,5 +1,9 @@
 #include <bdk.h>
 
+/* This code is an optional part of the BDK. It is only linked in
+    if BDK_REQUIRE() needs it */
+BDK_REQUIRE_DEFINE(FS_ROM);
+
 /* ROM files are stored sequencially after the end of the image, starting
     at the _end symbol. Each ROM file starts with six bytes "ROM-FS",
     a two byte filename length, a four byte file length, the bytes for
@@ -76,7 +80,7 @@ static const __bdk_fs_ops_t bdk_fs_rom_ops =
     .write = NULL,
 };
 
-int bdk_fs_rom_init(void)
+int __bdk_fs_rom_init(void)
 {
     return bdk_fs_register("/rom/", &bdk_fs_rom_ops);
 }

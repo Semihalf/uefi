@@ -86,7 +86,7 @@ static const __bdk_fs_dev_ops_t bdk_fs_dev_pcie_ops =
     .write = pcie_write,
 };
 
-int bdk_fs_pcie_init(void)
+int __bdk_fs_pcie_init(void)
 {
     int num_pcie = bdk_pcie_get_num_ports(bdk_numa_master());
     for (int p = 0; p < num_pcie; p++)
