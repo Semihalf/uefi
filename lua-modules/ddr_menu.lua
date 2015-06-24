@@ -10,14 +10,18 @@ if cavium.global then
     getenv = cavium.global.os.getenv
 end
 
+local dram_enabled = (cavium.csr.LMCX_DDR_PLL_CTL(0).RESET_N ~= 0)
+
 -- List of config strings that can be passed to bdk_dram_config()
 local CONFIG_CHOICES = {}
-for i=1,10 do
-    local name = cavium.c.bdk_dram_get_config_name(i-1)
-    if not name then
-        break
+if not dram_enabled then
+    for i=1,10 do
+        local name = cavium.c.bdk_dram_get_config_name(i-1)
+        if not name then
+            break
+        end
+        CONFIG_CHOICES[i] = name
     end
-    CONFIG_CHOICES[i] = name
 end
 
 local m = menu.new("DRAM Menu")
@@ -38,7 +42,9 @@ local function update_verbose_label()
         update_verbose_label()
     end)
 end
-update_verbose_label()
+if not dram_enabled then
+    update_verbose_label()
+end
 
 m:item("setenv", "Set environment variable", function()
     local name = menu.prompt_string("Name")
