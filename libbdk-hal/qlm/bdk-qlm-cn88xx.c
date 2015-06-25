@@ -1054,6 +1054,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 
     /* cdrlock will be checked in the BGX */
 
+    /* Apply any custom tuning */
+    qlm_tune(node, qlm, mode, baud_mhz);
+
     /* If we're setting up the first QLM of a PCIe x8 interface, go ahead and
        setup the other inteface automatically */
     if (mode == BDK_QLM_MODE_PCIE_1X8)
@@ -1066,9 +1069,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 return bdk_qlm_set_mode(node, qlm + 1, mode, baud_mhz, flags);
         }
     }
-
-    /* Apply any custom tuning */
-    qlm_tune(node, qlm, mode, baud_mhz);
     return 0;
 }
 
