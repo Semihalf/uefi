@@ -57,8 +57,8 @@ static struct
 	},
 	{
 		RST_BOOT_METHOD_E_EMMC_LS,
-		"/dev/mmc-not-yet-implemented",
-		0,
+		"/dev/n0.mmc0",
+		512,
 		0x00000,
 		NULL,
 		0
@@ -115,7 +115,7 @@ DSTATUS disk_status (
 		stat = RES_OK;
 		break;
 	case DRV_MMC:
-		stat = STA_NODISK;
+		stat = RES_OK;
 		break;
 	default:
 		stat = STA_NODISK;
@@ -147,12 +147,9 @@ DSTATUS disk_initialize (
 	switch (pdrv)
 	{
 	case DRV_SPI:
+	case DRV_MMC:
 		if (!DRV_INIT(pdrv))
 			DRV_INIT(pdrv) = 1;
-		break;
-
-	case DRV_MMC:
-		bdk_warn("FatFs: Support for MMC (drive %d) not yet implemented.\n", pdrv);
 		break;
 
 	default:

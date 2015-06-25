@@ -82,10 +82,21 @@ static const __bdk_fs_ops_t bdk_fs_fatfs_ops =
     .write = fatfs_write,
 };
 
-static FATFS fatfs; /* only one filesystem mount supported at this time */
-
 int __bdk_fs_fatfs_init(void)
 {
-    f_mount(&fatfs, "", 0);
+    static FATFS fatfs[_VOLUMES]; /* FATFS handles for all defined volumes */
+
+    /* Go through all defined volumes and lazy-mount them. Lazy mounting will
+     * always succeed. The volume will be hard-mounted later when the volume
+     * will be first accessed via another operation. Any errors will be
+     * generated at that point.
+     */
+    static const char* const str[] = {_VOLUME_STRS};
+    for (int i = 0; i < _VOLUMES; i++)
+    {
+        char volume_id[16];
+        snprintf(volume_id, sizeof(volume_id), "%s:", str[i]);
+        f_mount(&fatfs[i], volume_id, 0);
+    }
     return bdk_fs_register("/fatfs/", &bdk_fs_fatfs_ops);
 }
