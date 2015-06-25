@@ -527,7 +527,7 @@ union zip_inst_s {
  * Structure ZIP_NPTR_S
  *
  * ZIP Instruction Next-Chunk-Buffer Pointer (NPTR) Structure
- * ZIP_NPTR structure is used to chain all the zip instruction buffers together. ZIP instruction
+ * ZIP_NPTR structure is used to chain all the ZIP instruction buffers together. ZIP instruction
  * buffers are managed (allocated and released) by software.
  */
 union zip_nptr_s {
@@ -940,7 +940,7 @@ static inline uint64_t BDK_ZIP_CONSTANTS_FUNC(void)
 /**
  * NCB - zip_core#_bist_status
  *
- * These register have the BIST status of memories in zip cores. Each bit is the BIST result of
+ * These register have the BIST status of memories in ZIP cores. Each bit is the BIST result of
  * an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union bdk_zip_corex_bist_status {
@@ -975,7 +975,7 @@ static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long param1)
 /**
  * NCB - zip_core#_to_sta
  *
- * These registers reflect the timeout status of zip cores.
+ * These registers reflect the timeout status of ZIP cores.
  * Added in pass 2.
  */
 typedef union bdk_zip_corex_to_sta {
@@ -1018,12 +1018,15 @@ typedef union bdk_zip_core_reset {
 	uint64_t u;
 	struct bdk_zip_core_reset_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_2_63               : 62;
+		uint64_t reac                        : 1;  /**< R/W - Reset ZIP engine after completion of each instruction, to limit exposure to
+                                                                 corrupt commands and structures affecting subsequent commands. */
+		uint64_t reserved_2_62               : 61;
 		uint64_t reset                       : 2;  /**< R/W - When set, the conresponding core will be put into reset. When clear, the core is out of
-                                                                 reset.  Bit[\<a\>] resets zip core \<a\>. */
+                                                                 reset.  Bit[\<a\>] resets ZIP core \<a\>. */
 #else
 		uint64_t reset                       : 2;
-		uint64_t reserved_2_63               : 62;
+		uint64_t reserved_2_62               : 61;
+		uint64_t reac                        : 1;
 #endif
 	} s;
 	/* struct bdk_zip_core_reset_s        cn88xx; */
@@ -1056,9 +1059,9 @@ typedef union bdk_zip_core_to_cfg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t halt                        : 1;  /**< R/W - If set, when timeout is detected, control will halt input and output and set the
                                                                  completion code in
-                                                                 result buffer to ZIP_COMP_E[TIMEOUT]. If cleared (for diagnostic use only), if zip core
+                                                                 result buffer to ZIP_COMP_E[TIMEOUT]. If cleared (for diagnostic use only), if ZIP core
                                                                  continues
-                                                                 outputing after timeout period the instruction will still be finished by the zip core. */
+                                                                 outputing after timeout period the instruction will still be finished by the ZIP core. */
 		uint64_t ar                          : 1;  /**< R/W - Auto reset. This bit only takes effect when [HALT] is set. When [HALT] is cleared, [AR] is
                                                                  ignored.
                                                                  0 = On a timeout, the timed-out core will hold the timed-out operation and not be auto-
@@ -1066,7 +1069,7 @@ typedef union bdk_zip_core_to_cfg {
                                                                  1 = On a timeout, the timed-out core will be auto-reset. */
 		uint64_t reserved_32_61              : 30;
 		uint64_t timeout                     : 32; /**< R/W - Number of coprocessor-clocks before a ZIP engine is considered hung. When the
-                                                                 ZIP_CORE()_TO_STA[CNT] reaches ZIP_CORE_TO_CFG[TIMEOUT], the zip engine hang
+                                                                 ZIP_CORE()_TO_STA[CNT] reaches ZIP_CORE_TO_CFG[TIMEOUT], the ZIP engine hang
                                                                  can be reported through interrupt ZIP_QUE()_ERR_INT[CTO] if the interrupt is enabled.
                                                                  If [TIMEOUT] is 0, engine timeout detection is disabled. INTERNAL: Decompression
                                                                  could be very slow if someone created a malicious compressed stream. Compression is
@@ -1252,7 +1255,7 @@ static inline uint64_t BDK_ZIP_DBG_COREX_INST(unsigned long param1)
 /**
  * NCB - zip_dbg_core#_sta
  *
- * These registers reflect the status of the zip cores and are for debug use only.
+ * These registers reflect the status of the ZIP cores and are for debug use only.
  *
  */
 typedef union bdk_zip_dbg_corex_sta {
@@ -1291,7 +1294,7 @@ static inline uint64_t BDK_ZIP_DBG_COREX_STA(unsigned long param1)
 /**
  * NCB - zip_dbg_que#_sta
  *
- * These registers reflect status of the zip instruction queues and are for debug use only.
+ * These registers reflect status of the ZIP instruction queues and are for debug use only.
  *
  */
 typedef union bdk_zip_dbg_quex_sta {
@@ -1875,7 +1878,7 @@ typedef union bdk_zip_quex_done {
                                                                  described above still occurs.
 
                                                                  Since ZIP instructions within a queue can complete out-of-order when the queue is mapped
-                                                                 to both zip engines, if software is using completion interrupts the suggested scheme is to
+                                                                 to both ZIP engines, if software is using completion interrupts the suggested scheme is to
                                                                  request a DONEINT on each request, and when an interrupt arrives perform a "greedy" scan
                                                                  for completions; even if a later command is acknowledged first this will not result in
                                                                  missing a completion. Software could also use ZIP_ZRES_S[DONEINT] to check when
@@ -2340,7 +2343,7 @@ static inline uint64_t BDK_ZIP_QUEX_ERR_INT_W1S(unsigned long param1)
 /**
  * NCB - zip_que#_gcfg
  *
- * These registers reflect status of the zip instruction queues and are for debug use only.
+ * These registers reflect status of the ZIP instruction queues and are for debug use only.
  *
  */
 typedef union bdk_zip_quex_gcfg {
@@ -2386,7 +2389,7 @@ static inline uint64_t BDK_ZIP_QUEX_GCFG(unsigned long param1)
 /**
  * NCB - zip_que#_map
  *
- * These registers control how each instruction queue maps to zip cores.
+ * These registers control how each instruction queue maps to ZIP cores.
  *
  */
 typedef union bdk_zip_quex_map {
@@ -2394,11 +2397,11 @@ typedef union bdk_zip_quex_map {
 	struct bdk_zip_quex_map_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
-		uint64_t zce                         : 2;  /**< R/W - Zip core enable. Controls the logical instruction queue can be serviced by which zip core.
+		uint64_t zce                         : 2;  /**< R/W - ZIP core enable. Controls the logical instruction queue can be serviced by which ZIP core.
                                                                  Setting ZCE to 0 effectively disables the queue from being served (however the instruction
                                                                  can still be fetched).
-                                                                 _ ZCE\<1\> = 1: Zip core 1 can serve the queue.
-                                                                 _ ZCE\<0\> = 1: Zip core 0 can serve the queue. */
+                                                                 _ ZCE\<1\> = 1: ZIP core 1 can serve the queue.
+                                                                 _ ZCE\<0\> = 1: ZIP core 0 can serve the queue. */
 #else
 		uint64_t zce                         : 2;
 		uint64_t reserved_2_63               : 62;

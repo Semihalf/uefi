@@ -2314,9 +2314,7 @@ typedef union bdk_smmux_diag_ctl {
 		uint64_t throttle                    : 1;  /**< SR/W - Throttle throughput. For diagnostic use only. If set, limit translations to one every four
                                                                  cycles, to insure OCLA debug FIFOs will not overrun.
                                                                  SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's. */
-		uint64_t dis_bcstr                   : 1;  /**< SR/W - Disable broadcast response. For diagnostic use only. If set, a broadcast invalidate will
-                                                                 be acknowledged immediately and the standard acknowledgement at completion of invalidation
-                                                                 will be suppressed. */
+		uint64_t dis_bcstr                   : 1;  /**< SR/W - Reserved. */
 		uint64_t dis_wcs1                    : 2;  /**< SR/W - Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
                                                                  0x0 = Normal operation. Allow hits at all levels.
                                                                  0x1 = Never hit.

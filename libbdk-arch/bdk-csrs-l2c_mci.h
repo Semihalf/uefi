@@ -130,8 +130,10 @@ typedef union bdk_l2c_mcix_err {
 		uint64_t vbfsbe1                     : 1;  /**< RO/H - INDEX/SYN1 corresponds to a single-bit VBF ECC error. */
 		uint64_t vbfsbe0                     : 1;  /**< RO/H - INDEX/SYN0 corresponds to a single-bit VBF ECC error. */
 		uint64_t reserved_48_59              : 12;
-		uint64_t syn1                        : 8;  /**< RO/H - Error syndrome for QW1 ([127:64]). */
-		uint64_t syn0                        : 8;  /**< RO/H - Error syndrome for QW0 ([63:0]). */
+		uint64_t syn1                        : 8;  /**< RO/H - Error syndrome for QW1 ([127:64]).
+                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
+		uint64_t syn0                        : 8;  /**< RO/H - Error syndrome for QW0 ([63:0]).
+                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
 		uint64_t reserved_12_31              : 20;
 		uint64_t vbf4                        : 1;  /**< RO/H - When 1, errors were from VBF (4+a), when 0, from VBF (0+a). */
 		uint64_t index                       : 7;  /**< RO/H - VBF index which was read and had the error(s). */

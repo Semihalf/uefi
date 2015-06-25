@@ -1849,8 +1849,7 @@ typedef union bdk_lmcx_ext_config {
                                                                  Intended to be use for the case of DIMM1 having bigger rank/s
                                                                  than DIMM0. This bit has priority over DIMM_SEL_INVERT_OFF. */
 		uint64_t coalesce_address_mode       : 1;  /**< R/W - When set to 1, this bit enables LMC to coalesce the cache-line
-                                                                 address space into the DRAMs' address.
-                                                                 INTERNAL: FIXME - more explanation */
+                                                                 address space into the DRAMs' address. */
 		uint64_t dimm1_cid                   : 2;  /**< R/W - DIMM1 configuration bits that represent the number of Chip
                                                                  ID of the DRAM. This value is use for decoding address
                                                                  as well as routing Chip IDs to the appropriate output

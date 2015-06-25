@@ -2109,14 +2109,16 @@ union nic_send_hdr_s {
                                                                  size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which should not exceed the
                                                                  lesser of 9212 bytes or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]. Must be non-zero, else the send
                                                                  descriptor is treated as non-TSO.
-                                                                 Must be greater than 256 to ensure a unique IPv4 ID per segment.
+                                                                 Must be greater than 256 to support maximum [TOTAL] value of 2**20 - 1 (the number of
+                                                                 TSO segments must be less than 4094).
                                                                  Added in pass 2. */
 #else
 		uint64_t tso_mps                     : 14; /**< [ 77: 64] When [TSO] set, maximum payload size in bytes per packet (a.k.a. maximum TCP segment
                                                                  size). The maximum TSO packet size is [TSO_SB] + [TSO_MPS], which should not exceed the
                                                                  lesser of 9212 bytes or NIC_PF_LMAC()_CFG2[MAX_PKT_SIZE]. Must be non-zero, else the send
                                                                  descriptor is treated as non-TSO.
-                                                                 Must be greater than 256 to ensure a unique IPv4 ID per segment.
+                                                                 Must be greater than 256 to support maximum [TOTAL] value of 2**20 - 1 (the number of
+                                                                 TSO segments must be less than 4094).
                                                                  Added in pass 2. */
 		uint64_t reserved_78_79              : 2;  /**< [ 79: 78] Reserved. INTERNAL: NIC hardware uses this for TSO_FIRST and TSO_LAST. */
 		uint64_t tso_sb                      : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.

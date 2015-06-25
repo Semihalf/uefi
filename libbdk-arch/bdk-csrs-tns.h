@@ -1009,12 +1009,12 @@ typedef union bdk_tns_rdma_dbg_cdt_ctl {
 	struct bdk_tns_rdma_dbg_cdt_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_12_63              : 52;
-		uint64_t nbyp_credits_inc            : 2;  /**< WO/H - Each write to this field increments the count of non-bypass credit storage for BGX. */
-		uint64_t byp_credits_inc             : 2;  /**< WO/H - Each write to this field increments the count of bypass credit storage for BGX. */
-		uint64_t pending_req_inc             : 2;  /**< WO/H - Each write to this field increments the count of pending requests from BGX. */
-		uint64_t nbyp_credits_dec            : 2;  /**< WO/H - Each write to this field decrements the count of non-bypass credit storage for BGX. */
-		uint64_t byp_credits_dec             : 2;  /**< WO/H - Each write to this field decrements the count of bypass credit storage for BGX. */
-		uint64_t pending_req_dec             : 2;  /**< WO/H - Each write to this field decrements the count of pending requests from BGX. */
+		uint64_t nbyp_credits_inc            : 2;  /**< WO/H - Each write to this field increments the count of non-bypass credit storage for {BGX1, BGX0}. */
+		uint64_t byp_credits_inc             : 2;  /**< WO/H - Each write to this field increments the count of bypass credit storage for {BGX1, BGX0}. */
+		uint64_t pending_req_inc             : 2;  /**< WO/H - Each write to this field increments the count of pending requests from {BGX1, BGX0}. */
+		uint64_t nbyp_credits_dec            : 2;  /**< WO/H - Each write to this field decrements the count of non-bypass credit storage for {BGX1, BGX0}. */
+		uint64_t byp_credits_dec             : 2;  /**< WO/H - Each write to this field decrements the count of bypass credit storage for {BGX1, BGX0}. */
+		uint64_t pending_req_dec             : 2;  /**< WO/H - Each write to this field decrements the count of pending requests from {BGX1, BGX0}. */
 #else
 		uint64_t pending_req_dec             : 2;
 		uint64_t byp_credits_dec             : 2;
@@ -1054,15 +1054,15 @@ typedef union bdk_tns_rdma_dbg_cx_full {
 	struct bdk_tns_rdma_dbg_cx_full_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_37_63              : 27;
-		uint64_t lmac_rx_ebp                 : 5;  /**< R/W - EBP received from LMACs. */
+		uint64_t lmac_rx_ebp                 : 5;  /**< R/W - EBP back pressure information received from LMACs. */
 		uint64_t reserved_29_31              : 3;
 		uint64_t lmac_rx_chan_bp             : 5;  /**< R/W - Channel credit messages received from LMACs. */
 		uint64_t reserved_21_23              : 3;
 		uint64_t nic_rx_bp                   : 5;  /**< R/W - Back pressure received from NIC. */
 		uint64_t reserved_13_15              : 3;
-		uint64_t lmac_pkt                    : 5;  /**< R/W - Packets received from LMACs. */
+		uint64_t lmac_pkt                    : 5;  /**< R/W - Packet data received from LMACs. */
 		uint64_t reserved_5_7                : 3;
-		uint64_t nic_pkt                     : 5;  /**< R/W - Packets received from NIC. */
+		uint64_t nic_pkt                     : 5;  /**< R/W - Packet data received from NIC. */
 #else
 		uint64_t nic_pkt                     : 5;
 		uint64_t reserved_5_7                : 3;
@@ -1299,7 +1299,7 @@ static inline uint64_t BDK_TNS_RDMA_DBG_PKT_CTL_FUNC(void)
  * NCB - tns_rdma_dbgb_sel
  *
  * Debug bus select register.
- *
+ * This register is only used in pass 1.x.
  */
 typedef union bdk_tns_rdma_dbgb_sel {
 	uint64_t u;
@@ -1335,7 +1335,7 @@ static inline uint64_t BDK_TNS_RDMA_DBGB_SEL_FUNC(void)
 /**
  * NCB - tns_rdma_ecc_ctl
  *
- * This register can be used to disable ECC checks, insert ECC errors.
+ * This register can be used to disable ECC data correction, insert ECC errors.
  * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
  * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
@@ -1867,7 +1867,7 @@ typedef union bdk_tns_rdma_lmacx_drop_cnt {
 		uint64_t reserved_8_63               : 56;
 		uint64_t packets                     : 8;  /**< R/W/H - Packets arriving from LMAC dropped due to insufficient size.
                                                                  A packet received from a LMAC is immediately dropped if timestamp extraction
-                                                                 is enabled for the LMAC and the arrivng packet is not large enough
+                                                                 is enabled for the LMAC and the arriving packet is not large enough
                                                                  to contain a full 8-byte timestamp and at least 1-byte of packet data.
                                                                  This field counts all packets dropped due to insufficient packet size when
                                                                  timestamp extraction is enabled.
@@ -1898,7 +1898,7 @@ static inline uint64_t BDK_TNS_RDMA_LMACX_DROP_CNT(unsigned long param1)
 /**
  * NCB - tns_rdma_nb_cnt_lb
  *
- * Packets and bytes received by the loopback port.
+ * Packets and bytes received by the internal loopback port.
  * All fields have roll over counters.
  */
 typedef union bdk_tns_rdma_nb_cnt_lb {
@@ -2121,7 +2121,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBG_CX_OCC_FUNC(void)
  * NCB - tns_rdma_nb_dbgb_sel
  *
  * Debug bus select register.
- *
+ * This register is only used in pass 1.x.
  */
 typedef union bdk_tns_rdma_nb_dbgb_sel {
 	uint64_t u;
@@ -2157,7 +2157,7 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBGB_SEL_FUNC(void)
 /**
  * NCB - tns_rdma_nb_ecc_ctl
  *
- * This register can be used to disable ECC checks, insert ECC errors.
+ * This register can be used to disable ECC data correction, insert ECC errors.
  * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
  * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
@@ -2917,7 +2917,7 @@ typedef union bdk_tns_rdma_nb_lmacx_rpkt_sz {
                                                                  Packets with a size that is equal or less will be marked as runt, dropped, and counted.
                                                                  The prepended timestamp (if present) is not counted when determining the
                                                                  size of an arriving packet.
-                                                                 Dropped runt packets are counted. */
+                                                                 Dropped runt packets are counted at TNS_RDMA_NB_RUNT_CNT(0..7). */
 #else
 		uint64_t bytes                       : 8;
 		uint64_t reserved_8_63               : 56;
@@ -3149,7 +3149,7 @@ typedef union bdk_tns_rdma_nb_nicix_rpkt_sz {
                                                                  network switch for processing.
                                                                  Hardware will flag packets arriving from the NICI if the size is
                                                                  less than or equal to the programmed value.
-                                                                 Flagged runt packets are counted. */
+                                                                 Flagged runt packets are counted at TNS_RDMA_NB_RUNT_CNT(8..9). */
 #else
 		uint64_t bytes                       : 8;
 		uint64_t reserved_8_63               : 56;
@@ -3184,7 +3184,7 @@ typedef union bdk_tns_rdma_nb_parser {
 	struct bdk_tns_rdma_nb_parser_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_1_63               : 63;
-		uint64_t fc                          : 1;  /**< RO/H - Flow control status from parser. */
+		uint64_t fc                          : 1;  /**< RO/H - Flow control status from parser. 0 = XOFF. */
 #else
 		uint64_t fc                          : 1;
 		uint64_t reserved_1_63               : 63;
@@ -4130,7 +4130,7 @@ static inline uint64_t BDK_TNS_TDMA_DBG_NICIX_CONFIG(unsigned long param1)
 /**
  * NCB - tns_tdma_ecc_ctl
  *
- * This register can be used to disable ECC checks, insert ECC errors.
+ * This register can be used to disable ECC data correction, insert ECC errors.
  * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
  * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
@@ -4149,7 +4149,7 @@ typedef union bdk_tns_tdma_ecc_ctl {
 		uint64_t lmac_ecc_dis                : 8;  /**< R/W - Disable ECC data correction for LMAC FIFOs.
                                                                  Bit [32] applies to all BGX0-bound (LMAC0-LMAC3) packets.
                                                                  Bit [33] applies to all BGX1-bound (LMAC4-LMAC7) packets.
-                                                                 Bits [39:34] are reserved and should not be written. */
+                                                                 Bits [39:34] are reserved and should not be used. */
 		uint64_t reserved_22_31              : 10;
 		uint64_t vmem_ecc_flip_synd          : 2;  /**< R/W - Flip syndrome for all data written to MSIX VMEM. */
 		uint64_t nici1_ecc_flip_synd         : 2;  /**< R/W - Flip syndrome for all data written to NICI1 packet path FIFOs. */
@@ -4651,6 +4651,9 @@ typedef union bdk_tns_tdma_nb_config1 {
                                                                  Enables page pointers from the FPM to be allocated to RDMA for use. */
 		uint64_t drain_pkts                  : 11; /**< R/W - Discard packets destined towards a physical port.
                                                                  Rather than transmit a packet on its physical port the TDMA will drop the packet.
+                                                                 The decision to drain a packet is made on a packet boundary.
+                                                                 A packet that is in progress when this field is set will be allowed to complete
+                                                                 transmission.
                                                                  The bit positions correspond to the enumeration as defined in TNS_PHYS_PORT_E. */
 		uint64_t auto_init                   : 1;  /**< R/W/H - Initiate hardware auto-initialization of TNS.
                                                                  To begin initialization, software writes a 1 to this field.
@@ -4846,17 +4849,17 @@ typedef union bdk_tns_tdma_nb_dbg_config1 {
 		uint64_t reserved_29_31              : 3;
 		uint64_t txq_drop_req_thresh         : 5;  /**< R/W - Requests to drop packets are received from the TxQ.
                                                                  Arriving requests can take one of two paths:
-                                                                 _ 1) If the packet is a single-copy packet, the packet is pushed to a 16-entry FIFO
+                                                                 _ 1) For a single-copy packet the request is pushed to a 16-entry FIFO
                                                                  _    in the Link List walker logic.
-                                                                 _ 2) If the packet is a multiple-copy packet the packet is pushed to a 16-entry FIFO
+                                                                 _ 2) For a multiple-copy packet the request is pushed to a 16-entry FIFO
                                                                  _    in the Page Reference Count logic.
                                                                  If the occupancy of either of these FIFOs reaches the value programmed in this field
-                                                                 the data path will assert flow control to the TxQ to prevent additional drop messages
+                                                                 the data path will assert flow control to the TxQ to prevent additional drop requests
                                                                  from arriving. */
 		uint64_t reserved_21_23              : 3;
-		uint64_t p2x_tkn_sch_thresh          : 5;  /**< R/W - Each of the 8 BGX ports has a FIFO for receiving tokens from the port's per-priority
-                                                                 Token FIFOs.
-                                                                 Each FIFO can store 8 tokens.
+		uint64_t p2x_tkn_sch_thresh          : 5;  /**< R/W - Each of the 8 BGX LMAC ports has a FIFO for receiving transmit request tokens from
+                                                                 the port's per-priority Token FIFOs.
+                                                                 Each LMAC FIFO can store 8 tokens.
                                                                  This value indicates the number of tokens at which the FIFO will stop pulling tokens
                                                                  from the port's per-priority Token FIFOs. */
 		uint64_t reserved_13_15              : 3;
@@ -4950,17 +4953,17 @@ typedef union bdk_tns_tdma_nb_dbg_config1 {
 		uint64_t reserved_29_31              : 3;
 		uint64_t txq_drop_req_thresh         : 5;  /**< R/W - Requests to drop packets are received from the TxQ.
                                                                  Arriving requests can take one of two paths:
-                                                                 _ 1) If the packet is a single-copy packet, the packet is pushed to a 16-entry FIFO
+                                                                 _ 1) For a single-copy packet the request is pushed to a 16-entry FIFO
                                                                  _    in the Link List walker logic.
-                                                                 _ 2) If the packet is a multiple-copy packet the packet is pushed to a 16-entry FIFO
+                                                                 _ 2) For a multiple-copy packet the request is pushed to a 16-entry FIFO
                                                                  _    in the Page Reference Count logic.
                                                                  If the occupancy of either of these FIFOs reaches the value programmed in this field
-                                                                 the data path will assert flow control to the TxQ to prevent additional drop messages
+                                                                 the data path will assert flow control to the TxQ to prevent additional drop requests
                                                                  from arriving. */
 		uint64_t reserved_21_23              : 3;
-		uint64_t p2x_tkn_sch_thresh          : 5;  /**< R/W - Each of the 8 BGX ports has a FIFO for receiving tokens from the port's per-priority
-                                                                 Token FIFOs.
-                                                                 Each FIFO can store 8 tokens.
+		uint64_t p2x_tkn_sch_thresh          : 5;  /**< R/W - Each of the 8 BGX LMAC ports has a FIFO for receiving transmit request tokens from
+                                                                 the port's per-priority Token FIFOs.
+                                                                 Each LMAC FIFO can store 8 tokens.
                                                                  This value indicates the number of tokens at which the FIFO will stop pulling tokens
                                                                  from the port's per-priority Token FIFOs. */
 		uint64_t reserved_13_15              : 3;
@@ -5059,9 +5062,9 @@ typedef union bdk_tns_tdma_nb_dbg_cx_full {
 	struct bdk_tns_tdma_nb_dbg_cx_full_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_13_63              : 51;
-		uint64_t lmac_pkt                    : 5;  /**< R/W - Packets sent to LMACs. */
+		uint64_t lmac_pkt                    : 5;  /**< R/W - Packet data to LMACs. */
 		uint64_t reserved_5_7                : 3;
-		uint64_t nic_pkt                     : 5;  /**< R/W - Packets sent to NIC. */
+		uint64_t nic_pkt                     : 5;  /**< R/W - Packet data to NIC. */
 #else
 		uint64_t nic_pkt                     : 5;
 		uint64_t reserved_5_7                : 3;
@@ -5167,7 +5170,7 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(unsigned long param1)
 /**
  * NCB - tns_tdma_nb_ecc_ctl
  *
- * This register can be used to disable ECC checks, insert ECC errors.
+ * This register can be used to disable ECC data correction, insert ECC errors.
  * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
  * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome\<1:0\> bits to generate 1-bit/2-bit error for testing.
@@ -5362,12 +5365,12 @@ typedef union bdk_tns_tdma_nb_fpm_mod {
 		uint64_t pop                         : 1;  /**< WO/H - Pop a bundle of 8 page pointers from the FPM FIFO and discard the pointers.
                                                                  Increments TNS_TDMA_NB_FPM_STATUS[RPTR].
                                                                  Hardware guards against popping from an empty FIFO.
-                                                                 Hardware will clear this field to 0x0 upon a successful bundle discard. */
+                                                                 Hardware will clear this field to 0x0 upon a successful bundle pop. */
 		uint64_t push                        : 1;  /**< WO/H - Push a bundle of 8 page pointers to the FPM FIFO by including the data located at
                                                                  TNS_TDMA_NB_FPM_STATUS[WPTR].
                                                                  Increments TNS_TDMA_NB_FPM_STATUS[WPTR].
                                                                  Hardware guards against pushing to a full FIFO.
-                                                                 Hardware will clear this field to 0x0 upon a successful bundle discard. */
+                                                                 Hardware will clear this field to 0x0 upon a successful bundle push. */
 		uint64_t reserved_0_61               : 62;
 #else
 		uint64_t reserved_0_61               : 62;
@@ -6023,8 +6026,17 @@ typedef union bdk_tns_tdma_nb_lmacx_c_cdt_cfg {
                                                                      A packet may be scheduled for transmission as long as
                                                                      TNS_TDMA_NB_LMAC(0..7)_C_CDT_STAT[CONSUMED_CDTS] is less than CDT_LIMIT. */
 		uint64_t reserved_10_15              : 6;
-		uint64_t cdt_limit                   : 10; /**< R/W - Credit consumption limit at which packet transmission to the LMAC will stop. Values above
-                                                                 0xA0 are prohibited. */
+		uint64_t cdt_limit                   : 10; /**< R/W - Credit consumption limit at which packets will no longer be scheduled for
+                                                                 transmission to the LMAC.
+                                                                 Credits are consumed as the TDMA prepares the scheduled packet's data for
+                                                                 transmission to the LMAC.
+                                                                 Credits are returned by the LMAC when the packet is transmitted on the line.
+                                                                 Each credit represents 16 bytes of packet data.
+                                                                 Values above 0xA0 should be avoided in order to meet the 802.1Qbb skid requirement
+                                                                 and to avoid unnecessarily sending data that could
+                                                                 A low credit limit will allow the pipe between the TDMA packet scheduler
+                                                                 and the LMAC to be less congested, and therefore more likely to meet the skid
+                                                                 requirement, but could lead to decreased performance. */
 #else
 		uint64_t cdt_limit                   : 10;
 		uint64_t reserved_10_15              : 6;
@@ -6058,7 +6070,8 @@ typedef union bdk_tns_tdma_nb_lmacx_c_cdt_stat {
 	struct bdk_tns_tdma_nb_lmacx_c_cdt_stat_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_10_63              : 54;
-		uint64_t cdts_consumed               : 10; /**< RO/H - Current number of 16-byte credits consumed for packet transmission to the LMAC. */
+		uint64_t cdts_consumed               : 10; /**< RO/H - Current number of 16-byte credits consumed for packet transmission to the LMAC.
+                                                                 Hardware updates this field regardless of TNS_TDMA_NB_LMAC(0..7)_C_CDT_CFG[USE_CDTS]. */
 #else
 		uint64_t cdts_consumed               : 10;
 		uint64_t reserved_10_63              : 54;
@@ -6090,7 +6103,7 @@ typedef union bdk_tns_tdma_nb_lmacx_ebp_stat {
 	struct bdk_tns_tdma_nb_lmacx_ebp_stat_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
-		uint64_t bp                          : 16; /**< RO/H - Back pressure status presented to TxQ. XOFF = 1. */
+		uint64_t bp                          : 16; /**< RO/H - Back pressure status presented to TxQ for priorities 15..0. XOFF = 1. */
 #else
 		uint64_t bp                          : 16;
 		uint64_t reserved_16_63              : 48;
@@ -6128,11 +6141,9 @@ typedef union bdk_tns_tdma_nb_page_rd_cntx {
                                                                  Register number 11 corresponds to pages accessed due to drops and multiple copy (e.g.
                                                                  multicast) clearing.
                                                                  Multiple copy clearing is performed for all multiple copy packets to return pages to the
-                                                                 free
-                                                                 list.
+                                                                 free list.
                                                                  Multiple copy packets will be counted by each physical port that transmits the packet, as
-                                                                 well
-                                                                 as register 11 when the multiple copy is cleared. */
+                                                                 well as register 11 when the multiple copy is cleared. */
 #else
 		uint64_t pages                       : 32;
 		uint64_t reserved_32_63              : 32;
@@ -6512,7 +6523,8 @@ typedef union bdk_tns_tdma_nb_truncatex_len {
 	struct bdk_tns_tdma_nb_truncatex_len_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_9_63               : 55;
-		uint64_t length                      : 9;  /**< R/W - For designated packets, truncate packet to the specified length.
+		uint64_t length                      : 9;  /**< R/W - For designated packets, truncate packet to the specified length
+                                                                 during transmission.
                                                                  Valid values are 0 through 256 (decimal).
                                                                  A value in this field larger than 256 will be interpreted as 256.
                                                                  No truncate will occur if set to 0x0.
@@ -6565,7 +6577,7 @@ typedef union bdk_tns_tdma_perf_cntrlx {
 		uint64_t mode                        : 3;  /**< R/W - Performance counter mode.
 
                                                                  Bit\<24\>:
-                                                                 1 = Event counted SEL0.
+                                                                 1 = Event counted SEL0 | SEL1 | SEL2.
                                                                  0 = Event counted SEL0 & SEL1 & SEL2.
 
                                                                  Bits\<26:25\>:
@@ -6646,8 +6658,8 @@ static inline uint64_t BDK_TNS_TDMA_PERF_STATUSX(unsigned long param1)
 /**
  * NCB - tns_tdma_pkt_x2p_cntrs#
  *
- * X2P related state belonging to the bypassed packet data path that is exposed to SW
- * to assist in debug (added pass 2.0).
+ * NICI X2P packet transmission state (added pass 2.0).
+ *
  */
 typedef union bdk_tns_tdma_pkt_x2p_cntrsx {
 	uint64_t u;
@@ -6733,8 +6745,8 @@ typedef union bdk_tns_tdma_reset_ctl {
 		uint64_t se_sram_d                   : 1;  /**< R/W - Reset SE SRAM (D). */
 		uint64_t se_sram_c                   : 1;  /**< R/W - Reset SE SRAM (C). */
 		uint64_t reserved_2_3                : 2;
-		uint64_t rdma                        : 1;  /**< R/W - Reset RDMA packet path. */
-		uint64_t tdma                        : 1;  /**< R/W - Reset TDMA packet path. */
+		uint64_t rdma                        : 1;  /**< R/W - Reset RDMA packet switch path. */
+		uint64_t tdma                        : 1;  /**< R/W - Reset TDMA packet switch path. */
 #else
 		uint64_t tdma                        : 1;
 		uint64_t rdma                        : 1;
@@ -6842,6 +6854,7 @@ typedef union bdk_tns_tdma_sst_acc_cmd {
                                                                  0x1 = 1 word.
                                                                  0x2 = 2 words.
                                                                  0x3 = 3 words.
+                                                                 ...
                                                                  0xf = 15 words. */
 		uint64_t addr                        : 30; /**< R/W - 4-byte aligned address. */
 		uint64_t reserved_0_1                : 2;
@@ -6939,7 +6952,7 @@ static inline uint64_t BDK_TNS_TDMA_SST_ACC_STAT_FUNC(void)
 /**
  * NCB - tns_tdma_sst_acc_wdat#
  *
- * Write data used during a write requests issued using TNS_TDMA_SST_ACC_CMD.
+ * Write data used during a write request issued via TNS_TDMA_SST_ACC_CMD.
  * The first data word is located at [31:0] of TNS_TDMA_SST_ACC_WDAT[0].
  */
 typedef union bdk_tns_tdma_sst_acc_wdatx {

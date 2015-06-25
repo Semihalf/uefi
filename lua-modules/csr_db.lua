@@ -109557,7 +109557,8 @@ local csr_db = {
             width = 8,
             address = 0x838000000300,
             fields = {
-                {name = "RESERVED_2_63", start = 2, stop = 63},
+                {name = "REAC", start = 63, stop = 63},
+                {name = "RESERVED_2_62", start = 2, stop = 62},
                 {name = "RESET", start = 0, stop = 1},
             }
         },

@@ -1071,7 +1071,7 @@ typedef union bdk_ncsi_tx_ifg {
 		uint64_t reserved_6_63               : 58;
 		uint64_t ifg                         : 6;  /**< R/W - Min IFG (in refclk cycles) between packets used to determine IFGERR.
                                                                  Normally IFG is 96 bits, and with 2 bits per cycle, equates to 48.
-                                                                 The Thunder NCSI datapath can tolerate an IFG as small as 32 bit times or 16 refclk
+                                                                 The CNXXXX NCSI datapath can tolerate an IFG as small as 32 bit times or 16 refclk
                                                                  cycles. Incoming IFG values less than this may cause data corruption particularly if
                                                                  FCS stripping is turned on. */
 #else

@@ -920,7 +920,7 @@ typedef union bdk_bgxx_cmrx_rx_id_map {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_15_63              : 49;
 		uint64_t rid                         : 7;  /**< R/W - Reserved.
-                                                                 INTERNAL: Reassembly ID for Octeon PKI; not used in Thunder.
+                                                                 INTERNAL: Reassembly ID for Octeon PKI; not used in CNXXXX.
                                                                  Reassembly ID map for this LMAC. A shared pool of 96 reassembly IDs (RIDs) exists for all
                                                                  MACs.
 
