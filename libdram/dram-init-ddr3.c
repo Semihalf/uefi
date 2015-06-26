@@ -1,10 +1,10 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
-#define NOROEND_PATCH  0
-#define RLEXTRAS_PATCH 0
-
-#define MUST_ROUND(b) ((((b) & 3) == 3) ? 1 : 0)  // are both low-order bits set
+#define RLEXTRAS_PATCH     1 // write to unused RL rank entries
+#define ADD_48_OHM_SKIP    1
+#define NOSKIP_40_48_OHM   1
+#define PREFER_BEST_RANK   1
 
 #define DEFAULT_BEST_RANK_SCORE  9999999
 #define MAX_RANK_SCORE_LIMIT     99 // FIXME? 
@@ -4190,13 +4190,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      * 
      * 2. Write LMC(0)_WLEVEL_RANKi = 0.
      * 
-     * 3. For ×8 parts:
+     * 3. For Ã—8 parts:
      * 
      *    Without changing any other fields in LMC(0)_WLEVEL_CTL, write
      *    LMC(0)_WLEVEL_CTL[LANEMASK] to select all byte lanes with attached
      *    DRAM.
      * 
-     *    For ×16 parts:
+     *    For Ã—16 parts:
      * 
      *    Without changing any other fields in LMC(0)_WLEVEL_CTL, write
      *    LMC(0)_WLEVEL_CTL[LANEMASK] to select all even byte lanes with
@@ -4244,7 +4244,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      *    LMC(0)_WLEVEL_RANKi[BYTE*<4:3>] will still be the value that
      *    software wrote in substep 2 above, which is 0.
      * 
-     * 6. For ×16 parts:
+     * 6. For Ã—16 parts:
      * 
      *    Without changing any other fields in LMC(0)_WLEVEL_CTL, write
      *    LMC(0)_WLEVEL_CTL[LANEMASK] to select all odd byte lanes with
@@ -4253,7 +4253,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
      *    Repeat substeps 4 and 5 with this new LMC(0)_WLEVEL_CTL[LANEMASK]
      *    setting. Skip to substep 7 if this has already been done.
      * 
-     *    For ×8 parts:
+     *    For Ã—8 parts:
      * 
      *    Skip this substep. Go to substep 7.
      * 
@@ -5466,7 +5466,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		if (ddr_type == DDR4_DRAM) {
 		    rodt_row_skip_mask |= (1 << ddr4_rodt_ctl_34_ohm); // skip RODT row 34 ohms for all DDR4 types
 		    rodt_row_skip_mask |= (1 << ddr4_rodt_ctl_40_ohm); // skip RODT row 40 ohms for all DDR4 types
-
+#if ADD_48_OHM_SKIP
+		    rodt_row_skip_mask |= (1 << ddr4_rodt_ctl_48_ohm); // skip RODT row 48 ohms for all DDR4 types
+#endif /* ADD_48OHM_SKIP */
+#if NOSKIP_40_48_OHM
+		    // For now, do not skip RODT row 40 or 48 ohm when ddr_hertz is above 1075 MHz
+		    if (ddr_hertz > 1075000000) {
+			rodt_row_skip_mask &= ~(1 << ddr4_rodt_ctl_40_ohm); // noskip RODT row 40 ohms
+			rodt_row_skip_mask &= ~(1 << ddr4_rodt_ctl_48_ohm); // noskip RODT row 48 ohms
+		    }
+#endif /* NOSKIP_40_48_OHM */
+#if 0 // FIXME: should this be removed for good?
 		    // For now, add in skip of RODT row 48 ohm when ddr_hertz is at or above 1000 MHz,
 		    // but only for the 2Rx4 stacked die DIMMs
 		    if ((((spd_package & 0xf3) == 0x91) && (num_ranks == 2) && (dram_width == 4)) // 2Rx4 stacked die
@@ -5474,6 +5484,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			{
 			    rodt_row_skip_mask |= (1 << ddr4_rodt_ctl_48_ohm); // skip RODT row 48 ohms
 			}
+#endif
 		}
 
 		ddr_print("Evaluating Read-Leveling Scoreboard for AUTO settings.\n");
@@ -5665,9 +5676,24 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    continue;
 
 				int next_score = rlevel_scoreboard[rtt_nom][rodt_ctl][orankx].score;
+#if PREFER_BEST_RANK
+				if (next_score > best_rank_score) // always skip a higher score
+				    continue;
+				if (next_score == best_rank_score) { // if scores are equal
+				    if (next_ohms < best_rank_ohms) // always skip lower ohms
+					continue;
+				    if (next_ohms == best_rank_ohms) { // if same ohms
+					if (orankx != rankx) // always skip the other rank(s)
+					    continue;
+				    }
+				    // else next_ohms are greater, always choose it
+				}
+				// else next score is less than current best, so always choose it
+#else /* PREFER_BEST_RANK */
 				if ((next_score < best_rank_score) || // always choose a lower score
 				    ((next_score == best_rank_score) && // but if same score, choose the higher OHMS
-				     (next_ohms > best_rank_ohms)))
+				     (next_ohms > best_rank_ohms))) // regardless of the rank it is from
+#endif /* PREFER_BEST_RANK */
 				{
 				    extra_ddr_print("N%d.LMC%d.R%d: new best score: rank %d, rodt %d(%3d), new best %d, previous best %d(%d)\n",
 						    node, ddr_interface_num, rankx, orankx, rodt_ctl, next_ohms, next_score,
@@ -5699,6 +5725,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		    if (!ecc_ena){
 			lmc_rlevel_rank.s.byte8 = lmc_rlevel_rank.s.byte0; /* ECC is not used */
 		    }
+
+		    // at the end, write the best row settings to the current rank
 		    DRAM_CSR_WRITE(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx), lmc_rlevel_rank.u);
 		    lmc_rlevel_rank.u = BDK_CSR_READ(node, BDK_LMCX_RLEVEL_RANKX(ddr_interface_num, rankx));
 
@@ -5834,12 +5862,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
 			////////////////// this is the start of the BEST BYTE COUNTING LOOP 
 
-			// We must cause the best bytes that have both low-order bits set to move away from
-			// their current value.
-			// To that purpose, count the number of byte-column bytes above/below/same as best.
-
-			int must_round = MUST_ROUND(best_byte);
-
 			// NOTE: we do this next loop separately from above, because we count relative to "best_byte"
 			// which may have been modified by the above averaging operation...
 			int count_less = 0, count_same = 0, count_more = 0;
@@ -5896,86 +5918,16 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			int neighbor = (byte_idx == 8) ? 3 : ((byte_idx == 0) ? 1 : byte_idx - 1);
 			uint64_t neigh_byte = rank_best_bytes[neighbor];
 
-			if (must_round) { // MUST go up 1 or down 1 in ALL these cases...
 
-			    // well, maybe not...
-			    if (((count_less + count_more) == 0) || // no outlying values
-				// ROFFIX-0528-late added this majority clause
-				((count_less + count_more) < count_same)) // but the majority(?) indicates we should stay the same...
-				{
-				    if (spd_rdimm) { // for RDIMMs, must test differently
-#if NOROEND_PATCH
-					// this is the "no rounding on any end byte" patch aka NOROEND (:-)
-					if (byte_idx == 0 || byte_idx == 7) { // must be on the "end"...
-					    extra_ddr_print("ROUND: Byte %d: NOROEND: end value is %d, leaving it...\n",
-						      byte_idx, (int)best_byte);
-					    new_byte = best_byte;
-					    goto finish_rnd_avg;
-					}
-#endif
-					if (byte_idx != 0 && byte_idx != 7) { // must not be on the "end"...
-					    extra_ddr_print("ROUND: Byte %d: majority value is %d, leaving it...\n",
-						      byte_idx, (int)best_byte);
-					    new_byte = best_byte;
-					    goto finish_rnd_avg;
-					} else if ((byte_idx == 7) && (best_byte < rank_best_bytes[0])) {  // ROFFIX includes this - 20150527
-					    extra_ddr_print("ROUND: Byte %d: majority value is %d and less than byte 0 best %d, leaving it...\n",
-						      byte_idx, (int)best_byte, (int)rank_best_bytes[0]);
-					    new_byte = best_byte;
-					    goto finish_rnd_avg;
-					}
-				    } else {
-					if (byte_idx != 7) { // must not be on the "end"...
-					    extra_ddr_print("ROUND: Byte %d: majority value is %d, leaving it...\n",
-						      byte_idx, (int)best_byte);
-					    new_byte = best_byte;
-					    goto finish_rnd_avg;
-					}
-				    }
-				}
-
-			    // this is ROFFIX-0528
-			    // try to make the choice without bias, except when unable to
-			    int incr;
-			    if ((count_less == 0) || (count_more > count_less)) // all are same or more, or more > less
-				incr = 1; // bump up no choice
-			    else if ((count_more == 0) || (count_less > count_more)) // all are same or less, or less > more
-				incr = -1; // bump down no choice
-			    else { // no clear winner, report and choose something // FIXME?
-				extra_ddr_print("ROUND: Byte %d: no winner, choosing UP.\n", byte_idx);
-				incr = 1;
-			    }
-
-			    new_byte = best_byte + incr;
-			    if (_abs(neigh_byte - new_byte) > 2) { // check neighbor
-				extra_ddr_print("ROUND: Byte %d: neighbor %d too different %d from %d, choosing %d.\n",
-					  byte_idx, neighbor, (int)neigh_byte,
-					  (int)new_byte, (int)best_byte - 1);
-				// force it in the other direction
-				new_byte = best_byte - incr;
-			    } else {
-				extra_ddr_print("ROUND: Byte %d: best %d must move (<%d/=%d/>%d), choosing %d.\n",
-					  byte_idx, (int)best_byte, count_less, count_same, count_more, (int)new_byte);
-			    }
-
-			    // check if average caused orig_best_byte to move +1 or -1 to a must-round state
-			    // and then we just moved even further away from the original
-			    if (!MUST_ROUND(orig_best_byte)) { // we know best_byte is already must-round, so moved already
-				if (_abs(new_byte - orig_best_byte) >= 2) {
-				    extra_ddr_print("ROUND: Byte %d: WARNING: new_byte %d too far from orig_byte %d; going back to best_byte %d\n",
-					      byte_idx, (int)new_byte, (int)orig_best_byte, (int)best_byte);
-				    new_byte = best_byte;
-				}
-			    }
-
-			} else { // can go up or down or stay the same, so look at a numeric average to help
+			// can go up or down or stay the same, so look at a numeric average to help
 			    new_byte = divide_nint(((count_more * (best_byte + 1)) +
 						    (count_same * (best_byte + 0)) +
 						    (count_less * (best_byte - 1))),
-						   (count_more + count_same + count_less));
+					       max(1, (count_more + count_same + count_less)));
 
 			    // use neighbor to help choose with average
-			    if (_abs(neigh_byte - new_byte) > 2) {
+			if ((byte_idx > 0) && (_abs(neigh_byte - new_byte) > 2)) // but not for byte 0
+			{
 				uint64_t avg_pick = new_byte;
 				if ((new_byte - best_byte) != 0)
 				    new_byte = best_byte; // back to best, average did not get better
@@ -5985,20 +5937,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				extra_ddr_print("AVERAGE: Byte %d: neighbor %d too different %d from average %d, picking %d.\n",
 						byte_idx, neighbor, (int)neigh_byte, (int)avg_pick, (int)new_byte);
 			    }
-
-			    // new_byte could need rounding, so choose to stay with best_byte if it is
-			    if ((new_byte != best_byte) && MUST_ROUND(new_byte)) {
-				extra_ddr_print("AVERAGE: Byte %d: avoiding average %d, choosing %d.\n",
-					  byte_idx, (int)new_byte, (int)best_byte);
-				new_byte = best_byte;
-			    } else {
 				extra_ddr_print("AVERAGE: Byte %d: picking average of %d.\n", byte_idx, (int)new_byte);
-			    }
-			} /* if (must_round) */
 
-		    finish_rnd_avg:
 			extra_ddr_print("SUMMARY: Byte %d: %s: orig %d now %d, more %d same %d less %d, using %d\n",
-					byte_idx, (must_round) ? "RND" : "AVG", (int)orig_best_byte, 
+					byte_idx, "AVG", (int)orig_best_byte, 
 					(int)best_byte, count_more, count_same, count_less, (int)new_byte);
 
 			// update the byte with the new value (NOTE: orig value in the CSR may not be current "best")
@@ -6693,8 +6635,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     }
 #endif  /* CAVIUM_ONLY */
 
-    process_custom_dll_offsets(node, ddr_interface_num, "ddr_dll_write_offset", custom_lmc_config->dll_write_offset, "ddr%d_dll_write_offset_byte%d", 1);
-    process_custom_dll_offsets(node, ddr_interface_num, "ddr_dll_read_offset",  custom_lmc_config->dll_read_offset,  "ddr%d_dll_read_offset_byte%d",  2);
+    process_custom_dll_offsets(node, ddr_interface_num, "ddr_dll_write_offset",
+			       custom_lmc_config->dll_write_offset, "ddr%d_dll_write_offset_byte%d", 1);
+    process_custom_dll_offsets(node, ddr_interface_num, "ddr_dll_read_offset", 
+			       custom_lmc_config->dll_read_offset,  "ddr%d_dll_read_offset_byte%d",  2);
 
 #ifdef ENABLE_AUTO_SET_DLL
     /* Experimental code to try to automatically adjust the DLL offset */
