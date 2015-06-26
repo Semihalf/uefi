@@ -407,6 +407,19 @@ static WORD Fsid;				/* File system mount ID */
 static BYTE CurrVol;			/* Current drive */
 #endif
 
+#if _VOLUMES >= 2
+static BYTE DefaultVol = 0;			/* Default Volume */
+FRESULT f_chvol(
+	int vol		/* Volume ID */
+)
+{
+	if (vol < 0 || vol >= _VOLUMES) return FR_INVALID_DRIVE;
+
+	DefaultVol = (BYTE) vol;
+	return FR_OK;
+}
+#endif
+
 #if _FS_LOCK
 static FILESEM Files[_FS_LOCK];	/* Open object lock semaphores */
 #endif
@@ -2062,7 +2075,6 @@ FRESULT follow_path (	/* FR_OK(0): successful, !=0: error code */
 /*-----------------------------------------------------------------------*/
 /* Get logical drive number from path name                               */
 /*-----------------------------------------------------------------------*/
-
 static
 int get_ldnumber (		/* Returns logical drive number (-1:invalid drive) */
 	const TCHAR** path	/* Pointer to pointer to the path name */
@@ -2111,7 +2123,7 @@ int get_ldnumber (		/* Returns logical drive number (-1:invalid drive) */
 #if _FS_RPATH && _VOLUMES >= 2
 		vol = CurrVol;	/* Current drive */
 #else
-		vol = 0;		/* Drive 0 */
+		vol = DefaultVol;	/* Default Volume */
 #endif
 	}
 	return vol;

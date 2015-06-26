@@ -40,23 +40,6 @@ int main(void)
     boot_count++;
     BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(0), boot_count);
 
-    BDK_TRACE(CHAINLOADER, "Extracting strapping options\n");
-
-    /* Initializing UART was done earlier in the BDK
-     * Determine how we booted and display a banner
-     */
-    int boot_method;
-    BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
-    BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
-
-    /* remove this declaration once we find a good header file for this API. */
-    extern const char *boot_device_volstr_for_boot_method(int boot_method);
-    const char *boot_volume_id = boot_device_volstr_for_boot_method(boot_method);
-    if (!boot_volume_id)
-    {
-        bdk_error("No valid boot volume id found for boot method (%d)\n", boot_method);
-    }
-
     printf(
         "===========================\n"
         "Cavium THUNDERX Chainloader\n"
@@ -67,12 +50,9 @@ int main(void)
         bdk_version_string(), boot_count);
     print_node_strapping(bdk_numa_master());
 
-    /* Load the next image */
-    /* Transfer control to next image */
-    char filename[64];
+    /* Load and transfer control to next image */
     BDK_TRACE(CHAINLOADER, "Looking for BDK image\n");
-    snprintf(filename, sizeof(filename), "/fatfs/%s:/stage1.bin", boot_volume_id);
-    boot_image(filename, 0);
+    boot_image("/fatfs/stage1.bin", 0);
 
     bdk_error("Image load failed\n");
 }

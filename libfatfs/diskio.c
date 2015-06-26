@@ -96,6 +96,18 @@ const char *boot_device_volstr_for_boot_method(int boot_method)
 	return id == -1 ? NULL : str[id];
 }
 
+int fatfs_set_default_volume_for_boot_method(int boot_method)
+{
+	int id = boot_device_id_for_boot_method(boot_method);
+	if (-1 == id)
+	{
+		bdk_warn("FatFs: No volume defined for boot method %d\n", boot_method);
+		return -1;
+	}
+	FRESULT res = f_chvol(id);
+	return res ? -1 : 0;
+}
+
 
 /*-----------------------------------------------------------------------*/
 /* Get Drive Status                                                      */

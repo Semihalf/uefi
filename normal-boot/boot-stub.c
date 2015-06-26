@@ -86,22 +86,6 @@ int main(void)
     update_bmc_status(BMC_STATUS_BOOT_STUB_STARTING);
 
 
-    /* Initializing UART was done earlier in the BDK
-     * Determine how we booted and display a banner
-     */
-    int boot_method;
-    BDK_TRACE(BOOT_STUB, "Extracting strapping options\n");
-    BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
-    BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
-
-
-    /* boot_volume_id   - FATFS VOlume ID for loading stage1/2 from FAT filesystem */
-    const char *boot_volume_id   = boot_device_volstr_for_boot_method(boot_method);
-    if (!boot_volume_id)
-    {
-        bdk_error("No valid boot volume id found for boot method (%d)\n", boot_method);
-    }
-
     printf(
         "=========================\n"
         "Cavium THUNDERX Boot Stub\n"
@@ -185,6 +169,12 @@ int main(void)
     else
         update_bmc_status(BMC_STATUS_BOOT_STUB_LOADING_DIAGNOSTICS);
 
+    /* Determine how we booted */
+    int boot_method;
+    BDK_TRACE(BOOT_STUB, "Extracting strapping options\n");
+    BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
+    BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
+
     /* Transfer control to next image */
     const char *boot_device_name = boot_device_name_for_boot_method(boot_method);
     if (use_atf)
@@ -197,10 +187,8 @@ int main(void)
     }
 
     /* Load Diagnostics from FAT fs */
-    char filename[64];
     BDK_TRACE(BOOT_STUB, "Looking for Diagnostics image\n");
-    snprintf(filename, sizeof(filename), "/fatfs/%s:/stage2.bin", boot_volume_id);
-    boot_image(filename, 0);
+    boot_image("/fatfs/stage2.bin", 0);
 
     /* Loading stage 1 from FAT fs failed. Try raw flash */
     bdk_error("Failed to load Diagnostics from FAT fs. Trying raw flash.\n");
