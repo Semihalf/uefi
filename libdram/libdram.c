@@ -38,7 +38,19 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     const ddr_configuration_t *ddr_config = dram_config->config;
     int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : dram_config->ddr_clock_hertz;
 
-    BDK_TRACE(DRAM, "N%d: DRAM init started (hertz=%d, config=%p)\n", node, ddr_clock_hertz, dram_config);
+    // look for an envvar to select 100 MHz or default to 50 MHz refclk
+    // assumption: the alternate refclk is setup for 100MHz
+    // note: we only need to turn on the alternate refclk select bit in LMC0
+    int ddr_refclk_hertz = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
+    str = getenv("ddr_100mhz_refclk");
+    if (str) { // if 100MHz selected, we also need to set the bit and wait a little...
+        ddr_refclk_hertz = 100000000; // FIXME: assumption of the frequency
+	DRAM_CSR_MODIFY(c, node, BDK_LMCX_DDR_PLL_CTL(0), c.s.dclk_alt_refclk_sel = 1);
+	bdk_wait_usec(1000); // wait 1 msec
+    }
+
+    BDK_TRACE(DRAM, "N%d: DRAM init started (hertz=%d, refclk=%d, config=%p)\n",
+	      node, ddr_clock_hertz, ddr_refclk_hertz, dram_config);
 
     str = getenv("ddr_verbose");
     if (str)
@@ -61,7 +73,7 @@ int libdram_config(int node, const dram_config_t *dram_config, int ddr_clock_ove
     int mbytes = octeon_ddr_initialize(node,
         bdk_clock_get_rate(node, BDK_CLOCK_RCLK),
         ddr_clock_hertz,
-        bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF),
+        ddr_refclk_hertz,
         interface_mask,
         ddr_config,
         &measured_ddr_hertz[node],
@@ -112,8 +124,10 @@ uint32_t libdram_get_freq(int node)
 uint32_t libdram_get_freq_from_pll(int node, int lmc)
 {
     static const uint8_t _en[] = {1, 2, 3, 4, 5, 6, 7, 8, 10, 12};
-    uint64_t ddr_ref_hertz = bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
-    BDK_CSR_INIT(c, node, BDK_LMCX_DDR_PLL_CTL(lmc));
+    BDK_CSR_INIT(c, node, BDK_LMCX_DDR_PLL_CTL(0));
+    // we check the alternate refclk select bit in LMC0 to indicate 100MHz use
+    // assumption: the alternate refclk is setup for 100MHz
+    uint64_t ddr_ref_hertz = (c.s.dclk_alt_refclk_sel) ? 100000000 : bdk_clock_get_rate(node, BDK_CLOCK_MAIN_REF);
     uint64_t en = _en[c.s.ddr_ps_en];
     uint64_t calculated_ddr_hertz = ddr_ref_hertz * (c.s.clkf + 1) / ((c.s.clkr + 1) * en);
     return calculated_ddr_hertz;
