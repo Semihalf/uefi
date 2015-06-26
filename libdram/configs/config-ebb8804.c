@@ -146,25 +146,25 @@ static void setup_modereg_params1_2rank_2slot(bdk_lmcx_modereg_params1_t *modere
     //modereg->s.srt_00       = 0;
     modereg->s.rtt_wr_00    = ddr4_rttwr_240ohm;
     modereg->s.dic_00       = ddr4_dic_34ohm;
-    modereg->s.rtt_nom_00   = ddr4_rttnom_120ohm;
+    modereg->s.rtt_nom_00   = ddr4_rttnom_240ohm;// was ddr4_rttnom_120ohm;
     //modereg->s.pasr_01      = 0;
     //modereg->s.asr_01       = 0;
     //modereg->s.srt_01       = 0;
     modereg->s.rtt_wr_01    = ddr4_rttwr_240ohm;
     modereg->s.dic_01       = ddr4_dic_34ohm;
-    modereg->s.rtt_nom_01   = ddr4_rttnom_120ohm;
+    modereg->s.rtt_nom_01   = ddr4_rttnom_240ohm;// was ddr4_rttnom_120ohm;
     //modereg->s.pasr_10      = 0;
     //modereg->s.asr_10       = 0;
     //modereg->s.srt_10       = 0;
     modereg->s.rtt_wr_10    = ddr4_rttwr_240ohm;
     modereg->s.dic_10       = ddr4_dic_34ohm;
-    modereg->s.rtt_nom_10   = ddr4_rttnom_120ohm;
+    modereg->s.rtt_nom_10   = ddr4_rttnom_240ohm;// was ddr4_rttnom_120ohm;
     //modereg->s.pasr_11      = 0;
     //modereg->s.asr_11       = 0;
     //modereg->s.srt_11       = 0;
     modereg->s.rtt_wr_11    = ddr4_rttwr_240ohm;
     modereg->s.dic_11       = ddr4_dic_34ohm;
-    modereg->s.rtt_nom_11   = ddr4_rttnom_120ohm;
+    modereg->s.rtt_nom_11   = ddr4_rttnom_240ohm;// was ddr4_rttnom_120ohm;
 }
 
 static void setup_modereg_params1_4rank_1slot(bdk_lmcx_modereg_params1_t *modereg)
@@ -250,16 +250,16 @@ static void setup_modereg_params2_2rank_1slot(bdk_lmcx_modereg_params2_t *modere
 static void setup_modereg_params2_2rank_2slot(bdk_lmcx_modereg_params2_t *modereg)
 {
     modereg->u = 0;
-    modereg->s.rtt_park_00    = ddr4_rttpark_60ohm;
+    modereg->s.rtt_park_00    = ddr4_rttpark_40ohm;// was ddr4_rttpark_60ohm;
     modereg->s.vref_value_00  = 0x19;
     //modereg->s.vref_range_00  = 0;
-    modereg->s.rtt_park_01    = ddr4_rttpark_60ohm;
+    modereg->s.rtt_park_01    = ddr4_rttpark_40ohm;// was ddr4_rttpark_60ohm;
     modereg->s.vref_value_01  = 0x19;
     //modereg->s.vref_range_01  = 0;
-    modereg->s.rtt_park_10    = ddr4_rttpark_60ohm;
+    modereg->s.rtt_park_10    = ddr4_rttpark_40ohm;// was ddr4_rttpark_60ohm;
     modereg->s.vref_value_10  = 0x19;
     //modereg->s.vref_range_10  = 0;
-    modereg->s.rtt_park_11    = ddr4_rttpark_60ohm;
+    modereg->s.rtt_park_11    = ddr4_rttpark_40ohm;// was ddr4_rttpark_60ohm;
     modereg->s.vref_value_11  = 0x19;
     //modereg->s.vref_range_11  = 0;
 }
