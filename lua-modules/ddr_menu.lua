@@ -11,6 +11,9 @@ if cavium.global then
 end
 
 local dram_enabled = (cavium.csr.LMCX_DDR_PLL_CTL(0).RESET_N ~= 0)
+if cavium.is_platform(cavium.PLATFORM_EMULATOR) then
+    dram_enabled= true
+end
 
 -- List of config strings that can be passed to bdk_dram_config()
 local CONFIG_CHOICES = {}
