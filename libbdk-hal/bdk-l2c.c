@@ -33,7 +33,13 @@ int bdk_l2c_initialize(bdk_node_t node)
             BDK_CSR_MODIFY(c, node, BDK_L2C_CBCX_SCRATCH(i),
                 c.s.invdly = 1);
     }
-    return 0;
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    {
+        /* The emulator requires L2C_CTL[DISSBLKDTY] to be set */
+        BDK_CSR_MODIFY(c, node, BDK_L2C_CTL,
+            c.s.dissblkdty = 1);
+    }
+     return 0;
 }
 
 int bdk_l2c_get_core_way_partition(bdk_node_t node, int core)
