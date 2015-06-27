@@ -180,7 +180,7 @@ emu:
 
 .PHONY: emu-normal
 emu-normal:
-	od -Ax -vtx1 -w1 target-bin/normal-boot-ebb8800.bin | cut -d " " -f 2 > thunder-emmc-ascii.img
+	od -Ax -vtx1 -w1 target-bin/normal-ebb8800.bin | cut -d " " -f 2 > thunder-emmc-ascii.img
 	scp thunder-emmc-ascii.img dev001:emulator_images/
 	ssh dev001 chmod o+r emulator_images/thunder-emmc-ascii.img
 
