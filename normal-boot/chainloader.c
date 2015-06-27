@@ -36,9 +36,13 @@ int main(void)
     bdk_gpio_initialize(node, 10, 1, 1);
 
     /* Update the boot counter held in GESR0_SCRATCH */
-    uint64_t boot_count = BDK_CSR_READ(node, BDK_GSERX_SCRATCH(0));
-    boot_count++;
-    BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(0), boot_count);
+    uint64_t boot_count = 0;
+    if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    {
+        boot_count = BDK_CSR_READ(node, BDK_GSERX_SCRATCH(0));
+        boot_count++;
+        BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(0), boot_count);
+    }
 
     printf(
         "===========================\n"
