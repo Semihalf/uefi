@@ -76,6 +76,8 @@ static struct
 
 int boot_device_id_for_boot_method(int boot_method)
 {
+	if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+		return 1;
 	int id = 0;
 
 	while (drv_list[id].boot_method)
