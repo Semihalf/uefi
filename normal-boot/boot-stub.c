@@ -49,9 +49,10 @@ int main(void)
      * does not work on the system and prevents boot.
      */
     char *cfgfile;
-
+    int key = 0;
     printf("Press X to boot in safe mode...\n");
-    int key = bdk_readline_getkey(SAFE_BOOT_TIMEOUT * 1000000);
+    if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        key = bdk_readline_getkey(SAFE_BOOT_TIMEOUT * 1000000);
     if ((key == 'x') || (key == 'X'))
     {
         printf("=================================================\n"
@@ -98,39 +99,31 @@ int main(void)
     watchdog_poke();
 
 
-    boot_init_ccpi_link();      /* Set up CCPI */
+    if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    {
+        boot_init_ccpi_link();      /* Set up CCPI */
 
+        boot_init_dram(BDK_NODE_0); /* Initialize DRAM on node 0 */
+        update_bmc_status(BMC_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
 
-    boot_init_dram(BDK_NODE_0); /* Initialize DRAM on node 0 */
-    update_bmc_status(BMC_STATUS_BOOT_STUB_NODE0_DRAM_COMPLETE);
+        boot_init_ccpi_node();      /* Set up CCPI */
+        update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
 
-    boot_init_ccpi_node();      /* Set up CCPI */
-    update_bmc_status(BMC_STATUS_BOOT_STUB_CCPI_COMPLETE);
+        boot_init_dram(BDK_NODE_1); /* Initialize DRAM on node 1 */
+        update_bmc_status(BMC_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
 
-    boot_init_dram(BDK_NODE_1); /* Initialize DRAM on node 1 */
-    update_bmc_status(BMC_STATUS_BOOT_STUB_NODE1_DRAM_COMPLETE);
+        boot_init_qlm_clk();    /* Initialize QLM clocks */
+        boot_init_qlm_mode();   /* Initialize QLM modes */
+        update_bmc_status(BMC_STATUS_BOOT_STUB_QLM_COMPLETE);
 
-
-
-    boot_init_qlm_clk();    /* Initialize QLM clocks */
-    boot_init_qlm_mode();   /* Initialize QLM modes */
-    update_bmc_status(BMC_STATUS_BOOT_STUB_QLM_COMPLETE);
-
-
-    boot_init_bgx();
-
-
-    boot_init_usb();
-
+        boot_init_bgx();
+        boot_init_usb();
+    }
 
     watchdog_poke();
 
-
     boot_init_pci();
-
-
     board_init_late();
-
 
     /* Select ATF or diagnostics image */
     int use_atf = 1;
@@ -153,7 +146,7 @@ int main(void)
     watchdog_poke();
 
     /* Check for 'D' override */
-    if (use_atf && (DIAGS_TIMEOUT > 0))
+    if (use_atf && (DIAGS_TIMEOUT > 0) && !bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
         printf("\nPress 'D' within %d seconds to boot diagnostics\n", DIAGS_TIMEOUT);
         int key = bdk_readline_getkey(DIAGS_TIMEOUT * 1000000);
