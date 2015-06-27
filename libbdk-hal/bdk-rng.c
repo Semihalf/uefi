@@ -12,6 +12,8 @@ void bdk_rng_enable(bdk_node_t node)
     BDK_CSR_MODIFY(c, node, BDK_RNM_CTL_STATUS,
         c.s.ent_en = 1;
         c.s.rng_en = 1);
+    /* Read back after enable so we know it is done. Needed on t88 pass 2.0 emulator */
+    BDK_CSR_READ(node, BDK_RNM_CTL_STATUS);
     /* Errata (RNM-22528) First consecutive reads to RNM_RANDOM return same
        value. Before using the random entropy, read RNM_RANDOM at least once
        and discard the data */
