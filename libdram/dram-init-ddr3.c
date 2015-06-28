@@ -883,7 +883,7 @@ static void process_custom_dll_offsets(bdk_node_t node, int ddr_interface_num, c
         int i;
 
         for (i = 0; i < 9; ++i) {
-            byte_offset = offsets[i];
+            byte_offset = (offsets != NULL) ? offsets[i] : 0;
 
             if ((s = lookup_env_parameter(byte_str, ddr_interface_num, i)) != NULL) {
                 byte_offset = strtol(s, NULL, 0);
