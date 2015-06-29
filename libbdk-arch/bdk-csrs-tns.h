@@ -3283,9 +3283,14 @@ typedef union bdk_tns_rdma_nb_perf_cntrlx {
 		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
                                                                  TNS_TDMA_NB_PERF and field FROZEN of this register. */
 		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
-		uint64_t global_stop                 : 1;  /**< R/W - Writing a 1 to this bit stops all the counters in the group of eight
-                                                                 counters. This bit is only implemented in the first control register of a
-                                                                 counter group. */
+		uint64_t global_stop                 : 1;  /**< R/W - This bit has two functions which are differentiated by the
+                                                                 register number relative to the counter group.  For the
+                                                                 zeroth (first) control register of the counter group,
+                                                                 writing a 1 to this bit stops all the counters in the
+                                                                 group of four counters. For the second control register of
+                                                                 the counter group, writing a 1 to this bit globally enables
+                                                                 all counters in the group. For all other control registers
+                                                                 within the group, this bit is undefined. */
 		uint64_t reserved_27_27              : 1;
 		uint64_t mode                        : 3;  /**< R/W - Performance counter mode.
 
@@ -3546,9 +3551,14 @@ typedef union bdk_tns_rdma_perf_cntrlx {
 		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
                                                                  TNS_TDMA_NB_PERF and field FROZEN of this register. */
 		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
-		uint64_t global_stop                 : 1;  /**< R/W - Writing a 1 to this bit stops all the counters in the group of eight
-                                                                 counters. This bit is only implemented in the first control register of a
-                                                                 counter group. */
+		uint64_t global_stop                 : 1;  /**< R/W - This bit has two functions which are differentiated by the
+                                                                 register number relative to the counter group.  For the
+                                                                 zeroth (first) control register of the counter group,
+                                                                 writing a 1 to this bit stops all the counters in the
+                                                                 group of four counters. For the second control register of
+                                                                 the counter group, writing a 1 to this bit globally enables
+                                                                 all counters in the group. For all other control registers
+                                                                 within the group, this bit is undefined. */
 		uint64_t reserved_27_27              : 1;
 		uint64_t mode                        : 3;  /**< R/W - Performance counter mode.
 
@@ -6252,9 +6262,14 @@ typedef union bdk_tns_tdma_nb_perf_cntrlx {
 		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
                                                                  TNS_TDMA_NB_PERF and field FROZEN of this register. */
 		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
-		uint64_t global_stop                 : 1;  /**< R/W - Writing a 1 to this bit stops all the counters in the group of eight
-                                                                 counters. This bit is only implemented in the first control register of a
-                                                                 counter group. */
+		uint64_t global_stop                 : 1;  /**< R/W - This bit has two functions which are differentiated by the
+                                                                 register number relative to the counter group.  For the
+                                                                 zeroth (first) control register of the counter group,
+                                                                 writing a 1 to this bit stops all the counters in the
+                                                                 group of four counters. For the second control register of
+                                                                 the counter group, writing a 1 to this bit globally enables
+                                                                 all counters in the group. For all other control registers
+                                                                 within the group, this bit is undefined. */
 		uint64_t reserved_27_27              : 1;
 		uint64_t mode                        : 3;  /**< R/W - Performance counter mode.
 
@@ -6569,9 +6584,14 @@ typedef union bdk_tns_tdma_perf_cntrlx {
 		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
                                                                  TNS_TDMA_NB_PERF and field FROZEN of this register. */
 		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
-		uint64_t global_stop                 : 1;  /**< R/W - Writing a 1 to this bit stops all the counters in the group of eight
-                                                                 counters. This bit is only implemented in the first control register of a
-                                                                 counter group. */
+		uint64_t global_stop                 : 1;  /**< R/W - This bit has two functions which are differentiated by the
+                                                                 register number relative to the counter group.  For the
+                                                                 zeroth (first) control register of the counter group,
+                                                                 writing a 1 to this bit stops all the counters in the
+                                                                 group of four counters. For the second control register of
+                                                                 the counter group, writing a 1 to this bit globally enables
+                                                                 all counters in the group. For all other control registers
+                                                                 within the group, this bit is undefined. */
 		uint64_t bank_select                 : 1;  /**< R/W - Selection of event bank, where bank 0 corresponds to events [0..256)
                                                                  and bank 1 corresponds to events [256..512). */
 		uint64_t mode                        : 3;  /**< R/W - Performance counter mode.
@@ -6666,11 +6686,17 @@ typedef union bdk_tns_tdma_pkt_x2p_cntrsx {
 	struct bdk_tns_tdma_pkt_x2p_cntrsx_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_31_63              : 33;
-		uint64_t req_pending_cnt             : 7;  /**< RO/H - Pending credits. */
+		uint64_t req_pending_cnt             : 7;  /**< RO/H - Request pending count.
+                                                                 Packet data in request FIFO that needs to have a request sent.
+                                                                 Requests that have not yet been sent due to request credits being exhausted.
+                                                                 This value ranges from 0 through 80.
+                                                                 Each entry in the packet data FIFO represents up to 16 bytes of data. */
 		uint64_t reserved_21_23              : 3;
-		uint64_t req_credits                 : 5;  /**< RO/H - Request credits. */
+		uint64_t req_credits                 : 5;  /**< RO/H - Request credits. Ranges from 0 through 16. Each credit represents a request
+                                                                 to send up to a 16-byte piece of packet data to the NICI. */
 		uint64_t reserved_8_15               : 8;
-		uint64_t fifo_cnt                    : 8;  /**< RO/H - Fifo occupancy count. */
+		uint64_t fifo_cnt                    : 8;  /**< RO/H - Packet data FIFO occupancy for NICI.
+                                                                 Ranges from 0 through 96. */
 #else
 		uint64_t fifo_cnt                    : 8;
 		uint64_t reserved_8_15               : 8;

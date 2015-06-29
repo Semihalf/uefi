@@ -77699,7 +77699,8 @@ local csr_db = {
             address = 0x843000000070,
             fields = {
                 {name = "ENABLE", start = 63, stop = 63},
-                {name = "RESERVED_44_62", start = 44, stop = 62},
+                {name = "CRC_ENABLE", start = 62, stop = 62},
+                {name = "RESERVED_44_61", start = 44, stop = 61},
                 {name = "FSF", start = 32, stop = 43},
                 {name = "RESERVED_28_31", start = 28, stop = 31},
                 {name = "MSF", start = 16, stop = 27},

@@ -437,8 +437,12 @@ typedef union bdk_pemx_clk_en {
 	struct bdk_pemx_clk_en_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_2_63               : 62;
-		uint64_t pceclk_gate                 : 1;  /**< R/W/H - When set, PCE_CLK is gated off. When clear, PCE_CLK is enabled. */
-		uint64_t csclk_gate                  : 1;  /**< R/W/H - When set, CSCLK is gated off. When clear, CSCLK is enabled. */
+		uint64_t pceclk_gate                 : 1;  /**< R/W/H - When set, PCE_CLK is gated off. When clear, PCE_CLK is enabled.
+                                                                 Software should set this bit when the PEM is in reset or otherwise not
+                                                                 being used in order to reduce power. */
+		uint64_t csclk_gate                  : 1;  /**< R/W/H - When set, CSCLK is gated off. When clear, CSCLK is enabled.
+                                                                 Software should set this bit when the PEM is in reset or otherwise not
+                                                                 being used in order to reduce power. */
 #else
 		uint64_t csclk_gate                  : 1;
 		uint64_t pceclk_gate                 : 1;

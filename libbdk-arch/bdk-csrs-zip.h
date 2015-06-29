@@ -214,52 +214,52 @@ union zip_inst_s {
                                                                  0 = ZIP operation is an uncompress. */
 		uint64_t reserved_3_3                : 1;  /**< [  3:  3] Reserved. */
 		uint64_t ds                          : 1;  /**< [  2:  2] Data scatter:
-                                                                 1 = IWORD8/9 (the output pointer) points to a list of scatter pointers that are read
+                                                                 1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
                                                                  by the coprocessor before writing the actual output data.
-                                                                 0 = IWORD8/9 points directly at the locations to write the output data.
+                                                                 0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the IWORD9 LENGTH field, indicating the number of pointers in the
-                                                                 output scatter list, must be at least 0x2. */
+                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
+                                                                 the output scatter list, must be at least 0x2. */
 		uint64_t dg                          : 1;  /**< [  1:  1] Data gather:
-                                                                 1 = IWORD6/7 (the input and compression history pointer) points to a gather list of
+                                                                 1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
-                                                                 0 = IWORD6/7 points directly at the actual history/input data.
+                                                                 0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the IWORD7 LENGTH field, indicating the number of pointers in the
+                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
                                                                  input and compression history gather list, must be at least 0x2. */
 		uint64_t hg                          : 1;  /**< [  0:  0] History gather:
-                                                                 1 = IWORD4/5 (the decompression history pointer) points to a gather list of
+                                                                 1 = [HIS_PTR_ADDR] points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history data.
-                                                                 0 = IWORD4/5 points directly at the actual history data.
+                                                                 0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
                                                                  If HG = 1, history data must be present for the decompression operation, and the
-                                                                 IWORD5 LENGTH field, indicating the number of pointers in the decompression
-                                                                 history gather list, must be at least 0x2. */
+                                                                 [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
+                                                                 decompression history gather list, must be at least 0x2. */
 #else
 		uint64_t hg                          : 1;  /**< [  0:  0] History gather:
-                                                                 1 = IWORD4/5 (the decompression history pointer) points to a gather list of
+                                                                 1 = [HIS_PTR_ADDR] points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history data.
-                                                                 0 = IWORD4/5 points directly at the actual history data.
+                                                                 0 = [HIS_PTR_ADDR] points directly at the actual history data.
                                                                  HG must be zero for a compression operation.
 
                                                                  If HG = 1, history data must be present for the decompression operation, and the
-                                                                 IWORD5 LENGTH field, indicating the number of pointers in the decompression
-                                                                 history gather list, must be at least 0x2. */
+                                                                 [HIST_PTR_ADDR]'s LENGTH field, indicating the number of pointers in the
+                                                                 decompression history gather list, must be at least 0x2. */
 		uint64_t dg                          : 1;  /**< [  1:  1] Data gather:
-                                                                 1 = IWORD6/7 (the input and compression history pointer) points to a gather list of
+                                                                 1 = [INP_PTR_ADDR] (the input and compression history pointer) points to a gather list of
                                                                  pointers that are read by the coprocessor before reading the actual history/input data.
-                                                                 0 = IWORD6/7 points directly at the actual history/input data.
+                                                                 0 = [INP_PTR_ADDR] points directly at the actual history/input data.
 
-                                                                 If DG = 1, the IWORD7 LENGTH field, indicating the number of pointers in the
+                                                                 If DG = 1, the [INP_PTR_CTL]'s LENGTH field, indicating the number of pointers in the
                                                                  input and compression history gather list, must be at least 0x2. */
 		uint64_t ds                          : 1;  /**< [  2:  2] Data scatter:
-                                                                 1 = IWORD8/9 (the output pointer) points to a list of scatter pointers that are read
+                                                                 1 = [OUT_PTR_ADDR] points to a list of scatter pointers that are read
                                                                  by the coprocessor before writing the actual output data.
-                                                                 0 = IWORD8/9 points directly at the locations to write the output data.
+                                                                 0 = [OUT_PTR_ADDR] points directly at the locations to write the output data.
 
-                                                                 If DS = 1, the IWORD9 LENGTH field, indicating the number of pointers in the
-                                                                 output scatter list, must be at least 0x2. */
+                                                                 If DS = 1, the [OUT_PTR_CTL] LENGTH field, indicating the number of pointers in
+                                                                 the output scatter list, must be at least 0x2. */
 		uint64_t reserved_3_3                : 1;  /**< [  3:  3] Reserved. */
 		uint64_t ce                          : 1;  /**< [  4:  4] Compression enable:
                                                                  1 = ZIP operation is a compress.

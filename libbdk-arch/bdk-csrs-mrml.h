@@ -434,8 +434,9 @@ typedef union bdk_mrml_rslx_sdev {
                                                                  The register index 0..3 indicates which group of 64 functions, and bit index indicates
                                                                  which mod-64 function, for 256 function bits total.
 
-                                                                 For compatiblity with ARM secure boot the following RSL devices
-                                                                 should be marked secure: TBD (DTX, KEY, MIO_FUS, OCLA, RST, SPI).
+                                                                 For compatibility with ARM secure boot at least the following RSL devices typically
+                                                                 need to be marked secure: DAP, FUSF, IOBN, KEY, L2C, L2C_CBC, L2C_MCI, L2C_TAD, LMC,
+                                                                 MIO_BOOT, MIO_FUS, MRML, OCLA, OCX, PCCBR_MRML, RST, SLI, VRM.
 
                                                                  RSL function number 0xFF, which is not present but used internally by MRML, must
                                                                  be marked secure. */

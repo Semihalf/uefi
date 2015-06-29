@@ -8232,7 +8232,9 @@ typedef union bdk_nic_pf_tso_cfg {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t enable                      : 1;  /**< R/W - TCP segmentation offload enable. When clear, NIC ignores NIC_SEND_HDR_S[TSO] and treats
                                                                  all send descriptors as non-TSO. */
-		uint64_t reserved_44_62              : 19;
+		uint64_t crc_enable                  : 1;  /**< R/W - Enable NIC_SEND_CRC_S with TSO. When clear, NIC ignores NIC_SEND_CRC_S subdescriptors in a
+                                                                 send descriptor with NIC_SEND_HDR_S[TSO]=1. */
+		uint64_t reserved_44_61              : 18;
 		uint64_t fsf                         : 12; /**< R/W - Modify the TCP header flags for the first TSO segmented packet by logical AND
                                                                  with this configuration.
 
@@ -8253,7 +8255,8 @@ typedef union bdk_nic_pf_tso_cfg {
 		uint64_t msf                         : 12;
 		uint64_t reserved_28_31              : 4;
 		uint64_t fsf                         : 12;
-		uint64_t reserved_44_62              : 19;
+		uint64_t reserved_44_61              : 18;
+		uint64_t crc_enable                  : 1;
 		uint64_t enable                      : 1;
 #endif
 	} s;
