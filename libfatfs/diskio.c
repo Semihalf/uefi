@@ -38,7 +38,6 @@ PARTITION VolToPart[] =
 static struct drv_list_d
 {
 	/* device configuration list */
-	const int     boot_method; /* boot method ID for this device setup */
 	const char    *dev_string; /* device string to access raw block data */
 	const int     sector_size; /* sector size for the device */
 	const DWORD   img_offset;  /* offset of the FAT fs image on the device */
@@ -48,7 +47,9 @@ static struct drv_list_d
 	int dev_init; /* used internally, initialize as 0 */
 } drv_list[] = {
 	{
-		RST_BOOT_METHOD_E_SPI24,
+		/* Default device string for SPI. Will be overwritten if we booted form
+		 * SPI.
+		 */
 		"/dev/n0.mpi0/cs-l,2wire,idle-h,msb,24bit,12",
 		512,
 		0x00000,
@@ -56,16 +57,12 @@ static struct drv_list_d
 		0
 	},
 	{
-		RST_BOOT_METHOD_E_EMMC_LS,
 		"/dev/n0.mmc0",
 		512,
 		0x00000,
 		NULL,
 		0
 	},
-	{
-		0, NULL, 0, 0x0000, NULL, 0
-	}
 };
 
 #define DRV_NUM_DEVICES      (sizeof(drv_list)/sizeof(struct drv_list_d))
@@ -75,39 +72,76 @@ static struct drv_list_d
 #define DRV_FP(drv)          (drv_list[drv].fp)
 #define DRV_INIT(drv)        (drv_list[drv].dev_init)
 
-int boot_device_id_for_boot_method(int boot_method)
+static void fatfs_set_spi_device_name(int boot_method)
 {
-	if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
-		return 1;
-	int id = 0;
+	char spi_dev[48] = { 0 };
 
-	while (drv_list[id].boot_method)
-	{
-		if (drv_list[id].boot_method == boot_method)
-			return id;
-		id++;
-	}
-	return -1;
+	bdk_node_t node = bdk_numa_local();
+	BDK_CSR_INIT(mpi_cfg, node, BDK_MPI_CFG);
+	int chip_select = 0;
+	int address_width;
+	int active_high = mpi_cfg.s.cshi;
+	int idle_mode = (mpi_cfg.s.idleclks) ? 'r' : (mpi_cfg.s.idlelo) ? 'l' : 'h';
+	int is_msb = !mpi_cfg.s.lsbfirst;
+	int freq_mhz = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (2 * mpi_cfg.s.clkdiv) / 1000000;
+
+	if (boot_method == RST_BOOT_METHOD_E_SPI24)
+		address_width = 24;
+	else
+		address_width = 32;
+
+	snprintf(spi_dev, sizeof(spi_dev), "/dev/n%d.mpi%d/cs-%c,2wire,idle-%c,%csb,%dbit,%d",
+				node,
+				chip_select,
+				(active_high) ? 'h' : 'l',
+				idle_mode,
+				(is_msb) ? 'm' : 'l',
+				address_width,
+				freq_mhz);
+
+	DRV_DEVSTR(DRV_SPI) = strdup(spi_dev); /* Note: this will leak if
+											  fatfs_set_spi_device_name is
+											  called again. */
 }
 
-const char *boot_device_volstr_for_boot_method(int boot_method)
+int fatfs_diskio_init()
 {
-	static const char *str[] = { _VOLUME_STRS };
-	int id;
+	FRESULT res = FR_OK;
+	bdk_node_t node = bdk_numa_local();
 
-	id = boot_device_id_for_boot_method(boot_method);
-	return id == -1 ? NULL : str[id];
-}
+	/* Determine how we booted */
+	int boot_method;
+	BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
+	BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
 
-int fatfs_set_default_volume_for_boot_method(int boot_method)
-{
-	int id = boot_device_id_for_boot_method(boot_method);
-	if (-1 == id)
+	switch (boot_method)
 	{
-		bdk_warn("FatFs: No volume defined for boot method %d\n", boot_method);
-		return -1;
-	}
-	FRESULT res = f_chvol(id);
+		case RST_BOOT_METHOD_E_CCPI0:
+		case RST_BOOT_METHOD_E_CCPI1:
+		case RST_BOOT_METHOD_E_CCPI2:
+		case RST_BOOT_METHOD_E_PCIE0:
+		case RST_BOOT_METHOD_E_REMOTE:
+			break;
+
+		case RST_BOOT_METHOD_E_EMMC_LS:
+		case RST_BOOT_METHOD_E_EMMC_SS:
+			/* Set the default volume to MMC */
+			res = f_chvol(DRV_MMC);
+			break;
+
+		case RST_BOOT_METHOD_E_SPI24:
+		case RST_BOOT_METHOD_E_SPI32:
+			/* For the SPI boot method we overwrite the default device name with a name
+			 * derived from the SPI controller registers. These registers have been set
+			 * by the boot code and are known to work as we just bootet from SPI.
+			 */
+			fatfs_set_spi_device_name(boot_method);
+			res = f_chvol(DRV_SPI);
+			break;
+
+		default:
+			break;
+    }
 	return res ? -1 : 0;
 }
 

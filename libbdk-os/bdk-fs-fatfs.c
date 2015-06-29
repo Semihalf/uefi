@@ -99,18 +99,10 @@ int __bdk_fs_fatfs_init(void)
         f_mount(&fatfs[i], volume_id, 0);
     }
 
-    /* Determine how we booted */
-    bdk_node_t node = bdk_numa_local();
-    int boot_method;
-    BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
-    BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
-
-    /* Set FATFS Volume ID  based on boot method */
-    extern int fatfs_set_default_volume_for_boot_method(int boot_method);
-    int rc = fatfs_set_default_volume_for_boot_method(boot_method);
-    if (rc)
+    /* Initialize the FATFS disk IO layer. */
+    if (-1 == fatfs_diskio_init())
     {
-        bdk_error("No valid boot volume id found for boot method (%d)\n", boot_method);
+        bdk_warn("FatFs: Could not initialize disk IO layer.\n");
     }
 
     return bdk_fs_register("/fatfs/", &bdk_fs_fatfs_ops);

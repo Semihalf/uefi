@@ -31,8 +31,7 @@ typedef enum {
 /*---------------------------------------*/
 /* Prototypes for disk control functions */
 
-int boot_device_id_for_boot_method(int boot_method);
-const char *boot_device_volstr_for_boot_method(int boot_method);
+int fatfs_diskio_init();
 
 DSTATUS disk_initialize (BYTE pdrv);
 DSTATUS disk_status (BYTE pdrv);
