@@ -26,7 +26,7 @@ def wait_for_bootstub_messages(cnx):
     except:
         cnx.match("VRM:   Enabled")
     cnx.match("Trust: Disabled")
-    cnx.match("Loading image file '/fatfs/SPI0:/stage1.bin'")
+    cnx.match("Loading image file '/fatfs/stage1.bin'")
     cnx.match("Verifying image")
     cnx.match("Putting all cores except this one in reset")
     cnx.match("Jumping to image at")
@@ -61,7 +61,7 @@ def wait_for_bootstub_messages(cnx):
         cnx.waitforRE("DRAM: [0-9]+ MB, [0-9]+ MHz", timeout=60)
     cnx.waitfor("Press 'D' within 3 seconds to boot diagnostics", timeout=5)
     cnx.write("D")
-    cnx.match("Loading image file '/fatfs/SPI0:/stage2.bin'")
+    cnx.match("Loading image file '/fatfs/stage2.bin'")
     cnx.match("Verifying image")
     cnx.match("Putting all cores except this one in reset")
     cnx.match("Jumping to image at")

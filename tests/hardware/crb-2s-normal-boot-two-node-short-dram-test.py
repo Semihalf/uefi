@@ -3,12 +3,14 @@ import connection
 import test_boot
 import test_dram
 
-USE_WATCHDOG = False
+USE_WATCHDOG = True
 
 def run_test(cnx):
     if USE_WATCHDOG:
         cnx.powerCycle()
-        cnx.waitfor("Verifying image", timeout=300)
+        cnx.waitfor("Trying diagnostics", timeout=300)
+        cnx.match("Loading image file '/fatfs/stage2.bin'")
+        cnx.match("Verifying image")
         cnx.match("Putting all cores except this one in reset")
         cnx.match("Jumping to image at")
         cnx.waitfor("---")
