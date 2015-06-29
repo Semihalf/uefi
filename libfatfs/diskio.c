@@ -35,7 +35,7 @@ PARTITION VolToPart[] =
 };
 
 
-static struct
+static struct drv_list_d
 {
 	/* device configuration list */
 	const int     boot_method; /* boot method ID for this device setup */
@@ -68,6 +68,7 @@ static struct
 	}
 };
 
+#define DRV_NUM_DEVICES      (sizeof(drv_list)/sizeof(struct drv_list_d))
 #define DRV_DEVSTR(drv)      (drv_list[drv].dev_string)
 #define DRV_SECTOR_SIZE(drv) (drv_list[drv].sector_size)
 #define DRV_IMG_OFFSET(drv)  (drv_list[drv].img_offset)
@@ -151,6 +152,9 @@ DSTATUS disk_initialize (
 {
 	BDK_TRACE(FATFS, "disk_initialize(): drv:%d\n", pdrv);
 
+	if (pdrv >= DRV_NUM_DEVICES)
+		return RES_PARERR;
+
 	if (DRV_FP(pdrv))
 	{
 		bdk_warn("FatFs: Drive %d device already opened in disk_initialize(). "
@@ -197,10 +201,14 @@ DRESULT disk_read (
 )
 {
 	int total;
-	int num_bytes = count * DRV_SECTOR_SIZE(pdrv);
+	int num_bytes;
 
 	BDK_TRACE(FATFS, "disk_read(): drv:%d - buf:%p - sec:%d - cnt:%d\n", pdrv, buff, sector, count);
 
+	if (pdrv >= DRV_NUM_DEVICES)
+		return RES_PARERR;
+
+	num_bytes = count * DRV_SECTOR_SIZE(pdrv);
 	fseek(DRV_FP(pdrv), sector * DRV_SECTOR_SIZE(pdrv) + DRV_IMG_OFFSET(pdrv), SEEK_SET);
 
 	total = fread(buff, num_bytes, 1, DRV_FP(pdrv));
@@ -232,6 +240,9 @@ DRESULT disk_write (
 
 	BDK_TRACE(FATFS, "disk_write(): drv:%d - buf:%p - sec:%d - cnt:%d\n", pdrv, buff, sector, count);
 
+	if (pdrv >= DRV_NUM_DEVICES)
+		return RES_PARERR;
+
 	fseek(DRV_FP(pdrv), sector * DRV_SECTOR_SIZE(pdrv) + DRV_IMG_OFFSET(pdrv), SEEK_SET);
 
 	total = fwrite(buff, DRV_SECTOR_SIZE(pdrv) * count, 1, DRV_FP(pdrv));
@@ -259,6 +270,10 @@ DRESULT disk_ioctl (
 )
 {
 	BDK_TRACE(FATFS, "%s:%d\n", __FUNCTION__, __LINE__);
+
+	if (pdrv >= DRV_NUM_DEVICES)
+		return RES_PARERR;
+
 	return RES_OK;
 }
 #endif
