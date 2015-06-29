@@ -414,7 +414,7 @@ void boot_init_dram(bdk_node_t node)
                     bdk_init_cores(other_node, 1);
                     /* Run the address test to make sure DRAM works */
                     if (bdk_dram_test(13, 0, 0x10000000000ull))
-                        bdk_reset_chip(node);
+                        reset_or_power_cycle();
                     /* Put other node core back in reset */
                     BDK_CSR_WRITE(other_node, BDK_RST_PP_RESET, -1);
                     uint64_t skip = bdk_dram_get_top_of_bdk();
