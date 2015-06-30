@@ -17,6 +17,7 @@
  */
 void __bdk_require_depends(void)
 {
+    BDK_REQUIRE(ERROR_DECODE);
     BDK_REQUIRE(FS_FATFS);
     BDK_REQUIRE(FS_MMC);
     BDK_REQUIRE(FS_MPI);

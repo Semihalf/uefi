@@ -465,6 +465,13 @@ int bdk_dram_test(int test, uint64_t start_address, uint64_t length)
     /* This returns any data compare errors found */
     int errors = __bdk_dram_run_test(&TEST_INFO[test], start_address, length);
 
+    /* Poll for any errors right now to make sure any ECC errors are reported */
+    for (int node = 0; node < BDK_NUMA_MAX_NODES; node++)
+    {
+        if (bdk_numa_exists(node) && bdk_error_check)
+            bdk_error_check(node);
+    }
+
     /* Check ECC error counters after the test */
     int64_t ecc_single = 0;
     int64_t ecc_double = 0;
