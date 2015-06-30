@@ -6087,6 +6087,38 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		  node, ddr_interface_num);
         Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 1);
     }
+
+
+    /* Workaround Errata 26304 (T88@2.0)
+
+       When the CSRs LMCX_DLL_CTL3[WR_DESKEW_ENA] = 1 AND
+       LMCX_PHY_CTL2[DQS[0..8]_DSK_ADJ] > 4, set
+       LMCX_EXT_CONFIG[DRIVE_ENA_BPRCH] = 1.
+    */
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X)) {
+        bdk_lmcx_dll_ctl3_t dll_ctl3;
+        bdk_lmcx_phy_ctl2_t phy_ctl2;
+        bdk_lmcx_ext_config_t ext_config;
+        int increased_dsk_adj = 0;
+        int byte;
+
+        phy_ctl2.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL2(ddr_interface_num));
+        ext_config.u = BDK_CSR_READ(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num));
+        dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
+
+        for (byte = 0; byte < 8; ++byte) {
+            if (!(ddr_interface_bytemask&(1<<byte)))
+                continue;
+            increased_dsk_adj |= (((phy_ctl2.u >> (byte*3)) & 0x7) > 4);
+        }
+
+        if ((dll_ctl3.s.wr_deskew_ena == 1) && increased_dsk_adj) {
+            ext_config.s.drive_ena_bprch = 1;
+            DRAM_CSR_WRITE(node, BDK_LMCX_EXT_CONFIG(ddr_interface_num),
+                                      ext_config.u);
+        }
+    }
+
     {
         /* Try to determine/optimize write-level delays experimentally. */
 #pragma pack(push,1)
