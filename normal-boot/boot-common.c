@@ -353,7 +353,7 @@ void boot_init_dram(bdk_node_t node)
     if (BRD_DISABLE_DRAM)
         return;
 
-    if (DRAM_NODE0 && node == BDK_NODE_0)
+    if (DRAM_NODE0 && (node == BDK_NODE_0))
     {
         /* Initialize DRAM on the master node */
         if (DRAM_VERBOSE)
@@ -395,7 +395,7 @@ void boot_init_dram(bdk_node_t node)
     }
 
     /* Initialize DRAM on the slave node */
-    if (DRAM_NODE1 && node == BDK_NODE_1 && MULTI_NODE)
+    if (DRAM_NODE1 && (node == BDK_NODE_1) && MULTI_NODE)
     {
         bdk_node_t other_node = 1;
         if (bdk_numa_exists(other_node))
