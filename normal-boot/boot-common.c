@@ -10,8 +10,8 @@ static int BMC_TWSI     = -1;
 static int MULTI_NODE   = 2; /* 'auto' is default */
 static int DRAM_VERBOSE = 0;
 static int WATCHDOG_TIMEOUT = 0;
-static const char *DRAM_NODE0 = 0;
-static const char *DRAM_NODE1 = 0;
+static const char *DRAM_NODE0 = NULL;
+static const char *DRAM_NODE1 = NULL;
 
 static int BRD_DISABLE_TWSI  = 0;
 static int BRD_DISABLE_DRAM  = 0;
@@ -23,20 +23,20 @@ static int BRD_DISABLE_PCI   = 0;
 
 void boot_read_config()
 {
-    MULTI_NODE        = bdk_brd_cfg_get_int(2, BDK_BRD_CFG_MULTI_NODE); /* 'auto' is default */
-    BMC_TWSI          = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_BMC_TWSI);
-    DRAM_VERBOSE      = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DRAM_VERBOSE);
-    WATCHDOG_TIMEOUT  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_WATCHDOG_TIMEOUT);
-    DRAM_NODE0        = bdk_brd_cfg_get_str(NULL, BDK_BRD_CFG_DRAM_NODE, 0);
-    DRAM_NODE1        = bdk_brd_cfg_get_str(NULL, BDK_BRD_CFG_DRAM_NODE, 1);
+    MULTI_NODE        = bdk_brd_cfg_get_int(MULTI_NODE,         BDK_BRD_CFG_MULTI_NODE);
+    BMC_TWSI          = bdk_brd_cfg_get_int(BMC_TWSI,           BDK_BRD_CFG_BMC_TWSI);
+    DRAM_VERBOSE      = bdk_brd_cfg_get_int(DRAM_VERBOSE,       BDK_BRD_CFG_DRAM_VERBOSE);
+    WATCHDOG_TIMEOUT  = bdk_brd_cfg_get_int(WATCHDOG_TIMEOUT,   BDK_BRD_CFG_WATCHDOG_TIMEOUT);
+    DRAM_NODE0        = bdk_brd_cfg_get_str(DRAM_NODE0,         BDK_BRD_CFG_DRAM_NODE, 0);
+    DRAM_NODE1        = bdk_brd_cfg_get_str(DRAM_NODE1,         BDK_BRD_CFG_DRAM_NODE, 1);
 
-    BRD_DISABLE_TWSI  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_TWSI);
-    BRD_DISABLE_DRAM  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_DRAM);
-    BRD_DISABLE_CCPI  = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_CCPI);
-    BRD_DISABLE_QLM   = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_QLM);
-    BRD_DISABLE_BGX   = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_BGX);
-    BRD_DISABLE_USB   = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_USB);
-    BRD_DISABLE_PCI   = bdk_brd_cfg_get_int(0, BDK_BRD_CFG_DISABLE_PCI);
+    BRD_DISABLE_TWSI  = bdk_brd_cfg_get_int(BRD_DISABLE_TWSI,   BDK_BRD_CFG_DISABLE_TWSI);
+    BRD_DISABLE_DRAM  = bdk_brd_cfg_get_int(BRD_DISABLE_DRAM,   BDK_BRD_CFG_DISABLE_DRAM);
+    BRD_DISABLE_CCPI  = bdk_brd_cfg_get_int(BRD_DISABLE_CCPI,   BDK_BRD_CFG_DISABLE_CCPI);
+    BRD_DISABLE_QLM   = bdk_brd_cfg_get_int(BRD_DISABLE_QLM,    BDK_BRD_CFG_DISABLE_QLM);
+    BRD_DISABLE_BGX   = bdk_brd_cfg_get_int(BRD_DISABLE_BGX,    BDK_BRD_CFG_DISABLE_BGX);
+    BRD_DISABLE_USB   = bdk_brd_cfg_get_int(BRD_DISABLE_USB,    BDK_BRD_CFG_DISABLE_USB);
+    BRD_DISABLE_PCI   = bdk_brd_cfg_get_int(BRD_DISABLE_PCI,    BDK_BRD_CFG_DISABLE_PCI);
 }
 
 #define XCONFIG_STR_NAME(n)	#n
