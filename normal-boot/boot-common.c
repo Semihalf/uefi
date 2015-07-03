@@ -357,7 +357,11 @@ void boot_init_dram(bdk_node_t node)
     {
         /* Initialize DRAM on the master node */
         if (DRAM_VERBOSE)
-            setenv("ddr_verbose", CONFIG_STR_NAME(DRAM_VERBOSE), 1);
+        {
+            char buf[8];
+            snprintf(buf, sizeof(buf), "%d", DRAM_VERBOSE);
+            setenv("ddr_verbose", buf, 1);
+        }
         BDK_TRACE(BOOT_STUB, "Initializing DRAM on this node\n");
         int mbytes = bdk_dram_config(bdk_numa_master(), DRAM_NODE0, 0);
         if (mbytes > 0)
