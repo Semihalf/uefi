@@ -756,8 +756,8 @@ static int roundup_ddr3_wlevel_bitmask(int bitmask)
     return delay;
 }
 
-/* Check to see if any custom offset values are used */
-static int is_dll_offset_enabled(const int8_t *dll_offset_table)
+/* Check to see if any custom offset values are provided */
+static int is_dll_offset_provided(const int8_t *dll_offset_table)
 {
     int i;
     if (dll_offset_table != NULL) {
@@ -917,32 +917,56 @@ static void process_custom_dll_offsets(bdk_node_t node, int ddr_interface_num, c
 				       const int8_t *offsets, const char *byte_str, int mode)
 {
     const char *s;
+    int enabled;
+    int provided;
 
-    if (((s = lookup_env_parameter(enable_str)) != NULL) || is_dll_offset_enabled(offsets)) {
+    if ((s = lookup_env_parameter(enable_str)) != NULL) {
+	enabled = !!strtol(s, NULL, 0);
+    } else
+	enabled = -1;
+
+    // enabled == -1: no override, do only configured offsets if provided
+    // enabled ==  0: override OFF, do NOT do it even if configured offsets provided
+    // enabled ==  1: override ON, do it for overrides plus configured offsets
+
+    if (enabled == 0)
+	return;
+
+    provided = is_dll_offset_provided(offsets);
+
+    if (enabled < 0 && !provided)
+	return;
+
         bdk_lmcx_dll_ctl3_t ddr_dll_ctl3;
         int byte_offset;
         unsigned short offset[9] = {0};
-        int i;
+    int byte;
 
-        for (i = 0; i < 9; ++i) {
-            byte_offset = (offsets != NULL) ? offsets[i] : 0;
+    for (byte = 0; byte < 9; ++byte) {
 
-            if ((s = lookup_env_parameter(byte_str, ddr_interface_num, i)) != NULL) {
+	// always take the provided, if available
+	byte_offset = (provided) ? offsets[byte] : 0;
+
+	// then, if enabled, use any overrides present
+	if (enabled > 0) {
+	    if ((s = lookup_env_parameter(byte_str, ddr_interface_num, byte)) != NULL) {
                 byte_offset = strtol(s, NULL, 0);
             }
+	}
 
-            offset[i] = load_dll_offset(node, ddr_interface_num, mode, byte_offset, i);
+	offset[byte] = load_dll_offset(node, ddr_interface_num, mode, byte_offset, byte);
         }
 
         ddr_dll_ctl3.u = BDK_CSR_READ(node, BDK_LMCX_DLL_CTL3(ddr_interface_num));
         SET_DDR_DLL_CTL3(offset_ena, 1);
         DRAM_CSR_WRITE(node, BDK_LMCX_DLL_CTL3(ddr_interface_num),	ddr_dll_ctl3.u);
 
-        ddr_print("N%d.LMC%d: DLL %s Offset 8:0       :  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x\n",
+    ddr_print("N%d.LMC%d: DLL %s Offset 8:0       :"
+	      "  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x  0x%02x\n",
                   node, ddr_interface_num, (mode == 2) ? "Read " : "Write",
                   offset[8], offset[7], offset[6], offset[5], offset[4],
                   offset[3], offset[2], offset[1], offset[0]);
-    }
+
 }
 
 #ifdef ENABLE_AUTO_SET_DLL
@@ -3322,22 +3346,13 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
             ddr_rtt_nom_auto = 0;
         }
 
-#if 0
-	// FIXME: this is a duplicate of code just above, and uses an invalid mask - 3 should be 7
-	// FIXME: disabled, awaiting removal...
+        if ((s = lookup_env_parameter("ddr_rtt_wr")) != NULL) {
+            uint64_t value = strtoul(s, NULL, 0);
         for (i=0; i<4; ++i) {
-            uint64_t value;
-            if ((s = lookup_env_parameter("ddr_rtt_nom_%1d%1d", !!(i&2), !!(i&1))) == NULL)
-                s = lookup_env_parameter("ddr%d_rtt_nom_%1d%1d", ddr_interface_num, !!(i&2), !!(i&1));
-            if (s != NULL) {
-                value = strtoul(s, NULL, 0);
-                lmc_modereg_params1.u &= ~((uint64_t)0x3  << (i*12+9));
-                lmc_modereg_params1.u |=  ( (value & 0x3) << (i*12+9));
-
-                ddr_rtt_nom_auto = 0;
+                lmc_modereg_params1.u &= ~((uint64_t)0x3  << (i*12+5));
+                lmc_modereg_params1.u |=  ( (value & 0x3) << (i*12+5));
             }
         }
-#endif
 
         for (i=0; i<4; ++i) {
             uint64_t value;
@@ -3407,6 +3422,14 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		uint64_t value;
 		if ((s = lookup_env_parameter("ddr_rtt_park_%1d%1d", !!(i&2), !!(i&1))) != NULL) {
 		    value = strtoul(s, NULL, 0);
+		    lmc_modereg_params2.u &= ~((uint64_t)0x7  << (i*10+0));
+		    lmc_modereg_params2.u |=  ( (value & 0x7) << (i*10+0));
+		}
+	    }
+
+	    if ((s = lookup_env_parameter("ddr_rtt_park")) != NULL) {
+		uint64_t value = strtoul(s, NULL, 0);
+		for (i=0; i<4; ++i) {
 		    lmc_modereg_params2.u &= ~((uint64_t)0x7  << (i*10+0));
 		    lmc_modereg_params2.u |=  ( (value & 0x7) << (i*10+0));
 		}
