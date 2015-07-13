@@ -166,7 +166,8 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 #define DEFAULT_LOCK_RETRY_LIMIT 10    // 10 retries
 #define PRINT_RETRY_LIMIT         0    // make equal to sat_retry_limit if you want all of them
 
-static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num, int spd_rawcard)
+static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_interface_num,
+					int spd_rawcard_AorB)
 {
     int unsaturated, locked;
     int sat_retries, lock_retries;
@@ -222,19 +223,10 @@ static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_
         unsaturated = (dsk_counts.saturated == 0);
 	locked = (dsk_counts.unlocked == 0);
 
-	/*
-	 * At this point, check for a DDR4 RDIMM that will not benefit from retries; if so, exit loop
-	 */
-	// RAW CARD must be bit 7=0 and bits 4-0 either 00000 or 00001 for this to be true 
-	if (spd_rawcard) { // 
-	    ddr_print("N%d.LMC%d: Deskew Training Loop: Exiting for RAWCARD == A|B.\n",
-		      node, ddr_interface_num);
-	    break; // no sat or lock retries
-	}
-
 #ifdef ENABLE_LOCK_RETRIES
 
-	if (unsaturated) { // only do locking retries if unsaturated, otherwise full SAT retry
+	// only do locking retries if unsaturated or rawcard A or B, otherwise full SAT retry
+	if (unsaturated || spd_rawcard_AorB) {
 	    if (!locked) { // and not locked
 		lock_retries++;
 		if (lock_retries <= DEFAULT_LOCK_RETRY_LIMIT) {
@@ -247,11 +239,21 @@ static void perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_
 		ddr_print("N%d.LMC%d: LOCK RETRIES successful after %d retries\n",
 			  node, ddr_interface_num, lock_retries);
 	    }
-	} /* if (unsaturated) */
+	} /* if (unsaturated || spd_rawcard_AorB) */
 
 #endif /* ENABLE_LOCK_RETRIES */
 
         ++sat_retries;
+
+	/*
+	 * At this point, check for a DDR4 RDIMM that will not benefit from SAT retries; if so, exit
+	 */
+	// RAWCARD A or B must be bit 7=0 and bits 4-0 either 00000(A) or 00001(B) for this to be true 
+	if (spd_rawcard_AorB) { // 
+	    ddr_print("N%d.LMC%d: Deskew Training Loop: Exiting for RAWCARD == A or B.\n",
+		      node, ddr_interface_num);
+	    break; // no sat or lock retries
+	}
 
     } while (!unsaturated && (sat_retries < DEFAULT_SAT_RETRY_LIMIT));
 
@@ -2115,6 +2117,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int spd_addr_mirror;
     int spd_package = 0;
     int spd_rawcard = 0;
+    int spd_rawcard_AorB = 0;
 
     /* FTB values are two's complement ranging from +127 to -128. */
     typedef signed char SC_t;
@@ -2245,7 +2248,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         bank_bits = min((int)bank_bits, 4); /* Controller can only address 4 bits. */
 
 	spd_package = read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_PACKAGE_TYPE);
-	debug_print("DDR4: Package Type 0x%x \n", spd_package);
+	ddr_print("DDR4: Package Type 0x%x \n", spd_package);
 
         spd_rdimm       = (spd_dimm_type == 1);
 	if (spd_rdimm) {
@@ -2253,10 +2256,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 		(read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_REGISTER_MANUFACTURER_ID_MSB) << 8);
 	    extra_ddr_print("DDR4: RDIMM Register Manufacturer ID 0x%x \n", spd_mfgr_id);
 
-	    // RAW CARD must be bit 7=0 and bits 4-0 either 00000 or 00001 
+	    // RAWCARD A or B must be bit 7=0 and bits 4-0 either 00000(A) or 00001(B) 
 	    spd_rawcard = 0xFF & read_spd(node, &dimm_config_table[0], 0, DDR4_SPD_RDIMM_REFERENCE_RAW_CARD);
 	    extra_ddr_print("DDR4: RDIMM Reference Raw Card 0x%x \n", spd_rawcard);
-	    spd_rawcard = ((spd_rawcard & 0x9fUL) <= 1);
+	    spd_rawcard_AorB = ((spd_rawcard & 0x9fUL) <= 1);
 	}
     } else {
         imp_values = &ddr3_impedence_values;
@@ -4068,7 +4071,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     } /* while (--offset_vref_training_loops) */
 
-    perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard);
+    perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard_AorB);
 
     // save the results of the original training
     Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &deskew_training_results, 0);
@@ -4666,20 +4669,23 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     // At the end of HW Write Leveling, check on some things...
     {
         deskew_counts_t dsk_counts;
-
+	int retry_count = 0;
 	ddr_print("N%d.LMC%d: Check Deskew Settings before Read-Leveling.\n", node, ddr_interface_num);
+
+	do {
         Validate_Deskew_Training(node, rank_mask, ddr_interface_num, &dsk_counts, 1);
 
-	// at this point, we may still have some saturation - look for it
-	// Only do this for the 2Rx4 stacked die DIMMs...
-	if ((((spd_package & 0xf3) == 0x91) && (num_ranks == 2) && (dram_width == 4))) // 2Rx4 stacked die
-	{
-	    if (dsk_counts.saturated > 0) {
-		ddr_print("N%d.LMC%d: Deskew Status indicates some saturation - retry Training.\n",
-			  node, ddr_interface_num);
-		perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard);
-	    }
-	}
+	    // only RAWCARD A or B will not benefit from retraining if there's only saturation
+	    if ((!spd_rawcard_AorB && dsk_counts.saturated > 0) ||
+		(dsk_counts.nibble_errs > 0)) // or any rawcard if there is a nibble error
+	    {
+		retry_count++;
+		ddr_print("N%d.LMC%d: Deskew Status indicates saturation or nibble errors - retry %d Training.\n",
+			  node, ddr_interface_num, retry_count);
+		perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard_AorB);
+	    } else
+		break;
+	} while (retry_count < 5);
     }
 
     /*
