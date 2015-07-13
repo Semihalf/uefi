@@ -4,7 +4,7 @@
 #define RLEXTRAS_PATCH     1 // write to unused RL rank entries
 #define ADD_48_OHM_SKIP    1
 #define NOSKIP_40_48_OHM   1
-#define PREFER_BEST_RANK   1
+#define MAJORITY_OVER_AVG  1
 
 #define DEFAULT_BEST_RANK_SCORE  9999999
 #define MAX_RANK_SCORE_LIMIT     99 // FIXME? 
@@ -5676,7 +5676,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    continue;
 
 				int next_score = rlevel_scoreboard[rtt_nom][rodt_ctl][orankx].score;
-#if PREFER_BEST_RANK
+
 				if (next_score > best_rank_score) // always skip a higher score
 				    continue;
 				if (next_score == best_rank_score) { // if scores are equal
@@ -5688,13 +5688,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    }
 				    // else next_ohms are greater, always choose it
 				}
-				// else next score is less than current best, so always choose it
-#else /* PREFER_BEST_RANK */
-				if ((next_score < best_rank_score) || // always choose a lower score
-				    ((next_score == best_rank_score) && // but if same score, choose the higher OHMS
-				     (next_ohms > best_rank_ohms))) // regardless of the rank it is from
-#endif /* PREFER_BEST_RANK */
-				{
+				// else next_score is less than current best, so always choose it
 				    extra_ddr_print("N%d.LMC%d.R%d: new best score: rank %d, rodt %d(%3d), new best %d, previous best %d(%d)\n",
 						    node, ddr_interface_num, rankx, orankx, rodt_ctl, next_ohms, next_score,
 						    best_rank_score, best_rank_ohms);
@@ -5705,7 +5699,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    best_rank_ohms      = next_ohms;
 				    best_rankx          = orankx;
 				    lmc_rlevel_rank.u   = rlevel_scoreboard[rtt_nom][rodt_ctl][orankx].setting;
-				}
+ 
 			    } /* for (int orankx = 0; orankx < dimm_count * 4; orankx++) */
 			} /* for (rodt_ctl = max_rodt_ctl; rodt_ctl >= min_rodt_ctl; --rodt_ctl) */
 		    } /* for (rtt_idx = min_rtt_nom_idx; rtt_idx <= max_rtt_nom_idx; ++rtt_idx) */
@@ -5910,7 +5904,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			// choose the new byte value
 			// we need to check that there is no gap greater than 2 between adjacent bytes
 			//  (adjacency depends on DIMM type)
-			// use the neighbor value and the direction bias to help decide
+			// use the neighbor value to help decide
 			// initially, the rank_best_bytes[] will contain values from the chosen lowest score rank
 			new_byte = 0;
 
@@ -5937,7 +5931,33 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				extra_ddr_print("AVERAGE: Byte %d: neighbor %d too different %d from average %d, picking %d.\n",
 						byte_idx, neighbor, (int)neigh_byte, (int)avg_pick, (int)new_byte);
 			    }
+#if MAJORITY_OVER_AVG
+			// NOTE:
+			// For now, we let the neighbor processing above trump the new simple majority processing here.
+			// This is mostly because we have seen no smoking gun for a neighbor bad choice (yet?).
+			// Also note that we will ALWAYS be using byte 0 majority, because of the if clause above.
+			else {
+			    // majority is dependent on the counts, which are relative to best_byte, so start there
+			    uint64_t maj_byte = best_byte;
+			    if ((count_more > count_same) && (count_more > count_less)) {
+				maj_byte++;
+			    } else if ((count_less > count_same) && (count_less > count_more)) {
+				maj_byte--;
+			    }
+			    if (maj_byte != new_byte) {
+				// print only when majority choice is different from average
+				extra_ddr_print("MAJORITY: Byte %d: picking majority of %d over average %d.\n",
+						byte_idx, (int)maj_byte, (int)new_byte);
+				new_byte = maj_byte;
+			    } else {
 				extra_ddr_print("AVERAGE: Byte %d: picking average of %d.\n", byte_idx, (int)new_byte);
+			    }
+			}
+#else
+			else {
+			    extra_ddr_print("AVERAGE: Byte %d: picking average of %d.\n", byte_idx, (int)new_byte);
+			}
+#endif
 
 			extra_ddr_print("SUMMARY: Byte %d: %s: orig %d now %d, more %d same %d less %d, using %d\n",
 					byte_idx, "AVG", (int)orig_best_byte, 
@@ -6119,7 +6139,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
         }
     }
 
-    {
+    { // Software Write-Leveling block
+
         /* Try to determine/optimize write-level delays experimentally. */
 #pragma pack(push,1)
         bdk_lmcx_wlevel_rankx_t lmc_wlevel_rank;
@@ -6375,8 +6396,8 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                             } else {
                                 debug_print("        byte %d delay %2d Errors\n", byte, delay);
                             }
-                        }
-                    }
+                        } /* for (delay = ...) */
+                    } /* for (byte = 0; byte < 8; ++byte) */
 
                     if ((ddr_interface_bytemask & 0xff) == 0xff) {
                         if (save_ecc_ena) {
