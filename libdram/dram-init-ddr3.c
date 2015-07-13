@@ -47,6 +47,7 @@ static void Display_MPR_Page_Location(bdk_node_t node, int rank,
 typedef struct {
     int saturated;
     int unlocked;
+    int nibble_errs;
 } deskew_counts_t;
 
 deskew_counts_t deskew_training_results;
@@ -57,16 +58,22 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     bdk_lmcx_phy_ctl_t phy_ctl;
     int byte_lane, bit_num;
     bdk_lmcx_config_t  lmc_config;
+    uint8_t dsk_bytes[9];
+    uint8_t dsk_min, dsk_max, dsk_bad;
+    int c;
+    
     lmc_config.u = BDK_CSR_READ(node, BDK_LMCX_CONFIG(ddr_interface_num));
 
     counts->saturated = 0;
     counts->unlocked    = 0;
+    counts->nibble_errs  = 0;
 
     BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                    phy_ctl.s.dsk_dbg_clk_scaler = 3);
 
     if (print_enable) {
-        ddr_print("Deskew Settings:                   Bit =>         :");
+        ddr_print("N%d.LMC%d: Deskew Settings:          Bit =>         :",
+		  node, ddr_interface_num);
 	for (bit_num = 8; bit_num >= 0; --bit_num) {
 	    if (bit_num != 4)
 		ddr_print(" %3d  ", (bit_num > 4) ? bit_num - 1 : bit_num);
@@ -78,7 +85,6 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
             ddr_print("N%d.LMC%d: Bit Deskew Byte %d                        :",
                       node, ddr_interface_num, byte_lane);
         for (bit_num = 8; bit_num >= 0; --bit_num){
-            int c;
             if (bit_num == 4) continue;
 
             //set byte lane and bit to read
@@ -89,32 +95,66 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
             BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                            phy_ctl.s.dsk_dbg_rd_start = 1);
             //poll for read sequence to complete
-            phy_ctl.u = 0;
-            while(phy_ctl.s.dsk_dbg_rd_complete != 1){
+            do {
                 phy_ctl.u = BDK_CSR_READ(node, BDK_LMCX_PHY_CTL(ddr_interface_num));
-            }
+            } while (phy_ctl.s.dsk_dbg_rd_complete != 1);
 			
-            c = ' ';
+	    int flags = phy_ctl.s.dsk_dbg_rd_data & 7;
+	    int deskew = phy_ctl.s.dsk_dbg_rd_data >> 3;
 
-            if (phy_ctl.s.dsk_dbg_rd_data & 0x4)
-            {
+            c = ' ';
+            if (flags & 0x4) {
                 c = '+';        /* Saturated High */
                 ++counts->saturated;
             }
-            if (phy_ctl.s.dsk_dbg_rd_data & 0x2)
-            {
+            if (flags & 0x2) {
                 c = '-';        /* Saturated Low */
                 ++counts->saturated;
             }
-            if (! (phy_ctl.s.dsk_dbg_rd_data & 0x1))
-            {
+            if (! (flags & 0x1)) {
                 c = '?';        /* Failed to Lock */
                 ++counts->unlocked;
             }
+	    dsk_bytes[bit_num] = deskew;
 
             if (print_enable)
-                ddr_print(" %3d %c", phy_ctl.s.dsk_dbg_rd_data >> 3, c);
+                ddr_print(" %3d %c", deskew, c);
         } /* for (bit_num = 8; bit_num >= 0; --bit_num) */
+
+	// now look for nibble errors
+	/*
+	  For bit 55, it looks like a bit deskew problem. When the upper nibble of byte 6 
+	   needs to go to saturation, bit7 of byte 6 lock prematurely at 64.
+	  For DIMMs with raw card A and B, can we reset the deskew training when we encounter this case?
+	  The reset criteria should be looking at one nibble at a time for raw card A and B;
+	  if the bit-deskew setting within a nibble is differed > 33, we'll issue a reset
+	  to the bit deskew training.
+
+	  LMC0 Bit Deskew Byte(6): 64 0 - 0 - 0 - 26 61 35 64 
+	*/
+	dsk_bad = 0;
+
+	// upper nibble
+	dsk_min = 127; dsk_max = 0;
+        for (bit_num = 8; bit_num >= 5; --bit_num) {
+	    dsk_min = min(dsk_bytes[bit_num], dsk_min);
+	    dsk_max = max(dsk_bytes[bit_num], dsk_max);
+        }
+	dsk_bad += ((dsk_max - dsk_min) > 33) ? 1 : 0;
+
+	// lower nibble
+	dsk_min = 127; dsk_max = 0;
+        for (bit_num = 3; bit_num >= 0; --bit_num) {
+	    dsk_min = min(dsk_bytes[bit_num], dsk_min);
+	    dsk_max = max(dsk_bytes[bit_num], dsk_max);
+        }
+	dsk_bad += ((dsk_max - dsk_min) > 33) ? 1 : 0;
+
+	if ((dsk_bad > 0) && print_enable)
+	    ddr_print(" @");
+
+	counts->nibble_errs += dsk_bad;
+
         if (print_enable)
             ddr_print("\n");
     } /* for (byte_lane = 0; byte_lane < 8+lmc_config.s.ecc_ena; byte_lane++) */
@@ -5454,7 +5494,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 			      lmc_comp_ctl2.s.ptune, lmc_comp_ctl2.s.ntune);
 		}
 	    }
-
 	    { /* Evaluation block */
 		int      best_rodt_score = DEFAULT_BEST_RANK_SCORE; /* Start with an arbitrarily high score */
 		int      auto_rodt_ctl = 0;
@@ -5777,7 +5816,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 #endif /* DEBUG_EXTRA_PRINT_LOOP */
 
 		    // now evaluate which bytes need adjusting
-		    uint64_t byte_msk = 0x3f; // 6-byte fields
+		    uint64_t byte_msk = 0x3f; // 6-bit fields
 		    uint64_t best_byte, new_byte, temp_byte, orig_best_byte;
 
 		    uint64_t rank_best_bytes[9]; // collect the new byte values; first init with current best for neighbor use
