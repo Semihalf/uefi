@@ -396,9 +396,15 @@ uint64_t bdk_pcie_get_base_size(bdk_node_t node, int pcie_port, bdk_pcie_mem_t m
  */
 static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port)
 {
-    /* Value is recommended in CSR files */
+    /* The reset default for config retries is too short. Set it to 48ms, which
+       is what the Octeon SDK team is using. There is no documentation about
+       where they got the 48ms number */
+    int cfg_retry = 48 * 1000000 / (bdk_clock_get_rate(node, BDK_CLOCK_SCLK) >> 16);
+    if (cfg_retry >= 0x10000)
+        cfg_retry = 0xfffff;
     BDK_CSR_MODIFY(c, node, BDK_PEMX_CTL_STATUS(pcie_port),
-        c.s.cfg_rtry = 32);
+        c.s.cfg_rtry = cfg_retry);
+
 
     /* Max Payload Size (PCIE*_CFG030[MPS]) */
     /* Max Read Request Size (PCIE*_CFG030[MRRS]) */
