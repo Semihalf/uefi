@@ -4,26 +4,26 @@
        - name: BTH
          value: 0x5
          attributes:
--          chip_pass: "t88>=2.0;t83"
+-          chip_pass: "t88>=2.0;t83;t81"
            exempt_pass1_address_change: "True"
          description: RoCE base transport header. Changed mapping in pass 2.
  
 -      - name: BTH
 -        value: 0x8
 -        attributes:
--          chip_pass: "t88<2.0;!t83"
+-          chip_pass: "t88<2.0;!t83;!t81"
 -        description: RoCE base transport header.
 -
 -      - name: UDP
 -        value: 0x5
 -        attributes:
--          chip_pass: "t88<2.0;!t83"
+-          chip_pass: "t88<2.0;!t83;!t81"
 -        description: UDP.
 -
        - name: UDP
          value: 0x8
          attributes:
--          chip_pass: "t88>=2.0;t83"
+-          chip_pass: "t88>=2.0;t83;t81"
            exempt_pass1_address_change: "True"
          description: UDP. Changed mapping in pass 2.
  

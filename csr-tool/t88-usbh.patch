@@ -4,7 +4,7 @@
        - name: UAHC_IMAN_IP
          value: 0x000
          attributes:
--          chip_pass: "t88>=1.1;t83"
+-          chip_pass: "t88>=1.1;t83;t81"
 -          exempt_pass1_address_change: "True"
 -          pib_int_field: "IMAN_IP"
 -        description: Changed in pass 1.1. See UAHC(0)_IMAN(0)[IP].
@@ -12,7 +12,7 @@
 -      - name: UAHC_IMAN_IP
 -        value: 0x002
 -        attributes:
--          chip_pass: "t88<1.1;!t83"
+-          chip_pass: "t88<1.1;!t83;!t81"
            exempt_pass1_address_change: "True"
            pib_int_field: "IMAN_IP"
          description: Changed in pass 1.1. See UAHC(0)_IMAN(0)[IP].
@@ -20,7 +20,7 @@
        - name: UAHC_USBSTS_HSE
 -        value: 0x000
 -        attributes:
--          chip_pass: "t88<1.1;!t83"
+-          chip_pass: "t88<1.1;!t83;!t81"
 -          exempt_pass1_address_change: "True"
 -          intsn_level_sensitive: "True"
 -          pib_int_field: "USBSTS_HSE"
@@ -29,7 +29,7 @@
 -      - name: UAHC_USBSTS_HSE
          value: 0x002
          attributes:
--          chip_pass: "t88>=1.1;t83"
+-          chip_pass: "t88>=1.1;t83;t81"
            exempt_pass1_address_change: "True"
            intsn_level_sensitive: "True"
            pib_int_field: "USBSTS_HSE"
@@ -37,7 +37,7 @@
        - name: UCTL_INTSTAT
          value: 0x001
          attributes:
--          chip_pass: "t88>=1.1;t83"
+-          chip_pass: "t88>=1.1;t83;t81"
            exempt_pass1_address_change: "True"
            pib_rtl_module: "usbh"
          description: |
@@ -48,7 +48,7 @@
 -      - name: UCTL_INTSTAT
 -        value: 0x003
 -        attributes:
--          chip_pass: "t88<1.1;!t83"
+-          chip_pass: "t88<1.1;!t83;!t81"
 -          exempt_pass1_address_change: "True"
 -          pib_rtl_module: "usbh"
 -        description: |
@@ -61,14 +61,14 @@
 -      - name: UAHC_USBSTS_HSE_CLEAR
 -        value: 0x001
 -        attributes:
--          chip_pass: "t88<1.1;!t83"
+-          chip_pass: "t88<1.1;!t83;!t81"
 -          intsn_level_sensitive: "True"
 -        description: Changed in pass 1.1. Level sensitive interrupt clear vector.
 -
        - name: UAHC_USBSTS_HSE_CLEAR
          value: 0x003
          attributes:
--          chip_pass: "t88>=1.1;t83"
+-          chip_pass: "t88>=1.1;t83;t81"
            exempt_pass1_address_change: "True"
            intsn_level_sensitive: "True"
          description: Changed in pass 1.1. Level sensitive interrupt clear vector.

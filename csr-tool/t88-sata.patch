@@ -4,14 +4,14 @@
        - name: UAHC_INTRQ_IP
          value: 0x000
          attributes:
--          chip_pass: "t88>1.1;t83"
+-          chip_pass: "t88>1.1;t83;t81"
 -          pib_int_field: "INTRQ_IP"
 -        description: See SATA()_UAHC_GBL_IS[IPS] and SATA()_UAHC_P0_IS.
 -
 -      - name: UAHC_INTRQ_IP
 -        value: 0x000
 -        attributes:
--          chip_pass: "t88<=1.1;!t83"
+-          chip_pass: "t88<=1.1;!t83;!t81"
 -          intsn_level_sensitive: "True"
            pib_int_field: "INTRQ_IP"
          description: See SATA()_UAHC_GBL_IS[IPS] and SATA()_UAHC_P0_IS.
@@ -19,7 +19,7 @@
        - name: UCTL_INTSTAT
          value: 0x001
          attributes:
--          chip_pass: "t88>1.1;t83"
+-          chip_pass: "t88>1.1;t83;t81"
 -          exempt_pass1_address_change: "True"
 -          pib_rtl_module: "sata"
 -        description: |
@@ -30,7 +30,7 @@
 -      - name: UCTL_INTSTAT
 -        value: 0x004
 -        attributes:
--          chip_pass: "t88<=1.1;!t83"
+-          chip_pass: "t88<=1.1;!t83;!t81"
            exempt_pass1_address_change: "True"
            pib_rtl_module: "sata"
          description: |
