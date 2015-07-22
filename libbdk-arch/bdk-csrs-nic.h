@@ -1912,10 +1912,11 @@ union nic_send_hdr_s {
                                                                  operation to send one or more packets of a TCP flow, and the related [TSO_*] fields are
                                                                  valid.
                                                                  TSO can be tunneled or non-tunneled as follows:
-                                                                 * If [CKLF] = NIC_SEND_CKL4_E::TCP, TSO is tunneled and [CKLF] must point to the TCP
-                                                                 header to be modified by hardware.
-                                                                 * Otherwise, TSO is non-tunneled and [CKL4] must point to the TCP
-                                                                 header to be modified by hardware. */
+                                                                 * If [LFPTR] is non-zero, TSO is tunneled. [LEPTR] and [LFPTR] must point to the inner IP
+                                                                 and TCP headers, respectively, [L3PTR] must point to the outer IP, and [L4PTR] just point
+                                                                 to the tunneling header (e.g. UDP or GRE).
+                                                                 * If [LFPTR] is zero, TSO is non-tunneled. [L3PTR] and [L4PTR] must point to the IP and
+                                                                 TCP headers, respectively. */
 		uint64_t pnc                         : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
                                                                  NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
                                                                  error. If clear, no CQE is added on normal completion.
@@ -1968,20 +1969,21 @@ union nic_send_hdr_s {
                                                                  Added in pass 2. */
 		uint64_t reserved_40_41              : 2;  /**< [ 41: 40] Reserved. */
 		uint64_t l4ptr                       : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for L4
-                                                                 checksumming and non-tunneled TCP.
+                                                                 checksumming and/or TSO.
                                                                  The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
                                                                  packet. Software might populate this field for forwarded packets from a computation based
                                                                  off NIC_CQE_RX_S[L4PTR], which is the IP location computed by NIC when the packet is
-                                                                 parsed. When [CKL4] is nonzero, no L4 header bytes indicated by [L4PTR] can overlap with
-                                                                 any bytes covered by or inserted by NIC_SEND_CRC_S CRCs (but the subsequent L4 payload
-                                                                 bytes can overlap with the NIC_SEND_CRC_S CRC bytes). */
+                                                                 parsed. When [L4PTR] is used for any of [CKL4,TSO] calculations/modifications, no L4
+                                                                 header bytes indicated by [L4PTR] can overlap with any bytes covered by or inserted by
+                                                                 NIC_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap with the
+                                                                 NIC_SEND_CRC_S CRC bytes). */
 		uint64_t l3ptr                       : 8;  /**< [ 31: 24] Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for L3
-                                                                 checksum and/or L4 checksum. (See [CKL3,CKL4].) The IP packet must be exactly [L3PTR]
-                                                                 bytes from the beginning of the packet. Software might populate this field for forwarded
-                                                                 packets from a computation based off NIC_CQE_RX_S[L3PTR], which is the IP location
-                                                                 computed by NIC when the packet is parsed. When [L3PTR] is used for any of [CKL3,CKL4]
-                                                                 calculations/modifications, then no L3 nor L2 header bytes indicated by [L3PTR] can
-                                                                 overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
+                                                                 checksum, L4 checksum and/or TSO. (See [CKL3,CKL4,TSO].) The IP packet must be exactly
+                                                                 [L3PTR] bytes from the beginning of the packet. Software might populate this field for
+                                                                 forwarded packets from a computation based off NIC_CQE_RX_S[L3PTR], which is the IP
+                                                                 location computed by NIC when the packet is parsed. When [L3PTR] is used for any of
+                                                                 [CKL3,CKL4,TSO] calculations/modifications, then no L3 nor L2 header bytes indicated by
+                                                                 [L3PTR] can overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
 		uint64_t reserved_20_23              : 4;  /**< [ 23: 20] Reserved. */
 		uint64_t total                       : 20; /**< [ 19:  0] Total byte count. Must be greater than 0. For a non-TSO descriptor, the total number of
                                                                  bytes to
@@ -2012,20 +2014,21 @@ union nic_send_hdr_s {
                                                                  is less than the minimum size for the interface. */
 		uint64_t reserved_20_23              : 4;  /**< [ 23: 20] Reserved. */
 		uint64_t l3ptr                       : 8;  /**< [ 31: 24] Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for L3
-                                                                 checksum and/or L4 checksum. (See [CKL3,CKL4].) The IP packet must be exactly [L3PTR]
-                                                                 bytes from the beginning of the packet. Software might populate this field for forwarded
-                                                                 packets from a computation based off NIC_CQE_RX_S[L3PTR], which is the IP location
-                                                                 computed by NIC when the packet is parsed. When [L3PTR] is used for any of [CKL3,CKL4]
-                                                                 calculations/modifications, then no L3 nor L2 header bytes indicated by [L3PTR] can
-                                                                 overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
+                                                                 checksum, L4 checksum and/or TSO. (See [CKL3,CKL4,TSO].) The IP packet must be exactly
+                                                                 [L3PTR] bytes from the beginning of the packet. Software might populate this field for
+                                                                 forwarded packets from a computation based off NIC_CQE_RX_S[L3PTR], which is the IP
+                                                                 location computed by NIC when the packet is parsed. When [L3PTR] is used for any of
+                                                                 [CKL3,CKL4,TSO] calculations/modifications, then no L3 nor L2 header bytes indicated by
+                                                                 [L3PTR] can overlap with any bytes covered by or inserted by NIC_SEND_CRC_S CRCs. */
 		uint64_t l4ptr                       : 8;  /**< [ 39: 32] Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for L4
-                                                                 checksumming and non-tunneled TCP.
+                                                                 checksumming and/or TSO.
                                                                  The Layer 4 header must be exactly [L4PTR] bytes from the beginning of the
                                                                  packet. Software might populate this field for forwarded packets from a computation based
                                                                  off NIC_CQE_RX_S[L4PTR], which is the IP location computed by NIC when the packet is
-                                                                 parsed. When [CKL4] is nonzero, no L4 header bytes indicated by [L4PTR] can overlap with
-                                                                 any bytes covered by or inserted by NIC_SEND_CRC_S CRCs (but the subsequent L4 payload
-                                                                 bytes can overlap with the NIC_SEND_CRC_S CRC bytes). */
+                                                                 parsed. When [L4PTR] is used for any of [CKL4,TSO] calculations/modifications, no L4
+                                                                 header bytes indicated by [L4PTR] can overlap with any bytes covered by or inserted by
+                                                                 NIC_SEND_CRC_S CRCs (but the subsequent L4 payload bytes can overlap with the
+                                                                 NIC_SEND_CRC_S CRC bytes). */
 		uint64_t reserved_40_41              : 2;  /**< [ 41: 40] Reserved. */
 		uint64_t ckle                        : 1;  /**< [ 42: 42] Inner Checksum L3. Similar to [CKL3] but for inner IP.
                                                                  Added in pass 2. */
@@ -2083,21 +2086,24 @@ union nic_send_hdr_s {
                                                                  operation to send one or more packets of a TCP flow, and the related [TSO_*] fields are
                                                                  valid.
                                                                  TSO can be tunneled or non-tunneled as follows:
-                                                                 * If [CKLF] = NIC_SEND_CKL4_E::TCP, TSO is tunneled and [CKLF] must point to the TCP
-                                                                 header to be modified by hardware.
-                                                                 * Otherwise, TSO is non-tunneled and [CKL4] must point to the TCP
-                                                                 header to be modified by hardware. */
+                                                                 * If [LFPTR] is non-zero, TSO is tunneled. [LEPTR] and [LFPTR] must point to the inner IP
+                                                                 and TCP headers, respectively, [L3PTR] must point to the outer IP, and [L4PTR] just point
+                                                                 to the tunneling header (e.g. UDP or GRE).
+                                                                 * If [LFPTR] is zero, TSO is non-tunneled. [L3PTR] and [L4PTR] must point to the IP and
+                                                                 TCP headers, respectively. */
 		uint64_t subdc                       : 4;  /**< [ 63: 60] Subdescriptor code. Indicates send header. Enumerated by NIC_SEND_SUBDC_E::HDR. */
 #endif
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_104_127            : 24; /**< [127:104] Reserved. INTERNAL: NIC hardware uses this for TSO_FLAGS_MASK and TSO_PKTNUM. */
-		uint64_t lfptr                       : 8;  /**< [103: 96] Inner Layer 4 Offset. Similar to [L4PTR], but specifies the location of the first byte of
-                                                                 inner the TCP/UDP header for inner L4 checksumming and tunneled TCP, as directed by
-                                                                 [CKLF].
-                                                                 If [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be \> [L4PTR] + 20.
+		uint64_t lfptr                       : 8;  /**< [103: 96] Inner Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for
+                                                                 LF checksumming and/or tunneled TSO. Similar to [L4PTR], but specifies the location of the
+                                                                 first byte of inner the TCP/UDP header for inner L4 checksumming and tunneled TSO, as
+                                                                 directed by [CKLF,TSO]. If [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be \>
+                                                                 [L4PTR] + 20.
                                                                  Added in pass 2. */
-		uint64_t leptr                       : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Similar to [L3PTR] but for inner IP as directed by [CKLE]. If
-                                                                 [CKLE] and [CKL3] are set, then [LEPTR] must be \> [L3PTR] + 20.
+		uint64_t leptr                       : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for LE
+                                                                 checksum, LF checksum and/or tunneled TSO. Similar to [L3PTR] but for inner IP as directed
+                                                                 by [CKLE,CKLF,TSO]. If [CKLE] and [CKL3] are set, then [LEPTR] must be \> [L3PTR] + 20.
                                                                  Added in pass 2. */
 		uint64_t tso_sb                      : 8;  /**< [ 87: 80] Start bytes when [TSO] set. Location of the start byte of the TCP message payload (i.e.
                                                                  the size of the headers preceding the payload). Must be non-zero and less than [TOTAL],
@@ -2126,13 +2132,15 @@ union nic_send_hdr_s {
                                                                  else the send descriptor is treated as non-TSO.
 
                                                                  Added in pass 2. */
-		uint64_t leptr                       : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Similar to [L3PTR] but for inner IP as directed by [CKLE]. If
-                                                                 [CKLE] and [CKL3] are set, then [LEPTR] must be \> [L3PTR] + 20.
+		uint64_t leptr                       : 8;  /**< [ 95: 88] Inner Layer 3 IP Offset. Specifies the location of the first byte of the IP packet for LE
+                                                                 checksum, LF checksum and/or tunneled TSO. Similar to [L3PTR] but for inner IP as directed
+                                                                 by [CKLE,CKLF,TSO]. If [CKLE] and [CKL3] are set, then [LEPTR] must be \> [L3PTR] + 20.
                                                                  Added in pass 2. */
-		uint64_t lfptr                       : 8;  /**< [103: 96] Inner Layer 4 Offset. Similar to [L4PTR], but specifies the location of the first byte of
-                                                                 inner the TCP/UDP header for inner L4 checksumming and tunneled TCP, as directed by
-                                                                 [CKLF].
-                                                                 If [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be \> [L4PTR] + 20.
+		uint64_t lfptr                       : 8;  /**< [103: 96] Inner Layer 4 Offset. Specifies the location of the first byte of the TCP/UDP header for
+                                                                 LF checksumming and/or tunneled TSO. Similar to [L4PTR], but specifies the location of the
+                                                                 first byte of inner the TCP/UDP header for inner L4 checksumming and tunneled TSO, as
+                                                                 directed by [CKLF,TSO]. If [CKLF] and [CKL4] are both non-zero, then [LFPTR] must be \>
+                                                                 [L4PTR] + 20.
                                                                  Added in pass 2. */
 		uint64_t reserved_104_127            : 24; /**< [127:104] Reserved. INTERNAL: NIC hardware uses this for TSO_FLAGS_MASK and TSO_PKTNUM. */
 #endif
@@ -2782,21 +2790,17 @@ typedef union bdk_nic_pf_cq_avg_cfg {
 		uint64_t reserved_21_63              : 43;
 		uint64_t avg_en                      : 1;  /**< R/W - QoS averaging enable. When set, compute average buffer levels. When clear, do not compute
                                                                  averages and save a few mW of power. */
-		uint64_t lvl_dly                     : 6;  /**< R/W - Levelizer delay. Number of cycles between level computations for RED.
-                                                                 Increasing values decrease power. Zero disables, one indicates a level computation every
-                                                                 other cycle, etc. Once set to nonzero must not be later set to zero without resetting NIC. */
-		uint64_t avg_dly                     : 14; /**< R/W - Average-queue-size delay. The number of levelizer-clock cycles to wait (1024 *
-                                                                 ([AVG_DLY]+1) * ([LVL_DLY]+1)) coprocessor clocks) between calculating the moving averages
-                                                                 for each RQ. Note the minimum value of 2048 cycles implies that at 50 M packets/sec, and a
-                                                                 coprocessor clock of 800 MHz, approximately 120 packets may arrive between average
-                                                                 calculations.
+		uint64_t lvl_dly                     : 6;  /**< R/W - Levelizer delay. See [AVG_DLY]. Must be \>= 2 when [AVG_EN] is set. */
+		uint64_t avg_dly                     : 14; /**< R/W - Average-queue-size delay. Must be non-zero when [AVG_EN] is set. The moving average
+                                                                 calculation for each CQ is performed every 1024 * ([AVG_DLY]+1) * ([LVL_DLY]+1)
+                                                                 coprocessor clocks. Note the minimum value of 6144 cycles implies that at 50 M
+                                                                 packets/sec, and a coprocessor clock of 800 MHz, approximately 400 packets may arrive
+                                                                 between average calculations.
 
-                                                                 Larger [LVL_DLY] values cause the backpressure indications and moving averages of all aura
-                                                                 levels to track changes in the actual free space more slowly. Larger AVG_DLY also causes
-                                                                 the moving averages of all levels to track changes in the actual free space more slowly,
-                                                                 but does not affect backpressure. Larger NIC_QS()_CQ()_CFG[AVG_CON] or
-                                                                 NIC_QS()_RBDR()_CFG[AVG_CON]) values causes a specific aura to track more
-                                                                 slowly, but only affects an individual aura level, rather than all. */
+                                                                 Larger [LVL_DLY] and [AVG_DLV] values cause the moving averages of all CQ levels to track
+                                                                 changes in the actual free space more slowly. Larger NIC_QS()_CQ()_CFG[AVG_CON] values
+                                                                 causes a specific CQ to track more slowly, but only affects an individual CQ level, rather
+                                                                 than all. */
 #else
 		uint64_t avg_dly                     : 14;
 		uint64_t lvl_dly                     : 6;
@@ -2869,10 +2873,10 @@ typedef union bdk_nic_pf_cqm_test {
                                                                  \<61\> = CQE_REQ: Stall CQE write requests from REB & SEB.
                                                                  \<60\> = INTR: Stall CQ interrupts to CSI. */
 		uint64_t reserved_24_59              : 36;
-		uint64_t bp_cfg                      : 8;  /**< R/W - Enable NIC block random backpressure. For diagnostic use only.
+		uint64_t bp_cfg                      : 8;  /**< R/W - Backpressure weight. For diagnostic use only.
                                                                  INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is
-                                                                   0=100% of the time, 1=25% of the time, 2=50% of the time, 3=75% of the time.
+                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    \<23:22\> = BP_CFG3.
                                                                    \<21:20\> = BP_CFG2.
                                                                    \<19:18\> = BP_CFG1.
@@ -2919,10 +2923,10 @@ typedef union bdk_nic_pf_csi_test {
                                                                  \<61\> = Reserved.
                                                                  \<60\> = PIB_STALL. */
 		uint64_t reserved_24_59              : 36;
-		uint64_t bp_cfg                      : 8;  /**< R/W - Enable NIC block random backpressure. For diagnostic use only.
+		uint64_t bp_cfg                      : 8;  /**< R/W - Backpressure weight. For diagnostic use only.
                                                                  INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is
-                                                                   0=100% of the time, 1=25% of the time, 2=50% of the time, 3=75% of the time.
+                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    \<23:22\> = BP_CFG3.
                                                                    \<21:20\> = BP_CFG2.
                                                                    \<19:18\> = BP_CFG1.
@@ -6401,14 +6405,14 @@ typedef union bdk_nic_pf_qsx_lockx {
 		uint64_t data                        : 32; /**< R/W - Lockdown data. If corresponding [BYTE_ENA] is set and NIC_PF_QS()_CFG[LOCK_ENA] is
                                                                  set, outbound packet data must match the [DATA] byte or the packet will be dropped. Bytes
                                                                  are numbered in little endian form, with byte 0 the first byte onto the wire:
-                                                                 _ If LOCK(0)[BYTE_EN]\<0\> set, LOCK(0)[DATA]\<7:0\> = packet byte 0.
-                                                                 _ If LOCK(0)[BYTE_EN]\<1\> set, LOCK(0)[DATA]\<15:8\> = packet byte 1.
-                                                                 _ If LOCK(0)[BYTE_EN]\<2\> set, LOCK(0)[DATA]\<23:16\> = packet byte 2.
-                                                                 _ If LOCK(0)[BYTE_EN]\<3\> set, LOCK(0)[DATA]\<31:24\> = packet byte 3.
+                                                                 _ If LOCK(0)[BYTE_ENA]\<0\> set, LOCK(0)[DATA]\<7:0\> = packet byte 0.
+                                                                 _ If LOCK(0)[BYTE_ENA]\<1\> set, LOCK(0)[DATA]\<15:8\> = packet byte 1.
+                                                                 _ If LOCK(0)[BYTE_ENA]\<2\> set, LOCK(0)[DATA]\<23:16\> = packet byte 2.
+                                                                 _ If LOCK(0)[BYTE_ENA]\<3\> set, LOCK(0)[DATA]\<31:24\> = packet byte 3.
                                                                  _ ...
-                                                                 _ If LOCK(1)[BYTE_EN]\<0\> set, LOCK(1)[DATA]\<7:0\> = packet byte 4.
+                                                                 _ If LOCK(1)[BYTE_ENA]\<0\> set, LOCK(1)[DATA]\<7:0\> = packet byte 4.
                                                                  _ ...
-                                                                 _ If LOCK(15)[BYTE_EN]\<3\> set, LOCK(15)[DATA]\<31:24\> = packet byte 63. */
+                                                                 _ If LOCK(15)[BYTE_ENA]\<3\> set, LOCK(15)[DATA]\<31:24\> = packet byte 63. */
 #else
 		uint64_t data                        : 32;
 		uint64_t byte_ena                    : 4;
@@ -6780,10 +6784,10 @@ typedef union bdk_nic_pf_rqm_test {
                                                                  \<61\> = REB1_CQ_STALL.
                                                                  \<60\> = REB0_CQ_STALL. */
 		uint64_t reserved_24_59              : 36;
-		uint64_t bp_cfg                      : 8;  /**< R/W - Enable NIC block random backpressure. For diagnostic use only.
+		uint64_t bp_cfg                      : 8;  /**< R/W - Backpressure weight. For diagnostic use only.
                                                                  INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is
-                                                                   0=100% of the time, 1=25% of the time, 2=50% of the time, 3=75% of the time.
+                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    \<23:22\> = BP_CFG3.
                                                                    \<21:20\> = BP_CFG2.
                                                                    \<19:18\> = BP_CFG1.
@@ -6825,21 +6829,17 @@ typedef union bdk_nic_pf_rrm_avg_cfg {
 		uint64_t reserved_21_63              : 43;
 		uint64_t avg_en                      : 1;  /**< R/W - QoS averaging enable. When set, compute average buffer levels. When clear, do not compute
                                                                  averages and save a few mW of power. */
-		uint64_t lvl_dly                     : 6;  /**< R/W - Levelizer delay. Number of cycles between level computations for backpressure and RED.
-                                                                 Increasing values decrease power. Zero disables, one indicates a level computation every
-                                                                 other cycle, etc. Once set to nonzero must not be later set to zero without resetting NIC. */
-		uint64_t avg_dly                     : 14; /**< R/W - Average-queue-size delay. The number of levelizer-clock cycles to wait (1024 *
-                                                                 ([AVG_DLY]+1) * ([LVL_DLY]+1)) coprocessor clocks) between calculating the moving averages
-                                                                 for each RQ. Note the minimum value of 2048 cycles implies that at 50 M packets/sec, and a
-                                                                 coprocessor clock of 800 MHz, approximately 120 packets may arrive between average
-                                                                 calculations.
+		uint64_t lvl_dly                     : 6;  /**< R/W - Levelizer delay. See [AVG_DLY]. Must be non-zero when [AVG_EN] is set. */
+		uint64_t avg_dly                     : 14; /**< R/W - Average-queue-size delay. Must be non-zero when [AVG_EN] is set. The moving average
+                                                                 calculation for each RBDR is performed every 1024 * ([AVG_DLY]+1) * ([LVL_DLY]+1)
+                                                                 coprocessor clocks. Note the minimum value of 8192 cycles implies that at 50 M
+                                                                 packets/sec, and a coprocessor clock of 800 MHz, approximately 250 packets may arrive
+                                                                 between average calculations.
 
-                                                                 Larger [LVL_DLY] values cause the backpressure indications and moving averages of all aura
-                                                                 levels to track changes in the actual free space more slowly. Larger AVG_DLY also causes
-                                                                 the moving averages of all levels to track changes in the actual free space more slowly,
-                                                                 but does not affect backpressure. Larger NIC_QS()_CQ()_CFG[AVG_CON] or
-                                                                 NIC_QS()_RBDR()_CFG[AVG_CON]) values causes a specific aura to track more
-                                                                 slowly, but only affects an individual aura level, rather than all. */
+                                                                 Larger [LVL_DLY] and [AVG_DLV] values cause the moving averages of all RBDR levels to
+                                                                 track changes in the actual free space more slowly. Larger NIC_QS()_RBDR()_CFG[AVG_CON]
+                                                                 values causes a specific RBDR to track more slowly, but only affects an individual RBDR
+                                                                 level, rather than all. */
 #else
 		uint64_t avg_dly                     : 14;
 		uint64_t lvl_dly                     : 6;
@@ -6912,10 +6912,10 @@ typedef union bdk_nic_pf_rrm_test {
                                                                  \<61\> = RRM_NCB_RSP_STALL.
                                                                  \<60\> = RRM_INTR_FIFO. */
 		uint64_t reserved_24_59              : 36;
-		uint64_t bp_cfg                      : 8;  /**< R/W - Enable NIC block backpressure. For diagnostic use only.
+		uint64_t bp_cfg                      : 8;  /**< R/W - Backpressure weight. For diagnostic use only.
                                                                  INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is
-                                                                   0=100% of the time, 1=25% of the time, 2=50% of the time, 3=75% of the time.
+                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    \<23:22\> = BP_CFG3.
                                                                    \<21:20\> = BP_CFG2.
                                                                    \<19:18\> = BP_CFG1.
@@ -7334,10 +7334,10 @@ typedef union bdk_nic_pf_seb_test {
                                                                  INTERNAL: Once the bit is set, it reduces the number of co-processor cycles from 1024
                                                                  cycles to 1 co-processor cycle corresponding to the NIC_PF_INTF_SEND_CFG[TSTMP_WD_PERIOD].
                                                                  Added in pass 2. */
-		uint64_t bp_cfg                      : 8;  /**< R/W - Enable NIC block random backpressure. For diagnostic use only.
+		uint64_t bp_cfg                      : 8;  /**< R/W - Backpressure weight. For diagnostic use only.
                                                                  INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is
-                                                                   0=100% of the time, 1=25% of the time, 2=50% of the time, 3=75% of the time.
+                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    \<23:22\> = BP_CFG3.
                                                                    \<21:20\> = BP_CFG2.
                                                                    \<19:18\> = BP_CFG1.
@@ -7364,10 +7364,10 @@ typedef union bdk_nic_pf_seb_test {
                                                                  \<61\> = SEB_INTERFACE_0_STALL.
                                                                  \<60\> = SEB_FIFO_STALL. */
 		uint64_t reserved_24_59              : 36;
-		uint64_t bp_cfg                      : 8;  /**< R/W - Enable NIC block random backpressure. For diagnostic use only.
+		uint64_t bp_cfg                      : 8;  /**< R/W - Backpressure weight. For diagnostic use only.
                                                                  INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is
-                                                                   0=100% of the time, 1=25% of the time, 2=50% of the time, 3=75% of the time.
+                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    \<23:22\> = BP_CFG3.
                                                                    \<21:20\> = BP_CFG2.
                                                                    \<19:18\> = BP_CFG1.
@@ -7456,10 +7456,10 @@ typedef union bdk_nic_pf_sqm_test1 {
                                                                  \<61\> = SQ_DOOR_STALL.
                                                                  \<60\> = SQ_INT_SET_FIFO_STALL. */
 		uint64_t reserved_24_59              : 36;
-		uint64_t bp_cfg                      : 8;  /**< R/W - Enable NIC block random backpressure. For diagnostic use only.
+		uint64_t bp_cfg                      : 8;  /**< R/W - Backpressure weight. For diagnostic use only.
                                                                  INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is
-                                                                   0=100% of the time, 1=25% of the time, 2=50% of the time, 3=75% of the time.
+                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    \<23:22\> = BP_CFG3.
                                                                    \<21:20\> = BP_CFG2.
                                                                    \<19:18\> = BP_CFG1.
@@ -7506,10 +7506,10 @@ typedef union bdk_nic_pf_sqm_test2 {
                                                                  \<61\> = MQM_SCH_REQ_STALL.
                                                                  \<60\> = MQM_MDQ_UPDATE_STALL. */
 		uint64_t reserved_24_59              : 36;
-		uint64_t bp_cfg                      : 8;  /**< R/W - Enable NIC block random backpressure. For diagnostic use only.
+		uint64_t bp_cfg                      : 8;  /**< R/W - Backpressure weight. For diagnostic use only.
                                                                  INTERNAL:
-                                                                   There are 2 BP_CFG bits per enable.  The definition is
-                                                                   0=100% of the time, 1=25% of the time, 2=50% of the time, 3=75% of the time.
+                                                                   There are 2 BP_CFG bits per enable.  The definition is 0x0=100% of the time,
+                                                                   0x1=25% of the time, 0x2=50% of the time, 0x3=75% of the time.
                                                                    \<23:22\> = BP_CFG3.
                                                                    \<21:20\> = BP_CFG2.
                                                                    \<19:18\> = BP_CFG1.
@@ -8574,9 +8574,7 @@ typedef union bdk_nic_qsx_cqx_door {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
 		uint64_t count                       : 16; /**< WO - Number of dequeued entries of 512 bytes. Hardware advances NIC_QS()_CQ()_TAIL[HEAD_PTR] by
-                                                                 this value if the CQ is enabled. A write that would underflow the CQ (i.e. cause the CQ
-                                                                 head pointer to pass the tail pointer) is suppressed and sets
-                                                                 NIC_QS()_CQ()_STATUS[CQ_WR_FULL]. */
+                                                                 this value if the CQ is enabled. */
 #else
 		uint64_t count                       : 16;
 		uint64_t reserved_16_63              : 48;

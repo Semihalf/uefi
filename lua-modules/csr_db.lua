@@ -11010,6 +11010,65 @@ local csr_db = {
                 {name = "VALUE", start = 0, stop = 23},
             }
         },
+        DTX_OCX_BOT_BCST_RSP = {
+            name = "DTX_OCX_BOT_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe198080,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_OCX_BOT_CTL = {
+            name = "DTX_OCX_BOT_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe198060,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_OCX_BOT_DATX = {
+            name = "DTX_OCX_BOT_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe198040,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_OCX_BOT_ENAX = {
+            name = "DTX_OCX_BOT_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe198020,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "ENA", start = 0, stop = 35},
+            }
+        },
+        DTX_OCX_BOT_SELX = {
+            name = "DTX_OCX_BOT_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe198000,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
         DTX_OCX_LNKX_BCST_RSP = {
             name = "DTX_OCX_LNK#_BCST_RSP",
             type = "RSL",
@@ -14091,7 +14150,7 @@ local csr_db = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
                 {name = "RX_DATARATE_OVRRD_EN", start = 15, stop = 15},
                 {name = "PCS_SDS_RX_TRISTATE_ENABLE", start = 14, stop = 14},
-                {name = "RX_RESETN_OVVRD_VAL", start = 13, stop = 13},
+                {name = "RX_RESETN_OVRRD_VAL", start = 13, stop = 13},
                 {name = "PCS_SDS_RX_EYEMON_EN", start = 12, stop = 12},
                 {name = "PCS_SDS_RX_PCM_CTRL", start = 8, stop = 11},
                 {name = "RX_DATARATE_OVRRD_VAL", start = 6, stop = 7},
@@ -14112,11 +14171,11 @@ local csr_db = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
                 {name = "RX_CHPD_OVRRD_VAL", start = 15, stop = 15},
                 {name = "PCS_SDS_RX_OS_MEN", start = 14, stop = 14},
-                {name = "EIE_EN_OVVRD_EN", start = 13, stop = 13},
-                {name = "EIE_EN_OVVRD_VAL", start = 12, stop = 12},
+                {name = "EIE_EN_OVRRD_EN", start = 13, stop = 13},
+                {name = "EIE_EN_OVRRD_VAL", start = 12, stop = 12},
                 {name = "RESERVED_11_11", start = 11, stop = 11},
-                {name = "RX_PCIE_MODE_OVVRD_EN", start = 10, stop = 10},
-                {name = "RX_PCIE_MODE_OVVRD_VAL", start = 9, stop = 9},
+                {name = "RX_PCIE_MODE_OVRRD_EN", start = 10, stop = 10},
+                {name = "RX_PCIE_MODE_OVRRD_VAL", start = 9, stop = 9},
                 {name = "CFG_RX_DLL_LOCKEN", start = 8, stop = 8},
                 {name = "PCS_SDS_RX_CDR_SSC_MODE", start = 0, stop = 7},
             }
@@ -14178,10 +14237,10 @@ local csr_db = {
             range2_inc = 0x100000,
             fields = {
                 {name = "RESERVED_5_63", start = 5, stop = 63},
-                {name = "RX_AGC_MEN_OVVRD_EN", start = 4, stop = 4},
-                {name = "RX_AGC_MEN_OVVRD_VAL", start = 3, stop = 3},
-                {name = "RX_WIDTHSEL_OVVRD_EN", start = 2, stop = 2},
-                {name = "RX_WIDTHSEL_OVVRD_VAL", start = 0, stop = 1},
+                {name = "RX_AGC_MEN_OVRRD_EN", start = 4, stop = 4},
+                {name = "RX_AGC_MEN_OVRRD_VAL", start = 3, stop = 3},
+                {name = "RX_WIDTHSEL_OVRRD_EN", start = 2, stop = 2},
+                {name = "RX_WIDTHSEL_OVRRD_VAL", start = 0, stop = 1},
             }
         },
         GSERX_LANEX_RX_CTLE_CTRL = {
@@ -14235,12 +14294,12 @@ local csr_db = {
                 {name = "CFG_RX_OOB_CLK_EN_OVRRD_EN", start = 12, stop = 12},
                 {name = "CFG_RX_EIE_DET_OVRRD_VAL", start = 11, stop = 11},
                 {name = "CFG_RX_EIE_DET_OVRRD_EN", start = 10, stop = 10},
-                {name = "CFG_RX_CDR_CTRL_OVVRD_EN", start = 9, stop = 9},
+                {name = "CFG_RX_CDR_CTRL_OVRRD_EN", start = 9, stop = 9},
                 {name = "CFG_RX_EQ_EVAL_OVRRD_VAL", start = 8, stop = 8},
                 {name = "CFG_RX_EQ_EVAL_OVRRD_EN", start = 7, stop = 7},
                 {name = "RESERVED_6_6", start = 6, stop = 6},
-                {name = "CFG_RX_DLL_LOCKEN_OVVRD_EN", start = 5, stop = 5},
-                {name = "CFG_RX_ERRDET_CTRL_OVVRD_EN", start = 4, stop = 4},
+                {name = "CFG_RX_DLL_LOCKEN_OVRRD_EN", start = 5, stop = 5},
+                {name = "CFG_RX_ERRDET_CTRL_OVRRD_EN", start = 4, stop = 4},
                 {name = "RESERVED_3_0", start = 0, stop = 3},
             }
         },
@@ -14450,10 +14509,10 @@ local csr_db = {
             range2_inc = 0x100000,
             fields = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
-                {name = "TX_TRISTATE_EN_OVRD_VAL", start = 15, stop = 15},
-                {name = "TX_CHPD_OVRD_VAL", start = 14, stop = 14},
+                {name = "TX_TRISTATE_EN_OVRRD_VAL", start = 15, stop = 15},
+                {name = "TX_CHPD_OVRRD_VAL", start = 14, stop = 14},
                 {name = "RESERVED_13_10", start = 10, stop = 13},
-                {name = "TX_RESETN_OVRD_VAL", start = 9, stop = 9},
+                {name = "TX_RESETN_OVRRD_VAL", start = 9, stop = 9},
                 {name = "TX_CM_MODE", start = 8, stop = 8},
                 {name = "CFG_TX_SWING", start = 3, stop = 7},
                 {name = "FAST_RDET_MODE", start = 2, stop = 2},
@@ -14472,17 +14531,17 @@ local csr_db = {
             range2_inc = 0x100000,
             fields = {
                 {name = "RESERVED_15_63", start = 15, stop = 63},
-                {name = "TX_WIDTHSEL_OVRD_EN", start = 14, stop = 14},
-                {name = "TX_WIDTHSEL_OVRD_VAL", start = 12, stop = 13},
+                {name = "TX_WIDTHSEL_OVRRD_EN", start = 14, stop = 14},
+                {name = "TX_WIDTHSEL_OVRRD_VAL", start = 12, stop = 13},
                 {name = "TX_VBOOST_EN_OVRRD_EN", start = 11, stop = 11},
                 {name = "TX_TURBO_EN_OVRRD_EN", start = 10, stop = 10},
-                {name = "TX_SWING_OVRD_EN", start = 9, stop = 9},
-                {name = "TX_PREMPTAP_OVRD_VAL", start = 8, stop = 8},
+                {name = "TX_SWING_OVRRD_EN", start = 9, stop = 9},
+                {name = "TX_PREMPTAP_OVRRD_VAL", start = 8, stop = 8},
                 {name = "TX_ELEC_IDLE_OVRRD_EN", start = 7, stop = 7},
-                {name = "SMPL_RATE_OVRD_EN", start = 6, stop = 6},
-                {name = "SMPL_RATE_OVRD_VAL", start = 3, stop = 5},
-                {name = "TX_DATARATE_OVRD_EN", start = 2, stop = 2},
-                {name = "TX_DATARATE_OVRD_VAL", start = 0, stop = 1},
+                {name = "SMPL_RATE_OVRRD_EN", start = 6, stop = 6},
+                {name = "SMPL_RATE_OVRRD_VAL", start = 3, stop = 5},
+                {name = "TX_DATARATE_OVRRD_EN", start = 2, stop = 2},
+                {name = "TX_DATARATE_OVRRD_VAL", start = 0, stop = 1},
             }
         },
         GSERX_LANEX_TX_CFG_2 = {
@@ -14498,9 +14557,9 @@ local csr_db = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
                 {name = "PCS_SDS_TX_DCC_EN", start = 15, stop = 15},
                 {name = "RESERVED_14_3", start = 3, stop = 14},
-                {name = "RCVR_TEST_OVRD_EN", start = 2, stop = 2},
-                {name = "RCVR_TEST_OVRD_VAL", start = 1, stop = 1},
-                {name = "TX_RX_DETECT_DIS_OVRD_VAL", start = 0, stop = 0},
+                {name = "RCVR_TEST_OVRRD_EN", start = 2, stop = 2},
+                {name = "RCVR_TEST_OVRRD_VAL", start = 1, stop = 1},
+                {name = "TX_RX_DETECT_DIS_OVRRD_VAL", start = 0, stop = 0},
             }
         },
         GSERX_LANEX_TX_CFG_3 = {
@@ -14948,6 +15007,21 @@ local csr_db = {
                 {name = "P2_RX_CDR_CLR", start = 6, stop = 6},
                 {name = "P2_RX_SUBBLK_PD", start = 1, stop = 5},
                 {name = "P2_RX_CHPD", start = 0, stop = 0},
+            }
+        },
+        GSERX_RX_TXDIR_CTRL_1 = {
+            name = "GSER#_RX_TXDIR_CTRL_1",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0904600f0,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_12_63", start = 12, stop = 63},
+                {name = "RX_PRECORR_CHG_DIR", start = 11, stop = 11},
+                {name = "RX_TAP1_CHG_DIR", start = 10, stop = 10},
+                {name = "RX_TAP1_HI_THRS", start = 5, stop = 9},
+                {name = "RX_TAP1_LO_THRS", start = 0, stop = 4},
             }
         },
         GSERX_SATA_LANEX_TX_AMPX = {
@@ -65598,6 +65672,65 @@ local csr_db = {
                 {name = "VALUE", start = 0, stop = 23},
             }
         },
+        DTX_OCX_BOT_BCST_RSP = {
+            name = "DTX_OCX_BOT_BCST_RSP",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe198080,
+            fields = {
+                {name = "RESERVED_1_63", start = 1, stop = 63},
+                {name = "ENA", start = 0, stop = 0},
+            }
+        },
+        DTX_OCX_BOT_CTL = {
+            name = "DTX_OCX_BOT_CTL",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe198060,
+            fields = {
+                {name = "RESERVED_5_63", start = 5, stop = 63},
+                {name = "ACTIVE", start = 4, stop = 4},
+                {name = "RESERVED_2_3", start = 2, stop = 3},
+                {name = "ECHOEN", start = 1, stop = 1},
+                {name = "SWAP", start = 0, stop = 0},
+            }
+        },
+        DTX_OCX_BOT_DATX = {
+            name = "DTX_OCX_BOT_DAT#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe198040,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "RAW", start = 0, stop = 35},
+            }
+        },
+        DTX_OCX_BOT_ENAX = {
+            name = "DTX_OCX_BOT_ENA#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe198020,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_36_63", start = 36, stop = 63},
+                {name = "ENA", start = 0, stop = 35},
+            }
+        },
+        DTX_OCX_BOT_SELX = {
+            name = "DTX_OCX_BOT_SEL#",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0fe198000,
+            range1 = {0,1},
+            range1_inc = 0x8,
+            fields = {
+                {name = "RESERVED_24_63", start = 24, stop = 63},
+                {name = "VALUE", start = 0, stop = 23},
+            }
+        },
         DTX_OCX_LNKX_BCST_RSP = {
             name = "DTX_OCX_LNK#_BCST_RSP",
             type = "RSL",
@@ -68324,6 +68457,39 @@ local csr_db = {
                 {name = "TXEQ_WAIT_CNT", start = 0, stop = 3},
             }
         },
+        GSERX_GLBL_MISC_CONFIG_1 = {
+            name = "GSER#_GLBL_MISC_CONFIG_1",
+            type = "RSL",
+            width = 8,
+            address = 0x87e090460030,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "PCS_SDS_VREF_TR", start = 6, stop = 9},
+                {name = "PCS_SDS_TRIM_CHP_REG", start = 4, stop = 5},
+                {name = "PCS_SDS_VCO_REG_TR", start = 2, stop = 3},
+                {name = "PCS_SDS_CVBG_EN", start = 1, stop = 1},
+                {name = "PCS_SDS_EXTVBG_EN", start = 0, stop = 0},
+            }
+        },
+        GSERX_GLBL_PLL_CFG_3 = {
+            name = "GSER#_GLBL_PLL_CFG_3",
+            type = "RSL",
+            width = 8,
+            address = 0x87e090460018,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "PCS_SDS_PLL_VCO_AMP", start = 8, stop = 9},
+                {name = "PLL_BYPASS_UQ", start = 7, stop = 7},
+                {name = "PLL_VCTRL_SEL_OVRRD_EN", start = 6, stop = 6},
+                {name = "PLL_VCTRL_SEL_OVRRD_VAL", start = 4, stop = 5},
+                {name = "PLL_VCTRL_SEL_LCVCO_VAL", start = 2, stop = 3},
+                {name = "PLL_VCTRL_SEL_ROVCO_VAL", start = 0, stop = 1},
+            }
+        },
         GSERX_GLBL_PLL_MONITOR = {
             name = "GSER#_GLBL_PLL_MONITOR",
             type = "RSL",
@@ -68718,7 +68884,7 @@ local csr_db = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
                 {name = "RX_DATARATE_OVRRD_EN", start = 15, stop = 15},
                 {name = "PCS_SDS_RX_TRISTATE_ENABLE", start = 14, stop = 14},
-                {name = "RX_RESETN_OVVRD_VAL", start = 13, stop = 13},
+                {name = "RX_RESETN_OVRRD_VAL", start = 13, stop = 13},
                 {name = "PCS_SDS_RX_EYEMON_EN", start = 12, stop = 12},
                 {name = "PCS_SDS_RX_PCM_CTRL", start = 8, stop = 11},
                 {name = "RX_DATARATE_OVRRD_VAL", start = 6, stop = 7},
@@ -68739,11 +68905,11 @@ local csr_db = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
                 {name = "RX_CHPD_OVRRD_VAL", start = 15, stop = 15},
                 {name = "PCS_SDS_RX_OS_MEN", start = 14, stop = 14},
-                {name = "EIE_EN_OVVRD_EN", start = 13, stop = 13},
-                {name = "EIE_EN_OVVRD_VAL", start = 12, stop = 12},
+                {name = "EIE_EN_OVRRD_EN", start = 13, stop = 13},
+                {name = "EIE_EN_OVRRD_VAL", start = 12, stop = 12},
                 {name = "RESERVED_11_11", start = 11, stop = 11},
-                {name = "RX_PCIE_MODE_OVVRD_EN", start = 10, stop = 10},
-                {name = "RX_PCIE_MODE_OVVRD_VAL", start = 9, stop = 9},
+                {name = "RX_PCIE_MODE_OVRRD_EN", start = 10, stop = 10},
+                {name = "RX_PCIE_MODE_OVRRD_VAL", start = 9, stop = 9},
                 {name = "CFG_RX_DLL_LOCKEN", start = 8, stop = 8},
                 {name = "PCS_SDS_RX_CDR_SSC_MODE", start = 0, stop = 7},
             }
@@ -68805,10 +68971,10 @@ local csr_db = {
             range2_inc = 0x100000,
             fields = {
                 {name = "RESERVED_5_63", start = 5, stop = 63},
-                {name = "RX_AGC_MEN_OVVRD_EN", start = 4, stop = 4},
-                {name = "RX_AGC_MEN_OVVRD_VAL", start = 3, stop = 3},
-                {name = "RX_WIDTHSEL_OVVRD_EN", start = 2, stop = 2},
-                {name = "RX_WIDTHSEL_OVVRD_VAL", start = 0, stop = 1},
+                {name = "RX_AGC_MEN_OVRRD_EN", start = 4, stop = 4},
+                {name = "RX_AGC_MEN_OVRRD_VAL", start = 3, stop = 3},
+                {name = "RX_WIDTHSEL_OVRRD_EN", start = 2, stop = 2},
+                {name = "RX_WIDTHSEL_OVRRD_VAL", start = 0, stop = 1},
             }
         },
         GSERX_LANEX_RX_CTLE_CTRL = {
@@ -68862,12 +69028,12 @@ local csr_db = {
                 {name = "CFG_RX_OOB_CLK_EN_OVRRD_EN", start = 12, stop = 12},
                 {name = "CFG_RX_EIE_DET_OVRRD_VAL", start = 11, stop = 11},
                 {name = "CFG_RX_EIE_DET_OVRRD_EN", start = 10, stop = 10},
-                {name = "CFG_RX_CDR_CTRL_OVVRD_EN", start = 9, stop = 9},
+                {name = "CFG_RX_CDR_CTRL_OVRRD_EN", start = 9, stop = 9},
                 {name = "CFG_RX_EQ_EVAL_OVRRD_VAL", start = 8, stop = 8},
                 {name = "CFG_RX_EQ_EVAL_OVRRD_EN", start = 7, stop = 7},
                 {name = "RESERVED_6_6", start = 6, stop = 6},
-                {name = "CFG_RX_DLL_LOCKEN_OVVRD_EN", start = 5, stop = 5},
-                {name = "CFG_RX_ERRDET_CTRL_OVVRD_EN", start = 4, stop = 4},
+                {name = "CFG_RX_DLL_LOCKEN_OVRRD_EN", start = 5, stop = 5},
+                {name = "CFG_RX_ERRDET_CTRL_OVRRD_EN", start = 4, stop = 4},
                 {name = "RESERVED_3_1", start = 1, stop = 3},
                 {name = "CFG_RXEQ_EVAL_RESTORE_EN", start = 0, stop = 0},
             }
@@ -69078,10 +69244,10 @@ local csr_db = {
             range2_inc = 0x100000,
             fields = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
-                {name = "TX_TRISTATE_EN_OVRD_VAL", start = 15, stop = 15},
-                {name = "TX_CHPD_OVRD_VAL", start = 14, stop = 14},
+                {name = "TX_TRISTATE_EN_OVRRD_VAL", start = 15, stop = 15},
+                {name = "TX_CHPD_OVRRD_VAL", start = 14, stop = 14},
                 {name = "RESERVED_13_10", start = 10, stop = 13},
-                {name = "TX_RESETN_OVRD_VAL", start = 9, stop = 9},
+                {name = "TX_RESETN_OVRRD_VAL", start = 9, stop = 9},
                 {name = "TX_CM_MODE", start = 8, stop = 8},
                 {name = "CFG_TX_SWING", start = 3, stop = 7},
                 {name = "FAST_RDET_MODE", start = 2, stop = 2},
@@ -69100,17 +69266,17 @@ local csr_db = {
             range2_inc = 0x100000,
             fields = {
                 {name = "RESERVED_15_63", start = 15, stop = 63},
-                {name = "TX_WIDTHSEL_OVRD_EN", start = 14, stop = 14},
-                {name = "TX_WIDTHSEL_OVRD_VAL", start = 12, stop = 13},
+                {name = "TX_WIDTHSEL_OVRRD_EN", start = 14, stop = 14},
+                {name = "TX_WIDTHSEL_OVRRD_VAL", start = 12, stop = 13},
                 {name = "TX_VBOOST_EN_OVRRD_EN", start = 11, stop = 11},
                 {name = "TX_TURBO_EN_OVRRD_EN", start = 10, stop = 10},
-                {name = "TX_SWING_OVRD_EN", start = 9, stop = 9},
-                {name = "TX_PREMPTAP_OVRD_VAL", start = 8, stop = 8},
+                {name = "TX_SWING_OVRRD_EN", start = 9, stop = 9},
+                {name = "TX_PREMPTAP_OVRRD_VAL", start = 8, stop = 8},
                 {name = "TX_ELEC_IDLE_OVRRD_EN", start = 7, stop = 7},
-                {name = "SMPL_RATE_OVRD_EN", start = 6, stop = 6},
-                {name = "SMPL_RATE_OVRD_VAL", start = 3, stop = 5},
-                {name = "TX_DATARATE_OVRD_EN", start = 2, stop = 2},
-                {name = "TX_DATARATE_OVRD_VAL", start = 0, stop = 1},
+                {name = "SMPL_RATE_OVRRD_EN", start = 6, stop = 6},
+                {name = "SMPL_RATE_OVRRD_VAL", start = 3, stop = 5},
+                {name = "TX_DATARATE_OVRRD_EN", start = 2, stop = 2},
+                {name = "TX_DATARATE_OVRRD_VAL", start = 0, stop = 1},
             }
         },
         GSERX_LANEX_TX_CFG_2 = {
@@ -69126,9 +69292,9 @@ local csr_db = {
                 {name = "RESERVED_16_63", start = 16, stop = 63},
                 {name = "PCS_SDS_TX_DCC_EN", start = 15, stop = 15},
                 {name = "RESERVED_14_3", start = 3, stop = 14},
-                {name = "RCVR_TEST_OVRD_EN", start = 2, stop = 2},
-                {name = "RCVR_TEST_OVRD_VAL", start = 1, stop = 1},
-                {name = "TX_RX_DETECT_DIS_OVRD_VAL", start = 0, stop = 0},
+                {name = "RCVR_TEST_OVRRD_EN", start = 2, stop = 2},
+                {name = "RCVR_TEST_OVRRD_VAL", start = 1, stop = 1},
+                {name = "TX_RX_DETECT_DIS_OVRRD_VAL", start = 0, stop = 0},
             }
         },
         GSERX_LANEX_TX_CFG_3 = {
@@ -69576,6 +69742,21 @@ local csr_db = {
                 {name = "P2_RX_CDR_CLR", start = 6, stop = 6},
                 {name = "P2_RX_SUBBLK_PD", start = 1, stop = 5},
                 {name = "P2_RX_CHPD", start = 0, stop = 0},
+            }
+        },
+        GSERX_RX_TXDIR_CTRL_1 = {
+            name = "GSER#_RX_TXDIR_CTRL_1",
+            type = "RSL",
+            width = 8,
+            address = 0x87e0904600f0,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_12_63", start = 12, stop = 63},
+                {name = "RX_PRECORR_CHG_DIR", start = 11, stop = 11},
+                {name = "RX_TAP1_CHG_DIR", start = 10, stop = 10},
+                {name = "RX_TAP1_HI_THRS", start = 5, stop = 9},
+                {name = "RX_TAP1_LO_THRS", start = 0, stop = 4},
             }
         },
         GSERX_SATA_LANEX_TX_AMPX = {

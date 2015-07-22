@@ -307,14 +307,14 @@ typedef union bdk_smi_drv_ctl {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_11_63              : 53;
 		uint64_t pctl                        : 3;  /**< R/W - PCTL drive strength control bits. Suggested values:
-                                                                 0x4 = 75 ohm.
-                                                                 0x6 = 50 ohm.
-                                                                 0x7 = 40 ohm. */
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
 		uint64_t reserved_3_7                : 5;
 		uint64_t nctl                        : 3;  /**< R/W - NCTL drive strength control bits. Suggested values:
-                                                                 0x4 = 75 ohm.
-                                                                 0x6 = 50 ohm.
-                                                                 0x7 = 40 ohm. */
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
 #else
 		uint64_t nctl                        : 3;
 		uint64_t reserved_3_7                : 5;

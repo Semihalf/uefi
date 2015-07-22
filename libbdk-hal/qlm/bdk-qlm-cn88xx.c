@@ -2003,7 +2003,7 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
         /* TX Swing: First read any board specific setting from the environment */
         int swing = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_SWING, node, qlm, lane);
         /* If no setting, use hard coded generic defaults */
-        if ((swing == -1) && !cfg_1.s.tx_swing_ovrd_en)
+        if ((swing == -1) && !cfg_1.s.tx_swing_ovrrd_en)
         {
             if (baud_mhz == 6250)
             {
@@ -2030,10 +2030,10 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
                     c.s.cfg_tx_swing = swing);
                 did_update = 1;
             }
-            if (!cfg_1.s.tx_swing_ovrd_en)
+            if (!cfg_1.s.tx_swing_ovrrd_en)
             {
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-                    c.s.tx_swing_ovrd_en = 1);
+                    c.s.tx_swing_ovrrd_en = 1);
                 did_update = 1;
             }
         }
@@ -2041,7 +2041,7 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
         /* TX Premptap: First read any board specific setting from the environment */
         int premptap = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_PREMPTAP, node, qlm, lane);
         /* If no setting, use hard coded generic defaults */
-        if ((premptap == -1) && !cfg_1.s.tx_premptap_ovrd_val)
+        if ((premptap == -1) && !cfg_1.s.tx_premptap_ovrrd_val)
         {
             if (baud_mhz == 6250)
             {
@@ -2068,10 +2068,10 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
                     c.s.cfg_tx_premptap = premptap);
                 did_update = 1;
             }
-            if (!cfg_1.s.tx_premptap_ovrd_val)
+            if (!cfg_1.s.tx_premptap_ovrrd_val)
             {
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-                    c.s.tx_premptap_ovrd_val = 1);
+                    c.s.tx_premptap_ovrrd_val = 1);
                 did_update = 1;
             }
         }

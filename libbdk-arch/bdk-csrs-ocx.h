@@ -1772,7 +1772,8 @@ typedef union bdk_ocx_lnex_trn_ctl {
 		uint64_t reserved_4_63               : 60;
 		uint64_t lock                        : 1;  /**< RO/H - Training frame boundary locked. */
 		uint64_t done                        : 1;  /**< R/W/H - Training done. For diagnostic use only may be written to 1 to force training done. */
-		uint64_t ena                         : 1;  /**< RO/H - Training enabled. */
+		uint64_t ena                         : 1;  /**< RO/H - Training enabled.
+                                                                 Should match corresponding OCX_QLM()_CFG[TRN_ENA]. */
 		uint64_t eie_detect                  : 1;  /**< RO/H - Electrical idle exit (EIE) detected. */
 #else
 		uint64_t eie_detect                  : 1;
@@ -1810,10 +1811,12 @@ typedef union bdk_ocx_lnex_trn_ld {
 		uint64_t lp_manual                   : 1;  /**< R/W - Allow software to manually manipulate local device CU/SR by ignoring hardware update. */
 		uint64_t reserved_49_62              : 14;
 		uint64_t ld_cu_val                   : 1;  /**< RO/H - Local device coefficient update field valid. */
-		uint64_t ld_cu_dat                   : 16; /**< R/W/H - Local device coefficient update field data. */
+		uint64_t ld_cu_dat                   : 16; /**< R/W/H - Local device coefficient update field data.
+                                                                 The format of this field is BGX_SPU_BR_TRAIN_CUP_S. */
 		uint64_t reserved_17_31              : 15;
 		uint64_t ld_sr_val                   : 1;  /**< RO/H - Local device status report field valid. */
-		uint64_t ld_sr_dat                   : 16; /**< R/W/H - Local device status report field data. */
+		uint64_t ld_sr_dat                   : 16; /**< R/W/H - Local device status report field data.
+                                                                 The format of this field is BGX_SPU_BR_TRAIN_REP_S. */
 #else
 		uint64_t ld_sr_dat                   : 16;
 		uint64_t ld_sr_val                   : 1;
@@ -1851,10 +1854,12 @@ typedef union bdk_ocx_lnex_trn_lp {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
 		uint64_t lp_cu_val                   : 1;  /**< RO/H - Link partner coefficient update field valid. */
-		uint64_t lp_cu_dat                   : 16; /**< RO/H - Link partner coefficient update field data. */
+		uint64_t lp_cu_dat                   : 16; /**< RO/H - Link partner coefficient update field data.
+                                                                 The format of this field is BGX_SPU_BR_TRAIN_CUP_S. */
 		uint64_t reserved_17_31              : 15;
 		uint64_t lp_sr_val                   : 1;  /**< RO/H - Link partner status report field valid. */
-		uint64_t lp_sr_dat                   : 16; /**< RO/H - Link partner status report field data. */
+		uint64_t lp_sr_dat                   : 16; /**< RO/H - Link partner status report field data.
+                                                                 The format of this field is BGX_SPU_BR_TRAIN_REP_S. */
 #else
 		uint64_t lp_sr_dat                   : 16;
 		uint64_t lp_sr_val                   : 1;
@@ -2322,8 +2327,7 @@ typedef union bdk_ocx_qlmx_cfg {
 		uint64_t reserved_27_30              : 4;
 		uint64_t trn_rxeq_only               : 1;  /**< R/W/H - Shortened training sequence.  Initialized to 1 during cold reset when OCI_SPD\<3:0\> pins
                                                                  indicate 5 GBAUD \<=speed \< 8 GBAUD. Otherwise, initialized to 0 during a cold reset. This
-                                                                 field is
-                                                                 not affected by soft or warm reset.  For diagnostic use only. */
+                                                                 field is not affected by soft or warm reset.  For diagnostic use only. */
 		uint64_t timer_dis                   : 1;  /**< R/W/H - Disable bad lane timer. A timer counts core clocks (RCLKs) when any enabled lane is not
                                                                  ready, i.e. not in the scrambler sync state. If this timer expires before all enabled
                                                                  lanes can be made ready, then any lane which is not ready is disabled via

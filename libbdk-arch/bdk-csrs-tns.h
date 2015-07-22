@@ -3281,7 +3281,8 @@ typedef union bdk_tns_rdma_nb_perf_cntrlx {
 		uint64_t frozen                      : 1;  /**< RO/H - Indicates that the counter is frozen (i.e one shot event occurred) and remains
                                                                  frozen until the clear bit written. */
 		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
-                                                                 TNS_TDMA_NB_PERF and field FROZEN of this register. */
+                                                                 TNS_RDMA_NB_PERF and field FROZEN of this register. The bit remains
+                                                                 asserted continuously until 0 is written. */
 		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
 		uint64_t global_stop                 : 1;  /**< R/W - This bit has two functions which are differentiated by the
                                                                  register number relative to the counter group.  For the
@@ -3549,7 +3550,8 @@ typedef union bdk_tns_rdma_perf_cntrlx {
 		uint64_t frozen                      : 1;  /**< RO/H - Indicates that the counter is frozen (i.e one shot event occurred) and remains
                                                                  frozen until the clear bit written. */
 		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
-                                                                 TNS_TDMA_NB_PERF and field FROZEN of this register. */
+                                                                 TNS_RDMA_PERF and field FROZEN of this register. The bit remains
+                                                                 asserted continuously until 0 is written. */
 		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
 		uint64_t global_stop                 : 1;  /**< R/W - This bit has two functions which are differentiated by the
                                                                  register number relative to the counter group.  For the
@@ -6260,7 +6262,8 @@ typedef union bdk_tns_tdma_nb_perf_cntrlx {
 		uint64_t frozen                      : 1;  /**< RO/H - Indicates that the counter is frozen (i.e one shot event occurred) and remains
                                                                  frozen until the clear bit written. */
 		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
-                                                                 TNS_TDMA_NB_PERF and field FROZEN of this register. */
+                                                                 TNS_TDMA_NB_PERF and field FROZEN of this register. The bit remains
+                                                                 asserted continuously until 0 is written. */
 		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
 		uint64_t global_stop                 : 1;  /**< R/W - This bit has two functions which are differentiated by the
                                                                  register number relative to the counter group.  For the
@@ -6582,7 +6585,8 @@ typedef union bdk_tns_tdma_perf_cntrlx {
 		uint64_t frozen                      : 1;  /**< RO/H - Indicates that the counter is frozen (i.e one shot event occurred) and remains
                                                                  frozen until the clear bit written. */
 		uint64_t clear                       : 1;  /**< WO/H - Writing 1 to this bit generates a hardware pulse that clears the
-                                                                 TNS_TDMA_NB_PERF and field FROZEN of this register. */
+                                                                 TNS_TDMA_PERF and field FROZEN of this register. The bit remains
+                                                                 asserted continuously until 0 is written. */
 		uint64_t enable                      : 1;  /**< R/W - Enable the counter. This bit is set to 1 to use the corresponding counter. */
 		uint64_t global_stop                 : 1;  /**< R/W - This bit has two functions which are differentiated by the
                                                                  register number relative to the counter group.  For the

@@ -561,14 +561,14 @@ typedef union bdk_gpio_comp {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_11_63              : 53;
 		uint64_t pctl                        : 3;  /**< R/W - GPIO bus driver PCTL. Suggested values:
-                                                                 0x4 = 75 ohm.
-                                                                 0x6 = 50 ohm.
-                                                                 0x7 = 40 ohm. */
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
 		uint64_t reserved_3_7                : 5;
 		uint64_t nctl                        : 3;  /**< R/W - GPIO bus driver NCTL. Suggested values:
-                                                                 0x4 = 75 ohm.
-                                                                 0x6 = 50 ohm.
-                                                                 0x7 = 40 ohm. */
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
 #else
 		uint64_t nctl                        : 3;
 		uint64_t reserved_3_7                : 5;

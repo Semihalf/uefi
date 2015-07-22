@@ -259,8 +259,8 @@ static inline uint64_t BDK_AP_AMAIR_EL12_FUNC(void)
 /**
  * SYSREG - ap_ccsidr_el1
  *
- * Provides information about the architecture of the currently
- * selected cache.
+ * This register provides information about the architecture of the currently selected
+ * cache.
  */
 typedef union bdk_ap_ccsidr_el1 {
 	uint32_t u;
@@ -300,7 +300,7 @@ typedef union bdk_ap_ccsidr_el1 {
                                                                  For CNXXXX L1D (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 0), is 0x31.
                                                                  For CNXXXX L1I (AP_CSSELR_EL1[LEVEL] = 0x0, AP_CSSELR_EL1[IND] = 1), is 0x38.
                                                                  For CNXXXX L2 (AP_CSSELR_EL1[LEVEL] = 0x1, AP_CSSELR_EL1[IND] = 0), is 0x15. */
-		uint32_t linesize                    : 3;  /**< RO - (Log2(Number of bytes in cache line)) - 4.
+		uint32_t linesize                    : 3;  /**< RO - Cache-line size, in (Log2(Number of bytes in cache line)) - 4.
 
                                                                  For CNXXXX, 128 bytes. */
 #else
@@ -333,10 +333,9 @@ static inline uint64_t BDK_AP_CCSIDR_EL1_FUNC(void)
 /**
  * SYSREG - ap_clidr_el1
  *
- * Identifies the type of cache, or caches, implemented at each
- * level, up to a maximum of seven levels. Also identifies the
- * Level of Coherence (LoC) and Level of Unification (LoU) for
- * the cache hierarchy.
+ * This register identifies the type of cache, or caches, implemented at each level, up
+ * to a maximum of seven levels. Also identifies the Level of Coherence (LoC) and Level
+ * of Unification (LoU) for the cache hierarchy.
  */
 typedef union bdk_ap_clidr_el1 {
 	uint32_t u;
@@ -360,7 +359,7 @@ typedef union bdk_ap_clidr_el1 {
                                                                  All other values are reserved.
 
                                                                  For CNXXXX, no L7 cache. */
-		uint32_t ctype6                      : 3;  /**< RO - Cache Type fields. Indicate the type of cache implemented at
+		uint32_t ctype6                      : 3;  /**< RO - Cache type fields. Indicate the type of cache implemented at
                                                                      each level, from Level 1 up to a maximum of seven levels of
                                                                      cache hierarchy.
                                                                  0x0 = No cache.
@@ -370,7 +369,7 @@ typedef union bdk_ap_clidr_el1 {
                                                                  0x4 = Unified cache.
 
                                                                  For CNXXXX, no L6 cache. */
-		uint32_t ctype5                      : 3;  /**< RO - Cache Type fields. Indicate the type of cache implemented at
+		uint32_t ctype5                      : 3;  /**< RO - Cache type fields. Indicate the type of cache implemented at
                                                                      each level, from Level 1 up to a maximum of seven levels of
                                                                      cache hierarchy.
                                                                  0x0 = No cache.
@@ -380,7 +379,7 @@ typedef union bdk_ap_clidr_el1 {
                                                                  0x4 = Unified cache.
 
                                                                  For CNXXXX, no L5 cache. */
-		uint32_t ctype4                      : 3;  /**< RO - Cache Type fields. Indicate the type of cache implemented at
+		uint32_t ctype4                      : 3;  /**< RO - Cache type fields. Indicate the type of cache implemented at
                                                                      each level, from Level 1 up to a maximum of seven levels of
                                                                      cache hierarchy.
                                                                  0x0 = No cache.
@@ -390,7 +389,7 @@ typedef union bdk_ap_clidr_el1 {
                                                                  0x4 = Unified cache.
 
                                                                  For CNXXXX, no L4 cache. */
-		uint32_t ctype3                      : 3;  /**< RO - Cache Type fields. Indicate the type of cache implemented at
+		uint32_t ctype3                      : 3;  /**< RO - Cache type fields. Indicate the type of cache implemented at
                                                                      each level, from Level 1 up to a maximum of seven levels of
                                                                      cache hierarchy.
                                                                  0x0 = No cache.
@@ -400,7 +399,7 @@ typedef union bdk_ap_clidr_el1 {
                                                                  0x4 = Unified cache.
 
                                                                  For CNXXXX, no L3 cache. */
-		uint32_t ctype2                      : 3;  /**< RO - Cache Type fields. Indicate the type of cache implemented at
+		uint32_t ctype2                      : 3;  /**< RO - Cache type fields. Indicate the type of cache implemented at
                                                                      each level, from Level 1 up to a maximum of seven levels of
                                                                      cache hierarchy.
                                                                  0x0 = No cache.
@@ -410,7 +409,7 @@ typedef union bdk_ap_clidr_el1 {
                                                                  0x4 = Unified cache.
 
                                                                  For CNXXXX, L2 cache is unified. */
-		uint32_t ctype1                      : 3;  /**< RO - Cache Type fields. Indicate the type of cache implemented at
+		uint32_t ctype1                      : 3;  /**< RO - Cache type fields. Indicate the type of cache implemented at
                                                                      each level, from Level 1 up to a maximum of seven levels of
                                                                      cache hierarchy.
                                                                  0x0 = No cache.
@@ -488,8 +487,8 @@ static inline uint64_t BDK_AP_CNTFRQ_EL0_FUNC(void)
  * SYSREG - ap_cnthctl_el2
  *
  * Controls the generation of an event stream from the physical
- *     counter, and access from Non-secure EL1 to the physical
- *     counter and the Non-secure EL1 physical timer.
+ *     counter, and access from non-secure EL1 to the physical
+ *     counter and the non-secure EL1 physical timer.
  *
  * This register is at the same select as AP_CNTHCTL_EL2_E2H and is used when E2H=0.
  */
@@ -512,22 +511,22 @@ typedef union bdk_ap_cnthctl_el2 {
                                                                  0 = Disables the event stream.
                                                                  1 = Enables the event stream. */
 		uint32_t el1pcen                     : 1;  /**< R/W - Controls whether the physical timer registers are accessible
-                                                                     from Non-secure EL1 and EL0 modes:
+                                                                     from non-secure EL1 and EL0 modes:
                                                                  If EL3 is implemented and EL2 is not implemented, this bit is
                                                                      treated as if it is 1 for all purposes other than reading the
                                                                      register.
                                                                  0 = The AP_CNTP_CVAL_EL0, AP_CNTP_TVAL_EL0, and AP_CNTP_CTL_EL0 registers
-                                                                     are not accessible from Non-secure EL1 and EL0 modes.
+                                                                     are not accessible from non-secure EL1 and EL0 modes.
                                                                  1 = The AP_CNTP_CVAL_EL0, AP_CNTP_TVAL_EL0, and AP_CNTP_CTL_EL0 registers
-                                                                     are accessible from Non-secure EL1 and EL0 modes. */
+                                                                     are accessible from non-secure EL1 and EL0 modes. */
 		uint32_t el1pcten                    : 1;  /**< R/W - Controls whether the physical counter, AP_CNTPCT_EL0, is
-                                                                     accessible from Non-secure EL1 and EL0 modes:
+                                                                     accessible from non-secure EL1 and EL0 modes:
                                                                  If EL3 is implemented and EL2 is not implemented, this bit is
                                                                      treated as if it is 1 for all purposes other than reading the
                                                                      register.
-                                                                 0 = The AP_CNTPCT_EL0 register is not accessible from Non-secure EL1
+                                                                 0 = The AP_CNTPCT_EL0 register is not accessible from non-secure EL1
                                                                      and EL0 modes.
-                                                                 1 = The AP_CNTPCT_EL0 register is accessible from Non-secure EL1 and
+                                                                 1 = The AP_CNTPCT_EL0 register is accessible from non-secure EL1 and
                                                                      EL0 modes. */
 #else
 		uint32_t el1pcten                    : 1;
@@ -567,7 +566,7 @@ typedef union bdk_ap_cnthctl_el2_e2h {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t reserved_12_31              : 20;
 		uint32_t el1pcen                     : 1;  /**< R/W - Controls whether physical timer register accessing instuctions
-                                                                 are accessible from Non-secure EL1 and EL0:
+                                                                 are accessible from non-secure EL1 and EL0:
                                                                  0 = The following system register accessing instructions in AARCH64,
                                                                      and their equivalent instructions in AARCH32, are trapped to EL2
                                                                      when AP_HCR_EL2[TGE] == 0 and the instructions are executed at
@@ -580,7 +579,7 @@ typedef union bdk_ap_cnthctl_el2_e2h {
                                                                      when AP_HCR_EL2[TGE]==1.
 
                                                                  1 = This bit does not cause any instructions to be trapped to EL2. */
-		uint32_t el1pten                     : 1;  /**< R/W - Controls whether the physical counter is accessible from Non-secure
+		uint32_t el1pten                     : 1;  /**< R/W - Controls whether the physical counter is accessible from non-secure
                                                                  EL1 and EL0.
                                                                  0 = The following system register accessing instructions in AARCH64,
                                                                      and their equivlent instructions in AARCH32, are trapped to EL2
@@ -593,7 +592,7 @@ typedef union bdk_ap_cnthctl_el2_e2h {
 
                                                                  1 = This bit does not cause any instructions to be trapped to EL2. */
 		uint32_t el0pten                     : 1;  /**< R/W - Controls whether the physical timer register accessing instructions are
-                                                                 accessible from Non-secure EL0 when AP_HCR_EL2[TGE]==1.
+                                                                 accessible from non-secure EL0 when AP_HCR_EL2[TGE]==1.
                                                                  0 = The following system register accessing instructions in AARCH64,
                                                                      and their equivlent instructions in AARCH32, are trapped to EL2
                                                                      when AP_HCR_EL2[TGE] == 1 and the instructions are executed at non-secure
@@ -606,7 +605,7 @@ typedef union bdk_ap_cnthctl_el2_e2h {
 
                                                                  1 = This bit does not cause any instructions to be trapped to EL2. */
 		uint32_t el0vten                     : 1;  /**< R/W - Controls whether the virtual timer register accessing instructions are
-                                                                 accessible from Non-secure EL0 when AP_HCR_EL2[TGE]==1.
+                                                                 accessible from non-secure EL0 when AP_HCR_EL2[TGE]==1.
                                                                  0 = The following system register accessing instructions in AARCH64,
                                                                      and their equivlent instructions in AARCH32, are trapped to EL2
                                                                      when AP_HCR_EL2[TGE] == 1 and the instructions are executed at non-secure
@@ -632,7 +631,7 @@ typedef union bdk_ap_cnthctl_el2_e2h {
                                                                  0 = Disables the event stream.
                                                                  1 = Enables the event stream. */
 		uint32_t el0vcten                    : 1;  /**< R/W - Controls whether the virtual counter registers are accessible
-                                                                     from Non-secure EL1 and EL0 when AP_HCR_EL2[TGE]==1:
+                                                                     from non-secure EL1 and EL0 when AP_HCR_EL2[TGE]==1:
                                                                  0 = The following system register accessing instructions in AARCH64,
                                                                      and their equivlent instructions in AARCH32, are trapped to EL2
                                                                      when AP_HCR_EL2[TGE] == 1 and the instructions are executed at non-secure
@@ -648,7 +647,7 @@ typedef union bdk_ap_cnthctl_el2_e2h {
 
                                                                  1 = This bit does not cause any instructions to be trapped to EL2. */
 		uint32_t el0pcten                    : 1;  /**< R/W - Controls whether physical counter register accessing instructions
-                                                                 are accessible from Non-secure EL0 when AP_HCR_EL2[TGE]==1:
+                                                                 are accessible from non-secure EL0 when AP_HCR_EL2[TGE]==1:
                                                                  0 = The following system register accessing instructions in AARCH64,
                                                                      and their equivlent instructions in AARCH32, are trapped to EL2
                                                                      when AP_HCR_EL2[TGE] == 1 and the instructions are executed at non-secure
@@ -2060,7 +2059,7 @@ static inline uint64_t BDK_AP_CSSELR_EL1_FUNC(void)
 /**
  * SYSREG - ap_ctr_el0
  *
- * Provides information about the architecture of the caches.
+ * This register provides information about the architecture of the caches.
  *
  */
 typedef union bdk_ap_ctr_el0 {
@@ -2069,15 +2068,16 @@ typedef union bdk_ap_ctr_el0 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t rsvd_31                     : 1;  /**< RO - Reserved 1. */
 		uint32_t reserved_28_30              : 3;
-		uint32_t cwg                         : 4;  /**< RO - Cache Writeback Granule. Log2 of the number of
+		uint32_t cwg                         : 4;  /**< RO - Cache writeback granule. Log2 of the number of
                                                                     words of the maximum size of memory that can be overwritten as
                                                                     a result of the eviction of a cache entry that has had a
                                                                     memory location in it modified.
 
                                                                  The architectural maximum of 512 words (2KB) must be assumed.
-                                                                 The Cache Writeback Granule can be determined from maximum
+
+                                                                 The cache writeback granule can be determined from maximum
                                                                     cache line size encoded in the Cache Size ID Registers. */
-		uint32_t erg                         : 4;  /**< RO - Exclusives Reservation Granule. Log2 of the number
+		uint32_t erg                         : 4;  /**< RO - Exclusives reservation granule. Log2 of the number
                                                                  of words of the maximum size of the reservation granule that
                                                                  has been implemented for the Load-Exclusive and
                                                                  Store-Exclusive instructions. */
@@ -2087,16 +2087,14 @@ typedef union bdk_ap_ctr_el0 {
 
                                                                  For CNXXXX, 128 bytes. */
 		uint32_t l1ip                        : 2;  /**< RO - Level 1 instruction cache policy. Indicates the indexing and
-                                                                     tagging policy for the L1 instruction cache. Possible values
-                                                                     of this field are:
+                                                                     tagging policy for the L1 instruction cache.
 
-                                                                 0x1 = ASID-tagged Virtual Index, Virtual Tag (AIVIVT).
-                                                                 0x2 = Virtual Index, Physical Tag (VIPT).
-                                                                 0x3 = Physical Index, Physical Tag (PIPT). */
+                                                                 0x1 = ASID-tagged virtual index, virtual tag (AIVIVT).
+                                                                 0x2 = Virtual index, physical tag (VIPT).
+                                                                 0x3 = Physical index, physical tag (PIPT). */
 		uint32_t reserved_4_13               : 10;
-		uint32_t iminline                    : 4;  /**< RO - Log2 of the number of words in the smallest cache
-                                                                     line of all the instruction caches that are controlled by the
-                                                                     PE.
+		uint32_t iminline                    : 4;  /**< RO - Log2 of the number of words in the smallest cache line of all the instruction
+                                                                 caches that are controlled by the PE.
 
                                                                  For CNXXXX, 128 bytes. */
 #else
@@ -2170,16 +2168,18 @@ static inline uint64_t BDK_AP_CURRENTEL_FUNC(void)
 /**
  * SYSREG - ap_cvm_access_el1
  *
+ * This register controls trapping on register accesses.
+ *
  * Read/write access at EL1, EL2 and EL3.
  *
  * Note that AP_HCR_EL2[TIDCP] can also prevent all CVM* access at EL1
- * and below and takes priority over Cvm_ACCESS_EL1.
+ * and below and takes priority over AP_CVM_ACCESS_EL1.
  *
- * Note that Cvm_ACCESS_EL1 can grant access to EL0 for Cvm_*_EL1
- * registers. This is non standard. A some point Cvm_ACCESS_EL1 may be
+ * Note that AP_CVM_ACCESS_EL1 can grant access to EL0 for AP_CVM_*_EL1
+ * registers. This is non standard. A some point AP_CVM_ACCESS_EL1 may be
  * depreciated.
  *
- * A 1 in the appropriate bit in the Cvm_ACCESS_ELn register prevents
+ * A 1 in the appropriate bit in the AP_CVM_ACCESS_ELn register prevents
  * any access at lower exception levels.
  *
  * INTERNAL: If access is denied at multiple exception levels then the
@@ -2192,20 +2192,22 @@ typedef union bdk_ap_cvm_access_el1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_9_63               : 55;
 		uint64_t cvm_cache                   : 1;  /**< R/W - A Cvm_Cache instruction with the exception level lower than 1 traps to EL1 unless
-                                                                 AP_HCR_EL2[TGE] &&!AP_SCR_EL3[NS], then EL2. */
+                                                                 AP_HCR_EL2[TGE] && !AP_SCR_EL3[NS], then EL2. */
 		uint64_t reserved_6_7                : 2;
-		uint64_t cvm_evattid                 : 1;  /**< R/W - A read operation to Cvm_EVATTID with the exception level lower than 1 traps to EL1 unless
-                                                                 AP_HCR_EL2[TGE] &&!AP_SCR_EL3[NS], then EL2. */
-		uint64_t cvm_i_d_cache               : 1;  /**< R/W - A read or write operation to Cvm_Icache* or Cvm_Dcache* with the exception level lower
-                                                                 than 1 traps to EL1 unless AP_HCR_EL2[TGE] &&!AP_SCR_EL3[NS], then EL2. */
-		uint64_t cvm_err                     : 1;  /**< R/W - A read or write operation to Cvm_ERR* with the exception level lower than 1 traps to EL1
-                                                                 unless AP_HCR_EL2[TGE] &&!AP_SCR_EL3[NS], then EL2. */
-		uint64_t cvm_bist                    : 1;  /**< R/W - A read or write operation to Cvm_BIST* with the exception level lower than 1 traps to EL1
-                                                                 unless AP_HCR_EL2[TGE] &&!AP_SCR_EL3[NS], then EL2. */
-		uint64_t powthrottle                 : 1;  /**< R/W - A read or write operation to PowThrottle with the exception level lower than 1 traps to
-                                                                 EL1 unless AP_HCR_EL2[TGE] &&!AP_SCR_EL3[NS], then EL2. */
-		uint64_t cvm_ctl                     : 1;  /**< R/W - A read or write operation to Cvm_Ctl or Cvm_MemCtl with the exception level lower than 1
-                                                                 traps to EL1 unless AP_HCR_EL2[TGE] &&!AP_SCR_EL3[NS], then EL2. */
+		uint64_t cvm_evattid                 : 1;  /**< R/W - A read operation to AP_CVM_EVATTID with the exception level lower than 1 traps
+                                                                 to EL1 unless AP_HCR_EL2[TGE] && !AP_SCR_EL3[NS], then EL2. */
+		uint64_t cvm_i_d_cache               : 1;  /**< R/W - A read or write operation to AP_CVM_Icache* or AP_CVM_Dcache* with the exception
+                                                                 level lower than 1 traps to EL1 unless AP_HCR_EL2[TGE] && !AP_SCR_EL3[NS], then
+                                                                 EL2. */
+		uint64_t cvm_err                     : 1;  /**< R/W - A read or write operation to AP_CVM_ERR* with the exception level lower than 1
+                                                                 traps to EL1 unless AP_HCR_EL2[TGE] && !AP_SCR_EL3[NS], then EL2. */
+		uint64_t cvm_bist                    : 1;  /**< R/W - A read or write operation to AP_CVM_BIST* with the exception level lower than 1
+                                                                 traps to EL1 unless AP_HCR_EL2[TGE] && !AP_SCR_EL3[NS], then EL2. */
+		uint64_t powthrottle                 : 1;  /**< R/W - A read or write operation to PowThrottle with the exception level lower than 1
+                                                                 traps to EL1 unless AP_HCR_EL2[TGE] && !AP_SCR_EL3[NS], then EL2. */
+		uint64_t cvm_ctl                     : 1;  /**< R/W - A read or write operation to AP_CVM_CTL or AP_CVM_MEMCTL with the exception
+                                                                 level lower than 1 traps to EL1 unless AP_HCR_EL2[TGE] && !AP_SCR_EL3[NS], then
+                                                                 EL2. */
 #else
 		uint64_t cvm_ctl                     : 1;
 		uint64_t powthrottle                 : 1;
@@ -2238,7 +2240,7 @@ static inline uint64_t BDK_AP_CVM_ACCESS_EL1_FUNC(void)
 /**
  * SYSREG - ap_cvm_access_el2
  *
- * Read/write access at EL2 and EL3.
+ * This register controls trap/access of Cavium registers. Read/write access at EL2 and EL3.
  *
  */
 typedef union bdk_ap_cvm_access_el2 {
@@ -2247,20 +2249,22 @@ typedef union bdk_ap_cvm_access_el2 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_9_63               : 55;
 		uint64_t cvm_cache                   : 1;  /**< R/W - A Cvm_Cache instruction with the exception level lower than 2 traps to EL2 unless
-                                                                 prohibited by Cvm_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
+                                                                 prohibited by AP_CVM_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
 		uint64_t reserved_6_7                : 2;
-		uint64_t cvm_evattid                 : 1;  /**< R/W - A read operation to Cvm_EVATTID with the exception level lower than 2 traps to EL2 unless
-                                                                 prohibited by Cvm_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
-		uint64_t cvm_i_d_cache               : 1;  /**< R/W - A read or write operation to Cvm_Icache* or Cvm_Dcache* with the exception level lower
-                                                                 than 2 traps to EL2 unless prohibited by Cvm_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
-		uint64_t cvm_err                     : 1;  /**< R/W - A read or write operation to Cvm_ERR* with the exception level lower than 2 traps to EL2
-                                                                 unless prohibited by Cvm_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
-		uint64_t cvm_bist                    : 1;  /**< R/W - A read or write operation to Cvm_BIST* with the exception level lower than 2 traps to EL2
-                                                                 unless prohibited by Cvm_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
+		uint64_t cvm_evattid                 : 1;  /**< R/W - A read operation to AP_CVM_EVATTID with the exception level lower than 2 traps
+                                                                 to EL2 unless prohibited by AP_CVM_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
+		uint64_t cvm_i_d_cache               : 1;  /**< R/W - A read or write operation to AP_CVM_Icache* or AP_CVM_Dcache* with the exception
+                                                                 level lower than 2 traps to EL2 unless prohibited by AP_CVM_ACCESS_EL1 or
+                                                                 AP_SCR_EL3[NS] = 0. */
+		uint64_t cvm_err                     : 1;  /**< R/W - A read or write operation to AP_CVM_ERR* with the exception level lower than 2
+                                                                 traps to EL2 unless prohibited by AP_CVM_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
+		uint64_t cvm_bist                    : 1;  /**< R/W - A read or write operation to AP_CVM_BIST* with the exception level lower than 2
+                                                                 traps to EL2 unless prohibited by AP_CVM_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
 		uint64_t powthrottle                 : 1;  /**< R/W - A read or write operation to PowThrottle with the exception level lower than 2 traps to
-                                                                 EL2 unless prohibited by Cvm_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
-		uint64_t cvm_ctl                     : 1;  /**< R/W - A read or write operation to Cvm_Ctl or Cvm_MemCtl with the exception level lower than 2
-                                                                 traps to EL2 unless prohibited by Cvm_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
+                                                                 EL2 unless prohibited by AP_CVM_ACCESS_EL1 or AP_SCR_EL3[NS] = 0. */
+		uint64_t cvm_ctl                     : 1;  /**< R/W - A read or write operation to AP_CVM_CTL or AP_CVM_MEMCTL with the exception
+                                                                 level lower than 2 traps to EL2 unless prohibited by AP_CVM_ACCESS_EL1 or
+                                                                 AP_SCR_EL3[NS] = 0. */
 #else
 		uint64_t cvm_ctl                     : 1;
 		uint64_t powthrottle                 : 1;
@@ -2305,19 +2309,23 @@ typedef union bdk_ap_cvm_access_el3 {
 		uint64_t reserved_9_63               : 55;
 		uint64_t cvm_cache                   : 1;  /**< R/W - A Cvm_Cache instruction with the exception level lower than 3 traps to EL3 unles */
 		uint64_t reserved_6_7                : 2;
-		uint64_t cvm_evattid                 : 1;  /**< R/W - A read or write operation to Cvm_EVATTID with the exception level lower than 3 traps to
-                                                                 EL3 unless prohibited by Cvm_ACCESS_EL2, Cvm_ACCESS_EL1, or AP_HCR_EL2[TIDCP]. */
-		uint64_t cvm_i_d_cache               : 1;  /**< R/W - A read or write operation to Cvm_Icache* or Cvm_Dcache* with the exception level lower
-                                                                 than 3 traps to EL3 unless prohibited by Cvm_ACCESS_EL2, Cvm_ACCESS_EL1, or
+		uint64_t cvm_evattid                 : 1;  /**< R/W - A read or write operation to AP_CVM_EVATTID with the exception level lower than 3 traps to
+                                                                 EL3 unless prohibited by AP_CVM_ACCESS_EL2, AP_CVM_ACCESS_EL1, or AP_HCR_EL2[TIDCP]. */
+		uint64_t cvm_i_d_cache               : 1;  /**< R/W - A read or write operation to AP_CVM_ICACHE* or AP_CVM_DCACHE* with the exception level
+                                                                 lower
+                                                                 than 3 traps to EL3 unless prohibited by AP_CVM_ACCESS_EL2, AP_CVM_ACCESS_EL1, or
                                                                  AP_HCR_EL2[TIDCP]. */
-		uint64_t cvm_err                     : 1;  /**< R/W - A read or write operation to Cvm_ERR* with the exception level lower than 3 traps to EL3
-                                                                 unless prohibited by Cvm_ACCESS_EL2, Cvm_ACCESS_EL1, or AP_HCR_EL2[TIDCP]. */
-		uint64_t cvm_bist                    : 1;  /**< R/W - A read or write operation to Cvm_BIST* with the exception level lower than 3 traps to EL3
-                                                                 unless prohibited by Cvm_ACCESS_EL2, Cvm_ACCESS_EL1, or AP_HCR_EL2[TIDCP]. */
+		uint64_t cvm_err                     : 1;  /**< R/W - A read or write operation to AP_CVM_ERR* with the exception level lower than 3 traps to
+                                                                 EL3
+                                                                 unless prohibited by AP_CVM_ACCESS_EL2, AP_CVM_ACCESS_EL1, or AP_HCR_EL2[TIDCP]. */
+		uint64_t cvm_bist                    : 1;  /**< R/W - A read or write operation to AP_CVM_BIST* with the exception level lower than 3 traps to
+                                                                 EL3
+                                                                 unless prohibited by AP_CVM_ACCESS_EL2, AP_CVM_ACCESS_EL1, or AP_HCR_EL2[TIDCP]. */
 		uint64_t powthrottle                 : 1;  /**< R/W - A read or write operation to PowThrottle with the exception level lower than 3 traps to
-                                                                 EL3 unless prohibited by Cvm_ACCESS_EL2, Cvm_ACCESS_EL1, or AP_HCR_EL2[TIDCP]. */
-		uint64_t cvm_ctl                     : 1;  /**< R/W - A read or write operation to Cvm_Ctl or Cvm_MemCtl with the exception level lower than 3
-                                                                 traps to EL3 unless prohibited by Cvm_ACCESS_EL2, Cvm_ACCESS_EL1, or AP_HCR_EL2[TIDCP]. */
+                                                                 EL3 unless prohibited by AP_CVM_ACCESS_EL2, AP_CVM_ACCESS_EL1, or AP_HCR_EL2[TIDCP]. */
+		uint64_t cvm_ctl                     : 1;  /**< R/W - A read or write operation to AP_CVM_CTL or AP_CVM_MEMCTL with the exception
+                                                                 level lower than 3 traps to EL3 unless prohibited by AP_CVM_ACCESS_EL2,
+                                                                 AP_CVM_ACCESS_EL1, or AP_HCR_EL2[TIDCP]. */
 #else
 		uint64_t cvm_ctl                     : 1;
 		uint64_t powthrottle                 : 1;
@@ -2863,8 +2871,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG3_EL3_FUNC(void)
 /**
  * SYSREG - ap_cvm_debug4_el3
  *
- * Cvm_Debug4_el3
  * This register is for diagnostic use only.
+ *
  */
 typedef union bdk_ap_cvm_debug4_el3 {
 	uint64_t u;
@@ -2909,8 +2917,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG4_EL3_FUNC(void)
 /**
  * SYSREG - ap_cvm_debug6_el3
  *
- * Cvm_Debug6_el3
  * This register is for diagnostic use only.
+ *
  */
 typedef union bdk_ap_cvm_debug6_el3 {
 	uint64_t u;
@@ -2951,8 +2959,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG6_EL3_FUNC(void)
 /**
  * SYSREG - ap_cvm_debug7_el3
  *
- * Cvm_Debug7_el3
  * This register is for diagnostic use only.
+ *
  */
 typedef union bdk_ap_cvm_debug7_el3 {
 	uint64_t u;
@@ -2983,8 +2991,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG7_EL3_FUNC(void)
 /**
  * SYSREG - ap_cvm_debug8_el3
  *
- * Cvm_Debug8_el3 (CIM Debug 0)
  * This register is for diagnostic use only.
+ *
  */
 typedef union bdk_ap_cvm_debug8_el3 {
 	uint64_t u;
@@ -3027,8 +3035,8 @@ static inline uint64_t BDK_AP_CVM_DEBUG8_EL3_FUNC(void)
 /**
  * SYSREG - ap_cvm_debug9_el3
  *
- * Cvm_Debug9_el3 (CIM Debug 1)
  * This register is for diagnostic use only.
+ *
  */
 typedef union bdk_ap_cvm_debug9_el3 {
 	uint64_t u;
@@ -3275,6 +3283,9 @@ static inline uint64_t BDK_AP_CVM_ERRMEM_EL1_FUNC(void)
 
 /**
  * SYSREG - ap_cvm_evattid_el1
+ *
+ * This register is for diagnostic use only.
+ *
  */
 typedef union bdk_ap_cvm_evattid_el1 {
 	uint64_t u;
@@ -3677,8 +3688,8 @@ static inline uint64_t BDK_AP_CVM_NVBAR_EL3_FUNC(void)
 /**
  * SYSREG - ap_cvm_power_el1
  *
- * resets to 0x2ffff00
- *
+ * This register controls power management.
+ * Resets to 0x2ffff00.
  */
 typedef union bdk_ap_cvm_power_el1 {
 	uint64_t u;
@@ -3927,7 +3938,7 @@ static inline uint64_t BDK_AP_CVM_XLATVTAG1_EL1_FUNC(void)
 /**
  * SYSREG - ap_cvmctl_el1
  *
- * Front-end, Non-Debug
+ * This register provides Cavium-specific control information.
  *
  */
 typedef union bdk_ap_cvmctl_el1 {
@@ -4011,7 +4022,7 @@ static inline uint64_t BDK_AP_CVMCTL_EL1_FUNC(void)
 /**
  * SYSREG - ap_cvmmemctl0_el1
  *
- * Back-end, non-debug.
+ * This register controls memory features.
  *
  */
 typedef union bdk_ap_cvmmemctl0_el1 {
@@ -4104,8 +4115,8 @@ typedef union bdk_ap_cvmmemctl0_el1 {
 		uint64_t wbfallbarrier               : 1;  /**< R/W - Write-buffer apply barrier to all ST instructions. */
 		uint64_t wbfnomerge                  : 1;  /**< R/W - Write-buffer merge disable. */
 		uint64_t wbftonshena                 : 1;  /**< R/W - Write-buffer timeout for NSH entries enable.
-                                                                 0 = write-buffer time out for NSH entries = 218 cycles.
-                                                                 1 = write-buffer time out for NSH entries = 2^[WBFTO] (see [WBFTO]). */
+                                                                 0 = Write-buffer time out for NSH entries = 218 cycles.
+                                                                 1 = Write-buffer time out for NSH entries = 2^[WBFTO] (see [WBFTO]). */
 		uint64_t wbftomrgclrena              : 1;  /**< R/W - Write-buffer timeout clear-on-merge enable. */
 		uint64_t wbfto                       : 5;  /**< R/W - Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
 		uint64_t wbfthresh                   : 5;  /**< R/W - Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
@@ -4234,8 +4245,8 @@ typedef union bdk_ap_cvmmemctl0_el1 {
 		uint64_t wbfallbarrier               : 1;  /**< R/W - Write-buffer apply barrier to all ST instructions. */
 		uint64_t wbfnomerge                  : 1;  /**< R/W - Write-buffer merge disable. */
 		uint64_t wbftonshena                 : 1;  /**< R/W - Write-buffer timeout for NSH entries enable.
-                                                                 0 = write-buffer time out for NSH entries = 218 cycles.
-                                                                 1 = write-buffer time out for NSH entries = 2^[WBFTO] (see [WBFTO]). */
+                                                                 0 = Write-buffer time out for NSH entries = 218 cycles.
+                                                                 1 = Write-buffer time out for NSH entries = 2^[WBFTO] (see [WBFTO]). */
 		uint64_t wbftomrgclrena              : 1;  /**< R/W - Write-buffer timeout clear-on-merge enable. */
 		uint64_t wbfto                       : 5;  /**< R/W - Write-buffer timeout for non-NSH entries; timeout = 2^WBFTO. */
 		uint64_t wbfthresh                   : 5;  /**< R/W - Write-buffer threshold. The write-buffer starts flushing entries to the L2 cache once the
@@ -4299,8 +4310,8 @@ static inline uint64_t BDK_AP_CVMMEMCTL0_EL1_FUNC(void)
 /**
  * SYSREG - ap_cvmmemctl1_el1
  *
+ * This register controls additional memory-unit features.
  * INTERNAL: Back-end, non-debug.
- *
  */
 typedef union bdk_ap_cvmmemctl1_el1 {
 	uint64_t u;
@@ -4309,7 +4320,11 @@ typedef union bdk_ap_cvmmemctl1_el1 {
 		uint64_t reserved_7_63               : 57;
 		uint64_t switchtagena                : 1;  /**< R/W - Reserved.  INTERNAL: 83xx: Enable SSO switch-tag. */
 		uint64_t node1trapena                : 1;  /**< R/W - Reserved.  INTERNAL: 83xx: Trap any access to non-zero node id. */
-		uint64_t ioatomicena                 : 1;  /**< R/W - Atomics to IO (SLI, PKO, SSO). */
+		uint64_t ioatomicena                 : 1;  /**< R/W - Enable atomics to I/O space.
+                                                                 0 = Atomic instructions to I/O space (PA\<47\>=1) will trap.
+                                                                 1 = Atomic instructions to SLI I/O space will succeed,
+                                                                     atomic instructions to other I/O spaces will trap.
+                                                                 INTERNAL: Also PKO/SSO. */
 		uint64_t lmtstena                    : 1;  /**< R/W - Reserved. INTERNAL: 83xx: Enable/disable LMTST(a). */
 		uint64_t lodignoresh                 : 1;  /**< R/W - LocalOrderDomain DMB/DSB_NSH{ST} ignores shareability (applies to both nsh and ish pages). */
 		uint64_t lodishena                   : 1;  /**< R/W - LocalOrderDomain DMB/DSB_ISH{ST} enable. */
@@ -4444,12 +4459,12 @@ typedef union bdk_ap_dbgauthstatus_el1 {
 		uint32_t reserved_8_31               : 24;
 		uint32_t snid                        : 2;  /**< RO - Secure non-invasive debug.
                                                                  0x0 = Not implemented. EL3 is not implemented and the processor is
-                                                                     Non-secure.
+                                                                     non-secure.
                                                                  0x2 = Implemented and disabled.
                                                                  0x3 = Implemented and enabled. */
 		uint32_t sid                         : 2;  /**< RO - Secure invasive debug.
                                                                  0x0 = Not implemented. EL3 is not implemented and the processor is
-                                                                     Non-secure.
+                                                                     non-secure.
                                                                  0x2 = Implemented and disabled.
                                                                  0x3 = Implemented and enabled. */
 		uint32_t nsnid                       : 2;  /**< RO - Non-secure non-invasive debug.
@@ -4885,18 +4900,18 @@ typedef union bdk_ap_dbgvcr32_el2 {
 	uint32_t u;
 	struct bdk_ap_dbgvcr32_el2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t nsf                         : 1;  /**< R/W - FIQ vector catch enable in Non-secure state.
+		uint32_t nsf                         : 1;  /**< R/W - FIQ vector catch enable in non-secure state.
                                                                  The exception vector offset is 0x1C. */
-		uint32_t nsi                         : 1;  /**< R/W - IRQ vector catch enable in Non-secure state.
+		uint32_t nsi                         : 1;  /**< R/W - IRQ vector catch enable in non-secure state.
                                                                  The exception vector offset is 0x18. */
 		uint32_t reserved_29_29              : 1;
-		uint32_t nsd                         : 1;  /**< R/W - Data Abort vector catch enable in Non-secure state.
+		uint32_t nsd                         : 1;  /**< R/W - Data Abort vector catch enable in non-secure state.
                                                                  The exception vector offset is 0x10. */
-		uint32_t nsp                         : 1;  /**< R/W - Prefetch Abort vector catch enable in Non-secure state.
+		uint32_t nsp                         : 1;  /**< R/W - Prefetch Abort vector catch enable in non-secure state.
                                                                  The exception vector offset is 0x0C. */
-		uint32_t nss                         : 1;  /**< R/W - Supervisor Call (SVC) vector catch enable in Non-secure state.
+		uint32_t nss                         : 1;  /**< R/W - Supervisor Call (SVC) vector catch enable in non-secure state.
                                                                  The exception vector offset is 0x08. */
-		uint32_t nsu                         : 1;  /**< R/W - Undefined Instruction vector catch enable in Non-secure state.
+		uint32_t nsu                         : 1;  /**< R/W - Undefined Instruction vector catch enable in non-secure state.
                                                                  The exception vector offset is 0x04. */
 		uint32_t reserved_8_24               : 17;
 		uint32_t sf                          : 1;  /**< R/W - FIQ vector catch enable in Secure state.
@@ -5098,8 +5113,8 @@ static inline uint64_t BDK_AP_DBGWVRX_EL1(unsigned long param1)
 /**
  * SYSREG - ap_dczid_el0
  *
- * Indicates the block size that is written with byte values of 0
- * by the DC ZVA (Data Cache Zero by Address) system instruction.
+ * This register indicates the block size that is written with byte values of 0 by the
+ * DC ZVA (Data Cache Zero by Address) system instruction.
  */
 typedef union bdk_ap_dczid_el0 {
 	uint32_t u;
@@ -5111,8 +5126,7 @@ typedef union bdk_ap_dczid_el0 {
                                                                      and the values of the AP_HCR_EL2[TDZ] and AP_SCTLR_EL1[DZE] bits.
                                                                  0 =  DC ZVA instruction is permitted.
                                                                  1 =  DC ZVA instruction is prohibited. */
-		uint32_t bs                          : 4;  /**< RO - Log2 of the block size in words. The maximum size
-                                                                     supported is 2KB (value == 9).
+		uint32_t bs                          : 4;  /**< RO - Log2 of the block size in words. The maximum size supported is 2KB (value == 9).
 
                                                                  In CNXXXX, 128 bytes. */
 #else
@@ -5173,7 +5187,7 @@ static inline uint64_t BDK_AP_DLR_EL0_FUNC(void)
 /**
  * SYSREG - ap_dspsr_el0
  *
- * Holds the saved processor state on entry to Debug state.
+ * Holds the saved processor state on entry to debug state.
  *
  */
 typedef union bdk_ap_dspsr_el0 {
@@ -5742,7 +5756,7 @@ static inline uint64_t BDK_AP_FPSR_FUNC(void)
  * SYSREG - ap_hacr_el2
  *
  * Controls trapping to EL2 of implementation defined aspects of
- * Non-secure EL1 or EL0 operation.
+ * non-secure EL1 or EL0 operation.
  */
 typedef union bdk_ap_hacr_el2 {
 	uint32_t u;
@@ -5774,7 +5788,7 @@ static inline uint64_t BDK_AP_HACR_EL2_FUNC(void)
  * SYSREG - ap_hcr_el2
  *
  * Provides configuration controls for virtualization, including
- * defining whether various Non-secure operations are trapped to
+ * defining whether various non-secure operations are trapped to
  * EL2.
  */
 typedef union bdk_ap_hcr_el2 {
@@ -5782,7 +5796,7 @@ typedef union bdk_ap_hcr_el2 {
 	struct bdk_ap_hcr_el2_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_36_63              : 28;
-		uint64_t tlor                        : 1;  /**< R/W - v8.1: Trap access to the LOR Registers from Non-secure EL1 to EL2.
+		uint64_t tlor                        : 1;  /**< R/W - v8.1: Trap access to the LOR Registers from non-secure EL1 to EL2.
                                                                  0 = Non-secure EL1 accesses to the LOR Registers are not trapped to EL2.
                                                                  1 = Non-secure EL1 accesses to the LOR Registers are trapped to EL2. */
 		uint64_t e2h                         : 1;  /**< R/W - V8.1: Enable EL2 host. */
@@ -5829,10 +5843,10 @@ typedef union bdk_ap_hcr_el2 {
 		uint64_t tdz                         : 1;  /**< R/W - Trap DC ZVA instruction:
                                                                  This bit also has an effect on the value read from the
                                                                      AP_DCZID_EL0 register. If this bit is 1, then reading
-                                                                     AP_DCZID_EL0[DZP] from Non-secure EL1 or EL0 will return 1 to
+                                                                     AP_DCZID_EL0[DZP] from non-secure EL1 or EL0 will return 1 to
                                                                      indicate that DC ZVA is prohibited.
                                                                  0 = The instruction is not trapped.
-                                                                 1 = The instruction is trapped to EL2 when executed in Non-secure
+                                                                 1 = The instruction is trapped to EL2 when executed in non-secure
                                                                      EL1 or EL0. */
 		uint64_t tge                         : 1;  /**< R/W - Trap General Exceptions. If this bit is set to 1, and
                                                                      AP_SCR_EL3[NS] is set to 1, then:
@@ -6017,11 +6031,11 @@ typedef union bdk_ap_hcr_el2 {
                                                                      trapped if this bit is set to 1. */
 		uint64_t dc                          : 1;  /**< R/W - Default Cacheable. When this bit is set to 1, this causes:
 
-                                                                 * The AP_SCTLR_EL1[M] bit to behave as 0 when in the Non-secure
+                                                                 * The AP_SCTLR_EL1[M] bit to behave as 0 when in the non-secure
                                                                      state for all purposes other than reading the value of the
                                                                      bit.
 
-                                                                 * The AP_HCR_EL2[VM] bit to behave as 1 when in the Non-secure
+                                                                 * The AP_HCR_EL2[VM] bit to behave as 1 when in the non-secure
                                                                      state for all purposes other than reading the value of the
                                                                      bit.
 
@@ -6048,7 +6062,7 @@ typedef union bdk_ap_hcr_el2 {
                                                                  0x3 = Full system. */
 		uint64_t fb                          : 1;  /**< R/W - Force broadcast. When this bit is set to 1, this causes the
                                                                      following instructions to be broadcast within the Inner
-                                                                     Shareable domain when executed from Non-secure EL1:
+                                                                     Shareable domain when executed from non-secure EL1:
 
                                                                  AArch32: BPIALL, TLBIALL, TLBIMVA, TLBIASID, DTLBIALL,
                                                                      DTLBIMVA, DTLBIASID, ITLBIALL, ITLBIMVA, ITLBIASID, TLBIMVAA,
@@ -6361,7 +6375,7 @@ typedef union bdk_ap_icc_ap1rx_el1 {
                                                                  Current Exception level and Security state  AP1Rn access
 
                                                                  (Secure) EL3        Permitted. When AP_SCR_EL3[NS] is 0, accesses Group 1 Secure active
-                                                                 priorities. When AP_SCR_EL3[NS] is 1, accesses Group 1 Non-secure active priorities
+                                                                 priorities. When AP_SCR_EL3[NS] is 1, accesses Group 1 non-secure active priorities
                                                                  (unshifted). When a bit is written, the bit is only updated if the corresponding Group 0
                                                                  and Group 1 Secure active priority is zero.
 
@@ -6699,10 +6713,10 @@ typedef union bdk_ap_icc_ctlr_el3 {
                                                                  This bit is used to modify the behaviour of
                                                                  AP_ICC_IAR0_EL1 and AP_ICC_IAR1_EL1 such that systems with legacy
                                                                  secure software may be supported correctly.
-                                                                 0 = Secure Group 0 and Non-secure Group 1 interrupts can be
+                                                                 0 = Secure Group 0 and non-secure group 1 interrupts can be
                                                                      acknowleged and observed as the highest priority interrupt
                                                                      at EL3 in AArch64 or Monitor mode in AArch32.
-                                                                 1 = Secure Group 0 and Non-secure group 1 interrupts cannot be
+                                                                 1 = Secure Group 0 and non-secure group 1 interrupts cannot be
                                                                      acknowleged and observed as the highest priority interrupt
                                                                      at EL3 in AArch64 or Monitor mode in AArch32 but return
                                                                      special values. */
@@ -6711,7 +6725,7 @@ typedef union bdk_ap_icc_ctlr_el3 {
 		uint32_t eoimode_el3                 : 1;  /**< R/W - EOI mode for interrupts handled at EL3. */
 		uint32_t cbpr_el1ns                  : 1;  /**< R/W - When set, non-secure accesses to GICC_BPR and AP_ICC_BPR1_EL1
                                                                  access the state of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to
-                                                                 determine the preemption group for Non-secure Group 1
+                                                                 determine the preemption group for non-secure group 1
                                                                  interrupts. */
 		uint32_t cbpr_el1s                   : 1;  /**< R/W - When set, secure EL1 accesses to AP_ICC_BPR1_EL1 access the state
                                                                  of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to determine the
@@ -7121,9 +7135,9 @@ typedef union bdk_ap_icc_igrpen1_el3 {
 		uint32_t enablegrp1s                 : 1;  /**< R/W - Enables Group 1 interrupts for the Secure state.
                                                                  0 = Group 1 interrupts are disabled for the Secure state.
                                                                  1 = Group 1 interrupts are enabled for the Secure state. */
-		uint32_t enablegrp1ns                : 1;  /**< R/W - Enables Group 1 interrupts for the Non-secure state.
-                                                                 0 = Group 1 interrupts are disabled for the Non-secure state.
-                                                                 1 = Group 1 interrupts are enabled for the Non-secure state. */
+		uint32_t enablegrp1ns                : 1;  /**< R/W - Enables Group 1 interrupts for the non-secure state.
+                                                                 0 = Group 1 interrupts are disabled for the non-secure state.
+                                                                 1 = Group 1 interrupts are enabled for the non-secure state. */
 #else
 		uint32_t enablegrp1ns                : 1;
 		uint32_t enablegrp1s                 : 1;
@@ -7280,7 +7294,7 @@ static inline uint64_t BDK_AP_ICC_SEIEN_EL1_FUNC(void)
  * SYSREG - ap_icc_sgi0r_el1
  *
  * Provides software the ability to generate secure group 0 SGIs,
- * including from the Non-secure state when permitted by
+ * including from the non-secure state when permitted by
  * GICR_NSACR.
  */
 typedef union bdk_ap_icc_sgi0r_el1 {
@@ -7480,7 +7494,7 @@ typedef union bdk_ap_icc_sre_el2 {
 		uint32_t enable                      : 1;  /**< R/W - Enable. Enables lower Exception level access to AP_ICC_SRE_EL1.
                                                                  0 = Non-secure EL1 accesses to AP_ICC_SRE_EL1 trap to EL2.
                                                                  1 = Non-secure EL1 accesses to AP_ICC_SRE_EL1 are permitted if EL3 is
-                                                                     not present or AP_ICC_SRE_EL3[ENABLE] is 1, otherwise Non-secure
+                                                                     not present or AP_ICC_SRE_EL3[ENABLE] is 1, otherwise non-secure
                                                                      EL1 accesses to AP_ICC_SRE_EL1 trap to EL3. */
 		uint32_t dib                         : 1;  /**< RO - Disable IRQ bypass.
                                                                  If EL3 is present and GICD_CTLR[DS] is 0, this field is a read-
@@ -7788,7 +7802,7 @@ typedef union bdk_ap_ich_ap1r0_el2 {
                                                                  Current Exception level and Security state  AP1Rn access
 
                                                                  (Secure) EL3        Permitted. When AP_SCR_EL3[NS] is 0, accesses Group 1 Secure active
-                                                                 priorities. When AP_SCR_EL3[NS] is 1, accesses Group 1 Non-secure active priorities
+                                                                 priorities. When AP_SCR_EL3[NS] is 1, accesses Group 1 non-secure active priorities
                                                                  (unshifted). When a bit is written, the bit is only updated if the corresponding Group 0
                                                                  and Group 1 Secure active priority is zero.
 
@@ -7799,12 +7813,12 @@ typedef union bdk_ap_ich_ap1r0_el2 {
                                                                  Non-secure EL1 access for a Virtual interrupt       ICH_AP1Rn_EL2
 
                                                                  Non-secure EL1 or EL2 when GIC Distributor supports two Security states (GICD_CTLR[DS] is
-                                                                 0) Permitted. Accesses Group 1 Non-secure active priorities (shifted). When a bit is
+                                                                 0) Permitted. Accesses Group 1 non-secure active priorities (shifted). When a bit is
                                                                  written, the bit is only updated if the corresponding Group 0 and Group 1 Secure active
                                                                  priority is zero.
 
                                                                  Non-secure EL1 or EL2 when GIC Distributor supports one Security state (GICD_CTLR[DS] is
-                                                                 1)  Permitted. Accesses Group 1 Non-secure active priorities (unshifted). When a bit is
+                                                                 1)  Permitted. Accesses Group 1 non-secure active priorities (unshifted). When a bit is
                                                                  written, the bit is only updated if the Group 0 active priority is zero.
 
                                                                  A Virtual interrupt in this case means that the interrupt
@@ -8031,23 +8045,23 @@ typedef union bdk_ap_ich_hcr_el2 {
 		uint32_t reserved_14_26              : 13;
 		uint32_t tsei                        : 1;  /**< RO - A locally generated SEI will trap to EL2 if this bit is set.  This bit is RES0 when
                                                                  AP_ICH_VTR_EL2[SEIS] is not set. */
-		uint32_t tall1                       : 1;  /**< R/W - Trap all Non-secure EL1 accesses to ICC_* system registers for
+		uint32_t tall1                       : 1;  /**< R/W - Trap all non-secure EL1 accesses to ICC_* system registers for
                                                                      group 1 interrupts to EL2.
                                                                  0 = Non-Secure EL1 accesses to ICC_* registers for group 1
                                                                      interrupts proceed as normal.
-                                                                 1 = Any Non-secure EL1 accesses to ICC_* registers for group 1
+                                                                 1 = Any non-secure EL1 accesses to ICC_* registers for group 1
                                                                      interrupts trap to EL2. */
-		uint32_t tall0                       : 1;  /**< R/W - Trap all Non-secure EL1 accesses to ICC_* system registers for
+		uint32_t tall0                       : 1;  /**< R/W - Trap all non-secure EL1 accesses to ICC_* system registers for
                                                                      group 0 interrupts to EL2.
                                                                  0 = Non-Secure EL1 accesses to ICC_* registers for group 0
                                                                      interrupts proceed as normal.
-                                                                 1 = Any Non-secure EL1 accesses to ICC_* registers for group 0
+                                                                 1 = Any non-secure EL1 accesses to ICC_* registers for group 0
                                                                      interrupts trap to EL2. */
-		uint32_t tc                          : 1;  /**< R/W - Trap all Non-secure El1 accesses to system registers that are
+		uint32_t tc                          : 1;  /**< R/W - Trap all non-secure El1 accesses to system registers that are
                                                                      common to group 0 and group 1 to EL2.
                                                                  This affects AP_ICC_DIR_EL1, AP_ICC_PMR_EL1, and AP_ICC_RPR_EL1.
                                                                  0 = Non-secure EL1 accesses to common registers proceed as normal.
-                                                                 1 = Any Non-secure EL1 accesses to common registers trap to EL2. */
+                                                                 1 = Any non-secure EL1 accesses to common registers trap to EL2. */
 		uint32_t reserved_8_9                : 2;
 		uint32_t vgrp1die                    : 1;  /**< R/W - VM Disable Group 1 Interrupt Enable. Enables the signaling of
                                                                      a maintenance interrupt while signaling of Group 1 interrupts
@@ -8372,7 +8386,7 @@ typedef union bdk_ap_ich_vseir_el2 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t valid                       : 1;  /**< R/W - System error interrupt valid.
                                                                  0 = No virtual system error exception is pending.
-                                                                 1 = A virtual system error exception is pending for Non-secure
+                                                                 1 = A virtual system error exception is pending for non-secure
                                                                      EL1. */
 		uint32_t reserved_25_30              : 6;
 		uint32_t syndrome                    : 25; /**< R/W - The value that will be presented in bits [24:0] of ESR_EL1 on
@@ -8593,8 +8607,8 @@ static inline uint64_t BDK_AP_ID_AA64DFRX_EL1_RES0(unsigned long param1)
 /**
  * SYSREG - ap_id_aa64dfr0_el1
  *
- * Provides top level information about the debug system in
- * AArch64.
+ * This register provides top level information about the debug system in AArch64.
+ *
  */
 typedef union bdk_ap_id_aa64dfr0_el1 {
 	uint64_t u;
@@ -8627,8 +8641,8 @@ typedef union bdk_ap_id_aa64dfr0_el1 {
                                                                      supported, PMUv3 not supported.
 
                                                                  For CNXXXX, if AP_CVMCTL_EL1[ENABLE_V81] is set 0x4, else 0x1. */
-		uint64_t tracever                    : 4;  /**< RO - Trace extension. Indicates whether system register interface
-                                                                     to Trace extension is implemented.
+		uint64_t tracever                    : 4;  /**< RO - Trace extension. Indicates whether system register interface to the trace
+                                                                 extension is implemented.
                                                                  All other values are reserved.
                                                                  0x0 = Trace extension system registers not implemented.
                                                                  0x1 = Trace extension system registers implemented. */
@@ -8738,7 +8752,7 @@ static inline uint64_t BDK_AP_ID_AA64ISARX_EL1_RES0(unsigned long param1)
 /**
  * SYSREG - ap_id_aa64isar0_el1
  *
- * Provides information about the instructions implemented by the
+ * This register provides information about the instructions implemented by the
  * processor in AArch64.
  */
 typedef union bdk_ap_id_aa64isar0_el1 {
@@ -8769,21 +8783,21 @@ typedef union bdk_ap_id_aa64isar0_el1 {
                                                                  0x1 = CRC32B, CRC32H, CRC32W, CRC32X, CRC32CB, CRC32CH, CRC32CW, and
                                                                      CRC32CX instructions implemented.
 
-                                                                 In CNXXXX, supported. */
+                                                                 In CNXXXX, supported unless crypto disabled by MIO_FUS_DAT2[NOCRYPTO]. */
 		uint64_t sha2                        : 4;  /**< RO - SHA2 instructions in AArch64.
                                                                  All other values are reserved.
                                                                  0x0 = No SHA2 instructions implemented.
                                                                  0x1 = SHA256H, SHA256H2, SHA256SU0, and SHA256SU1 instructions
                                                                      implemented.
 
-                                                                 In CNXXXX, supported. */
+                                                                 In CNXXXX, supported unless crypto disabled by MIO_FUS_DAT2[NOCRYPTO]. */
 		uint64_t sha1                        : 4;  /**< RO - SHA1 instructions in AArch64.
                                                                  All other values are reserved.
                                                                  0x0 = No SHA1 instructions implemented.
                                                                  0x1 = SHA1C, SHA1P, SHA1M, SHA1H, SHA1SU0, and SHA1SU1 instructions
                                                                      implemented.
 
-                                                                 In CNXXXX, supported. */
+                                                                 In CNXXXX, supported unless crypto disabled by MIO_FUS_DAT2[NOCRYPTO]. */
 		uint64_t aes                         : 4;  /**< RO - AES instructions in AArch64.
                                                                  0x0 = No AES instructions implemented.
                                                                  0x1 = AESE, AESD, AESMC, and AESIMC instructions implemented.
@@ -8891,8 +8905,8 @@ static inline uint64_t BDK_AP_ID_AA64MMFRX_EL1_RES0(unsigned long param1)
 /**
  * SYSREG - ap_id_aa64mmfr0_el1
  *
- * Provides information about the implemented memory model and
- * memory management support in AArch64.
+ * This register provides information about the implemented memory model and memory
+ * management support in AArch64.
  */
 typedef union bdk_ap_id_aa64mmfr0_el1 {
 	uint64_t u;
@@ -8927,20 +8941,20 @@ typedef union bdk_ap_id_aa64mmfr0_el1 {
                                                                      configured.
 
                                                                  In CNXXXX, supported. */
-		uint64_t snsmem                      : 4;  /**< RO - Secure versus Non-secure Memory distinction.
+		uint64_t snsmem                      : 4;  /**< RO - Secure versus non-secure memory distinction.
                                                                  All other values are reserved.
-                                                                 0x0 = Does not support a distinction between Secure and Non-secure
-                                                                     Memory.
-                                                                 0x1 = Does support a distinction between Secure and Non-secure
-                                                                     Memory.
+                                                                 0x0 = Does not support a distinction between secure and non-secure
+                                                                     memory.
+                                                                 0x1 = Does support a distinction between secure and non-secure
+                                                                     memory.
 
                                                                  In CNXXXX, supported. */
 		uint64_t bigend                      : 4;  /**< RO - Mixed-endian configuration support.
                                                                  All other values are reserved.
-                                                                 0x0 = No mixed-endian support. The SCTLR_ELx[EE] bits have a fixed
+                                                                 0x0 = No mixed-endian support. The AP_SCTLR_ELx[EE] bits have a fixed
                                                                      value. See the BigEndEL0 field, bits[19:16], for whether EL0
                                                                      supports mixed-endian.
-                                                                 0x1 = Mixed-endian support. The SCTLR_ELx[EE] and AP_SCTLR_EL1[E0E] bits
+                                                                 0x1 = Mixed-endian support. The AP_SCTLR_ELx[EE] and AP_SCTLR_EL1[E0E] bits
                                                                      can be configured.
 
                                                                  In CNXXXX, supported. */
@@ -8950,7 +8964,7 @@ typedef union bdk_ap_id_aa64mmfr0_el1 {
                                                                  0x2 = 16 bits.
 
                                                                  In CNXXXX, 16 bits. */
-		uint64_t parange                     : 4;  /**< RO - Physical Address range supported.
+		uint64_t parange                     : 4;  /**< RO - Physical address range supported.
                                                                  All other values are reserved.
                                                                  0x0 = 32 bits, 4GB.
                                                                  0x1 = 36 bits, 64GB.
@@ -8992,9 +9006,8 @@ static inline uint64_t BDK_AP_ID_AA64MMFR0_EL1_FUNC(void)
 /**
  * SYSREG - ap_id_aa64mmfr1_el1
  *
- * Reserved for future expansion of the information about the
- * implemented memory model and memory management support in
- * AArch64.
+ * This register contains additional information about the implemented memory model and
+ * memory management support in AArch64.
  */
 typedef union bdk_ap_id_aa64mmfr1_el1 {
 	uint64_t u;
@@ -9034,9 +9047,9 @@ typedef union bdk_ap_id_aa64mmfr1_el1 {
                                                                  In CNXXXX, 16 bits. */
 		uint64_t hardware_access_dirty       : 4;  /**< RO - V8.1: Hardware updates of the Access and Dirty bits
                                                                  All other fields reserved.
-                                                                 0x0 = no hardware update of the Access and Dirty bits supported in hardware.
-                                                                 0x1 = hardware update of the Access bit supported in hardware.
-                                                                 0x2 = hardware update of both the Access and Dirty bits supported in hardware.
+                                                                 0x0 = no hardware update of the access and dirty bits supported in hardware.
+                                                                 0x1 = hardware update of the access bit supported in hardware.
+                                                                 0x2 = hardware update of both the access and dirty bits supported in hardware.
 
                                                                  In CNXXXX not supported. */
 #else
@@ -9103,8 +9116,8 @@ static inline uint64_t BDK_AP_ID_AA64PFRX_EL1_RES0(unsigned long param1)
 /**
  * SYSREG - ap_id_aa64pfr0_el1
  *
- * Provides additional information about implemented processor
- * features in AArch64.
+ * This register provides additional information about implemented processor features
+ * in AArch64.
  */
 typedef union bdk_ap_id_aa64pfr0_el1 {
 	uint64_t u;
@@ -10097,16 +10110,16 @@ typedef union bdk_ap_mdcr_el2 {
                                                                  1 = Trap valid accesses to OS-related debug registers to EL2. */
 		uint32_t tda                         : 1;  /**< R/W - Trap debug access.
 
-                                                                 When this bit is set to 1, any valid Non-secure access to the
+                                                                 When this bit is set to 1, any valid non-secure access to the
                                                                      debug registers from EL1 or EL0, other than the registers
                                                                      trapped by the TDRA and TDOSA bits, is trapped to EL2.
 
                                                                  If AP_HCR_EL2[TGE] == 1 or AP_MDCR_EL2[TDE] == 1, then this bit is
                                                                      ignored and treated as though it is 1 other than for the value
                                                                      read back from AP_MDCR_EL2.
-                                                                 0 = Has no effect on accesses to Debug registers.
-                                                                 1 = Trap valid Non-secure accesses to Debug registers to EL2. */
-		uint32_t tde                         : 1;  /**< R/W - Route Software debug exceptions from Non-secure EL1 and EL0 to
+                                                                 0 = Has no effect on accesses to debug registers.
+                                                                 1 = Trap valid non-secure accesses to debug registers to EL2. */
+		uint32_t tde                         : 1;  /**< R/W - Route Software debug exceptions from non-secure EL1 and EL0 to
                                                                      EL2. Also enables traps on all debug register accesses to EL2.
                                                                  If AP_HCR_EL2[TGE] == 1, then this bit is ignored and treated as
                                                                      though it is 1 other than for the value read back from
@@ -10124,21 +10137,21 @@ typedef union bdk_ap_mdcr_el2 {
                                                                  If the Performance Monitors extension is not implemented, this
                                                                      field is RES0.
                                                                  0 = Has no effect on Performance Monitors accesses.
-                                                                 1 = Trap Non-secure EL0 and EL1 accesses to Performance Monitors
+                                                                 1 = Trap non-secure EL0 and EL1 accesses to Performance Monitors
                                                                      registers that are not unallocated to EL2. */
 		uint32_t tpmcr                       : 1;  /**< R/W - Trap AP_PMCR_EL0 accesses.
                                                                  If the Performance Monitors extension is not implemented, this
                                                                      field is RES0.
                                                                  0 = Has no effect on AP_PMCR_EL0 accesses.
-                                                                 1 = Trap Non-secure EL0 and EL1 accesses to AP_PMCR_EL0 to EL2. */
+                                                                 1 = Trap non-secure EL0 and EL1 accesses to AP_PMCR_EL0 to EL2. */
 		uint32_t hpmn                        : 5;  /**< R/W - Defines the number of Performance Monitors counters that are
-                                                                     accessible from Non-secure EL0 and EL1 modes.
+                                                                     accessible from non-secure EL0 and EL1 modes.
 
                                                                  If the Performance Monitors extension is not implemented, this
                                                                      field is RES0.
 
-                                                                 In Non-secure state, HPMN divides the Performance Monitors
-                                                                     counters as follows. For counter n in Non-secure state:
+                                                                 In non-secure state, HPMN divides the Performance Monitors
+                                                                     counters as follows. For counter n in non-secure state:
 
                                                                   If n is in the range 0\<=n\<HPMN, the counter is accessible
                                                                      from EL1 and EL2, and from EL0 if permitted by AP_PMUSERENR_EL0.
@@ -10149,7 +10162,7 @@ typedef union bdk_ap_mdcr_el2 {
                                                                      of counters in this range.
 
                                                                  If this field is set to 0, or to a value larger than
-                                                                     AP_PMCR_EL0[N], then the behavior in Non-secure EL0 and EL1 is
+                                                                     AP_PMCR_EL0[N], then the behavior in non-secure EL0 and EL1 is
                                                                      CONSTRAINED UNPREDICTABLE, and one of the following must
                                                                      happen:
 
@@ -10255,17 +10268,17 @@ typedef union bdk_ap_mdcr_el3 {
                                                                  0 = Has no effect on accesses to OS-related debug registers.
                                                                  1 = Trap valid accesses to OS-related debug registers to EL3. */
 		uint32_t tda                         : 1;  /**< R/W - Trap debug access.
-                                                                 When this bit is set to 1, any valid Non-secure access to the
+                                                                 When this bit is set to 1, any valid non-secure access to the
                                                                      debug registers from EL2 or below, other than the registers
                                                                      trapped by the TDRA and TDOSA bits, is trapped to EL3.
-                                                                 0 = Has no effect on accesses to Debug registers.
-                                                                 1 = Trap valid Non-secure accesses to Debug registers to EL3. */
+                                                                 0 = Has no effect on accesses to debug registers.
+                                                                 1 = Trap valid non-secure accesses to debug registers to EL3. */
 		uint32_t reserved_7_8                : 2;
 		uint32_t tpm                         : 1;  /**< R/W - Trap Performance Monitors accesses.
                                                                  If the Performance Monitors extension is not implemented, this
                                                                      field is RES0.
                                                                  0 = Has no effect on Performance Monitors accesses.
-                                                                 1 = Trap Non-secure EL0, EL1 and EL2 accesses to Performance
+                                                                 1 = Trap non-secure EL0, EL1 and EL2 accesses to Performance
                                                                      Monitors registers that are not unallocated, or trapped to a
                                                                      lower Exception level, to EL3. */
 		uint32_t reserved_0_5                : 6;
@@ -10320,7 +10333,7 @@ typedef union bdk_ap_mdrar_el1 {
 
                                                                  Bits [11:0] of the ROM table physical address are zero.
 
-                                                                 If EL3 is implemented, ROMADDR is an address in Non-secure
+                                                                 If EL3 is implemented, ROMADDR is an address in non-secure
                                                                      memory. Whether the ROM table is also accessible in Secure
                                                                      memory is implementation defined. */
 		uint64_t reserved_2_11               : 10;
@@ -10490,16 +10503,15 @@ static inline uint64_t BDK_AP_MDSCR_EL1_FUNC(void)
 /**
  * SYSREG - ap_midr_el1
  *
- * Provides identification information for the PE, including an
+ * This register provides identification information for the PE, including an
  * implementer code for the device and a device ID number.
  */
 typedef union bdk_ap_midr_el1 {
 	uint32_t u;
 	struct bdk_ap_midr_el1_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t implementer                 : 8;  /**< RO - The Implementer code. This field must hold an implementer code
-                                                                     that has been assigned by ARM. Assigned codes include the
-                                                                     following:
+		uint32_t implementer                 : 8;  /**< RO - Implementer code that has been assigned by ARM. Assigned codes include the
+                                                                 following:
                                                                  0x41 = 'A' = ARM Limited.
                                                                  0x42 = 'B' = Broadcom Corporation.
                                                                  0x43 = 'C' = Cavium Inc.
@@ -10512,9 +10524,7 @@ typedef union bdk_ap_midr_el1 {
                                                                  0x56 = 'V' = Marvell International Ltd.
                                                                  0x69 = 'i' = Intel Corporation.
 
-                                                                 ARM can assign codes that are not published in this manual.
-                                                                     All values not assigned by ARM are reserved and must not be
-                                                                     used. */
+                                                                 For CNXXXX, 'C'. */
 		uint32_t variant                     : 4;  /**< RO - An implementation defined variant number. Typically, this
                                                                      field is used to distinguish between different product
                                                                      variants, or major revisions of a product.
@@ -10532,8 +10542,8 @@ typedef union bdk_ap_midr_el1 {
                                                                  For CNXXXX, CPUID scheme. */
 		uint32_t partnum                     : 12; /**< RO - An implementation defined primary part number for the device.
                                                                  On processors implemented by ARM, if the top four bits of the
-                                                                     primary part number are0x00x7
-                                                                 Processors implemented by ARM have an Implementer code of0x41
+                                                                     primary part number are 0x00x7.
+                                                                 Processors implemented by ARM have an Implementer code of 0x41.
 
                                                                  For CNXXXX, the chip ID. Enumerated by PCC_PROD_E. */
 		uint32_t revision                    : 4;  /**< RO - An implementation defined revision number for the device.
@@ -10567,10 +10577,9 @@ static inline uint64_t BDK_AP_MIDR_EL1_FUNC(void)
 /**
  * SYSREG - ap_mpidr_el1
  *
- * In a multiprocessor system, provides an additional PE
- * identification mechanism for scheduling purposes, and
- * indicates whether the implementation includes the
- * Multiprocessing Extensions.
+ * This register in a multiprocessor system provides an additional PE identification
+ * mechanism for scheduling purposes, and indicates whether the implementation includes
+ * the multiprocessing extensions.
  */
 typedef union bdk_ap_mpidr_el1 {
 	uint64_t u;
@@ -10581,7 +10590,7 @@ typedef union bdk_ap_mpidr_el1 {
 
                                                                  Always zero on CNXXXX. */
 		uint64_t rsvd_31                     : 1;  /**< RO - Reserved 1. */
-		uint64_t u                           : 1;  /**< RO - Indicates a Uniprocessor system, as distinct from PE 0 in a
+		uint64_t u                           : 1;  /**< RO - Indicates a uniprocessor system, as distinct from PE 0 in a
                                                                      multiprocessor system.
                                                                  0 = Processor is part of a multiprocessor system.
                                                                  1 = Processor is part of a uniprocessor system. */
@@ -11018,7 +11027,7 @@ typedef union bdk_ap_par_el1 {
 		uint64_t nsec                        : 1;  /**< R/W - Non-secure. The NS attribute for a translation table entry
                                                                      read from Secure state.
                                                                  This bit is UNKNOWN for a translation table entry read from
-                                                                     Non-secure state. */
+                                                                     non-secure state. */
 		uint64_t sha                         : 2;  /**< R/W - Shareability attribute, from the translation table entry for
                                                                      the returned PA.
                                                                  0x0 = Non-shareable.
@@ -11068,25 +11077,25 @@ typedef union bdk_ap_pmccfiltr_el0 {
 	struct bdk_ap_pmccfiltr_el0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t p                           : 1;  /**< R/W - EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in non-secure EL1 is further
                                                                      controlled by the NSK bit.
                                                                  0 = Count cycles in EL1.
                                                                  1 = Do not count cycles in EL1. */
 		uint32_t u                           : 1;  /**< R/W - EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in non-secure EL0 is further
                                                                      controlled by the NSU bit.
                                                                  0 = Count cycles in EL0.
                                                                  1 = Do not count cycles in EL0. */
 		uint32_t nsk                         : 1;  /**< R/W - Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                     non-secure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, cycles in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, cycles in Non-secure EL1 are not counted. */
+                                                                     non-secure EL1 are counted.
+                                                                 Otherwise, cycles in non-secure EL1 are not counted. */
 		uint32_t nsu                         : 1;  /**< R/W - Non-secure user modes filtering bit. Controls counting in Non-
                                                                      secure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, cycles in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, cycles in Non-secure EL0 are not counted. */
+                                                                     non-secure EL0 are counted.
+                                                                 Otherwise, cycles in non-secure EL0 are not counted. */
 		uint32_t nsh                         : 1;  /**< R/W - Non-secure Hyp modes filtering bit. Controls counting in Non-
                                                                      secure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count cycles in EL2.
@@ -11297,7 +11306,7 @@ typedef union bdk_ap_pmcntenclr_el0 {
                                                                      disables the cycle counter. */
 		uint32_t p                           : 31; /**< R/W - Event counter disable bit for PMEVCNTR\<x\>.
                                                                  Bits [30:N] are RAZ/WI.
-                                                                 When EL2 is implemented, in Non-secure EL1 and EL0, N is the
+                                                                 When EL2 is implemented, in non-secure EL1 and EL0, N is the
                                                                      value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in
                                                                      AP_PMCR_EL0[N].
 
@@ -11345,7 +11354,7 @@ typedef union bdk_ap_pmcntenset_el0 {
                                                                      enables the cycle counter. */
 		uint32_t p                           : 31; /**< R/W - Event counter enable bit for PMEVCNTR\<x\>.
                                                                  Bits [30:N] are RAZ/WI.
-                                                                 When EL2 is implemented, in Non-secure EL1 and EL0, N is the
+                                                                 When EL2 is implemented, in non-secure EL1 and EL0, N is the
                                                                      value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in
                                                                      AP_PMCR_EL0[N].
 
@@ -11457,7 +11466,7 @@ typedef union bdk_ap_pmcr_el0 {
 		uint32_t p                           : 1;  /**< R/W - Event counter reset. This bit is WO. The effects of writing to
                                                                      this bit are:
                                                                  This bit is always RAZ.
-                                                                 In Non-secure EL0 and EL1, if EL2 is implemented, a write of 1
+                                                                 In non-secure EL0 and EL1, if EL2 is implemented, a write of 1
                                                                      to this bit does not reset event counters that AP_MDCR_EL2[HPMN]
                                                                      reserves for EL2 use.
                                                                  In EL2 and EL3, a write of 1 to this bit resets all the event
@@ -11469,7 +11478,7 @@ typedef union bdk_ap_pmcr_el0 {
                                                                      including AP_PMCCNTR_EL0, to zero. */
 		uint32_t ee                          : 1;  /**< R/W - Enable.
                                                                  This bit is RW.
-                                                                 In Non-secure EL0 and EL1, if EL2 is implemented, this bit
+                                                                 In non-secure EL0 and EL1, if EL2 is implemented, this bit
                                                                      does not affect the operation of event counters that
                                                                      AP_MDCR_EL2[HPMN] reserves for EL2 use.
                                                                  0 = All counters, including AP_PMCCNTR_EL0, are disabled.
@@ -11550,25 +11559,25 @@ typedef union bdk_ap_pmevtyperx_el0 {
 	struct bdk_ap_pmevtyperx_el0_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint32_t p                           : 1;  /**< R/W - EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     implemented, then counting in non-secure EL1 is further
                                                                      controlled by the NSK bit.
                                                                  0 = Count events in EL1.
                                                                  1 = Do not count events in EL1. */
 		uint32_t u                           : 1;  /**< R/W - EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     implemented, then counting in non-secure EL0 is further
                                                                      controlled by the NSU bit.
                                                                  0 = Count events in EL0.
                                                                  1 = Do not count events in EL0. */
 		uint32_t nsk                         : 1;  /**< R/W - Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                     non-secure EL1. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of P, events in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+                                                                     non-secure EL1 are counted.
+                                                                 Otherwise, events in non-secure EL1 are not counted. */
 		uint32_t nsu                         : 1;  /**< R/W - Non-secure user modes filtering bit. Controls counting in Non-
                                                                      secure EL0. If EL3 is not implemented, this bit is RES0.
                                                                  If the value of this bit is equal to the value of U, events in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+                                                                     non-secure EL0 are counted.
+                                                                 Otherwise, events in non-secure EL0 are not counted. */
 		uint32_t nsh                         : 1;  /**< R/W - Non-secure Hyp modes filtering bit. Controls counting in Non-
                                                                      secure EL2. If EL2 is not implemented, this bit is RES0.
                                                                  0 = Do not count events in EL2.
@@ -11657,7 +11666,7 @@ typedef union bdk_ap_pmintenclr_el1 {
                                                                      interrupt request. */
 		uint32_t p                           : 31; /**< R/W - Event counter overflow interrupt request disable bit for
                                                                      PMEVCNTR\<x\>_EL0.
-                                                                 When EL2 is implemented, in Non-secure EL1 and EL0, N is the
+                                                                 When EL2 is implemented, in non-secure EL1 and EL0, N is the
                                                                      value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in
                                                                      AP_PMCR_EL0[N].
                                                                  Bits [30:N] are RAZ/WI.
@@ -11710,7 +11719,7 @@ typedef union bdk_ap_pmintenset_el1 {
 		uint32_t p                           : 31; /**< R/W - Event counter overflow interrupt request enable bit for
                                                                      PMEVCNTR\<x\>_EL0.
 
-                                                                 When EL2 is implemented, in Non-secure EL1 and EL0, N is the
+                                                                 When EL2 is implemented, in non-secure EL1 and EL0, N is the
                                                                      value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in
                                                                      AP_PMCR_EL0[N].
 
@@ -11764,7 +11773,7 @@ typedef union bdk_ap_pmovsclr_el0 {
                                                                      written, clears the overflow bit to 0. */
 		uint32_t p                           : 31; /**< R/W - Event counter overflow clear bit for PMEVCNTR\<x\>.
                                                                  Bits [30:N] are RAZ/WI.
-                                                                 When EL2 is implemented, in Non-secure EL1 and EL0, N is the
+                                                                 When EL2 is implemented, in non-secure EL1 and EL0, N is the
                                                                      value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in
                                                                      AP_PMCR_EL0[N].
 
@@ -11812,7 +11821,7 @@ typedef union bdk_ap_pmovsset_el0 {
                                                                      written, sets the overflow bit to 1. */
 		uint32_t p                           : 31; /**< R/W - Event counter overflow set bit for PMEVCNTR\<x\>.
                                                                  Bits [30:N] are RAZ/WI.
-                                                                 When EL2 is implemented, in Non-secure EL1 and EL0, N is the
+                                                                 When EL2 is implemented, in non-secure EL1 and EL0, N is the
                                                                      value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in
                                                                      AP_PMCR_EL0[N].
                                                                  0 = When read, means that PMEVCNTR\<x\> has not overflowed. When
@@ -11922,7 +11931,7 @@ typedef union bdk_ap_pmswinc_el0 {
 		uint32_t reserved_31_31              : 1;
 		uint32_t p                           : 31; /**< RO - Event counter software increment bit for PMEVCNTR\<x\>.
                                                                  Bits [30:N] are RAZ/WI.
-                                                                 When EL2 is implemented, in Non-secure EL1 and EL0, N is the
+                                                                 When EL2 is implemented, in non-secure EL1 and EL0, N is the
                                                                      value in AP_MDCR_EL2[HPMN]. Otherwise, N is the value in PMCR[N].
                                                                  The effects of writing to this bit are:
                                                                  0 = No action. The write to this bit is ignored.
@@ -12081,9 +12090,8 @@ static inline uint64_t BDK_AP_PMXEVTYPER_EL0_FUNC(void)
 /**
  * SYSREG - ap_revidr_el1
  *
- * Provides implementation-specific minor revision information
- * that can only be interpreted in conjunction with the Main ID
- * Register.
+ * This register provides implementation-specific minor revision information
+ * that can only be interpreted in conjunction with AP_MIDR_EL1.
  */
 typedef union bdk_ap_revidr_el1 {
 	uint32_t u;
@@ -12326,22 +12334,22 @@ typedef union bdk_ap_scr_el3 {
                                                                   EL0 is determined by the Execution state described in the
                                                                      current process state when executing at EL0. */
 		uint32_t sif                         : 1;  /**< R/W - Secure instruction fetch. When the processor is in Secure
-                                                                     state, this bit disables instruction fetch from Non-secure
+                                                                     state, this bit disables instruction fetch from non-secure
                                                                      memory.
                                                                  This bit is permitted to be cached in a TLB.
-                                                                 0 = Secure state instruction fetches from Non-secure memory are
+                                                                 0 = Secure state instruction fetches from non-secure memory are
                                                                      permitted.
-                                                                 1 = Secure state instruction fetches from Non-secure memory are
+                                                                 1 = Secure state instruction fetches from non-secure memory are
                                                                      not permitted. */
 		uint32_t hce                         : 1;  /**< R/W - Hypervisor Call enable. This bit enables use of the HVC
-                                                                     instruction from Non-secure EL1 modes.
+                                                                     instruction from non-secure EL1 modes.
 
                                                                  If EL3 is implemented but EL2 is not implemented, this bit is
                                                                      RES0.
-                                                                 0 = HVC instruction is UNdefined in Non-secure EL1 modes, and
+                                                                 0 = HVC instruction is UNdefined in non-secure EL1 modes, and
                                                                      either UNdefined or a NOP in Hyp mode, depending on the
                                                                      implementation.
-                                                                 1 = HVC instruction is enabled in Non-secure EL1 modes, and
+                                                                 1 = HVC instruction is enabled in non-secure EL1 modes, and
                                                                      performs a Hypervisor Call. */
 		uint32_t smd                         : 1;  /**< R/W - SMC Disable.
                                                                  0 = SMC is enabled at EL1, EL2, or EL3.
@@ -12368,7 +12376,7 @@ typedef union bdk_ap_scr_el3 {
 		uint32_t nsec                        : 1;  /**< R/W - Non-secure bit.
                                                                  0 = Indicates that EL0 and EL1 are in Secure state, and so memory
                                                                      accesses from those Exception levels can access Secure memory.
-                                                                 1 = Indicates that EL0 and EL1 are in Non-secure state, and so
+                                                                 1 = Indicates that EL0 and EL1 are in non-secure state, and so
                                                                      memory accesses from those Exception levels cannot access
                                                                      Secure memory. */
 #else
@@ -12485,7 +12493,7 @@ typedef union bdk_ap_sctlr_el1 {
                                                                      instruction caches at EL0 and EL1:
                                                                  When this bit is 0, all EL1 and EL0 Normal memory instruction
                                                                      accesses are Non-cacheable.
-                                                                 If the AP_HCR_EL2[DC] bit is set to 1, then the Non-secure stage 1
+                                                                 If the AP_HCR_EL2[DC] bit is set to 1, then the non-secure stage 1
                                                                      EL1&0 translation regime is Cacheable regardless of the value
                                                                      of this bit.
                                                                  0 = Instruction caches disabled at EL0 and EL1. If AP_SCTLR_EL1[M] is
@@ -12558,7 +12566,7 @@ typedef union bdk_ap_sctlr_el1 {
                                                                  When this bit is 0, all EL0 and EL1 Normal memory data
                                                                      accesses and all accesses to the EL1&0 stage 1 translation
                                                                      tables are Non-cacheable.
-                                                                 If the AP_HCR_EL2[DC] bit is set to 1, then the Non-secure stage 1
+                                                                 If the AP_HCR_EL2[DC] bit is set to 1, then the non-secure stage 1
                                                                      EL1&0 translation regime is Cacheable regardless of the value
                                                                      of the AP_SCTLR_EL1[C] bit.
                                                                  0 = Data and unified caches disabled.
@@ -12581,7 +12589,7 @@ typedef union bdk_ap_sctlr_el1 {
                                                                      Data Abort exception. */
 		uint32_t m                           : 1;  /**< R/W - MMU enable for EL1 and EL0 stage 1 address translation.
 
-                                                                 If AP_HCR_EL2[DC] is set to 1, then in Non-secure state the
+                                                                 If AP_HCR_EL2[DC] is set to 1, then in non-secure state the
                                                                      AP_SCTLR_EL1[M] bit behaves as 0 for all purposes other than
                                                                      reading the value of the bit.
                                                                  0 = EL1 and EL0 stage 1 address translation disabled.
@@ -12892,7 +12900,7 @@ typedef union bdk_ap_sctlr_el2_e2h {
                                                                      instruction caches at EL0 and EL1:
                                                                  When this bit is 0, all EL1 and EL0 Normal memory instruction
                                                                      accesses are Non-cacheable.
-                                                                 If the AP_HCR_EL2[DC] bit is set to 1, then the Non-secure stage 1
+                                                                 If the AP_HCR_EL2[DC] bit is set to 1, then the non-secure stage 1
                                                                      EL1&0 translation regime is Cacheable regardless of the value
                                                                      of this bit.
                                                                  0 = Instruction caches disabled at EL0 and EL1. If AP_SCTLR_EL1[M] is
@@ -12970,7 +12978,7 @@ typedef union bdk_ap_sctlr_el2_e2h {
                                                                  When this bit is 0, all EL0 and EL1 Normal memory data
                                                                      accesses and all accesses to the EL1&0 stage 1 translation
                                                                      tables are Non-cacheable.
-                                                                 If the AP_HCR_EL2[DC] bit is set to 1, then the Non-secure stage 1
+                                                                 If the AP_HCR_EL2[DC] bit is set to 1, then the non-secure stage 1
                                                                      EL1&0 translation regime is Cacheable regardless of the value
                                                                      of the AP_SCTLR_EL1[C] bit.
                                                                  0 = Data and unified caches disabled.
@@ -12996,7 +13004,7 @@ typedef union bdk_ap_sctlr_el2_e2h {
                                                                      Data Abort exception. */
 		uint32_t m                           : 1;  /**< R/W - MMU enable for EL1 and EL0 stage 1 address translation.
 
-                                                                 If AP_HCR_EL2[DC] is set to 1, then in Non-secure state the
+                                                                 If AP_HCR_EL2[DC] is set to 1, then in non-secure state the
                                                                      AP_SCTLR_EL1[M] bit behaves as 0 for all purposes other than
                                                                      reading the value of the bit.
                                                                  0 = EL1 and EL0 stage 1 address translation disabled.
@@ -16700,7 +16708,7 @@ static inline uint64_t BDK_AP_VBAR_EL12_FUNC(void)
  * SYSREG - ap_vmpidr_el2
  *
  * Holds the value of the Virtualization Multiprocessor ID. This
- * is the value returned by Non-secure EL1 reads of AP_MPIDR_EL1.
+ * is the value returned by non-secure EL1 reads of AP_MPIDR_EL1.
  */
 typedef union bdk_ap_vmpidr_el2 {
 	uint64_t u;
@@ -16757,7 +16765,7 @@ static inline uint64_t BDK_AP_VMPIDR_EL2_FUNC(void)
  * SYSREG - ap_vpidr_el2
  *
  * Holds the value of the Virtualization Processor ID. This is
- * the value returned by Non-secure EL1 reads of AP_MIDR_EL1.
+ * the value returned by non-secure EL1 reads of AP_MIDR_EL1.
  */
 typedef union bdk_ap_vpidr_el2 {
 	uint32_t u;
@@ -16827,7 +16835,7 @@ static inline uint64_t BDK_AP_VPIDR_EL2_FUNC(void)
  * SYSREG - ap_vtcr_el2
  *
  * Controls the translation table walks required for the stage 2
- * translation of memory accesses from Non-secure EL0 and EL1,
+ * translation of memory accesses from non-secure EL0 and EL1,
  * and holds cacheability and shareability information for the
  * accesses.
  */
@@ -16925,7 +16933,7 @@ static inline uint64_t BDK_AP_VTCR_EL2_FUNC(void)
  * SYSREG - ap_vttbr_el2
  *
  * Holds the base address of the translation table for the stage
- * 2 translation of memory accesses from Non-secure EL0 and EL1.
+ * 2 translation of memory accesses from non-secure EL0 and EL1.
  */
 typedef union bdk_ap_vttbr_el2 {
 	uint64_t u;

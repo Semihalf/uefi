@@ -96,8 +96,8 @@ static void qlm_tune(int qlm)
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
                 c.s.cfg_tx_premptap = 0xc0);
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-                c.s.tx_swing_ovrd_en = 1;
-                c.s.tx_premptap_ovrd_val = 1);
+                c.s.tx_swing_ovrrd_en = 1;
+                c.s.tx_premptap_ovrrd_val = 1);
         }
     }
     else if (baud_mhz == 10312)
@@ -110,8 +110,8 @@ static void qlm_tune(int qlm)
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
                 c.s.cfg_tx_premptap = 0xd0);
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-                c.s.tx_swing_ovrd_en = 1;
-                c.s.tx_premptap_ovrd_val = 1);
+                c.s.tx_swing_ovrrd_en = 1;
+                c.s.tx_premptap_ovrrd_val = 1);
         }
     }
 }

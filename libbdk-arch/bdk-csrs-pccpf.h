@@ -346,6 +346,7 @@ enum pcc_pidr_partnum1_e {
  * \<15:8\>.
  */
 enum pcc_prod_e {
+	PCC_PROD_E_CN81XX = 0xa2,
 	PCC_PROD_E_CN83XX = 0xa3,
 	PCC_PROD_E_CN88XX = 0xa1,
 	PCC_PROD_E_GEN = 0xa0,

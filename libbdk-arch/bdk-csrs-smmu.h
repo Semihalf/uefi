@@ -382,7 +382,7 @@ static inline uint64_t BDK_SMMUX_ACTIVE_PC(unsigned long param1)
 /**
  * NCB - smmu#_bist_status
  *
- * Contains the BIST status for the SSO memories.
+ * Contains the BIST status for the memories.
  *
  */
 typedef union bdk_smmux_bist_status {

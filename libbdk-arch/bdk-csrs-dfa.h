@@ -179,12 +179,15 @@ typedef union bdk_dfa_asc_regionx_offset {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_49_63              : 15;
 		uint64_t offset                      : 29; /**< SR/W - Offset \<48:20\> added to the HFA virtual address which matches the corresponding
-                                                                 DFA_ASC_REGION()_START[ADDR] and DFA_ASC_REGION()_END[ADDR] to convert it into into an LMC
-                                                                 address.
+                                                                 DFA_ASC_REGION()_START[ADDR] and DFA_ASC_REGION()_END[ADDR] to convert it into
+                                                                 into an LMC address.
 
-                                                                 This needs to account for any non-secure offset in LMC()_TBD, in addition to any offsets
-                                                                 to convert a guest intermediate physical address to a physical address that would normally
-                                                                 be computed by the SMMU (which is being bypassed for these HFA accesses). */
+                                                                 This offset should include any offset needed to convert a guest intermediate
+                                                                 physical address to a physical address that would normally be computed by the
+                                                                 SMMU (which is being bypassed for these HFA accesses).
+
+                                                                 This offset should not include a non-secure offset, as LMC()_NS_CTL[ADR_OFFSET]
+                                                                 is applied to these transactions by LMC. */
 		uint64_t reserved_0_19               : 20;
 #else
 		uint64_t reserved_0_19               : 20;

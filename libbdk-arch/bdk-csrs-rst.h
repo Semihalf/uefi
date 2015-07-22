@@ -174,7 +174,7 @@ typedef union bdk_rst_boot {
 	uint64_t u;
 	struct bdk_rst_boot_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t chipkill                    : 1;  /**< R/W1S - A 0-\>1 transition of CHIPKILL starts the CHIPKILL timer. When CHIPKILL=1 and the timer
+		uint64_t chipkill                    : 1;  /**< R/W1S - A 0-to-1 transition of CHIPKILL starts the CHIPKILL timer. When CHIPKILL=1 and the timer
                                                                  expires, chip reset is asserted internally. The CHIPKILL timer can be stopped only by
                                                                  a reset (cold, warm, soft). The length of the CHIPKILL timer is specified by
                                                                  RST_CKILL[TIMER].  This feature is effectively a delayed warm reset. */
@@ -185,9 +185,9 @@ typedef union bdk_rst_boot {
 		uint64_t trusted_mode                : 1;  /**< RO - When set, chip is operating as a trusted device. This bit is asserted when
                                                                  either MIO_FUS_DAT2[TRUSTZONE_EN], FUSF_CTL[TZ_FORCE2], or the trusted-mode
                                                                  strap GPIO_STRAP\<10\> are set. */
-		uint64_t ckill_ppdis                 : 1;  /**< R/W - Chipkill Core Disable.  When set to 1, cores other than core 0 will immediately be
-                                                                 disabled
-                                                                 when RST_BOOT[CHIPKILL] is set.  Writes have no effect when RST_BOOT[CHIPKILL]=1. */
+		uint64_t ckill_ppdis                 : 1;  /**< R/W - Chipkill core disable. When set to 1, cores other than core 0 will immediately
+                                                                 be disabled when RST_BOOT[CHIPKILL] is set. Writes have no effect when
+                                                                 RST_BOOT[CHIPKILL]=1. */
 		uint64_t jt_tstmode                  : 1;  /**< RO - JTAG test mode. */
 		uint64_t vrm_err                     : 1;  /**< RO - VRM error. VRM did not complete operations within 5.25mS of PLL_DC_OK being
                                                                  asserted. PLLs were released automatically. */

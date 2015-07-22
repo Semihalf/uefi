@@ -263,7 +263,8 @@ union bgx_spu_br_train_rep_s {
 /**
  * Structure BGX_SPU_SDS_CU_S
  *
- * BGX Training Coeffiecient Structure
+ * INTERNAL: BGX Training Coeffiecient Structure
+ *
  * This structure is similar to BGX_SPU_BR_TRAIN_CUP_S format, but with reserved fields removed
  * and RX_READY field added.
  */
@@ -331,7 +332,8 @@ union bgx_spu_sds_skew_status_s {
 /**
  * Structure BGX_SPU_SDS_SR_S
  *
- * BGX Lane Training Coeffiecient Structure
+ * INTERNAL: BGX Lane Training Coefficient Structure
+ *
  * Similar to BGX_SPU_BR_TRAIN_REP_S format, but with reserved fields and RX_READY fields removed.
  */
 union bgx_spu_sds_sr_s {

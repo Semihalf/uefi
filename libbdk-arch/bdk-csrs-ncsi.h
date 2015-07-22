@@ -942,7 +942,8 @@ typedef union bdk_ncsi_secure_config {
                                                                  Also see NCSI_TX_NCP_PERM()_TABLE.
                                                                  0 = OEM command address must pass the permision table filter before being forwarded to the
                                                                  MRML. Access to NCSI_CPU2BMC_MSG and NCSI_BMC2CPU_MSG are always allowed.
-                                                                 1 = Bypass the permissions table and allow any register access in the RSL address space. */
+                                                                 1 = Bypass the permissions table and allow any secure or non-secure register access
+                                                                 in the RSL address space. */
 #else
 		uint64_t ncsisecen                   : 1;
 		uint64_t ncsien                      : 1;
@@ -1224,6 +1225,10 @@ typedef union bdk_ncsi_tx_ncp_permx_table_hi {
                                                                  and low are programmed with the same value.
                                                                  If a range in one set of HI/LOW entries overlaps with another, the
                                                                  overlap is harmlessly redundant.
+
+                                                                 Address bit \<63\> is used as the secure bit, and thus to allow secure and
+                                                                 non-secure access to a given register, both the register's address with \<63\>=0,
+                                                                 and register's address with \<63\>=1 must be within the range(s).
 
                                                                  Default values allow default access to:
 
