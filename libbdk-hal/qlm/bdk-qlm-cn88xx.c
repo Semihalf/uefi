@@ -1023,6 +1023,20 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             c.s.lmac_type = lmac_type);
     }
 
+    /* (GSER-26150) 10 Gb temperature excursions can cause lock failure */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    {
+        /* Change the calibration point of the VCO at start up to shift some
+           available range of the VCO from -deltaT direction to the +deltaT
+           ramp direction allowing a greater range of VCO temperatures before
+           experiencing the failure. */
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_3(qlm),
+            c.s.pll_vctrl_sel_lcvco_val = 0x2;
+            c.s.pcs_sds_pll_vco_amp = 0);
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_MISC_CONFIG_1(qlm),
+            c.s.pcs_sds_trim_chp_reg = 0x2);
+    }
+
     /* Bring phy out of reset */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
         c.s.phy_reset = 0);
