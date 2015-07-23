@@ -489,8 +489,9 @@ static int sgmii_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
 
     /* Disable GMX before we make any changes. Remember the enable state */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(bgx_block, bgx_index),
-        is_enabled = c.s.enable;
-        c.s.enable = 0);
+        is_enabled = c.s.data_pkt_tx_en;
+        c.s.data_pkt_tx_en = 0;
+        c.s.data_pkt_rx_en = 0);
 
     /* Wait for GMX to be idle */
     if (BDK_CSR_WAIT_FOR_FIELD(handle->node, BDK_BGXX_GMP_GMI_PRTX_CFG(bgx_block, bgx_index), rx_idle, ==, 1, 10000) ||
@@ -505,9 +506,6 @@ static int sgmii_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
 
     /* Get the misc control for PCS. We will need to set the duplication amount */
     BDK_CSR_INIT(pcsx_miscx_ctl_reg, handle->node, BDK_BGXX_GMP_PCS_MISCX_CTL(bgx_block, bgx_index));
-
-    /* Use GMXENO to force the link down if the status we get says it should be down */
-    pcsx_miscx_ctl_reg.s.gmxeno = !link_info.s.up;
 
     /* Only change the duplex setting if the link is up */
     if (link_info.s.up)
@@ -555,7 +553,8 @@ static int sgmii_speed(bdk_if_handle_t handle, bdk_if_link_t link_info)
 
     /* Restore the enabled / disabled state */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMRX_CONFIG(bgx_block, bgx_index),
-        c.s.enable = is_enabled);
+        c.s.data_pkt_tx_en = is_enabled;
+        c.s.data_pkt_rx_en = link_info.s.up && is_enabled);
     return 0;
 }
 
