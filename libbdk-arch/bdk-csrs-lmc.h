@@ -657,7 +657,8 @@ typedef union bdk_lmcx_config {
 	uint64_t u;
 	struct bdk_lmcx_config_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t lrdimm_ena                  : 1;  /**< R/W - Load Reduced DIMM Enable. When set allows the use of JEDEC DDR4 LRDIMMs. */
+		uint64_t lrdimm_ena                  : 1;  /**< R/W - Reserved.
+                                                                 INTERNAL: Load Reduced DIMM Enable. When set allows the use of JEDEC DDR4 LRDIMMs. */
 		uint64_t bg2_enable                  : 1;  /**< R/W - BG1 enable bit. Only has an effect when LMC()_CONFIG[MODEDDR4] = 1.
                                                                  Set to 1 when using DDR4 x4 or x8 parts.
                                                                  Clear to 0 when using DDR4 x16 parts. */
@@ -811,6 +812,7 @@ typedef union bdk_lmcx_config {
                                                                  With RANK_ENA = 0, PBANK_LSB = 2.
                                                                  With RANK_ENA = 1, PBANK_LSB = 3.
 
+                                                                 INTERNAL:
                                                                  When interfacing with 8H 3DS, set this 0xA regardless of RANK_ENA value. */
 		uint64_t row_lsb                     : 3;  /**< R/W - "Row address bit select.
                                                                  0x0 = Address bit 14 is LSB.
@@ -1016,6 +1018,8 @@ static inline uint64_t BDK_LMCX_CONTROL(unsigned long param1)
 /**
  * RSL - lmc#_dbtrain_ctl
  *
+ * Reserved.
+ * INTERNAL:
  * This register contains control bits that are used during the Data Buffer
  * training sequence in DDR4 LRDIMM mode. When one of the data buffer training
  * sequence is initiated, it uses the contents of this register to control
@@ -1027,14 +1031,18 @@ typedef union bdk_lmcx_dbtrain_ctl {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_62_63              : 2;
 		uint64_t cmd_count_ext               : 2;  /**< RO - Reserved. */
-		uint64_t db_output_impedance         : 3;  /**< R/W - Host Interface DQ/DQS Output Driver Impedance control.
+		uint64_t db_output_impedance         : 3;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 Host Interface DQ/DQS Output Driver Impedance control.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., CONFIG[LRDIMM_ENA] = 1, SEQ_CTL[SEQ_SEL] = 0x6.
                                                                  0x0 = RZQ/6 (40 ohm).
                                                                  0x1 = RZQ/7 (34 ohm).
                                                                  0x2 = RZQ/5 (48 ohm).
                                                                  0x3-0x7 = Reserved. */
-		uint64_t db_sel                      : 1;  /**< R/W - Used when running Host Interface Write Leveling.
+		uint64_t db_sel                      : 1;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 Used when running Host Interface Write Leveling.
                                                                  0 = selects DIMM0's Data Buffer.
                                                                  1 = selects DIMM1's Data Buffer. */
 		uint64_t tccd_sel                    : 1;  /**< R/W - When set, the sequence uses MODEREG_PARAMS3[TCCD_L] to space out
@@ -1054,26 +1062,31 @@ typedef union bdk_lmcx_dbtrain_ctl {
                                                                  the data coming back with this pattern.
                                                                  The bit-wise comparison result gets stored in
                                                                  LMC()_MPR_DATA0[MPR_DATA]\<63:0\> and LMC()_MPR_DATA1[MPR_DATA]\<7:0\>. */
-		uint64_t read_dq_count               : 7;  /**< R/W - The amount of cycles until a pulse is issued to sample the DQ into the
+		uint64_t read_dq_count               : 7;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 The amount of cycles until a pulse is issued to sample the DQ into the
                                                                  MPR register. This bits control the timing of when to sample the data
                                                                  buffer training result. */
-		uint64_t read_cmd_count              : 5;  /**< R/W - The amount of Read Commands to be sent during the data buffer training.
+		uint64_t read_cmd_count              : 5;  /**< R/W - The amount of Read and Write Commands to be sent during R/W training.
+                                                                 INTERNAL:
                                                                  This can be set to zero in which case the sequence does not send any
                                                                  Read commands to accommodate for the DWL training mode. */
-		uint64_t write_ena                   : 1;  /**< R/W - Enables the write operation. This is mainly used to accomplish the MWD
+		uint64_t write_ena                   : 1;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 Enables the write operation. This is mainly used to accomplish the MWD
                                                                  training sequence of the data buffer.
                                                                  LMC()_DBTRAIN_CTL[ACTIVATE] must be set to 1 for this to take effect. */
-		uint64_t activate                    : 1;  /**< R/W - Enables the activate command during the data buffer training sequence. */
-		uint64_t prank                       : 2;  /**< R/W - Physical Rank bits for Read/Write/Activate operation during the data buffer
+		uint64_t activate                    : 1;  /**< R/W - Reserved.
+                                                                 INTERNAL: Enables the activate command during the data buffer training sequence. */
+		uint64_t prank                       : 2;  /**< R/W - Physical Rank bits for Read/Write/Activate operation. */
+		uint64_t lrank                       : 3;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 Logical Rank bits for Read/Write/Activate operation during the data buffer
                                                                  training. */
-		uint64_t lrank                       : 3;  /**< R/W - Logical Rank bits for Read/Write/Activate operation during the data buffer
-                                                                 training. */
-		uint64_t row_a                       : 18; /**< R/W - The row address for the Activate command during dbtrain. */
-		uint64_t bg                          : 2;  /**< R/W - The Bank Group that the commands are directed to while in data buffer
-                                                                 training sequence. */
-		uint64_t ba                          : 2;  /**< R/W - The bank address for the commands while in data buffer training sequence. */
-		uint64_t column_a                    : 13; /**< R/W - Column address for the Read/Write operation during the data buffer
-                                                                 training. */
+		uint64_t row_a                       : 18; /**< R/W - The row address for the Activate command. */
+		uint64_t bg                          : 2;  /**< R/W - The bank group that the R/W commands are directed to. */
+		uint64_t ba                          : 2;  /**< R/W - The bank address for the R/W commands are directed to. */
+		uint64_t column_a                    : 13; /**< R/W - Column address for the Read/Write operation. */
 #else
 		uint64_t column_a                    : 13;
 		uint64_t ba                          : 2;
@@ -1146,12 +1159,13 @@ static inline uint64_t BDK_LMCX_DCLK_CNT(unsigned long param1)
  *
  * Bits 0-21 of this register is used only when LMC()_CONTROL[RDIMM_ENA] = 1.
  *
- * Bits 22-27 is used only when LMC()_CONFIG[LRDIMM_ENA] = 1 AND
- * LMC()_MR_MPR_CTL[MR_WR_PBA_ENABLE] = 1.
- *
  * During an RCW initialization sequence, bits 0-21 controls LMC's write
  * operations to the extended DDR4 control words in the JEDEC standard
  * registering clock driver on an RDIMM.
+ *
+ * INTERNAL:
+ * Bits 22-27 is used only when LMC()_CONFIG[LRDIMM_ENA] = 1 AND
+ * LMC()_MR_MPR_CTL[MR_WR_PBA_ENABLE] = 1.
  *
  * During PBA mode of an MRW sequence, bits 22-27 controls the Buffer Configuration
  * Control Word F0BC1x settings during the BCW write.
@@ -1161,16 +1175,28 @@ typedef union bdk_lmcx_ddr4_dimm_ctl {
 	struct bdk_lmcx_ddr4_dimm_ctl_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_28_63              : 36;
-		uint64_t rank_timing_enable          : 1;  /**< R/W - Package Rank Timing Alignment Enable bit for the DDR4 LRDIMM Buffer Configuration Control
+		uint64_t rank_timing_enable          : 1;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 Package Rank Timing Alignment Enable bit for the DDR4 LRDIMM Buffer Configuration Control
                                                                  Word F0BC1x DA[7]. Used during PBA BCW Write through the MRW sequence. */
-		uint64_t bodt_trans_mode             : 1;  /**< R/W - BODT input handling in Transparent Mode for the DDR4 LRDIMM Buffer Conifguration Control
+		uint64_t bodt_trans_mode             : 1;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 BODT input handling in Transparent Mode for the DDR4 LRDIMM Buffer Conifguration Control
                                                                  Word F0BC1x. Used during PBA BCW Write through the MRW sequence. */
-		uint64_t trans_mode_ena              : 1;  /**< R/W - Transparent Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
+		uint64_t trans_mode_ena              : 1;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 Transparent Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
                                                                  F0BC1x DA[5]. Used during PBA BCW Write through the MRW sequence. */
-		uint64_t read_preamble_mode          : 1;  /**< R/W - Read Preamble Training Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
+		uint64_t read_preamble_mode          : 1;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 Read Preamble Training Mode Enable bit for DDR4 LRDIMM Buffer Configuration Control Word
                                                                  F0BC1x DA[4]. Used during PBA BCW Write through the MRW sequence. */
-		uint64_t buff_config_da3             : 1;  /**< R/W - Reserved setting value in F0BC1x DA3. Used during PBA BCW Write through the MRW sequence. */
-		uint64_t mpr_over_ena                : 1;  /**< R/W - MPR Override Mode Enable bit for the DDR4 LRDIMM Buffer Configuration Control Word
+		uint64_t buff_config_da3             : 1;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 Reserved setting value in F0BC1x DA3. Used during PBA BCW Write through the MRW sequence. */
+		uint64_t mpr_over_ena                : 1;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 MPR Override Mode Enable bit for the DDR4 LRDIMM Buffer Configuration Control Word
                                                                  F0BC1x DA[1]. Used during PBA BCW Write through the MRW sequence. */
 		uint64_t ddr4_dimm1_wmask            : 11; /**< R/W - DIMM1 write mask. If (DIMM1_WMASK[n] = 1), write DIMM1.RCn. */
 		uint64_t ddr4_dimm0_wmask            : 11; /**< R/W - DIMM0 write mask. If (DIMM0_WMASK[n] = 1), write DIMM0.RCn. */
@@ -1829,9 +1855,9 @@ typedef union bdk_lmcx_ext_config {
                                                                  allow refresh sequence to start when LMC()_REF_STATUS[REF_COUNT] has
                                                                  reached the maximum value of 0x7. */
 		uint64_t mrs_side                    : 1;  /**< R/W - Only applies when EXT_CONFIG[MRS_ONE_SIDE] is set.
-                                                                 0 = MRS command is sent to the A side of an RDIMM/LRDIMM.
-                                                                 1 = MRS command is sent to the B side of an RDIMM/LRDIMM. */
-		uint64_t mrs_one_side                : 1;  /**< R/W - Only applies to DDR4 RDIMM/LRDIMM.
+                                                                 0 = MRS command is sent to the A side of an RDIMM.
+                                                                 1 = MRS command is sent to the B side of an RDIMM. */
+		uint64_t mrs_one_side                : 1;  /**< R/W - Only applies to DDR4 RDIMM.
                                                                  When set, MRS commands are directed to either the A or B
                                                                  side of the RCD.
 
@@ -1841,7 +1867,7 @@ typedef union bdk_lmcx_ext_config {
                                                                  bit turned on. */
 		uint64_t mrs_bside_invert_disable    : 1;  /**< R/W - When set, the command decoder cancels the auto inversion of
                                                                  A3-A9, A11, A13, A17, BA0, BA1 and BG0 during MRS/MRS_PDA
-                                                                 command to the B side of the RDIMM/LRDIMM.
+                                                                 command to the B side of the RDIMM.
                                                                  When set, make sure that the RCD's control word
                                                                  RC00 DA[0] = 1 so that the output inversion is disabled in
                                                                  the DDR4 RCD. */
@@ -1858,8 +1884,10 @@ typedef union bdk_lmcx_ext_config {
 		uint64_t coalesce_address_mode       : 1;  /**< R/W - When set to 1, LMC coalesces the L2C+LMC internal address mapping
                                                                  to create a uniform memory space that are free from holes in
                                                                  between ranks. When different size DIMMs are used, the DIMM with
-                                                                 the smaller size is mapped to the lower address space. */
-		uint64_t dimm1_cid                   : 2;  /**< R/W - DIMM1 configuration bits that represent the number of Chip
+                                                                 the higher capacity is mapped to the lower address space. */
+		uint64_t dimm1_cid                   : 2;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 DIMM1 configuration bits that represent the number of Chip
                                                                  ID of the DRAM. This value is use for decoding address
                                                                  as well as routing Chip IDs to the appropriate output
                                                                  pins.
@@ -1867,7 +1895,9 @@ typedef union bdk_lmcx_ext_config {
                                                                  0x1 = 1 Chip ID  (2H 3DS).
                                                                  0x2 = 2 Chip IDs (4H 3DS).
                                                                  0x3 = 3 Chip IDs (8H 3DS). */
-		uint64_t dimm0_cid                   : 2;  /**< R/W - DIMM0 configuration bits that represent the number of Chip
+		uint64_t dimm0_cid                   : 2;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 DIMM0 configuration bits that represent the number of Chip
                                                                  ID of the DRAM. This value is use for decoding address
                                                                  as well as routing Chip IDs to the appropriate output
                                                                  pins.
@@ -2104,7 +2134,9 @@ typedef union bdk_lmcx_fadr {
 	struct bdk_lmcx_fadr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_43_63              : 21;
-		uint64_t fcid                        : 3;  /**< RO/H - Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
+		uint64_t fcid                        : 3;  /**< RO/H - Reserved.
+                                                                 INTERNAL:
+                                                                 Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
                                                                  either
                                                                  LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is non-zero). Returns a value
                                                                  of zero
@@ -2928,7 +2960,9 @@ typedef union bdk_lmcx_modereg_params1 {
 		uint64_t rtt_wr_10_ext               : 1;  /**< RO - Reserved. */
 		uint64_t rtt_wr_01_ext               : 1;  /**< RO - Reserved. */
 		uint64_t rtt_wr_00_ext               : 1;  /**< RO - Reserved. */
-		uint64_t db_output_impedance         : 3;  /**< R/W - Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
+		uint64_t db_output_impedance         : 3;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
                                                                  This is the default value used during Host Interface Write Leveling in LRDIMM
                                                                  environment, i.e., LMC()_CONFIG[LRDIMM_ENA] = 1, LMC()_SEQ_CTL[SEQ_SEL] = 0x6.
                                                                  0x0 = RZQ/6 (40 ohm).
@@ -3188,9 +3222,13 @@ typedef union bdk_lmcx_modereg_params3 {
 	struct bdk_lmcx_modereg_params3_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_39_63              : 25;
-		uint64_t xrank_add_tccd_l            : 3;  /**< R/W - Add additional cycles on top of the 4 cycles applied to tCCD_L
+		uint64_t xrank_add_tccd_l            : 3;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 Add additional cycles on top of the 4 cycles applied to tCCD_L
                                                                  when crossing logical rank (to the same bank group) of a 3DS DRAM. */
-		uint64_t xrank_add_tccd_s            : 3;  /**< R/W - Add additional cycles on top of the 4 cycles applied to tCCD_S
+		uint64_t xrank_add_tccd_s            : 3;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 Add additional cycles on top of the 4 cycles applied to tCCD_S
                                                                  when crossing logical rank (to a different bank group) of a 3DS DRAM. */
 		uint64_t mpr_fmt                     : 2;  /**< R/W - MPR format. */
 		uint64_t wr_cmd_lat                  : 2;  /**< R/W - Write command latency when CRC and DM are both enabled. */
@@ -3279,9 +3317,8 @@ typedef union bdk_lmcx_mpr_data0 {
 		uint64_t mpr_data                    : 64; /**< RO/H - MPR data bits\<63:0\>. Bits\<7:0\> represent the MPR data for the lowest-order *4 device (*4
                                                                  device 0); bits\<15:8\> represent *4 device 1; ..., bits\<63:56\> are for *4 device 7.
 
-                                                                 This field is also used to store the results after running the Data Buffer Training
-                                                                 sequence
-                                                                 (LMC()_SEQ_CTL[SEQ_SEL] = 0xe).
+                                                                 This field is also used to store the results after running the General R/W Training
+                                                                 sequence (LMC()_SEQ_CTL[SEQ_SEL] = 0xe).
                                                                  The format of the stored results is controlled by the CSR LMC()_DBTRAIN_CTL[RW_TRAIN].
                                                                  When LMC()_DBTRAIN_CTL[RW_TRAIN] = 1, this field stores the R/W comparison output
                                                                  from all DQ63 - DQ0.
@@ -3322,9 +3359,8 @@ typedef union bdk_lmcx_mpr_data1 {
 		uint64_t mpr_data                    : 64; /**< RO/H - MPR data bits\<127:64\>. Bits\<7:0\> represent the MPR data for *4 device 8; bits\<15:8\>
                                                                  represent *4 device 9; ...; bits\<63:56\> are for *4 device 15.
 
-                                                                 This field is also used to store the results after running the Data Buffer Training
-                                                                 sequence
-                                                                 (LMC()_SEQ_CTL[SEQ_SEL] = 0xe).
+                                                                 This field is also used to store the results after running the General R/W Training
+                                                                 sequence (LMC()_SEQ_CTL[SEQ_SEL] = 0xe).
                                                                  The format of the stored results is controlled by the CSR LMC()_DBTRAIN_CTL[RW_TRAIN].
                                                                  When LMC()_DBTRAIN_CTL[RW_TRAIN] = 1, this field stores the R/W comparison output
                                                                  from the ECC byte (DQ71 - DQ64).
@@ -3367,9 +3403,8 @@ typedef union bdk_lmcx_mpr_data2 {
 		uint64_t mpr_data                    : 16; /**< RO/H - MPR data bits\<143:128\>. Bits\<7:0\> represent the MPR data for *4 device 16; bits\<15:8\>
                                                                  represent *4 device 17.
 
-                                                                 This field is also used to store the results after running the Data Buffer Training
-                                                                 sequence
-                                                                 (LMC()_SEQ_CTL[SEQ_SEL] = 0xe).
+                                                                 This field is also used to store the results after running the General R/W Training
+                                                                 sequence (LMC()_SEQ_CTL[SEQ_SEL] = 0xe).
                                                                  The format of the stored results is controlled by the CSR LMC()_DBTRAIN_CTL[RW_TRAIN].
                                                                  When LMC()_DBTRAIN_CTL[RW_TRAIN] = 1, this field is not used.
                                                                  When LMC()_DBTRAIN_CTL[RW_TRAIN] = 0, MPR_DATA\<15:0\> stores the negative edge read data
@@ -3419,7 +3454,10 @@ typedef union bdk_lmcx_mr_mpr_ctl {
 		uint64_t mpr_sample_dq_enable        : 1;  /**< R/W - Reserved. INTERNAL: No longer used due to logic change from
                                                                  initial design. */
 		uint64_t pda_early_dqx               : 1;  /**< R/W - When set, it enables lmc_dqx early for PDA/PBA operation. */
-		uint64_t mr_wr_pba_enable            : 1;  /**< R/W - Per Buffer Addressability write enable. When set, MRW operations use PBA, enabled by
+		uint64_t mr_wr_pba_enable            : 1;  /**< R/W - Reserved.
+
+                                                                 INTERNAL: Per Buffer Addressability write enable. When set, MRW operations use PBA,
+                                                                 enabled by
                                                                  MR_WR_PDA_MASK per buffer.
                                                                  Only available for DDR4 LRDIMM. */
 		uint64_t mr_wr_use_default_value     : 1;  /**< R/W - When set, write the value to the MR that is computed from the value set in various CSR
@@ -3685,12 +3723,14 @@ typedef union bdk_lmcx_nxm {
                                                                  If DIMM1 is dual-sided, this should be set to
                                                                  NXM[MEM_MSB_D1_R0]. If CONFIG[RANK_ENA] is cleared, this field is ignored. */
 		uint64_t mem_msb_d1_r0               : 4;  /**< R/W - Maximum row MSB for DIMM1, RANK0.
+                                                                 INTERNAL:
                                                                  if DIMM1 contains 3DS DRAMs, this would point to
                                                                  the logical rank's most significant bit. */
 		uint64_t mem_msb_d0_r1               : 4;  /**< R/W - Maximum row MSB for DIMM0, RANK1/DIMM0 in single ranked.
                                                                  If DIMM0 is dual-sided, this should be set to
                                                                  NXM[MEM_MSB_D0_R0]. If CONFIG[RANK_ENA] is cleared, this field is ignored. */
 		uint64_t mem_msb_d0_r0               : 4;  /**< R/W - Maximum row MSB for DIMM0, RANK0.
+                                                                 INTERNAL:
                                                                  If DIMM0 contains 3DS DRAMs, this would point to
                                                                  the logical rank's most significant bit. */
 		uint64_t reserved_4_7                : 4;
@@ -3823,13 +3863,17 @@ typedef union bdk_lmcx_phy_ctl {
 		uint64_t data_rate_loopback          : 1;  /**< RO - Reserved. */
 		uint64_t dq_shallow_loopback         : 1;  /**< RO - Reserved. */
 		uint64_t dm_disable                  : 1;  /**< RO - Reserved. */
-		uint64_t c1_sel                      : 2;  /**< R/W - 0x0 = C1 is not routed to any output pin.
+		uint64_t c1_sel                      : 2;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 0x0 = C1 is not routed to any output pin.
                                                                  0x1 = C1 is routed to CS3.
                                                                  0x2 = C1 is routed to A17 address pin.
                                                                  0x3 = C1 is not routed to any output pin.
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
-		uint64_t c0_sel                      : 2;  /**< R/W - 0x0 = C0 is not routed to any output pin.
+		uint64_t c0_sel                      : 2;  /**< R/W - Reserved.
+                                                                 INTERNAL:
+                                                                 0x0 = C0 is not routed to any output pin.
                                                                  0x1 = C0 is routed to CS2.
                                                                  0x2 = C0 is routed to TEN output pin.
                                                                  0x3 = C0 is not routed to any output pin.
@@ -4692,7 +4736,9 @@ typedef union bdk_lmcx_scrambled_fadr {
 	struct bdk_lmcx_scrambled_fadr_s {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_43_63              : 21;
-		uint64_t fcid                        : 3;  /**< RO/H - Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
+		uint64_t fcid                        : 3;  /**< RO/H - Reserved.
+                                                                 INTERNAL:
+                                                                 Failing CID number. This field is only valid when interfacing with 3DS DRAMs (i.e., when
                                                                  either
                                                                  LMC()_EXT_CONFIG[DIMM0_CID] or LMC()_EXT_CONFIG[DIMM1_CID] is non-zero). Returns a value
                                                                  of zero
@@ -4800,8 +4846,7 @@ typedef union bdk_lmcx_seq_ctl {
                                                                  0xb = Offset Training
                                                                  Offset training sequence.
 
-                                                                 0xe = Data Buffer Training. Configurable to run different modes of Data Buffer
-                                                                 training on DDR4 LRDIMM. See LMC()_DBTRAIN_CTL for more detail.
+                                                                 0xe = General R/W Training.
 
                                                                  0xf = DDR4 Post Package Repair sequence. See LMC()_PPR_CTL for more detail.
 
@@ -4819,7 +4864,11 @@ typedef union bdk_lmcx_seq_ctl {
                                                                  through the remainder of the first and the second power-up/init.
                                                                  If DDR_CKE* deactivation and reactivation is needed for
                                                                  a second power-up/init, a DRESET assertion is required
-                                                                 between the first and the second." */
+                                                                 between the first and the second."
+
+                                                                 INTERNAL:
+                                                                 0xe = Data Buffer Training. Configurable to run different modes of Data Buffer
+                                                                 training on DDR4 LRDIMM. See LMC()_DBTRAIN_CTL for more detail. */
 		uint64_t init_start                  : 1;  /**< WO - A 0-\>1 transition starts the DDR memory sequence that is selected by
                                                                  LMC()_SEQ_CTL[SEQ_SEL].
                                                                  This register is a one-shot and clears itself each time it is set. */
@@ -5368,9 +5417,8 @@ typedef union bdk_lmcx_timing_params1 {
 		uint64_t trcd_ext                    : 1;  /**< RO - Reserved. */
 		uint64_t tpdm_full_cycle_ena         : 1;  /**< R/W - When set, this field enables the addition of one-cycle delay to the
                                                                  Write/Read latency calculation. This is to compensate the case when
-                                                                 tPDM delay in the RCD of an RDIMM/LRDIMM is greater than one-cycle.
-                                                                 Only valid in RDIMM  (LMC()_CTL[RDIMM_ENA]=1) or LRDIMM
-                                                                 (LMC()_CONFIG[LRDIMM_ENA=1) mode. */
+                                                                 tPDM delay in the RCD of an RDIMM is greater than one-cycle.
+                                                                 Only valid in RDIMM  (LMC()_CTL[RDIMM_ENA]=1). */
 		uint64_t trfc_dlr                    : 7;  /**< R/W - Indicates TRFC_DLR constraints. Set this field as follows:
 
                                                                  _ RNDUP[TRFC_DLR(ns) / (8 * TCYC(ns))]
@@ -5405,6 +5453,7 @@ typedef union bdk_lmcx_timing_params1 {
 
                                                                  TYP = 30-40 ns
 
+                                                                 INTERNAL:
                                                                  When interfacing with DIMMs that contain 3DS DRAMs, set this field as follows:
 
                                                                  _ RNDUP[TFAW_SLR(ns) / (4 * TCYC(ns))]
@@ -5660,6 +5709,7 @@ typedef union bdk_lmcx_wlevel_ctl {
                                                                  0x6 = LMC writes 0x7 (Rsvd) to MR1[Rtt_Nom].
                                                                  0x7 = LMC writes 0x0 (Disabled) to MR1[Rtt_Nom].
 
+                                                                 INTERNAL:
                                                                  In DDR4 LRDIMM application, this is used to program the Data Buffer Control Word BC00
                                                                  during the Host Interface Write Leveling Mode:
                                                                  0x0 = LMC writes 0x1 (RZQ/4).

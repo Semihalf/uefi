@@ -13756,6 +13756,39 @@ local csr_db = {
                 {name = "TXEQ_WAIT_CNT", start = 0, stop = 3},
             }
         },
+        GSERX_GLBL_MISC_CONFIG_1 = {
+            name = "GSER#_GLBL_MISC_CONFIG_1",
+            type = "RSL",
+            width = 8,
+            address = 0x87e090460030,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "PCS_SDS_VREF_TR", start = 6, stop = 9},
+                {name = "PCS_SDS_TRIM_CHP_REG", start = 4, stop = 5},
+                {name = "PCS_SDS_VCO_REG_TR", start = 2, stop = 3},
+                {name = "PCS_SDS_CVBG_EN", start = 1, stop = 1},
+                {name = "PCS_SDS_EXTVBG_EN", start = 0, stop = 0},
+            }
+        },
+        GSERX_GLBL_PLL_CFG_3 = {
+            name = "GSER#_GLBL_PLL_CFG_3",
+            type = "RSL",
+            width = 8,
+            address = 0x87e090460018,
+            range1 = {0,13},
+            range1_inc = 0x1000000,
+            fields = {
+                {name = "RESERVED_10_63", start = 10, stop = 63},
+                {name = "PCS_SDS_PLL_VCO_AMP", start = 8, stop = 9},
+                {name = "PLL_BYPASS_UQ", start = 7, stop = 7},
+                {name = "PLL_VCTRL_SEL_OVRRD_EN", start = 6, stop = 6},
+                {name = "PLL_VCTRL_SEL_OVRRD_VAL", start = 4, stop = 5},
+                {name = "PLL_VCTRL_SEL_LCVCO_VAL", start = 2, stop = 3},
+                {name = "PLL_VCTRL_SEL_ROVCO_VAL", start = 0, stop = 1},
+            }
+        },
         GSERX_GLBL_PLL_MONITOR = {
             name = "GSER#_GLBL_PLL_MONITOR",
             type = "RSL",

@@ -1919,7 +1919,9 @@ union nic_send_hdr_s {
                                                                  TCP headers, respectively. */
 		uint64_t pnc                         : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
                                                                  NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
-                                                                 error. If clear, no CQE is added on normal completion.
+                                                                 error. If [TSO] is set, a CQE is created for each TSO segment.
+
+                                                                 If clear, no CQE is added on normal completion.
 
                                                                  Note that a CQE is always added if the send operation terminates with an error after the
                                                                  packet is scheduled; except for LOCK_VIOL, where a CQE is determined  by
@@ -2070,7 +2072,9 @@ union nic_send_hdr_s {
                                                                  it will still perform any NIC_SEND_MEM_S operations. */
 		uint64_t pnc                         : 1;  /**< [ 58: 58] Post normal completion. If set, a CQE is created with NIC_CQE_SEND_S[CQE_TYPE] =
                                                                  NIC_CQE_TYPE_E::SEND when the send descriptor's operation completes normally with no
-                                                                 error. If clear, no CQE is added on normal completion.
+                                                                 error. If [TSO] is set, a CQE is created for each TSO segment.
+
+                                                                 If clear, no CQE is added on normal completion.
 
                                                                  Note that a CQE is always added if the send operation terminates with an error after the
                                                                  packet is scheduled; except for LOCK_VIOL, where a CQE is determined  by
@@ -7410,7 +7414,7 @@ typedef union bdk_nic_pf_soft_reset {
 		uint64_t reserved_1_63               : 63;
 		uint64_t reset                       : 1;  /**< WO - Write 1 to reset the NIC block. Software must ensure the following before writing 1:
                                                                  * NIC_PF_CFG[ENA] = 1.
-                                                                 * All NIC queues (CQ, SQ, RQ, RDBR) are idle.
+                                                                 * All NIC queues (CQ, SQ, RQ, RBDR) are idle.
                                                                  * Transmit FIFOs are empty, i.e. NIC_PF_INTF()_TX_FIFO_STATUS[COUNT] = 0.
                                                                  * TNS send and receive interfaces are quiesced.
                                                                  * NIC has no outstanding interrupts.
@@ -8822,8 +8826,8 @@ typedef union bdk_nic_qsx_rbdrx_base {
 		uint64_t base_addr                   : 42; /**< R/W - Base byte address \<48:7\> of RBDR in DRAM (VA, IPA or PA depending on VNIC
                                                                  configuration). Address bits \<6:0\> are always 0. Writes are ignored when the RBDR is
                                                                  active, i.e.:
-                                                                 * NIC_QS()_RBDR()_CFG[ENA]==1, or
-                                                                 * NIC_QS()_RBDR()_HEAD[HEAD_PTR]!=NIC_QS()_RBDR()_TAIL[TAIL_PTR] */
+                                                                 _ NIC_QS()_RBDR()_CFG[ENA]==1, or
+                                                                 _ NIC_QS()_RBDR()_HEAD[HEAD_PTR]!=NIC_QS()_RBDR()_TAIL[TAIL_PTR] */
 		uint64_t reserved_0_6                : 7;
 #else
 		uint64_t reserved_0_6                : 7;
@@ -8853,8 +8857,9 @@ static inline uint64_t BDK_NIC_QSX_RBDRX_BASE(unsigned long param1, unsigned lon
  * NCB - nic_qs#_rbdr#_cfg
  *
  * Writes to all fields except [ENA] and [RESET] are ignored when the RBDR is active, i.e.:
- * * [ENA]==1, or
- * * NIC_QS()_RBDR()_HEAD[HEAD_PTR]!=NIC_QS()_RBDR()_TAIL[TAIL_PTR]
+ * _ [ENA]==1, or
+ * _ or NIC_QS()_RBDR()_HEAD[HEAD_PTR]!=NIC_QS()_RBDR()_TAIL[TAIL_PTR]
+ *
  * Furthermore, writes to [RESET] are ignored when [ENA]==1.
  */
 typedef union bdk_nic_qsx_rbdrx_cfg {

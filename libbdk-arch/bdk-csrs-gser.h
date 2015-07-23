@@ -604,7 +604,6 @@ static inline uint64_t BDK_GSERX_EQ_WAIT_TIME(unsigned long param1)
  * These registers are for diagnostic use only.
  * These registers are reset by hardware only during chip cold reset.
  * The values of the CSR fields in these registers do not change during chip warm or soft resets.
- * Added in pass 2.0.
  */
 typedef union bdk_gserx_glbl_misc_config_1 {
 	uint64_t u;
@@ -615,8 +614,7 @@ typedef union bdk_gserx_glbl_misc_config_1 {
                                                                  are affected).
                                                                  For diagnostic use only. */
 		uint64_t pcs_sds_trim_chp_reg        : 2;  /**< R/W - Trim current going to CML-CMOS stage at output of VCO.
-                                                                 For diagnostic use only.
-                                                                 Changed in pass 2.0. */
+                                                                 For diagnostic use only. */
 		uint64_t pcs_sds_vco_reg_tr          : 2;  /**< R/W - Trims regulator voltage.
                                                                  For diagnostic use only. */
 		uint64_t pcs_sds_cvbg_en             : 1;  /**< R/W - Forces 0.6 V from VDDHV onto VBG node.
@@ -633,14 +631,15 @@ typedef union bdk_gserx_glbl_misc_config_1 {
 #endif
 	} s;
 	/* struct bdk_gserx_glbl_misc_config_1_s cn88xx; */
+	/* struct bdk_gserx_glbl_misc_config_1_s cn88xxp1; */
 } bdk_gserx_glbl_misc_config_1_t;
 
 static inline uint64_t BDK_GSERX_GLBL_MISC_CONFIG_1(unsigned long param1) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_GLBL_MISC_CONFIG_1(unsigned long param1)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 13)))
+	if (((param1 <= 13)))
 		return 0x000087E090460030ull + (param1 & 15) * 0x1000000ull;
-	else 		csr_fatal("BDK_GSERX_GLBL_MISC_CONFIG_1", 1, param1, 0, 0, 0); /* No return */
+	csr_fatal("BDK_GSERX_GLBL_MISC_CONFIG_1", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_GSERX_GLBL_MISC_CONFIG_1(...) bdk_gserx_glbl_misc_config_1_t
 #define bustype_BDK_GSERX_GLBL_MISC_CONFIG_1(...) BDK_CSR_TYPE_RSL
@@ -655,7 +654,6 @@ static inline uint64_t BDK_GSERX_GLBL_MISC_CONFIG_1(unsigned long param1)
  * These registers are for diagnostic use only.
  * These registers are reset by hardware only during chip cold reset.
  * The values of the CSR fields in these registers do not change during chip warm or soft resets.
- * Added in pass 2.0.
  */
 typedef union bdk_gserx_glbl_pll_cfg_3 {
 	uint64_t u;
@@ -666,9 +664,8 @@ typedef union bdk_gserx_glbl_pll_cfg_3 {
                                                                  For diagnostic use only.
                                                                  0x0 = Add 25 uA.
                                                                  0x1 = OFF (default).
-                                                                 0x2 = Sink 25uA.
-                                                                 0x3 = Sink 50uA.
-                                                                 Changed in pass 2.0. */
+                                                                 0x2 = Sink 25 uA.
+                                                                 0x3 = Sink 50 uA. */
 		uint64_t pll_bypass_uq               : 1;  /**< R/W - PLL bypass enable. When asserted, multiplexes in the feedback divider clock.
                                                                  For diagnostic use only. */
 		uint64_t pll_vctrl_sel_ovrrd_en      : 1;  /**< R/W - Override enable for selecting current for Vctrl in open loop operation.
@@ -676,8 +673,7 @@ typedef union bdk_gserx_glbl_pll_cfg_3 {
 		uint64_t pll_vctrl_sel_ovrrd_val     : 2;  /**< R/W - Override value for selecting current for Vctrl in open loop operation.
                                                                  For diagnostic use only. */
 		uint64_t pll_vctrl_sel_lcvco_val     : 2;  /**< R/W - Selects current for Vctrl in open loop operation for LC-tank VCO.
-                                                                 For diagnostic use only.
-                                                                 Changed in pass 2.0. */
+                                                                 For diagnostic use only. */
 		uint64_t pll_vctrl_sel_rovco_val     : 2;  /**< R/W - Selects current for Vctrl in open loop operation for ring oscillator VCO.
                                                                  For diagnostic use only. */
 #else
@@ -691,14 +687,15 @@ typedef union bdk_gserx_glbl_pll_cfg_3 {
 #endif
 	} s;
 	/* struct bdk_gserx_glbl_pll_cfg_3_s  cn88xx; */
+	/* struct bdk_gserx_glbl_pll_cfg_3_s  cn88xxp1; */
 } bdk_gserx_glbl_pll_cfg_3_t;
 
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_3(unsigned long param1) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_3(unsigned long param1)
 {
-	if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((param1 <= 13)))
+	if (((param1 <= 13)))
 		return 0x000087E090460018ull + (param1 & 15) * 0x1000000ull;
-	else 		csr_fatal("BDK_GSERX_GLBL_PLL_CFG_3", 1, param1, 0, 0, 0); /* No return */
+	csr_fatal("BDK_GSERX_GLBL_PLL_CFG_3", 1, param1, 0, 0, 0); /* No return */
 }
 #define typedef_BDK_GSERX_GLBL_PLL_CFG_3(...) bdk_gserx_glbl_pll_cfg_3_t
 #define bustype_BDK_GSERX_GLBL_PLL_CFG_3(...) BDK_CSR_TYPE_RSL
@@ -799,7 +796,7 @@ typedef union bdk_gserx_glbl_tad {
                                                                  0x02 = DFE CK Q.
                                                                  0x03 = DFE CK I.
                                                                  0x04 = DLL use GSER()_SLICE()_RX_SDLL_CTRL.PCS_SDS_RX_SDLL_SWSEL to select signal
-                                                                 in the slice DLL.
+                                                                 in the slice dll.
                                                                  0x05-0x7 = Reserved.
                                                                  0x08 = RX ld_rx[0].
                                                                  0x09 = RX rx_clk.
@@ -810,10 +807,10 @@ typedef union bdk_gserx_glbl_tad {
                                                                  can be observed on DMON and DMONB
                                                                  respectively.  sds_vss can be observed on AMON. GSER()_GLBL_TM_ADMON[AMON_ON]
                                                                  must not be set.
-                                                                 0x10: PLL_CLK 0 degree.
-                                                                 0x11: Sds_tst_fb_clk.
-                                                                 0x12: Buffered refclk.
-                                                                 0x13: Div 8 of core clock (core_clk_out).
+                                                                 0x10 = PLL_CLK 0 degree.
+                                                                 0x11 = Sds_tst_fb_clk.
+                                                                 0x12 = Buffered refclk.
+                                                                 0x13 = Div 8 of core clock (core_clk_out).
                                                                  0x14-0x1F: Reserved. */
 #else
 		uint64_t pcs_sds_tad_4_0             : 5;
@@ -1136,11 +1133,11 @@ typedef union bdk_gserx_lanex_misc_cfg_0 {
 		uint64_t eie_det_stl_off_time        : 3;  /**< R/W - EIE detect state machine "off" delay prior to sampling
                                                                  PHY EIE status. */
 		uint64_t tx_bit_order                : 1;  /**< R/W - Specify transmit bit order.
-                                                                 1 = reverse bit order of parallel data to SerDes TX.
-                                                                 0 = maintain bit order of parallel data to SerDes TX. */
+                                                                 0 = Maintain bit order of parallel data to SerDes TX.
+                                                                 1 = Reverse bit order of parallel data to SerDes TX. */
 		uint64_t rx_bit_order                : 1;  /**< R/W - Specify receive bit order:
-                                                                 1 = reverse bit order of parallel data to SerDes RX.
-                                                                 0 = maintain bit order of parallel data to SerDes RX. */
+                                                                 0 = Maintain bit order of parallel data to SerDes RX.
+                                                                 1 = Reverse bit order of parallel data to SerDes RX. */
 #else
 		uint64_t rx_bit_order                : 1;
 		uint64_t tx_bit_order                : 1;
@@ -1263,7 +1260,8 @@ typedef union bdk_gserx_lanex_pcs_ctlifc_0 {
 		uint64_t cfg_tx_vboost_en_ovrrd_val  : 1;  /**< R/W - Specifies TX VBOOST Enable request when its override bit
                                                                  is asserted GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_VBOOST_EN_OVRRD_EN]. */
 		uint64_t cfg_tx_coeff_req_ovrrd_val  : 1;  /**< R/W - Specifies TX Coefficient request when its override bit
-                                                                 is asserted GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_COEFF_REQ_OVRRD_EN]. */
+                                                                 is asserted GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_COEFF_REQ_OVRRD_EN].
+                                                                 See GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
 		uint64_t cfg_rx_cdr_coast_req_ovrrd_val : 1;/**< R/W - Specifies RX CDR Coast request when its override bit
                                                                  is asserted GSER()_LANE()_PCS_CTLIFC_2[CFG_RX_COAST_REQ_OVRRD_EN]. */
 		uint64_t cfg_tx_detrx_en_req_ovrrd_val : 1;/**< R/W - Specifies TX Detect RX request when its override bit
@@ -1391,12 +1389,20 @@ typedef union bdk_gserx_lanex_pcs_ctlifc_2 {
 		uint64_t reserved_16_63              : 48;
 		uint64_t ctlifc_ovrrd_req            : 1;  /**< WO - Writing to set this bit initiates a state machine interface request
                                                                  for GSER()_LANE()_PCS_CTLIFC_0 and GSER()_LANE()_PCS_CTLIFC_1
-                                                                 override values. */
+                                                                 override values.
+
+                                                                 [CTLIFC_OVRRD_REQ] should be written with a one (with
+                                                                 [CFG_TX_COEFF_REQ_OVRRD_EN]=1 and
+                                                                 GSER()_LANE()_PCS_CTLIFC_0[CFG_TX_COEFF_REQ_OVRRD_VAL]=1) to initiate
+                                                                 a control interface configuration over-ride after manually programming
+                                                                 transmitter settings. See GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP]
+                                                                 and GSER()_LANE()_TX_CFG_0[CFG_TX_SWING]. */
 		uint64_t reserved_9_14               : 6;
 		uint64_t cfg_tx_vboost_en_ovrrd_en   : 1;  /**< R/W - Override mac_pcs_txX vboost_en signal with the value specified in
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_VBOOST_EN_OVRRD_VAL]. */
 		uint64_t cfg_tx_coeff_req_ovrrd_en   : 1;  /**< R/W - Override mac_pcs_txX_coeff_req signal with the value specified in
-                                                                 GSER()_LANE()_PCS_CTLIFC_0[CFG_TX_COEFF_REQ_OVRRD_VAL]. */
+                                                                 GSER()_LANE()_PCS_CTLIFC_0[CFG_TX_COEFF_REQ_OVRRD_VAL]. See
+                                                                 [CTLIFC_OVRRD_REQ]. */
 		uint64_t cfg_rx_cdr_coast_req_ovrrd_en : 1;/**< R/W - Override mac_pcs_rxX_cdr_coast signal with the value specified in
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CFG_RX_COAST_REQ_OVRRD_VAL]. */
 		uint64_t cfg_tx_detrx_en_req_ovrrd_en : 1; /**< R/W - Override mac_pcs_txX_detrx_en signal with the value specified in
@@ -1439,12 +1445,20 @@ typedef union bdk_gserx_lanex_pcs_ctlifc_2 {
 		uint64_t reserved_16_63              : 48;
 		uint64_t ctlifc_ovrrd_req            : 1;  /**< WO - Writing to set this bit initiates a state machine interface request
                                                                  for GSER()_LANE()_PCS_CTLIFC_0 and GSER()_LANE()_PCS_CTLIFC_1
-                                                                 override values. */
+                                                                 override values.
+
+                                                                 [CTLIFC_OVRRD_REQ] should be written with a one (with
+                                                                 [CFG_TX_COEFF_REQ_OVRRD_EN]=1 and
+                                                                 GSER()_LANE()_PCS_CTLIFC_0[CFG_TX_COEFF_REQ_OVRRD_VAL]=1) to initiate
+                                                                 a control interface configuration over-ride after manually programming
+                                                                 transmitter settings. See GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP]
+                                                                 and GSER()_LANE()_TX_CFG_0[CFG_TX_SWING]. */
 		uint64_t reserved_14_9               : 6;
 		uint64_t cfg_tx_vboost_en_ovrrd_en   : 1;  /**< R/W - Override mac_pcs_txX vboost_en signal with the value specified in
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CFG_TX_VBOOST_EN_OVRRD_VAL]. */
 		uint64_t cfg_tx_coeff_req_ovrrd_en   : 1;  /**< R/W - Override mac_pcs_txX_coeff_req signal with the value specified in
-                                                                 GSER()_LANE()_PCS_CTLIFC_0[CFG_TX_COEFF_REQ_OVRRD_VAL]. */
+                                                                 GSER()_LANE()_PCS_CTLIFC_0[CFG_TX_COEFF_REQ_OVRRD_VAL]. See
+                                                                 [CTLIFC_OVRRD_REQ]. */
 		uint64_t cfg_rx_cdr_coast_req_ovrrd_en : 1;/**< R/W - Override mac_pcs_rxX_cdr_coast signal with the value specified in
                                                                  GSER()_LANE()_PCS_CTLIFC_2[CFG_RX_COAST_REQ_OVRRD_VAL]. */
 		uint64_t cfg_tx_detrx_en_req_ovrrd_en : 1; /**< R/W - Override mac_pcs_txX_detrx_en signal with the value specified in
@@ -3463,9 +3477,11 @@ typedef union bdk_gserx_lanex_tx_cfg_0 {
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols \<= 6.25Gbaud except PCIe, the transmit swing should be manually
+                                                                 protocols \<= 6.25Gbaud except PCIe/SATA, the transmit swing should be manually
                                                                  over-ridden. GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN] should be set
-                                                                 and [CFG_TX_SWING] configures the swing.
+                                                                 and [CFG_TX_SWING] configures the swing. A transmit swing change should be
+                                                                 followed by a control interface configuration over-ride to force the
+                                                                 new setting - see GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ].
 
                                                                  [CFG_TX_SWING] should be derived from signal integrity simulations
                                                                  with the IBIS-AMI model supplied by Cavium when auto-negotiated link
@@ -3512,9 +3528,11 @@ typedef union bdk_gserx_lanex_tx_cfg_0 {
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols \<= 6.25Gbaud except PCIe, the transmit swing should be manually
+                                                                 protocols \<= 6.25Gbaud except PCIe/SATA, the transmit swing should be manually
                                                                  over-ridden. GSER()_LANE()_TX_CFG_1[TX_SWING_OVRRD_EN] should be set
-                                                                 and [CFG_TX_SWING] configures the swing.
+                                                                 and [CFG_TX_SWING] configures the swing. A transmit swing change should be
+                                                                 followed by a control interface configuration over-ride to force the
+                                                                 new setting - see GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ].
 
                                                                  [CFG_TX_SWING] should be derived from signal integrity simulations
                                                                  with the IBIS-AMI model supplied by Cavium when auto-negotiated link
@@ -3585,18 +3603,22 @@ typedef union bdk_gserx_lanex_tx_cfg_1 {
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols \<= 6.25Gbaud except PCIe, the transmit swing should be manually
+                                                                 protocols \<= 6.25Gbaud except PCIe/SATA, the transmit swing should be manually
                                                                  over-ridden. [TX_SWING_OVRRD_EN] should be set and
-                                                                 GSER()_LANE()_TX_CFG_0[CFG_TX_SWING] configures the swing. */
+                                                                 GSER()_LANE()_TX_CFG_0[CFG_TX_SWING] configures the swing. A transmit swing
+                                                                 change should be followed by a control interface configuration over-ride to
+                                                                 force the new setting - see GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
 		uint64_t tx_premptap_ovrrd_val       : 1;  /**< R/W - Override enable for pcs_sds_txX_preemptap, preemphasis control.
 
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols \<= 6.25Gbaud except PCIe, the transmit preemphasis pre and post
+                                                                 protocols \<= 6.25Gbaud except PCIe/SATA, the transmit preemphasis pre and post
                                                                  cursor values should be manually over-ridden.  [TX_PREMPTAP_OVRRD_VAL] should
                                                                  be set and GSER()_LANE()_TX_PRE_EMPHASIS[CFG_TX_PREMPTAP] has the pre and post
-                                                                 cursor values. */
+                                                                 cursor values. A preemphasis control change should be followed by a control
+                                                                 interface configuration over-ride to force the new setting - see
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ]. */
 		uint64_t tx_elec_idle_ovrrd_en       : 1;  /**< R/W - Override enable for pcs_sds_txX_elec_idle, TX electrical idle. */
 		uint64_t smpl_rate_ovrrd_en          : 1;  /**< R/W - Override enable for TX Power state machine sample rate. When asserted, the TX sample is
                                                                  specified from SMPL_RATE_OVRRD_VAL and the TX Power state machine control signal is
@@ -3794,10 +3816,13 @@ typedef union bdk_gserx_lanex_tx_pre_emphasis {
                                                                  Recommended settings:
 
                                                                  When auto-negotiated link training is not present, including XFI and all
-                                                                 protocols \<= 6.25Gbaud except PCIe, the transmit preemphasis pre and post
+                                                                 protocols \<= 6.25Gbaud except PCIe/SATA, the transmit preemphasis pre and post
                                                                  cursor values should be manually over-ridden.
                                                                  GSER()_LANE()_TX_CFG_1[TX_PREMPTAP_OVRRD_VAL] should be set
-                                                                 and [CFG_TX_PREMPTAP] has the pre and post cursor values.
+                                                                 and [CFG_TX_PREMPTAP] has the pre and post cursor values. A preemphasis
+                                                                 control change should be followed by a control interface configuration
+                                                                 over-ride to force the new setting - see
+                                                                 GSER()_LANE()_PCS_CTLIFC_2[CTLIFC_OVRRD_REQ].
 
                                                                  [CFG_TX_PREMPTAP] should be derived from signal integrity simulations
                                                                  with the IBIS-AMI model supplied by Cavium when auto-negotiated link
@@ -3983,7 +4008,9 @@ typedef union bdk_gserx_lane_px_mode_0 {
                                                                  _ R_25G_REFCLK125:          0x0
                                                                  _ R_5G_REFCLK125:           0x0
                                                                  _ R_8G_REFCLK125:           0x3
-                                                                 \</pre\> */
+                                                                 \</pre\>
+
+                                                                 For SATA, [CTLE] should always be 0. */
 		uint64_t pcie                        : 1;  /**< R/W/H - Selects between RX terminations.
                                                                  0: Differential termination
                                                                  1: Termination between pad and SDS_VDDS.
@@ -4003,7 +4030,9 @@ typedef union bdk_gserx_lane_px_mode_0 {
                                                                  _ R_25G_REFCLK125:          0x1
                                                                  _ R_5G_REFCLK125:           0x1
                                                                  _ R_8G_REFCLK125:           0x0
-                                                                 \</pre\> */
+                                                                 \</pre\>
+
+                                                                 For SATA, [PCIE] should always be 0. */
 		uint64_t tx_ldiv                     : 2;  /**< R/W/H - Configures clock divider used to determine the receive rate.
                                                                  0x0 = full data rate.
                                                                  0x1 = 1/2 data rate.
@@ -4013,22 +4042,21 @@ typedef union bdk_gserx_lane_px_mode_0 {
                                                                  Recommended settings:
 
                                                                  \<pre\>
-                                                                                             SATA   non-SATA
-                                                                 _ R_25G_REFCLK100:           0x0    0x1
-                                                                 _ R_5G_REFCLK100:            0x0    0x0
-                                                                 _ R_8G_REFCLK100:            0x0    0x0
-                                                                 _ R_125G_REFCLK15625_KX:     NS     0x2
-                                                                 _ R_3125G_REFCLK15625_XAUI:  NS     0x1
-                                                                 _ R_103125G_REFCLK15625_KR:  NS     0x0
-                                                                 _ R_125G_REFCLK15625_SGMII:  NS     0x2
-                                                                 _ R_5G_REFCLK15625_QSGMII:   NS     0x0
-                                                                 _ R_625G_REFCLK15625_RXAUI:  NS     0x0
-                                                                 _ R_25G_REFCLK125:           NS     0x1
-                                                                 _ R_5G_REFCLK125:            NS     0x0
-                                                                 _ R_8G_REFCLK125:            NS     0x0
+                                                                 _ R_25G_REFCLK100:          0x1
+                                                                 _ R_5G_REFCLK100:           0x0
+                                                                 _ R_8G_REFCLK100:           0x0
+                                                                 _ R_125G_REFCLK15625_KX:    0x2
+                                                                 _ R_3125G_REFCLK15625_XAUI: 0x1
+                                                                 _ R_103125G_REFCLK15625_KR: 0x0
+                                                                 _ R_125G_REFCLK15625_SGMII: 0x2
+                                                                 _ R_5G_REFCLK15625_QSGMII:  0x0
+                                                                 _ R_625G_REFCLK15625_RXAUI: 0x0
+                                                                 _ R_25G_REFCLK125:          0x1
+                                                                 _ R_5G_REFCLK125:           0x0
+                                                                 _ R_8G_REFCLK125:           0x0
                                                                  \</pre\>
 
-                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+                                                                 For SATA, [TX_LDIV] should always be 0. */
 		uint64_t rx_ldiv                     : 2;  /**< R/W/H - Configures clock divider used to determine the receive rate.
                                                                  0x0 = full data rate
                                                                  0x1 = 1/2 data rate
@@ -4038,42 +4066,45 @@ typedef union bdk_gserx_lane_px_mode_0 {
                                                                  Recommended settings:
 
                                                                  \<pre\>
-                                                                                             SATA   non-SATA
-                                                                 _ R_25G_REFCLK100:           0x2    0x1
-                                                                 _ R_5G_REFCLK100:            0x1    0x0
-                                                                 _ R_8G_REFCLK100:            0x0    0x0
-                                                                 _ R_125G_REFCLK15625_KX:     NS     0x2
-                                                                 _ R_3125G_REFCLK15625_XAUI:  NS     0x1
-                                                                 _ R_103125G_REFCLK15625_KR:  NS     0x0
-                                                                 _ R_125G_REFCLK15625_SGMII:  NS     0x2
-                                                                 _ R_5G_REFCLK15625_QSGMII:   NS     0x0
-                                                                 _ R_625G_REFCLK15625_RXAUI:  NS     0x0
-                                                                 _ R_25G_REFCLK125:           NS     0x1
-                                                                 _ R_5G_REFCLK125:            NS     0x0
-                                                                 _ R_8G_REFCLK125:            NS     0x0
+                                                                 _ R_25G_REFCLK100:          0x1
+                                                                 _ R_5G_REFCLK100:           0x0
+                                                                 _ R_8G_REFCLK100:           0x0
+                                                                 _ R_125G_REFCLK15625_KX:    0x2
+                                                                 _ R_3125G_REFCLK15625_XAUI: 0x1
+                                                                 _ R_103125G_REFCLK15625_KR: 0x0
+                                                                 _ R_125G_REFCLK15625_SGMII: 0x2
+                                                                 _ R_5G_REFCLK15625_QSGMII:  0x0
+                                                                 _ R_625G_REFCLK15625_RXAUI: 0x0
+                                                                 _ R_25G_REFCLK125:          0x1
+                                                                 _ R_5G_REFCLK125:           0x0
+                                                                 _ R_8G_REFCLK125:           0x0
                                                                  \</pre\>
 
-                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+                                                                 For SATA, [RX_LDIV] should be 2 for R_25G_REFCLK100 (position 0, 1.5 Gbaud),
+                                                                 1 for R_5G_REFCLK100 (position 1, 3 Gbaud), and 0 for R_8G_REFCLK100
+                                                                 (position 2, 6 Gbaud). */
 		uint64_t srate                       : 3;  /**< R/W - Sample rate, used to generate strobe to effectively divide the clock down to a slower
                                                                  rate.
+
                                                                  0x0 = Full rate
                                                                  0x1 = 1/2 data rate
                                                                  0x2 = 1/4 data rate
                                                                  0x3 = 1/8 data rate
                                                                  0x4 = 1/16 data rate
                                                                  else = Reserved.
-                                                                 This field should always be cleared to zero (full rate). */
+
+                                                                 This field should always be cleared to zero (i.e. full rate selected). */
 		uint64_t reserved_4_4                : 1;
 		uint64_t tx_mode                     : 2;  /**< R/W/H - TX data width:
                                                                  0x0 = 8-bit raw data (not supported).
                                                                  0x1 = 10-bit raw data (not supported).
-                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8Gb only).
-                                                                 0x3 = 20-bit raw data. */
+                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8Gb only - software should normally not select this).
+                                                                 0x3 = 20-bit raw data (anything software-configured). */
 		uint64_t rx_mode                     : 2;  /**< R/W/H - RX data width:
                                                                  0x0 = 8-bit raw data (not supported).
                                                                  0x1 = 10-bit raw data (not supported).
-                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8Gb only).
-                                                                 0x3 = 20-bit raw data. */
+                                                                 0x2 = 16-bit raw data (for PCIe Gen3 8Gb only - software should normally not select this).
+                                                                 0x3 = 20-bit raw data (anything software-configured). */
 #else
 		uint64_t rx_mode                     : 2;
 		uint64_t tx_mode                     : 2;
@@ -4120,13 +4151,17 @@ typedef union bdk_gserx_lane_px_mode_1 {
 #if __BYTE_ORDER == __BIG_ENDIAN
 		uint64_t reserved_16_63              : 48;
 		uint64_t vma_fine_cfg_sel            : 1;  /**< R/W/H - Recommended settings:
+                                                                 0 = Disabled. Coarse step adaptation selected (rates lower than 10.3125 Gbaud).
                                                                  1 = Enabled. Fine step adaptation selected (10.3125 Gbaud rate).
-                                                                 0 = Disabled. Coarse step adaptation selected (rates lower than 10.3125 Gbaud). */
+
+                                                                 For SATA, [VMA_FINE_CFG_SEL] should always be 0. */
 		uint64_t vma_mm                      : 1;  /**< R/W/H - Manual DFE verses adaptive DFE mode.
 
                                                                  Recommended settings:
-                                                                 0 = Adaptive DFE (5 Gbaud and higher)
-                                                                 1 = Manual DFE, fixed tap (3.125 Gbaud and lower). */
+                                                                 0 = Adaptive DFE (5 Gbaud and higher).
+                                                                 1 = Manual DFE, fixed tap (3.125 Gbaud and lower).
+
+                                                                 For SATA, [VMA_MM] should always be 1. */
 		uint64_t cdr_fgain                   : 4;  /**< R/W/H - CDR frequency gain.
 
                                                                  Recommended settings:
@@ -4144,27 +4179,29 @@ typedef union bdk_gserx_lane_px_mode_1 {
                                                                  _ R_25G_REFCLK125:          0xA
                                                                  _ R_5G_REFCLK125:           0xA
                                                                  _ R_8G_REFCLK125:           0xB
-                                                                 \</pre\> */
+                                                                 \</pre\>
+
+                                                                 For SATA, [CDR_FGAIN] should always be 0xA. */
 		uint64_t ph_acc_adj                  : 10; /**< R/W/H - Phase accumulator adjust.
 
                                                                  Recommended settings:
 
                                                                  \<pre\>
-                                                                                             SATA   non-SATA
-                                                                 _ R_25G_REFCLK100:           0x15   0x14
-                                                                 _ R_5G_REFCLK100:            0x15   0x14
-                                                                 _ R_8G_REFCLK100:            0x15   0x23
-                                                                 _ R_125G_REFCLK15625_KX:     NS     0x1E
-                                                                 _ R_3125G_REFCLK15625_XAUI:  NS     0x1E
-                                                                 _ R_103125G_REFCLK15625_KR:  NS     0xF
-                                                                 _ R_125G_REFCLK15625_SGMII:  NS     0x1E
-                                                                 _ R_5G_REFCLK15625_QSGMII:   NS     0x1E
-                                                                 _ R_625G_REFCLK15625_RXAUI:  NS     0x14
-                                                                 _ R_25G_REFCLK125:           NS     0x14
-                                                                 _ R_5G_REFCLK125:            NS     0x14
-                                                                 _ R_8G_REFCLK125:            NS     0x23
-
+                                                                 _ R_25G_REFCLK100:          0x14
+                                                                 _ R_5G_REFCLK100:           0x14
+                                                                 _ R_8G_REFCLK100:           0x23
+                                                                 _ R_125G_REFCLK15625_KX:    0x1E
+                                                                 _ R_3125G_REFCLK15625_XAUI: 0x1E
+                                                                 _ R_103125G_REFCLK15625_KR: 0xF
+                                                                 _ R_125G_REFCLK15625_SGMII: 0x1E
+                                                                 _ R_5G_REFCLK15625_QSGMII:  0x1E
+                                                                 _ R_625G_REFCLK15625_RXAUI: 0x14
+                                                                 _ R_25G_REFCLK125:          0x14
+                                                                 _ R_5G_REFCLK125:           0x14
+                                                                 _ R_8G_REFCLK125:           0x23
                                                                  \</pre\>
+
+                                                                 For SATA, [PH_ACC_ADJ] should always be 0x15.
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
 #else
@@ -4634,16 +4671,17 @@ typedef union bdk_gserx_pll_px_mode_0 {
                                                                  Recommended settings, which are based on the reference clock speed:
 
                                                                  \<pre\>
-                                                                          100Mhz  100MHz   125MHz   156.25MHz
-                                                                          SATA    non-SATA non-SATA non-SATA
-                                                                 1.25G:    NS     0x1      0x1      0x1
-                                                                 2.5G:     0x1    0x4      0x3      0x3
-                                                                 3.125G:   NS     NS       0x1      0x1
-                                                                 5.0G:     0x1    0x4      0x3      0x3
-                                                                 6.25G:    NS     NS       0x1      0x1
-                                                                 8.0G:     0x1    0x3      0x2      NS
-                                                                 10.3125G: NS     NS       NS       0x1
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x1    0x1    0x1
+                                                                 2.5G:     0x4    0x3    0x3
+                                                                 3.125G:   NS     0x1    0x1
+                                                                 5.0G:     0x4    0x3    0x3
+                                                                 6.25G:    NS     0x1    0x1
+                                                                 8.0G:     0x3    0x2    NS
+                                                                 10.3125G: NS     NS     0x1
                                                                  \</pre\>
+
+                                                                 For SATA, [PLL_ICP] should always be 1.
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
 		uint64_t pll_rloop                   : 3;  /**< R/W/H - Loop resistor tuning.
@@ -4651,32 +4689,33 @@ typedef union bdk_gserx_pll_px_mode_0 {
                                                                  Recommended settings:
 
                                                                  \<pre\>
-                                                                             SATA    non-SATA
-                                                                 _ 1.25G:     NS      0x3
-                                                                 _ 2.5G:      0x3     0x3
-                                                                 _ 3.125G:    NS      0x3
-                                                                 _ 5.0G:      0x3     0x3
-                                                                 _ 6.25G:     NS      0x3
-                                                                 _ 8.0G:      0x5     0x5
-                                                                 _ 10.3125G:  NS      0x5
+                                                                 _ 1.25G:    0x3
+                                                                 _ 2.5G:     0x3
+                                                                 _ 3.125G:   0x3
+                                                                 _ 5.0G:     0x3
+                                                                 _ 6.25G:    0x3
+                                                                 _ 8.0G:     0x5
+                                                                 _ 10.3125G: 0x5
                                                                  \</pre\>
 
-                                                                 A 'NS' indicates that the rate is not supported at the specified reference clock. */
+                                                                 For SATA with 100Mhz reference clock, [PLL_RLOOP] should always be 3. */
 		uint64_t pll_pcs_div                 : 9;  /**< R/W/H - The divider that generates PCS_MAC_TX_CLK. The frequency of the clock is (pll_frequency /
                                                                  PLL_PCS_DIV).
 
                                                                  Recommended settings:
 
                                                                  \<pre\>
-                                                                             SATA    PCIE   Other
-                                                                 _ 1.25G:     NS      NS     0x28
-                                                                 _ 2.5G:      0x5     0x5    0x5
-                                                                 _ 3.125G:    NS      NS     0x14
-                                                                 _ 5.0G:      0x5     0x5    0xA
-                                                                 _ 6.25G:     NS      NS     0xA
-                                                                 _ 8.0G:      0x5     0x8    0xA
-                                                                 _ 10.3125G:  NS      NS     0xA
+                                                                             PCIE   Other
+                                                                 _ 1.25G:     NS     0x28
+                                                                 _ 2.5G:      0x5    0x5
+                                                                 _ 3.125G:    NS     0x14
+                                                                 _ 5.0G:      0x5    0xA
+                                                                 _ 6.25G:     NS     0xA
+                                                                 _ 8.0G:      0x8    0xA
+                                                                 _ 10.3125G:  NS     0xA
                                                                  \</pre\>
+
+                                                                 For SATA, [PLL_PCS_DIV] should always be 5.
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
 #else
@@ -4734,6 +4773,8 @@ typedef union bdk_gserx_pll_px_mode_1 {
                                                                  10.3125G: NS     NS      0x1
                                                                  \</pre\>
 
+                                                                 For SATA, [PLL_16P5EN] should always be 0.
+
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
 		uint64_t pll_cpadj                   : 2;  /**< R/W/H - PLL charge adjust.
 
@@ -4750,30 +4791,37 @@ typedef union bdk_gserx_pll_px_mode_1 {
                                                                  10.3125G:  NS      NS     0x2
                                                                  \</pre\>
 
+                                                                 For SATA with 100Mhz reference clock, [PLL_CPADJ] should always be 2.
+
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
 		uint64_t pll_pcie3en                 : 1;  /**< R/W/H - Enable PCIE3 mode.
 
                                                                  Recommended settings:
                                                                  0 = Any rate other than 8 Gbaud.
-                                                                 1 = Rate is equal to 8 Gbaud. */
+                                                                 1 = Rate is equal to 8 Gbaud.
+
+                                                                 For SATA, [PLL_PCIE3EN] should always be 0. */
 		uint64_t pll_opr                     : 1;  /**< R/W/H - PLL op range:
-                                                                 0 = Use Ring Oscillator VCO.  Recommended for rates 6.25 Gbaud and lower and for SATA.
-                                                                 1 = Use LC-tank VCO.  Recommended for non-SATA rates 8 Gbaud and higher. */
+                                                                 0 = Use Ring Oscillator VCO. Recommended for rates 6.25 Gbaud and lower.
+                                                                 1 = Use LC-tank VCO. Recommended for rates 8 Gbaud and higher.
+
+                                                                 For SATA, [PLL_OPR] should always be 0. */
 		uint64_t pll_div                     : 9;  /**< R/W/H - PLL divider in feedback path which sets the PLL frequency.
 
                                                                  Recommended settings:
 
                                                                  \<pre\>
-                                                                          100Mhz  100MHz   125MHz   156.25MHz
-                                                                          SATA    non-SATA non-SATA non-SATA
-                                                                 1.25G:    NS      0x19   0x14    0x10
-                                                                 2.5G:     0x1E    0x19   0x14    0x10
-                                                                 3.125G:   NS      NS     0x19    0x14
-                                                                 5.0G:     0x1E    0x19   0x14    0x10
-                                                                 6.25G:    NS      NS     0x19    0x14
-                                                                 8.0G:     0x1E    0x28   0x20    NS
-                                                                 10.3125G: NS      NS     NS      0x21
+                                                                          100MHz 125MHz 156.25MHz
+                                                                 1.25G:    0x19   0x14    0x10
+                                                                 2.5G:     0x19   0x14    0x10
+                                                                 3.125G:   NS     0x19    0x14
+                                                                 5.0G:     0x19   0x14    0x10
+                                                                 6.25G:    NS     0x19    0x14
+                                                                 8.0G:     0x28   0x20    NS
+                                                                 10.3125G: NS     NS      0x21
                                                                  \</pre\>
+
+                                                                 For SATA with 100MHz reference clock, [PLL_DIV] should always be 0x1E.
 
                                                                  A 'NS' indicates that the rate is not supported at the specified reference clock. */
 #else
@@ -5366,7 +5414,7 @@ typedef union bdk_gserx_rx_pwr_ctrl_p2 {
                                                                  \<0\> = Termination.
 
                                                                  Software needs to clear the Termination bit in SATA mode
-                                                                 (when GSER()_CFG[SATA] is set). */
+                                                                 (i.e. when GSER()_CFG[SATA] is set). */
 		uint64_t p2_rx_chpd                  : 1;  /**< R/W - RX lane power down. */
 #else
 		uint64_t p2_rx_chpd                  : 1;

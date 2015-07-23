@@ -888,11 +888,10 @@ typedef union bdk_dfa_done_wait {
 		uint64_t reserved_52_63              : 12;
 		uint64_t time_wait                   : 20; /**< R/W - Represents time to hold off setting DFA_INT_DONE[INST_DONE].
                                                                  When the HW timer reaches [TIME_WAIT]*1024 then interrupt coalescing ends.
-                                                                 Coalescing is disabled when DFA_INT_STATUS[DONE_CNT] is zero. */
+                                                                 Typical value MUST be \>=1. */
 		uint64_t reserved_20_31              : 12;
-		uint64_t num_wait                    : 20; /**< R/W - Number of completion messages hold-off.  When DFA_INT_STATUS[DONE_CNT] \>
-                                                                 DFA_DONE_WAIT[NUM_WAIT]
-                                                                 then interrupt coalescing ends. */
+		uint64_t num_wait                    : 20; /**< R/W - Number of completion messages to hold-off setting DFA_INT_DONE[INST_DONE].
+                                                                 When DFA_INT_STATUS[DONE_CNT] \> DFA_DONE_WAIT[NUM_WAIT] then interrupt coalescing ends. */
 #else
 		uint64_t num_wait                    : 20;
 		uint64_t reserved_20_31              : 12;
@@ -1322,9 +1321,8 @@ typedef union bdk_dfa_int_status {
                                                                  RWORD1+[NNPTR]=cna.nnptr[13:0] */
 		uint64_t reserved_20_31              : 12;
 		uint64_t done_cnt                    : 20; /**< R/W/H - Done count. When an instruction completes, DFA_INT_STATUS[DONE_CNT] is
-                                                                 incremented when the instruction finishes. Write to this field are for
-                                                                 diagnostic use only; instead software writes DFA_DONE_ACK[DONE] with the
-                                                                 number of decrements for this field.
+                                                                 incremented. Write to this field are for diagnostic use only; instead
+                                                                 software writes DFA_DONE_ACK[DONE] with the number of decrements for this field.
 
                                                                  Interrupts are sent as follows:
 
