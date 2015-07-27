@@ -100,7 +100,7 @@ static int on_screen_cursor = 0;
 
 static void reset_screen_draw(int do_back)
 {
-    while (on_screen_cursor--)
+    while (do_back && on_screen_cursor--)
         putchar('\b');
     on_screen_len = 0;
     on_screen_cursor = 0;
