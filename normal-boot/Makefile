@@ -70,8 +70,8 @@ $(FATFS_IMG): $(STAGE1_BIN) $(STAGE2_BIN) lua-common/* $(BOARD_ROOT)/lua/* $(CFG
 
 	# Add all the Lua files to the FAT fs
 	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) mkdir /lua
-	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) cp $(BOARD_ROOT)/lua/*.lua /lua
 	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) cp lua-common/*.lua /lua
+	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) cp $(BOARD_ROOT)/lua/*.lua /lua
 
 	$(BDK_ROOT)/bin/fatfs-tool -q -i $(FATFS_IMG) cp $(BOARD_ROOT)/default.cfg /
 	@cp $(BOARD_ROOT)/default.cfg ./safe-mode.cfg
