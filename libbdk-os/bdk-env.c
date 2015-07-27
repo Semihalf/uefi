@@ -244,6 +244,15 @@ int64_t bdk_brd_cfg_get_int(int64_t dflt, const char *format, ...)
     va_end(args);
 
     const char *val = bdk_board_cfg_get_value(name, 1);
+
+    if (val && (0 == strncmp("0x", val, 2)))
+    {
+        int64_t n;
+        if (1 != sscanf(val, "0x%llx", (long long unsigned int *) &n))
+            return dflt;
+        return n;
+    }
+
     return val ? atol(val) : dflt;
 }
 
