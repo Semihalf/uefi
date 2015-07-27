@@ -15,8 +15,8 @@ all: version
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-1s
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-2s
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800
-	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804
-#	$(MAKE) -C screen # REMOVE-RELEASE
+	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804 # REMOVE-RELEASE
+	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800
 
 #
 # Split docs out from all to allow build to reach tftp when docs fails.
@@ -34,7 +34,7 @@ clean:
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-2s clean
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800 clean
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804 clean
-	$(MAKE) -C screen clean # REMOVE-RELEASE
+	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 clean # REMOVE-RELEASE
 	$(MAKE) -C docs clean # REMOVE-RELEASE
 	rm -f target-bin/*.bin
 
@@ -70,7 +70,7 @@ run-screen:
 ifndef ASIM
 	echo ERROR: Define ASIM in the environment, the directory of asim && false
 endif
-	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/screen-standalone.bin SYMBOL_IMAGE=$(BDK_ROOT)/screen/screen $(ASIM)/asim -e bdk.asim
+	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-screen-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/screen-ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
 
 
 #

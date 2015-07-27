@@ -1,1 +1,0 @@
-../normal-boot-ebb8800/boot-stub.c
