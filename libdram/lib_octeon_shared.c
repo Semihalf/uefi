@@ -49,6 +49,10 @@
 static int global_ddr_clock_initialized = 0;
 static int global_ddr_memory_preserved  = 0;
 
+#if 1
+uint64_t max_p1 = 0UL;
+#endif
+
 /*
  * SDRAM Physical Address (figure 6-2 from the HRM)
  *                                                                   7 6    3 2   0
@@ -221,18 +225,20 @@ static const uint64_t test_pattern[] = {
 
 #define test_dram_byte_print ddr_print
 
-int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
+int test_dram_byte(uint64_t p, uint64_t bitmask)
 {
     uint64_t p1, p2, d1, d2;
     uint64_t v, v1;
     uint64_t p2offset = 0x4000000;
     uint64_t datamask;
+    uint64_t xor;
     int i, j, k;
     int errors = 0;
-    int counter;
     int index;
 
-    datamask = bitmask << (8*byte);
+    // When doing in parallel, the caller must provide full 8-byte bitmask.
+    // Byte lanes may be clear in the mask to indicate no testing on that lane.
+    datamask = bitmask;
 
     // Not on THUNDER:	p |= 1ull<<63;
 
@@ -241,8 +247,9 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
      */
     p += 0x4000000;
 
-    counter = 0;
     /* Store zeros into each location first */
+    // NOTE: the ordering of loops is purposeful: vary the bank bits (j) quickest 
+    // FIXME: back from original k-j-i, to latest i-k-j
     for (k = 0; k < (1 << 20); k += (1 << 14)) {
 	for (j = 0; j < (1 << 12); j += (1 << 9)) {
 	    for (i = 0; i < (1 << 7); i += 8) {
@@ -265,14 +272,13 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
 		 */
 		BDK_CACHE_WBI_L2(p1);
 		BDK_CACHE_WBI_L2(p2);
-		++counter;
 	    }
 	}
     }
 
     BDK_DCACHE_INVALIDATE;
 
-    counter = 0;
+    // FIXME: back from original k-j-i, to latest i-k-j
     for (k = 0; k < (1 << 20); k += (1 << 14)) {
 	for (j = 0; j < (1 << 12); j += (1 << 9)) {
 	    for (i = 0; i < (1 << 7); i += 8) {
@@ -286,7 +292,6 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
 		/* test_dram_byte_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
 		 *            p1, v, p2, v1);
 		 */
-
 		__bdk_dram_write64(p1, v);
 		__bdk_dram_write64(p2, v1);
 
@@ -302,18 +307,16 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
 		 */
 		BDK_CACHE_WBI_L2(p1);
 		BDK_CACHE_WBI_L2(p2);
-		++counter;
 	    }
 	}
     }
 
     BDK_DCACHE_INVALIDATE;
 
-    counter = 0;
-
     /* Walk through a range of addresses avoiding bits that alias
      * interfaces on the CN88XX.
      */
+    // FIXME: back from original k-i-j, to latest i-k-j
     for (k = 0; k < (1 << 20); k += (1 << 14)) {
 	for (i = 0; i < (1 << 7); i += 8) {
 	    for (j = 0; j < (1 << 12); j += (1 << 9)) {
@@ -321,29 +324,31 @@ int test_dram_byte(uint64_t p, int count, int byte, uint64_t bitmask)
 		p1 = p + index;
 		p2 = p1 + p2offset;
 		v = test_pattern[index%(sizeof(test_pattern)/sizeof(uint64_t))];
-		v &= datamask;
 		d1 = __bdk_dram_read64(p1);
-		d1 &= datamask;
 		d2 = ~__bdk_dram_read64(p2);
-		d2 &= datamask;
 
 		/* test_dram_byte_print("[0x%016llX]: 0x%016llX, [0x%016llX]: 0x%016llX\n",
 		 *             p1, d1, p2, d2);
 		 */
 
-		if (d1 != v) {
-		    ++errors;
-		    debug_print("%d: [0x%016llX] 0x%016llX expected 0x%016llX xor %016llX\n",
-				errors, p1, d1, v, (d1 ^ v));
-		    return errors;      /* Quit on first error */
+		xor = ((d1 | d2) ^ v) & datamask; // union of error bits
+
+		int bybit = 1;
+		uint64_t bymsk = 0xffUl; // start in byte lane 0
+		while (xor != 0) {
+		    debug_print("ERROR: [0x%016llX] [0x%016llX]  expected 0x%016llX xor %016llX\n",
+				p1, p2, v, xor);
+		    if (xor & bymsk) { // error(s) in this lane
+			errors |= bybit; // set the byte error bit
+			xor &= ~bymsk; // clear byte lane in error bits
+			datamask &= ~bymsk; // clear the byte lane in the mask
+			if (datamask == 0) { // nothing left to do
+			    return errors; // completely done when errors found in all byte lanes in datamask
+			}
+		    }
+		    bymsk <<= 8; // move mask into next byte lane
+		    bybit <<= 1; // move bit into next byte position
 		}
-		if (d2 != v) {
-		    ++errors;
-		    debug_print("%d: [0x%016llX] 0x%016llX  expected 0x%016llX xor %016llX\n",
-				errors, p2, d2, v, (d2 ^ v));
-		    return errors;      /* Quit on first error */
-		}
-		++counter;
 	    }
 	}
     }
