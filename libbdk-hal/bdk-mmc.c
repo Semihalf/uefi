@@ -658,8 +658,15 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
     bdk_mio_emm_rsp_sts_t status;
     ocr_register_t ocr_reg;
 
-    // Disable bus 1, casues the clocking to reset to the default
-    BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
+    // Disable buses, casues the clocking to reset to the default
+    // Errata (EMMC-26703) EMMC CSR reset doesn't consistantly work
+    BDK_CSR_INIT( mio_emm_modex, node, BDK_MIO_EMM_MODEX(chip_sel));
+    while (mio_emm_modex.s.clk_lo != 2500)
+    {
+        BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 0x0);
+        BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 1<<chip_sel);
+        mio_emm_modex.u = BDK_CSR_READ(node, BDK_MIO_EMM_MODEX(chip_sel));
+    }
     BDK_TRACE(EMMC, "Delay 200ms\n");
     mmc_delay_msec(200);
 
@@ -682,27 +689,6 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
 
     // Enable bus
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CFG, 1<<chip_sel);
-
-    // Change the clock
-    uint64_t CLOCK_HZ = BDK_MMC_CLOCK_HZ;
-    uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
-    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
-        CLOCK_HZ = sclk / 4;
-    sclk /= CLOCK_HZ;
-    sclk /= 2; /* Half is time hi/lo */
-    BDK_CSR_INIT(emm_mode, node, BDK_MIO_EMM_MODEX(chip_sel));
-    BDK_CSR_DEFINE(emm_switch, BDK_MIO_EMM_SWITCH);
-    emm_switch.u = 0;
-    emm_switch.s.bus_id = chip_sel;
-    emm_switch.s.switch_exe = 0;
-    emm_switch.s.hs_timing = emm_mode.s.hs_timing;
-    emm_switch.s.bus_width = emm_mode.s.bus_width;
-    emm_switch.s.power_class = emm_mode.s.power_class;
-    emm_switch.s.clk_hi = sclk;
-    emm_switch.s.clk_lo = sclk;
-    BDK_CSR_WRITE(node, BDK_MIO_EMM_SWITCH, emm_switch.u);
-    BDK_TRACE(EMMC, "Delay 2ms\n");
-    mmc_delay_msec(2);
 
     // Assume card is eMMC
     card_state[chip_sel].card_is_sd = 0;
@@ -871,6 +857,25 @@ int64_t bdk_mmc_initialize(bdk_node_t node, int chip_sel)
     MMC_CMD_OR_ERROR(node, MMC_CMD_SELECT_CARD, card_state[chip_sel].relative_address << 16 , chip_sel, 0, 0, 0, 0);
     // Send Card Status
     MMC_CMD_OR_ERROR(node, MMC_CMD_SEND_STATUS, card_state[chip_sel].relative_address << 16 , chip_sel, 0, 0, 0, 0);
+
+    // Change the clock
+    uint64_t CLOCK_HZ = BDK_MMC_CLOCK_HZ;
+    uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
+    sclk /= CLOCK_HZ;
+    sclk /= 2; /* Half is time hi/lo */
+    BDK_CSR_INIT(emm_mode, node, BDK_MIO_EMM_MODEX(chip_sel));
+    BDK_CSR_DEFINE(emm_switch, BDK_MIO_EMM_SWITCH);
+    emm_switch.u = 0;
+    emm_switch.s.bus_id = chip_sel;
+    emm_switch.s.switch_exe = 0;
+    emm_switch.s.hs_timing = emm_mode.s.hs_timing;
+    emm_switch.s.bus_width = emm_mode.s.bus_width;
+    emm_switch.s.power_class = emm_mode.s.power_class;
+    emm_switch.s.clk_hi = sclk;
+    emm_switch.s.clk_lo = sclk;
+    BDK_CSR_WRITE(node, BDK_MIO_EMM_SWITCH, emm_switch.u);
+    BDK_TRACE(EMMC, "Delay 2ms\n");
+    mmc_delay_msec(2);
 
     // Return the card size in bytes
     BDK_TRACE(EMMC, "MMC init done\n");
