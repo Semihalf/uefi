@@ -415,6 +415,8 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(bdk_node_t node, uint64_t cmd, uint64_t arg
     cmd_reg.s.cmd_val = 1;
 
     BDK_CSR_WRITE(node, BDK_MIO_EMM_CMD, cmd_reg.u);
+    /* Make sure command made it all the way to the block */
+    BDK_CSR_READ(node, BDK_MIO_EMM_CMD);
     BDK_CSR_INIT(sts_reg, node, BDK_MIO_EMM_RSP_STS);
 
     /* We use loops ever 1ms here instead of a wall time based timeout so
