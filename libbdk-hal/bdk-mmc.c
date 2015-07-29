@@ -954,7 +954,13 @@ int bdk_mmc_read(bdk_node_t node, int chip_sel, uint64_t address, void *buffer, 
         length -= 512;
         BDK_TRACE(EMMC, "Read done\n");
         if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        {
+            static int block_count = 0;
+            block_count++;
             putchar('.');
+            if ((block_count & 63) == 0)
+                putchar('\n');
+        }
     }
     return 0;
 }
