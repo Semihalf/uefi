@@ -5,18 +5,6 @@
 @${ASIM}/tests/io/cn88xx-2s48p.asim
 
 # Add io memory regions to conver IO block that aren't simulated
-device io_memory n0.pem0 config 0x1000000 0x87e0c0000000
-device io_memory n0.pem1 config 0x1000000 0x87e0c1000000
-device io_memory n0.pem2 config 0x1000000 0x87e0c2000000
-device io_memory n0.pem3 config 0x1000000 0x87e0c3000000
-device io_memory n0.pem4 config 0x1000000 0x87e0c4000000
-device io_memory n0.pem5 config 0x1000000 0x87e0c5000000
-device io_memory n1.pem0 config 0x1000000 0x97e0c0000000
-device io_memory n1.pem1 config 0x1000000 0x97e0c1000000
-device io_memory n1.pem2 config 0x1000000 0x97e0c2000000
-device io_memory n1.pem3 config 0x1000000 0x97e0c3000000
-device io_memory n1.pem4 config 0x1000000 0x97e0c4000000
-device io_memory n1.pem5 config 0x1000000 0x97e0c5000000
 device io_memory n0.sli0 config 0x100000000 0x874000000000
 device io_memory n0.sli1 config 0x100000000 0x875000000000
 device io_memory n1.sli0 config 0x100000000 0x974000000000
@@ -27,8 +15,6 @@ device io_memory n0.usb0 config 0x300000 0x868000000000
 device io_memory n0.usb1 config 0x300000 0x869000000000
 device io_memory n1.usb0 config 0x300000 0x968000000000
 device io_memory n1.usb1 config 0x300000 0x969000000000
-device io_memory n0.ccpi config 0x1000000 0x87e011000000
-device io_memory n1.ccpi config 0x1000000 0x97e011000000
 device io_memory n0.ocla config 0x1000000 0x87E0A8000000
 device io_memory n1.ocla config 0x1000000 0x97E0A8000000
 device io_memory n0.tns_bar0 config 0x10000 0x842000000000
