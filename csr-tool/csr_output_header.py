@@ -60,15 +60,15 @@ def writeEnum(out, enum):
             else:
                 out.write(" *\n")
     out.write(" */\n")
-    out.write("enum %s {\n" % enum.name.lower())
+    out.write("enum bdk_%s {\n" % enum.name.lower())
     keys = enum.values.keys()
     keys.sort()
     max_value = 0
     for n in keys:
         if max_value < enum.values[n].value:
             max_value = enum.values[n].value
-        out.write("\t%s_%s = 0x%x,\n" % (enum.name, n, enum.values[n].value))
-    out.write("\t%s_ENUM_LAST = 0x%x,\n" % (enum.name, max_value+1))
+        out.write("\tBDK_%s_%s = 0x%x,\n" % (enum.name, n, enum.values[n].value))
+    out.write("\tBDK_%s_ENUM_LAST = 0x%x,\n" % (enum.name, max_value+1))
     out.write("};\n")
 
 def writeStruct(out, struct):
@@ -84,7 +84,7 @@ def writeStruct(out, struct):
             else:
                 out.write(" *\n")
     out.write(" */\n")
-    out.write("union " + struct.name.lower() + " {\n")
+    out.write("union bdk_" + struct.name.lower() + " {\n")
     width = struct.getWidthBits()
     if width > 64:
         out.write("\tuint64_t u[%d];\n" % (width / 64))
