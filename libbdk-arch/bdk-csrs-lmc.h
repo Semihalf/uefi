@@ -63,9 +63,9 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * LMC MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum lmc_int_vec_e {
-	LMC_INT_VEC_E_INTS = 0x0,
-	LMC_INT_VEC_E_ENUM_LAST = 0x1,
+enum bdk_lmc_int_vec_e {
+	BDK_LMC_INT_VEC_E_INTS = 0x0,
+	BDK_LMC_INT_VEC_E_ENUM_LAST = 0x1,
 };
 
 

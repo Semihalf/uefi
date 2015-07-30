@@ -63,9 +63,9 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * IOBN MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum iobn_int_vec_e {
-	IOBN_INT_VEC_E_INTS = 0x0,
-	IOBN_INT_VEC_E_ENUM_LAST = 0x1,
+enum bdk_iobn_int_vec_e {
+	BDK_IOBN_INT_VEC_E_INTS = 0x0,
+	BDK_IOBN_INT_VEC_E_ENUM_LAST = 0x1,
 };
 
 

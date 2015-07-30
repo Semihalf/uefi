@@ -64,12 +64,12 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * Indicates type of device connected to this controller, as loaded into
  * VRM()_MISC_INFO[VRM_TYPE] and VRM()_MISC_INFO[VRM_TYPE2].
  */
-enum vrm_type_e {
-	VRM_TYPE_E_ISL6367 = 0x1,
-	VRM_TYPE_E_PMB_LIN = 0x0,
-	VRM_TYPE_E_PMB_VID = 0x2,
-	VRM_TYPE_E_PMB_VID_TPS53641 = 0x4,
-	VRM_TYPE_E_ENUM_LAST = 0x5,
+enum bdk_vrm_type_e {
+	BDK_VRM_TYPE_E_ISL6367 = 0x1,
+	BDK_VRM_TYPE_E_PMB_LIN = 0x0,
+	BDK_VRM_TYPE_E_PMB_VID = 0x2,
+	BDK_VRM_TYPE_E_PMB_VID_TPS53641 = 0x4,
+	BDK_VRM_TYPE_E_ENUM_LAST = 0x5,
 };
 
 
@@ -79,7 +79,7 @@ enum vrm_type_e {
  * VRM TWSI Software Write Structure
  * Format for software to write data to external regulator.
  */
-union vrm_tws_twsi_sw_s {
+union bdk_vrm_tws_twsi_sw_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN

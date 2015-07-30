@@ -64,14 +64,14 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * Enumerates the reasons for boot failure, returned to post-boot code
  * in argument register 0 and blinked on GPIO\<11\>.
  */
-enum rst_boot_fail_e {
-	RST_BOOT_FAIL_E_AUTH = 0x6,
-	RST_BOOT_FAIL_E_DEVICE = 0x3,
-	RST_BOOT_FAIL_E_GOOD = 0x0,
-	RST_BOOT_FAIL_E_MAGIC = 0x4,
-	RST_BOOT_FAIL_E_MCORE = 0x5,
-	RST_BOOT_FAIL_E_METH = 0x2,
-	RST_BOOT_FAIL_E_ENUM_LAST = 0x7,
+enum bdk_rst_boot_fail_e {
+	BDK_RST_BOOT_FAIL_E_AUTH = 0x6,
+	BDK_RST_BOOT_FAIL_E_DEVICE = 0x3,
+	BDK_RST_BOOT_FAIL_E_GOOD = 0x0,
+	BDK_RST_BOOT_FAIL_E_MAGIC = 0x4,
+	BDK_RST_BOOT_FAIL_E_MCORE = 0x5,
+	BDK_RST_BOOT_FAIL_E_METH = 0x2,
+	BDK_RST_BOOT_FAIL_E_ENUM_LAST = 0x7,
 };
 
 /**
@@ -80,17 +80,17 @@ enum rst_boot_fail_e {
  * RST Boot-strap Method Enumeration
  * Enumerates GPIO_STRAP\<3:0\>, which determines the method used to boot the cores.
  */
-enum rst_boot_method_e {
-	RST_BOOT_METHOD_E_CCPI0 = 0x9,
-	RST_BOOT_METHOD_E_CCPI1 = 0xa,
-	RST_BOOT_METHOD_E_CCPI2 = 0xb,
-	RST_BOOT_METHOD_E_EMMC_LS = 0x3,
-	RST_BOOT_METHOD_E_EMMC_SS = 0x2,
-	RST_BOOT_METHOD_E_PCIE0 = 0xc,
-	RST_BOOT_METHOD_E_REMOTE = 0x8,
-	RST_BOOT_METHOD_E_SPI24 = 0x5,
-	RST_BOOT_METHOD_E_SPI32 = 0x6,
-	RST_BOOT_METHOD_E_ENUM_LAST = 0xd,
+enum bdk_rst_boot_method_e {
+	BDK_RST_BOOT_METHOD_E_CCPI0 = 0x9,
+	BDK_RST_BOOT_METHOD_E_CCPI1 = 0xa,
+	BDK_RST_BOOT_METHOD_E_CCPI2 = 0xb,
+	BDK_RST_BOOT_METHOD_E_EMMC_LS = 0x3,
+	BDK_RST_BOOT_METHOD_E_EMMC_SS = 0x2,
+	BDK_RST_BOOT_METHOD_E_PCIE0 = 0xc,
+	BDK_RST_BOOT_METHOD_E_REMOTE = 0x8,
+	BDK_RST_BOOT_METHOD_E_SPI24 = 0x5,
+	BDK_RST_BOOT_METHOD_E_SPI32 = 0x6,
+	BDK_RST_BOOT_METHOD_E_ENUM_LAST = 0xd,
 };
 
 /**
@@ -99,9 +99,9 @@ enum rst_boot_method_e {
  * RST MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum rst_int_vec_e {
-	RST_INT_VEC_E_INTS = 0x0,
-	RST_INT_VEC_E_ENUM_LAST = 0x1,
+enum bdk_rst_int_vec_e {
+	BDK_RST_INT_VEC_E_INTS = 0x0,
+	BDK_RST_INT_VEC_E_ENUM_LAST = 0x1,
 };
 
 
@@ -112,7 +112,7 @@ enum rst_int_vec_e {
  *
  * This structure specifies the layout of RTL reset and power delivery. It is not visible to software.
  */
-union rst_pp_pwr_s {
+union bdk_rst_pp_pwr_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN

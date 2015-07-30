@@ -63,11 +63,11 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * UCTL DMA Read Command Enumeration
  * Enumerate NCB inbound command selections for DMA read operations.
  */
-enum uctl_dma_read_cmd_e {
-	UCTL_DMA_READ_CMD_E_LDI = 0x0,
-	UCTL_DMA_READ_CMD_E_LDT = 0x1,
-	UCTL_DMA_READ_CMD_E_LDY = 0x2,
-	UCTL_DMA_READ_CMD_E_ENUM_LAST = 0x3,
+enum bdk_uctl_dma_read_cmd_e {
+	BDK_UCTL_DMA_READ_CMD_E_LDI = 0x0,
+	BDK_UCTL_DMA_READ_CMD_E_LDT = 0x1,
+	BDK_UCTL_DMA_READ_CMD_E_LDY = 0x2,
+	BDK_UCTL_DMA_READ_CMD_E_ENUM_LAST = 0x3,
 };
 
 /**
@@ -76,10 +76,10 @@ enum uctl_dma_read_cmd_e {
  * UCTL DMA Write Command Enumeration
  * Enumerate NCB inbound command selections for DMA write operations.
  */
-enum uctl_dma_write_cmd_e {
-	UCTL_DMA_WRITE_CMD_E_RSTP = 0x1,
-	UCTL_DMA_WRITE_CMD_E_STP = 0x0,
-	UCTL_DMA_WRITE_CMD_E_ENUM_LAST = 0x2,
+enum bdk_uctl_dma_write_cmd_e {
+	BDK_UCTL_DMA_WRITE_CMD_E_RSTP = 0x1,
+	BDK_UCTL_DMA_WRITE_CMD_E_STP = 0x0,
+	BDK_UCTL_DMA_WRITE_CMD_E_ENUM_LAST = 0x2,
 };
 
 /**
@@ -88,19 +88,19 @@ enum uctl_dma_write_cmd_e {
  * UCTL ECC Error Source Enumeration
  * Enumerate sources of ECC error log information.
  */
-enum uctl_ecc_err_source_e {
-	UCTL_ECC_ERR_SOURCE_E_NONE = 0x0,
-	UCTL_ECC_ERR_SOURCE_E_RAM0_DBE = 0xf,
-	UCTL_ECC_ERR_SOURCE_E_RAM0_SBE = 0x7,
-	UCTL_ECC_ERR_SOURCE_E_RAM1_DBE = 0xe,
-	UCTL_ECC_ERR_SOURCE_E_RAM1_SBE = 0x6,
-	UCTL_ECC_ERR_SOURCE_E_RAM2_DBE = 0xd,
-	UCTL_ECC_ERR_SOURCE_E_RAM2_SBE = 0x5,
-	UCTL_ECC_ERR_SOURCE_E_XM_R_DBE = 0xa,
-	UCTL_ECC_ERR_SOURCE_E_XM_R_SBE = 0x2,
-	UCTL_ECC_ERR_SOURCE_E_XM_W_DBE = 0x9,
-	UCTL_ECC_ERR_SOURCE_E_XM_W_SBE = 0x1,
-	UCTL_ECC_ERR_SOURCE_E_ENUM_LAST = 0x10,
+enum bdk_uctl_ecc_err_source_e {
+	BDK_UCTL_ECC_ERR_SOURCE_E_NONE = 0x0,
+	BDK_UCTL_ECC_ERR_SOURCE_E_RAM0_DBE = 0xf,
+	BDK_UCTL_ECC_ERR_SOURCE_E_RAM0_SBE = 0x7,
+	BDK_UCTL_ECC_ERR_SOURCE_E_RAM1_DBE = 0xe,
+	BDK_UCTL_ECC_ERR_SOURCE_E_RAM1_SBE = 0x6,
+	BDK_UCTL_ECC_ERR_SOURCE_E_RAM2_DBE = 0xd,
+	BDK_UCTL_ECC_ERR_SOURCE_E_RAM2_SBE = 0x5,
+	BDK_UCTL_ECC_ERR_SOURCE_E_XM_R_DBE = 0xa,
+	BDK_UCTL_ECC_ERR_SOURCE_E_XM_R_SBE = 0x2,
+	BDK_UCTL_ECC_ERR_SOURCE_E_XM_W_DBE = 0x9,
+	BDK_UCTL_ECC_ERR_SOURCE_E_XM_W_SBE = 0x1,
+	BDK_UCTL_ECC_ERR_SOURCE_E_ENUM_LAST = 0x10,
 };
 
 /**
@@ -109,12 +109,12 @@ enum uctl_ecc_err_source_e {
  * UCTL Endian-Mode Enumeration
  * Enumerate endian mode selections.
  */
-enum uctl_endian_mode_e {
-	UCTL_ENDIAN_MODE_E_BIG = 0x1,
-	UCTL_ENDIAN_MODE_E_LITTLE = 0x0,
-	UCTL_ENDIAN_MODE_E_RSVD2 = 0x2,
-	UCTL_ENDIAN_MODE_E_RSVD3 = 0x3,
-	UCTL_ENDIAN_MODE_E_ENUM_LAST = 0x4,
+enum bdk_uctl_endian_mode_e {
+	BDK_UCTL_ENDIAN_MODE_E_BIG = 0x1,
+	BDK_UCTL_ENDIAN_MODE_E_LITTLE = 0x0,
+	BDK_UCTL_ENDIAN_MODE_E_RSVD2 = 0x2,
+	BDK_UCTL_ENDIAN_MODE_E_RSVD3 = 0x3,
+	BDK_UCTL_ENDIAN_MODE_E_ENUM_LAST = 0x4,
 };
 
 /**
@@ -123,14 +123,14 @@ enum uctl_endian_mode_e {
  * UCTL XM Bad DMA Type Enumeration
  * Enumerate type of DMA error seen.
  */
-enum uctl_xm_bad_dma_type_e {
-	UCTL_XM_BAD_DMA_TYPE_E_ADDR_OOB = 0x1,
-	UCTL_XM_BAD_DMA_TYPE_E_LEN_GT_16 = 0x2,
-	UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_BYTE = 0x3,
-	UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_HALFWORD = 0x4,
-	UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_WORD = 0x5,
-	UCTL_XM_BAD_DMA_TYPE_E_NONE = 0x0,
-	UCTL_XM_BAD_DMA_TYPE_E_ENUM_LAST = 0x6,
+enum bdk_uctl_xm_bad_dma_type_e {
+	BDK_UCTL_XM_BAD_DMA_TYPE_E_ADDR_OOB = 0x1,
+	BDK_UCTL_XM_BAD_DMA_TYPE_E_LEN_GT_16 = 0x2,
+	BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_BYTE = 0x3,
+	BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_HALFWORD = 0x4,
+	BDK_UCTL_XM_BAD_DMA_TYPE_E_MULTIBEAT_WORD = 0x5,
+	BDK_UCTL_XM_BAD_DMA_TYPE_E_NONE = 0x0,
+	BDK_UCTL_XM_BAD_DMA_TYPE_E_ENUM_LAST = 0x6,
 };
 
 /**
@@ -139,12 +139,12 @@ enum uctl_xm_bad_dma_type_e {
  * USBH MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum usbh_int_vec_e {
-	USBH_INT_VEC_E_UAHC_IMAN_IP = 0x0,
-	USBH_INT_VEC_E_UAHC_USBSTS_HSE = 0x2,
-	USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR = 0x3,
-	USBH_INT_VEC_E_UCTL_INTSTAT = 0x1,
-	USBH_INT_VEC_E_ENUM_LAST = 0x4,
+enum bdk_usbh_int_vec_e {
+	BDK_USBH_INT_VEC_E_UAHC_IMAN_IP = 0x0,
+	BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE = 0x2,
+	BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR = 0x3,
+	BDK_USBH_INT_VEC_E_UCTL_INTSTAT = 0x1,
+	BDK_USBH_INT_VEC_E_ENUM_LAST = 0x4,
 };
 
 

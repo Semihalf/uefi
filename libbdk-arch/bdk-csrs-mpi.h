@@ -63,9 +63,9 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * MPI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum mpi_int_vec_e {
-	MPI_INT_VEC_E_INTS = 0x0,
-	MPI_INT_VEC_E_ENUM_LAST = 0x1,
+enum bdk_mpi_int_vec_e {
+	BDK_MPI_INT_VEC_E_INTS = 0x0,
+	BDK_MPI_INT_VEC_E_ENUM_LAST = 0x1,
 };
 
 

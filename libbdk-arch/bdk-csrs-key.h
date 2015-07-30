@@ -63,9 +63,9 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * KEY MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum key_int_vec_e {
-	KEY_INT_VEC_E_INTS = 0x0,
-	KEY_INT_VEC_E_ENUM_LAST = 0x1,
+enum bdk_key_int_vec_e {
+	BDK_KEY_INT_VEC_E_INTS = 0x0,
+	BDK_KEY_INT_VEC_E_ENUM_LAST = 0x1,
 };
 
 

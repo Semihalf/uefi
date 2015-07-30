@@ -270,6 +270,7 @@ def build_csr(chip_info, group, register, raw):
                    "arch_max",
                    "backdoor_mem_path",
                    "chip_pass",
+                   "dtx_not_implemented",
                    "dv_bist_all_fail_test",
                    "dv_fc_scratch",
                    "dv_force_no_compare",

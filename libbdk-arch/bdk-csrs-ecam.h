@@ -65,7 +65,7 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * ECAM load and store operations form an address with this structure: 8-bit, 16-bit, 32-bit and
  * 64-bit read and write operations are supported to this region.
  */
-union ecam_cfg_addr_s {
+union bdk_ecam_cfg_addr_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN

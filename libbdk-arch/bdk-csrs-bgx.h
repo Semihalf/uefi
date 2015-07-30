@@ -63,38 +63,38 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * BGX MSI-X Vector Enumeration
  * Enumeration the MSI-X interrupt vectors.
  */
-enum bgx_int_vec_e {
-	BGX_INT_VEC_E_CMR0_INT = 0x0,
-	BGX_INT_VEC_E_CMR1_INT = 0x7,
-	BGX_INT_VEC_E_CMR2_INT = 0xe,
-	BGX_INT_VEC_E_CMR3_INT = 0x15,
-	BGX_INT_VEC_E_CMR_MEM_INT = 0x1c,
-	BGX_INT_VEC_E_GMP0_GMI_RX_INT = 0x5,
-	BGX_INT_VEC_E_GMP0_GMI_TX_INT = 0x6,
-	BGX_INT_VEC_E_GMP0_PCS_INT = 0x4,
-	BGX_INT_VEC_E_GMP1_GMI_RX_INT = 0xc,
-	BGX_INT_VEC_E_GMP1_GMI_TX_INT = 0xd,
-	BGX_INT_VEC_E_GMP1_PCS_INT = 0xb,
-	BGX_INT_VEC_E_GMP2_GMI_RX_INT = 0x13,
-	BGX_INT_VEC_E_GMP2_GMI_TX_INT = 0x14,
-	BGX_INT_VEC_E_GMP2_PCS_INT = 0x12,
-	BGX_INT_VEC_E_GMP3_GMI_RX_INT = 0x1a,
-	BGX_INT_VEC_E_GMP3_GMI_TX_INT = 0x1b,
-	BGX_INT_VEC_E_GMP3_PCS_INT = 0x19,
-	BGX_INT_VEC_E_SMU0_RX_INT = 0x2,
-	BGX_INT_VEC_E_SMU0_TX_INT = 0x3,
-	BGX_INT_VEC_E_SMU1_RX_INT = 0x9,
-	BGX_INT_VEC_E_SMU1_TX_INT = 0xa,
-	BGX_INT_VEC_E_SMU2_RX_INT = 0x10,
-	BGX_INT_VEC_E_SMU2_TX_INT = 0x11,
-	BGX_INT_VEC_E_SMU3_RX_INT = 0x17,
-	BGX_INT_VEC_E_SMU3_TX_INT = 0x18,
-	BGX_INT_VEC_E_SPU0_INT = 0x1,
-	BGX_INT_VEC_E_SPU1_INT = 0x8,
-	BGX_INT_VEC_E_SPU2_INT = 0xf,
-	BGX_INT_VEC_E_SPU3_INT = 0x16,
-	BGX_INT_VEC_E_SPU_MEM_INT = 0x1d,
-	BGX_INT_VEC_E_ENUM_LAST = 0x1e,
+enum bdk_bgx_int_vec_e {
+	BDK_BGX_INT_VEC_E_CMR0_INT = 0x0,
+	BDK_BGX_INT_VEC_E_CMR1_INT = 0x7,
+	BDK_BGX_INT_VEC_E_CMR2_INT = 0xe,
+	BDK_BGX_INT_VEC_E_CMR3_INT = 0x15,
+	BDK_BGX_INT_VEC_E_CMR_MEM_INT = 0x1c,
+	BDK_BGX_INT_VEC_E_GMP0_GMI_RX_INT = 0x5,
+	BDK_BGX_INT_VEC_E_GMP0_GMI_TX_INT = 0x6,
+	BDK_BGX_INT_VEC_E_GMP0_PCS_INT = 0x4,
+	BDK_BGX_INT_VEC_E_GMP1_GMI_RX_INT = 0xc,
+	BDK_BGX_INT_VEC_E_GMP1_GMI_TX_INT = 0xd,
+	BDK_BGX_INT_VEC_E_GMP1_PCS_INT = 0xb,
+	BDK_BGX_INT_VEC_E_GMP2_GMI_RX_INT = 0x13,
+	BDK_BGX_INT_VEC_E_GMP2_GMI_TX_INT = 0x14,
+	BDK_BGX_INT_VEC_E_GMP2_PCS_INT = 0x12,
+	BDK_BGX_INT_VEC_E_GMP3_GMI_RX_INT = 0x1a,
+	BDK_BGX_INT_VEC_E_GMP3_GMI_TX_INT = 0x1b,
+	BDK_BGX_INT_VEC_E_GMP3_PCS_INT = 0x19,
+	BDK_BGX_INT_VEC_E_SMU0_RX_INT = 0x2,
+	BDK_BGX_INT_VEC_E_SMU0_TX_INT = 0x3,
+	BDK_BGX_INT_VEC_E_SMU1_RX_INT = 0x9,
+	BDK_BGX_INT_VEC_E_SMU1_TX_INT = 0xa,
+	BDK_BGX_INT_VEC_E_SMU2_RX_INT = 0x10,
+	BDK_BGX_INT_VEC_E_SMU2_TX_INT = 0x11,
+	BDK_BGX_INT_VEC_E_SMU3_RX_INT = 0x17,
+	BDK_BGX_INT_VEC_E_SMU3_TX_INT = 0x18,
+	BDK_BGX_INT_VEC_E_SPU0_INT = 0x1,
+	BDK_BGX_INT_VEC_E_SPU1_INT = 0x8,
+	BDK_BGX_INT_VEC_E_SPU2_INT = 0xf,
+	BDK_BGX_INT_VEC_E_SPU3_INT = 0x16,
+	BDK_BGX_INT_VEC_E_SPU_MEM_INT = 0x1d,
+	BDK_BGX_INT_VEC_E_ENUM_LAST = 0x1e,
 };
 
 /**
@@ -103,16 +103,16 @@ enum bgx_int_vec_e {
  * BGX Error Opcode Enumeration
  * Enumerates the error opcodes created by BGX and presented into NCSI frames.
  */
-enum bgx_opcode_e {
-	BGX_OPCODE_E_BAD_TERM = 0x9,
-	BGX_OPCODE_E_FCSERR_RCVERR = 0x8,
-	BGX_OPCODE_E_FCS_ERR = 0x3,
-	BGX_OPCODE_E_JABBER_ERR = 0x2,
-	BGX_OPCODE_E_NONE = 0x0,
-	BGX_OPCODE_E_PARTIAL_ERR = 0x1,
-	BGX_OPCODE_E_RCV_ERR = 0xb,
-	BGX_OPCODE_E_SKP_ERR = 0xc,
-	BGX_OPCODE_E_ENUM_LAST = 0xd,
+enum bdk_bgx_opcode_e {
+	BDK_BGX_OPCODE_E_BAD_TERM = 0x9,
+	BDK_BGX_OPCODE_E_FCSERR_RCVERR = 0x8,
+	BDK_BGX_OPCODE_E_FCS_ERR = 0x3,
+	BDK_BGX_OPCODE_E_JABBER_ERR = 0x2,
+	BDK_BGX_OPCODE_E_NONE = 0x0,
+	BDK_BGX_OPCODE_E_PARTIAL_ERR = 0x1,
+	BDK_BGX_OPCODE_E_RCV_ERR = 0xb,
+	BDK_BGX_OPCODE_E_SKP_ERR = 0xc,
+	BDK_BGX_OPCODE_E_ENUM_LAST = 0xd,
 };
 
 /**
@@ -121,12 +121,12 @@ enum bgx_opcode_e {
  * BGX Training Coefficient Status Enumeration
  * 2-bit status for each coefficient as defined in 802.3-2008, Table 72-5.
  */
-enum bgx_spu_br_train_cst_e {
-	BGX_SPU_BR_TRAIN_CST_E_MAXIMUM = 0x3,
-	BGX_SPU_BR_TRAIN_CST_E_MINIMUM = 0x2,
-	BGX_SPU_BR_TRAIN_CST_E_NOT_UPDATED = 0x0,
-	BGX_SPU_BR_TRAIN_CST_E_UPDATED = 0x1,
-	BGX_SPU_BR_TRAIN_CST_E_ENUM_LAST = 0x4,
+enum bdk_bgx_spu_br_train_cst_e {
+	BDK_BGX_SPU_BR_TRAIN_CST_E_MAXIMUM = 0x3,
+	BDK_BGX_SPU_BR_TRAIN_CST_E_MINIMUM = 0x2,
+	BDK_BGX_SPU_BR_TRAIN_CST_E_NOT_UPDATED = 0x0,
+	BDK_BGX_SPU_BR_TRAIN_CST_E_UPDATED = 0x1,
+	BDK_BGX_SPU_BR_TRAIN_CST_E_ENUM_LAST = 0x4,
 };
 
 /**
@@ -135,12 +135,12 @@ enum bgx_spu_br_train_cst_e {
  * BGX Training Coefficient Enumeration
  * 2-bit command for each coefficient as defined in 802.3-2008, Table 72-4.
  */
-enum bgx_spu_br_train_cup_e {
-	BGX_SPU_BR_TRAIN_CUP_E_DECREMENT = 0x1,
-	BGX_SPU_BR_TRAIN_CUP_E_HOLD = 0x0,
-	BGX_SPU_BR_TRAIN_CUP_E_INCREMENT = 0x2,
-	BGX_SPU_BR_TRAIN_CUP_E_RSV_CMD = 0x3,
-	BGX_SPU_BR_TRAIN_CUP_E_ENUM_LAST = 0x4,
+enum bdk_bgx_spu_br_train_cup_e {
+	BDK_BGX_SPU_BR_TRAIN_CUP_E_DECREMENT = 0x1,
+	BDK_BGX_SPU_BR_TRAIN_CUP_E_HOLD = 0x0,
+	BDK_BGX_SPU_BR_TRAIN_CUP_E_INCREMENT = 0x2,
+	BDK_BGX_SPU_BR_TRAIN_CUP_E_RSV_CMD = 0x3,
+	BDK_BGX_SPU_BR_TRAIN_CUP_E_ENUM_LAST = 0x4,
 };
 
 
@@ -151,7 +151,7 @@ enum bgx_spu_br_train_cup_e {
  * This is the group of lane status bits for a single lane in the BASE-R PMD status register
  * (MDIO address 1.151) as defined in 802.3ba-2010, Table 45-55.
  */
-union bgx_spu_br_lane_train_status_s {
+union bdk_bgx_spu_br_lane_train_status_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -185,7 +185,7 @@ union bgx_spu_br_lane_train_status_s {
  * This is the coefficient update field of the BASE-R link training packet as defined in
  * 802.3-2008, Table 72-4.
  */
-union bgx_spu_br_train_cup_s {
+union bdk_bgx_spu_br_train_cup_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -231,7 +231,7 @@ union bgx_spu_br_train_cup_s {
  * This is the status report field of the BASE-R link training packet as defined in 802.3-2008,
  * Table 72-5.
  */
-union bgx_spu_br_train_rep_s {
+union bdk_bgx_spu_br_train_rep_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -268,7 +268,7 @@ union bgx_spu_br_train_rep_s {
  * This structure is similar to BGX_SPU_BR_TRAIN_CUP_S format, but with reserved fields removed
  * and RX_READY field added.
  */
-union bgx_spu_sds_cu_s {
+union bdk_bgx_spu_sds_cu_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -298,7 +298,7 @@ union bgx_spu_sds_cu_s {
  * Provides receive skew information detected for a physical SerDes lane when it is assigned to a
  * multilane LMAC/LPCS. Contents are valid when RX deskew is done for the associated LMAC/LPCS.
  */
-union bgx_spu_sds_skew_status_s {
+union bdk_bgx_spu_sds_skew_status_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -336,7 +336,7 @@ union bgx_spu_sds_skew_status_s {
  *
  * Similar to BGX_SPU_BR_TRAIN_REP_S format, but with reserved fields and RX_READY fields removed.
  */
-union bgx_spu_sds_sr_s {
+union bdk_bgx_spu_sds_sr_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN

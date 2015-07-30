@@ -63,10 +63,10 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * HFA MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum dfa_int_vec_e {
-	DFA_INT_VEC_E_DONE = 0x1,
-	DFA_INT_VEC_E_ERR = 0x0,
-	DFA_INT_VEC_E_ENUM_LAST = 0x2,
+enum bdk_dfa_int_vec_e {
+	BDK_DFA_INT_VEC_E_DONE = 0x1,
+	BDK_DFA_INT_VEC_E_ERR = 0x0,
+	BDK_DFA_INT_VEC_E_ENUM_LAST = 0x2,
 };
 
 
@@ -81,7 +81,7 @@ enum dfa_int_vec_e {
  * which have their RPTR listed in this queue.
  * INTERNAL: Not functional until CN88XX pass 2.
  */
-union dfa_cq_s {
+union bdk_dfa_cq_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN

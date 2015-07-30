@@ -64,21 +64,21 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * The actual 24-bit ITS command SEI is defined as {8'h01,
  * GITS_CMD_TYPE(8-bit), GITS_CMD_ERR(8-bit)}.
  */
-enum gits_cmd_err_e {
-	GITS_CMD_ERR_E_CSEI_CMD_TO = 0xe0,
-	GITS_CMD_ERR_E_CSEI_COLLECTION_OOR = 0x3,
-	GITS_CMD_ERR_E_CSEI_DEVICE_OOR = 0x1,
-	GITS_CMD_ERR_E_CSEI_ID_OOR = 0x5,
-	GITS_CMD_ERR_E_CSEI_ITE_INVALID = 0x10,
-	GITS_CMD_ERR_E_CSEI_ITTSIZE_OOR = 0x2,
-	GITS_CMD_ERR_E_CSEI_PHYSICALID_OOR = 0x6,
-	GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID = 0xe1,
-	GITS_CMD_ERR_E_CSEI_TA_INVALID = 0xfe,
-	GITS_CMD_ERR_E_CSEI_UNMAPPED_COLLECTION = 0x9,
-	GITS_CMD_ERR_E_CSEI_UNMAPPED_DEVICE = 0x4,
-	GITS_CMD_ERR_E_CSEI_UNMAPPED_INTERRUPT = 0x7,
-	GITS_CMD_ERR_E_CSEI_UNSUPPORTED_CMD = 0xff,
-	GITS_CMD_ERR_E_ENUM_LAST = 0x100,
+enum bdk_gits_cmd_err_e {
+	BDK_GITS_CMD_ERR_E_CSEI_CMD_TO = 0xe0,
+	BDK_GITS_CMD_ERR_E_CSEI_COLLECTION_OOR = 0x3,
+	BDK_GITS_CMD_ERR_E_CSEI_DEVICE_OOR = 0x1,
+	BDK_GITS_CMD_ERR_E_CSEI_ID_OOR = 0x5,
+	BDK_GITS_CMD_ERR_E_CSEI_ITE_INVALID = 0x10,
+	BDK_GITS_CMD_ERR_E_CSEI_ITTSIZE_OOR = 0x2,
+	BDK_GITS_CMD_ERR_E_CSEI_PHYSICALID_OOR = 0x6,
+	BDK_GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID = 0xe1,
+	BDK_GITS_CMD_ERR_E_CSEI_TA_INVALID = 0xfe,
+	BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_COLLECTION = 0x9,
+	BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_DEVICE = 0x4,
+	BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_INTERRUPT = 0x7,
+	BDK_GITS_CMD_ERR_E_CSEI_UNSUPPORTED_CMD = 0xff,
+	BDK_GITS_CMD_ERR_E_ENUM_LAST = 0x100,
 };
 
 /**
@@ -87,21 +87,21 @@ enum gits_cmd_err_e {
  * ITS Command Type Enumeration
  * Enumerates the ITS commands.
  */
-enum gits_cmd_type_e {
-	GITS_CMD_TYPE_E_CMD_CLEAR = 0x4,
-	GITS_CMD_TYPE_E_CMD_DISCARD = 0xf,
-	GITS_CMD_TYPE_E_CMD_INT = 0x3,
-	GITS_CMD_TYPE_E_CMD_INV = 0xc,
-	GITS_CMD_TYPE_E_CMD_INVALL = 0xd,
-	GITS_CMD_TYPE_E_CMD_MAPC = 0x9,
-	GITS_CMD_TYPE_E_CMD_MAPD = 0x8,
-	GITS_CMD_TYPE_E_CMD_MAPI = 0xb,
-	GITS_CMD_TYPE_E_CMD_MAPVI = 0xa,
-	GITS_CMD_TYPE_E_CMD_MOVALL = 0xe,
-	GITS_CMD_TYPE_E_CMD_MOVI = 0x1,
-	GITS_CMD_TYPE_E_CMD_SYNC = 0x5,
-	GITS_CMD_TYPE_E_CMD_UDF = 0x0,
-	GITS_CMD_TYPE_E_ENUM_LAST = 0x10,
+enum bdk_gits_cmd_type_e {
+	BDK_GITS_CMD_TYPE_E_CMD_CLEAR = 0x4,
+	BDK_GITS_CMD_TYPE_E_CMD_DISCARD = 0xf,
+	BDK_GITS_CMD_TYPE_E_CMD_INT = 0x3,
+	BDK_GITS_CMD_TYPE_E_CMD_INV = 0xc,
+	BDK_GITS_CMD_TYPE_E_CMD_INVALL = 0xd,
+	BDK_GITS_CMD_TYPE_E_CMD_MAPC = 0x9,
+	BDK_GITS_CMD_TYPE_E_CMD_MAPD = 0x8,
+	BDK_GITS_CMD_TYPE_E_CMD_MAPI = 0xb,
+	BDK_GITS_CMD_TYPE_E_CMD_MAPVI = 0xa,
+	BDK_GITS_CMD_TYPE_E_CMD_MOVALL = 0xe,
+	BDK_GITS_CMD_TYPE_E_CMD_MOVI = 0x1,
+	BDK_GITS_CMD_TYPE_E_CMD_SYNC = 0x5,
+	BDK_GITS_CMD_TYPE_E_CMD_UDF = 0x0,
+	BDK_GITS_CMD_TYPE_E_ENUM_LAST = 0x10,
 };
 
 
@@ -111,7 +111,7 @@ enum gits_cmd_type_e {
  * ITS Clear Command Structure
  *
  */
-union gits_cmd_clear_s {
+union bdk_gits_cmd_clear_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -149,7 +149,7 @@ union gits_cmd_clear_s {
  * ITS Discard Command Structure
  *
  */
-union gits_cmd_discard_s {
+union bdk_gits_cmd_discard_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -187,7 +187,7 @@ union gits_cmd_discard_s {
  * ITS INT Command Structure
  *
  */
-union gits_cmd_int_s {
+union bdk_gits_cmd_int_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -225,7 +225,7 @@ union gits_cmd_int_s {
  * ITS INVALL Command Structure
  *
  */
-union gits_cmd_invall_s {
+union bdk_gits_cmd_invall_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -261,7 +261,7 @@ union gits_cmd_invall_s {
  * ITS INV Command Structure
  *
  */
-union gits_cmd_inv_s {
+union bdk_gits_cmd_inv_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -299,7 +299,7 @@ union gits_cmd_inv_s {
  * ITS MAPC Command Structure
  *
  */
-union gits_cmd_mapc_s {
+union bdk_gits_cmd_mapc_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -345,7 +345,7 @@ union gits_cmd_mapc_s {
  * ITS MAPD Command Structure
  *
  */
-union gits_cmd_mapd_s {
+union bdk_gits_cmd_mapd_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -395,7 +395,7 @@ union gits_cmd_mapd_s {
  * ITS MAPI Command Structure
  *
  */
-union gits_cmd_mapi_s {
+union bdk_gits_cmd_mapi_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -437,7 +437,7 @@ union gits_cmd_mapi_s {
  * ITS MAPVI Command Structure
  *
  */
-union gits_cmd_mapvi_s {
+union bdk_gits_cmd_mapvi_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -479,7 +479,7 @@ union gits_cmd_mapvi_s {
  * ITS MOVALL Command Structure
  *
  */
-union gits_cmd_movall_s {
+union bdk_gits_cmd_movall_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -521,7 +521,7 @@ union gits_cmd_movall_s {
  * ITS MOVI Command Structure
  *
  */
-union gits_cmd_movi_s {
+union bdk_gits_cmd_movi_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -561,7 +561,7 @@ union gits_cmd_movi_s {
  * ITS SYNC Command Structure
  *
  */
-union gits_cmd_sync_s {
+union bdk_gits_cmd_sync_s {
 	uint64_t u[4];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN

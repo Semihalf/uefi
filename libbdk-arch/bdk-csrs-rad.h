@@ -63,9 +63,9 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * RAD PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum rad_int_vec_e {
-	RAD_INT_VEC_E_INTR = 0x0,
-	RAD_INT_VEC_E_ENUM_LAST = 0x1,
+enum bdk_rad_int_vec_e {
+	BDK_RAD_INT_VEC_E_INTR = 0x0,
+	BDK_RAD_INT_VEC_E_ENUM_LAST = 0x1,
 };
 
 
@@ -75,7 +75,7 @@ enum rad_int_vec_e {
  * RAD Control Word Structure
  *
  */
-union rad_cword_s {
+union bdk_rad_cword_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -206,7 +206,7 @@ union rad_cword_s {
  * whether the buffer should be accumulated by the P pipe, the Q pipe, or both. The RAD_IWORD_S
  * also supplies the Q pipe multiplier for the buffer (QMULT).
  */
-union rad_iword_s {
+union bdk_rad_iword_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -264,7 +264,7 @@ union rad_iword_s {
  * Data written to RAD_OWORD_S[PTR] with non-zero result.
  * RAD_REG_CTL[STORE_BE] indicates the endianness of this structure.
  */
-union rad_nzdist_s {
+union bdk_rad_nzdist_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -285,7 +285,7 @@ union rad_nzdist_s {
  * RAD Output Pointer Structure
  * RAD_OWORD_S points to where to output data to.
  */
-union rad_oword_s {
+union bdk_rad_oword_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -348,7 +348,7 @@ union rad_oword_s {
  * RAD Response Pointer Structure
  * This structure contains a pointer to the L2/DRAM byte to zero after completing the instruction.
  */
-union rad_resp_s {
+union bdk_rad_resp_s {
 	uint64_t u[2];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN

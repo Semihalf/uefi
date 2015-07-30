@@ -63,9 +63,9 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * OCLA MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum ocla_int_vec_e {
-	OCLA_INT_VEC_E_INTS = 0x0,
-	OCLA_INT_VEC_E_ENUM_LAST = 0x1,
+enum bdk_ocla_int_vec_e {
+	BDK_OCLA_INT_VEC_E_INTS = 0x0,
+	BDK_OCLA_INT_VEC_E_ENUM_LAST = 0x1,
 };
 
 
@@ -76,7 +76,7 @@ enum ocla_int_vec_e {
  * Control packets are indicated by an entry's bit 37 being set, and described by the
  * OCLA_CAP_CTL_S structure:
  */
-union ocla_cap_ctl_s {
+union bdk_ocla_cap_ctl_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -124,7 +124,7 @@ union ocla_cap_ctl_s {
  * Data packets are indicated by an entry's bit 37 being clear, and described by the
  * OCLA_CAP_DAT_S structure:
  */
-union ocla_cap_dat_s {
+union bdk_ocla_cap_dat_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN

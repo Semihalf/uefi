@@ -63,21 +63,21 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * ZIP Completion Enumeration
  * Enumerates the values of ZIP_ZRES_S[COMPCODE].
  */
-enum zip_comp_e {
-	ZIP_COMP_E_BADCODE = 0x7,
-	ZIP_COMP_E_BADCODE2 = 0x8,
-	ZIP_COMP_E_DTRUNC = 0x2,
-	ZIP_COMP_E_FATAL = 0xb,
-	ZIP_COMP_E_ITRUNC = 0x4,
-	ZIP_COMP_E_NLEN = 0x6,
-	ZIP_COMP_E_NOTDONE = 0x0,
-	ZIP_COMP_E_PARITY = 0xa,
-	ZIP_COMP_E_RBLOCK = 0x5,
-	ZIP_COMP_E_STOP = 0x3,
-	ZIP_COMP_E_SUCCESS = 0x1,
-	ZIP_COMP_E_TIMEOUT = 0xc,
-	ZIP_COMP_E_ZERO_LEN = 0x9,
-	ZIP_COMP_E_ENUM_LAST = 0xd,
+enum bdk_zip_comp_e {
+	BDK_ZIP_COMP_E_BADCODE = 0x7,
+	BDK_ZIP_COMP_E_BADCODE2 = 0x8,
+	BDK_ZIP_COMP_E_DTRUNC = 0x2,
+	BDK_ZIP_COMP_E_FATAL = 0xb,
+	BDK_ZIP_COMP_E_ITRUNC = 0x4,
+	BDK_ZIP_COMP_E_NLEN = 0x6,
+	BDK_ZIP_COMP_E_NOTDONE = 0x0,
+	BDK_ZIP_COMP_E_PARITY = 0xa,
+	BDK_ZIP_COMP_E_RBLOCK = 0x5,
+	BDK_ZIP_COMP_E_STOP = 0x3,
+	BDK_ZIP_COMP_E_SUCCESS = 0x1,
+	BDK_ZIP_COMP_E_TIMEOUT = 0xc,
+	BDK_ZIP_COMP_E_ZERO_LEN = 0x9,
+	BDK_ZIP_COMP_E_ENUM_LAST = 0xd,
 };
 
 /**
@@ -86,26 +86,26 @@ enum zip_comp_e {
  * ZIP MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum zip_int_vec_e {
-	ZIP_INT_VEC_E_ECCE = 0x10,
-	ZIP_INT_VEC_E_FIFE = 0x11,
-	ZIP_INT_VEC_E_QUE0_DONE = 0x0,
-	ZIP_INT_VEC_E_QUE0_ERR = 0x8,
-	ZIP_INT_VEC_E_QUE1_DONE = 0x1,
-	ZIP_INT_VEC_E_QUE1_ERR = 0x9,
-	ZIP_INT_VEC_E_QUE2_DONE = 0x2,
-	ZIP_INT_VEC_E_QUE2_ERR = 0xa,
-	ZIP_INT_VEC_E_QUE3_DONE = 0x3,
-	ZIP_INT_VEC_E_QUE3_ERR = 0xb,
-	ZIP_INT_VEC_E_QUE4_DONE = 0x4,
-	ZIP_INT_VEC_E_QUE4_ERR = 0xc,
-	ZIP_INT_VEC_E_QUE5_DONE = 0x5,
-	ZIP_INT_VEC_E_QUE5_ERR = 0xd,
-	ZIP_INT_VEC_E_QUE6_DONE = 0x6,
-	ZIP_INT_VEC_E_QUE6_ERR = 0xe,
-	ZIP_INT_VEC_E_QUE7_DONE = 0x7,
-	ZIP_INT_VEC_E_QUE7_ERR = 0xf,
-	ZIP_INT_VEC_E_ENUM_LAST = 0x12,
+enum bdk_zip_int_vec_e {
+	BDK_ZIP_INT_VEC_E_ECCE = 0x10,
+	BDK_ZIP_INT_VEC_E_FIFE = 0x11,
+	BDK_ZIP_INT_VEC_E_QUE0_DONE = 0x0,
+	BDK_ZIP_INT_VEC_E_QUE0_ERR = 0x8,
+	BDK_ZIP_INT_VEC_E_QUE1_DONE = 0x1,
+	BDK_ZIP_INT_VEC_E_QUE1_ERR = 0x9,
+	BDK_ZIP_INT_VEC_E_QUE2_DONE = 0x2,
+	BDK_ZIP_INT_VEC_E_QUE2_ERR = 0xa,
+	BDK_ZIP_INT_VEC_E_QUE3_DONE = 0x3,
+	BDK_ZIP_INT_VEC_E_QUE3_ERR = 0xb,
+	BDK_ZIP_INT_VEC_E_QUE4_DONE = 0x4,
+	BDK_ZIP_INT_VEC_E_QUE4_ERR = 0xc,
+	BDK_ZIP_INT_VEC_E_QUE5_DONE = 0x5,
+	BDK_ZIP_INT_VEC_E_QUE5_ERR = 0xd,
+	BDK_ZIP_INT_VEC_E_QUE6_DONE = 0x6,
+	BDK_ZIP_INT_VEC_E_QUE6_ERR = 0xe,
+	BDK_ZIP_INT_VEC_E_QUE7_DONE = 0x7,
+	BDK_ZIP_INT_VEC_E_QUE7_ERR = 0xf,
+	BDK_ZIP_INT_VEC_E_ENUM_LAST = 0x12,
 };
 
 
@@ -115,7 +115,7 @@ enum zip_int_vec_e {
  * ZIP Instruction Structure
  * Each ZIP instruction has 16 words (they are called IWORD0 to IWORD15 within the structure).
  */
-union zip_inst_s {
+union bdk_zip_inst_s {
 	uint64_t u[16];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -530,7 +530,7 @@ union zip_inst_s {
  * ZIP_NPTR structure is used to chain all the ZIP instruction buffers together. ZIP instruction
  * buffers are managed (allocated and released) by software.
  */
-union zip_nptr_s {
+union bdk_zip_nptr_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -551,7 +551,7 @@ union zip_nptr_s {
  * ZIP Generic Pointer Structure
  * This structure is the generic format of pointers in ZIP_INST_S.
  */
-union zip_zptr_s {
+union bdk_zip_zptr_s {
 	uint64_t u[2];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN
@@ -641,7 +641,7 @@ union zip_zptr_s {
  * The result structure is exactly 24 bytes, and each invocation of the ZIP coprocessor
  * produces exactly one result structure.
  */
-union zip_zres_s {
+union bdk_zip_zres_s {
 	uint64_t u[3];
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN

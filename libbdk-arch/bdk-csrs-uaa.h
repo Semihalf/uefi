@@ -63,10 +63,10 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * UART MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum uaa_int_vec_e {
-	UAA_INT_VEC_E_INTS = 0x0,
-	UAA_INT_VEC_E_INTS_CLEAR = 0x1,
-	UAA_INT_VEC_E_ENUM_LAST = 0x2,
+enum bdk_uaa_int_vec_e {
+	BDK_UAA_INT_VEC_E_INTS = 0x0,
+	BDK_UAA_INT_VEC_E_INTS_CLEAR = 0x1,
+	BDK_UAA_INT_VEC_E_ENUM_LAST = 0x2,
 };
 
 

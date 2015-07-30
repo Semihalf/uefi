@@ -63,9 +63,9 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * L2C_TAD MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum l2c_tad_int_vec_e {
-	L2C_TAD_INT_VEC_E_INTS = 0x0,
-	L2C_TAD_INT_VEC_E_ENUM_LAST = 0x1,
+enum bdk_l2c_tad_int_vec_e {
+	BDK_L2C_TAD_INT_VEC_E_INTS = 0x0,
+	BDK_L2C_TAD_INT_VEC_E_ENUM_LAST = 0x1,
 };
 
 

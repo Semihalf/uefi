@@ -63,12 +63,12 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * SLI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum sli_int_vec_e {
-	SLI_INT_VEC_E_MAC0 = 0x1,
-	SLI_INT_VEC_E_MAC1 = 0x2,
-	SLI_INT_VEC_E_MAC2 = 0x3,
-	SLI_INT_VEC_E_MBE = 0x0,
-	SLI_INT_VEC_E_ENUM_LAST = 0x4,
+enum bdk_sli_int_vec_e {
+	BDK_SLI_INT_VEC_E_MAC0 = 0x1,
+	BDK_SLI_INT_VEC_E_MAC1 = 0x2,
+	BDK_SLI_INT_VEC_E_MAC2 = 0x3,
+	BDK_SLI_INT_VEC_E_MBE = 0x0,
+	BDK_SLI_INT_VEC_E_ENUM_LAST = 0x4,
 };
 
 
@@ -80,7 +80,7 @@ enum sli_int_vec_e {
  * with this structure. 8-bit, 16-bit, 32-bit and 64-bit reads and writes, in addition to atomics
  * are supported to this region.
  */
-union sli_s2m_op_s {
+union bdk_sli_s2m_op_s {
 	uint64_t u;
 	struct {
 #if __BYTE_ORDER == __BIG_ENDIAN

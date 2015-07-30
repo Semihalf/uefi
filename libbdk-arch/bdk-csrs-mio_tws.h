@@ -63,9 +63,9 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * TWSI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum mio_tws_int_vec_e {
-	MIO_TWS_INT_VEC_E_INT_ST = 0x0,
-	MIO_TWS_INT_VEC_E_ENUM_LAST = 0x1,
+enum bdk_mio_tws_int_vec_e {
+	BDK_MIO_TWS_INT_VEC_E_INT_ST = 0x0,
+	BDK_MIO_TWS_INT_VEC_E_ENUM_LAST = 0x1,
 };
 
 

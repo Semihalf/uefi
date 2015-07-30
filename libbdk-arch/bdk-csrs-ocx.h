@@ -63,12 +63,12 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * OCX MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-enum ocx_int_vec_e {
-	OCX_INT_VEC_E_COM_INTS = 0x3,
-	OCX_INT_VEC_E_LNK_INTS0 = 0x0,
-	OCX_INT_VEC_E_LNK_INTS1 = 0x1,
-	OCX_INT_VEC_E_LNK_INTS2 = 0x2,
-	OCX_INT_VEC_E_ENUM_LAST = 0x4,
+enum bdk_ocx_int_vec_e {
+	BDK_OCX_INT_VEC_E_COM_INTS = 0x3,
+	BDK_OCX_INT_VEC_E_LNK_INTS0 = 0x0,
+	BDK_OCX_INT_VEC_E_LNK_INTS1 = 0x1,
+	BDK_OCX_INT_VEC_E_LNK_INTS2 = 0x2,
+	BDK_OCX_INT_VEC_E_ENUM_LAST = 0x4,
 };
 
 

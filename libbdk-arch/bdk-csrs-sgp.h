@@ -63,16 +63,16 @@ extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsign
  * SGPIO Transmit Activity Enumeration
  * Enumerates the values of SGP_TX(0..3)[ACT].
  */
-enum sgp_tx_act_e {
-	SGP_TX_ACT_E_A_OFF_ON = 0x3,
-	SGP_TX_ACT_E_A_ON_OFF = 0x2,
-	SGP_TX_ACT_E_BRIEF_END = 0x4,
-	SGP_TX_ACT_E_BRIEF_START = 0x5,
-	SGP_TX_ACT_E_B_OFF_ON = 0x7,
-	SGP_TX_ACT_E_B_ON_OFF = 0x6,
-	SGP_TX_ACT_E_STATIC_OFF = 0x0,
-	SGP_TX_ACT_E_STATIC_ON = 0x1,
-	SGP_TX_ACT_E_ENUM_LAST = 0x8,
+enum bdk_sgp_tx_act_e {
+	BDK_SGP_TX_ACT_E_A_OFF_ON = 0x3,
+	BDK_SGP_TX_ACT_E_A_ON_OFF = 0x2,
+	BDK_SGP_TX_ACT_E_BRIEF_END = 0x4,
+	BDK_SGP_TX_ACT_E_BRIEF_START = 0x5,
+	BDK_SGP_TX_ACT_E_B_OFF_ON = 0x7,
+	BDK_SGP_TX_ACT_E_B_ON_OFF = 0x6,
+	BDK_SGP_TX_ACT_E_STATIC_OFF = 0x0,
+	BDK_SGP_TX_ACT_E_STATIC_ON = 0x1,
+	BDK_SGP_TX_ACT_E_ENUM_LAST = 0x8,
 };
 
 /**
@@ -81,16 +81,16 @@ enum sgp_tx_act_e {
  * SGPIO Transmit Error Enumeration
  * Enumerates the values of SGP_TX(0..3)[ERR].
  */
-enum sgp_tx_err_e {
-	SGP_TX_ERR_E_A_OFF_ON = 0x3,
-	SGP_TX_ERR_E_A_ON_OFF = 0x2,
-	SGP_TX_ERR_E_B_OFF_ON = 0x7,
-	SGP_TX_ERR_E_B_ON_OFF = 0x6,
-	SGP_TX_ERR_E_STATIC_OFF = 0x0,
-	SGP_TX_ERR_E_STATIC_ON = 0x1,
-	SGP_TX_ERR_E_STATIC_ON4 = 0x4,
-	SGP_TX_ERR_E_STATIC_ON5 = 0x5,
-	SGP_TX_ERR_E_ENUM_LAST = 0x8,
+enum bdk_sgp_tx_err_e {
+	BDK_SGP_TX_ERR_E_A_OFF_ON = 0x3,
+	BDK_SGP_TX_ERR_E_A_ON_OFF = 0x2,
+	BDK_SGP_TX_ERR_E_B_OFF_ON = 0x7,
+	BDK_SGP_TX_ERR_E_B_ON_OFF = 0x6,
+	BDK_SGP_TX_ERR_E_STATIC_OFF = 0x0,
+	BDK_SGP_TX_ERR_E_STATIC_ON = 0x1,
+	BDK_SGP_TX_ERR_E_STATIC_ON4 = 0x4,
+	BDK_SGP_TX_ERR_E_STATIC_ON5 = 0x5,
+	BDK_SGP_TX_ERR_E_ENUM_LAST = 0x8,
 };
 
 /**
@@ -99,12 +99,12 @@ enum sgp_tx_err_e {
  * SGPIO Transmit Locate Enumeration
  * Enumerates the values of SGP_TX(0..3)[LOC].
  */
-enum sgp_tx_loc_e {
-	SGP_TX_LOC_E_A_OFF_ON = 0x3,
-	SGP_TX_LOC_E_A_ON_OFF = 0x2,
-	SGP_TX_LOC_E_STATIC_OFF = 0x0,
-	SGP_TX_LOC_E_STATIC_ON = 0x1,
-	SGP_TX_LOC_E_ENUM_LAST = 0x4,
+enum bdk_sgp_tx_loc_e {
+	BDK_SGP_TX_LOC_E_A_OFF_ON = 0x3,
+	BDK_SGP_TX_LOC_E_A_ON_OFF = 0x2,
+	BDK_SGP_TX_LOC_E_STATIC_OFF = 0x0,
+	BDK_SGP_TX_LOC_E_STATIC_ON = 0x1,
+	BDK_SGP_TX_LOC_E_ENUM_LAST = 0x4,
 };
 
 
