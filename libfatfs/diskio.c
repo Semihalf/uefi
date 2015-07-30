@@ -85,7 +85,7 @@ static void fatfs_set_spi_device_name(int boot_method)
 	int is_msb = !mpi_cfg.s.lsbfirst;
 	int freq_mhz = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (2 * mpi_cfg.s.clkdiv) / 1000000;
 
-	if (boot_method == RST_BOOT_METHOD_E_SPI24)
+	if (boot_method == BDK_RST_BOOT_METHOD_E_SPI24)
 		address_width = 24;
 	else
 		address_width = 32;
@@ -116,21 +116,21 @@ int fatfs_diskio_init()
 
 	switch (boot_method)
 	{
-		case RST_BOOT_METHOD_E_CCPI0:
-		case RST_BOOT_METHOD_E_CCPI1:
-		case RST_BOOT_METHOD_E_CCPI2:
-		case RST_BOOT_METHOD_E_PCIE0:
-		case RST_BOOT_METHOD_E_REMOTE:
+		case BDK_RST_BOOT_METHOD_E_CCPI0:
+		case BDK_RST_BOOT_METHOD_E_CCPI1:
+		case BDK_RST_BOOT_METHOD_E_CCPI2:
+		case BDK_RST_BOOT_METHOD_E_PCIE0:
+		case BDK_RST_BOOT_METHOD_E_REMOTE:
 			break;
 
-		case RST_BOOT_METHOD_E_EMMC_LS:
-		case RST_BOOT_METHOD_E_EMMC_SS:
+		case BDK_RST_BOOT_METHOD_E_EMMC_LS:
+		case BDK_RST_BOOT_METHOD_E_EMMC_SS:
 			/* Set the default volume to MMC */
 			res = f_chvol(DRV_MMC);
 			break;
 
-		case RST_BOOT_METHOD_E_SPI24:
-		case RST_BOOT_METHOD_E_SPI32:
+		case BDK_RST_BOOT_METHOD_E_SPI24:
+		case BDK_RST_BOOT_METHOD_E_SPI32:
 			/* For the SPI boot method we overwrite the default device name with a name
 			 * derived from the SPI controller registers. These registers have been set
 			 * by the boot code and are known to work as we just bootet from SPI.

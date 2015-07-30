@@ -68,31 +68,31 @@ void print_node_strapping(bdk_node_t node)
 
     switch (boot_method)
     {
-        case RST_BOOT_METHOD_E_CCPI0:
+        case BDK_RST_BOOT_METHOD_E_CCPI0:
             boot_method_str = "CCPI0";
             break;
-        case RST_BOOT_METHOD_E_CCPI1:
+        case BDK_RST_BOOT_METHOD_E_CCPI1:
             boot_method_str = "CCPI1";
             break;
-        case RST_BOOT_METHOD_E_CCPI2:
+        case BDK_RST_BOOT_METHOD_E_CCPI2:
             boot_method_str = "CCPI2";
             break;
-        case RST_BOOT_METHOD_E_EMMC_LS:
+        case BDK_RST_BOOT_METHOD_E_EMMC_LS:
             boot_method_str = "EMMC_LS";
             break;
-        case RST_BOOT_METHOD_E_EMMC_SS:
+        case BDK_RST_BOOT_METHOD_E_EMMC_SS:
             boot_method_str = "EMMC_SS";
             break;
-        case RST_BOOT_METHOD_E_PCIE0:
+        case BDK_RST_BOOT_METHOD_E_PCIE0:
             boot_method_str = "PCIE0";
             break;
-        case RST_BOOT_METHOD_E_REMOTE:
+        case BDK_RST_BOOT_METHOD_E_REMOTE:
             boot_method_str = "REMOTE";
             break;
-        case RST_BOOT_METHOD_E_SPI24:
+        case BDK_RST_BOOT_METHOD_E_SPI24:
             boot_method_str = "SPI24";
             break;
-        case RST_BOOT_METHOD_E_SPI32:
+        case BDK_RST_BOOT_METHOD_E_SPI32:
             boot_method_str = "SPI32";
             break;
         default:
@@ -140,7 +140,7 @@ static void create_spi_device_name(char *buffer, int buffer_size, int boot_metho
     int is_msb = !mpi_cfg.s.lsbfirst;
     int freq_mhz = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / (2 * mpi_cfg.s.clkdiv) / 1000000;
 
-    if (boot_method == RST_BOOT_METHOD_E_SPI24)
+    if (boot_method == BDK_RST_BOOT_METHOD_E_SPI24)
         address_width = 24;
     else
         address_width = 32;
@@ -162,19 +162,19 @@ const char *boot_device_name_for_boot_method(int boot_method)
 
     switch (boot_method)
     {
-        case RST_BOOT_METHOD_E_CCPI0:
-        case RST_BOOT_METHOD_E_CCPI1:
-        case RST_BOOT_METHOD_E_CCPI2:
-        case RST_BOOT_METHOD_E_PCIE0:
-        case RST_BOOT_METHOD_E_REMOTE:
+        case BDK_RST_BOOT_METHOD_E_CCPI0:
+        case BDK_RST_BOOT_METHOD_E_CCPI1:
+        case BDK_RST_BOOT_METHOD_E_CCPI2:
+        case BDK_RST_BOOT_METHOD_E_PCIE0:
+        case BDK_RST_BOOT_METHOD_E_REMOTE:
             /* Boot device controlled externally */
             break;
-        case RST_BOOT_METHOD_E_EMMC_LS:
-        case RST_BOOT_METHOD_E_EMMC_SS:
+        case BDK_RST_BOOT_METHOD_E_EMMC_LS:
+        case BDK_RST_BOOT_METHOD_E_EMMC_SS:
             sprintf(boot_device_name, "/dev/n%d.mmc0", node);
             break;
-        case RST_BOOT_METHOD_E_SPI24:
-        case RST_BOOT_METHOD_E_SPI32:
+        case BDK_RST_BOOT_METHOD_E_SPI24:
+        case BDK_RST_BOOT_METHOD_E_SPI32:
             create_spi_device_name(boot_device_name, sizeof(boot_device_name), boot_method);
             break;
         default:

@@ -11,124 +11,124 @@ static int pcie_global_init_done[BDK_NUMA_MAX_NODES] = {0,};
 /* The ECAM has a bug where accessing a non-existent device causes an
    exception. This is a list of all valid devices */
 static const uint32_t INTERNAL_DEVICES[] = {
-    PCC_DEV_CON_E_BGX0,
-    PCC_DEV_CON_E_BGX1,
-    PCC_DEV_CON_E_DAP,
-    PCC_DEV_CON_E_DFA,
-    PCC_DEV_CON_E_FUSF,
-    PCC_DEV_CON_E_GIC,
-    PCC_DEV_CON_E_GPIO,
-    PCC_DEV_CON_E_GSER0,
-    PCC_DEV_CON_E_GSER1,
-    PCC_DEV_CON_E_GSER10,
-    PCC_DEV_CON_E_GSER11,
-    PCC_DEV_CON_E_GSER12,
-    PCC_DEV_CON_E_GSER13,
-    PCC_DEV_CON_E_GSER2,
-    PCC_DEV_CON_E_GSER3,
-    PCC_DEV_CON_E_GSER4,
-    PCC_DEV_CON_E_GSER5,
-    PCC_DEV_CON_E_GSER6,
-    PCC_DEV_CON_E_GSER7,
-    PCC_DEV_CON_E_GSER8,
-    PCC_DEV_CON_E_GSER9,
-    PCC_DEV_CON_E_GTI,
-    PCC_DEV_CON_E_IOBN0,
-    PCC_DEV_CON_E_IOBN1,
-    PCC_DEV_CON_E_KEY,
-    PCC_DEV_CON_E_L2C,
-    PCC_DEV_CON_E_L2C_CBC0,
-    PCC_DEV_CON_E_L2C_CBC1,
-    PCC_DEV_CON_E_L2C_CBC2,
-    PCC_DEV_CON_E_L2C_CBC3,
-    PCC_DEV_CON_E_L2C_MCI0,
-    PCC_DEV_CON_E_L2C_MCI1,
-    PCC_DEV_CON_E_L2C_MCI2,
-    PCC_DEV_CON_E_L2C_MCI3,
-    PCC_DEV_CON_E_L2C_TAD0,
-    PCC_DEV_CON_E_L2C_TAD1,
-    PCC_DEV_CON_E_L2C_TAD2,
-    PCC_DEV_CON_E_L2C_TAD3,
-    PCC_DEV_CON_E_L2C_TAD4,
-    PCC_DEV_CON_E_L2C_TAD5,
-    PCC_DEV_CON_E_L2C_TAD6,
-    PCC_DEV_CON_E_L2C_TAD7,
-    PCC_DEV_CON_E_LMC0,
-    PCC_DEV_CON_E_LMC1,
-    PCC_DEV_CON_E_LMC2,
-    PCC_DEV_CON_E_LMC3,
-    PCC_DEV_CON_E_MIO_BOOT,
-    PCC_DEV_CON_E_MIO_EMM,
-    PCC_DEV_CON_E_MIO_FUS,
-    PCC_DEV_CON_E_MIO_PTP,
-    PCC_DEV_CON_E_MIO_TWS0,
-    PCC_DEV_CON_E_MIO_TWS1,
-    PCC_DEV_CON_E_MIO_TWS2,
-    PCC_DEV_CON_E_MIO_TWS3,
-    PCC_DEV_CON_E_MIO_TWS4,
-    PCC_DEV_CON_E_MIO_TWS5,
-    PCC_DEV_CON_E_MPI,
-    PCC_DEV_CON_E_MRML,
-    PCC_DEV_CON_E_NCSI,
-    PCC_DEV_CON_E_NIC,
-    PCC_DEV_CON_E_OCLA0,
-    PCC_DEV_CON_E_OCLA1,
-    PCC_DEV_CON_E_OCLA2,
-    PCC_DEV_CON_E_OCLA3,
-    PCC_DEV_CON_E_OCLA4,
-    PCC_DEV_CON_E_OCX,
-    PCC_DEV_CON_E_PCCBR_DFA,
-    PCC_DEV_CON_E_PCCBR_MRML,
-    PCC_DEV_CON_E_PCCBR_NIC,
-    PCC_DEV_CON_E_PCCBR_RAD,
-    PCC_DEV_CON_E_PCCBR_ZIP,
-    PCC_DEV_CON_E_PCIERC0,
-    PCC_DEV_CON_E_PCIERC1,
-    PCC_DEV_CON_E_PCIERC2,
-    PCC_DEV_CON_E_PCIERC3,
-    PCC_DEV_CON_E_PCIERC4,
-    PCC_DEV_CON_E_PCIERC5,
-    PCC_DEV_CON_E_PEM0,
-    PCC_DEV_CON_E_PEM1,
-    PCC_DEV_CON_E_PEM2,
-    PCC_DEV_CON_E_PEM3,
-    PCC_DEV_CON_E_PEM4,
-    PCC_DEV_CON_E_PEM5,
-    PCC_DEV_CON_E_RAD,
-    PCC_DEV_CON_E_RNM,
-    PCC_DEV_CON_E_RST,
-    PCC_DEV_CON_E_SATA0,
-    PCC_DEV_CON_E_SATA1,
-    PCC_DEV_CON_E_SATA10,
-    PCC_DEV_CON_E_SATA11,
-    PCC_DEV_CON_E_SATA12,
-    PCC_DEV_CON_E_SATA13,
-    PCC_DEV_CON_E_SATA14,
-    PCC_DEV_CON_E_SATA15,
-    PCC_DEV_CON_E_SATA2,
-    PCC_DEV_CON_E_SATA3,
-    PCC_DEV_CON_E_SATA4,
-    PCC_DEV_CON_E_SATA5,
-    PCC_DEV_CON_E_SATA6,
-    PCC_DEV_CON_E_SATA7,
-    PCC_DEV_CON_E_SATA8,
-    PCC_DEV_CON_E_SATA9,
-    PCC_DEV_CON_E_SGP,
-    PCC_DEV_CON_E_SLI0,
-    PCC_DEV_CON_E_SLI1,
-    PCC_DEV_CON_E_SMI,
-    PCC_DEV_CON_E_SMMU0,
-    PCC_DEV_CON_E_SMMU1,
-    PCC_DEV_CON_E_SMMU2,
-    PCC_DEV_CON_E_SMMU3,
-    PCC_DEV_CON_E_TNS,
-    PCC_DEV_CON_E_UAA0,
-    PCC_DEV_CON_E_UAA1,
-    PCC_DEV_CON_E_USBH0,
-    PCC_DEV_CON_E_USBH1,
-    PCC_DEV_CON_E_VRM0,
-    PCC_DEV_CON_E_VRM1,
-    PCC_DEV_CON_E_ZIP,
+    BDK_PCC_DEV_CON_E_BGX0,
+    BDK_PCC_DEV_CON_E_BGX1,
+    BDK_PCC_DEV_CON_E_DAP,
+    BDK_PCC_DEV_CON_E_DFA,
+    BDK_PCC_DEV_CON_E_FUSF,
+    BDK_PCC_DEV_CON_E_GIC,
+    BDK_PCC_DEV_CON_E_GPIO,
+    BDK_PCC_DEV_CON_E_GSER0,
+    BDK_PCC_DEV_CON_E_GSER1,
+    BDK_PCC_DEV_CON_E_GSER10,
+    BDK_PCC_DEV_CON_E_GSER11,
+    BDK_PCC_DEV_CON_E_GSER12,
+    BDK_PCC_DEV_CON_E_GSER13,
+    BDK_PCC_DEV_CON_E_GSER2,
+    BDK_PCC_DEV_CON_E_GSER3,
+    BDK_PCC_DEV_CON_E_GSER4,
+    BDK_PCC_DEV_CON_E_GSER5,
+    BDK_PCC_DEV_CON_E_GSER6,
+    BDK_PCC_DEV_CON_E_GSER7,
+    BDK_PCC_DEV_CON_E_GSER8,
+    BDK_PCC_DEV_CON_E_GSER9,
+    BDK_PCC_DEV_CON_E_GTI,
+    BDK_PCC_DEV_CON_E_IOBN0,
+    BDK_PCC_DEV_CON_E_IOBN1,
+    BDK_PCC_DEV_CON_E_KEY,
+    BDK_PCC_DEV_CON_E_L2C,
+    BDK_PCC_DEV_CON_E_L2C_CBC0,
+    BDK_PCC_DEV_CON_E_L2C_CBC1,
+    BDK_PCC_DEV_CON_E_L2C_CBC2,
+    BDK_PCC_DEV_CON_E_L2C_CBC3,
+    BDK_PCC_DEV_CON_E_L2C_MCI0,
+    BDK_PCC_DEV_CON_E_L2C_MCI1,
+    BDK_PCC_DEV_CON_E_L2C_MCI2,
+    BDK_PCC_DEV_CON_E_L2C_MCI3,
+    BDK_PCC_DEV_CON_E_L2C_TAD0,
+    BDK_PCC_DEV_CON_E_L2C_TAD1,
+    BDK_PCC_DEV_CON_E_L2C_TAD2,
+    BDK_PCC_DEV_CON_E_L2C_TAD3,
+    BDK_PCC_DEV_CON_E_L2C_TAD4,
+    BDK_PCC_DEV_CON_E_L2C_TAD5,
+    BDK_PCC_DEV_CON_E_L2C_TAD6,
+    BDK_PCC_DEV_CON_E_L2C_TAD7,
+    BDK_PCC_DEV_CON_E_LMC0,
+    BDK_PCC_DEV_CON_E_LMC1,
+    BDK_PCC_DEV_CON_E_LMC2,
+    BDK_PCC_DEV_CON_E_LMC3,
+    BDK_PCC_DEV_CON_E_MIO_BOOT,
+    BDK_PCC_DEV_CON_E_MIO_EMM,
+    BDK_PCC_DEV_CON_E_MIO_FUS,
+    BDK_PCC_DEV_CON_E_MIO_PTP,
+    BDK_PCC_DEV_CON_E_MIO_TWS0,
+    BDK_PCC_DEV_CON_E_MIO_TWS1,
+    BDK_PCC_DEV_CON_E_MIO_TWS2,
+    BDK_PCC_DEV_CON_E_MIO_TWS3,
+    BDK_PCC_DEV_CON_E_MIO_TWS4,
+    BDK_PCC_DEV_CON_E_MIO_TWS5,
+    BDK_PCC_DEV_CON_E_MPI,
+    BDK_PCC_DEV_CON_E_MRML,
+    BDK_PCC_DEV_CON_E_NCSI,
+    BDK_PCC_DEV_CON_E_NIC,
+    BDK_PCC_DEV_CON_E_OCLA0,
+    BDK_PCC_DEV_CON_E_OCLA1,
+    BDK_PCC_DEV_CON_E_OCLA2,
+    BDK_PCC_DEV_CON_E_OCLA3,
+    BDK_PCC_DEV_CON_E_OCLA4,
+    BDK_PCC_DEV_CON_E_OCX,
+    BDK_PCC_DEV_CON_E_PCCBR_DFA,
+    BDK_PCC_DEV_CON_E_PCCBR_MRML,
+    BDK_PCC_DEV_CON_E_PCCBR_NIC,
+    BDK_PCC_DEV_CON_E_PCCBR_RAD,
+    BDK_PCC_DEV_CON_E_PCCBR_ZIP,
+    BDK_PCC_DEV_CON_E_PCIERC0,
+    BDK_PCC_DEV_CON_E_PCIERC1,
+    BDK_PCC_DEV_CON_E_PCIERC2,
+    BDK_PCC_DEV_CON_E_PCIERC3,
+    BDK_PCC_DEV_CON_E_PCIERC4,
+    BDK_PCC_DEV_CON_E_PCIERC5,
+    BDK_PCC_DEV_CON_E_PEM0,
+    BDK_PCC_DEV_CON_E_PEM1,
+    BDK_PCC_DEV_CON_E_PEM2,
+    BDK_PCC_DEV_CON_E_PEM3,
+    BDK_PCC_DEV_CON_E_PEM4,
+    BDK_PCC_DEV_CON_E_PEM5,
+    BDK_PCC_DEV_CON_E_RAD,
+    BDK_PCC_DEV_CON_E_RNM,
+    BDK_PCC_DEV_CON_E_RST,
+    BDK_PCC_DEV_CON_E_SATA0,
+    BDK_PCC_DEV_CON_E_SATA1,
+    BDK_PCC_DEV_CON_E_SATA10,
+    BDK_PCC_DEV_CON_E_SATA11,
+    BDK_PCC_DEV_CON_E_SATA12,
+    BDK_PCC_DEV_CON_E_SATA13,
+    BDK_PCC_DEV_CON_E_SATA14,
+    BDK_PCC_DEV_CON_E_SATA15,
+    BDK_PCC_DEV_CON_E_SATA2,
+    BDK_PCC_DEV_CON_E_SATA3,
+    BDK_PCC_DEV_CON_E_SATA4,
+    BDK_PCC_DEV_CON_E_SATA5,
+    BDK_PCC_DEV_CON_E_SATA6,
+    BDK_PCC_DEV_CON_E_SATA7,
+    BDK_PCC_DEV_CON_E_SATA8,
+    BDK_PCC_DEV_CON_E_SATA9,
+    BDK_PCC_DEV_CON_E_SGP,
+    BDK_PCC_DEV_CON_E_SLI0,
+    BDK_PCC_DEV_CON_E_SLI1,
+    BDK_PCC_DEV_CON_E_SMI,
+    BDK_PCC_DEV_CON_E_SMMU0,
+    BDK_PCC_DEV_CON_E_SMMU1,
+    BDK_PCC_DEV_CON_E_SMMU2,
+    BDK_PCC_DEV_CON_E_SMMU3,
+    BDK_PCC_DEV_CON_E_TNS,
+    BDK_PCC_DEV_CON_E_UAA0,
+    BDK_PCC_DEV_CON_E_UAA1,
+    BDK_PCC_DEV_CON_E_USBH0,
+    BDK_PCC_DEV_CON_E_USBH1,
+    BDK_PCC_DEV_CON_E_VRM0,
+    BDK_PCC_DEV_CON_E_VRM1,
+    BDK_PCC_DEV_CON_E_ZIP,
     0,
 };
 
@@ -146,9 +146,9 @@ static const uint32_t INTERNAL_DEVICES[] = {
  *
  * @return Non zero if the device matches
  */
-static int is_internal(int ecam, int bus, int dev, int fn, enum pcc_dev_con_e dev_con)
+static int is_internal(int ecam, int bus, int dev, int fn, enum bdk_pcc_dev_con_e dev_con)
 {
-    union pcc_dev_con_s d = { .u = dev_con };
+    union bdk_pcc_dev_con_s d = { .u = dev_con };
     return (d.s.ecam == ecam) && (d.s.bus == bus) && (d.s.func == ((dev<<3)|fn));
 }
 
@@ -287,7 +287,7 @@ int bdk_pcie_global_initialize(bdk_node_t node)
     BDK_TRACE(INIT_ECAM, "Enabling internal devices\n");
     while (INTERNAL_DEVICES[loc])
     {
-        union pcc_dev_con_s dev = { .u = INTERNAL_DEVICES[loc] };
+        union bdk_pcc_dev_con_s dev = { .u = INTERNAL_DEVICES[loc] };
         BDK_TRACE(INIT_ECAM, "    Enabling ECAM %d Bus %d Device %d Func %d\n",
             dev.s.ecam, dev.s.bus, dev.s.func >> 3, dev.s.func & 7);
         pcie_internal_init_dev(node, dev.s.ecam, dev.s.bus, dev.s.func >> 3, dev.s.func & 7);
@@ -364,7 +364,7 @@ uint64_t bdk_pcie_get_base_address(bdk_node_t node, int pcie_port, bdk_pcie_mem_
     int sli = (pcie_port >= 3) ? 1 : 0;
     int sli_group = pcie_port - sli * 3;
     int region = (sli_group << 6) | (mem_type << 4);
-    union sli_s2m_op_s s2m_op;
+    union bdk_sli_s2m_op_s s2m_op;
     s2m_op.u = 0;
     s2m_op.s.io = 1;
     s2m_op.s.node = node;
@@ -858,17 +858,17 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
                    out of reset. The PCIe ports don't work until the PEM is
                    turned on. Check for one of the PCIe ports */
                 int pem = -1;
-                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC0))
+                if (is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC0))
                     pem = 0;
-                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC1))
+                if (is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC1))
                     pem = 1;
-                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC2))
+                if (is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC2))
                     pem = 2;
-                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC3))
+                if (is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC3))
                     pem = 3;
-                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC4))
+                if (is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC4))
                     pem = 4;
-                if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_PCIERC5))
+                if (is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC5))
                     pem = 5;
                 if (pem != -1)
                 {
@@ -882,25 +882,25 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
                 {
                     /* SATA ports should be hidden if they aren't configured at the QLM */
                     int qlm = -1;
-                    if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA0) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA1) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA2) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA3))
+                    if (is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA0) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA1) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA2) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA3))
                         qlm = 2;
-                    if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA4) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA5) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA6) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA7))
+                    if (is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA4) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA5) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA6) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA7))
                         qlm = 3;
-                    if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA8) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA9) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA10) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA11))
+                    if (is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA8) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA9) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA10) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA11))
                         qlm = 6;
-                    if (is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA12) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA13) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA14) ||
-                        is_internal(ecam, bus, dev, fn, PCC_DEV_CON_E_SATA15))
+                    if (is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA12) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA13) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA14) ||
+                        is_internal(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA15))
                         qlm = 7;
                     if (qlm != -1)
                     {
@@ -912,7 +912,7 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
             }
 
             /* Valid ECAM access, build the address */
-            union ecam_cfg_addr_s address;
+            union bdk_ecam_cfg_addr_s address;
             address.u = 0;
             address.s.io = 1;
             address.s.node = node;

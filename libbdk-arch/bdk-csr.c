@@ -38,26 +38,26 @@ uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, i
 
         case BDK_CSR_TYPE_PCICONFIGRC:
         {
-            union pcc_dev_con_s dev_con;
+            union bdk_pcc_dev_con_s dev_con;
             switch (busnum)
             {
                 case 0:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC0;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC0;
                     break;
                 case 1:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC1;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC1;
                     break;
                 case 2:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC2;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC2;
                     break;
                 case 3:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC3;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC3;
                     break;
                 case 4:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC4;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC4;
                     break;
                 case 5:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC5;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC5;
                     break;
                 default:
                     bdk_error("%s: Illegal PCIe bus number\n", __FUNCTION__);
@@ -104,26 +104,26 @@ void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int 
 
         case BDK_CSR_TYPE_PCICONFIGRC:
         {
-            union pcc_dev_con_s dev_con;
+            union bdk_pcc_dev_con_s dev_con;
             switch (busnum)
             {
                 case 0:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC0;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC0;
                     break;
                 case 1:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC1;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC1;
                     break;
                 case 2:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC2;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC2;
                     break;
                 case 3:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC3;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC3;
                     break;
                 case 4:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC4;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC4;
                     break;
                 case 5:
-                    dev_con.u = PCC_DEV_CON_E_PCIERC5;
+                    dev_con.u = BDK_PCC_DEV_CON_E_PCIERC5;
                     break;
                 default:
                     bdk_error("%s: Illegal PCIe bus number\n", __FUNCTION__);

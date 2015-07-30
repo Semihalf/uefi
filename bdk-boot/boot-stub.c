@@ -404,31 +404,31 @@ int main(void)
 
     switch (boot_method)
     {
-        case RST_BOOT_METHOD_E_CCPI0:
+        case BDK_RST_BOOT_METHOD_E_CCPI0:
             boot_method_str = "CCPI0";
             break;
-        case RST_BOOT_METHOD_E_CCPI1:
+        case BDK_RST_BOOT_METHOD_E_CCPI1:
             boot_method_str = "CCPI1";
             break;
-        case RST_BOOT_METHOD_E_CCPI2:
+        case BDK_RST_BOOT_METHOD_E_CCPI2:
             boot_method_str = "CCPI2";
             break;
-        case RST_BOOT_METHOD_E_EMMC_LS:
+        case BDK_RST_BOOT_METHOD_E_EMMC_LS:
             boot_method_str = "EMMC_LS";
             break;
-        case RST_BOOT_METHOD_E_EMMC_SS:
+        case BDK_RST_BOOT_METHOD_E_EMMC_SS:
             boot_method_str = "EMMC_SS";
             break;
-        case RST_BOOT_METHOD_E_PCIE0:
+        case BDK_RST_BOOT_METHOD_E_PCIE0:
             boot_method_str = "PCIE0";
             break;
-        case RST_BOOT_METHOD_E_REMOTE:
+        case BDK_RST_BOOT_METHOD_E_REMOTE:
             boot_method_str = "REMOTE";
             break;
-        case RST_BOOT_METHOD_E_SPI24:
+        case BDK_RST_BOOT_METHOD_E_SPI24:
             boot_method_str = "SPI24";
             break;
-        case RST_BOOT_METHOD_E_SPI32:
+        case BDK_RST_BOOT_METHOD_E_SPI32:
             boot_method_str = "SPI32";
             break;
         default:

@@ -250,9 +250,9 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
 {
     if (baud_mhz <= 1250)
     {
-        /* FIXME: What about GSER_LMODE_E_R_125G_REFCLK15625_KX? */
+        /* FIXME: What about BDK_GSER_LMODE_E_R_125G_REFCLK15625_KX? */
         if (ref_clk == REF_156MHZ)
-            return GSER_LMODE_E_R_125G_REFCLK15625_SGMII;
+            return BDK_GSER_LMODE_E_R_125G_REFCLK15625_SGMII;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -262,9 +262,9 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
     else if (baud_mhz <= 2500)
     {
         if (ref_clk == REF_100MHZ)
-            return GSER_LMODE_E_R_25G_REFCLK100;
+            return BDK_GSER_LMODE_E_R_25G_REFCLK100;
         else if (ref_clk == REF_125MHZ)
-            return GSER_LMODE_E_R_25G_REFCLK125;
+            return BDK_GSER_LMODE_E_R_25G_REFCLK125;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -274,7 +274,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
     else if (baud_mhz <= 3125)
     {
         if (ref_clk == REF_156MHZ)
-            return GSER_LMODE_E_R_3125G_REFCLK15625_XAUI;
+            return BDK_GSER_LMODE_E_R_3125G_REFCLK15625_XAUI;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -284,16 +284,16 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
     else if (baud_mhz <= 5000)
     {
         if (ref_clk == REF_100MHZ)
-            return GSER_LMODE_E_R_5G_REFCLK100;
+            return BDK_GSER_LMODE_E_R_5G_REFCLK100;
         else if (ref_clk == REF_125MHZ)
-            return GSER_LMODE_E_R_5G_REFCLK125;
+            return BDK_GSER_LMODE_E_R_5G_REFCLK125;
         else
-            return GSER_LMODE_E_R_5G_REFCLK15625_QSGMII;
+            return BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII;
     }
     else if (baud_mhz <= 6250)
     {
         if (ref_clk == REF_156MHZ)
-            return GSER_LMODE_E_R_625G_REFCLK15625_RXAUI;
+            return BDK_GSER_LMODE_E_R_625G_REFCLK15625_RXAUI;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -303,9 +303,9 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
     else if (baud_mhz <= 8000)
     {
         if (ref_clk == REF_100MHZ)
-            return GSER_LMODE_E_R_8G_REFCLK100;
+            return BDK_GSER_LMODE_E_R_8G_REFCLK100;
         else if (ref_clk == REF_125MHZ)
-            return GSER_LMODE_E_R_8G_REFCLK125;
+            return BDK_GSER_LMODE_E_R_8G_REFCLK125;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -315,7 +315,7 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
     else /* Baud 10312.5 */
     {
         if (ref_clk == REF_156MHZ)
-            return GSER_LMODE_E_R_103125G_REFCLK15625_KR;
+            return BDK_GSER_LMODE_E_R_103125G_REFCLK15625_KR;
         else
         {
             bdk_error("Invalid reference clock for %s on QLM%d with speed %d, ref %d Mhz\n", mode_name, qlm, baud_mhz, ref_clk / 1000000);
@@ -734,22 +734,22 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
                     c.s.pcie_refclk125 = 0);
                 if (baud_mhz == 2500)
-                    lane_mode = GSER_LMODE_E_R_25G_REFCLK100;
+                    lane_mode = BDK_GSER_LMODE_E_R_25G_REFCLK100;
                 else if (baud_mhz == 5000)
-                    lane_mode = GSER_LMODE_E_R_5G_REFCLK100;
+                    lane_mode = BDK_GSER_LMODE_E_R_5G_REFCLK100;
                 else
-                    lane_mode = GSER_LMODE_E_R_8G_REFCLK100;
+                    lane_mode = BDK_GSER_LMODE_E_R_8G_REFCLK100;
             }
             else if (ref_clk == REF_125MHZ)
             {
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
                     c.s.pcie_refclk125 = 1);
                 if (baud_mhz == 2500)
-                    lane_mode = GSER_LMODE_E_R_25G_REFCLK125;
+                    lane_mode = BDK_GSER_LMODE_E_R_25G_REFCLK125;
                 else if (baud_mhz == 5000)
-                    lane_mode = GSER_LMODE_E_R_5G_REFCLK125;
+                    lane_mode = BDK_GSER_LMODE_E_R_5G_REFCLK125;
                 else
-                    lane_mode = GSER_LMODE_E_R_8G_REFCLK125;
+                    lane_mode = BDK_GSER_LMODE_E_R_8G_REFCLK125;
             }
             else
             {
@@ -890,7 +890,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 return -1;
             break;
         case BDK_QLM_MODE_SATA_4X1:
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm), c.s.lmode = GSER_LMODE_E_R_8G_REFCLK100);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm), c.s.lmode = BDK_GSER_LMODE_E_R_8G_REFCLK100);
             /* SATA initialization is different than BGX. Call its init function
                and skip the rest of this routine */
             return qlm_set_sata(node, qlm, mode, baud_mhz, flags);
@@ -1273,29 +1273,29 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
     BDK_CSR_INIT(lane_mode, node, BDK_GSERX_LANE_MODE(qlm));
     switch (lane_mode.s.lmode)
     {
-        case GSER_LMODE_E_R_25G_REFCLK100:
+        case BDK_GSER_LMODE_E_R_25G_REFCLK100:
             return 2500;
-        case GSER_LMODE_E_R_5G_REFCLK100:
+        case BDK_GSER_LMODE_E_R_5G_REFCLK100:
             return 5000;
-        case GSER_LMODE_E_R_8G_REFCLK100:
+        case BDK_GSER_LMODE_E_R_8G_REFCLK100:
             return 8000;
-        case GSER_LMODE_E_R_125G_REFCLK15625_KX:
+        case BDK_GSER_LMODE_E_R_125G_REFCLK15625_KX:
             return 1250;
-        case GSER_LMODE_E_R_3125G_REFCLK15625_XAUI:
+        case BDK_GSER_LMODE_E_R_3125G_REFCLK15625_XAUI:
             return 3125;
-        case GSER_LMODE_E_R_103125G_REFCLK15625_KR:
+        case BDK_GSER_LMODE_E_R_103125G_REFCLK15625_KR:
             return 10312;
-        case GSER_LMODE_E_R_125G_REFCLK15625_SGMII:
+        case BDK_GSER_LMODE_E_R_125G_REFCLK15625_SGMII:
             return 1250;
-        case GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
+        case BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
             return 5000;
-        case GSER_LMODE_E_R_625G_REFCLK15625_RXAUI:
+        case BDK_GSER_LMODE_E_R_625G_REFCLK15625_RXAUI:
             return 6250;
-        case GSER_LMODE_E_R_25G_REFCLK125:
+        case BDK_GSER_LMODE_E_R_25G_REFCLK125:
             return 2500;
-        case GSER_LMODE_E_R_5G_REFCLK125:
+        case BDK_GSER_LMODE_E_R_5G_REFCLK125:
             return 5000;
-        case GSER_LMODE_E_R_8G_REFCLK125:
+        case BDK_GSER_LMODE_E_R_8G_REFCLK125:
             return 8000;
         default:
             return 0;
@@ -1764,13 +1764,13 @@ static void qlm_init_one(bdk_node_t node, int qlm)
         BDK_CSR_INIT(lane_mode_1, node, BDK_GSERX_LANE_PX_MODE_1(qlm, lane_mode));
         switch (lane_mode)
         {
-            case GSER_LMODE_E_R_25G_REFCLK100:
-            case GSER_LMODE_E_R_5G_REFCLK100:
-            case GSER_LMODE_E_R_8G_REFCLK100:
+            case BDK_GSER_LMODE_E_R_25G_REFCLK100:
+            case BDK_GSER_LMODE_E_R_5G_REFCLK100:
+            case BDK_GSER_LMODE_E_R_8G_REFCLK100:
                 /* These modes are used for PCIe where the defaults are
                    correct. Skip programming these */
                 continue;
-            case GSER_LMODE_E_R_125G_REFCLK15625_KX:
+            case BDK_GSER_LMODE_E_R_125G_REFCLK15625_KX:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0x28;
@@ -1794,7 +1794,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
-            case GSER_LMODE_E_R_3125G_REFCLK15625_XAUI:
+            case BDK_GSER_LMODE_E_R_3125G_REFCLK15625_XAUI:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0x14;
@@ -1818,7 +1818,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
-            case GSER_LMODE_E_R_103125G_REFCLK15625_KR:
+            case BDK_GSER_LMODE_E_R_103125G_REFCLK15625_KR:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x5;
                 pll_mode_0.s.pll_pcs_div = 0xa;
@@ -1842,7 +1842,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xa;
                 lane_mode_1.s.ph_acc_adj = 0xf;
                 break;
-            case GSER_LMODE_E_R_125G_REFCLK15625_SGMII:
+            case BDK_GSER_LMODE_E_R_125G_REFCLK15625_SGMII:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0x28;
@@ -1866,7 +1866,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
-            case GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
+            case BDK_GSER_LMODE_E_R_5G_REFCLK15625_QSGMII:
                 pll_mode_0.s.pll_icp = 0x3;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0xa;
@@ -1890,7 +1890,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xc;
                 lane_mode_1.s.ph_acc_adj = 0x1e;
                 break;
-            case GSER_LMODE_E_R_625G_REFCLK15625_RXAUI:
+            case BDK_GSER_LMODE_E_R_625G_REFCLK15625_RXAUI:
                 pll_mode_0.s.pll_icp = 0x1;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0xa;
@@ -1914,7 +1914,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xa;
                 lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
-            case GSER_LMODE_E_R_25G_REFCLK125:
+            case BDK_GSER_LMODE_E_R_25G_REFCLK125:
                 pll_mode_0.s.pll_icp = 0x3;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0x5;
@@ -1938,7 +1938,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xa;
                 lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
-            case GSER_LMODE_E_R_5G_REFCLK125:
+            case BDK_GSER_LMODE_E_R_5G_REFCLK125:
                 pll_mode_0.s.pll_icp = 0x3;
                 pll_mode_0.s.pll_rloop = 0x3;
                 pll_mode_0.s.pll_pcs_div = 0xa;
@@ -1962,7 +1962,7 @@ static void qlm_init_one(bdk_node_t node, int qlm)
                 lane_mode_1.s.cdr_fgain = 0xa;
                 lane_mode_1.s.ph_acc_adj = 0x14;
                 break;
-            case GSER_LMODE_E_R_8G_REFCLK125:
+            case BDK_GSER_LMODE_E_R_8G_REFCLK125:
                 pll_mode_0.s.pll_icp = 0x2;
                 pll_mode_0.s.pll_rloop = 0x5;
                 pll_mode_0.s.pll_pcs_div = 0xa;

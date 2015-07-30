@@ -1136,8 +1136,8 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
         c.s.tl3a = tl2_index);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CFG(tl3_index),
         c.s.rr_quantum = (MAX_MTU+4) / 4);
-    int tl_channel = (handle->interface) ? NIC_CHAN_E_BGX1_PORT0_CH0 : NIC_CHAN_E_BGX0_PORT0_CH0;
-    tl_channel += (NIC_CHAN_E_BGX0_PORT1_CH0 - NIC_CHAN_E_BGX0_PORT0_CH0) * priv->port;
+    int tl_channel = (handle->interface) ? BDK_NIC_CHAN_E_BGX1_PORT0_CH0 : BDK_NIC_CHAN_E_BGX0_PORT0_CH0;
+    tl_channel += (BDK_NIC_CHAN_E_BGX0_PORT1_CH0 - BDK_NIC_CHAN_E_BGX0_PORT0_CH0) * priv->port;
     tl_channel += priv->channel;
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CHAN(tl3_index),
         c.s.chan = tl_channel);
@@ -1254,7 +1254,7 @@ static int vnic_setup(bdk_if_handle_t handle)
     int rssi = next_free_rssi++;/* Allocate a new Receive-Side Scaling Index (RSSI) */
     /* NIC_CHAN_E hard mapped to "flow". Flow chooses the CPI */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CHANX_RX_CFG(flow),
-        c.s.cpi_alg = NIC_CPI_ALG_E_NONE;
+        c.s.cpi_alg = BDK_NIC_CPI_ALG_E_NONE;
         c.s.cpi_base = cpi);
     /* Setup backpressure */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CHANX_RX_BP_CFG(flow),
@@ -1597,25 +1597,25 @@ static int if_transmit(bdk_if_handle_t handle, const bdk_if_packet_t *packet)
     /* Build the command */
     void *sq_ptr = priv->sq_base;
     int loc = priv->sq_state.sq_loc;
-    union nic_send_hdr_s send_hdr;
+    union bdk_nic_send_hdr_s send_hdr;
     send_hdr.u[0] = 0;
     send_hdr.u[1] = 0;
-    send_hdr.s.subdc = NIC_SEND_SUBDC_E_HDR;
+    send_hdr.s.subdc = BDK_NIC_SEND_SUBDC_E_HDR;
     send_hdr.s.subdcnt = packet->segments;
     send_hdr.s.total = packet->length;
-    *(union nic_send_hdr_s *)(sq_ptr + loc * 16) = send_hdr;
+    *(union bdk_nic_send_hdr_s *)(sq_ptr + loc * 16) = send_hdr;
     loc++;
     loc &= SQ_ENTRIES - 1;
     for (int s = 0; s < packet->segments; s++)
     {
-        union nic_send_gather_s gather;
+        union bdk_nic_send_gather_s gather;
         gather.u[0] = 0;
         gather.u[1] = 0;
         gather.s.addr = packet->packet[s].s.address;
-        gather.s.subdc = NIC_SEND_SUBDC_E_GATHER;
-        gather.s.ld_type = (BDK_USE_DWB) ? NIC_SEND_LD_TYPE_E_LDWB : NIC_SEND_LD_TYPE_E_LDD;
+        gather.s.subdc = BDK_NIC_SEND_SUBDC_E_GATHER;
+        gather.s.ld_type = (BDK_USE_DWB) ? BDK_NIC_SEND_LD_TYPE_E_LDWB : BDK_NIC_SEND_LD_TYPE_E_LDD;
         gather.s.size = packet->packet[s].s.size;
-        *(union nic_send_gather_s *)(sq_ptr + loc * 16) = gather;
+        *(union bdk_nic_send_gather_s *)(sq_ptr + loc * 16) = gather;
         loc++;
         loc &= SQ_ENTRIES - 1;
     }
@@ -1663,7 +1663,7 @@ static void if_free_to_rbdr(bdk_if_packet_t *packet, vnic_queue_state_t *vnic_rb
  *
  * @return Returns the amount the RBDR doorbell needs to increment
  */
-static int if_process_complete_rx(bdk_if_handle_t handle, vnic_queue_state_t *vnic_rbdr_state, const union nic_cqe_rx_s *cq_header)
+static int if_process_complete_rx(bdk_if_handle_t handle, vnic_queue_state_t *vnic_rbdr_state, const union bdk_nic_cqe_rx_s *cq_header)
 {
     int vnic = cq_header->s.rq_qs;
 
@@ -1762,15 +1762,15 @@ static void if_receive(int unused, void *hand)
         /* Loop through all pending CQs */
         int rbdr_doorbell = 0;
         int count = 0;
-        const union nic_cqe_rx_s *cq_next = cq_ptr + loc * 512;
+        const union bdk_nic_cqe_rx_s *cq_next = cq_ptr + loc * 512;
         while (count < pending_count)
         {
-            const union nic_cqe_rx_s *cq_header = cq_next;
+            const union bdk_nic_cqe_rx_s *cq_header = cq_next;
             loc++;
             loc &= CQ_ENTRIES - 1;
             cq_next = cq_ptr + loc * 512;
             BDK_PREFETCH(cq_next, 0);
-            if (bdk_likely(cq_header->s.cqe_type == NIC_CQE_TYPE_E_RX))
+            if (bdk_likely(cq_header->s.cqe_type == BDK_NIC_CQE_TYPE_E_RX))
                 rbdr_doorbell += if_process_complete_rx(handle, &vnic_rbdr_state, cq_header);
             else
                 bdk_error("Unsupported CQ header type %d\n", cq_header->s.cqe_type);
@@ -1832,10 +1832,10 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
 
     /* Read the RX statistics. These do not include the ethernet FCS */
-    BDK_CSR_INIT(rx_red, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED));
-    BDK_CSR_INIT(rx_red_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_RED_OCTS));
-    BDK_CSR_INIT(rx_ovr, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_ORUN));
-    BDK_CSR_INIT(rx_ovr_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, NIC_STAT_VNIC_RX_E_RX_ORUN_OCTS));
+    BDK_CSR_INIT(rx_red, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_RX_E_RX_RED));
+    BDK_CSR_INIT(rx_red_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_RX_E_RX_RED_OCTS));
+    BDK_CSR_INIT(rx_ovr, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_RX_E_RX_ORUN));
+    BDK_CSR_INIT(rx_ovr_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_RX_E_RX_ORUN_OCTS));
 
     /* Drop and error counters */
     handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * 4;
@@ -1846,8 +1846,8 @@ static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
     handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * 4;
 
     /* Read the TX statistics. These don't include the ethernet FCS */
-    BDK_CSR_INIT(tx_octets, handle->node, BDK_NIC_VNICX_TX_STATX(priv->vnic, NIC_STAT_VNIC_TX_E_TX_OCTS));
-    BDK_CSR_INIT(tx_packets, handle->node, BDK_NIC_VNICX_TX_STATX(priv->vnic, NIC_STAT_VNIC_TX_E_TX_UCAST));
+    BDK_CSR_INIT(tx_octets, handle->node, BDK_NIC_VNICX_TX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_TX_E_TX_OCTS));
+    BDK_CSR_INIT(tx_packets, handle->node, BDK_NIC_VNICX_TX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_TX_E_TX_UCAST));
 
     /* Update the TX stats */
     handle->stats.tx.octets -= handle->stats.tx.packets * 4;
