@@ -557,6 +557,7 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
         return -1;
 
+    BDK_TRACE(PCIE, "N%d.PCIe%d: Checking the PEM in on\n", node, pcie_port);
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_PEMX_ON(pcie_port), pemoor, ==, 1, 100000))
     {
         printf("N%d.PCIe%d: PEM not on, skipping.\n", node, pcie_port);
@@ -564,18 +565,27 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
     }
 
     /* Bring up the link */
+    BDK_TRACE(PCIE, "N%d.PCIe%d: Enabling the link\n", node, pcie_port);
     BDK_CSR_MODIFY(c, node, BDK_PEMX_CTL_STATUS(pcie_port), c.s.lnk_enb = 1);
 
     /* Wait for the link to come up and link training to be complete */
+    BDK_TRACE(PCIE, "N%d.PCIe%d: Waiting for link\n", node, pcie_port);
     uint64_t start_cycle = bdk_clock_get_count(BDK_CLOCK_TIME);
     BDK_CSR_INIT(pciercx_cfg032, node, BDK_PCIERCX_CFG032(pcie_port));
     while ((pciercx_cfg032.s.dlla == 0) || (pciercx_cfg032.s.lt == 1))
     {
         if (bdk_clock_get_count(BDK_CLOCK_TIME) - start_cycle > bdk_clock_get_rate(bdk_numa_local(), BDK_CLOCK_TIME))
+        {
+            if (pciercx_cfg032.s.dlla == 0)
+                BDK_TRACE(PCIE, "N%d.PCIe%d: Link timeout, Data Link Layer not active(DLLA)\n", node, pcie_port);
+            if (pciercx_cfg032.s.lt == 1)
+                BDK_TRACE(PCIE, "N%d.PCIe%d: Link timeout, Link training not done(LT)\n", node, pcie_port);
             return -1;
+        }
         bdk_wait_usec(1000);
         pciercx_cfg032.u = BDK_CSR_READ(node, BDK_PCIERCX_CFG032(pcie_port));
     }
+    BDK_TRACE(PCIE, "N%d.PCIe%d: Link is up\n", node, pcie_port);
 
     return 0;
 }
@@ -706,11 +716,13 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     BDK_CSR_INIT(soft_prst, node, BDK_RST_SOFT_PRSTX(pcie_port));
     if (!soft_prst.s.soft_prst)
     {
+        BDK_TRACE(PCIE, "N%d.PCIe%d: Performing PCIe reset\n", node, pcie_port);
         /* Reset the port */
         BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), 1);
         /* Wait until pcie resets the ports. */
         bdk_wait_usec(2000);
     }
+    BDK_TRACE(PCIE, "N%d.PCIe%d: Taking port out of reset\n", node, pcie_port);
     BDK_CSR_WRITE(node, BDK_RST_SOFT_PRSTX(pcie_port), 0);
 
     /* Wait for PCIe reset to complete */
@@ -719,6 +731,7 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     /* Check and make sure PCIe came out of reset. If it doesn't the board
         probably hasn't wired the clocks up and the interface should be
         skipped */
+    BDK_TRACE(PCIE, "N%d.PCIe%d: Waiting for reset to complete\n", node, pcie_port);
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_RST_CTLX(pcie_port), rst_done, ==, 1, 10000))
     {
         if (!bdk_is_platform(BDK_PLATFORM_ASIM))
@@ -729,14 +742,17 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     }
 
     /* Check BIST status */
+    BDK_TRACE(PCIE, "N%d.PCIe%d: Checking BIST\n", node, pcie_port);
     BDK_CSR_INIT(pemx_bist_status, node, BDK_PEMX_BIST_STATUS(pcie_port));
     if (pemx_bist_status.u)
         bdk_warn("N%d.PCIe%d: BIST FAILED (0x%016lx)\n", node, pcie_port, pemx_bist_status.u);
 
     /* Initialize the config space CSRs */
+    BDK_TRACE(PCIE, "N%d.PCIe%d: Setting up internal config space\n", node, pcie_port);
     __bdk_pcie_rc_initialize_config_space(node, pcie_port);
 
     /* Enable gen2 speed selection */
+    BDK_TRACE(PCIE, "N%d.PCIe%d: Enabling dynamic speed changes\n", node, pcie_port);
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG515(pcie_port),
         c.s.dsc = 1);
 
@@ -751,8 +767,10 @@ int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
     }
 
     /* Setup the SLI windows to allow access to this PCIe from the core */
+    BDK_TRACE(PCIE, "N%d.PCIe%d: Initializing SLI\n", node, pcie_port);
     __bdk_pcie_sli_initialize(node, pcie_port);
 
+    BDK_TRACE(PCIE, "N%d.PCIe%d: Setting up internal BARs\n", node, pcie_port);
     /* Disable BAR0 */
     BDK_CSR_WRITE(node, BDK_PEMX_P2N_BAR0_START(pcie_port), -1);
     /* Disable BAR1 */
