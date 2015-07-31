@@ -66,7 +66,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
                 {
                     BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(2));
                     if (gserx_cfg.s.pcie)
-                        return 2; /* PEM0 is on QLM0 and possibly QLM2 */
+                        return 2; /* PEM0 is on QLM2 (x4) and possibly QLM3 (x8) */
                     else
                         return -1; /* PEM0 is disabled */
                 }
@@ -75,7 +75,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
                     BDK_CSR_INIT(pem0_cfg, node, BDK_PEMX_CFG(0));
                     BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(3));
                     if (!pem0_cfg.s.lanes8 && gserx_cfg.s.pcie)
-                        return 3; /* PEM1 is on QLM 3 */
+                        return 3; /* PEM1 is on QLM 3 (x4) */
                     else
                         return -1; /* PEM1 is disabled */
                 }
@@ -83,7 +83,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
                 {
                     BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(4));
                     if (gserx_cfg.s.pcie)
-                        return 4; /* PEM2 is on QLM2 and possibly QLM4 */
+                        return 4; /* PEM2 is on QLM4 (x4) and possibly QLM5 (x8) */
                     else
                         return -1; /* PEM2 is disabled */
                 }
@@ -92,7 +92,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
                     BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
                     BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(5));
                     if (!pem2_cfg.s.lanes8 && gserx_cfg.s.pcie)
-                        return 5; /* PEM3 is on QLM4 */
+                        return 5; /* PEM3 is on QLM5 (x4) */
                     else
                         return -1; /* PEM3 is disabled */
                 }
@@ -100,7 +100,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
                 {
                     BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(6));
                     if (gserx_cfg.s.pcie)
-                        return 6; /* PEM4 is on QLM6 and possibly QLM7 */
+                        return 6; /* PEM4 is on QLM6 (x4) and possibly QLM7 (x8) */
                     else
                         return -1; /* PEM4 is disabled */
                 }
@@ -109,7 +109,7 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
                     BDK_CSR_INIT(pem4_cfg, node, BDK_PEMX_CFG(4));
                     BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(7));
                     if (!pem4_cfg.s.lanes8 && gserx_cfg.s.pcie)
-                        return 7; /* PEM5 is on QLM7 */
+                        return 7; /* PEM5 is on QLM7 (x4) */
                     else
                         return -1; /* PEM5 is disabled */
                 }
