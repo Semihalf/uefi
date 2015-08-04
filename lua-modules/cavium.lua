@@ -47,11 +47,5 @@ end
 -- Make the cavium module global by default
 cavium = base
 
--- Create the CSR table
-local status, lookup = pcall(require, "csr")
-if status then
-    base.csr = lookup(base, base.c.bdk_csr_read, base.c.bdk_csr_write)
-end
-
 return base
 
