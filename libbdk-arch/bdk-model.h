@@ -26,6 +26,10 @@
 #define CAVIUM_CN88XX_PASS1_X   (CAVIUM_CN88XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
 #define CAVIUM_CN88XX_PASS2_X   (CAVIUM_CN88XX_PASS2_0 | __OM_IGNORE_MINOR_REVISION)
 
+#define CAVIUM_CN83XX_PASS1_0   0x430f0a30
+#define CAVIUM_CN83XX           (CAVIUM_CN83XX_PASS1_0 | __OM_IGNORE_REVISION)
+#define CAVIUM_CN83XX_PASS1_X   (CAVIUM_CN83XX_PASS1_0 | __OM_IGNORE_MINOR_REVISION)
+
 static inline uint64_t cavium_get_model() __attribute__ ((pure, always_inline));
 static inline uint64_t cavium_get_model()
 {
