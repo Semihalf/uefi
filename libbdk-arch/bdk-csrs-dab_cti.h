@@ -1,5 +1,5 @@
-#ifndef __BDK_CSRS_DAB_CTI__
-#define __BDK_CSRS_DAB_CTI__
+#ifndef __BDK_CSRS_DAB_CTI_H__
+#define __BDK_CSRS_DAB_CTI_H__
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
@@ -52,219 +52,620 @@
  *
  */
 
-#include <stdint.h>
+/**
+ * Register (DAB32b) cti#_ctidevid
+ *
+ * CTI Device ID Register 0
+ * Describes the component to the debugger.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctidevid_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t inout_gate            : 2;  /**< [ 25: 24](RO) Input/output options. Indicates presence of the input gate. If
+                                                                     the CTM is not implemented, this field is RAZ.
+                                                                 All other values are reserved.
+                                                                 0x0 = CTIGATE does not mask propagation of input events from
+                                                                     external channels.
+                                                                 0x1 = CTIGATE masks propagation of input events from external
+                                                                     channels. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t numchan               : 6;  /**< [ 21: 16](RO) Number of ECT channels implemented. Implementation defined.
+                                                                 For v8-A, valid values are:
+                                                                 0x3 = 3 channels (0..2) implemented.
+                                                                 0x4 = 4 channels (0..3) implemented.
+                                                                 0x5 = 5 channels (0..4) implemented.
+                                                                 0x6 = 6 channels (0..5) implemented.
+                                                                 and so on up to 0x20.
+                                                                 All other values are reserved. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t numtrig               : 6;  /**< [ 13:  8](RO) Number of triggers implemented. implementation defined. This
+                                                                     is one more than the index of the largest trigger, rather than
+                                                                     the actual number of triggers.
+                                                                 For v8-A, valid values are:
+                                                                 0x3 = Up to 3 triggers (0..2) implemented.
+                                                                 0x8 = Up to 8 triggers (0..7) implemented.
+                                                                 0x9 = Up to 9 triggers (0..8) implemented.
+                                                                 0xa = Up to 10 triggers (0..9) implemented.
+                                                                 and so on up to 0x20.
 
-extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4) __attribute__ ((noreturn));
+                                                                 All other values are reserved. If the Trace Extension is implemented, this field
+                                                                 must be at least 0x8. There is no guarantee that any of the implemented
+                                                                 triggers, including the highest numbered, are connected to any components. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t extmuxnum             : 5;  /**< [  4:  0](RO) Maximum number of external triggers available for multiplexing
+                                                                     into the CTI. This relates only to additional external
+                                                                     triggers outside those defined for v8-A. */
+#else /* Word 0 - Little Endian */
+        uint32_t extmuxnum             : 5;  /**< [  4:  0](RO) Maximum number of external triggers available for multiplexing
+                                                                     into the CTI. This relates only to additional external
+                                                                     triggers outside those defined for v8-A. */
+        uint32_t reserved_5_7          : 3;
+        uint32_t numtrig               : 6;  /**< [ 13:  8](RO) Number of triggers implemented. implementation defined. This
+                                                                     is one more than the index of the largest trigger, rather than
+                                                                     the actual number of triggers.
+                                                                 For v8-A, valid values are:
+                                                                 0x3 = Up to 3 triggers (0..2) implemented.
+                                                                 0x8 = Up to 8 triggers (0..7) implemented.
+                                                                 0x9 = Up to 9 triggers (0..8) implemented.
+                                                                 0xa = Up to 10 triggers (0..9) implemented.
+                                                                 and so on up to 0x20.
 
+                                                                 All other values are reserved. If the Trace Extension is implemented, this field
+                                                                 must be at least 0x8. There is no guarantee that any of the implemented
+                                                                 triggers, including the highest numbered, are connected to any components. */
+        uint32_t reserved_14_15        : 2;
+        uint32_t numchan               : 6;  /**< [ 21: 16](RO) Number of ECT channels implemented. Implementation defined.
+                                                                 For v8-A, valid values are:
+                                                                 0x3 = 3 channels (0..2) implemented.
+                                                                 0x4 = 4 channels (0..3) implemented.
+                                                                 0x5 = 5 channels (0..4) implemented.
+                                                                 0x6 = 6 channels (0..5) implemented.
+                                                                 and so on up to 0x20.
+                                                                 All other values are reserved. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t inout_gate            : 2;  /**< [ 25: 24](RO) Input/output options. Indicates presence of the input gate. If
+                                                                     the CTM is not implemented, this field is RAZ.
+                                                                 All other values are reserved.
+                                                                 0x0 = CTIGATE does not mask propagation of input events from
+                                                                     external channels.
+                                                                 0x1 = CTIGATE masks propagation of input events from external
+                                                                     channels. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctidevid_s cn; */
+} bdk_ctix_ctidevid_t;
 
+static inline uint64_t BDK_CTIX_CTIDEVID(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIDEVID(unsigned long a)
+{
+    return 0x87a008010fc8ll + 0x80000ll * ((a) & 0x3f);
+}
 
+#define typedef_BDK_CTIX_CTIDEVID(a) bdk_ctix_ctidevid_t
+#define bustype_BDK_CTIX_CTIDEVID(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIDEVID(a) "CTIX_CTIDEVID"
+#define busnum_BDK_CTIX_CTIDEVID(a) (a)
+#define arguments_BDK_CTIX_CTIDEVID(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_asicctl
+ * Register (DAB32b) cti#_ctiouten#
  *
- * Provides a control for external multiplexing of additional triggers.
- *
+ * CTI Input Channel to Output Trigger Enable Registers
+ * Defines which input channels generate output trigger n.
  */
-typedef union bdk_ctix_asicctl {
-	uint32_t u;
-	struct bdk_ctix_asicctl_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t asicctl                     : 3;  /**< R/W - Implementation defined ASIC control. Provides a control for
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctioutenx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t outen                 : 3;  /**< [  2:  0](R/W) Input channel <x> to output trigger <n> enable.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 0 = An event on input channel <x> will not cause output trigger
+                                                                     <n> to be asserted.
+                                                                 1 = An event on input channel <x> will cause output trigger <n> to
+                                                                     be asserted.
+
+                                                                 In CNXXXX CTIOUTEN(3..31) are ignored as there are only 3 channels. */
+#else /* Word 0 - Little Endian */
+        uint32_t outen                 : 3;  /**< [  2:  0](R/W) Input channel <x> to output trigger <n> enable.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 0 = An event on input channel <x> will not cause output trigger
+                                                                     <n> to be asserted.
+                                                                 1 = An event on input channel <x> will cause output trigger <n> to
+                                                                     be asserted.
+
+                                                                 In CNXXXX CTIOUTEN(3..31) are ignored as there are only 3 channels. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctioutenx_s cn; */
+} bdk_ctix_ctioutenx_t;
+
+static inline uint64_t BDK_CTIX_CTIOUTENX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIOUTENX(unsigned long a, unsigned long b)
+{
+    return 0x87a0080100a0ll + 0x80000ll * ((a) & 0x3f) + 4ll * ((b) & 0x3);
+}
+
+#define typedef_BDK_CTIX_CTIOUTENX(a,b) bdk_ctix_ctioutenx_t
+#define bustype_BDK_CTIX_CTIOUTENX(a,b) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIOUTENX(a,b) "CTIX_CTIOUTENX"
+#define busnum_BDK_CTIX_CTIOUTENX(a,b) (a)
+#define arguments_BDK_CTIX_CTIOUTENX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (DAB32b) cti#_cticidr1
+ *
+ * CTI Component Identification Register 1
+ * Provides information to identify a component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_cticidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t cclass                : 4;  /**< [  7:  4](RO) Component class. 0x9 = Debug component. */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_1               : 4;  /**< [  3:  0](RO) Preamble. RAZ. */
+        uint32_t cclass                : 4;  /**< [  7:  4](RO) Component class. 0x9 = Debug component. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_cticidr1_s cn; */
+} bdk_ctix_cticidr1_t;
+
+static inline uint64_t BDK_CTIX_CTICIDR1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTICIDR1(unsigned long a)
+{
+    return 0x87a008010ff4ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTICIDR1(a) bdk_ctix_cticidr1_t
+#define bustype_BDK_CTIX_CTICIDR1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTICIDR1(a) "CTIX_CTICIDR1"
+#define busnum_BDK_CTIX_CTICIDR1(a) (a)
+#define arguments_BDK_CTIX_CTICIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_cticidr0
+ *
+ * CTI Component Identification Register 0
+ * Provides information to identify a component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_cticidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x0D. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x0D. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_cticidr0_s cn; */
+} bdk_ctix_cticidr0_t;
+
+static inline uint64_t BDK_CTIX_CTICIDR0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTICIDR0(unsigned long a)
+{
+    return 0x87a008010ff0ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTICIDR0(a) bdk_ctix_cticidr0_t
+#define bustype_BDK_CTIX_CTICIDR0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTICIDR0(a) "CTIX_CTICIDR0"
+#define busnum_BDK_CTIX_CTICIDR0(a) (a)
+#define arguments_BDK_CTIX_CTICIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_cticidr3
+ *
+ * CTI Component Identification Register 3
+ * Provides information to identify a component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_cticidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0xB1. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_3               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0xB1. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_cticidr3_s cn; */
+} bdk_ctix_cticidr3_t;
+
+static inline uint64_t BDK_CTIX_CTICIDR3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTICIDR3(unsigned long a)
+{
+    return 0x87a008010ffcll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTICIDR3(a) bdk_ctix_cticidr3_t
+#define bustype_BDK_CTIX_CTICIDR3(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTICIDR3(a) "CTIX_CTICIDR3"
+#define busnum_BDK_CTIX_CTICIDR3(a) (a)
+#define arguments_BDK_CTIX_CTICIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_cticidr2
+ *
+ * CTI Component Identification Register 2
+ * Provides information to identify a component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_cticidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x05. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x05. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_cticidr2_s cn; */
+} bdk_ctix_cticidr2_t;
+
+static inline uint64_t BDK_CTIX_CTICIDR2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTICIDR2(unsigned long a)
+{
+    return 0x87a008010ff8ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTICIDR2(a) bdk_ctix_cticidr2_t
+#define bustype_BDK_CTIX_CTICIDR2(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTICIDR2(a) "CTIX_CTICIDR2"
+#define busnum_BDK_CTIX_CTICIDR2(a) (a)
+#define arguments_BDK_CTIX_CTICIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_asicctl
+ *
+ * CTI External Multiplexer Control Register
+ * Provides a control for external multiplexing of additional triggers.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_asicctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t asicctl               : 3;  /**< [  2:  0](R/W) Implementation defined ASIC control. Provides a control for
                                                                  external multiplexing of additional triggers.
                                                                  If external multiplexing of trigger signals is implemented
                                                                      then the number of multiplexed signals on each trigger must be
                                                                      reflected in CTI()_CTIDEVID[EXTMUXNUM].
                                                                  If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is RAZ. */
-#else
-		uint32_t asicctl                     : 3;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_asicctl_s          cn88xx; */
-	/* struct bdk_ctix_asicctl_s          cn88xxp1; */
+#else /* Word 0 - Little Endian */
+        uint32_t asicctl               : 3;  /**< [  2:  0](R/W) Implementation defined ASIC control. Provides a control for
+                                                                 external multiplexing of additional triggers.
+                                                                 If external multiplexing of trigger signals is implemented
+                                                                     then the number of multiplexed signals on each trigger must be
+                                                                     reflected in CTI()_CTIDEVID[EXTMUXNUM].
+                                                                 If CTI()_CTIDEVID[EXTMUXNUM] is zero, this field is RAZ. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_asicctl_s cn; */
 } bdk_ctix_asicctl_t;
 
-static inline uint64_t BDK_CTIX_ASICCTL(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_ASICCTL(unsigned long param1)
+static inline uint64_t BDK_CTIX_ASICCTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_ASICCTL(unsigned long a)
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010144ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_ASICCTL", 1, param1, 0, 0, 0); /* No return */
+    return 0x87a008010144ll + 0x80000ll * ((a) & 0x3f);
 }
-#define typedef_BDK_CTIX_ASICCTL(...) bdk_ctix_asicctl_t
-#define bustype_BDK_CTIX_ASICCTL(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_ASICCTL(p1) (p1)
-#define arguments_BDK_CTIX_ASICCTL(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_ASICCTL(...) "CTIX_ASICCTL"
 
+#define typedef_BDK_CTIX_ASICCTL(a) bdk_ctix_asicctl_t
+#define bustype_BDK_CTIX_ASICCTL(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_ASICCTL(a) "CTIX_ASICCTL"
+#define busnum_BDK_CTIX_ASICCTL(a) (a)
+#define arguments_BDK_CTIX_ASICCTL(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_claimclr_el1
+ * Register (DAB32b) cti#_ctitriginstatus
  *
- * Used by software to read the values of the CLAIM bits, and to
- * clear these bits to 0.
+ * CTI Trigger In Status Register
+ * Provides the status of the trigger inputs.
  */
-typedef union bdk_ctix_claimclr_el1 {
-	uint32_t u;
-	struct bdk_ctix_claimclr_el1_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t claim                       : 8;  /**< R/W - Claim clear bits. Reading this field returns the current value
-                                                                     of the CLAIM bits.
-                                                                 Writing a 1 to one of these bits clears the corresponding
-                                                                     CLAIM bit to 0. This is an indirect write to the CLAIM bits.
-                                                                 A single write operation can clear multiple bits to 0. Writing
-                                                                     0 to one of these bits has no effect. */
-#else
-		uint32_t claim                       : 8;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_claimclr_el1_s     cn88xx; */
-	/* struct bdk_ctix_claimclr_el1_s     cn88xxp1; */
-} bdk_ctix_claimclr_el1_t;
-
-static inline uint64_t BDK_CTIX_CLAIMCLR_EL1(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CLAIMCLR_EL1(unsigned long param1)
+typedef union
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010FA4ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CLAIMCLR_EL1", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CLAIMCLR_EL1(...) bdk_ctix_claimclr_el1_t
-#define bustype_BDK_CTIX_CLAIMCLR_EL1(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CLAIMCLR_EL1(p1) (p1)
-#define arguments_BDK_CTIX_CLAIMCLR_EL1(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CLAIMCLR_EL1(...) "CTIX_CLAIMCLR_EL1"
+    uint32_t u;
+    struct bdk_ctix_ctitriginstatus_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t trin                  : 3;  /**< [  2:  0](RO) Trigger input <n> status.
+                                                                 N is the number of CTI triggers implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMTRIG].
+                                                                 Bits [31:N] are RAZ.
 
+                                                                 Not implemented and not-connected input triggers are always inactive.
+                                                                 0 = Input trigger n is inactive.
+                                                                 1 = Input trigger n is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t trin                  : 3;  /**< [  2:  0](RO) Trigger input <n> status.
+                                                                 N is the number of CTI triggers implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMTRIG].
+                                                                 Bits [31:N] are RAZ.
+
+                                                                 Not implemented and not-connected input triggers are always inactive.
+                                                                 0 = Input trigger n is inactive.
+                                                                 1 = Input trigger n is active. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctitriginstatus_s cn; */
+} bdk_ctix_ctitriginstatus_t;
+
+static inline uint64_t BDK_CTIX_CTITRIGINSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTITRIGINSTATUS(unsigned long a)
+{
+    return 0x87a008010130ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTITRIGINSTATUS(a) bdk_ctix_ctitriginstatus_t
+#define bustype_BDK_CTIX_CTITRIGINSTATUS(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTITRIGINSTATUS(a) "CTIX_CTITRIGINSTATUS"
+#define busnum_BDK_CTIX_CTITRIGINSTATUS(a) (a)
+#define arguments_BDK_CTIX_CTITRIGINSTATUS(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_claimset_el1
+ * Register (DAB32b) cti#_ctichoutstatus
  *
- * Used by software to set CLAIM bits to 1.
- *
+ * CTI Channel Out Status Register
+ * Provides the status of the ECT channel outputs.
  */
-typedef union bdk_ctix_claimset_el1 {
-	uint32_t u;
-	struct bdk_ctix_claimset_el1_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t claim                       : 8;  /**< R/W - Claim set bits. RAO.
-                                                                 Writing a 1 to one of these bits sets the corresponding CLAIM
-                                                                     bit to 1. This is an indirect write to the CLAIM bits.
-                                                                 A single write operation can set multiple bits to 1. Writing 0
-                                                                     to one of these bits has no effect. */
-#else
-		uint32_t claim                       : 8;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_claimset_el1_s     cn88xx; */
-	/* struct bdk_ctix_claimset_el1_s     cn88xxp1; */
-} bdk_ctix_claimset_el1_t;
-
-static inline uint64_t BDK_CTIX_CLAIMSET_EL1(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CLAIMSET_EL1(unsigned long param1)
+typedef union
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010FA0ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CLAIMSET_EL1", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CLAIMSET_EL1(...) bdk_ctix_claimset_el1_t
-#define bustype_BDK_CTIX_CLAIMSET_EL1(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CLAIMSET_EL1(p1) (p1)
-#define arguments_BDK_CTIX_CLAIMSET_EL1(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CLAIMSET_EL1(...) "CTIX_CLAIMSET_EL1"
+    uint32_t u;
+    struct bdk_ctix_ctichoutstatus_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t chout                 : 3;  /**< [  2:  0](RO) Output channel <n> status.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ.
 
+                                                                 0 = Output channel <n> is inactive.
+                                                                 1 = Output channel <n> is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t chout                 : 3;  /**< [  2:  0](RO) Output channel <n> status.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ.
+
+                                                                 0 = Output channel <n> is inactive.
+                                                                 1 = Output channel <n> is active. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctichoutstatus_s cn; */
+} bdk_ctix_ctichoutstatus_t;
+
+static inline uint64_t BDK_CTIX_CTICHOUTSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTICHOUTSTATUS(unsigned long a)
+{
+    return 0x87a00801013cll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTICHOUTSTATUS(a) bdk_ctix_ctichoutstatus_t
+#define bustype_BDK_CTIX_CTICHOUTSTATUS(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTICHOUTSTATUS(a) "CTIX_CTICHOUTSTATUS"
+#define busnum_BDK_CTIX_CTICHOUTSTATUS(a) (a)
+#define arguments_BDK_CTIX_CTICHOUTSTATUS(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctiappclear
+ * Register (DAB32b) cti#_cticontrol
  *
- * Clears bits of the Application Trigger register.
- *
+ * CTI Control Register
+ * Controls whether the CTI is enabled.
  */
-typedef union bdk_ctix_ctiappclear {
-	uint32_t u;
-	struct bdk_ctix_ctiappclear_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_0_31               : 32;
-#else
-		uint32_t reserved_0_31               : 32;
-#endif
-	} s;
-	/* struct bdk_ctix_ctiappclear_s      cn88xx; */
-	/* struct bdk_ctix_ctiappclear_s      cn88xxp1; */
-} bdk_ctix_ctiappclear_t;
-
-static inline uint64_t BDK_CTIX_CTIAPPCLEAR(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIAPPCLEAR(unsigned long param1)
+typedef union
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010018ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIAPPCLEAR", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIAPPCLEAR(...) bdk_ctix_ctiappclear_t
-#define bustype_BDK_CTIX_CTIAPPCLEAR(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIAPPCLEAR(p1) (p1)
-#define arguments_BDK_CTIX_CTIAPPCLEAR(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIAPPCLEAR(...) "CTIX_CTIAPPCLEAR"
+    uint32_t u;
+    struct bdk_ctix_cticontrol_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t glben                 : 1;  /**< [  0:  0](R/W) Enables or disables the CTI mapping functions.
+                                                                 When the mapping functions are disabled, no new events are
+                                                                     signaled on either output triggers or output channels. If a
+                                                                     previously asserted output trigger has not been acknowledged,
+                                                                     it remains asserted after the mapping functions are disabled.
+                                                                     All output triggers are disabled by CTI reset.
 
+                                                                 0 = CTI mapping functions disabled.
+                                                                 1 = CTI mapping functions enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t glben                 : 1;  /**< [  0:  0](R/W) Enables or disables the CTI mapping functions.
+                                                                 When the mapping functions are disabled, no new events are
+                                                                     signaled on either output triggers or output channels. If a
+                                                                     previously asserted output trigger has not been acknowledged,
+                                                                     it remains asserted after the mapping functions are disabled.
+                                                                     All output triggers are disabled by CTI reset.
+
+                                                                 0 = CTI mapping functions disabled.
+                                                                 1 = CTI mapping functions enabled. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_cticontrol_s cn; */
+} bdk_ctix_cticontrol_t;
+
+static inline uint64_t BDK_CTIX_CTICONTROL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTICONTROL(unsigned long a)
+{
+    return 0x87a008010000ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTICONTROL(a) bdk_ctix_cticontrol_t
+#define bustype_BDK_CTIX_CTICONTROL(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTICONTROL(a) "CTIX_CTICONTROL"
+#define busnum_BDK_CTIX_CTICONTROL(a) (a)
+#define arguments_BDK_CTIX_CTICONTROL(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctiapppulse
+ * Register (DAB32b) cti#_ctigate
  *
- * Causes event pulses to be generated on ECT channels.
- *
+ * CTI Channel Gate Enable Register
+ * Determines whether events on channels propagate through the
+ *     CTM to other ECT components, or from the CTM into the CTI.
  */
-typedef union bdk_ctix_ctiapppulse {
-	uint32_t u;
-	struct bdk_ctix_ctiapppulse_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t apppulse                    : 3;  /**< WO - Generate event pulse on ECT channel \<x\>.
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctigate_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t gate                  : 3;  /**< [  2:  0](R/W) Channel <x> gate enable.
                                                                  N is the number of ECT channels implemented as defined by
                                                                      CTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ/WI.
 
-                                                                 Writing to this bit has the following effect:
-                                                                 0 = No effect.
-                                                                 1 = Channel \<x\> event pulse generated for one clock period. */
-#else
-		uint32_t apppulse                    : 3;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_ctiapppulse_s      cn88xx; */
-	/* struct bdk_ctix_ctiapppulse_s      cn88xxp1; */
-} bdk_ctix_ctiapppulse_t;
+                                                                 0 = Disable output and, if CTI()_CTIDEVID[INOUT] = 0x1.
+                                                                 1 = Enable output and, if CTI()_CTIDEVID[INOUT] = 0x1. */
+#else /* Word 0 - Little Endian */
+        uint32_t gate                  : 3;  /**< [  2:  0](R/W) Channel <x> gate enable.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
 
-static inline uint64_t BDK_CTIX_CTIAPPPULSE(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIAPPPULSE(unsigned long param1)
+                                                                 0 = Disable output and, if CTI()_CTIDEVID[INOUT] = 0x1.
+                                                                 1 = Enable output and, if CTI()_CTIDEVID[INOUT] = 0x1. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctigate_s cn; */
+} bdk_ctix_ctigate_t;
+
+static inline uint64_t BDK_CTIX_CTIGATE(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIGATE(unsigned long a)
 {
-	if (((param1 <= 47)))
-		return 0x000087A00801001Cull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIAPPPULSE", 1, param1, 0, 0, 0); /* No return */
+    return 0x87a008010140ll + 0x80000ll * ((a) & 0x3f);
 }
-#define typedef_BDK_CTIX_CTIAPPPULSE(...) bdk_ctix_ctiapppulse_t
-#define bustype_BDK_CTIX_CTIAPPPULSE(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIAPPPULSE(p1) (p1)
-#define arguments_BDK_CTIX_CTIAPPPULSE(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIAPPPULSE(...) "CTIX_CTIAPPPULSE"
 
+#define typedef_BDK_CTIX_CTIGATE(a) bdk_ctix_ctigate_t
+#define bustype_BDK_CTIX_CTIGATE(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIGATE(a) "CTIX_CTIGATE"
+#define busnum_BDK_CTIX_CTIGATE(a) (a)
+#define arguments_BDK_CTIX_CTIGATE(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctiappset
+ * Register (DAB32b) cti#_ctidevid2
  *
- * Sets bits of the Application Trigger register.
- *
+ * CTI Device ID Register 2
+ * Reserved for future information about the CTI component to the
+ *     debugger.
  */
-typedef union bdk_ctix_ctiappset {
-	uint32_t u;
-	struct bdk_ctix_ctiappset_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t trig                        : 3;  /**< R/W1S/H - Application trigger \<x\> enable.
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctidevid2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctidevid2_s cn; */
+} bdk_ctix_ctidevid2_t;
+
+static inline uint64_t BDK_CTIX_CTIDEVID2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIDEVID2(unsigned long a)
+{
+    return 0x87a008010fc0ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIDEVID2(a) bdk_ctix_ctidevid2_t
+#define bustype_BDK_CTIX_CTIDEVID2(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIDEVID2(a) "CTIX_CTIDEVID2"
+#define busnum_BDK_CTIX_CTIDEVID2(a) (a)
+#define arguments_BDK_CTIX_CTIDEVID2(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctidevid1
+ *
+ * CTI Device ID Register 1
+ * Reserved for future information about the component to the debugger.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctidevid1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctidevid1_s cn; */
+} bdk_ctix_ctidevid1_t;
+
+static inline uint64_t BDK_CTIX_CTIDEVID1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIDEVID1(unsigned long a)
+{
+    return 0x87a008010fc4ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIDEVID1(a) bdk_ctix_ctidevid1_t
+#define bustype_BDK_CTIX_CTIDEVID1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIDEVID1(a) "CTIX_CTIDEVID1"
+#define busnum_BDK_CTIX_CTIDEVID1(a) (a)
+#define arguments_BDK_CTIX_CTIDEVID1(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctiappset
+ *
+ * CTI Application Trigger Set Register
+ * Sets bits of the Application Trigger register.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctiappset_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ctix_ctiappset_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t trig                  : 3;  /**< [  2:  0](R/W1S/H) Application trigger <x> enable.
                                                                  N is the number of ECT channels implemented as defined by
                                                                      CTI()_CTIDEVID[NUMCHAN].
                                                                  Bits [31:N] are RAZ/WI.
@@ -282,876 +683,1040 @@ typedef union bdk_ctix_ctiappset {
 
                                                                  For pass 1 is RO, for pass 2 changed to R/W.
                                                                  Added in pass 2. */
-#else
-		uint32_t trig                        : 3;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_ctiappset_s        cn88xx; */
-	struct bdk_ctix_ctiappset_cn88xxp1 {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_0_31               : 32;
-#else
-		uint32_t reserved_0_31               : 32;
-#endif
-	} cn88xxp1;
+#else /* Word 0 - Little Endian */
+        uint32_t trig                  : 3;  /**< [  2:  0](R/W1S/H) Application trigger <x> enable.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 If the ECT does not support multicycle channel events, use of
+                                                                     CTIAPPSET is deprecated and the debugger must only use
+                                                                     CTIAPPPULSE.
+                                                                 0 = Reading this means the application trigger is inactive.
+                                                                     Writing this has no effect.
+                                                                 1 = Reading this means the application trigger is active. Writing
+                                                                     this sets the corresponding bit in CTIAPPTRIG to 1 and
+                                                                     generates a channel event.
+
+                                                                 In CNXXXX always 0x0 as it doesn't support multicycle channel events.
+
+                                                                 For pass 1 is RO, for pass 2 changed to R/W.
+                                                                 Added in pass 2. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } cn83xx;
+    /* struct bdk_ctix_ctiappset_cn83xx cn88xxp2; */
+    /* struct bdk_ctix_ctiappset_s cn88xxp1; */
 } bdk_ctix_ctiappset_t;
 
-static inline uint64_t BDK_CTIX_CTIAPPSET(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIAPPSET(unsigned long param1)
+static inline uint64_t BDK_CTIX_CTIAPPSET(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIAPPSET(unsigned long a)
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010014ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIAPPSET", 1, param1, 0, 0, 0); /* No return */
+    return 0x87a008010014ll + 0x80000ll * ((a) & 0x3f);
 }
-#define typedef_BDK_CTIX_CTIAPPSET(...) bdk_ctix_ctiappset_t
-#define bustype_BDK_CTIX_CTIAPPSET(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIAPPSET(p1) (p1)
-#define arguments_BDK_CTIX_CTIAPPSET(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIAPPSET(...) "CTIX_CTIAPPSET"
 
+#define typedef_BDK_CTIX_CTIAPPSET(a) bdk_ctix_ctiappset_t
+#define bustype_BDK_CTIX_CTIAPPSET(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIAPPSET(a) "CTIX_CTIAPPSET"
+#define busnum_BDK_CTIX_CTIAPPSET(a) (a)
+#define arguments_BDK_CTIX_CTIAPPSET(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctiauthstatus
+ * Register (DAB32b) cti#_ctiappclear
  *
+ * CTI Application Trigger Clear Register
+ * Clears bits of the Application Trigger register.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctiappclear_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctiappclear_s cn; */
+} bdk_ctix_ctiappclear_t;
+
+static inline uint64_t BDK_CTIX_CTIAPPCLEAR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIAPPCLEAR(unsigned long a)
+{
+    return 0x87a008010018ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIAPPCLEAR(a) bdk_ctix_ctiappclear_t
+#define bustype_BDK_CTIX_CTIAPPCLEAR(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIAPPCLEAR(a) "CTIX_CTIAPPCLEAR"
+#define busnum_BDK_CTIX_CTIAPPCLEAR(a) (a)
+#define arguments_BDK_CTIX_CTIAPPCLEAR(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_claimset_el1
+ *
+ * CTI Claim Tag Set Register
+ * Used by software to set CLAIM bits to 1.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_claimset_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t claim                 : 8;  /**< [  7:  0](R/W) Claim set bits. RAO.
+                                                                 Writing a 1 to one of these bits sets the corresponding CLAIM
+                                                                     bit to 1. This is an indirect write to the CLAIM bits.
+                                                                 A single write operation can set multiple bits to 1. Writing 0
+                                                                     to one of these bits has no effect. */
+#else /* Word 0 - Little Endian */
+        uint32_t claim                 : 8;  /**< [  7:  0](R/W) Claim set bits. RAO.
+                                                                 Writing a 1 to one of these bits sets the corresponding CLAIM
+                                                                     bit to 1. This is an indirect write to the CLAIM bits.
+                                                                 A single write operation can set multiple bits to 1. Writing 0
+                                                                     to one of these bits has no effect. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_claimset_el1_s cn; */
+} bdk_ctix_claimset_el1_t;
+
+static inline uint64_t BDK_CTIX_CLAIMSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CLAIMSET_EL1(unsigned long a)
+{
+    return 0x87a008010fa0ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CLAIMSET_EL1(a) bdk_ctix_claimset_el1_t
+#define bustype_BDK_CTIX_CLAIMSET_EL1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CLAIMSET_EL1(a) "CTIX_CLAIMSET_EL1"
+#define busnum_BDK_CTIX_CLAIMSET_EL1(a) (a)
+#define arguments_BDK_CTIX_CLAIMSET_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctiauthstatus
+ *
+ * CTI Authentication Status Register
  * Provides information about the state of the implementation defined authentication
  * interface.
  */
-typedef union bdk_ctix_ctiauthstatus {
-	uint32_t u;
-	struct bdk_ctix_ctiauthstatus_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_4_31               : 28;
-		uint32_t nsnid1                      : 1;  /**< RO - If EL3 is not implemented and the processor is Secure, holds
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctiauthstatus_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t nsnid1                : 1;  /**< [  3:  3](RO) If EL3 is not implemented and the processor is Secure, holds
                                                                      the same value as DBGAUTHSTATUS_EL1.SNID.
                                                                  Otherwise, holds the same value as DBGAUTHSTATUS_EL1.NSNID. */
-		uint32_t nsnid0                      : 1;  /**< RO/H - Reserved. */
-		uint32_t nsid1                       : 1;  /**< RO - If EL3 is not implemented and the processor is Secure, holds
+        uint32_t nsnid0                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint32_t nsid1                 : 1;  /**< [  1:  1](RO) If EL3 is not implemented and the processor is Secure, holds
                                                                      the same value as DBGAUTHSTATUS_EL1.SID.
                                                                  Otherwise, holds the same value as DBGAUTHSTATUS_EL1.NSID. */
-		uint32_t nsid0                       : 1;  /**< RO/H - Reserved. */
-#else
-		uint32_t nsid0                       : 1;
-		uint32_t nsid1                       : 1;
-		uint32_t nsnid0                      : 1;
-		uint32_t nsnid1                      : 1;
-		uint32_t reserved_4_31               : 28;
-#endif
-	} s;
-	/* struct bdk_ctix_ctiauthstatus_s    cn88xx; */
-	/* struct bdk_ctix_ctiauthstatus_s    cn88xxp1; */
+        uint32_t nsid0                 : 1;  /**< [  0:  0](RO/H) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t nsid0                 : 1;  /**< [  0:  0](RO/H) Reserved. */
+        uint32_t nsid1                 : 1;  /**< [  1:  1](RO) If EL3 is not implemented and the processor is Secure, holds
+                                                                     the same value as DBGAUTHSTATUS_EL1.SID.
+                                                                 Otherwise, holds the same value as DBGAUTHSTATUS_EL1.NSID. */
+        uint32_t nsnid0                : 1;  /**< [  2:  2](RO/H) Reserved. */
+        uint32_t nsnid1                : 1;  /**< [  3:  3](RO) If EL3 is not implemented and the processor is Secure, holds
+                                                                     the same value as DBGAUTHSTATUS_EL1.SNID.
+                                                                 Otherwise, holds the same value as DBGAUTHSTATUS_EL1.NSNID. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctiauthstatus_s cn; */
 } bdk_ctix_ctiauthstatus_t;
 
-static inline uint64_t BDK_CTIX_CTIAUTHSTATUS(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIAUTHSTATUS(unsigned long param1)
+static inline uint64_t BDK_CTIX_CTIAUTHSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIAUTHSTATUS(unsigned long a)
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010FB8ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIAUTHSTATUS", 1, param1, 0, 0, 0); /* No return */
+    return 0x87a008010fb8ll + 0x80000ll * ((a) & 0x3f);
 }
-#define typedef_BDK_CTIX_CTIAUTHSTATUS(...) bdk_ctix_ctiauthstatus_t
-#define bustype_BDK_CTIX_CTIAUTHSTATUS(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIAUTHSTATUS(p1) (p1)
-#define arguments_BDK_CTIX_CTIAUTHSTATUS(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIAUTHSTATUS(...) "CTIX_CTIAUTHSTATUS"
 
+#define typedef_BDK_CTIX_CTIAUTHSTATUS(a) bdk_ctix_ctiauthstatus_t
+#define bustype_BDK_CTIX_CTIAUTHSTATUS(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIAUTHSTATUS(a) "CTIX_CTIAUTHSTATUS"
+#define busnum_BDK_CTIX_CTIAUTHSTATUS(a) (a)
+#define arguments_BDK_CTIX_CTIAUTHSTATUS(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctichinstatus
+ * Register (DAB32b) cti#_ctidevarch
  *
- * Provides the raw status of the ECT channel inputs.
- *
- */
-typedef union bdk_ctix_ctichinstatus {
-	uint32_t u;
-	struct bdk_ctix_ctichinstatus_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t chin                        : 3;  /**< RO - Input channel \<n\> status.
-                                                                 N is the number of ECT channels implemented as defined by
-                                                                     CTI()_CTIDEVID[NUMCHAN].
-                                                                 Bits [31:N] are RAZ.
-
-                                                                 0 = Input channel \<n\> is inactive.
-                                                                 1 = Input channel \<n\> is active. */
-#else
-		uint32_t chin                        : 3;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_ctichinstatus_s    cn88xx; */
-	/* struct bdk_ctix_ctichinstatus_s    cn88xxp1; */
-} bdk_ctix_ctichinstatus_t;
-
-static inline uint64_t BDK_CTIX_CTICHINSTATUS(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTICHINSTATUS(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010138ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTICHINSTATUS", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTICHINSTATUS(...) bdk_ctix_ctichinstatus_t
-#define bustype_BDK_CTIX_CTICHINSTATUS(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTICHINSTATUS(p1) (p1)
-#define arguments_BDK_CTIX_CTICHINSTATUS(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTICHINSTATUS(...) "CTIX_CTICHINSTATUS"
-
-
-/**
- * DAB32b - cti#_ctichoutstatus
- *
- * Provides the status of the ECT channel outputs.
- *
- */
-typedef union bdk_ctix_ctichoutstatus {
-	uint32_t u;
-	struct bdk_ctix_ctichoutstatus_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t chout                       : 3;  /**< RO - Output channel \<n\> status.
-                                                                 N is the number of ECT channels implemented as defined by
-                                                                     CTI()_CTIDEVID[NUMCHAN].
-                                                                 Bits [31:N] are RAZ.
-
-                                                                 0 = Output channel \<n\> is inactive.
-                                                                 1 = Output channel \<n\> is active. */
-#else
-		uint32_t chout                       : 3;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_ctichoutstatus_s   cn88xx; */
-	/* struct bdk_ctix_ctichoutstatus_s   cn88xxp1; */
-} bdk_ctix_ctichoutstatus_t;
-
-static inline uint64_t BDK_CTIX_CTICHOUTSTATUS(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTICHOUTSTATUS(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A00801013Cull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTICHOUTSTATUS", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTICHOUTSTATUS(...) bdk_ctix_ctichoutstatus_t
-#define bustype_BDK_CTIX_CTICHOUTSTATUS(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTICHOUTSTATUS(p1) (p1)
-#define arguments_BDK_CTIX_CTICHOUTSTATUS(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTICHOUTSTATUS(...) "CTIX_CTICHOUTSTATUS"
-
-
-/**
- * DAB32b - cti#_cticidr0
- *
- * Provides information to identify a component.
- *
- */
-typedef union bdk_ctix_cticidr0 {
-	uint32_t u;
-	struct bdk_ctix_cticidr0_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t prmbl_0                     : 8;  /**< RO - Preamble. Must read as 0x0D. */
-#else
-		uint32_t prmbl_0                     : 8;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_cticidr0_s         cn88xx; */
-	/* struct bdk_ctix_cticidr0_s         cn88xxp1; */
-} bdk_ctix_cticidr0_t;
-
-static inline uint64_t BDK_CTIX_CTICIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTICIDR0(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FF0ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTICIDR0", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTICIDR0(...) bdk_ctix_cticidr0_t
-#define bustype_BDK_CTIX_CTICIDR0(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTICIDR0(p1) (p1)
-#define arguments_BDK_CTIX_CTICIDR0(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTICIDR0(...) "CTIX_CTICIDR0"
-
-
-/**
- * DAB32b - cti#_cticidr1
- *
- * Provides information to identify a component.
- *
- */
-typedef union bdk_ctix_cticidr1 {
-	uint32_t u;
-	struct bdk_ctix_cticidr1_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t cclass                      : 4;  /**< RO - Component class. 0x9 = Debug component. */
-		uint32_t prmbl_1                     : 4;  /**< RO - Preamble. RAZ. */
-#else
-		uint32_t prmbl_1                     : 4;
-		uint32_t cclass                      : 4;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_cticidr1_s         cn88xx; */
-	/* struct bdk_ctix_cticidr1_s         cn88xxp1; */
-} bdk_ctix_cticidr1_t;
-
-static inline uint64_t BDK_CTIX_CTICIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTICIDR1(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FF4ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTICIDR1", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTICIDR1(...) bdk_ctix_cticidr1_t
-#define bustype_BDK_CTIX_CTICIDR1(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTICIDR1(p1) (p1)
-#define arguments_BDK_CTIX_CTICIDR1(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTICIDR1(...) "CTIX_CTICIDR1"
-
-
-/**
- * DAB32b - cti#_cticidr2
- *
- * Provides information to identify a component.
- *
- */
-typedef union bdk_ctix_cticidr2 {
-	uint32_t u;
-	struct bdk_ctix_cticidr2_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t prmbl_2                     : 8;  /**< RO - Preamble. Must read as 0x05. */
-#else
-		uint32_t prmbl_2                     : 8;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_cticidr2_s         cn88xx; */
-	/* struct bdk_ctix_cticidr2_s         cn88xxp1; */
-} bdk_ctix_cticidr2_t;
-
-static inline uint64_t BDK_CTIX_CTICIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTICIDR2(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FF8ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTICIDR2", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTICIDR2(...) bdk_ctix_cticidr2_t
-#define bustype_BDK_CTIX_CTICIDR2(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTICIDR2(p1) (p1)
-#define arguments_BDK_CTIX_CTICIDR2(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTICIDR2(...) "CTIX_CTICIDR2"
-
-
-/**
- * DAB32b - cti#_cticidr3
- *
- * Provides information to identify a component.
- *
- */
-typedef union bdk_ctix_cticidr3 {
-	uint32_t u;
-	struct bdk_ctix_cticidr3_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t prmbl_3                     : 8;  /**< RO - Preamble. Must read as 0xB1. */
-#else
-		uint32_t prmbl_3                     : 8;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_cticidr3_s         cn88xx; */
-	/* struct bdk_ctix_cticidr3_s         cn88xxp1; */
-} bdk_ctix_cticidr3_t;
-
-static inline uint64_t BDK_CTIX_CTICIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTICIDR3(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FFCull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTICIDR3", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTICIDR3(...) bdk_ctix_cticidr3_t
-#define bustype_BDK_CTIX_CTICIDR3(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTICIDR3(p1) (p1)
-#define arguments_BDK_CTIX_CTICIDR3(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTICIDR3(...) "CTIX_CTICIDR3"
-
-
-/**
- * DAB32b - cti#_cticontrol
- *
- * Controls whether the CTI is enabled.
- *
- */
-typedef union bdk_ctix_cticontrol {
-	uint32_t u;
-	struct bdk_ctix_cticontrol_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_1_31               : 31;
-		uint32_t glben                       : 1;  /**< R/W - Enables or disables the CTI mapping functions.
-                                                                 When the mapping functions are disabled, no new events are
-                                                                     signaled on either output triggers or output channels. If a
-                                                                     previously asserted output trigger has not been acknowledged,
-                                                                     it remains asserted after the mapping functions are disabled.
-                                                                     All output triggers are disabled by CTI reset.
-
-                                                                 0 = CTI mapping functions disabled.
-                                                                 1 = CTI mapping functions enabled. */
-#else
-		uint32_t glben                       : 1;
-		uint32_t reserved_1_31               : 31;
-#endif
-	} s;
-	/* struct bdk_ctix_cticontrol_s       cn88xx; */
-	/* struct bdk_ctix_cticontrol_s       cn88xxp1; */
-} bdk_ctix_cticontrol_t;
-
-static inline uint64_t BDK_CTIX_CTICONTROL(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTICONTROL(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010000ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTICONTROL", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTICONTROL(...) bdk_ctix_cticontrol_t
-#define bustype_BDK_CTIX_CTICONTROL(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTICONTROL(p1) (p1)
-#define arguments_BDK_CTIX_CTICONTROL(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTICONTROL(...) "CTIX_CTICONTROL"
-
-
-/**
- * DAB32b - cti#_ctidevaff0
- *
- * Copy of the low half of the processor MPIDR_EL1 register that
- * allows a debugger to determine which processor in a
- * multiprocessor system the CTI component relates to.
- */
-typedef union bdk_ctix_ctidevaff0 {
-	uint32_t u;
-	struct bdk_ctix_ctidevaff0_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t data                        : 32; /**< RO - MPIDR_EL1 low half. Read-only copy of the low half of MPIDR_EL1, as seen from
-                                                                 the highest implemented exception level. */
-#else
-		uint32_t data                        : 32;
-#endif
-	} s;
-	/* struct bdk_ctix_ctidevaff0_s       cn88xx; */
-	/* struct bdk_ctix_ctidevaff0_s       cn88xxp1; */
-} bdk_ctix_ctidevaff0_t;
-
-static inline uint64_t BDK_CTIX_CTIDEVAFF0(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIDEVAFF0(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FA8ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIDEVAFF0", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIDEVAFF0(...) bdk_ctix_ctidevaff0_t
-#define bustype_BDK_CTIX_CTIDEVAFF0(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIDEVAFF0(p1) (p1)
-#define arguments_BDK_CTIX_CTIDEVAFF0(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIDEVAFF0(...) "CTIX_CTIDEVAFF0"
-
-
-/**
- * DAB32b - cti#_ctidevaff1
- *
- * Copy of the high half of the processor MPIDR_EL1 register that
- * allows a debugger to determine which processor in a
- * multiprocessor system the CTI component relates to.
- */
-typedef union bdk_ctix_ctidevaff1 {
-	uint32_t u;
-	struct bdk_ctix_ctidevaff1_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t data                        : 32; /**< RO - MPIDR_EL1 high half. Read-only copy of the high half of MPIDR_EL1, as seen from
-                                                                 the highest implemented exception level. */
-#else
-		uint32_t data                        : 32;
-#endif
-	} s;
-	/* struct bdk_ctix_ctidevaff1_s       cn88xx; */
-	/* struct bdk_ctix_ctidevaff1_s       cn88xxp1; */
-} bdk_ctix_ctidevaff1_t;
-
-static inline uint64_t BDK_CTIX_CTIDEVAFF1(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIDEVAFF1(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FACull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIDEVAFF1", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIDEVAFF1(...) bdk_ctix_ctidevaff1_t
-#define bustype_BDK_CTIX_CTIDEVAFF1(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIDEVAFF1(p1) (p1)
-#define arguments_BDK_CTIX_CTIDEVAFF1(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIDEVAFF1(...) "CTIX_CTIDEVAFF1"
-
-
-/**
- * DAB32b - cti#_ctidevarch
- *
+ * CTI Device Architecture Register
  * Identifies the programmers' model architecture.
- *
  */
-typedef union bdk_ctix_ctidevarch {
-	uint32_t u;
-	struct bdk_ctix_ctidevarch_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t architect                   : 11; /**< RO - Defines the architecture of the component. This is ARM Limited.
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctidevarch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is ARM Limited.
 
                                                                  Bits [31:28] are the JEP 106 continuation code, 0x4.
 
                                                                  Bits [27:21] are the JEP 106 ID code, 0x3B. */
-		uint32_t present                     : 1;  /**< RO - When set to 1, indicates that the DEVARCH is present.
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
                                                                  This field is 1 in v8-A. */
-		uint32_t revision                    : 4;  /**< RO - Defines the architecture revision. For architectures defined
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
                                                                      by ARM this is the minor revision.
                                                                  For CTI, the revision defined by v8-A is 0x0.
                                                                  All other values are reserved. */
-		uint32_t archid                      : 16; /**< RO - Defines this part to be a v8-A debug component. For
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
                                                                  For CTI:
                                                                   Bits [15:12] are the architecture version, 0x1.
                                                                   Bits [11:0] are the architecture part number, 0xA14.
                                                                  This corresponds to CTI architecture version CTIv2. */
-#else
-		uint32_t archid                      : 16;
-		uint32_t revision                    : 4;
-		uint32_t present                     : 1;
-		uint32_t architect                   : 11;
-#endif
-	} s;
-	/* struct bdk_ctix_ctidevarch_s       cn88xx; */
-	/* struct bdk_ctix_ctidevarch_s       cn88xxp1; */
+#else /* Word 0 - Little Endian */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
+                                                                     architectures defined by ARM this is further subdivided.
+                                                                 For CTI:
+                                                                  Bits [15:12] are the architecture version, 0x1.
+                                                                  Bits [11:0] are the architecture part number, 0xA14.
+                                                                 This corresponds to CTI architecture version CTIv2. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
+                                                                     by ARM this is the minor revision.
+                                                                 For CTI, the revision defined by v8-A is 0x0.
+                                                                 All other values are reserved. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
+                                                                 This field is 1 in v8-A. */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is ARM Limited.
+
+                                                                 Bits [31:28] are the JEP 106 continuation code, 0x4.
+
+                                                                 Bits [27:21] are the JEP 106 ID code, 0x3B. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctidevarch_s cn; */
 } bdk_ctix_ctidevarch_t;
 
-static inline uint64_t BDK_CTIX_CTIDEVARCH(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIDEVARCH(unsigned long param1)
+static inline uint64_t BDK_CTIX_CTIDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIDEVARCH(unsigned long a)
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010FBCull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIDEVARCH", 1, param1, 0, 0, 0); /* No return */
+    return 0x87a008010fbcll + 0x80000ll * ((a) & 0x3f);
 }
-#define typedef_BDK_CTIX_CTIDEVARCH(...) bdk_ctix_ctidevarch_t
-#define bustype_BDK_CTIX_CTIDEVARCH(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIDEVARCH(p1) (p1)
-#define arguments_BDK_CTIX_CTIDEVARCH(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIDEVARCH(...) "CTIX_CTIDEVARCH"
 
+#define typedef_BDK_CTIX_CTIDEVARCH(a) bdk_ctix_ctidevarch_t
+#define bustype_BDK_CTIX_CTIDEVARCH(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIDEVARCH(a) "CTIX_CTIDEVARCH"
+#define busnum_BDK_CTIX_CTIDEVARCH(a) (a)
+#define arguments_BDK_CTIX_CTIDEVARCH(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctidevid
+ * Register (DAB32b) cti#_ctidevtype
  *
- * Describes the component to the debugger.
- *
- */
-typedef union bdk_ctix_ctidevid {
-	uint32_t u;
-	struct bdk_ctix_ctidevid_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_26_31              : 6;
-		uint32_t inout_gate                  : 2;  /**< RO - Input/output options. Indicates presence of the input gate. If
-                                                                     the CTM is not implemented, this field is RAZ.
-                                                                 All other values are reserved.
-                                                                 0x0 = CTIGATE does not mask propagation of input events from
-                                                                     external channels.
-                                                                 0x1 = CTIGATE masks propagation of input events from external
-                                                                     channels. */
-		uint32_t reserved_22_23              : 2;
-		uint32_t numchan                     : 6;  /**< RO - Number of ECT channels implemented. Implementation defined.
-                                                                 For v8-A, valid values are:
-                                                                 0x3 = 3 channels (0..2) implemented.
-                                                                 0x4 = 4 channels (0..3) implemented.
-                                                                 0x5 = 5 channels (0..4) implemented.
-                                                                 0x6 = 6 channels (0..5) implemented.
-                                                                 and so on up to 0x20.
-                                                                 All other values are reserved. */
-		uint32_t reserved_14_15              : 2;
-		uint32_t numtrig                     : 6;  /**< RO - Number of triggers implemented. implementation defined. This
-                                                                     is one more than the index of the largest trigger, rather than
-                                                                     the actual number of triggers.
-                                                                 For v8-A, valid values are:
-                                                                 0x3 = Up to 3 triggers (0..2) implemented.
-                                                                 0x8 = Up to 8 triggers (0..7) implemented.
-                                                                 0x9 = Up to 9 triggers (0..8) implemented.
-                                                                 0xa = Up to 10 triggers (0..9) implemented.
-                                                                 and so on up to 0x20.
-
-                                                                 All other values are reserved. If the Trace Extension is implemented, this field
-                                                                 must be at least 0x8. There is no guarantee that any of the implemented
-                                                                 triggers, including the highest numbered, are connected to any components. */
-		uint32_t reserved_5_7                : 3;
-		uint32_t extmuxnum                   : 5;  /**< RO - Maximum number of external triggers available for multiplexing
-                                                                 into the CTI. This relates only to additional external
-                                                                 triggers outside those defined for v8-A. */
-#else
-		uint32_t extmuxnum                   : 5;
-		uint32_t reserved_5_7                : 3;
-		uint32_t numtrig                     : 6;
-		uint32_t reserved_14_15              : 2;
-		uint32_t numchan                     : 6;
-		uint32_t reserved_22_23              : 2;
-		uint32_t inout_gate                  : 2;
-		uint32_t reserved_26_31              : 6;
-#endif
-	} s;
-	/* struct bdk_ctix_ctidevid_s         cn88xx; */
-	/* struct bdk_ctix_ctidevid_s         cn88xxp1; */
-} bdk_ctix_ctidevid_t;
-
-static inline uint64_t BDK_CTIX_CTIDEVID(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIDEVID(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FC8ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIDEVID", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIDEVID(...) bdk_ctix_ctidevid_t
-#define bustype_BDK_CTIX_CTIDEVID(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIDEVID(p1) (p1)
-#define arguments_BDK_CTIX_CTIDEVID(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIDEVID(...) "CTIX_CTIDEVID"
-
-
-/**
- * DAB32b - cti#_ctidevid1
- *
- * Reserved for future information about the component to the debugger.
- *
- */
-typedef union bdk_ctix_ctidevid1 {
-	uint32_t u;
-	struct bdk_ctix_ctidevid1_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_0_31               : 32;
-#else
-		uint32_t reserved_0_31               : 32;
-#endif
-	} s;
-	/* struct bdk_ctix_ctidevid1_s        cn88xx; */
-	/* struct bdk_ctix_ctidevid1_s        cn88xxp1; */
-} bdk_ctix_ctidevid1_t;
-
-static inline uint64_t BDK_CTIX_CTIDEVID1(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIDEVID1(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FC4ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIDEVID1", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIDEVID1(...) bdk_ctix_ctidevid1_t
-#define bustype_BDK_CTIX_CTIDEVID1(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIDEVID1(p1) (p1)
-#define arguments_BDK_CTIX_CTIDEVID1(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIDEVID1(...) "CTIX_CTIDEVID1"
-
-
-/**
- * DAB32b - cti#_ctidevid2
- *
- * Reserved for future information about the CTI component to the
- * debugger.
- */
-typedef union bdk_ctix_ctidevid2 {
-	uint32_t u;
-	struct bdk_ctix_ctidevid2_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_0_31               : 32;
-#else
-		uint32_t reserved_0_31               : 32;
-#endif
-	} s;
-	/* struct bdk_ctix_ctidevid2_s        cn88xx; */
-	/* struct bdk_ctix_ctidevid2_s        cn88xxp1; */
-} bdk_ctix_ctidevid2_t;
-
-static inline uint64_t BDK_CTIX_CTIDEVID2(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIDEVID2(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FC0ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIDEVID2", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIDEVID2(...) bdk_ctix_ctidevid2_t
-#define bustype_BDK_CTIX_CTIDEVID2(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIDEVID2(p1) (p1)
-#define arguments_BDK_CTIX_CTIDEVID2(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIDEVID2(...) "CTIX_CTIDEVID2"
-
-
-/**
- * DAB32b - cti#_ctidevtype
- *
+ * CTI Device Type Register
  * Indicates to a debugger that this component is part of a processor's cross-trigger
  * interface.
  */
-typedef union bdk_ctix_ctidevtype {
-	uint32_t u;
-	struct bdk_ctix_ctidevtype_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t sub                         : 4;  /**< RO - Subtype. Must read as 0x1. */
-		uint32_t major                       : 4;  /**< RO - Major type. Must read as 0x4. */
-#else
-		uint32_t major                       : 4;
-		uint32_t sub                         : 4;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_ctidevtype_s       cn88xx; */
-	/* struct bdk_ctix_ctidevtype_s       cn88xxp1; */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctidevtype_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Must read as 0x1. */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Must read as 0x4. */
+#else /* Word 0 - Little Endian */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Must read as 0x4. */
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Must read as 0x1. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctidevtype_s cn; */
 } bdk_ctix_ctidevtype_t;
 
-static inline uint64_t BDK_CTIX_CTIDEVTYPE(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIDEVTYPE(unsigned long param1)
+static inline uint64_t BDK_CTIX_CTIDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIDEVTYPE(unsigned long a)
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010FCCull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIDEVTYPE", 1, param1, 0, 0, 0); /* No return */
+    return 0x87a008010fccll + 0x80000ll * ((a) & 0x3f);
 }
-#define typedef_BDK_CTIX_CTIDEVTYPE(...) bdk_ctix_ctidevtype_t
-#define bustype_BDK_CTIX_CTIDEVTYPE(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIDEVTYPE(p1) (p1)
-#define arguments_BDK_CTIX_CTIDEVTYPE(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIDEVTYPE(...) "CTIX_CTIDEVTYPE"
 
+#define typedef_BDK_CTIX_CTIDEVTYPE(a) bdk_ctix_ctidevtype_t
+#define bustype_BDK_CTIX_CTIDEVTYPE(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIDEVTYPE(a) "CTIX_CTIDEVTYPE"
+#define busnum_BDK_CTIX_CTIDEVTYPE(a) (a)
+#define arguments_BDK_CTIX_CTIDEVTYPE(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctigate
+ * Register (DAB32b) cti#_ctidevaff1
  *
- * Determines whether events on channels propagate through the
- * CTM to other ECT components, or from the CTM into the CTI.
+ * CTI Device Affinity Register 1
+ * Copy of the high half of the processor MPIDR_EL1 register that
+ *     allows a debugger to determine which processor in a
+ *     multiprocessor system the CTI component relates to.
  */
-typedef union bdk_ctix_ctigate {
-	uint32_t u;
-	struct bdk_ctix_ctigate_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t gate                        : 3;  /**< R/W - Channel \<x\> gate enable.
-                                                                 N is the number of ECT channels implemented as defined by
-                                                                     CTI()_CTIDEVID[NUMCHAN].
-                                                                 Bits [31:N] are RAZ/WI.
-
-                                                                 0 = Disable output and, if CTI()_CTIDEVID[INOUT] = 0x1.
-                                                                 1 = Enable output and, if CTI()_CTIDEVID[INOUT] = 0x1. */
-#else
-		uint32_t gate                        : 3;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_ctigate_s          cn88xx; */
-	/* struct bdk_ctix_ctigate_s          cn88xxp1; */
-} bdk_ctix_ctigate_t;
-
-static inline uint64_t BDK_CTIX_CTIGATE(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIGATE(unsigned long param1)
+typedef union
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010140ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIGATE", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIGATE(...) bdk_ctix_ctigate_t
-#define bustype_BDK_CTIX_CTIGATE(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIGATE(p1) (p1)
-#define arguments_BDK_CTIX_CTIGATE(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIGATE(...) "CTIX_CTIGATE"
+    uint32_t u;
+    struct bdk_ctix_ctidevaff1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 high half. Read-only copy of the high half of MPIDR_EL1, as seen from
+                                                                 the highest implemented exception level. */
+#else /* Word 0 - Little Endian */
+        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 high half. Read-only copy of the high half of MPIDR_EL1, as seen from
+                                                                 the highest implemented exception level. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctidevaff1_s cn; */
+} bdk_ctix_ctidevaff1_t;
 
+static inline uint64_t BDK_CTIX_CTIDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIDEVAFF1(unsigned long a)
+{
+    return 0x87a008010facll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIDEVAFF1(a) bdk_ctix_ctidevaff1_t
+#define bustype_BDK_CTIX_CTIDEVAFF1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIDEVAFF1(a) "CTIX_CTIDEVAFF1"
+#define busnum_BDK_CTIX_CTIDEVAFF1(a) (a)
+#define arguments_BDK_CTIX_CTIDEVAFF1(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctiinen#
+ * Register (DAB32b) cti#_ctidevaff0
  *
- * Enables the signaling of an event on output channels when
- * input trigger event n is received by the CTI.
+ * CTI Device Affinity Register 0
+ * Copy of the low half of the processor MPIDR_EL1 register that
+ *     allows a debugger to determine which processor in a
+ *     multiprocessor system the CTI component relates to.
  */
-typedef union bdk_ctix_ctiinenx {
-	uint32_t u;
-	struct bdk_ctix_ctiinenx_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t inen                        : 3;  /**< R/W - Input trigger \<n\> to output channel \<x\> enable.
-                                                                 N is the number of ECT channels implemented as defined by
-                                                                     CTI()_CTIDEVID[NUMCHAN].
-                                                                 Bits [31:N] are RAZ/WI.
-
-                                                                 0 = Input trigger \<n\> will not generate an event on output channel
-                                                                     \<x\>.
-                                                                 1 = Input trigger \<n\> will generate an event on output channel
-                                                                     \<x\>.
-
-                                                                 In CNXXXX CTIINEN(3..31) are ignored as there are only 3 channels. */
-#else
-		uint32_t inen                        : 3;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_ctiinenx_s         cn88xx; */
-	/* struct bdk_ctix_ctiinenx_s         cn88xxp1; */
-} bdk_ctix_ctiinenx_t;
-
-static inline uint64_t BDK_CTIX_CTIINENX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIINENX(unsigned long param1, unsigned long param2)
+typedef union
 {
-	if (((param1 <= 47)) && ((param2 <= 2)))
-		return 0x000087A008010020ull + (param1 & 63) * 0x80000ull + (param2 & 3) * 0x4ull;
-	csr_fatal("BDK_CTIX_CTIINENX", 2, param1, param2, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIINENX(...) bdk_ctix_ctiinenx_t
-#define bustype_BDK_CTIX_CTIINENX(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIINENX(p1,p2) (p1)
-#define arguments_BDK_CTIX_CTIINENX(p1,p2) (p1),(p2),-1,-1
-#define basename_BDK_CTIX_CTIINENX(...) "CTIX_CTIINENX"
+    uint32_t u;
+    struct bdk_ctix_ctidevaff0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 low half. Read-only copy of the low half of MPIDR_EL1, as seen from
+                                                                 the highest implemented exception level. */
+#else /* Word 0 - Little Endian */
+        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 low half. Read-only copy of the low half of MPIDR_EL1, as seen from
+                                                                 the highest implemented exception level. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctidevaff0_s cn; */
+} bdk_ctix_ctidevaff0_t;
 
+static inline uint64_t BDK_CTIX_CTIDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIDEVAFF0(unsigned long a)
+{
+    return 0x87a008010fa8ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIDEVAFF0(a) bdk_ctix_ctidevaff0_t
+#define bustype_BDK_CTIX_CTIDEVAFF0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIDEVAFF0(a) "CTIX_CTIDEVAFF0"
+#define busnum_BDK_CTIX_CTIDEVAFF0(a) (a)
+#define arguments_BDK_CTIX_CTIDEVAFF0(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctiintack
+ * Register (DAB32b) cti#_claimclr_el1
  *
- * Creates soft acknowledges for output triggers.
- *
+ * CTI Claim Tag Clear Register
+ * Used by software to read the values of the CLAIM bits, and to
+ *      clear these bits to 0.
  */
-typedef union bdk_ctix_ctiintack {
-	uint32_t u;
-	struct bdk_ctix_ctiintack_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t ack                         : 3;  /**< RO - Acknowledge for output trigger \<n\>.
-                                                                 N is the number of CTI triggers implemented as defined by
-                                                                     CTI()_CTIDEVID[NUMTRIG]. Bits [31:N] are RAZ/WI.
-
-                                                                 If any of the following is true, writes to ACK\<n\> are ignored:
-                                                                 * n \>= CTI()_CTIDEVID[NUMTRIG], the number of implemented triggers.
-                                                                 * Output trigger n is not active
-                                                                 * The channel mapping function output, as controlled by
-                                                                     CTIOUTEN\<n\>, is still active.
-
-                                                                 Otherwise, if any of the following are true, it is
-                                                                     implementation defined whether writes to ACK\<n\> are ignored:
-                                                                 * Output trigger n is not implemented.
-                                                                 * Output trigger n is not connected.
-                                                                 * Output trigger n is self-acknowledging and does not require
-                                                                     software acknowledge.
-
-                                                                 Otherwise, the behavior on writes to ACK\<n\> is as follows:
-                                                                 0 = No effect.
-                                                                 1 = Deactivate the trigger. */
-#else
-		uint32_t ack                         : 3;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_ctiintack_s        cn88xx; */
-	/* struct bdk_ctix_ctiintack_s        cn88xxp1; */
-} bdk_ctix_ctiintack_t;
-
-static inline uint64_t BDK_CTIX_CTIINTACK(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIINTACK(unsigned long param1)
+typedef union
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010010ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIINTACK", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIINTACK(...) bdk_ctix_ctiintack_t
-#define bustype_BDK_CTIX_CTIINTACK(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIINTACK(p1) (p1)
-#define arguments_BDK_CTIX_CTIINTACK(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIINTACK(...) "CTIX_CTIINTACK"
+    uint32_t u;
+    struct bdk_ctix_claimclr_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t claim                 : 8;  /**< [  7:  0](R/W) Claim clear bits. Reading this field returns the current value
+                                                                     of the CLAIM bits.
+                                                                 Writing a 1 to one of these bits clears the corresponding
+                                                                     CLAIM bit to 0. This is an indirect write to the CLAIM bits.
+                                                                 A single write operation can clear multiple bits to 0. Writing
+                                                                     0 to one of these bits has no effect. */
+#else /* Word 0 - Little Endian */
+        uint32_t claim                 : 8;  /**< [  7:  0](R/W) Claim clear bits. Reading this field returns the current value
+                                                                     of the CLAIM bits.
+                                                                 Writing a 1 to one of these bits clears the corresponding
+                                                                     CLAIM bit to 0. This is an indirect write to the CLAIM bits.
+                                                                 A single write operation can clear multiple bits to 0. Writing
+                                                                     0 to one of these bits has no effect. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_claimclr_el1_s cn; */
+} bdk_ctix_claimclr_el1_t;
 
+static inline uint64_t BDK_CTIX_CLAIMCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CLAIMCLR_EL1(unsigned long a)
+{
+    return 0x87a008010fa4ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CLAIMCLR_EL1(a) bdk_ctix_claimclr_el1_t
+#define bustype_BDK_CTIX_CLAIMCLR_EL1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CLAIMCLR_EL1(a) "CTIX_CLAIMCLR_EL1"
+#define busnum_BDK_CTIX_CLAIMCLR_EL1(a) (a)
+#define arguments_BDK_CTIX_CLAIMCLR_EL1(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctiitctrl
+ * Register (DAB32b) cti#_ctipidr2
  *
+ * CTI Peripheral Identification Register 2
+ * Provides information to identify a component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctipidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_1                 : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctipidr2_s cn; */
+} bdk_ctix_ctipidr2_t;
+
+static inline uint64_t BDK_CTIX_CTIPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIPIDR2(unsigned long a)
+{
+    return 0x87a008010fe8ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIPIDR2(a) bdk_ctix_ctipidr2_t
+#define bustype_BDK_CTIX_CTIPIDR2(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIPIDR2(a) "CTIX_CTIPIDR2"
+#define busnum_BDK_CTIX_CTIPIDR2(a) (a)
+#define arguments_BDK_CTIX_CTIPIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctipidr3
+ *
+ * CTI Peripheral Identification Register 3
+ * Provides information to identify a component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctipidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. 0x1 = Overall product information should be consulted for
+                                                                 product, major and minor pass numbers. */
+#else /* Word 0 - Little Endian */
+        uint32_t cmod                  : 4;  /**< [  3:  0](RO) Customer modified. 0x1 = Overall product information should be consulted for
+                                                                 product, major and minor pass numbers. */
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctipidr3_s cn; */
+} bdk_ctix_ctipidr3_t;
+
+static inline uint64_t BDK_CTIX_CTIPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIPIDR3(unsigned long a)
+{
+    return 0x87a008010fecll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIPIDR3(a) bdk_ctix_ctipidr3_t
+#define bustype_BDK_CTIX_CTIPIDR3(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIPIDR3(a) "CTIX_CTIPIDR3"
+#define busnum_BDK_CTIX_CTIPIDR3(a) (a)
+#define arguments_BDK_CTIX_CTIPIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctipidr0
+ *
+ * CTI Peripheral Identification Register 0
+ * Provides information to identify a component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctipidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::CTI. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::CTI. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctipidr0_s cn; */
+} bdk_ctix_ctipidr0_t;
+
+static inline uint64_t BDK_CTIX_CTIPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIPIDR0(unsigned long a)
+{
+    return 0x87a008010fe0ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIPIDR0(a) bdk_ctix_ctipidr0_t
+#define bustype_BDK_CTIX_CTIPIDR0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIPIDR0(a) "CTIX_CTIPIDR0"
+#define busnum_BDK_CTIX_CTIPIDR0(a) (a)
+#define arguments_BDK_CTIX_CTIPIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctipidr1
+ *
+ * CTI Peripheral Identification Register 1
+ * Provides information to identify a component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctipidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code <3:0>. Cavium code is 0x4C. */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code <3:0>. Cavium code is 0x4C. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctipidr1_s cn; */
+} bdk_ctix_ctipidr1_t;
+
+static inline uint64_t BDK_CTIX_CTIPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIPIDR1(unsigned long a)
+{
+    return 0x87a008010fe4ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIPIDR1(a) bdk_ctix_ctipidr1_t
+#define bustype_BDK_CTIX_CTIPIDR1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIPIDR1(a) "CTIX_CTIPIDR1"
+#define busnum_BDK_CTIX_CTIPIDR1(a) (a)
+#define arguments_BDK_CTIX_CTIPIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctipidr6
+ *
+ * CTI Peripheral Identification Register 6
+ * Provides information to identify an external debug component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctipidr6_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctipidr6_s cn; */
+} bdk_ctix_ctipidr6_t;
+
+static inline uint64_t BDK_CTIX_CTIPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIPIDR6(unsigned long a)
+{
+    return 0x87a008010fd8ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIPIDR6(a) bdk_ctix_ctipidr6_t
+#define bustype_BDK_CTIX_CTIPIDR6(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIPIDR6(a) "CTIX_CTIPIDR6"
+#define busnum_BDK_CTIX_CTIPIDR6(a) (a)
+#define arguments_BDK_CTIX_CTIPIDR6(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctipidr7
+ *
+ * CTI Peripheral Identification Register 7
+ * Provides information to identify an external debug component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctipidr7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctipidr7_s cn; */
+} bdk_ctix_ctipidr7_t;
+
+static inline uint64_t BDK_CTIX_CTIPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIPIDR7(unsigned long a)
+{
+    return 0x87a008010fdcll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIPIDR7(a) bdk_ctix_ctipidr7_t
+#define bustype_BDK_CTIX_CTIPIDR7(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIPIDR7(a) "CTIX_CTIPIDR7"
+#define busnum_BDK_CTIX_CTIPIDR7(a) (a)
+#define arguments_BDK_CTIX_CTIPIDR7(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctipidr4
+ *
+ * CTI Peripheral Identification Register 4
+ * Provides information to identify a component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctipidr4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. RAZ. Log<sub>2</sub> of the number of 4KB pages from the
+                                                                 start of the component to the end of the component ID registers. */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+#else /* Word 0 - Little Endian */
+        uint32_t des_2                 : 4;  /**< [  3:  0](RO) JEP106 continuation code, least significant nibble. Indicates Cavium. */
+        uint32_t size                  : 4;  /**< [  7:  4](RO) Size of the component. RAZ. Log<sub>2</sub> of the number of 4KB pages from the
+                                                                 start of the component to the end of the component ID registers. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctipidr4_s cn; */
+} bdk_ctix_ctipidr4_t;
+
+static inline uint64_t BDK_CTIX_CTIPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIPIDR4(unsigned long a)
+{
+    return 0x87a008010fd0ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIPIDR4(a) bdk_ctix_ctipidr4_t
+#define bustype_BDK_CTIX_CTIPIDR4(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIPIDR4(a) "CTIX_CTIPIDR4"
+#define busnum_BDK_CTIX_CTIPIDR4(a) (a)
+#define arguments_BDK_CTIX_CTIPIDR4(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctipidr5
+ *
+ * CTI Peripheral Identification Register 5
+ * Provides information to identify an external debug component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctipidr5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctipidr5_s cn; */
+} bdk_ctix_ctipidr5_t;
+
+static inline uint64_t BDK_CTIX_CTIPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIPIDR5(unsigned long a)
+{
+    return 0x87a008010fd4ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIPIDR5(a) bdk_ctix_ctipidr5_t
+#define bustype_BDK_CTIX_CTIPIDR5(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIPIDR5(a) "CTIX_CTIPIDR5"
+#define busnum_BDK_CTIX_CTIPIDR5(a) (a)
+#define arguments_BDK_CTIX_CTIPIDR5(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctiitctrl
+ *
+ * CTI Integration mode Control Register
  * Enables the CTI to switch from its default mode into
- * integration mode, where test software can control directly the
- * inputs and outputs of the processor, for integration testing
- * or topology detection.
+ *     integration mode, where test software can control directly the
+ *     inputs and outputs of the processor, for integration testing
+ *     or topology detection.
  */
-typedef union bdk_ctix_ctiitctrl {
-	uint32_t u;
-	struct bdk_ctix_ctiitctrl_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_1_31               : 31;
-		uint32_t ime                         : 1;  /**< RO - Integration mode enable.
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctiitctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t ime                   : 1;  /**< [  0:  0](RO) Integration mode enable.
                                                                  0 = Normal operation.
                                                                  1 = Integration mode enabled. When IME == 1, the device reverts to
                                                                      an integration mode to enable integration testing or topology
                                                                      detection. The integration mode behavior is implementation
                                                                      defined. */
-#else
-		uint32_t ime                         : 1;
-		uint32_t reserved_1_31               : 31;
-#endif
-	} s;
-	/* struct bdk_ctix_ctiitctrl_s        cn88xx; */
-	/* struct bdk_ctix_ctiitctrl_s        cn88xxp1; */
+#else /* Word 0 - Little Endian */
+        uint32_t ime                   : 1;  /**< [  0:  0](RO) Integration mode enable.
+                                                                 0 = Normal operation.
+                                                                 1 = Integration mode enabled. When IME == 1, the device reverts to
+                                                                     an integration mode to enable integration testing or topology
+                                                                     detection. The integration mode behavior is implementation
+                                                                     defined. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctiitctrl_s cn; */
 } bdk_ctix_ctiitctrl_t;
 
-static inline uint64_t BDK_CTIX_CTIITCTRL(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIITCTRL(unsigned long param1)
+static inline uint64_t BDK_CTIX_CTIITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIITCTRL(unsigned long a)
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010F00ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIITCTRL", 1, param1, 0, 0, 0); /* No return */
+    return 0x87a008010f00ll + 0x80000ll * ((a) & 0x3f);
 }
-#define typedef_BDK_CTIX_CTIITCTRL(...) bdk_ctix_ctiitctrl_t
-#define bustype_BDK_CTIX_CTIITCTRL(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIITCTRL(p1) (p1)
-#define arguments_BDK_CTIX_CTIITCTRL(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIITCTRL(...) "CTIX_CTIITCTRL"
 
+#define typedef_BDK_CTIX_CTIITCTRL(a) bdk_ctix_ctiitctrl_t
+#define bustype_BDK_CTIX_CTIITCTRL(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIITCTRL(a) "CTIX_CTIITCTRL"
+#define busnum_BDK_CTIX_CTIITCTRL(a) (a)
+#define arguments_BDK_CTIX_CTIITCTRL(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctilar
+ * Register (DAB32b) cti#_ctiinen#
  *
- * Allows or disallows access to the CTI registers through a
- * memory-mapped interface.
+ * CTI Input Trigger to Output Channel Enable Registers
+ * Enables the signaling of an event on output channels when
+ *     input trigger event n is received by the CTI.
  */
-typedef union bdk_ctix_ctilar {
-	uint32_t u;
-	struct bdk_ctix_ctilar_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t key                         : 32; /**< WO - Lock access control. Writing the key value 0xC5ACCE55 unlocks the lock.
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctiinenx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t inen                  : 3;  /**< [  2:  0](R/W) Input trigger <n> to output channel <x> enable.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 0 = Input trigger <n> will not generate an event on output channel
+                                                                     <x>.
+                                                                 1 = Input trigger <n> will generate an event on output channel
+                                                                     <x>.
+
+                                                                 In CNXXXX CTIINEN(3..31) are ignored as there are only 3 channels. */
+#else /* Word 0 - Little Endian */
+        uint32_t inen                  : 3;  /**< [  2:  0](R/W) Input trigger <n> to output channel <x> enable.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 0 = Input trigger <n> will not generate an event on output channel
+                                                                     <x>.
+                                                                 1 = Input trigger <n> will generate an event on output channel
+                                                                     <x>.
+
+                                                                 In CNXXXX CTIINEN(3..31) are ignored as there are only 3 channels. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctiinenx_s cn; */
+} bdk_ctix_ctiinenx_t;
+
+static inline uint64_t BDK_CTIX_CTIINENX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIINENX(unsigned long a, unsigned long b)
+{
+    return 0x87a008010020ll + 0x80000ll * ((a) & 0x3f) + 4ll * ((b) & 0x3);
+}
+
+#define typedef_BDK_CTIX_CTIINENX(a,b) bdk_ctix_ctiinenx_t
+#define bustype_BDK_CTIX_CTIINENX(a,b) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIINENX(a,b) "CTIX_CTIINENX"
+#define busnum_BDK_CTIX_CTIINENX(a,b) (a)
+#define arguments_BDK_CTIX_CTIINENX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctiapppulse
+ *
+ * CTI Application Pulse Register
+ * Causes event pulses to be generated on ECT channels.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctiapppulse_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t apppulse              : 3;  /**< [  2:  0](WO) Generate event pulse on ECT channel <x>.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 Writing to this bit has the following effect:
+                                                                 0 = No effect.
+                                                                 1 = Channel <x> event pulse generated for one clock period. */
+#else /* Word 0 - Little Endian */
+        uint32_t apppulse              : 3;  /**< [  2:  0](WO) Generate event pulse on ECT channel <x>.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 Writing to this bit has the following effect:
+                                                                 0 = No effect.
+                                                                 1 = Channel <x> event pulse generated for one clock period. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctiapppulse_s cn; */
+} bdk_ctix_ctiapppulse_t;
+
+static inline uint64_t BDK_CTIX_CTIAPPPULSE(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIAPPPULSE(unsigned long a)
+{
+    return 0x87a00801001cll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIAPPPULSE(a) bdk_ctix_ctiapppulse_t
+#define bustype_BDK_CTIX_CTIAPPPULSE(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIAPPPULSE(a) "CTIX_CTIAPPPULSE"
+#define busnum_BDK_CTIX_CTIAPPPULSE(a) (a)
+#define arguments_BDK_CTIX_CTIAPPPULSE(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctichinstatus
+ *
+ * CTI Channel In Status Register
+ * Provides the raw status of the ECT channel inputs.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctichinstatus_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t chin                  : 3;  /**< [  2:  0](RO) Input channel <n> status.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ.
+
+                                                                 0 = Input channel <n> is inactive.
+                                                                 1 = Input channel <n> is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t chin                  : 3;  /**< [  2:  0](RO) Input channel <n> status.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ.
+
+                                                                 0 = Input channel <n> is inactive.
+                                                                 1 = Input channel <n> is active. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctichinstatus_s cn; */
+} bdk_ctix_ctichinstatus_t;
+
+static inline uint64_t BDK_CTIX_CTICHINSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTICHINSTATUS(unsigned long a)
+{
+    return 0x87a008010138ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTICHINSTATUS(a) bdk_ctix_ctichinstatus_t
+#define bustype_BDK_CTIX_CTICHINSTATUS(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTICHINSTATUS(a) "CTIX_CTICHINSTATUS"
+#define busnum_BDK_CTIX_CTICHINSTATUS(a) (a)
+#define arguments_BDK_CTIX_CTICHINSTATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctilar
+ *
+ * CTI Lock Access Register
+ * Allows or disallows access to the CTI registers through a
+ *     memory-mapped interface.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctilar_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock access control. Writing the key value 0xC5ACCE55 unlocks the lock.
                                                                  Writing any other value to this register locks the lock, disabling write
                                                                  accesses to this component's registers through a memory mapped interface. */
-#else
-		uint32_t key                         : 32;
-#endif
-	} s;
-	/* struct bdk_ctix_ctilar_s           cn88xx; */
-	/* struct bdk_ctix_ctilar_s           cn88xxp1; */
+#else /* Word 0 - Little Endian */
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock access control. Writing the key value 0xC5ACCE55 unlocks the lock.
+                                                                 Writing any other value to this register locks the lock, disabling write
+                                                                 accesses to this component's registers through a memory mapped interface. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctilar_s cn; */
 } bdk_ctix_ctilar_t;
 
-static inline uint64_t BDK_CTIX_CTILAR(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTILAR(unsigned long param1)
+static inline uint64_t BDK_CTIX_CTILAR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTILAR(unsigned long a)
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010FB0ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTILAR", 1, param1, 0, 0, 0); /* No return */
+    return 0x87a008010fb0ll + 0x80000ll * ((a) & 0x3f);
 }
-#define typedef_BDK_CTIX_CTILAR(...) bdk_ctix_ctilar_t
-#define bustype_BDK_CTIX_CTILAR(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTILAR(p1) (p1)
-#define arguments_BDK_CTIX_CTILAR(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTILAR(...) "CTIX_CTILAR"
 
+#define typedef_BDK_CTIX_CTILAR(a) bdk_ctix_ctilar_t
+#define bustype_BDK_CTIX_CTILAR(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTILAR(a) "CTIX_CTILAR"
+#define busnum_BDK_CTIX_CTILAR(a) (a)
+#define arguments_BDK_CTIX_CTILAR(a) (a),-1,-1,-1
 
 /**
- * DAB32b - cti#_ctilsr
+ * Register (DAB32b) cti#_ctitrigoutstatus
  *
- * Indicates the current status of the software lock for CTI
- * registers.
+ * CTI Trigger Out Status Register
+ * Provides the status of the trigger outputs.
  */
-typedef union bdk_ctix_ctilsr {
-	uint32_t u;
-	struct bdk_ctix_ctilsr_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t ntt                         : 1;  /**< RO - Not thirty-two bit access required. RAZ. */
-		uint32_t slk                         : 1;  /**< RO/H - Software lock status for this component. For an access to LSR
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctitrigoutstatus_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t trout                 : 3;  /**< [  2:  0](RO) Trigger output <n> status.
+                                                                 N is the number of CTI triggers implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMTRIG].
+                                                                 Bits [31:N] are RAZ.
+
+                                                                 If output trigger <n> is implemented and connected, possible
+                                                                     values of this bit are:
+                                                                 Otherwise it is implementation defined whether TROUT<n> is RAZ
+                                                                     or behaves as above.
+                                                                 0 = Output trigger n is inactive.
+                                                                 1 = Output trigger n is active. */
+#else /* Word 0 - Little Endian */
+        uint32_t trout                 : 3;  /**< [  2:  0](RO) Trigger output <n> status.
+                                                                 N is the number of CTI triggers implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMTRIG].
+                                                                 Bits [31:N] are RAZ.
+
+                                                                 If output trigger <n> is implemented and connected, possible
+                                                                     values of this bit are:
+                                                                 Otherwise it is implementation defined whether TROUT<n> is RAZ
+                                                                     or behaves as above.
+                                                                 0 = Output trigger n is inactive.
+                                                                 1 = Output trigger n is active. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctitrigoutstatus_s cn; */
+} bdk_ctix_ctitrigoutstatus_t;
+
+static inline uint64_t BDK_CTIX_CTITRIGOUTSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTITRIGOUTSTATUS(unsigned long a)
+{
+    return 0x87a008010134ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTITRIGOUTSTATUS(a) bdk_ctix_ctitrigoutstatus_t
+#define bustype_BDK_CTIX_CTITRIGOUTSTATUS(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTITRIGOUTSTATUS(a) "CTIX_CTITRIGOUTSTATUS"
+#define busnum_BDK_CTIX_CTITRIGOUTSTATUS(a) (a)
+#define arguments_BDK_CTIX_CTITRIGOUTSTATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctiintack
+ *
+ * CTI Output Trigger Acknowledge Register
+ * Creates soft acknowledges for output triggers.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctiintack_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t ack                   : 3;  /**< [  2:  0](RO) Acknowledge for output trigger <n>.
+                                                                 N is the number of CTI triggers implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMTRIG]. Bits [31:N] are RAZ/WI.
+
+                                                                 If any of the following is true, writes to ACK<n> are ignored:
+                                                                 * n >= CTI()_CTIDEVID[NUMTRIG], the number of implemented triggers.
+                                                                 * Output trigger n is not active
+                                                                 * The channel mapping function output, as controlled by
+                                                                     CTIOUTEN<n>, is still active.
+
+                                                                 Otherwise, if any of the following are true, it is
+                                                                     implementation defined whether writes to ACK<n> are ignored:
+                                                                 * Output trigger n is not implemented.
+                                                                 * Output trigger n is not connected.
+                                                                 * Output trigger n is self-acknowledging and does not require
+                                                                     software acknowledge.
+
+                                                                 Otherwise, the behavior on writes to ACK<n> is as follows:
+                                                                 0 = No effect.
+                                                                 1 = Deactivate the trigger. */
+#else /* Word 0 - Little Endian */
+        uint32_t ack                   : 3;  /**< [  2:  0](RO) Acknowledge for output trigger <n>.
+                                                                 N is the number of CTI triggers implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMTRIG]. Bits [31:N] are RAZ/WI.
+
+                                                                 If any of the following is true, writes to ACK<n> are ignored:
+                                                                 * n >= CTI()_CTIDEVID[NUMTRIG], the number of implemented triggers.
+                                                                 * Output trigger n is not active
+                                                                 * The channel mapping function output, as controlled by
+                                                                     CTIOUTEN<n>, is still active.
+
+                                                                 Otherwise, if any of the following are true, it is
+                                                                     implementation defined whether writes to ACK<n> are ignored:
+                                                                 * Output trigger n is not implemented.
+                                                                 * Output trigger n is not connected.
+                                                                 * Output trigger n is self-acknowledging and does not require
+                                                                     software acknowledge.
+
+                                                                 Otherwise, the behavior on writes to ACK<n> is as follows:
+                                                                 0 = No effect.
+                                                                 1 = Deactivate the trigger. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctiintack_s cn; */
+} bdk_ctix_ctiintack_t;
+
+static inline uint64_t BDK_CTIX_CTIINTACK(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTIINTACK(unsigned long a)
+{
+    return 0x87a008010010ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CTIX_CTIINTACK(a) bdk_ctix_ctiintack_t
+#define bustype_BDK_CTIX_CTIINTACK(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTIINTACK(a) "CTIX_CTIINTACK"
+#define busnum_BDK_CTIX_CTIINTACK(a) (a)
+#define arguments_BDK_CTIX_CTIINTACK(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) cti#_ctilsr
+ *
+ * CTI Lock Status Register
+ * Indicates the current status of the software lock for CTI
+ *     registers.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ctix_ctilsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t slk                   : 1;  /**< [  1:  1](RO/H) Software lock status for this component. For an access to LSR
                                                                      that is not a memory-mapped access, or when the software lock
                                                                      is not implemented, this field is RAZ.
                                                                  For memory-mapped accesses when the software lock is
@@ -1160,452 +1725,45 @@ typedef union bdk_ctix_ctilsr {
                                                                      registers.
                                                                  1 = Lock set. Writes to this component's registers are ignored,
                                                                      and reads have no side effects. */
-		uint32_t sli                         : 1;  /**< RO - Software lock implemented. For an access to LSR that is not a
+        uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented. For an access to LSR that is not a
                                                                      memory-mapped access, this field is RAZ. For memory-mapped
                                                                      accesses, the value of this field is implementation defined.
                                                                      Permitted values are:
                                                                  0 = Software lock not implemented or not memory-mapped access.
                                                                  1 = Software lock implemented and memory-mapped access. */
-#else
-		uint32_t sli                         : 1;
-		uint32_t slk                         : 1;
-		uint32_t ntt                         : 1;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_ctilsr_s           cn88xx; */
-	/* struct bdk_ctix_ctilsr_s           cn88xxp1; */
+#else /* Word 0 - Little Endian */
+        uint32_t sli                   : 1;  /**< [  0:  0](RO) Software lock implemented. For an access to LSR that is not a
+                                                                     memory-mapped access, this field is RAZ. For memory-mapped
+                                                                     accesses, the value of this field is implementation defined.
+                                                                     Permitted values are:
+                                                                 0 = Software lock not implemented or not memory-mapped access.
+                                                                 1 = Software lock implemented and memory-mapped access. */
+        uint32_t slk                   : 1;  /**< [  1:  1](RO/H) Software lock status for this component. For an access to LSR
+                                                                     that is not a memory-mapped access, or when the software lock
+                                                                     is not implemented, this field is RAZ.
+                                                                 For memory-mapped accesses when the software lock is
+                                                                     implemented, possible values of this field are:
+                                                                 0 = Lock clear. Writes are permitted to this component's
+                                                                     registers.
+                                                                 1 = Lock set. Writes to this component's registers are ignored,
+                                                                     and reads have no side effects. */
+        uint32_t ntt                   : 1;  /**< [  2:  2](RO) Not thirty-two bit access required. RAZ. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ctix_ctilsr_s cn; */
 } bdk_ctix_ctilsr_t;
 
-static inline uint64_t BDK_CTIX_CTILSR(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTILSR(unsigned long param1)
+static inline uint64_t BDK_CTIX_CTILSR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CTIX_CTILSR(unsigned long a)
 {
-	if (((param1 <= 47)))
-		return 0x000087A008010FB4ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTILSR", 1, param1, 0, 0, 0); /* No return */
+    return 0x87a008010fb4ll + 0x80000ll * ((a) & 0x3f);
 }
-#define typedef_BDK_CTIX_CTILSR(...) bdk_ctix_ctilsr_t
-#define bustype_BDK_CTIX_CTILSR(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTILSR(p1) (p1)
-#define arguments_BDK_CTIX_CTILSR(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTILSR(...) "CTIX_CTILSR"
 
+#define typedef_BDK_CTIX_CTILSR(a) bdk_ctix_ctilsr_t
+#define bustype_BDK_CTIX_CTILSR(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_CTIX_CTILSR(a) "CTIX_CTILSR"
+#define busnum_BDK_CTIX_CTILSR(a) (a)
+#define arguments_BDK_CTIX_CTILSR(a) (a),-1,-1,-1
 
-/**
- * DAB32b - cti#_ctiouten#
- *
- * Defines which input channels generate output trigger n.
- *
- */
-typedef union bdk_ctix_ctioutenx {
-	uint32_t u;
-	struct bdk_ctix_ctioutenx_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t outen                       : 3;  /**< R/W - Input channel \<x\> to output trigger \<n\> enable.
-                                                                 N is the number of ECT channels implemented as defined by
-                                                                     CTI()_CTIDEVID[NUMCHAN].
-                                                                 Bits [31:N] are RAZ/WI.
-
-                                                                 0 = An event on input channel \<x\> will not cause output trigger
-                                                                     \<n\> to be asserted.
-                                                                 1 = An event on input channel \<x\> will cause output trigger \<n\> to
-                                                                     be asserted.
-
-                                                                 In CNXXXX CTIOUTEN(3..31) are ignored as there are only 3 channels. */
-#else
-		uint32_t outen                       : 3;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_ctioutenx_s        cn88xx; */
-	/* struct bdk_ctix_ctioutenx_s        cn88xxp1; */
-} bdk_ctix_ctioutenx_t;
-
-static inline uint64_t BDK_CTIX_CTIOUTENX(unsigned long param1, unsigned long param2) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIOUTENX(unsigned long param1, unsigned long param2)
-{
-	if (((param1 <= 47)) && ((param2 <= 2)))
-		return 0x000087A0080100A0ull + (param1 & 63) * 0x80000ull + (param2 & 3) * 0x4ull;
-	csr_fatal("BDK_CTIX_CTIOUTENX", 2, param1, param2, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIOUTENX(...) bdk_ctix_ctioutenx_t
-#define bustype_BDK_CTIX_CTIOUTENX(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIOUTENX(p1,p2) (p1)
-#define arguments_BDK_CTIX_CTIOUTENX(p1,p2) (p1),(p2),-1,-1
-#define basename_BDK_CTIX_CTIOUTENX(...) "CTIX_CTIOUTENX"
-
-
-/**
- * DAB32b - cti#_ctipidr0
- *
- * Provides information to identify a component.
- *
- */
-typedef union bdk_ctix_ctipidr0 {
-	uint32_t u;
-	struct bdk_ctix_ctipidr0_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t part_0                      : 8;  /**< RO - Part number \<7:0\>.  Indicates PCC_PIDR_PARTNUM0_E::CTI. */
-#else
-		uint32_t part_0                      : 8;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_ctipidr0_s         cn88xx; */
-	/* struct bdk_ctix_ctipidr0_s         cn88xxp1; */
-} bdk_ctix_ctipidr0_t;
-
-static inline uint64_t BDK_CTIX_CTIPIDR0(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIPIDR0(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FE0ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIPIDR0", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIPIDR0(...) bdk_ctix_ctipidr0_t
-#define bustype_BDK_CTIX_CTIPIDR0(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIPIDR0(p1) (p1)
-#define arguments_BDK_CTIX_CTIPIDR0(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIPIDR0(...) "CTIX_CTIPIDR0"
-
-
-/**
- * DAB32b - cti#_ctipidr1
- *
- * Provides information to identify a component.
- *
- */
-typedef union bdk_ctix_ctipidr1 {
-	uint32_t u;
-	struct bdk_ctix_ctipidr1_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t des_0                       : 4;  /**< RO - JEP106 identification code \<3:0\>. Cavium code is 0x4C. */
-		uint32_t part_1                      : 4;  /**< RO - Part number \<11:8\>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-#else
-		uint32_t part_1                      : 4;
-		uint32_t des_0                       : 4;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_ctipidr1_s         cn88xx; */
-	/* struct bdk_ctix_ctipidr1_s         cn88xxp1; */
-} bdk_ctix_ctipidr1_t;
-
-static inline uint64_t BDK_CTIX_CTIPIDR1(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIPIDR1(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FE4ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIPIDR1", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIPIDR1(...) bdk_ctix_ctipidr1_t
-#define bustype_BDK_CTIX_CTIPIDR1(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIPIDR1(p1) (p1)
-#define arguments_BDK_CTIX_CTIPIDR1(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIPIDR1(...) "CTIX_CTIPIDR1"
-
-
-/**
- * DAB32b - cti#_ctipidr2
- *
- * Provides information to identify a component.
- *
- */
-typedef union bdk_ctix_ctipidr2 {
-	uint32_t u;
-	struct bdk_ctix_ctipidr2_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t revision                    : 4;  /**< RO - Architectural revision, as assigned by ARM. */
-		uint32_t jedec                       : 1;  /**< RO - JEDEC assigned. */
-		uint32_t des_1                       : 3;  /**< RO - JEP106 identification code \<6:4\>. Cavium code is 0x4C. */
-#else
-		uint32_t des_1                       : 3;
-		uint32_t jedec                       : 1;
-		uint32_t revision                    : 4;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_ctipidr2_s         cn88xx; */
-	/* struct bdk_ctix_ctipidr2_s         cn88xxp1; */
-} bdk_ctix_ctipidr2_t;
-
-static inline uint64_t BDK_CTIX_CTIPIDR2(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIPIDR2(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FE8ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIPIDR2", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIPIDR2(...) bdk_ctix_ctipidr2_t
-#define bustype_BDK_CTIX_CTIPIDR2(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIPIDR2(p1) (p1)
-#define arguments_BDK_CTIX_CTIPIDR2(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIPIDR2(...) "CTIX_CTIPIDR2"
-
-
-/**
- * DAB32b - cti#_ctipidr3
- *
- * Provides information to identify a component.
- *
- */
-typedef union bdk_ctix_ctipidr3 {
-	uint32_t u;
-	struct bdk_ctix_ctipidr3_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t revand                      : 4;  /**< RO - Manufacturer revision number. For CNXXXX always 0x0. */
-		uint32_t cmod                        : 4;  /**< RO - Customer modified. 0x1 = Overall product information should be consulted for
-                                                                 product, major and minor pass numbers. */
-#else
-		uint32_t cmod                        : 4;
-		uint32_t revand                      : 4;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_ctipidr3_s         cn88xx; */
-	/* struct bdk_ctix_ctipidr3_s         cn88xxp1; */
-} bdk_ctix_ctipidr3_t;
-
-static inline uint64_t BDK_CTIX_CTIPIDR3(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIPIDR3(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FECull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIPIDR3", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIPIDR3(...) bdk_ctix_ctipidr3_t
-#define bustype_BDK_CTIX_CTIPIDR3(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIPIDR3(p1) (p1)
-#define arguments_BDK_CTIX_CTIPIDR3(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIPIDR3(...) "CTIX_CTIPIDR3"
-
-
-/**
- * DAB32b - cti#_ctipidr4
- *
- * Provides information to identify a component.
- *
- */
-typedef union bdk_ctix_ctipidr4 {
-	uint32_t u;
-	struct bdk_ctix_ctipidr4_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_8_31               : 24;
-		uint32_t size                        : 4;  /**< RO - Size of the component. RAZ. Log\<sub\>2\</sub\> of the number of 4KB pages from the
-                                                                 start of the component to the end of the component ID registers. */
-		uint32_t des_2                       : 4;  /**< RO - JEP106 continuation code, least significant nibble. Indicates Cavium. */
-#else
-		uint32_t des_2                       : 4;
-		uint32_t size                        : 4;
-		uint32_t reserved_8_31               : 24;
-#endif
-	} s;
-	/* struct bdk_ctix_ctipidr4_s         cn88xx; */
-	/* struct bdk_ctix_ctipidr4_s         cn88xxp1; */
-} bdk_ctix_ctipidr4_t;
-
-static inline uint64_t BDK_CTIX_CTIPIDR4(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIPIDR4(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FD0ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIPIDR4", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIPIDR4(...) bdk_ctix_ctipidr4_t
-#define bustype_BDK_CTIX_CTIPIDR4(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIPIDR4(p1) (p1)
-#define arguments_BDK_CTIX_CTIPIDR4(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIPIDR4(...) "CTIX_CTIPIDR4"
-
-
-/**
- * DAB32b - cti#_ctipidr5
- *
- * Provides information to identify an external debug component.
- *
- */
-typedef union bdk_ctix_ctipidr5 {
-	uint32_t u;
-	struct bdk_ctix_ctipidr5_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_0_31               : 32;
-#else
-		uint32_t reserved_0_31               : 32;
-#endif
-	} s;
-	/* struct bdk_ctix_ctipidr5_s         cn88xx; */
-	/* struct bdk_ctix_ctipidr5_s         cn88xxp1; */
-} bdk_ctix_ctipidr5_t;
-
-static inline uint64_t BDK_CTIX_CTIPIDR5(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIPIDR5(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FD4ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIPIDR5", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIPIDR5(...) bdk_ctix_ctipidr5_t
-#define bustype_BDK_CTIX_CTIPIDR5(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIPIDR5(p1) (p1)
-#define arguments_BDK_CTIX_CTIPIDR5(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIPIDR5(...) "CTIX_CTIPIDR5"
-
-
-/**
- * DAB32b - cti#_ctipidr6
- *
- * Provides information to identify an external debug component.
- *
- */
-typedef union bdk_ctix_ctipidr6 {
-	uint32_t u;
-	struct bdk_ctix_ctipidr6_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_0_31               : 32;
-#else
-		uint32_t reserved_0_31               : 32;
-#endif
-	} s;
-	/* struct bdk_ctix_ctipidr6_s         cn88xx; */
-	/* struct bdk_ctix_ctipidr6_s         cn88xxp1; */
-} bdk_ctix_ctipidr6_t;
-
-static inline uint64_t BDK_CTIX_CTIPIDR6(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIPIDR6(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FD8ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIPIDR6", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIPIDR6(...) bdk_ctix_ctipidr6_t
-#define bustype_BDK_CTIX_CTIPIDR6(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIPIDR6(p1) (p1)
-#define arguments_BDK_CTIX_CTIPIDR6(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIPIDR6(...) "CTIX_CTIPIDR6"
-
-
-/**
- * DAB32b - cti#_ctipidr7
- *
- * Provides information to identify an external debug component.
- *
- */
-typedef union bdk_ctix_ctipidr7 {
-	uint32_t u;
-	struct bdk_ctix_ctipidr7_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_0_31               : 32;
-#else
-		uint32_t reserved_0_31               : 32;
-#endif
-	} s;
-	/* struct bdk_ctix_ctipidr7_s         cn88xx; */
-	/* struct bdk_ctix_ctipidr7_s         cn88xxp1; */
-} bdk_ctix_ctipidr7_t;
-
-static inline uint64_t BDK_CTIX_CTIPIDR7(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTIPIDR7(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010FDCull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTIPIDR7", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTIPIDR7(...) bdk_ctix_ctipidr7_t
-#define bustype_BDK_CTIX_CTIPIDR7(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTIPIDR7(p1) (p1)
-#define arguments_BDK_CTIX_CTIPIDR7(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTIPIDR7(...) "CTIX_CTIPIDR7"
-
-
-/**
- * DAB32b - cti#_ctitriginstatus
- *
- * Provides the status of the trigger inputs.
- *
- */
-typedef union bdk_ctix_ctitriginstatus {
-	uint32_t u;
-	struct bdk_ctix_ctitriginstatus_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t trin                        : 3;  /**< RO - Trigger input \<n\> status.
-                                                                 N is the number of CTI triggers implemented as defined by
-                                                                     CTI()_CTIDEVID[NUMTRIG].
-                                                                 Bits [31:N] are RAZ.
-
-                                                                 Not implemented and not-connected input triggers are always inactive.
-                                                                 0 = Input trigger n is inactive.
-                                                                 1 = Input trigger n is active. */
-#else
-		uint32_t trin                        : 3;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_ctitriginstatus_s  cn88xx; */
-	/* struct bdk_ctix_ctitriginstatus_s  cn88xxp1; */
-} bdk_ctix_ctitriginstatus_t;
-
-static inline uint64_t BDK_CTIX_CTITRIGINSTATUS(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTITRIGINSTATUS(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010130ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTITRIGINSTATUS", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTITRIGINSTATUS(...) bdk_ctix_ctitriginstatus_t
-#define bustype_BDK_CTIX_CTITRIGINSTATUS(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTITRIGINSTATUS(p1) (p1)
-#define arguments_BDK_CTIX_CTITRIGINSTATUS(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTITRIGINSTATUS(...) "CTIX_CTITRIGINSTATUS"
-
-
-/**
- * DAB32b - cti#_ctitrigoutstatus
- *
- * Provides the status of the trigger outputs.
- *
- */
-typedef union bdk_ctix_ctitrigoutstatus {
-	uint32_t u;
-	struct bdk_ctix_ctitrigoutstatus_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint32_t reserved_3_31               : 29;
-		uint32_t trout                       : 3;  /**< RO - Trigger output \<n\> status.
-                                                                 N is the number of CTI triggers implemented as defined by
-                                                                     CTI()_CTIDEVID[NUMTRIG].
-                                                                 Bits [31:N] are RAZ.
-
-                                                                 If output trigger \<n\> is implemented and connected, possible
-                                                                     values of this bit are:
-                                                                 Otherwise it is implementation defined whether TROUT\<n\> is RAZ
-                                                                     or behaves as above.
-                                                                 0 = Output trigger n is inactive.
-                                                                 1 = Output trigger n is active. */
-#else
-		uint32_t trout                       : 3;
-		uint32_t reserved_3_31               : 29;
-#endif
-	} s;
-	/* struct bdk_ctix_ctitrigoutstatus_s cn88xx; */
-	/* struct bdk_ctix_ctitrigoutstatus_s cn88xxp1; */
-} bdk_ctix_ctitrigoutstatus_t;
-
-static inline uint64_t BDK_CTIX_CTITRIGOUTSTATUS(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CTIX_CTITRIGOUTSTATUS(unsigned long param1)
-{
-	if (((param1 <= 47)))
-		return 0x000087A008010134ull + (param1 & 63) * 0x80000ull;
-	csr_fatal("BDK_CTIX_CTITRIGOUTSTATUS", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_CTIX_CTITRIGOUTSTATUS(...) bdk_ctix_ctitrigoutstatus_t
-#define bustype_BDK_CTIX_CTITRIGOUTSTATUS(...) BDK_CSR_TYPE_DAB32b
-#define busnum_BDK_CTIX_CTITRIGOUTSTATUS(p1) (p1)
-#define arguments_BDK_CTIX_CTITRIGOUTSTATUS(p1) (p1),-1,-1,-1
-#define basename_BDK_CTIX_CTITRIGOUTSTATUS(...) "CTIX_CTITRIGOUTSTATUS"
-
-#endif /* __BDK_CSRS_DAB_CTI__ */
+#endif /* __BDK_CSRS_DAB_CTI_H__ */

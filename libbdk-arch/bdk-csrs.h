@@ -42,19 +42,36 @@
  ***********************license end**************************************/
 
 
+/**
+ * @file
+ *
+ * Configuration and status register (CSR) address and type definitions for
+ * Cavium None.
+ *
+ * This file is auto generated. Do not edit.
+ *
+ */
+
+extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4) __attribute__ ((noreturn));
+
 /* Include all CSR files for easy access */
 #include "bdk-csrs-ap.h"
+#include "bdk-csrs-bch.h"
 #include "bdk-csrs-bgx.h"
+#include "bdk-csrs-cde.h"
 #include "bdk-csrs-cim.h"
+#include "bdk-csrs-cpt.h"
 #include "bdk-csrs-dab_cti.h"
 #include "bdk-csrs-dab_dbg.h"
 #include "bdk-csrs-dab_pmu.h"
 #include "bdk-csrs-dab_syscti.h"
 #include "bdk-csrs-dab_trc.h"
 #include "bdk-csrs-dap.h"
+#include "bdk-csrs-ddf.h"
 #include "bdk-csrs-dfa.h"
 #include "bdk-csrs-dtx.h"
 #include "bdk-csrs-ecam.h"
+#include "bdk-csrs-fpa.h"
 #include "bdk-csrs-fusf.h"
 #include "bdk-csrs-gic.h"
 #include "bdk-csrs-gpio.h"
@@ -66,6 +83,7 @@
 #include "bdk-csrs-l2c_cbc.h"
 #include "bdk-csrs-l2c_mci.h"
 #include "bdk-csrs-l2c_tad.h"
+#include "bdk-csrs-lbk.h"
 #include "bdk-csrs-lmc.h"
 #include "bdk-csrs-mio_boot.h"
 #include "bdk-csrs-mio_emm.h"
@@ -75,14 +93,20 @@
 #include "bdk-csrs-mpi.h"
 #include "bdk-csrs-mrml.h"
 #include "bdk-csrs-ncsi.h"
+#include "bdk-csrs-ndf.h"
 #include "bdk-csrs-nic.h"
 #include "bdk-csrs-ocla.h"
 #include "bdk-csrs-ocx.h"
 #include "bdk-csrs-pccbr.h"
 #include "bdk-csrs-pccpf.h"
 #include "bdk-csrs-pccvf.h"
+#include "bdk-csrs-pcieep.h"
+#include "bdk-csrs-pcieepvf.h"
 #include "bdk-csrs-pcierc.h"
+#include "bdk-csrs-pcm.h"
 #include "bdk-csrs-pem.h"
+#include "bdk-csrs-pki.h"
+#include "bdk-csrs-pko.h"
 #include "bdk-csrs-rad.h"
 #include "bdk-csrs-rnm.h"
 #include "bdk-csrs-rom.h"
@@ -92,6 +116,9 @@
 #include "bdk-csrs-sli.h"
 #include "bdk-csrs-smi.h"
 #include "bdk-csrs-smmu.h"
+#include "bdk-csrs-sso.h"
+#include "bdk-csrs-ssow.h"
+#include "bdk-csrs-tim.h"
 #include "bdk-csrs-tns.h"
 #include "bdk-csrs-tns_sst.h"
 #include "bdk-csrs-trickbox.h"
@@ -99,4 +126,5 @@
 #include "bdk-csrs-usbh.h"
 #include "bdk-csrs-vrm.h"
 #include "bdk-csrs-zip.h"
+
 #endif /* __BDK_CSRS_H__ */

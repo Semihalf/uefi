@@ -1,5 +1,5 @@
-#ifndef __BDK_CSRS_SMI__
-#define __BDK_CSRS_SMI__
+#ifndef __BDK_CSRS_SMI_H__
+#define __BDK_CSRS_SMI_H__
 /* This file is auto-generated. Do not edit */
 
 /***********************license start***************
@@ -52,290 +52,323 @@
  *
  */
 
-#include <stdint.h>
-
-extern void csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4) __attribute__ ((noreturn));
-
-
-
+/**
+ * Enumeration smi_bar_e
+ *
+ * SMI Base Address Register Enumeration
+ * Enumerates the base address registers.
+ */
+#define BDK_SMI_BAR_E_SMI_PF_BAR0 (0x87e005000000ll) /**< Base address for standard registers. */
 
 /**
- * RSL - smi_#_clk
+ * Register (RSL) smi_#_cmd
  *
+ * SMI Command Control Register
+ * This register forces a read or write command to the PHY. Write operations to this register
+ * create SMI transactions. Software will poll (depending on the transaction type).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_smi_x_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t phy_op                : 2;  /**< [ 17: 16](R/W) PHY opcode, depending on SMI_()_CLK[MODE] setting.
+                                                                 * If SMI_()_CLK[MODE] = 0 (<=1Gbs / Clause 22):
+                                                                 0 = write operation, encoded in the frame as 01
+                                                                 1 = read operation, encoded in the frame as 10.
+
+                                                                 * If SMI_()_CLK[MODE] = 1 (>1Gbs / Clause 45):
+                                                                 0x0 = Address.
+                                                                 0x1 = Write.
+                                                                 0x2 = Post-read-increment-address.
+                                                                 0x3 = Read. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t phy_adr               : 5;  /**< [ 12:  8](R/W) PHY address. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t reg_adr               : 5;  /**< [  4:  0](R/W) PHY register offset. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_adr               : 5;  /**< [  4:  0](R/W) PHY register offset. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t phy_adr               : 5;  /**< [ 12:  8](R/W) PHY address. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t phy_op                : 2;  /**< [ 17: 16](R/W) PHY opcode, depending on SMI_()_CLK[MODE] setting.
+                                                                 * If SMI_()_CLK[MODE] = 0 (<=1Gbs / Clause 22):
+                                                                 0 = write operation, encoded in the frame as 01
+                                                                 1 = read operation, encoded in the frame as 10.
+
+                                                                 * If SMI_()_CLK[MODE] = 1 (>1Gbs / Clause 45):
+                                                                 0x0 = Address.
+                                                                 0x1 = Write.
+                                                                 0x2 = Post-read-increment-address.
+                                                                 0x3 = Read. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smi_x_cmd_s cn; */
+} bdk_smi_x_cmd_t;
+
+static inline uint64_t BDK_SMI_X_CMD(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMI_X_CMD(unsigned long a)
+{
+    return 0x87e005003800ll + 0x80ll * ((a) & 0x1);
+}
+
+#define typedef_BDK_SMI_X_CMD(a) bdk_smi_x_cmd_t
+#define bustype_BDK_SMI_X_CMD(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_SMI_X_CMD(a) "SMI_X_CMD"
+#define busnum_BDK_SMI_X_CMD(a) (a)
+#define arguments_BDK_SMI_X_CMD(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) smi_#_wr_dat
+ *
+ * SMI Write Data Register
+ * This register provides the data for a write operation.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_smi_x_wr_dat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t pending               : 1;  /**< [ 17: 17](RO/H) Write transaction pending. Indicates that an SMI write transaction is in flight. */
+        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Write data valid. Asserts when the write transaction completes. A read to this register clears VAL. */
+        uint64_t dat                   : 16; /**< [ 15:  0](R/W/H) Write data. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 16; /**< [ 15:  0](R/W/H) Write data. */
+        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Write data valid. Asserts when the write transaction completes. A read to this register clears VAL. */
+        uint64_t pending               : 1;  /**< [ 17: 17](RO/H) Write transaction pending. Indicates that an SMI write transaction is in flight. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smi_x_wr_dat_s cn; */
+} bdk_smi_x_wr_dat_t;
+
+static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long a)
+{
+    return 0x87e005003808ll + 0x80ll * ((a) & 0x1);
+}
+
+#define typedef_BDK_SMI_X_WR_DAT(a) bdk_smi_x_wr_dat_t
+#define bustype_BDK_SMI_X_WR_DAT(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_SMI_X_WR_DAT(a) "SMI_X_WR_DAT"
+#define busnum_BDK_SMI_X_WR_DAT(a) (a)
+#define arguments_BDK_SMI_X_WR_DAT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) smi_#_en
+ *
+ * SMI Enable Register
+ * Enables the SMI interface.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_smi_x_en_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t en                    : 1;  /**< [  0:  0](R/W) SMI/MDIO interface enable:
+                                                                 1 = Enable interface.
+                                                                 0 = Disable interface: no transactions, no SMIn_MDC transitions. */
+#else /* Word 0 - Little Endian */
+        uint64_t en                    : 1;  /**< [  0:  0](R/W) SMI/MDIO interface enable:
+                                                                 1 = Enable interface.
+                                                                 0 = Disable interface: no transactions, no SMIn_MDC transitions. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smi_x_en_s cn; */
+} bdk_smi_x_en_t;
+
+static inline uint64_t BDK_SMI_X_EN(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMI_X_EN(unsigned long a)
+{
+    return 0x87e005003820ll + 0x80ll * ((a) & 0x1);
+}
+
+#define typedef_BDK_SMI_X_EN(a) bdk_smi_x_en_t
+#define bustype_BDK_SMI_X_EN(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_SMI_X_EN(a) "SMI_X_EN"
+#define busnum_BDK_SMI_X_EN(a) (a)
+#define arguments_BDK_SMI_X_EN(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) smi_#_clk
+ *
+ * SMI Clock Control Register
  * This register determines the SMI timing characteristics.
  * If software wants to change SMI CLK timing parameters (SAMPLE/SAMPLE_HI), software
  * must delay the SMI_CLK CSR write by at least 512 coprocessor-clocks after the
  * previous SMI operation is finished.
  */
-typedef union bdk_smi_x_clk {
-	uint64_t u;
-	struct bdk_smi_x_clk_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_25_63              : 39;
-		uint64_t mode                        : 1;  /**< R/W - IEEE operating mode; 0 = Clause 22 compliant, 1 = Clause 45 compliant. */
-		uint64_t reserved_21_23              : 3;
-		uint64_t sample_hi                   : 5;  /**< R/W - Sample (extended bits). Specifies in coprocessor clock cycles when to sample read data. */
-		uint64_t sample_mode                 : 1;  /**< R/W - Read data sampling mode.
+typedef union
+{
+    uint64_t u;
+    struct bdk_smi_x_clk_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t mode                  : 1;  /**< [ 24: 24](R/W) IEEE operating mode; 0 = Clause 22 compliant, 1 = Clause 45 compliant. */
+        uint64_t reserved_21_23        : 3;
+        uint64_t sample_hi             : 5;  /**< [ 20: 16](R/W) Sample (extended bits). Specifies in coprocessor clock cycles when to sample read data. */
+        uint64_t sample_mode           : 1;  /**< [ 15: 15](R/W) Read data sampling mode.
                                                                  According to the 802.3 specification, on read operations, the STA transitions SMIn_MDC and
                                                                  the PHY drives SMIn_MDIO with some delay relative to that edge. This is Edge1.
                                                                  The STA then samples SMIn_MDIO on the next rising edge of SMIn_MDC. This is Edge2. The
                                                                  read data can be sampled relative to either edge.
                                                                  0 = Sample time is relative to Edge2.
                                                                  1 = Sample time is relative to Edge1. */
-		uint64_t reserved_14_14              : 1;
-		uint64_t clk_idle                    : 1;  /**< R/W - SMIn_MDC toggle. When set, this bit causes SMIn_MDC not to toggle on idle cycles. */
-		uint64_t preamble                    : 1;  /**< R/W - Preamble. When this bit is set, the 32-bit preamble is sent first on SMI transactions.
+        uint64_t reserved_14           : 1;
+        uint64_t clk_idle              : 1;  /**< [ 13: 13](R/W) SMIn_MDC toggle. When set, this bit causes SMIn_MDC not to toggle on idle cycles. */
+        uint64_t preamble              : 1;  /**< [ 12: 12](R/W) Preamble. When this bit is set, the 32-bit preamble is sent first on SMI transactions.
                                                                  This field must be set to 1 when MODE = 1 in order for the receiving PHY to correctly
                                                                  frame the transaction. */
-		uint64_t sample                      : 4;  /**< R/W - Sample read data. Specifies the number of coprocessor clock cycles after the rising edge
+        uint64_t sample                : 4;  /**< [ 11:  8](R/W) Sample read data. Specifies the number of coprocessor clock cycles after the rising edge
                                                                  of SMIn_MDC to wait before sampling read data.
 
-                                                                 _ (SAMPLE_HI,SAMPLE) \> 1
+                                                                 _ (SAMPLE_HI,SAMPLE) > 1
 
-                                                                 _ (SAMPLE_HI,SAMPLE) + 3 \<= 2 * PHASE */
-		uint64_t phase                       : 8;  /**< R/W - MDC clock phase. Specifies the number of coprocessor clock cycles that make up an SMIn_MDC
+                                                                 _ (SAMPLE_HI,SAMPLE) + 3 <= 2 * PHASE */
+        uint64_t phase                 : 8;  /**< [  7:  0](R/W) MDC clock phase. Specifies the number of coprocessor clock cycles that make up an SMIn_MDC
                                                                  phase.
 
-                                                                 _ PHASE \> 2 */
-#else
-		uint64_t phase                       : 8;
-		uint64_t sample                      : 4;
-		uint64_t preamble                    : 1;
-		uint64_t clk_idle                    : 1;
-		uint64_t reserved_14_14              : 1;
-		uint64_t sample_mode                 : 1;
-		uint64_t sample_hi                   : 5;
-		uint64_t reserved_21_23              : 3;
-		uint64_t mode                        : 1;
-		uint64_t reserved_25_63              : 39;
-#endif
-	} s;
-	/* struct bdk_smi_x_clk_s             cn88xx; */
-	/* struct bdk_smi_x_clk_s             cn88xxp1; */
+                                                                 _ PHASE > 2 */
+#else /* Word 0 - Little Endian */
+        uint64_t phase                 : 8;  /**< [  7:  0](R/W) MDC clock phase. Specifies the number of coprocessor clock cycles that make up an SMIn_MDC
+                                                                 phase.
+
+                                                                 _ PHASE > 2 */
+        uint64_t sample                : 4;  /**< [ 11:  8](R/W) Sample read data. Specifies the number of coprocessor clock cycles after the rising edge
+                                                                 of SMIn_MDC to wait before sampling read data.
+
+                                                                 _ (SAMPLE_HI,SAMPLE) > 1
+
+                                                                 _ (SAMPLE_HI,SAMPLE) + 3 <= 2 * PHASE */
+        uint64_t preamble              : 1;  /**< [ 12: 12](R/W) Preamble. When this bit is set, the 32-bit preamble is sent first on SMI transactions.
+                                                                 This field must be set to 1 when MODE = 1 in order for the receiving PHY to correctly
+                                                                 frame the transaction. */
+        uint64_t clk_idle              : 1;  /**< [ 13: 13](R/W) SMIn_MDC toggle. When set, this bit causes SMIn_MDC not to toggle on idle cycles. */
+        uint64_t reserved_14           : 1;
+        uint64_t sample_mode           : 1;  /**< [ 15: 15](R/W) Read data sampling mode.
+                                                                 According to the 802.3 specification, on read operations, the STA transitions SMIn_MDC and
+                                                                 the PHY drives SMIn_MDIO with some delay relative to that edge. This is Edge1.
+                                                                 The STA then samples SMIn_MDIO on the next rising edge of SMIn_MDC. This is Edge2. The
+                                                                 read data can be sampled relative to either edge.
+                                                                 0 = Sample time is relative to Edge2.
+                                                                 1 = Sample time is relative to Edge1. */
+        uint64_t sample_hi             : 5;  /**< [ 20: 16](R/W) Sample (extended bits). Specifies in coprocessor clock cycles when to sample read data. */
+        uint64_t reserved_21_23        : 3;
+        uint64_t mode                  : 1;  /**< [ 24: 24](R/W) IEEE operating mode; 0 = Clause 22 compliant, 1 = Clause 45 compliant. */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smi_x_clk_s cn; */
 } bdk_smi_x_clk_t;
 
-static inline uint64_t BDK_SMI_X_CLK(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SMI_X_CLK(unsigned long param1)
+static inline uint64_t BDK_SMI_X_CLK(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMI_X_CLK(unsigned long a)
 {
-	if (((param1 <= 1)))
-		return 0x000087E005003818ull + (param1 & 1) * 0x80ull;
-	csr_fatal("BDK_SMI_X_CLK", 1, param1, 0, 0, 0); /* No return */
+    return 0x87e005003818ll + 0x80ll * ((a) & 0x1);
 }
-#define typedef_BDK_SMI_X_CLK(...) bdk_smi_x_clk_t
-#define bustype_BDK_SMI_X_CLK(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_SMI_X_CLK(p1) (p1)
-#define arguments_BDK_SMI_X_CLK(p1) (p1),-1,-1,-1
-#define basename_BDK_SMI_X_CLK(...) "SMI_X_CLK"
 
+#define typedef_BDK_SMI_X_CLK(a) bdk_smi_x_clk_t
+#define bustype_BDK_SMI_X_CLK(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_SMI_X_CLK(a) "SMI_X_CLK"
+#define busnum_BDK_SMI_X_CLK(a) (a)
+#define arguments_BDK_SMI_X_CLK(a) (a),-1,-1,-1
 
 /**
- * RSL - smi_#_cmd
+ * Register (RSL) smi_drv_ctl
  *
- * This register forces a read or write command to the PHY. Write operations to this register
- * create SMI transactions. Software will poll (depending on the transaction type).
- */
-typedef union bdk_smi_x_cmd {
-	uint64_t u;
-	struct bdk_smi_x_cmd_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_18_63              : 46;
-		uint64_t phy_op                      : 2;  /**< R/W - PHY opcode, depending on SMI_()_CLK[MODE] setting.
-                                                                 * If SMI_()_CLK[MODE] = 0 (\<=1Gbs / Clause 22):
-                                                                 0 = write operation, encoded in the frame as 01
-                                                                 1 = read operation, encoded in the frame as 10.
-
-                                                                 * If SMI_()_CLK[MODE] = 1 (\>1Gbs / Clause 45):
-                                                                 0x0 = Address.
-                                                                 0x1 = Write.
-                                                                 0x2 = Post-read-increment-address.
-                                                                 0x3 = Read. */
-		uint64_t reserved_13_15              : 3;
-		uint64_t phy_adr                     : 5;  /**< R/W - PHY address. */
-		uint64_t reserved_5_7                : 3;
-		uint64_t reg_adr                     : 5;  /**< R/W - PHY register offset. */
-#else
-		uint64_t reg_adr                     : 5;
-		uint64_t reserved_5_7                : 3;
-		uint64_t phy_adr                     : 5;
-		uint64_t reserved_13_15              : 3;
-		uint64_t phy_op                      : 2;
-		uint64_t reserved_18_63              : 46;
-#endif
-	} s;
-	/* struct bdk_smi_x_cmd_s             cn88xx; */
-	/* struct bdk_smi_x_cmd_s             cn88xxp1; */
-} bdk_smi_x_cmd_t;
-
-static inline uint64_t BDK_SMI_X_CMD(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SMI_X_CMD(unsigned long param1)
-{
-	if (((param1 <= 1)))
-		return 0x000087E005003800ull + (param1 & 1) * 0x80ull;
-	csr_fatal("BDK_SMI_X_CMD", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_SMI_X_CMD(...) bdk_smi_x_cmd_t
-#define bustype_BDK_SMI_X_CMD(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_SMI_X_CMD(p1) (p1)
-#define arguments_BDK_SMI_X_CMD(p1) (p1),-1,-1,-1
-#define basename_BDK_SMI_X_CMD(...) "SMI_X_CMD"
-
-
-/**
- * RSL - smi_#_en
- *
+ * SMI Drive Strength Control Register
  * Enables the SMI interface.
- *
  */
-typedef union bdk_smi_x_en {
-	uint64_t u;
-	struct bdk_smi_x_en_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_1_63               : 63;
-		uint64_t en                          : 1;  /**< R/W - SMI/MDIO interface enable:
-                                                                 1 = Enable interface.
-                                                                 0 = Disable interface: no transactions, no SMIn_MDC transitions. */
-#else
-		uint64_t en                          : 1;
-		uint64_t reserved_1_63               : 63;
-#endif
-	} s;
-	/* struct bdk_smi_x_en_s              cn88xx; */
-	/* struct bdk_smi_x_en_s              cn88xxp1; */
-} bdk_smi_x_en_t;
-
-static inline uint64_t BDK_SMI_X_EN(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SMI_X_EN(unsigned long param1)
+typedef union
 {
-	if (((param1 <= 1)))
-		return 0x000087E005003820ull + (param1 & 1) * 0x80ull;
-	csr_fatal("BDK_SMI_X_EN", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_SMI_X_EN(...) bdk_smi_x_en_t
-#define bustype_BDK_SMI_X_EN(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_SMI_X_EN(p1) (p1)
-#define arguments_BDK_SMI_X_EN(p1) (p1),-1,-1,-1
-#define basename_BDK_SMI_X_EN(...) "SMI_X_EN"
-
-
-/**
- * RSL - smi_#_rd_dat
- *
- * This register contains the data in a read operation.
- *
- */
-typedef union bdk_smi_x_rd_dat {
-	uint64_t u;
-	struct bdk_smi_x_rd_dat_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_18_63              : 46;
-		uint64_t pending                     : 1;  /**< RO/H - Read transaction pending. Indicates that an SMI read transaction is in flight. */
-		uint64_t val                         : 1;  /**< RO/H - Read data valid. Asserts when the read transaction completes. A read to this register clears VAL. */
-		uint64_t dat                         : 16; /**< RO/H - Read data. */
-#else
-		uint64_t dat                         : 16;
-		uint64_t val                         : 1;
-		uint64_t pending                     : 1;
-		uint64_t reserved_18_63              : 46;
-#endif
-	} s;
-	/* struct bdk_smi_x_rd_dat_s          cn88xx; */
-	/* struct bdk_smi_x_rd_dat_s          cn88xxp1; */
-} bdk_smi_x_rd_dat_t;
-
-static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long param1)
-{
-	if (((param1 <= 1)))
-		return 0x000087E005003810ull + (param1 & 1) * 0x80ull;
-	csr_fatal("BDK_SMI_X_RD_DAT", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_SMI_X_RD_DAT(...) bdk_smi_x_rd_dat_t
-#define bustype_BDK_SMI_X_RD_DAT(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_SMI_X_RD_DAT(p1) (p1)
-#define arguments_BDK_SMI_X_RD_DAT(p1) (p1),-1,-1,-1
-#define basename_BDK_SMI_X_RD_DAT(...) "SMI_X_RD_DAT"
-
-
-/**
- * RSL - smi_#_wr_dat
- *
- * This register provides the data for a write operation.
- *
- */
-typedef union bdk_smi_x_wr_dat {
-	uint64_t u;
-	struct bdk_smi_x_wr_dat_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_18_63              : 46;
-		uint64_t pending                     : 1;  /**< RO/H - Write transaction pending. Indicates that an SMI write transaction is in flight. */
-		uint64_t val                         : 1;  /**< RO/H - Write data valid. Asserts when the write transaction completes. A read to this register clears VAL. */
-		uint64_t dat                         : 16; /**< R/W/H - Write data. */
-#else
-		uint64_t dat                         : 16;
-		uint64_t val                         : 1;
-		uint64_t pending                     : 1;
-		uint64_t reserved_18_63              : 46;
-#endif
-	} s;
-	/* struct bdk_smi_x_wr_dat_s          cn88xx; */
-	/* struct bdk_smi_x_wr_dat_s          cn88xxp1; */
-} bdk_smi_x_wr_dat_t;
-
-static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long param1) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long param1)
-{
-	if (((param1 <= 1)))
-		return 0x000087E005003808ull + (param1 & 1) * 0x80ull;
-	csr_fatal("BDK_SMI_X_WR_DAT", 1, param1, 0, 0, 0); /* No return */
-}
-#define typedef_BDK_SMI_X_WR_DAT(...) bdk_smi_x_wr_dat_t
-#define bustype_BDK_SMI_X_WR_DAT(...) BDK_CSR_TYPE_RSL
-#define busnum_BDK_SMI_X_WR_DAT(p1) (p1)
-#define arguments_BDK_SMI_X_WR_DAT(p1) (p1),-1,-1,-1
-#define basename_BDK_SMI_X_WR_DAT(...) "SMI_X_WR_DAT"
-
-
-/**
- * RSL - smi_drv_ctl
- *
- * Enables the SMI interface.
- *
- */
-typedef union bdk_smi_drv_ctl {
-	uint64_t u;
-	struct bdk_smi_drv_ctl_s {
-#if __BYTE_ORDER == __BIG_ENDIAN
-		uint64_t reserved_11_63              : 53;
-		uint64_t pctl                        : 3;  /**< R/W - PCTL drive strength control bits. Suggested values:
+    uint64_t u;
+    struct bdk_smi_drv_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t pctl                  : 3;  /**< [ 10:  8](R/W) PCTL drive strength control bits. Suggested values:
                                                                  0x4 = 60 ohm.
                                                                  0x6 = 40 ohm.
                                                                  0x7 = 30 ohm. */
-		uint64_t reserved_3_7                : 5;
-		uint64_t nctl                        : 3;  /**< R/W - NCTL drive strength control bits. Suggested values:
+        uint64_t reserved_3_7          : 5;
+        uint64_t nctl                  : 3;  /**< [  2:  0](R/W) NCTL drive strength control bits. Suggested values:
                                                                  0x4 = 60 ohm.
                                                                  0x6 = 40 ohm.
                                                                  0x7 = 30 ohm. */
-#else
-		uint64_t nctl                        : 3;
-		uint64_t reserved_3_7                : 5;
-		uint64_t pctl                        : 3;
-		uint64_t reserved_11_63              : 53;
-#endif
-	} s;
-	/* struct bdk_smi_drv_ctl_s           cn88xx; */
-	/* struct bdk_smi_drv_ctl_s           cn88xxp1; */
+#else /* Word 0 - Little Endian */
+        uint64_t nctl                  : 3;  /**< [  2:  0](R/W) NCTL drive strength control bits. Suggested values:
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
+        uint64_t reserved_3_7          : 5;
+        uint64_t pctl                  : 3;  /**< [ 10:  8](R/W) PCTL drive strength control bits. Suggested values:
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smi_drv_ctl_s cn; */
 } bdk_smi_drv_ctl_t;
 
 #define BDK_SMI_DRV_CTL BDK_SMI_DRV_CTL_FUNC()
 static inline uint64_t BDK_SMI_DRV_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMI_DRV_CTL_FUNC(void)
 {
-	return 0x000087E005003828ull;
+    return 0x87e005003828ll;
 }
+
 #define typedef_BDK_SMI_DRV_CTL bdk_smi_drv_ctl_t
 #define bustype_BDK_SMI_DRV_CTL BDK_CSR_TYPE_RSL
+#define basename_BDK_SMI_DRV_CTL "SMI_DRV_CTL"
 #define busnum_BDK_SMI_DRV_CTL 0
 #define arguments_BDK_SMI_DRV_CTL -1,-1,-1,-1
-#define basename_BDK_SMI_DRV_CTL "SMI_DRV_CTL"
 
-#endif /* __BDK_CSRS_SMI__ */
+/**
+ * Register (RSL) smi_#_rd_dat
+ *
+ * SMI Read Data Register
+ * This register contains the data in a read operation.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_smi_x_rd_dat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_18_63        : 46;
+        uint64_t pending               : 1;  /**< [ 17: 17](RO/H) Read transaction pending. Indicates that an SMI read transaction is in flight. */
+        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Read data valid. Asserts when the read transaction completes. A read to this register clears VAL. */
+        uint64_t dat                   : 16; /**< [ 15:  0](RO/H) Read data. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 16; /**< [ 15:  0](RO/H) Read data. */
+        uint64_t val                   : 1;  /**< [ 16: 16](RO/H) Read data valid. Asserts when the read transaction completes. A read to this register clears VAL. */
+        uint64_t pending               : 1;  /**< [ 17: 17](RO/H) Read transaction pending. Indicates that an SMI read transaction is in flight. */
+        uint64_t reserved_18_63        : 46;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smi_x_rd_dat_s cn; */
+} bdk_smi_x_rd_dat_t;
+
+static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long a)
+{
+    return 0x87e005003810ll + 0x80ll * ((a) & 0x1);
+}
+
+#define typedef_BDK_SMI_X_RD_DAT(a) bdk_smi_x_rd_dat_t
+#define bustype_BDK_SMI_X_RD_DAT(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_SMI_X_RD_DAT(a) "SMI_X_RD_DAT"
+#define busnum_BDK_SMI_X_RD_DAT(a) (a)
+#define arguments_BDK_SMI_X_RD_DAT(a) (a),-1,-1,-1
+
+#endif /* __BDK_CSRS_SMI_H__ */
