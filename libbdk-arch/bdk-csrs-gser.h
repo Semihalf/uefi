@@ -799,6 +799,71 @@ typedef union
                                                                  <8> = lctrl_men.
                                                                  <9> = Reserved.
 
+                                                                 GSER()_LANE()_PWR_CTRL[RX_LCTRL_OVRRD_EN] controls <9:7> and <3:0>.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present, non-SATA/PCIe, and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL],
+                                                                 setting [CFG_RX_LCTRL<8>], clearing [CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER(0..6)_LANE(0..3)_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,
+                                                                 DFE_C4_MVAL,DFE_C4_MSGN], and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+#else /* Word 0 - Little Endian */
+        uint64_t cfg_rx_lctrl          : 10; /**< [  9:  0](R/W) Loop control settings.
+
+                                                                 <0> = cdr_en_byp.
+                                                                 <1> = dfe_en_byp.
+                                                                 <2> = agc_en_byp.
+                                                                 <3> = ofst_cncl_en_byp.
+                                                                 <4> = CDR resetn.
+                                                                 <5> = CTLE resetn.
+                                                                 <6> = VMA resetn.
+                                                                 <7> = ofst_cncl_rstn_byp.
+                                                                 <8> = lctrl_men.
+                                                                 <9> = Reserved.
+
+                                                                 GSER()_LANE()_PWR_CTRL[RX_LCTRL_OVRRD_EN] controls <9:7> and <3:0>.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present, non-SATA/PCIe, and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL],
+                                                                 setting [CFG_RX_LCTRL<8>], clearing [CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER(0..6)_LANE(0..3)_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,
+                                                                 DFE_C4_MVAL,DFE_C4_MSGN], and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t fast_ofst_cncl        : 1;  /**< [ 10: 10](R/W/H) Assert to enable fast Offset cancellation (for simulation purposes only). */
+        uint64_t fast_dll_lock         : 1;  /**< [ 11: 11](R/W/H) Assert to enable fast DLL lock (for simulation purposes only). */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_rx_loop_ctrl_s cn88xx; */
+    struct bdk_gserx_lanex_rx_loop_ctrl_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t fast_dll_lock         : 1;  /**< [ 11: 11](R/W/H) Assert to enable fast DLL lock (for simulation purposes only). */
+        uint64_t fast_ofst_cncl        : 1;  /**< [ 10: 10](R/W/H) Assert to enable fast Offset cancellation (for simulation purposes only). */
+        uint64_t cfg_rx_lctrl          : 10; /**< [  9:  0](R/W) Loop control settings.
+
+                                                                 <0> = cdr_en_byp.
+                                                                 <1> = dfe_en_byp.
+                                                                 <2> = agc_en_byp.
+                                                                 <3> = ofst_cncl_en_byp.
+                                                                 <4> = CDR resetn.
+                                                                 <5> = CTLE resetn.
+                                                                 <6> = VMA resetn.
+                                                                 <7> = ofst_cncl_rstn_byp.
+                                                                 <8> = lctrl_men.
+                                                                 <9> = Reserved.
+
                                                                  GSER()_LANE()_PWR_CTRL[RX_LCTRL_OVRRD_EN] controls <9:7> and <3:0>. */
 #else /* Word 0 - Little Endian */
         uint64_t cfg_rx_lctrl          : 10; /**< [  9:  0](R/W) Loop control settings.
@@ -819,8 +884,7 @@ typedef union
         uint64_t fast_dll_lock         : 1;  /**< [ 11: 11](R/W/H) Assert to enable fast DLL lock (for simulation purposes only). */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gserx_lanex_rx_loop_ctrl_s cn; */
+    } cn83xx;
 } bdk_gserx_lanex_rx_loop_ctrl_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_LOOP_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1600,6 +1664,189 @@ typedef union
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
                                                                  5Gbaud, the DFE should be completely disabled by setting all of
                                                                  [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c5_ovrd_val       : 1;  /**< [  4:  4](R/W) Override value for DFE Tap5 manual enable. Used when [DFE_OVRD_EN] is set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c4_ovrd_val       : 1;  /**< [  3:  3](R/W) Override value for DFE Tap4 manual enable. Used when [DFE_OVRD_EN] is set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c3_ovrd_val       : 1;  /**< [  2:  2](R/W) Override value for DFE Tap3 manual enable. Used when [DFE_OVRD_EN] is set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c2_ovrd_val       : 1;  /**< [  1:  1](R/W) Override value for DFE Tap2 manual enable. Used when [DFE_OVRD_EN] is set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c1_ovrd_val       : 1;  /**< [  0:  0](R/W) Override value for DFE Tap1 manual enable. Used when [DFE_OVRD_EN] is set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+#else /* Word 0 - Little Endian */
+        uint64_t dfe_c1_ovrd_val       : 1;  /**< [  0:  0](R/W) Override value for DFE Tap1 manual enable. Used when [DFE_OVRD_EN] is set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c2_ovrd_val       : 1;  /**< [  1:  1](R/W) Override value for DFE Tap2 manual enable. Used when [DFE_OVRD_EN] is set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c3_ovrd_val       : 1;  /**< [  2:  2](R/W) Override value for DFE Tap3 manual enable. Used when [DFE_OVRD_EN] is set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c4_ovrd_val       : 1;  /**< [  3:  3](R/W) Override value for DFE Tap4 manual enable. Used when [DFE_OVRD_EN] is set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c5_ovrd_val       : 1;  /**< [  4:  4](R/W) Override value for DFE Tap5 manual enable. Used when [DFE_OVRD_EN] is set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_ovrd_en           : 1;  /**< [  5:  5](R/W) Override enable for DFE tap controls. When asserted, the register bits in
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0 and GSER()_LANE()_RX_VALBBD_CTRL_1 are
+                                                                 used for controlling the DFE tap manual mode, instead the manual mode signal indexed by
+                                                                 GSER()_LANE_MODE[LMODE].
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
+                                                                 DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN],
+                                                                 and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_rx_valbbd_ctrl_2_s cn88xx; */
+    struct bdk_gserx_lanex_rx_valbbd_ctrl_2_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t dfe_ovrd_en           : 1;  /**< [  5:  5](R/W) Override enable for DFE tap controls. When asserted, the register bits in
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0 and GSER()_LANE()_RX_VALBBD_CTRL_1 are
+                                                                 used for controlling the DFE tap manual mode, instead the manual mode signal indexed by
+                                                                 GSER()_LANE_MODE[LMODE].
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 [DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,
                                                                  DFE_C1_OVRD_VAL] and clearing all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL, FE_C4_MSGN]
                                                                  and clearing all of
@@ -1743,8 +1990,7 @@ typedef union
                                                                  DFE_C1_MVAL,DFE_C1_MSGN]. */
         uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gserx_lanex_rx_valbbd_ctrl_2_s cn; */
+    } cn83xx;
 } bdk_gserx_lanex_rx_valbbd_ctrl_2_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1783,6 +2029,131 @@ typedef union
                                                                  When auto-negotiated link training is not present (e.g. BGX) and link speed <=
                                                                  5Gbaud, the DFE should be completely disabled by setting all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 [DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,DFE_C4_MSGN], and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c5_msgn           : 1;  /**< [  5:  5](R/W) DFE Tap5 manual sign when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 [DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,DFE_C4_MSGN], and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c4_mval           : 4;  /**< [  4:  1](R/W) DFE Tap4 manual value when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 [DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,DFE_C4_MSGN], and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c4_msgn           : 1;  /**< [  0:  0](R/W) DFE Tap4 manual sign when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 [DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,DFE_C4_MSGN], and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+#else /* Word 0 - Little Endian */
+        uint64_t dfe_c4_msgn           : 1;  /**< [  0:  0](R/W) DFE Tap4 manual sign when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 [DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,DFE_C4_MSGN], and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c4_mval           : 4;  /**< [  4:  1](R/W) DFE Tap4 manual value when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 [DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,DFE_C4_MSGN], and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c5_msgn           : 1;  /**< [  5:  5](R/W) DFE Tap5 manual sign when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 [DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,DFE_C4_MSGN], and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c5_mval           : 4;  /**< [  9:  6](R/W) DFE Tap5 manual value when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 [DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,DFE_C4_MSGN], and clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_gain              : 2;  /**< [ 11: 10](R/W) DFE gain. */
+        uint64_t agc_gain              : 2;  /**< [ 13: 12](R/W) AGC gain. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_rx_valbbd_ctrl_0_s cn88xx; */
+    struct bdk_gserx_lanex_rx_valbbd_ctrl_0_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t agc_gain              : 2;  /**< [ 13: 12](R/W) AGC gain. */
+        uint64_t dfe_gain              : 2;  /**< [ 11: 10](R/W) DFE gain. */
+        uint64_t dfe_c5_mval           : 4;  /**< [  9:  6](R/W) DFE Tap5 manual value when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
                                                                  DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL] and clearing all of
                                                                  [DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,DFE_C4_MSGN] and clearing all of
                                                                  GSER()_LANE()_RX_VALBBD_CTRL_1[DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
@@ -1876,8 +2247,7 @@ typedef union
         uint64_t agc_gain              : 2;  /**< [ 13: 12](R/W) AGC gain. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gserx_lanex_rx_valbbd_ctrl_0_s cn; */
+    } cn83xx;
 } bdk_gserx_lanex_rx_valbbd_ctrl_0_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1903,6 +2273,183 @@ typedef union
 {
     uint64_t u;
     struct bdk_gserx_lanex_rx_valbbd_ctrl_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t dfe_c3_mval           : 4;  /**< [ 14: 11](R/W) DFE Tap3 manual value when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c3_msgn           : 1;  /**< [ 10: 10](R/W) DFE Tap3 manual sign when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c2_mval           : 4;  /**< [  9:  6](R/W) DFE Tap2 manual value when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c2_msgn           : 1;  /**< [  5:  5](R/W) DFE Tap2 manual sign when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c1_mval           : 4;  /**< [  4:  1](R/W) DFE Tap1 manual value when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c1_msgn           : 1;  /**< [  0:  0](R/W) DFE Tap1 manual sign when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+#else /* Word 0 - Little Endian */
+        uint64_t dfe_c1_msgn           : 1;  /**< [  0:  0](R/W) DFE Tap1 manual sign when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c1_mval           : 4;  /**< [  4:  1](R/W) DFE Tap1 manual value when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c2_msgn           : 1;  /**< [  5:  5](R/W) DFE Tap2 manual sign when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c2_mval           : 4;  /**< [  9:  6](R/W) DFE Tap2 manual value when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c3_msgn           : 1;  /**< [ 10: 10](R/W) DFE Tap3 manual sign when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t dfe_c3_mval           : 4;  /**< [ 14: 11](R/W) DFE Tap3 manual value when GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN] and
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_C5_OVRD_VAL] are both set.
+
+                                                                 Recommended settings:
+
+                                                                 When auto-negotiated link training is not present (e.g. BGX) and link speed <=
+                                                                 5Gbaud, the DFE should be completely disabled by setting all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_2[DFE_OVRD_EN,DFE_C5_OVRD_VAL,DFE_C4_OVRD_VAL,
+                                                                 DFE_C3_OVRD_VAL,DFE_C2_OVRD_VAL,DFE_C1_OVRD_VAL], setting
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<8>], clearing
+                                                                 GSER()_LANE()_RX_LOOP_CTRL[CFG_RX_LCTRL<1>], clearing all of
+                                                                 GSER()_LANE()_RX_VALBBD_CTRL_0[DFE_C5_MVAL,DFE_C5_MSGN,DFE_C4_MVAL,FE_C4_MSGN],
+                                                                 and clearing all of [DFE_C3_MVAL,DFE_C3_MSGN,DFE_C2_MVAL,DFE_C2_MSGN,
+                                                                 DFE_C1_MVAL,DFE_C1_MSGN]. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_lanex_rx_valbbd_ctrl_1_s cn88xx; */
+    struct bdk_gserx_lanex_rx_valbbd_ctrl_1_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
@@ -2053,8 +2600,7 @@ typedef union
                                                                  DFE_C1_MVAL,DFE_C1_MSGN]. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gserx_lanex_rx_valbbd_ctrl_1_s cn; */
+    } cn83xx;
 } bdk_gserx_lanex_rx_valbbd_ctrl_1_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -3050,51 +3596,59 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_2(unsigned long a, unsigned
 #define arguments_BDK_GSERX_LANEX_RX_CDR_STATUS_2(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) gser#_ana_atest
+ * Register (RSL) gser#_rx_coast
  *
- * GSER Analog Test Register
+ * GSER RX Coast Register
+ * These registers are reset by hardware only during chip cold reset. The values of the CSR
+ * fields in these registers do not change during chip warm or soft resets.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_gserx_ana_atest_s
+    struct bdk_gserx_rx_coast_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the QLM4 register
-                                                                 is tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied
-                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are
-                                                                 unused. For diagnostic use only. */
-        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the QLM4 register is
-                                                                 tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied to
-                                                                 the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are unused.
-                                                                 For diagnostic use only. */
+        uint64_t reserved_4_63         : 60;
+        uint64_t coast                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode (including all CCPI links), control signals to
+                                                                 freeze
+                                                                 the frequency of the per lane CDR in the PHY. The COAST signals are only valid in P0
+                                                                 state, come up asserted and are deasserted in hardware after detecting the electrical idle
+                                                                 exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
+                                                                 allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
+                                                                 allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
+                                                                 <3>: Lane 3.
+                                                                 <2>: Lane 2.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the QLM4 register is
-                                                                 tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied to
-                                                                 the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are unused.
-                                                                 For diagnostic use only. */
-        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the QLM4 register
-                                                                 is tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied
-                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are
-                                                                 unused. For diagnostic use only. */
-        uint64_t reserved_12_63        : 52;
+        uint64_t coast                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode (including all CCPI links), control signals to
+                                                                 freeze
+                                                                 the frequency of the per lane CDR in the PHY. The COAST signals are only valid in P0
+                                                                 state, come up asserted and are deasserted in hardware after detecting the electrical idle
+                                                                 exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
+                                                                 allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
+                                                                 allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
+                                                                 <3>: Lane 3.
+                                                                 <2>: Lane 2.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_ana_atest_s cn; */
-} bdk_gserx_ana_atest_t;
+    /* struct bdk_gserx_rx_coast_s cn; */
+} bdk_gserx_rx_coast_t;
 
-static inline uint64_t BDK_GSERX_ANA_ATEST(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GSERX_ANA_ATEST(unsigned long a)
+static inline uint64_t BDK_GSERX_RX_COAST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_RX_COAST(unsigned long a)
 {
-    return 0x87e090000800ll + 0x1000000ll * ((a) & 0xf);
+    return 0x87e090000138ll + 0x1000000ll * ((a) & 0xf);
 }
 
-#define typedef_BDK_GSERX_ANA_ATEST(a) bdk_gserx_ana_atest_t
-#define bustype_BDK_GSERX_ANA_ATEST(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_GSERX_ANA_ATEST(a) "GSERX_ANA_ATEST"
-#define busnum_BDK_GSERX_ANA_ATEST(a) (a)
-#define arguments_BDK_GSERX_ANA_ATEST(a) (a),-1,-1,-1
+#define typedef_BDK_GSERX_RX_COAST(a) bdk_gserx_rx_coast_t
+#define bustype_BDK_GSERX_RX_COAST(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_RX_COAST(a) "GSERX_RX_COAST"
+#define busnum_BDK_GSERX_RX_COAST(a) (a)
+#define arguments_BDK_GSERX_RX_COAST(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gser#_spd
@@ -4234,6 +4788,59 @@ static inline uint64_t BDK_GSERX_SATA_LANEX_TX_PREEMPHX(unsigned long a, unsigne
 #define arguments_BDK_GSERX_SATA_LANEX_TX_PREEMPHX(a,b,c) (a),(b),(c),-1
 
 /**
+ * Register (RSL) gser#_rx_eie_deten
+ *
+ * GSER RX Electrical Idle Detect Enable Register
+ * These registers are reset by hardware only during chip cold reset. The values of the CSR
+ * fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_rx_eie_deten_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), these bits enable
+                                                                 per lane
+                                                                 electrical idle exit (EIE) detection. When EIE is detected,
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
+                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 EIE detection.
+                                                                 <3>: Lane 3.
+                                                                 <2>: Lane 2.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), these bits enable
+                                                                 per lane
+                                                                 electrical idle exit (EIE) detection. When EIE is detected,
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
+                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 EIE detection.
+                                                                 <3>: Lane 3.
+                                                                 <2>: Lane 2.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_rx_eie_deten_s cn; */
+} bdk_gserx_rx_eie_deten_t;
+
+static inline uint64_t BDK_GSERX_RX_EIE_DETEN(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_RX_EIE_DETEN(unsigned long a)
+{
+    return 0x87e090000148ll + 0x1000000ll * ((a) & 0xf);
+}
+
+#define typedef_BDK_GSERX_RX_EIE_DETEN(a) bdk_gserx_rx_eie_deten_t
+#define bustype_BDK_GSERX_RX_EIE_DETEN(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_RX_EIE_DETEN(a) "GSERX_RX_EIE_DETEN"
+#define busnum_BDK_GSERX_RX_EIE_DETEN(a) (a)
+#define arguments_BDK_GSERX_RX_EIE_DETEN(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gser#_iddq_mode
  *
  * GSER IDDQ Mode Register
@@ -5232,59 +5839,51 @@ static inline uint64_t BDK_GSERX_BR_TXX_CTL(unsigned long a, unsigned long b)
 #define arguments_BDK_GSERX_BR_TXX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) gser#_rx_coast
+ * Register (RSL) gser#_ana_atest
  *
- * GSER RX Coast Register
- * These registers are reset by hardware only during chip cold reset. The values of the CSR
- * fields in these registers do not change during chip warm or soft resets.
+ * GSER Analog Test Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_gserx_rx_coast_s
+    struct bdk_gserx_ana_atest_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t coast                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode (including all CCPI links), control signals to
-                                                                 freeze
-                                                                 the frequency of the per lane CDR in the PHY. The COAST signals are only valid in P0
-                                                                 state, come up asserted and are deasserted in hardware after detecting the electrical idle
-                                                                 exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
-                                                                 allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
-                                                                 allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
+        uint64_t reserved_12_63        : 52;
+        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the QLM4 register
+                                                                 is tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied
+                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are
+                                                                 unused. For diagnostic use only. */
+        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the QLM4 register is
+                                                                 tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied to
+                                                                 the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are unused.
+                                                                 For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t coast                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode (including all CCPI links), control signals to
-                                                                 freeze
-                                                                 the frequency of the per lane CDR in the PHY. The COAST signals are only valid in P0
-                                                                 state, come up asserted and are deasserted in hardware after detecting the electrical idle
-                                                                 exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
-                                                                 allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
-                                                                 allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the QLM4 register is
+                                                                 tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied to
+                                                                 the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are unused.
+                                                                 For diagnostic use only. */
+        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the QLM4 register
+                                                                 is tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied
+                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are
+                                                                 unused. For diagnostic use only. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_rx_coast_s cn; */
-} bdk_gserx_rx_coast_t;
+    /* struct bdk_gserx_ana_atest_s cn; */
+} bdk_gserx_ana_atest_t;
 
-static inline uint64_t BDK_GSERX_RX_COAST(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GSERX_RX_COAST(unsigned long a)
+static inline uint64_t BDK_GSERX_ANA_ATEST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_ANA_ATEST(unsigned long a)
 {
-    return 0x87e090000138ll + 0x1000000ll * ((a) & 0xf);
+    return 0x87e090000800ll + 0x1000000ll * ((a) & 0xf);
 }
 
-#define typedef_BDK_GSERX_RX_COAST(a) bdk_gserx_rx_coast_t
-#define bustype_BDK_GSERX_RX_COAST(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_GSERX_RX_COAST(a) "GSERX_RX_COAST"
-#define busnum_BDK_GSERX_RX_COAST(a) (a)
-#define arguments_BDK_GSERX_RX_COAST(a) (a),-1,-1,-1
+#define typedef_BDK_GSERX_ANA_ATEST(a) bdk_gserx_ana_atest_t
+#define bustype_BDK_GSERX_ANA_ATEST(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_ANA_ATEST(a) "GSERX_ANA_ATEST"
+#define busnum_BDK_GSERX_ANA_ATEST(a) (a)
+#define arguments_BDK_GSERX_ANA_ATEST(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gser#_lane#_rx_precorr_ctrl
@@ -5631,6 +6230,126 @@ static inline uint64_t BDK_GSERX_SLICE_CFG(unsigned long a)
 #define arguments_BDK_GSERX_SLICE_CFG(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) gser#_glbl_pll_cfg_1
+ *
+ * GSER Global PLL Configuration 1 Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_glbl_pll_cfg_1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_10_63        : 54;
+        uint64_t cfg_pll_ctrl_en       : 1;  /**< [  9:  9](R/W) PLL reset control enable.
+                                                                 0 = PLL RESETs/cal start are not active.
+                                                                 1 = All PLL RESETs/cal start are enabled.
+
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_calmode   : 3;  /**< [  8:  6](R/W) PLL calibration mode.
+                                                                 0 = Force PLL loop into calibration mode.
+                                                                 1 = Normal operation.
+
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_cal_ovrd_en : 1;/**< [  5:  5](R/W) Manual PLL coarse calibration override enable.
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_cal_ovrd  : 5;  /**< [  4:  0](R/W) Manual PLL coarse calibration override value.
+                                                                 For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t pcs_sds_pll_cal_ovrd  : 5;  /**< [  4:  0](R/W) Manual PLL coarse calibration override value.
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_cal_ovrd_en : 1;/**< [  5:  5](R/W) Manual PLL coarse calibration override enable.
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_calmode   : 3;  /**< [  8:  6](R/W) PLL calibration mode.
+                                                                 0 = Force PLL loop into calibration mode.
+                                                                 1 = Normal operation.
+
+                                                                 For diagnostic use only. */
+        uint64_t cfg_pll_ctrl_en       : 1;  /**< [  9:  9](R/W) PLL reset control enable.
+                                                                 0 = PLL RESETs/cal start are not active.
+                                                                 1 = All PLL RESETs/cal start are enabled.
+
+                                                                 For diagnostic use only. */
+        uint64_t reserved_10_63        : 54;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_glbl_pll_cfg_1_s cn; */
+} bdk_gserx_glbl_pll_cfg_1_t;
+
+static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_1(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e090460008ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_GLBL_PLL_CFG_1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GSERX_GLBL_PLL_CFG_1(a) bdk_gserx_glbl_pll_cfg_1_t
+#define bustype_BDK_GSERX_GLBL_PLL_CFG_1(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_GLBL_PLL_CFG_1(a) "GSERX_GLBL_PLL_CFG_1"
+#define busnum_BDK_GSERX_GLBL_PLL_CFG_1(a) (a)
+#define arguments_BDK_GSERX_GLBL_PLL_CFG_1(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gser#_glbl_pll_cfg_0
+ *
+ * GSER Global PLL Configuration 0 Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_glbl_pll_cfg_0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t pcs_sds_pll_vco_reset_b : 1;/**< [ 13: 13](R/W) VCO reset, active low.
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_strt_cal_b : 1; /**< [ 12: 12](R/W) Start PLL calibration, active low.
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_cripple   : 1;  /**< [ 11: 11](R/W) Ripple capacitor tuning.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_8_10         : 3;
+        uint64_t pcs_sds_pll_fthresh   : 2;  /**< [  7:  6](R/W/H) PLL frequency comparison threshold.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_0_5          : 6;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_5          : 6;
+        uint64_t pcs_sds_pll_fthresh   : 2;  /**< [  7:  6](R/W/H) PLL frequency comparison threshold.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_8_10         : 3;
+        uint64_t pcs_sds_pll_cripple   : 1;  /**< [ 11: 11](R/W) Ripple capacitor tuning.
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_strt_cal_b : 1; /**< [ 12: 12](R/W) Start PLL calibration, active low.
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_vco_reset_b : 1;/**< [ 13: 13](R/W) VCO reset, active low.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_glbl_pll_cfg_0_s cn; */
+} bdk_gserx_glbl_pll_cfg_0_t;
+
+static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_0(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e090460000ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_GLBL_PLL_CFG_0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GSERX_GLBL_PLL_CFG_0(a) bdk_gserx_glbl_pll_cfg_0_t
+#define bustype_BDK_GSERX_GLBL_PLL_CFG_0(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_GLBL_PLL_CFG_0(a) "GSERX_GLBL_PLL_CFG_0"
+#define busnum_BDK_GSERX_GLBL_PLL_CFG_0(a) (a)
+#define arguments_BDK_GSERX_GLBL_PLL_CFG_0(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) gser#_glbl_pll_cfg_3
  *
  * GSER Global PLL Configuration 3 Register
@@ -5742,6 +6461,106 @@ static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_3(unsigned long a)
 #define basename_BDK_GSERX_GLBL_PLL_CFG_3(a) "GSERX_GLBL_PLL_CFG_3"
 #define busnum_BDK_GSERX_GLBL_PLL_CFG_3(a) (a)
 #define arguments_BDK_GSERX_GLBL_PLL_CFG_3(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gser#_glbl_pll_cfg_2
+ *
+ * GSER Global PLL Configuration 2 Register
+ * These registers are for diagnostic use only.
+ * These registers are reset by hardware only during chip cold reset.
+ * The values of the CSR fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_glbl_pll_cfg_2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t pll_div_ovrrd_en      : 1;  /**< [ 14: 14](R/W) Override Global Power state machine and mac_pcs_pll_div control signal.
+                                                                 When asserted, pcs_sds_pll_div is specified from
+                                                                 GSER()_LANE()_PCS_PLL_CTLIFC_0[PLL_DIV_OVRRD_VAL],
+                                                                 global power state machine and mac_pcs_pll_div control signals are ignored.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_10_13        : 4;
+        uint64_t pcs_sds_pll_lock_override : 1;/**< [  9:  9](R/W) Not used.
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_counter_resetn : 1;/**< [  8:  8](R/W) Not used.
+                                                                 For diagnostic use only. */
+        uint64_t pll_sdsck_pd_ovrrd_val : 1; /**< [  7:  7](R/W) Clock tree powerdown override value.
+                                                                 For diagnostic use only. */
+        uint64_t pll_sdsck_pd_ovrrd_en : 1;  /**< [  6:  6](R/W) Clock tree powerdown override enable.
+                                                                 For diagnostic use only. */
+        uint64_t pll_pd_ovrrd_val      : 1;  /**< [  5:  5](R/W) PLL powerdown override value.
+                                                                 For diagnostic use only. */
+        uint64_t pll_pd_ovrrd_en       : 1;  /**< [  4:  4](R/W) When asserted, overrides PLL powerdown from state machine.
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_div5_byp  : 1;  /**< [  3:  3](R/W) Not used.
+                                                                 For diagnostic use only. */
+        uint64_t pll_band_sel_ovrrd_val : 1; /**< [  2:  2](R/W) State machine override value for VCO band select.
+                                                                 0 = Low band VCO0 (RO-VCO).
+                                                                 1 = High band VCO1 (LC-VCO).
+
+                                                                 For diagnostic use only. */
+        uint64_t pll_band_sel_ovrrd_en : 1;  /**< [  1:  1](R/W) PLL band select override enable.
+                                                                 For diagnostic use only. */
+        uint64_t pll_pcs_div_ovrrd_en  : 1;  /**< [  0:  0](R/W) Override global power state machine and mac_pcs_pll_div control signal.
+                                                                 When asserted, pcs_sds_pll_div is specified from
+                                                                 GSER()_LANE()_PCS_PLL_CTLIFC_1[PLL_PCS_DIV_OVRRD_VAL],
+                                                                 global power state machine and mac_pcs_pll_div control signals are ignored.
+                                                                 For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t pll_pcs_div_ovrrd_en  : 1;  /**< [  0:  0](R/W) Override global power state machine and mac_pcs_pll_div control signal.
+                                                                 When asserted, pcs_sds_pll_div is specified from
+                                                                 GSER()_LANE()_PCS_PLL_CTLIFC_1[PLL_PCS_DIV_OVRRD_VAL],
+                                                                 global power state machine and mac_pcs_pll_div control signals are ignored.
+                                                                 For diagnostic use only. */
+        uint64_t pll_band_sel_ovrrd_en : 1;  /**< [  1:  1](R/W) PLL band select override enable.
+                                                                 For diagnostic use only. */
+        uint64_t pll_band_sel_ovrrd_val : 1; /**< [  2:  2](R/W) State machine override value for VCO band select.
+                                                                 0 = Low band VCO0 (RO-VCO).
+                                                                 1 = High band VCO1 (LC-VCO).
+
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_div5_byp  : 1;  /**< [  3:  3](R/W) Not used.
+                                                                 For diagnostic use only. */
+        uint64_t pll_pd_ovrrd_en       : 1;  /**< [  4:  4](R/W) When asserted, overrides PLL powerdown from state machine.
+                                                                 For diagnostic use only. */
+        uint64_t pll_pd_ovrrd_val      : 1;  /**< [  5:  5](R/W) PLL powerdown override value.
+                                                                 For diagnostic use only. */
+        uint64_t pll_sdsck_pd_ovrrd_en : 1;  /**< [  6:  6](R/W) Clock tree powerdown override enable.
+                                                                 For diagnostic use only. */
+        uint64_t pll_sdsck_pd_ovrrd_val : 1; /**< [  7:  7](R/W) Clock tree powerdown override value.
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_counter_resetn : 1;/**< [  8:  8](R/W) Not used.
+                                                                 For diagnostic use only. */
+        uint64_t pcs_sds_pll_lock_override : 1;/**< [  9:  9](R/W) Not used.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_10_13        : 4;
+        uint64_t pll_div_ovrrd_en      : 1;  /**< [ 14: 14](R/W) Override Global Power state machine and mac_pcs_pll_div control signal.
+                                                                 When asserted, pcs_sds_pll_div is specified from
+                                                                 GSER()_LANE()_PCS_PLL_CTLIFC_0[PLL_DIV_OVRRD_VAL],
+                                                                 global power state machine and mac_pcs_pll_div control signals are ignored.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_glbl_pll_cfg_2_s cn; */
+} bdk_gserx_glbl_pll_cfg_2_t;
+
+static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_2(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x87e090460010ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_GLBL_PLL_CFG_2", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GSERX_GLBL_PLL_CFG_2(a) bdk_gserx_glbl_pll_cfg_2_t
+#define bustype_BDK_GSERX_GLBL_PLL_CFG_2(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_GLBL_PLL_CFG_2(a) "GSERX_GLBL_PLL_CFG_2"
+#define busnum_BDK_GSERX_GLBL_PLL_CFG_2(a) (a)
+#define arguments_BDK_GSERX_GLBL_PLL_CFG_2(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gser#_rx_polarity
@@ -6053,59 +6872,6 @@ static inline uint64_t BDK_GSERX_EQ_WAIT_TIME(unsigned long a)
 #define basename_BDK_GSERX_EQ_WAIT_TIME(a) "GSERX_EQ_WAIT_TIME"
 #define busnum_BDK_GSERX_EQ_WAIT_TIME(a) (a)
 #define arguments_BDK_GSERX_EQ_WAIT_TIME(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) gser#_rx_eie_deten
- *
- * GSER RX Electrical Idle Detect Enable Register
- * These registers are reset by hardware only during chip cold reset. The values of the CSR
- * fields in these registers do not change during chip warm or soft resets.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gserx_rx_eie_deten_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), these bits enable
-                                                                 per lane
-                                                                 electrical idle exit (EIE) detection. When EIE is detected,
-                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
-                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
-                                                                 EIE detection.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), these bits enable
-                                                                 per lane
-                                                                 electrical idle exit (EIE) detection. When EIE is detected,
-                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
-                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
-                                                                 EIE detection.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gserx_rx_eie_deten_s cn; */
-} bdk_gserx_rx_eie_deten_t;
-
-static inline uint64_t BDK_GSERX_RX_EIE_DETEN(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GSERX_RX_EIE_DETEN(unsigned long a)
-{
-    return 0x87e090000148ll + 0x1000000ll * ((a) & 0xf);
-}
-
-#define typedef_BDK_GSERX_RX_EIE_DETEN(a) bdk_gserx_rx_eie_deten_t
-#define bustype_BDK_GSERX_RX_EIE_DETEN(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_GSERX_RX_EIE_DETEN(a) "GSERX_RX_EIE_DETEN"
-#define busnum_BDK_GSERX_RX_EIE_DETEN(a) (a)
-#define arguments_BDK_GSERX_RX_EIE_DETEN(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gser#_ana_sel

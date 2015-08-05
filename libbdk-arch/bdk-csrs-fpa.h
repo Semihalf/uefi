@@ -557,6 +557,111 @@ static inline uint64_t BDK_FPA_VHAURAX_OP_FREEX(unsigned long a, unsigned long b
 #define arguments_BDK_FPA_VHAURAX_OP_FREEX(a,b) (a),(b),-1,-1
 
 /**
+ * Register (NCB) fpa_aura#_pool_levels
+ *
+ * FPA Aura FPA Level Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_fpa_aurax_pool_levels_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_41_63        : 23;
+        uint64_t drop_dis              : 1;  /**< [ 40: 40](R/W) Disables aura-unique pool DROP based on the [DROP] level. */
+        uint64_t bp_ena                : 1;  /**< [ 39: 39](R/W) Enable aura-unique pool backpressure based on [BP] level. If set FPA_GEN_CFG[LVL_DLY] must
+                                                                 be nonzero. */
+        uint64_t red_ena               : 1;  /**< [ 38: 38](R/W) Enable aura-unique pool RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY]
+                                                                 must be nonzero.
+                                                                 If set, aura-unique pool RED is performed on core requests with
+                                                                 FPA_ALLOC_LD_S/FPA_ALLOC_IOBDMA_S[RED] set, and also may be performed on the first PKI
+                                                                 allocation request for a packet (depending on PKI style and aura configuration). */
+        uint64_t shift                 : 6;  /**< [ 37: 32](R/W) Right shift to FPA_VHPOOL()_AVAILABLE[COUNT] used to create a narrower depth for
+                                                                 aura-unique pool QOS and backpressure calculations. PKI saturates the shifted
+                                                                 FPA_VHPOOL()_AVAILABLE[COUNT] to 8-bits for the aura, and compares this 8-bit
+                                                                 shifted and saturated depth directly to [DROP/BP]. PKI also creates [LEVEL],
+                                                                 which is a moving average of the 8-bit shifted and saturated depth for the aura,
+                                                                 for comparison to [DROP/PASS] in aura-unique pool RED calculations.
+
+                                                                 Though [SHIFT] may differ amongst the auras sharing a given pool, they may most
+                                                                 commonly be the same (i.e. the 8-bit shifted and saturated depth and [LEVEL] may
+                                                                 typically be the same for all auras sharing a pool), with the [DROP/PASS/BP]
+                                                                 configuration providing aura-uniqueness in aura-unique pool RED/DROP/BP
+                                                                 processing. */
+        uint64_t bp                    : 8;  /**< [ 31: 24](R/W) Backpressure can assert if the current 8-bit shifted and saturated
+                                                                 FPA_VHPOOL()_AVAILABLE[COUNT] for the aura is equal to or less than this value. */
+        uint64_t drop                  : 8;  /**< [ 23: 16](R/W) If [RED_ENA]=1 and RED processing is requested, the packet will be dropped if
+                                                                 [LEVEL] is equal to or less than this value.
+
+                                                                 If [DROP_DIS]=0 and DROP processing is requested, the packet will be dropped
+                                                                 if the current 8-bit shifted and saturated FPA_VHPOOL()_AVAILABLE[COUNT] for the
+                                                                 aura is equal to or less than this value. */
+        uint64_t pass                  : 8;  /**< [ 15:  8](R/W) Aura-unique pool RED processing will not drop an allocation request if [LEVEL] is larger
+                                                                 than this value. */
+        uint64_t level                 : 8;  /**< [  7:  0](RO/H) Current moving average of the 8-bit shifted and saturated FPA_VHPOOL()_AVAILABLE[COUNT]
+                                                                 for
+                                                                 the aura.
+                                                                 The higher [LEVEL] is, the more free resources. The lowest [LEVEL]'s indicate buffer
+                                                                 exhaustion.
+                                                                 See [SHIFT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t level                 : 8;  /**< [  7:  0](RO/H) Current moving average of the 8-bit shifted and saturated FPA_VHPOOL()_AVAILABLE[COUNT]
+                                                                 for
+                                                                 the aura.
+                                                                 The higher [LEVEL] is, the more free resources. The lowest [LEVEL]'s indicate buffer
+                                                                 exhaustion.
+                                                                 See [SHIFT]. */
+        uint64_t pass                  : 8;  /**< [ 15:  8](R/W) Aura-unique pool RED processing will not drop an allocation request if [LEVEL] is larger
+                                                                 than this value. */
+        uint64_t drop                  : 8;  /**< [ 23: 16](R/W) If [RED_ENA]=1 and RED processing is requested, the packet will be dropped if
+                                                                 [LEVEL] is equal to or less than this value.
+
+                                                                 If [DROP_DIS]=0 and DROP processing is requested, the packet will be dropped
+                                                                 if the current 8-bit shifted and saturated FPA_VHPOOL()_AVAILABLE[COUNT] for the
+                                                                 aura is equal to or less than this value. */
+        uint64_t bp                    : 8;  /**< [ 31: 24](R/W) Backpressure can assert if the current 8-bit shifted and saturated
+                                                                 FPA_VHPOOL()_AVAILABLE[COUNT] for the aura is equal to or less than this value. */
+        uint64_t shift                 : 6;  /**< [ 37: 32](R/W) Right shift to FPA_VHPOOL()_AVAILABLE[COUNT] used to create a narrower depth for
+                                                                 aura-unique pool QOS and backpressure calculations. PKI saturates the shifted
+                                                                 FPA_VHPOOL()_AVAILABLE[COUNT] to 8-bits for the aura, and compares this 8-bit
+                                                                 shifted and saturated depth directly to [DROP/BP]. PKI also creates [LEVEL],
+                                                                 which is a moving average of the 8-bit shifted and saturated depth for the aura,
+                                                                 for comparison to [DROP/PASS] in aura-unique pool RED calculations.
+
+                                                                 Though [SHIFT] may differ amongst the auras sharing a given pool, they may most
+                                                                 commonly be the same (i.e. the 8-bit shifted and saturated depth and [LEVEL] may
+                                                                 typically be the same for all auras sharing a pool), with the [DROP/PASS/BP]
+                                                                 configuration providing aura-uniqueness in aura-unique pool RED/DROP/BP
+                                                                 processing. */
+        uint64_t red_ena               : 1;  /**< [ 38: 38](R/W) Enable aura-unique pool RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY]
+                                                                 must be nonzero.
+                                                                 If set, aura-unique pool RED is performed on core requests with
+                                                                 FPA_ALLOC_LD_S/FPA_ALLOC_IOBDMA_S[RED] set, and also may be performed on the first PKI
+                                                                 allocation request for a packet (depending on PKI style and aura configuration). */
+        uint64_t bp_ena                : 1;  /**< [ 39: 39](R/W) Enable aura-unique pool backpressure based on [BP] level. If set FPA_GEN_CFG[LVL_DLY] must
+                                                                 be nonzero. */
+        uint64_t drop_dis              : 1;  /**< [ 40: 40](R/W) Disables aura-unique pool DROP based on the [DROP] level. */
+        uint64_t reserved_41_63        : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_fpa_aurax_pool_levels_s cn; */
+} bdk_fpa_aurax_pool_levels_t;
+
+static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x828100020300ll + 0x40000ll * ((a) & 0x1ff);
+    __bdk_csr_fatal("FPA_AURAX_POOL_LEVELS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_FPA_AURAX_POOL_LEVELS(a) bdk_fpa_aurax_pool_levels_t
+#define bustype_BDK_FPA_AURAX_POOL_LEVELS(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_FPA_AURAX_POOL_LEVELS(a) "FPA_AURAX_POOL_LEVELS"
+#define busnum_BDK_FPA_AURAX_POOL_LEVELS(a) (a)
+#define arguments_BDK_FPA_AURAX_POOL_LEVELS(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) fpa_vf#_msix_vec#_addr
  *
  * FPA VF MSI-X Vector-Table Address Register
@@ -1513,111 +1618,6 @@ static inline uint64_t BDK_FPA_ECC_INT_ENA_W1S_FUNC(void)
 #define basename_BDK_FPA_ECC_INT_ENA_W1S "FPA_ECC_INT_ENA_W1S"
 #define busnum_BDK_FPA_ECC_INT_ENA_W1S 0
 #define arguments_BDK_FPA_ECC_INT_ENA_W1S -1,-1,-1,-1
-
-/**
- * Register (NCB) fpa_aura#_pool_levels
- *
- * FPA Aura FPA Level Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_fpa_aurax_pool_levels_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t drop_dis              : 1;  /**< [ 40: 40](R/W) Disables aura-unique pool DROP based on the [DROP] level. */
-        uint64_t bp_ena                : 1;  /**< [ 39: 39](R/W) Enable aura-unique pool backpressure based on [BP] level. If set FPA_GEN_CFG[LVL_DLY] must
-                                                                 be nonzero. */
-        uint64_t red_ena               : 1;  /**< [ 38: 38](R/W) Enable aura-unique pool RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY]
-                                                                 must be nonzero.
-                                                                 If set, aura-unique pool RED is performed on core requests with
-                                                                 FPA_ALLOC_LD_S/FPA_ALLOC_IOBDMA_S[RED] set, and also may be performed on the first PKI
-                                                                 allocation request for a packet (depending on PKI style and aura configuration). */
-        uint64_t shift                 : 6;  /**< [ 37: 32](R/W) Right shift to FPA_VHPOOL()_AVAILABLE[COUNT] used to create a narrower depth for
-                                                                 aura-unique pool QOS and backpressure calculations. PKI saturates the shifted
-                                                                 FPA_VHPOOL()_AVAILABLE[COUNT] to 8-bits for the aura, and compares this 8-bit
-                                                                 shifted and saturated depth directly to [DROP/BP]. PKI also creates [LEVEL],
-                                                                 which is a moving average of the 8-bit shifted and saturated depth for the aura,
-                                                                 for comparison to [DROP/PASS] in aura-unique pool RED calculations.
-
-                                                                 Though [SHIFT] may differ amongst the auras sharing a given pool, they may most
-                                                                 commonly be the same (i.e. the 8-bit shifted and saturated depth and [LEVEL] may
-                                                                 typically be the same for all auras sharing a pool), with the [DROP/PASS/BP]
-                                                                 configuration providing aura-uniqueness in aura-unique pool RED/DROP/BP
-                                                                 processing. */
-        uint64_t bp                    : 8;  /**< [ 31: 24](R/W) Backpressure can assert if the current 8-bit shifted and saturated
-                                                                 FPA_VHPOOL()_AVAILABLE[COUNT] for the aura is equal to or less than this value. */
-        uint64_t drop                  : 8;  /**< [ 23: 16](R/W) If [RED_ENA]=1 and RED processing is requested, the packet will be dropped if
-                                                                 [LEVEL] is equal to or less than this value.
-
-                                                                 If [DROP_DIS]=0 and DROP processing is requested, the packet will be dropped
-                                                                 if the current 8-bit shifted and saturated FPA_VHPOOL()_AVAILABLE[COUNT] for the
-                                                                 aura is equal to or less than this value. */
-        uint64_t pass                  : 8;  /**< [ 15:  8](R/W) Aura-unique pool RED processing will not drop an allocation request if [LEVEL] is larger
-                                                                 than this value. */
-        uint64_t level                 : 8;  /**< [  7:  0](RO/H) Current moving average of the 8-bit shifted and saturated FPA_VHPOOL()_AVAILABLE[COUNT]
-                                                                 for
-                                                                 the aura.
-                                                                 The higher [LEVEL] is, the more free resources. The lowest [LEVEL]'s indicate buffer
-                                                                 exhaustion.
-                                                                 See [SHIFT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t level                 : 8;  /**< [  7:  0](RO/H) Current moving average of the 8-bit shifted and saturated FPA_VHPOOL()_AVAILABLE[COUNT]
-                                                                 for
-                                                                 the aura.
-                                                                 The higher [LEVEL] is, the more free resources. The lowest [LEVEL]'s indicate buffer
-                                                                 exhaustion.
-                                                                 See [SHIFT]. */
-        uint64_t pass                  : 8;  /**< [ 15:  8](R/W) Aura-unique pool RED processing will not drop an allocation request if [LEVEL] is larger
-                                                                 than this value. */
-        uint64_t drop                  : 8;  /**< [ 23: 16](R/W) If [RED_ENA]=1 and RED processing is requested, the packet will be dropped if
-                                                                 [LEVEL] is equal to or less than this value.
-
-                                                                 If [DROP_DIS]=0 and DROP processing is requested, the packet will be dropped
-                                                                 if the current 8-bit shifted and saturated FPA_VHPOOL()_AVAILABLE[COUNT] for the
-                                                                 aura is equal to or less than this value. */
-        uint64_t bp                    : 8;  /**< [ 31: 24](R/W) Backpressure can assert if the current 8-bit shifted and saturated
-                                                                 FPA_VHPOOL()_AVAILABLE[COUNT] for the aura is equal to or less than this value. */
-        uint64_t shift                 : 6;  /**< [ 37: 32](R/W) Right shift to FPA_VHPOOL()_AVAILABLE[COUNT] used to create a narrower depth for
-                                                                 aura-unique pool QOS and backpressure calculations. PKI saturates the shifted
-                                                                 FPA_VHPOOL()_AVAILABLE[COUNT] to 8-bits for the aura, and compares this 8-bit
-                                                                 shifted and saturated depth directly to [DROP/BP]. PKI also creates [LEVEL],
-                                                                 which is a moving average of the 8-bit shifted and saturated depth for the aura,
-                                                                 for comparison to [DROP/PASS] in aura-unique pool RED calculations.
-
-                                                                 Though [SHIFT] may differ amongst the auras sharing a given pool, they may most
-                                                                 commonly be the same (i.e. the 8-bit shifted and saturated depth and [LEVEL] may
-                                                                 typically be the same for all auras sharing a pool), with the [DROP/PASS/BP]
-                                                                 configuration providing aura-uniqueness in aura-unique pool RED/DROP/BP
-                                                                 processing. */
-        uint64_t red_ena               : 1;  /**< [ 38: 38](R/W) Enable aura-unique pool RED based on [DROP] and [PASS] levels. If set FPA_GEN_CFG[LVL_DLY]
-                                                                 must be nonzero.
-                                                                 If set, aura-unique pool RED is performed on core requests with
-                                                                 FPA_ALLOC_LD_S/FPA_ALLOC_IOBDMA_S[RED] set, and also may be performed on the first PKI
-                                                                 allocation request for a packet (depending on PKI style and aura configuration). */
-        uint64_t bp_ena                : 1;  /**< [ 39: 39](R/W) Enable aura-unique pool backpressure based on [BP] level. If set FPA_GEN_CFG[LVL_DLY] must
-                                                                 be nonzero. */
-        uint64_t drop_dis              : 1;  /**< [ 40: 40](R/W) Disables aura-unique pool DROP based on the [DROP] level. */
-        uint64_t reserved_41_63        : 23;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_fpa_aurax_pool_levels_s cn; */
-} bdk_fpa_aurax_pool_levels_t;
-
-static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x828100020300ll + 0x40000ll * ((a) & 0x1ff);
-    __bdk_csr_fatal("FPA_AURAX_POOL_LEVELS", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_FPA_AURAX_POOL_LEVELS(a) bdk_fpa_aurax_pool_levels_t
-#define bustype_BDK_FPA_AURAX_POOL_LEVELS(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_FPA_AURAX_POOL_LEVELS(a) "FPA_AURAX_POOL_LEVELS"
-#define busnum_BDK_FPA_AURAX_POOL_LEVELS(a) (a)
-#define arguments_BDK_FPA_AURAX_POOL_LEVELS(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) fpa_red_delay

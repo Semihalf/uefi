@@ -1529,84 +1529,6 @@ static inline uint64_t BDK_GTI_ERR_INT_ENA_SET_FUNC(void)
 #define arguments_BDK_GTI_ERR_INT_ENA_SET -1,-1,-1,-1
 
 /**
- * Register (NCB32b) gti_wc#_pidr3
- *
- * GTI Watchdog Control Peripheral Identification Register 3
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_gti_wcx_pidr3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
-        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 0x1 = Overall product information should be consulted for
-                                                                 product, major and minor pass numbers. */
-#else /* Word 0 - Little Endian */
-        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 0x1 = Overall product information should be consulted for
-                                                                 product, major and minor pass numbers. */
-        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gti_wcx_pidr3_s cn; */
-} bdk_gti_wcx_pidr3_t;
-
-static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a)
-{
-    return 0x844000080fecll + 0x20000ll * ((a) & 0x1);
-}
-
-#define typedef_BDK_GTI_WCX_PIDR3(a) bdk_gti_wcx_pidr3_t
-#define bustype_BDK_GTI_WCX_PIDR3(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_GTI_WCX_PIDR3(a) "GTI_WCX_PIDR3"
-#define busnum_BDK_GTI_WCX_PIDR3(a) (a)
-#define arguments_BDK_GTI_WCX_PIDR3(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) gti_wc#_pidr2
- *
- * GTI Watchdog Control Peripheral Identification Register 2
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_gti_wcx_pidr2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
-        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
-#else /* Word 0 - Little Endian */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
-        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gti_wcx_pidr2_s cn; */
-} bdk_gti_wcx_pidr2_t;
-
-static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a)
-{
-    return 0x844000080fe8ll + 0x20000ll * ((a) & 0x1);
-}
-
-#define typedef_BDK_GTI_WCX_PIDR2(a) bdk_gti_wcx_pidr2_t
-#define bustype_BDK_GTI_WCX_PIDR2(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_GTI_WCX_PIDR2(a) "GTI_WCX_PIDR2"
-#define busnum_BDK_GTI_WCX_PIDR2(a) (a)
-#define arguments_BDK_GTI_WCX_PIDR2(a) (a),-1,-1,-1
-
-/**
  * Register (NCB32b) gti_wc#_pidr1
  *
  * GTI Watchdog Control Peripheral Identification Register 1
@@ -2358,6 +2280,84 @@ static inline uint64_t BDK_GTI_MSIX_PBAX(unsigned long a)
 #define basename_BDK_GTI_MSIX_PBAX(a) "GTI_MSIX_PBAX"
 #define busnum_BDK_GTI_MSIX_PBAX(a) (a)
 #define arguments_BDK_GTI_MSIX_PBAX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) gti_wc#_pidr3
+ *
+ * GTI Watchdog Control Peripheral Identification Register 3
+ * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_gti_wcx_pidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
+        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 0x1 = Overall product information should be consulted for
+                                                                 product, major and minor pass numbers. */
+#else /* Word 0 - Little Endian */
+        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 0x1 = Overall product information should be consulted for
+                                                                 product, major and minor pass numbers. */
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gti_wcx_pidr3_s cn; */
+} bdk_gti_wcx_pidr3_t;
+
+static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a)
+{
+    return 0x844000080fecll + 0x20000ll * ((a) & 0x1);
+}
+
+#define typedef_BDK_GTI_WCX_PIDR3(a) bdk_gti_wcx_pidr3_t
+#define bustype_BDK_GTI_WCX_PIDR3(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_GTI_WCX_PIDR3(a) "GTI_WCX_PIDR3"
+#define busnum_BDK_GTI_WCX_PIDR3(a) (a)
+#define arguments_BDK_GTI_WCX_PIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) gti_wc#_pidr2
+ *
+ * GTI Watchdog Control Peripheral Identification Register 2
+ * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_gti_wcx_pidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
+#else /* Word 0 - Little Endian */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gti_wcx_pidr2_s cn; */
+} bdk_gti_wcx_pidr2_t;
+
+static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a)
+{
+    return 0x844000080fe8ll + 0x20000ll * ((a) & 0x1);
+}
+
+#define typedef_BDK_GTI_WCX_PIDR2(a) bdk_gti_wcx_pidr2_t
+#define bustype_BDK_GTI_WCX_PIDR2(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_GTI_WCX_PIDR2(a) "GTI_WCX_PIDR2"
+#define busnum_BDK_GTI_WCX_PIDR2(a) (a)
+#define arguments_BDK_GTI_WCX_PIDR2(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) gti_cc_cntmb_int_ena_set

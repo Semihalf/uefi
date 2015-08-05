@@ -1048,156 +1048,6 @@ static inline uint64_t BDK_AP_ICH_AP0R0_EL2_FUNC(void)
 #define arguments_BDK_AP_ICH_AP0R0_EL2 -1,-1,-1,-1
 
 /**
- * Register (SYSREG) ap_cvmctl_el1
- *
- * AP Cavium Control Register
- * This register provides Cavium-specific control information.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_cvmctl_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t reserved_10_15        : 6;
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-#else /* Word 0 - Little Endian */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t reserved_10_15        : 6;
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_cvmctl_el1_s cn83xx; */
-    /* struct bdk_ap_cvmctl_el1_s cn88xxp2; */
-    struct bdk_ap_cvmctl_el1_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t reserved_10_15        : 6;
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-#else /* Word 0 - Little Endian */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t reserved_10_15        : 6;
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } cn88xxp1;
-} bdk_ap_cvmctl_el1_t;
-
-#define BDK_AP_CVMCTL_EL1 BDK_AP_CVMCTL_EL1_FUNC()
-static inline uint64_t BDK_AP_CVMCTL_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_CVMCTL_EL1_FUNC(void)
-{
-    return 0x3000b000000ll;
-}
-
-#define typedef_BDK_AP_CVMCTL_EL1 bdk_ap_cvmctl_el1_t
-#define bustype_BDK_AP_CVMCTL_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_CVMCTL_EL1 "AP_CVMCTL_EL1"
-#define busnum_BDK_AP_CVMCTL_EL1 0
-#define arguments_BDK_AP_CVMCTL_EL1 -1,-1,-1,-1
-
-/**
  * Register (SYSREG) ap_cntps_cval_el1
  *
  * INTERNAL: AP Counter-timer Physical Secure Timer Compare Value Register
@@ -6722,6 +6572,75 @@ static inline uint64_t BDK_AP_PMCEID0_EL0_FUNC(void)
 #define arguments_BDK_AP_PMCEID0_EL0 -1,-1,-1,-1
 
 /**
+ * Register (SYSREG) ap_icc_bpr1_el1
+ *
+ * INTERNAL: AP Interrupt Controller Binary Point Register 1
+ *
+ * Defines the point at which the priority value fields split
+ *     into two parts, the group priority field and the subpriority
+ *     field. The group priority field is used to determine Group 1
+ *     interrupt preemption.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ap_icc_bpr1_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t binarypoint           : 3;  /**< [  2:  0](R/W) The value of this field controls how the 8-bit interrupt
+                                                                     priority field is split into a group priority field, used to
+                                                                     determine interrupt preemption, and a subpriority field. This
+                                                                     is done as follows:
+                                                                 <pre>
+                                                                 Binary point value  Group priority field    Subpriority field       Field with binary
+                                                                 point
+                                                                 0   [7:1]   [0]     ggggggg.s
+                                                                 1   [7:2]   [1:0]   gggggg.ss
+                                                                 2   [7:3]   [2:0]   ggggg.sss
+                                                                 3   [7:4]   [3:0]   gggg.ssss
+                                                                 4   [7:5]   [4:0]   ggg.sssss
+                                                                 5   [7:6]   [5:0]   gg.ssssss
+                                                                 6   [7]     [6:0]   g.sssssss
+                                                                 7   No preemption   [7:0]   .ssssssss
+                                                                 </pre> */
+#else /* Word 0 - Little Endian */
+        uint32_t binarypoint           : 3;  /**< [  2:  0](R/W) The value of this field controls how the 8-bit interrupt
+                                                                     priority field is split into a group priority field, used to
+                                                                     determine interrupt preemption, and a subpriority field. This
+                                                                     is done as follows:
+                                                                 <pre>
+                                                                 Binary point value  Group priority field    Subpriority field       Field with binary
+                                                                 point
+                                                                 0   [7:1]   [0]     ggggggg.s
+                                                                 1   [7:2]   [1:0]   gggggg.ss
+                                                                 2   [7:3]   [2:0]   ggggg.sss
+                                                                 3   [7:4]   [3:0]   gggg.ssss
+                                                                 4   [7:5]   [4:0]   ggg.sssss
+                                                                 5   [7:6]   [5:0]   gg.ssssss
+                                                                 6   [7]     [6:0]   g.sssssss
+                                                                 7   No preemption   [7:0]   .ssssssss
+                                                                 </pre> */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_icc_bpr1_el1_s cn; */
+} bdk_ap_icc_bpr1_el1_t;
+
+#define BDK_AP_ICC_BPR1_EL1 BDK_AP_ICC_BPR1_EL1_FUNC()
+static inline uint64_t BDK_AP_ICC_BPR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_ICC_BPR1_EL1_FUNC(void)
+{
+    return 0x3000c0c0300ll;
+}
+
+#define typedef_BDK_AP_ICC_BPR1_EL1 bdk_ap_icc_bpr1_el1_t
+#define bustype_BDK_AP_ICC_BPR1_EL1 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_ICC_BPR1_EL1 "AP_ICC_BPR1_EL1"
+#define busnum_BDK_AP_ICC_BPR1_EL1 0
+#define arguments_BDK_AP_ICC_BPR1_EL1 -1,-1,-1,-1
+
+/**
  * Register (SYSREG) ap_csselr_el1
  *
  * INTERNAL: AP Cache Size Selection Register
@@ -7403,6 +7322,40 @@ static inline uint64_t BDK_AP_CVM_DEBUG8_EL3_FUNC(void)
 #define arguments_BDK_AP_CVM_DEBUG8_EL3 -1,-1,-1,-1
 
 /**
+ * Register (SYSREG) ap_ttbr0_el12
+ *
+ * INTERNAL: AP Translation Table Base EL1/2 Register 0
+ *
+ * Alias of AP_TTBR0_EL1 from EL2 when AP_HCR_EL2[E2H] is set.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ap_ttbr0_el12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_ttbr0_el12_s cn; */
+} bdk_ap_ttbr0_el12_t;
+
+#define BDK_AP_TTBR0_EL12 BDK_AP_TTBR0_EL12_FUNC()
+static inline uint64_t BDK_AP_TTBR0_EL12_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_TTBR0_EL12_FUNC(void)
+{
+    return 0x30502000000ll;
+}
+
+#define typedef_BDK_AP_TTBR0_EL12 bdk_ap_ttbr0_el12_t
+#define bustype_BDK_AP_TTBR0_EL12 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_TTBR0_EL12 "AP_TTBR0_EL12"
+#define busnum_BDK_AP_TTBR0_EL12 0
+#define arguments_BDK_AP_TTBR0_EL12 -1,-1,-1,-1
+
+/**
  * Register (SYSREG) ap_cvm_evattid_el1
  *
  * AP Cavium EVATTID Register
@@ -7749,40 +7702,6 @@ static inline uint64_t BDK_AP_HSTR_EL2_FUNC(void)
 #define basename_BDK_AP_HSTR_EL2 "AP_HSTR_EL2"
 #define busnum_BDK_AP_HSTR_EL2 0
 #define arguments_BDK_AP_HSTR_EL2 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_cvm_dcachedata1_el1
- *
- * AP Cavium Dcache Data 1 Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_cvm_dcachedata1_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t parity                : 8;  /**< [  7:  0](RO) Parity bits. */
-#else /* Word 0 - Little Endian */
-        uint64_t parity                : 8;  /**< [  7:  0](RO) Parity bits. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_cvm_dcachedata1_el1_s cn; */
-} bdk_ap_cvm_dcachedata1_el1_t;
-
-#define BDK_AP_CVM_DCACHEDATA1_EL1 BDK_AP_CVM_DCACHEDATA1_EL1_FUNC()
-static inline uint64_t BDK_AP_CVM_DCACHEDATA1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_CVM_DCACHEDATA1_EL1_FUNC(void)
-{
-    return 0x3000b030500ll;
-}
-
-#define typedef_BDK_AP_CVM_DCACHEDATA1_EL1 bdk_ap_cvm_dcachedata1_el1_t
-#define bustype_BDK_AP_CVM_DCACHEDATA1_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_CVM_DCACHEDATA1_EL1 "AP_CVM_DCACHEDATA1_EL1"
-#define busnum_BDK_AP_CVM_DCACHEDATA1_EL1 0
-#define arguments_BDK_AP_CVM_DCACHEDATA1_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_icc_dir_el1
@@ -8392,6 +8311,156 @@ static inline uint64_t BDK_AP_CVM_DCACHEDATA0_EL1_FUNC(void)
 #define basename_BDK_AP_CVM_DCACHEDATA0_EL1 "AP_CVM_DCACHEDATA0_EL1"
 #define busnum_BDK_AP_CVM_DCACHEDATA0_EL1 0
 #define arguments_BDK_AP_CVM_DCACHEDATA0_EL1 -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_cvmctl_el1
+ *
+ * AP Cavium Control Register
+ * This register provides Cavium-specific control information.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ap_cvmctl_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+#else /* Word 0 - Little Endian */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t reserved_10_15        : 6;
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_cvmctl_el1_s cn83xx; */
+    /* struct bdk_ap_cvmctl_el1_s cn88xxp2; */
+    struct bdk_ap_cvmctl_el1_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+#else /* Word 0 - Little Endian */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t reserved_10_15        : 6;
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+} bdk_ap_cvmctl_el1_t;
+
+#define BDK_AP_CVMCTL_EL1 BDK_AP_CVMCTL_EL1_FUNC()
+static inline uint64_t BDK_AP_CVMCTL_EL1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_CVMCTL_EL1_FUNC(void)
+{
+    return 0x3000b000000ll;
+}
+
+#define typedef_BDK_AP_CVMCTL_EL1 bdk_ap_cvmctl_el1_t
+#define bustype_BDK_AP_CVMCTL_EL1 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_CVMCTL_EL1 "AP_CVMCTL_EL1"
+#define busnum_BDK_AP_CVMCTL_EL1 0
+#define arguments_BDK_AP_CVMCTL_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_cvm_icachedata0_el1
@@ -9640,37 +9709,6 @@ static inline uint64_t BDK_AP_ESR_EL12_FUNC(void)
 #define basename_BDK_AP_ESR_EL12 "AP_ESR_EL12"
 #define busnum_BDK_AP_ESR_EL12 0
 #define arguments_BDK_AP_ESR_EL12 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_trcimspec#
- *
- * INTERNAL: AP Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_trcimspecx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_trcimspecx_s cn; */
-} bdk_ap_trcimspecx_t;
-
-static inline uint64_t BDK_AP_TRCIMSPECX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_TRCIMSPECX(unsigned long a)
-{
-    return 0x20100000700ll + 0x10000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_AP_TRCIMSPECX(a) bdk_ap_trcimspecx_t
-#define bustype_BDK_AP_TRCIMSPECX(a) BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_TRCIMSPECX(a) "AP_TRCIMSPECX"
-#define busnum_BDK_AP_TRCIMSPECX(a) (a)
-#define arguments_BDK_AP_TRCIMSPECX(a) (a),-1,-1,-1
 
 /**
  * Register (SYSREG) ap_id_aa64afr#_el1_res0
@@ -14619,6 +14657,131 @@ static inline uint64_t BDK_AP_CVM_DEBUG1_EL3_FUNC(void)
 #define arguments_BDK_AP_CVM_DEBUG1_EL3 -1,-1,-1,-1
 
 /**
+ * Register (SYSREG) ap_icc_ctlr_el3
+ *
+ * INTERNAL: AP Interrupt Controller Control EL3 Register
+ *
+ * Controls aspects of the behaviour of the GIC CPU interface and
+ *     provides information about the features implemented.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ap_icc_ctlr_el3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t a3v                   : 1;  /**< [ 15: 15](RO) Affinity 3 Valid. Read-only and writes are ignored. Possible
+                                                                     values are:
+                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[A3V].
+                                                                 0 = The CPU interface logic only supports zero values of Affinity
+                                                                     3 in SGI generation system registers.
+                                                                 1 = The CPU interface logic supports non-zero values of Affinity 3
+                                                                     in SGI generation system registers. */
+        uint32_t seis                  : 1;  /**< [ 14: 14](RO) SEI Support. Read-only and writes are ignored. Indicates
+                                                                     whether the CPU interface supports generation of SEIs:
+                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[SEIS].
+                                                                 0 = The CPU interface logic does not support generation of SEIs.
+                                                                 1 = The CPU interface logic supports generation of SEIs. */
+        uint32_t idbits                : 3;  /**< [ 13: 11](RO) Identifier bits. Read-only and writes are ignored. The number
+                                                                     of physical interrupt identifier bits supported:
+                                                                 All other values are reserved.
+                                                                 0x0 = 16 bits.
+                                                                 0x1 = 24 bits. */
+        uint32_t pribits               : 3;  /**< [ 10:  8](RO) Priority bits. Read-only and writes are ignored. The number of
+                                                                     priority bits implemented, minus one. */
+        uint32_t reserved_7            : 1;
+        uint32_t pmhe                  : 1;  /**< [  6:  6](R/W) Priority Mask Hint Enable.
+                                                                 When set, enables use of the PMR as a hint for interrupt
+                                                                     distribution. */
+        uint32_t rm                    : 1;  /**< [  5:  5](RO) Routing Modifier.  Note: In systems without EL3 or where the secure
+                                                                 copy of AP_ICC_SRE_EL1 is RES1, this bit is RES0.
+                                                                 This bit is used to modify the behaviour of
+                                                                 AP_ICC_IAR0_EL1 and AP_ICC_IAR1_EL1 such that systems with legacy
+                                                                 secure software may be supported correctly.
+                                                                 0 = Secure Group 0 and non-secure group 1 interrupts can be
+                                                                     acknowleged and observed as the highest priority interrupt
+                                                                     at EL3 in AArch64 or Monitor mode in AArch32.
+                                                                 1 = Secure Group 0 and non-secure group 1 interrupts cannot be
+                                                                     acknowleged and observed as the highest priority interrupt
+                                                                     at EL3 in AArch64 or Monitor mode in AArch32 but return
+                                                                     special values. */
+        uint32_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W) EOI mode for interrupts handled at non-secure EL1 and EL2. */
+        uint32_t eoimode_el1s          : 1;  /**< [  3:  3](R/W) EOI mode for interrupts handled at secure EL1. */
+        uint32_t eoimode_el3           : 1;  /**< [  2:  2](R/W) EOI mode for interrupts handled at EL3. */
+        uint32_t cbpr_el1ns            : 1;  /**< [  1:  1](R/W) When set, non-secure accesses to GICC_BPR and AP_ICC_BPR1_EL1
+                                                                     access the state of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to
+                                                                     determine the preemption group for non-secure group 1
+                                                                     interrupts. */
+        uint32_t cbpr_el1s             : 1;  /**< [  0:  0](R/W) When set, secure EL1 accesses to AP_ICC_BPR1_EL1 access the state
+                                                                     of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to determine the
+                                                                     preemption group for Secure Group 1 interrupts. */
+#else /* Word 0 - Little Endian */
+        uint32_t cbpr_el1s             : 1;  /**< [  0:  0](R/W) When set, secure EL1 accesses to AP_ICC_BPR1_EL1 access the state
+                                                                     of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to determine the
+                                                                     preemption group for Secure Group 1 interrupts. */
+        uint32_t cbpr_el1ns            : 1;  /**< [  1:  1](R/W) When set, non-secure accesses to GICC_BPR and AP_ICC_BPR1_EL1
+                                                                     access the state of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to
+                                                                     determine the preemption group for non-secure group 1
+                                                                     interrupts. */
+        uint32_t eoimode_el3           : 1;  /**< [  2:  2](R/W) EOI mode for interrupts handled at EL3. */
+        uint32_t eoimode_el1s          : 1;  /**< [  3:  3](R/W) EOI mode for interrupts handled at secure EL1. */
+        uint32_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W) EOI mode for interrupts handled at non-secure EL1 and EL2. */
+        uint32_t rm                    : 1;  /**< [  5:  5](RO) Routing Modifier.  Note: In systems without EL3 or where the secure
+                                                                 copy of AP_ICC_SRE_EL1 is RES1, this bit is RES0.
+                                                                 This bit is used to modify the behaviour of
+                                                                 AP_ICC_IAR0_EL1 and AP_ICC_IAR1_EL1 such that systems with legacy
+                                                                 secure software may be supported correctly.
+                                                                 0 = Secure Group 0 and non-secure group 1 interrupts can be
+                                                                     acknowleged and observed as the highest priority interrupt
+                                                                     at EL3 in AArch64 or Monitor mode in AArch32.
+                                                                 1 = Secure Group 0 and non-secure group 1 interrupts cannot be
+                                                                     acknowleged and observed as the highest priority interrupt
+                                                                     at EL3 in AArch64 or Monitor mode in AArch32 but return
+                                                                     special values. */
+        uint32_t pmhe                  : 1;  /**< [  6:  6](R/W) Priority Mask Hint Enable.
+                                                                 When set, enables use of the PMR as a hint for interrupt
+                                                                     distribution. */
+        uint32_t reserved_7            : 1;
+        uint32_t pribits               : 3;  /**< [ 10:  8](RO) Priority bits. Read-only and writes are ignored. The number of
+                                                                     priority bits implemented, minus one. */
+        uint32_t idbits                : 3;  /**< [ 13: 11](RO) Identifier bits. Read-only and writes are ignored. The number
+                                                                     of physical interrupt identifier bits supported:
+                                                                 All other values are reserved.
+                                                                 0x0 = 16 bits.
+                                                                 0x1 = 24 bits. */
+        uint32_t seis                  : 1;  /**< [ 14: 14](RO) SEI Support. Read-only and writes are ignored. Indicates
+                                                                     whether the CPU interface supports generation of SEIs:
+                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[SEIS].
+                                                                 0 = The CPU interface logic does not support generation of SEIs.
+                                                                 1 = The CPU interface logic supports generation of SEIs. */
+        uint32_t a3v                   : 1;  /**< [ 15: 15](RO) Affinity 3 Valid. Read-only and writes are ignored. Possible
+                                                                     values are:
+                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[A3V].
+                                                                 0 = The CPU interface logic only supports zero values of Affinity
+                                                                     3 in SGI generation system registers.
+                                                                 1 = The CPU interface logic supports non-zero values of Affinity 3
+                                                                     in SGI generation system registers. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_icc_ctlr_el3_s cn; */
+} bdk_ap_icc_ctlr_el3_t;
+
+#define BDK_AP_ICC_CTLR_EL3 BDK_AP_ICC_CTLR_EL3_FUNC()
+static inline uint64_t BDK_AP_ICC_CTLR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_ICC_CTLR_EL3_FUNC(void)
+{
+    return 0x3060c0c0400ll;
+}
+
+#define typedef_BDK_AP_ICC_CTLR_EL3 bdk_ap_icc_ctlr_el3_t
+#define bustype_BDK_AP_ICC_CTLR_EL3 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_ICC_CTLR_EL3 "AP_ICC_CTLR_EL3"
+#define busnum_BDK_AP_ICC_CTLR_EL3 0
+#define arguments_BDK_AP_ICC_CTLR_EL3 -1,-1,-1,-1
+
+/**
  * Register (SYSREG) ap_cvm_dcacheptag0_el1
  *
  * AP Cavium Dcache Ptag 0 Register
@@ -14945,6 +15108,37 @@ static inline uint64_t BDK_AP_PMCNTENSET_EL0_FUNC(void)
 #define basename_BDK_AP_PMCNTENSET_EL0 "AP_PMCNTENSET_EL0"
 #define busnum_BDK_AP_PMCNTENSET_EL0 0
 #define arguments_BDK_AP_PMCNTENSET_EL0 -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_trcimspec#
+ *
+ * INTERNAL: AP Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ap_trcimspecx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_trcimspecx_s cn; */
+} bdk_ap_trcimspecx_t;
+
+static inline uint64_t BDK_AP_TRCIMSPECX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_TRCIMSPECX(unsigned long a)
+{
+    return 0x20100000700ll + 0x10000ll * ((a) & 0x7);
+}
+
+#define typedef_BDK_AP_TRCIMSPECX(a) bdk_ap_trcimspecx_t
+#define bustype_BDK_AP_TRCIMSPECX(a) BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_TRCIMSPECX(a) "AP_TRCIMSPECX"
+#define busnum_BDK_AP_TRCIMSPECX(a) (a)
+#define arguments_BDK_AP_TRCIMSPECX(a) (a),-1,-1,-1
 
 /**
  * Register (SYSREG) ap_cvm_power_el1
@@ -18309,75 +18503,6 @@ static inline uint64_t BDK_AP_LORC_EL1_FUNC(void)
 #define arguments_BDK_AP_LORC_EL1 -1,-1,-1,-1
 
 /**
- * Register (SYSREG) ap_icc_bpr1_el1
- *
- * INTERNAL: AP Interrupt Controller Binary Point Register 1
- *
- * Defines the point at which the priority value fields split
- *     into two parts, the group priority field and the subpriority
- *     field. The group priority field is used to determine Group 1
- *     interrupt preemption.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_ap_icc_bpr1_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
-        uint32_t binarypoint           : 3;  /**< [  2:  0](R/W) The value of this field controls how the 8-bit interrupt
-                                                                     priority field is split into a group priority field, used to
-                                                                     determine interrupt preemption, and a subpriority field. This
-                                                                     is done as follows:
-                                                                 <pre>
-                                                                 Binary point value  Group priority field    Subpriority field       Field with binary
-                                                                 point
-                                                                 0   [7:1]   [0]     ggggggg.s
-                                                                 1   [7:2]   [1:0]   gggggg.ss
-                                                                 2   [7:3]   [2:0]   ggggg.sss
-                                                                 3   [7:4]   [3:0]   gggg.ssss
-                                                                 4   [7:5]   [4:0]   ggg.sssss
-                                                                 5   [7:6]   [5:0]   gg.ssssss
-                                                                 6   [7]     [6:0]   g.sssssss
-                                                                 7   No preemption   [7:0]   .ssssssss
-                                                                 </pre> */
-#else /* Word 0 - Little Endian */
-        uint32_t binarypoint           : 3;  /**< [  2:  0](R/W) The value of this field controls how the 8-bit interrupt
-                                                                     priority field is split into a group priority field, used to
-                                                                     determine interrupt preemption, and a subpriority field. This
-                                                                     is done as follows:
-                                                                 <pre>
-                                                                 Binary point value  Group priority field    Subpriority field       Field with binary
-                                                                 point
-                                                                 0   [7:1]   [0]     ggggggg.s
-                                                                 1   [7:2]   [1:0]   gggggg.ss
-                                                                 2   [7:3]   [2:0]   ggggg.sss
-                                                                 3   [7:4]   [3:0]   gggg.ssss
-                                                                 4   [7:5]   [4:0]   ggg.sssss
-                                                                 5   [7:6]   [5:0]   gg.ssssss
-                                                                 6   [7]     [6:0]   g.sssssss
-                                                                 7   No preemption   [7:0]   .ssssssss
-                                                                 </pre> */
-        uint32_t reserved_3_31         : 29;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_icc_bpr1_el1_s cn; */
-} bdk_ap_icc_bpr1_el1_t;
-
-#define BDK_AP_ICC_BPR1_EL1 BDK_AP_ICC_BPR1_EL1_FUNC()
-static inline uint64_t BDK_AP_ICC_BPR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_ICC_BPR1_EL1_FUNC(void)
-{
-    return 0x3000c0c0300ll;
-}
-
-#define typedef_BDK_AP_ICC_BPR1_EL1 bdk_ap_icc_bpr1_el1_t
-#define bustype_BDK_AP_ICC_BPR1_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_ICC_BPR1_EL1 "AP_ICC_BPR1_EL1"
-#define busnum_BDK_AP_ICC_BPR1_EL1 0
-#define arguments_BDK_AP_ICC_BPR1_EL1 -1,-1,-1,-1
-
-/**
  * Register (SYSREG) ap_pmuserenr_el0
  *
  * INTERNAL: AP Performance Monitors User Enable Register
@@ -21488,40 +21613,6 @@ static inline uint64_t BDK_AP_ICH_LRCX(unsigned long a)
 #define arguments_BDK_AP_ICH_LRCX(a) (a),-1,-1,-1
 
 /**
- * Register (SYSREG) ap_ttbr0_el12
- *
- * INTERNAL: AP Translation Table Base EL1/2 Register 0
- *
- * Alias of AP_TTBR0_EL1 from EL2 when AP_HCR_EL2[E2H] is set.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_ttbr0_el12_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_ttbr0_el12_s cn; */
-} bdk_ap_ttbr0_el12_t;
-
-#define BDK_AP_TTBR0_EL12 BDK_AP_TTBR0_EL12_FUNC()
-static inline uint64_t BDK_AP_TTBR0_EL12_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_TTBR0_EL12_FUNC(void)
-{
-    return 0x30502000000ll;
-}
-
-#define typedef_BDK_AP_TTBR0_EL12 bdk_ap_ttbr0_el12_t
-#define bustype_BDK_AP_TTBR0_EL12 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_TTBR0_EL12 "AP_TTBR0_EL12"
-#define busnum_BDK_AP_TTBR0_EL12 0
-#define arguments_BDK_AP_TTBR0_EL12 -1,-1,-1,-1
-
-/**
  * Register (SYSREG) ap_trcccctlr
  *
  * INTERNAL: AP Register
@@ -22605,131 +22696,6 @@ static inline uint64_t BDK_AP_ICC_CTLR_EL1_FUNC(void)
 #define basename_BDK_AP_ICC_CTLR_EL1 "AP_ICC_CTLR_EL1"
 #define busnum_BDK_AP_ICC_CTLR_EL1 0
 #define arguments_BDK_AP_ICC_CTLR_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_icc_ctlr_el3
- *
- * INTERNAL: AP Interrupt Controller Control EL3 Register
- *
- * Controls aspects of the behaviour of the GIC CPU interface and
- *     provides information about the features implemented.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_ap_icc_ctlr_el3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t a3v                   : 1;  /**< [ 15: 15](RO) Affinity 3 Valid. Read-only and writes are ignored. Possible
-                                                                     values are:
-                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[A3V].
-                                                                 0 = The CPU interface logic only supports zero values of Affinity
-                                                                     3 in SGI generation system registers.
-                                                                 1 = The CPU interface logic supports non-zero values of Affinity 3
-                                                                     in SGI generation system registers. */
-        uint32_t seis                  : 1;  /**< [ 14: 14](RO) SEI Support. Read-only and writes are ignored. Indicates
-                                                                     whether the CPU interface supports generation of SEIs:
-                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[SEIS].
-                                                                 0 = The CPU interface logic does not support generation of SEIs.
-                                                                 1 = The CPU interface logic supports generation of SEIs. */
-        uint32_t idbits                : 3;  /**< [ 13: 11](RO) Identifier bits. Read-only and writes are ignored. The number
-                                                                     of physical interrupt identifier bits supported:
-                                                                 All other values are reserved.
-                                                                 0x0 = 16 bits.
-                                                                 0x1 = 24 bits. */
-        uint32_t pribits               : 3;  /**< [ 10:  8](RO) Priority bits. Read-only and writes are ignored. The number of
-                                                                     priority bits implemented, minus one. */
-        uint32_t reserved_7            : 1;
-        uint32_t pmhe                  : 1;  /**< [  6:  6](R/W) Priority Mask Hint Enable.
-                                                                 When set, enables use of the PMR as a hint for interrupt
-                                                                     distribution. */
-        uint32_t rm                    : 1;  /**< [  5:  5](RO) Routing Modifier.  Note: In systems without EL3 or where the secure
-                                                                 copy of AP_ICC_SRE_EL1 is RES1, this bit is RES0.
-                                                                 This bit is used to modify the behaviour of
-                                                                 AP_ICC_IAR0_EL1 and AP_ICC_IAR1_EL1 such that systems with legacy
-                                                                 secure software may be supported correctly.
-                                                                 0 = Secure Group 0 and non-secure group 1 interrupts can be
-                                                                     acknowleged and observed as the highest priority interrupt
-                                                                     at EL3 in AArch64 or Monitor mode in AArch32.
-                                                                 1 = Secure Group 0 and non-secure group 1 interrupts cannot be
-                                                                     acknowleged and observed as the highest priority interrupt
-                                                                     at EL3 in AArch64 or Monitor mode in AArch32 but return
-                                                                     special values. */
-        uint32_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W) EOI mode for interrupts handled at non-secure EL1 and EL2. */
-        uint32_t eoimode_el1s          : 1;  /**< [  3:  3](R/W) EOI mode for interrupts handled at secure EL1. */
-        uint32_t eoimode_el3           : 1;  /**< [  2:  2](R/W) EOI mode for interrupts handled at EL3. */
-        uint32_t cbpr_el1ns            : 1;  /**< [  1:  1](R/W) When set, non-secure accesses to GICC_BPR and AP_ICC_BPR1_EL1
-                                                                     access the state of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to
-                                                                     determine the preemption group for non-secure group 1
-                                                                     interrupts. */
-        uint32_t cbpr_el1s             : 1;  /**< [  0:  0](R/W) When set, secure EL1 accesses to AP_ICC_BPR1_EL1 access the state
-                                                                     of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to determine the
-                                                                     preemption group for Secure Group 1 interrupts. */
-#else /* Word 0 - Little Endian */
-        uint32_t cbpr_el1s             : 1;  /**< [  0:  0](R/W) When set, secure EL1 accesses to AP_ICC_BPR1_EL1 access the state
-                                                                     of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to determine the
-                                                                     preemption group for Secure Group 1 interrupts. */
-        uint32_t cbpr_el1ns            : 1;  /**< [  1:  1](R/W) When set, non-secure accesses to GICC_BPR and AP_ICC_BPR1_EL1
-                                                                     access the state of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to
-                                                                     determine the preemption group for non-secure group 1
-                                                                     interrupts. */
-        uint32_t eoimode_el3           : 1;  /**< [  2:  2](R/W) EOI mode for interrupts handled at EL3. */
-        uint32_t eoimode_el1s          : 1;  /**< [  3:  3](R/W) EOI mode for interrupts handled at secure EL1. */
-        uint32_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W) EOI mode for interrupts handled at non-secure EL1 and EL2. */
-        uint32_t rm                    : 1;  /**< [  5:  5](RO) Routing Modifier.  Note: In systems without EL3 or where the secure
-                                                                 copy of AP_ICC_SRE_EL1 is RES1, this bit is RES0.
-                                                                 This bit is used to modify the behaviour of
-                                                                 AP_ICC_IAR0_EL1 and AP_ICC_IAR1_EL1 such that systems with legacy
-                                                                 secure software may be supported correctly.
-                                                                 0 = Secure Group 0 and non-secure group 1 interrupts can be
-                                                                     acknowleged and observed as the highest priority interrupt
-                                                                     at EL3 in AArch64 or Monitor mode in AArch32.
-                                                                 1 = Secure Group 0 and non-secure group 1 interrupts cannot be
-                                                                     acknowleged and observed as the highest priority interrupt
-                                                                     at EL3 in AArch64 or Monitor mode in AArch32 but return
-                                                                     special values. */
-        uint32_t pmhe                  : 1;  /**< [  6:  6](R/W) Priority Mask Hint Enable.
-                                                                 When set, enables use of the PMR as a hint for interrupt
-                                                                     distribution. */
-        uint32_t reserved_7            : 1;
-        uint32_t pribits               : 3;  /**< [ 10:  8](RO) Priority bits. Read-only and writes are ignored. The number of
-                                                                     priority bits implemented, minus one. */
-        uint32_t idbits                : 3;  /**< [ 13: 11](RO) Identifier bits. Read-only and writes are ignored. The number
-                                                                     of physical interrupt identifier bits supported:
-                                                                 All other values are reserved.
-                                                                 0x0 = 16 bits.
-                                                                 0x1 = 24 bits. */
-        uint32_t seis                  : 1;  /**< [ 14: 14](RO) SEI Support. Read-only and writes are ignored. Indicates
-                                                                     whether the CPU interface supports generation of SEIs:
-                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[SEIS].
-                                                                 0 = The CPU interface logic does not support generation of SEIs.
-                                                                 1 = The CPU interface logic supports generation of SEIs. */
-        uint32_t a3v                   : 1;  /**< [ 15: 15](RO) Affinity 3 Valid. Read-only and writes are ignored. Possible
-                                                                     values are:
-                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[A3V].
-                                                                 0 = The CPU interface logic only supports zero values of Affinity
-                                                                     3 in SGI generation system registers.
-                                                                 1 = The CPU interface logic supports non-zero values of Affinity 3
-                                                                     in SGI generation system registers. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_icc_ctlr_el3_s cn; */
-} bdk_ap_icc_ctlr_el3_t;
-
-#define BDK_AP_ICC_CTLR_EL3 BDK_AP_ICC_CTLR_EL3_FUNC()
-static inline uint64_t BDK_AP_ICC_CTLR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_ICC_CTLR_EL3_FUNC(void)
-{
-    return 0x3060c0c0400ll;
-}
-
-#define typedef_BDK_AP_ICC_CTLR_EL3 bdk_ap_icc_ctlr_el3_t
-#define bustype_BDK_AP_ICC_CTLR_EL3 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_ICC_CTLR_EL3 "AP_ICC_CTLR_EL3"
-#define busnum_BDK_AP_ICC_CTLR_EL3 0
-#define arguments_BDK_AP_ICC_CTLR_EL3 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_tcr_el2_e2h
@@ -24315,6 +24281,40 @@ static inline uint64_t BDK_AP_CVM_ICACHETAG0_EL1_FUNC(void)
 #define basename_BDK_AP_CVM_ICACHETAG0_EL1 "AP_CVM_ICACHETAG0_EL1"
 #define busnum_BDK_AP_CVM_ICACHETAG0_EL1 0
 #define arguments_BDK_AP_CVM_ICACHETAG0_EL1 -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_cvm_dcachedata1_el1
+ *
+ * AP Cavium Dcache Data 1 Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ap_cvm_dcachedata1_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t parity                : 8;  /**< [  7:  0](RO) Parity bits. */
+#else /* Word 0 - Little Endian */
+        uint64_t parity                : 8;  /**< [  7:  0](RO) Parity bits. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_cvm_dcachedata1_el1_s cn; */
+} bdk_ap_cvm_dcachedata1_el1_t;
+
+#define BDK_AP_CVM_DCACHEDATA1_EL1 BDK_AP_CVM_DCACHEDATA1_EL1_FUNC()
+static inline uint64_t BDK_AP_CVM_DCACHEDATA1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_CVM_DCACHEDATA1_EL1_FUNC(void)
+{
+    return 0x3000b030500ll;
+}
+
+#define typedef_BDK_AP_CVM_DCACHEDATA1_EL1 bdk_ap_cvm_dcachedata1_el1_t
+#define bustype_BDK_AP_CVM_DCACHEDATA1_EL1 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_CVM_DCACHEDATA1_EL1 "AP_CVM_DCACHEDATA1_EL1"
+#define busnum_BDK_AP_CVM_DCACHEDATA1_EL1 0
+#define arguments_BDK_AP_CVM_DCACHEDATA1_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_icc_ap0r#_el1

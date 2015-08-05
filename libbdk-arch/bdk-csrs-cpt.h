@@ -365,6 +365,48 @@ static inline uint64_t BDK_CPTX_VQX_DONE_ACK(unsigned long a, unsigned long b)
 #define arguments_BDK_CPTX_VQX_DONE_ACK(a,b) (a),(b),-1,-1
 
 /**
+ * Register (NCB) cpt#_pf_diag
+ *
+ * CPT PF Diagnostic Control Register
+ * This register controls diagnostic features.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_diag_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to 1, it forces CPT clocks on. For diagnostic use only. */
+        uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
+                                                                 may improve CPT performance but may starve other devices on the same NCB. Values
+                                                                 > 32 are treated as 32. */
+#else /* Word 0 - Little Endian */
+        uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
+                                                                 may improve CPT performance but may starve other devices on the same NCB. Values
+                                                                 > 32 are treated as 32. */
+        uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to 1, it forces CPT clocks on. For diagnostic use only. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_diag_s cn; */
+} bdk_cptx_pf_diag_t;
+
+static inline uint64_t BDK_CPTX_PF_DIAG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_DIAG(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x872000000120ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_DIAG", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_DIAG(a) bdk_cptx_pf_diag_t
+#define bustype_BDK_CPTX_PF_DIAG(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_DIAG(a) "CPTX_PF_DIAG"
+#define busnum_BDK_CPTX_PF_DIAG(a) (a)
+#define arguments_BDK_CPTX_PF_DIAG(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) cpt#_vq#_ctl
  *
  * CPT VF Queue Control Registers
@@ -1135,48 +1177,6 @@ static inline uint64_t BDK_CPTX_PF_ECC0_ENA_W1S(unsigned long a)
 #define basename_BDK_CPTX_PF_ECC0_ENA_W1S(a) "CPTX_PF_ECC0_ENA_W1S"
 #define busnum_BDK_CPTX_PF_ECC0_ENA_W1S(a) (a)
 #define arguments_BDK_CPTX_PF_ECC0_ENA_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) cpt#_pf_diag
- *
- * CPT PF Diagnostic Control Register
- * This register controls diagnostic features.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_cptx_pf_diag_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to 1, it forces CPT clocks on. For diagnostic use only. */
-        uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
-                                                                 may improve CPT performance but may starve other devices on the same NCB. Values
-                                                                 > 32 are treated as 32. */
-#else /* Word 0 - Little Endian */
-        uint64_t ld_infl               : 8;  /**< [  7:  0](R/W) Maximum number of in-flight data fetch transactions on the NCB. Larger values
-                                                                 may improve CPT performance but may starve other devices on the same NCB. Values
-                                                                 > 32 are treated as 32. */
-        uint64_t forceclk              : 1;  /**< [  8:  8](R/W) When this bit is set to 1, it forces CPT clocks on. For diagnostic use only. */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cptx_pf_diag_s cn; */
-} bdk_cptx_pf_diag_t;
-
-static inline uint64_t BDK_CPTX_PF_DIAG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CPTX_PF_DIAG(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x872000000120ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("CPTX_PF_DIAG", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_CPTX_PF_DIAG(a) bdk_cptx_pf_diag_t
-#define bustype_BDK_CPTX_PF_DIAG(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_CPTX_PF_DIAG(a) "CPTX_PF_DIAG"
-#define busnum_BDK_CPTX_PF_DIAG(a) (a)
-#define arguments_BDK_CPTX_PF_DIAG(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) cpt#_pf_bist_status

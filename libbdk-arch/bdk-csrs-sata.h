@@ -104,6 +104,15 @@
 #define BDK_SATA_UCTL_DMA_WRITE_CMD_E_STP (0) /**< Use STP (allocate local, no fill zero's). Default. */
 
 /**
+ * Enumeration sata_bar_e
+ *
+ * SATA Base Address Register Enumeration
+ * Enumerates the base address registers.
+ */
+#define BDK_SATA_BAR_E_SATAX_PF_BAR0(a) (0x810000000000ll + 0x1000000000ll * (a)) /**< (0..15)Base address for standard registers. */
+#define BDK_SATA_BAR_E_SATAX_PF_BAR4(a) (0x810000200000ll + 0x1000000000ll * (a)) /**< (0..15)Base address for MSI-X registers. */
+
+/**
  * Enumeration sata_uctl_dma_read_cmd_e
  *
  * SATA UCTL DMA Read Command Enumeration
@@ -112,15 +121,6 @@
 #define BDK_SATA_UCTL_DMA_READ_CMD_E_LDI (0) /**< Use LDI (allocate). */
 #define BDK_SATA_UCTL_DMA_READ_CMD_E_LDT (1) /**< Use LDT (no allocate). Default. */
 #define BDK_SATA_UCTL_DMA_READ_CMD_E_LDY (2) /**< Use LDY (allocate home). */
-
-/**
- * Enumeration sata_bar_e
- *
- * SATA Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#define BDK_SATA_BAR_E_SATAX_PF_BAR0(a) (0x810000000000ll + 0x1000000000ll * (a)) /**< (0..15)Base address for standard registers. */
-#define BDK_SATA_BAR_E_SATAX_PF_BAR4(a) (0x810000200000ll + 0x1000000000ll * (a)) /**< (0..15)Base address for MSI-X registers. */
 
 /**
  * Enumeration sata_uctl_xm_bad_dma_type_e

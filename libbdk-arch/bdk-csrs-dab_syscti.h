@@ -991,6 +991,56 @@ static inline uint64_t BDK_SYSCTIX_CTIDEVARCH(unsigned long a)
 #define arguments_BDK_SYSCTIX_CTIDEVARCH(a) (a),-1,-1,-1
 
 /**
+ * Register (DAB32b) syscti#_cticontrol
+ *
+ * SYSCTI Control Register
+ * Controls whether the SYSCTI is enabled.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_sysctix_cticontrol_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t glben                 : 1;  /**< [  0:  0](R/W) Enables or disables the SYSCTI mapping functions.
+                                                                 When the mapping functions are disabled, no new events are
+                                                                     signaled on either output triggers or output channels. If a
+                                                                     previously asserted output trigger has not been acknowledged,
+                                                                     it remains asserted after the mapping functions are disabled.
+                                                                     All output triggers are disabled by SYSCTI reset.
+
+                                                                 0 = SYSCTI mapping functions disabled.
+                                                                 1 = SYSCTI mapping functions enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t glben                 : 1;  /**< [  0:  0](R/W) Enables or disables the SYSCTI mapping functions.
+                                                                 When the mapping functions are disabled, no new events are
+                                                                     signaled on either output triggers or output channels. If a
+                                                                     previously asserted output trigger has not been acknowledged,
+                                                                     it remains asserted after the mapping functions are disabled.
+                                                                     All output triggers are disabled by SYSCTI reset.
+
+                                                                 0 = SYSCTI mapping functions disabled.
+                                                                 1 = SYSCTI mapping functions enabled. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sysctix_cticontrol_s cn; */
+} bdk_sysctix_cticontrol_t;
+
+static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long a)
+{
+    return 0x87a00f810000ll + 0x80000ll * ((a) & 0x7);
+}
+
+#define typedef_BDK_SYSCTIX_CTICONTROL(a) bdk_sysctix_cticontrol_t
+#define bustype_BDK_SYSCTIX_CTICONTROL(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_SYSCTIX_CTICONTROL(a) "SYSCTIX_CTICONTROL"
+#define busnum_BDK_SYSCTIX_CTICONTROL(a) (a)
+#define arguments_BDK_SYSCTIX_CTICONTROL(a) (a),-1,-1,-1
+
+/**
  * Register (DAB32b) syscti#_ctichoutstatus
  *
  * SYSCTI Channel Out Status Register
@@ -1509,56 +1559,6 @@ static inline uint64_t BDK_SYSCTIX_CTIAPPPULSE(unsigned long a)
 #define basename_BDK_SYSCTIX_CTIAPPPULSE(a) "SYSCTIX_CTIAPPPULSE"
 #define busnum_BDK_SYSCTIX_CTIAPPPULSE(a) (a)
 #define arguments_BDK_SYSCTIX_CTIAPPPULSE(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) syscti#_cticontrol
- *
- * SYSCTI Control Register
- * Controls whether the SYSCTI is enabled.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_sysctix_cticontrol_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t glben                 : 1;  /**< [  0:  0](R/W) Enables or disables the SYSCTI mapping functions.
-                                                                 When the mapping functions are disabled, no new events are
-                                                                     signaled on either output triggers or output channels. If a
-                                                                     previously asserted output trigger has not been acknowledged,
-                                                                     it remains asserted after the mapping functions are disabled.
-                                                                     All output triggers are disabled by SYSCTI reset.
-
-                                                                 0 = SYSCTI mapping functions disabled.
-                                                                 1 = SYSCTI mapping functions enabled. */
-#else /* Word 0 - Little Endian */
-        uint32_t glben                 : 1;  /**< [  0:  0](R/W) Enables or disables the SYSCTI mapping functions.
-                                                                 When the mapping functions are disabled, no new events are
-                                                                     signaled on either output triggers or output channels. If a
-                                                                     previously asserted output trigger has not been acknowledged,
-                                                                     it remains asserted after the mapping functions are disabled.
-                                                                     All output triggers are disabled by SYSCTI reset.
-
-                                                                 0 = SYSCTI mapping functions disabled.
-                                                                 1 = SYSCTI mapping functions enabled. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_sysctix_cticontrol_s cn; */
-} bdk_sysctix_cticontrol_t;
-
-static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long a)
-{
-    return 0x87a00f810000ll + 0x80000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_SYSCTIX_CTICONTROL(a) bdk_sysctix_cticontrol_t
-#define bustype_BDK_SYSCTIX_CTICONTROL(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_SYSCTIX_CTICONTROL(a) "SYSCTIX_CTICONTROL"
-#define busnum_BDK_SYSCTIX_CTICONTROL(a) (a)
-#define arguments_BDK_SYSCTIX_CTICONTROL(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) syscti#_ctiintack

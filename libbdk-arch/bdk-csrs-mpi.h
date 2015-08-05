@@ -53,15 +53,6 @@
  */
 
 /**
- * Enumeration mpi_int_vec_e
- *
- * MPI MSI-X Vector Enumeration
- * Enumerates the MSI-X interrupt vectors.
- */
-#define BDK_MPI_INT_VEC_E_INTS (0) /**< See interrupt clears MPI_STS[MPI_INTR], interrupt sets MPI_STS_W1S[MPI_INTR], enable
-                                       clears MPI_INT_ENA_W1C[MPI_INTR], and enable sets MPI_INT_ENA_W1S[MPI_INTR]. */
-
-/**
  * Enumeration mpi_bar_e
  *
  * MPI Base Address Register Enumeration
@@ -69,6 +60,15 @@
  */
 #define BDK_MPI_BAR_E_MPI_PF_BAR0 (0x804000000000ll) /**< Base address for standard registers. */
 #define BDK_MPI_BAR_E_MPI_PF_BAR4 (0x804000f00000ll) /**< Base address for MSI-X registers. */
+
+/**
+ * Enumeration mpi_int_vec_e
+ *
+ * MPI MSI-X Vector Enumeration
+ * Enumerates the MSI-X interrupt vectors.
+ */
+#define BDK_MPI_INT_VEC_E_INTS (0) /**< See interrupt clears MPI_STS[MPI_INTR], interrupt sets MPI_STS_W1S[MPI_INTR], enable
+                                       clears MPI_INT_ENA_W1C[MPI_INTR], and enable sets MPI_INT_ENA_W1S[MPI_INTR]. */
 
 /**
  * Register (NCB) mpi_sts
@@ -113,40 +113,6 @@ static inline uint64_t BDK_MPI_STS_FUNC(void)
 #define basename_BDK_MPI_STS "MPI_STS"
 #define busnum_BDK_MPI_STS 0
 #define arguments_BDK_MPI_STS -1,-1,-1,-1
-
-/**
- * Register (NCB) mpi_msix_pba#
- *
- * MPI MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table, the bit number is indexed by the MPI_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mpi_msix_pbax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MPI_MSIX_VEC()_CTL, enumerated by MPI_INT_VEC_E. Bits
-                                                                 that have no associated MPI_INT_VEC_E are zero. */
-#else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MPI_MSIX_VEC()_CTL, enumerated by MPI_INT_VEC_E. Bits
-                                                                 that have no associated MPI_INT_VEC_E are zero. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mpi_msix_pbax_s cn; */
-} bdk_mpi_msix_pbax_t;
-
-static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a)
-{
-    return 0x804000ff0000ll + 8ll * ((a) & 0x0);
-}
-
-#define typedef_BDK_MPI_MSIX_PBAX(a) bdk_mpi_msix_pbax_t
-#define bustype_BDK_MPI_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_MPI_MSIX_PBAX(a) "MPI_MSIX_PBAX"
-#define busnum_BDK_MPI_MSIX_PBAX(a) (a)
-#define arguments_BDK_MPI_MSIX_PBAX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) mpi_cfg
@@ -488,6 +454,43 @@ static inline uint64_t BDK_MPI_DATX(unsigned long a)
 #define arguments_BDK_MPI_DATX(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) mpi_int_ena_w1s
+ *
+ * MPI Interrupt Enable Set Register
+ * This register sets interrupt enables.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mpi_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1S) Enables reporting of MPI_STS[MPI_INTR]. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1S) Enables reporting of MPI_STS[MPI_INTR]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mpi_int_ena_w1s_s cn; */
+} bdk_mpi_int_ena_w1s_t;
+
+#define BDK_MPI_INT_ENA_W1S BDK_MPI_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_MPI_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MPI_INT_ENA_W1S_FUNC(void)
+{
+    return 0x804000001038ll;
+}
+
+#define typedef_BDK_MPI_INT_ENA_W1S bdk_mpi_int_ena_w1s_t
+#define bustype_BDK_MPI_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_MPI_INT_ENA_W1S "MPI_INT_ENA_W1S"
+#define busnum_BDK_MPI_INT_ENA_W1S 0
+#define arguments_BDK_MPI_INT_ENA_W1S -1,-1,-1,-1
+
+/**
  * Register (NCB) mpi_int_ena_w1c
  *
  * MPI Interrupt Enable Clear Register
@@ -525,40 +528,37 @@ static inline uint64_t BDK_MPI_INT_ENA_W1C_FUNC(void)
 #define arguments_BDK_MPI_INT_ENA_W1C -1,-1,-1,-1
 
 /**
- * Register (NCB) mpi_int_ena_w1s
+ * Register (NCB) mpi_msix_pba#
  *
- * MPI Interrupt Enable Set Register
- * This register sets interrupt enables.
+ * MPI MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table, the bit number is indexed by the MPI_INT_VEC_E enumeration.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mpi_int_ena_w1s_s
+    struct bdk_mpi_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1S) Enables reporting of MPI_STS[MPI_INTR]. */
-        uint64_t reserved_0            : 1;
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MPI_MSIX_VEC()_CTL, enumerated by MPI_INT_VEC_E. Bits
+                                                                 that have no associated MPI_INT_VEC_E are zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1S) Enables reporting of MPI_STS[MPI_INTR]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MPI_MSIX_VEC()_CTL, enumerated by MPI_INT_VEC_E. Bits
+                                                                 that have no associated MPI_INT_VEC_E are zero. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mpi_int_ena_w1s_s cn; */
-} bdk_mpi_int_ena_w1s_t;
+    /* struct bdk_mpi_msix_pbax_s cn; */
+} bdk_mpi_msix_pbax_t;
 
-#define BDK_MPI_INT_ENA_W1S BDK_MPI_INT_ENA_W1S_FUNC()
-static inline uint64_t BDK_MPI_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MPI_INT_ENA_W1S_FUNC(void)
+static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a)
 {
-    return 0x804000001038ll;
+    return 0x804000ff0000ll + 8ll * ((a) & 0x0);
 }
 
-#define typedef_BDK_MPI_INT_ENA_W1S bdk_mpi_int_ena_w1s_t
-#define bustype_BDK_MPI_INT_ENA_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_MPI_INT_ENA_W1S "MPI_INT_ENA_W1S"
-#define busnum_BDK_MPI_INT_ENA_W1S 0
-#define arguments_BDK_MPI_INT_ENA_W1S -1,-1,-1,-1
+#define typedef_BDK_MPI_MSIX_PBAX(a) bdk_mpi_msix_pbax_t
+#define bustype_BDK_MPI_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_MPI_MSIX_PBAX(a) "MPI_MSIX_PBAX"
+#define busnum_BDK_MPI_MSIX_PBAX(a) (a)
+#define arguments_BDK_MPI_MSIX_PBAX(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_MPI_H__ */

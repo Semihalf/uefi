@@ -1315,6 +1315,61 @@ static inline uint64_t BDK_CIMX_ICH_EISR_EL2(unsigned long a)
 #define arguments_BDK_CIMX_ICH_EISR_EL2(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) cim#_icc_sre_el2
+ *
+ * CIM IRQ/FIQ Bypass EL2 Register
+ * This secure register governs whether the system register interface or the memory mapped
+ * interface to the GIC CPU interface is to be used for EL2.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cimx_icc_sre_el2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t en                    : 1;  /**< [  3:  3](R/W) Enables lower exception level access to CIM()_ICC_SRE_EL1.
+                                                                 0 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 trap to EL2.
+                                                                 1 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 are permitted if
+                                                                 CIM()_ICC_SRE_EL3[EN] is one, otherwise nonsecure EL1 accesses
+                                                                 to CIM()_ICC_SRE_EL1 trap to EL3. */
+        uint64_t dib                   : 1;  /**< [  2:  2](RO/H) Disable IRQ bypass.
+                                                                 In CNXXXX, this bit is always 1 as IRQ bypass is always disabled. */
+        uint64_t dfb                   : 1;  /**< [  1:  1](RO/H) Disable FIQ bypass.
+                                                                 In CNXXXX, this bit is always 1 as FIQ bypass is always disabled. */
+        uint64_t sre                   : 1;  /**< [  0:  0](RO/H) System register enable.
+                                                                 In CNXXXX, this bit is always 1 as all registers are implemented locally. */
+#else /* Word 0 - Little Endian */
+        uint64_t sre                   : 1;  /**< [  0:  0](RO/H) System register enable.
+                                                                 In CNXXXX, this bit is always 1 as all registers are implemented locally. */
+        uint64_t dfb                   : 1;  /**< [  1:  1](RO/H) Disable FIQ bypass.
+                                                                 In CNXXXX, this bit is always 1 as FIQ bypass is always disabled. */
+        uint64_t dib                   : 1;  /**< [  2:  2](RO/H) Disable IRQ bypass.
+                                                                 In CNXXXX, this bit is always 1 as IRQ bypass is always disabled. */
+        uint64_t en                    : 1;  /**< [  3:  3](R/W) Enables lower exception level access to CIM()_ICC_SRE_EL1.
+                                                                 0 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 trap to EL2.
+                                                                 1 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 are permitted if
+                                                                 CIM()_ICC_SRE_EL3[EN] is one, otherwise nonsecure EL1 accesses
+                                                                 to CIM()_ICC_SRE_EL1 trap to EL3. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cimx_icc_sre_el2_s cn; */
+} bdk_cimx_icc_sre_el2_t;
+
+static inline uint64_t BDK_CIMX_ICC_SRE_EL2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CIMX_ICC_SRE_EL2(unsigned long a)
+{
+    return 0x87b000073268ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CIMX_ICC_SRE_EL2(a) bdk_cimx_icc_sre_el2_t
+#define bustype_BDK_CIMX_ICC_SRE_EL2(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CIMX_ICC_SRE_EL2(a) "CIMX_ICC_SRE_EL2"
+#define busnum_BDK_CIMX_ICC_SRE_EL2(a) (a)
+#define arguments_BDK_CIMX_ICC_SRE_EL2(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) cim#_icc_sgi1r_el1
  *
  * CIM Physical Generate Group 1 SGIs Same Security EL1 Register
@@ -1699,61 +1754,6 @@ static inline uint64_t BDK_CIMX_ICC_SRE_EL3(unsigned long a)
 #define basename_BDK_CIMX_ICC_SRE_EL3(a) "CIMX_ICC_SRE_EL3"
 #define busnum_BDK_CIMX_ICC_SRE_EL3(a) (a)
 #define arguments_BDK_CIMX_ICC_SRE_EL3(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) cim#_icc_sre_el2
- *
- * CIM IRQ/FIQ Bypass EL2 Register
- * This secure register governs whether the system register interface or the memory mapped
- * interface to the GIC CPU interface is to be used for EL2.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_cimx_icc_sre_el2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t en                    : 1;  /**< [  3:  3](R/W) Enables lower exception level access to CIM()_ICC_SRE_EL1.
-                                                                 0 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 trap to EL2.
-                                                                 1 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 are permitted if
-                                                                 CIM()_ICC_SRE_EL3[EN] is one, otherwise nonsecure EL1 accesses
-                                                                 to CIM()_ICC_SRE_EL1 trap to EL3. */
-        uint64_t dib                   : 1;  /**< [  2:  2](RO/H) Disable IRQ bypass.
-                                                                 In CNXXXX, this bit is always 1 as IRQ bypass is always disabled. */
-        uint64_t dfb                   : 1;  /**< [  1:  1](RO/H) Disable FIQ bypass.
-                                                                 In CNXXXX, this bit is always 1 as FIQ bypass is always disabled. */
-        uint64_t sre                   : 1;  /**< [  0:  0](RO/H) System register enable.
-                                                                 In CNXXXX, this bit is always 1 as all registers are implemented locally. */
-#else /* Word 0 - Little Endian */
-        uint64_t sre                   : 1;  /**< [  0:  0](RO/H) System register enable.
-                                                                 In CNXXXX, this bit is always 1 as all registers are implemented locally. */
-        uint64_t dfb                   : 1;  /**< [  1:  1](RO/H) Disable FIQ bypass.
-                                                                 In CNXXXX, this bit is always 1 as FIQ bypass is always disabled. */
-        uint64_t dib                   : 1;  /**< [  2:  2](RO/H) Disable IRQ bypass.
-                                                                 In CNXXXX, this bit is always 1 as IRQ bypass is always disabled. */
-        uint64_t en                    : 1;  /**< [  3:  3](R/W) Enables lower exception level access to CIM()_ICC_SRE_EL1.
-                                                                 0 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 trap to EL2.
-                                                                 1 = nonsecure EL1 accesses to CIM()_ICC_SRE_EL1 are permitted if
-                                                                 CIM()_ICC_SRE_EL3[EN] is one, otherwise nonsecure EL1 accesses
-                                                                 to CIM()_ICC_SRE_EL1 trap to EL3. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cimx_icc_sre_el2_s cn; */
-} bdk_cimx_icc_sre_el2_t;
-
-static inline uint64_t BDK_CIMX_ICC_SRE_EL2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CIMX_ICC_SRE_EL2(unsigned long a)
-{
-    return 0x87b000073268ll + 0x80000ll * ((a) & 0x3f);
-}
-
-#define typedef_BDK_CIMX_ICC_SRE_EL2(a) bdk_cimx_icc_sre_el2_t
-#define bustype_BDK_CIMX_ICC_SRE_EL2(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_CIMX_ICC_SRE_EL2(a) "CIMX_ICC_SRE_EL2"
-#define busnum_BDK_CIMX_ICC_SRE_EL2(a) (a)
-#define arguments_BDK_CIMX_ICC_SRE_EL2(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) cim#_icc_ctlr_el1_s
@@ -2259,177 +2259,6 @@ static inline uint64_t BDK_CIMX_ICC_CTLR_EL3(unsigned long a)
 #define basename_BDK_CIMX_ICC_CTLR_EL3(a) "CIMX_ICC_CTLR_EL3"
 #define busnum_BDK_CIMX_ICC_CTLR_EL3(a) (a)
 #define arguments_BDK_CIMX_ICC_CTLR_EL3(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) cim#_ich_vmcr_el2
- *
- * CIM Hypervisor Virtual Machine Control EL2 Register
- * This register allows the hypervisor to save and restore the virtual machine view of the GIC state.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_cimx_ich_vmcr_el2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t vpmr                  : 8;  /**< [ 31: 24](R/W) Virtual priority mask. Visible to the guest as CIM()_ICC_PMR_EL1 */
-        uint64_t vbpr0                 : 3;  /**< [ 23: 21](R/W) Virtual BPR0. Visible to the guest as CIM()_ICC_BPR0_EL1 */
-        uint64_t vbpr1                 : 3;  /**< [ 20: 18](R/W) Virtual BPR1. Visible to the guest as CIM()_ICC_BPR1_EL1.
-                                                                 This field is always accessible to EL2 accesses, regardless of the setting of the
-                                                                 VCBPR field. */
-        uint64_t reserved_10_17        : 8;
-        uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
-                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
-        uint64_t reserved_6_8          : 3;
-        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
-        uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
-                                                                 0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
-                                                                 CIM()_ICH_VMCR_EL2[VBPR1].
-                                                                 1 = Virtual reads of CIM()_ICC_BPR1_EL1 return (CIM()_ICH_VMCR_EL2[VBPR0] + 1,
-                                                                 saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
-
-                                                                 This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
-        uint64_t vfiqen                : 1;  /**< [  3:  3](RO/H) Virtual group IRQ enable:
-                                                                 0 = Signal virtual group 0 with vIRQ.
-                                                                 1 = Signal virtual group 0 with vFIQ.
-
-                                                                 In CNXXXX, this bit is always 1 as the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is always one. */
-        uint64_t vackctl               : 1;  /**< [  2:  2](RO/H) Legacy bit from GICv2 does not affect hardware operation.
-                                                                 In CNXXXX, this bit is always 0 because the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is always one. */
-        uint64_t veng1                 : 1;  /**< [  1:  1](R/W/H) Virtual group 1 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN1_EL1_S/NS[EN]. */
-        uint64_t veng0                 : 1;  /**< [  0:  0](R/W/H) Virtual group 0 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN0_EL1[EN]. */
-#else /* Word 0 - Little Endian */
-        uint64_t veng0                 : 1;  /**< [  0:  0](R/W/H) Virtual group 0 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN0_EL1[EN]. */
-        uint64_t veng1                 : 1;  /**< [  1:  1](R/W/H) Virtual group 1 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN1_EL1_S/NS[EN]. */
-        uint64_t vackctl               : 1;  /**< [  2:  2](RO/H) Legacy bit from GICv2 does not affect hardware operation.
-                                                                 In CNXXXX, this bit is always 0 because the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is always one. */
-        uint64_t vfiqen                : 1;  /**< [  3:  3](RO/H) Virtual group IRQ enable:
-                                                                 0 = Signal virtual group 0 with vIRQ.
-                                                                 1 = Signal virtual group 0 with vFIQ.
-
-                                                                 In CNXXXX, this bit is always 1 as the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is always one. */
-        uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
-                                                                 0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
-                                                                 CIM()_ICH_VMCR_EL2[VBPR1].
-                                                                 1 = Virtual reads of CIM()_ICC_BPR1_EL1 return (CIM()_ICH_VMCR_EL2[VBPR0] + 1,
-                                                                 saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
-
-                                                                 This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
-        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
-        uint64_t reserved_6_8          : 3;
-        uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
-                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
-        uint64_t reserved_10_17        : 8;
-        uint64_t vbpr1                 : 3;  /**< [ 20: 18](R/W) Virtual BPR1. Visible to the guest as CIM()_ICC_BPR1_EL1.
-                                                                 This field is always accessible to EL2 accesses, regardless of the setting of the
-                                                                 VCBPR field. */
-        uint64_t vbpr0                 : 3;  /**< [ 23: 21](R/W) Virtual BPR0. Visible to the guest as CIM()_ICC_BPR0_EL1 */
-        uint64_t vpmr                  : 8;  /**< [ 31: 24](R/W) Virtual priority mask. Visible to the guest as CIM()_ICC_PMR_EL1 */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cimx_ich_vmcr_el2_s cn83xx; */
-    /* struct bdk_cimx_ich_vmcr_el2_s cn88xxp2; */
-    struct bdk_cimx_ich_vmcr_el2_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t vpmr                  : 8;  /**< [ 31: 24](R/W) Virtual priority mask. Visible to the guest as CIM()_ICC_PMR_EL1 */
-        uint64_t vbpr0                 : 3;  /**< [ 23: 21](R/W) Virtual BPR0. Visible to the guest as CIM()_ICC_BPR0_EL1 */
-        uint64_t vbpr1                 : 3;  /**< [ 20: 18](R/W) Virtual BPR1. Visible to the guest as CIM()_ICC_BPR1_EL1.
-                                                                 This field is always accessible to EL2 accesses, regardless of the setting of the
-                                                                 VCBPR field. */
-        uint64_t reserved_10_17        : 8;
-        uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
-                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
-        uint64_t reserved_6_8          : 3;
-        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
-                                                                 0 = Virtual SEIs will not be reported to non-secure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-                                                                 1 = Virtual SEIs will be reported to non-secure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-
-                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
-                                                                 generated by the CPU interface logic.
-
-                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
-        uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
-                                                                 0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
-                                                                 CIM()_ICH_VMCR_EL2[VBPR1].
-                                                                 1 = Virtual reads of CIM()_ICC_BPR1_EL1 return (CIM()_ICH_VMCR_EL2[VBPR0] + 1,
-                                                                 saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
-
-                                                                 This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
-        uint64_t vfiqen                : 1;  /**< [  3:  3](RO/H) Virtual group IRQ enable:
-                                                                 0 = Signal virtual group 0 with vIRQ.
-                                                                 1 = Signal virtual group 0 with vFIQ.
-
-                                                                 In CNXXXX, this bit is always 1 as the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is always one. */
-        uint64_t vackctl               : 1;  /**< [  2:  2](RO/H) Legacy bit from GICv2 does not affect hardware operation.
-                                                                 In CNXXXX, this bit is always 0 because the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is always one. */
-        uint64_t veng1                 : 1;  /**< [  1:  1](R/W/H) Virtual group 1 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN1_EL1_S/NS[EN]. */
-        uint64_t veng0                 : 1;  /**< [  0:  0](R/W/H) Virtual group 0 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN0_EL1[EN]. */
-#else /* Word 0 - Little Endian */
-        uint64_t veng0                 : 1;  /**< [  0:  0](R/W/H) Virtual group 0 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN0_EL1[EN]. */
-        uint64_t veng1                 : 1;  /**< [  1:  1](R/W/H) Virtual group 1 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN1_EL1_S/NS[EN]. */
-        uint64_t vackctl               : 1;  /**< [  2:  2](RO/H) Legacy bit from GICv2 does not affect hardware operation.
-                                                                 In CNXXXX, this bit is always 0 because the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is always one. */
-        uint64_t vfiqen                : 1;  /**< [  3:  3](RO/H) Virtual group IRQ enable:
-                                                                 0 = Signal virtual group 0 with vIRQ.
-                                                                 1 = Signal virtual group 0 with vFIQ.
-
-                                                                 In CNXXXX, this bit is always 1 as the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is always one. */
-        uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
-                                                                 0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
-                                                                 CIM()_ICH_VMCR_EL2[VBPR1].
-                                                                 1 = Virtual reads of CIM()_ICC_BPR1_EL1 return (CIM()_ICH_VMCR_EL2[VBPR0] + 1,
-                                                                 saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
-
-                                                                 This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
-        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
-                                                                 0 = Virtual SEIs will not be reported to non-secure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-                                                                 1 = Virtual SEIs will be reported to non-secure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-
-                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
-                                                                 generated by the CPU interface logic.
-
-                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
-        uint64_t reserved_6_8          : 3;
-        uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
-                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
-        uint64_t reserved_10_17        : 8;
-        uint64_t vbpr1                 : 3;  /**< [ 20: 18](R/W) Virtual BPR1. Visible to the guest as CIM()_ICC_BPR1_EL1.
-                                                                 This field is always accessible to EL2 accesses, regardless of the setting of the
-                                                                 VCBPR field. */
-        uint64_t vbpr0                 : 3;  /**< [ 23: 21](R/W) Virtual BPR0. Visible to the guest as CIM()_ICC_BPR0_EL1 */
-        uint64_t vpmr                  : 8;  /**< [ 31: 24](R/W) Virtual priority mask. Visible to the guest as CIM()_ICC_PMR_EL1 */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn88xxp1;
-} bdk_cimx_ich_vmcr_el2_t;
-
-static inline uint64_t BDK_CIMX_ICH_VMCR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_CIMX_ICH_VMCR_EL2(unsigned long a)
-{
-    return 0x87b0000732f8ll + 0x80000ll * ((a) & 0x3f);
-}
-
-#define typedef_BDK_CIMX_ICH_VMCR_EL2(a) bdk_cimx_ich_vmcr_el2_t
-#define bustype_BDK_CIMX_ICH_VMCR_EL2(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_CIMX_ICH_VMCR_EL2(a) "CIMX_ICH_VMCR_EL2"
-#define busnum_BDK_CIMX_ICH_VMCR_EL2(a) (a)
-#define arguments_BDK_CIMX_ICH_VMCR_EL2(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) cim#_ich_misr_el2
@@ -3207,6 +3036,177 @@ static inline uint64_t BDK_CIMX_ICC_CTLR_EL1_NS(unsigned long a)
 #define basename_BDK_CIMX_ICC_CTLR_EL1_NS(a) "CIMX_ICC_CTLR_EL1_NS"
 #define busnum_BDK_CIMX_ICC_CTLR_EL1_NS(a) (a)
 #define arguments_BDK_CIMX_ICC_CTLR_EL1_NS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cim#_ich_vmcr_el2
+ *
+ * CIM Hypervisor Virtual Machine Control EL2 Register
+ * This register allows the hypervisor to save and restore the virtual machine view of the GIC state.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cimx_ich_vmcr_el2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t vpmr                  : 8;  /**< [ 31: 24](R/W) Virtual priority mask. Visible to the guest as CIM()_ICC_PMR_EL1 */
+        uint64_t vbpr0                 : 3;  /**< [ 23: 21](R/W) Virtual BPR0. Visible to the guest as CIM()_ICC_BPR0_EL1 */
+        uint64_t vbpr1                 : 3;  /**< [ 20: 18](R/W) Virtual BPR1. Visible to the guest as CIM()_ICC_BPR1_EL1.
+                                                                 This field is always accessible to EL2 accesses, regardless of the setting of the
+                                                                 VCBPR field. */
+        uint64_t reserved_10_17        : 8;
+        uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
+                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
+        uint64_t reserved_6_8          : 3;
+        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
+                                                                 0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
+                                                                 CIM()_ICH_VMCR_EL2[VBPR1].
+                                                                 1 = Virtual reads of CIM()_ICC_BPR1_EL1 return (CIM()_ICH_VMCR_EL2[VBPR0] + 1,
+                                                                 saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
+
+                                                                 This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
+        uint64_t vfiqen                : 1;  /**< [  3:  3](RO/H) Virtual group IRQ enable:
+                                                                 0 = Signal virtual group 0 with vIRQ.
+                                                                 1 = Signal virtual group 0 with vFIQ.
+
+                                                                 In CNXXXX, this bit is always 1 as the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is always one. */
+        uint64_t vackctl               : 1;  /**< [  2:  2](RO/H) Legacy bit from GICv2 does not affect hardware operation.
+                                                                 In CNXXXX, this bit is always 0 because the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is always one. */
+        uint64_t veng1                 : 1;  /**< [  1:  1](R/W/H) Virtual group 1 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN1_EL1_S/NS[EN]. */
+        uint64_t veng0                 : 1;  /**< [  0:  0](R/W/H) Virtual group 0 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN0_EL1[EN]. */
+#else /* Word 0 - Little Endian */
+        uint64_t veng0                 : 1;  /**< [  0:  0](R/W/H) Virtual group 0 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN0_EL1[EN]. */
+        uint64_t veng1                 : 1;  /**< [  1:  1](R/W/H) Virtual group 1 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN1_EL1_S/NS[EN]. */
+        uint64_t vackctl               : 1;  /**< [  2:  2](RO/H) Legacy bit from GICv2 does not affect hardware operation.
+                                                                 In CNXXXX, this bit is always 0 because the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is always one. */
+        uint64_t vfiqen                : 1;  /**< [  3:  3](RO/H) Virtual group IRQ enable:
+                                                                 0 = Signal virtual group 0 with vIRQ.
+                                                                 1 = Signal virtual group 0 with vFIQ.
+
+                                                                 In CNXXXX, this bit is always 1 as the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is always one. */
+        uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
+                                                                 0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
+                                                                 CIM()_ICH_VMCR_EL2[VBPR1].
+                                                                 1 = Virtual reads of CIM()_ICC_BPR1_EL1 return (CIM()_ICH_VMCR_EL2[VBPR0] + 1,
+                                                                 saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
+
+                                                                 This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
+        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t reserved_6_8          : 3;
+        uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
+                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
+        uint64_t reserved_10_17        : 8;
+        uint64_t vbpr1                 : 3;  /**< [ 20: 18](R/W) Virtual BPR1. Visible to the guest as CIM()_ICC_BPR1_EL1.
+                                                                 This field is always accessible to EL2 accesses, regardless of the setting of the
+                                                                 VCBPR field. */
+        uint64_t vbpr0                 : 3;  /**< [ 23: 21](R/W) Virtual BPR0. Visible to the guest as CIM()_ICC_BPR0_EL1 */
+        uint64_t vpmr                  : 8;  /**< [ 31: 24](R/W) Virtual priority mask. Visible to the guest as CIM()_ICC_PMR_EL1 */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cimx_ich_vmcr_el2_s cn83xx; */
+    /* struct bdk_cimx_ich_vmcr_el2_s cn88xxp2; */
+    struct bdk_cimx_ich_vmcr_el2_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t vpmr                  : 8;  /**< [ 31: 24](R/W) Virtual priority mask. Visible to the guest as CIM()_ICC_PMR_EL1 */
+        uint64_t vbpr0                 : 3;  /**< [ 23: 21](R/W) Virtual BPR0. Visible to the guest as CIM()_ICC_BPR0_EL1 */
+        uint64_t vbpr1                 : 3;  /**< [ 20: 18](R/W) Virtual BPR1. Visible to the guest as CIM()_ICC_BPR1_EL1.
+                                                                 This field is always accessible to EL2 accesses, regardless of the setting of the
+                                                                 VCBPR field. */
+        uint64_t reserved_10_17        : 8;
+        uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
+                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
+        uint64_t reserved_6_8          : 3;
+        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
+                                                                 0 = Virtual SEIs will not be reported to non-secure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+                                                                 1 = Virtual SEIs will be reported to non-secure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+
+                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
+                                                                 generated by the CPU interface logic.
+
+                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
+        uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
+                                                                 0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
+                                                                 CIM()_ICH_VMCR_EL2[VBPR1].
+                                                                 1 = Virtual reads of CIM()_ICC_BPR1_EL1 return (CIM()_ICH_VMCR_EL2[VBPR0] + 1,
+                                                                 saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
+
+                                                                 This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
+        uint64_t vfiqen                : 1;  /**< [  3:  3](RO/H) Virtual group IRQ enable:
+                                                                 0 = Signal virtual group 0 with vIRQ.
+                                                                 1 = Signal virtual group 0 with vFIQ.
+
+                                                                 In CNXXXX, this bit is always 1 as the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is always one. */
+        uint64_t vackctl               : 1;  /**< [  2:  2](RO/H) Legacy bit from GICv2 does not affect hardware operation.
+                                                                 In CNXXXX, this bit is always 0 because the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is always one. */
+        uint64_t veng1                 : 1;  /**< [  1:  1](R/W/H) Virtual group 1 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN1_EL1_S/NS[EN]. */
+        uint64_t veng0                 : 1;  /**< [  0:  0](R/W/H) Virtual group 0 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN0_EL1[EN]. */
+#else /* Word 0 - Little Endian */
+        uint64_t veng0                 : 1;  /**< [  0:  0](R/W/H) Virtual group 0 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN0_EL1[EN]. */
+        uint64_t veng1                 : 1;  /**< [  1:  1](R/W/H) Virtual group 1 interrupt enable. Visible to the guest as CIM()_ICC_IGRPEN1_EL1_S/NS[EN]. */
+        uint64_t vackctl               : 1;  /**< [  2:  2](RO/H) Legacy bit from GICv2 does not affect hardware operation.
+                                                                 In CNXXXX, this bit is always 0 because the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is always one. */
+        uint64_t vfiqen                : 1;  /**< [  3:  3](RO/H) Virtual group IRQ enable:
+                                                                 0 = Signal virtual group 0 with vIRQ.
+                                                                 1 = Signal virtual group 0 with vFIQ.
+
+                                                                 In CNXXXX, this bit is always 1 as the nonsecure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is always one. */
+        uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
+                                                                 0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
+                                                                 CIM()_ICH_VMCR_EL2[VBPR1].
+                                                                 1 = Virtual reads of CIM()_ICC_BPR1_EL1 return (CIM()_ICH_VMCR_EL2[VBPR0] + 1,
+                                                                 saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
+
+                                                                 This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
+        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
+                                                                 0 = Virtual SEIs will not be reported to non-secure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+                                                                 1 = Virtual SEIs will be reported to non-secure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+
+                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
+                                                                 generated by the CPU interface logic.
+
+                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
+        uint64_t reserved_6_8          : 3;
+        uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
+                                                                 INTERNAL: An implementation might choose to make this field RAO/WI. */
+        uint64_t reserved_10_17        : 8;
+        uint64_t vbpr1                 : 3;  /**< [ 20: 18](R/W) Virtual BPR1. Visible to the guest as CIM()_ICC_BPR1_EL1.
+                                                                 This field is always accessible to EL2 accesses, regardless of the setting of the
+                                                                 VCBPR field. */
+        uint64_t vbpr0                 : 3;  /**< [ 23: 21](R/W) Virtual BPR0. Visible to the guest as CIM()_ICC_BPR0_EL1 */
+        uint64_t vpmr                  : 8;  /**< [ 31: 24](R/W) Virtual priority mask. Visible to the guest as CIM()_ICC_PMR_EL1 */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+} bdk_cimx_ich_vmcr_el2_t;
+
+static inline uint64_t BDK_CIMX_ICH_VMCR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CIMX_ICH_VMCR_EL2(unsigned long a)
+{
+    return 0x87b0000732f8ll + 0x80000ll * ((a) & 0x3f);
+}
+
+#define typedef_BDK_CIMX_ICH_VMCR_EL2(a) bdk_cimx_ich_vmcr_el2_t
+#define bustype_BDK_CIMX_ICH_VMCR_EL2(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CIMX_ICH_VMCR_EL2(a) "CIMX_ICH_VMCR_EL2"
+#define busnum_BDK_CIMX_ICH_VMCR_EL2(a) (a)
+#define arguments_BDK_CIMX_ICH_VMCR_EL2(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) cim#_ich_elsr_el2
