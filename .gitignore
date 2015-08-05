@@ -16,7 +16,7 @@ cscope.out
 /bdk.vtg
 /csr-tool/output
 /csr-tool/html
-/csr-tool/cn8?xx
+/csr-tool/yaml
 /libc/build
 /libc/share
 /libc/aarch64-thunderx-elf

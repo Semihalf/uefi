@@ -1,0 +1,101 @@
+table {
+    border-collapse: collapse;
+    width: 80%;
+}
+
+th {
+    vertical-align: top;
+    text-align: left;
+    margin: 0;
+    background-color: beige;
+    border-width: 1px;
+    border-style: solid;
+    padding: 2px;
+}
+
+td {
+    vertical-align: top;
+    text-align: left;
+    margin: 0;
+    border-width: 1px;
+    border-style: solid;
+    padding: 2px;
+}
+
+.diff {
+    width: 100%;
+    bsorttable_nosort: true;
+}
+
+.diff_header {
+    background-color: beige;
+}
+
+.diff_next {
+    display: none;
+}
+
+.diff_add {
+    color: green;
+    font-weight: bold;
+}
+
+.diff_sub {
+    color: red;
+    font-weight: bold;
+}
+
+.diff_chg {
+    background-color: blue;
+    color: yellow;
+    font-weight: bold;
+}
+
+.chips_table {
+    border-style: none;
+    border-width: 0;
+    width: auto;
+}
+
+.links_table {
+    width: auto;
+}
+
+.links_table th {
+    padding: 3px;
+    text-align: center;
+}
+
+.blocks_table {
+    width: auto;
+}
+
+.blocks_table td {
+    margin: 0;
+    border-style: none;
+    border-width: 0;
+}
+
+.block_table {
+    width: 100%;
+    border-style: solid;
+    border-width: 1px;
+}
+
+.layout_table td {
+    margin: 0;
+    border-style: none;
+    border-width: 0;
+}
+
+.layout_table {
+    width: 100%;
+    height: 100%;
+}
+
+iframe {
+    width: 100%;
+    height: 100%;
+    border-style: none;
+    border-width: 0;
+}

@@ -1,0 +1,140 @@
+#
+# Use this on the MA cluster to get YAML files with one file
+# per chip pass.
+#
+
+CSR3_ARGS=--yaml-stdout # Write to stdout
+CSR3_ARGS+=--yaml-expand-inherits # Simplify field inherits
+CSR3_ARGS+=--yaml-strip-chippass # Remove chip pass lines since we're making a file per chip
+CSR3_ARGS+=--input *.csr # Remove chip pass lines since we're making a file per chip
+CSR3=csr3 $(CSR3_ARGS) --yaml-pass
+
+.DEFAULT: help
+.SILENT: help
+help:
+	echo ""
+	echo "Generate YAML files for thunder and octeon chips for use by"
+	echo "software. Each yaml file represents a single pass of a chip"
+	echo "model."
+	echo ""
+	echo "checkout:  Get all the chip information from the RTL svn"
+	echo "update:    Update existing svn from last checkout"
+	echo "generate:  Generate yaml files"
+	echo "clean:     Delete yaml files, but not svn checkouts"
+	echo "distclean: Delete everything"
+	echo ""
+
+.PHONY: generate
+generate: t83 t88 o70 o73 o75 o78
+
+#
+# Initial checkout
+#
+.PHONY: checkout
+checkout:
+	# t83
+	svn co -q svn+ssh://masvn/svn/t83/trunk/hwcode/regs/gen t83
+	svn co -q svn+ssh://masvn/svn/t83/trunk/dvconf t83/dvconf
+	svn co -q svn+ssh://masvn/svn/t83/trunk/Project_Root t83/Project_Root
+	# t88
+	svn co -q svn+ssh://masvn/svn/t88/trunk/hwcode/regs/gen t88
+	svn co -q svn+ssh://masvn/svn/t88/trunk/dvconf t88/dvconf
+	svn co -q svn+ssh://masvn/svn/t88/trunk/Project_Root t88/Project_Root
+	# o70
+	svn co -q svn+ssh://masvn/svn/o70/trunk/hwcode/regs/gen o70
+	svn co -q svn+ssh://masvn/svn/o70/trunk/dvconf o70/dvconf
+	svn co -q svn+ssh://masvn/svn/o70/trunk/Project_Root o70/Project_Root
+	# o73
+	svn co -q svn+ssh://masvn/svn/o73/trunk/hwcode/regs/gen o73
+	svn co -q svn+ssh://masvn/svn/o73/trunk/dvconf o73/dvconf
+	svn co -q svn+ssh://masvn/svn/o73/trunk/Project_Root o73/Project_Root
+	# o75
+	svn co -q svn+ssh://masvn/svn/o75/trunk/hwcode/regs/gen o75
+	svn co -q svn+ssh://masvn/svn/o75/trunk/dvconf o75/dvconf
+	svn co -q svn+ssh://masvn/svn/o75/trunk/Project_Root o75/Project_Root
+	# o78
+	svn co -q svn+ssh://masvn/svn/o78/trunk/hwcode/regs/gen o78
+	svn co -q svn+ssh://masvn/svn/o78/trunk/dvconf o78/dvconf
+	svn co -q svn+ssh://masvn/svn/o78/trunk/Project_Root o78/Project_Root
+
+#
+# Update
+#
+.PHONY: update
+update:
+	svn update t83 t88 o70 o73 o75 o78 */dvconf
+
+#
+# Clean
+#
+.PHONY: clean
+clean:
+	rm -f *.yaml
+
+#
+# Distclean
+#
+.PHONY: distclean
+distclean: clean
+	rm -rf o?? t??
+
+#
+# t88
+#
+.PHONY: t88
+t88: t88_pass_1.0.yaml t88_pass_1.1.yaml t88_pass_2.0.yaml
+
+t88_pass_1.0.yaml: t88/*.csr
+	cd t88 && $(CSR3) t88@1.0 > ../$@
+t88_pass_1.1.yaml: t88/*.csr
+	cd t88 && $(CSR3) t88@1.1 > ../$@
+t88_pass_2.0.yaml: t88/*.csr
+	cd t88 && $(CSR3) t88@2.0 > ../$@
+
+#
+# t83
+#
+.PHONY: t83
+t83: t83_pass_1.0.yaml
+
+t83_pass_1.0.yaml: t83/*.csr
+	cd t83 && $(CSR3) t83@1.0 > ../$@
+
+#
+# o70
+#
+.PHONY: o70
+o70: o70_pass_1.0.yaml
+
+o70_pass_1.0.yaml: o70/*.csr
+	cd o70 && $(CSR3) o70@1.0 > ../$@
+
+#
+# o73
+#
+.PHONY: o73
+o73: o73_pass_1.0.yaml
+
+o73_pass_1.0.yaml: o73/*.csr
+	cd o73 && $(CSR3) o73@1.0 > ../$@
+
+#
+# o75
+#
+.PHONY: o75
+o75: o75_pass_1.0.yaml
+
+o75_pass_1.0.yaml: o75/*.csr
+	cd o75 && $(CSR3) o75@1.0 > ../$@
+
+#
+# o78
+#
+.PHONY: o78
+o78: o78_pass_1.0.yaml o78_pass_2.0.yaml
+
+o78_pass_1.0.yaml: o78/*.csr
+	cd o78 && $(CSR3) o78@1.0 > ../$@
+o78_pass_2.0.yaml: o78/*.csr
+	cd o78 && $(CSR3) o78@2.0 > ../$@
+
