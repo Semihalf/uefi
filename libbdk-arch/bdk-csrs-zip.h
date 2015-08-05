@@ -53,17 +53,6 @@
  */
 
 /**
- * Enumeration zip_op_e
- *
- * ZIP Operation Enumeration
- * Enumerates ZIP_INST_S[OP].
- * INTERNAL: This encoding provides backward compatibility with CN88XX software.
- */
-#define BDK_ZIP_OP_E_COMP (2) /**< Compression. */
-#define BDK_ZIP_OP_E_DECOMP (0) /**< Decompression. */
-#define BDK_ZIP_OP_E_NOCOMP (1) /**< Hash only; no compression nor decompression. */
-
-/**
  * Enumeration zip_int_vec_e
  *
  * ZIP MSI-X Vector Enumeration
@@ -90,6 +79,17 @@
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR0 (0x838000000000ll) /**< Base address for standard registers. */
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN88XX (0x838000f00000ll) /**< Base address for MSI-X registers. */
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN83XX (0x838010000000ll) /**< Base address for MSI-X registers. */
+
+/**
+ * Enumeration zip_op_e
+ *
+ * ZIP Operation Enumeration
+ * Enumerates ZIP_INST_S[OP].
+ * INTERNAL: This encoding provides backward compatibility with CN88XX software.
+ */
+#define BDK_ZIP_OP_E_COMP (2) /**< Compression. */
+#define BDK_ZIP_OP_E_DECOMP (0) /**< Decompression. */
+#define BDK_ZIP_OP_E_NOCOMP (1) /**< Hash only; no compression nor decompression. */
 
 /**
  * Enumeration zip_comp_e
@@ -2379,7 +2379,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_DOORBELL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DOORBELL(unsigned long a)
 {
-    return 0x838000004000ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000004000ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_DOORBELL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_DOORBELL(a) bdk_zip_quex_doorbell_t
@@ -2609,7 +2611,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1C(unsigned long a)
 {
-    return 0x838000002600ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000002600ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_DONE_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_DONE_ENA_W1C(a) bdk_zip_quex_done_ena_w1c_t
@@ -2716,7 +2720,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DONE_ENA_W1S(unsigned long a)
 {
-    return 0x838000002400ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000002400ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_DONE_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_DONE_ENA_W1S(a) bdk_zip_quex_done_ena_w1s_t
@@ -2837,9 +2843,9 @@ typedef union
 static inline uint64_t BDK_ZIP_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=17))
         return 0x838010000008ll + 0x10ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=17))
         return 0x838000f00008ll + 0x10ll * ((a) & 0x1f);
     __bdk_csr_fatal("ZIP_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -2927,7 +2933,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT(unsigned long a)
 {
-    return 0x838000003000ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000003000ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_ERR_INT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_ERR_INT(a) bdk_zip_quex_err_int_t
@@ -3100,7 +3108,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_GCFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_GCFG(unsigned long a)
 {
-    return 0x838000001a00ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000001a00ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_GCFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_GCFG(a) bdk_zip_quex_gcfg_t
@@ -3216,7 +3226,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_MAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_MAP(unsigned long a)
 {
-    return 0x838000001400ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000001400ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_MAP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_MAP(a) bdk_zip_quex_map_t
@@ -3302,7 +3314,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1C(unsigned long a)
 {
-    return 0x838000003600ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000003600ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_ERR_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_ERR_ENA_W1C(a) bdk_zip_quex_err_ena_w1c_t
@@ -3388,7 +3402,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_ERR_ENA_W1S(unsigned long a)
 {
-    return 0x838000003400ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000003400ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_ERR_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_ERR_ENA_W1S(a) bdk_zip_quex_err_ena_w1s_t
@@ -3469,9 +3485,9 @@ typedef union
 static inline uint64_t BDK_ZIP_DBG_COREX_INST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_DBG_COREX_INST(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
         return 0x838000000640ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x838000000640ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("ZIP_DBG_COREX_INST", 1, a, 0, 0, 0);
 }
@@ -3579,7 +3595,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_SBUF_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_SBUF_CTL(unsigned long a)
 {
-    return 0x838000001200ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000001200ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_SBUF_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_SBUF_CTL(a) bdk_zip_quex_sbuf_ctl_t
@@ -3628,7 +3646,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_SBUF_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_SBUF_ADDR(unsigned long a)
 {
-    return 0x838000001000ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000001000ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_SBUF_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_SBUF_ADDR(a) bdk_zip_quex_sbuf_addr_t
@@ -3714,9 +3734,9 @@ typedef union
 static inline uint64_t BDK_ZIP_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=17))
         return 0x838010000000ll + 0x10ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=17))
         return 0x838000f00000ll + 0x10ll * ((a) & 0x1f);
     __bdk_csr_fatal("ZIP_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -3841,7 +3861,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_DONE_WAIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DONE_WAIT(unsigned long a)
 {
-    return 0x838000002800ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000002800ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_DONE_WAIT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_DONE_WAIT(a) bdk_zip_quex_done_wait_t
@@ -3978,7 +4000,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_DONE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DONE(unsigned long a)
 {
-    return 0x838000002000ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000002000ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_DONE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_DONE(a) bdk_zip_quex_done_t
@@ -4016,7 +4040,7 @@ typedef union
 static inline uint64_t BDK_ZIP_PF_QUEX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_PF_QUEX_GMCTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x838008000010ll + 0x100000ll * ((a) & 0x7);
     __bdk_csr_fatal("ZIP_PF_QUEX_GMCTL", 1, a, 0, 0, 0);
 }
@@ -4290,7 +4314,9 @@ typedef union
 static inline uint64_t BDK_ZIP_DBG_QUEX_STA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_DBG_QUEX_STA(unsigned long a)
 {
-    return 0x838000001800ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000001800ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_DBG_QUEX_STA", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_DBG_QUEX_STA(a) bdk_zip_dbg_quex_sta_t
@@ -4324,9 +4350,9 @@ typedef union
 static inline uint64_t BDK_ZIP_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_MSIX_PBAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x8380100f0000ll + 8ll * ((a) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
         return 0x838000ff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("ZIP_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -4370,7 +4396,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_DONE_ACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_DONE_ACK(unsigned long a)
 {
-    return 0x838000002200ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000002200ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_DONE_ACK", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_DONE_ACK(a) bdk_zip_quex_done_ack_t
@@ -4491,7 +4519,9 @@ typedef union
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_QUEX_ERR_INT_W1S(unsigned long a)
 {
-    return 0x838000003200ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x838000003200ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("ZIP_QUEX_ERR_INT_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ZIP_QUEX_ERR_INT_W1S(a) bdk_zip_quex_err_int_w1s_t
@@ -4526,9 +4556,9 @@ typedef union
 static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_COREX_BIST_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
         return 0x838000000520ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x838000000520ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("ZIP_COREX_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -4569,9 +4599,9 @@ typedef union
 static inline uint64_t BDK_ZIP_COREX_TO_STA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_COREX_TO_STA(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
         return 0x838000000780ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
         return 0x838000000780ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("ZIP_COREX_TO_STA", 1, a, 0, 0, 0);
 }
@@ -4754,9 +4784,9 @@ typedef union
 static inline uint64_t BDK_ZIP_DBG_COREX_STA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ZIP_DBG_COREX_STA(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
         return 0x838000000680ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x838000000680ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("ZIP_DBG_COREX_STA", 1, a, 0, 0, 0);
 }

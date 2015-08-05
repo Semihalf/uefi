@@ -369,7 +369,9 @@ typedef union
 static inline uint64_t BDK_MIO_EMM_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_EMM_MSIX_VECX_CTL(unsigned long a)
 {
-    return 0x87e009f00008ll + 0x10ll * ((a) & 0xf);
+    if (a<=8)
+        return 0x87e009f00008ll + 0x10ll * ((a) & 0xf);
+    __bdk_csr_fatal("MIO_EMM_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MIO_EMM_MSIX_VECX_CTL(a) bdk_mio_emm_msix_vecx_ctl_t
@@ -579,7 +581,9 @@ typedef union
 static inline uint64_t BDK_MIO_EMM_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_EMM_MSIX_PBAX(unsigned long a)
 {
-    return 0x87e009ff0000ll + 8ll * ((a) & 0x0);
+    if (a==0)
+        return 0x87e009ff0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("MIO_EMM_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MIO_EMM_MSIX_PBAX(a) bdk_mio_emm_msix_pbax_t
@@ -1343,7 +1347,9 @@ typedef union
 static inline uint64_t BDK_MIO_EMM_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_EMM_MSIX_VECX_ADDR(unsigned long a)
 {
-    return 0x87e009f00000ll + 0x10ll * ((a) & 0xf);
+    if (a<=8)
+        return 0x87e009f00000ll + 0x10ll * ((a) & 0xf);
+    __bdk_csr_fatal("MIO_EMM_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MIO_EMM_MSIX_VECX_ADDR(a) bdk_mio_emm_msix_vecx_addr_t
@@ -1587,7 +1593,9 @@ typedef union
 static inline uint64_t BDK_MIO_EMM_MODEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_EMM_MODEX(unsigned long a)
 {
-    return 0x87e009002008ll + 8ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x87e009002008ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("MIO_EMM_MODEX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MIO_EMM_MODEX(a) bdk_mio_emm_modex_t

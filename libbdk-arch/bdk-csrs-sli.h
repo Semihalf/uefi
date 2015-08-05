@@ -158,7 +158,9 @@ typedef union
 static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_S2M_MACX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x874001002080ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=2))
+        return 0x874001002080ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("SLIX_S2M_MACX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_S2M_MACX_CTL(a,b) bdk_slix_s2m_macx_ctl_t
@@ -196,7 +198,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MBE_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_SUM(unsigned long a)
 {
-    return 0x874001002220ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x874001002220ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_MBE_INT_SUM", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MBE_INT_SUM(a) bdk_slix_mbe_int_sum_t
@@ -269,7 +273,9 @@ typedef union
 static inline uint64_t BDK_SLIX_S2M_REGX_ACC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_S2M_REGX_ACC(unsigned long a, unsigned long b)
 {
-    return 0x874001000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xff);
+    if ((a<=1) && (b<=255))
+        return 0x874001000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0xff);
+    __bdk_csr_fatal("SLIX_S2M_REGX_ACC", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_S2M_REGX_ACC(a,b) bdk_slix_s2m_regx_acc_t
@@ -336,7 +342,9 @@ typedef union
 static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long a)
 {
-    return 0ll + 0x10000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0ll + 0x10000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_WIN_WR_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_WIN_WR_ADDR(a) bdk_slix_win_wr_addr_t
@@ -380,7 +388,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MAC_NUMBER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MAC_NUMBER(unsigned long a)
 {
-    return 0x80ll + 0x10000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x80ll + 0x10000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_MAC_NUMBER", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MAC_NUMBER(a) bdk_slix_mac_number_t
@@ -420,7 +430,9 @@ typedef union
 static inline uint64_t BDK_SLIX_DATA_OUT_CNTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_DATA_OUT_CNTX(unsigned long a, unsigned long b)
 {
-    return 0x874000001080ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=2))
+        return 0x874000001080ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("SLIX_DATA_OUT_CNTX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_DATA_OUT_CNTX(a,b) bdk_slix_data_out_cntx_t
@@ -472,7 +484,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    return 0x874010000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x874010000000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("SLIX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MSIX_VECX_ADDR(a,b) bdk_slix_msix_vecx_addr_t
@@ -564,7 +578,9 @@ typedef union
 static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long a)
 {
-    return 0x874001002000ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x874001002000ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_S2M_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_S2M_CTL(a) bdk_slix_s2m_ctl_t
@@ -645,7 +661,9 @@ typedef union
 static inline uint64_t BDK_SLIX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_BIST_STATUS(unsigned long a)
 {
-    return 0x874001002180ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x874001002180ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_BIST_STATUS(a) bdk_slix_bist_status_t
@@ -725,7 +743,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MEM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MEM_CTL(unsigned long a)
 {
-    return 0x874001002200ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x874001002200ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_MEM_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MEM_CTL(a) bdk_slix_mem_ctl_t
@@ -763,7 +783,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x874010000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x874010000008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("SLIX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MSIX_VECX_CTL(a,b) bdk_slix_msix_vecx_ctl_t
@@ -795,7 +817,9 @@ typedef union
 static inline uint64_t BDK_SLIX_END_MERGE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_END_MERGE(unsigned long a)
 {
-    return 0x874001002300ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x874001002300ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_END_MERGE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_END_MERGE(a) bdk_slix_end_merge_t
@@ -829,7 +853,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    return 0x8740100f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x8740100f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("SLIX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MSIX_PBAX(a,b) bdk_slix_msix_pbax_t
@@ -867,7 +893,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MBE_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_SUM_W1S(unsigned long a)
 {
-    return 0x874001002240ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x874001002240ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_MBE_INT_SUM_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MBE_INT_SUM_W1S(a) bdk_slix_mbe_int_sum_w1s_t
@@ -901,7 +929,9 @@ typedef union
 static inline uint64_t BDK_SLIX_WIN_WR_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_MASK(unsigned long a)
 {
-    return 0x30ll + 0x10000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x30ll + 0x10000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_WIN_WR_MASK", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_WIN_WR_MASK(a) bdk_slix_win_wr_mask_t
@@ -933,7 +963,9 @@ typedef union
 static inline uint64_t BDK_SLIX_WIN_RD_DATA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_RD_DATA(unsigned long a)
 {
-    return 0x40ll + 0x10000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x40ll + 0x10000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_WIN_RD_DATA", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_WIN_RD_DATA(a) bdk_slix_win_rd_data_t
@@ -966,7 +998,9 @@ typedef union
 static inline uint64_t BDK_SLIX_WIN_WR_DATA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_WR_DATA(unsigned long a)
 {
-    return 0x20ll + 0x10000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x20ll + 0x10000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_WIN_WR_DATA", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_WIN_WR_DATA(a) bdk_slix_win_wr_data_t
@@ -1006,7 +1040,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MACX_INT_SUM_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_SUM_W1S(unsigned long a, unsigned long b)
 {
-    return 0x874000001180ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=2))
+        return 0x874000001180ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("SLIX_MACX_INT_SUM_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MACX_INT_SUM_W1S(a,b) bdk_slix_macx_int_sum_w1s_t
@@ -1054,7 +1090,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MACX_INT_SUM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_SUM(unsigned long a, unsigned long b)
 {
-    return 0x874000001100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=2))
+        return 0x874000001100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("SLIX_MACX_INT_SUM", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MACX_INT_SUM(a,b) bdk_slix_macx_int_sum_t
@@ -1236,7 +1274,9 @@ typedef union
 static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x874001002100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=2))
+        return 0x874001002100ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("SLIX_M2S_MACX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_M2S_MACX_CTL(a,b) bdk_slix_m2s_macx_ctl_t
@@ -1290,9 +1330,9 @@ typedef union
 static inline uint64_t BDK_SLIX_SCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_SCTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x874001002010ll + 0x1000000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
         return 0x874001002010ll + 0x1000000000ll * ((a) & 0x1);
     __bdk_csr_fatal("SLIX_SCTL", 1, a, 0, 0, 0);
 }
@@ -1332,7 +1372,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1C(unsigned long a)
 {
-    return 0x874001002260ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x874001002260ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_MBE_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MBE_INT_ENA_W1C(a) bdk_slix_mbe_int_ena_w1c_t
@@ -1370,7 +1412,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MBE_INT_ENA_W1S(unsigned long a)
 {
-    return 0x874001002280ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x874001002280ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_MBE_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MBE_INT_ENA_W1S(a) bdk_slix_mbe_int_ena_w1s_t
@@ -1402,7 +1446,9 @@ typedef union
 static inline uint64_t BDK_SLIX_SCRATCH_1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_SCRATCH_1(unsigned long a)
 {
-    return 0x874000001000ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x874000001000ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_SCRATCH_1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_SCRATCH_1(a) bdk_slix_scratch_1_t
@@ -1434,7 +1480,9 @@ typedef union
 static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_SCRATCH_2(unsigned long a)
 {
-    return 0x874000001010ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x874000001010ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_SCRATCH_2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_SCRATCH_2(a) bdk_slix_scratch_2_t
@@ -1517,7 +1565,9 @@ typedef union
 static inline uint64_t BDK_SLIX_WIN_RD_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_WIN_RD_ADDR(unsigned long a)
 {
-    return 0x10ll + 0x10000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x10ll + 0x10000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_WIN_RD_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SLIX_WIN_RD_ADDR(a) bdk_slix_win_rd_addr_t
@@ -1557,7 +1607,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    return 0x874000001200ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=2))
+        return 0x874000001200ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("SLIX_MACX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MACX_INT_ENA_W1C(a,b) bdk_slix_macx_int_ena_w1c_t
@@ -1597,7 +1649,9 @@ typedef union
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_MACX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    return 0x874000001280ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=2))
+        return 0x874000001280ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("SLIX_MACX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SLIX_MACX_INT_ENA_W1S(a,b) bdk_slix_macx_int_ena_w1s_t

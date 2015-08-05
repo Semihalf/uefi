@@ -274,7 +274,9 @@ typedef union
 static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a)
 {
-    return 0x803000ff0000ll + 8ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x803000ff0000ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("GPIO_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GPIO_MSIX_PBAX(a) bdk_gpio_msix_pbax_t
@@ -326,7 +328,9 @@ typedef union
 static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a)
 {
-    return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
+    if (a<=149)
+        return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
+    __bdk_csr_fatal("GPIO_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GPIO_MSIX_VECX_ADDR(a) bdk_gpio_msix_vecx_addr_t
@@ -367,7 +371,9 @@ typedef union
 static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a)
 {
-    return 0x803000000040ll + 8ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x803000000040ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("GPIO_CLK_GENX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GPIO_CLK_GENX(a) bdk_gpio_clk_genx_t
@@ -436,7 +442,9 @@ typedef union
 static inline uint64_t BDK_GPIO_MC_INTRX_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MC_INTRX_W1S(unsigned long a)
 {
-    return 0x803000001100ll + 8ll * ((a) & 0x7);
+    if ((a>=4)&&(a<=7))
+        return 0x803000001100ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("GPIO_MC_INTRX_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GPIO_MC_INTRX_W1S(a) bdk_gpio_mc_intrx_w1s_t
@@ -488,7 +496,9 @@ typedef union
 static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a)
 {
-    return 0x803000000060ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x803000000060ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("GPIO_CLK_SYNCEX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GPIO_CLK_SYNCEX(a) bdk_gpio_clk_syncex_t
@@ -522,7 +532,9 @@ typedef union
 static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1S(unsigned long a)
 {
-    return 0x803000001300ll + 8ll * ((a) & 0x7);
+    if ((a>=4)&&(a<=7))
+        return 0x803000001300ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("GPIO_MC_INTRX_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GPIO_MC_INTRX_ENA_W1S(a) bdk_gpio_mc_intrx_ena_w1s_t
@@ -556,7 +568,9 @@ typedef union
 static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1C(unsigned long a)
 {
-    return 0x803000001200ll + 8ll * ((a) & 0x7);
+    if ((a>=4)&&(a<=7))
+        return 0x803000001200ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("GPIO_MC_INTRX_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GPIO_MC_INTRX_ENA_W1C(a) bdk_gpio_mc_intrx_ena_w1c_t
@@ -635,7 +649,9 @@ typedef union
 static inline uint64_t BDK_GPIO_MC_INTRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MC_INTRX(unsigned long a)
 {
-    return 0x803000001000ll + 8ll * ((a) & 0x7);
+    if ((a>=4)&&(a<=7))
+        return 0x803000001000ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("GPIO_MC_INTRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GPIO_MC_INTRX(a) bdk_gpio_mc_intrx_t
@@ -900,7 +916,9 @@ typedef union
 static inline uint64_t BDK_GPIO_BIT_CFGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_BIT_CFGX(unsigned long a)
 {
-    return 0x803000000400ll + 8ll * ((a) & 0x3f);
+    if (a<=50)
+        return 0x803000000400ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GPIO_BIT_CFGX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GPIO_BIT_CFGX(a) bdk_gpio_bit_cfgx_t
@@ -954,7 +972,9 @@ typedef union
 static inline uint64_t BDK_GPIO_INTRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_INTRX(unsigned long a)
 {
-    return 0x803000000800ll + 8ll * ((a) & 0x3f);
+    if (a<=50)
+        return 0x803000000800ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GPIO_INTRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GPIO_INTRX(a) bdk_gpio_intrx_t
@@ -992,7 +1012,9 @@ typedef union
 static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a)
 {
-    return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
+    if (a<=149)
+        return 0x803000f00008ll + 0x10ll * ((a) & 0xff);
+    __bdk_csr_fatal("GPIO_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GPIO_MSIX_VECX_CTL(a) bdk_gpio_msix_vecx_ctl_t

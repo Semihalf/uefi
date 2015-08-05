@@ -263,7 +263,7 @@ typedef union
 static inline uint64_t BDK_BCH_VQX_CMD_PTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_VQX_CMD_PTR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x871001000020ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("BCH_VQX_CMD_PTR", 1, a, 0, 0, 0);
 }
@@ -317,42 +317,6 @@ static inline uint64_t BDK_BCH_BIST_RESULT_FUNC(void)
 #define arguments_BDK_BCH_BIST_RESULT -1,-1,-1,-1
 
 /**
- * Register (RSL) bch_eco
- *
- * INTERNAL: BCH ECO Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_bch_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bch_eco_s cn; */
-} bdk_bch_eco_t;
-
-#define BDK_BCH_ECO BDK_BCH_ECO_FUNC()
-static inline uint64_t BDK_BCH_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BCH_ECO_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x871000000030ll;
-    __bdk_csr_fatal("BCH_ECO", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_BCH_ECO bdk_bch_eco_t
-#define bustype_BDK_BCH_ECO BDK_CSR_TYPE_RSL
-#define basename_BDK_BCH_ECO "BCH_ECO"
-#define busnum_BDK_BCH_ECO 0
-#define arguments_BDK_BCH_ECO -1,-1,-1,-1
-
-/**
  * Register (NCB) bch_vq#_ctl
  *
  * BCH Queue Control Register
@@ -402,7 +366,7 @@ typedef union
 static inline uint64_t BDK_BCH_VQX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_VQX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x871001000000ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("BCH_VQX_CTL", 1, a, 0, 0, 0);
 }
@@ -458,7 +422,7 @@ typedef union
 static inline uint64_t BDK_BCH_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_PF_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x871000f00000ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("BCH_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -506,7 +470,7 @@ typedef union
 static inline uint64_t BDK_BCH_VQX_CMD_BUF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_VQX_CMD_BUF(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x871001000008ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("BCH_VQX_CMD_BUF", 1, a, 0, 0, 0);
 }
@@ -546,7 +510,7 @@ typedef union
 static inline uint64_t BDK_BCH_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_PF_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x871000f00008ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("BCH_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -627,7 +591,7 @@ typedef union
 static inline uint64_t BDK_BCH_PF_QX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_PF_QX_GMCTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x871000000100ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("BCH_PF_QX_GMCTL", 1, a, 0, 0, 0);
 }
@@ -704,7 +668,7 @@ typedef union
 static inline uint64_t BDK_BCH_VQX_DOORBELL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_VQX_DOORBELL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x871001000800ll + 0x100000ll * ((a) & 0x0);
     __bdk_csr_fatal("BCH_VQX_DOORBELL", 1, a, 0, 0, 0);
 }
@@ -900,7 +864,7 @@ typedef union
 static inline uint64_t BDK_BCH_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BCH_PF_MSIX_PBAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x871000ff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("BCH_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -978,5 +942,41 @@ static inline uint64_t BDK_BCH_BP_TEST_FUNC(void)
 #define basename_BDK_BCH_BP_TEST "BCH_BP_TEST"
 #define busnum_BDK_BCH_BP_TEST 0
 #define arguments_BDK_BCH_BP_TEST -1,-1,-1,-1
+
+/**
+ * Register (RSL) bch_eco
+ *
+ * INTERNAL: BCH ECO Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bch_eco_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+#else /* Word 0 - Little Endian */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bch_eco_s cn; */
+} bdk_bch_eco_t;
+
+#define BDK_BCH_ECO BDK_BCH_ECO_FUNC()
+static inline uint64_t BDK_BCH_ECO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BCH_ECO_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x871000000030ll;
+    __bdk_csr_fatal("BCH_ECO", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_BCH_ECO bdk_bch_eco_t
+#define bustype_BDK_BCH_ECO BDK_CSR_TYPE_RSL
+#define basename_BDK_BCH_ECO "BCH_ECO"
+#define busnum_BDK_BCH_ECO 0
+#define arguments_BDK_BCH_ECO -1,-1,-1,-1
 
 #endif /* __BDK_CSRS_BCH_H__ */

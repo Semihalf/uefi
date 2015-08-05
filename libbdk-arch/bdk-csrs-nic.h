@@ -492,15 +492,6 @@
                                        Else used for L1 and MAC errors. */
 
 /**
- * Enumeration nic_intf_block_e
- *
- * NIC Interface Block ID Enumeration
- * Enumerates the values of NIC_PF_INTF()_SEND_CFG[BLOCK] and NIC_PF_INTF()_BP_CFG[BP_ID].
- */
-#define BDK_NIC_INTF_BLOCK_E_BGXX_BLOCK(a) (8 + (a)) /**< (0..1)BGX{a} block ID. */
-#define BDK_NIC_INTF_BLOCK_E_TNS_PORTX_BLOCK(a) (6 + (a)) /**< (0..1)TNS port {a} block ID. */
-
-/**
  * Enumeration nic_stat_vnic_tx_e
  *
  * NIC VNIC Transmit Statistics Enumeration
@@ -671,6 +662,15 @@
  */
 #define BDK_NIC_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< (0..1)(0..3)(0..15)BGX {a} port {b} channel {c}. */
 #define BDK_NIC_CHAN_E_TNS_PORTX_CHX(a,b) (0x600 + 0x100 * (a) + (b)) /**< (0..1)(0..127)TNS port {a} channel {b}. */
+
+/**
+ * Enumeration nic_intf_block_e
+ *
+ * NIC Interface Block ID Enumeration
+ * Enumerates the values of NIC_PF_INTF()_SEND_CFG[BLOCK] and NIC_PF_INTF()_BP_CFG[BP_ID].
+ */
+#define BDK_NIC_INTF_BLOCK_E_BGXX_BLOCK(a) (8 + (a)) /**< (0..1)BGX{a} block ID. */
+#define BDK_NIC_INTF_BLOCK_E_TNS_PORTX_BLOCK(a) (6 + (a)) /**< (0..1)TNS port {a} block ID. */
 
 /**
  * Enumeration nic_stat_rq_e
@@ -1857,7 +1857,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_CHANX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_SW_XOFF(unsigned long a)
 {
-    return 0x843000440000ll + 8ll * ((a) & 0xff);
+    if (a<=255)
+        return 0x843000440000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("NIC_PF_CHANX_SW_XOFF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_CHANX_SW_XOFF(a) bdk_nic_pf_chanx_sw_xoff_t
@@ -1891,7 +1893,9 @@ typedef union
 static inline uint64_t BDK_NIC_VNICX_RX_STATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VNICX_RX_STATX(unsigned long a, unsigned long b)
 {
-    return 0x8430a0004100ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0xf);
+    if ((a<=127) && (b<=13))
+        return 0x8430a0004100ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0xf);
+    __bdk_csr_fatal("NIC_VNICX_RX_STATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_VNICX_RX_STATX(a,b) bdk_nic_vnicx_rx_statx_t
@@ -1930,7 +1934,9 @@ typedef union
 static inline uint64_t BDK_NIC_VFX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_CFG(unsigned long a)
 {
-    return 0x8430a0000020ll + 0x200000ll * ((a) & 0x7f);
+    if (a<=127)
+        return 0x8430a0000020ll + 0x200000ll * ((a) & 0x7f);
+    __bdk_csr_fatal("NIC_VFX_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_VFX_CFG(a) bdk_nic_vfx_cfg_t
@@ -1975,7 +1981,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG(unsigned long a, unsigned long b)
 {
-    return 0x843020010c00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x843020010c00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_PF_QSX_SQX_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_QSX_SQX_CFG(a,b) bdk_nic_pf_qsx_sqx_cfg_t
@@ -2014,7 +2022,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL3X_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL3X_CFG(unsigned long a)
 {
-    return 0x843000600000ll + 8ll * ((a) & 0xff);
+    if (a<=255)
+        return 0x843000600000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("NIC_PF_TL3X_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL3X_CFG(a) bdk_nic_pf_tl3x_cfg_t
@@ -2158,7 +2168,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_CPIX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CPIX_CFG(unsigned long a)
 {
-    return 0x843000200000ll + 8ll * ((a) & 0x7ff);
+    if (a<=2047)
+        return 0x843000200000ll + 8ll * ((a) & 0x7ff);
+    __bdk_csr_fatal("NIC_PF_CPIX_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_CPIX_CFG(a) bdk_nic_pf_cpix_cfg_t
@@ -2195,7 +2207,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_CQX_DOOR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_DOOR(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010438ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010438ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_CQX_DOOR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_CQX_DOOR(a,b) bdk_nic_qsx_cqx_door_t
@@ -2228,7 +2242,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_INTFX_BP_SWX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_BP_SWX(unsigned long a, unsigned long b)
 {
-    return 0x843000000220ll + 0x100ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x843000000220ll + 0x100ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_PF_INTFX_BP_SWX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_INTFX_BP_SWX(a,b) bdk_nic_pf_intfx_bp_swx_t
@@ -2483,9 +2499,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_VXLAN_DEFX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x8430000005a0ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
         return 0x8430000005a0ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("NIC_PF_RX_VXLAN_DEFX", 1, a, 0, 0, 0);
 }
@@ -2599,7 +2615,9 @@ typedef union
 static inline uint64_t BDK_NIC_VNICX_RSS_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VNICX_RSS_CFG(unsigned long a)
 {
-    return 0x8430a00020e0ll + 0x200000ll * ((a) & 0x7f);
+    if (a<=127)
+        return 0x8430a00020e0ll + 0x200000ll * ((a) & 0x7f);
+    __bdk_csr_fatal("NIC_VNICX_RSS_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_VNICX_RSS_CFG(a) bdk_nic_vnicx_rss_cfg_t
@@ -2734,7 +2752,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_VFX_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_VFX_MBOXX(unsigned long a, unsigned long b)
 {
-    return 0x843020002030ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
+    if ((a<=127) && (b<=1))
+        return 0x843020002030ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_PF_VFX_MBOXX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_VFX_MBOXX(a,b) bdk_nic_pf_vfx_mboxx_t
@@ -2820,7 +2840,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL3X_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL3X_SW_XOFF(unsigned long a)
 {
-    return 0x843000660000ll + 8ll * ((a) & 0xff);
+    if (a<=255)
+        return 0x843000660000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("NIC_PF_TL3X_SW_XOFF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL3X_SW_XOFF(a) bdk_nic_pf_tl3x_sw_xoff_t
@@ -2854,9 +2876,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_INTFX_TX_FIFO_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_TX_FIFO_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x843000000230ll + 0x100ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
         return 0x843000000230ll + 0x100ll * ((a) & 0x1);
     __bdk_csr_fatal("NIC_PF_INTFX_TX_FIFO_STATUS", 1, a, 0, 0, 0);
 }
@@ -2896,7 +2918,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MSIX_VECX_CTL(unsigned long a)
 {
-    return 0x843060000008ll + 0x10ll * ((a) & 0xf);
+    if (a<=9)
+        return 0x843060000008ll + 0x10ll * ((a) & 0xf);
+    __bdk_csr_fatal("NIC_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_MSIX_VECX_CTL(a) bdk_nic_pf_msix_vecx_ctl_t
@@ -2981,7 +3005,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_SQX_CFG2(unsigned long a, unsigned long b)
 {
-    return 0x843020010c08ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x843020010c08ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_PF_QSX_SQX_CFG2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_QSX_SQX_CFG2(a,b) bdk_nic_pf_qsx_sqx_cfg2_t
@@ -3123,9 +3149,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_MPIX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MPIX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2047))
         return 0x843000210000ll + 8ll * ((a) & 0x7ff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=2047))
         return 0x843000210000ll + 8ll * ((a) & 0x7ff);
     __bdk_csr_fatal("NIC_PF_MPIX_CFG", 1, a, 0, 0, 0);
 }
@@ -3169,9 +3195,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_LMACX_CFG2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x843000240100ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x843000240100ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("NIC_PF_LMACX_CFG2", 1, a, 0, 0, 0);
 }
@@ -3206,7 +3232,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL2X_SH_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL2X_SH_STATUS(unsigned long a)
 {
-    return 0x843000580000ll + 8ll * ((a) & 0x3f);
+    if (a<=63)
+        return 0x843000580000ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("NIC_PF_TL2X_SH_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL2X_SH_STATUS(a) bdk_nic_pf_tl2x_sh_status_t
@@ -3240,7 +3268,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_QSX_SQX_STATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_SQX_STATX(unsigned long a, unsigned long b, unsigned long c)
 {
-    return 0x843020010d00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    if ((a<=127) && (b<=7) && (c<=1))
+        return 0x843020010d00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    __bdk_csr_fatal("NIC_PF_QSX_SQX_STATX", 3, a, b, c, 0);
 }
 
 #define typedef_BDK_NIC_PF_QSX_SQX_STATX(a,b,c) bdk_nic_pf_qsx_sqx_statx_t
@@ -3576,7 +3606,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_SQX_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_BASE(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010820ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010820ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_SQX_BASE", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_SQX_BASE(a,b) bdk_nic_qsx_sqx_base_t
@@ -3961,7 +3993,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MSIX_PBAX(unsigned long a)
 {
-    return 0x8430600f0000ll + 8ll * ((a) & 0x0);
+    if (a==0)
+        return 0x8430600f0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("NIC_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_MSIX_PBAX(a) bdk_nic_pf_msix_pbax_t
@@ -4095,7 +4129,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL4X_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL4X_CFG(unsigned long a)
 {
-    return 0x843000800000ll + 8ll * ((a) & 0x3ff);
+    if (a<=1023)
+        return 0x843000800000ll + 8ll * ((a) & 0x3ff);
+    __bdk_csr_fatal("NIC_PF_TL4X_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL4X_CFG(a) bdk_nic_pf_tl4x_cfg_t
@@ -4391,7 +4427,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_INTFX_BP_DISX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_BP_DISX(unsigned long a, unsigned long b)
 {
-    return 0x843000000210ll + 0x100ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x843000000210ll + 0x100ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_PF_INTFX_BP_DISX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_INTFX_BP_DISX(a,b) bdk_nic_pf_intfx_bp_disx_t
@@ -4432,7 +4470,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_SQX_HEAD(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_HEAD(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010828ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010828ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_SQX_HEAD", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_SQX_HEAD(a,b) bdk_nic_qsx_sqx_head_t
@@ -4467,9 +4507,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MCAMX_ENA(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=191))
         return 0x843000100000ll + 0x10ll * ((a) & 0xff);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=191))
         return 0x843000100000ll + 0x10ll * ((a) & 0xff);
     __bdk_csr_fatal("NIC_PF_MCAMX_ENA", 1, a, 0, 0, 0);
 }
@@ -4530,7 +4570,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL3X_SH_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL3X_SH_STATUS(unsigned long a)
 {
-    return 0x8430006a0000ll + 8ll * ((a) & 0xff);
+    if (a<=255)
+        return 0x8430006a0000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("NIC_PF_TL3X_SH_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL3X_SH_STATUS(a) bdk_nic_pf_tl3x_sh_status_t
@@ -4562,7 +4604,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1SX(unsigned long a)
 {
-    return 0x843000000470ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x843000000470ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("NIC_PF_MBOX_ENA_W1SX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_MBOX_ENA_W1SX(a) bdk_nic_pf_mbox_ena_w1sx_t
@@ -4657,7 +4701,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_SQX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_THRESH(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010810ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010810ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_SQX_THRESH", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_SQX_THRESH(a,b) bdk_nic_qsx_sqx_thresh_t
@@ -4728,7 +4774,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL4X_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL4X_SW_XOFF(unsigned long a)
 {
-    return 0x843000820000ll + 8ll * ((a) & 0x3ff);
+    if (a<=1023)
+        return 0x843000820000ll + 8ll * ((a) & 0x3ff);
+    __bdk_csr_fatal("NIC_PF_TL4X_SW_XOFF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL4X_SW_XOFF(a) bdk_nic_pf_tl4x_sw_xoff_t
@@ -4799,7 +4847,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_CHANX_RX_BP_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_RX_BP_CFG(unsigned long a)
 {
-    return 0x843000480000ll + 8ll * ((a) & 0xff);
+    if (a<=255)
+        return 0x843000480000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("NIC_PF_CHANX_RX_BP_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_CHANX_RX_BP_CFG(a) bdk_nic_pf_chanx_rx_bp_cfg_t
@@ -4892,7 +4942,7 @@ typedef union
 static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_CNTSX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_SW_SYNC_RX_CNTSX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && (a<=3))
         return 0x843000490200ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("NIC_PF_SW_SYNC_RX_CNTSX", 1, a, 0, 0, 0);
 }
@@ -4940,7 +4990,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_LMACX_CFG(unsigned long a)
 {
-    return 0x843000240000ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x843000240000ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("NIC_PF_LMACX_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_LMACX_CFG(a) bdk_nic_pf_lmacx_cfg_t
@@ -4981,7 +5033,9 @@ typedef union
 static inline uint64_t BDK_NIC_VFX_PF_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_PF_MBOXX(unsigned long a, unsigned long b)
 {
-    return 0x8430a0000130ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
+    if ((a<=127) && (b<=1))
+        return 0x8430a0000130ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_VFX_PF_MBOXX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_VFX_PF_MBOXX(a,b) bdk_nic_vfx_pf_mboxx_t
@@ -5213,7 +5267,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RBDRX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_CFG(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010c00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    if ((a<=127) && (b<=1))
+        return 0x8430a0010c00ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_QSX_RBDRX_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RBDRX_CFG(a,b) bdk_nic_qsx_rbdrx_cfg_t
@@ -5286,7 +5342,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010c50ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    if ((a<=127) && (b<=1))
+        return 0x8430a0010c50ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_QSX_RBDRX_PREFETCH_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RBDRX_PREFETCH_STATUS(a,b) bdk_nic_qsx_rbdrx_prefetch_status_t
@@ -5374,7 +5432,9 @@ typedef union
 static inline uint64_t BDK_NIC_VNICX_TX_STATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VNICX_TX_STATX(unsigned long a, unsigned long b)
 {
-    return 0x8430a0004000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
+    if ((a<=127) && (b<=4))
+        return 0x8430a0004000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_VNICX_TX_STATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_VNICX_TX_STATX(a,b) bdk_nic_vnicx_tx_statx_t
@@ -5413,7 +5473,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_CQX_HEAD(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_HEAD(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010428ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010428ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_CQX_HEAD", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_CQX_HEAD(a,b) bdk_nic_qsx_cqx_head_t
@@ -5450,7 +5512,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_CQX_DEBUG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_DEBUG(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010450ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010450ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_CQX_DEBUG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_CQX_DEBUG(a,b) bdk_nic_qsx_cqx_debug_t
@@ -5548,7 +5612,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MBOX_INT_W1SX(unsigned long a)
 {
-    return 0x843000000430ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x843000000430ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("NIC_PF_MBOX_INT_W1SX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_MBOX_INT_W1SX(a) bdk_nic_pf_mbox_int_w1sx_t
@@ -5595,7 +5661,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_RX_ETYPEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RX_ETYPEX(unsigned long a)
 {
-    return 0x843000000500ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x843000000500ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("NIC_PF_RX_ETYPEX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_RX_ETYPEX(a) bdk_nic_pf_rx_etypex_t
@@ -5657,7 +5725,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_QSX_RQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_RQX_CFG(unsigned long a, unsigned long b)
 {
-    return 0x843020010400ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x843020010400ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_PF_QSX_RQX_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_QSX_RQX_CFG(a,b) bdk_nic_pf_qsx_rqx_cfg_t
@@ -5705,7 +5775,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_INTFX_BP_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_BP_CFG(unsigned long a)
 {
-    return 0x843000000208ll + 0x100ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x843000000208ll + 0x100ll * ((a) & 0x1);
+    __bdk_csr_fatal("NIC_PF_INTFX_BP_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_INTFX_BP_CFG(a) bdk_nic_pf_intfx_bp_cfg_t
@@ -5740,7 +5812,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_MBOX_INTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MBOX_INTX(unsigned long a)
 {
-    return 0x843000000410ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x843000000410ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("NIC_PF_MBOX_INTX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_MBOX_INTX(a) bdk_nic_pf_mbox_intx_t
@@ -6039,7 +6113,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RBDRX_TAIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_TAIL(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010c30ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    if ((a<=127) && (b<=1))
+        return 0x8430a0010c30ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_QSX_RBDRX_TAIL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RBDRX_TAIL(a,b) bdk_nic_qsx_rbdrx_tail_t
@@ -6122,7 +6198,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RBDRX_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_BASE(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010c20ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    if ((a<=127) && (b<=1))
+        return 0x8430a0010c20ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_QSX_RBDRX_BASE", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RBDRX_BASE(a,b) bdk_nic_qsx_rbdrx_base_t
@@ -6198,7 +6276,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RBDRX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_THRESH(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010c10ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    if ((a<=127) && (b<=1))
+        return 0x8430a0010c10ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_QSX_RBDRX_THRESH", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RBDRX_THRESH(a,b) bdk_nic_qsx_rbdrx_thresh_t
@@ -6272,7 +6352,9 @@ typedef union
 static inline uint64_t BDK_NIC_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x8430e0000008ll + 0x200000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1f);
+    if ((a<=127) && (b<=19))
+        return 0x8430e0000008ll + 0x200000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1f);
+    __bdk_csr_fatal("NIC_VFX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_VFX_MSIX_VECX_CTL(a,b) bdk_nic_vfx_msix_vecx_ctl_t
@@ -6345,7 +6427,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_CQX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010440ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010440ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_CQX_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_CQX_STATUS(a,b) bdk_nic_qsx_cqx_status_t
@@ -6379,7 +6463,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_LMACX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_LMACX_SW_XOFF(unsigned long a)
 {
-    return 0x843000242000ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x843000242000ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("NIC_PF_LMACX_SW_XOFF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_LMACX_SW_XOFF(a) bdk_nic_pf_lmacx_sw_xoff_t
@@ -6414,7 +6500,9 @@ typedef union
 static inline uint64_t BDK_NIC_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    return 0x8430e00f0000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
+    if ((a<=127) && (b==0))
+        return 0x8430e00f0000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("NIC_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_VFX_MSIX_PBAX(a,b) bdk_nic_vfx_msix_pbax_t
@@ -6500,7 +6588,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_CREDIT(unsigned long a)
 {
-    return 0x843000460000ll + 8ll * ((a) & 0xff);
+    if (a<=255)
+        return 0x843000460000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("NIC_PF_CHANX_CREDIT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_CHANX_CREDIT(a) bdk_nic_pf_chanx_credit_t
@@ -6659,7 +6749,9 @@ typedef union
 static inline uint64_t BDK_NIC_VFX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_INT(unsigned long a)
 {
-    return 0x8430a0000200ll + 0x200000ll * ((a) & 0x7f);
+    if (a<=127)
+        return 0x8430a0000200ll + 0x200000ll * ((a) & 0x7f);
+    __bdk_csr_fatal("NIC_VFX_INT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_VFX_INT(a) bdk_nic_vfx_int_t
@@ -6707,7 +6799,9 @@ typedef union
 static inline uint64_t BDK_NIC_VFX_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_ENA_W1S(unsigned long a)
 {
-    return 0x8430a0000260ll + 0x200000ll * ((a) & 0x7f);
+    if (a<=127)
+        return 0x8430a0000260ll + 0x200000ll * ((a) & 0x7f);
+    __bdk_csr_fatal("NIC_VFX_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_VFX_ENA_W1S(a) bdk_nic_vfx_ena_w1s_t
@@ -6755,7 +6849,9 @@ typedef union
 static inline uint64_t BDK_NIC_VFX_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_ENA_W1C(unsigned long a)
 {
-    return 0x8430a0000240ll + 0x200000ll * ((a) & 0x7f);
+    if (a<=127)
+        return 0x8430a0000240ll + 0x200000ll * ((a) & 0x7f);
+    __bdk_csr_fatal("NIC_VFX_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_VFX_ENA_W1C(a) bdk_nic_vfx_ena_w1c_t
@@ -6810,7 +6906,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS0(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010c40ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    if ((a<=127) && (b<=1))
+        return 0x8430a0010c40ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_QSX_RBDRX_STATUS0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RBDRX_STATUS0(a,b) bdk_nic_qsx_rbdrx_status0_t
@@ -6843,7 +6941,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_STATUS1(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010c48ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    if ((a<=127) && (b<=1))
+        return 0x8430a0010c48ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_QSX_RBDRX_STATUS1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RBDRX_STATUS1(a,b) bdk_nic_qsx_rbdrx_status1_t
@@ -7187,7 +7287,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_QSX_RQX_STATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_RQX_STATX(unsigned long a, unsigned long b, unsigned long c)
 {
-    return 0x843020010600ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    if ((a<=127) && (b<=7) && (c<=1))
+        return 0x843020010600ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    __bdk_csr_fatal("NIC_PF_QSX_RQX_STATX", 3, a, b, c, 0);
 }
 
 #define typedef_BDK_NIC_PF_QSX_RQX_STATX(a,b,c) bdk_nic_pf_qsx_rqx_statx_t
@@ -7281,7 +7383,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL4AX_CFG(unsigned long a)
 {
-    return 0x8430006f0000ll + 8ll * ((a) & 0xff);
+    if (a<=255)
+        return 0x8430006f0000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("NIC_PF_TL4AX_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL4AX_CFG(a) bdk_nic_pf_tl4ax_cfg_t
@@ -7386,7 +7490,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1CX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MBOX_ENA_W1CX(unsigned long a)
 {
-    return 0x843000000450ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x843000000450ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("NIC_PF_MBOX_ENA_W1CX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_MBOX_ENA_W1CX(a) bdk_nic_pf_mbox_ena_w1cx_t
@@ -7427,7 +7533,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_QSX_RQX_BP_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_RQX_BP_CFG(unsigned long a, unsigned long b)
 {
-    return 0x843020010500ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x843020010500ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_PF_QSX_RQX_BP_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_QSX_RQX_BP_CFG(a,b) bdk_nic_pf_qsx_rqx_bp_cfg_t
@@ -7488,7 +7596,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_CQX_STATUS2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_STATUS2(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010448ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010448ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_CQX_STATUS2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_CQX_STATUS2(a,b) bdk_nic_qsx_cqx_status2_t
@@ -7665,7 +7775,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_SQX_DOOR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_DOOR(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010838ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010838ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_SQX_DOOR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_SQX_DOOR(a,b) bdk_nic_qsx_sqx_door_t
@@ -7793,7 +7905,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL2X_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL2X_CFG(unsigned long a)
 {
-    return 0x843000500000ll + 8ll * ((a) & 0x3f);
+    if (a<=63)
+        return 0x843000500000ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("NIC_PF_TL2X_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL2X_CFG(a) bdk_nic_pf_tl2x_cfg_t
@@ -7864,7 +7978,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_QSX_RQX_DROP_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_RQX_DROP_CFG(unsigned long a, unsigned long b)
 {
-    return 0x843020010420ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x843020010420ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_PF_QSX_RQX_DROP_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_QSX_RQX_DROP_CFG(a,b) bdk_nic_pf_qsx_rqx_drop_cfg_t
@@ -7992,11 +8108,11 @@ typedef union
 static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_LOCKX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=127) && (b<=23)))
         return 0x843020006000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((a<=127) && (b<=15)))
         return 0x843020006000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0xf);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=127) && (b<=23)))
         return 0x843020006000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x1f);
     __bdk_csr_fatal("NIC_PF_QSX_LOCKX", 2, a, b, 0, 0);
 }
@@ -8142,7 +8258,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_PKINDX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_PKINDX_CFG(unsigned long a)
 {
-    return 0x843000000600ll + 8ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x843000000600ll + 8ll * ((a) & 0xf);
+    __bdk_csr_fatal("NIC_PF_PKINDX_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_PKINDX_CFG(a) bdk_nic_pf_pkindx_cfg_t
@@ -8177,7 +8295,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_TX_CFG(unsigned long a)
 {
-    return 0x843000400000ll + 8ll * ((a) & 0xff);
+    if (a<=255)
+        return 0x843000400000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("NIC_PF_CHANX_TX_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_CHANX_TX_CFG(a) bdk_nic_pf_chanx_tx_cfg_t
@@ -8427,7 +8547,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL3X_CHAN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL3X_CHAN(unsigned long a)
 {
-    return 0x843000620000ll + 8ll * ((a) & 0xff);
+    if (a<=255)
+        return 0x843000620000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("NIC_PF_TL3X_CHAN", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL3X_CHAN(a) bdk_nic_pf_tl3x_chan_t
@@ -8548,7 +8670,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_SQX_DEBUG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_DEBUG(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010848ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010848ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_SQX_DEBUG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_SQX_DEBUG(a,b) bdk_nic_qsx_sqx_debug_t
@@ -8638,9 +8762,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_CQ_CNTS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x843000490280ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x843000490280ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("NIC_PF_SW_SYNC_PIPEX_CQ_CNTS", 1, a, 0, 0, 0);
 }
@@ -8880,7 +9004,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_SQX_TAIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_TAIL(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010830ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010830ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_SQX_TAIL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_SQX_TAIL(a,b) bdk_nic_qsx_sqx_tail_t
@@ -9028,7 +9154,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RQ_GEN_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RQ_GEN_CFG(unsigned long a)
 {
-    return 0x8430a0010010ll + 0x200000ll * ((a) & 0x7f);
+    if (a<=127)
+        return 0x8430a0010010ll + 0x200000ll * ((a) & 0x7f);
+    __bdk_csr_fatal("NIC_QSX_RQ_GEN_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RQ_GEN_CFG(a) bdk_nic_qsx_rq_gen_cfg_t
@@ -9075,7 +9203,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RBDRX_DOOR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_DOOR(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010c38ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    if ((a<=127) && (b<=1))
+        return 0x8430a0010c38ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_QSX_RBDRX_DOOR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RBDRX_DOOR(a,b) bdk_nic_qsx_rbdrx_door_t
@@ -9365,7 +9495,9 @@ typedef union
 static inline uint64_t BDK_NIC_VNICX_RSS_KEYX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VNICX_RSS_KEYX(unsigned long a, unsigned long b)
 {
-    return 0x8430a0002200ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
+    if ((a<=127) && (b<=4))
+        return 0x8430a0002200ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_VNICX_RSS_KEYX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_VNICX_RSS_KEYX(a,b) bdk_nic_vnicx_rss_keyx_t
@@ -9404,7 +9536,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RQX_CFG(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010600ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010600ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_RQX_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RQX_CFG(a,b) bdk_nic_qsx_rqx_cfg_t
@@ -9441,7 +9575,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_CHANX_RX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_CHANX_RX_CFG(unsigned long a)
 {
-    return 0x843000420000ll + 8ll * ((a) & 0xff);
+    if (a<=255)
+        return 0x843000420000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("NIC_PF_CHANX_RX_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_CHANX_RX_CFG(a) bdk_nic_pf_chanx_rx_cfg_t
@@ -9475,7 +9611,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_SQX_STATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_STATX(unsigned long a, unsigned long b, unsigned long c)
 {
-    return 0x8430a0010900ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    if ((a<=127) && (b<=7) && (c<=1))
+        return 0x8430a0010900ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    __bdk_csr_fatal("NIC_QSX_SQX_STATX", 3, a, b, c, 0);
 }
 
 #define typedef_BDK_NIC_QSX_SQX_STATX(a,b,c) bdk_nic_qsx_sqx_statx_t
@@ -9512,7 +9650,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_CQX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_THRESH(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010410ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010410ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_CQX_THRESH", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_CQX_THRESH(a,b) bdk_nic_qsx_cqx_thresh_t
@@ -9859,7 +9999,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_SQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_CFG(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010800ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010800ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_SQX_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_SQX_CFG(a,b) bdk_nic_qsx_sqx_cfg_t
@@ -10032,7 +10174,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_CQX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_CFG(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010400ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010400ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_CQX_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_CQX_CFG(a,b) bdk_nic_qsx_cqx_cfg_t
@@ -10272,7 +10416,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_SQX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_SQX_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010840ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010840ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_SQX_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_SQX_STATUS(a,b) bdk_nic_qsx_sqx_status_t
@@ -10311,7 +10457,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_CQX_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_BASE(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010420ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010420ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_CQX_BASE", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_CQX_BASE(a,b) bdk_nic_qsx_cqx_base_t
@@ -10350,7 +10498,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL3AX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL3AX_CFG(unsigned long a)
 {
-    return 0x8430005f0000ll + 8ll * ((a) & 0x3f);
+    if (a<=63)
+        return 0x8430005f0000ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("NIC_PF_TL3AX_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL3AX_CFG(a) bdk_nic_pf_tl3ax_cfg_t
@@ -10358,6 +10508,92 @@ static inline uint64_t BDK_NIC_PF_TL3AX_CFG(unsigned long a)
 #define basename_BDK_NIC_PF_TL3AX_CFG(a) "NIC_PF_TL3AX_CFG"
 #define busnum_BDK_NIC_PF_TL3AX_CFG(a) (a)
 #define arguments_BDK_NIC_PF_TL3AX_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) nic_pf_lmac#_credit
+ *
+ * NIC LMAC Credit Registers
+ * Index enumerated by NIC_TX_LMAC_E.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_nic_pf_lmacx_credit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
+                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
+                                                                 and one TNS credit unit otherwise, as specified by
+                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
+                                                                 CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
+                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
+                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
+                                                                 and one TNS credit unit otherwise, as specified by
+                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
+                                                                 CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
+                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_lmacx_credit_s cn; */
+} bdk_nic_pf_lmacx_credit_t;
+
+static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a)
+{
+    if (a<=7)
+        return 0x843000244000ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("NIC_PF_LMACX_CREDIT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_NIC_PF_LMACX_CREDIT(a) bdk_nic_pf_lmacx_credit_t
+#define bustype_BDK_NIC_PF_LMACX_CREDIT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_NIC_PF_LMACX_CREDIT(a) "NIC_PF_LMACX_CREDIT"
+#define busnum_BDK_NIC_PF_LMACX_CREDIT(a) (a)
+#define arguments_BDK_NIC_PF_LMACX_CREDIT(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) nic_pf_bist0_status
@@ -10448,7 +10684,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_CQX_TAIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_TAIL(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010430ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010430ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_CQX_TAIL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_CQX_TAIL(a,b) bdk_nic_qsx_cqx_tail_t
@@ -10481,7 +10719,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL4X_SH_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL4X_SH_STATUS(unsigned long a)
 {
-    return 0x843000840000ll + 8ll * ((a) & 0x3ff);
+    if (a<=1023)
+        return 0x843000840000ll + 8ll * ((a) & 0x3ff);
+    __bdk_csr_fatal("NIC_PF_TL4X_SH_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL4X_SH_STATUS(a) bdk_nic_pf_tl4x_sh_status_t
@@ -10512,7 +10752,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_RBDR_BP_STATEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RBDR_BP_STATEX(unsigned long a)
 {
-    return 0x843000000240ll + 8ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x843000000240ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("NIC_PF_RBDR_BP_STATEX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_RBDR_BP_STATEX(a) bdk_nic_pf_rbdr_bp_statex_t
@@ -10520,90 +10762,6 @@ static inline uint64_t BDK_NIC_PF_RBDR_BP_STATEX(unsigned long a)
 #define basename_BDK_NIC_PF_RBDR_BP_STATEX(a) "NIC_PF_RBDR_BP_STATEX"
 #define busnum_BDK_NIC_PF_RBDR_BP_STATEX(a) (a)
 #define arguments_BDK_NIC_PF_RBDR_BP_STATEX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) nic_pf_lmac#_credit
- *
- * NIC LMAC Credit Registers
- * Index enumerated by NIC_TX_LMAC_E.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_nic_pf_lmacx_credit_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
-                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
-                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
-                                                                 and one TNS credit unit otherwise, as specified by
-                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
-                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
-                                                                 flow when the count is less than zero. As such, the most significant bit should normally
-                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
-                                                                 - 1.
-
-                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
-                                                                 CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
-
-                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
-
-                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
-                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
-                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
-                                                                 192. */
-        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
-                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
-                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
-                                                                 when the count is less than zero. As such the most significant bit should normally be
-                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
-        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
-        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
-                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
-                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
-                                                                 when the count is less than zero. As such the most significant bit should normally be
-                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
-        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
-                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
-                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
-                                                                 and one TNS credit unit otherwise, as specified by
-                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
-                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
-                                                                 flow when the count is less than zero. As such, the most significant bit should normally
-                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
-                                                                 - 1.
-
-                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
-                                                                 CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
-
-                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
-
-                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
-                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
-                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
-                                                                 192. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_lmacx_credit_s cn; */
-} bdk_nic_pf_lmacx_credit_t;
-
-static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a)
-{
-    return 0x843000244000ll + 8ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_NIC_PF_LMACX_CREDIT(a) bdk_nic_pf_lmacx_credit_t
-#define bustype_BDK_NIC_PF_LMACX_CREDIT(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_NIC_PF_LMACX_CREDIT(a) "NIC_PF_LMACX_CREDIT"
-#define busnum_BDK_NIC_PF_LMACX_CREDIT(a) (a)
-#define arguments_BDK_NIC_PF_LMACX_CREDIT(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) nic_pf_qs#_cfg
@@ -10695,7 +10853,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_QSX_CFG(unsigned long a)
 {
-    return 0x843020010000ll + 0x200000ll * ((a) & 0x7f);
+    if (a<=127)
+        return 0x843020010000ll + 0x200000ll * ((a) & 0x7f);
+    __bdk_csr_fatal("NIC_PF_QSX_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_QSX_CFG(a) bdk_nic_pf_qsx_cfg_t
@@ -10731,9 +10891,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_SW_SYNC_PIPEX_PKT_CNTS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x843000490200ll + 8ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x843000490200ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("NIC_PF_SW_SYNC_PIPEX_PKT_CNTS", 1, a, 0, 0, 0);
 }
@@ -10995,7 +11155,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_INTFX_SEND_CFG(unsigned long a)
 {
-    return 0x843000000200ll + 0x100ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x843000000200ll + 0x100ll * ((a) & 0x1);
+    __bdk_csr_fatal("NIC_PF_INTFX_SEND_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_INTFX_SEND_CFG(a) bdk_nic_pf_intfx_send_cfg_t
@@ -11037,7 +11199,9 @@ typedef union
 static inline uint64_t BDK_NIC_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    return 0x8430e0000000ll + 0x200000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1f);
+    if ((a<=127) && (b<=19))
+        return 0x8430e0000000ll + 0x200000ll * ((a) & 0x7f) + 0x10ll * ((b) & 0x1f);
+    __bdk_csr_fatal("NIC_VFX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_VFX_MSIX_VECX_ADDR(a,b) bdk_nic_vfx_msix_vecx_addr_t
@@ -11109,9 +11273,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MCAMX_MX_DATA(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=191) && (b<=5)))
         return 0x843000110000ll + 0x40ll * ((a) & 0xff) + 8ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=191) && (b<=5)))
         return 0x843000110000ll + 0x40ll * ((a) & 0xff) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("NIC_PF_MCAMX_MX_DATA", 2, a, b, 0, 0);
 }
@@ -11802,7 +11966,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RBDRX_HEAD(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RBDRX_HEAD(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010c28ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    if ((a<=127) && (b<=1))
+        return 0x8430a0010c28ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x1);
+    __bdk_csr_fatal("NIC_QSX_RBDRX_HEAD", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RBDRX_HEAD(a,b) bdk_nic_qsx_rbdrx_head_t
@@ -11841,7 +12007,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_CQX_CFG2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_CQX_CFG2(unsigned long a, unsigned long b)
 {
-    return 0x8430a0010408ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    if ((a<=127) && (b<=7))
+        return 0x8430a0010408ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_QSX_CQX_CFG2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_QSX_CQX_CFG2(a,b) bdk_nic_qsx_cqx_cfg2_t
@@ -11893,7 +12061,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_MSIX_VECX_ADDR(unsigned long a)
 {
-    return 0x843060000000ll + 0x10ll * ((a) & 0xf);
+    if (a<=9)
+        return 0x843060000000ll + 0x10ll * ((a) & 0xf);
+    __bdk_csr_fatal("NIC_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_MSIX_VECX_ADDR(a) bdk_nic_pf_msix_vecx_addr_t
@@ -11926,7 +12096,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_TL2X_PRI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_TL2X_PRI(unsigned long a)
 {
-    return 0x843000520000ll + 8ll * ((a) & 0x3f);
+    if (a<=63)
+        return 0x843000520000ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("NIC_PF_TL2X_PRI", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_TL2X_PRI(a) bdk_nic_pf_tl2x_pri_t
@@ -11998,7 +12170,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_VNICX_RX_STATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_VNICX_RX_STATX(unsigned long a, unsigned long b)
 {
-    return 0x843020004100ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0xf);
+    if ((a<=127) && (b<=13))
+        return 0x843020004100ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0xf);
+    __bdk_csr_fatal("NIC_PF_VNICX_RX_STATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_VNICX_RX_STATX(a,b) bdk_nic_pf_vnicx_rx_statx_t
@@ -12032,7 +12206,9 @@ typedef union
 static inline uint64_t BDK_NIC_QSX_RQX_STATX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_QSX_RQX_STATX(unsigned long a, unsigned long b, unsigned long c)
 {
-    return 0x8430a0010700ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    if ((a<=127) && (b<=7) && (c<=1))
+        return 0x8430a0010700ll + 0x200000ll * ((a) & 0x7f) + 0x40000ll * ((b) & 0x7) + 8ll * ((c) & 0x1);
+    __bdk_csr_fatal("NIC_QSX_RQX_STATX", 3, a, b, c, 0);
 }
 
 #define typedef_BDK_NIC_QSX_RQX_STATX(a,b,c) bdk_nic_qsx_rqx_statx_t
@@ -12080,7 +12256,9 @@ typedef union
 static inline uint64_t BDK_NIC_VFX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_VFX_INT_W1S(unsigned long a)
 {
-    return 0x8430a0000220ll + 0x200000ll * ((a) & 0x7f);
+    if (a<=127)
+        return 0x8430a0000220ll + 0x200000ll * ((a) & 0x7f);
+    __bdk_csr_fatal("NIC_VFX_INT_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_VFX_INT_W1S(a) bdk_nic_vfx_int_w1s_t
@@ -12114,7 +12292,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_VNICX_TX_STATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_VNICX_TX_STATX(unsigned long a, unsigned long b)
 {
-    return 0x843020004000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
+    if ((a<=127) && (b<=4))
+        return 0x843020004000ll + 0x200000ll * ((a) & 0x7f) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("NIC_PF_VNICX_TX_STATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_VNICX_TX_STATX(a,b) bdk_nic_pf_vnicx_tx_statx_t
@@ -12216,7 +12396,9 @@ typedef union
 static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NIC_PF_RSSIX_RQ(unsigned long a)
 {
-    return 0x843000220000ll + 8ll * ((a) & 0xfff);
+    if (a<=4095)
+        return 0x843000220000ll + 8ll * ((a) & 0xfff);
+    __bdk_csr_fatal("NIC_PF_RSSIX_RQ", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NIC_PF_RSSIX_RQ(a) bdk_nic_pf_rssix_rq_t

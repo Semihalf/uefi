@@ -104,15 +104,6 @@
 #define BDK_SATA_UCTL_DMA_WRITE_CMD_E_STP (0) /**< Use STP (allocate local, no fill zero's). Default. */
 
 /**
- * Enumeration sata_bar_e
- *
- * SATA Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#define BDK_SATA_BAR_E_SATAX_PF_BAR0(a) (0x810000000000ll + 0x1000000000ll * (a)) /**< (0..15)Base address for standard registers. */
-#define BDK_SATA_BAR_E_SATAX_PF_BAR4(a) (0x810000200000ll + 0x1000000000ll * (a)) /**< (0..15)Base address for MSI-X registers. */
-
-/**
  * Enumeration sata_uctl_dma_read_cmd_e
  *
  * SATA UCTL DMA Read Command Enumeration
@@ -121,6 +112,15 @@
 #define BDK_SATA_UCTL_DMA_READ_CMD_E_LDI (0) /**< Use LDI (allocate). */
 #define BDK_SATA_UCTL_DMA_READ_CMD_E_LDT (1) /**< Use LDT (no allocate). Default. */
 #define BDK_SATA_UCTL_DMA_READ_CMD_E_LDY (2) /**< Use LDY (allocate home). */
+
+/**
+ * Enumeration sata_bar_e
+ *
+ * SATA Base Address Register Enumeration
+ * Enumerates the base address registers.
+ */
+#define BDK_SATA_BAR_E_SATAX_PF_BAR0(a) (0x810000000000ll + 0x1000000000ll * (a)) /**< (0..15)Base address for standard registers. */
+#define BDK_SATA_BAR_E_SATAX_PF_BAR4(a) (0x810000200000ll + 0x1000000000ll * (a)) /**< (0..15)Base address for MSI-X registers. */
 
 /**
  * Enumeration sata_uctl_xm_bad_dma_type_e
@@ -161,7 +161,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_CLB(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_CLB(unsigned long a)
 {
-    return 0x810000000100ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000100ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_CLB", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_CLB(a) bdk_satax_uahc_p0_clb_t
@@ -205,7 +207,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_OOBR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_OOBR(unsigned long a)
 {
-    return 0x8100000000bcll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000bcll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_OOBR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_OOBR(a) bdk_satax_uahc_gbl_oobr_t
@@ -270,7 +274,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_BIST_STATUS(unsigned long a)
 {
-    return 0x810000100008ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000100008ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UCTL_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UCTL_BIST_STATUS(a) bdk_satax_uctl_bist_status_t
@@ -302,7 +308,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_CI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_CI(unsigned long a)
 {
-    return 0x810000000138ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000138ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_CI", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_CI(a) bdk_satax_uahc_p0_ci_t
@@ -372,7 +380,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SERR(unsigned long a)
 {
-    return 0x810000000130ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000130ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_SERR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_SERR(a) bdk_satax_uahc_p0_serr_t
@@ -448,7 +458,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_ECC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_ECC(unsigned long a)
 {
-    return 0x8100001000f0ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100001000f0ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UCTL_ECC", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UCTL_ECC(a) bdk_satax_uctl_ecc_t
@@ -508,7 +520,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1C(unsigned long a)
 {
-    return 0x810000100040ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000100040ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UCTL_INTENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UCTL_INTENA_W1C(a) bdk_satax_uctl_intena_w1c_t
@@ -568,7 +582,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTENA_W1S(unsigned long a)
 {
-    return 0x810000100048ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000100048ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UCTL_INTENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UCTL_INTENA_W1S(a) bdk_satax_uctl_intena_w1s_t
@@ -604,7 +620,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTSR(unsigned long a)
 {
-    return 0x8100000000acll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000acll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_BISTSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_BISTSR(a) bdk_satax_uahc_gbl_bistsr_t
@@ -672,7 +690,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTAFR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTAFR(unsigned long a)
 {
-    return 0x8100000000a0ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000a0ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_BISTAFR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_BISTAFR(a) bdk_satax_uahc_gbl_bistafr_t
@@ -704,7 +724,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYSR(unsigned long a)
 {
-    return 0x81000000017cll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x81000000017cll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_PHYSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_PHYSR(a) bdk_satax_uahc_p0_physr_t
@@ -744,7 +766,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_DMACR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_DMACR(unsigned long a)
 {
-    return 0x810000000170ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000170ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_DMACR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_DMACR(a) bdk_satax_uahc_p0_dmacr_t
@@ -782,7 +806,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_TESTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_TESTR(unsigned long a)
 {
-    return 0x8100000000f4ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000f4ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_TESTR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_TESTR(a) bdk_satax_uahc_gbl_testr_t
@@ -819,7 +845,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_SPARE0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_SPARE0(unsigned long a)
 {
-    return 0x810000100010ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000100010ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UCTL_SPARE0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UCTL_SPARE0(a) bdk_satax_uctl_spare0_t
@@ -856,7 +884,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_SPARE1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_SPARE1(unsigned long a)
 {
-    return 0x8100001000f8ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100001000f8ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UCTL_SPARE1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UCTL_SPARE1(a) bdk_satax_uctl_spare1_t
@@ -900,7 +930,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP2(unsigned long a)
 {
-    return 0x810000000024ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000024ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_CAP2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_CAP2(a) bdk_satax_uahc_gbl_cap2_t
@@ -1064,7 +1096,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_CTL(unsigned long a)
 {
-    return 0x810000100000ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000100000ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UCTL_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UCTL_CTL(a) bdk_satax_uctl_ctl_t
@@ -1098,7 +1132,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_TIMER1MS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_TIMER1MS(unsigned long a)
 {
-    return 0x8100000000e0ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000e0ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_TIMER1MS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_TIMER1MS(a) bdk_satax_uahc_gbl_timer1ms_t
@@ -1178,7 +1214,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTCR(unsigned long a)
 {
-    return 0x8100000000a4ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000a4ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_BISTCR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_BISTCR(a) bdk_satax_uahc_gbl_bistcr_t
@@ -1218,7 +1256,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_CTL(unsigned long a)
 {
-    return 0x810000000014ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000014ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_CCC_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_CCC_CTL(a) bdk_satax_uahc_gbl_ccc_ctl_t
@@ -1296,7 +1336,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_CMD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_CMD(unsigned long a)
 {
-    return 0x810000000118ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000118ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_CMD", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_CMD(a) bdk_satax_uahc_p0_cmd_t
@@ -1330,7 +1372,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_PI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_PI(unsigned long a)
 {
-    return 0x81000000000cll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x81000000000cll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_PI", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_PI(a) bdk_satax_uahc_gbl_pi_t
@@ -1408,7 +1452,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_SHIM_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_SHIM_CFG(unsigned long a)
 {
-    return 0x8100001000e8ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100001000e8ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UCTL_SHIM_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UCTL_SHIM_CFG(a) bdk_satax_uctl_shim_cfg_t
@@ -1450,7 +1496,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SCTL(unsigned long a)
 {
-    return 0x81000000012cll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x81000000012cll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_SCTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_SCTL(a) bdk_satax_uahc_p0_sctl_t
@@ -1488,7 +1536,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SSTS(unsigned long a)
 {
-    return 0x810000000128ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000128ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_SSTS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_SSTS(a) bdk_satax_uahc_p0_ssts_t
@@ -1522,7 +1572,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_VS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_VS(unsigned long a)
 {
-    return 0x810000000010ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000010ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_VS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_VS(a) bdk_satax_uahc_gbl_vs_t
@@ -1580,7 +1632,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM2R(unsigned long a)
 {
-    return 0x8100000000ecll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000ecll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_GPARAM2R", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_GPARAM2R(a) bdk_satax_uahc_gbl_gparam2r_t
@@ -1612,7 +1666,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_VERSIONR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_VERSIONR(unsigned long a)
 {
-    return 0x8100000000f8ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000f8ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_VERSIONR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_VERSIONR(a) bdk_satax_uahc_gbl_versionr_t
@@ -1646,7 +1702,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_IS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_IS(unsigned long a)
 {
-    return 0x810000000008ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000008ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_IS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_IS(a) bdk_satax_uahc_gbl_is_t
@@ -1706,7 +1764,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT_W1S(unsigned long a)
 {
-    return 0x810000100038ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000100038ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UCTL_INTSTAT_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UCTL_INTSTAT_W1S(a) bdk_satax_uctl_intstat_w1s_t
@@ -1740,7 +1800,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_FB(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_FB(unsigned long a)
 {
-    return 0x810000000108ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000108ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_FB", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_FB(a) bdk_satax_uahc_p0_fb_t
@@ -1778,7 +1840,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_GHC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_GHC(unsigned long a)
 {
-    return 0x810000000004ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000004ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_GHC", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_GHC(a) bdk_satax_uahc_gbl_ghc_t
@@ -1817,11 +1881,11 @@ typedef union
 static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=15) && (b<=3)))
         return 0x810000200008ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((a<=15) && (b<=4)))
         return 0x810000200008ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=15) && (b<=3)))
         return 0x810000200008ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SATAX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -1895,7 +1959,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CAP(unsigned long a)
 {
-    return 0x810000000000ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000000ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_CAP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_CAP(a) bdk_satax_uahc_gbl_cap_t
@@ -1941,7 +2007,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_FBS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_FBS(unsigned long a)
 {
-    return 0x810000000140ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000140ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_FBS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_FBS(a) bdk_satax_uahc_p0_fbs_t
@@ -1973,7 +2041,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_IDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_IDR(unsigned long a)
 {
-    return 0x8100000000fcll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000fcll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_IDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_IDR(a) bdk_satax_uahc_gbl_idr_t
@@ -2061,7 +2131,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UCTL_INTSTAT(unsigned long a)
 {
-    return 0x810000100030ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000100030ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UCTL_INTSTAT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UCTL_INTSTAT(a) bdk_satax_uctl_intstat_t
@@ -2097,7 +2169,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTDECR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTDECR(unsigned long a)
 {
-    return 0x8100000000b0ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000b0ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_BISTDECR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_BISTDECR(a) bdk_satax_uahc_gbl_bistdecr_t
@@ -2133,7 +2207,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_TFD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_TFD(unsigned long a)
 {
-    return 0x810000000120ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000120ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_TFD", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_TFD(a) bdk_satax_uahc_p0_tfd_t
@@ -2190,11 +2266,11 @@ typedef union
 static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=15) && (b<=3)))
         return 0x810000200000ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((a<=15) && (b<=4)))
         return 0x810000200000ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=15) && (b<=3)))
         return 0x810000200000ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
     __bdk_csr_fatal("SATAX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -2230,7 +2306,9 @@ typedef union
 static inline uint64_t BDK_SATAX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    return 0x8100002f0000ll + 0x1000000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
+    if ((a<=15) && (b==0))
+        return 0x8100002f0000ll + 0x1000000000ll * ((a) & 0xf) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("SATAX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SATAX_MSIX_PBAX(a,b) bdk_satax_msix_pbax_t
@@ -2264,7 +2342,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_PORTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_CCC_PORTS(unsigned long a)
 {
-    return 0x810000000018ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000018ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_CCC_PORTS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_CCC_PORTS(a) bdk_satax_uahc_gbl_ccc_ports_t
@@ -2332,7 +2412,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_IS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_IS(unsigned long a)
 {
-    return 0x810000000110ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000110ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_IS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_IS(a) bdk_satax_uahc_p0_is_t
@@ -2400,7 +2482,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_IE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_IE(unsigned long a)
 {
-    return 0x810000000114ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000114ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_IE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_IE(a) bdk_satax_uahc_p0_ie_t
@@ -2432,7 +2516,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_PHYCR(unsigned long a)
 {
-    return 0x810000000178ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000178ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_PHYCR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_PHYCR(a) bdk_satax_uahc_p0_phycr_t
@@ -2466,7 +2552,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SNTF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SNTF(unsigned long a)
 {
-    return 0x81000000013cll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x81000000013cll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_SNTF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_SNTF(a) bdk_satax_uahc_p0_sntf_t
@@ -2502,7 +2590,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTFCTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_BISTFCTR(unsigned long a)
 {
-    return 0x8100000000a8ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000a8ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_BISTFCTR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_BISTFCTR(a) bdk_satax_uahc_gbl_bistfctr_t
@@ -2548,7 +2638,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_PPARAMR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_PPARAMR(unsigned long a)
 {
-    return 0x8100000000f0ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000f0ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_PPARAMR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_PPARAMR(a) bdk_satax_uahc_gbl_pparamr_t
@@ -2580,7 +2672,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SACT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SACT(unsigned long a)
 {
-    return 0x810000000134ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000134ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_SACT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_SACT(a) bdk_satax_uahc_p0_sact_t
@@ -2612,7 +2706,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_P0_SIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_P0_SIG(unsigned long a)
 {
-    return 0x810000000124ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x810000000124ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_P0_SIG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_P0_SIG(a) bdk_satax_uahc_p0_sig_t
@@ -2670,7 +2766,9 @@ typedef union
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM1R(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_UAHC_GBL_GPARAM1R(unsigned long a)
 {
-    return 0x8100000000e8ll + 0x1000000000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x8100000000e8ll + 0x1000000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("SATAX_UAHC_GBL_GPARAM1R", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SATAX_UAHC_GBL_GPARAM1R(a) bdk_satax_uahc_gbl_gparam1r_t

@@ -85,7 +85,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CLAIMSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CLAIMSET_EL1(unsigned long a)
 {
-    return 0x87a00f810fa0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fa0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CLAIMSET_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CLAIMSET_EL1(a) bdk_sysctix_claimset_el1_t
@@ -185,7 +187,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIDEVID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVID(unsigned long a)
 {
-    return 0x87a00f810fc8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fc8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIDEVID", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIDEVID(a) bdk_sysctix_ctidevid_t
@@ -217,7 +221,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIDEVID2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVID2(unsigned long a)
 {
-    return 0x87a00f810fc0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fc0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIDEVID2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIDEVID2(a) bdk_sysctix_ctidevid2_t
@@ -249,7 +255,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIDEVID1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVID1(unsigned long a)
 {
-    return 0x87a00f810fc4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fc4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIDEVID1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIDEVID1(a) bdk_sysctix_ctidevid1_t
@@ -303,7 +311,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTITRIGOUTSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTITRIGOUTSTATUS(unsigned long a)
 {
-    return 0x87a00f810134ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810134ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTITRIGOUTSTATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTITRIGOUTSTATUS(a) bdk_sysctix_ctitrigoutstatus_t
@@ -340,7 +350,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVTYPE(unsigned long a)
 {
-    return 0x87a00f810fccll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fccll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIDEVTYPE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIDEVTYPE(a) bdk_sysctix_ctidevtype_t
@@ -404,7 +416,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTILSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTILSR(unsigned long a)
 {
-    return 0x87a00f810fb4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fb4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTILSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTILSR(a) bdk_sysctix_ctilsr_t
@@ -440,7 +454,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVAFF1(unsigned long a)
 {
-    return 0x87a00f810facll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810facll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIDEVAFF1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIDEVAFF1(a) bdk_sysctix_ctidevaff1_t
@@ -476,7 +492,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVAFF0(unsigned long a)
 {
-    return 0x87a00f810fa8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fa8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIDEVAFF0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIDEVAFF0(a) bdk_sysctix_ctidevaff0_t
@@ -510,7 +528,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTICIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICIDR0(unsigned long a)
 {
-    return 0x87a00f810ff0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810ff0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTICIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTICIDR0(a) bdk_sysctix_cticidr0_t
@@ -544,7 +564,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTICIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICIDR3(unsigned long a)
 {
-    return 0x87a00f810ffcll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810ffcll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTICIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTICIDR3(a) bdk_sysctix_cticidr3_t
@@ -578,7 +600,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTICIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICIDR2(unsigned long a)
 {
-    return 0x87a00f810ff8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810ff8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTICIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTICIDR2(a) bdk_sysctix_cticidr2_t
@@ -623,7 +647,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CLAIMCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CLAIMCLR_EL1(unsigned long a)
 {
-    return 0x87a00f810fa4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fa4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CLAIMCLR_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CLAIMCLR_EL1(a) bdk_sysctix_claimclr_el1_t
@@ -669,7 +695,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTICHINSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICHINSTATUS(unsigned long a)
 {
-    return 0x87a00f810138ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810138ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTICHINSTATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTICHINSTATUS(a) bdk_sysctix_ctichinstatus_t
@@ -705,7 +733,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTICIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICIDR1(unsigned long a)
 {
-    return 0x87a00f810ff4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810ff4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTICIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTICIDR1(a) bdk_sysctix_cticidr1_t
@@ -752,7 +782,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIGATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIGATE(unsigned long a)
 {
-    return 0x87a00f810140ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810140ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIGATE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIGATE(a) bdk_sysctix_ctigate_t
@@ -799,7 +831,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIITCTRL(unsigned long a)
 {
-    return 0x87a00f810f00ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810f00ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIITCTRL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIITCTRL(a) bdk_sysctix_ctiitctrl_t
@@ -878,7 +912,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIAPPSET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIAPPSET(unsigned long a)
 {
-    return 0x87a00f810014ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810014ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIAPPSET", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIAPPSET(a) bdk_sysctix_ctiappset_t
@@ -915,7 +951,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTILAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTILAR(unsigned long a)
 {
-    return 0x87a00f810fb0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fb0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTILAR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTILAR(a) bdk_sysctix_ctilar_t
@@ -981,7 +1019,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIDEVARCH(unsigned long a)
 {
-    return 0x87a00f810fbcll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fbcll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIDEVARCH", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIDEVARCH(a) bdk_sysctix_ctidevarch_t
@@ -989,56 +1029,6 @@ static inline uint64_t BDK_SYSCTIX_CTIDEVARCH(unsigned long a)
 #define basename_BDK_SYSCTIX_CTIDEVARCH(a) "SYSCTIX_CTIDEVARCH"
 #define busnum_BDK_SYSCTIX_CTIDEVARCH(a) (a)
 #define arguments_BDK_SYSCTIX_CTIDEVARCH(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) syscti#_cticontrol
- *
- * SYSCTI Control Register
- * Controls whether the SYSCTI is enabled.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_sysctix_cticontrol_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t glben                 : 1;  /**< [  0:  0](R/W) Enables or disables the SYSCTI mapping functions.
-                                                                 When the mapping functions are disabled, no new events are
-                                                                     signaled on either output triggers or output channels. If a
-                                                                     previously asserted output trigger has not been acknowledged,
-                                                                     it remains asserted after the mapping functions are disabled.
-                                                                     All output triggers are disabled by SYSCTI reset.
-
-                                                                 0 = SYSCTI mapping functions disabled.
-                                                                 1 = SYSCTI mapping functions enabled. */
-#else /* Word 0 - Little Endian */
-        uint32_t glben                 : 1;  /**< [  0:  0](R/W) Enables or disables the SYSCTI mapping functions.
-                                                                 When the mapping functions are disabled, no new events are
-                                                                     signaled on either output triggers or output channels. If a
-                                                                     previously asserted output trigger has not been acknowledged,
-                                                                     it remains asserted after the mapping functions are disabled.
-                                                                     All output triggers are disabled by SYSCTI reset.
-
-                                                                 0 = SYSCTI mapping functions disabled.
-                                                                 1 = SYSCTI mapping functions enabled. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_sysctix_cticontrol_s cn; */
-} bdk_sysctix_cticontrol_t;
-
-static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long a)
-{
-    return 0x87a00f810000ll + 0x80000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_SYSCTIX_CTICONTROL(a) bdk_sysctix_cticontrol_t
-#define bustype_BDK_SYSCTIX_CTICONTROL(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_SYSCTIX_CTICONTROL(a) "SYSCTIX_CTICONTROL"
-#define busnum_BDK_SYSCTIX_CTICONTROL(a) (a)
-#define arguments_BDK_SYSCTIX_CTICONTROL(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) syscti#_ctichoutstatus
@@ -1077,7 +1067,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTICHOUTSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTICHOUTSTATUS(unsigned long a)
 {
-    return 0x87a00f81013cll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f81013cll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTICHOUTSTATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTICHOUTSTATUS(a) bdk_sysctix_ctichoutstatus_t
@@ -1115,7 +1107,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR2(unsigned long a)
 {
-    return 0x87a00f810fe8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fe8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIPIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIPIDR2(a) bdk_sysctix_ctipidr2_t
@@ -1153,7 +1147,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR3(unsigned long a)
 {
-    return 0x87a00f810fecll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fecll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIPIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIPIDR3(a) bdk_sysctix_ctipidr3_t
@@ -1187,7 +1183,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR0(unsigned long a)
 {
-    return 0x87a00f810fe0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fe0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIPIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIPIDR0(a) bdk_sysctix_ctipidr0_t
@@ -1223,7 +1221,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR1(unsigned long a)
 {
-    return 0x87a00f810fe4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fe4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIPIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIPIDR1(a) bdk_sysctix_ctipidr1_t
@@ -1255,7 +1255,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR6(unsigned long a)
 {
-    return 0x87a00f810fd8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fd8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIPIDR6", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIPIDR6(a) bdk_sysctix_ctipidr6_t
@@ -1287,7 +1289,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR7(unsigned long a)
 {
-    return 0x87a00f810fdcll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fdcll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIPIDR7", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIPIDR7(a) bdk_sysctix_ctipidr7_t
@@ -1325,7 +1329,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR4(unsigned long a)
 {
-    return 0x87a00f810fd0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fd0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIPIDR4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIPIDR4(a) bdk_sysctix_ctipidr4_t
@@ -1357,7 +1363,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIPIDR5(unsigned long a)
 {
-    return 0x87a00f810fd4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fd4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIPIDR5", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIPIDR5(a) bdk_sysctix_ctipidr5_t
@@ -1405,7 +1413,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTITRIGINSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTITRIGINSTATUS(unsigned long a)
 {
-    return 0x87a00f810130ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810130ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTITRIGINSTATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTITRIGINSTATUS(a) bdk_sysctix_ctitriginstatus_t
@@ -1449,7 +1459,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_ASICCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_ASICCTL(unsigned long a)
 {
-    return 0x87a00f810144ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810144ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_ASICCTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_ASICCTL(a) bdk_sysctix_asicctl_t
@@ -1503,7 +1515,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIOUTENX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIOUTENX(unsigned long a, unsigned long b)
 {
-    return 0x87a00f8100a0ll + 0x80000ll * ((a) & 0x7) + 4ll * ((b) & 0x3);
+    if ((a<=6) && (b<=2))
+        return 0x87a00f8100a0ll + 0x80000ll * ((a) & 0x7) + 4ll * ((b) & 0x3);
+    __bdk_csr_fatal("SYSCTIX_CTIOUTENX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIOUTENX(a,b) bdk_sysctix_ctioutenx_t
@@ -1551,7 +1565,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIAPPPULSE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIAPPPULSE(unsigned long a)
 {
-    return 0x87a00f81001cll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f81001cll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIAPPPULSE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIAPPPULSE(a) bdk_sysctix_ctiapppulse_t
@@ -1559,6 +1575,58 @@ static inline uint64_t BDK_SYSCTIX_CTIAPPPULSE(unsigned long a)
 #define basename_BDK_SYSCTIX_CTIAPPPULSE(a) "SYSCTIX_CTIAPPPULSE"
 #define busnum_BDK_SYSCTIX_CTIAPPPULSE(a) (a)
 #define arguments_BDK_SYSCTIX_CTIAPPPULSE(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) syscti#_cticontrol
+ *
+ * SYSCTI Control Register
+ * Controls whether the SYSCTI is enabled.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_sysctix_cticontrol_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t glben                 : 1;  /**< [  0:  0](R/W) Enables or disables the SYSCTI mapping functions.
+                                                                 When the mapping functions are disabled, no new events are
+                                                                     signaled on either output triggers or output channels. If a
+                                                                     previously asserted output trigger has not been acknowledged,
+                                                                     it remains asserted after the mapping functions are disabled.
+                                                                     All output triggers are disabled by SYSCTI reset.
+
+                                                                 0 = SYSCTI mapping functions disabled.
+                                                                 1 = SYSCTI mapping functions enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t glben                 : 1;  /**< [  0:  0](R/W) Enables or disables the SYSCTI mapping functions.
+                                                                 When the mapping functions are disabled, no new events are
+                                                                     signaled on either output triggers or output channels. If a
+                                                                     previously asserted output trigger has not been acknowledged,
+                                                                     it remains asserted after the mapping functions are disabled.
+                                                                     All output triggers are disabled by SYSCTI reset.
+
+                                                                 0 = SYSCTI mapping functions disabled.
+                                                                 1 = SYSCTI mapping functions enabled. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sysctix_cticontrol_s cn; */
+} bdk_sysctix_cticontrol_t;
+
+static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SYSCTIX_CTICONTROL(unsigned long a)
+{
+    if (a<=6)
+        return 0x87a00f810000ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTICONTROL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SYSCTIX_CTICONTROL(a) bdk_sysctix_cticontrol_t
+#define bustype_BDK_SYSCTIX_CTICONTROL(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_SYSCTIX_CTICONTROL(a) "SYSCTIX_CTICONTROL"
+#define busnum_BDK_SYSCTIX_CTICONTROL(a) (a)
+#define arguments_BDK_SYSCTIX_CTICONTROL(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) syscti#_ctiintack
@@ -1623,7 +1691,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIINTACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIINTACK(unsigned long a)
 {
-    return 0x87a00f810010ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810010ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIINTACK", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIINTACK(a) bdk_sysctix_ctiintack_t
@@ -1655,7 +1725,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIAPPCLEAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIAPPCLEAR(unsigned long a)
 {
-    return 0x87a00f810018ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810018ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIAPPCLEAR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIAPPCLEAR(a) bdk_sysctix_ctiappclear_t
@@ -1704,7 +1776,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIAUTHSTATUS_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIAUTHSTATUS_EL1(unsigned long a)
 {
-    return 0x87a00f810fb8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=6)
+        return 0x87a00f810fb8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("SYSCTIX_CTIAUTHSTATUS_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIAUTHSTATUS_EL1(a) bdk_sysctix_ctiauthstatus_el1_t
@@ -1759,7 +1833,9 @@ typedef union
 static inline uint64_t BDK_SYSCTIX_CTIINENX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SYSCTIX_CTIINENX(unsigned long a, unsigned long b)
 {
-    return 0x87a00f810020ll + 0x80000ll * ((a) & 0x7) + 4ll * ((b) & 0x3);
+    if ((a<=6) && (b<=2))
+        return 0x87a00f810020ll + 0x80000ll * ((a) & 0x7) + 4ll * ((b) & 0x3);
+    __bdk_csr_fatal("SYSCTIX_CTIINENX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SYSCTIX_CTIINENX(a,b) bdk_sysctix_ctiinenx_t

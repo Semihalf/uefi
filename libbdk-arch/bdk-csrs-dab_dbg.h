@@ -105,7 +105,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDVIDSR(unsigned long a)
 {
-    return 0x87a0080000a8ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a0080000a8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDVIDSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDVIDSR(a) bdk_dbgx_edvidsr_t
@@ -519,7 +521,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPRSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPRSR(unsigned long a)
 {
-    return 0x87a008000314ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000314ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPRSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPRSR(a) bdk_dbgx_edprsr_t
@@ -667,7 +671,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGBCRX_EL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBCRX_EL1(unsigned long a, unsigned long b)
 {
-    return 0x87a008000408ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if ((a<=47) && (b<=5))
+        return 0x87a008000408ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    __bdk_csr_fatal("DBGX_DBGBCRX_EL1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DBGX_DBGBCRX_EL1(a,b) bdk_dbgx_dbgbcrx_el1_t
@@ -702,7 +708,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVID2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID2(unsigned long a)
 {
-    return 0x87a008000fc0ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fc0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDDEVID2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDDEVID2(a) bdk_dbgx_eddevid2_t
@@ -755,7 +763,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVID1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID1(unsigned long a)
 {
-    return 0x87a008000fc4ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fc4ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDDEVID1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDDEVID1(a) bdk_dbgx_eddevid1_t
@@ -812,7 +822,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDRCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDRCR(unsigned long a)
 {
-    return 0x87a008000090ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000090ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDRCR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDRCR(a) bdk_dbgx_edrcr_t
@@ -1126,7 +1138,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDSCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDSCR(unsigned long a)
 {
-    return 0x87a008000088ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000088ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDSCR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDSCR(a) bdk_dbgx_edscr_t
@@ -1169,7 +1183,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGDTRTX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGDTRTX_EL0(unsigned long a)
 {
-    return 0x87a00800008cll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a00800008cll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_DBGDTRTX_EL0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_DBGDTRTX_EL0(a) bdk_dbgx_dbgdtrtx_el0_t
@@ -1201,7 +1217,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_LO(unsigned long a, unsigned long b)
 {
-    return 0x87a008000400ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if ((a<=47) && (b<=5))
+        return 0x87a008000400ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    __bdk_csr_fatal("DBGX_DBGBVRX_EL1_LO", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DBGX_DBGBVRX_EL1_LO(a,b) bdk_dbgx_dbgbvrx_el1_lo_t
@@ -1290,7 +1308,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPRCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPRCR(unsigned long a)
 {
-    return 0x87a008000310ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000310ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPRCR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPRCR(a) bdk_dbgx_edprcr_t
@@ -1326,7 +1346,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDWAR_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDWAR_LO(unsigned long a)
 {
-    return 0x87a008000030ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000030ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDWAR_LO", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDWAR_LO(a) bdk_dbgx_edwar_lo_t
@@ -1423,7 +1445,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPFR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPFR(unsigned long a)
 {
-    return 0x87a008000d20ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000d20ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPFR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPFR(a) bdk_dbgx_edpfr_t
@@ -1468,7 +1492,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDITCTRL(unsigned long a)
 {
-    return 0x87a008000f00ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000f00ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDITCTRL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDITCTRL(a) bdk_dbgx_editctrl_t
@@ -1507,7 +1533,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDITR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDITR(unsigned long a)
 {
-    return 0x87a008000084ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000084ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDITR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDITR(a) bdk_dbgx_editr_t
@@ -1543,7 +1571,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR1(unsigned long a)
 {
-    return 0x87a008000fe4ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fe4ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPIDR1(a) bdk_dbgx_edpidr1_t
@@ -1577,7 +1607,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR0(unsigned long a)
 {
-    return 0x87a008000fe0ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fe0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPIDR0(a) bdk_dbgx_edpidr0_t
@@ -1615,7 +1647,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR3(unsigned long a)
 {
-    return 0x87a008000fecll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fecll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPIDR3(a) bdk_dbgx_edpidr3_t
@@ -1653,7 +1687,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR2(unsigned long a)
 {
-    return 0x87a008000fe8ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fe8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPIDR2(a) bdk_dbgx_edpidr2_t
@@ -1685,7 +1721,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR5(unsigned long a)
 {
-    return 0x87a008000fd4ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fd4ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPIDR5", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPIDR5(a) bdk_dbgx_edpidr5_t
@@ -1725,7 +1763,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR4(unsigned long a)
 {
-    return 0x87a008000fd0ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fd0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPIDR4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPIDR4(a) bdk_dbgx_edpidr4_t
@@ -1757,7 +1797,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR7(unsigned long a)
 {
-    return 0x87a008000fdcll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fdcll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPIDR7", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPIDR7(a) bdk_dbgx_edpidr7_t
@@ -1789,7 +1831,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPIDR6(unsigned long a)
 {
-    return 0x87a008000fd8ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fd8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPIDR6", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPIDR6(a) bdk_dbgx_edpidr6_t
@@ -1821,7 +1865,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_HI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGBVRX_EL1_HI(unsigned long a, unsigned long b)
 {
-    return 0x87a008000404ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if ((a<=47) && (b<=5))
+        return 0x87a008000404ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    __bdk_csr_fatal("DBGX_DBGBVRX_EL1_HI", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DBGX_DBGBVRX_EL1_HI(a,b) bdk_dbgx_dbgbvrx_el1_hi_t
@@ -1943,7 +1989,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGWCRX_EL1(unsigned long a, unsigned long b)
 {
-    return 0x87a008000808ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if ((a<=47) && (b<=5))
+        return 0x87a008000808ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    __bdk_csr_fatal("DBGX_DBGWCRX_EL1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DBGX_DBGWCRX_EL1(a,b) bdk_dbgx_dbgwcrx_el1_t
@@ -2008,7 +2056,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDESR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDESR(unsigned long a)
 {
-    return 0x87a008000020ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000020ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDESR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDESR(a) bdk_dbgx_edesr_t
@@ -2042,7 +2092,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDWAR_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDWAR_HI(unsigned long a)
 {
-    return 0x87a008000034ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000034ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDWAR_HI", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDWAR_HI(a) bdk_dbgx_edwar_hi_t
@@ -2079,7 +2131,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVTYPE(unsigned long a)
 {
-    return 0x87a008000fccll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fccll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDDEVTYPE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDDEVTYPE(a) bdk_dbgx_eddevtype_t
@@ -2147,7 +2201,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDECCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDECCR(unsigned long a)
 {
-    return 0x87a008000098ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000098ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDECCR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDECCR(a) bdk_dbgx_edeccr_t
@@ -2155,6 +2211,40 @@ static inline uint64_t BDK_DBGX_EDECCR(unsigned long a)
 #define basename_BDK_DBGX_EDECCR(a) "DBGX_EDECCR"
 #define busnum_BDK_DBGX_EDECCR(a) (a)
 #define arguments_BDK_DBGX_EDECCR(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) dbg#_dbgwvr#_el1_lo
+ *
+ * AP DBG Debug Watchpoint Value Low Registers
+ * Watchpoint value register (low order 32 bits)
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_dbgx_dbgwvrx_el1_lo_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t value                 : 32; /**< [ 31:  0](R/W/H) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t value                 : 32; /**< [ 31:  0](R/W/H) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dbgx_dbgwvrx_el1_lo_s cn; */
+} bdk_dbgx_dbgwvrx_el1_lo_t;
+
+static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b)
+{
+    if ((a<=47) && (b<=5))
+        return 0x87a008000800ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    __bdk_csr_fatal("DBGX_DBGWVRX_EL1_LO", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DBGX_DBGWVRX_EL1_LO(a,b) bdk_dbgx_dbgwvrx_el1_lo_t
+#define bustype_BDK_DBGX_DBGWVRX_EL1_LO(a,b) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_DBGX_DBGWVRX_EL1_LO(a,b) "DBGX_DBGWVRX_EL1_LO"
+#define busnum_BDK_DBGX_DBGWVRX_EL1_LO(a,b) (a)
+#define arguments_BDK_DBGX_DBGWVRX_EL1_LO(a,b) (a),(b),-1,-1
 
 /**
  * Register (DAB32b) dbg#_edcidsr
@@ -2188,7 +2278,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDSR(unsigned long a)
 {
-    return 0x87a0080000a4ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a0080000a4ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDCIDSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDCIDSR(a) bdk_dbgx_edcidsr_t
@@ -2230,7 +2322,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGCLAIMSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGCLAIMSET_EL1(unsigned long a)
 {
-    return 0x87a008000fa0ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fa0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_DBGCLAIMSET_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_DBGCLAIMSET_EL1(a) bdk_dbgx_dbgclaimset_el1_t
@@ -2266,7 +2360,9 @@ typedef union
 static inline uint64_t BDK_DBGX_OSLAR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_OSLAR_EL1(unsigned long a)
 {
-    return 0x87a008000300ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000300ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_OSLAR_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_OSLAR_EL1(a) bdk_dbgx_oslar_el1_t
@@ -2298,7 +2394,9 @@ typedef union
 static inline uint64_t BDK_DAB_ROM_TABLEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DAB_ROM_TABLEX(unsigned long a)
 {
-    return 0x87a000000000ll + 4ll * ((a) & 0x3ff);
+    if (a<=1023)
+        return 0x87a000000000ll + 4ll * ((a) & 0x3ff);
+    __bdk_csr_fatal("DAB_ROM_TABLEX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DAB_ROM_TABLEX(a) bdk_dab_rom_tablex_t
@@ -2343,7 +2441,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGCLAIMCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGCLAIMCLR_EL1(unsigned long a)
 {
-    return 0x87a008000fa4ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fa4ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_DBGCLAIMCLR_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_DBGCLAIMCLR_EL1(a) bdk_dbgx_dbgclaimclr_el1_t
@@ -2385,7 +2485,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVAFF0(unsigned long a)
 {
-    return 0x87a008000fa8ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fa8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDDEVAFF0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDDEVAFF0(a) bdk_dbgx_eddevaff0_t
@@ -2419,7 +2521,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVAFF1(unsigned long a)
 {
-    return 0x87a008000facll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000facll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDDEVAFF1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDDEVAFF1(a) bdk_dbgx_eddevaff1_t
@@ -2451,7 +2555,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPCSR_HI(unsigned long a)
 {
-    return 0x87a0080000acll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a0080000acll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPCSR_HI", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPCSR_HI(a) bdk_dbgx_edpcsr_hi_t
@@ -2490,7 +2596,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGDTRRX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGDTRRX_EL0(unsigned long a)
 {
-    return 0x87a008000080ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000080ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_DBGDTRRX_EL0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_DBGDTRRX_EL0(a) bdk_dbgx_dbgdtrrx_el0_t
@@ -2598,7 +2706,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGAUTHSTATUS_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGAUTHSTATUS_EL1(unsigned long a)
 {
-    return 0x87a008000fb8ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fb8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_DBGAUTHSTATUS_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_DBGAUTHSTATUS_EL1(a) bdk_dbgx_dbgauthstatus_el1_t
@@ -2633,7 +2743,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDPCSR_LO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDPCSR_LO(unsigned long a)
 {
-    return 0x87a0080000a0ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a0080000a0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDPCSR_LO", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDPCSR_LO(a) bdk_dbgx_edpcsr_lo_t
@@ -2665,7 +2777,9 @@ typedef union
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_DBGWVRX_EL1_HI(unsigned long a, unsigned long b)
 {
-    return 0x87a008000804ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    if ((a<=47) && (b<=5))
+        return 0x87a008000804ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    __bdk_csr_fatal("DBGX_DBGWVRX_EL1_HI", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DBGX_DBGWVRX_EL1_HI(a,b) bdk_dbgx_dbgwvrx_el1_hi_t
@@ -2719,7 +2833,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDECR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDECR(unsigned long a)
 {
-    return 0x87a008000024ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000024ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDECR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDECR(a) bdk_dbgx_edecr_t
@@ -2785,7 +2901,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVID(unsigned long a)
 {
-    return 0x87a008000fc8ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fc8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDDEVID", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDDEVID(a) bdk_dbgx_eddevid_t
@@ -2862,7 +2980,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDFR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDFR(unsigned long a)
 {
-    return 0x87a008000d28ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000d28ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDDFR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDDFR(a) bdk_dbgx_eddfr_t
@@ -2931,7 +3051,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDLSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDLSR(unsigned long a)
 {
-    return 0x87a008000fb4ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fb4ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDLSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDLSR(a) bdk_dbgx_edlsr_t
@@ -3038,7 +3160,9 @@ typedef union
 static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long a)
 {
-    return 0x87a008000d00ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000d00ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_MIDR_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_MIDR_EL1(a) bdk_dbgx_midr_el1_t
@@ -3046,38 +3170,6 @@ static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long a)
 #define basename_BDK_DBGX_MIDR_EL1(a) "DBGX_MIDR_EL1"
 #define busnum_BDK_DBGX_MIDR_EL1(a) (a)
 #define arguments_BDK_DBGX_MIDR_EL1(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) dbg#_dbgwvr#_el1_lo
- *
- * AP DBG Debug Watchpoint Value Low Registers
- * Watchpoint value register (low order 32 bits)
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_dbgx_dbgwvrx_el1_lo_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t value                 : 32; /**< [ 31:  0](R/W/H) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint32_t value                 : 32; /**< [ 31:  0](R/W/H) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dbgx_dbgwvrx_el1_lo_s cn; */
-} bdk_dbgx_dbgwvrx_el1_lo_t;
-
-static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b)
-{
-    return 0x87a008000800ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
-}
-
-#define typedef_BDK_DBGX_DBGWVRX_EL1_LO(a,b) bdk_dbgx_dbgwvrx_el1_lo_t
-#define bustype_BDK_DBGX_DBGWVRX_EL1_LO(a,b) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_DBGX_DBGWVRX_EL1_LO(a,b) "DBGX_DBGWVRX_EL1_LO"
-#define busnum_BDK_DBGX_DBGWVRX_EL1_LO(a,b) (a)
-#define arguments_BDK_DBGX_DBGWVRX_EL1_LO(a,b) (a),(b),-1,-1
 
 /**
  * Register (DAB32b) dbg#_eddevarch
@@ -3133,7 +3225,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDDEVARCH(unsigned long a)
 {
-    return 0x87a008000fbcll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fbcll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDDEVARCH", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDDEVARCH(a) bdk_dbgx_eddevarch_t
@@ -3167,7 +3261,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR2(unsigned long a)
 {
-    return 0x87a008000ff8ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000ff8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDCIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDCIDR2(a) bdk_dbgx_edcidr2_t
@@ -3201,7 +3297,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR3(unsigned long a)
 {
-    return 0x87a008000ffcll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000ffcll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDCIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDCIDR3(a) bdk_dbgx_edcidr3_t
@@ -3235,7 +3333,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR0(unsigned long a)
 {
-    return 0x87a008000ff0ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000ff0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDCIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDCIDR0(a) bdk_dbgx_edcidr0_t
@@ -3271,7 +3371,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDCIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDCIDR1(unsigned long a)
 {
-    return 0x87a008000ff4ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000ff4ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDCIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDCIDR1(a) bdk_dbgx_edcidr1_t
@@ -3310,7 +3412,9 @@ typedef union
 static inline uint64_t BDK_DBGX_EDLAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DBGX_EDLAR(unsigned long a)
 {
-    return 0x87a008000fb0ll + 0x80000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x87a008000fb0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("DBGX_EDLAR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DBGX_EDLAR(a) bdk_dbgx_edlar_t

@@ -123,9 +123,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
         return 0x87e050f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b==0)))
         return 0x87e050f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("L2C_TADX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -187,9 +187,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_TQD_ERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TQD_ERR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050060100ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050060100ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("L2C_TADX_TQD_ERR", 1, a, 0, 0, 0);
 }
@@ -228,9 +228,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
         return 0x87e050ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b==0)))
         return 0x87e050ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("L2C_TADX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -270,9 +270,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
         return 0x87e050f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b==0)))
         return 0x87e050f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("L2C_TADX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -307,9 +307,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050070100ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050070100ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("L2C_TADX_TDT_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -405,9 +405,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_TTG_ERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TTG_ERR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050060200ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050060200ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("L2C_TADX_TTG_ERR", 1, a, 0, 0, 0);
 }
@@ -630,9 +630,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_INT_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050040008ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050040008ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("L2C_TADX_INT_W1S", 1, a, 0, 0, 0);
 }
@@ -1087,9 +1087,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_INT_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050040000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050040000ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("L2C_TADX_INT_W1C", 1, a, 0, 0, 0);
 }
@@ -1142,7 +1142,7 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_RTG_ERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_RTG_ERR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87e050060300ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("L2C_TADX_RTG_ERR", 1, a, 0, 0, 0);
 }
@@ -1205,9 +1205,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_TTG_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TTG_BIST_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050070200ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050070200ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("L2C_TADX_TTG_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -1246,9 +1246,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_TBF_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TBF_BIST_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050070000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050070000ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("L2C_TADX_TBF_BIST_STATUS", 1, a, 0, 0, 0);
 }
@@ -1471,9 +1471,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_INT_ENA_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050040020ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050040020ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("L2C_TADX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -1696,9 +1696,9 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_INT_ENA_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050040028ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e050040028ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("L2C_TADX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }

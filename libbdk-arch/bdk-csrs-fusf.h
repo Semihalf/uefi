@@ -238,7 +238,9 @@ typedef union
 static inline uint64_t BDK_FUSF_SWX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_SWX(unsigned long a)
 {
-    return 0x87e0040000c0ll + 8ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87e0040000c0ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("FUSF_SWX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_FUSF_SWX(a) bdk_fusf_swx_t
@@ -291,7 +293,9 @@ typedef union
 static inline uint64_t BDK_FUSF_EKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_EKX(unsigned long a)
 {
-    return 0x87e0040000a0ll + 8ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x87e0040000a0ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("FUSF_EKX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_FUSF_EKX(a) bdk_fusf_ekx_t
@@ -326,7 +330,9 @@ typedef union
 static inline uint64_t BDK_FUSF_BNK_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_BNK_DATX(unsigned long a)
 {
-    return 0x87e004000120ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e004000120ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("FUSF_BNK_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_FUSF_BNK_DATX(a) bdk_fusf_bnk_datx_t
@@ -385,7 +391,9 @@ typedef union
 static inline uint64_t BDK_FUSF_HUKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_HUKX(unsigned long a)
 {
-    return 0x87e004000090ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e004000090ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("FUSF_HUKX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_FUSF_HUKX(a) bdk_fusf_hukx_t
@@ -514,7 +522,9 @@ typedef union
 static inline uint64_t BDK_FUSF_ROTPKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_ROTPKX(unsigned long a)
 {
-    return 0x87e004000060ll + 8ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x87e004000060ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("FUSF_ROTPKX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_FUSF_ROTPKX(a) bdk_fusf_rotpkx_t
@@ -559,7 +569,9 @@ typedef union
 static inline uint64_t BDK_FUSF_SSKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_FUSF_SSKX(unsigned long a)
 {
-    return 0x87e004000080ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e004000080ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("FUSF_SSKX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_FUSF_SSKX(a) bdk_fusf_sskx_t

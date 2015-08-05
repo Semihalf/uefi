@@ -145,7 +145,7 @@ typedef union
 static inline uint64_t BDK_SSO_GRPX_TAQ_THR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_TAQ_THR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860020000100ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_GRPX_TAQ_THR", 1, a, 0, 0, 0);
 }
@@ -225,7 +225,7 @@ typedef union
 static inline uint64_t BDK_SSO_IPL_IAQX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IPL_IAQX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860080040000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_IPL_IAQX", 1, a, 0, 0, 0);
 }
@@ -272,7 +272,7 @@ typedef union
 static inline uint64_t BDK_SSO_IPL_CONFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IPL_CONFX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860080080000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_IPL_CONFX", 1, a, 0, 0, 0);
 }
@@ -322,7 +322,7 @@ typedef union
 static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860800000110ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_VHGRPX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -564,7 +564,7 @@ typedef union
 static inline uint64_t BDK_SSO_TAQX_WAEX_TAG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TAQX_WAEX_TAG(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=319) && (b<=12)))
         return 0x8600d0000000ll + 0x1000ll * ((a) & 0x1ff) + 0x10ll * ((b) & 0xf);
     __bdk_csr_fatal("SSO_TAQX_WAEX_TAG", 2, a, b, 0, 0);
 }
@@ -703,7 +703,7 @@ typedef union
 static inline uint64_t BDK_SSO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) && (b==0)))
         return 0x860c00000008ll + 0x100000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("SSO_VFX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -865,7 +865,7 @@ typedef union
 static inline uint64_t BDK_SSO_TAQX_LINK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TAQX_LINK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=319))
         return 0x8600c0000000ll + 0x1000ll * ((a) & 0x1ff);
     __bdk_csr_fatal("SSO_TAQX_LINK", 1, a, 0, 0, 0);
 }
@@ -1114,7 +1114,7 @@ typedef union
 static inline uint64_t BDK_SSO_HWSX_ARB(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_HWSX_ARB(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x860040000000ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("SSO_HWSX_ARB", 1, a, 0, 0, 0);
 }
@@ -1432,7 +1432,7 @@ typedef union
 static inline uint64_t BDK_SSO_XAQX_HEAD_PTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_XAQX_HEAD_PTR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860000080000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_XAQX_HEAD_PTR", 1, a, 0, 0, 0);
 }
@@ -1552,7 +1552,7 @@ typedef union
 static inline uint64_t BDK_SSO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) && (b==0)))
         return 0x860c00000000ll + 0x100000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("SSO_VFX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -1602,7 +1602,7 @@ typedef union
 static inline uint64_t BDK_SSO_VHGRPX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860800000108ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_VHGRPX_INT_W1S", 1, a, 0, 0, 0);
 }
@@ -1868,7 +1868,7 @@ typedef union
 static inline uint64_t BDK_SSO_GRPX_DS_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_DS_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860020001160ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_GRPX_DS_PC", 1, a, 0, 0, 0);
 }
@@ -1929,7 +1929,7 @@ typedef union
 static inline uint64_t BDK_SSO_HWSX_SX_GRPMSKX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_HWSX_SX_GRPMSKX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=1) && (c==0)))
         return 0x860040001000ll + 0x100000ll * ((a) & 0x1f) + 0x20ll * ((b) & 0x1) + 8ll * ((c) & 0x0);
     __bdk_csr_fatal("SSO_HWSX_SX_GRPMSKX", 3, a, b, c, 0);
 }
@@ -1963,7 +1963,7 @@ typedef union
 static inline uint64_t BDK_SSO_ACTIVE_CYCLESX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_ACTIVE_CYCLESX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x860000001100ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("SSO_ACTIVE_CYCLESX", 1, a, 0, 0, 0);
 }
@@ -1999,7 +1999,7 @@ typedef union
 static inline uint64_t BDK_SSO_TAQX_WAEX_WQP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TAQX_WAEX_WQP(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=319) && (b<=12)))
         return 0x8600d0000008ll + 0x1000ll * ((a) & 0x1ff) + 0x10ll * ((b) & 0xf);
     __bdk_csr_fatal("SSO_TAQX_WAEX_WQP", 2, a, b, 0, 0);
 }
@@ -2036,7 +2036,7 @@ typedef union
 static inline uint64_t BDK_SSO_GRPX_TS_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_TS_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860020001140ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_GRPX_TS_PC", 1, a, 0, 0, 0);
 }
@@ -2095,7 +2095,7 @@ typedef union
 static inline uint64_t BDK_SSO_GRPX_IAQ_THR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_IAQ_THR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860020000000ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_GRPX_IAQ_THR", 1, a, 0, 0, 0);
 }
@@ -2185,7 +2185,7 @@ typedef union
 static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT_ENA_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860800000118ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_VHGRPX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -2223,7 +2223,7 @@ typedef union
 static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860800000808ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_VHGRPX_OP_ADD_WORK1", 1, a, 0, 0, 0);
 }
@@ -2263,7 +2263,7 @@ typedef union
 static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_OP_ADD_WORK0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860800000800ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_VHGRPX_OP_ADD_WORK0", 1, a, 0, 0, 0);
 }
@@ -2313,7 +2313,7 @@ typedef union
 static inline uint64_t BDK_SSO_IPL_FREEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IPL_FREEX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=4))
         return 0x860080000000ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("SSO_IPL_FREEX", 1, a, 0, 0, 0);
 }
@@ -2353,7 +2353,7 @@ typedef union
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x860700000008ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("SSO_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -2388,7 +2388,7 @@ typedef union
 static inline uint64_t BDK_SSO_VHGRPX_AQ_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_AQ_CNT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x8608000001c0ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_VHGRPX_AQ_CNT", 1, a, 0, 0, 0);
 }
@@ -2432,7 +2432,7 @@ typedef union
 static inline uint64_t BDK_SSO_IENTX_PENDTAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_PENDTAG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x8600a0040000ll + 8ll * ((a) & 0x3ff);
     __bdk_csr_fatal("SSO_IENTX_PENDTAG", 1, a, 0, 0, 0);
 }
@@ -2471,7 +2471,7 @@ typedef union
 static inline uint64_t BDK_SSO_GRPX_EXT_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_EXT_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860020001100ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_GRPX_EXT_PC", 1, a, 0, 0, 0);
 }
@@ -2544,7 +2544,7 @@ typedef union
 static inline uint64_t BDK_SSO_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MSIX_PBAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x8607000f0000ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("SSO_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -2580,7 +2580,7 @@ typedef union
 static inline uint64_t BDK_SSO_XAQX_MEMMGT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_XAQX_MEMMGT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x8600000e0000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_XAQX_MEMMGT", 1, a, 0, 0, 0);
 }
@@ -2794,7 +2794,7 @@ typedef union
 static inline uint64_t BDK_SSO_TIAQX_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TIAQX_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x8600000c0000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_TIAQX_STATUS", 1, a, 0, 0, 0);
 }
@@ -2911,7 +2911,7 @@ typedef union
 static inline uint64_t BDK_SSO_XAQX_HEAD_NEXT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_XAQX_HEAD_NEXT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x8600000a0000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_XAQX_HEAD_NEXT", 1, a, 0, 0, 0);
 }
@@ -2967,7 +2967,7 @@ typedef union
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x860700000000ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("SSO_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -3348,7 +3348,7 @@ typedef union
 static inline uint64_t BDK_SSO_XAQX_TAIL_NEXT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_XAQX_TAIL_NEXT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x8600000b0000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_XAQX_TAIL_NEXT", 1, a, 0, 0, 0);
 }
@@ -3415,7 +3415,7 @@ typedef union
 static inline uint64_t BDK_SSO_VHGRPX_INT_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT_CNT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860800000180ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_VHGRPX_INT_CNT", 1, a, 0, 0, 0);
 }
@@ -3451,7 +3451,7 @@ typedef union
 static inline uint64_t BDK_SSO_IENTX_QLINKS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_QLINKS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x8600a0080000ll + 8ll * ((a) & 0x3ff);
     __bdk_csr_fatal("SSO_IENTX_QLINKS", 1, a, 0, 0, 0);
 }
@@ -3497,7 +3497,7 @@ typedef union
 static inline uint64_t BDK_SSO_IENTX_TAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_TAG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x8600a0000000ll + 8ll * ((a) & 0x3ff);
     __bdk_csr_fatal("SSO_IENTX_TAG", 1, a, 0, 0, 0);
 }
@@ -3615,7 +3615,7 @@ typedef union
 static inline uint64_t BDK_SSO_IPL_DESCHEDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IPL_DESCHEDX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860080060000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_IPL_DESCHEDX", 1, a, 0, 0, 0);
 }
@@ -3652,7 +3652,7 @@ typedef union
 static inline uint64_t BDK_SSO_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) && (b==0)))
         return 0x860c000f0000ll + 0x100000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("SSO_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -3834,7 +3834,7 @@ typedef union
 static inline uint64_t BDK_SSO_GRPX_PRI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_PRI(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860020000200ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_GRPX_PRI", 1, a, 0, 0, 0);
 }
@@ -3979,7 +3979,7 @@ typedef union
 static inline uint64_t BDK_SSO_VHGRPX_INT_THR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT_THR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860800000140ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_VHGRPX_INT_THR", 1, a, 0, 0, 0);
 }
@@ -4091,7 +4091,7 @@ typedef union
 static inline uint64_t BDK_SSO_TOAQX_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_TOAQX_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x8600000d0000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_TOAQX_STATUS", 1, a, 0, 0, 0);
 }
@@ -4218,7 +4218,7 @@ typedef union
 static inline uint64_t BDK_SSO_IENTX_LINKS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_LINKS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x8600a0060000ll + 8ll * ((a) & 0x3ff);
     __bdk_csr_fatal("SSO_IENTX_LINKS", 1, a, 0, 0, 0);
 }
@@ -4254,7 +4254,7 @@ typedef union
 static inline uint64_t BDK_SSO_IENTX_WQP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_WQP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x8600a00a0000ll + 8ll * ((a) & 0x3ff);
     __bdk_csr_fatal("SSO_IENTX_WQP", 1, a, 0, 0, 0);
 }
@@ -4291,7 +4291,7 @@ typedef union
 static inline uint64_t BDK_SSO_GRPX_WS_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_WS_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860020001000ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_GRPX_WS_PC", 1, a, 0, 0, 0);
 }
@@ -4339,7 +4339,7 @@ typedef union
 static inline uint64_t BDK_SSO_IENTX_GRP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_IENTX_GRP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x8600a0020000ll + 8ll * ((a) & 0x3ff);
     __bdk_csr_fatal("SSO_IENTX_GRP", 1, a, 0, 0, 0);
 }
@@ -4383,7 +4383,7 @@ typedef union
 static inline uint64_t BDK_SSO_PF_MAPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_PF_MAPX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=95))
         return 0x860000004000ll + 8ll * ((a) & 0x7f);
     __bdk_csr_fatal("SSO_PF_MAPX", 1, a, 0, 0, 0);
 }
@@ -4466,7 +4466,7 @@ typedef union
 static inline uint64_t BDK_SSO_VHGRPX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_INT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860800000100ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_VHGRPX_INT", 1, a, 0, 0, 0);
 }
@@ -4503,7 +4503,7 @@ typedef union
 static inline uint64_t BDK_SSO_VHGRPX_AQ_THR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_VHGRPX_AQ_THR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x8608000001e0ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_VHGRPX_AQ_THR", 1, a, 0, 0, 0);
 }
@@ -4551,7 +4551,7 @@ typedef union
 static inline uint64_t BDK_SSO_XAQX_TAIL_PTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_XAQX_TAIL_PTR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860000090000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_XAQX_TAIL_PTR", 1, a, 0, 0, 0);
 }
@@ -4914,7 +4914,7 @@ typedef union
 static inline uint64_t BDK_SSO_GRPX_WA_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SSO_GRPX_WA_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x860020001120ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("SSO_GRPX_WA_PC", 1, a, 0, 0, 0);
 }

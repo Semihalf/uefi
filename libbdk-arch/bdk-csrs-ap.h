@@ -79,7 +79,9 @@ typedef union
 static inline uint64_t BDK_AP_ID_AA64ISARX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_AA64ISARX_EL1_RES0(unsigned long a)
 {
-    return 0x30000060000ll + 0x100ll * ((a) & 0x7);
+    if ((a>=2)&&(a<=7))
+        return 0x30000060000ll + 0x100ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_ID_AA64ISARX_EL1_RES0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ID_AA64ISARX_EL1_RES0(a) bdk_ap_id_aa64isarx_el1_res0_t
@@ -607,7 +609,9 @@ typedef union
 static inline uint64_t BDK_AP_SPSR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_SPSR_ELX(unsigned long a)
 {
-    return 0x30004000000ll + 0x200000000ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=3))
+        return 0x30004000000ll + 0x200000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_SPSR_ELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_SPSR_ELX(a) bdk_ap_spsr_elx_t
@@ -706,7 +710,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCDEVAFFX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCDEVAFFX(unsigned long a)
 {
-    return 0x201070a0600ll + 0x10000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x201070a0600ll + 0x10000ll * ((a) & 0x1);
+    __bdk_csr_fatal("AP_TRCDEVAFFX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCDEVAFFX(a) bdk_ap_trcdevaffx_t
@@ -913,7 +919,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCCNTRLDVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCNTRLDVRX(unsigned long a)
 {
-    return 0x20100000500ll + 0x10000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x20100000500ll + 0x10000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_TRCCNTRLDVRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCCNTRLDVRX(a) bdk_ap_trccntrldvrx_t
@@ -1046,6 +1054,156 @@ static inline uint64_t BDK_AP_ICH_AP0R0_EL2_FUNC(void)
 #define basename_BDK_AP_ICH_AP0R0_EL2 "AP_ICH_AP0R0_EL2"
 #define busnum_BDK_AP_ICH_AP0R0_EL2 0
 #define arguments_BDK_AP_ICH_AP0R0_EL2 -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_cvmctl_el1
+ *
+ * AP Cavium Control Register
+ * This register provides Cavium-specific control information.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ap_cvmctl_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+#else /* Word 0 - Little Endian */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t reserved_10_15        : 6;
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_cvmctl_el1_s cn83xx; */
+    /* struct bdk_ap_cvmctl_el1_s cn88xxp2; */
+    struct bdk_ap_cvmctl_el1_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+#else /* Word 0 - Little Endian */
+        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
+        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
+        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
+        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
+        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
+        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
+        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
+        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
+        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
+        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
+                                                                 instructions (to prevent a DIV load collision). */
+        uint64_t reserved_10_15        : 6;
+        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
+        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
+        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
+        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
+        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
+        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
+                                                                 WFE_DEFER<7:4>. */
+        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
+        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
+        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
+        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
+        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
+        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
+        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
+        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+} bdk_ap_cvmctl_el1_t;
+
+#define BDK_AP_CVMCTL_EL1 BDK_AP_CVMCTL_EL1_FUNC()
+static inline uint64_t BDK_AP_CVMCTL_EL1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_CVMCTL_EL1_FUNC(void)
+{
+    return 0x3000b000000ll;
+}
+
+#define typedef_BDK_AP_CVMCTL_EL1 bdk_ap_cvmctl_el1_t
+#define bustype_BDK_AP_CVMCTL_EL1 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_CVMCTL_EL1 "AP_CVMCTL_EL1"
+#define busnum_BDK_AP_CVMCTL_EL1 0
+#define arguments_BDK_AP_CVMCTL_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_cntps_cval_el1
@@ -1199,7 +1357,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCEVENTCTLXR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCEVENTCTLXR(unsigned long a)
 {
-    return 0x20100080000ll + 0x10000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x20100080000ll + 0x10000ll * ((a) & 0x1);
+    __bdk_csr_fatal("AP_TRCEVENTCTLXR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCEVENTCTLXR(a) bdk_ap_trceventctlxr_t
@@ -2631,7 +2791,9 @@ typedef union
 static inline uint64_t BDK_AP_PMEVCNTRX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_PMEVCNTRX_EL0(unsigned long a)
 {
-    return 0x3030e080000ll + 0x100ll * ((a) & 0x1f);
+    if (a<=30)
+        return 0x3030e080000ll + 0x100ll * ((a) & 0x1f);
+    __bdk_csr_fatal("AP_PMEVCNTRX_EL0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_PMEVCNTRX_EL0(a) bdk_ap_pmevcntrx_el0_t
@@ -2811,7 +2973,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCCIDCCTLRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCIDCCTLRX(unsigned long a)
 {
-    return 0x20103000200ll + 0x10000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x20103000200ll + 0x10000ll * ((a) & 0x1);
+    __bdk_csr_fatal("AP_TRCCIDCCTLRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCCIDCCTLRX(a) bdk_ap_trccidcctlrx_t
@@ -2966,7 +3130,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCVMIDCCTLRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCVMIDCCTLRX(unsigned long a)
 {
-    return 0x20103020200ll + 0x10000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x20103020200ll + 0x10000ll * ((a) & 0x1);
+    __bdk_csr_fatal("AP_TRCVMIDCCTLRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCVMIDCCTLRX(a) bdk_ap_trcvmidcctlrx_t
@@ -3482,7 +3648,9 @@ typedef union
 static inline uint64_t BDK_AP_ID_AA64PFRX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_AA64PFRX_EL1_RES0(unsigned long a)
 {
-    return 0x30000040000ll + 0x100ll * ((a) & 0x7);
+    if ((a>=2)&&(a<=7))
+        return 0x30000040000ll + 0x100ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_ID_AA64PFRX_EL1_RES0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ID_AA64PFRX_EL1_RES0(a) bdk_ap_id_aa64pfrx_el1_res0_t
@@ -3622,7 +3790,9 @@ typedef union
 static inline uint64_t BDK_AP_ICC_AP1RX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICC_AP1RX_EL1(unsigned long a)
 {
-    return 0x3000c090000ll + 0x100ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x3000c090000ll + 0x100ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_ICC_AP1RX_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ICC_AP1RX_EL1(a) bdk_ap_icc_ap1rx_el1_t
@@ -3860,7 +4030,9 @@ typedef union
 static inline uint64_t BDK_AP_MAIR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_MAIR_ELX(unsigned long a)
 {
-    return 0x3000a020000ll + 0x200000000ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=3))
+        return 0x3000a020000ll + 0x200000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_MAIR_ELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_MAIR_ELX(a) bdk_ap_mair_elx_t
@@ -3891,7 +4063,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCACATRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCACATRX(unsigned long a)
 {
-    return 0x20102000200ll + 0x20000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x20102000200ll + 0x20000ll * ((a) & 0xf);
+    __bdk_csr_fatal("AP_TRCACATRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCACATRX(a) bdk_ap_trcacatrx_t
@@ -3994,7 +4168,9 @@ typedef union
 static inline uint64_t BDK_AP_AMAIR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_AMAIR_ELX(unsigned long a)
 {
-    return 0x3000a030000ll + 0x200000000ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=3))
+        return 0x3000a030000ll + 0x200000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_AMAIR_ELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_AMAIR_ELX(a) bdk_ap_amair_elx_t
@@ -4387,7 +4563,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCSSCCRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCSSCCRX(unsigned long a)
 {
-    return 0x20101000200ll + 0x10000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x20101000200ll + 0x10000ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_TRCSSCCRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCSSCCRX(a) bdk_ap_trcssccrx_t
@@ -4475,7 +4653,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCSSCSRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCSSCSRX(unsigned long a)
 {
-    return 0x20101080200ll + 0x10000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x20101080200ll + 0x10000ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_TRCSSCSRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCSSCSRX(a) bdk_ap_trcsscsrx_t
@@ -4657,7 +4837,9 @@ typedef union
 static inline uint64_t BDK_AP_TPIDR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TPIDR_ELX(unsigned long a)
 {
-    return 0x3000d000200ll + 0x200000000ll * ((a) & 0x3);
+    if ((a>=2)&&(a<=3))
+        return 0x3000d000200ll + 0x200000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_TPIDR_ELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TPIDR_ELX(a) bdk_ap_tpidr_elx_t
@@ -5487,7 +5669,9 @@ typedef union
 static inline uint64_t BDK_AP_VBAR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_VBAR_ELX(unsigned long a)
 {
-    return 0x3000c000000ll + 0x200000000ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=3))
+        return 0x3000c000000ll + 0x200000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_VBAR_ELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_VBAR_ELX(a) bdk_ap_vbar_elx_t
@@ -5562,7 +5746,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCVMIDCVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCVMIDCVRX(unsigned long a)
 {
-    return 0x20103000100ll + 0x20000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x20103000100ll + 0x20000ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_TRCVMIDCVRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCVMIDCVRX(a) bdk_ap_trcvmidcvrx_t
@@ -5625,7 +5811,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCSSPCICRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCSSPCICRX(unsigned long a)
 {
-    return 0x20101000300ll + 0x10000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x20101000300ll + 0x10000ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_TRCSSPCICRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCSSPCICRX(a) bdk_ap_trcsspcicrx_t
@@ -6202,7 +6390,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCDVCMRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCDVCMRX(unsigned long a)
 {
-    return 0x20102000600ll + 0x40000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x20102000600ll + 0x40000ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_TRCDVCMRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCDVCMRX(a) bdk_ap_trcdvcmrx_t
@@ -6332,7 +6522,9 @@ typedef union
 static inline uint64_t BDK_AP_FAR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_FAR_ELX(unsigned long a)
 {
-    return 0x30006000000ll + 0x200000000ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=3))
+        return 0x30006000000ll + 0x200000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_FAR_ELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_FAR_ELX(a) bdk_ap_far_elx_t
@@ -6363,7 +6555,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCCIDCVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCIDCVRX(unsigned long a)
 {
-    return 0x20103000000ll + 0x20000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x20103000000ll + 0x20000ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_TRCCIDCVRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCCIDCVRX(a) bdk_ap_trccidcvrx_t
@@ -6394,7 +6588,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCCNTCTLRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCNTCTLRX(unsigned long a)
 {
-    return 0x20100040500ll + 0x10000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x20100040500ll + 0x10000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_TRCCNTCTLRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCCNTCTLRX(a) bdk_ap_trccntctlrx_t
@@ -6570,75 +6766,6 @@ static inline uint64_t BDK_AP_PMCEID0_EL0_FUNC(void)
 #define basename_BDK_AP_PMCEID0_EL0 "AP_PMCEID0_EL0"
 #define busnum_BDK_AP_PMCEID0_EL0 0
 #define arguments_BDK_AP_PMCEID0_EL0 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_icc_bpr1_el1
- *
- * INTERNAL: AP Interrupt Controller Binary Point Register 1
- *
- * Defines the point at which the priority value fields split
- *     into two parts, the group priority field and the subpriority
- *     field. The group priority field is used to determine Group 1
- *     interrupt preemption.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_ap_icc_bpr1_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
-        uint32_t binarypoint           : 3;  /**< [  2:  0](R/W) The value of this field controls how the 8-bit interrupt
-                                                                     priority field is split into a group priority field, used to
-                                                                     determine interrupt preemption, and a subpriority field. This
-                                                                     is done as follows:
-                                                                 <pre>
-                                                                 Binary point value  Group priority field    Subpriority field       Field with binary
-                                                                 point
-                                                                 0   [7:1]   [0]     ggggggg.s
-                                                                 1   [7:2]   [1:0]   gggggg.ss
-                                                                 2   [7:3]   [2:0]   ggggg.sss
-                                                                 3   [7:4]   [3:0]   gggg.ssss
-                                                                 4   [7:5]   [4:0]   ggg.sssss
-                                                                 5   [7:6]   [5:0]   gg.ssssss
-                                                                 6   [7]     [6:0]   g.sssssss
-                                                                 7   No preemption   [7:0]   .ssssssss
-                                                                 </pre> */
-#else /* Word 0 - Little Endian */
-        uint32_t binarypoint           : 3;  /**< [  2:  0](R/W) The value of this field controls how the 8-bit interrupt
-                                                                     priority field is split into a group priority field, used to
-                                                                     determine interrupt preemption, and a subpriority field. This
-                                                                     is done as follows:
-                                                                 <pre>
-                                                                 Binary point value  Group priority field    Subpriority field       Field with binary
-                                                                 point
-                                                                 0   [7:1]   [0]     ggggggg.s
-                                                                 1   [7:2]   [1:0]   gggggg.ss
-                                                                 2   [7:3]   [2:0]   ggggg.sss
-                                                                 3   [7:4]   [3:0]   gggg.ssss
-                                                                 4   [7:5]   [4:0]   ggg.sssss
-                                                                 5   [7:6]   [5:0]   gg.ssssss
-                                                                 6   [7]     [6:0]   g.sssssss
-                                                                 7   No preemption   [7:0]   .ssssssss
-                                                                 </pre> */
-        uint32_t reserved_3_31         : 29;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_icc_bpr1_el1_s cn; */
-} bdk_ap_icc_bpr1_el1_t;
-
-#define BDK_AP_ICC_BPR1_EL1 BDK_AP_ICC_BPR1_EL1_FUNC()
-static inline uint64_t BDK_AP_ICC_BPR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_ICC_BPR1_EL1_FUNC(void)
-{
-    return 0x3000c0c0300ll;
-}
-
-#define typedef_BDK_AP_ICC_BPR1_EL1 bdk_ap_icc_bpr1_el1_t
-#define bustype_BDK_AP_ICC_BPR1_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_ICC_BPR1_EL1 "AP_ICC_BPR1_EL1"
-#define busnum_BDK_AP_ICC_BPR1_EL1 0
-#define arguments_BDK_AP_ICC_BPR1_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_csselr_el1
@@ -6943,7 +7070,9 @@ typedef union
 static inline uint64_t BDK_AP_ACTLR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ACTLR_ELX(unsigned long a)
 {
-    return 0x30001000100ll + 0x200000000ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=3))
+        return 0x30001000100ll + 0x200000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_ACTLR_ELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ACTLR_ELX(a) bdk_ap_actlr_elx_t
@@ -7322,40 +7451,6 @@ static inline uint64_t BDK_AP_CVM_DEBUG8_EL3_FUNC(void)
 #define arguments_BDK_AP_CVM_DEBUG8_EL3 -1,-1,-1,-1
 
 /**
- * Register (SYSREG) ap_ttbr0_el12
- *
- * INTERNAL: AP Translation Table Base EL1/2 Register 0
- *
- * Alias of AP_TTBR0_EL1 from EL2 when AP_HCR_EL2[E2H] is set.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_ttbr0_el12_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_ttbr0_el12_s cn; */
-} bdk_ap_ttbr0_el12_t;
-
-#define BDK_AP_TTBR0_EL12 BDK_AP_TTBR0_EL12_FUNC()
-static inline uint64_t BDK_AP_TTBR0_EL12_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_TTBR0_EL12_FUNC(void)
-{
-    return 0x30502000000ll;
-}
-
-#define typedef_BDK_AP_TTBR0_EL12 bdk_ap_ttbr0_el12_t
-#define bustype_BDK_AP_TTBR0_EL12 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_TTBR0_EL12 "AP_TTBR0_EL12"
-#define busnum_BDK_AP_TTBR0_EL12 0
-#define arguments_BDK_AP_TTBR0_EL12 -1,-1,-1,-1
-
-/**
  * Register (SYSREG) ap_cvm_evattid_el1
  *
  * AP Cavium EVATTID Register
@@ -7702,6 +7797,40 @@ static inline uint64_t BDK_AP_HSTR_EL2_FUNC(void)
 #define basename_BDK_AP_HSTR_EL2 "AP_HSTR_EL2"
 #define busnum_BDK_AP_HSTR_EL2 0
 #define arguments_BDK_AP_HSTR_EL2 -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_cvm_dcachedata1_el1
+ *
+ * AP Cavium Dcache Data 1 Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ap_cvm_dcachedata1_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t parity                : 8;  /**< [  7:  0](RO) Parity bits. */
+#else /* Word 0 - Little Endian */
+        uint64_t parity                : 8;  /**< [  7:  0](RO) Parity bits. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_cvm_dcachedata1_el1_s cn; */
+} bdk_ap_cvm_dcachedata1_el1_t;
+
+#define BDK_AP_CVM_DCACHEDATA1_EL1 BDK_AP_CVM_DCACHEDATA1_EL1_FUNC()
+static inline uint64_t BDK_AP_CVM_DCACHEDATA1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_CVM_DCACHEDATA1_EL1_FUNC(void)
+{
+    return 0x3000b030500ll;
+}
+
+#define typedef_BDK_AP_CVM_DCACHEDATA1_EL1 bdk_ap_cvm_dcachedata1_el1_t
+#define bustype_BDK_AP_CVM_DCACHEDATA1_EL1 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_CVM_DCACHEDATA1_EL1 "AP_CVM_DCACHEDATA1_EL1"
+#define busnum_BDK_AP_CVM_DCACHEDATA1_EL1 0
+#define arguments_BDK_AP_CVM_DCACHEDATA1_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_icc_dir_el1
@@ -8083,7 +8212,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCACVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCACVRX(unsigned long a)
 {
-    return 0x20102000000ll + 0x20000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x20102000000ll + 0x20000ll * ((a) & 0xf);
+    __bdk_csr_fatal("AP_TRCACVRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCACVRX(a) bdk_ap_trcacvrx_t
@@ -8271,7 +8402,9 @@ typedef union
 static inline uint64_t BDK_AP_ID_MMFRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_MMFRX_EL1(unsigned long a)
 {
-    return 0x30000010400ll + 0x100ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x30000010400ll + 0x100ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_ID_MMFRX_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ID_MMFRX_EL1(a) bdk_ap_id_mmfrx_el1_t
@@ -8311,156 +8444,6 @@ static inline uint64_t BDK_AP_CVM_DCACHEDATA0_EL1_FUNC(void)
 #define basename_BDK_AP_CVM_DCACHEDATA0_EL1 "AP_CVM_DCACHEDATA0_EL1"
 #define busnum_BDK_AP_CVM_DCACHEDATA0_EL1 0
 #define arguments_BDK_AP_CVM_DCACHEDATA0_EL1 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_cvmctl_el1
- *
- * AP Cavium Control Register
- * This register provides Cavium-specific control information.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_cvmctl_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t reserved_10_15        : 6;
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-#else /* Word 0 - Little Endian */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t reserved_10_15        : 6;
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](RAZ) Reserved. Changed in pass 2. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_cvmctl_el1_s cn83xx; */
-    /* struct bdk_ap_cvmctl_el1_s cn88xxp2; */
-    struct bdk_ap_cvmctl_el1_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t reserved_10_15        : 6;
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-#else /* Word 0 - Little Endian */
-        uint64_t disable_icache        : 1;  /**< [  0:  0](R/W) Disable Icache. */
-        uint64_t random_icache         : 1;  /**< [  1:  1](R/W) Random Icache replacement. */
-        uint64_t disable_icache_prefetching : 1;/**< [  2:  2](R/W) Disable Icache prefetching. */
-        uint64_t force_csr_clock       : 1;  /**< [  3:  3](R/W) Force CSR clock. */
-        uint64_t force_exe_clock       : 1;  /**< [  4:  4](R/W) Force execution-unit clock. */
-        uint64_t force_issue_clock     : 1;  /**< [  5:  5](R/W) Force issue-unit clock. */
-        uint64_t disable_fetch_under_fill : 1;/**< [  6:  6](R/W) Disable fetch-under-fill. */
-        uint64_t disable_wfi           : 1;  /**< [  7:  7](R/W) Disable WFI/WFE. */
-        uint64_t disable_branch_folding : 1; /**< [  8:  8](R/W) Disable branch folding. */
-        uint64_t disable_flex_execution : 1; /**< [  9:  9](R/W) Disable flex execution; also prevents overlapped execution of DIV/SQRT and other
-                                                                 instructions (to prevent a DIV load collision). */
-        uint64_t reserved_10_15        : 6;
-        uint64_t step_rate             : 4;  /**< [ 19: 16](R/W) Step rate. */
-        uint64_t no_exc_icache_parity  : 1;  /**< [ 20: 20](R/W) Suppress exception on Icache parity error. */
-        uint64_t suppress_parity_checking : 1;/**< [ 21: 21](R/W) Suppress Icache parity checking. */
-        uint64_t force_icache_parity   : 1;  /**< [ 22: 22](R/W) Force icache parity error on next Icache fill. This bit clears itself after the fill operation. */
-        uint64_t disable_icache_probes : 1;  /**< [ 23: 23](R/W) Disable Icache probes. */
-        uint64_t wfe_defer             : 8;  /**< [ 31: 24](R/W) WFE defer timer setting.  Time in core-clocks = {| WFE_DEFER, WFE_DEFER<3:0>} <<
-                                                                 WFE_DEFER<7:4>. */
-        uint64_t make_isb_unnecessarily_slow : 1;/**< [ 32: 32](R/W) Make ISB unnecessarily slow. */
-        uint64_t enable_v81            : 1;  /**< [ 33: 33](R/W) Enable v8.1 features, modifying the ID registers to show v8.1. */
-        uint64_t disable_wfe           : 1;  /**< [ 34: 34](R/W) Disable WFE. */
-        uint64_t force_cim_ich_vtr_to1 : 1;  /**< [ 35: 35](R/W) Set CIM AP_ICH_VTR_EL2[LISTREGS] to 0x1 (i.e. two LRs) on Pass 1. */
-        uint64_t disable_cas           : 1;  /**< [ 36: 36](R/W) Disable the CAS instruction. */
-        uint64_t disable_casp          : 1;  /**< [ 37: 37](R/W) Disable the CASP instruction. */
-        uint64_t disable_eret_pred     : 1;  /**< [ 38: 38](R/W) Disable ERET prediction. */
-        uint64_t mrs_msr_hazard        : 1;  /**< [ 39: 39](R/W) Disable MRS/MSR pipelining, assume hazards. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } cn88xxp1;
-} bdk_ap_cvmctl_el1_t;
-
-#define BDK_AP_CVMCTL_EL1 BDK_AP_CVMCTL_EL1_FUNC()
-static inline uint64_t BDK_AP_CVMCTL_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_CVMCTL_EL1_FUNC(void)
-{
-    return 0x3000b000000ll;
-}
-
-#define typedef_BDK_AP_CVMCTL_EL1 bdk_ap_cvmctl_el1_t
-#define bustype_BDK_AP_CVMCTL_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_CVMCTL_EL1 "AP_CVMCTL_EL1"
-#define busnum_BDK_AP_CVMCTL_EL1 0
-#define arguments_BDK_AP_CVMCTL_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_cvm_icachedata0_el1
@@ -8841,7 +8824,9 @@ typedef union
 static inline uint64_t BDK_AP_ICH_LRX_EL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICH_LRX_EL2(unsigned long a)
 {
-    return 0x3040c0c0000ll + 0x100ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x3040c0c0000ll + 0x100ll * ((a) & 0xf);
+    __bdk_csr_fatal("AP_ICH_LRX_EL2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ICH_LRX_EL2(a) bdk_ap_ich_lrx_el2_t
@@ -9612,7 +9597,9 @@ typedef union
 static inline uint64_t BDK_AP_RMR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_RMR_ELX(unsigned long a)
 {
-    return 0x3000c000200ll + 0x200000000ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=2))
+        return 0x3000c000200ll + 0x200000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_RMR_ELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_RMR_ELX(a) bdk_ap_rmr_elx_t
@@ -9711,6 +9698,39 @@ static inline uint64_t BDK_AP_ESR_EL12_FUNC(void)
 #define arguments_BDK_AP_ESR_EL12 -1,-1,-1,-1
 
 /**
+ * Register (SYSREG) ap_trcimspec#
+ *
+ * INTERNAL: AP Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ap_trcimspecx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_trcimspecx_s cn; */
+} bdk_ap_trcimspecx_t;
+
+static inline uint64_t BDK_AP_TRCIMSPECX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_TRCIMSPECX(unsigned long a)
+{
+    if (a<=7)
+        return 0x20100000700ll + 0x10000ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_TRCIMSPECX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_AP_TRCIMSPECX(a) bdk_ap_trcimspecx_t
+#define bustype_BDK_AP_TRCIMSPECX(a) BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_TRCIMSPECX(a) "AP_TRCIMSPECX"
+#define busnum_BDK_AP_TRCIMSPECX(a) (a)
+#define arguments_BDK_AP_TRCIMSPECX(a) (a),-1,-1,-1
+
+/**
  * Register (SYSREG) ap_id_aa64afr#_el1_res0
  *
  * INTERNAL: AP AArch64 Reserved Register
@@ -9737,7 +9757,9 @@ typedef union
 static inline uint64_t BDK_AP_ID_AA64AFRX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_AA64AFRX_EL1_RES0(unsigned long a)
 {
-    return 0x30000050400ll + 0x100ll * ((a) & 0x3);
+    if ((a>=2)&&(a<=3))
+        return 0x30000050400ll + 0x100ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_ID_AA64AFRX_EL1_RES0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ID_AA64AFRX_EL1_RES0(a) bdk_ap_id_aa64afrx_el1_res0_t
@@ -9972,7 +9994,9 @@ typedef union
 static inline uint64_t BDK_AP_ESR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ESR_ELX(unsigned long a)
 {
-    return 0x30005020000ll + 0x200000000ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=3))
+        return 0x30005020000ll + 0x200000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_ESR_ELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ESR_ELX(a) bdk_ap_esr_elx_t
@@ -10072,7 +10096,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCIDRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCIDRX(unsigned long a)
 {
-    return 0x20100080700ll + 0x10000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x20100080700ll + 0x10000ll * ((a) & 0xf);
+    __bdk_csr_fatal("AP_TRCIDRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCIDRX(a) bdk_ap_trcidrx_t
@@ -10748,7 +10774,9 @@ typedef union
 static inline uint64_t BDK_AP_AFSRX_EL12(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_AFSRX_EL12(unsigned long a)
 {
-    return 0x30505010000ll + 0x100ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x30505010000ll + 0x100ll * ((a) & 0x1);
+    __bdk_csr_fatal("AP_AFSRX_EL12", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_AFSRX_EL12(a) bdk_ap_afsrx_el12_t
@@ -11771,7 +11799,9 @@ typedef union
 static inline uint64_t BDK_AP_DBGBCRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_DBGBCRX_EL1(unsigned long a)
 {
-    return 0x20000000500ll + 0x10000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x20000000500ll + 0x10000ll * ((a) & 0xf);
+    __bdk_csr_fatal("AP_DBGBCRX_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_DBGBCRX_EL1(a) bdk_ap_dbgbcrx_el1_t
@@ -12282,7 +12312,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCCIDRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCIDRX(unsigned long a)
 {
-    return 0x201070c0700ll + 0x10000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x201070c0700ll + 0x10000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_TRCCIDRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCCIDRX(a) bdk_ap_trccidrx_t
@@ -12440,7 +12472,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCRSCTLRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCRSCTLRX(unsigned long a)
 {
-    return 0x20101000000ll + 0x10000ll * ((a) & 0x1f);
+    if ((a>=2)&&(a<=31))
+        return 0x20101000000ll + 0x10000ll * ((a) & 0x1f);
+    __bdk_csr_fatal("AP_TRCRSCTLRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCRSCTLRX(a) bdk_ap_trcrsctlrx_t
@@ -14657,131 +14691,6 @@ static inline uint64_t BDK_AP_CVM_DEBUG1_EL3_FUNC(void)
 #define arguments_BDK_AP_CVM_DEBUG1_EL3 -1,-1,-1,-1
 
 /**
- * Register (SYSREG) ap_icc_ctlr_el3
- *
- * INTERNAL: AP Interrupt Controller Control EL3 Register
- *
- * Controls aspects of the behaviour of the GIC CPU interface and
- *     provides information about the features implemented.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_ap_icc_ctlr_el3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t a3v                   : 1;  /**< [ 15: 15](RO) Affinity 3 Valid. Read-only and writes are ignored. Possible
-                                                                     values are:
-                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[A3V].
-                                                                 0 = The CPU interface logic only supports zero values of Affinity
-                                                                     3 in SGI generation system registers.
-                                                                 1 = The CPU interface logic supports non-zero values of Affinity 3
-                                                                     in SGI generation system registers. */
-        uint32_t seis                  : 1;  /**< [ 14: 14](RO) SEI Support. Read-only and writes are ignored. Indicates
-                                                                     whether the CPU interface supports generation of SEIs:
-                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[SEIS].
-                                                                 0 = The CPU interface logic does not support generation of SEIs.
-                                                                 1 = The CPU interface logic supports generation of SEIs. */
-        uint32_t idbits                : 3;  /**< [ 13: 11](RO) Identifier bits. Read-only and writes are ignored. The number
-                                                                     of physical interrupt identifier bits supported:
-                                                                 All other values are reserved.
-                                                                 0x0 = 16 bits.
-                                                                 0x1 = 24 bits. */
-        uint32_t pribits               : 3;  /**< [ 10:  8](RO) Priority bits. Read-only and writes are ignored. The number of
-                                                                     priority bits implemented, minus one. */
-        uint32_t reserved_7            : 1;
-        uint32_t pmhe                  : 1;  /**< [  6:  6](R/W) Priority Mask Hint Enable.
-                                                                 When set, enables use of the PMR as a hint for interrupt
-                                                                     distribution. */
-        uint32_t rm                    : 1;  /**< [  5:  5](RO) Routing Modifier.  Note: In systems without EL3 or where the secure
-                                                                 copy of AP_ICC_SRE_EL1 is RES1, this bit is RES0.
-                                                                 This bit is used to modify the behaviour of
-                                                                 AP_ICC_IAR0_EL1 and AP_ICC_IAR1_EL1 such that systems with legacy
-                                                                 secure software may be supported correctly.
-                                                                 0 = Secure Group 0 and non-secure group 1 interrupts can be
-                                                                     acknowleged and observed as the highest priority interrupt
-                                                                     at EL3 in AArch64 or Monitor mode in AArch32.
-                                                                 1 = Secure Group 0 and non-secure group 1 interrupts cannot be
-                                                                     acknowleged and observed as the highest priority interrupt
-                                                                     at EL3 in AArch64 or Monitor mode in AArch32 but return
-                                                                     special values. */
-        uint32_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W) EOI mode for interrupts handled at non-secure EL1 and EL2. */
-        uint32_t eoimode_el1s          : 1;  /**< [  3:  3](R/W) EOI mode for interrupts handled at secure EL1. */
-        uint32_t eoimode_el3           : 1;  /**< [  2:  2](R/W) EOI mode for interrupts handled at EL3. */
-        uint32_t cbpr_el1ns            : 1;  /**< [  1:  1](R/W) When set, non-secure accesses to GICC_BPR and AP_ICC_BPR1_EL1
-                                                                     access the state of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to
-                                                                     determine the preemption group for non-secure group 1
-                                                                     interrupts. */
-        uint32_t cbpr_el1s             : 1;  /**< [  0:  0](R/W) When set, secure EL1 accesses to AP_ICC_BPR1_EL1 access the state
-                                                                     of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to determine the
-                                                                     preemption group for Secure Group 1 interrupts. */
-#else /* Word 0 - Little Endian */
-        uint32_t cbpr_el1s             : 1;  /**< [  0:  0](R/W) When set, secure EL1 accesses to AP_ICC_BPR1_EL1 access the state
-                                                                     of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to determine the
-                                                                     preemption group for Secure Group 1 interrupts. */
-        uint32_t cbpr_el1ns            : 1;  /**< [  1:  1](R/W) When set, non-secure accesses to GICC_BPR and AP_ICC_BPR1_EL1
-                                                                     access the state of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to
-                                                                     determine the preemption group for non-secure group 1
-                                                                     interrupts. */
-        uint32_t eoimode_el3           : 1;  /**< [  2:  2](R/W) EOI mode for interrupts handled at EL3. */
-        uint32_t eoimode_el1s          : 1;  /**< [  3:  3](R/W) EOI mode for interrupts handled at secure EL1. */
-        uint32_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W) EOI mode for interrupts handled at non-secure EL1 and EL2. */
-        uint32_t rm                    : 1;  /**< [  5:  5](RO) Routing Modifier.  Note: In systems without EL3 or where the secure
-                                                                 copy of AP_ICC_SRE_EL1 is RES1, this bit is RES0.
-                                                                 This bit is used to modify the behaviour of
-                                                                 AP_ICC_IAR0_EL1 and AP_ICC_IAR1_EL1 such that systems with legacy
-                                                                 secure software may be supported correctly.
-                                                                 0 = Secure Group 0 and non-secure group 1 interrupts can be
-                                                                     acknowleged and observed as the highest priority interrupt
-                                                                     at EL3 in AArch64 or Monitor mode in AArch32.
-                                                                 1 = Secure Group 0 and non-secure group 1 interrupts cannot be
-                                                                     acknowleged and observed as the highest priority interrupt
-                                                                     at EL3 in AArch64 or Monitor mode in AArch32 but return
-                                                                     special values. */
-        uint32_t pmhe                  : 1;  /**< [  6:  6](R/W) Priority Mask Hint Enable.
-                                                                 When set, enables use of the PMR as a hint for interrupt
-                                                                     distribution. */
-        uint32_t reserved_7            : 1;
-        uint32_t pribits               : 3;  /**< [ 10:  8](RO) Priority bits. Read-only and writes are ignored. The number of
-                                                                     priority bits implemented, minus one. */
-        uint32_t idbits                : 3;  /**< [ 13: 11](RO) Identifier bits. Read-only and writes are ignored. The number
-                                                                     of physical interrupt identifier bits supported:
-                                                                 All other values are reserved.
-                                                                 0x0 = 16 bits.
-                                                                 0x1 = 24 bits. */
-        uint32_t seis                  : 1;  /**< [ 14: 14](RO) SEI Support. Read-only and writes are ignored. Indicates
-                                                                     whether the CPU interface supports generation of SEIs:
-                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[SEIS].
-                                                                 0 = The CPU interface logic does not support generation of SEIs.
-                                                                 1 = The CPU interface logic supports generation of SEIs. */
-        uint32_t a3v                   : 1;  /**< [ 15: 15](RO) Affinity 3 Valid. Read-only and writes are ignored. Possible
-                                                                     values are:
-                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[A3V].
-                                                                 0 = The CPU interface logic only supports zero values of Affinity
-                                                                     3 in SGI generation system registers.
-                                                                 1 = The CPU interface logic supports non-zero values of Affinity 3
-                                                                     in SGI generation system registers. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_icc_ctlr_el3_s cn; */
-} bdk_ap_icc_ctlr_el3_t;
-
-#define BDK_AP_ICC_CTLR_EL3 BDK_AP_ICC_CTLR_EL3_FUNC()
-static inline uint64_t BDK_AP_ICC_CTLR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_ICC_CTLR_EL3_FUNC(void)
-{
-    return 0x3060c0c0400ll;
-}
-
-#define typedef_BDK_AP_ICC_CTLR_EL3 bdk_ap_icc_ctlr_el3_t
-#define bustype_BDK_AP_ICC_CTLR_EL3 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_ICC_CTLR_EL3 "AP_ICC_CTLR_EL3"
-#define busnum_BDK_AP_ICC_CTLR_EL3 0
-#define arguments_BDK_AP_ICC_CTLR_EL3 -1,-1,-1,-1
-
-/**
  * Register (SYSREG) ap_cvm_dcacheptag0_el1
  *
  * AP Cavium Dcache Ptag 0 Register
@@ -14969,7 +14878,9 @@ typedef union
 static inline uint64_t BDK_AP_DBGWCRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_DBGWCRX_EL1(unsigned long a)
 {
-    return 0x20000000700ll + 0x10000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x20000000700ll + 0x10000ll * ((a) & 0xf);
+    __bdk_csr_fatal("AP_DBGWCRX_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_DBGWCRX_EL1(a) bdk_ap_dbgwcrx_el1_t
@@ -15108,37 +15019,6 @@ static inline uint64_t BDK_AP_PMCNTENSET_EL0_FUNC(void)
 #define basename_BDK_AP_PMCNTENSET_EL0 "AP_PMCNTENSET_EL0"
 #define busnum_BDK_AP_PMCNTENSET_EL0 0
 #define arguments_BDK_AP_PMCNTENSET_EL0 -1,-1,-1,-1
-
-/**
- * Register (SYSREG) ap_trcimspec#
- *
- * INTERNAL: AP Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_trcimspecx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_trcimspecx_s cn; */
-} bdk_ap_trcimspecx_t;
-
-static inline uint64_t BDK_AP_TRCIMSPECX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_TRCIMSPECX(unsigned long a)
-{
-    return 0x20100000700ll + 0x10000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_AP_TRCIMSPECX(a) bdk_ap_trcimspecx_t
-#define bustype_BDK_AP_TRCIMSPECX(a) BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_TRCIMSPECX(a) "AP_TRCIMSPECX"
-#define busnum_BDK_AP_TRCIMSPECX(a) (a)
-#define arguments_BDK_AP_TRCIMSPECX(a) (a),-1,-1,-1
 
 /**
  * Register (SYSREG) ap_cvm_power_el1
@@ -15517,7 +15397,9 @@ typedef union
 static inline uint64_t BDK_AP_ID_ISARX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_ISARX_EL1(unsigned long a)
 {
-    return 0x30000020000ll + 0x100ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x30000020000ll + 0x100ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_ID_ISARX_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ID_ISARX_EL1(a) bdk_ap_id_isarx_el1_t
@@ -15560,7 +15442,9 @@ typedef union
 static inline uint64_t BDK_AP_DBGBVRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_DBGBVRX_EL1(unsigned long a)
 {
-    return 0x20000000400ll + 0x10000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x20000000400ll + 0x10000ll * ((a) & 0xf);
+    __bdk_csr_fatal("AP_DBGBVRX_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_DBGBVRX_EL1(a) bdk_ap_dbgbvrx_el1_t
@@ -15917,7 +15801,9 @@ typedef union
 static inline uint64_t BDK_AP_ID_AA64MMFRX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_AA64MMFRX_EL1_RES0(unsigned long a)
 {
-    return 0x30000070000ll + 0x100ll * ((a) & 0x7);
+    if ((a>=2)&&(a<=7))
+        return 0x30000070000ll + 0x100ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_ID_AA64MMFRX_EL1_RES0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ID_AA64MMFRX_EL1_RES0(a) bdk_ap_id_aa64mmfrx_el1_res0_t
@@ -16041,7 +15927,9 @@ typedef union
 static inline uint64_t BDK_AP_AFSRX_ELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_AFSRX_ELX(unsigned long a, unsigned long b)
 {
-    return 0x30005010000ll + 0x100ll * ((a) & 0x1) + 0x200000000ll * ((b) & 0x3);
+    if ((a<=1) && ((b>=1)&&(b<=3)))
+        return 0x30005010000ll + 0x100ll * ((a) & 0x1) + 0x200000000ll * ((b) & 0x3);
+    __bdk_csr_fatal("AP_AFSRX_ELX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_AP_AFSRX_ELX(a,b) bdk_ap_afsrx_elx_t
@@ -16649,7 +16537,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCSEQEVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCSEQEVRX(unsigned long a)
 {
-    return 0x20100000400ll + 0x10000ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x20100000400ll + 0x10000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_TRCSEQEVRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCSEQEVRX(a) bdk_ap_trcseqevrx_t
@@ -18395,7 +18285,9 @@ typedef union
 static inline uint64_t BDK_AP_ID_ISARX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_ISARX_EL1_RES0(unsigned long a)
 {
-    return 0x30000020000ll + 0x100ll * ((a) & 0x7);
+    if ((a>=6)&&(a<=7))
+        return 0x30000020000ll + 0x100ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_ID_ISARX_EL1_RES0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ID_ISARX_EL1_RES0(a) bdk_ap_id_isarx_el1_res0_t
@@ -18501,6 +18393,75 @@ static inline uint64_t BDK_AP_LORC_EL1_FUNC(void)
 #define basename_BDK_AP_LORC_EL1 "AP_LORC_EL1"
 #define busnum_BDK_AP_LORC_EL1 0
 #define arguments_BDK_AP_LORC_EL1 -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_icc_bpr1_el1
+ *
+ * INTERNAL: AP Interrupt Controller Binary Point Register 1
+ *
+ * Defines the point at which the priority value fields split
+ *     into two parts, the group priority field and the subpriority
+ *     field. The group priority field is used to determine Group 1
+ *     interrupt preemption.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ap_icc_bpr1_el1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t binarypoint           : 3;  /**< [  2:  0](R/W) The value of this field controls how the 8-bit interrupt
+                                                                     priority field is split into a group priority field, used to
+                                                                     determine interrupt preemption, and a subpriority field. This
+                                                                     is done as follows:
+                                                                 <pre>
+                                                                 Binary point value  Group priority field    Subpriority field       Field with binary
+                                                                 point
+                                                                 0   [7:1]   [0]     ggggggg.s
+                                                                 1   [7:2]   [1:0]   gggggg.ss
+                                                                 2   [7:3]   [2:0]   ggggg.sss
+                                                                 3   [7:4]   [3:0]   gggg.ssss
+                                                                 4   [7:5]   [4:0]   ggg.sssss
+                                                                 5   [7:6]   [5:0]   gg.ssssss
+                                                                 6   [7]     [6:0]   g.sssssss
+                                                                 7   No preemption   [7:0]   .ssssssss
+                                                                 </pre> */
+#else /* Word 0 - Little Endian */
+        uint32_t binarypoint           : 3;  /**< [  2:  0](R/W) The value of this field controls how the 8-bit interrupt
+                                                                     priority field is split into a group priority field, used to
+                                                                     determine interrupt preemption, and a subpriority field. This
+                                                                     is done as follows:
+                                                                 <pre>
+                                                                 Binary point value  Group priority field    Subpriority field       Field with binary
+                                                                 point
+                                                                 0   [7:1]   [0]     ggggggg.s
+                                                                 1   [7:2]   [1:0]   gggggg.ss
+                                                                 2   [7:3]   [2:0]   ggggg.sss
+                                                                 3   [7:4]   [3:0]   gggg.ssss
+                                                                 4   [7:5]   [4:0]   ggg.sssss
+                                                                 5   [7:6]   [5:0]   gg.ssssss
+                                                                 6   [7]     [6:0]   g.sssssss
+                                                                 7   No preemption   [7:0]   .ssssssss
+                                                                 </pre> */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_icc_bpr1_el1_s cn; */
+} bdk_ap_icc_bpr1_el1_t;
+
+#define BDK_AP_ICC_BPR1_EL1 BDK_AP_ICC_BPR1_EL1_FUNC()
+static inline uint64_t BDK_AP_ICC_BPR1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_ICC_BPR1_EL1_FUNC(void)
+{
+    return 0x3000c0c0300ll;
+}
+
+#define typedef_BDK_AP_ICC_BPR1_EL1 bdk_ap_icc_bpr1_el1_t
+#define bustype_BDK_AP_ICC_BPR1_EL1 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_ICC_BPR1_EL1 "AP_ICC_BPR1_EL1"
+#define busnum_BDK_AP_ICC_BPR1_EL1 0
+#define arguments_BDK_AP_ICC_BPR1_EL1 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_pmuserenr_el0
@@ -19658,7 +19619,9 @@ typedef union
 static inline uint64_t BDK_AP_MVFRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_MVFRX_EL1(unsigned long a)
 {
-    return 0x30000030000ll + 0x100ll * ((a) & 0x3);
+    if (a<=2)
+        return 0x30000030000ll + 0x100ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_MVFRX_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_MVFRX_EL1(a) bdk_ap_mvfrx_el1_t
@@ -20180,7 +20143,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCPIDRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCPIDRX(unsigned long a)
 {
-    return 0x20107080700ll + 0x10000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x20107080700ll + 0x10000ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_TRCPIDRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCPIDRX(a) bdk_ap_trcpidrx_t
@@ -20627,7 +20592,9 @@ typedef union
 static inline uint64_t BDK_AP_PMEVTYPERX_EL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_PMEVTYPERX_EL0(unsigned long a)
 {
-    return 0x3030e0c0000ll + 0x100ll * ((a) & 0x1f);
+    if (a<=30)
+        return 0x3030e0c0000ll + 0x100ll * ((a) & 0x1f);
+    __bdk_csr_fatal("AP_PMEVTYPERX_EL0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_PMEVTYPERX_EL0(a) bdk_ap_pmevtyperx_el0_t
@@ -20816,7 +20783,9 @@ typedef union
 static inline uint64_t BDK_AP_ELR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ELR_ELX(unsigned long a)
 {
-    return 0x30004000100ll + 0x200000000ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=3))
+        return 0x30004000100ll + 0x200000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_ELR_ELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ELR_ELX(a) bdk_ap_elr_elx_t
@@ -21175,7 +21144,9 @@ typedef union
 static inline uint64_t BDK_AP_ID_AA64DFRX_EL1_RES0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ID_AA64DFRX_EL1_RES0(unsigned long a)
 {
-    return 0x30000050000ll + 0x100ll * ((a) & 0x3);
+    if ((a>=2)&&(a<=3))
+        return 0x30000050000ll + 0x100ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_ID_AA64DFRX_EL1_RES0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ID_AA64DFRX_EL1_RES0(a) bdk_ap_id_aa64dfrx_el1_res0_t
@@ -21263,7 +21234,9 @@ typedef union
 static inline uint64_t BDK_AP_DBGWVRX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_DBGWVRX_EL1(unsigned long a)
 {
-    return 0x20000000600ll + 0x10000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x20000000600ll + 0x10000ll * ((a) & 0xf);
+    __bdk_csr_fatal("AP_DBGWVRX_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_DBGWVRX_EL1(a) bdk_ap_dbgwvrx_el1_t
@@ -21603,7 +21576,9 @@ typedef union
 static inline uint64_t BDK_AP_ICH_LRCX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICH_LRCX(unsigned long a)
 {
-    return 0x3040c0e0000ll + 0x100ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x3040c0e0000ll + 0x100ll * ((a) & 0xf);
+    __bdk_csr_fatal("AP_ICH_LRCX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ICH_LRCX(a) bdk_ap_ich_lrcx_t
@@ -21611,6 +21586,40 @@ static inline uint64_t BDK_AP_ICH_LRCX(unsigned long a)
 #define basename_BDK_AP_ICH_LRCX(a) "AP_ICH_LRCX"
 #define busnum_BDK_AP_ICH_LRCX(a) (a)
 #define arguments_BDK_AP_ICH_LRCX(a) (a),-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_ttbr0_el12
+ *
+ * INTERNAL: AP Translation Table Base EL1/2 Register 0
+ *
+ * Alias of AP_TTBR0_EL1 from EL2 when AP_HCR_EL2[E2H] is set.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ap_ttbr0_el12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_ttbr0_el12_s cn; */
+} bdk_ap_ttbr0_el12_t;
+
+#define BDK_AP_TTBR0_EL12 BDK_AP_TTBR0_EL12_FUNC()
+static inline uint64_t BDK_AP_TTBR0_EL12_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_TTBR0_EL12_FUNC(void)
+{
+    return 0x30502000000ll;
+}
+
+#define typedef_BDK_AP_TTBR0_EL12 bdk_ap_ttbr0_el12_t
+#define bustype_BDK_AP_TTBR0_EL12 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_TTBR0_EL12 "AP_TTBR0_EL12"
+#define busnum_BDK_AP_TTBR0_EL12 0
+#define arguments_BDK_AP_TTBR0_EL12 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_trcccctlr
@@ -21700,7 +21709,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCCNTVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCCNTVRX(unsigned long a)
 {
-    return 0x20100080500ll + 0x10000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x20100080500ll + 0x10000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_TRCCNTVRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCCNTVRX(a) bdk_ap_trccntvrx_t
@@ -22511,7 +22522,9 @@ typedef union
 static inline uint64_t BDK_AP_RVBAR_ELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_RVBAR_ELX(unsigned long a)
 {
-    return 0x3000c000100ll + 0x200000000ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=2))
+        return 0x3000c000100ll + 0x200000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_RVBAR_ELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_RVBAR_ELX(a) bdk_ap_rvbar_elx_t
@@ -22696,6 +22709,131 @@ static inline uint64_t BDK_AP_ICC_CTLR_EL1_FUNC(void)
 #define basename_BDK_AP_ICC_CTLR_EL1 "AP_ICC_CTLR_EL1"
 #define busnum_BDK_AP_ICC_CTLR_EL1 0
 #define arguments_BDK_AP_ICC_CTLR_EL1 -1,-1,-1,-1
+
+/**
+ * Register (SYSREG) ap_icc_ctlr_el3
+ *
+ * INTERNAL: AP Interrupt Controller Control EL3 Register
+ *
+ * Controls aspects of the behaviour of the GIC CPU interface and
+ *     provides information about the features implemented.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_ap_icc_ctlr_el3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t a3v                   : 1;  /**< [ 15: 15](RO) Affinity 3 Valid. Read-only and writes are ignored. Possible
+                                                                     values are:
+                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[A3V].
+                                                                 0 = The CPU interface logic only supports zero values of Affinity
+                                                                     3 in SGI generation system registers.
+                                                                 1 = The CPU interface logic supports non-zero values of Affinity 3
+                                                                     in SGI generation system registers. */
+        uint32_t seis                  : 1;  /**< [ 14: 14](RO) SEI Support. Read-only and writes are ignored. Indicates
+                                                                     whether the CPU interface supports generation of SEIs:
+                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[SEIS].
+                                                                 0 = The CPU interface logic does not support generation of SEIs.
+                                                                 1 = The CPU interface logic supports generation of SEIs. */
+        uint32_t idbits                : 3;  /**< [ 13: 11](RO) Identifier bits. Read-only and writes are ignored. The number
+                                                                     of physical interrupt identifier bits supported:
+                                                                 All other values are reserved.
+                                                                 0x0 = 16 bits.
+                                                                 0x1 = 24 bits. */
+        uint32_t pribits               : 3;  /**< [ 10:  8](RO) Priority bits. Read-only and writes are ignored. The number of
+                                                                     priority bits implemented, minus one. */
+        uint32_t reserved_7            : 1;
+        uint32_t pmhe                  : 1;  /**< [  6:  6](R/W) Priority Mask Hint Enable.
+                                                                 When set, enables use of the PMR as a hint for interrupt
+                                                                     distribution. */
+        uint32_t rm                    : 1;  /**< [  5:  5](RO) Routing Modifier.  Note: In systems without EL3 or where the secure
+                                                                 copy of AP_ICC_SRE_EL1 is RES1, this bit is RES0.
+                                                                 This bit is used to modify the behaviour of
+                                                                 AP_ICC_IAR0_EL1 and AP_ICC_IAR1_EL1 such that systems with legacy
+                                                                 secure software may be supported correctly.
+                                                                 0 = Secure Group 0 and non-secure group 1 interrupts can be
+                                                                     acknowleged and observed as the highest priority interrupt
+                                                                     at EL3 in AArch64 or Monitor mode in AArch32.
+                                                                 1 = Secure Group 0 and non-secure group 1 interrupts cannot be
+                                                                     acknowleged and observed as the highest priority interrupt
+                                                                     at EL3 in AArch64 or Monitor mode in AArch32 but return
+                                                                     special values. */
+        uint32_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W) EOI mode for interrupts handled at non-secure EL1 and EL2. */
+        uint32_t eoimode_el1s          : 1;  /**< [  3:  3](R/W) EOI mode for interrupts handled at secure EL1. */
+        uint32_t eoimode_el3           : 1;  /**< [  2:  2](R/W) EOI mode for interrupts handled at EL3. */
+        uint32_t cbpr_el1ns            : 1;  /**< [  1:  1](R/W) When set, non-secure accesses to GICC_BPR and AP_ICC_BPR1_EL1
+                                                                     access the state of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to
+                                                                     determine the preemption group for non-secure group 1
+                                                                     interrupts. */
+        uint32_t cbpr_el1s             : 1;  /**< [  0:  0](R/W) When set, secure EL1 accesses to AP_ICC_BPR1_EL1 access the state
+                                                                     of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to determine the
+                                                                     preemption group for Secure Group 1 interrupts. */
+#else /* Word 0 - Little Endian */
+        uint32_t cbpr_el1s             : 1;  /**< [  0:  0](R/W) When set, secure EL1 accesses to AP_ICC_BPR1_EL1 access the state
+                                                                     of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to determine the
+                                                                     preemption group for Secure Group 1 interrupts. */
+        uint32_t cbpr_el1ns            : 1;  /**< [  1:  1](R/W) When set, non-secure accesses to GICC_BPR and AP_ICC_BPR1_EL1
+                                                                     access the state of AP_ICC_BPR0_EL1. AP_ICC_BPR0_EL1 is used to
+                                                                     determine the preemption group for non-secure group 1
+                                                                     interrupts. */
+        uint32_t eoimode_el3           : 1;  /**< [  2:  2](R/W) EOI mode for interrupts handled at EL3. */
+        uint32_t eoimode_el1s          : 1;  /**< [  3:  3](R/W) EOI mode for interrupts handled at secure EL1. */
+        uint32_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W) EOI mode for interrupts handled at non-secure EL1 and EL2. */
+        uint32_t rm                    : 1;  /**< [  5:  5](RO) Routing Modifier.  Note: In systems without EL3 or where the secure
+                                                                 copy of AP_ICC_SRE_EL1 is RES1, this bit is RES0.
+                                                                 This bit is used to modify the behaviour of
+                                                                 AP_ICC_IAR0_EL1 and AP_ICC_IAR1_EL1 such that systems with legacy
+                                                                 secure software may be supported correctly.
+                                                                 0 = Secure Group 0 and non-secure group 1 interrupts can be
+                                                                     acknowleged and observed as the highest priority interrupt
+                                                                     at EL3 in AArch64 or Monitor mode in AArch32.
+                                                                 1 = Secure Group 0 and non-secure group 1 interrupts cannot be
+                                                                     acknowleged and observed as the highest priority interrupt
+                                                                     at EL3 in AArch64 or Monitor mode in AArch32 but return
+                                                                     special values. */
+        uint32_t pmhe                  : 1;  /**< [  6:  6](R/W) Priority Mask Hint Enable.
+                                                                 When set, enables use of the PMR as a hint for interrupt
+                                                                     distribution. */
+        uint32_t reserved_7            : 1;
+        uint32_t pribits               : 3;  /**< [ 10:  8](RO) Priority bits. Read-only and writes are ignored. The number of
+                                                                     priority bits implemented, minus one. */
+        uint32_t idbits                : 3;  /**< [ 13: 11](RO) Identifier bits. Read-only and writes are ignored. The number
+                                                                     of physical interrupt identifier bits supported:
+                                                                 All other values are reserved.
+                                                                 0x0 = 16 bits.
+                                                                 0x1 = 24 bits. */
+        uint32_t seis                  : 1;  /**< [ 14: 14](RO) SEI Support. Read-only and writes are ignored. Indicates
+                                                                     whether the CPU interface supports generation of SEIs:
+                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[SEIS].
+                                                                 0 = The CPU interface logic does not support generation of SEIs.
+                                                                 1 = The CPU interface logic supports generation of SEIs. */
+        uint32_t a3v                   : 1;  /**< [ 15: 15](RO) Affinity 3 Valid. Read-only and writes are ignored. Possible
+                                                                     values are:
+                                                                 Virtual accesses return the value from AP_ICH_VTR_EL2[A3V].
+                                                                 0 = The CPU interface logic only supports zero values of Affinity
+                                                                     3 in SGI generation system registers.
+                                                                 1 = The CPU interface logic supports non-zero values of Affinity 3
+                                                                     in SGI generation system registers. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ap_icc_ctlr_el3_s cn; */
+} bdk_ap_icc_ctlr_el3_t;
+
+#define BDK_AP_ICC_CTLR_EL3 BDK_AP_ICC_CTLR_EL3_FUNC()
+static inline uint64_t BDK_AP_ICC_CTLR_EL3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_AP_ICC_CTLR_EL3_FUNC(void)
+{
+    return 0x3060c0c0400ll;
+}
+
+#define typedef_BDK_AP_ICC_CTLR_EL3 bdk_ap_icc_ctlr_el3_t
+#define bustype_BDK_AP_ICC_CTLR_EL3 BDK_CSR_TYPE_SYSREG
+#define basename_BDK_AP_ICC_CTLR_EL3 "AP_ICC_CTLR_EL3"
+#define busnum_BDK_AP_ICC_CTLR_EL3 0
+#define arguments_BDK_AP_ICC_CTLR_EL3 -1,-1,-1,-1
 
 /**
  * Register (SYSREG) ap_tcr_el2_e2h
@@ -24019,7 +24157,9 @@ typedef union
 static inline uint64_t BDK_AP_TRCDVCVRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_TRCDVCVRX(unsigned long a)
 {
-    return 0x20102000400ll + 0x40000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x20102000400ll + 0x40000ll * ((a) & 0x7);
+    __bdk_csr_fatal("AP_TRCDVCVRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_TRCDVCVRX(a) bdk_ap_trcdvcvrx_t
@@ -24283,40 +24423,6 @@ static inline uint64_t BDK_AP_CVM_ICACHETAG0_EL1_FUNC(void)
 #define arguments_BDK_AP_CVM_ICACHETAG0_EL1 -1,-1,-1,-1
 
 /**
- * Register (SYSREG) ap_cvm_dcachedata1_el1
- *
- * AP Cavium Dcache Data 1 Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ap_cvm_dcachedata1_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t parity                : 8;  /**< [  7:  0](RO) Parity bits. */
-#else /* Word 0 - Little Endian */
-        uint64_t parity                : 8;  /**< [  7:  0](RO) Parity bits. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ap_cvm_dcachedata1_el1_s cn; */
-} bdk_ap_cvm_dcachedata1_el1_t;
-
-#define BDK_AP_CVM_DCACHEDATA1_EL1 BDK_AP_CVM_DCACHEDATA1_EL1_FUNC()
-static inline uint64_t BDK_AP_CVM_DCACHEDATA1_EL1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_AP_CVM_DCACHEDATA1_EL1_FUNC(void)
-{
-    return 0x3000b030500ll;
-}
-
-#define typedef_BDK_AP_CVM_DCACHEDATA1_EL1 bdk_ap_cvm_dcachedata1_el1_t
-#define bustype_BDK_AP_CVM_DCACHEDATA1_EL1 BDK_CSR_TYPE_SYSREG
-#define basename_BDK_AP_CVM_DCACHEDATA1_EL1 "AP_CVM_DCACHEDATA1_EL1"
-#define busnum_BDK_AP_CVM_DCACHEDATA1_EL1 0
-#define arguments_BDK_AP_CVM_DCACHEDATA1_EL1 -1,-1,-1,-1
-
-/**
  * Register (SYSREG) ap_icc_ap0r#_el1
  *
  * INTERNAL: AP Interrupt Controller Active Priorities (0,0) Register
@@ -24427,7 +24533,9 @@ typedef union
 static inline uint64_t BDK_AP_ICC_AP0RX_EL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_AP_ICC_AP0RX_EL1(unsigned long a)
 {
-    return 0x3000c080400ll + 0x100ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x3000c080400ll + 0x100ll * ((a) & 0x3);
+    __bdk_csr_fatal("AP_ICC_AP0RX_EL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_AP_ICC_AP0RX_EL1(a) bdk_ap_icc_ap0rx_el1_t

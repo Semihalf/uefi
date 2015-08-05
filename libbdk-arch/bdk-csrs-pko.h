@@ -114,41 +114,6 @@
 #define BDK_PKO_COLORRESULT_E_YELLOW (1) /**< Yellow. */
 
 /**
- * Enumeration pko_memalg_e
- *
- * PKO Memory Modify Algorithm Enumeration
- * Enumerates the different algorithms for modifying memory; see PKO_SEND_MEM_S[ALG].
- */
-#define BDK_PKO_MEMALG_E_ADD (8) /**< Add.
-                                       mem = mem + PKO_SEND_MEM_S[OFFSET]. */
-#define BDK_PKO_MEMALG_E_ADDLEN (0xa) /**< Add length.
-                                       mem = mem + PKO_SEND_MEM_S[OFFSET] + PKO_SEND_HDR_S[TOTAL]. */
-#define BDK_PKO_MEMALG_E_ADDMBUF (0xc) /**< Add mbufs freed.
-                                       mem = mem + PKO_SEND_MEM_S[OFFSET] + mbufs_freed. mbufs_freed is as defined in
-                                       PKO_AURAALG_E. */
-#define BDK_PKO_MEMALG_E_SET (0) /**< Set.
-                                       mem = PKO_SEND_MEM_S[OFFSET]. */
-#define BDK_PKO_MEMALG_E_SETRSLT (2) /**< Set the memory location to the final resulting color and state of the packet.
-                                       PKO_MEM_RESULT_S indicates the store value. PKO_SEND_MEM_S[DSZ] must be B64.
-                                       mem = PKO_MEM_RESULT_S. */
-#define BDK_PKO_MEMALG_E_SETTSTMP (1) /**< Set the memory location to the timestamp the packet was at the interface. See the PTP
-                                       chapter. When used, PKO_SEND_MEM_S[DSZ] must be B64 and a PKO_SEND_EXT_S subdescriptor
-                                       must be in the descriptor with PKO_SEND_EXT_S[TSTMP]=1.
-                                       For non-NULL interfaces:
-                                       mem = MIO_PTP_CLOCK_HI at packet send.
-                                       Else, for NULL interface:
-                                       mem = 0x1. */
-#define BDK_PKO_MEMALG_E_SUB (9) /**< Subtract.
-                                       mem = mem - PKO_SEND_MEM_S[OFFSET].
-                                       Note: IOI bandwidth is optimized if a memory decrement by one is used rather than any
-                                       other memory set/add/sub. */
-#define BDK_PKO_MEMALG_E_SUBLEN (0xb) /**< Subtract length.
-                                       mem = mem - PKO_SEND_MEM_S[OFFSET] - PKO_SEND_HDR_S[TOTAL]. */
-#define BDK_PKO_MEMALG_E_SUBMBUF (0xd) /**< Subtract mbufs freed.
-                                       mem = mem - PKO_SEND_MEM_S[OFFSET] - mbufs_freed. mbufs_freed is as defined in
-                                       PKO_AURAALG_E. */
-
-/**
  * Enumeration pko_coloralg_e
  *
  * PKO Color Algorithm Enumeration
@@ -325,6 +290,41 @@
 #define BDK_PKO_CKL4ALG_E_SCTP (3) /**< SCTP L4 checksum. */
 #define BDK_PKO_CKL4ALG_E_TCP (2) /**< TCP L4 checksum. */
 #define BDK_PKO_CKL4ALG_E_UDP (1) /**< UDP L4 checksum. */
+
+/**
+ * Enumeration pko_memalg_e
+ *
+ * PKO Memory Modify Algorithm Enumeration
+ * Enumerates the different algorithms for modifying memory; see PKO_SEND_MEM_S[ALG].
+ */
+#define BDK_PKO_MEMALG_E_ADD (8) /**< Add.
+                                       mem = mem + PKO_SEND_MEM_S[OFFSET]. */
+#define BDK_PKO_MEMALG_E_ADDLEN (0xa) /**< Add length.
+                                       mem = mem + PKO_SEND_MEM_S[OFFSET] + PKO_SEND_HDR_S[TOTAL]. */
+#define BDK_PKO_MEMALG_E_ADDMBUF (0xc) /**< Add mbufs freed.
+                                       mem = mem + PKO_SEND_MEM_S[OFFSET] + mbufs_freed. mbufs_freed is as defined in
+                                       PKO_AURAALG_E. */
+#define BDK_PKO_MEMALG_E_SET (0) /**< Set.
+                                       mem = PKO_SEND_MEM_S[OFFSET]. */
+#define BDK_PKO_MEMALG_E_SETRSLT (2) /**< Set the memory location to the final resulting color and state of the packet.
+                                       PKO_MEM_RESULT_S indicates the store value. PKO_SEND_MEM_S[DSZ] must be B64.
+                                       mem = PKO_MEM_RESULT_S. */
+#define BDK_PKO_MEMALG_E_SETTSTMP (1) /**< Set the memory location to the timestamp the packet was at the interface. See the PTP
+                                       chapter. When used, PKO_SEND_MEM_S[DSZ] must be B64 and a PKO_SEND_EXT_S subdescriptor
+                                       must be in the descriptor with PKO_SEND_EXT_S[TSTMP]=1.
+                                       For non-NULL interfaces:
+                                       mem = MIO_PTP_CLOCK_HI at packet send.
+                                       Else, for NULL interface:
+                                       mem = 0x1. */
+#define BDK_PKO_MEMALG_E_SUB (9) /**< Subtract.
+                                       mem = mem - PKO_SEND_MEM_S[OFFSET].
+                                       Note: IOI bandwidth is optimized if a memory decrement by one is used rather than any
+                                       other memory set/add/sub. */
+#define BDK_PKO_MEMALG_E_SUBLEN (0xb) /**< Subtract length.
+                                       mem = mem - PKO_SEND_MEM_S[OFFSET] - PKO_SEND_HDR_S[TOTAL]. */
+#define BDK_PKO_MEMALG_E_SUBMBUF (0xd) /**< Subtract mbufs freed.
+                                       mem = mem - PKO_SEND_MEM_S[OFFSET] - mbufs_freed. mbufs_freed is as defined in
+                                       PKO_AURAALG_E. */
 
 /**
  * Enumeration pko_sendcrcalg_e
@@ -504,99 +504,71 @@ union bdk_pko_send_ext_s
 };
 
 /**
- * Structure pko_send_free_s
+ * Structure pko_send_imm_s
  *
- * PKO Send Free Subdescriptor Structure
- * The Send Free subdescriptor requests a buffer be freed to FPA. PKO_SEND_FREE_S subdescriptors
- * must follow all PKO_SEND_EXT_S, PKO_SEND_LINK_S, PKO_SEND_GATHER_S, PKO_SEND_IMM_S, and
- * PKO_SEND_CRC_S subdescriptors in the packet descriptor. PKO will not initiate the free for
- * this subdescriptor until after it has completed all L2/DRAM fetches that service all prior
- * PKO_SEND_LINK_S and PKO_SEND_GATHER_S subdescriptors.
+ * PKO Send Immediate Subdescriptor Structure
+ * The Send Immediate subdescriptor directly includes bytes of packet data.
+ * The subdescriptor format is this 64-bit PKO_SEND_IMM_S followed immediately
+ * by the packet data. The next subdescriptor (if any) follows the packet data
+ * bytes (after rounding up to be a multiple of 8 bytes).
+ *
+ * If PKO_SEND_IMM_S[LE] is set, the immediate bytes are in little-endian
+ * format in the descriptor, else standard big-endian format.
+ *
+ * There may be multiple PKO_SEND_IMM_S's in one PKO Send Descriptor.  A PKO_SEND_IMM_S must
+ * not be present in a PKO send descriptor when the sum of all prior PKO_SEND_GATHER_S[SIZE]'s
+ * and all prior PKO_SEND_IMM_S[SIZE]'s equals or exceeds PKO_SEND_HDR_S[TOTAL]. (i.e. Some
+ * immediate bytes must be usable.) Furthermore, all supplied immediate bytes must
+ * be used. A PKO_SEND_IMM_S must precede a PKO_SEND_LINK_S in a PKO send descriptor.
+ *
+ * When a PKO_SEND_TSO_S is present in the descriptor, all PKO_SEND_IMM_S
+ * bytes must be included in the the first PKO_SEND_TSO_S[SB] bytes of the
+ * source packet.
  */
-union bdk_pko_send_free_s
+union bdk_pko_send_imm_s
 {
     uint64_t u;
-    struct bdk_pko_send_free_s_s
+    struct bdk_pko_send_imm_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Free. Enumerated by PKO_SENDSUBDC_E::FREE. */
-        uint64_t reserved_42_43        : 2;
-        uint64_t addr                  : 42; /**< [ 41:  0] Physical Address. ADDR is a physical L2/DRAM address within the buffer to be freed.
-                                                                 ADDR must be naturally-aligned to 128 bytes.
+        uint64_t size                  : 16; /**< [ 63: 48] Size of immediate (in bytes) that immediately follows this 64-bit structure.
+                                                                 [SIZE] must be between 1 and 32 bytes. The next subdescriptor follow [SIZE]
+                                                                 bytes later in the descriptor, rounded up to the next 8-byte aligned
+                                                                 boundary.
 
-                                                                 PKO sends [ADDR] to FPA as part of the buffer free. Either an FPA naturally-aligned
-                                                                 pool or opaque pool may be appropriate. Refer to the FPA Chapter.
+                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]'s and
+                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor. This PKO_SEND_IMM_S
+                                                                 must only be present in the descriptor when
+                                                                 (priorbytes + [SIZE]) <= PKO_SEND_HDR_S[TOTAL].
+                                                                 That is, all supplied immediate bytes must be used.
 
-                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
-                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
-
-                                                                 PKO will not free [ADDR] to FPA until after it has completed all
-                                                                 L2/DRAM reads related to processing any PKO_SEND_GATHER_S's and
-                                                                 any PKO_SEND_LINK_S in the descriptor.
-                                                                 Provided the path of meta descriptors from the DQ through PKO to an output FIFO is
-                                                                 unmodified between the meta descriptors (as should normally be the case, but it is
-                                                                 possible for software to change the path), PKO also will not free
-                                                                 [ADDR] to FPA until after it has completed all L2/DRAM reads related
-                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
-                                                                 meta descriptor enqueued earlier in the same DQ. PKO may free [ADDR] in
-                                                                 any order with respect to any processing of any descriptor that is
-                                                                 in a different DQ. PKO may create the FPA
-                                                                 free for [ADDR] in any order relative to any other PKO FPA
-                                                                 frees needed to process this or any other PKO SEND descriptor,
-                                                                 and in any order relative to any FPA frees/allocates needed for DQ DRAM
-                                                                 buffering, and in any order relative to any FPA aura count
-                                                                 updates needed to process a PKO_SEND_AURA_S subdescriptor in this
-                                                                 or any other PKO SEND. The FPA free may occur in any order relative to any
-                                                                 L2/DRAM updates or any work queue add needed to process this or
-                                                                 any other PKO SEND.
-
-                                                                 When a PKO_SEND_TSO_S is present in the descriptor, PKO
-                                                                 frees the buffer only once for the descriptor, not once per TSO segment.
-                                                                 Software must not modify the path of meta descriptors from the DQ through
-                                                                 PKO to an output FIFO between TSO segments. */
+                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
+                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
+                                                                 linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Immediate. Enumerated by PKO_SENDSUBDC_E::IMM. */
+        uint64_t le                    : 1;  /**< [ 43: 43] Send immediate data is in little-endian format. */
+        uint64_t reserved_0_42         : 43;
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 42; /**< [ 41:  0] Physical Address. ADDR is a physical L2/DRAM address within the buffer to be freed.
-                                                                 ADDR must be naturally-aligned to 128 bytes.
+        uint64_t reserved_0_42         : 43;
+        uint64_t le                    : 1;  /**< [ 43: 43] Send immediate data is in little-endian format. */
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Immediate. Enumerated by PKO_SENDSUBDC_E::IMM. */
+        uint64_t size                  : 16; /**< [ 63: 48] Size of immediate (in bytes) that immediately follows this 64-bit structure.
+                                                                 [SIZE] must be between 1 and 32 bytes. The next subdescriptor follow [SIZE]
+                                                                 bytes later in the descriptor, rounded up to the next 8-byte aligned
+                                                                 boundary.
 
-                                                                 PKO sends [ADDR] to FPA as part of the buffer free. Either an FPA naturally-aligned
-                                                                 pool or opaque pool may be appropriate. Refer to the FPA Chapter.
+                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]'s and
+                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor. This PKO_SEND_IMM_S
+                                                                 must only be present in the descriptor when
+                                                                 (priorbytes + [SIZE]) <= PKO_SEND_HDR_S[TOTAL].
+                                                                 That is, all supplied immediate bytes must be used.
 
-                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
-                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
-
-                                                                 PKO will not free [ADDR] to FPA until after it has completed all
-                                                                 L2/DRAM reads related to processing any PKO_SEND_GATHER_S's and
-                                                                 any PKO_SEND_LINK_S in the descriptor.
-                                                                 Provided the path of meta descriptors from the DQ through PKO to an output FIFO is
-                                                                 unmodified between the meta descriptors (as should normally be the case, but it is
-                                                                 possible for software to change the path), PKO also will not free
-                                                                 [ADDR] to FPA until after it has completed all L2/DRAM reads related
-                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
-                                                                 meta descriptor enqueued earlier in the same DQ. PKO may free [ADDR] in
-                                                                 any order with respect to any processing of any descriptor that is
-                                                                 in a different DQ. PKO may create the FPA
-                                                                 free for [ADDR] in any order relative to any other PKO FPA
-                                                                 frees needed to process this or any other PKO SEND descriptor,
-                                                                 and in any order relative to any FPA frees/allocates needed for DQ DRAM
-                                                                 buffering, and in any order relative to any FPA aura count
-                                                                 updates needed to process a PKO_SEND_AURA_S subdescriptor in this
-                                                                 or any other PKO SEND. The FPA free may occur in any order relative to any
-                                                                 L2/DRAM updates or any work queue add needed to process this or
-                                                                 any other PKO SEND.
-
-                                                                 When a PKO_SEND_TSO_S is present in the descriptor, PKO
-                                                                 frees the buffer only once for the descriptor, not once per TSO segment.
-                                                                 Software must not modify the path of meta descriptors from the DQ through
-                                                                 PKO to an output FIFO between TSO segments. */
-        uint64_t reserved_42_43        : 2;
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Free. Enumerated by PKO_SENDSUBDC_E::FREE. */
-        uint64_t reserved_48_63        : 16;
+                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
+                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
+                                                                 linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pko_send_free_s_s cn; */
+    /* struct bdk_pko_send_imm_s_s cn; */
 };
 
 /**
@@ -962,74 +934,6 @@ union bdk_pko_send_work_s
 };
 
 /**
- * Structure pko_send_imm_s
- *
- * PKO Send Immediate Subdescriptor Structure
- * The Send Immediate subdescriptor directly includes bytes of packet data.
- * The subdescriptor format is this 64-bit PKO_SEND_IMM_S followed immediately
- * by the packet data. The next subdescriptor (if any) follows the packet data
- * bytes (after rounding up to be a multiple of 8 bytes).
- *
- * If PKO_SEND_IMM_S[LE] is set, the immediate bytes are in little-endian
- * format in the descriptor, else standard big-endian format.
- *
- * There may be multiple PKO_SEND_IMM_S's in one PKO Send Descriptor.  A PKO_SEND_IMM_S must
- * not be present in a PKO send descriptor when the sum of all prior PKO_SEND_GATHER_S[SIZE]'s
- * and all prior PKO_SEND_IMM_S[SIZE]'s equals or exceeds PKO_SEND_HDR_S[TOTAL]. (i.e. Some
- * immediate bytes must be usable.) Furthermore, all supplied immediate bytes must
- * be used. A PKO_SEND_IMM_S must precede a PKO_SEND_LINK_S in a PKO send descriptor.
- *
- * When a PKO_SEND_TSO_S is present in the descriptor, all PKO_SEND_IMM_S
- * bytes must be included in the the first PKO_SEND_TSO_S[SB] bytes of the
- * source packet.
- */
-union bdk_pko_send_imm_s
-{
-    uint64_t u;
-    struct bdk_pko_send_imm_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t size                  : 16; /**< [ 63: 48] Size of immediate (in bytes) that immediately follows this 64-bit structure.
-                                                                 [SIZE] must be between 1 and 32 bytes. The next subdescriptor follow [SIZE]
-                                                                 bytes later in the descriptor, rounded up to the next 8-byte aligned
-                                                                 boundary.
-
-                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]'s and
-                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor. This PKO_SEND_IMM_S
-                                                                 must only be present in the descriptor when
-                                                                 (priorbytes + [SIZE]) <= PKO_SEND_HDR_S[TOTAL].
-                                                                 That is, all supplied immediate bytes must be used.
-
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
-                                                                 linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Immediate. Enumerated by PKO_SENDSUBDC_E::IMM. */
-        uint64_t le                    : 1;  /**< [ 43: 43] Send immediate data is in little-endian format. */
-        uint64_t reserved_0_42         : 43;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_42         : 43;
-        uint64_t le                    : 1;  /**< [ 43: 43] Send immediate data is in little-endian format. */
-        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Immediate. Enumerated by PKO_SENDSUBDC_E::IMM. */
-        uint64_t size                  : 16; /**< [ 63: 48] Size of immediate (in bytes) that immediately follows this 64-bit structure.
-                                                                 [SIZE] must be between 1 and 32 bytes. The next subdescriptor follow [SIZE]
-                                                                 bytes later in the descriptor, rounded up to the next 8-byte aligned
-                                                                 boundary.
-
-                                                                 Let priorbytes = the sum of all prior PKO_SEND_GATHER_S[SIZE]'s and
-                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor. This PKO_SEND_IMM_S
-                                                                 must only be present in the descriptor when
-                                                                 (priorbytes + [SIZE]) <= PKO_SEND_HDR_S[TOTAL].
-                                                                 That is, all supplied immediate bytes must be used.
-
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the descriptor plus any PKI_BUFLINK_S[SIZE]'s
-                                                                 linked by any PKO_SEND_LINK_S must equal or exceed PKO_SEND_HDR_S[TOTAL]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_send_imm_s_s cn; */
-};
-
-/**
  * Structure pko_send_link_s
  *
  * PKO Send Linked Subdescriptor Structure
@@ -1199,6 +1103,102 @@ union bdk_pko_send_link_s
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pko_send_link_s_s cn; */
+};
+
+/**
+ * Structure pko_send_free_s
+ *
+ * PKO Send Free Subdescriptor Structure
+ * The Send Free subdescriptor requests a buffer be freed to FPA. PKO_SEND_FREE_S subdescriptors
+ * must follow all PKO_SEND_EXT_S, PKO_SEND_LINK_S, PKO_SEND_GATHER_S, PKO_SEND_IMM_S, and
+ * PKO_SEND_CRC_S subdescriptors in the packet descriptor. PKO will not initiate the free for
+ * this subdescriptor until after it has completed all L2/DRAM fetches that service all prior
+ * PKO_SEND_LINK_S and PKO_SEND_GATHER_S subdescriptors.
+ */
+union bdk_pko_send_free_s
+{
+    uint64_t u;
+    struct bdk_pko_send_free_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Free. Enumerated by PKO_SENDSUBDC_E::FREE. */
+        uint64_t reserved_42_43        : 2;
+        uint64_t addr                  : 42; /**< [ 41:  0] Physical Address. ADDR is a physical L2/DRAM address within the buffer to be freed.
+                                                                 ADDR must be naturally-aligned to 128 bytes.
+
+                                                                 PKO sends [ADDR] to FPA as part of the buffer free. Either an FPA naturally-aligned
+                                                                 pool or opaque pool may be appropriate. Refer to the FPA Chapter.
+
+                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
+                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
+                                                                 PKO_SEND_AURA_S in the descriptor.
+
+                                                                 PKO will not free [ADDR] to FPA until after it has completed all
+                                                                 L2/DRAM reads related to processing any PKO_SEND_GATHER_S's and
+                                                                 any PKO_SEND_LINK_S in the descriptor.
+                                                                 Provided the path of meta descriptors from the DQ through PKO to an output FIFO is
+                                                                 unmodified between the meta descriptors (as should normally be the case, but it is
+                                                                 possible for software to change the path), PKO also will not free
+                                                                 [ADDR] to FPA until after it has completed all L2/DRAM reads related
+                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
+                                                                 meta descriptor enqueued earlier in the same DQ. PKO may free [ADDR] in
+                                                                 any order with respect to any processing of any descriptor that is
+                                                                 in a different DQ. PKO may create the FPA
+                                                                 free for [ADDR] in any order relative to any other PKO FPA
+                                                                 frees needed to process this or any other PKO SEND descriptor,
+                                                                 and in any order relative to any FPA frees/allocates needed for DQ DRAM
+                                                                 buffering, and in any order relative to any FPA aura count
+                                                                 updates needed to process a PKO_SEND_AURA_S subdescriptor in this
+                                                                 or any other PKO SEND. The FPA free may occur in any order relative to any
+                                                                 L2/DRAM updates or any work queue add needed to process this or
+                                                                 any other PKO SEND.
+
+                                                                 When a PKO_SEND_TSO_S is present in the descriptor, PKO
+                                                                 frees the buffer only once for the descriptor, not once per TSO segment.
+                                                                 Software must not modify the path of meta descriptors from the DQ through
+                                                                 PKO to an output FIFO between TSO segments. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 42; /**< [ 41:  0] Physical Address. ADDR is a physical L2/DRAM address within the buffer to be freed.
+                                                                 ADDR must be naturally-aligned to 128 bytes.
+
+                                                                 PKO sends [ADDR] to FPA as part of the buffer free. Either an FPA naturally-aligned
+                                                                 pool or opaque pool may be appropriate. Refer to the FPA Chapter.
+
+                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
+                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
+                                                                 PKO_SEND_AURA_S in the descriptor.
+
+                                                                 PKO will not free [ADDR] to FPA until after it has completed all
+                                                                 L2/DRAM reads related to processing any PKO_SEND_GATHER_S's and
+                                                                 any PKO_SEND_LINK_S in the descriptor.
+                                                                 Provided the path of meta descriptors from the DQ through PKO to an output FIFO is
+                                                                 unmodified between the meta descriptors (as should normally be the case, but it is
+                                                                 possible for software to change the path), PKO also will not free
+                                                                 [ADDR] to FPA until after it has completed all L2/DRAM reads related
+                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
+                                                                 meta descriptor enqueued earlier in the same DQ. PKO may free [ADDR] in
+                                                                 any order with respect to any processing of any descriptor that is
+                                                                 in a different DQ. PKO may create the FPA
+                                                                 free for [ADDR] in any order relative to any other PKO FPA
+                                                                 frees needed to process this or any other PKO SEND descriptor,
+                                                                 and in any order relative to any FPA frees/allocates needed for DQ DRAM
+                                                                 buffering, and in any order relative to any FPA aura count
+                                                                 updates needed to process a PKO_SEND_AURA_S subdescriptor in this
+                                                                 or any other PKO SEND. The FPA free may occur in any order relative to any
+                                                                 L2/DRAM updates or any work queue add needed to process this or
+                                                                 any other PKO SEND.
+
+                                                                 When a PKO_SEND_TSO_S is present in the descriptor, PKO
+                                                                 frees the buffer only once for the descriptor, not once per TSO segment.
+                                                                 Software must not modify the path of meta descriptors from the DQ through
+                                                                 PKO to an output FIFO between TSO segments. */
+        uint64_t reserved_42_43        : 2;
+        uint64_t subdc4                : 4;  /**< [ 47: 44] Subdescriptor code. Indicates Send Free. Enumerated by PKO_SENDSUBDC_E::FREE. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_send_free_s_s cn; */
 };
 
 /**
@@ -2334,64 +2334,6 @@ static inline uint64_t BDK_PKO_PDM_ISRD_DBG_FUNC(void)
 #define arguments_BDK_PKO_PDM_ISRD_DBG -1,-1,-1,-1
 
 /**
- * Register (NCB) pko_pse_pq_ecc_sbe_sts0
- *
- * PKO PSE PQ RAM ECC SBE Status Register 0
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_pse_pq_ecc_sbe_sts0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pq_cxs_ram_sbe        : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for PQ_CXS_RAM. INTERNAL: Instances:
-                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram */
-        uint64_t pq_cxd_ram_sbe        : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for PQ_CXD_RAM. INTERNAL: Instances:
-                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram */
-        uint64_t reserved_61           : 1;
-        uint64_t tp_sram_sbe           : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for TP_SRAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
-        uint64_t pq_std_ram_sbe        : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PQ_STD_RAM. INTERNAL: Instances:
-                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.std_sram */
-        uint64_t pq_st_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for PQ_ST_RAM. INTERNAL: Instances:
-                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.st_sram */
-        uint64_t pq_wmd_ram_sbe        : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PQ_WMD_RAM. INTERNAL: Instances:
-                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.wmd_sram */
-        uint64_t reserved_0_56         : 57;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_56         : 57;
-        uint64_t pq_wmd_ram_sbe        : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PQ_WMD_RAM. INTERNAL: Instances:
-                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.wmd_sram */
-        uint64_t pq_st_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for PQ_ST_RAM. INTERNAL: Instances:
-                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.st_sram */
-        uint64_t pq_std_ram_sbe        : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PQ_STD_RAM. INTERNAL: Instances:
-                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.std_sram */
-        uint64_t tp_sram_sbe           : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for TP_SRAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
-        uint64_t reserved_61           : 1;
-        uint64_t pq_cxd_ram_sbe        : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for PQ_CXD_RAM. INTERNAL: Instances:
-                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram */
-        uint64_t pq_cxs_ram_sbe        : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for PQ_CXS_RAM. INTERNAL: Instances:
-                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_pse_pq_ecc_sbe_sts0_s cn; */
-} bdk_pko_pse_pq_ecc_sbe_sts0_t;
-
-#define BDK_PKO_PSE_PQ_ECC_SBE_STS0 BDK_PKO_PSE_PQ_ECC_SBE_STS0_FUNC()
-static inline uint64_t BDK_PKO_PSE_PQ_ECC_SBE_STS0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_PSE_PQ_ECC_SBE_STS0_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000000108ll;
-    __bdk_csr_fatal("PKO_PSE_PQ_ECC_SBE_STS0", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_PSE_PQ_ECC_SBE_STS0 bdk_pko_pse_pq_ecc_sbe_sts0_t
-#define bustype_BDK_PKO_PSE_PQ_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_PSE_PQ_ECC_SBE_STS0 "PKO_PSE_PQ_ECC_SBE_STS0"
-#define busnum_BDK_PKO_PSE_PQ_ECC_SBE_STS0 0
-#define arguments_BDK_PKO_PSE_PQ_ECC_SBE_STS0 -1,-1,-1,-1
-
-/**
  * Register (NCB) pko_peb_pad_err_info
  *
  * PEB_PAD_ERR Error Information Register
@@ -2629,7 +2571,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_WM_CTL_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_WM_CTL_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000000048ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_WM_CTL_W1C", 1, a, 0, 0, 0);
 }
@@ -2665,7 +2607,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_SCHED_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_SCHED_STATE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280028ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_SCHED_STATE", 1, a, 0, 0, 0);
 }
@@ -2738,7 +2680,7 @@ typedef union
 static inline uint64_t BDK_PKO_TXFX_PKT_CNT_RD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_TXFX_PKT_CNT_RD(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000900e00ll + 8ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_TXFX_PKT_CNT_RD", 1, a, 0, 0, 0);
 }
@@ -2774,7 +2716,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_DROPPED_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_DROPPED_PACKETS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540000000c0ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_DROPPED_PACKETS", 1, a, 0, 0, 0);
 }
@@ -2810,7 +2752,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_BYTES(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540000000d8ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_BYTES", 1, a, 0, 0, 0);
 }
@@ -3104,7 +3046,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_SCHEDULE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_SCHEDULE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000080008ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_SCHEDULE", 1, a, 0, 0, 0);
 }
@@ -3114,6 +3056,118 @@ static inline uint64_t BDK_PKO_L2_SQX_SCHEDULE(unsigned long a)
 #define basename_BDK_PKO_L2_SQX_SCHEDULE(a) "PKO_L2_SQX_SCHEDULE"
 #define busnum_BDK_PKO_L2_SQX_SCHEDULE(a) (a)
 #define arguments_BDK_PKO_L2_SQX_SCHEDULE(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ecc_ctl0
+ *
+ * PKO PDM RAM ECC Control Register 0
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ecc_ctl0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t flshb_cache_lo_ram_flip : 2;/**< [ 63: 62](R/W) FLSHB_CACHE_LO_RAM flip syndrome bits on write. */
+        uint64_t flshb_cache_lo_ram_cdis : 1;/**< [ 61: 61](R/W) FLSHB_CACHE_LO_RAM ECC correction disable. */
+        uint64_t flshb_cache_hi_ram_flip : 2;/**< [ 60: 59](R/W) FLSHB_CACHE_HI_RAM flip syndrome bits on write. */
+        uint64_t flshb_cache_hi_ram_cdis : 1;/**< [ 58: 58](R/W) FLSHB_CACHE_HI_RAM ECC correction disable. */
+        uint64_t isrm_ca_iinst_ram_flip : 2; /**< [ 57: 56](R/W) ISRM_CA_IINST_RAM flip syndrome bits on write. */
+        uint64_t isrm_ca_iinst_ram_cdis : 1; /**< [ 55: 55](R/W) ISRM_CA_IINST_RAM ECC correction disable. */
+        uint64_t isrm_ca_cm_ram_flip   : 2;  /**< [ 54: 53](R/W) ISRM_CA_CM_RAM flip syndrome bits on write. */
+        uint64_t isrm_ca_cm_ram_cdis   : 1;  /**< [ 52: 52](R/W) ISRM_CA_CM_RAM ECC correction disable. */
+        uint64_t isrm_st_ram2_flip     : 2;  /**< [ 51: 50](R/W) ISRM_ST_RAM2 flip syndrome bits on write. */
+        uint64_t isrm_st_ram2_cdis     : 1;  /**< [ 49: 49](R/W) ISRM_ST_RAM2 ECC correction disable. */
+        uint64_t isrm_st_ram1_flip     : 2;  /**< [ 48: 47](R/W) ISRM_ST_RAM1 flip syndrome bits on write. */
+        uint64_t isrm_st_ram1_cdis     : 1;  /**< [ 46: 46](R/W) ISRM_ST_RAM1 ECC correction disable. */
+        uint64_t isrm_st_ram0_flip     : 2;  /**< [ 45: 44](R/W) ISRM_ST_RAM0 flip syndrome bits on write. */
+        uint64_t isrm_st_ram0_cdis     : 1;  /**< [ 43: 43](R/W) ISRM_ST_RAM0 ECC correction disable. */
+        uint64_t isrd_st_ram3_flip     : 2;  /**< [ 42: 41](R/W) ISRD_ST_RAM3 flip syndrome bits on write. */
+        uint64_t isrd_st_ram3_cdis     : 1;  /**< [ 40: 40](R/W) ISRD_ST_RAM3 ECC correction disable. */
+        uint64_t isrd_st_ram2_flip     : 2;  /**< [ 39: 38](R/W) ISRD_ST_RAM2 flip syndrome bits on write. */
+        uint64_t isrd_st_ram2_cdis     : 1;  /**< [ 37: 37](R/W) ISRD_ST_RAM2 ECC correction disable. */
+        uint64_t isrd_st_ram1_flip     : 2;  /**< [ 36: 35](R/W) ISRD_ST_RAM1 flip syndrome bits on write. */
+        uint64_t isrd_st_ram1_cdis     : 1;  /**< [ 34: 34](R/W) ISRD_ST_RAM1 ECC correction disable. */
+        uint64_t isrd_st_ram0_flip     : 2;  /**< [ 33: 32](R/W) ISRD_ST_RAM0 flip syndrome bits on write. */
+        uint64_t isrd_st_ram0_cdis     : 1;  /**< [ 31: 31](R/W) ISRD_ST_RAM0 ECC correction disable. */
+        uint64_t drp_hi_ram_flip       : 2;  /**< [ 30: 29](R/W) DRP_HI_RAM flip syndrome bits on write. */
+        uint64_t drp_hi_ram_cdis       : 1;  /**< [ 28: 28](R/W) DRP_HI_RAM ECC correction disable. */
+        uint64_t drp_lo_ram_flip       : 2;  /**< [ 27: 26](R/W) DRP_LO_RAM flip syndrome bits on write. */
+        uint64_t drp_lo_ram_cdis       : 1;  /**< [ 25: 25](R/W) DRP_LO_RAM ECC correction disable. */
+        uint64_t dwp_hi_ram_flip       : 2;  /**< [ 24: 23](R/W) DWP_HI_RAM flip syndrome bits on write. */
+        uint64_t dwp_hi_ram_cdis       : 1;  /**< [ 22: 22](R/W) DWP_HI_RAM ECC correction disable. */
+        uint64_t dwp_lo_ram_flip       : 2;  /**< [ 21: 20](R/W) DWP_LO_RAM flip syndrome bits on write. */
+        uint64_t dwp_lo_ram_cdis       : 1;  /**< [ 19: 19](R/W) DWP_LO_RAM ECC correction disable. */
+        uint64_t reserved_13_18        : 6;
+        uint64_t fillb_m_rsp_ram_hi_flip : 2;/**< [ 12: 11](R/W) FILLB_M_RSP_RAM_HI flip syndrome bits on write. */
+        uint64_t fillb_m_rsp_ram_hi_cdis : 1;/**< [ 10: 10](R/W) FILLB_M_RSP_RAM_HI ECC correction disable. */
+        uint64_t fillb_m_rsp_ram_lo_flip : 2;/**< [  9:  8](R/W) FILLB_M_RSP_RAM_LO flip syndrome bits on write. */
+        uint64_t fillb_m_rsp_ram_lo_cdis : 1;/**< [  7:  7](R/W) FILLB_M_RSP_RAM_LO ECC correction disable. */
+        uint64_t fillb_d_rsp_ram_hi_flip : 2;/**< [  6:  5](R/W) FILLB_D_RSP_RAM_LO flip syndrome bits on write. */
+        uint64_t fillb_d_rsp_ram_hi_cdis : 1;/**< [  4:  4](R/W) FILLB_D_RSP_RAM_HI ECC correction disable. */
+        uint64_t fillb_d_rsp_ram_lo_flip : 2;/**< [  3:  2](R/W) FILLB_D_DAT_RAM_LO flip syndrome bits on write. */
+        uint64_t fillb_d_rsp_ram_lo_cdis : 1;/**< [  1:  1](R/W) FILLB_D_RSP_RAM_LO ECC correction disable. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t fillb_d_rsp_ram_lo_cdis : 1;/**< [  1:  1](R/W) FILLB_D_RSP_RAM_LO ECC correction disable. */
+        uint64_t fillb_d_rsp_ram_lo_flip : 2;/**< [  3:  2](R/W) FILLB_D_DAT_RAM_LO flip syndrome bits on write. */
+        uint64_t fillb_d_rsp_ram_hi_cdis : 1;/**< [  4:  4](R/W) FILLB_D_RSP_RAM_HI ECC correction disable. */
+        uint64_t fillb_d_rsp_ram_hi_flip : 2;/**< [  6:  5](R/W) FILLB_D_RSP_RAM_LO flip syndrome bits on write. */
+        uint64_t fillb_m_rsp_ram_lo_cdis : 1;/**< [  7:  7](R/W) FILLB_M_RSP_RAM_LO ECC correction disable. */
+        uint64_t fillb_m_rsp_ram_lo_flip : 2;/**< [  9:  8](R/W) FILLB_M_RSP_RAM_LO flip syndrome bits on write. */
+        uint64_t fillb_m_rsp_ram_hi_cdis : 1;/**< [ 10: 10](R/W) FILLB_M_RSP_RAM_HI ECC correction disable. */
+        uint64_t fillb_m_rsp_ram_hi_flip : 2;/**< [ 12: 11](R/W) FILLB_M_RSP_RAM_HI flip syndrome bits on write. */
+        uint64_t reserved_13_18        : 6;
+        uint64_t dwp_lo_ram_cdis       : 1;  /**< [ 19: 19](R/W) DWP_LO_RAM ECC correction disable. */
+        uint64_t dwp_lo_ram_flip       : 2;  /**< [ 21: 20](R/W) DWP_LO_RAM flip syndrome bits on write. */
+        uint64_t dwp_hi_ram_cdis       : 1;  /**< [ 22: 22](R/W) DWP_HI_RAM ECC correction disable. */
+        uint64_t dwp_hi_ram_flip       : 2;  /**< [ 24: 23](R/W) DWP_HI_RAM flip syndrome bits on write. */
+        uint64_t drp_lo_ram_cdis       : 1;  /**< [ 25: 25](R/W) DRP_LO_RAM ECC correction disable. */
+        uint64_t drp_lo_ram_flip       : 2;  /**< [ 27: 26](R/W) DRP_LO_RAM flip syndrome bits on write. */
+        uint64_t drp_hi_ram_cdis       : 1;  /**< [ 28: 28](R/W) DRP_HI_RAM ECC correction disable. */
+        uint64_t drp_hi_ram_flip       : 2;  /**< [ 30: 29](R/W) DRP_HI_RAM flip syndrome bits on write. */
+        uint64_t isrd_st_ram0_cdis     : 1;  /**< [ 31: 31](R/W) ISRD_ST_RAM0 ECC correction disable. */
+        uint64_t isrd_st_ram0_flip     : 2;  /**< [ 33: 32](R/W) ISRD_ST_RAM0 flip syndrome bits on write. */
+        uint64_t isrd_st_ram1_cdis     : 1;  /**< [ 34: 34](R/W) ISRD_ST_RAM1 ECC correction disable. */
+        uint64_t isrd_st_ram1_flip     : 2;  /**< [ 36: 35](R/W) ISRD_ST_RAM1 flip syndrome bits on write. */
+        uint64_t isrd_st_ram2_cdis     : 1;  /**< [ 37: 37](R/W) ISRD_ST_RAM2 ECC correction disable. */
+        uint64_t isrd_st_ram2_flip     : 2;  /**< [ 39: 38](R/W) ISRD_ST_RAM2 flip syndrome bits on write. */
+        uint64_t isrd_st_ram3_cdis     : 1;  /**< [ 40: 40](R/W) ISRD_ST_RAM3 ECC correction disable. */
+        uint64_t isrd_st_ram3_flip     : 2;  /**< [ 42: 41](R/W) ISRD_ST_RAM3 flip syndrome bits on write. */
+        uint64_t isrm_st_ram0_cdis     : 1;  /**< [ 43: 43](R/W) ISRM_ST_RAM0 ECC correction disable. */
+        uint64_t isrm_st_ram0_flip     : 2;  /**< [ 45: 44](R/W) ISRM_ST_RAM0 flip syndrome bits on write. */
+        uint64_t isrm_st_ram1_cdis     : 1;  /**< [ 46: 46](R/W) ISRM_ST_RAM1 ECC correction disable. */
+        uint64_t isrm_st_ram1_flip     : 2;  /**< [ 48: 47](R/W) ISRM_ST_RAM1 flip syndrome bits on write. */
+        uint64_t isrm_st_ram2_cdis     : 1;  /**< [ 49: 49](R/W) ISRM_ST_RAM2 ECC correction disable. */
+        uint64_t isrm_st_ram2_flip     : 2;  /**< [ 51: 50](R/W) ISRM_ST_RAM2 flip syndrome bits on write. */
+        uint64_t isrm_ca_cm_ram_cdis   : 1;  /**< [ 52: 52](R/W) ISRM_CA_CM_RAM ECC correction disable. */
+        uint64_t isrm_ca_cm_ram_flip   : 2;  /**< [ 54: 53](R/W) ISRM_CA_CM_RAM flip syndrome bits on write. */
+        uint64_t isrm_ca_iinst_ram_cdis : 1; /**< [ 55: 55](R/W) ISRM_CA_IINST_RAM ECC correction disable. */
+        uint64_t isrm_ca_iinst_ram_flip : 2; /**< [ 57: 56](R/W) ISRM_CA_IINST_RAM flip syndrome bits on write. */
+        uint64_t flshb_cache_hi_ram_cdis : 1;/**< [ 58: 58](R/W) FLSHB_CACHE_HI_RAM ECC correction disable. */
+        uint64_t flshb_cache_hi_ram_flip : 2;/**< [ 60: 59](R/W) FLSHB_CACHE_HI_RAM flip syndrome bits on write. */
+        uint64_t flshb_cache_lo_ram_cdis : 1;/**< [ 61: 61](R/W) FLSHB_CACHE_LO_RAM ECC correction disable. */
+        uint64_t flshb_cache_lo_ram_flip : 2;/**< [ 63: 62](R/W) FLSHB_CACHE_LO_RAM flip syndrome bits on write. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ecc_ctl0_s cn; */
+} bdk_pko_pdm_ecc_ctl0_t;
+
+#define BDK_PKO_PDM_ECC_CTL0 BDK_PKO_PDM_ECC_CTL0_FUNC()
+static inline uint64_t BDK_PKO_PDM_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_ECC_CTL0_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540008fffd0ll;
+    __bdk_csr_fatal("PKO_PDM_ECC_CTL0", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_ECC_CTL0 bdk_pko_pdm_ecc_ctl0_t
+#define bustype_BDK_PKO_PDM_ECC_CTL0 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_ECC_CTL0 "PKO_PDM_ECC_CTL0"
+#define busnum_BDK_PKO_PDM_ECC_CTL0 0
+#define arguments_BDK_PKO_PDM_ECC_CTL0 -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_pdm_ecc_ctl1
@@ -3191,7 +3245,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_SCHED_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_SCHED_STATE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000080028ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_SCHED_STATE", 1, a, 0, 0, 0);
 }
@@ -3389,7 +3443,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_BYTES(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x8540000000a8ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_YELLOW_BYTES", 1, a, 0, 0, 0);
 }
@@ -3460,7 +3514,7 @@ typedef union
 static inline uint64_t BDK_PKO_FORMATX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_FORMATX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x854000900800ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKO_FORMATX_CTL", 1, a, 0, 0, 0);
 }
@@ -3605,7 +3659,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_WM_BUF_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_WM_BUF_CNT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540008000e8ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_WM_BUF_CNT", 1, a, 0, 0, 0);
 }
@@ -3847,7 +3901,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_PICK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_PICK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000300070ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_PICK", 1, a, 0, 0, 0);
 }
@@ -3904,7 +3958,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_GREEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_GREEN(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100058ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_GREEN", 1, a, 0, 0, 0);
 }
@@ -3942,7 +3996,7 @@ typedef union
 static inline uint64_t BDK_PKO_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) && (b==0)))
         return 0x8547000f0008ll + 0x100000ll * ((a) & 0x3f) + 0ll * ((b) & 0x0);
     __bdk_csr_fatal("PKO_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -4062,7 +4116,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_PIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_PIR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100020ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_PIR", 1, a, 0, 0, 0);
 }
@@ -4213,7 +4267,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_RED(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_RED(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100068ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_RED", 1, a, 0, 0, 0);
 }
@@ -4737,7 +4791,7 @@ typedef union
 static inline uint64_t BDK_PKO_VDQX_WM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VDQX_WM_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854400000130ll + 0x20000ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_VDQX_WM_CTL", 1, a, 0, 0, 0);
 }
@@ -4818,7 +4872,7 @@ typedef union
 static inline uint64_t BDK_PKO_VDQX_OP_CLOSE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VDQX_OP_CLOSE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854400001200ll + 0x20000ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_VDQX_OP_CLOSE", 1, a, 0, 0, 0);
 }
@@ -4898,7 +4952,7 @@ typedef union
 static inline uint64_t BDK_PKO_VDQX_OP_QUERY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VDQX_OP_QUERY(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854400001000ll + 0x20000ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_VDQX_OP_QUERY", 1, a, 0, 0, 0);
 }
@@ -4937,7 +4991,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000080060ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_YELLOW", 1, a, 0, 0, 0);
 }
@@ -5109,7 +5163,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_PACKETS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000000080ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_DROPPED_PACKETS", 1, a, 0, 0, 0);
 }
@@ -5149,7 +5203,7 @@ typedef union
 static inline uint64_t BDK_PKO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) && (b==0)))
         return 0x854700000008ll + 0x100000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("PKO_VFX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -5219,6 +5273,46 @@ static inline uint64_t BDK_PKO_PSE_SQ3_ECC_DBE_STS_CMB0_FUNC(void)
 #define basename_BDK_PKO_PSE_SQ3_ECC_DBE_STS_CMB0 "PKO_PSE_SQ3_ECC_DBE_STS_CMB0"
 #define busnum_BDK_PKO_PSE_SQ3_ECC_DBE_STS_CMB0 0
 #define arguments_BDK_PKO_PSE_SQ3_ECC_DBE_STS_CMB0 -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_peb_jump_def_err_info
+ *
+ * PEB_JUMP_DEF_ERR Error Information Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_peb_jump_def_err_info_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_JUMP_DEF_ERR] is set. */
+        uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_JUMP_DEF_ERR. */
+        uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_JUMP_DEF_ERR. */
+#else /* Word 0 - Little Endian */
+        uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_JUMP_DEF_ERR. */
+        uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_JUMP_DEF_ERR. */
+        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_JUMP_DEF_ERR] is set. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_peb_jump_def_err_info_s cn; */
+} bdk_pko_peb_jump_def_err_info_t;
+
+#define BDK_PKO_PEB_JUMP_DEF_ERR_INFO BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC()
+static inline uint64_t BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000900c10ll;
+    __bdk_csr_fatal("PKO_PEB_JUMP_DEF_ERR_INFO", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PEB_JUMP_DEF_ERR_INFO bdk_pko_peb_jump_def_err_info_t
+#define bustype_BDK_PKO_PEB_JUMP_DEF_ERR_INFO BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PEB_JUMP_DEF_ERR_INFO "PKO_PEB_JUMP_DEF_ERR_INFO"
+#define busnum_BDK_PKO_PEB_JUMP_DEF_ERR_INFO 0
+#define arguments_BDK_PKO_PEB_JUMP_DEF_ERR_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_l1_sqb_debug
@@ -5659,7 +5753,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_CIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_CIR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100018ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_CIR", 1, a, 0, 0, 0);
 }
@@ -5704,7 +5798,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_TOPOLOGY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_TOPOLOGY(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000180000ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_TOPOLOGY", 1, a, 0, 0, 0);
 }
@@ -5790,7 +5884,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_SW_XOFF(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540000800e0ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_SW_XOFF", 1, a, 0, 0, 0);
 }
@@ -6098,7 +6192,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_SHAPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_SHAPE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280010ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_SHAPE", 1, a, 0, 0, 0);
 }
@@ -6164,7 +6258,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_SCHEDULE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_SCHEDULE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100008ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_SCHEDULE", 1, a, 0, 0, 0);
 }
@@ -6250,7 +6344,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_CIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_CIR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280018ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_CIR", 1, a, 0, 0, 0);
 }
@@ -6285,7 +6379,7 @@ typedef union
 static inline uint64_t BDK_PKO_MCI1_CRED_CNTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_MCI1_CRED_CNTX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
         return 0x854000a80100ll + 8ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_MCI1_CRED_CNTX", 1, a, 0, 0, 0);
 }
@@ -6574,7 +6668,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_RED(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_RED(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000180068ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_RED", 1, a, 0, 0, 0);
 }
@@ -6626,7 +6720,7 @@ typedef union
 static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_VFX_GMCTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x854100001000ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKO_PF_VFX_GMCTL", 1, a, 0, 0, 0);
 }
@@ -6858,6 +6952,136 @@ static inline uint64_t BDK_PKO_NCB_ECC_CTL0_FUNC(void)
 #define basename_BDK_PKO_NCB_ECC_CTL0 "PKO_NCB_ECC_CTL0"
 #define busnum_BDK_PKO_NCB_ECC_CTL0 0
 #define arguments_BDK_PKO_NCB_ECC_CTL0 -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_ecc_sbe_sts0
+ *
+ * PKO PDM RAM ECC SBE Status Register 0
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_ecc_sbe_sts0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t flshb_cache_lo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for FLSHB_CACHE_LO_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo */
+        uint64_t flshb_cache_hi_ram_sbe : 1; /**< [ 62: 62](R/W1C/H) Single-bit error for FLSHB_CACHE_HI_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi */
+        uint64_t isrm_ca_iinst_ram_sbe : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for ISRM_CA_IINST_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif */
+        uint64_t isrm_ca_cm_ram_sbe    : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for ISRM_CA_CM_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.cred_accum_ctrlr_and_mem.cred_accum_spr */
+        uint64_t isrm_st_ram2_sbe      : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for ISRM_ST_RAM2. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem2 */
+        uint64_t isrm_st_ram1_sbe      : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for ISRM_ST_RAM1. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem1 */
+        uint64_t isrm_st_ram0_sbe      : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for ISRM_ST_RAM0. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem0 */
+        uint64_t isrd_st_ram3_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for ISRD_ST_RAM3. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem3 */
+        uint64_t isrd_st_ram2_sbe      : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for ISRD_ST_RAM2. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem2 */
+        uint64_t isrd_st_ram1_sbe      : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for ISRD_ST_RAM1. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem1 */
+        uint64_t isrd_st_ram0_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for ISRD_ST_RAM0. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem0 */
+        uint64_t drp_hi_ram_sbe        : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for DRP_HI_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_1 */
+        uint64_t drp_lo_ram_sbe        : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for DRP_LO_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_2 */
+        uint64_t dwp_hi_ram_sbe        : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for DWP_HI_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_high */
+        uint64_t dwp_lo_ram_sbe        : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for DWP_LO_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_low */
+        uint64_t mwp_hi_ram_sbe        : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM2. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem2 */
+        uint64_t mwp_lo_ram_sbe        : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM0. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem0 */
+        uint64_t fillb_m_rsp_ram_hi_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_HI. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_hi */
+        uint64_t fillb_m_rsp_ram_lo_sbe : 1; /**< [ 45: 45](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_LO. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_lo */
+        uint64_t fillb_d_rsp_ram_hi_sbe : 1; /**< [ 44: 44](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_HI. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_hi */
+        uint64_t fillb_d_rsp_ram_lo_sbe : 1; /**< [ 43: 43](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_LO. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_lo */
+        uint64_t minpad_ram_sbe        : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for MINPAD_RAM. INTERNAL: Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
+        uint64_t mwp_hi_spt_ram_sbe    : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM3. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem3 */
+        uint64_t mwp_lo_spt_ram_sbe    : 1;  /**< [ 40: 40](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM1. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem1 */
+        uint64_t buf_wm_ram_sbe        : 1;  /**< [ 39: 39](R/W1C/H) Single-bit error for BUF_WM_RAM. */
+        uint64_t reserved_0_38         : 39;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_38         : 39;
+        uint64_t buf_wm_ram_sbe        : 1;  /**< [ 39: 39](R/W1C/H) Single-bit error for BUF_WM_RAM. */
+        uint64_t mwp_lo_spt_ram_sbe    : 1;  /**< [ 40: 40](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM1. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem1 */
+        uint64_t mwp_hi_spt_ram_sbe    : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM3. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem3 */
+        uint64_t minpad_ram_sbe        : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for MINPAD_RAM. INTERNAL: Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
+        uint64_t fillb_d_rsp_ram_lo_sbe : 1; /**< [ 43: 43](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_LO. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_lo */
+        uint64_t fillb_d_rsp_ram_hi_sbe : 1; /**< [ 44: 44](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_HI. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_hi */
+        uint64_t fillb_m_rsp_ram_lo_sbe : 1; /**< [ 45: 45](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_LO. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_lo */
+        uint64_t fillb_m_rsp_ram_hi_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_HI. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_hi */
+        uint64_t mwp_lo_ram_sbe        : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM0. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem0 */
+        uint64_t mwp_hi_ram_sbe        : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM2. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem2 */
+        uint64_t dwp_lo_ram_sbe        : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for DWP_LO_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_low */
+        uint64_t dwp_hi_ram_sbe        : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for DWP_HI_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_high */
+        uint64_t drp_lo_ram_sbe        : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for DRP_LO_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_2 */
+        uint64_t drp_hi_ram_sbe        : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for DRP_HI_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_1 */
+        uint64_t isrd_st_ram0_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for ISRD_ST_RAM0. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem0 */
+        uint64_t isrd_st_ram1_sbe      : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for ISRD_ST_RAM1. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem1 */
+        uint64_t isrd_st_ram2_sbe      : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for ISRD_ST_RAM2. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem2 */
+        uint64_t isrd_st_ram3_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for ISRD_ST_RAM3. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem3 */
+        uint64_t isrm_st_ram0_sbe      : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for ISRM_ST_RAM0. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem0 */
+        uint64_t isrm_st_ram1_sbe      : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for ISRM_ST_RAM1. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem1 */
+        uint64_t isrm_st_ram2_sbe      : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for ISRM_ST_RAM2. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem2 */
+        uint64_t isrm_ca_cm_ram_sbe    : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for ISRM_CA_CM_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.cred_accum_ctrlr_and_mem.cred_accum_spr */
+        uint64_t isrm_ca_iinst_ram_sbe : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for ISRM_CA_IINST_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif */
+        uint64_t flshb_cache_hi_ram_sbe : 1; /**< [ 62: 62](R/W1C/H) Single-bit error for FLSHB_CACHE_HI_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi */
+        uint64_t flshb_cache_lo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for FLSHB_CACHE_LO_RAM. INTERNAL: Instances:
+                                                                 pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_ecc_sbe_sts0_s cn; */
+} bdk_pko_pdm_ecc_sbe_sts0_t;
+
+#define BDK_PKO_PDM_ECC_SBE_STS0 BDK_PKO_PDM_ECC_SBE_STS0_FUNC()
+static inline uint64_t BDK_PKO_PDM_ECC_SBE_STS0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_ECC_SBE_STS0_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540008ffff8ll;
+    __bdk_csr_fatal("PKO_PDM_ECC_SBE_STS0", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_ECC_SBE_STS0 bdk_pko_pdm_ecc_sbe_sts0_t
+#define bustype_BDK_PKO_PDM_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_ECC_SBE_STS0 "PKO_PDM_ECC_SBE_STS0"
+#define busnum_BDK_PKO_PDM_ECC_SBE_STS0 0
+#define arguments_BDK_PKO_PDM_ECC_SBE_STS0 -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_pdm_bist_status
@@ -7132,7 +7356,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_L2_SQX_CHANNEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_L2_SQX_CHANNEL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000080038ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_L2_SQX_CHANNEL", 1, a, 0, 0, 0);
 }
@@ -7218,7 +7442,7 @@ typedef union
 static inline uint64_t BDK_PKO_VDQX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VDQX_SW_XOFF(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854400000100ll + 0x20000ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_VDQX_SW_XOFF", 1, a, 0, 0, 0);
 }
@@ -7255,7 +7479,7 @@ typedef union
 static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x8543000f0008ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("PKO_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -7342,7 +7566,7 @@ typedef union
 static inline uint64_t BDK_PKO_PTFX_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PTFX_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000900100ll + 8ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_PTFX_STATUS", 1, a, 0, 0, 0);
 }
@@ -7396,6 +7620,64 @@ static inline uint64_t BDK_PKO_PSE_DQ_ECC_SBE_STS0_FUNC(void)
 #define arguments_BDK_PKO_PSE_DQ_ECC_SBE_STS0 -1,-1,-1,-1
 
 /**
+ * Register (NCB) pko_pse_pq_ecc_sbe_sts0
+ *
+ * PKO PSE PQ RAM ECC SBE Status Register 0
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pse_pq_ecc_sbe_sts0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pq_cxs_ram_sbe        : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for PQ_CXS_RAM. INTERNAL: Instances:
+                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram */
+        uint64_t pq_cxd_ram_sbe        : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for PQ_CXD_RAM. INTERNAL: Instances:
+                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram */
+        uint64_t reserved_61           : 1;
+        uint64_t tp_sram_sbe           : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for TP_SRAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
+        uint64_t pq_std_ram_sbe        : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PQ_STD_RAM. INTERNAL: Instances:
+                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.std_sram */
+        uint64_t pq_st_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for PQ_ST_RAM. INTERNAL: Instances:
+                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.st_sram */
+        uint64_t pq_wmd_ram_sbe        : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PQ_WMD_RAM. INTERNAL: Instances:
+                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.wmd_sram */
+        uint64_t reserved_0_56         : 57;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_56         : 57;
+        uint64_t pq_wmd_ram_sbe        : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for PQ_WMD_RAM. INTERNAL: Instances:
+                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.wmd_sram */
+        uint64_t pq_st_ram_sbe         : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for PQ_ST_RAM. INTERNAL: Instances:
+                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.st_sram */
+        uint64_t pq_std_ram_sbe        : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for PQ_STD_RAM. INTERNAL: Instances:
+                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.std_sram */
+        uint64_t tp_sram_sbe           : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for TP_SRAM. INTERNAL: Instances: pko_pnr2.pko_pse.pse_sq3_pq.pq.tp_sram */
+        uint64_t reserved_61           : 1;
+        uint64_t pq_cxd_ram_sbe        : 1;  /**< [ 62: 62](R/W1C/H) Single-bit error for PQ_CXD_RAM. INTERNAL: Instances:
+                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.cxd_sram */
+        uint64_t pq_cxs_ram_sbe        : 1;  /**< [ 63: 63](R/W1C/H) Single-bit error for PQ_CXS_RAM. INTERNAL: Instances:
+                                                                 pko_pnr2.pko_pse.pse_sq3_pq.pq.cxs_sram */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pse_pq_ecc_sbe_sts0_s cn; */
+} bdk_pko_pse_pq_ecc_sbe_sts0_t;
+
+#define BDK_PKO_PSE_PQ_ECC_SBE_STS0 BDK_PKO_PSE_PQ_ECC_SBE_STS0_FUNC()
+static inline uint64_t BDK_PKO_PSE_PQ_ECC_SBE_STS0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PSE_PQ_ECC_SBE_STS0_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000000108ll;
+    __bdk_csr_fatal("PKO_PSE_PQ_ECC_SBE_STS0", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PSE_PQ_ECC_SBE_STS0 bdk_pko_pse_pq_ecc_sbe_sts0_t
+#define bustype_BDK_PKO_PSE_PQ_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PSE_PQ_ECC_SBE_STS0 "PKO_PSE_PQ_ECC_SBE_STS0"
+#define busnum_BDK_PKO_PSE_PQ_ECC_SBE_STS0 0
+#define arguments_BDK_PKO_PSE_PQ_ECC_SBE_STS0 -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_lut#
  *
  * PKO Channel to Queue Mapping LUT Registers
@@ -7442,7 +7724,7 @@ typedef union
 static inline uint64_t BDK_PKO_LUTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_LUTX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=383))
         return 0x854000b00000ll + 8ll * ((a) & 0x1ff);
     __bdk_csr_fatal("PKO_LUTX", 1, a, 0, 0, 0);
 }
@@ -7687,7 +7969,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_POINTERS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_POINTERS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280078ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_POINTERS", 1, a, 0, 0, 0);
 }
@@ -7945,7 +8227,7 @@ typedef union
 static inline uint64_t BDK_PKO_PTGFX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PTGFX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=4))
         return 0x854000900200ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("PKO_PTGFX_CFG", 1, a, 0, 0, 0);
 }
@@ -7988,7 +8270,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_SCHEDULE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SCHEDULE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000000008ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_SCHEDULE", 1, a, 0, 0, 0);
 }
@@ -8071,7 +8353,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_POINTERS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_POINTERS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000080078ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_POINTERS", 1, a, 0, 0, 0);
 }
@@ -8167,7 +8449,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_PACKETS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540000000d0ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_PACKETS", 1, a, 0, 0, 0);
 }
@@ -8319,7 +8601,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000000090ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_RED_PACKETS", 1, a, 0, 0, 0);
 }
@@ -8329,6 +8611,40 @@ static inline uint64_t BDK_PKO_L1_SQX_RED_PACKETS(unsigned long a)
 #define basename_BDK_PKO_L1_SQX_RED_PACKETS(a) "PKO_L1_SQX_RED_PACKETS"
 #define busnum_BDK_PKO_L1_SQX_RED_PACKETS(a) (a)
 #define arguments_BDK_PKO_L1_SQX_RED_PACKETS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pko_l2_sq_csr_bus_debug
+ *
+ * INTERNAL: PKO PSE Level 2 SQ CSR Bus Debug Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_l2_sq_csr_bus_debug_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
+#else /* Word 0 - Little Endian */
+        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_l2_sq_csr_bus_debug_s cn; */
+} bdk_pko_l2_sq_csr_bus_debug_t;
+
+#define BDK_PKO_L2_SQ_CSR_BUS_DEBUG BDK_PKO_L2_SQ_CSR_BUS_DEBUG_FUNC()
+static inline uint64_t BDK_PKO_L2_SQ_CSR_BUS_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_L2_SQ_CSR_BUS_DEBUG_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8540001001f8ll;
+    __bdk_csr_fatal("PKO_L2_SQ_CSR_BUS_DEBUG", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_L2_SQ_CSR_BUS_DEBUG bdk_pko_l2_sq_csr_bus_debug_t
+#define bustype_BDK_PKO_L2_SQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_L2_SQ_CSR_BUS_DEBUG "PKO_L2_SQ_CSR_BUS_DEBUG"
+#define busnum_BDK_PKO_L2_SQ_CSR_BUS_DEBUG 0
+#define arguments_BDK_PKO_L2_SQ_CSR_BUS_DEBUG -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_pf_msix_vec#_ctl
@@ -8359,7 +8675,7 @@ typedef union
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x854300000008ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("PKO_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -8395,7 +8711,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_YELLOW_PACKETS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x8540000000a0ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_YELLOW_PACKETS", 1, a, 0, 0, 0);
 }
@@ -8528,7 +8844,7 @@ typedef union
 static inline uint64_t BDK_PKO_MACX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_MACX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
         return 0x854000900000ll + 8ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_MACX_CFG", 1, a, 0, 0, 0);
 }
@@ -8538,6 +8854,72 @@ static inline uint64_t BDK_PKO_MACX_CFG(unsigned long a)
 #define basename_BDK_PKO_MACX_CFG(a) "PKO_MACX_CFG"
 #define busnum_BDK_PKO_MACX_CFG(a) (a)
 #define arguments_BDK_PKO_MACX_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pko_dq#_schedule
+ *
+ * PKO PSE Descriptor Queue Scheduling Control Register
+ * This register has the same bit fields as PKO_L2_SQ()_SCHEDULE.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_dqx_schedule_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_28_63        : 36;
+        uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this SQ in the (lower-level) parent's scheduling
+                                                                 algorithm. When this SQ is not used, we recommend setting PRIO to zero. The legal PRIO
+                                                                 values are 0-9 when the SQ is used. In addition to priority, PRIO determines whether the
+                                                                 SQ is a static queue or not: If PRIO equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
+                                                                 PKO_*_TOPOLOGY[PARENT] for this SQ equals n, then this is a round-robin child queue into
+                                                                 the shaper at the next level. */
+        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+                                                                 integer). The packet size used in all DWRR (RR_COUNT) calculations is:
+
+                                                                 _  (PKO_nm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_nm_PICK[LENGTH] + PKO_nm_PICK[ADJUST]))
+                                                                    + PKO_nm_SHAPE[ADJUST]
+
+                                                                 where nm corresponds to this PKO_nm_SCHEDULE CSR.
+
+                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
+                                                                 negative accumulations of PKO_*_SCHED_STATE[RR_COUNT] (i.e. the deficit count)). */
+#else /* Word 0 - Little Endian */
+        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
+                                                                 integer). The packet size used in all DWRR (RR_COUNT) calculations is:
+
+                                                                 _  (PKO_nm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_nm_PICK[LENGTH] + PKO_nm_PICK[ADJUST]))
+                                                                    + PKO_nm_SHAPE[ADJUST]
+
+                                                                 where nm corresponds to this PKO_nm_SCHEDULE CSR.
+
+                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
+                                                                 negative accumulations of PKO_*_SCHED_STATE[RR_COUNT] (i.e. the deficit count)). */
+        uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this SQ in the (lower-level) parent's scheduling
+                                                                 algorithm. When this SQ is not used, we recommend setting PRIO to zero. The legal PRIO
+                                                                 values are 0-9 when the SQ is used. In addition to priority, PRIO determines whether the
+                                                                 SQ is a static queue or not: If PRIO equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
+                                                                 PKO_*_TOPOLOGY[PARENT] for this SQ equals n, then this is a round-robin child queue into
+                                                                 the shaper at the next level. */
+        uint64_t reserved_28_63        : 36;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_dqx_schedule_s cn; */
+} bdk_pko_dqx_schedule_t;
+
+static inline uint64_t BDK_PKO_DQX_SCHEDULE(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_DQX_SCHEDULE(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
+        return 0x854000280008ll + 0x200ll * ((a) & 0xff);
+    __bdk_csr_fatal("PKO_DQX_SCHEDULE", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_DQX_SCHEDULE(a) bdk_pko_dqx_schedule_t
+#define bustype_BDK_PKO_DQX_SCHEDULE(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_DQX_SCHEDULE(a) "PKO_DQX_SCHEDULE"
+#define busnum_BDK_PKO_DQX_SCHEDULE(a) (a)
+#define arguments_BDK_PKO_DQX_SCHEDULE(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pko_l2_sq#_shape_state
@@ -8578,7 +8960,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_SHAPE_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_SHAPE_STATE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000080030ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_SHAPE_STATE", 1, a, 0, 0, 0);
 }
@@ -8588,40 +8970,6 @@ static inline uint64_t BDK_PKO_L2_SQX_SHAPE_STATE(unsigned long a)
 #define basename_BDK_PKO_L2_SQX_SHAPE_STATE(a) "PKO_L2_SQX_SHAPE_STATE"
 #define busnum_BDK_PKO_L2_SQX_SHAPE_STATE(a) (a)
 #define arguments_BDK_PKO_L2_SQX_SHAPE_STATE(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pko_l2_sq_csr_bus_debug
- *
- * INTERNAL: PKO PSE Level 2 SQ CSR Bus Debug Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_l2_sq_csr_bus_debug_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
-#else /* Word 0 - Little Endian */
-        uint64_t csr_bus_debug         : 64; /**< [ 63:  0](RO) -- */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_l2_sq_csr_bus_debug_s cn; */
-} bdk_pko_l2_sq_csr_bus_debug_t;
-
-#define BDK_PKO_L2_SQ_CSR_BUS_DEBUG BDK_PKO_L2_SQ_CSR_BUS_DEBUG_FUNC()
-static inline uint64_t BDK_PKO_L2_SQ_CSR_BUS_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_L2_SQ_CSR_BUS_DEBUG_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540001001f8ll;
-    __bdk_csr_fatal("PKO_L2_SQ_CSR_BUS_DEBUG", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_L2_SQ_CSR_BUS_DEBUG bdk_pko_l2_sq_csr_bus_debug_t
-#define bustype_BDK_PKO_L2_SQ_CSR_BUS_DEBUG BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_L2_SQ_CSR_BUS_DEBUG "PKO_L2_SQ_CSR_BUS_DEBUG"
-#define busnum_BDK_PKO_L2_SQ_CSR_BUS_DEBUG 0
-#define arguments_BDK_PKO_L2_SQ_CSR_BUS_DEBUG -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_l1_sq#_topology
@@ -8743,7 +9091,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_TOPOLOGY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_TOPOLOGY(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000080000ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_TOPOLOGY", 1, a, 0, 0, 0);
 }
@@ -8753,6 +9101,67 @@ static inline uint64_t BDK_PKO_L1_SQX_TOPOLOGY(unsigned long a)
 #define basename_BDK_PKO_L1_SQX_TOPOLOGY(a) "PKO_L1_SQX_TOPOLOGY"
 #define busnum_BDK_PKO_L1_SQX_TOPOLOGY(a) (a)
 #define arguments_BDK_PKO_L1_SQX_TOPOLOGY(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pko_pdm_dq#_minpad
+ *
+ * PKO PDM Descriptor Queue Minimum Pad Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_pdm_dqx_minpad_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t minpad                : 1;  /**< [  0:  0](R/W) MINPAD setting per DQ. Each DQ has a separate CSR address; and bit 0 of the data
+                                                                 read/write value is [MINPAD]. [MINPAD] adjusts the meta length field based on
+                                                                 the min packet length as follows:
+
+                                                                     Meta[LENGTH] = [MINPAD] ?
+                                                                                       MAX(X, PKO_PDM_CFG[PKO_PAD_MINLEN]) :
+                                                                                       X
+
+                                                                 where X is the packet/segment length before pad. PKO_META_DESC_S[LENGTH]
+                                                                 and PKO_*_PICK[LENGTH] are Meta[LENGTH].
+
+                                                                 [MINPAD] doesn't affect whether PKO applies pad to the packet or not,
+                                                                 PKO_MAC*_CFG[MIN_PAD_ENA] does. When PKO_MAC*_CFG[MIN_PAD_ENA] is set,
+                                                                 PKO pads packets through the MAC to PKO_PDM_CFG[PKO_PAD_MINLEN] bytes. */
+#else /* Word 0 - Little Endian */
+        uint64_t minpad                : 1;  /**< [  0:  0](R/W) MINPAD setting per DQ. Each DQ has a separate CSR address; and bit 0 of the data
+                                                                 read/write value is [MINPAD]. [MINPAD] adjusts the meta length field based on
+                                                                 the min packet length as follows:
+
+                                                                     Meta[LENGTH] = [MINPAD] ?
+                                                                                       MAX(X, PKO_PDM_CFG[PKO_PAD_MINLEN]) :
+                                                                                       X
+
+                                                                 where X is the packet/segment length before pad. PKO_META_DESC_S[LENGTH]
+                                                                 and PKO_*_PICK[LENGTH] are Meta[LENGTH].
+
+                                                                 [MINPAD] doesn't affect whether PKO applies pad to the packet or not,
+                                                                 PKO_MAC*_CFG[MIN_PAD_ENA] does. When PKO_MAC*_CFG[MIN_PAD_ENA] is set,
+                                                                 PKO pads packets through the MAC to PKO_PDM_CFG[PKO_PAD_MINLEN] bytes. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_pdm_dqx_minpad_s cn; */
+} bdk_pko_pdm_dqx_minpad_t;
+
+static inline uint64_t BDK_PKO_PDM_DQX_MINPAD(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_PDM_DQX_MINPAD(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
+        return 0x8540008f0000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("PKO_PDM_DQX_MINPAD", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_PDM_DQX_MINPAD(a) bdk_pko_pdm_dqx_minpad_t
+#define bustype_BDK_PKO_PDM_DQX_MINPAD(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_PDM_DQX_MINPAD(a) "PKO_PDM_DQX_MINPAD"
+#define busnum_BDK_PKO_PDM_DQX_MINPAD(a) (a)
+#define arguments_BDK_PKO_PDM_DQX_MINPAD(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pko_pse_sq3_ecc_ctl0
@@ -8956,7 +9365,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_PICK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_PICK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100070ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_PICK", 1, a, 0, 0, 0);
 }
@@ -9109,7 +9518,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_LINK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_LINK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000000038ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_LINK", 1, a, 0, 0, 0);
 }
@@ -9145,7 +9554,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_DROPPED_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_DROPPED_BYTES(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540000000c8ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_DROPPED_BYTES", 1, a, 0, 0, 0);
 }
@@ -9382,7 +9791,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_YELLOW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_YELLOW(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100060ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_YELLOW", 1, a, 0, 0, 0);
 }
@@ -9716,7 +10125,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_SHAPE_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_SHAPE_STATE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280030ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_SHAPE_STATE", 1, a, 0, 0, 0);
 }
@@ -9802,7 +10211,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_PIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_PIR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000080020ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_PIR", 1, a, 0, 0, 0);
 }
@@ -9915,7 +10324,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_SHAPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_SHAPE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000080010ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_SHAPE", 1, a, 0, 0, 0);
 }
@@ -9951,7 +10360,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_DROPPED_BYTES(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000000088ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_DROPPED_BYTES", 1, a, 0, 0, 0);
 }
@@ -10037,7 +10446,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_SW_XOFF(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540001000e0ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_SW_XOFF", 1, a, 0, 0, 0);
 }
@@ -10140,7 +10549,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_GREEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_GREEN(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000080058ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_GREEN", 1, a, 0, 0, 0);
 }
@@ -10150,46 +10559,6 @@ static inline uint64_t BDK_PKO_L1_SQX_GREEN(unsigned long a)
 #define basename_BDK_PKO_L1_SQX_GREEN(a) "PKO_L1_SQX_GREEN"
 #define busnum_BDK_PKO_L1_SQX_GREEN(a) (a)
 #define arguments_BDK_PKO_L1_SQX_GREEN(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pko_peb_jump_def_err_info
- *
- * PEB_JUMP_DEF_ERR Error Information Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_peb_jump_def_err_info_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_JUMP_DEF_ERR] is set. */
-        uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_JUMP_DEF_ERR. */
-        uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_JUMP_DEF_ERR. */
-#else /* Word 0 - Little Endian */
-        uint64_t chan                  : 12; /**< [ 11:  0](RO/H) Channel number associated with the captured PEB_JUMP_DEF_ERR. */
-        uint64_t fifo                  : 7;  /**< [ 18: 12](RO/H) FIFO number associated with the captured PEB_JUMP_DEF_ERR. */
-        uint64_t val                   : 1;  /**< [ 19: 19](RO/H) Asserted when PKO_PEB_ERR_INT[PEB_JUMP_DEF_ERR] is set. */
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_peb_jump_def_err_info_s cn; */
-} bdk_pko_peb_jump_def_err_info_t;
-
-#define BDK_PKO_PEB_JUMP_DEF_ERR_INFO BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC()
-static inline uint64_t BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000900c10ll;
-    __bdk_csr_fatal("PKO_PEB_JUMP_DEF_ERR_INFO", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_PEB_JUMP_DEF_ERR_INFO bdk_pko_peb_jump_def_err_info_t
-#define bustype_BDK_PKO_PEB_JUMP_DEF_ERR_INFO BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_PEB_JUMP_DEF_ERR_INFO "PKO_PEB_JUMP_DEF_ERR_INFO"
-#define busnum_BDK_PKO_PEB_JUMP_DEF_ERR_INFO 0
-#define arguments_BDK_PKO_PEB_JUMP_DEF_ERR_INFO -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_dq#_fifo
@@ -10219,7 +10588,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_FIFO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_FIFO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000300078ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_FIFO", 1, a, 0, 0, 0);
 }
@@ -10269,136 +10638,6 @@ static inline uint64_t BDK_PKO_DRAIN_IRQ_FUNC(void)
 #define basename_BDK_PKO_DRAIN_IRQ "PKO_DRAIN_IRQ"
 #define busnum_BDK_PKO_DRAIN_IRQ 0
 #define arguments_BDK_PKO_DRAIN_IRQ -1,-1,-1,-1
-
-/**
- * Register (NCB) pko_pdm_ecc_sbe_sts0
- *
- * PKO PDM RAM ECC SBE Status Register 0
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_pdm_ecc_sbe_sts0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t flshb_cache_lo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for FLSHB_CACHE_LO_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo */
-        uint64_t flshb_cache_hi_ram_sbe : 1; /**< [ 62: 62](R/W1C/H) Single-bit error for FLSHB_CACHE_HI_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi */
-        uint64_t isrm_ca_iinst_ram_sbe : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for ISRM_CA_IINST_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif */
-        uint64_t isrm_ca_cm_ram_sbe    : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for ISRM_CA_CM_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.cred_accum_ctrlr_and_mem.cred_accum_spr */
-        uint64_t isrm_st_ram2_sbe      : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for ISRM_ST_RAM2. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem2 */
-        uint64_t isrm_st_ram1_sbe      : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for ISRM_ST_RAM1. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem1 */
-        uint64_t isrm_st_ram0_sbe      : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for ISRM_ST_RAM0. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem0 */
-        uint64_t isrd_st_ram3_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for ISRD_ST_RAM3. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem3 */
-        uint64_t isrd_st_ram2_sbe      : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for ISRD_ST_RAM2. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem2 */
-        uint64_t isrd_st_ram1_sbe      : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for ISRD_ST_RAM1. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem1 */
-        uint64_t isrd_st_ram0_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for ISRD_ST_RAM0. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem0 */
-        uint64_t drp_hi_ram_sbe        : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for DRP_HI_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_1 */
-        uint64_t drp_lo_ram_sbe        : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for DRP_LO_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_2 */
-        uint64_t dwp_hi_ram_sbe        : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for DWP_HI_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_high */
-        uint64_t dwp_lo_ram_sbe        : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for DWP_LO_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_low */
-        uint64_t mwp_hi_ram_sbe        : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM2. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem2 */
-        uint64_t mwp_lo_ram_sbe        : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM0. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem0 */
-        uint64_t fillb_m_rsp_ram_hi_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_HI. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_hi */
-        uint64_t fillb_m_rsp_ram_lo_sbe : 1; /**< [ 45: 45](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_LO. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_lo */
-        uint64_t fillb_d_rsp_ram_hi_sbe : 1; /**< [ 44: 44](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_HI. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_hi */
-        uint64_t fillb_d_rsp_ram_lo_sbe : 1; /**< [ 43: 43](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_LO. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_lo */
-        uint64_t minpad_ram_sbe        : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for MINPAD_RAM. INTERNAL: Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
-        uint64_t mwp_hi_spt_ram_sbe    : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM3. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem3 */
-        uint64_t mwp_lo_spt_ram_sbe    : 1;  /**< [ 40: 40](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM1. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem1 */
-        uint64_t buf_wm_ram_sbe        : 1;  /**< [ 39: 39](R/W1C/H) Single-bit error for BUF_WM_RAM. */
-        uint64_t reserved_0_38         : 39;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_38         : 39;
-        uint64_t buf_wm_ram_sbe        : 1;  /**< [ 39: 39](R/W1C/H) Single-bit error for BUF_WM_RAM. */
-        uint64_t mwp_lo_spt_ram_sbe    : 1;  /**< [ 40: 40](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM1. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem1 */
-        uint64_t mwp_hi_spt_ram_sbe    : 1;  /**< [ 41: 41](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM3. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem3 */
-        uint64_t minpad_ram_sbe        : 1;  /**< [ 42: 42](R/W1C/H) Single-bit error for MINPAD_RAM. INTERNAL: Instances: pko_pnr1.pko_pnr1_pdm.cp.minpad_ram */
-        uint64_t fillb_d_rsp_ram_lo_sbe : 1; /**< [ 43: 43](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_LO. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_lo */
-        uint64_t fillb_d_rsp_ram_hi_sbe : 1; /**< [ 44: 44](R/W1C/H) Single-bit error for FILLB_D_RSP_RAM_HI. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.fillb.d_rsp_ram_hi */
-        uint64_t fillb_m_rsp_ram_lo_sbe : 1; /**< [ 45: 45](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_LO. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_lo */
-        uint64_t fillb_m_rsp_ram_hi_sbe : 1; /**< [ 46: 46](R/W1C/H) Single-bit error for FILLB_M_RSP_RAM_HI. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.fillb.m_rsp_ram_hi */
-        uint64_t mwp_lo_ram_sbe        : 1;  /**< [ 47: 47](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM0. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem0 */
-        uint64_t mwp_hi_ram_sbe        : 1;  /**< [ 48: 48](R/W1C/H) Single-bit error for MWP_RAM_PBUF_MEM2. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.mwpbuf.ram_pbuf_mem2 */
-        uint64_t dwp_lo_ram_sbe        : 1;  /**< [ 49: 49](R/W1C/H) Single-bit error for DWP_LO_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_low */
-        uint64_t dwp_hi_ram_sbe        : 1;  /**< [ 50: 50](R/W1C/H) Single-bit error for DWP_HI_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.dwpbuf.ram_128k_pbuf_high */
-        uint64_t drp_lo_ram_sbe        : 1;  /**< [ 51: 51](R/W1C/H) Single-bit error for DRP_LO_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_2 */
-        uint64_t drp_hi_ram_sbe        : 1;  /**< [ 52: 52](R/W1C/H) Single-bit error for DRP_HI_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.drpbuf.ram_128k_pbuf_1 */
-        uint64_t isrd_st_ram0_sbe      : 1;  /**< [ 53: 53](R/W1C/H) Single-bit error for ISRD_ST_RAM0. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem0 */
-        uint64_t isrd_st_ram1_sbe      : 1;  /**< [ 54: 54](R/W1C/H) Single-bit error for ISRD_ST_RAM1. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem1 */
-        uint64_t isrd_st_ram2_sbe      : 1;  /**< [ 55: 55](R/W1C/H) Single-bit error for ISRD_ST_RAM2. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem2 */
-        uint64_t isrd_st_ram3_sbe      : 1;  /**< [ 56: 56](R/W1C/H) Single-bit error for ISRD_ST_RAM3. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.d_isr.st_mem3 */
-        uint64_t isrm_st_ram0_sbe      : 1;  /**< [ 57: 57](R/W1C/H) Single-bit error for ISRM_ST_RAM0. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem0 */
-        uint64_t isrm_st_ram1_sbe      : 1;  /**< [ 58: 58](R/W1C/H) Single-bit error for ISRM_ST_RAM1. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem1 */
-        uint64_t isrm_st_ram2_sbe      : 1;  /**< [ 59: 59](R/W1C/H) Single-bit error for ISRM_ST_RAM2. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.st_mem2 */
-        uint64_t isrm_ca_cm_ram_sbe    : 1;  /**< [ 60: 60](R/W1C/H) Single-bit error for ISRM_CA_CM_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.cred_accum_ctrlr_and_mem.cred_accum_spr */
-        uint64_t isrm_ca_iinst_ram_sbe : 1;  /**< [ 61: 61](R/W1C/H) Single-bit error for ISRM_CA_IINST_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.isr.mp_isr.cred_accum.iinst_in_fif */
-        uint64_t flshb_cache_hi_ram_sbe : 1; /**< [ 62: 62](R/W1C/H) Single-bit error for FLSHB_CACHE_HI_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_hi */
-        uint64_t flshb_cache_lo_ram_sbe : 1; /**< [ 63: 63](R/W1C/H) Single-bit error for FLSHB_CACHE_LO_RAM. INTERNAL: Instances:
-                                                                 pko_pnr1.pko_pnr1_pdm.flshb.flshb_cache_lo */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_pdm_ecc_sbe_sts0_s cn; */
-} bdk_pko_pdm_ecc_sbe_sts0_t;
-
-#define BDK_PKO_PDM_ECC_SBE_STS0 BDK_PKO_PDM_ECC_SBE_STS0_FUNC()
-static inline uint64_t BDK_PKO_PDM_ECC_SBE_STS0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_PDM_ECC_SBE_STS0_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008ffff8ll;
-    __bdk_csr_fatal("PKO_PDM_ECC_SBE_STS0", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_PDM_ECC_SBE_STS0 bdk_pko_pdm_ecc_sbe_sts0_t
-#define bustype_BDK_PKO_PDM_ECC_SBE_STS0 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_PDM_ECC_SBE_STS0 "PKO_PDM_ECC_SBE_STS0"
-#define busnum_BDK_PKO_PDM_ECC_SBE_STS0 0
-#define arguments_BDK_PKO_PDM_ECC_SBE_STS0 -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_l1_sq#_sw_xoff
@@ -10474,7 +10713,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_SW_XOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SW_XOFF(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x8540000000e0ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_SW_XOFF", 1, a, 0, 0, 0);
 }
@@ -10604,7 +10843,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_WM_BUF_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_WM_BUF_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540008000f0ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_WM_BUF_CTL", 1, a, 0, 0, 0);
 }
@@ -10681,7 +10920,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_TOPOLOGY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_TOPOLOGY(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000300000ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_TOPOLOGY", 1, a, 0, 0, 0);
 }
@@ -10717,7 +10956,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_RED_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_RED_BYTES(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000000098ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_RED_BYTES", 1, a, 0, 0, 0);
 }
@@ -11082,7 +11321,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_WM_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_WM_CNT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000000050ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_WM_CNT", 1, a, 0, 0, 0);
 }
@@ -11123,7 +11362,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_RED(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_RED(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000080068ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_RED", 1, a, 0, 0, 0);
 }
@@ -11204,7 +11443,7 @@ typedef union
 static inline uint64_t BDK_PKO_VDQX_OP_OPEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VDQX_OP_OPEN(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854400001100ll + 0x20000ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_VDQX_OP_OPEN", 1, a, 0, 0, 0);
 }
@@ -11239,7 +11478,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_PACKETS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_PACKETS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x8540000000b0ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_GREEN_PACKETS", 1, a, 0, 0, 0);
 }
@@ -11387,7 +11626,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_CIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_CIR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000080018ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_CIR", 1, a, 0, 0, 0);
 }
@@ -11424,7 +11663,7 @@ typedef union
 static inline uint64_t BDK_PKO_MCI1_MAX_CREDX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_MCI1_MAX_CREDX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=13))
         return 0x854000a80000ll + 8ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_MCI1_MAX_CREDX", 1, a, 0, 0, 0);
 }
@@ -11645,7 +11884,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_WM_BUF_CTL_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_WM_BUF_CTL_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x8540008000f8ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_WM_BUF_CTL_W1C", 1, a, 0, 0, 0);
 }
@@ -11689,7 +11928,7 @@ typedef union
 static inline uint64_t BDK_PKO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) && (b==0)))
         return 0x854700000000ll + 0x100000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x0);
     __bdk_csr_fatal("PKO_VFX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -11842,7 +12081,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_POINTERS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_POINTERS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100078ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_POINTERS", 1, a, 0, 0, 0);
 }
@@ -12087,7 +12326,7 @@ typedef union
 static inline uint64_t BDK_PKO_VDQX_WM_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VDQX_WM_CNT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854400000120ll + 0x20000ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_VDQX_WM_CNT", 1, a, 0, 0, 0);
 }
@@ -12213,7 +12452,7 @@ typedef union
 static inline uint64_t BDK_PKO_DQX_PIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_DQX_PIR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000280020ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_DQX_PIR", 1, a, 0, 0, 0);
 }
@@ -12402,7 +12641,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_PICK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_PICK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000180070ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_PICK", 1, a, 0, 0, 0);
 }
@@ -12502,7 +12741,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_YELLOW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_YELLOW(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000180060ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_YELLOW", 1, a, 0, 0, 0);
 }
@@ -12558,7 +12797,7 @@ typedef union
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_PF_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x854300000000ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("PKO_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -12642,118 +12881,6 @@ static inline uint64_t BDK_PKO_PSE_SQ2_ECC_DBE_STS0_FUNC(void)
 #define arguments_BDK_PKO_PSE_SQ2_ECC_DBE_STS0 -1,-1,-1,-1
 
 /**
- * Register (NCB) pko_pdm_ecc_ctl0
- *
- * PKO PDM RAM ECC Control Register 0
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_pdm_ecc_ctl0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t flshb_cache_lo_ram_flip : 2;/**< [ 63: 62](R/W) FLSHB_CACHE_LO_RAM flip syndrome bits on write. */
-        uint64_t flshb_cache_lo_ram_cdis : 1;/**< [ 61: 61](R/W) FLSHB_CACHE_LO_RAM ECC correction disable. */
-        uint64_t flshb_cache_hi_ram_flip : 2;/**< [ 60: 59](R/W) FLSHB_CACHE_HI_RAM flip syndrome bits on write. */
-        uint64_t flshb_cache_hi_ram_cdis : 1;/**< [ 58: 58](R/W) FLSHB_CACHE_HI_RAM ECC correction disable. */
-        uint64_t isrm_ca_iinst_ram_flip : 2; /**< [ 57: 56](R/W) ISRM_CA_IINST_RAM flip syndrome bits on write. */
-        uint64_t isrm_ca_iinst_ram_cdis : 1; /**< [ 55: 55](R/W) ISRM_CA_IINST_RAM ECC correction disable. */
-        uint64_t isrm_ca_cm_ram_flip   : 2;  /**< [ 54: 53](R/W) ISRM_CA_CM_RAM flip syndrome bits on write. */
-        uint64_t isrm_ca_cm_ram_cdis   : 1;  /**< [ 52: 52](R/W) ISRM_CA_CM_RAM ECC correction disable. */
-        uint64_t isrm_st_ram2_flip     : 2;  /**< [ 51: 50](R/W) ISRM_ST_RAM2 flip syndrome bits on write. */
-        uint64_t isrm_st_ram2_cdis     : 1;  /**< [ 49: 49](R/W) ISRM_ST_RAM2 ECC correction disable. */
-        uint64_t isrm_st_ram1_flip     : 2;  /**< [ 48: 47](R/W) ISRM_ST_RAM1 flip syndrome bits on write. */
-        uint64_t isrm_st_ram1_cdis     : 1;  /**< [ 46: 46](R/W) ISRM_ST_RAM1 ECC correction disable. */
-        uint64_t isrm_st_ram0_flip     : 2;  /**< [ 45: 44](R/W) ISRM_ST_RAM0 flip syndrome bits on write. */
-        uint64_t isrm_st_ram0_cdis     : 1;  /**< [ 43: 43](R/W) ISRM_ST_RAM0 ECC correction disable. */
-        uint64_t isrd_st_ram3_flip     : 2;  /**< [ 42: 41](R/W) ISRD_ST_RAM3 flip syndrome bits on write. */
-        uint64_t isrd_st_ram3_cdis     : 1;  /**< [ 40: 40](R/W) ISRD_ST_RAM3 ECC correction disable. */
-        uint64_t isrd_st_ram2_flip     : 2;  /**< [ 39: 38](R/W) ISRD_ST_RAM2 flip syndrome bits on write. */
-        uint64_t isrd_st_ram2_cdis     : 1;  /**< [ 37: 37](R/W) ISRD_ST_RAM2 ECC correction disable. */
-        uint64_t isrd_st_ram1_flip     : 2;  /**< [ 36: 35](R/W) ISRD_ST_RAM1 flip syndrome bits on write. */
-        uint64_t isrd_st_ram1_cdis     : 1;  /**< [ 34: 34](R/W) ISRD_ST_RAM1 ECC correction disable. */
-        uint64_t isrd_st_ram0_flip     : 2;  /**< [ 33: 32](R/W) ISRD_ST_RAM0 flip syndrome bits on write. */
-        uint64_t isrd_st_ram0_cdis     : 1;  /**< [ 31: 31](R/W) ISRD_ST_RAM0 ECC correction disable. */
-        uint64_t drp_hi_ram_flip       : 2;  /**< [ 30: 29](R/W) DRP_HI_RAM flip syndrome bits on write. */
-        uint64_t drp_hi_ram_cdis       : 1;  /**< [ 28: 28](R/W) DRP_HI_RAM ECC correction disable. */
-        uint64_t drp_lo_ram_flip       : 2;  /**< [ 27: 26](R/W) DRP_LO_RAM flip syndrome bits on write. */
-        uint64_t drp_lo_ram_cdis       : 1;  /**< [ 25: 25](R/W) DRP_LO_RAM ECC correction disable. */
-        uint64_t dwp_hi_ram_flip       : 2;  /**< [ 24: 23](R/W) DWP_HI_RAM flip syndrome bits on write. */
-        uint64_t dwp_hi_ram_cdis       : 1;  /**< [ 22: 22](R/W) DWP_HI_RAM ECC correction disable. */
-        uint64_t dwp_lo_ram_flip       : 2;  /**< [ 21: 20](R/W) DWP_LO_RAM flip syndrome bits on write. */
-        uint64_t dwp_lo_ram_cdis       : 1;  /**< [ 19: 19](R/W) DWP_LO_RAM ECC correction disable. */
-        uint64_t reserved_13_18        : 6;
-        uint64_t fillb_m_rsp_ram_hi_flip : 2;/**< [ 12: 11](R/W) FILLB_M_RSP_RAM_HI flip syndrome bits on write. */
-        uint64_t fillb_m_rsp_ram_hi_cdis : 1;/**< [ 10: 10](R/W) FILLB_M_RSP_RAM_HI ECC correction disable. */
-        uint64_t fillb_m_rsp_ram_lo_flip : 2;/**< [  9:  8](R/W) FILLB_M_RSP_RAM_LO flip syndrome bits on write. */
-        uint64_t fillb_m_rsp_ram_lo_cdis : 1;/**< [  7:  7](R/W) FILLB_M_RSP_RAM_LO ECC correction disable. */
-        uint64_t fillb_d_rsp_ram_hi_flip : 2;/**< [  6:  5](R/W) FILLB_D_RSP_RAM_LO flip syndrome bits on write. */
-        uint64_t fillb_d_rsp_ram_hi_cdis : 1;/**< [  4:  4](R/W) FILLB_D_RSP_RAM_HI ECC correction disable. */
-        uint64_t fillb_d_rsp_ram_lo_flip : 2;/**< [  3:  2](R/W) FILLB_D_DAT_RAM_LO flip syndrome bits on write. */
-        uint64_t fillb_d_rsp_ram_lo_cdis : 1;/**< [  1:  1](R/W) FILLB_D_RSP_RAM_LO ECC correction disable. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t fillb_d_rsp_ram_lo_cdis : 1;/**< [  1:  1](R/W) FILLB_D_RSP_RAM_LO ECC correction disable. */
-        uint64_t fillb_d_rsp_ram_lo_flip : 2;/**< [  3:  2](R/W) FILLB_D_DAT_RAM_LO flip syndrome bits on write. */
-        uint64_t fillb_d_rsp_ram_hi_cdis : 1;/**< [  4:  4](R/W) FILLB_D_RSP_RAM_HI ECC correction disable. */
-        uint64_t fillb_d_rsp_ram_hi_flip : 2;/**< [  6:  5](R/W) FILLB_D_RSP_RAM_LO flip syndrome bits on write. */
-        uint64_t fillb_m_rsp_ram_lo_cdis : 1;/**< [  7:  7](R/W) FILLB_M_RSP_RAM_LO ECC correction disable. */
-        uint64_t fillb_m_rsp_ram_lo_flip : 2;/**< [  9:  8](R/W) FILLB_M_RSP_RAM_LO flip syndrome bits on write. */
-        uint64_t fillb_m_rsp_ram_hi_cdis : 1;/**< [ 10: 10](R/W) FILLB_M_RSP_RAM_HI ECC correction disable. */
-        uint64_t fillb_m_rsp_ram_hi_flip : 2;/**< [ 12: 11](R/W) FILLB_M_RSP_RAM_HI flip syndrome bits on write. */
-        uint64_t reserved_13_18        : 6;
-        uint64_t dwp_lo_ram_cdis       : 1;  /**< [ 19: 19](R/W) DWP_LO_RAM ECC correction disable. */
-        uint64_t dwp_lo_ram_flip       : 2;  /**< [ 21: 20](R/W) DWP_LO_RAM flip syndrome bits on write. */
-        uint64_t dwp_hi_ram_cdis       : 1;  /**< [ 22: 22](R/W) DWP_HI_RAM ECC correction disable. */
-        uint64_t dwp_hi_ram_flip       : 2;  /**< [ 24: 23](R/W) DWP_HI_RAM flip syndrome bits on write. */
-        uint64_t drp_lo_ram_cdis       : 1;  /**< [ 25: 25](R/W) DRP_LO_RAM ECC correction disable. */
-        uint64_t drp_lo_ram_flip       : 2;  /**< [ 27: 26](R/W) DRP_LO_RAM flip syndrome bits on write. */
-        uint64_t drp_hi_ram_cdis       : 1;  /**< [ 28: 28](R/W) DRP_HI_RAM ECC correction disable. */
-        uint64_t drp_hi_ram_flip       : 2;  /**< [ 30: 29](R/W) DRP_HI_RAM flip syndrome bits on write. */
-        uint64_t isrd_st_ram0_cdis     : 1;  /**< [ 31: 31](R/W) ISRD_ST_RAM0 ECC correction disable. */
-        uint64_t isrd_st_ram0_flip     : 2;  /**< [ 33: 32](R/W) ISRD_ST_RAM0 flip syndrome bits on write. */
-        uint64_t isrd_st_ram1_cdis     : 1;  /**< [ 34: 34](R/W) ISRD_ST_RAM1 ECC correction disable. */
-        uint64_t isrd_st_ram1_flip     : 2;  /**< [ 36: 35](R/W) ISRD_ST_RAM1 flip syndrome bits on write. */
-        uint64_t isrd_st_ram2_cdis     : 1;  /**< [ 37: 37](R/W) ISRD_ST_RAM2 ECC correction disable. */
-        uint64_t isrd_st_ram2_flip     : 2;  /**< [ 39: 38](R/W) ISRD_ST_RAM2 flip syndrome bits on write. */
-        uint64_t isrd_st_ram3_cdis     : 1;  /**< [ 40: 40](R/W) ISRD_ST_RAM3 ECC correction disable. */
-        uint64_t isrd_st_ram3_flip     : 2;  /**< [ 42: 41](R/W) ISRD_ST_RAM3 flip syndrome bits on write. */
-        uint64_t isrm_st_ram0_cdis     : 1;  /**< [ 43: 43](R/W) ISRM_ST_RAM0 ECC correction disable. */
-        uint64_t isrm_st_ram0_flip     : 2;  /**< [ 45: 44](R/W) ISRM_ST_RAM0 flip syndrome bits on write. */
-        uint64_t isrm_st_ram1_cdis     : 1;  /**< [ 46: 46](R/W) ISRM_ST_RAM1 ECC correction disable. */
-        uint64_t isrm_st_ram1_flip     : 2;  /**< [ 48: 47](R/W) ISRM_ST_RAM1 flip syndrome bits on write. */
-        uint64_t isrm_st_ram2_cdis     : 1;  /**< [ 49: 49](R/W) ISRM_ST_RAM2 ECC correction disable. */
-        uint64_t isrm_st_ram2_flip     : 2;  /**< [ 51: 50](R/W) ISRM_ST_RAM2 flip syndrome bits on write. */
-        uint64_t isrm_ca_cm_ram_cdis   : 1;  /**< [ 52: 52](R/W) ISRM_CA_CM_RAM ECC correction disable. */
-        uint64_t isrm_ca_cm_ram_flip   : 2;  /**< [ 54: 53](R/W) ISRM_CA_CM_RAM flip syndrome bits on write. */
-        uint64_t isrm_ca_iinst_ram_cdis : 1; /**< [ 55: 55](R/W) ISRM_CA_IINST_RAM ECC correction disable. */
-        uint64_t isrm_ca_iinst_ram_flip : 2; /**< [ 57: 56](R/W) ISRM_CA_IINST_RAM flip syndrome bits on write. */
-        uint64_t flshb_cache_hi_ram_cdis : 1;/**< [ 58: 58](R/W) FLSHB_CACHE_HI_RAM ECC correction disable. */
-        uint64_t flshb_cache_hi_ram_flip : 2;/**< [ 60: 59](R/W) FLSHB_CACHE_HI_RAM flip syndrome bits on write. */
-        uint64_t flshb_cache_lo_ram_cdis : 1;/**< [ 61: 61](R/W) FLSHB_CACHE_LO_RAM ECC correction disable. */
-        uint64_t flshb_cache_lo_ram_flip : 2;/**< [ 63: 62](R/W) FLSHB_CACHE_LO_RAM flip syndrome bits on write. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_pdm_ecc_ctl0_s cn; */
-} bdk_pko_pdm_ecc_ctl0_t;
-
-#define BDK_PKO_PDM_ECC_CTL0 BDK_PKO_PDM_ECC_CTL0_FUNC()
-static inline uint64_t BDK_PKO_PDM_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_PDM_ECC_CTL0_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008fffd0ll;
-    __bdk_csr_fatal("PKO_PDM_ECC_CTL0", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_PDM_ECC_CTL0 bdk_pko_pdm_ecc_ctl0_t
-#define bustype_BDK_PKO_PDM_ECC_CTL0 BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_PDM_ECC_CTL0 "PKO_PDM_ECC_CTL0"
-#define busnum_BDK_PKO_PDM_ECC_CTL0 0
-#define arguments_BDK_PKO_PDM_ECC_CTL0 -1,-1,-1,-1
-
-/**
  * Register (NCB) pko_l1_sq#_shape
  *
  * PKO PSE Level 1 Shaping Control Register
@@ -12793,7 +12920,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000000010ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_SHAPE", 1, a, 0, 0, 0);
 }
@@ -13069,72 +13196,6 @@ static inline uint64_t BDK_PKO_PSE_SQ1_ECC_DBE_STS_CMB0_FUNC(void)
 #define arguments_BDK_PKO_PSE_SQ1_ECC_DBE_STS_CMB0 -1,-1,-1,-1
 
 /**
- * Register (NCB) pko_dq#_schedule
- *
- * PKO PSE Descriptor Queue Scheduling Control Register
- * This register has the same bit fields as PKO_L2_SQ()_SCHEDULE.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_dqx_schedule_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_28_63        : 36;
-        uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this SQ in the (lower-level) parent's scheduling
-                                                                 algorithm. When this SQ is not used, we recommend setting PRIO to zero. The legal PRIO
-                                                                 values are 0-9 when the SQ is used. In addition to priority, PRIO determines whether the
-                                                                 SQ is a static queue or not: If PRIO equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
-                                                                 PKO_*_TOPOLOGY[PARENT] for this SQ equals n, then this is a round-robin child queue into
-                                                                 the shaper at the next level. */
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
-                                                                 integer). The packet size used in all DWRR (RR_COUNT) calculations is:
-
-                                                                 _  (PKO_nm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_nm_PICK[LENGTH] + PKO_nm_PICK[ADJUST]))
-                                                                    + PKO_nm_SHAPE[ADJUST]
-
-                                                                 where nm corresponds to this PKO_nm_SCHEDULE CSR.
-
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of PKO_*_SCHED_STATE[RR_COUNT] (i.e. the deficit count)). */
-#else /* Word 0 - Little Endian */
-        uint64_t rr_quantum            : 24; /**< [ 23:  0](R/W) Round-robin (DWRR) quantum. The deficit-weighted round-robin quantum (24-bit unsigned
-                                                                 integer). The packet size used in all DWRR (RR_COUNT) calculations is:
-
-                                                                 _  (PKO_nm_SHAPE[LENGTH_DISABLE] ? 0 : (PKO_nm_PICK[LENGTH] + PKO_nm_PICK[ADJUST]))
-                                                                    + PKO_nm_SHAPE[ADJUST]
-
-                                                                 where nm corresponds to this PKO_nm_SCHEDULE CSR.
-
-                                                                 Typically [RR_QUANTUM] should be at or near the MTU or more (to limit or prevent
-                                                                 negative accumulations of PKO_*_SCHED_STATE[RR_COUNT] (i.e. the deficit count)). */
-        uint64_t prio                  : 4;  /**< [ 27: 24](R/W) Priority. The priority used for this SQ in the (lower-level) parent's scheduling
-                                                                 algorithm. When this SQ is not used, we recommend setting PRIO to zero. The legal PRIO
-                                                                 values are 0-9 when the SQ is used. In addition to priority, PRIO determines whether the
-                                                                 SQ is a static queue or not: If PRIO equals PKO_*_SQn_TOPOLOGY[RR_PRIO], where
-                                                                 PKO_*_TOPOLOGY[PARENT] for this SQ equals n, then this is a round-robin child queue into
-                                                                 the shaper at the next level. */
-        uint64_t reserved_28_63        : 36;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_dqx_schedule_s cn; */
-} bdk_pko_dqx_schedule_t;
-
-static inline uint64_t BDK_PKO_DQX_SCHEDULE(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_DQX_SCHEDULE(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x854000280008ll + 0x200ll * ((a) & 0xff);
-    __bdk_csr_fatal("PKO_DQX_SCHEDULE", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_DQX_SCHEDULE(a) bdk_pko_dqx_schedule_t
-#define bustype_BDK_PKO_DQX_SCHEDULE(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_DQX_SCHEDULE(a) "PKO_DQX_SCHEDULE"
-#define busnum_BDK_PKO_DQX_SCHEDULE(a) (a)
-#define arguments_BDK_PKO_DQX_SCHEDULE(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) pko_l3_sq#_shape
  *
  * PKO PSE Level 3 Shaping Control Register
@@ -13180,7 +13241,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_SHAPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_SHAPE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100010ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_SHAPE", 1, a, 0, 0, 0);
 }
@@ -13228,7 +13289,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_SHAPE_STATE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000000030ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_SHAPE_STATE", 1, a, 0, 0, 0);
 }
@@ -13275,7 +13336,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_GREEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_GREEN(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000180058ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_GREEN", 1, a, 0, 0, 0);
 }
@@ -13362,7 +13423,7 @@ typedef union
 static inline uint64_t BDK_PKO_L2_SQX_TOPOLOGY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L2_SQX_TOPOLOGY(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100000ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L2_SQX_TOPOLOGY", 1, a, 0, 0, 0);
 }
@@ -13449,7 +13510,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_SHAPE_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_SHAPE_STATE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100030ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_SHAPE_STATE", 1, a, 0, 0, 0);
 }
@@ -13612,7 +13673,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_BYTES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_GREEN_BYTES(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x8540000000b8ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_GREEN_BYTES", 1, a, 0, 0, 0);
 }
@@ -13845,7 +13906,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_CIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_CIR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000000018ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_CIR", 1, a, 0, 0, 0);
 }
@@ -13855,67 +13916,6 @@ static inline uint64_t BDK_PKO_L1_SQX_CIR(unsigned long a)
 #define basename_BDK_PKO_L1_SQX_CIR(a) "PKO_L1_SQX_CIR"
 #define busnum_BDK_PKO_L1_SQX_CIR(a) (a)
 #define arguments_BDK_PKO_L1_SQX_CIR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pko_pdm_dq#_minpad
- *
- * PKO PDM Descriptor Queue Minimum Pad Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pko_pdm_dqx_minpad_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t minpad                : 1;  /**< [  0:  0](R/W) MINPAD setting per DQ. Each DQ has a separate CSR address; and bit 0 of the data
-                                                                 read/write value is [MINPAD]. [MINPAD] adjusts the meta length field based on
-                                                                 the min packet length as follows:
-
-                                                                     Meta[LENGTH] = [MINPAD] ?
-                                                                                       MAX(X, PKO_PDM_CFG[PKO_PAD_MINLEN]) :
-                                                                                       X
-
-                                                                 where X is the packet/segment length before pad. PKO_META_DESC_S[LENGTH]
-                                                                 and PKO_*_PICK[LENGTH] are Meta[LENGTH].
-
-                                                                 [MINPAD] doesn't affect whether PKO applies pad to the packet or not,
-                                                                 PKO_MAC*_CFG[MIN_PAD_ENA] does. When PKO_MAC*_CFG[MIN_PAD_ENA] is set,
-                                                                 PKO pads packets through the MAC to PKO_PDM_CFG[PKO_PAD_MINLEN] bytes. */
-#else /* Word 0 - Little Endian */
-        uint64_t minpad                : 1;  /**< [  0:  0](R/W) MINPAD setting per DQ. Each DQ has a separate CSR address; and bit 0 of the data
-                                                                 read/write value is [MINPAD]. [MINPAD] adjusts the meta length field based on
-                                                                 the min packet length as follows:
-
-                                                                     Meta[LENGTH] = [MINPAD] ?
-                                                                                       MAX(X, PKO_PDM_CFG[PKO_PAD_MINLEN]) :
-                                                                                       X
-
-                                                                 where X is the packet/segment length before pad. PKO_META_DESC_S[LENGTH]
-                                                                 and PKO_*_PICK[LENGTH] are Meta[LENGTH].
-
-                                                                 [MINPAD] doesn't affect whether PKO applies pad to the packet or not,
-                                                                 PKO_MAC*_CFG[MIN_PAD_ENA] does. When PKO_MAC*_CFG[MIN_PAD_ENA] is set,
-                                                                 PKO pads packets through the MAC to PKO_PDM_CFG[PKO_PAD_MINLEN] bytes. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pko_pdm_dqx_minpad_s cn; */
-} bdk_pko_pdm_dqx_minpad_t;
-
-static inline uint64_t BDK_PKO_PDM_DQX_MINPAD(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKO_PDM_DQX_MINPAD(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8540008f0000ll + 8ll * ((a) & 0xff);
-    __bdk_csr_fatal("PKO_PDM_DQX_MINPAD", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PKO_PDM_DQX_MINPAD(a) bdk_pko_pdm_dqx_minpad_t
-#define bustype_BDK_PKO_PDM_DQX_MINPAD(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PKO_PDM_DQX_MINPAD(a) "PKO_PDM_DQX_MINPAD"
-#define busnum_BDK_PKO_PDM_DQX_MINPAD(a) (a)
-#define arguments_BDK_PKO_PDM_DQX_MINPAD(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pko_state_uid_in_use#_rd
@@ -13941,7 +13941,7 @@ typedef union
 static inline uint64_t BDK_PKO_STATE_UID_IN_USEX_RD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_STATE_UID_IN_USEX_RD(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x854000900f00ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PKO_STATE_UID_IN_USEX_RD", 1, a, 0, 0, 0);
 }
@@ -14114,7 +14114,7 @@ typedef union
 static inline uint64_t BDK_PKO_L1_SQX_PICK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L1_SQX_PICK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=15))
         return 0x854000080070ll + 0x200ll * ((a) & 0xf);
     __bdk_csr_fatal("PKO_L1_SQX_PICK", 1, a, 0, 0, 0);
 }
@@ -14150,7 +14150,7 @@ typedef union
 static inline uint64_t BDK_PKO_L3_SQX_SCHED_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_L3_SQX_SCHED_STATE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=255))
         return 0x854000100028ll + 0x200ll * ((a) & 0xff);
     __bdk_csr_fatal("PKO_L3_SQX_SCHED_STATE", 1, a, 0, 0, 0);
 }
@@ -14420,7 +14420,7 @@ typedef union
 static inline uint64_t BDK_PKO_VDQX_OP_SENDX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKO_VDQX_OP_SENDX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=255) && (b<=15)))
         return 0x854400001300ll + 0x20000ll * ((a) & 0xff) + 8ll * ((b) & 0xf);
     __bdk_csr_fatal("PKO_VDQX_OP_SENDX", 2, a, b, 0, 0);
 }

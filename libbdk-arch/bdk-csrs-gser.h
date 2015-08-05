@@ -139,7 +139,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_TX_CFG_3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_TX_CFG_3(unsigned long a, unsigned long b)
 {
-    return 0x87e0904400c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904400c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_TX_CFG_3", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_TX_CFG_3(a,b) bdk_gserx_lanex_tx_cfg_3_t
@@ -185,7 +187,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_TX_CFG_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_TX_CFG_2(unsigned long a, unsigned long b)
 {
-    return 0x87e0904400b8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904400b8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_TX_CFG_2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_TX_CFG_2(a,b) bdk_gserx_lanex_tx_cfg_2_t
@@ -415,7 +419,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_TX_CFG_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_TX_CFG_1(unsigned long a, unsigned long b)
 {
-    return 0x87e0904400b0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904400b0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_TX_CFG_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_TX_CFG_1(a,b) bdk_gserx_lanex_tx_cfg_1_t
@@ -593,7 +599,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_TX_CFG_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_TX_CFG_0(unsigned long a, unsigned long b)
 {
-    return 0x87e0904400a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904400a8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_TX_CFG_0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_TX_CFG_0(a,b) bdk_gserx_lanex_tx_cfg_0_t
@@ -626,7 +634,9 @@ typedef union
 static inline uint64_t BDK_GSERX_PLL_STAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_PLL_STAT(unsigned long a)
 {
-    return 0x87e090000010ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000010ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_PLL_STAT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_PLL_STAT(a) bdk_gserx_pll_stat_t
@@ -715,7 +725,9 @@ typedef union
 static inline uint64_t BDK_GSERX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_CFG(unsigned long a)
 {
-    return 0x87e090000080ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000080ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_CFG(a) bdk_gserx_cfg_t
@@ -760,7 +772,9 @@ typedef union
 static inline uint64_t BDK_GSERX_BR_TXX_CUR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_BR_TXX_CUR(unsigned long a, unsigned long b)
 {
-    return 0x87e090000438ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090000438ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_BR_TXX_CUR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_BR_TXX_CUR(a,b) bdk_gserx_br_txx_cur_t
@@ -890,7 +904,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_LOOP_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_LOOP_CTRL(unsigned long a, unsigned long b)
 {
-    return 0x87e090440048ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440048ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_LOOP_CTRL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_LOOP_CTRL(a,b) bdk_gserx_lanex_rx_loop_ctrl_t
@@ -935,7 +951,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_POFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_POFF(unsigned long a)
 {
-    return 0x87e090000108ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000108ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_POFF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_POFF(a) bdk_gserx_lane_poff_t
@@ -998,7 +1016,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_VMA_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_VMA_CTRL(unsigned long a, unsigned long b)
 {
-    return 0x87e090440200ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440200ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_VMA_CTRL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_VMA_CTRL(a,b) bdk_gserx_lanex_rx_vma_ctrl_t
@@ -1035,7 +1055,9 @@ typedef union
 static inline uint64_t BDK_GSERX_TXCLK_EVT_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_TXCLK_EVT_CTRL(unsigned long a)
 {
-    return 0x87e090000180ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000180ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_TXCLK_EVT_CTRL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_TXCLK_EVT_CTRL(a) bdk_gserx_txclk_evt_ctrl_t
@@ -1146,7 +1168,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_MODE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_MODE(unsigned long a)
 {
-    return 0x87e090000118ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000118ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_MODE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_MODE(a) bdk_gserx_lane_mode_t
@@ -1220,7 +1244,9 @@ typedef union
 static inline uint64_t BDK_GSERX_SLICEX_RX_SDLL_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_SLICEX_RX_SDLL_CTRL(unsigned long a, unsigned long b)
 {
-    return 0x87e090460220ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    if ((a<=13) && (b<=1))
+        return 0x87e090460220ll + 0x1000000ll * ((a) & 0xf) + 0x200000ll * ((b) & 0x1);
+    __bdk_csr_fatal("GSERX_SLICEX_RX_SDLL_CTRL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_SLICEX_RX_SDLL_CTRL(a,b) bdk_gserx_slicex_rx_sdll_ctrl_t
@@ -1260,7 +1286,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_1(unsigned long a, unsigned long b)
 {
-    return 0x87e090440288ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440288ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_AEQ_OUT_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_AEQ_OUT_1(a,b) bdk_gserx_lanex_rx_aeq_out_1_t
@@ -1298,7 +1326,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_0(unsigned long a, unsigned long b)
 {
-    return 0x87e090440280ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440280ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_AEQ_OUT_0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_AEQ_OUT_0(a,b) bdk_gserx_lanex_rx_aeq_out_0_t
@@ -1338,7 +1368,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_AEQ_OUT_2(unsigned long a, unsigned long b)
 {
-    return 0x87e090440290ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440290ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_AEQ_OUT_2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_AEQ_OUT_2(a,b) bdk_gserx_lanex_rx_aeq_out_2_t
@@ -1377,7 +1409,9 @@ typedef union
 static inline uint64_t BDK_GSERX_PIPE_LPBK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_PIPE_LPBK(unsigned long a)
 {
-    return 0x87e090000200ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000200ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_PIPE_LPBK", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_PIPE_LPBK(a) bdk_gserx_pipe_lpbk_t
@@ -1425,7 +1459,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_1(unsigned long a, unsigned long b)
 {
-    return 0x87e090440038ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440038ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CDR_CTRL_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CDR_CTRL_1(a,b) bdk_gserx_lanex_rx_cdr_ctrl_1_t
@@ -1471,7 +1507,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_CTRL_2(unsigned long a, unsigned long b)
 {
-    return 0x87e090440040ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440040ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CDR_CTRL_2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CDR_CTRL_2(a,b) bdk_gserx_lanex_rx_cdr_ctrl_2_t
@@ -1577,7 +1615,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_2(unsigned long a, unsigned long b)
 {
-    return 0x87e090440010ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440010ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CFG_2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CFG_2(a,b) bdk_gserx_lanex_rx_cfg_2_t
@@ -1631,7 +1671,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_PCS_MACIFC_MON_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_PCS_MACIFC_MON_2(unsigned long a, unsigned long b)
 {
-    return 0x87e0904c0118ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904c0118ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_PCS_MACIFC_MON_2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_PCS_MACIFC_MON_2(a,b) bdk_gserx_lanex_pcs_macifc_mon_2_t
@@ -1996,7 +2038,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(unsigned long a, unsigned long b)
 {
-    return 0x87e090440250ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440250ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_VALBBD_CTRL_2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_VALBBD_CTRL_2(a,b) bdk_gserx_lanex_rx_valbbd_ctrl_2_t
@@ -2253,7 +2297,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(unsigned long a, unsigned long b)
 {
-    return 0x87e090440240ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440240ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_VALBBD_CTRL_0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_VALBBD_CTRL_0(a,b) bdk_gserx_lanex_rx_valbbd_ctrl_0_t
@@ -2606,7 +2652,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(unsigned long a, unsigned long b)
 {
-    return 0x87e090440248ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440248ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_VALBBD_CTRL_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_VALBBD_CTRL_1(a,b) bdk_gserx_lanex_rx_valbbd_ctrl_1_t
@@ -2665,7 +2713,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_1(unsigned long a, unsigned long b)
 {
-    return 0x87e0904402d0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904402d0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CDR_STATUS_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CDR_STATUS_1(a,b) bdk_gserx_lanex_rx_cdr_status_1_t
@@ -2903,7 +2953,9 @@ typedef union
 static inline uint64_t BDK_GSERX_GLBL_TAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_GLBL_TAD(unsigned long a)
 {
-    return 0x87e090460400ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090460400ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_GLBL_TAD", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_GLBL_TAD(a) bdk_gserx_glbl_tad_t
@@ -2992,7 +3044,9 @@ typedef union
 static inline uint64_t BDK_GSERX_GLBL_MISC_CONFIG_1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_GLBL_MISC_CONFIG_1(unsigned long a)
 {
-    return 0x87e090460030ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090460030ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_GLBL_MISC_CONFIG_1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_GLBL_MISC_CONFIG_1(a) bdk_gserx_glbl_misc_config_1_t
@@ -3031,7 +3085,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_VAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_VAL(unsigned long a, unsigned long b)
 {
-    return 0x87e090440078ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440078ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_PRECORR_VAL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_PRECORR_VAL(a,b) bdk_gserx_lanex_rx_precorr_val_t
@@ -3140,7 +3196,9 @@ typedef union
 static inline uint64_t BDK_GSERX_BR_RXX_EER(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_BR_RXX_EER(unsigned long a, unsigned long b)
 {
-    return 0x87e090000418ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090000418ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_BR_RXX_EER", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_BR_RXX_EER(a,b) bdk_gserx_br_rxx_eer_t
@@ -3262,7 +3320,9 @@ typedef union
 static inline uint64_t BDK_GSERX_RX_PWR_CTRL_P2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_RX_PWR_CTRL_P2(unsigned long a)
 {
-    return 0x87e0904600b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0904600b8ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_RX_PWR_CTRL_P2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_RX_PWR_CTRL_P2(a) bdk_gserx_rx_pwr_ctrl_p2_t
@@ -3330,7 +3390,9 @@ typedef union
 static inline uint64_t BDK_GSERX_RX_PWR_CTRL_P1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_RX_PWR_CTRL_P1(unsigned long a)
 {
-    return 0x87e0904600b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0904600b0ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_RX_PWR_CTRL_P1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_RX_PWR_CTRL_P1(a) bdk_gserx_rx_pwr_ctrl_p1_t
@@ -3399,7 +3461,9 @@ typedef union
 static inline uint64_t BDK_GSERX_RX_EIE_FILTER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_RX_EIE_FILTER(unsigned long a)
 {
-    return 0x87e090000158ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000158ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_RX_EIE_FILTER", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_RX_EIE_FILTER(a) bdk_gserx_rx_eie_filter_t
@@ -3436,7 +3500,9 @@ typedef union
 static inline uint64_t BDK_GSERX_SRST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_SRST(unsigned long a)
 {
-    return 0x87e090000090ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000090ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_SRST", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_SRST(a) bdk_gserx_srst_t
@@ -3488,7 +3554,9 @@ typedef union
 static inline uint64_t BDK_GSERX_REFCLK_SEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_REFCLK_SEL(unsigned long a)
 {
-    return 0x87e090000008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000008ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_REFCLK_SEL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_REFCLK_SEL(a) bdk_gserx_refclk_sel_t
@@ -3546,7 +3614,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_MISC_CFG_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_MISC_CFG_1(unsigned long a, unsigned long b)
 {
-    return 0x87e0904c0008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904c0008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_MISC_CFG_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_MISC_CFG_1(a,b) bdk_gserx_lanex_misc_cfg_1_t
@@ -3586,7 +3656,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_2(unsigned long a, unsigned long b)
 {
-    return 0x87e0904402d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904402d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CDR_STATUS_2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CDR_STATUS_2(a,b) bdk_gserx_lanex_rx_cdr_status_2_t
@@ -3596,59 +3668,53 @@ static inline uint64_t BDK_GSERX_LANEX_RX_CDR_STATUS_2(unsigned long a, unsigned
 #define arguments_BDK_GSERX_LANEX_RX_CDR_STATUS_2(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) gser#_rx_coast
+ * Register (RSL) gser#_ana_atest
  *
- * GSER RX Coast Register
- * These registers are reset by hardware only during chip cold reset. The values of the CSR
- * fields in these registers do not change during chip warm or soft resets.
+ * GSER Analog Test Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_gserx_rx_coast_s
+    struct bdk_gserx_ana_atest_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t coast                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode (including all CCPI links), control signals to
-                                                                 freeze
-                                                                 the frequency of the per lane CDR in the PHY. The COAST signals are only valid in P0
-                                                                 state, come up asserted and are deasserted in hardware after detecting the electrical idle
-                                                                 exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
-                                                                 allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
-                                                                 allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
+        uint64_t reserved_12_63        : 52;
+        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the QLM4 register
+                                                                 is tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied
+                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are
+                                                                 unused. For diagnostic use only. */
+        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the QLM4 register is
+                                                                 tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied to
+                                                                 the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are unused.
+                                                                 For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t coast                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode (including all CCPI links), control signals to
-                                                                 freeze
-                                                                 the frequency of the per lane CDR in the PHY. The COAST signals are only valid in P0
-                                                                 state, come up asserted and are deasserted in hardware after detecting the electrical idle
-                                                                 exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
-                                                                 allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
-                                                                 allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the QLM4 register is
+                                                                 tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied to
+                                                                 the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are unused.
+                                                                 For diagnostic use only. */
+        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the QLM4 register
+                                                                 is tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied
+                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are
+                                                                 unused. For diagnostic use only. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_rx_coast_s cn; */
-} bdk_gserx_rx_coast_t;
+    /* struct bdk_gserx_ana_atest_s cn; */
+} bdk_gserx_ana_atest_t;
 
-static inline uint64_t BDK_GSERX_RX_COAST(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GSERX_RX_COAST(unsigned long a)
+static inline uint64_t BDK_GSERX_ANA_ATEST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_ANA_ATEST(unsigned long a)
 {
-    return 0x87e090000138ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000800ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_ANA_ATEST", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_GSERX_RX_COAST(a) bdk_gserx_rx_coast_t
-#define bustype_BDK_GSERX_RX_COAST(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_GSERX_RX_COAST(a) "GSERX_RX_COAST"
-#define busnum_BDK_GSERX_RX_COAST(a) (a)
-#define arguments_BDK_GSERX_RX_COAST(a) (a),-1,-1,-1
+#define typedef_BDK_GSERX_ANA_ATEST(a) bdk_gserx_ana_atest_t
+#define bustype_BDK_GSERX_ANA_ATEST(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_ANA_ATEST(a) "GSERX_ANA_ATEST"
+#define busnum_BDK_GSERX_ANA_ATEST(a) (a)
+#define arguments_BDK_GSERX_ANA_ATEST(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gser#_spd
@@ -3847,7 +3913,9 @@ typedef union
 static inline uint64_t BDK_GSERX_SPD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_SPD(unsigned long a)
 {
-    return 0x87e090000088ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000088ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_SPD", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_SPD(a) bdk_gserx_spd_t
@@ -3898,7 +3966,9 @@ typedef union
 static inline uint64_t BDK_GSERX_TXCLK_EVT_CNTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_TXCLK_EVT_CNTR(unsigned long a)
 {
-    return 0x87e090000188ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000188ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_TXCLK_EVT_CNTR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_TXCLK_EVT_CNTR(a) bdk_gserx_txclk_evt_cntr_t
@@ -3962,7 +4032,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_0(unsigned long a)
 {
-    return 0x87e0904e01c8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0904e01c8ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_VMA_FINE_CTRL_0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_VMA_FINE_CTRL_0(a) bdk_gserx_lane_vma_fine_ctrl_0_t
@@ -4008,7 +4080,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_1(unsigned long a)
 {
-    return 0x87e0904e01d0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0904e01d0ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_VMA_FINE_CTRL_1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_VMA_FINE_CTRL_1(a) bdk_gserx_lane_vma_fine_ctrl_1_t
@@ -4054,7 +4128,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_VMA_FINE_CTRL_2(unsigned long a)
 {
-    return 0x87e0904e01d8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0904e01d8ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_VMA_FINE_CTRL_2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_VMA_FINE_CTRL_2(a) bdk_gserx_lane_vma_fine_ctrl_2_t
@@ -4174,7 +4250,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_PWR_CTRL(unsigned long a, unsigned long b)
 {
-    return 0x87e0904400d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904400d8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_PWR_CTRL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_PWR_CTRL(a,b) bdk_gserx_lanex_pwr_ctrl_t
@@ -4244,7 +4322,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_0(unsigned long a, unsigned long b)
 {
-    return 0x87e090440130ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440130ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_SDS_PIN_MON_0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_SDS_PIN_MON_0(a,b) bdk_gserx_lanex_sds_pin_mon_0_t
@@ -4310,7 +4390,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_1(unsigned long a, unsigned long b)
 {
-    return 0x87e090440138ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440138ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_SDS_PIN_MON_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_SDS_PIN_MON_1(a,b) bdk_gserx_lanex_sds_pin_mon_1_t
@@ -4356,7 +4438,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_SDS_PIN_MON_2(unsigned long a, unsigned long b)
 {
-    return 0x87e090440140ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440140ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_SDS_PIN_MON_2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_SDS_PIN_MON_2(a,b) bdk_gserx_lanex_sds_pin_mon_2_t
@@ -4416,7 +4500,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_VMA_STATUS_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_VMA_STATUS_1(unsigned long a, unsigned long b)
 {
-    return 0x87e0904402c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904402c0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_VMA_STATUS_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_VMA_STATUS_1(a,b) bdk_gserx_lanex_rx_vma_status_1_t
@@ -4458,7 +4544,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_VMA_STATUS_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_VMA_STATUS_0(unsigned long a, unsigned long b)
 {
-    return 0x87e0904402b8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904402b8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_VMA_STATUS_0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_VMA_STATUS_0(a,b) bdk_gserx_lanex_rx_vma_status_0_t
@@ -4587,7 +4675,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_MISC_OVRRD(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_MISC_OVRRD(unsigned long a, unsigned long b)
 {
-    return 0x87e090440258ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440258ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_MISC_OVRRD", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_MISC_OVRRD(a,b) bdk_gserx_lanex_rx_misc_ovrrd_t
@@ -4624,7 +4714,9 @@ typedef union
 static inline uint64_t BDK_GSERX_QLM_STAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_QLM_STAT(unsigned long a)
 {
-    return 0x87e0900000a0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0900000a0ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_QLM_STAT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_QLM_STAT(a) bdk_gserx_qlm_stat_t
@@ -4661,7 +4753,9 @@ typedef union
 static inline uint64_t BDK_GSERX_REFCLK_EVT_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_REFCLK_EVT_CTRL(unsigned long a)
 {
-    return 0x87e090000170ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000170ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_REFCLK_EVT_CTRL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_REFCLK_EVT_CTRL(a) bdk_gserx_refclk_evt_ctrl_t
@@ -4736,7 +4830,9 @@ typedef union
 static inline uint64_t BDK_GSERX_GLBL_PLL_MONITOR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_GLBL_PLL_MONITOR(unsigned long a)
 {
-    return 0x87e090460100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090460100ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_GLBL_PLL_MONITOR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_GLBL_PLL_MONITOR(a) bdk_gserx_glbl_pll_monitor_t
@@ -4778,7 +4874,9 @@ typedef union
 static inline uint64_t BDK_GSERX_SATA_LANEX_TX_PREEMPHX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_SATA_LANEX_TX_PREEMPHX(unsigned long a, unsigned long b, unsigned long c)
 {
-    return 0x87e090000a00ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+    if ((a<=13) && (b<=3) && (c<=2))
+        return 0x87e090000a00ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+    __bdk_csr_fatal("GSERX_SATA_LANEX_TX_PREEMPHX", 3, a, b, c, 0);
 }
 
 #define typedef_BDK_GSERX_SATA_LANEX_TX_PREEMPHX(a,b,c) bdk_gserx_sata_lanex_tx_preemphx_t
@@ -4786,59 +4884,6 @@ static inline uint64_t BDK_GSERX_SATA_LANEX_TX_PREEMPHX(unsigned long a, unsigne
 #define basename_BDK_GSERX_SATA_LANEX_TX_PREEMPHX(a,b,c) "GSERX_SATA_LANEX_TX_PREEMPHX"
 #define busnum_BDK_GSERX_SATA_LANEX_TX_PREEMPHX(a,b,c) (a)
 #define arguments_BDK_GSERX_SATA_LANEX_TX_PREEMPHX(a,b,c) (a),(b),(c),-1
-
-/**
- * Register (RSL) gser#_rx_eie_deten
- *
- * GSER RX Electrical Idle Detect Enable Register
- * These registers are reset by hardware only during chip cold reset. The values of the CSR
- * fields in these registers do not change during chip warm or soft resets.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gserx_rx_eie_deten_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), these bits enable
-                                                                 per lane
-                                                                 electrical idle exit (EIE) detection. When EIE is detected,
-                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
-                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
-                                                                 EIE detection.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), these bits enable
-                                                                 per lane
-                                                                 electrical idle exit (EIE) detection. When EIE is detected,
-                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
-                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
-                                                                 EIE detection.
-                                                                 <3>: Lane 3.
-                                                                 <2>: Lane 2.
-                                                                 <1>: Lane 1.
-                                                                 <0>: Lane 0. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gserx_rx_eie_deten_s cn; */
-} bdk_gserx_rx_eie_deten_t;
-
-static inline uint64_t BDK_GSERX_RX_EIE_DETEN(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GSERX_RX_EIE_DETEN(unsigned long a)
-{
-    return 0x87e090000148ll + 0x1000000ll * ((a) & 0xf);
-}
-
-#define typedef_BDK_GSERX_RX_EIE_DETEN(a) bdk_gserx_rx_eie_deten_t
-#define bustype_BDK_GSERX_RX_EIE_DETEN(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_GSERX_RX_EIE_DETEN(a) "GSERX_RX_EIE_DETEN"
-#define busnum_BDK_GSERX_RX_EIE_DETEN(a) (a)
-#define arguments_BDK_GSERX_RX_EIE_DETEN(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gser#_iddq_mode
@@ -4866,7 +4911,9 @@ typedef union
 static inline uint64_t BDK_GSERX_IDDQ_MODE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_IDDQ_MODE(unsigned long a)
 {
-    return 0x87e090000018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000018ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_IDDQ_MODE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_IDDQ_MODE(a) bdk_gserx_iddq_mode_t
@@ -4946,7 +4993,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_0(unsigned long a, unsigned long b)
 {
-    return 0x87e0904c0060ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904c0060ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_PCS_CTLIFC_0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_PCS_CTLIFC_0(a,b) bdk_gserx_lanex_pcs_ctlifc_0_t
@@ -4998,7 +5047,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_1(unsigned long a, unsigned long b)
 {
-    return 0x87e0904c0068ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904c0068ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_PCS_CTLIFC_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_PCS_CTLIFC_1(a,b) bdk_gserx_lanex_pcs_ctlifc_1_t
@@ -5108,7 +5159,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_PCS_CTLIFC_2(unsigned long a, unsigned long b)
 {
-    return 0x87e0904c0070ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904c0070ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_PCS_CTLIFC_2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_PCS_CTLIFC_2(a,b) bdk_gserx_lanex_pcs_ctlifc_2_t
@@ -5170,7 +5223,9 @@ typedef union
 static inline uint64_t BDK_GSERX_RX_TXDIR_CTRL_1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_RX_TXDIR_CTRL_1(unsigned long a)
 {
-    return 0x87e0904600f0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0904600f0ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_RX_TXDIR_CTRL_1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_RX_TXDIR_CTRL_1(a) bdk_gserx_rx_txdir_ctrl_1_t
@@ -5210,7 +5265,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_2(unsigned long a)
 {
-    return 0x87e0904e01c0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0904e01c0ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_VMA_COARSE_CTRL_2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_VMA_COARSE_CTRL_2(a) bdk_gserx_lane_vma_coarse_ctrl_2_t
@@ -5250,7 +5307,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_1(unsigned long a)
 {
-    return 0x87e0904e01b8ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0904e01b8ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_VMA_COARSE_CTRL_1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_VMA_COARSE_CTRL_1(a) bdk_gserx_lane_vma_coarse_ctrl_1_t
@@ -5296,7 +5355,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_VMA_COARSE_CTRL_0(unsigned long a)
 {
-    return 0x87e0904e01b0ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0904e01b0ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_VMA_COARSE_CTRL_0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_VMA_COARSE_CTRL_0(a) bdk_gserx_lane_vma_coarse_ctrl_0_t
@@ -5363,7 +5424,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(unsigned long a, unsigned long b)
 {
-    return 0x87e090440208ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440208ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CDR_MISC_CTRL_0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CDR_MISC_CTRL_0(a,b) bdk_gserx_lanex_rx_cdr_misc_ctrl_0_t
@@ -5449,7 +5512,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_5(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_5(unsigned long a, unsigned long b)
 {
-    return 0x87e090440028ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440028ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CFG_5", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CFG_5(a,b) bdk_gserx_lanex_rx_cfg_5_t
@@ -5578,7 +5643,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_4(unsigned long a, unsigned long b)
 {
-    return 0x87e090440020ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440020ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CFG_4", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CFG_4(a,b) bdk_gserx_lanex_rx_cfg_4_t
@@ -5646,7 +5713,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_1(unsigned long a, unsigned long b)
 {
-    return 0x87e090440008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440008ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CFG_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CFG_1(a,b) bdk_gserx_lanex_rx_cfg_1_t
@@ -5720,7 +5789,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_0(unsigned long a, unsigned long b)
 {
-    return 0x87e090440000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CFG_0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CFG_0(a,b) bdk_gserx_lanex_rx_cfg_0_t
@@ -5794,7 +5865,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_3(unsigned long a, unsigned long b)
 {
-    return 0x87e090440018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CFG_3", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CFG_3(a,b) bdk_gserx_lanex_rx_cfg_3_t
@@ -5829,7 +5902,9 @@ typedef union
 static inline uint64_t BDK_GSERX_BR_TXX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_BR_TXX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e090000420ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090000420ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_BR_TXX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_BR_TXX_CTL(a,b) bdk_gserx_br_txx_ctl_t
@@ -5839,51 +5914,61 @@ static inline uint64_t BDK_GSERX_BR_TXX_CTL(unsigned long a, unsigned long b)
 #define arguments_BDK_GSERX_BR_TXX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) gser#_ana_atest
+ * Register (RSL) gser#_rx_coast
  *
- * GSER Analog Test Register
+ * GSER RX Coast Register
+ * These registers are reset by hardware only during chip cold reset. The values of the CSR
+ * fields in these registers do not change during chip warm or soft resets.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_gserx_ana_atest_s
+    struct bdk_gserx_rx_coast_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the QLM4 register
-                                                                 is tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied
-                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are
-                                                                 unused. For diagnostic use only. */
-        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the QLM4 register is
-                                                                 tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied to
-                                                                 the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are unused.
-                                                                 For diagnostic use only. */
+        uint64_t reserved_4_63         : 60;
+        uint64_t coast                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode (including all CCPI links), control signals to
+                                                                 freeze
+                                                                 the frequency of the per lane CDR in the PHY. The COAST signals are only valid in P0
+                                                                 state, come up asserted and are deasserted in hardware after detecting the electrical idle
+                                                                 exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
+                                                                 allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
+                                                                 allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
+                                                                 <3>: Lane 3.
+                                                                 <2>: Lane 2.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t ana_dac_a             : 5;  /**< [  4:  0](R/W) Used to control A-side DAC input to the analog test block. Note that the QLM4 register is
-                                                                 tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied to
-                                                                 the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are unused.
-                                                                 For diagnostic use only. */
-        uint64_t ana_dac_b             : 7;  /**< [ 11:  5](R/W) Used to control the B-side DAC input to the analog test block. Note that the QLM4 register
-                                                                 is tied to the analog test block, for non-CCPI links. Note that the CCPI4 register is tied
-                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_ATEST registers are
-                                                                 unused. For diagnostic use only. */
-        uint64_t reserved_12_63        : 52;
+        uint64_t coast                 : 4;  /**< [  3:  0](R/W/H) For links that are not in PCIE or SATA mode (including all CCPI links), control signals to
+                                                                 freeze
+                                                                 the frequency of the per lane CDR in the PHY. The COAST signals are only valid in P0
+                                                                 state, come up asserted and are deasserted in hardware after detecting the electrical idle
+                                                                 exit (GSER()_RX_EIE_DETSTS[EIESTS]). Once the COAST signal deasserts, the CDR is
+                                                                 allowed to lock. In BGX mode, the BGX MAC can also control the COAST inputs to the PHY to
+                                                                 allow Auto-Negotiation for backplane Ethernet. For diagnostic use only.
+                                                                 <3>: Lane 3.
+                                                                 <2>: Lane 2.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_gserx_ana_atest_s cn; */
-} bdk_gserx_ana_atest_t;
+    /* struct bdk_gserx_rx_coast_s cn; */
+} bdk_gserx_rx_coast_t;
 
-static inline uint64_t BDK_GSERX_ANA_ATEST(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GSERX_ANA_ATEST(unsigned long a)
+static inline uint64_t BDK_GSERX_RX_COAST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_RX_COAST(unsigned long a)
 {
-    return 0x87e090000800ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000138ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_RX_COAST", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_GSERX_ANA_ATEST(a) bdk_gserx_ana_atest_t
-#define bustype_BDK_GSERX_ANA_ATEST(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_GSERX_ANA_ATEST(a) "GSERX_ANA_ATEST"
-#define busnum_BDK_GSERX_ANA_ATEST(a) (a)
-#define arguments_BDK_GSERX_ANA_ATEST(a) (a),-1,-1,-1
+#define typedef_BDK_GSERX_RX_COAST(a) bdk_gserx_rx_coast_t
+#define bustype_BDK_GSERX_RX_COAST(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_RX_COAST(a) "GSERX_RX_COAST"
+#define busnum_BDK_GSERX_RX_COAST(a) (a)
+#define arguments_BDK_GSERX_RX_COAST(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gser#_lane#_rx_precorr_ctrl
@@ -5927,7 +6012,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_PRECORR_CTRL(unsigned long a, unsigned long b)
 {
-    return 0x87e090440060ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440060ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_PRECORR_CTRL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_PRECORR_CTRL(a,b) bdk_gserx_lanex_rx_precorr_ctrl_t
@@ -6054,7 +6141,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_LBERT_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_LBERT_CFG(unsigned long a, unsigned long b)
 {
-    return 0x87e0904c0020ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904c0020ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_LBERT_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_LBERT_CFG(a,b) bdk_gserx_lanex_lbert_cfg_t
@@ -6089,7 +6178,9 @@ typedef union
 static inline uint64_t BDK_GSERX_SCRATCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_SCRATCH(unsigned long a)
 {
-    return 0x87e090000020ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000020ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_SCRATCH", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_SCRATCH(a) bdk_gserx_scratch_t
@@ -6137,7 +6228,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_LBERT_ECNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_LBERT_ECNT(unsigned long a, unsigned long b)
 {
-    return 0x87e0904c0028ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904c0028ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_LBERT_ECNT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_LBERT_ECNT(a,b) bdk_gserx_lanex_lbert_ecnt_t
@@ -6172,7 +6265,9 @@ typedef union
 static inline uint64_t BDK_GSERX_DBG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_DBG(unsigned long a)
 {
-    return 0x87e090000098ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000098ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_DBG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_DBG(a) bdk_gserx_dbg_t
@@ -6220,7 +6315,9 @@ typedef union
 static inline uint64_t BDK_GSERX_SLICE_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_SLICE_CFG(unsigned long a)
 {
-    return 0x87e090460060ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090460060ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_SLICE_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_SLICE_CFG(a) bdk_gserx_slice_cfg_t
@@ -6282,7 +6379,7 @@ typedef union
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460008ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_GLBL_PLL_CFG_1", 1, a, 0, 0, 0);
 }
@@ -6338,7 +6435,7 @@ typedef union
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460000ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_GLBL_PLL_CFG_0", 1, a, 0, 0, 0);
 }
@@ -6453,7 +6550,9 @@ typedef union
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_3(unsigned long a)
 {
-    return 0x87e090460018ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090460018ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_GLBL_PLL_CFG_3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_GLBL_PLL_CFG_3(a) bdk_gserx_glbl_pll_cfg_3_t
@@ -6551,7 +6650,7 @@ typedef union
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=13))
         return 0x87e090460010ll + 0x1000000ll * ((a) & 0xf);
     __bdk_csr_fatal("GSERX_GLBL_PLL_CFG_2", 1, a, 0, 0, 0);
 }
@@ -6600,7 +6699,9 @@ typedef union
 static inline uint64_t BDK_GSERX_RX_POLARITY(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_RX_POLARITY(unsigned long a)
 {
-    return 0x87e090000160ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000160ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_RX_POLARITY", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_RX_POLARITY(a) bdk_gserx_rx_polarity_t
@@ -6643,7 +6744,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_SRST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_SRST(unsigned long a)
 {
-    return 0x87e090000100ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000100ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_SRST", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_SRST(a) bdk_gserx_lane_srst_t
@@ -6692,7 +6795,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_LPBKEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_LPBKEN(unsigned long a)
 {
-    return 0x87e090000110ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000110ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_LPBKEN", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_LPBKEN(a) bdk_gserx_lane_lpbken_t
@@ -6737,7 +6842,9 @@ typedef union
 static inline uint64_t BDK_GSERX_TX_VBOOST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_TX_VBOOST(unsigned long a)
 {
-    return 0x87e090000130ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000130ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_TX_VBOOST", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_TX_VBOOST(a) bdk_gserx_tx_vboost_t
@@ -6783,7 +6890,9 @@ typedef union
 static inline uint64_t BDK_GSERX_PHY_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_PHY_CTL(unsigned long a)
 {
-    return 0x87e090000000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000000ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_PHY_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_PHY_CTL(a) bdk_gserx_phy_ctl_t
@@ -6822,7 +6931,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_LBERT_PAT_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_LBERT_PAT_CFG(unsigned long a, unsigned long b)
 {
-    return 0x87e0904c0018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904c0018ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_LBERT_PAT_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_LBERT_PAT_CFG(a,b) bdk_gserx_lanex_lbert_pat_cfg_t
@@ -6864,7 +6975,9 @@ typedef union
 static inline uint64_t BDK_GSERX_EQ_WAIT_TIME(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_EQ_WAIT_TIME(unsigned long a)
 {
-    return 0x87e0904e0000ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0904e0000ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_EQ_WAIT_TIME", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_EQ_WAIT_TIME(a) bdk_gserx_eq_wait_time_t
@@ -6872,6 +6985,61 @@ static inline uint64_t BDK_GSERX_EQ_WAIT_TIME(unsigned long a)
 #define basename_BDK_GSERX_EQ_WAIT_TIME(a) "GSERX_EQ_WAIT_TIME"
 #define busnum_BDK_GSERX_EQ_WAIT_TIME(a) (a)
 #define arguments_BDK_GSERX_EQ_WAIT_TIME(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) gser#_rx_eie_deten
+ *
+ * GSER RX Electrical Idle Detect Enable Register
+ * These registers are reset by hardware only during chip cold reset. The values of the CSR
+ * fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gserx_rx_eie_deten_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), these bits enable
+                                                                 per lane
+                                                                 electrical idle exit (EIE) detection. When EIE is detected,
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
+                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 EIE detection.
+                                                                 <3>: Lane 3.
+                                                                 <2>: Lane 2.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t eiede                 : 4;  /**< [  3:  0](R/W) For links that are not in PCIE or SATA mode (including all CCPI links), these bits enable
+                                                                 per lane
+                                                                 electrical idle exit (EIE) detection. When EIE is detected,
+                                                                 GSER()_RX_EIE_DETSTS[EIELTCH] is asserted. EIEDE defaults to the enabled state. Once
+                                                                 EIE has been detected, EIEDE must be disabled, and then enabled again to perform another
+                                                                 EIE detection.
+                                                                 <3>: Lane 3.
+                                                                 <2>: Lane 2.
+                                                                 <1>: Lane 1.
+                                                                 <0>: Lane 0. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gserx_rx_eie_deten_s cn; */
+} bdk_gserx_rx_eie_deten_t;
+
+static inline uint64_t BDK_GSERX_RX_EIE_DETEN(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GSERX_RX_EIE_DETEN(unsigned long a)
+{
+    if (a<=13)
+        return 0x87e090000148ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_RX_EIE_DETEN", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GSERX_RX_EIE_DETEN(a) bdk_gserx_rx_eie_deten_t
+#define bustype_BDK_GSERX_RX_EIE_DETEN(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_GSERX_RX_EIE_DETEN(a) "GSERX_RX_EIE_DETEN"
+#define busnum_BDK_GSERX_RX_EIE_DETEN(a) (a)
+#define arguments_BDK_GSERX_RX_EIE_DETEN(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) gser#_ana_sel
@@ -6950,7 +7118,9 @@ typedef union
 static inline uint64_t BDK_GSERX_ANA_SEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_ANA_SEL(unsigned long a)
 {
-    return 0x87e090000808ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000808ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_ANA_SEL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_ANA_SEL(a) bdk_gserx_ana_sel_t
@@ -6994,7 +7164,9 @@ typedef union
 static inline uint64_t BDK_GSERX_RDET_TIME(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_RDET_TIME(unsigned long a)
 {
-    return 0x87e0904e0008ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0904e0008ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_RDET_TIME", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_RDET_TIME(a) bdk_gserx_rdet_time_t
@@ -7171,7 +7343,9 @@ typedef union
 static inline uint64_t BDK_GSERX_BR_RXX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_BR_RXX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e090000400ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090000400ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_BR_RXX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_BR_RXX_CTL(a,b) bdk_gserx_br_rxx_ctl_t
@@ -7462,7 +7636,9 @@ typedef union
 static inline uint64_t BDK_GSERX_PLL_PX_MODE_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_PLL_PX_MODE_1(unsigned long a, unsigned long b)
 {
-    return 0x87e0904e0038ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    if ((a<=13) && (b<=11))
+        return 0x87e0904e0038ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    __bdk_csr_fatal("GSERX_PLL_PX_MODE_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_PLL_PX_MODE_1(a,b) bdk_gserx_pll_px_mode_1_t
@@ -7711,7 +7887,9 @@ typedef union
 static inline uint64_t BDK_GSERX_PLL_PX_MODE_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_PLL_PX_MODE_0(unsigned long a, unsigned long b)
 {
-    return 0x87e0904e0030ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    if ((a<=13) && (b<=11))
+        return 0x87e0904e0030ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    __bdk_csr_fatal("GSERX_PLL_PX_MODE_0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_PLL_PX_MODE_0(a,b) bdk_gserx_pll_px_mode_0_t
@@ -7855,7 +8033,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_TX_PRE_EMPHASIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_TX_PRE_EMPHASIS(unsigned long a, unsigned long b)
 {
-    return 0x87e0904400c8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904400c8ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_TX_PRE_EMPHASIS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_TX_PRE_EMPHASIS(a,b) bdk_gserx_lanex_tx_pre_emphasis_t
@@ -7896,7 +8076,9 @@ typedef union
 static inline uint64_t BDK_GSERX_SATA_LANEX_TX_AMPX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_SATA_LANEX_TX_AMPX(unsigned long a, unsigned long b, unsigned long c)
 {
-    return 0x87e090000b00ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+    if ((a<=13) && (b<=3) && (c<=2))
+        return 0x87e090000b00ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0x3) + 8ll * ((c) & 0x3);
+    __bdk_csr_fatal("GSERX_SATA_LANEX_TX_AMPX", 3, a, b, c, 0);
 }
 
 #define typedef_BDK_GSERX_SATA_LANEX_TX_AMPX(a,b,c) bdk_gserx_sata_lanex_tx_ampx_t
@@ -7944,7 +8126,9 @@ typedef union
 static inline uint64_t BDK_GSERX_SATA_TX_INVERT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_SATA_TX_INVERT(unsigned long a)
 {
-    return 0x87e090000910ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000910ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_SATA_TX_INVERT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_SATA_TX_INVERT(a) bdk_gserx_sata_tx_invert_t
@@ -7982,7 +8166,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_PMA_LOOPBACK_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_PMA_LOOPBACK_CTRL(unsigned long a, unsigned long b)
 {
-    return 0x87e0904400d0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904400d0ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_PMA_LOOPBACK_CTRL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_PMA_LOOPBACK_CTRL(a,b) bdk_gserx_lanex_pma_loopback_ctrl_t
@@ -8022,7 +8208,9 @@ typedef union
 static inline uint64_t BDK_GSERX_SATA_LANE_RST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_SATA_LANE_RST(unsigned long a)
 {
-    return 0x87e090000908ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000908ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_SATA_LANE_RST", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_SATA_LANE_RST(a) bdk_gserx_sata_lane_rst_t
@@ -8526,7 +8714,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_PX_MODE_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_PX_MODE_0(unsigned long a, unsigned long b)
 {
-    return 0x87e0904e0040ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    if ((a<=13) && (b<=11))
+        return 0x87e0904e0040ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_PX_MODE_0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_PX_MODE_0(a,b) bdk_gserx_lane_px_mode_0_t
@@ -8775,7 +8965,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANE_PX_MODE_1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANE_PX_MODE_1(unsigned long a, unsigned long b)
 {
-    return 0x87e0904e0048ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    if ((a<=13) && (b<=11))
+        return 0x87e0904e0048ll + 0x1000000ll * ((a) & 0xf) + 0x20ll * ((b) & 0xf);
+    __bdk_csr_fatal("GSERX_LANE_PX_MODE_1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANE_PX_MODE_1(a,b) bdk_gserx_lane_px_mode_1_t
@@ -8849,7 +9041,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_MISC_CFG_0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_MISC_CFG_0(unsigned long a, unsigned long b)
 {
-    return 0x87e0904c0000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e0904c0000ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_MISC_CFG_0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_MISC_CFG_0(a,b) bdk_gserx_lanex_misc_cfg_0_t
@@ -9026,7 +9220,9 @@ typedef union
 static inline uint64_t BDK_GSERX_LANEX_RX_CTLE_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_LANEX_RX_CTLE_CTRL(unsigned long a, unsigned long b)
 {
-    return 0x87e090440058ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090440058ll + 0x1000000ll * ((a) & 0xf) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_LANEX_RX_CTLE_CTRL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_LANEX_RX_CTLE_CTRL(a,b) bdk_gserx_lanex_rx_ctle_ctrl_t
@@ -9077,7 +9273,9 @@ typedef union
 static inline uint64_t BDK_GSERX_REFCLK_EVT_CNTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_REFCLK_EVT_CNTR(unsigned long a)
 {
-    return 0x87e090000178ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000178ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_REFCLK_EVT_CNTR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_REFCLK_EVT_CNTR(a) bdk_gserx_refclk_evt_cntr_t
@@ -9129,7 +9327,9 @@ typedef union
 static inline uint64_t BDK_GSERX_GLBL_TM_ADMON(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_GLBL_TM_ADMON(unsigned long a)
 {
-    return 0x87e090460408ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090460408ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_GLBL_TM_ADMON", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_GLBL_TM_ADMON(a) bdk_gserx_glbl_tm_admon_t
@@ -9216,7 +9416,9 @@ typedef union
 static inline uint64_t BDK_GSERX_RX_EIE_DETSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_RX_EIE_DETSTS(unsigned long a)
 {
-    return 0x87e090000150ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090000150ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_RX_EIE_DETSTS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_RX_EIE_DETSTS(a) bdk_gserx_rx_eie_detsts_t
@@ -9256,7 +9458,9 @@ typedef union
 static inline uint64_t BDK_GSERX_SATA_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_SATA_STATUS(unsigned long a)
 {
-    return 0x87e090100900ll + 0x1000000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e090100900ll + 0x1000000ll * ((a) & 0xf);
+    __bdk_csr_fatal("GSERX_SATA_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GSERX_SATA_STATUS(a) bdk_gserx_sata_status_t
@@ -9311,7 +9515,9 @@ typedef union
 static inline uint64_t BDK_GSERX_BR_TXX_TAP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GSERX_BR_TXX_TAP(unsigned long a, unsigned long b)
 {
-    return 0x87e090000440ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    if ((a<=13) && (b<=3))
+        return 0x87e090000440ll + 0x1000000ll * ((a) & 0xf) + 0x80ll * ((b) & 0x3);
+    __bdk_csr_fatal("GSERX_BR_TXX_TAP", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GSERX_BR_TXX_TAP(a,b) bdk_gserx_br_txx_tap_t

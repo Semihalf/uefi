@@ -112,7 +112,7 @@ typedef union
 static inline uint64_t BDK_PCM_TEX_RXMSKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_RXMSKX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=7)))
         return 0x8060001000c0ll + 0x10000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("PCM_TEX_RXMSKX", 2, a, b, 0, 0);
 }
@@ -162,7 +162,7 @@ typedef union
 static inline uint64_t BDK_PCM_TEX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_INT_ENA_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x806000100078ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -212,7 +212,7 @@ typedef union
 static inline uint64_t BDK_PCM_TEX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_INT_ENA_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x806000100070ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -247,7 +247,7 @@ typedef union
 static inline uint64_t BDK_PCM_TEX_RXCNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_RXCNT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x806000100060ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_RXCNT", 1, a, 0, 0, 0);
 }
@@ -301,7 +301,7 @@ typedef union
 static inline uint64_t BDK_PCM_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x806000f00000ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -334,7 +334,7 @@ typedef union
 static inline uint64_t BDK_PCM_CLKX_DBG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_CLKX_DBG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x806000010010ll + 0x4000ll * ((a) & 0x1);
     __bdk_csr_fatal("PCM_CLKX_DBG", 1, a, 0, 0, 0);
 }
@@ -385,7 +385,7 @@ typedef union
 static inline uint64_t BDK_PCM_TEX_TXMSKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_TXMSKX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=7)))
         return 0x806000100080ll + 0x10000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
     __bdk_csr_fatal("PCM_TEX_TXMSKX", 2, a, b, 0, 0);
 }
@@ -435,7 +435,7 @@ typedef union
 static inline uint64_t BDK_PCM_TEX_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_INT_SUM_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x806000100020ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_INT_SUM_W1S", 1, a, 0, 0, 0);
 }
@@ -445,223 +445,6 @@ static inline uint64_t BDK_PCM_TEX_INT_SUM_W1S(unsigned long a)
 #define basename_BDK_PCM_TEX_INT_SUM_W1S(a) "PCM_TEX_INT_SUM_W1S"
 #define busnum_BDK_PCM_TEX_INT_SUM_W1S(a) (a)
 #define arguments_BDK_PCM_TEX_INT_SUM_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pcm_te#_int_sum
- *
- * PCM Interrupt Summary Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pcm_tex_int_sum_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t rxovf                 : 1;  /**< [  7:  7](R/W1C/H) RX byte overflowed. */
-        uint64_t txempty               : 1;  /**< [  6:  6](R/W1C/H) TX byte was empty when sampled. */
-        uint64_t txrd                  : 1;  /**< [  5:  5](R/W1C/H) DMA engine frame read interrupt occurred. */
-        uint64_t txwrap                : 1;  /**< [  4:  4](R/W1C/H) TX region wrap interrupt occurred. */
-        uint64_t rxst                  : 1;  /**< [  3:  3](R/W1C/H) DMA engine frame store interrupt occurred. */
-        uint64_t rxwrap                : 1;  /**< [  2:  2](R/W1C/H) RX region wrap interrupt occurred. */
-        uint64_t fsyncextra            : 1;  /**< [  1:  1](R/W1C/H) FSYNC extra interrupt occurred. */
-        uint64_t fsyncmissed           : 1;  /**< [  0:  0](R/W1C/H) FSYNC missed interrupt occurred. */
-#else /* Word 0 - Little Endian */
-        uint64_t fsyncmissed           : 1;  /**< [  0:  0](R/W1C/H) FSYNC missed interrupt occurred. */
-        uint64_t fsyncextra            : 1;  /**< [  1:  1](R/W1C/H) FSYNC extra interrupt occurred. */
-        uint64_t rxwrap                : 1;  /**< [  2:  2](R/W1C/H) RX region wrap interrupt occurred. */
-        uint64_t rxst                  : 1;  /**< [  3:  3](R/W1C/H) DMA engine frame store interrupt occurred. */
-        uint64_t txwrap                : 1;  /**< [  4:  4](R/W1C/H) TX region wrap interrupt occurred. */
-        uint64_t txrd                  : 1;  /**< [  5:  5](R/W1C/H) DMA engine frame read interrupt occurred. */
-        uint64_t txempty               : 1;  /**< [  6:  6](R/W1C/H) TX byte was empty when sampled. */
-        uint64_t rxovf                 : 1;  /**< [  7:  7](R/W1C/H) RX byte overflowed. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcm_tex_int_sum_s cn; */
-} bdk_pcm_tex_int_sum_t;
-
-static inline uint64_t BDK_PCM_TEX_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCM_TEX_INT_SUM(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x806000100028ll + 0x10000ll * ((a) & 0x3);
-    __bdk_csr_fatal("PCM_TEX_INT_SUM", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCM_TEX_INT_SUM(a) bdk_pcm_tex_int_sum_t
-#define bustype_BDK_PCM_TEX_INT_SUM(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PCM_TEX_INT_SUM(a) "PCM_TEX_INT_SUM"
-#define busnum_BDK_PCM_TEX_INT_SUM(a) (a)
-#define arguments_BDK_PCM_TEX_INT_SUM(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pcm_te#_txcnt
- *
- * PCM Superframe Transmit Count Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pcm_tex_txcnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Number of superframes in transmit memory region. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Number of superframes in transmit memory region. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcm_tex_txcnt_s cn; */
-} bdk_pcm_tex_txcnt_t;
-
-static inline uint64_t BDK_PCM_TEX_TXCNT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCM_TEX_TXCNT(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x806000100048ll + 0x10000ll * ((a) & 0x3);
-    __bdk_csr_fatal("PCM_TEX_TXCNT", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCM_TEX_TXCNT(a) bdk_pcm_tex_txcnt_t
-#define bustype_BDK_PCM_TEX_TXCNT(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PCM_TEX_TXCNT(a) "PCM_TEX_TXCNT"
-#define busnum_BDK_PCM_TEX_TXCNT(a) (a)
-#define arguments_BDK_PCM_TEX_TXCNT(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pcm_te#_rxaddr
- *
- * PCM Receive Address Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pcm_tex_rxaddr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0](R/W/H) Address of the next write to the receive memory region. */
-#else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](R/W/H) Address of the next write to the receive memory region. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcm_tex_rxaddr_s cn; */
-} bdk_pcm_tex_rxaddr_t;
-
-static inline uint64_t BDK_PCM_TEX_RXADDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCM_TEX_RXADDR(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x806000100068ll + 0x10000ll * ((a) & 0x3);
-    __bdk_csr_fatal("PCM_TEX_RXADDR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCM_TEX_RXADDR(a) bdk_pcm_tex_rxaddr_t
-#define bustype_BDK_PCM_TEX_RXADDR(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PCM_TEX_RXADDR(a) "PCM_TEX_RXADDR"
-#define busnum_BDK_PCM_TEX_RXADDR(a) (a)
-#define arguments_BDK_PCM_TEX_RXADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pcm_te#_tdm_cfg
- *
- * PCM TDM Configuration Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pcm_tex_tdm_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t drvtim                : 16; /**< [ 63: 48](R/W) Number of ECLKs from start of bit time to stop driving last bit of timeslot (if
-                                                                 not driving next timeslot). */
-        uint64_t samppt                : 16; /**< [ 47: 32](R/W) Number of ECLKs from start of bit time to sample data bit. */
-        uint64_t reserved_3_31         : 29;
-        uint64_t lsbfirst              : 1;  /**< [  2:  2](R/W) LSB first.
-                                                                 0 = Shift/receive MSB first.
-                                                                 1 = Shift/receive LSB first. */
-        uint64_t useclk1               : 1;  /**< [  1:  1](R/W) Use CLK1.
-                                                                 0 = PCM is based on BCLK/FSYNC0.
-                                                                 1 = PCM is based on BCLK/FSYNC1. */
-        uint64_t enable                : 1;  /**< [  0:  0](R/W) PCM is enabled, if clear pins are GPIOs.
-
-                                                                 When TDM is disabled by detection of an FSYNC error all transmission and
-                                                                 reception is halted.  In addition, PCMn_TX/RXADDR are updated to point to the
-                                                                 position at which the error was detected. */
-#else /* Word 0 - Little Endian */
-        uint64_t enable                : 1;  /**< [  0:  0](R/W) PCM is enabled, if clear pins are GPIOs.
-
-                                                                 When TDM is disabled by detection of an FSYNC error all transmission and
-                                                                 reception is halted.  In addition, PCMn_TX/RXADDR are updated to point to the
-                                                                 position at which the error was detected. */
-        uint64_t useclk1               : 1;  /**< [  1:  1](R/W) Use CLK1.
-                                                                 0 = PCM is based on BCLK/FSYNC0.
-                                                                 1 = PCM is based on BCLK/FSYNC1. */
-        uint64_t lsbfirst              : 1;  /**< [  2:  2](R/W) LSB first.
-                                                                 0 = Shift/receive MSB first.
-                                                                 1 = Shift/receive LSB first. */
-        uint64_t reserved_3_31         : 29;
-        uint64_t samppt                : 16; /**< [ 47: 32](R/W) Number of ECLKs from start of bit time to sample data bit. */
-        uint64_t drvtim                : 16; /**< [ 63: 48](R/W) Number of ECLKs from start of bit time to stop driving last bit of timeslot (if
-                                                                 not driving next timeslot). */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcm_tex_tdm_cfg_s cn; */
-} bdk_pcm_tex_tdm_cfg_t;
-
-static inline uint64_t BDK_PCM_TEX_TDM_CFG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCM_TEX_TDM_CFG(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x806000100010ll + 0x10000ll * ((a) & 0x3);
-    __bdk_csr_fatal("PCM_TEX_TDM_CFG", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCM_TEX_TDM_CFG(a) bdk_pcm_tex_tdm_cfg_t
-#define bustype_BDK_PCM_TEX_TDM_CFG(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PCM_TEX_TDM_CFG(a) "PCM_TEX_TDM_CFG"
-#define busnum_BDK_PCM_TEX_TDM_CFG(a) (a)
-#define arguments_BDK_PCM_TEX_TDM_CFG(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) pcm_te#_rxstart
- *
- * PCM Receive Start Address Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pcm_tex_rxstart_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting address for the receive memory region. */
-        uint64_t reserved_0_2          : 3;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_2          : 3;
-        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting address for the receive memory region. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcm_tex_rxstart_s cn; */
-} bdk_pcm_tex_rxstart_t;
-
-static inline uint64_t BDK_PCM_TEX_RXSTART(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCM_TEX_RXSTART(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x806000100058ll + 0x10000ll * ((a) & 0x3);
-    __bdk_csr_fatal("PCM_TEX_RXSTART", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCM_TEX_RXSTART(a) bdk_pcm_tex_rxstart_t
-#define bustype_BDK_PCM_TEX_RXSTART(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PCM_TEX_RXSTART(a) "PCM_TEX_RXSTART"
-#define busnum_BDK_PCM_TEX_RXSTART(a) (a)
-#define arguments_BDK_PCM_TEX_RXSTART(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pcm_clk#_cfg
@@ -787,7 +570,7 @@ typedef union
 static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x806000010000ll + 0x4000ll * ((a) & 0x1);
     __bdk_csr_fatal("PCM_CLKX_CFG", 1, a, 0, 0, 0);
 }
@@ -797,6 +580,223 @@ static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a)
 #define basename_BDK_PCM_CLKX_CFG(a) "PCM_CLKX_CFG"
 #define busnum_BDK_PCM_CLKX_CFG(a) (a)
 #define arguments_BDK_PCM_CLKX_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pcm_te#_int_sum
+ *
+ * PCM Interrupt Summary Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pcm_tex_int_sum_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t rxovf                 : 1;  /**< [  7:  7](R/W1C/H) RX byte overflowed. */
+        uint64_t txempty               : 1;  /**< [  6:  6](R/W1C/H) TX byte was empty when sampled. */
+        uint64_t txrd                  : 1;  /**< [  5:  5](R/W1C/H) DMA engine frame read interrupt occurred. */
+        uint64_t txwrap                : 1;  /**< [  4:  4](R/W1C/H) TX region wrap interrupt occurred. */
+        uint64_t rxst                  : 1;  /**< [  3:  3](R/W1C/H) DMA engine frame store interrupt occurred. */
+        uint64_t rxwrap                : 1;  /**< [  2:  2](R/W1C/H) RX region wrap interrupt occurred. */
+        uint64_t fsyncextra            : 1;  /**< [  1:  1](R/W1C/H) FSYNC extra interrupt occurred. */
+        uint64_t fsyncmissed           : 1;  /**< [  0:  0](R/W1C/H) FSYNC missed interrupt occurred. */
+#else /* Word 0 - Little Endian */
+        uint64_t fsyncmissed           : 1;  /**< [  0:  0](R/W1C/H) FSYNC missed interrupt occurred. */
+        uint64_t fsyncextra            : 1;  /**< [  1:  1](R/W1C/H) FSYNC extra interrupt occurred. */
+        uint64_t rxwrap                : 1;  /**< [  2:  2](R/W1C/H) RX region wrap interrupt occurred. */
+        uint64_t rxst                  : 1;  /**< [  3:  3](R/W1C/H) DMA engine frame store interrupt occurred. */
+        uint64_t txwrap                : 1;  /**< [  4:  4](R/W1C/H) TX region wrap interrupt occurred. */
+        uint64_t txrd                  : 1;  /**< [  5:  5](R/W1C/H) DMA engine frame read interrupt occurred. */
+        uint64_t txempty               : 1;  /**< [  6:  6](R/W1C/H) TX byte was empty when sampled. */
+        uint64_t rxovf                 : 1;  /**< [  7:  7](R/W1C/H) RX byte overflowed. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcm_tex_int_sum_s cn; */
+} bdk_pcm_tex_int_sum_t;
+
+static inline uint64_t BDK_PCM_TEX_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCM_TEX_INT_SUM(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x806000100028ll + 0x10000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCM_TEX_INT_SUM", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCM_TEX_INT_SUM(a) bdk_pcm_tex_int_sum_t
+#define bustype_BDK_PCM_TEX_INT_SUM(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PCM_TEX_INT_SUM(a) "PCM_TEX_INT_SUM"
+#define busnum_BDK_PCM_TEX_INT_SUM(a) (a)
+#define arguments_BDK_PCM_TEX_INT_SUM(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pcm_te#_txcnt
+ *
+ * PCM Superframe Transmit Count Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pcm_tex_txcnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Number of superframes in transmit memory region. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Number of superframes in transmit memory region. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcm_tex_txcnt_s cn; */
+} bdk_pcm_tex_txcnt_t;
+
+static inline uint64_t BDK_PCM_TEX_TXCNT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCM_TEX_TXCNT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x806000100048ll + 0x10000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCM_TEX_TXCNT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCM_TEX_TXCNT(a) bdk_pcm_tex_txcnt_t
+#define bustype_BDK_PCM_TEX_TXCNT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PCM_TEX_TXCNT(a) "PCM_TEX_TXCNT"
+#define busnum_BDK_PCM_TEX_TXCNT(a) (a)
+#define arguments_BDK_PCM_TEX_TXCNT(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pcm_te#_rxaddr
+ *
+ * PCM Receive Address Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pcm_tex_rxaddr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 49; /**< [ 48:  0](R/W/H) Address of the next write to the receive memory region. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 49; /**< [ 48:  0](R/W/H) Address of the next write to the receive memory region. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcm_tex_rxaddr_s cn; */
+} bdk_pcm_tex_rxaddr_t;
+
+static inline uint64_t BDK_PCM_TEX_RXADDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCM_TEX_RXADDR(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x806000100068ll + 0x10000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCM_TEX_RXADDR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCM_TEX_RXADDR(a) bdk_pcm_tex_rxaddr_t
+#define bustype_BDK_PCM_TEX_RXADDR(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PCM_TEX_RXADDR(a) "PCM_TEX_RXADDR"
+#define busnum_BDK_PCM_TEX_RXADDR(a) (a)
+#define arguments_BDK_PCM_TEX_RXADDR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pcm_te#_tdm_cfg
+ *
+ * PCM TDM Configuration Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pcm_tex_tdm_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t drvtim                : 16; /**< [ 63: 48](R/W) Number of ECLKs from start of bit time to stop driving last bit of timeslot (if
+                                                                 not driving next timeslot). */
+        uint64_t samppt                : 16; /**< [ 47: 32](R/W) Number of ECLKs from start of bit time to sample data bit. */
+        uint64_t reserved_3_31         : 29;
+        uint64_t lsbfirst              : 1;  /**< [  2:  2](R/W) LSB first.
+                                                                 0 = Shift/receive MSB first.
+                                                                 1 = Shift/receive LSB first. */
+        uint64_t useclk1               : 1;  /**< [  1:  1](R/W) Use CLK1.
+                                                                 0 = PCM is based on BCLK/FSYNC0.
+                                                                 1 = PCM is based on BCLK/FSYNC1. */
+        uint64_t enable                : 1;  /**< [  0:  0](R/W) PCM is enabled, if clear pins are GPIOs.
+
+                                                                 When TDM is disabled by detection of an FSYNC error all transmission and
+                                                                 reception is halted.  In addition, PCMn_TX/RXADDR are updated to point to the
+                                                                 position at which the error was detected. */
+#else /* Word 0 - Little Endian */
+        uint64_t enable                : 1;  /**< [  0:  0](R/W) PCM is enabled, if clear pins are GPIOs.
+
+                                                                 When TDM is disabled by detection of an FSYNC error all transmission and
+                                                                 reception is halted.  In addition, PCMn_TX/RXADDR are updated to point to the
+                                                                 position at which the error was detected. */
+        uint64_t useclk1               : 1;  /**< [  1:  1](R/W) Use CLK1.
+                                                                 0 = PCM is based on BCLK/FSYNC0.
+                                                                 1 = PCM is based on BCLK/FSYNC1. */
+        uint64_t lsbfirst              : 1;  /**< [  2:  2](R/W) LSB first.
+                                                                 0 = Shift/receive MSB first.
+                                                                 1 = Shift/receive LSB first. */
+        uint64_t reserved_3_31         : 29;
+        uint64_t samppt                : 16; /**< [ 47: 32](R/W) Number of ECLKs from start of bit time to sample data bit. */
+        uint64_t drvtim                : 16; /**< [ 63: 48](R/W) Number of ECLKs from start of bit time to stop driving last bit of timeslot (if
+                                                                 not driving next timeslot). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcm_tex_tdm_cfg_s cn; */
+} bdk_pcm_tex_tdm_cfg_t;
+
+static inline uint64_t BDK_PCM_TEX_TDM_CFG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCM_TEX_TDM_CFG(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x806000100010ll + 0x10000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCM_TEX_TDM_CFG", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCM_TEX_TDM_CFG(a) bdk_pcm_tex_tdm_cfg_t
+#define bustype_BDK_PCM_TEX_TDM_CFG(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PCM_TEX_TDM_CFG(a) "PCM_TEX_TDM_CFG"
+#define busnum_BDK_PCM_TEX_TDM_CFG(a) (a)
+#define arguments_BDK_PCM_TEX_TDM_CFG(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pcm_te#_rxstart
+ *
+ * PCM Receive Start Address Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pcm_tex_rxstart_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting address for the receive memory region. */
+        uint64_t reserved_0_2          : 3;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_2          : 3;
+        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting address for the receive memory region. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcm_tex_rxstart_s cn; */
+} bdk_pcm_tex_rxstart_t;
+
+static inline uint64_t BDK_PCM_TEX_RXSTART(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCM_TEX_RXSTART(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x806000100058ll + 0x10000ll * ((a) & 0x3);
+    __bdk_csr_fatal("PCM_TEX_RXSTART", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCM_TEX_RXSTART(a) bdk_pcm_tex_rxstart_t
+#define bustype_BDK_PCM_TEX_RXSTART(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PCM_TEX_RXSTART(a) "PCM_TEX_RXSTART"
+#define busnum_BDK_PCM_TEX_RXSTART(a) (a)
+#define arguments_BDK_PCM_TEX_RXSTART(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pcm_clk#_gen
@@ -848,7 +848,7 @@ typedef union
 static inline uint64_t BDK_PCM_CLKX_GEN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_CLKX_GEN(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x806000010008ll + 0x4000ll * ((a) & 0x1);
     __bdk_csr_fatal("PCM_CLKX_GEN", 1, a, 0, 0, 0);
 }
@@ -937,7 +937,7 @@ typedef union
 static inline uint64_t BDK_PCM_TEX_DMA_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_DMA_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x806000100018ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_DMA_CFG", 1, a, 0, 0, 0);
 }
@@ -973,7 +973,7 @@ typedef union
 static inline uint64_t BDK_PCM_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_MSIX_PBAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x806000ff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("PCM_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -1013,7 +1013,7 @@ typedef union
 static inline uint64_t BDK_PCM_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x806000f00008ll + 0x10ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -1052,7 +1052,7 @@ typedef union
 static inline uint64_t BDK_PCM_TEX_TXADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_TXADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x806000100050ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_TXADDR", 1, a, 0, 0, 0);
 }
@@ -1089,7 +1089,7 @@ typedef union
 static inline uint64_t BDK_PCM_TEX_TXSTART(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_TXSTART(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x806000100040ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_TXSTART", 1, a, 0, 0, 0);
 }
@@ -1122,7 +1122,7 @@ typedef union
 static inline uint64_t BDK_PCM_TEX_TDM_DBG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCM_TEX_TDM_DBG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x806000100030ll + 0x10000ll * ((a) & 0x3);
     __bdk_csr_fatal("PCM_TEX_TDM_DBG", 1, a, 0, 0, 0);
 }

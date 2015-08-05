@@ -1299,9 +1299,9 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_EA_ENTRYX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_EA_ENTRYX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=19))
         return 0x9c + 4 * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=19))
         return 0x9c + 4 * ((a) & 0x1f);
     __bdk_csr_fatal("PCCPF_XXX_EA_ENTRYX", 1, a, 0, 0, 0);
 }
@@ -1642,40 +1642,6 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_BAR0U_FUNC(void)
 #define arguments_BDK_PCCPF_XXX_SRIOV_BAR0U -1,-1,-1,-1
 
 /**
- * Register (PCCPF) pccpf_xxx_vsec_sriov_bar2u
- *
- * PCC PF Vendor-Specific SR-IOV Address 2 Upper Register
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pccpf_xxx_vsec_sriov_bar2u_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Upper bits of the hard-coded SR-IOV BAR 2 base address; the reset value for
-                                                                 PCCPF_XXX_SRIOV_BAR2U[UBAB]. INTERNAL: From PCC's tie__vfbar2_offset. */
-#else /* Word 0 - Little Endian */
-        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Upper bits of the hard-coded SR-IOV BAR 2 base address; the reset value for
-                                                                 PCCPF_XXX_SRIOV_BAR2U[UBAB]. INTERNAL: From PCC's tie__vfbar2_offset. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pccpf_xxx_vsec_sriov_bar2u_s cn; */
-} bdk_pccpf_xxx_vsec_sriov_bar2u_t;
-
-#define BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC()
-static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC(void)
-{
-    return 0x13c;
-}
-
-#define typedef_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U bdk_pccpf_xxx_vsec_sriov_bar2u_t
-#define bustype_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U BDK_CSR_TYPE_PCCPF
-#define basename_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U "PCCPF_XXX_VSEC_SRIOV_BAR2U"
-#define busnum_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U 0
-#define arguments_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U -1,-1,-1,-1
-
-/**
  * Register (PCCPF) pccpf_xxx_clsize
  *
  * PCC PF Cache Line Size Register
@@ -1796,6 +1762,40 @@ static inline uint64_t BDK_PCCPF_XXX_SRIOV_NVF_FUNC(void)
 #define basename_BDK_PCCPF_XXX_SRIOV_NVF "PCCPF_XXX_SRIOV_NVF"
 #define busnum_BDK_PCCPF_XXX_SRIOV_NVF 0
 #define arguments_BDK_PCCPF_XXX_SRIOV_NVF -1,-1,-1,-1
+
+/**
+ * Register (PCCPF) pccpf_xxx_vsec_sriov_bar2u
+ *
+ * PCC PF Vendor-Specific SR-IOV Address 2 Upper Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pccpf_xxx_vsec_sriov_bar2u_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Upper bits of the hard-coded SR-IOV BAR 2 base address; the reset value for
+                                                                 PCCPF_XXX_SRIOV_BAR2U[UBAB]. INTERNAL: From PCC's tie__vfbar2_offset. */
+#else /* Word 0 - Little Endian */
+        uint32_t ubab                  : 32; /**< [ 31:  0](RO) Upper bits of the hard-coded SR-IOV BAR 2 base address; the reset value for
+                                                                 PCCPF_XXX_SRIOV_BAR2U[UBAB]. INTERNAL: From PCC's tie__vfbar2_offset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccpf_xxx_vsec_sriov_bar2u_s cn; */
+} bdk_pccpf_xxx_vsec_sriov_bar2u_t;
+
+#define BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC()
+static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U_FUNC(void)
+{
+    return 0x13c;
+}
+
+#define typedef_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U bdk_pccpf_xxx_vsec_sriov_bar2u_t
+#define bustype_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U BDK_CSR_TYPE_PCCPF
+#define basename_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U "PCCPF_XXX_VSEC_SRIOV_BAR2U"
+#define busnum_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U 0
+#define arguments_BDK_PCCPF_XXX_VSEC_SRIOV_BAR2U -1,-1,-1,-1
 
 /**
  * Register (PCCPF) pccpf_xxx_vsec_sriov_bar0u

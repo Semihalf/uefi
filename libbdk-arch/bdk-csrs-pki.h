@@ -550,374 +550,6 @@
                                        enable clears PKI_GEN_INT_ENA_W1C, and enable sets PKI_GEN_INT_ENA_W1S. */
 
 /**
- * Structure pki_buflink_s
- *
- * PKI Buffer Link Structure
- * PKI and PKO can link packet segments together with this PKI_BUFLINK_S. When multiple
- * packet segments are linked, a valid PKI_BUFLINK_S is present 8 bytes before the first
- * byte of any earlier segment. The last segment linked does not have a next segment,
- * and must be preceded by 8 bytes of valid L2/DRAM where the PKI_BUFLINK_S normally
- * exists, but need not have a valid PKI_BUFLINK_S in the space. CPU software
- * or PKO hardware may read, but effectively should not use, this "invalid
- * PKI_BUFLINK_S".
- *
- * PKI_BUFLINK_S's are not required be naturally aligned (to 64-bits) in L2/DRAM,
- * though the last segments and corresponding PKI_BUFLINK_S's
- * that PKI creates for packet input are naturally-aligned.
- */
-union bdk_pki_buflink_s
-{
-    uint64_t u[2];
-    struct bdk_pki_buflink_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t i                     : 1;  /**< [ 31: 31] Invert free. PKI writes zero to this bit. PKO optionally uses this bit to control FPA
-                                                                 buffer returns. See PKO_SEND_HDR_S[DF,II].
-
-                                                                 On a PKO SEND, PKO frees the surrounding buffer to FPA when:
-                                                                    PKO_SEND_HDR_S[DF] XOR (PKO_SEND_HDR_S[II] AND [I])
-                                                                 is zero.
-
-                                                                 PKO naturally aligns [ADDR] to 128 bytes before sending it to FPA as part of
-                                                                 the buffer free. An FPA naturally-aligned pool is recommended, though opaque
-                                                                 pool mode may also be possible. Refer to the FPA Chapter.
-
-                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
-                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
-
-                                                                 PKO will not free [ADDR] to FPA until after it has finished reading
-                                                                 this segment (and the PKI_BUFLINK_S that precedes this segment in
-                                                                 the buffer, if necessary) from the buffer.
-                                                                 Provided the path of descriptors from the DQ through PKO to an output FIFO is
-                                                                 unmodified between the descriptors (as should normally be the case, but it is
-                                                                 possible for software to change the path), PKO also will not free
-                                                                 [ADDR] to FPA until after it has completed all L2/DRAM reads related
-                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
-                                                                 other descriptor enqueued earlier in the same DQ. PKO may free [ADDR] in any
-                                                                 order with respect to any processing of any descriptor that is in a
-                                                                 different DQ. PKO may create the FPA
-                                                                 free for [ADDR] in any order relative to any other PKO FPA
-                                                                 frees needed to process this or any other PKO SEND descriptor,
-                                                                 and in any order relative to any FPA frees/allocates needed for DQ DRAM
-                                                                 buffering, and in any order relative to any FPA aura count
-                                                                 updates needed to process a PKO_SEND_AURA_S subdescriptor in this
-                                                                 or any other PKO SEND. The FPA free may occur in any order relative to any
-                                                                 L2/DRAM updates or any work queue add needed to process this or
-                                                                 any other PKO SEND. */
-        uint64_t av                    : 1;  /**< [ 30: 30] Aura valid. PKI writes a one to this bit, indicating AURA is valid.
-
-                                                                 On a PKO SEND, if AV is set, the [AURA] field will be used to free [ADDR]. */
-        uint64_t reserved_25_29        : 5;
-        uint64_t aura                  : 9;  /**< [ 24: 16] If [AV] is set, aura which [ADDR] was allocated from. */
-        uint64_t size                  : 16; /**< [ 15:  0] Size of the buffer/segment.
-
-                                                                 The [SIZE] created by PKI always indicates the number of bytes available
-                                                                 in the buffer. Except for the last linked buffer, [SIZE] is also exactly
-                                                                 the number of bytes of packet data in the segment and the buffer.
-                                                                 For the last segment created by PKI, [SIZE] will be larger than the
-                                                                 number of valid packet bytes in the segment/buffer unless the packet
-                                                                 data ends exactly at the end of the buffer.
-
-                                                                 In the PKO case, if more than [SIZE] bytes are needed to reach
-                                                                 PKO_SEND_HDR_S[TOTAL] packet data bytes, PKO continues fetching packet
-                                                                 data from the next segment described by the PKI_BUFLINK_S that must
-                                                                 reside in the 8 L2/DRAM bytes prior to [ADDR]. Let priorbytes = the
-                                                                 sum of PKO_SEND_LINK_S[SIZE], all PKO_SEND_GATHER_S[SIZE]'s, and all
-                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor, plus the sum of all prior
-                                                                 PKI_BUFLINK_S[SIZE]'s linked by the PKO_SEND_LINK_S. PKO does not
-                                                                 reference nor use this PKI_BUFLINK_S segment when
-                                                                 priorbytes >= PKO_SEND_HDR_S[TOTAL]. Otherwise, the
-                                                                 number of bytes PKO uses from this PKI_BUFLINK_S segment is:
-
-                                                                 _    min(PKO_SEND_HDR_S[TOTAL]-priorbytes, [SIZE])
-
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the PKO Send descriptor plus any
-                                                                 PKI_BUFLINK_S[SIZE]'s linked by any PKO_SEND_LINK_S must equal or
-                                                                 exceed PKO_SEND_HDR_S[TOTAL]. */
-#else /* Word 0 - Little Endian */
-        uint64_t size                  : 16; /**< [ 15:  0] Size of the buffer/segment.
-
-                                                                 The [SIZE] created by PKI always indicates the number of bytes available
-                                                                 in the buffer. Except for the last linked buffer, [SIZE] is also exactly
-                                                                 the number of bytes of packet data in the segment and the buffer.
-                                                                 For the last segment created by PKI, [SIZE] will be larger than the
-                                                                 number of valid packet bytes in the segment/buffer unless the packet
-                                                                 data ends exactly at the end of the buffer.
-
-                                                                 In the PKO case, if more than [SIZE] bytes are needed to reach
-                                                                 PKO_SEND_HDR_S[TOTAL] packet data bytes, PKO continues fetching packet
-                                                                 data from the next segment described by the PKI_BUFLINK_S that must
-                                                                 reside in the 8 L2/DRAM bytes prior to [ADDR]. Let priorbytes = the
-                                                                 sum of PKO_SEND_LINK_S[SIZE], all PKO_SEND_GATHER_S[SIZE]'s, and all
-                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor, plus the sum of all prior
-                                                                 PKI_BUFLINK_S[SIZE]'s linked by the PKO_SEND_LINK_S. PKO does not
-                                                                 reference nor use this PKI_BUFLINK_S segment when
-                                                                 priorbytes >= PKO_SEND_HDR_S[TOTAL]. Otherwise, the
-                                                                 number of bytes PKO uses from this PKI_BUFLINK_S segment is:
-
-                                                                 _    min(PKO_SEND_HDR_S[TOTAL]-priorbytes, [SIZE])
-
-                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
-                                                                 PKO_SEND_LINK_S[SIZE]'s in the PKO Send descriptor plus any
-                                                                 PKI_BUFLINK_S[SIZE]'s linked by any PKO_SEND_LINK_S must equal or
-                                                                 exceed PKO_SEND_HDR_S[TOTAL]. */
-        uint64_t aura                  : 9;  /**< [ 24: 16] If [AV] is set, aura which [ADDR] was allocated from. */
-        uint64_t reserved_25_29        : 5;
-        uint64_t av                    : 1;  /**< [ 30: 30] Aura valid. PKI writes a one to this bit, indicating AURA is valid.
-
-                                                                 On a PKO SEND, if AV is set, the [AURA] field will be used to free [ADDR]. */
-        uint64_t i                     : 1;  /**< [ 31: 31] Invert free. PKI writes zero to this bit. PKO optionally uses this bit to control FPA
-                                                                 buffer returns. See PKO_SEND_HDR_S[DF,II].
-
-                                                                 On a PKO SEND, PKO frees the surrounding buffer to FPA when:
-                                                                    PKO_SEND_HDR_S[DF] XOR (PKO_SEND_HDR_S[II] AND [I])
-                                                                 is zero.
-
-                                                                 PKO naturally aligns [ADDR] to 128 bytes before sending it to FPA as part of
-                                                                 the buffer free. An FPA naturally-aligned pool is recommended, though opaque
-                                                                 pool mode may also be possible. Refer to the FPA Chapter.
-
-                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
-                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
-                                                                 PKO_SEND_AURA_S in the descriptor.
-
-                                                                 PKO will not free [ADDR] to FPA until after it has finished reading
-                                                                 this segment (and the PKI_BUFLINK_S that precedes this segment in
-                                                                 the buffer, if necessary) from the buffer.
-                                                                 Provided the path of descriptors from the DQ through PKO to an output FIFO is
-                                                                 unmodified between the descriptors (as should normally be the case, but it is
-                                                                 possible for software to change the path), PKO also will not free
-                                                                 [ADDR] to FPA until after it has completed all L2/DRAM reads related
-                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
-                                                                 other descriptor enqueued earlier in the same DQ. PKO may free [ADDR] in any
-                                                                 order with respect to any processing of any descriptor that is in a
-                                                                 different DQ. PKO may create the FPA
-                                                                 free for [ADDR] in any order relative to any other PKO FPA
-                                                                 frees needed to process this or any other PKO SEND descriptor,
-                                                                 and in any order relative to any FPA frees/allocates needed for DQ DRAM
-                                                                 buffering, and in any order relative to any FPA aura count
-                                                                 updates needed to process a PKO_SEND_AURA_S subdescriptor in this
-                                                                 or any other PKO SEND. The FPA free may occur in any order relative to any
-                                                                 L2/DRAM updates or any work queue add needed to process this or
-                                                                 any other PKO SEND. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_113_127      : 15;
-        uint64_t addr                  : 49; /**< [112: 64] Address. ADDR is the physical L2/DRAM address of the first byte of packet data in
-                                                                 the buffer/segment. The 16 bytes prior to [ADDR] must always be valid readable L2/DRAM
-                                                                 locations, and must contain a valid PKI_BUFLINK_S if the remaining packet bytes do
-                                                                 not fit in the [SIZE] bytes available in this buffer/segment.
-
-                                                                 All valid [ADDR]'s created by PKI are naturally-aligned (to 128-bits). */
-#else /* Word 1 - Little Endian */
-        uint64_t addr                  : 49; /**< [112: 64] Address. ADDR is the physical L2/DRAM address of the first byte of packet data in
-                                                                 the buffer/segment. The 16 bytes prior to [ADDR] must always be valid readable L2/DRAM
-                                                                 locations, and must contain a valid PKI_BUFLINK_S if the remaining packet bytes do
-                                                                 not fit in the [SIZE] bytes available in this buffer/segment.
-
-                                                                 All valid [ADDR]'s created by PKI are naturally-aligned (to 128-bits). */
-        uint64_t reserved_113_127      : 15;
-#endif /* Word 1 - End */
-    } s;
-    /* struct bdk_pki_buflink_s_s cn; */
-};
-
-/**
- * Structure pki_inst_hdr_s
- *
- * PKI Instruction Header Structure
- */
-union bdk_pki_inst_hdr_s
-{
-    uint64_t u;
-    struct bdk_pki_inst_hdr_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t w                     : 1;  /**< [ 63: 63] Indicates wider PKI_INST_HDR_S.
-                                                                 0 = The PKI_INST_HDR_S is two bytes.
-                                                                 1 = The PKI_INST_HDR_S is four or eight bytes. */
-        uint64_t raw                   : 1;  /**< [ 62: 62] When set, WQE[RAW] will be set and statistics will accumulate in PKI_STAT()_STAT2 and the
-                                                                 packet will never be dropped due to RED unless PKI_STYLE()_BUF[RAWDRP] is set. */
-        uint64_t utag                  : 1;  /**< [ 61: 61] When set, PKI will use PKI_INST_HDR_S [TAG] to compute WQE[TAG].
-
-                                                                 Must be 0 when PKI_INST_HDR_S[W] = 0. */
-        uint64_t uqpg                  : 1;  /**< [ 60: 60] When set, PKI will use PKI_INST_HDR_S [QPG] to compute the QPG and indirectly WQE[AURA]
-                                                                 and WQE[GRP].
-
-                                                                 Must be 0 when PKI_INST_HDR_S[W] = 0. */
-        uint64_t reserved_59           : 1;
-        uint64_t pm                    : 3;  /**< [ 58: 56] The mode used to parse the packet, as an encoded value. The legal values are:
-                                                                   0x0 = Parse starting at LA (L2).
-                                                                   0x1 = Parse starting at LB (Custom).
-                                                                   0x2 = Parse starting at LC (L3).
-                                                                   0x3 = Reserved; parse starting at LD not supported.
-                                                                   0x4 = Reserved; parse starting at LE not supported.
-                                                                   0x5 = Reserved; parse starting at LF not supported.
-                                                                   0x6 = Parse starting at LG (Custom/Application).
-                                                                   0x7 = Parse nothing, uninterpreted.
-                                                                   _ else = reserved.
-
-                                                                   If most or all parsing stages are skipped, then PKI will have little input in the
-                                                                 scheduling information loaded into the WQE. PKI_INST_HDR_S[QPG], PKI_INST_HDR_S[TT], and
-                                                                 PKI_INST_HDR_S[TAG] may be of use to specify this scheduling information. In this case
-                                                                 PKI_STYLE()_WQ2 and PKI_STYLE()_WQ4 may be used to force the decoded information in WQE
-                                                                 WORD 2 and WORD 4. */
-        uint64_t sl                    : 8;  /**< [ 55: 48] The number of bytes in the PKI_INST_HDR_S and number of bytes to advance to find the next
-                                                                 parse item.
-                                                                 The following bullets describe the minimum PKI_INST_HDR_S size and, thus, the minimum SL
-                                                                 values for a packet:
-                                                                 * When PKI_INST_HDR_S [UTAG] = 1, the PKI_INST_HDR_S must be eight bytes, so SL must be
-                                                                 eight or more.
-
-                                                                 * When PKI_INST_HDR_S[W] = 1 and PKI_INST_HDR_S [UTAG] = 0, the PKI_INST_HDR_S must be
-                                                                 four bytes or more, so SL must be four or more.
-
-                                                                 * When PKI_INST_HDR_S[W] = 0, the PKI_INST_HDR_S may be as small as two bytes, so SL must
-                                                                 be two or more.
-
-                                                                 The sum of PKI_INST_HDR_S[SL] and other advances is subject to restrictions as described
-                                                                 elsewhere. */
-        uint64_t utt                   : 1;  /**< [ 47: 47] When set, PKI uses PKI_INST_HDR_S[TT] to compute WQE[TT].
-
-                                                                 This field is not present unless PKI_INST_HDR_S[W] is set. */
-        uint64_t tt                    : 2;  /**< [ 46: 45] When PKI_INST_HDR_S [UTT] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S[TT] is used to
-                                                                 compute WQE[TT].
-
-                                                                 This field is not present unless PKI_INST_HDR_S[W] is set. */
-        uint64_t reserved_43_44        : 2;
-        uint64_t qpg                   : 11; /**< [ 42: 32] When PKI_INST_HDR_S[UQPG] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S [QPG] is used to
-                                                                 indirectly compute WQE[AURA] and WQE[GRP].
-
-                                                                 This field is not present unless PKI_INST_HDR_S[W] is set.
-
-                                                                 The QPG table is generally allocated by software. As the QPG index points into this
-                                                                 software allocated table, it is recommended that external components allow the
-                                                                 PKI_INST_HDR_S[QPG] values they send to based off a programmable base (perhaps from a CSR
-                                                                 inside that component) instead of hard-coding the base. */
-        uint64_t tag                   : 32; /**< [ 31:  0] When PKI_INST_HDR_S[UTAG] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S[TAG] is used to
-                                                                 compute WQE[TAG].
-
-                                                                 This field is not present unless PKI_INST_HDR_S [UTAG] is set. */
-#else /* Word 0 - Little Endian */
-        uint64_t tag                   : 32; /**< [ 31:  0] When PKI_INST_HDR_S[UTAG] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S[TAG] is used to
-                                                                 compute WQE[TAG].
-
-                                                                 This field is not present unless PKI_INST_HDR_S [UTAG] is set. */
-        uint64_t qpg                   : 11; /**< [ 42: 32] When PKI_INST_HDR_S[UQPG] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S [QPG] is used to
-                                                                 indirectly compute WQE[AURA] and WQE[GRP].
-
-                                                                 This field is not present unless PKI_INST_HDR_S[W] is set.
-
-                                                                 The QPG table is generally allocated by software. As the QPG index points into this
-                                                                 software allocated table, it is recommended that external components allow the
-                                                                 PKI_INST_HDR_S[QPG] values they send to based off a programmable base (perhaps from a CSR
-                                                                 inside that component) instead of hard-coding the base. */
-        uint64_t reserved_43_44        : 2;
-        uint64_t tt                    : 2;  /**< [ 46: 45] When PKI_INST_HDR_S [UTT] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S[TT] is used to
-                                                                 compute WQE[TT].
-
-                                                                 This field is not present unless PKI_INST_HDR_S[W] is set. */
-        uint64_t utt                   : 1;  /**< [ 47: 47] When set, PKI uses PKI_INST_HDR_S[TT] to compute WQE[TT].
-
-                                                                 This field is not present unless PKI_INST_HDR_S[W] is set. */
-        uint64_t sl                    : 8;  /**< [ 55: 48] The number of bytes in the PKI_INST_HDR_S and number of bytes to advance to find the next
-                                                                 parse item.
-                                                                 The following bullets describe the minimum PKI_INST_HDR_S size and, thus, the minimum SL
-                                                                 values for a packet:
-                                                                 * When PKI_INST_HDR_S [UTAG] = 1, the PKI_INST_HDR_S must be eight bytes, so SL must be
-                                                                 eight or more.
-
-                                                                 * When PKI_INST_HDR_S[W] = 1 and PKI_INST_HDR_S [UTAG] = 0, the PKI_INST_HDR_S must be
-                                                                 four bytes or more, so SL must be four or more.
-
-                                                                 * When PKI_INST_HDR_S[W] = 0, the PKI_INST_HDR_S may be as small as two bytes, so SL must
-                                                                 be two or more.
-
-                                                                 The sum of PKI_INST_HDR_S[SL] and other advances is subject to restrictions as described
-                                                                 elsewhere. */
-        uint64_t pm                    : 3;  /**< [ 58: 56] The mode used to parse the packet, as an encoded value. The legal values are:
-                                                                   0x0 = Parse starting at LA (L2).
-                                                                   0x1 = Parse starting at LB (Custom).
-                                                                   0x2 = Parse starting at LC (L3).
-                                                                   0x3 = Reserved; parse starting at LD not supported.
-                                                                   0x4 = Reserved; parse starting at LE not supported.
-                                                                   0x5 = Reserved; parse starting at LF not supported.
-                                                                   0x6 = Parse starting at LG (Custom/Application).
-                                                                   0x7 = Parse nothing, uninterpreted.
-                                                                   _ else = reserved.
-
-                                                                   If most or all parsing stages are skipped, then PKI will have little input in the
-                                                                 scheduling information loaded into the WQE. PKI_INST_HDR_S[QPG], PKI_INST_HDR_S[TT], and
-                                                                 PKI_INST_HDR_S[TAG] may be of use to specify this scheduling information. In this case
-                                                                 PKI_STYLE()_WQ2 and PKI_STYLE()_WQ4 may be used to force the decoded information in WQE
-                                                                 WORD 2 and WORD 4. */
-        uint64_t reserved_59           : 1;
-        uint64_t uqpg                  : 1;  /**< [ 60: 60] When set, PKI will use PKI_INST_HDR_S [QPG] to compute the QPG and indirectly WQE[AURA]
-                                                                 and WQE[GRP].
-
-                                                                 Must be 0 when PKI_INST_HDR_S[W] = 0. */
-        uint64_t utag                  : 1;  /**< [ 61: 61] When set, PKI will use PKI_INST_HDR_S [TAG] to compute WQE[TAG].
-
-                                                                 Must be 0 when PKI_INST_HDR_S[W] = 0. */
-        uint64_t raw                   : 1;  /**< [ 62: 62] When set, WQE[RAW] will be set and statistics will accumulate in PKI_STAT()_STAT2 and the
-                                                                 packet will never be dropped due to RED unless PKI_STYLE()_BUF[RAWDRP] is set. */
-        uint64_t w                     : 1;  /**< [ 63: 63] Indicates wider PKI_INST_HDR_S.
-                                                                 0 = The PKI_INST_HDR_S is two bytes.
-                                                                 1 = The PKI_INST_HDR_S is four or eight bytes. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pki_inst_hdr_s_s cn; */
-};
-
-/**
- * Structure pki_fewq_s
- *
- * INTERNAL: PKI Front End WQE Structure
- *
- * This structure describes the handoff structure between the PKI front end and an IPE. The
- * fields are similar to the WQE.
- */
-union bdk_pki_fewq_s
-{
-    uint64_t u[3];
-    struct bdk_pki_fewq_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_44_63        : 20;
-        uint64_t port                  : 12; /**< [ 43: 32] FE initializes to port packet was received from. */
-        uint64_t reserved_6_31         : 26;
-        uint64_t pknd                  : 6;  /**< [  5:  0] FE initializes to pkind packet was received on. */
-#else /* Word 0 - Little Endian */
-        uint64_t pknd                  : 6;  /**< [  5:  0] FE initializes to pkind packet was received on. */
-        uint64_t reserved_6_31         : 26;
-        uint64_t port                  : 12; /**< [ 43: 32] FE initializes to port packet was received from. */
-        uint64_t reserved_44_63        : 20;
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t len                   : 16; /**< [127:112] FE initializes with packet header length, values 0-256. */
-        uint64_t reserved_64_111       : 48;
-#else /* Word 1 - Little Endian */
-        uint64_t reserved_64_111       : 48;
-        uint64_t len                   : 16; /**< [127:112] FE initializes with packet header length, values 0-256. */
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t reserved_139_191      : 53;
-        uint64_t errlev                : 3;  /**< [138:136] FE sets if receive error. */
-        uint64_t opcode                : 8;  /**< [135:128] FE sets if receive error. */
-#else /* Word 2 - Little Endian */
-        uint64_t opcode                : 8;  /**< [135:128] FE sets if receive error. */
-        uint64_t errlev                : 3;  /**< [138:136] FE sets if receive error. */
-        uint64_t reserved_139_191      : 53;
-#endif /* Word 2 - End */
-    } s;
-    /* struct bdk_pki_fewq_s_s cn; */
-};
-
-/**
  * Structure pki_wqe_s
  *
  * PKI Work-Queue Entry Structure
@@ -1375,6 +1007,374 @@ union bdk_pki_wqe_s
 };
 
 /**
+ * Structure pki_buflink_s
+ *
+ * PKI Buffer Link Structure
+ * PKI and PKO can link packet segments together with this PKI_BUFLINK_S. When multiple
+ * packet segments are linked, a valid PKI_BUFLINK_S is present 8 bytes before the first
+ * byte of any earlier segment. The last segment linked does not have a next segment,
+ * and must be preceded by 8 bytes of valid L2/DRAM where the PKI_BUFLINK_S normally
+ * exists, but need not have a valid PKI_BUFLINK_S in the space. CPU software
+ * or PKO hardware may read, but effectively should not use, this "invalid
+ * PKI_BUFLINK_S".
+ *
+ * PKI_BUFLINK_S's are not required be naturally aligned (to 64-bits) in L2/DRAM,
+ * though the last segments and corresponding PKI_BUFLINK_S's
+ * that PKI creates for packet input are naturally-aligned.
+ */
+union bdk_pki_buflink_s
+{
+    uint64_t u[2];
+    struct bdk_pki_buflink_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t i                     : 1;  /**< [ 31: 31] Invert free. PKI writes zero to this bit. PKO optionally uses this bit to control FPA
+                                                                 buffer returns. See PKO_SEND_HDR_S[DF,II].
+
+                                                                 On a PKO SEND, PKO frees the surrounding buffer to FPA when:
+                                                                    PKO_SEND_HDR_S[DF] XOR (PKO_SEND_HDR_S[II] AND [I])
+                                                                 is zero.
+
+                                                                 PKO naturally aligns [ADDR] to 128 bytes before sending it to FPA as part of
+                                                                 the buffer free. An FPA naturally-aligned pool is recommended, though opaque
+                                                                 pool mode may also be possible. Refer to the FPA Chapter.
+
+                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
+                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
+                                                                 PKO_SEND_AURA_S in the descriptor.
+
+                                                                 PKO will not free [ADDR] to FPA until after it has finished reading
+                                                                 this segment (and the PKI_BUFLINK_S that precedes this segment in
+                                                                 the buffer, if necessary) from the buffer.
+                                                                 Provided the path of descriptors from the DQ through PKO to an output FIFO is
+                                                                 unmodified between the descriptors (as should normally be the case, but it is
+                                                                 possible for software to change the path), PKO also will not free
+                                                                 [ADDR] to FPA until after it has completed all L2/DRAM reads related
+                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
+                                                                 other descriptor enqueued earlier in the same DQ. PKO may free [ADDR] in any
+                                                                 order with respect to any processing of any descriptor that is in a
+                                                                 different DQ. PKO may create the FPA
+                                                                 free for [ADDR] in any order relative to any other PKO FPA
+                                                                 frees needed to process this or any other PKO SEND descriptor,
+                                                                 and in any order relative to any FPA frees/allocates needed for DQ DRAM
+                                                                 buffering, and in any order relative to any FPA aura count
+                                                                 updates needed to process a PKO_SEND_AURA_S subdescriptor in this
+                                                                 or any other PKO SEND. The FPA free may occur in any order relative to any
+                                                                 L2/DRAM updates or any work queue add needed to process this or
+                                                                 any other PKO SEND. */
+        uint64_t av                    : 1;  /**< [ 30: 30] Aura valid. PKI writes a one to this bit, indicating AURA is valid.
+
+                                                                 On a PKO SEND, if AV is set, the [AURA] field will be used to free [ADDR]. */
+        uint64_t reserved_25_29        : 5;
+        uint64_t aura                  : 9;  /**< [ 24: 16] If [AV] is set, aura which [ADDR] was allocated from. */
+        uint64_t size                  : 16; /**< [ 15:  0] Size of the buffer/segment.
+
+                                                                 The [SIZE] created by PKI always indicates the number of bytes available
+                                                                 in the buffer. Except for the last linked buffer, [SIZE] is also exactly
+                                                                 the number of bytes of packet data in the segment and the buffer.
+                                                                 For the last segment created by PKI, [SIZE] will be larger than the
+                                                                 number of valid packet bytes in the segment/buffer unless the packet
+                                                                 data ends exactly at the end of the buffer.
+
+                                                                 In the PKO case, if more than [SIZE] bytes are needed to reach
+                                                                 PKO_SEND_HDR_S[TOTAL] packet data bytes, PKO continues fetching packet
+                                                                 data from the next segment described by the PKI_BUFLINK_S that must
+                                                                 reside in the 8 L2/DRAM bytes prior to [ADDR]. Let priorbytes = the
+                                                                 sum of PKO_SEND_LINK_S[SIZE], all PKO_SEND_GATHER_S[SIZE]'s, and all
+                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor, plus the sum of all prior
+                                                                 PKI_BUFLINK_S[SIZE]'s linked by the PKO_SEND_LINK_S. PKO does not
+                                                                 reference nor use this PKI_BUFLINK_S segment when
+                                                                 priorbytes >= PKO_SEND_HDR_S[TOTAL]. Otherwise, the
+                                                                 number of bytes PKO uses from this PKI_BUFLINK_S segment is:
+
+                                                                 _    min(PKO_SEND_HDR_S[TOTAL]-priorbytes, [SIZE])
+
+                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
+                                                                 PKO_SEND_LINK_S[SIZE]'s in the PKO Send descriptor plus any
+                                                                 PKI_BUFLINK_S[SIZE]'s linked by any PKO_SEND_LINK_S must equal or
+                                                                 exceed PKO_SEND_HDR_S[TOTAL]. */
+#else /* Word 0 - Little Endian */
+        uint64_t size                  : 16; /**< [ 15:  0] Size of the buffer/segment.
+
+                                                                 The [SIZE] created by PKI always indicates the number of bytes available
+                                                                 in the buffer. Except for the last linked buffer, [SIZE] is also exactly
+                                                                 the number of bytes of packet data in the segment and the buffer.
+                                                                 For the last segment created by PKI, [SIZE] will be larger than the
+                                                                 number of valid packet bytes in the segment/buffer unless the packet
+                                                                 data ends exactly at the end of the buffer.
+
+                                                                 In the PKO case, if more than [SIZE] bytes are needed to reach
+                                                                 PKO_SEND_HDR_S[TOTAL] packet data bytes, PKO continues fetching packet
+                                                                 data from the next segment described by the PKI_BUFLINK_S that must
+                                                                 reside in the 8 L2/DRAM bytes prior to [ADDR]. Let priorbytes = the
+                                                                 sum of PKO_SEND_LINK_S[SIZE], all PKO_SEND_GATHER_S[SIZE]'s, and all
+                                                                 PKO_SEND_IMM_S[SIZE]'s in this descriptor, plus the sum of all prior
+                                                                 PKI_BUFLINK_S[SIZE]'s linked by the PKO_SEND_LINK_S. PKO does not
+                                                                 reference nor use this PKI_BUFLINK_S segment when
+                                                                 priorbytes >= PKO_SEND_HDR_S[TOTAL]. Otherwise, the
+                                                                 number of bytes PKO uses from this PKI_BUFLINK_S segment is:
+
+                                                                 _    min(PKO_SEND_HDR_S[TOTAL]-priorbytes, [SIZE])
+
+                                                                 The sum of any PKO_SEND_IMM_S[SIZE]'s, PKO_SEND_GATHER_S[SIZE]'s, and
+                                                                 PKO_SEND_LINK_S[SIZE]'s in the PKO Send descriptor plus any
+                                                                 PKI_BUFLINK_S[SIZE]'s linked by any PKO_SEND_LINK_S must equal or
+                                                                 exceed PKO_SEND_HDR_S[TOTAL]. */
+        uint64_t aura                  : 9;  /**< [ 24: 16] If [AV] is set, aura which [ADDR] was allocated from. */
+        uint64_t reserved_25_29        : 5;
+        uint64_t av                    : 1;  /**< [ 30: 30] Aura valid. PKI writes a one to this bit, indicating AURA is valid.
+
+                                                                 On a PKO SEND, if AV is set, the [AURA] field will be used to free [ADDR]. */
+        uint64_t i                     : 1;  /**< [ 31: 31] Invert free. PKI writes zero to this bit. PKO optionally uses this bit to control FPA
+                                                                 buffer returns. See PKO_SEND_HDR_S[DF,II].
+
+                                                                 On a PKO SEND, PKO frees the surrounding buffer to FPA when:
+                                                                    PKO_SEND_HDR_S[DF] XOR (PKO_SEND_HDR_S[II] AND [I])
+                                                                 is zero.
+
+                                                                 PKO naturally aligns [ADDR] to 128 bytes before sending it to FPA as part of
+                                                                 the buffer free. An FPA naturally-aligned pool is recommended, though opaque
+                                                                 pool mode may also be possible. Refer to the FPA Chapter.
+
+                                                                 PKO frees the buffer to the last prior PKO_SEND_AURA_S[AURA] in the
+                                                                 PKO SEND descriptor, or to PKO_SEND_HDR_S[AURA] if there is not a prior
+                                                                 PKO_SEND_AURA_S in the descriptor.
+
+                                                                 PKO will not free [ADDR] to FPA until after it has finished reading
+                                                                 this segment (and the PKI_BUFLINK_S that precedes this segment in
+                                                                 the buffer, if necessary) from the buffer.
+                                                                 Provided the path of descriptors from the DQ through PKO to an output FIFO is
+                                                                 unmodified between the descriptors (as should normally be the case, but it is
+                                                                 possible for software to change the path), PKO also will not free
+                                                                 [ADDR] to FPA until after it has completed all L2/DRAM reads related
+                                                                 to processing any PKO_SEND_GATHER_S and any PKO_SEND_LINK_S in any
+                                                                 other descriptor enqueued earlier in the same DQ. PKO may free [ADDR] in any
+                                                                 order with respect to any processing of any descriptor that is in a
+                                                                 different DQ. PKO may create the FPA
+                                                                 free for [ADDR] in any order relative to any other PKO FPA
+                                                                 frees needed to process this or any other PKO SEND descriptor,
+                                                                 and in any order relative to any FPA frees/allocates needed for DQ DRAM
+                                                                 buffering, and in any order relative to any FPA aura count
+                                                                 updates needed to process a PKO_SEND_AURA_S subdescriptor in this
+                                                                 or any other PKO SEND. The FPA free may occur in any order relative to any
+                                                                 L2/DRAM updates or any work queue add needed to process this or
+                                                                 any other PKO SEND. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_113_127      : 15;
+        uint64_t addr                  : 49; /**< [112: 64] Address. ADDR is the physical L2/DRAM address of the first byte of packet data in
+                                                                 the buffer/segment. The 16 bytes prior to [ADDR] must always be valid readable L2/DRAM
+                                                                 locations, and must contain a valid PKI_BUFLINK_S if the remaining packet bytes do
+                                                                 not fit in the [SIZE] bytes available in this buffer/segment.
+
+                                                                 All valid [ADDR]'s created by PKI are naturally-aligned (to 128-bits). */
+#else /* Word 1 - Little Endian */
+        uint64_t addr                  : 49; /**< [112: 64] Address. ADDR is the physical L2/DRAM address of the first byte of packet data in
+                                                                 the buffer/segment. The 16 bytes prior to [ADDR] must always be valid readable L2/DRAM
+                                                                 locations, and must contain a valid PKI_BUFLINK_S if the remaining packet bytes do
+                                                                 not fit in the [SIZE] bytes available in this buffer/segment.
+
+                                                                 All valid [ADDR]'s created by PKI are naturally-aligned (to 128-bits). */
+        uint64_t reserved_113_127      : 15;
+#endif /* Word 1 - End */
+    } s;
+    /* struct bdk_pki_buflink_s_s cn; */
+};
+
+/**
+ * Structure pki_inst_hdr_s
+ *
+ * PKI Instruction Header Structure
+ */
+union bdk_pki_inst_hdr_s
+{
+    uint64_t u;
+    struct bdk_pki_inst_hdr_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t w                     : 1;  /**< [ 63: 63] Indicates wider PKI_INST_HDR_S.
+                                                                 0 = The PKI_INST_HDR_S is two bytes.
+                                                                 1 = The PKI_INST_HDR_S is four or eight bytes. */
+        uint64_t raw                   : 1;  /**< [ 62: 62] When set, WQE[RAW] will be set and statistics will accumulate in PKI_STAT()_STAT2 and the
+                                                                 packet will never be dropped due to RED unless PKI_STYLE()_BUF[RAWDRP] is set. */
+        uint64_t utag                  : 1;  /**< [ 61: 61] When set, PKI will use PKI_INST_HDR_S [TAG] to compute WQE[TAG].
+
+                                                                 Must be 0 when PKI_INST_HDR_S[W] = 0. */
+        uint64_t uqpg                  : 1;  /**< [ 60: 60] When set, PKI will use PKI_INST_HDR_S [QPG] to compute the QPG and indirectly WQE[AURA]
+                                                                 and WQE[GRP].
+
+                                                                 Must be 0 when PKI_INST_HDR_S[W] = 0. */
+        uint64_t reserved_59           : 1;
+        uint64_t pm                    : 3;  /**< [ 58: 56] The mode used to parse the packet, as an encoded value. The legal values are:
+                                                                   0x0 = Parse starting at LA (L2).
+                                                                   0x1 = Parse starting at LB (Custom).
+                                                                   0x2 = Parse starting at LC (L3).
+                                                                   0x3 = Reserved; parse starting at LD not supported.
+                                                                   0x4 = Reserved; parse starting at LE not supported.
+                                                                   0x5 = Reserved; parse starting at LF not supported.
+                                                                   0x6 = Parse starting at LG (Custom/Application).
+                                                                   0x7 = Parse nothing, uninterpreted.
+                                                                   _ else = reserved.
+
+                                                                   If most or all parsing stages are skipped, then PKI will have little input in the
+                                                                 scheduling information loaded into the WQE. PKI_INST_HDR_S[QPG], PKI_INST_HDR_S[TT], and
+                                                                 PKI_INST_HDR_S[TAG] may be of use to specify this scheduling information. In this case
+                                                                 PKI_STYLE()_WQ2 and PKI_STYLE()_WQ4 may be used to force the decoded information in WQE
+                                                                 WORD 2 and WORD 4. */
+        uint64_t sl                    : 8;  /**< [ 55: 48] The number of bytes in the PKI_INST_HDR_S and number of bytes to advance to find the next
+                                                                 parse item.
+                                                                 The following bullets describe the minimum PKI_INST_HDR_S size and, thus, the minimum SL
+                                                                 values for a packet:
+                                                                 * When PKI_INST_HDR_S [UTAG] = 1, the PKI_INST_HDR_S must be eight bytes, so SL must be
+                                                                 eight or more.
+
+                                                                 * When PKI_INST_HDR_S[W] = 1 and PKI_INST_HDR_S [UTAG] = 0, the PKI_INST_HDR_S must be
+                                                                 four bytes or more, so SL must be four or more.
+
+                                                                 * When PKI_INST_HDR_S[W] = 0, the PKI_INST_HDR_S may be as small as two bytes, so SL must
+                                                                 be two or more.
+
+                                                                 The sum of PKI_INST_HDR_S[SL] and other advances is subject to restrictions as described
+                                                                 elsewhere. */
+        uint64_t utt                   : 1;  /**< [ 47: 47] When set, PKI uses PKI_INST_HDR_S[TT] to compute WQE[TT].
+
+                                                                 This field is not present unless PKI_INST_HDR_S[W] is set. */
+        uint64_t tt                    : 2;  /**< [ 46: 45] When PKI_INST_HDR_S [UTT] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S[TT] is used to
+                                                                 compute WQE[TT].
+
+                                                                 This field is not present unless PKI_INST_HDR_S[W] is set. */
+        uint64_t reserved_43_44        : 2;
+        uint64_t qpg                   : 11; /**< [ 42: 32] When PKI_INST_HDR_S[UQPG] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S [QPG] is used to
+                                                                 indirectly compute WQE[AURA] and WQE[GRP].
+
+                                                                 This field is not present unless PKI_INST_HDR_S[W] is set.
+
+                                                                 The QPG table is generally allocated by software. As the QPG index points into this
+                                                                 software allocated table, it is recommended that external components allow the
+                                                                 PKI_INST_HDR_S[QPG] values they send to based off a programmable base (perhaps from a CSR
+                                                                 inside that component) instead of hard-coding the base. */
+        uint64_t tag                   : 32; /**< [ 31:  0] When PKI_INST_HDR_S[UTAG] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S[TAG] is used to
+                                                                 compute WQE[TAG].
+
+                                                                 This field is not present unless PKI_INST_HDR_S [UTAG] is set. */
+#else /* Word 0 - Little Endian */
+        uint64_t tag                   : 32; /**< [ 31:  0] When PKI_INST_HDR_S[UTAG] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S[TAG] is used to
+                                                                 compute WQE[TAG].
+
+                                                                 This field is not present unless PKI_INST_HDR_S [UTAG] is set. */
+        uint64_t qpg                   : 11; /**< [ 42: 32] When PKI_INST_HDR_S[UQPG] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S [QPG] is used to
+                                                                 indirectly compute WQE[AURA] and WQE[GRP].
+
+                                                                 This field is not present unless PKI_INST_HDR_S[W] is set.
+
+                                                                 The QPG table is generally allocated by software. As the QPG index points into this
+                                                                 software allocated table, it is recommended that external components allow the
+                                                                 PKI_INST_HDR_S[QPG] values they send to based off a programmable base (perhaps from a CSR
+                                                                 inside that component) instead of hard-coding the base. */
+        uint64_t reserved_43_44        : 2;
+        uint64_t tt                    : 2;  /**< [ 46: 45] When PKI_INST_HDR_S [UTT] and PKI_INST_HDR_S[W] are set, PKI_INST_HDR_S[TT] is used to
+                                                                 compute WQE[TT].
+
+                                                                 This field is not present unless PKI_INST_HDR_S[W] is set. */
+        uint64_t utt                   : 1;  /**< [ 47: 47] When set, PKI uses PKI_INST_HDR_S[TT] to compute WQE[TT].
+
+                                                                 This field is not present unless PKI_INST_HDR_S[W] is set. */
+        uint64_t sl                    : 8;  /**< [ 55: 48] The number of bytes in the PKI_INST_HDR_S and number of bytes to advance to find the next
+                                                                 parse item.
+                                                                 The following bullets describe the minimum PKI_INST_HDR_S size and, thus, the minimum SL
+                                                                 values for a packet:
+                                                                 * When PKI_INST_HDR_S [UTAG] = 1, the PKI_INST_HDR_S must be eight bytes, so SL must be
+                                                                 eight or more.
+
+                                                                 * When PKI_INST_HDR_S[W] = 1 and PKI_INST_HDR_S [UTAG] = 0, the PKI_INST_HDR_S must be
+                                                                 four bytes or more, so SL must be four or more.
+
+                                                                 * When PKI_INST_HDR_S[W] = 0, the PKI_INST_HDR_S may be as small as two bytes, so SL must
+                                                                 be two or more.
+
+                                                                 The sum of PKI_INST_HDR_S[SL] and other advances is subject to restrictions as described
+                                                                 elsewhere. */
+        uint64_t pm                    : 3;  /**< [ 58: 56] The mode used to parse the packet, as an encoded value. The legal values are:
+                                                                   0x0 = Parse starting at LA (L2).
+                                                                   0x1 = Parse starting at LB (Custom).
+                                                                   0x2 = Parse starting at LC (L3).
+                                                                   0x3 = Reserved; parse starting at LD not supported.
+                                                                   0x4 = Reserved; parse starting at LE not supported.
+                                                                   0x5 = Reserved; parse starting at LF not supported.
+                                                                   0x6 = Parse starting at LG (Custom/Application).
+                                                                   0x7 = Parse nothing, uninterpreted.
+                                                                   _ else = reserved.
+
+                                                                   If most or all parsing stages are skipped, then PKI will have little input in the
+                                                                 scheduling information loaded into the WQE. PKI_INST_HDR_S[QPG], PKI_INST_HDR_S[TT], and
+                                                                 PKI_INST_HDR_S[TAG] may be of use to specify this scheduling information. In this case
+                                                                 PKI_STYLE()_WQ2 and PKI_STYLE()_WQ4 may be used to force the decoded information in WQE
+                                                                 WORD 2 and WORD 4. */
+        uint64_t reserved_59           : 1;
+        uint64_t uqpg                  : 1;  /**< [ 60: 60] When set, PKI will use PKI_INST_HDR_S [QPG] to compute the QPG and indirectly WQE[AURA]
+                                                                 and WQE[GRP].
+
+                                                                 Must be 0 when PKI_INST_HDR_S[W] = 0. */
+        uint64_t utag                  : 1;  /**< [ 61: 61] When set, PKI will use PKI_INST_HDR_S [TAG] to compute WQE[TAG].
+
+                                                                 Must be 0 when PKI_INST_HDR_S[W] = 0. */
+        uint64_t raw                   : 1;  /**< [ 62: 62] When set, WQE[RAW] will be set and statistics will accumulate in PKI_STAT()_STAT2 and the
+                                                                 packet will never be dropped due to RED unless PKI_STYLE()_BUF[RAWDRP] is set. */
+        uint64_t w                     : 1;  /**< [ 63: 63] Indicates wider PKI_INST_HDR_S.
+                                                                 0 = The PKI_INST_HDR_S is two bytes.
+                                                                 1 = The PKI_INST_HDR_S is four or eight bytes. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_inst_hdr_s_s cn; */
+};
+
+/**
+ * Structure pki_fewq_s
+ *
+ * INTERNAL: PKI Front End WQE Structure
+ *
+ * This structure describes the handoff structure between the PKI front end and an IPE. The
+ * fields are similar to the WQE.
+ */
+union bdk_pki_fewq_s
+{
+    uint64_t u[3];
+    struct bdk_pki_fewq_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_44_63        : 20;
+        uint64_t port                  : 12; /**< [ 43: 32] FE initializes to port packet was received from. */
+        uint64_t reserved_6_31         : 26;
+        uint64_t pknd                  : 6;  /**< [  5:  0] FE initializes to pkind packet was received on. */
+#else /* Word 0 - Little Endian */
+        uint64_t pknd                  : 6;  /**< [  5:  0] FE initializes to pkind packet was received on. */
+        uint64_t reserved_6_31         : 26;
+        uint64_t port                  : 12; /**< [ 43: 32] FE initializes to port packet was received from. */
+        uint64_t reserved_44_63        : 20;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t len                   : 16; /**< [127:112] FE initializes with packet header length, values 0-256. */
+        uint64_t reserved_64_111       : 48;
+#else /* Word 1 - Little Endian */
+        uint64_t reserved_64_111       : 48;
+        uint64_t len                   : 16; /**< [127:112] FE initializes with packet header length, values 0-256. */
+#endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t reserved_139_191      : 53;
+        uint64_t errlev                : 3;  /**< [138:136] FE sets if receive error. */
+        uint64_t opcode                : 8;  /**< [135:128] FE sets if receive error. */
+#else /* Word 2 - Little Endian */
+        uint64_t opcode                : 8;  /**< [135:128] FE sets if receive error. */
+        uint64_t errlev                : 3;  /**< [138:136] FE sets if receive error. */
+        uint64_t reserved_139_191      : 53;
+#endif /* Word 2 - End */
+    } s;
+    /* struct bdk_pki_fewq_s_s cn; */
+};
+
+/**
  * Structure pki_bewq_s
  *
  * INTERNAL: PKI Back End WQE Structure
@@ -1819,7 +1819,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00010ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST2", 1, a, 0, 0, 0);
 }
@@ -1856,7 +1856,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00000ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST0", 1, a, 0, 0, 0);
 }
@@ -1866,6 +1866,41 @@ static inline uint64_t BDK_PKI_STATX_HIST0(unsigned long a)
 #define basename_BDK_PKI_STATX_HIST0(a) "PKI_STATX_HIST0"
 #define busnum_BDK_PKI_STATX_HIST0(a) (a)
 #define arguments_BDK_PKI_STATX_HIST0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) pki_stat#_hist1
+ *
+ * PKI Histogram 1 Statistic Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_statx_hist1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t h64to127              : 48; /**< [ 47:  0](R/W/H) Number of non-dropped 64 to 127 byte packets. */
+#else /* Word 0 - Little Endian */
+        uint64_t h64to127              : 48; /**< [ 47:  0](R/W/H) Number of non-dropped 64 to 127 byte packets. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_statx_hist1_s cn; */
+} bdk_pki_statx_hist1_t;
+
+static inline uint64_t BDK_PKI_STATX_HIST1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_STATX_HIST1(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x86c000e00008ll + 0x100ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PKI_STATX_HIST1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_STATX_HIST1(a) bdk_pki_statx_hist1_t
+#define bustype_BDK_PKI_STATX_HIST1(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_PKI_STATX_HIST1(a) "PKI_STATX_HIST1"
+#define busnum_BDK_PKI_STATX_HIST1(a) (a)
+#define arguments_BDK_PKI_STATX_HIST1(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) pki_icg#_cfg
@@ -1963,7 +1998,7 @@ typedef union
 static inline uint64_t BDK_PKI_ICGX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ICGX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x86c00000a000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("PKI_ICGX_CFG", 1, a, 0, 0, 0);
 }
@@ -2021,7 +2056,7 @@ typedef union
 static inline uint64_t BDK_PKI_QPG_TBLBX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_QPG_TBLBX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2047))
         return 0x86c000820000ll + 8ll * ((a) & 0x7ff);
     __bdk_csr_fatal("PKI_QPG_TBLBX", 1, a, 0, 0, 0);
 }
@@ -2059,7 +2094,7 @@ typedef union
 static inline uint64_t BDK_PKI_DSTATX_STAT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x86c000c00008ll + 0x40ll * ((a) & 0x3ff);
     __bdk_csr_fatal("PKI_DSTATX_STAT1", 1, a, 0, 0, 0);
 }
@@ -2097,7 +2132,7 @@ typedef union
 static inline uint64_t BDK_PKI_DSTATX_STAT0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x86c000c00000ll + 0x40ll * ((a) & 0x3ff);
     __bdk_csr_fatal("PKI_DSTATX_STAT0", 1, a, 0, 0, 0);
 }
@@ -2135,7 +2170,7 @@ typedef union
 static inline uint64_t BDK_PKI_DSTATX_STAT3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x86c000c00018ll + 0x40ll * ((a) & 0x3ff);
     __bdk_csr_fatal("PKI_DSTATX_STAT3", 1, a, 0, 0, 0);
 }
@@ -2179,7 +2214,7 @@ typedef union
 static inline uint64_t BDK_PKI_DSTATX_STAT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x86c000c00010ll + 0x40ll * ((a) & 0x3ff);
     __bdk_csr_fatal("PKI_DSTATX_STAT2", 1, a, 0, 0, 0);
 }
@@ -2217,7 +2252,7 @@ typedef union
 static inline uint64_t BDK_PKI_DSTATX_STAT4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT4(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x86c000c00020ll + 0x40ll * ((a) & 0x3ff);
     __bdk_csr_fatal("PKI_DSTATX_STAT4", 1, a, 0, 0, 0);
 }
@@ -2294,7 +2329,7 @@ typedef union
 static inline uint64_t BDK_PKI_TAG_INCX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_TAG_INCX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x86c000007000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKI_TAG_INCX_CTL", 1, a, 0, 0, 0);
 }
@@ -2330,7 +2365,7 @@ typedef union
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000f00010ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_PKNDX_INB_STAT2", 1, a, 0, 0, 0);
 }
@@ -2370,7 +2405,7 @@ typedef union
 static inline uint64_t BDK_PKI_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PF_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x86c001000008ll + 0x10ll * ((a) & 0x7);
     __bdk_csr_fatal("PKI_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -2435,7 +2470,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_ECC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c320ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_ECC_CTL", 1, a, 0, 0, 0);
 }
@@ -2471,7 +2506,7 @@ typedef union
 static inline uint64_t BDK_PKI_BPIDX_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_BPIDX_STATE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
         return 0x86c000b00000ll + 8ll * ((a) & 0x1ff);
     __bdk_csr_fatal("PKI_BPIDX_STATE", 1, a, 0, 0, 0);
 }
@@ -2834,7 +2869,7 @@ typedef union
 static inline uint64_t BDK_PKI_STYLEX_TAG_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_TAG_MASK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000021000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STYLEX_TAG_MASK", 1, a, 0, 0, 0);
 }
@@ -3023,7 +3058,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT4(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00058ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT4", 1, a, 0, 0, 0);
 }
@@ -3060,7 +3095,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT5(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00060ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT5", 1, a, 0, 0, 0);
 }
@@ -3097,7 +3132,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT6(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00068ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT6", 1, a, 0, 0, 0);
 }
@@ -3132,7 +3167,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT7(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00070ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT7", 1, a, 0, 0, 0);
 }
@@ -3167,7 +3202,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00038ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT0", 1, a, 0, 0, 0);
 }
@@ -3202,7 +3237,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00040ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT1", 1, a, 0, 0, 0);
 }
@@ -3237,7 +3272,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00048ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT2", 1, a, 0, 0, 0);
 }
@@ -3272,7 +3307,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00050ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT3", 1, a, 0, 0, 0);
 }
@@ -3307,7 +3342,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT8(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT8(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00078ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT8", 1, a, 0, 0, 0);
 }
@@ -3342,7 +3377,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT9(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT9(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00080ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT9", 1, a, 0, 0, 0);
 }
@@ -3461,7 +3496,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000500000ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_STYLEX_CFG", 2, a, b, 0, 0);
 }
@@ -3625,7 +3660,7 @@ typedef union
 static inline uint64_t BDK_PKI_IMEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_IMEMX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2047))
         return 0x86c000100000ll + 8ll * ((a) & 0x7ff);
     __bdk_csr_fatal("PKI_IMEMX", 1, a, 0, 0, 0);
 }
@@ -3742,7 +3777,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_ECC_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c210ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_ECC_INT_W1S", 1, a, 0, 0, 0);
 }
@@ -4022,7 +4057,7 @@ typedef union
 static inline uint64_t BDK_PKI_STYLEX_WQ2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_WQ2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000022000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STYLEX_WQ2", 1, a, 0, 0, 0);
 }
@@ -4061,7 +4096,7 @@ typedef union
 static inline uint64_t BDK_PKI_STYLEX_WQ4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_WQ4(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000023000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STYLEX_WQ4", 1, a, 0, 0, 0);
 }
@@ -4117,7 +4152,7 @@ typedef union
 static inline uint64_t BDK_PKI_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PF_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x86c001000000ll + 0x10ll * ((a) & 0x7);
     __bdk_csr_fatal("PKI_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -4153,7 +4188,7 @@ typedef union
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000f00008ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_PKNDX_INB_STAT1", 1, a, 0, 0, 0);
 }
@@ -4189,7 +4224,7 @@ typedef union
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000f00000ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_PKNDX_INB_STAT0", 1, a, 0, 0, 0);
 }
@@ -4280,7 +4315,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_STYLEX_ALG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_STYLEX_ALG(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000501000ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_STYLEX_ALG", 2, a, b, 0, 0);
 }
@@ -4397,7 +4432,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_LG_CUSTOM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_LG_CUSTOM(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000300060ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_PKINDX_LG_CUSTOM", 2, a, b, 0, 0);
 }
@@ -4407,6 +4442,43 @@ static inline uint64_t BDK_PKI_CLX_PKINDX_LG_CUSTOM(unsigned long a, unsigned lo
 #define basename_BDK_PKI_CLX_PKINDX_LG_CUSTOM(a,b) "PKI_CLX_PKINDX_LG_CUSTOM"
 #define busnum_BDK_PKI_CLX_PKINDX_LG_CUSTOM(a,b) (a)
 #define arguments_BDK_PKI_CLX_PKINDX_LG_CUSTOM(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) pki_stat#_stat12
+ *
+ * PKI L2 Error Statistic Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_statx_stat12_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t l2err                 : 48; /**< [ 47:  0](R/W/H) Number of non-dropped packets with receive errors (WQE[ERRLEV]==RE or L2) not covered by
+                                                                 more specific length or FCS statistic error registers. */
+#else /* Word 0 - Little Endian */
+        uint64_t l2err                 : 48; /**< [ 47:  0](R/W/H) Number of non-dropped packets with receive errors (WQE[ERRLEV]==RE or L2) not covered by
+                                                                 more specific length or FCS statistic error registers. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_statx_stat12_s cn; */
+} bdk_pki_statx_stat12_t;
+
+static inline uint64_t BDK_PKI_STATX_STAT12(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_STATX_STAT12(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x86c000e00098ll + 0x100ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PKI_STATX_STAT12", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_STATX_STAT12(a) bdk_pki_statx_stat12_t
+#define bustype_BDK_PKI_STATX_STAT12(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_PKI_STATX_STAT12(a) "PKI_STATX_STAT12"
+#define busnum_BDK_PKI_STATX_STAT12(a) (a)
+#define arguments_BDK_PKI_STATX_STAT12(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) pki_frm_len_chk#
@@ -4436,7 +4508,7 @@ typedef union
 static inline uint64_t BDK_PKI_FRM_LEN_CHKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_FRM_LEN_CHKX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c000004000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_FRM_LEN_CHKX", 1, a, 0, 0, 0);
 }
@@ -4513,7 +4585,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_STYLE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_STYLE(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000300048ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_PKINDX_STYLE", 2, a, b, 0, 0);
 }
@@ -4552,7 +4624,7 @@ typedef union
 static inline uint64_t BDK_PKI_PKINDX_ICGSEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKINDX_ICGSEL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000010000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_PKINDX_ICGSEL", 1, a, 0, 0, 0);
 }
@@ -4595,7 +4667,7 @@ typedef union
 static inline uint64_t BDK_PKI_REASM_SOPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_REASM_SOPX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c000006000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_REASM_SOPX", 1, a, 0, 0, 0);
 }
@@ -4760,7 +4832,7 @@ typedef union
 static inline uint64_t BDK_PKI_STYLEX_BUF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_BUF(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000024000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STYLEX_BUF", 1, a, 0, 0, 0);
 }
@@ -4824,7 +4896,7 @@ typedef union
 static inline uint64_t BDK_PKI_AURAX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_AURAX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
         return 0x86c000900000ll + 8ll * ((a) & 0x1ff);
     __bdk_csr_fatal("PKI_AURAX_CFG", 1, a, 0, 0, 0);
 }
@@ -4864,7 +4936,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c120ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -4903,7 +4975,7 @@ typedef union
 static inline uint64_t BDK_PKI_LTYPEX_MAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_LTYPEX_MAP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x86c000005000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKI_LTYPEX_MAP", 1, a, 0, 0, 0);
 }
@@ -4943,7 +5015,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c110ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_INT_W1S", 1, a, 0, 0, 0);
 }
@@ -4978,7 +5050,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST6(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00030ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST6", 1, a, 0, 0, 0);
 }
@@ -5013,7 +5085,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST4(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00020ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST4", 1, a, 0, 0, 0);
 }
@@ -5048,7 +5120,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST5(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00028ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST5", 1, a, 0, 0, 0);
 }
@@ -5083,7 +5155,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST3(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00018ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST3", 1, a, 0, 0, 0);
 }
@@ -5180,7 +5252,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_CFG(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000300040ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_PKINDX_CFG", 2, a, b, 0, 0);
 }
@@ -5280,7 +5352,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG2(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000500800ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_STYLEX_CFG2", 2, a, b, 0, 0);
 }
@@ -5370,7 +5442,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c220ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_ECC_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -5420,7 +5492,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c230ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_ECC_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -5471,7 +5543,7 @@ typedef union
 static inline uint64_t BDK_PKI_STYLEX_TAG_SEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_TAG_SEL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000020000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STYLEX_TAG_SEL", 1, a, 0, 0, 0);
 }
@@ -5522,7 +5594,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_L2_CUSTOM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_L2_CUSTOM(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000300058ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_PKINDX_L2_CUSTOM", 2, a, b, 0, 0);
 }
@@ -5597,7 +5669,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PCAMX_TERMX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PCAMX_TERMX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=191)))
         return 0x86c000700000ll + 0x10000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xff);
     __bdk_csr_fatal("PKI_CLX_PCAMX_TERMX", 3, a, b, c, 0);
 }
@@ -5708,7 +5780,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_SMEMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_SMEMX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=2047)))
         return 0x86c000400000ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x7ff);
     __bdk_csr_fatal("PKI_CLX_SMEMX", 2, a, b, 0, 0);
 }
@@ -5765,7 +5837,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_KMEMX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_KMEMX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63) && (c<=15)))
         return 0x86c000200000ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f) + 8ll * ((c) & 0xf);
     __bdk_csr_fatal("PKI_CLX_PKINDX_KMEMX", 3, a, b, c, 0);
 }
@@ -5800,7 +5872,7 @@ typedef union
 static inline uint64_t BDK_PKI_TAG_INCX_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_TAG_INCX_MASK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x86c000008000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKI_TAG_INCX_MASK", 1, a, 0, 0, 0);
 }
@@ -5849,7 +5921,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_SKIP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_SKIP(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000300050ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_PKINDX_SKIP", 2, a, b, 0, 0);
 }
@@ -6630,7 +6702,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PCAMX_MATCHX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PCAMX_MATCHX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=191)))
         return 0x86c000704000ll + 0x10000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xff);
     __bdk_csr_fatal("PKI_CLX_PCAMX_MATCHX", 3, a, b, c, 0);
 }
@@ -6803,7 +6875,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PCAMX_ACTIONX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PCAMX_ACTIONX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=191)))
         return 0x86c000708000ll + 0x10000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xff);
     __bdk_csr_fatal("PKI_CLX_PCAMX_ACTIONX", 3, a, b, c, 0);
 }
@@ -6843,7 +6915,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c130ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -6853,6 +6925,67 @@ static inline uint64_t BDK_PKI_CLX_INT_ENA_W1S(unsigned long a)
 #define basename_BDK_PKI_CLX_INT_ENA_W1S(a) "PKI_CLX_INT_ENA_W1S"
 #define busnum_BDK_PKI_CLX_INT_ENA_W1S(a) (a)
 #define arguments_BDK_PKI_CLX_INT_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) pki_qpg_tbl#
+ *
+ * PKI QPG Table Registers
+ * The QPG table is used to indirectly calculate the Portadd/Aura/Group from the Diffsrv, HiGig
+ * or VLAN information as described in QPG.
+ * See also PKI_QPG_TBLB().
+ * INTERNAL: This register is outside SMEM due to opcode detection.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_qpg_tblx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t padd                  : 12; /**< [ 59: 48](R/W) Port to channel adder for calculating WQE[CHAN]. */
+        uint64_t grptag_ok             : 3;  /**< [ 47: 45](R/W) Number of WQE[TAG] bits to add into WQE[GRP] if no error is detected. */
+        uint64_t reserved_42_44        : 3;
+        uint64_t grp_ok                : 10; /**< [ 41: 32](R/W) SSO group to schedule packet to and to load WQE[GRP] with if no error is detected. */
+        uint64_t grptag_bad            : 3;  /**< [ 31: 29](R/W) Number of WQE[TAG] bits to add into WQE[GRP] if an error is detected. */
+        uint64_t reserved_26_28        : 3;
+        uint64_t grp_bad               : 10; /**< [ 25: 16](R/W) SSO group to schedule packet to and to load WQE[GRP] with if an error is detected. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t aura_node             : 2;  /**< [ 11: 10](RO) Aura node number. The node number is part of the upper aura bits, however PKI can only
+                                                                 allocate from auras on the local node, therefore these bits are hardcoded to the node
+                                                                 number. */
+        uint64_t laura                 : 10; /**< [  9:  0](R/W) Aura on local node for QOS calculations and loading into WQE[AURA]. */
+#else /* Word 0 - Little Endian */
+        uint64_t laura                 : 10; /**< [  9:  0](R/W) Aura on local node for QOS calculations and loading into WQE[AURA]. */
+        uint64_t aura_node             : 2;  /**< [ 11: 10](RO) Aura node number. The node number is part of the upper aura bits, however PKI can only
+                                                                 allocate from auras on the local node, therefore these bits are hardcoded to the node
+                                                                 number. */
+        uint64_t reserved_12_15        : 4;
+        uint64_t grp_bad               : 10; /**< [ 25: 16](R/W) SSO group to schedule packet to and to load WQE[GRP] with if an error is detected. */
+        uint64_t reserved_26_28        : 3;
+        uint64_t grptag_bad            : 3;  /**< [ 31: 29](R/W) Number of WQE[TAG] bits to add into WQE[GRP] if an error is detected. */
+        uint64_t grp_ok                : 10; /**< [ 41: 32](R/W) SSO group to schedule packet to and to load WQE[GRP] with if no error is detected. */
+        uint64_t reserved_42_44        : 3;
+        uint64_t grptag_ok             : 3;  /**< [ 47: 45](R/W) Number of WQE[TAG] bits to add into WQE[GRP] if no error is detected. */
+        uint64_t padd                  : 12; /**< [ 59: 48](R/W) Port to channel adder for calculating WQE[CHAN]. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_qpg_tblx_s cn; */
+} bdk_pki_qpg_tblx_t;
+
+static inline uint64_t BDK_PKI_QPG_TBLX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_QPG_TBLX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2047))
+        return 0x86c000800000ll + 8ll * ((a) & 0x7ff);
+    __bdk_csr_fatal("PKI_QPG_TBLX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_QPG_TBLX(a) bdk_pki_qpg_tblx_t
+#define bustype_BDK_PKI_QPG_TBLX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_PKI_QPG_TBLX(a) "PKI_QPG_TBLX"
+#define busnum_BDK_PKI_QPG_TBLX(a) (a)
+#define arguments_BDK_PKI_QPG_TBLX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pki_pf_msix_pba#
@@ -6880,7 +7013,7 @@ typedef union
 static inline uint64_t BDK_PKI_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PF_MSIX_PBAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x86c0010f0008ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("PKI_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -6932,41 +7065,6 @@ static inline uint64_t BDK_PKI_PIX_CLKEN_FUNC(void)
 #define arguments_BDK_PKI_PIX_CLKEN -1,-1,-1,-1
 
 /**
- * Register (RSL) pki_stat#_hist1
- *
- * PKI Histogram 1 Statistic Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pki_statx_hist1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t h64to127              : 48; /**< [ 47:  0](R/W/H) Number of non-dropped 64 to 127 byte packets. */
-#else /* Word 0 - Little Endian */
-        uint64_t h64to127              : 48; /**< [ 47:  0](R/W/H) Number of non-dropped 64 to 127 byte packets. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pki_statx_hist1_s cn; */
-} bdk_pki_statx_hist1_t;
-
-static inline uint64_t BDK_PKI_STATX_HIST1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_STATX_HIST1(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x86c000e00008ll + 0x100ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PKI_STATX_HIST1", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PKI_STATX_HIST1(a) bdk_pki_statx_hist1_t
-#define bustype_BDK_PKI_STATX_HIST1(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_PKI_STATX_HIST1(a) "PKI_STATX_HIST1"
-#define busnum_BDK_PKI_STATX_HIST1(a) (a)
-#define arguments_BDK_PKI_STATX_HIST1(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) pki_chan#_cfg
  *
  * PKI Channel Configuration Register
@@ -7007,7 +7105,7 @@ typedef union
 static inline uint64_t BDK_PKI_CHANX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CHANX_CFG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=4095))
         return 0x86c000a00000ll + 8ll * ((a) & 0xfff);
     __bdk_csr_fatal("PKI_CHANX_CFG", 1, a, 0, 0, 0);
 }
@@ -7284,7 +7382,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT18(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT18(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000c8ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT18", 1, a, 0, 0, 0);
 }
@@ -7321,7 +7419,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT16(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT16(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000b8ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT16", 1, a, 0, 0, 0);
 }
@@ -7358,7 +7456,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT17(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT17(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000c0ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT17", 1, a, 0, 0, 0);
 }
@@ -7395,7 +7493,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT14(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT14(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000a8ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT14", 1, a, 0, 0, 0);
 }
@@ -7432,7 +7530,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT15(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT15(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000b0ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT15", 1, a, 0, 0, 0);
 }
@@ -7442,43 +7540,6 @@ static inline uint64_t BDK_PKI_STATX_STAT15(unsigned long a)
 #define basename_BDK_PKI_STATX_STAT15(a) "PKI_STATX_STAT15"
 #define busnum_BDK_PKI_STATX_STAT15(a) (a)
 #define arguments_BDK_PKI_STATX_STAT15(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) pki_stat#_stat12
- *
- * PKI L2 Error Statistic Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pki_statx_stat12_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t l2err                 : 48; /**< [ 47:  0](R/W/H) Number of non-dropped packets with receive errors (WQE[ERRLEV]==RE or L2) not covered by
-                                                                 more specific length or FCS statistic error registers. */
-#else /* Word 0 - Little Endian */
-        uint64_t l2err                 : 48; /**< [ 47:  0](R/W/H) Number of non-dropped packets with receive errors (WQE[ERRLEV]==RE or L2) not covered by
-                                                                 more specific length or FCS statistic error registers. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pki_statx_stat12_s cn; */
-} bdk_pki_statx_stat12_t;
-
-static inline uint64_t BDK_PKI_STATX_STAT12(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_STATX_STAT12(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x86c000e00098ll + 0x100ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PKI_STATX_STAT12", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PKI_STATX_STAT12(a) bdk_pki_statx_stat12_t
-#define bustype_BDK_PKI_STATX_STAT12(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_PKI_STATX_STAT12(a) "PKI_STATX_STAT12"
-#define busnum_BDK_PKI_STATX_STAT12(a) (a)
-#define arguments_BDK_PKI_STATX_STAT12(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) pki_stat#_stat13
@@ -7508,7 +7569,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT13(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT13(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000a0ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT13", 1, a, 0, 0, 0);
 }
@@ -7543,7 +7604,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT10(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT10(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00088ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT10", 1, a, 0, 0, 0);
 }
@@ -7578,7 +7639,7 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT11(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT11(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00090ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT11", 1, a, 0, 0, 0);
 }
@@ -7719,7 +7780,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_ECC_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c200ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_ECC_INT", 1, a, 0, 0, 0);
 }
@@ -7729,67 +7790,6 @@ static inline uint64_t BDK_PKI_CLX_ECC_INT(unsigned long a)
 #define basename_BDK_PKI_CLX_ECC_INT(a) "PKI_CLX_ECC_INT"
 #define busnum_BDK_PKI_CLX_ECC_INT(a) (a)
 #define arguments_BDK_PKI_CLX_ECC_INT(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) pki_qpg_tbl#
- *
- * PKI QPG Table Registers
- * The QPG table is used to indirectly calculate the Portadd/Aura/Group from the Diffsrv, HiGig
- * or VLAN information as described in QPG.
- * See also PKI_QPG_TBLB().
- * INTERNAL: This register is outside SMEM due to opcode detection.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pki_qpg_tblx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
-        uint64_t padd                  : 12; /**< [ 59: 48](R/W) Port to channel adder for calculating WQE[CHAN]. */
-        uint64_t grptag_ok             : 3;  /**< [ 47: 45](R/W) Number of WQE[TAG] bits to add into WQE[GRP] if no error is detected. */
-        uint64_t reserved_42_44        : 3;
-        uint64_t grp_ok                : 10; /**< [ 41: 32](R/W) SSO group to schedule packet to and to load WQE[GRP] with if no error is detected. */
-        uint64_t grptag_bad            : 3;  /**< [ 31: 29](R/W) Number of WQE[TAG] bits to add into WQE[GRP] if an error is detected. */
-        uint64_t reserved_26_28        : 3;
-        uint64_t grp_bad               : 10; /**< [ 25: 16](R/W) SSO group to schedule packet to and to load WQE[GRP] with if an error is detected. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t aura_node             : 2;  /**< [ 11: 10](RO) Aura node number. The node number is part of the upper aura bits, however PKI can only
-                                                                 allocate from auras on the local node, therefore these bits are hardcoded to the node
-                                                                 number. */
-        uint64_t laura                 : 10; /**< [  9:  0](R/W) Aura on local node for QOS calculations and loading into WQE[AURA]. */
-#else /* Word 0 - Little Endian */
-        uint64_t laura                 : 10; /**< [  9:  0](R/W) Aura on local node for QOS calculations and loading into WQE[AURA]. */
-        uint64_t aura_node             : 2;  /**< [ 11: 10](RO) Aura node number. The node number is part of the upper aura bits, however PKI can only
-                                                                 allocate from auras on the local node, therefore these bits are hardcoded to the node
-                                                                 number. */
-        uint64_t reserved_12_15        : 4;
-        uint64_t grp_bad               : 10; /**< [ 25: 16](R/W) SSO group to schedule packet to and to load WQE[GRP] with if an error is detected. */
-        uint64_t reserved_26_28        : 3;
-        uint64_t grptag_bad            : 3;  /**< [ 31: 29](R/W) Number of WQE[TAG] bits to add into WQE[GRP] if an error is detected. */
-        uint64_t grp_ok                : 10; /**< [ 41: 32](R/W) SSO group to schedule packet to and to load WQE[GRP] with if no error is detected. */
-        uint64_t reserved_42_44        : 3;
-        uint64_t grptag_ok             : 3;  /**< [ 47: 45](R/W) Number of WQE[TAG] bits to add into WQE[GRP] if no error is detected. */
-        uint64_t padd                  : 12; /**< [ 59: 48](R/W) Port to channel adder for calculating WQE[CHAN]. */
-        uint64_t reserved_60_63        : 4;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pki_qpg_tblx_s cn; */
-} bdk_pki_qpg_tblx_t;
-
-static inline uint64_t BDK_PKI_QPG_TBLX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PKI_QPG_TBLX(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x86c000800000ll + 8ll * ((a) & 0x7ff);
-    __bdk_csr_fatal("PKI_QPG_TBLX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PKI_QPG_TBLX(a) bdk_pki_qpg_tblx_t
-#define bustype_BDK_PKI_QPG_TBLX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_PKI_QPG_TBLX(a) "PKI_QPG_TBLX"
-#define busnum_BDK_PKI_QPG_TBLX(a) (a)
-#define arguments_BDK_PKI_QPG_TBLX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) pki_cl#_start
@@ -7815,7 +7815,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_START(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c330ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_START", 1, a, 0, 0, 0);
 }
@@ -7984,7 +7984,7 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c100ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_INT", 1, a, 0, 0, 0);
 }

@@ -73,22 +73,6 @@
 #define BDK_DDF_OP_E_REMPTY_INS (0x2f) /**< Record locate empty location and insert. */
 
 /**
- * Enumeration ddf_comp_e
- *
- * DDF Completion Enumeration
- * Enumerates the values of DDF_RES_FIND_S/DDF_RES_MATCH_S[COMPCODE].
- */
-#define BDK_DDF_COMP_E_FAULT (2) /**< Memory fault was detected reading/writing data related to this instruction.  The
-                                       instruction may have been partially completed, and as such the result and record state is
-                                       now undefined. */
-#define BDK_DDF_COMP_E_FULL (3) /**< Insert operation not completed due to no space (nests all full, and if [VICTEN]=1 the
-                                       victim is full). */
-#define BDK_DDF_COMP_E_GOOD (1) /**< Operation completed. */
-#define BDK_DDF_COMP_E_NOTDONE (0) /**< The COMPCODE value of zero is not written by hardware, but may be used by
-                                       software to indicate the DDF_RES_FIND_S/DDF_RES_MATCH_S has not yet been
-                                       updated by hardware. */
-
-/**
  * Enumeration ddf_res_type_e
  *
  * DDF Result Type Enumeration
@@ -112,6 +96,22 @@
                                        interrupt sets DDF_PF_MBOX_INT_W1S(0),
                                        enable clears DDF_PF_MBOX_ENA_W1C(0),
                                        and enable sets DDF_PF_MBOX_ENA_W1S(0). */
+
+/**
+ * Enumeration ddf_comp_e
+ *
+ * DDF Completion Enumeration
+ * Enumerates the values of DDF_RES_FIND_S/DDF_RES_MATCH_S[COMPCODE].
+ */
+#define BDK_DDF_COMP_E_FAULT (2) /**< Memory fault was detected reading/writing data related to this instruction.  The
+                                       instruction may have been partially completed, and as such the result and record state is
+                                       now undefined. */
+#define BDK_DDF_COMP_E_FULL (3) /**< Insert operation not completed due to no space (nests all full, and if [VICTEN]=1 the
+                                       victim is full). */
+#define BDK_DDF_COMP_E_GOOD (1) /**< Operation completed. */
+#define BDK_DDF_COMP_E_NOTDONE (0) /**< The COMPCODE value of zero is not written by hardware, but may be used by
+                                       software to indicate the DDF_RES_FIND_S/DDF_RES_MATCH_S has not yet been
+                                       updated by hardware. */
 
 /**
  * Enumeration ddf_bar_e
@@ -146,6 +146,127 @@
                                        interrupt sets DDF_VQ(0..31)_MISC_INT_W1S,
                                        enable clears DDF_VQ(0..31)_MISC_ENA_W1C
                                        and enable sets DDF_VQ(0..31)_MISC_ENA_W1S. */
+
+/**
+ * Structure ddf_res_find_s
+ *
+ * DDF Result of Filter Find Structure
+ * This structure specifies the result structure written by DDF after it completes a
+ * DDF_INST_FIND_S. Each instruction completion produces exactly one result structure
+ *
+ * DDF always writes the first 16 bytes of this structure.  If DDF_INST_MATCH_S[RR] is
+ * set DDF will update an entire cache line, but only write valid data to the fields
+ * specified depending on the required amount of [RDATA0]..[3] data.
+ *
+ * INTERNAL: When [RR] is set it can use a full-cacheline write with fewer than
+ * a cache-lines worth of NCB data ticks.
+ */
+union bdk_ddf_res_find_s
+{
+    uint64_t u[6];
+    struct bdk_ddf_res_find_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t hitway                : 8;  /**< [ 31: 24] Hit ways. Bitmask of which ways in which the item was found. For insert/deletes a single
+                                                                 bit will be set.
+
+                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
+        uint64_t hitvict               : 1;  /**< [ 23: 23] Hit victim. Set if item was found, inserted, or deleted as a victim, else clear.
+
+                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
+        uint64_t hits                  : 1;  /**< [ 22: 22] Hit secondary. Set if item was found, inserted, or deleted at the secondary bucket
+                                                                 location, else clear.
+
+                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
+        uint64_t hitp                  : 1;  /**< [ 21: 21] Hit primary. Set if item was found, inserted, or deleted at the primary bucket location,
+                                                                 else clear.
+
+                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
+        uint64_t reserved_17_20        : 4;
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corrresponding instruction's
+                                                                 DDF_INST_FIND_S[DONEINT]. */
+        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
+        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
+                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
+                                                                 software may write the memory location containing [COMPCODE] to 0x0
+                                                                 before ringing the doorbell, and then poll for completion by
+                                                                 checking for a non-zero value.
+
+                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the DDF
+                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
+                                                                 output stream, and result data. */
+#else /* Word 0 - Little Endian */
+        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
+                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
+                                                                 software may write the memory location containing [COMPCODE] to 0x0
+                                                                 before ringing the doorbell, and then poll for completion by
+                                                                 checking for a non-zero value.
+
+                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the DDF
+                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
+                                                                 output stream, and result data. */
+        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
+        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corrresponding instruction's
+                                                                 DDF_INST_FIND_S[DONEINT]. */
+        uint64_t reserved_17_20        : 4;
+        uint64_t hitp                  : 1;  /**< [ 21: 21] Hit primary. Set if item was found, inserted, or deleted at the primary bucket location,
+                                                                 else clear.
+
+                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
+        uint64_t hits                  : 1;  /**< [ 22: 22] Hit secondary. Set if item was found, inserted, or deleted at the secondary bucket
+                                                                 location, else clear.
+
+                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
+        uint64_t hitvict               : 1;  /**< [ 23: 23] Hit victim. Set if item was found, inserted, or deleted as a victim, else clear.
+
+                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
+        uint64_t hitway                : 8;  /**< [ 31: 24] Hit ways. Bitmask of which ways in which the item was found. For insert/deletes a single
+                                                                 bit will be set.
+
+                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
+        uint64_t reserved_112_127      : 16;
+        uint64_t sbkt                  : 8;  /**< [111:104] Calculated secondary bucket number. */
+        uint64_t pbkt                  : 8;  /**< [103: 96] Calculated primary bucket number. */
+        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
+#else /* Word 1 - Little Endian */
+        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
+        uint64_t pbkt                  : 8;  /**< [103: 96] Calculated primary bucket number. */
+        uint64_t sbkt                  : 8;  /**< [111:104] Calculated secondary bucket number. */
+        uint64_t reserved_112_127      : 16;
+#endif /* Word 1 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
+        uint64_t rdata0                : 64; /**< [191:128] Key or opaque data bytes read from the nest.
+                                                                 If multiple hits resulted it is unpredictable which is returned.
+                                                                 If [HITP] or [HITS] is set, the data read from the nest before any updates take place.
+                                                                 If [HITP] or [HITS] is clear, unpredictable. */
+#else /* Word 2 - Little Endian */
+        uint64_t rdata0                : 64; /**< [191:128] Key or opaque data bytes read from the nest.
+                                                                 If multiple hits resulted it is unpredictable which is returned.
+                                                                 If [HITP] or [HITS] is set, the data read from the nest before any updates take place.
+                                                                 If [HITP] or [HITS] is clear, unpredictable. */
+#endif /* Word 2 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
+        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
+#else /* Word 3 - Little Endian */
+        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
+#endif /* Word 3 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
+        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
+#else /* Word 4 - Little Endian */
+        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
+#endif /* Word 4 - End */
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
+        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
+#else /* Word 5 - Little Endian */
+        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
+#endif /* Word 5 - End */
+    } s;
+    /* struct bdk_ddf_res_find_s_s cn; */
+};
 
 /**
  * Structure ddf_inst_match_s
@@ -836,127 +957,6 @@ union bdk_ddf_inst_find_s
 };
 
 /**
- * Structure ddf_res_find_s
- *
- * DDF Result of Filter Find Structure
- * This structure specifies the result structure written by DDF after it completes a
- * DDF_INST_FIND_S. Each instruction completion produces exactly one result structure
- *
- * DDF always writes the first 16 bytes of this structure.  If DDF_INST_MATCH_S[RR] is
- * set DDF will update an entire cache line, but only write valid data to the fields
- * specified depending on the required amount of [RDATA0]..[3] data.
- *
- * INTERNAL: When [RR] is set it can use a full-cacheline write with fewer than
- * a cache-lines worth of NCB data ticks.
- */
-union bdk_ddf_res_find_s
-{
-    uint64_t u[6];
-    struct bdk_ddf_res_find_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t hitway                : 8;  /**< [ 31: 24] Hit ways. Bitmask of which ways in which the item was found. For insert/deletes a single
-                                                                 bit will be set.
-
-                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hitvict               : 1;  /**< [ 23: 23] Hit victim. Set if item was found, inserted, or deleted as a victim, else clear.
-
-                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hits                  : 1;  /**< [ 22: 22] Hit secondary. Set if item was found, inserted, or deleted at the secondary bucket
-                                                                 location, else clear.
-
-                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hitp                  : 1;  /**< [ 21: 21] Hit primary. Set if item was found, inserted, or deleted at the primary bucket location,
-                                                                 else clear.
-
-                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t reserved_17_20        : 4;
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corrresponding instruction's
-                                                                 DDF_INST_FIND_S[DONEINT]. */
-        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
-        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
-                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
-                                                                 software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by
-                                                                 checking for a non-zero value.
-
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the DDF
-                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data. */
-#else /* Word 0 - Little Endian */
-        uint64_t compcode              : 8;  /**< [  7:  0] Indicates completion/error status of the DDF coprocessor for the
-                                                                 associated instruction, as enumerated by DDF_COMP_E. Core
-                                                                 software may write the memory location containing [COMPCODE] to 0x0
-                                                                 before ringing the doorbell, and then poll for completion by
-                                                                 checking for a non-zero value.
-
-                                                                 Once the core observes a non-zero [COMPCODE] value in this case, the DDF
-                                                                 coprocessor will have also completed L2/DRAM write operations for all context,
-                                                                 output stream, and result data. */
-        uint64_t res_type              : 8;  /**< [ 15:  8] Type of response structure, enumerated by DDF_RES_TYPE_E. */
-        uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. This bit is copied from the corrresponding instruction's
-                                                                 DDF_INST_FIND_S[DONEINT]. */
-        uint64_t reserved_17_20        : 4;
-        uint64_t hitp                  : 1;  /**< [ 21: 21] Hit primary. Set if item was found, inserted, or deleted at the primary bucket location,
-                                                                 else clear.
-
-                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hits                  : 1;  /**< [ 22: 22] Hit secondary. Set if item was found, inserted, or deleted at the secondary bucket
-                                                                 location, else clear.
-
-                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hitvict               : 1;  /**< [ 23: 23] Hit victim. Set if item was found, inserted, or deleted as a victim, else clear.
-
-                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t hitway                : 8;  /**< [ 31: 24] Hit ways. Bitmask of which ways in which the item was found. For insert/deletes a single
-                                                                 bit will be set.
-
-                                                                 Unpredictable for DDF_OP_E::FABS_SET. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
-        uint64_t reserved_112_127      : 16;
-        uint64_t sbkt                  : 8;  /**< [111:104] Calculated secondary bucket number. */
-        uint64_t pbkt                  : 8;  /**< [103: 96] Calculated primary bucket number. */
-        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
-#else /* Word 1 - Little Endian */
-        uint64_t rank                  : 32; /**< [ 95: 64] Calculated rank number. If DDF_INST_FIND_S[RANK_ABS] was set, unpredictable. */
-        uint64_t pbkt                  : 8;  /**< [103: 96] Calculated primary bucket number. */
-        uint64_t sbkt                  : 8;  /**< [111:104] Calculated secondary bucket number. */
-        uint64_t reserved_112_127      : 16;
-#endif /* Word 1 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 2 - Big Endian */
-        uint64_t rdata0                : 64; /**< [191:128] Key or opaque data bytes read from the nest.
-                                                                 If multiple hits resulted it is unpredictable which is returned.
-                                                                 If [HITP] or [HITS] is set, the data read from the nest before any updates take place.
-                                                                 If [HITP] or [HITS] is clear, unpredictable. */
-#else /* Word 2 - Little Endian */
-        uint64_t rdata0                : 64; /**< [191:128] Key or opaque data bytes read from the nest.
-                                                                 If multiple hits resulted it is unpredictable which is returned.
-                                                                 If [HITP] or [HITS] is set, the data read from the nest before any updates take place.
-                                                                 If [HITP] or [HITS] is clear, unpredictable. */
-#endif /* Word 2 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 3 - Big Endian */
-        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
-#else /* Word 3 - Little Endian */
-        uint64_t rdata1                : 64; /**< [255:192] Extension of [RDATA0]. */
-#endif /* Word 3 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
-        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
-#else /* Word 4 - Little Endian */
-        uint64_t rdata2                : 64; /**< [319:256] Extension of [RDATA0]. */
-#endif /* Word 4 - End */
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 5 - Big Endian */
-        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
-#else /* Word 5 - Little Endian */
-        uint64_t rdata3                : 64; /**< [383:320] Extension of [RDATA0]. */
-#endif /* Word 5 - End */
-    } s;
-    /* struct bdk_ddf_res_find_s_s cn; */
-};
-
-/**
  * Structure ddf_res_match_s
  *
  * DDF Result of Record Match Structure
@@ -1227,7 +1227,7 @@ typedef union
 static inline uint64_t BDK_DDF_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_PF_MSIX_PBAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x8090100f0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("DDF_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -1270,7 +1270,7 @@ typedef union
 static inline uint64_t BDK_DDF_VFX_PF_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VFX_PF_MBOXX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=1)))
         return 0x809020001000ll + 0x100000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DDF_VFX_PF_MBOXX", 2, a, b, 0, 0);
 }
@@ -1314,7 +1314,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_DONE_ACK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_DONE_ACK(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000440ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_DONE_ACK", 1, a, 0, 0, 0);
 }
@@ -1358,7 +1358,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_MISC_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_MISC_INT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000500ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_MISC_INT", 1, a, 0, 0, 0);
 }
@@ -1443,7 +1443,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000100ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_CTL", 1, a, 0, 0, 0);
 }
@@ -1483,7 +1483,7 @@ typedef union
 static inline uint64_t BDK_DDF_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_PF_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x809010000008ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("DDF_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -1518,7 +1518,7 @@ typedef union
 static inline uint64_t BDK_DDF_PF_MBOX_INTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_PF_MBOX_INTX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000000400ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("DDF_PF_MBOX_INTX", 1, a, 0, 0, 0);
 }
@@ -1637,7 +1637,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_DONE_WAIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_DONE_WAIT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000400ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_DONE_WAIT", 1, a, 0, 0, 0);
 }
@@ -1674,7 +1674,7 @@ typedef union
 static inline uint64_t BDK_DDF_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
         return 0x8090300f0000ll + 0x100000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("DDF_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
@@ -1757,7 +1757,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_DOORBELL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_DOORBELL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000600ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_DOORBELL", 1, a, 0, 0, 0);
 }
@@ -1796,7 +1796,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_DONE_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_DONE_INT_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000468ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_DONE_INT_W1C", 1, a, 0, 0, 0);
 }
@@ -1835,7 +1835,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_DONE_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_DONE_INT_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000460ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_DONE_INT_W1S", 1, a, 0, 0, 0);
 }
@@ -1879,7 +1879,7 @@ typedef union
 static inline uint64_t BDK_DDF_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=1)))
         return 0x809030000000ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("DDF_VFX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
@@ -1913,7 +1913,7 @@ typedef union
 static inline uint64_t BDK_DDF_PF_MBOX_ENA_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_PF_MBOX_ENA_W1SX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000000460ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("DDF_PF_MBOX_ENA_W1SX", 1, a, 0, 0, 0);
 }
@@ -1987,7 +1987,7 @@ typedef union
 static inline uint64_t BDK_DDF_PF_MBOX_INT_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_PF_MBOX_INT_W1SX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000000420ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("DDF_PF_MBOX_INT_W1SX", 1, a, 0, 0, 0);
 }
@@ -2075,7 +2075,7 @@ typedef union
 static inline uint64_t BDK_DDF_PF_QX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_PF_QX_GMCTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809008000020ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_PF_QX_GMCTL", 1, a, 0, 0, 0);
 }
@@ -2157,7 +2157,7 @@ typedef union
 static inline uint64_t BDK_DDF_PF_VFX_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_PF_VFX_MBOXX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=1)))
         return 0x809008001000ll + 0x100000ll * ((a) & 0x1f) + 0x100ll * ((b) & 0x1);
     __bdk_csr_fatal("DDF_PF_VFX_MBOXX", 2, a, b, 0, 0);
 }
@@ -2199,7 +2199,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_MISC_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_MISC_ENA_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000518ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_MISC_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -2241,7 +2241,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_MISC_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_MISC_ENA_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000510ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_MISC_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -2357,7 +2357,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_MISC_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_MISC_INT_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000508ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_MISC_INT_W1S", 1, a, 0, 0, 0);
 }
@@ -2440,7 +2440,7 @@ typedef union
 static inline uint64_t BDK_DDF_PF_QX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_PF_QX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809008000000ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_PF_QX_CTL", 1, a, 0, 0, 0);
 }
@@ -2494,7 +2494,7 @@ typedef union
 static inline uint64_t BDK_DDF_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_PF_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x809010000000ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("DDF_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -2528,7 +2528,7 @@ typedef union
 static inline uint64_t BDK_DDF_PF_MBOX_ENA_W1CX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_PF_MBOX_ENA_W1CX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x809000000440ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("DDF_PF_MBOX_ENA_W1CX", 1, a, 0, 0, 0);
 }
@@ -2747,7 +2747,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_DONE_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_DONE_ENA_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000478ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_DONE_ENA_W1C", 1, a, 0, 0, 0);
 }
@@ -2785,7 +2785,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_DONE_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_DONE_ENA_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000470ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_DONE_ENA_W1S", 1, a, 0, 0, 0);
 }
@@ -2825,7 +2825,7 @@ typedef union
 static inline uint64_t BDK_DDF_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=1)))
         return 0x809030000008ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1);
     __bdk_csr_fatal("DDF_VFX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
@@ -2911,7 +2911,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_SADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_SADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000200ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_SADDR", 1, a, 0, 0, 0);
 }
@@ -3005,7 +3005,7 @@ typedef union
 static inline uint64_t BDK_DDF_VQX_DONE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DDF_VQX_DONE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x809020000420ll + 0x100000ll * ((a) & 0x1f);
     __bdk_csr_fatal("DDF_VQX_DONE", 1, a, 0, 0, 0);
 }

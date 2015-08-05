@@ -316,43 +316,6 @@ union bdk_bgx_spu_br_train_cup_s
 };
 
 /**
- * Structure bgx_spu_br_lane_train_status_s
- *
- * BGX Lane Training Status Structure
- * This is the group of lane status bits for a single lane in the BASE-R PMD status register
- * (MDIO address 1.151) as defined in 802.3ba-2010, Table 45-55.
- */
-union bdk_bgx_spu_br_lane_train_status_s
-{
-    uint32_t u;
-    struct bdk_bgx_spu_br_lane_train_status_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_4_31         : 28;
-        uint32_t training_failure      : 1;  /**< [  3:  3] Link training failure. */
-        uint32_t training              : 1;  /**< [  2:  2] Link training state.
-                                                                 0 = Training in progress.
-                                                                 1 = Training has completed. */
-        uint32_t frame_lock            : 1;  /**< [  1:  1] Frame lock status. Set when training frame delineation has been detected. */
-        uint32_t rx_trained            : 1;  /**< [  0:  0] Receiver trained status.
-                                                                 0 = Receiver training.
-                                                                 1 = Receiver trained and ready to receive data for the lane. */
-#else /* Word 0 - Little Endian */
-        uint32_t rx_trained            : 1;  /**< [  0:  0] Receiver trained status.
-                                                                 0 = Receiver training.
-                                                                 1 = Receiver trained and ready to receive data for the lane. */
-        uint32_t frame_lock            : 1;  /**< [  1:  1] Frame lock status. Set when training frame delineation has been detected. */
-        uint32_t training              : 1;  /**< [  2:  2] Link training state.
-                                                                 0 = Training in progress.
-                                                                 1 = Training has completed. */
-        uint32_t training_failure      : 1;  /**< [  3:  3] Link training failure. */
-        uint32_t reserved_4_31         : 28;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgx_spu_br_lane_train_status_s_s cn; */
-};
-
-/**
  * Structure bgx_spu_sds_cu_s
  *
  * INTERNAL: BGX Training Coeffiecient Structure
@@ -426,6 +389,43 @@ union bdk_bgx_spu_br_train_rep_s
 };
 
 /**
+ * Structure bgx_spu_br_lane_train_status_s
+ *
+ * BGX Lane Training Status Structure
+ * This is the group of lane status bits for a single lane in the BASE-R PMD status register
+ * (MDIO address 1.151) as defined in 802.3ba-2010, Table 45-55.
+ */
+union bdk_bgx_spu_br_lane_train_status_s
+{
+    uint32_t u;
+    struct bdk_bgx_spu_br_lane_train_status_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t training_failure      : 1;  /**< [  3:  3] Link training failure. */
+        uint32_t training              : 1;  /**< [  2:  2] Link training state.
+                                                                 0 = Training in progress.
+                                                                 1 = Training has completed. */
+        uint32_t frame_lock            : 1;  /**< [  1:  1] Frame lock status. Set when training frame delineation has been detected. */
+        uint32_t rx_trained            : 1;  /**< [  0:  0] Receiver trained status.
+                                                                 0 = Receiver training.
+                                                                 1 = Receiver trained and ready to receive data for the lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_trained            : 1;  /**< [  0:  0] Receiver trained status.
+                                                                 0 = Receiver training.
+                                                                 1 = Receiver trained and ready to receive data for the lane. */
+        uint32_t frame_lock            : 1;  /**< [  1:  1] Frame lock status. Set when training frame delineation has been detected. */
+        uint32_t training              : 1;  /**< [  2:  2] Link training state.
+                                                                 0 = Training in progress.
+                                                                 1 = Training has completed. */
+        uint32_t training_failure      : 1;  /**< [  3:  3] Link training failure. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgx_spu_br_lane_train_status_s_s cn; */
+};
+
+/**
  * Register (RSL) bgx#_gmp_gmi_rx#_jabber
  *
  * BGX GMP Maximum Packet-Size Registers
@@ -454,7 +454,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_JABBER(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_JABBER(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_RXX_JABBER", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_RXX_JABBER(a,b) bdk_bgxx_gmp_gmi_rxx_jabber_t
@@ -667,7 +669,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_CONFIG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_CONFIG(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_CONFIG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_CONFIG(a,b) bdk_bgxx_cmrx_config_t
@@ -708,7 +712,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_HG2_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_HG2_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000510ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000510ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_HG2_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_HG2_STATUS(a,b) bdk_bgxx_cmrx_tx_hg2_status_t
@@ -763,7 +769,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_TX_RXX_POLARITY(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_TX_RXX_POLARITY(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_TX_RXX_POLARITY", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_TX_RXX_POLARITY(a,b) bdk_bgxx_gmp_pcs_tx_rxx_polarity_t
@@ -802,7 +810,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_TIME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_TIME(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020110ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020110ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_PKT_TIME", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_PAUSE_PKT_TIME(a,b) bdk_bgxx_smux_tx_pause_pkt_time_t
@@ -860,7 +870,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_UNCORR_BLKS01(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_UNCORR_BLKS01(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100b8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100b8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_FEC_UNCORR_BLKS01", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_FEC_UNCORR_BLKS01(a,b) bdk_bgxx_spux_fec_uncorr_blks01_t
@@ -920,7 +932,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LD_CUP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LD_CUP(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_PMD_LD_CUP", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_PMD_LD_CUP(a,b) bdk_bgxx_spux_br_pmd_ld_cup_t
@@ -969,7 +983,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BX_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BX_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BX_STATUS(a,b) bdk_bgxx_spux_bx_status_t
@@ -1003,7 +1019,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_SDSX_SKEW_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_SDSX_SKEW_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010340ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010340ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPU_SDSX_SKEW_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPU_SDSX_SKEW_STATUS(a,b) bdk_bgxx_spu_sdsx_skew_status_t
@@ -1062,7 +1080,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_DECISION(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_DECISION(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_RXX_DECISION", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_RXX_DECISION(a,b) bdk_bgxx_gmp_gmi_rxx_decision_t
@@ -1096,7 +1116,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_DMAC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_DMAC(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020168ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020168ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_PKT_DMAC", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_PAUSE_PKT_DMAC(a,b) bdk_bgxx_smux_tx_pause_pkt_dmac_t
@@ -1144,7 +1166,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_UNCORR_BLKS23(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_UNCORR_BLKS23(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100c0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100c0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_FEC_UNCORR_BLKS23", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_FEC_UNCORR_BLKS23(a,b) bdk_bgxx_spux_fec_uncorr_blks23_t
@@ -1202,7 +1226,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_TP_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_TP_CONTROL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_TP_CONTROL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_TP_CONTROL(a,b) bdk_bgxx_spux_br_tp_control_t
@@ -1327,7 +1353,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_MISC_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_MISC_CONTROL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_MISC_CONTROL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_MISC_CONTROL(a,b) bdk_bgxx_spux_misc_control_t
@@ -1418,7 +1446,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_MRX_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_MRX_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_MRX_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_MRX_STATUS(a,b) bdk_bgxx_gmp_pcs_mrx_status_t
@@ -1473,7 +1503,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_BP_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_BP_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100f8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100f8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_AN_BP_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_AN_BP_STATUS(a,b) bdk_bgxx_spux_an_bp_status_t
@@ -1508,7 +1540,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_ZERO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_ZERO(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038260ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038260ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_PAUSE_ZERO", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_PAUSE_ZERO(a,b) bdk_bgxx_gmp_gmi_txx_pause_zero_t
@@ -1559,7 +1593,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT14(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT14(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000670ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000670ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT14", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT14(a,b) bdk_bgxx_cmrx_tx_stat14_t
@@ -1610,7 +1646,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT15(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT15(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000678ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000678ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT15", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT15(a,b) bdk_bgxx_cmrx_tx_stat15_t
@@ -1649,7 +1687,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT16(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT16(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000680ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000680ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT16", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT16(a,b) bdk_bgxx_cmrx_tx_stat16_t
@@ -1692,7 +1732,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT17(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT17(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000688ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000688ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT17", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT17(a,b) bdk_bgxx_cmrx_tx_stat17_t
@@ -1735,7 +1777,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT10(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT10(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000650ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000650ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT10", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT10(a,b) bdk_bgxx_cmrx_tx_stat10_t
@@ -1778,7 +1822,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT11(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT11(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000658ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000658ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT11", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT11(a,b) bdk_bgxx_cmrx_tx_stat11_t
@@ -1821,7 +1867,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT12(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT12(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000660ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000660ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT12", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT12(a,b) bdk_bgxx_cmrx_tx_stat12_t
@@ -1864,7 +1912,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT13(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT13(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000668ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000668ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT13", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT13(a,b) bdk_bgxx_cmrx_tx_stat13_t
@@ -1899,7 +1949,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_RXX_SYNC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_RXX_SYNC(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_RXX_SYNC", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_RXX_SYNC(a,b) bdk_bgxx_gmp_pcs_rxx_sync_t
@@ -1978,7 +2030,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_MEM_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_MEM_CTRL(unsigned long a)
 {
-    return 0x87e0e0000030ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000030ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_MEM_CTRL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_MEM_CTRL(a) bdk_bgxx_cmr_mem_ctrl_t
@@ -2065,7 +2119,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_UDD_SKP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_UDD_SKP(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_RXX_UDD_SKP", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_RXX_UDD_SKP(a,b) bdk_bgxx_gmp_gmi_rxx_udd_skp_t
@@ -2107,7 +2163,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020148ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020148ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_INT_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_INT_W1S(a,b) bdk_bgxx_smux_tx_int_w1s_t
@@ -2141,7 +2199,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_PAUSE_PKT_TYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_PAUSE_PKT_TYPE(unsigned long a)
 {
-    return 0x87e0e0039020ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0039020ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TX_PAUSE_PKT_TYPE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TX_PAUSE_PKT_TYPE(a) bdk_bgxx_gmp_gmi_tx_pause_pkt_type_t
@@ -2226,7 +2286,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_UDD_SKP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_UDD_SKP(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_UDD_SKP", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_UDD_SKP(a,b) bdk_bgxx_smux_rx_udd_skp_t
@@ -2268,7 +2330,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038518ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038518ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_INT_ENA_W1S(a,b) bdk_bgxx_gmp_gmi_txx_int_ena_w1s_t
@@ -2310,7 +2374,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038510ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038510ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_INT_ENA_W1C(a,b) bdk_bgxx_gmp_gmi_txx_int_ena_w1c_t
@@ -2353,7 +2419,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT8(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT8(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000640ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000640ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT8", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT8(a,b) bdk_bgxx_cmrx_tx_stat8_t
@@ -2396,7 +2464,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT9(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT9(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000648ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000648ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT9", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT9(a,b) bdk_bgxx_cmrx_tx_stat9_t
@@ -2441,7 +2511,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT6(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT6(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000630ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000630ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT6", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT6(a,b) bdk_bgxx_cmrx_tx_stat6_t
@@ -2486,7 +2558,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT7(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT7(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000638ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000638ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT7", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT7(a,b) bdk_bgxx_cmrx_tx_stat7_t
@@ -2535,7 +2609,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT4(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000620ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000620ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT4", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT4(a,b) bdk_bgxx_cmrx_tx_stat4_t
@@ -2578,7 +2654,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT5(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT5(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000628ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000628ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT5", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT5(a,b) bdk_bgxx_cmrx_tx_stat5_t
@@ -2621,7 +2699,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT2(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000610ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000610ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT2(a,b) bdk_bgxx_cmrx_tx_stat2_t
@@ -2662,7 +2742,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT3(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000618ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000618ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT3", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT3(a,b) bdk_bgxx_cmrx_tx_stat3_t
@@ -2705,7 +2787,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT0(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000600ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000600ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT0(a,b) bdk_bgxx_cmrx_tx_stat0_t
@@ -2748,7 +2832,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_STAT1(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000608ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000608ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_STAT1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_STAT1(a,b) bdk_bgxx_cmrx_tx_stat1_t
@@ -2793,7 +2879,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_APPEND(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_APPEND(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020100ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020100ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_APPEND", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_APPEND(a,b) bdk_bgxx_smux_tx_append_t
@@ -2831,7 +2919,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_INT_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_INT_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_INT_W1S(a,b) bdk_bgxx_cmrx_int_w1s_t
@@ -2874,7 +2964,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_TXX_STATES(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_TXX_STATES(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_TXX_STATES", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_TXX_STATES(a,b) bdk_bgxx_gmp_pcs_txx_states_t
@@ -2882,6 +2974,44 @@ static inline uint64_t BDK_BGXX_GMP_PCS_TXX_STATES(unsigned long a, unsigned lon
 #define basename_BDK_BGXX_GMP_PCS_TXX_STATES(a,b) "BGXX_GMP_PCS_TXX_STATES"
 #define busnum_BDK_BGXX_GMP_PCS_TXX_STATES(a,b) (a)
 #define arguments_BDK_BGXX_GMP_PCS_TXX_STATES(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) bgx#_spu_bist_status
+ *
+ * BGX SPU BIST Status Registers
+ * This register provides memory BIST status from the SPU RX_BUF lane FIFOs.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_spu_bist_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t rx_buf_bist_status    : 4;  /**< [  3:  0](RO/H) SPU RX_BUF BIST status for lanes 3-0. One bit per SerDes lane, set to indicate BIST
+                                                                 failure for the associated RX_BUF lane FIFO. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_buf_bist_status    : 4;  /**< [  3:  0](RO/H) SPU RX_BUF BIST status for lanes 3-0. One bit per SerDes lane, set to indicate BIST
+                                                                 failure for the associated RX_BUF lane FIFO. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_spu_bist_status_s cn; */
+} bdk_bgxx_spu_bist_status_t;
+
+static inline uint64_t BDK_BGXX_SPU_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_SPU_BIST_STATUS(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e0e0010330ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_SPU_BIST_STATUS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_BGXX_SPU_BIST_STATUS(a) bdk_bgxx_spu_bist_status_t
+#define bustype_BDK_BGXX_SPU_BIST_STATUS(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_SPU_BIST_STATUS(a) "BGXX_SPU_BIST_STATUS"
+#define busnum_BDK_BGXX_SPU_BIST_STATUS(a) (a)
+#define arguments_BDK_BGXX_SPU_BIST_STATUS(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) bgx#_gmp_pcs_an#_adv
@@ -2939,7 +3069,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_ADV(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_ADV(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_ANX_ADV", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_ANX_ADV(a,b) bdk_bgxx_gmp_pcs_anx_adv_t
@@ -2987,7 +3119,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_PMD_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_PMD_STATUS(a,b) bdk_bgxx_spux_br_pmd_status_t
@@ -3055,7 +3189,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_LP_ABIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_LP_ABIL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_ANX_LP_ABIL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_ANX_LP_ABIL(a,b) bdk_bgxx_gmp_pcs_anx_lp_abil_t
@@ -3103,7 +3239,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_JABBER(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_JABBER(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_JABBER", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_JABBER(a,b) bdk_bgxx_smux_rx_jabber_t
@@ -3160,7 +3298,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_ON(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_ON(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00000d0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00000d0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_BP_ON", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_BP_ON(a,b) bdk_bgxx_cmrx_rx_bp_on_t
@@ -3195,7 +3335,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_NXC_ADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_NXC_ADR(unsigned long a)
 {
-    return 0x87e0e0001018ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0001018ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_NXC_ADR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_NXC_ADR(a) bdk_bgxx_cmr_nxc_adr_t
@@ -3241,7 +3383,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_FRM_CHK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_FRM_CHK(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_FRM_CHK", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_FRM_CHK(a,b) bdk_bgxx_smux_rx_frm_chk_t
@@ -3279,7 +3423,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_INT_ENA_W1C(a,b) bdk_bgxx_cmrx_int_ena_w1c_t
@@ -3317,7 +3463,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_INT_ENA_W1S(a,b) bdk_bgxx_cmrx_int_ena_w1s_t
@@ -3396,7 +3544,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_STATUS1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_STATUS1(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_STATUS1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_STATUS1(a,b) bdk_bgxx_spux_br_status1_t
@@ -3519,7 +3669,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_STATUS2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_STATUS2(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_STATUS2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_STATUS2(a,b) bdk_bgxx_spux_br_status2_t
@@ -3577,7 +3729,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_ENA_W1C(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_INTX_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_INTX_ENA_W1C(a,b) bdk_bgxx_gmp_pcs_intx_ena_w1c_t
@@ -3635,7 +3789,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_ENA_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_INTX_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_INTX_ENA_W1S(a,b) bdk_bgxx_gmp_pcs_intx_ena_w1s_t
@@ -3694,7 +3850,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_LANE_MAP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_LANE_MAP(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_LANE_MAP", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_LANE_MAP(a,b) bdk_bgxx_spux_br_lane_map_t
@@ -3740,7 +3898,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_IFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_IFG(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_RXX_IFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_RXX_IFG(a,b) bdk_bgxx_gmp_gmi_rxx_ifg_t
@@ -3794,7 +3954,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT8(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT8(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00000b0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00000b0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_STAT8", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_STAT8(a,b) bdk_bgxx_cmrx_rx_stat8_t
@@ -3834,7 +3996,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT4(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_STAT4", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_STAT4(a,b) bdk_bgxx_cmrx_rx_stat4_t
@@ -3873,7 +4037,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT6(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT6(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00000a0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00000a0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_STAT6", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_STAT6(a,b) bdk_bgxx_cmrx_rx_stat6_t
@@ -3881,6 +4047,44 @@ static inline uint64_t BDK_BGXX_CMRX_RX_STAT6(unsigned long a, unsigned long b)
 #define basename_BDK_BGXX_CMRX_RX_STAT6(a,b) "BGXX_CMRX_RX_STAT6"
 #define busnum_BDK_BGXX_CMRX_RX_STAT6(a,b) (a)
 #define arguments_BDK_BGXX_CMRX_RX_STAT6(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) bgx#_cmr#_rx_stat1
+ *
+ * BGX Receive Status Register 1
+ * These registers provide a count of octets of received packets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_cmrx_rx_stat1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. CNT will wrap and is cleared if LMAC is disabled with
+                                                                 BGX()_CMR()_CONFIG[ENABLE]=0. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. CNT will wrap and is cleared if LMAC is disabled with
+                                                                 BGX()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_cmrx_rx_stat1_s cn; */
+} bdk_bgxx_cmrx_rx_stat1_t;
+
+static inline uint64_t BDK_BGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b)
+{
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_STAT1", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_BGXX_CMRX_RX_STAT1(a,b) bdk_bgxx_cmrx_rx_stat1_t
+#define bustype_BDK_BGXX_CMRX_RX_STAT1(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_CMRX_RX_STAT1(a,b) "BGXX_CMRX_RX_STAT1"
+#define busnum_BDK_BGXX_CMRX_RX_STAT1(a,b) (a)
+#define arguments_BDK_BGXX_CMRX_RX_STAT1(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) bgx#_smu#_ext_loopback
@@ -3914,7 +4118,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_EXT_LOOPBACK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_EXT_LOOPBACK(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020208ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020208ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_EXT_LOOPBACK", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_EXT_LOOPBACK(a,b) bdk_bgxx_smux_ext_loopback_t
@@ -3997,7 +4203,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_AND(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_AND(unsigned long a)
 {
-    return 0x87e0e0000450ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000450ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_CHAN_MSK_AND", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_CHAN_MSK_AND(a) bdk_bgxx_cmr_chan_msk_and_t
@@ -4059,7 +4267,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010238ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010238ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_INT_ENA_W1S(a,b) bdk_bgxx_spux_int_ena_w1s_t
@@ -4121,7 +4331,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_INT_ENA_W1C(a,b) bdk_bgxx_spux_int_ena_w1c_t
@@ -4232,7 +4444,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_FRM_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_FRM_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_FRM_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_FRM_CTL(a,b) bdk_bgxx_smux_rx_frm_ctl_t
@@ -4274,7 +4488,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_PRT_CBFC_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_PRT_CBFC_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000508ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000508ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_PRT_CBFC_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_PRT_CBFC_CTL(a,b) bdk_bgxx_cmrx_prt_cbfc_ctl_t
@@ -4307,7 +4523,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_SOFT_PAUSE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_SOFT_PAUSE(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020128ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020128ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_SOFT_PAUSE", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_SOFT_PAUSE(a,b) bdk_bgxx_smux_tx_soft_pause_t
@@ -4344,7 +4562,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_LFSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_LFSR(unsigned long a)
 {
-    return 0x87e0e0039028ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0039028ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TX_LFSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TX_LFSR(a) bdk_bgxx_gmp_gmi_tx_lfsr_t
@@ -4352,43 +4572,6 @@ static inline uint64_t BDK_BGXX_GMP_GMI_TX_LFSR(unsigned long a)
 #define basename_BDK_BGXX_GMP_GMI_TX_LFSR(a) "BGXX_GMP_GMI_TX_LFSR"
 #define busnum_BDK_BGXX_GMP_GMI_TX_LFSR(a) (a)
 #define arguments_BDK_BGXX_GMP_GMI_TX_LFSR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) bgx#_cmr#_tx_ovr_bp
- *
- * BGX CMR Transmit-Channels Backpressure Override Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_bgxx_cmrx_tx_ovr_bp_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO.
-                                                                 0 = channel is available.
-                                                                 1 = channel should be backpressured. */
-#else /* Word 0 - Little Endian */
-        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO.
-                                                                 0 = channel is available.
-                                                                 1 = channel should be backpressured. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_tx_ovr_bp_s cn; */
-} bdk_bgxx_cmrx_tx_ovr_bp_t;
-
-static inline uint64_t BDK_BGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b)
-{
-    return 0x87e0e0000520ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
-}
-
-#define typedef_BDK_BGXX_CMRX_TX_OVR_BP(a,b) bdk_bgxx_cmrx_tx_ovr_bp_t
-#define bustype_BDK_BGXX_CMRX_TX_OVR_BP(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_BGXX_CMRX_TX_OVR_BP(a,b) "BGXX_CMRX_TX_OVR_BP"
-#define busnum_BDK_BGXX_CMRX_TX_OVR_BP(a,b) (a)
-#define arguments_BDK_BGXX_CMRX_TX_OVR_BP(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) bgx#_spu#_an_lp_base
@@ -4451,7 +4634,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_LP_BASE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_LP_BASE(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100e0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100e0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_AN_LP_BASE", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_AN_LP_BASE(a,b) bdk_bgxx_spux_an_lp_base_t
@@ -4513,7 +4698,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_INT_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010228ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010228ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_INT_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_INT_W1S(a,b) bdk_bgxx_spux_int_w1s_t
@@ -4572,7 +4759,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_LMACS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_LMACS(unsigned long a)
 {
-    return 0x87e0e0000468ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000468ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_RX_LMACS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_RX_LMACS(a) bdk_bgxx_cmr_rx_lmacs_t
@@ -4580,6 +4769,41 @@ static inline uint64_t BDK_BGXX_CMR_RX_LMACS(unsigned long a)
 #define basename_BDK_BGXX_CMR_RX_LMACS(a) "BGXX_CMR_RX_LMACS"
 #define busnum_BDK_BGXX_CMR_RX_LMACS(a) (a)
 #define arguments_BDK_BGXX_CMR_RX_LMACS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) bgx#_smu#_smac
+ *
+ * BGX SMU SMAC Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_smux_smac_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
+#else /* Word 0 - Little Endian */
+        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_smux_smac_s cn; */
+} bdk_bgxx_smux_smac_t;
+
+static inline uint64_t BDK_BGXX_SMUX_SMAC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_SMUX_SMAC(unsigned long a, unsigned long b)
+{
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020108ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_SMAC", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_BGXX_SMUX_SMAC(a,b) bdk_bgxx_smux_smac_t
+#define bustype_BDK_BGXX_SMUX_SMAC(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_SMUX_SMAC(a,b) "BGXX_SMUX_SMAC"
+#define busnum_BDK_BGXX_SMUX_SMAC(a,b) (a)
+#define arguments_BDK_BGXX_SMUX_SMAC(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) bgx#_spu_mem_status
@@ -4612,7 +4836,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_MEM_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_MEM_STATUS(unsigned long a)
 {
-    return 0x87e0e0010308ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0010308ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_SPU_MEM_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPU_MEM_STATUS(a) bdk_bgxx_spu_mem_status_t
@@ -4655,7 +4881,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_CHANNEL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_CHANNEL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000500ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000500ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_CHANNEL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_CHANNEL(a,b) bdk_bgxx_cmrx_tx_channel_t
@@ -4688,7 +4916,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_FIFO_LEN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_FIFO_LEN(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000108ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000108ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_FIFO_LEN", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_FIFO_LEN(a,b) bdk_bgxx_cmrx_rx_fifo_len_t
@@ -4749,7 +4979,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_TX_LMACS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_TX_LMACS(unsigned long a)
 {
-    return 0x87e0e0001000ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0001000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_TX_LMACS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_TX_LMACS(a) bdk_bgxx_cmr_tx_lmacs_t
@@ -4785,7 +5017,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_W1S(unsigned long a)
 {
-    return 0x87e0e0010318ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0010318ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_SPU_MEM_INT_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPU_MEM_INT_W1S(a) bdk_bgxx_spu_mem_int_w1s_t
@@ -4847,7 +5081,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_CBFC_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_CBFC_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_CBFC_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_CBFC_CTL(a,b) bdk_bgxx_smux_cbfc_ctl_t
@@ -4886,7 +5122,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038270ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038270ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_CTL(a,b) bdk_bgxx_gmp_gmi_txx_ctl_t
@@ -4942,7 +5180,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_RXX_INT_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_RXX_INT_W1S(a,b) bdk_bgxx_gmp_gmi_rxx_int_w1s_t
@@ -5067,7 +5307,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_MRX_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_MRX_CONTROL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_MRX_CONTROL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_MRX_CONTROL(a,b) bdk_bgxx_gmp_pcs_mrx_control_t
@@ -5207,7 +5449,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_RXX_INT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_RXX_INT(a,b) bdk_bgxx_gmp_gmi_rxx_int_t
@@ -5290,7 +5534,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_MEM_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_MEM_INT(unsigned long a)
 {
-    return 0x87e0e0000010ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000010ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_MEM_INT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_MEM_INT(a) bdk_bgxx_cmr_mem_int_t
@@ -5360,7 +5606,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_PRTX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_PRTX_CFG(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_PRTX_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_PRTX_CFG(a,b) bdk_bgxx_gmp_gmi_prtx_cfg_t
@@ -5397,7 +5645,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00000f0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00000f0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_BP_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_BP_STATUS(a,b) bdk_bgxx_cmrx_rx_bp_status_t
@@ -5452,7 +5702,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_STEERING_VETYPEX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_STEERING_VETYPEX(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000400ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+    if ((a<=1) && (b<=7))
+        return 0x87e0e0000400ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("BGXX_CMR_RX_STEERING_VETYPEX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_RX_STEERING_VETYPEX(a,b) bdk_bgxx_cmr_rx_steering_vetypex_t
@@ -5511,7 +5763,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_ALGN_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_ALGN_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_ALGN_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_ALGN_STATUS(a,b) bdk_bgxx_spux_br_algn_status_t
@@ -5547,7 +5801,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_ENA_W1S(unsigned long a)
 {
-    return 0x87e0e0010328ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0010328ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_SPU_MEM_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPU_MEM_INT_ENA_W1S(a) bdk_bgxx_spu_mem_int_ena_w1s_t
@@ -5583,7 +5839,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_MEM_INT_ENA_W1C(unsigned long a)
 {
-    return 0x87e0e0010320ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0010320ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_SPU_MEM_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPU_MEM_INT_ENA_W1C(a) bdk_bgxx_spu_mem_int_ena_w1c_t
@@ -5637,7 +5895,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020120ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020120ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_PKT_INTERVAL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_PAUSE_PKT_INTERVAL(a,b) bdk_bgxx_smux_tx_pause_pkt_interval_t
@@ -5736,7 +5996,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_CONTROL1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_CONTROL1(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_CONTROL1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_CONTROL1(a,b) bdk_bgxx_spux_control1_t
@@ -5801,7 +6063,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_CONTROL2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_CONTROL2(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_CONTROL2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_CONTROL2(a,b) bdk_bgxx_spux_control2_t
@@ -5878,7 +6142,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_INTX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_INTX(a,b) bdk_bgxx_gmp_pcs_intx_t
@@ -5911,7 +6177,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_SMACX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_SMACX(a,b) bdk_bgxx_gmp_gmi_smacx_t
@@ -5950,7 +6218,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_LOGL_XON(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_LOGL_XON(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000100ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000100ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_LOGL_XON", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_LOGL_XON(a,b) bdk_bgxx_cmrx_rx_logl_xon_t
@@ -6028,7 +6298,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_DMAC_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_DMAC_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00000e8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00000e8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_DMAC_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_DMAC_CTL(a,b) bdk_bgxx_cmrx_rx_dmac_ctl_t
@@ -6064,7 +6336,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_STAT10(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_STAT10(unsigned long a)
 {
-    return 0x87e0e00000c0ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e00000c0ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_RX_STAT10", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_RX_STAT10(a) bdk_bgxx_cmr_rx_stat10_t
@@ -6102,7 +6376,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_DECISION(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_DECISION(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020038ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_DECISION", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_DECISION(a,b) bdk_bgxx_smux_rx_decision_t
@@ -6144,7 +6420,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038508ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038508ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_INT_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_INT_W1S(a,b) bdk_bgxx_gmp_gmi_txx_int_w1s_t
@@ -6178,7 +6456,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_JAM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_JAM(unsigned long a)
 {
-    return 0x87e0e0039008ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0039008ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TX_JAM", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TX_JAM(a) bdk_bgxx_gmp_gmi_tx_jam_t
@@ -6217,7 +6497,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_SPD_ABIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_SPD_ABIL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_SPD_ABIL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_SPD_ABIL(a,b) bdk_bgxx_spux_spd_abil_t
@@ -6298,7 +6580,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_SGMX_LP_ADV(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_SGMX_LP_ADV(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_SGMX_LP_ADV", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_SGMX_LP_ADV(a,b) bdk_bgxx_gmp_pcs_sgmx_lp_adv_t
@@ -6507,7 +6791,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_GLOBAL_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_GLOBAL_CONFIG(unsigned long a)
 {
-    return 0x87e0e0000008ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000008ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_GLOBAL_CONFIG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_GLOBAL_CONFIG(a) bdk_bgxx_cmr_global_config_t
@@ -6515,42 +6801,6 @@ static inline uint64_t BDK_BGXX_CMR_GLOBAL_CONFIG(unsigned long a)
 #define basename_BDK_BGXX_CMR_GLOBAL_CONFIG(a) "BGXX_CMR_GLOBAL_CONFIG"
 #define busnum_BDK_BGXX_CMR_GLOBAL_CONFIG(a) (a)
 #define arguments_BDK_BGXX_CMR_GLOBAL_CONFIG(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) bgx#_spu_bist_status
- *
- * BGX SPU BIST Status Registers
- * This register provides memory BIST status from the SPU RX_BUF lane FIFOs.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_bgxx_spu_bist_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t rx_buf_bist_status    : 4;  /**< [  3:  0](RO/H) SPU RX_BUF BIST status for lanes 3-0. One bit per SerDes lane, set to indicate BIST
-                                                                 failure for the associated RX_BUF lane FIFO. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_buf_bist_status    : 4;  /**< [  3:  0](RO/H) SPU RX_BUF BIST status for lanes 3-0. One bit per SerDes lane, set to indicate BIST
-                                                                 failure for the associated RX_BUF lane FIFO. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_spu_bist_status_s cn; */
-} bdk_bgxx_spu_bist_status_t;
-
-static inline uint64_t BDK_BGXX_SPU_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BGXX_SPU_BIST_STATUS(unsigned long a)
-{
-    return 0x87e0e0010330ll + 0x1000000ll * ((a) & 0x1);
-}
-
-#define typedef_BDK_BGXX_SPU_BIST_STATUS(a) bdk_bgxx_spu_bist_status_t
-#define bustype_BDK_BGXX_SPU_BIST_STATUS(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_BGXX_SPU_BIST_STATUS(a) "BGXX_SPU_BIST_STATUS"
-#define busnum_BDK_BGXX_SPU_BIST_STATUS(a) (a)
-#define arguments_BDK_BGXX_SPU_BIST_STATUS(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) bgx#_smu#_tx_ctl
@@ -6741,7 +6991,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020178ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020178ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_CTL(a,b) bdk_bgxx_smux_tx_ctl_t
@@ -6805,7 +7057,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_RESULTS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_RESULTS(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_ANX_RESULTS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_ANX_RESULTS(a,b) bdk_bgxx_gmp_pcs_anx_results_t
@@ -6848,7 +7102,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_RXX_STATES(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_RXX_STATES(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_RXX_STATES", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_RXX_STATES(a,b) bdk_bgxx_gmp_pcs_rxx_states_t
@@ -6898,7 +7154,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_IFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_IFG(unsigned long a)
 {
-    return 0x87e0e0039000ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0039000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TX_IFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TX_IFG(a) bdk_bgxx_gmp_gmi_tx_ifg_t
@@ -6931,7 +7189,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_PAUSE_PKT_DMAC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_PAUSE_PKT_DMAC(unsigned long a)
 {
-    return 0x87e0e0039018ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0039018ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TX_PAUSE_PKT_DMAC", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TX_PAUSE_PKT_DMAC(a) bdk_bgxx_gmp_gmi_tx_pause_pkt_dmac_t
@@ -6997,7 +7257,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_DMACX_CAM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_DMACX_CAM(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000200ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
+    if ((a<=1) && (b<=31))
+        return 0x87e0e0000200ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1f);
+    __bdk_csr_fatal("BGXX_CMR_RX_DMACX_CAM", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_RX_DMACX_CAM(a,b) bdk_bgxx_cmr_rx_dmacx_cam_t
@@ -7040,7 +7302,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_STEERING_DEFAULT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_STEERING_DEFAULT(unsigned long a)
 {
-    return 0x87e0e0000448ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000448ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_RX_STEERING_DEFAULT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_RX_STEERING_DEFAULT(a) bdk_bgxx_cmr_rx_steering_default_t
@@ -7097,7 +7361,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LD_REP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LD_REP(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010090ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_PMD_LD_REP", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_PMD_LD_REP(a,b) bdk_bgxx_spux_br_pmd_ld_rep_t
@@ -7138,7 +7404,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_INT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038500ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038500ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_INT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_INT(a,b) bdk_bgxx_gmp_gmi_txx_int_t
@@ -7196,7 +7464,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_SGMX_AN_ADV(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_SGMX_AN_ADV(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_SGMX_AN_ADV", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_SGMX_AN_ADV(a,b) bdk_bgxx_gmp_pcs_sgmx_an_adv_t
@@ -7235,7 +7505,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_MEM_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_MEM_INT(unsigned long a)
 {
-    return 0x87e0e0010310ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0010310ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_SPU_MEM_INT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPU_MEM_INT(a) bdk_bgxx_spu_mem_int_t
@@ -7287,7 +7559,9 @@ typedef union
 static inline uint64_t BDK_BGXX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0400000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
+    if ((a<=1) && (b<=29))
+        return 0x87e0e0400000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
+    __bdk_csr_fatal("BGXX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_MSIX_VECX_ADDR(a,b) bdk_bgxx_msix_vecx_addr_t
@@ -7340,7 +7614,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LP_CUP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LP_CUP(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_PMD_LP_CUP", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_PMD_LP_CUP(a,b) bdk_bgxx_spux_br_pmd_lp_cup_t
@@ -7378,7 +7654,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_LINKX_TIMER(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_LINKX_TIMER(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_LINKX_TIMER", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_LINKX_TIMER(a,b) bdk_bgxx_gmp_pcs_linkx_timer_t
@@ -7421,7 +7699,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_LPCS_STATES(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_LPCS_STATES(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010208ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010208ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_LPCS_STATES", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_LPCS_STATES(a,b) bdk_bgxx_spux_lpcs_states_t
@@ -7486,7 +7766,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_CONTROL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100c8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100c8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_AN_CONTROL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_AN_CONTROL(a,b) bdk_bgxx_spux_an_control_t
@@ -7556,7 +7838,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_SDSX_STATES(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_SDSX_STATES(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010360ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010360ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPU_SDSX_STATES", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPU_SDSX_STATES(a,b) bdk_bgxx_spu_sdsx_states_t
@@ -7603,7 +7887,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_FRM_CHK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_FRM_CHK(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038030ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_RXX_FRM_CHK", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_RXX_FRM_CHK(a,b) bdk_bgxx_gmp_gmi_rxx_frm_chk_t
@@ -7641,7 +7927,9 @@ typedef union
 static inline uint64_t BDK_BGXX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0400008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
+    if ((a<=1) && (b<=29))
+        return 0x87e0e0400008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1f);
+    __bdk_csr_fatal("BGXX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_MSIX_VECX_CTL(a,b) bdk_bgxx_msix_vecx_ctl_t
@@ -7782,7 +8070,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_INT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010220ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010220ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_INT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_INT(a,b) bdk_bgxx_spux_int_t
@@ -7821,7 +8111,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_BAD_COL_HI(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_BAD_COL_HI(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_BAD_COL_HI", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_BAD_COL_HI(a,b) bdk_bgxx_smux_rx_bad_col_hi_t
@@ -7882,7 +8174,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_STATUS2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_STATUS2(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010020ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_STATUS2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_STATUS2(a,b) bdk_bgxx_spux_status2_t
@@ -7953,7 +8247,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_STATUS1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_STATUS1(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_STATUS1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_STATUS1(a,b) bdk_bgxx_spux_status1_t
@@ -7992,7 +8288,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_TIME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_TIME(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038238ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038238ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_PAUSE_PKT_TIME", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_TIME(a,b) bdk_bgxx_gmp_gmi_txx_pause_pkt_time_t
@@ -8031,7 +8329,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_ABIL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_ABIL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_FEC_ABIL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_FEC_ABIL(a,b) bdk_bgxx_spux_fec_abil_t
@@ -8068,7 +8368,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_MIN_PKT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_MIN_PKT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020118ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020118ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_MIN_PKT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_MIN_PKT(a,b) bdk_bgxx_smux_tx_min_pkt_t
@@ -8107,7 +8409,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_INT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000040ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_INT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_INT(a,b) bdk_bgxx_cmrx_int_t
@@ -8148,7 +8452,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_DROP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_DROP(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00000c8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00000c8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_BP_DROP", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_BP_DROP(a,b) bdk_bgxx_cmrx_rx_bp_drop_t
@@ -8186,7 +8492,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_STAT9(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_STAT9(unsigned long a)
 {
-    return 0x87e0e00000b8ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e00000b8ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_RX_STAT9", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_RX_STAT9(a) bdk_bgxx_cmr_rx_stat9_t
@@ -8288,7 +8596,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_INT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020000ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_INT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_INT(a,b) bdk_bgxx_smux_rx_int_t
@@ -8375,7 +8685,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_OR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_OR(unsigned long a)
 {
-    return 0x87e0e0000458ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000458ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_CHAN_MSK_OR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_CHAN_MSK_OR(a) bdk_bgxx_cmr_chan_msk_or_t
@@ -8408,7 +8720,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_TOGO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_TOGO(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038258ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038258ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_PAUSE_TOGO", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_PAUSE_TOGO(a,b) bdk_bgxx_gmp_gmi_txx_pause_togo_t
@@ -8451,7 +8765,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_INT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020140ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020140ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_INT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_INT(a,b) bdk_bgxx_smux_tx_int_t
@@ -8492,7 +8808,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_EXT_ST(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_ANX_EXT_ST(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_ANX_EXT_ST", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_ANX_EXT_ST(a,b) bdk_bgxx_gmp_pcs_anx_ext_st_t
@@ -8605,7 +8923,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_MISCX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_MISCX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_MISCX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_MISCX_CTL(a,b) bdk_bgxx_gmp_pcs_miscx_ctl_t
@@ -8638,7 +8958,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SOFT_PAUSE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SOFT_PAUSE(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038250ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038250ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_SOFT_PAUSE", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_SOFT_PAUSE(a,b) bdk_bgxx_gmp_gmi_txx_soft_pause_t
@@ -8679,7 +9001,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_BURST(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_BURST(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038228ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038228ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_BURST", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_BURST(a,b) bdk_bgxx_gmp_gmi_txx_burst_t
@@ -8755,7 +9079,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_HG2_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_HG2_CONTROL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020210ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020210ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_HG2_CONTROL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_HG2_CONTROL(a,b) bdk_bgxx_smux_hg2_control_t
@@ -8842,7 +9168,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100d0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100d0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_AN_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_AN_STATUS(a,b) bdk_bgxx_spux_an_status_t
@@ -8875,7 +9203,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_PAUSE_DROP_TIME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_PAUSE_DROP_TIME(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_PAUSE_DROP_TIME", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_PAUSE_DROP_TIME(a,b) bdk_bgxx_cmrx_rx_pause_drop_time_t
@@ -8911,7 +9241,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT5(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT5(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000098ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_STAT5", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_STAT5(a,b) bdk_bgxx_cmrx_rx_stat5_t
@@ -8948,7 +9280,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT7(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT7(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00000a8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00000a8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_STAT7", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_STAT7(a,b) bdk_bgxx_cmrx_rx_stat7_t
@@ -8988,7 +9322,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT0(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000070ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_STAT0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_STAT0(a,b) bdk_bgxx_cmrx_rx_stat0_t
@@ -8996,42 +9332,6 @@ static inline uint64_t BDK_BGXX_CMRX_RX_STAT0(unsigned long a, unsigned long b)
 #define basename_BDK_BGXX_CMRX_RX_STAT0(a,b) "BGXX_CMRX_RX_STAT0"
 #define busnum_BDK_BGXX_CMRX_RX_STAT0(a,b) (a)
 #define arguments_BDK_BGXX_CMRX_RX_STAT0(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) bgx#_cmr#_rx_stat1
- *
- * BGX Receive Status Register 1
- * These registers provide a count of octets of received packets.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_bgxx_cmrx_rx_stat1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. CNT will wrap and is cleared if LMAC is disabled with
-                                                                 BGX()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. CNT will wrap and is cleared if LMAC is disabled with
-                                                                 BGX()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_rx_stat1_s cn; */
-} bdk_bgxx_cmrx_rx_stat1_t;
-
-static inline uint64_t BDK_BGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b)
-{
-    return 0x87e0e0000078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
-}
-
-#define typedef_BDK_BGXX_CMRX_RX_STAT1(a,b) bdk_bgxx_cmrx_rx_stat1_t
-#define bustype_BDK_BGXX_CMRX_RX_STAT1(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_BGXX_CMRX_RX_STAT1(a,b) "BGXX_CMRX_RX_STAT1"
-#define busnum_BDK_BGXX_CMRX_RX_STAT1(a,b) (a)
-#define arguments_BDK_BGXX_CMRX_RX_STAT1(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) bgx#_cmr#_rx_stat2
@@ -9065,7 +9365,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT2(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_STAT2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_STAT2(a,b) bdk_bgxx_cmrx_rx_stat2_t
@@ -9101,7 +9403,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT3(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_STAT3(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_STAT3", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_STAT3(a,b) bdk_bgxx_cmrx_rx_stat3_t
@@ -9134,7 +9438,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_BAD_COL_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_BAD_COL_LO(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020050ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_BAD_COL_LO", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_BAD_COL_LO(a,b) bdk_bgxx_smux_rx_bad_col_lo_t
@@ -9181,7 +9487,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_LP_XNP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_LP_XNP(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100f0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100f0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_AN_LP_XNP", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_AN_LP_XNP(a,b) bdk_bgxx_spux_an_lp_xnp_t
@@ -9189,6 +9497,45 @@ static inline uint64_t BDK_BGXX_SPUX_AN_LP_XNP(unsigned long a, unsigned long b)
 #define basename_BDK_BGXX_SPUX_AN_LP_XNP(a,b) "BGXX_SPUX_AN_LP_XNP"
 #define busnum_BDK_BGXX_SPUX_AN_LP_XNP(a,b) (a)
 #define arguments_BDK_BGXX_SPUX_AN_LP_XNP(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) bgx#_cmr#_tx_ovr_bp
+ *
+ * BGX CMR Transmit-Channels Backpressure Override Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_cmrx_tx_ovr_bp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO.
+                                                                 0 = channel is available.
+                                                                 1 = channel should be backpressured. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO.
+                                                                 0 = channel is available.
+                                                                 1 = channel should be backpressured. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_cmrx_tx_ovr_bp_s cn; */
+} bdk_bgxx_cmrx_tx_ovr_bp_t;
+
+static inline uint64_t BDK_BGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b)
+{
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000520ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_OVR_BP", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_BGXX_CMRX_TX_OVR_BP(a,b) bdk_bgxx_cmrx_tx_ovr_bp_t
+#define bustype_BDK_BGXX_CMRX_TX_OVR_BP(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_CMRX_TX_OVR_BP(a,b) "BGXX_CMRX_TX_OVR_BP"
+#define busnum_BDK_BGXX_CMRX_TX_OVR_BP(a,b) (a)
+#define arguments_BDK_BGXX_CMRX_TX_OVR_BP(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) bgx#_cmr_rx_steering#
@@ -9267,7 +9614,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_STEERINGX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_STEERINGX(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000300ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+    if ((a<=1) && (b<=7))
+        return 0x87e0e0000300ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("BGXX_CMR_RX_STEERINGX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_RX_STEERINGX(a,b) bdk_bgxx_cmr_rx_steeringx_t
@@ -9306,7 +9655,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_LOGL_XOFF(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_LOGL_XOFF(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00000f8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00000f8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_LOGL_XOFF", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_LOGL_XOFF(a,b) bdk_bgxx_cmrx_rx_logl_xoff_t
@@ -9371,7 +9722,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_XNP_TX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_XNP_TX(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100e8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100e8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_AN_XNP_TX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_AN_XNP_TX(a,b) bdk_bgxx_spux_an_xnp_tx_t
@@ -9431,7 +9784,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_ID_MAP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_ID_MAP(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000060ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_ID_MAP", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_ID_MAP(a,b) bdk_bgxx_cmrx_rx_id_map_t
@@ -9488,7 +9843,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SGMII_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SGMII_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038300ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038300ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_SGMII_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_SGMII_CTL(a,b) bdk_bgxx_gmp_gmi_txx_sgmii_ctl_t
@@ -9525,7 +9882,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_TOGO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_TOGO(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020130ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020130ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_TOGO", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_PAUSE_TOGO(a,b) bdk_bgxx_smux_tx_pause_togo_t
@@ -9583,7 +9942,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_PCS_INTX_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0030088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0030088ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_PCS_INTX_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_PCS_INTX_W1S(a,b) bdk_bgxx_gmp_pcs_intx_w1s_t
@@ -9634,7 +9995,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_CONTROL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100a0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100a0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_FEC_CONTROL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_FEC_CONTROL(a,b) bdk_bgxx_spux_fec_control_t
@@ -9675,7 +10038,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_CTL(a,b) bdk_bgxx_smux_rx_ctl_t
@@ -9759,7 +10124,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1C(unsigned long a)
 {
-    return 0x87e0e0000020ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000020ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_MEM_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_MEM_INT_ENA_W1C(a) bdk_bgxx_cmr_mem_int_ena_w1c_t
@@ -9843,7 +10210,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1S(unsigned long a)
 {
-    return 0x87e0e0000028ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000028ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_MEM_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_MEM_INT_ENA_W1S(a) bdk_bgxx_cmr_mem_int_ena_w1s_t
@@ -9883,7 +10252,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_IFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_IFG(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020160ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020160ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_IFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_IFG(a,b) bdk_bgxx_smux_tx_ifg_t
@@ -10108,7 +10479,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPU_DBG_CONTROL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPU_DBG_CONTROL(unsigned long a)
 {
-    return 0x87e0e0010300ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0010300ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_SPU_DBG_CONTROL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPU_DBG_CONTROL(a) bdk_bgxx_spu_dbg_control_t
@@ -10169,7 +10542,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_RX_OVR_BP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_RX_OVR_BP(unsigned long a)
 {
-    return 0x87e0e0000470ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000470ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_RX_OVR_BP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_RX_OVR_BP(a) bdk_bgxx_cmr_rx_ovr_bp_t
@@ -10248,7 +10623,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_AN_ADV(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_AN_ADV(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100d8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100d8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_AN_ADV", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_AN_ADV(a,b) bdk_bgxx_spux_an_adv_t
@@ -10472,7 +10849,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_FRM_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_FRM_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038028ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_RXX_FRM_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_RXX_FRM_CTL(a,b) bdk_bgxx_gmp_gmi_rxx_frm_ctl_t
@@ -10556,7 +10935,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_W1S(unsigned long a)
 {
-    return 0x87e0e0000018ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000018ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_MEM_INT_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_MEM_INT_W1S(a) bdk_bgxx_cmr_mem_int_w1s_t
@@ -10612,7 +10993,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_INT_ENA_W1S(a,b) bdk_bgxx_smux_rx_int_ena_w1s_t
@@ -10668,7 +11051,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_INT_ENA_W1C(a,b) bdk_bgxx_smux_rx_int_ena_w1c_t
@@ -10705,7 +11090,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_WEIGHT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_WEIGHT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00000e0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00000e0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_WEIGHT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_WEIGHT(a,b) bdk_bgxx_cmrx_rx_weight_t
@@ -10754,7 +11141,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_BIP_ERR_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_BIP_ERR_CNT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010058ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_BIP_ERR_CNT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_BIP_ERR_CNT(a,b) bdk_bgxx_spux_br_bip_err_cnt_t
@@ -10795,7 +11184,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_CONTROL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010068ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_PMD_CONTROL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_PMD_CONTROL(a,b) bdk_bgxx_spux_br_pmd_control_t
@@ -10851,7 +11242,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_RX_INT_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020008ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_RX_INT_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_RX_INT_W1S(a,b) bdk_bgxx_smux_rx_int_w1s_t
@@ -10884,9 +11277,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
         return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_ECO", 1, a, 0, 0, 0);
 }
@@ -10937,7 +11330,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_THRESH(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038210ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038210ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_THRESH", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_THRESH(a,b) bdk_bgxx_gmp_gmi_txx_thresh_t
@@ -10978,7 +11373,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_MIN_PKT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_MIN_PKT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038240ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038240ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_MIN_PKT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_MIN_PKT(a,b) bdk_bgxx_gmp_gmi_txx_min_pkt_t
@@ -11020,7 +11417,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020158ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020158ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_INT_ENA_W1S(a,b) bdk_bgxx_smux_tx_int_ena_w1s_t
@@ -11062,7 +11461,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020150ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020150ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_INT_ENA_W1C(a,b) bdk_bgxx_smux_tx_int_ena_w1c_t
@@ -11070,39 +11471,6 @@ static inline uint64_t BDK_BGXX_SMUX_TX_INT_ENA_W1C(unsigned long a, unsigned lo
 #define basename_BDK_BGXX_SMUX_TX_INT_ENA_W1C(a,b) "BGXX_SMUX_TX_INT_ENA_W1C"
 #define busnum_BDK_BGXX_SMUX_TX_INT_ENA_W1C(a,b) (a)
 #define arguments_BDK_BGXX_SMUX_TX_INT_ENA_W1C(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) bgx#_smu#_smac
- *
- * BGX SMU SMAC Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_bgxx_smux_smac_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
-#else /* Word 0 - Little Endian */
-        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_smux_smac_s cn; */
-} bdk_bgxx_smux_smac_t;
-
-static inline uint64_t BDK_BGXX_SMUX_SMAC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BGXX_SMUX_SMAC(unsigned long a, unsigned long b)
-{
-    return 0x87e0e0020108ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
-}
-
-#define typedef_BDK_BGXX_SMUX_SMAC(a,b) bdk_bgxx_smux_smac_t
-#define bustype_BDK_BGXX_SMUX_SMAC(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_BGXX_SMUX_SMAC(a,b) "BGXX_SMUX_SMAC"
-#define busnum_BDK_BGXX_SMUX_SMAC(a,b) (a)
-#define arguments_BDK_BGXX_SMUX_SMAC(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) bgx#_smu#_ctrl
@@ -11134,7 +11502,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_CTRL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020200ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020200ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_CTRL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_CTRL(a,b) bdk_bgxx_smux_ctrl_t
@@ -11187,7 +11557,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LP_REP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_PMD_LP_REP(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010080ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_PMD_LP_REP", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_PMD_LP_REP(a,b) bdk_bgxx_spux_br_pmd_lp_rep_t
@@ -11221,7 +11593,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_TYPE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_PKT_TYPE(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020170ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020170ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_PKT_TYPE", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_PAUSE_PKT_TYPE(a,b) bdk_bgxx_smux_tx_pause_pkt_type_t
@@ -11256,7 +11630,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_ZERO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_PAUSE_ZERO(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020138ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020138ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_PAUSE_ZERO", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_PAUSE_ZERO(a,b) bdk_bgxx_smux_tx_pause_zero_t
@@ -11295,7 +11671,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_APPEND(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_APPEND(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038218ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_APPEND", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_APPEND(a,b) bdk_bgxx_gmp_gmi_txx_append_t
@@ -11347,7 +11725,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_BR_TP_ERR_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_BR_TP_ERR_CNT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0010048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0010048ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_BR_TP_ERR_CNT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_BR_TP_ERR_CNT(a,b) bdk_bgxx_spux_br_tp_err_cnt_t
@@ -11403,7 +11783,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_ENA_W1S(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038018ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_RXX_INT_ENA_W1S", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_RXX_INT_ENA_W1S(a,b) bdk_bgxx_gmp_gmi_rxx_int_ena_w1s_t
@@ -11459,7 +11841,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_RXX_INT_ENA_W1C(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038010ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_RXX_INT_ENA_W1C", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_RXX_INT_ENA_W1C(a,b) bdk_bgxx_gmp_gmi_rxx_int_ena_w1c_t
@@ -11494,7 +11878,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_OFF(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_RX_BP_OFF(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00000d8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00000d8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_BP_OFF", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_RX_BP_OFF(a,b) bdk_bgxx_cmrx_rx_bp_off_t
@@ -11529,7 +11915,9 @@ typedef union
 static inline uint64_t BDK_BGXX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0e04f0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x87e0e04f0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("BGXX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_MSIX_PBAX(a,b) bdk_bgxx_msix_pbax_t
@@ -11588,7 +11976,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038248ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038248ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_PAUSE_PKT_INTERVAL(a,b) bdk_bgxx_gmp_gmi_txx_pause_pkt_interval_t
@@ -11621,7 +12011,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_COL_ATTEMPT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_COL_ATTEMPT(unsigned long a)
 {
-    return 0x87e0e0039010ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0039010ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TX_COL_ATTEMPT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TX_COL_ATTEMPT(a) bdk_bgxx_gmp_gmi_tx_col_attempt_t
@@ -11696,7 +12088,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_BIST_STATUS(unsigned long a)
 {
-    return 0x87e0e0000460ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0000460ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_BIST_STATUS(a) bdk_bgxx_cmr_bist_status_t
@@ -11754,7 +12148,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS01(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS01(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100a8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100a8ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_FEC_CORR_BLKS01", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_FEC_CORR_BLKS01(a,b) bdk_bgxx_spux_fec_corr_blks01_t
@@ -11795,7 +12191,9 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SLOT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_TXX_SLOT(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0038220ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0038220ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_TXX_SLOT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_GMP_GMI_TXX_SLOT(a,b) bdk_bgxx_gmp_gmi_txx_slot_t
@@ -11828,7 +12226,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_BAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_BAD(unsigned long a)
 {
-    return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_BAD", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMR_BAD(a) bdk_bgxx_cmr_bad_t
@@ -11879,7 +12279,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SMUX_TX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SMUX_TX_THRESH(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0020180ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020180ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_TX_THRESH", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SMUX_TX_THRESH(a,b) bdk_bgxx_smux_tx_thresh_t
@@ -11918,7 +12320,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMRX_TX_FIFO_LEN(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMRX_TX_FIFO_LEN(unsigned long a, unsigned long b)
 {
-    return 0x87e0e0000518ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000518ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_FIFO_LEN", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_CMRX_TX_FIFO_LEN(a,b) bdk_bgxx_cmrx_tx_fifo_len_t
@@ -11966,7 +12370,9 @@ typedef union
 static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS23(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_SPUX_FEC_CORR_BLKS23(unsigned long a, unsigned long b)
 {
-    return 0x87e0e00100b0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0e00100b0ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SPUX_FEC_CORR_BLKS23", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_BGXX_SPUX_FEC_CORR_BLKS23(a,b) bdk_bgxx_spux_fec_corr_blks23_t

@@ -53,17 +53,6 @@
  */
 
 /**
- * Enumeration smmu_ctype_e
- *
- * SMMU Context Bank Type Enumeration
- * Enumerates the values of SMMU()_CBAR()[CTYPE].
- */
-#define BDK_SMMU_CTYPE_E_STAGE1_BYP2 (1) /**< Stage 1 contact with stage 2 bypass. */
-#define BDK_SMMU_CTYPE_E_STAGE1_FAULT2 (2) /**< Stage 1 contact with stage 2 fault. */
-#define BDK_SMMU_CTYPE_E_STAGE1_STAGE2 (3) /**< Stage 1 contact with stage 2 nested translation. */
-#define BDK_SMMU_CTYPE_E_STAGE2 (0) /**< Stage 2 context. */
-
-/**
  * Enumeration smmu_int_vec_e
  *
  * SMMU MSI-X Vector Enumeration
@@ -87,6 +76,17 @@
                                        and enables SMMU(0..3)_(S)CR0[GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE].
                                        (GFIE is a common enable.) Applies only to secure mode. */
 #define BDK_SMMU_INT_VEC_E_SGFSR_CLEAR (0x103) /**< Level sensitive interrupt clear vector. */
+
+/**
+ * Enumeration smmu_ctype_e
+ *
+ * SMMU Context Bank Type Enumeration
+ * Enumerates the values of SMMU()_CBAR()[CTYPE].
+ */
+#define BDK_SMMU_CTYPE_E_STAGE1_BYP2 (1) /**< Stage 1 contact with stage 2 bypass. */
+#define BDK_SMMU_CTYPE_E_STAGE1_FAULT2 (2) /**< Stage 1 contact with stage 2 fault. */
+#define BDK_SMMU_CTYPE_E_STAGE1_STAGE2 (3) /**< Stage 1 contact with stage 2 nested translation. */
+#define BDK_SMMU_CTYPE_E_STAGE2 (0) /**< Stage 2 context. */
 
 /**
  * Enumeration smmu_bar_e
@@ -170,7 +170,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_ERR_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ERR_INT(unsigned long a)
 {
-    return 0x830000020080ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000020080ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_ERR_INT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_ERR_INT(a) bdk_smmux_err_int_t
@@ -209,7 +211,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TLBIASID(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIASID(unsigned long a, unsigned long b)
 {
-    return 0x830001000610ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000610ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TLBIASID", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TLBIASID(a,b) bdk_smmux_cbx_tlbiasid_t
@@ -249,7 +253,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SACR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SACR(unsigned long a)
 {
-    return 0x830000000010ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000010ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SACR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SACR(a) bdk_smmux_sacr_t
@@ -288,7 +294,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2L(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2L(unsigned long a, unsigned long b)
 {
-    return 0x830001000638ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000638ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TLBIIPAS2L", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TLBIIPAS2L(a,b) bdk_smmux_cbx_tlbiipas2l_t
@@ -329,7 +337,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAAL(unsigned long a, unsigned long b)
 {
-    return 0x830001000628ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000628ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TLBIVAAL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TLBIVAAL(a,b) bdk_smmux_cbx_tlbivaal_t
@@ -362,7 +372,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_STLBIALLM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBIALLM(unsigned long a)
 {
-    return 0x8300000000bcll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x8300000000bcll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_STLBIALLM", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_STLBIALLM(a) bdk_smmux_stlbiallm_t
@@ -407,7 +419,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SSDRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SSDRX(unsigned long a, unsigned long b)
 {
-    return 0x830000040000ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7ff);
+    if ((a<=3) && (b<=2047))
+        return 0x830000040000ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7ff);
+    __bdk_csr_fatal("SMMUX_SSDRX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SSDRX(a,b) bdk_smmux_ssdrx_t
@@ -450,7 +464,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAL(unsigned long a, unsigned long b)
 {
-    return 0x830001000620ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000620ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TLBIVAL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TLBIVAL(a,b) bdk_smmux_cbx_tlbival_t
@@ -495,7 +511,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAA(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIVAA(unsigned long a, unsigned long b)
 {
-    return 0x830001000608ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000608ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TLBIVAA", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TLBIVAA(a,b) bdk_smmux_cbx_tlbivaa_t
@@ -526,7 +544,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SPTREAD_PERF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SPTREAD_PERF(unsigned long a)
 {
-    return 0x830000021060ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000021060ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SPTREAD_PERF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SPTREAD_PERF(a) bdk_smmux_sptread_perf_t
@@ -558,7 +578,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_RESUME(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_RESUME(unsigned long a, unsigned long b)
 {
-    return 0x830001000008ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000008ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_RESUME", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_RESUME(a,b) bdk_smmux_cbx_resume_t
@@ -566,6 +588,39 @@ static inline uint64_t BDK_SMMUX_CBX_RESUME(unsigned long a, unsigned long b)
 #define basename_BDK_SMMUX_CBX_RESUME(a,b) "SMMUX_CBX_RESUME"
 #define busnum_BDK_SMMUX_CBX_RESUME(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_RESUME(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) smmu#_nsptread_perf
+ *
+ * SMMU Non-secure Page Table Reads Performance Counter Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_smmux_nsptread_perf_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to non-secure memory. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to non-secure memory. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smmux_nsptread_perf_s cn; */
+} bdk_smmux_nsptread_perf_t;
+
+static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a)
+{
+    if (a<=3)
+        return 0x830000021050ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSPTREAD_PERF", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SMMUX_NSPTREAD_PERF(a) bdk_smmux_nsptread_perf_t
+#define bustype_BDK_SMMUX_NSPTREAD_PERF(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SMMUX_NSPTREAD_PERF(a) "SMMUX_NSPTREAD_PERF"
+#define busnum_BDK_SMMUX_NSPTREAD_PERF(a) (a)
+#define arguments_BDK_SMMUX_NSPTREAD_PERF(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) smmu#_cb#_tlbstatus
@@ -597,7 +652,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TLBSTATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBSTATUS(unsigned long a, unsigned long b)
 {
-    return 0x8300010007f4ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x8300010007f4ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TLBSTATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TLBSTATUS(a,b) bdk_smmux_cbx_tlbstatus_t
@@ -639,7 +696,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_STLBIVALM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBIVALM(unsigned long a)
 {
-    return 0x8300000000a0ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x8300000000a0ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_STLBIVALM", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_STLBIVALM(a) bdk_smmux_stlbivalm_t
@@ -682,7 +741,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TTBR1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TTBR1(unsigned long a, unsigned long b)
 {
-    return 0x830001000028ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000028ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TTBR1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TTBR1(a,b) bdk_smmux_cbx_ttbr1_t
@@ -736,7 +797,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SMRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SMRX(unsigned long a, unsigned long b)
 {
-    return 0x830000000800ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830000000800ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_SMRX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SMRX(a,b) bdk_smmux_smrx_t
@@ -775,7 +838,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_STLBGSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBGSTATUS(unsigned long a)
 {
-    return 0x830000000074ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000074ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_STLBGSTATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_STLBGSTATUS(a) bdk_smmux_stlbgstatus_t
@@ -1060,7 +1125,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_SCTLR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_SCTLR(unsigned long a, unsigned long b)
 {
-    return 0x830001000000ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000000ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_SCTLR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_SCTLR(a,b) bdk_smmux_cbx_sctlr_t
@@ -1093,7 +1160,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NSTLBGSYNC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSTLBGSYNC(unsigned long a)
 {
-    return 0x830000000470ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000470ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSTLBGSYNC", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NSTLBGSYNC(a) bdk_smmux_nstlbgsync_t
@@ -1125,7 +1194,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NSGFSRRESTORE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFSRRESTORE(unsigned long a)
 {
-    return 0x83000000044cll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x83000000044cll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSGFSRRESTORE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NSGFSRRESTORE(a) bdk_smmux_nsgfsrrestore_t
@@ -1165,7 +1236,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_ERR_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ERR_INT_W1S(unsigned long a)
 {
-    return 0x830000020090ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000020090ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_ERR_INT_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_ERR_INT_W1S(a) bdk_smmux_err_int_w1s_t
@@ -1242,7 +1315,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_ECC_CTL_0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ECC_CTL_0(unsigned long a)
 {
-    return 0x8300000200f0ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x8300000200f0ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_ECC_CTL_0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_ECC_CTL_0(a) bdk_smmux_ecc_ctl_0_t
@@ -1275,7 +1350,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SMISS_PERF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SMISS_PERF(unsigned long a)
 {
-    return 0x830000021040ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000021040ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SMISS_PERF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SMISS_PERF(a) bdk_smmux_smiss_perf_t
@@ -1317,7 +1394,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NSGFSYNR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFSYNR1(unsigned long a)
 {
-    return 0x830000000454ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000454ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSGFSYNR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NSGFSYNR1(a) bdk_smmux_nsgfsynr1_t
@@ -1405,7 +1484,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NSGFSYNR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFSYNR0(unsigned long a)
 {
-    return 0x830000000450ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000450ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSGFSYNR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NSGFSYNR0(a) bdk_smmux_nsgfsynr0_t
@@ -1437,7 +1518,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NSGFSYNR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFSYNR2(unsigned long a)
 {
-    return 0x830000000458ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000458ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSGFSYNR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NSGFSYNR2(a) bdk_smmux_nsgfsynr2_t
@@ -1477,7 +1560,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_MAIR1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_MAIR1(unsigned long a, unsigned long b)
 {
-    return 0x83000100003cll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x83000100003cll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_MAIR1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_MAIR1(a,b) bdk_smmux_cbx_mair1_t
@@ -1517,7 +1602,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_MAIR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_MAIR0(unsigned long a, unsigned long b)
 {
-    return 0x830001000038ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000038ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_MAIR0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_MAIR0(a,b) bdk_smmux_cbx_mair0_t
@@ -1551,7 +1638,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_STLBGSYNC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBGSYNC(unsigned long a)
 {
-    return 0x830000000070ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000070ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_STLBGSYNC", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_STLBGSYNC(a) bdk_smmux_stlbgsync_t
@@ -1732,7 +1821,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TCR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TCR(unsigned long a, unsigned long b)
 {
-    return 0x830001000030ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000030ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TCR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TCR(a,b) bdk_smmux_cbx_tcr_t
@@ -1763,7 +1854,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_S_HIT_PERF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S_HIT_PERF(unsigned long a)
 {
-    return 0x830000021020ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000021020ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_S_HIT_PERF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_S_HIT_PERF(a) bdk_smmux_s_hit_perf_t
@@ -1811,7 +1904,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TLBIVA(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIVA(unsigned long a, unsigned long b)
 {
-    return 0x830001000600ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000600ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TLBIVA", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TLBIVA(a,b) bdk_smmux_cbx_tlbiva_t
@@ -1850,7 +1945,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_TLBIVMIDS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIVMIDS1(unsigned long a)
 {
-    return 0x8300000000b8ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x8300000000b8ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_TLBIVMIDS1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_TLBIVMIDS1(a) bdk_smmux_tlbivmids1_t
@@ -1888,7 +1985,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NSTLBGSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSTLBGSTATUS(unsigned long a)
 {
-    return 0x830000000474ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000474ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSTLBGSTATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NSTLBGSTATUS(a) bdk_smmux_nstlbgstatus_t
@@ -1927,7 +2026,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TLBIALL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIALL(unsigned long a, unsigned long b)
 {
-    return 0x830001000618ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000618ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TLBIALL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TLBIALL(a,b) bdk_smmux_cbx_tlbiall_t
@@ -1935,37 +2036,6 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIALL(unsigned long a, unsigned long b)
 #define basename_BDK_SMMUX_CBX_TLBIALL(a,b) "SMMUX_CBX_TLBIALL"
 #define busnum_BDK_SMMUX_CBX_TLBIALL(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBIALL(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_nsptread_perf
- *
- * SMMU Non-secure Page Table Reads Performance Counter Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_smmux_nsptread_perf_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to non-secure memory. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to non-secure memory. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_smmux_nsptread_perf_s cn; */
-} bdk_smmux_nsptread_perf_t;
-
-static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a)
-{
-    return 0x830000021050ll + 0x1000000000ll * ((a) & 0x3);
-}
-
-#define typedef_BDK_SMMUX_NSPTREAD_PERF(a) bdk_smmux_nsptread_perf_t
-#define bustype_BDK_SMMUX_NSPTREAD_PERF(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_SMMUX_NSPTREAD_PERF(a) "SMMUX_NSPTREAD_PERF"
-#define busnum_BDK_SMMUX_NSPTREAD_PERF(a) (a)
-#define arguments_BDK_SMMUX_NSPTREAD_PERF(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) smmu#_look_strm
@@ -1993,7 +2063,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_LOOK_STRM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_LOOK_STRM(unsigned long a)
 {
-    return 0x830000020110ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000020110ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_LOOK_STRM", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_LOOK_STRM(a) bdk_smmux_look_strm_t
@@ -2026,7 +2098,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_TLBIALLNSNH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIALLNSNH(unsigned long a)
 {
-    return 0x830000000068ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000068ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_TLBIALLNSNH", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_TLBIALLNSNH(a) bdk_smmux_tlbiallnsnh_t
@@ -2072,7 +2146,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SGFAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFAR(unsigned long a)
 {
-    return 0x830000000040ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000040ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SGFAR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SGFAR(a) bdk_smmux_sgfar_t
@@ -2103,7 +2179,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NS_HIT_PERF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NS_HIT_PERF(unsigned long a)
 {
-    return 0x830000021010ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000021010ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NS_HIT_PERF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NS_HIT_PERF(a) bdk_smmux_ns_hit_perf_t
@@ -2137,7 +2215,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CIDR1(unsigned long a)
 {
-    return 0x830000000ff4ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000ff4ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_CIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CIDR1(a) bdk_smmux_cidr1_t
@@ -2171,7 +2251,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CIDR0(unsigned long a)
 {
-    return 0x830000000ff0ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000ff0ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_CIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CIDR0(a) bdk_smmux_cidr0_t
@@ -2205,7 +2287,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CIDR3(unsigned long a)
 {
-    return 0x830000000ffcll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000ffcll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_CIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CIDR3(a) bdk_smmux_cidr3_t
@@ -2239,7 +2323,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CIDR2(unsigned long a)
 {
-    return 0x830000000ff8ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000ff8ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_CIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CIDR2(a) bdk_smmux_cidr2_t
@@ -2280,7 +2366,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_TLBIVAH64(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIVAH64(unsigned long a)
 {
-    return 0x8300000000c0ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x8300000000c0ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_TLBIVAH64", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_TLBIVAH64(a) bdk_smmux_tlbivah64_t
@@ -2311,7 +2399,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_TLBX_DAT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBX_DAT(unsigned long a, unsigned long b)
 {
-    return 0x830000028000ll + 0x1000000000ll * ((a) & 0x3) + 8ll * ((b) & 0xfff);
+    if ((a<=3) && (b<=4095))
+        return 0x830000028000ll + 0x1000000000ll * ((a) & 0x3) + 8ll * ((b) & 0xfff);
+    __bdk_csr_fatal("SMMUX_TLBX_DAT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_TLBX_DAT(a,b) bdk_smmux_tlbx_dat_t
@@ -2342,7 +2432,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_WCUX_DAT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_WCUX_DAT(unsigned long a, unsigned long b)
 {
-    return 0x830000024000ll + 0x1000000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7ff);
+    if ((a<=3) && (b<=2047))
+        return 0x830000024000ll + 0x1000000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7ff);
+    __bdk_csr_fatal("SMMUX_WCUX_DAT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_WCUX_DAT(a,b) bdk_smmux_wcux_dat_t
@@ -2374,7 +2466,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_TLBIVAH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIVAH(unsigned long a)
 {
-    return 0x830000000078ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000078ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_TLBIVAH", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_TLBIVAH(a) bdk_smmux_tlbivah_t
@@ -2414,7 +2508,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NSACR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSACR(unsigned long a)
 {
-    return 0x830000000410ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000410ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSACR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NSACR(a) bdk_smmux_nsacr_t
@@ -2448,7 +2544,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TLBSYNC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBSYNC(unsigned long a, unsigned long b)
 {
-    return 0x8300010007f0ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x8300010007f0ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TLBSYNC", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TLBSYNC(a,b) bdk_smmux_cbx_tlbsync_t
@@ -2518,7 +2616,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NSGFSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFSR(unsigned long a)
 {
-    return 0x830000000448ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000448ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSGFSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NSGFSR(a) bdk_smmux_nsgfsr_t
@@ -2566,7 +2666,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_LOOK_PAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_LOOK_PAR(unsigned long a)
 {
-    return 0x830000020120ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000020120ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_LOOK_PAR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_LOOK_PAR(a) bdk_smmux_look_par_t
@@ -2729,7 +2831,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBARX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBARX(unsigned long a, unsigned long b)
 {
-    return 0x830000010000ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830000010000ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBARX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBARX(a,b) bdk_smmux_cbarx_t
@@ -2762,7 +2866,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_FSRRESTORE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_FSRRESTORE(unsigned long a, unsigned long b)
 {
-    return 0x83000100005cll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x83000100005cll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_FSRRESTORE", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_FSRRESTORE(a,b) bdk_smmux_cbx_fsrrestore_t
@@ -2799,7 +2905,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_TLBIVMID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIVMID(unsigned long a)
 {
-    return 0x830000000064ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000064ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_TLBIVMID", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_TLBIVMID(a) bdk_smmux_tlbivmid_t
@@ -2842,7 +2950,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TTBR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TTBR0(unsigned long a, unsigned long b)
 {
-    return 0x830001000020ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000020ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TTBR0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TTBR0(a,b) bdk_smmux_cbx_ttbr0_t
@@ -2876,7 +2986,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_ACTIVE_PC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ACTIVE_PC(unsigned long a)
 {
-    return 0x830000021000ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000021000ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_ACTIVE_PC", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_ACTIVE_PC(a) bdk_smmux_active_pc_t
@@ -2909,7 +3021,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_STLBIALL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBIALL(unsigned long a)
 {
-    return 0x830000000060ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000060ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_STLBIALL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_STLBIALL(a) bdk_smmux_stlbiall_t
@@ -2941,7 +3055,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SGFSRRESTORE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFSRRESTORE(unsigned long a)
 {
-    return 0x83000000004cll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x83000000004cll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SGFSRRESTORE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SGFSRRESTORE(a) bdk_smmux_sgfsrrestore_t
@@ -3091,7 +3207,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_DIAG_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_DIAG_CTL(unsigned long a)
 {
-    return 0x830000020030ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000020030ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_DIAG_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_DIAG_CTL(a) bdk_smmux_diag_ctl_t
@@ -3129,7 +3247,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x83000f000008ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1ff);
+    if ((a<=3) && (b<=261))
+        return 0x83000f000008ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1ff);
+    __bdk_csr_fatal("SMMUX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_MSIX_VECX_CTL(a,b) bdk_smmux_msix_vecx_ctl_t
@@ -3172,7 +3292,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_STLBIVAM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_STLBIVAM(unsigned long a)
 {
-    return 0x8300000000a8ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x8300000000a8ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_STLBIVAM", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_STLBIVAM(a) bdk_smmux_stlbivam_t
@@ -3206,7 +3328,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    return 0x83000f0f0000ll + 0x1000000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    if ((a<=3) && (b<=4))
+        return 0x83000f0f0000ll + 0x1000000000ll * ((a) & 0x3) + 8ll * ((b) & 0x7);
+    __bdk_csr_fatal("SMMUX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_MSIX_PBAX(a,b) bdk_smmux_msix_pbax_t
@@ -3262,7 +3386,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SCR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SCR2(unsigned long a)
 {
-    return 0x830000000008ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000008ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SCR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SCR2(a) bdk_smmux_scr2_t
@@ -3571,7 +3697,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SCR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SCR0(unsigned long a)
 {
-    return 0x830000000000ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000000ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SCR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SCR0(a) bdk_smmux_scr0_t
@@ -4055,7 +4183,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SCR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SCR1(unsigned long a)
 {
-    return 0x830000000004ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000004ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SCR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SCR1(a) bdk_smmux_scr1_t
@@ -4094,7 +4224,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBFRSYNRAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBFRSYNRAX(unsigned long a, unsigned long b)
 {
-    return 0x830000010400ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830000010400ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBFRSYNRAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBFRSYNRAX(a,b) bdk_smmux_cbfrsynrax_t
@@ -4126,7 +4258,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_FSYNR1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_FSYNR1(unsigned long a, unsigned long b)
 {
-    return 0x83000100006cll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x83000100006cll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_FSYNR1", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_FSYNR1(a,b) bdk_smmux_cbx_fsynr1_t
@@ -4251,7 +4385,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_FSYNR0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_FSYNR0(unsigned long a, unsigned long b)
 {
-    return 0x830001000068ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000068ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_FSYNR0", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_FSYNR0(a,b) bdk_smmux_cbx_fsynr0_t
@@ -4291,9 +4427,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_DEBUG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_DEBUG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x830000021070ll + 0x1000000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=3))
         return 0x830000021070ll + 0x1000000000ll * ((a) & 0x3);
     __bdk_csr_fatal("SMMUX_DEBUG", 1, a, 0, 0, 0);
 }
@@ -4434,7 +4570,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TCR2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TCR2(unsigned long a, unsigned long b)
 {
-    return 0x830001000010ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000010ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TCR2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TCR2(a,b) bdk_smmux_cbx_tcr2_t
@@ -4442,39 +4580,6 @@ static inline uint64_t BDK_SMMUX_CBX_TCR2(unsigned long a, unsigned long b)
 #define basename_BDK_SMMUX_CBX_TCR2(a,b) "SMMUX_CBX_TCR2"
 #define busnum_BDK_SMMUX_CBX_TCR2(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TCR2(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_nsmiss_perf
- *
- * SMMU Non-secure Misses Performance Counter Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_smmux_nsmiss_perf_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in non-secure mode which missed the IOTLB.
-                                                                 Also includes sign-extension position translation faults. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in non-secure mode which missed the IOTLB.
-                                                                 Also includes sign-extension position translation faults. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_smmux_nsmiss_perf_s cn; */
-} bdk_smmux_nsmiss_perf_t;
-
-static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a)
-{
-    return 0x830000021030ll + 0x1000000000ll * ((a) & 0x3);
-}
-
-#define typedef_BDK_SMMUX_NSMISS_PERF(a) bdk_smmux_nsmiss_perf_t
-#define bustype_BDK_SMMUX_NSMISS_PERF(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_SMMUX_NSMISS_PERF(a) "SMMUX_NSMISS_PERF"
-#define busnum_BDK_SMMUX_NSMISS_PERF(a) (a)
-#define arguments_BDK_SMMUX_NSMISS_PERF(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) smmu#_sgfsr
@@ -4536,7 +4641,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SGFSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFSR(unsigned long a)
 {
-    return 0x830000000048ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000048ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SGFSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SGFSR(a) bdk_smmux_sgfsr_t
@@ -4590,7 +4697,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    return 0x83000f000000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1ff);
+    if ((a<=3) && (b<=261))
+        return 0x83000f000000ll + 0x1000000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x1ff);
+    __bdk_csr_fatal("SMMUX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_MSIX_VECX_ADDR(a,b) bdk_smmux_msix_vecx_addr_t
@@ -4643,7 +4752,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_FAR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_FAR(unsigned long a, unsigned long b)
 {
-    return 0x830001000060ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000060ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_FAR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_FAR(a,b) bdk_smmux_cbx_far_t
@@ -4675,7 +4786,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_IDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR3(unsigned long a)
 {
-    return 0x83000000002cll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x83000000002cll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_IDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_IDR3(a) bdk_smmux_idr3_t
@@ -4764,7 +4877,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_IDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR2(unsigned long a)
 {
-    return 0x830000000028ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000028ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_IDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_IDR2(a) bdk_smmux_idr2_t
@@ -4868,7 +4983,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_IDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR1(unsigned long a)
 {
-    return 0x830000000024ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000024ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_IDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_IDR1(a) bdk_smmux_idr1_t
@@ -4962,7 +5079,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_IDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR0(unsigned long a)
 {
-    return 0x830000000020ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000020ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_IDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_IDR0(a) bdk_smmux_idr0_t
@@ -4970,45 +5089,6 @@ static inline uint64_t BDK_SMMUX_IDR0(unsigned long a)
 #define basename_BDK_SMMUX_IDR0(a) "SMMUX_IDR0"
 #define busnum_BDK_SMMUX_IDR0(a) (a)
 #define arguments_BDK_SMMUX_IDR0(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) smmu#_idr7
- *
- * SMMU Identification Register 7
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_smmux_idr7_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t major                 : 4;  /**< [  7:  4](RO) The major part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<7:4>. */
-        uint32_t minor                 : 4;  /**< [  3:  0](RO) The minor part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<3:0>. */
-#else /* Word 0 - Little Endian */
-        uint32_t minor                 : 4;  /**< [  3:  0](RO) The minor part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<3:0>. */
-        uint32_t major                 : 4;  /**< [  7:  4](RO) The major part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<7:4>. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_smmux_idr7_s cn; */
-} bdk_smmux_idr7_t;
-
-static inline uint64_t BDK_SMMUX_IDR7(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SMMUX_IDR7(unsigned long a)
-{
-    return 0x83000000003cll + 0x1000000000ll * ((a) & 0x3);
-}
-
-#define typedef_BDK_SMMUX_IDR7(a) bdk_smmux_idr7_t
-#define bustype_BDK_SMMUX_IDR7(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_SMMUX_IDR7(a) "SMMUX_IDR7"
-#define busnum_BDK_SMMUX_IDR7(a) (a)
-#define arguments_BDK_SMMUX_IDR7(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) smmu#_idr6
@@ -5033,7 +5113,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_IDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR6(unsigned long a)
 {
-    return 0x830000000038ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000038ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_IDR6", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_IDR6(a) bdk_smmux_idr6_t
@@ -5065,7 +5147,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_IDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR5(unsigned long a)
 {
-    return 0x830000000034ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000034ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_IDR5", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_IDR5(a) bdk_smmux_idr5_t
@@ -5097,7 +5181,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_IDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_IDR4(unsigned long a)
 {
-    return 0x830000000030ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000030ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_IDR4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_IDR4(a) bdk_smmux_idr4_t
@@ -5139,7 +5225,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_IPAFAR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_IPAFAR(unsigned long a, unsigned long b)
 {
-    return 0x830001000070ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000070ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_IPAFAR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_IPAFAR(a,b) bdk_smmux_cbx_ipafar_t
@@ -5185,7 +5273,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NSGFAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSGFAR(unsigned long a)
 {
-    return 0x830000000440ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000440ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSGFAR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NSGFAR(a) bdk_smmux_nsgfar_t
@@ -5193,6 +5283,41 @@ static inline uint64_t BDK_SMMUX_NSGFAR(unsigned long a)
 #define basename_BDK_SMMUX_NSGFAR(a) "SMMUX_NSGFAR"
 #define busnum_BDK_SMMUX_NSGFAR(a) (a)
 #define arguments_BDK_SMMUX_NSGFAR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) smmu#_nsmiss_perf
+ *
+ * SMMU Non-secure Misses Performance Counter Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_smmux_nsmiss_perf_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in non-secure mode which missed the IOTLB.
+                                                                 Also includes sign-extension position translation faults. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in non-secure mode which missed the IOTLB.
+                                                                 Also includes sign-extension position translation faults. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smmux_nsmiss_perf_s cn; */
+} bdk_smmux_nsmiss_perf_t;
+
+static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a)
+{
+    if (a<=3)
+        return 0x830000021030ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSMISS_PERF", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SMMUX_NSMISS_PERF(a) bdk_smmux_nsmiss_perf_t
+#define bustype_BDK_SMMUX_NSMISS_PERF(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SMMUX_NSMISS_PERF(a) "SMMUX_NSMISS_PERF"
+#define busnum_BDK_SMMUX_NSMISS_PERF(a) (a)
+#define arguments_BDK_SMMUX_NSMISS_PERF(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) smmu#_err_ena_w1c
@@ -5223,7 +5348,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_ERR_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ERR_ENA_W1C(unsigned long a)
 {
-    return 0x8300000200a0ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x8300000200a0ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_ERR_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_ERR_ENA_W1C(a) bdk_smmux_err_ena_w1c_t
@@ -5261,7 +5388,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_ERR_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ERR_ENA_W1S(unsigned long a)
 {
-    return 0x8300000200b0ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x8300000200b0ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_ERR_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_ERR_ENA_W1S(a) bdk_smmux_err_ena_w1s_t
@@ -5569,7 +5698,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NSCR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSCR0(unsigned long a)
 {
-    return 0x830000000400ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000400ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSCR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NSCR0(a) bdk_smmux_nscr0_t
@@ -5625,7 +5756,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_NSCR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_NSCR2(unsigned long a)
 {
-    return 0x830000000408ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000408ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSCR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_NSCR2(a) bdk_smmux_nscr2_t
@@ -5658,7 +5791,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_TLBIALLH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIALLH(unsigned long a)
 {
-    return 0x83000000006cll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x83000000006cll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_TLBIALLH", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_TLBIALLH(a) bdk_smmux_tlbiallh_t
@@ -5702,7 +5837,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_LOOK_REQ(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_LOOK_REQ(unsigned long a)
 {
-    return 0x830000020100ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000020100ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_LOOK_REQ", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_LOOK_REQ(a) bdk_smmux_look_req_t
@@ -5751,7 +5888,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_TLBIIPAS2(unsigned long a, unsigned long b)
 {
-    return 0x830001000630ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000630ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_TLBIIPAS2", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_TLBIIPAS2(a,b) bdk_smmux_cbx_tlbiipas2_t
@@ -5887,7 +6026,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBA2RX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBA2RX(unsigned long a, unsigned long b)
 {
-    return 0x830000010800ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830000010800ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBA2RX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBA2RX(a,b) bdk_smmux_cba2rx_t
@@ -5929,7 +6070,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_ACTLR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_ACTLR(unsigned long a, unsigned long b)
 {
-    return 0x830001000004ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000004ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_ACTLR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_ACTLR(a,b) bdk_smmux_cbx_actlr_t
@@ -6196,7 +6339,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_S2CRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_S2CRX(unsigned long a, unsigned long b)
 {
-    return 0x830000000c00ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830000000c00ll + 0x1000000000ll * ((a) & 0x3) + 4ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_S2CRX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_S2CRX(a,b) bdk_smmux_s2crx_t
@@ -6241,7 +6386,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_ECC_CTL_1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_ECC_CTL_1(unsigned long a)
 {
-    return 0x8300000200f8ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x8300000200f8ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_ECC_CTL_1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_ECC_CTL_1(a) bdk_smmux_ecc_ctl_1_t
@@ -6249,6 +6396,47 @@ static inline uint64_t BDK_SMMUX_ECC_CTL_1(unsigned long a)
 #define basename_BDK_SMMUX_ECC_CTL_1(a) "SMMUX_ECC_CTL_1"
 #define busnum_BDK_SMMUX_ECC_CTL_1(a) (a)
 #define arguments_BDK_SMMUX_ECC_CTL_1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) smmu#_idr7
+ *
+ * SMMU Identification Register 7
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_smmux_idr7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t major                 : 4;  /**< [  7:  4](RO) The major part of the implementation version number.
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<7:4>. */
+        uint32_t minor                 : 4;  /**< [  3:  0](RO) The minor part of the implementation version number.
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<3:0>. */
+#else /* Word 0 - Little Endian */
+        uint32_t minor                 : 4;  /**< [  3:  0](RO) The minor part of the implementation version number.
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<3:0>. */
+        uint32_t major                 : 4;  /**< [  7:  4](RO) The major part of the implementation version number.
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<7:4>. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smmux_idr7_s cn; */
+} bdk_smmux_idr7_t;
+
+static inline uint64_t BDK_SMMUX_IDR7(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMMUX_IDR7(unsigned long a)
+{
+    if (a<=3)
+        return 0x83000000003cll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_IDR7", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SMMUX_IDR7(a) bdk_smmux_idr7_t
+#define bustype_BDK_SMMUX_IDR7(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_SMMUX_IDR7(a) "SMMUX_IDR7"
+#define busnum_BDK_SMMUX_IDR7(a) (a)
+#define arguments_BDK_SMMUX_IDR7(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) smmu#_sgfsynr2
@@ -6273,7 +6461,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SGFSYNR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFSYNR2(unsigned long a)
 {
-    return 0x830000000058ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000058ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SGFSYNR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SGFSYNR2(a) bdk_smmux_sgfsynr2_t
@@ -6361,7 +6551,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SGFSYNR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFSYNR0(unsigned long a)
 {
-    return 0x830000000050ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000050ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SGFSYNR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SGFSYNR0(a) bdk_smmux_sgfsynr0_t
@@ -6403,7 +6595,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_SGFSYNR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_SGFSYNR1(unsigned long a)
 {
-    return 0x830000000054ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000054ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_SGFSYNR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_SGFSYNR1(a) bdk_smmux_sgfsynr1_t
@@ -6485,7 +6679,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_BIST_STATUS(unsigned long a)
 {
-    return 0x830000020010ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000020010ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_BIST_STATUS(a) bdk_smmux_bist_status_t
@@ -6578,7 +6774,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_FSR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_FSR(unsigned long a, unsigned long b)
 {
-    return 0x830001000058ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000058ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_FSR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_FSR(a,b) bdk_smmux_cbx_fsr_t
@@ -6611,7 +6809,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_CBX_CONTEXTIDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_CBX_CONTEXTIDR(unsigned long a, unsigned long b)
 {
-    return 0x830001000034ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    if ((a<=3) && (b<=127))
+        return 0x830001000034ll + 0x1000000000ll * ((a) & 0x3) + 0x10000ll * ((b) & 0x7f);
+    __bdk_csr_fatal("SMMUX_CBX_CONTEXTIDR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_CBX_CONTEXTIDR(a,b) bdk_smmux_cbx_contextidr_t
@@ -6654,7 +6854,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_TLBIVALH64(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_TLBIVALH64(unsigned long a)
 {
-    return 0x8300000000b0ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x8300000000b0ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_TLBIVALH64", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_TLBIVALH64(a) bdk_smmux_tlbivalh64_t
@@ -6696,7 +6898,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR2(unsigned long a)
 {
-    return 0x830000000fe8ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000fe8ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_PIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_PIDR2(a) bdk_smmux_pidr2_t
@@ -6734,7 +6938,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR3(unsigned long a)
 {
-    return 0x830000000fecll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000fecll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_PIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_PIDR3(a) bdk_smmux_pidr3_t
@@ -6768,7 +6974,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_PIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR0(unsigned long a)
 {
-    return 0x830000000fe0ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000fe0ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_PIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_PIDR0(a) bdk_smmux_pidr0_t
@@ -6804,7 +7012,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_PIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR1(unsigned long a)
 {
-    return 0x830000000fe4ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000fe4ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_PIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_PIDR1(a) bdk_smmux_pidr1_t
@@ -6836,7 +7046,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_PIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR6(unsigned long a)
 {
-    return 0x830000000fd8ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000fd8ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_PIDR6", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_PIDR6(a) bdk_smmux_pidr6_t
@@ -6868,7 +7080,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR7(unsigned long a)
 {
-    return 0x830000000fdcll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000fdcll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_PIDR7", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_PIDR7(a) bdk_smmux_pidr7_t
@@ -6904,7 +7118,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_PIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR4(unsigned long a)
 {
-    return 0x830000000fd0ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000fd0ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_PIDR4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_PIDR4(a) bdk_smmux_pidr4_t
@@ -6936,7 +7152,9 @@ typedef union
 static inline uint64_t BDK_SMMUX_PIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_PIDR5(unsigned long a)
 {
-    return 0x830000000fd4ll + 0x1000000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x830000000fd4ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_PIDR5", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMMUX_PIDR5(a) bdk_smmux_pidr5_t

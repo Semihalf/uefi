@@ -583,7 +583,9 @@ typedef union
 static inline uint64_t BDK_ROM_MEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ROM_MEMX(unsigned long a)
 {
-    return 0x87d000000000ll + 8ll * ((a) & 0x7ff);
+    if (a<=2047)
+        return 0x87d000000000ll + 8ll * ((a) & 0x7ff);
+    __bdk_csr_fatal("ROM_MEMX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ROM_MEMX(a) bdk_rom_memx_t

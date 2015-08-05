@@ -73,41 +73,6 @@
 #define BDK_MRML_BAR_E_MRML_PF_BAR4 (0x87e0fcf00000ll) /**< Base address for MSI-X registers. */
 
 /**
- * Register (RSL) mrml_int_ocx_to
- *
- * MRML OCX Timeout Register
- * Configures remote-node timeouts.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mrml_int_ocx_to_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor-clocks. */
-#else /* Word 0 - Little Endian */
-        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor-clocks. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mrml_int_ocx_to_s cn; */
-} bdk_mrml_int_ocx_to_t;
-
-#define BDK_MRML_INT_OCX_TO BDK_MRML_INT_OCX_TO_FUNC()
-static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void)
-{
-    return 0x87e0fc000808ll;
-}
-
-#define typedef_BDK_MRML_INT_OCX_TO bdk_mrml_int_ocx_to_t
-#define bustype_BDK_MRML_INT_OCX_TO BDK_CSR_TYPE_RSL
-#define basename_BDK_MRML_INT_OCX_TO "MRML_INT_OCX_TO"
-#define busnum_BDK_MRML_INT_OCX_TO 0
-#define arguments_BDK_MRML_INT_OCX_TO -1,-1,-1,-1
-
-/**
  * Register (RSL) mrml_int_ena_w1s
  *
  * MRML Interrupt Enable Set Register
@@ -143,6 +108,41 @@ static inline uint64_t BDK_MRML_INT_ENA_W1S_FUNC(void)
 #define basename_BDK_MRML_INT_ENA_W1S "MRML_INT_ENA_W1S"
 #define busnum_BDK_MRML_INT_ENA_W1S 0
 #define arguments_BDK_MRML_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (RSL) mrml_int_ocx_to
+ *
+ * MRML OCX Timeout Register
+ * Configures remote-node timeouts.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mrml_int_ocx_to_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor-clocks. */
+#else /* Word 0 - Little Endian */
+        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor-clocks. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mrml_int_ocx_to_s cn; */
+} bdk_mrml_int_ocx_to_t;
+
+#define BDK_MRML_INT_OCX_TO BDK_MRML_INT_OCX_TO_FUNC()
+static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void)
+{
+    return 0x87e0fc000808ll;
+}
+
+#define typedef_BDK_MRML_INT_OCX_TO bdk_mrml_int_ocx_to_t
+#define bustype_BDK_MRML_INT_OCX_TO BDK_CSR_TYPE_RSL
+#define basename_BDK_MRML_INT_OCX_TO "MRML_INT_OCX_TO"
+#define busnum_BDK_MRML_INT_OCX_TO 0
+#define arguments_BDK_MRML_INT_OCX_TO -1,-1,-1,-1
 
 /**
  * Register (RSL) mrml_int_local_to
@@ -259,7 +259,9 @@ typedef union
 static inline uint64_t BDK_MRML_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_MSIX_VECX_ADDR(unsigned long a)
 {
-    return 0x87e0fcf00000ll + 0x10ll * ((a) & 0x0);
+    if (a==0)
+        return 0x87e0fcf00000ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("MRML_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MRML_MSIX_VECX_ADDR(a) bdk_mrml_msix_vecx_addr_t
@@ -347,7 +349,9 @@ typedef union
 static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a)
 {
-    return 0x87e0fc000200ll + 8ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x87e0fc000200ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("MRML_RSLX_SDEV", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MRML_RSLX_SDEV(a) bdk_mrml_rslx_sdev_t
@@ -381,7 +385,9 @@ typedef union
 static inline uint64_t BDK_MRML_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_MSIX_PBAX(unsigned long a)
 {
-    return 0x87e0fcff0000ll + 8ll * ((a) & 0x0);
+    if (a==0)
+        return 0x87e0fcff0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("MRML_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MRML_MSIX_PBAX(a) bdk_mrml_msix_pbax_t
@@ -419,7 +425,9 @@ typedef union
 static inline uint64_t BDK_MRML_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_MSIX_VECX_CTL(unsigned long a)
 {
-    return 0x87e0fcf00008ll + 0x10ll * ((a) & 0x0);
+    if (a==0)
+        return 0x87e0fcf00008ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("MRML_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MRML_MSIX_VECX_CTL(a) bdk_mrml_msix_vecx_ctl_t
@@ -450,7 +458,9 @@ typedef union
 static inline uint64_t BDK_MRML_NCBX_SDEV(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MRML_NCBX_SDEV(unsigned long a)
 {
-    return 0x87e0fc000400ll + 8ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x87e0fc000400ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("MRML_NCBX_SDEV", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MRML_NCBX_SDEV(a) bdk_mrml_ncbx_sdev_t

@@ -341,7 +341,7 @@ typedef union
 static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858010000220ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_CTL2", 1, a, 0, 0, 0);
 }
@@ -399,7 +399,7 @@ typedef union
 static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858010000210ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_CTL1", 1, a, 0, 0, 0);
 }
@@ -435,7 +435,7 @@ typedef union
 static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858010000200ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_CTL0", 1, a, 0, 0, 0);
 }
@@ -484,7 +484,7 @@ typedef union
 static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858000003800ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_RINGX_GMCTL", 1, a, 0, 0, 0);
 }
@@ -698,7 +698,7 @@ typedef union
 static inline uint64_t BDK_TIM_VRINGX_REL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_REL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858010000250ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_REL", 1, a, 0, 0, 0);
 }
@@ -811,7 +811,7 @@ typedef union
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858010000110ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_FR_RN_GTI", 1, a, 0, 0, 0);
 }
@@ -848,7 +848,7 @@ typedef union
 static inline uint64_t BDK_TIM_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_PF_MSIX_PBAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x858000ff0008ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("TIM_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -883,7 +883,7 @@ typedef union
 static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858010000240ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_AURA", 1, a, 0, 0, 0);
 }
@@ -1013,99 +1013,6 @@ static inline uint64_t BDK_TIM_REG_FLAGS_FUNC(void)
 #define arguments_BDK_TIM_REG_FLAGS -1,-1,-1,-1
 
 /**
- * Register (RSL) tim_ring#_ctl1
- *
- * TIM Ring Control 1 Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_ringx_ctl1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_55_63        : 9;
-        uint64_t be                    : 1;  /**< [ 54: 54](R/W) Ring big endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
-        uint64_t clk_src               : 3;  /**< [ 53: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change CLK_SRC:
-
-                                                                 1. TIM_RING()_CTL1[ENA] is cleared.
-
-                                                                 2. [CLK_SRC] is changed.
-
-                                                                 3. TIM_RING()_CTL0[EXPIRE_OFFSET] is reprogrammed appropriately.
-
-                                                                 4. TIM_RING()_CTL1[ENA] is set. */
-        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When ENA is cleared, this bit will remain set until hardware
-                                                                 completes the idling of the ring. ENA must not be re-enabled until clear. */
-        uint64_t intc                  : 2;  /**< [ 49: 48](R/W) Interval count for error. Defines how many intervals could elapse from bucket expiration
-                                                                 until actual bucket traversal before hardware asserts an error. Typical value is 0x0, 0x1,
-                                                                 0x2. */
-        uint64_t ena                   : 1;  /**< [ 47: 47](R/W) Ring timer enable. After a 1 to 0 transition on ENA, the hardware still completes a bucket
-                                                                 traversal for the ring if it were pending or active prior to the transition. When
-                                                                 clearing, software must delay until TIM_RING()_REL[RING_ESR] = 0 to ensure the
-                                                                 completion of the traversal before reprogramming the ring. When setting, RCF_BUSY must be
-                                                                 clear. */
-        uint64_t reserved_46           : 1;
-        uint64_t ena_prd               : 1;  /**< [ 45: 45](R/W) Enable periodic mode, which disables the memory write of zeros to NUM_ENTRIES and
-                                                                 CHUNK_REMAINDER when a bucket is traversed. In periodic mode ENA_DFB and ENA_LDWB must
-                                                                 also be clear. */
-        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](R/W) When set, enables the use of Load and Don't-Write-Back when reading timer entry cache lines. */
-        uint64_t ena_dfb               : 1;  /**< [ 43: 43](R/W) Enable don't free buffer. When set, chunk buffer is not released by the TIM back to FPA. */
-        uint64_t reserved_40_42        : 3;
-        uint64_t bucket                : 20; /**< [ 39: 20](R/W/H) Current bucket. Should be set to 0x0 by software at enable time. Incremented once per
-                                                                 bucket traversal. */
-        uint64_t bsize                 : 20; /**< [ 19:  0](R/W) Number of buckets minus one. If BSIZE = 0, there is only one bucket in the ring. */
-#else /* Word 0 - Little Endian */
-        uint64_t bsize                 : 20; /**< [ 19:  0](R/W) Number of buckets minus one. If BSIZE = 0, there is only one bucket in the ring. */
-        uint64_t bucket                : 20; /**< [ 39: 20](R/W/H) Current bucket. Should be set to 0x0 by software at enable time. Incremented once per
-                                                                 bucket traversal. */
-        uint64_t reserved_40_42        : 3;
-        uint64_t ena_dfb               : 1;  /**< [ 43: 43](R/W) Enable don't free buffer. When set, chunk buffer is not released by the TIM back to FPA. */
-        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](R/W) When set, enables the use of Load and Don't-Write-Back when reading timer entry cache lines. */
-        uint64_t ena_prd               : 1;  /**< [ 45: 45](R/W) Enable periodic mode, which disables the memory write of zeros to NUM_ENTRIES and
-                                                                 CHUNK_REMAINDER when a bucket is traversed. In periodic mode ENA_DFB and ENA_LDWB must
-                                                                 also be clear. */
-        uint64_t reserved_46           : 1;
-        uint64_t ena                   : 1;  /**< [ 47: 47](R/W) Ring timer enable. After a 1 to 0 transition on ENA, the hardware still completes a bucket
-                                                                 traversal for the ring if it were pending or active prior to the transition. When
-                                                                 clearing, software must delay until TIM_RING()_REL[RING_ESR] = 0 to ensure the
-                                                                 completion of the traversal before reprogramming the ring. When setting, RCF_BUSY must be
-                                                                 clear. */
-        uint64_t intc                  : 2;  /**< [ 49: 48](R/W) Interval count for error. Defines how many intervals could elapse from bucket expiration
-                                                                 until actual bucket traversal before hardware asserts an error. Typical value is 0x0, 0x1,
-                                                                 0x2. */
-        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When ENA is cleared, this bit will remain set until hardware
-                                                                 completes the idling of the ring. ENA must not be re-enabled until clear. */
-        uint64_t clk_src               : 3;  /**< [ 53: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change CLK_SRC:
-
-                                                                 1. TIM_RING()_CTL1[ENA] is cleared.
-
-                                                                 2. [CLK_SRC] is changed.
-
-                                                                 3. TIM_RING()_CTL0[EXPIRE_OFFSET] is reprogrammed appropriately.
-
-                                                                 4. TIM_RING()_CTL1[ENA] is set. */
-        uint64_t be                    : 1;  /**< [ 54: 54](R/W) Ring big endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
-        uint64_t reserved_55_63        : 9;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_ringx_ctl1_s cn; */
-} bdk_tim_ringx_ctl1_t;
-
-static inline uint64_t BDK_TIM_RINGX_CTL1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_RINGX_CTL1(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000002400ll + 8ll * ((a) & 0x3f);
-    __bdk_csr_fatal("TIM_RINGX_CTL1", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_RINGX_CTL1(a) bdk_tim_ringx_ctl1_t
-#define bustype_BDK_TIM_RINGX_CTL1(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_TIM_RINGX_CTL1(a) "TIM_RINGX_CTL1"
-#define busnum_BDK_TIM_RINGX_CTL1(a) (a)
-#define arguments_BDK_TIM_RINGX_CTL1(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) tim_int0_ena_w1c
  *
  * TIM Interrupt Enable Clear Register
@@ -1201,7 +1108,7 @@ typedef union
 static inline uint64_t BDK_TIM_RINGX_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_RINGX_CTL2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858000002800ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_RINGX_CTL2", 1, a, 0, 0, 0);
 }
@@ -1274,7 +1181,7 @@ typedef union
 static inline uint64_t BDK_TIM_RINGX_CTL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_RINGX_CTL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858000002000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_RINGX_CTL0", 1, a, 0, 0, 0);
 }
@@ -1284,6 +1191,99 @@ static inline uint64_t BDK_TIM_RINGX_CTL0(unsigned long a)
 #define basename_BDK_TIM_RINGX_CTL0(a) "TIM_RINGX_CTL0"
 #define busnum_BDK_TIM_RINGX_CTL0(a) (a)
 #define arguments_BDK_TIM_RINGX_CTL0(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tim_ring#_ctl1
+ *
+ * TIM Ring Control 1 Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_ringx_ctl1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_55_63        : 9;
+        uint64_t be                    : 1;  /**< [ 54: 54](R/W) Ring big endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
+        uint64_t clk_src               : 3;  /**< [ 53: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change CLK_SRC:
+
+                                                                 1. TIM_RING()_CTL1[ENA] is cleared.
+
+                                                                 2. [CLK_SRC] is changed.
+
+                                                                 3. TIM_RING()_CTL0[EXPIRE_OFFSET] is reprogrammed appropriately.
+
+                                                                 4. TIM_RING()_CTL1[ENA] is set. */
+        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When ENA is cleared, this bit will remain set until hardware
+                                                                 completes the idling of the ring. ENA must not be re-enabled until clear. */
+        uint64_t intc                  : 2;  /**< [ 49: 48](R/W) Interval count for error. Defines how many intervals could elapse from bucket expiration
+                                                                 until actual bucket traversal before hardware asserts an error. Typical value is 0x0, 0x1,
+                                                                 0x2. */
+        uint64_t ena                   : 1;  /**< [ 47: 47](R/W) Ring timer enable. After a 1 to 0 transition on ENA, the hardware still completes a bucket
+                                                                 traversal for the ring if it were pending or active prior to the transition. When
+                                                                 clearing, software must delay until TIM_RING()_REL[RING_ESR] = 0 to ensure the
+                                                                 completion of the traversal before reprogramming the ring. When setting, RCF_BUSY must be
+                                                                 clear. */
+        uint64_t reserved_46           : 1;
+        uint64_t ena_prd               : 1;  /**< [ 45: 45](R/W) Enable periodic mode, which disables the memory write of zeros to NUM_ENTRIES and
+                                                                 CHUNK_REMAINDER when a bucket is traversed. In periodic mode ENA_DFB and ENA_LDWB must
+                                                                 also be clear. */
+        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](R/W) When set, enables the use of Load and Don't-Write-Back when reading timer entry cache lines. */
+        uint64_t ena_dfb               : 1;  /**< [ 43: 43](R/W) Enable don't free buffer. When set, chunk buffer is not released by the TIM back to FPA. */
+        uint64_t reserved_40_42        : 3;
+        uint64_t bucket                : 20; /**< [ 39: 20](R/W/H) Current bucket. Should be set to 0x0 by software at enable time. Incremented once per
+                                                                 bucket traversal. */
+        uint64_t bsize                 : 20; /**< [ 19:  0](R/W) Number of buckets minus one. If BSIZE = 0, there is only one bucket in the ring. */
+#else /* Word 0 - Little Endian */
+        uint64_t bsize                 : 20; /**< [ 19:  0](R/W) Number of buckets minus one. If BSIZE = 0, there is only one bucket in the ring. */
+        uint64_t bucket                : 20; /**< [ 39: 20](R/W/H) Current bucket. Should be set to 0x0 by software at enable time. Incremented once per
+                                                                 bucket traversal. */
+        uint64_t reserved_40_42        : 3;
+        uint64_t ena_dfb               : 1;  /**< [ 43: 43](R/W) Enable don't free buffer. When set, chunk buffer is not released by the TIM back to FPA. */
+        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](R/W) When set, enables the use of Load and Don't-Write-Back when reading timer entry cache lines. */
+        uint64_t ena_prd               : 1;  /**< [ 45: 45](R/W) Enable periodic mode, which disables the memory write of zeros to NUM_ENTRIES and
+                                                                 CHUNK_REMAINDER when a bucket is traversed. In periodic mode ENA_DFB and ENA_LDWB must
+                                                                 also be clear. */
+        uint64_t reserved_46           : 1;
+        uint64_t ena                   : 1;  /**< [ 47: 47](R/W) Ring timer enable. After a 1 to 0 transition on ENA, the hardware still completes a bucket
+                                                                 traversal for the ring if it were pending or active prior to the transition. When
+                                                                 clearing, software must delay until TIM_RING()_REL[RING_ESR] = 0 to ensure the
+                                                                 completion of the traversal before reprogramming the ring. When setting, RCF_BUSY must be
+                                                                 clear. */
+        uint64_t intc                  : 2;  /**< [ 49: 48](R/W) Interval count for error. Defines how many intervals could elapse from bucket expiration
+                                                                 until actual bucket traversal before hardware asserts an error. Typical value is 0x0, 0x1,
+                                                                 0x2. */
+        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Ring reconfiguration busy. When ENA is cleared, this bit will remain set until hardware
+                                                                 completes the idling of the ring. ENA must not be re-enabled until clear. */
+        uint64_t clk_src               : 3;  /**< [ 53: 51](R/W) Source of ring's timer tick. Enumerated by TIM_CLK_SRCS_E. To change CLK_SRC:
+
+                                                                 1. TIM_RING()_CTL1[ENA] is cleared.
+
+                                                                 2. [CLK_SRC] is changed.
+
+                                                                 3. TIM_RING()_CTL0[EXPIRE_OFFSET] is reprogrammed appropriately.
+
+                                                                 4. TIM_RING()_CTL1[ENA] is set. */
+        uint64_t be                    : 1;  /**< [ 54: 54](R/W) Ring big endian. If set, TIM_MEM_BUCKET_S and other in-memory structures are big endian. */
+        uint64_t reserved_55_63        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_ringx_ctl1_s cn; */
+} bdk_tim_ringx_ctl1_t;
+
+static inline uint64_t BDK_TIM_RINGX_CTL1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_RINGX_CTL1(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x858000002400ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("TIM_RINGX_CTL1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_RINGX_CTL1(a) bdk_tim_ringx_ctl1_t
+#define bustype_BDK_TIM_RINGX_CTL1(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_TIM_RINGX_CTL1(a) "TIM_RINGX_CTL1"
+#define busnum_BDK_TIM_RINGX_CTL1(a) (a)
+#define arguments_BDK_TIM_RINGX_CTL1(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) tim_vring#_fr_rn_cycles
@@ -1308,7 +1308,7 @@ typedef union
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858010000100ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_FR_RN_CYCLES", 1, a, 0, 0, 0);
 }
@@ -1364,7 +1364,7 @@ typedef union
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x858000f00000ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("TIM_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -1553,7 +1553,7 @@ typedef union
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858010000118ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_FR_RN_PTP", 1, a, 0, 0, 0);
 }
@@ -1590,7 +1590,7 @@ typedef union
 static inline uint64_t BDK_TIM_VRINGX_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_BASE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858010000230ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_BASE", 1, a, 0, 0, 0);
 }
@@ -1695,7 +1695,7 @@ typedef union
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_GPIOS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_VRINGX_FR_RN_GPIOS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x858010000108ll + 0x100000ll * ((a) & 0x3f);
     __bdk_csr_fatal("TIM_VRINGX_FR_RN_GPIOS", 1, a, 0, 0, 0);
 }
@@ -1735,7 +1735,7 @@ typedef union
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x858000f00008ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("TIM_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -1848,7 +1848,7 @@ typedef union
 static inline uint64_t BDK_TIM_ENGX_ACTIVE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TIM_ENGX_ACTIVE(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x858000001000ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("TIM_ENGX_ACTIVE", 1, a, 0, 0, 0);
 }

@@ -112,7 +112,9 @@ typedef union
 static inline uint64_t BDK_SMI_X_CMD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMI_X_CMD(unsigned long a)
 {
-    return 0x87e005003800ll + 0x80ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e005003800ll + 0x80ll * ((a) & 0x1);
+    __bdk_csr_fatal("SMI_X_CMD", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMI_X_CMD(a) bdk_smi_x_cmd_t
@@ -150,7 +152,9 @@ typedef union
 static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMI_X_WR_DAT(unsigned long a)
 {
-    return 0x87e005003808ll + 0x80ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e005003808ll + 0x80ll * ((a) & 0x1);
+    __bdk_csr_fatal("SMI_X_WR_DAT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMI_X_WR_DAT(a) bdk_smi_x_wr_dat_t
@@ -188,7 +192,9 @@ typedef union
 static inline uint64_t BDK_SMI_X_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMI_X_EN(unsigned long a)
 {
-    return 0x87e005003820ll + 0x80ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e005003820ll + 0x80ll * ((a) & 0x1);
+    __bdk_csr_fatal("SMI_X_EN", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMI_X_EN(a) bdk_smi_x_en_t
@@ -273,7 +279,9 @@ typedef union
 static inline uint64_t BDK_SMI_X_CLK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMI_X_CLK(unsigned long a)
 {
-    return 0x87e005003818ll + 0x80ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e005003818ll + 0x80ll * ((a) & 0x1);
+    __bdk_csr_fatal("SMI_X_CLK", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMI_X_CLK(a) bdk_smi_x_clk_t
@@ -362,7 +370,9 @@ typedef union
 static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMI_X_RD_DAT(unsigned long a)
 {
-    return 0x87e005003810ll + 0x80ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e005003810ll + 0x80ll * ((a) & 0x1);
+    __bdk_csr_fatal("SMI_X_RD_DAT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SMI_X_RD_DAT(a) bdk_smi_x_rd_dat_t

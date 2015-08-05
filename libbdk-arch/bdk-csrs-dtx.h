@@ -78,7 +78,9 @@ typedef union
 static inline uint64_t BDK_DTX_MIO_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MIO_DATX(unsigned long a)
 {
-    return 0x87e0fe000040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe000040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_MIO_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_MIO_DATX(a) bdk_dtx_mio_datx_t
@@ -147,7 +149,9 @@ typedef union
 static inline uint64_t BDK_DTX_DFA_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DFA_DATX(unsigned long a)
 {
-    return 0x87e0fea30040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fea30040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_DFA_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_DFA_DATX(a) bdk_dtx_dfa_datx_t
@@ -226,7 +230,9 @@ typedef union
 static inline uint64_t BDK_DTX_RNM_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RNM_ENAX(unsigned long a)
 {
-    return 0x87e0fe200020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe200020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_RNM_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_RNM_ENAX(a) bdk_dtx_rnm_enax_t
@@ -261,7 +267,9 @@ typedef union
 static inline uint64_t BDK_DTX_GIC_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GIC_DATX(unsigned long a)
 {
-    return 0x87e0fe808040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe808040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_GIC_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_GIC_DATX(a) bdk_dtx_gic_datx_t
@@ -304,7 +312,9 @@ typedef union
 static inline uint64_t BDK_DTX_SATAX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_CTL(unsigned long a)
 {
-    return 0x87e0fe880060ll + 0x8000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x87e0fe880060ll + 0x8000ll * ((a) & 0xf);
+    __bdk_csr_fatal("DTX_SATAX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_SATAX_CTL(a) bdk_dtx_satax_ctl_t
@@ -339,7 +349,9 @@ typedef union
 static inline uint64_t BDK_DTX_TNS_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TNS_ENAX(unsigned long a)
 {
-    return 0x87e0fea10020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fea10020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_TNS_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_TNS_ENAX(a) bdk_dtx_tns_enax_t
@@ -416,7 +428,9 @@ typedef union
 static inline uint64_t BDK_DTX_RST_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RST_SELX(unsigned long a)
 {
-    return 0x87e0fe030000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe030000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_RST_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_RST_SELX(a) bdk_dtx_rst_selx_t
@@ -451,7 +465,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_LNKX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_LNKX_ENAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=1)))
         return 0x87e0fe180020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_OCX_LNKX_ENAX", 2, a, b, 0, 0);
 }
@@ -486,9 +500,9 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_CBCX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_CBCX_SELX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe2c0000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe2c0000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_CBCX_SELX", 2, a, b, 0, 0);
 }
@@ -525,9 +539,9 @@ typedef union
 static inline uint64_t BDK_DTX_LMCX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LMCX_ENAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe440020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe440020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_LMCX_ENAX", 2, a, b, 0, 0);
 }
@@ -562,9 +576,9 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_TADX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_TADX_SELX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe280000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=1)))
         return 0x87e0fe280000ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_TADX_SELX", 2, a, b, 0, 0);
 }
@@ -599,7 +613,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_OLEX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_OLEX_BCST_RSP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e0fe1a0080ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_OCX_OLEX_BCST_RSP", 1, a, 0, 0, 0);
 }
@@ -634,7 +648,9 @@ typedef union
 static inline uint64_t BDK_DTX_IOBNX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_SELX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe780000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe780000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_IOBNX_SELX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_IOBNX_SELX(a,b) bdk_dtx_iobnx_selx_t
@@ -703,7 +719,9 @@ typedef union
 static inline uint64_t BDK_DTX_SATAX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_ENAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe880020ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    if ((a<=15) && (b<=1))
+        return 0x87e0fe880020ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_SATAX_ENAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_SATAX_ENAX(a,b) bdk_dtx_satax_enax_t
@@ -736,7 +754,9 @@ typedef union
 static inline uint64_t BDK_DTX_KEY_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_KEY_SELX(unsigned long a)
 {
-    return 0x87e0fe208000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe208000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_KEY_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_KEY_SELX(a) bdk_dtx_key_selx_t
@@ -771,7 +791,9 @@ typedef union
 static inline uint64_t BDK_DTX_UAAX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_UAAX_DATX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe120040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe120040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_UAAX_DATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_UAAX_DATX(a,b) bdk_dtx_uaax_datx_t
@@ -806,7 +828,9 @@ typedef union
 static inline uint64_t BDK_DTX_KEY_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_KEY_DATX(unsigned long a)
 {
-    return 0x87e0fe208040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe208040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_KEY_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_KEY_DATX(a) bdk_dtx_key_datx_t
@@ -841,7 +865,9 @@ typedef union
 static inline uint64_t BDK_DTX_GSERX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GSERX_ENAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe480020ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    if ((a<=13) && (b<=1))
+        return 0x87e0fe480020ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_GSERX_ENAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_GSERX_ENAX(a,b) bdk_dtx_gserx_enax_t
@@ -910,7 +936,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_BOT_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_BOT_DATX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe198040ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_OCX_BOT_DATX", 1, a, 0, 0, 0);
 }
@@ -955,7 +981,11 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_MCIX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_MCIX_CTL(unsigned long a)
 {
-    return 0x87e0fe2e0060ll + 0x8000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0fe2e0060ll + 0x8000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e0fe2e0060ll + 0x8000ll * ((a) & 0x3);
+    __bdk_csr_fatal("DTX_L2C_MCIX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_L2C_MCIX_CTL(a) bdk_dtx_l2c_mcix_ctl_t
@@ -988,7 +1018,9 @@ typedef union
 static inline uint64_t BDK_DTX_ZIP_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_ZIP_SELX(unsigned long a)
 {
-    return 0x87e0fe9c0000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe9c0000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_ZIP_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_ZIP_SELX(a) bdk_dtx_zip_selx_t
@@ -1023,7 +1055,9 @@ typedef union
 static inline uint64_t BDK_DTX_GSERX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GSERX_DATX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe480040ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    if ((a<=13) && (b<=1))
+        return 0x87e0fe480040ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_GSERX_DATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_GSERX_DATX(a,b) bdk_dtx_gserx_datx_t
@@ -1146,7 +1180,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_LNKX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_LNKX_DATX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=1)))
         return 0x87e0fe180040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_OCX_LNKX_DATX", 2, a, b, 0, 0);
 }
@@ -1181,7 +1215,11 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_MCIX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_MCIX_SELX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe2e0000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=1)))
+        return 0x87e0fe2e0000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
+        return 0x87e0fe2e0000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_L2C_MCIX_SELX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_L2C_MCIX_SELX(a,b) bdk_dtx_l2c_mcix_selx_t
@@ -1224,7 +1262,9 @@ typedef union
 static inline uint64_t BDK_DTX_USBHX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBHX_CTL(unsigned long a)
 {
-    return 0x87e0feb40060ll + 0x8000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0feb40060ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_USBHX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_USBHX_CTL(a) bdk_dtx_usbhx_ctl_t
@@ -1259,7 +1299,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_OLEX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_OLEX_DATX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=1)))
         return 0x87e0fe1a0040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_OCX_OLEX_DATX", 2, a, b, 0, 0);
 }
@@ -1294,7 +1334,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_TOP_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_TOP_SELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe088000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_OCX_TOP_SELX", 1, a, 0, 0, 0);
 }
@@ -1329,7 +1369,9 @@ typedef union
 static inline uint64_t BDK_DTX_UAAX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_UAAX_BCST_RSP(unsigned long a)
 {
-    return 0x87e0fe120080ll + 0x8000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe120080ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_UAAX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_UAAX_BCST_RSP(a) bdk_dtx_uaax_bcst_rsp_t
@@ -1364,7 +1406,9 @@ typedef union
 static inline uint64_t BDK_DTX_BGXX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BGXX_ENAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe700020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe700020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_BGXX_ENAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_BGXX_ENAX(a,b) bdk_dtx_bgxx_enax_t
@@ -1433,7 +1477,9 @@ typedef union
 static inline uint64_t BDK_DTX_DFA_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DFA_SELX(unsigned long a)
 {
-    return 0x87e0fea30000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fea30000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_DFA_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_DFA_SELX(a) bdk_dtx_dfa_selx_t
@@ -1476,7 +1522,9 @@ typedef union
 static inline uint64_t BDK_DTX_SLIX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SLIX_CTL(unsigned long a)
 {
-    return 0x87e0feba0060ll + 0x8000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0feba0060ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_SLIX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_SLIX_CTL(a) bdk_dtx_slix_ctl_t
@@ -1553,9 +1601,9 @@ typedef union
 static inline uint64_t BDK_DTX_LMCX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LMCX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0fe440060ll + 0x8000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e0fe440060ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_LMCX_CTL", 1, a, 0, 0, 0);
 }
@@ -1590,7 +1638,9 @@ typedef union
 static inline uint64_t BDK_DTX_RNM_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RNM_SELX(unsigned long a)
 {
-    return 0x87e0fe200000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe200000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_RNM_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_RNM_SELX(a) bdk_dtx_rnm_selx_t
@@ -1625,7 +1675,9 @@ typedef union
 static inline uint64_t BDK_DTX_SLIX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SLIX_ENAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0feba0020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0feba0020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_SLIX_ENAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_SLIX_ENAX(a,b) bdk_dtx_slix_enax_t
@@ -1658,7 +1710,9 @@ typedef union
 static inline uint64_t BDK_DTX_SLIX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SLIX_SELX(unsigned long a, unsigned long b)
 {
-    return 0x87e0feba0000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0feba0000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_SLIX_SELX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_SLIX_SELX(a,b) bdk_dtx_slix_selx_t
@@ -1693,7 +1747,9 @@ typedef union
 static inline uint64_t BDK_DTX_NCSI_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NCSI_ENAX(unsigned long a)
 {
-    return 0x87e0fe058020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe058020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_NCSI_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_NCSI_ENAX(a) bdk_dtx_ncsi_enax_t
@@ -1726,7 +1782,9 @@ typedef union
 static inline uint64_t BDK_DTX_PEMX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_BCST_RSP(unsigned long a)
 {
-    return 0x87e0fe600080ll + 0x8000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0fe600080ll + 0x8000ll * ((a) & 0x7);
+    __bdk_csr_fatal("DTX_PEMX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_PEMX_BCST_RSP(a) bdk_dtx_pemx_bcst_rsp_t
@@ -1759,9 +1817,9 @@ typedef union
 static inline uint64_t BDK_DTX_LMCX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LMCX_BCST_RSP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0fe440080ll + 0x8000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e0fe440080ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_LMCX_BCST_RSP", 1, a, 0, 0, 0);
 }
@@ -1798,7 +1856,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_OLEX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_OLEX_ENAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=1)))
         return 0x87e0fe1a0020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_OCX_OLEX_ENAX", 2, a, b, 0, 0);
 }
@@ -1835,7 +1893,9 @@ typedef union
 static inline uint64_t BDK_DTX_NIC_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NIC_DATX(unsigned long a)
 {
-    return 0x87e0fea18040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fea18040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_NIC_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_NIC_DATX(a) bdk_dtx_nic_datx_t
@@ -1912,7 +1972,9 @@ typedef union
 static inline uint64_t BDK_DTX_NIC_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NIC_SELX(unsigned long a)
 {
-    return 0x87e0fea18000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fea18000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_NIC_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_NIC_SELX(a) bdk_dtx_nic_selx_t
@@ -1947,7 +2009,9 @@ typedef union
 static inline uint64_t BDK_DTX_BROADCAST_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BROADCAST_ENAX(unsigned long a)
 {
-    return 0x87e0fe7f0020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe7f0020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_BROADCAST_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_BROADCAST_ENAX(a) bdk_dtx_broadcast_enax_t
@@ -1980,7 +2044,9 @@ typedef union
 static inline uint64_t BDK_DTX_USBHX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBHX_SELX(unsigned long a, unsigned long b)
 {
-    return 0x87e0feb40000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0feb40000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_USBHX_SELX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_USBHX_SELX(a,b) bdk_dtx_usbhx_selx_t
@@ -2047,7 +2113,9 @@ typedef union
 static inline uint64_t BDK_DTX_SATAX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_SELX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe880000ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    if ((a<=15) && (b<=1))
+        return 0x87e0fe880000ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_SATAX_SELX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_SATAX_SELX(a,b) bdk_dtx_satax_selx_t
@@ -2082,7 +2150,9 @@ typedef union
 static inline uint64_t BDK_DTX_RAD_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RAD_ENAX(unsigned long a)
 {
-    return 0x87e0feb80020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0feb80020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_RAD_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_RAD_ENAX(a) bdk_dtx_rad_enax_t
@@ -2117,7 +2187,9 @@ typedef union
 static inline uint64_t BDK_DTX_DAP_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DAP_DATX(unsigned long a)
 {
-    return 0x87e0fe010040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe010040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_DAP_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_DAP_DATX(a) bdk_dtx_dap_datx_t
@@ -2150,7 +2222,9 @@ typedef union
 static inline uint64_t BDK_DTX_BGXX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BGXX_SELX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe700000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe700000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_BGXX_SELX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_BGXX_SELX(a,b) bdk_dtx_bgxx_selx_t
@@ -2183,7 +2257,9 @@ typedef union
 static inline uint64_t BDK_DTX_MRML_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MRML_SELX(unsigned long a)
 {
-    return 0x87e0fe7e0000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe7e0000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_MRML_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_MRML_SELX(a) bdk_dtx_mrml_selx_t
@@ -2216,7 +2292,9 @@ typedef union
 static inline uint64_t BDK_DTX_SATAX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_BCST_RSP(unsigned long a)
 {
-    return 0x87e0fe880080ll + 0x8000ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x87e0fe880080ll + 0x8000ll * ((a) & 0xf);
+    __bdk_csr_fatal("DTX_SATAX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_SATAX_BCST_RSP(a) bdk_dtx_satax_bcst_rsp_t
@@ -2295,7 +2373,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_BOT_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_BOT_ENAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe198020ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_OCX_BOT_ENAX", 1, a, 0, 0, 0);
 }
@@ -2332,7 +2410,9 @@ typedef union
 static inline uint64_t BDK_DTX_DAP_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DAP_ENAX(unsigned long a)
 {
-    return 0x87e0fe010020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe010020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_DAP_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_DAP_ENAX(a) bdk_dtx_dap_enax_t
@@ -2411,9 +2491,9 @@ typedef union
 static inline uint64_t BDK_DTX_LMCX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LMCX_SELX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe440000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe440000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_LMCX_SELX", 2, a, b, 0, 0);
 }
@@ -2494,7 +2574,9 @@ typedef union
 static inline uint64_t BDK_DTX_RST_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RST_DATX(unsigned long a)
 {
-    return 0x87e0fe030040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe030040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_RST_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_RST_DATX(a) bdk_dtx_rst_datx_t
@@ -2527,7 +2609,9 @@ typedef union
 static inline uint64_t BDK_DTX_DAP_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DAP_SELX(unsigned long a)
 {
-    return 0x87e0fe010000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe010000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_DAP_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_DAP_SELX(a) bdk_dtx_dap_selx_t
@@ -2562,7 +2646,9 @@ typedef union
 static inline uint64_t BDK_DTX_UAAX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_UAAX_ENAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe120020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe120020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_UAAX_ENAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_UAAX_ENAX(a,b) bdk_dtx_uaax_enax_t
@@ -2595,7 +2681,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_BOT_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_BOT_SELX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe198000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_OCX_BOT_SELX", 1, a, 0, 0, 0);
 }
@@ -2640,7 +2726,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_OLEX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_OLEX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e0fe1a0060ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_OCX_OLEX_CTL", 1, a, 0, 0, 0);
 }
@@ -2677,7 +2763,9 @@ typedef union
 static inline uint64_t BDK_DTX_DFA_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_DFA_ENAX(unsigned long a)
 {
-    return 0x87e0fea30020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fea30020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_DFA_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_DFA_ENAX(a) bdk_dtx_dfa_enax_t
@@ -2712,7 +2800,9 @@ typedef union
 static inline uint64_t BDK_DTX_USBHX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBHX_DATX(unsigned long a, unsigned long b)
 {
-    return 0x87e0feb40040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0feb40040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_USBHX_DATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_USBHX_DATX(a,b) bdk_dtx_usbhx_datx_t
@@ -2747,7 +2837,9 @@ typedef union
 static inline uint64_t BDK_DTX_MRML_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MRML_DATX(unsigned long a)
 {
-    return 0x87e0fe7e0040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe7e0040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_MRML_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_MRML_DATX(a) bdk_dtx_mrml_datx_t
@@ -2790,7 +2882,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_LNKX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_LNKX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e0fe180060ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_OCX_LNKX_CTL", 1, a, 0, 0, 0);
 }
@@ -2827,7 +2919,9 @@ typedef union
 static inline uint64_t BDK_DTX_MIO_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MIO_ENAX(unsigned long a)
 {
-    return 0x87e0fe000020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe000020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_MIO_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_MIO_ENAX(a) bdk_dtx_mio_enax_t
@@ -2862,7 +2956,9 @@ typedef union
 static inline uint64_t BDK_DTX_PEMX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_DATX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe600040ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if ((a<=5) && (b<=1))
+        return 0x87e0fe600040ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_PEMX_DATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_PEMX_DATX(a,b) bdk_dtx_pemx_datx_t
@@ -2905,7 +3001,9 @@ typedef union
 static inline uint64_t BDK_DTX_GSERX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GSERX_CTL(unsigned long a)
 {
-    return 0x87e0fe480060ll + 0x8000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0fe480060ll + 0x8000ll * ((a) & 0xf);
+    __bdk_csr_fatal("DTX_GSERX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_GSERX_CTL(a) bdk_dtx_gserx_ctl_t
@@ -2938,7 +3036,11 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_MCIX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_MCIX_BCST_RSP(unsigned long a)
 {
-    return 0x87e0fe2e0080ll + 0x8000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e0fe2e0080ll + 0x8000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e0fe2e0080ll + 0x8000ll * ((a) & 0x3);
+    __bdk_csr_fatal("DTX_L2C_MCIX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_L2C_MCIX_BCST_RSP(a) bdk_dtx_l2c_mcix_bcst_rsp_t
@@ -2973,7 +3075,9 @@ typedef union
 static inline uint64_t BDK_DTX_RST_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RST_ENAX(unsigned long a)
 {
-    return 0x87e0fe030020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe030020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_RST_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_RST_ENAX(a) bdk_dtx_rst_enax_t
@@ -3008,7 +3112,9 @@ typedef union
 static inline uint64_t BDK_DTX_PEMX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_ENAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe600020ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if ((a<=5) && (b<=1))
+        return 0x87e0fe600020ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_PEMX_ENAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_PEMX_ENAX(a,b) bdk_dtx_pemx_enax_t
@@ -3041,7 +3147,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_LNKX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_LNKX_SELX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=1)))
         return 0x87e0fe180000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_OCX_LNKX_SELX", 2, a, b, 0, 0);
 }
@@ -3076,7 +3182,9 @@ typedef union
 static inline uint64_t BDK_DTX_IOBNX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_BCST_RSP(unsigned long a)
 {
-    return 0x87e0fe780080ll + 0x8000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe780080ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_IOBNX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_IOBNX_BCST_RSP(a) bdk_dtx_iobnx_bcst_rsp_t
@@ -3111,7 +3219,9 @@ typedef union
 static inline uint64_t BDK_DTX_SATAX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SATAX_DATX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe880040ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    if ((a<=15) && (b<=1))
+        return 0x87e0fe880040ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_SATAX_DATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_SATAX_DATX(a,b) bdk_dtx_satax_datx_t
@@ -3146,7 +3256,9 @@ typedef union
 static inline uint64_t BDK_DTX_RAD_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RAD_DATX(unsigned long a)
 {
-    return 0x87e0feb80040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0feb80040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_RAD_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_RAD_DATX(a) bdk_dtx_rad_datx_t
@@ -3225,9 +3337,9 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_TADX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_TADX_DATX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe280040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=1)))
         return 0x87e0fe280040ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_TADX_DATX", 2, a, b, 0, 0);
 }
@@ -3264,7 +3376,9 @@ typedef union
 static inline uint64_t BDK_DTX_IOBNX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_DATX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe780040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe780040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_IOBNX_DATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_IOBNX_DATX(a,b) bdk_dtx_iobnx_datx_t
@@ -3297,7 +3411,9 @@ typedef union
 static inline uint64_t BDK_DTX_BGXX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BGXX_BCST_RSP(unsigned long a)
 {
-    return 0x87e0fe700080ll + 0x8000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe700080ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_BGXX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_BGXX_BCST_RSP(a) bdk_dtx_bgxx_bcst_rsp_t
@@ -3332,7 +3448,9 @@ typedef union
 static inline uint64_t BDK_DTX_GIC_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GIC_ENAX(unsigned long a)
 {
-    return 0x87e0fe808020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe808020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_GIC_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_GIC_ENAX(a) bdk_dtx_gic_enax_t
@@ -3367,7 +3485,9 @@ typedef union
 static inline uint64_t BDK_DTX_IOBNX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_ENAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe780020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe780020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_IOBNX_ENAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_IOBNX_ENAX(a,b) bdk_dtx_iobnx_enax_t
@@ -3400,7 +3520,9 @@ typedef union
 static inline uint64_t BDK_DTX_UAAX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_UAAX_SELX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe120000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe120000ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_UAAX_SELX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_UAAX_SELX(a,b) bdk_dtx_uaax_selx_t
@@ -3489,7 +3611,9 @@ typedef union
 static inline uint64_t BDK_DTX_UAAX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_UAAX_CTL(unsigned long a)
 {
-    return 0x87e0fe120060ll + 0x8000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe120060ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_UAAX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_UAAX_CTL(a) bdk_dtx_uaax_ctl_t
@@ -3532,7 +3656,9 @@ typedef union
 static inline uint64_t BDK_DTX_BGXX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BGXX_CTL(unsigned long a)
 {
-    return 0x87e0fe700060ll + 0x8000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe700060ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_BGXX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_BGXX_CTL(a) bdk_dtx_bgxx_ctl_t
@@ -3567,7 +3693,9 @@ typedef union
 static inline uint64_t BDK_DTX_TNS_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TNS_DATX(unsigned long a)
 {
-    return 0x87e0fea10040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fea10040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_TNS_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_TNS_DATX(a) bdk_dtx_tns_datx_t
@@ -3600,7 +3728,9 @@ typedef union
 static inline uint64_t BDK_DTX_BROADCAST_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BROADCAST_SELX(unsigned long a)
 {
-    return 0x87e0fe7f0000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe7f0000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_BROADCAST_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_BROADCAST_SELX(a) bdk_dtx_broadcast_selx_t
@@ -3635,7 +3765,9 @@ typedef union
 static inline uint64_t BDK_DTX_MRML_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MRML_ENAX(unsigned long a)
 {
-    return 0x87e0fe7e0020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe7e0020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_MRML_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_MRML_ENAX(a) bdk_dtx_mrml_enax_t
@@ -3704,7 +3836,9 @@ typedef union
 static inline uint64_t BDK_DTX_USBHX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBHX_ENAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0feb40020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0feb40020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_USBHX_ENAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_USBHX_ENAX(a,b) bdk_dtx_usbhx_enax_t
@@ -3771,7 +3905,9 @@ typedef union
 static inline uint64_t BDK_DTX_GSERX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GSERX_BCST_RSP(unsigned long a)
 {
-    return 0x87e0fe480080ll + 0x8000ll * ((a) & 0xf);
+    if (a<=13)
+        return 0x87e0fe480080ll + 0x8000ll * ((a) & 0xf);
+    __bdk_csr_fatal("DTX_GSERX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_GSERX_BCST_RSP(a) bdk_dtx_gserx_bcst_rsp_t
@@ -3804,9 +3940,9 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_CBCX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_CBCX_BCST_RSP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0fe2c0080ll + 0x8000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e0fe2c0080ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_L2C_CBCX_BCST_RSP", 1, a, 0, 0, 0);
 }
@@ -3841,7 +3977,9 @@ typedef union
 static inline uint64_t BDK_DTX_TNS_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_TNS_SELX(unsigned long a)
 {
-    return 0x87e0fea10000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fea10000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_TNS_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_TNS_SELX(a) bdk_dtx_tns_selx_t
@@ -3908,7 +4046,9 @@ typedef union
 static inline uint64_t BDK_DTX_GSERX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GSERX_SELX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe480000ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    if ((a<=13) && (b<=1))
+        return 0x87e0fe480000ll + 0x8000ll * ((a) & 0xf) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_GSERX_SELX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_GSERX_SELX(a,b) bdk_dtx_gserx_selx_t
@@ -3943,7 +4083,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_TOP_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_TOP_DATX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe088040ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_OCX_TOP_DATX", 1, a, 0, 0, 0);
 }
@@ -3980,7 +4120,9 @@ typedef union
 static inline uint64_t BDK_DTX_KEY_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_KEY_ENAX(unsigned long a)
 {
-    return 0x87e0fe208020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe208020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_KEY_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_KEY_ENAX(a) bdk_dtx_key_enax_t
@@ -4013,7 +4155,9 @@ typedef union
 static inline uint64_t BDK_DTX_NCSI_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NCSI_SELX(unsigned long a)
 {
-    return 0x87e0fe058000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe058000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_NCSI_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_NCSI_SELX(a) bdk_dtx_ncsi_selx_t
@@ -4048,7 +4192,11 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_MCIX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_MCIX_DATX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe2e0040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=1)))
+        return 0x87e0fe2e0040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
+        return 0x87e0fe2e0040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_L2C_MCIX_DATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_L2C_MCIX_DATX(a,b) bdk_dtx_l2c_mcix_datx_t
@@ -4161,7 +4309,9 @@ typedef union
 static inline uint64_t BDK_DTX_ZIP_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_ZIP_DATX(unsigned long a)
 {
-    return 0x87e0fe9c0040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe9c0040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_ZIP_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_ZIP_DATX(a) bdk_dtx_zip_datx_t
@@ -4196,7 +4346,11 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_MCIX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_MCIX_ENAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe2e0020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b<=1)))
+        return 0x87e0fe2e0020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
+        return 0x87e0fe2e0020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_L2C_MCIX_ENAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_L2C_MCIX_ENAX(a,b) bdk_dtx_l2c_mcix_enax_t
@@ -4229,7 +4383,9 @@ typedef union
 static inline uint64_t BDK_DTX_PEMX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_SELX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe600000ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if ((a<=5) && (b<=1))
+        return 0x87e0fe600000ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_PEMX_SELX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_PEMX_SELX(a,b) bdk_dtx_pemx_selx_t
@@ -4262,7 +4418,9 @@ typedef union
 static inline uint64_t BDK_DTX_MIO_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_MIO_SELX(unsigned long a)
 {
-    return 0x87e0fe000000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe000000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_MIO_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_MIO_SELX(a) bdk_dtx_mio_selx_t
@@ -4297,7 +4455,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_TOP_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_TOP_ENAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0fe088020ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_OCX_TOP_ENAX", 1, a, 0, 0, 0);
 }
@@ -4332,7 +4490,9 @@ typedef union
 static inline uint64_t BDK_DTX_GIC_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_GIC_SELX(unsigned long a)
 {
-    return 0x87e0fe808000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe808000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_GIC_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_GIC_SELX(a) bdk_dtx_gic_selx_t
@@ -4367,7 +4527,9 @@ typedef union
 static inline uint64_t BDK_DTX_NCSI_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NCSI_DATX(unsigned long a)
 {
-    return 0x87e0fe058040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe058040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_NCSI_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_NCSI_DATX(a) bdk_dtx_ncsi_datx_t
@@ -4402,9 +4564,9 @@ typedef union
 static inline uint64_t BDK_DTX_LMCX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LMCX_DATX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe440040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe440040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_LMCX_DATX", 2, a, b, 0, 0);
 }
@@ -4475,9 +4637,9 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_CBCX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_CBCX_DATX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe2c0040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe2c0040ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_CBCX_DATX", 2, a, b, 0, 0);
 }
@@ -4514,7 +4676,9 @@ typedef union
 static inline uint64_t BDK_DTX_SLIX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SLIX_DATX(unsigned long a, unsigned long b)
 {
-    return 0x87e0feba0040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0feba0040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_SLIX_DATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_SLIX_DATX(a,b) bdk_dtx_slix_datx_t
@@ -4549,9 +4713,9 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_CBCX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_CBCX_ENAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0fe2c0020ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe2c0020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_CBCX_ENAX", 2, a, b, 0, 0);
 }
@@ -4588,7 +4752,9 @@ typedef union
 static inline uint64_t BDK_DTX_BGXX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_BGXX_DATX(unsigned long a, unsigned long b)
 {
-    return 0x87e0fe700040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0fe700040ll + 0x8000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("DTX_BGXX_DATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_DTX_BGXX_DATX(a,b) bdk_dtx_bgxx_datx_t
@@ -4665,7 +4831,9 @@ typedef union
 static inline uint64_t BDK_DTX_SLIX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_SLIX_BCST_RSP(unsigned long a)
 {
-    return 0x87e0feba0080ll + 0x8000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0feba0080ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_SLIX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_SLIX_BCST_RSP(a) bdk_dtx_slix_bcst_rsp_t
@@ -4708,7 +4876,9 @@ typedef union
 static inline uint64_t BDK_DTX_IOBNX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_IOBNX_CTL(unsigned long a)
 {
-    return 0x87e0fe780060ll + 0x8000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe780060ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_IOBNX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_IOBNX_CTL(a) bdk_dtx_iobnx_ctl_t
@@ -4751,9 +4921,9 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_TADX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_TADX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e0fe280060ll + 0x8000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e0fe280060ll + 0x8000ll * ((a) & 0x7);
     __bdk_csr_fatal("DTX_L2C_TADX_CTL", 1, a, 0, 0, 0);
 }
@@ -4868,7 +5038,9 @@ typedef union
 static inline uint64_t BDK_DTX_USBHX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_USBHX_BCST_RSP(unsigned long a)
 {
-    return 0x87e0feb40080ll + 0x8000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0feb40080ll + 0x8000ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_USBHX_BCST_RSP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_USBHX_BCST_RSP(a) bdk_dtx_usbhx_bcst_rsp_t
@@ -4903,9 +5075,9 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_TADX_ENAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_TADX_ENAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=1)))
         return 0x87e0fe280020ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=1)))
         return 0x87e0fe280020ll + 0x8000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_L2C_TADX_ENAX", 2, a, b, 0, 0);
 }
@@ -4940,7 +5112,9 @@ typedef union
 static inline uint64_t BDK_DTX_RAD_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RAD_SELX(unsigned long a)
 {
-    return 0x87e0feb80000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0feb80000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_RAD_SELX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_RAD_SELX(a) bdk_dtx_rad_selx_t
@@ -4975,7 +5149,9 @@ typedef union
 static inline uint64_t BDK_DTX_ZIP_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_ZIP_ENAX(unsigned long a)
 {
-    return 0x87e0fe9c0020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe9c0020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_ZIP_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_ZIP_ENAX(a) bdk_dtx_zip_enax_t
@@ -5018,9 +5194,9 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_CBCX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_CBCX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0fe2c0060ll + 0x8000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x87e0fe2c0060ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_L2C_CBCX_CTL", 1, a, 0, 0, 0);
 }
@@ -5057,7 +5233,9 @@ typedef union
 static inline uint64_t BDK_DTX_NIC_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_NIC_ENAX(unsigned long a)
 {
-    return 0x87e0fea18020ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fea18020ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_NIC_ENAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_NIC_ENAX(a) bdk_dtx_nic_enax_t
@@ -5290,9 +5468,9 @@ typedef union
 static inline uint64_t BDK_DTX_L2C_TADX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_L2C_TADX_BCST_RSP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e0fe280080ll + 0x8000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
         return 0x87e0fe280080ll + 0x8000ll * ((a) & 0x7);
     __bdk_csr_fatal("DTX_L2C_TADX_BCST_RSP", 1, a, 0, 0, 0);
 }
@@ -5327,7 +5505,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_OLEX_SELX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_OLEX_SELX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=2) && (b<=1)))
         return 0x87e0fe1a0000ll + 0x8000ll * ((a) & 0x3) + 8ll * ((b) & 0x1);
     __bdk_csr_fatal("DTX_OCX_OLEX_SELX", 2, a, b, 0, 0);
 }
@@ -5398,7 +5576,9 @@ typedef union
 static inline uint64_t BDK_DTX_RNM_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_RNM_DATX(unsigned long a)
 {
-    return 0x87e0fe200040ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0fe200040ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("DTX_RNM_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_RNM_DATX(a) bdk_dtx_rnm_datx_t
@@ -5441,7 +5621,9 @@ typedef union
 static inline uint64_t BDK_DTX_PEMX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_PEMX_CTL(unsigned long a)
 {
-    return 0x87e0fe600060ll + 0x8000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0fe600060ll + 0x8000ll * ((a) & 0x7);
+    __bdk_csr_fatal("DTX_PEMX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_DTX_PEMX_CTL(a) bdk_dtx_pemx_ctl_t
@@ -5474,7 +5656,7 @@ typedef union
 static inline uint64_t BDK_DTX_OCX_LNKX_BCST_RSP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_OCX_LNKX_BCST_RSP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=2))
         return 0x87e0fe180080ll + 0x8000ll * ((a) & 0x3);
     __bdk_csr_fatal("DTX_OCX_LNKX_BCST_RSP", 1, a, 0, 0, 0);
 }

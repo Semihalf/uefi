@@ -85,7 +85,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG046(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG046(unsigned long a)
 {
-    return 0x200000000b8ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x200000000b8ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG046", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG046(a) bdk_pciercx_cfg046_t
@@ -135,7 +137,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG044(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG044(unsigned long a)
 {
-    return 0x200000000b0ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x200000000b0ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG044", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG044(a) bdk_pciercx_cfg044_t
@@ -177,7 +181,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG045(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG045(unsigned long a)
 {
-    return 0x200000000b4ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x200000000b4ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG045", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG045(a) bdk_pciercx_cfg045_t
@@ -211,7 +217,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG077(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG077(unsigned long a)
 {
-    return 0x20000000134ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000134ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG077", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG077(a) bdk_pciercx_cfg077_t
@@ -261,7 +269,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG076(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG076(unsigned long a)
 {
-    return 0x20000000130ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000130ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG076", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG076(a) bdk_pciercx_cfg076_t
@@ -299,7 +309,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG075(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG075(unsigned long a)
 {
-    return 0x2000000012cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000012cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG075", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG075(a) bdk_pciercx_cfg075_t
@@ -332,7 +344,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG074(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG074(unsigned long a)
 {
-    return 0x20000000128ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000128ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG074", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG074(a) bdk_pciercx_cfg074_t
@@ -365,7 +379,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG073(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG073(unsigned long a)
 {
-    return 0x20000000124ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000124ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG073", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG073(a) bdk_pciercx_cfg073_t
@@ -398,7 +414,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG072(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG072(unsigned long a)
 {
-    return 0x20000000120ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000120ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG072", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG072(a) bdk_pciercx_cfg072_t
@@ -431,7 +449,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG071(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG071(unsigned long a)
 {
-    return 0x2000000011cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000011cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG071", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG071(a) bdk_pciercx_cfg071_t
@@ -477,7 +497,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG070(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG070(unsigned long a)
 {
-    return 0x20000000118ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000118ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG070", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG070(a) bdk_pciercx_cfg070_t
@@ -511,7 +533,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG011(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG011(unsigned long a)
 {
-    return 0x2000000002cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000002cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG011", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG011(a) bdk_pciercx_cfg011_t
@@ -545,7 +569,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG010(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG010(unsigned long a)
 {
-    return 0x20000000028ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000028ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG010", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG010(a) bdk_pciercx_cfg010_t
@@ -581,7 +607,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG013(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG013(unsigned long a)
 {
-    return 0x20000000034ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000034ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG013", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG013(a) bdk_pciercx_cfg013_t
@@ -615,7 +643,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG012(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG012(unsigned long a)
 {
-    return 0x20000000030ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000030ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG012", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG012(a) bdk_pciercx_cfg012_t
@@ -687,7 +717,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG015(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG015(unsigned long a)
 {
-    return 0x2000000003cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000003cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG015", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG015(a) bdk_pciercx_cfg015_t
@@ -719,7 +751,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG014(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG014(unsigned long a)
 {
-    return 0x20000000038ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000038ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG014", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG014(a) bdk_pciercx_cfg014_t
@@ -787,7 +821,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG017(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG017(unsigned long a)
 {
-    return 0x20000000044ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000044ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG017", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG017(a) bdk_pciercx_cfg017_t
@@ -875,7 +911,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG016(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG016(unsigned long a)
 {
-    return 0x20000000040ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000040ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG016", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG016(a) bdk_pciercx_cfg016_t
@@ -1000,7 +1038,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG033(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG033(unsigned long a)
 {
-    return 0x20000000084ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000084ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG033", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG033(a) bdk_pciercx_cfg033_t
@@ -1118,7 +1158,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG032(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG032(unsigned long a)
 {
-    return 0x20000000080ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000080ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG032", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG032(a) bdk_pciercx_cfg032_t
@@ -1224,7 +1266,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG031(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG031(unsigned long a)
 {
-    return 0x2000000007cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000007cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG031", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG031(a) bdk_pciercx_cfg031_t
@@ -1336,7 +1380,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG030(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG030(unsigned long a)
 {
-    return 0x20000000078ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000078ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG030", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG030(a) bdk_pciercx_cfg030_t
@@ -1344,129 +1390,6 @@ static inline uint64_t BDK_PCIERCX_CFG030(unsigned long a)
 #define basename_BDK_PCIERCX_CFG030(a) "PCIERCX_CFG030"
 #define busnum_BDK_PCIERCX_CFG030(a) (a)
 #define arguments_BDK_PCIERCX_CFG030(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGRC) pcierc#_cfg037
- *
- * Device Capabilities 2 Register
- * This register contains the thirty-eighth 32-bits of PCIe type 1 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pciercx_cfg037_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
-                                                                 0x1 = 1.
-                                                                 0x2 = 2.
-                                                                 0x3 = 3.
-                                                                 0x0 = 4. */
-        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
-        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t reserved_14_17        : 4;
-        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
-        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
-        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
-                                                                 permitted in the relaxed ordering model. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
-        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
-        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
-        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
-        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
-#else /* Word 0 - Little Endian */
-        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
-        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
-        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
-        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
-        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
-                                                                 permitted in the relaxed ordering model. */
-        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
-        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
-        uint32_t reserved_14_17        : 4;
-        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
-        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
-                                                                 0x1 = 1.
-                                                                 0x2 = 2.
-                                                                 0x3 = 3.
-                                                                 0x0 = 4. */
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } s;
-    struct bdk_pciercx_cfg037_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
-                                                                 0x1 = 1.
-                                                                 0x2 = 2.
-                                                                 0x3 = 3.
-                                                                 0x0 = 4. */
-        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
-                                                                 the application must not change this field. Changed for pass 2.0. */
-        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t reserved_14_17        : 4;
-        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
-        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
-        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
-                                                                 permitted in the relaxed ordering model. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. Changed in pass 2. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. Changed in pass 2. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. Changed in pass 2. */
-        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
-        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
-        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
-        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
-#else /* Word 0 - Little Endian */
-        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
-        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
-        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
-        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. Changed in pass 2. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. Changed in pass 2. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. Changed in pass 2. */
-        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
-                                                                 permitted in the relaxed ordering model. */
-        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
-        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
-        uint32_t reserved_14_17        : 4;
-        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
-                                                                 the application must not change this field. Changed for pass 2.0. */
-        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
-                                                                 0x1 = 1.
-                                                                 0x2 = 2.
-                                                                 0x3 = 3.
-                                                                 0x0 = 4. */
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_pciercx_cfg037_cn83xx cn88xxp2; */
-    /* struct bdk_pciercx_cfg037_s cn88xxp1; */
-} bdk_pciercx_cfg037_t;
-
-static inline uint64_t BDK_PCIERCX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIERCX_CFG037(unsigned long a)
-{
-    return 0x20000000094ll + 0x100000000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_PCIERCX_CFG037(a) bdk_pciercx_cfg037_t
-#define bustype_BDK_PCIERCX_CFG037(a) BDK_CSR_TYPE_PCICONFIGRC
-#define basename_BDK_PCIERCX_CFG037(a) "PCIERCX_CFG037"
-#define busnum_BDK_PCIERCX_CFG037(a) (a)
-#define arguments_BDK_PCIERCX_CFG037(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_cfg036
@@ -1497,7 +1420,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG036(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG036(unsigned long a)
 {
-    return 0x20000000090ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000090ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG036", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG036(a) bdk_pciercx_cfg036_t
@@ -1543,7 +1468,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG035(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG035(unsigned long a)
 {
-    return 0x2000000008cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000008cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG035", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG035(a) bdk_pciercx_cfg035_t
@@ -1617,7 +1544,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG034(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG034(unsigned long a)
 {
-    return 0x20000000088ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000088ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG034", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG034(a) bdk_pciercx_cfg034_t
@@ -1693,7 +1622,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG039(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG039(unsigned long a)
 {
-    return 0x2000000009cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000009cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG039", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG039(a) bdk_pciercx_cfg039_t
@@ -1769,7 +1700,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG038(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG038(unsigned long a)
 {
-    return 0x20000000098ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000098ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG038", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG038(a) bdk_pciercx_cfg038_t
@@ -1777,38 +1710,6 @@ static inline uint64_t BDK_PCIERCX_CFG038(unsigned long a)
 #define basename_BDK_PCIERCX_CFG038(a) "PCIERCX_CFG038"
 #define busnum_BDK_PCIERCX_CFG038(a) (a)
 #define arguments_BDK_PCIERCX_CFG038(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGRC) pcierc#_cfg517
- *
- * PHY Control Register
- * This register contains the five hundred eighteenth 32-bits of PCIe type 1 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pciercx_cfg517_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t phy_ctrl              : 32; /**< [ 31:  0](R/W) PHY control. */
-#else /* Word 0 - Little Endian */
-        uint32_t phy_ctrl              : 32; /**< [ 31:  0](R/W) PHY control. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pciercx_cfg517_s cn; */
-} bdk_pciercx_cfg517_t;
-
-static inline uint64_t BDK_PCIERCX_CFG517(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIERCX_CFG517(unsigned long a)
-{
-    return 0x20000000814ll + 0x100000000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_PCIERCX_CFG517(a) bdk_pciercx_cfg517_t
-#define bustype_BDK_PCIERCX_CFG517(a) BDK_CSR_TYPE_PCICONFIGRC
-#define basename_BDK_PCIERCX_CFG517(a) "PCIERCX_CFG517"
-#define busnum_BDK_PCIERCX_CFG517(a) (a)
-#define arguments_BDK_PCIERCX_CFG517(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_cfg451
@@ -1895,7 +1796,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG451(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG451(unsigned long a)
 {
-    return 0x2000000070cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000070cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG451", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG451(a) bdk_pciercx_cfg451_t
@@ -2021,7 +1924,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG450(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG450(unsigned long a)
 {
-    return 0x20000000708ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000708ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG450", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG450(a) bdk_pciercx_cfg450_t
@@ -2067,7 +1972,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG453(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG453(unsigned long a)
 {
-    return 0x20000000714ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000714ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG453", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG453(a) bdk_pciercx_cfg453_t
@@ -2242,7 +2149,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG452(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG452(unsigned long a)
 {
-    return 0x20000000710ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000710ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG452", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG452(a) bdk_pciercx_cfg452_t
@@ -2310,7 +2219,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG455(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG455(unsigned long a)
 {
-    return 0x2000000071cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000071cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG455", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG455(a) bdk_pciercx_cfg455_t
@@ -2360,7 +2271,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG454(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG454(unsigned long a)
 {
-    return 0x20000000718ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000718ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG454", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG454(a) bdk_pciercx_cfg454_t
@@ -2400,7 +2313,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG456(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG456(unsigned long a)
 {
-    return 0x20000000720ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000720ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG456", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG456(a) bdk_pciercx_cfg456_t
@@ -2432,7 +2347,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG458(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG458(unsigned long a)
 {
-    return 0x20000000728ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000728ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG458", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG458(a) bdk_pciercx_cfg458_t
@@ -2482,7 +2399,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG069(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG069(unsigned long a)
 {
-    return 0x20000000114ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000114ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG069", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG069(a) bdk_pciercx_cfg069_t
@@ -2528,7 +2447,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG449(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG449(unsigned long a)
 {
-    return 0x20000000704ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000704ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG449", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG449(a) bdk_pciercx_cfg449_t
@@ -2633,7 +2554,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG515(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG515(unsigned long a)
 {
-    return 0x2000000080cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000080cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG515", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG515(a) bdk_pciercx_cfg515_t
@@ -2665,7 +2588,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG516(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG516(unsigned long a)
 {
-    return 0x20000000810ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000810ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG516", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG516(a) bdk_pciercx_cfg516_t
@@ -2673,6 +2598,40 @@ static inline uint64_t BDK_PCIERCX_CFG516(unsigned long a)
 #define basename_BDK_PCIERCX_CFG516(a) "PCIERCX_CFG516"
 #define busnum_BDK_PCIERCX_CFG516(a) (a)
 #define arguments_BDK_PCIERCX_CFG516(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg517
+ *
+ * PHY Control Register
+ * This register contains the five hundred eighteenth 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg517_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t phy_ctrl              : 32; /**< [ 31:  0](R/W) PHY control. */
+#else /* Word 0 - Little Endian */
+        uint32_t phy_ctrl              : 32; /**< [ 31:  0](R/W) PHY control. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pciercx_cfg517_s cn; */
+} bdk_pciercx_cfg517_t;
+
+static inline uint64_t BDK_PCIERCX_CFG517(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG517(unsigned long a)
+{
+    if (a<=5)
+        return 0x20000000814ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG517", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG517(a) bdk_pciercx_cfg517_t
+#define bustype_BDK_PCIERCX_CFG517(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG517(a) "PCIERCX_CFG517"
+#define busnum_BDK_PCIERCX_CFG517(a) (a)
+#define arguments_BDK_PCIERCX_CFG517(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_cfg086
@@ -2707,7 +2666,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG086(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG086(unsigned long a)
 {
-    return 0x20000000158ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000158ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG086", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG086(a) bdk_pciercx_cfg086_t
@@ -2743,7 +2704,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG087(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG087(unsigned long a)
 {
-    return 0x2000000015cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000015cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG087", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG087(a) bdk_pciercx_cfg087_t
@@ -2777,7 +2740,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG088(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG088(unsigned long a)
 {
-    return 0x20000000160ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000160ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG088", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG088(a) bdk_pciercx_cfg088_t
@@ -2847,7 +2812,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG089(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG089(unsigned long a)
 {
-    return 0x20000000164ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000164ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG089", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG089(a) bdk_pciercx_cfg089_t
@@ -2881,7 +2848,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG558(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG558(unsigned long a)
 {
-    return 0x200000008b8ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x200000008b8ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG558", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG558(a) bdk_pciercx_cfg558_t
@@ -3285,7 +3254,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG554(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG554(unsigned long a)
 {
-    return 0x200000008a8ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x200000008a8ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG554", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG554(a) bdk_pciercx_cfg554_t
@@ -3317,7 +3288,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG459(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG459(unsigned long a)
 {
-    return 0x2000000072cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000072cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG459", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG459(a) bdk_pciercx_cfg459_t
@@ -3349,7 +3322,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG042(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG042(unsigned long a)
 {
-    return 0x200000000a8ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x200000000a8ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG042", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG042(a) bdk_pciercx_cfg042_t
@@ -3515,7 +3490,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG040(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG040(unsigned long a)
 {
-    return 0x200000000a0ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x200000000a0ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG040", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG040(a) bdk_pciercx_cfg040_t
@@ -3547,7 +3524,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG041(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG041(unsigned long a)
 {
-    return 0x200000000a4ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x200000000a4ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG041", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG041(a) bdk_pciercx_cfg041_t
@@ -3589,7 +3568,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG064(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG064(unsigned long a)
 {
-    return 0x20000000100ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000100ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG064", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG064(a) bdk_pciercx_cfg064_t
@@ -3702,7 +3683,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG065(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG065(unsigned long a)
 {
-    return 0x20000000104ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000104ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG065", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG065(a) bdk_pciercx_cfg065_t
@@ -3862,7 +3845,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG066(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG066(unsigned long a)
 {
-    return 0x20000000108ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000108ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG066", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG066(a) bdk_pciercx_cfg066_t
@@ -4010,7 +3995,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG067(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG067(unsigned long a)
 {
-    return 0x2000000010cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000010cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG067", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG067(a) bdk_pciercx_cfg067_t
@@ -4060,7 +4047,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG068(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG068(unsigned long a)
 {
-    return 0x20000000110ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000110ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG068", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG068(a) bdk_pciercx_cfg068_t
@@ -4098,7 +4087,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG008(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG008(unsigned long a)
 {
-    return 0x20000000020ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000020ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG008", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG008(a) bdk_pciercx_cfg008_t
@@ -4154,7 +4145,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG009(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG009(unsigned long a)
 {
-    return 0x20000000024ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000024ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG009", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG009(a) bdk_pciercx_cfg009_t
@@ -4208,7 +4201,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG002(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG002(unsigned long a)
 {
-    return 0x20000000008ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000008ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG002", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG002(a) bdk_pciercx_cfg002_t
@@ -4254,7 +4249,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG003(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG003(unsigned long a)
 {
-    return 0x2000000000cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000000cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG003", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG003(a) bdk_pciercx_cfg003_t
@@ -4288,7 +4285,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG000(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG000(unsigned long a)
 {
-    return 0x20000000000ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000000ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG000", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG000(a) bdk_pciercx_cfg000_t
@@ -4366,7 +4365,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG001(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG001(unsigned long a)
 {
-    return 0x20000000004ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000004ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG001", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG001(a) bdk_pciercx_cfg001_t
@@ -4412,7 +4413,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG006(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG006(unsigned long a)
 {
-    return 0x20000000018ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000018ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG006", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG006(a) bdk_pciercx_cfg006_t
@@ -4484,7 +4487,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG007(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG007(unsigned long a)
 {
-    return 0x2000000001cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000001cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG007", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG007(a) bdk_pciercx_cfg007_t
@@ -4516,7 +4521,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG004(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG004(unsigned long a)
 {
-    return 0x20000000010ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000010ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG004", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG004(a) bdk_pciercx_cfg004_t
@@ -4548,7 +4555,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG005(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG005(unsigned long a)
 {
-    return 0x20000000014ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000014ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG005", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG005(a) bdk_pciercx_cfg005_t
@@ -4608,7 +4617,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG020(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG020(unsigned long a)
 {
-    return 0x20000000050ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000050ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG020", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG020(a) bdk_pciercx_cfg020_t
@@ -4642,7 +4653,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG021(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG021(unsigned long a)
 {
-    return 0x20000000054ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000054ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG021", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG021(a) bdk_pciercx_cfg021_t
@@ -4674,7 +4687,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG022(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG022(unsigned long a)
 {
-    return 0x20000000058ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000058ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG022", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG022(a) bdk_pciercx_cfg022_t
@@ -4710,7 +4725,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG023(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG023(unsigned long a)
 {
-    return 0x2000000005cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000005cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG023", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG023(a) bdk_pciercx_cfg023_t
@@ -4760,7 +4777,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG028(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG028(unsigned long a)
 {
-    return 0x20000000070ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000070ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG028", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG028(a) bdk_pciercx_cfg028_t
@@ -4871,7 +4890,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG029(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG029(unsigned long a)
 {
-    return 0x20000000074ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000074ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG029", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG029(a) bdk_pciercx_cfg029_t
@@ -4919,7 +4940,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG448(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG448(unsigned long a)
 {
-    return 0x20000000700ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000700ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG448", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG448(a) bdk_pciercx_cfg448_t
@@ -4989,7 +5012,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG468(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG468(unsigned long a)
 {
-    return 0x20000000750ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000750ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG468", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG468(a) bdk_pciercx_cfg468_t
@@ -5027,7 +5052,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG464(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG464(unsigned long a)
 {
-    return 0x20000000740ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000740ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG464", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG464(a) bdk_pciercx_cfg464_t
@@ -5065,7 +5092,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG465(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG465(unsigned long a)
 {
-    return 0x20000000744ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000744ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG465", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG465(a) bdk_pciercx_cfg465_t
@@ -5157,7 +5186,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG466(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG466(unsigned long a)
 {
-    return 0x20000000748ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000748ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG466", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG466(a) bdk_pciercx_cfg466_t
@@ -5225,7 +5256,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG467(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG467(unsigned long a)
 {
-    return 0x2000000074cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000074cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG467", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG467(a) bdk_pciercx_cfg467_t
@@ -5265,7 +5298,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG460(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG460(unsigned long a)
 {
-    return 0x20000000730ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000730ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG460", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG460(a) bdk_pciercx_cfg460_t
@@ -5305,7 +5340,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG461(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG461(unsigned long a)
 {
-    return 0x20000000734ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000734ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG461", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG461(a) bdk_pciercx_cfg461_t
@@ -5345,7 +5382,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG462(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG462(unsigned long a)
 {
-    return 0x20000000738ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000738ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG462", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG462(a) bdk_pciercx_cfg462_t
@@ -5401,7 +5440,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG463(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG463(unsigned long a)
 {
-    return 0x2000000073cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000073cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG463", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG463(a) bdk_pciercx_cfg463_t
@@ -5409,6 +5450,131 @@ static inline uint64_t BDK_PCIERCX_CFG463(unsigned long a)
 #define basename_BDK_PCIERCX_CFG463(a) "PCIERCX_CFG463"
 #define busnum_BDK_PCIERCX_CFG463(a) (a)
 #define arguments_BDK_PCIERCX_CFG463(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGRC) pcierc#_cfg037
+ *
+ * Device Capabilities 2 Register
+ * This register contains the thirty-eighth 32-bits of PCIe type 1 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pciercx_cfg037_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
+                                                                 0x1 = 1.
+                                                                 0x2 = 2.
+                                                                 0x3 = 3.
+                                                                 0x0 = 4. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
+        uint32_t reserved_14_17        : 4;
+        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
+                                                                 permitted in the relaxed ordering model. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
+        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
+                                                                 permitted in the relaxed ordering model. */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
+        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
+        uint32_t reserved_14_17        : 4;
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
+                                                                 0x1 = 1.
+                                                                 0x2 = 2.
+                                                                 0x3 = 3.
+                                                                 0x0 = 4. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pciercx_cfg037_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
+                                                                 0x1 = 1.
+                                                                 0x2 = 2.
+                                                                 0x3 = 3.
+                                                                 0x0 = 4. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
+                                                                 the application must not change this field. Changed for pass 2.0. */
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
+        uint32_t reserved_14_17        : 4;
+        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
+                                                                 permitted in the relaxed ordering model. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. Changed in pass 2. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. Changed in pass 2. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. Changed in pass 2. */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
+        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO/H) Completion timeout ranges supported. */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ari_fw                : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported. */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. Changed in pass 2. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. Changed in pass 2. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. Changed in pass 2. */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
+                                                                 permitted in the relaxed ordering model. */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
+        uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
+        uint32_t reserved_14_17        : 4;
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
+                                                                 the application must not change this field. Changed for pass 2.0. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
+                                                                 0x1 = 1.
+                                                                 0x2 = 2.
+                                                                 0x3 = 3.
+                                                                 0x0 = 4. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } cn83xx;
+    /* struct bdk_pciercx_cfg037_cn83xx cn88xxp2; */
+    /* struct bdk_pciercx_cfg037_s cn88xxp1; */
+} bdk_pciercx_cfg037_t;
+
+static inline uint64_t BDK_PCIERCX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIERCX_CFG037(unsigned long a)
+{
+    if (a<=5)
+        return 0x20000000094ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG037", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIERCX_CFG037(a) bdk_pciercx_cfg037_t
+#define bustype_BDK_PCIERCX_CFG037(a) BDK_CSR_TYPE_PCICONFIGRC
+#define basename_BDK_PCIERCX_CFG037(a) "PCIERCX_CFG037"
+#define busnum_BDK_PCIERCX_CFG037(a) (a)
+#define arguments_BDK_PCIERCX_CFG037(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGRC) pcierc#_cfg091
@@ -5471,7 +5637,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG091(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG091(unsigned long a)
 {
-    return 0x2000000016cll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x2000000016cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG091", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG091(a) bdk_pciercx_cfg091_t
@@ -5541,7 +5709,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG090(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG090(unsigned long a)
 {
-    return 0x20000000168ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000168ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG090", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG090(a) bdk_pciercx_cfg090_t
@@ -5611,7 +5781,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG092(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG092(unsigned long a)
 {
-    return 0x20000000170ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000170ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG092", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG092(a) bdk_pciercx_cfg092_t
@@ -5704,7 +5876,9 @@ typedef union
 static inline uint64_t BDK_PCIERCX_CFG548(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIERCX_CFG548(unsigned long a)
 {
-    return 0x20000000890ll + 0x100000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x20000000890ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIERCX_CFG548", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PCIERCX_CFG548(a) bdk_pciercx_cfg548_t

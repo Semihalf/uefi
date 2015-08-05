@@ -159,7 +159,7 @@ typedef union
 static inline uint64_t BDK_NDF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NDF_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x808000f00008ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("NDF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -618,7 +618,7 @@ typedef union
 static inline uint64_t BDK_NDF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NDF_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x808000f00000ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("NDF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -696,7 +696,7 @@ typedef union
 static inline uint64_t BDK_NDF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NDF_MSIX_PBAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x808000ff0008ll + 0ll * ((a) & 0x0);
     __bdk_csr_fatal("NDF_MSIX_PBAX", 1, a, 0, 0, 0);
 }

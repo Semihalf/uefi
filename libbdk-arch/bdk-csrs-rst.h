@@ -449,7 +449,9 @@ typedef union
 static inline uint64_t BDK_RST_CTLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_CTLX(unsigned long a)
 {
-    return 0x87e006001640ll + 8ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e006001640ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("RST_CTLX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_RST_CTLX(a) bdk_rst_ctlx_t
@@ -888,7 +890,9 @@ typedef union
 static inline uint64_t BDK_RST_SOFT_PRSTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_SOFT_PRSTX(unsigned long a)
 {
-    return 0x87e0060016c0ll + 8ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0060016c0ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("RST_SOFT_PRSTX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_RST_SOFT_PRSTX(a) bdk_rst_soft_prstx_t
@@ -998,7 +1002,9 @@ typedef union
 static inline uint64_t BDK_RST_COLD_DATAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_COLD_DATAX(unsigned long a)
 {
-    return 0x87e0060017c0ll + 8ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0060017c0ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("RST_COLD_DATAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_RST_COLD_DATAX(a) bdk_rst_cold_datax_t
@@ -1658,7 +1664,9 @@ typedef union
 static inline uint64_t BDK_RST_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_MSIX_VECX_ADDR(unsigned long a)
 {
-    return 0x87e006f00000ll + 0x10ll * ((a) & 0x0);
+    if (a==0)
+        return 0x87e006f00000ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("RST_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_RST_MSIX_VECX_ADDR(a) bdk_rst_msix_vecx_addr_t
@@ -1693,7 +1701,9 @@ typedef union
 static inline uint64_t BDK_RST_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_MSIX_PBAX(unsigned long a)
 {
-    return 0x87e006ff0000ll + 8ll * ((a) & 0x0);
+    if (a==0)
+        return 0x87e006ff0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("RST_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_RST_MSIX_PBAX(a) bdk_rst_msix_pbax_t
@@ -1731,7 +1741,9 @@ typedef union
 static inline uint64_t BDK_RST_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_MSIX_VECX_CTL(unsigned long a)
 {
-    return 0x87e006f00008ll + 0x10ll * ((a) & 0x0);
+    if (a==0)
+        return 0x87e006f00008ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("RST_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_RST_MSIX_VECX_CTL(a) bdk_rst_msix_vecx_ctl_t

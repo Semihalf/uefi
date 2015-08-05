@@ -91,7 +91,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCQCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCQCTLR(unsigned long a)
 {
-    return 0x87a00fc30044ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30044ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCQCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCQCTLR(a) bdk_trcx_trcqctlr_t
@@ -138,7 +140,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCITCTRL(unsigned long a)
 {
-    return 0x87a00fc30f00ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30f00ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCITCTRL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCITCTRL(a) bdk_trcx_trcitctrl_t
@@ -188,7 +192,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCBBCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCBBCTLR(unsigned long a)
 {
-    return 0x87a00fc3003cll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc3003cll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCBBCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCBBCTLR(a) bdk_trcx_trcbbctlr_t
@@ -220,7 +226,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCIDCVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDCVR0(unsigned long a)
 {
-    return 0x87a00fc30600ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30600ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCIDCVR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCIDCVR0(a) bdk_trcx_trccidcvr0_t
@@ -258,7 +266,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCPROCSELR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPROCSELR(unsigned long a)
 {
-    return 0x87a00fc30008ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30008ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPROCSELR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCPROCSELR(a) bdk_trcx_trcprocselr_t
@@ -302,7 +312,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSYNCPR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSYNCPR(unsigned long a)
 {
-    return 0x87a00fc30034ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30034ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSYNCPR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSYNCPR(a) bdk_trcx_trcsyncpr_t
@@ -310,38 +322,6 @@ static inline uint64_t BDK_TRCX_TRCSYNCPR(unsigned long a)
 #define basename_BDK_TRCX_TRCSYNCPR(a) "TRCX_TRCSYNCPR"
 #define busnum_BDK_TRCX_TRCSYNCPR(a) (a)
 #define arguments_BDK_TRCX_TRCSYNCPR(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcrsctlr5
- *
- * ETMv4 Resource Selection Control Register 5
- * Causes event pulses to be generated on ECT channels.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcrsctlr5_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcrsctlr5_s cn; */
-} bdk_trcx_trcrsctlr5_t;
-
-static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long a)
-{
-    return 0x87a00fc30214ll + 0x80000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_TRCX_TRCRSCTLR5(a) bdk_trcx_trcrsctlr5_t
-#define bustype_BDK_TRCX_TRCRSCTLR5(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCRSCTLR5(a) "TRCX_TRCRSCTLR5"
-#define busnum_BDK_TRCX_TRCRSCTLR5(a) (a)
-#define arguments_BDK_TRCX_TRCRSCTLR5(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trccidr3
@@ -368,7 +348,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDR3(unsigned long a)
 {
-    return 0x87a00fc30ffcll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30ffcll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCIDR3(a) bdk_trcx_trccidr3_t
@@ -402,7 +384,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDR2(unsigned long a)
 {
-    return 0x87a00fc30ff8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30ff8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCIDR2(a) bdk_trcx_trccidr2_t
@@ -438,7 +422,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDR1(unsigned long a)
 {
-    return 0x87a00fc30ff4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30ff4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCIDR1(a) bdk_trcx_trccidr1_t
@@ -472,7 +458,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDR0(unsigned long a)
 {
-    return 0x87a00fc30ff0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30ff0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCIDR0(a) bdk_trcx_trccidr0_t
@@ -516,7 +504,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSTATR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSTATR(unsigned long a)
 {
-    return 0x87a00fc3000cll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc3000cll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSTATR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSTATR(a) bdk_trcx_trcstatr_t
@@ -524,78 +514,6 @@ static inline uint64_t BDK_TRCX_TRCSTATR(unsigned long a)
 #define basename_BDK_TRCX_TRCSTATR(a) "TRCX_TRCSTATR"
 #define busnum_BDK_TRCX_TRCSTATR(a) (a)
 #define arguments_BDK_TRCX_TRCSTATR(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcacvr0
- *
- * ETMv4 Address Comparator Value Register 0
- * Causes event pulses to be generated on ECT channels.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcacvr0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcacvr0_s cn; */
-} bdk_trcx_trcacvr0_t;
-
-static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long a)
-{
-    return 0x87a00fc30400ll + 0x80000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_TRCX_TRCACVR0(a) bdk_trcx_trcacvr0_t
-#define bustype_BDK_TRCX_TRCACVR0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCACVR0(a) "TRCX_TRCACVR0"
-#define busnum_BDK_TRCX_TRCACVR0(a) (a)
-#define arguments_BDK_TRCX_TRCACVR0(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcprgctlr
- *
- * ETMv4 Programming Control Register
- * Controls whether the TRC is enabled.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcprgctlr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enables or disables the Trace Unit:
-                                                                 0 = Trace Unit is disabled.
-                                                                     All trace resources are inactive and no Trace is generated.
-                                                                 1 = Trace Unit is enabled. */
-#else /* Word 0 - Little Endian */
-        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enables or disables the Trace Unit:
-                                                                 0 = Trace Unit is disabled.
-                                                                     All trace resources are inactive and no Trace is generated.
-                                                                 1 = Trace Unit is enabled. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcprgctlr_s cn; */
-} bdk_trcx_trcprgctlr_t;
-
-static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long a)
-{
-    return 0x87a00fc30004ll + 0x80000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_TRCX_TRCPRGCTLR(a) bdk_trcx_trcprgctlr_t
-#define bustype_BDK_TRCX_TRCPRGCTLR(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCPRGCTLR(a) "TRCX_TRCPRGCTLR"
-#define busnum_BDK_TRCX_TRCPRGCTLR(a) (a)
-#define arguments_BDK_TRCX_TRCPRGCTLR(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trcvictlr
@@ -676,7 +594,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCVICTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVICTLR(unsigned long a)
 {
-    return 0x87a00fc30080ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30080ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCVICTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCVICTLR(a) bdk_trcx_trcvictlr_t
@@ -713,7 +633,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDEVTYPE(unsigned long a)
 {
-    return 0x87a00fc30fccll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fccll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCDEVTYPE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCDEVTYPE(a) bdk_trcx_trcdevtype_t
@@ -768,7 +690,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCPDCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPDCR(unsigned long a)
 {
-    return 0x87a00fc30310ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30310ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPDCR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCPDCR(a) bdk_trcx_trcpdcr_t
@@ -800,7 +724,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSSCCR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSSCCR0(unsigned long a)
 {
-    return 0x87a00fc30280ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30280ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSSCCR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSSCCR0(a) bdk_trcx_trcssccr0_t
@@ -832,7 +758,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSSCSR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSSCSR0(unsigned long a)
 {
-    return 0x87a00fc302a0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc302a0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSSCSR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSSCSR0(a) bdk_trcx_trcsscsr0_t
@@ -864,7 +792,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCVMIDCVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVMIDCVR0(unsigned long a)
 {
-    return 0x87a00fc30640ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30640ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCVMIDCVR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCVMIDCVR0(a) bdk_trcx_trcvmidcvr0_t
@@ -872,89 +802,6 @@ static inline uint64_t BDK_TRCX_TRCVMIDCVR0(unsigned long a)
 #define basename_BDK_TRCX_TRCVMIDCVR0(a) "TRCX_TRCVMIDCVR0"
 #define busnum_BDK_TRCX_TRCVMIDCVR0(a) (a)
 #define arguments_BDK_TRCX_TRCVMIDCVR0(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcdevaff1
- *
- * ETMv4 Management Device Affinity Register 1
- * Causes event pulses to be generated on ECT channels.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcdevaff1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcdevaff1_s cn; */
-} bdk_trcx_trcdevaff1_t;
-
-static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long a)
-{
-    return 0x87a00fc30facll + 0x80000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_TRCX_TRCDEVAFF1(a) bdk_trcx_trcdevaff1_t
-#define bustype_BDK_TRCX_TRCDEVAFF1(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCDEVAFF1(a) "TRCX_TRCDEVAFF1"
-#define busnum_BDK_TRCX_TRCDEVAFF1(a) (a)
-#define arguments_BDK_TRCX_TRCDEVAFF1(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcdevaff0
- *
- * ETMv4 Management Device Affinity Register 0
- * Causes event pulses to be generated on ECT channels.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcdevaff0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    struct bdk_trcx_trcdevaff0_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
-        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node
-                                                                 Added in pass 2. */
-        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16
-                                                                 Added in pass 2. */
-#else /* Word 0 - Little Endian */
-        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16
-                                                                 Added in pass 2. */
-        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node
-                                                                 Added in pass 2. */
-        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_trcx_trcdevaff0_cn83xx cn88xxp2; */
-    /* struct bdk_trcx_trcdevaff0_s cn88xxp1; */
-} bdk_trcx_trcdevaff0_t;
-
-static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a)
-{
-    return 0x87a00fc30fa8ll + 0x80000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_TRCX_TRCDEVAFF0(a) bdk_trcx_trcdevaff0_t
-#define bustype_BDK_TRCX_TRCDEVAFF0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCDEVAFF0(a) "TRCX_TRCDEVAFF0"
-#define busnum_BDK_TRCX_TRCDEVAFF0(a) (a)
-#define arguments_BDK_TRCX_TRCDEVAFF0(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trcvdsacctlr
@@ -1001,7 +848,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCVDSACCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVDSACCTLR(unsigned long a)
 {
-    return 0x87a00fc300a4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc300a4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCVDSACCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCVDSACCTLR(a) bdk_trcx_trcvdsacctlr_t
@@ -1110,7 +959,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDEVARCH(unsigned long a)
 {
-    return 0x87a00fc30fbcll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fbcll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCDEVARCH", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCDEVARCH(a) bdk_trcx_trcdevarch_t
@@ -1144,7 +995,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCNTRLDVR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTRLDVR1(unsigned long a)
 {
-    return 0x87a00fc30144ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30144ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCNTRLDVR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCNTRLDVR1(a) bdk_trcx_trccntrldvr1_t
@@ -1152,54 +1005,6 @@ static inline uint64_t BDK_TRCX_TRCCNTRLDVR1(unsigned long a)
 #define basename_BDK_TRCX_TRCCNTRLDVR1(a) "TRCX_TRCCNTRLDVR1"
 #define busnum_BDK_TRCX_TRCCNTRLDVR1(a) (a)
 #define arguments_BDK_TRCX_TRCCNTRLDVR1(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcoslsr
- *
- * ETMv4 OS Lock Status Register
- * Causes event pulses to be generated on ECT channels.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcoslsr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
-        uint32_t apppulse              : 3;  /**< [  2:  0](RO) Generate event pulse on ECT channel <x>.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     TRC()_TRCDEVID[NUMCHAN] field.
-                                                                 Bits [31:N] are RAZ/WI.
-
-                                                                 Writing to this bit has the following effect:
-                                                                 0 = No effect.
-                                                                 1 = Channel <x> event pulse generated for one clock period. */
-#else /* Word 0 - Little Endian */
-        uint32_t apppulse              : 3;  /**< [  2:  0](RO) Generate event pulse on ECT channel <x>.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     TRC()_TRCDEVID[NUMCHAN] field.
-                                                                 Bits [31:N] are RAZ/WI.
-
-                                                                 Writing to this bit has the following effect:
-                                                                 0 = No effect.
-                                                                 1 = Channel <x> event pulse generated for one clock period. */
-        uint32_t reserved_3_31         : 29;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcoslsr_s cn; */
-} bdk_trcx_trcoslsr_t;
-
-static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long a)
-{
-    return 0x87a00fc30304ll + 0x80000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_TRCX_TRCOSLSR(a) bdk_trcx_trcoslsr_t
-#define bustype_BDK_TRCX_TRCOSLSR(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCOSLSR(a) "TRCX_TRCOSLSR"
-#define busnum_BDK_TRCX_TRCOSLSR(a) (a)
-#define arguments_BDK_TRCX_TRCOSLSR(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trccntrldvr0
@@ -1226,7 +1031,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCNTRLDVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTRLDVR0(unsigned long a)
 {
-    return 0x87a00fc30140ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30140ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCNTRLDVR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCNTRLDVR0(a) bdk_trcx_trccntrldvr0_t
@@ -1264,7 +1071,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCEXTINSELR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCEXTINSELR(unsigned long a)
 {
-    return 0x87a00fc30120ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30120ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCEXTINSELR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCEXTINSELR(a) bdk_trcx_trcextinselr_t
@@ -1329,7 +1138,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCLSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCLSR(unsigned long a)
 {
-    return 0x87a00fc30fb4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fb4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCLSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCLSR(a) bdk_trcx_trclsr_t
@@ -1577,7 +1388,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long a)
 {
-    return 0x87a00fc301e8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc301e8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCIDR2(a) bdk_trcx_trcidr2_t
@@ -1585,40 +1398,6 @@ static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long a)
 #define basename_BDK_TRCX_TRCIDR2(a) "TRCX_TRCIDR2"
 #define busnum_BDK_TRCX_TRCIDR2(a) (a)
 #define arguments_BDK_TRCX_TRCIDR2(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trctraceidr
- *
- * ETMv4 Trace ID Register
- * set the Trace ID value for instruction trace.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trctraceidr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_7_31         : 25;
-        uint32_t traceid               : 7;  /**< [  6:  0](R/W) Trace ID value for instruction trace. */
-#else /* Word 0 - Little Endian */
-        uint32_t traceid               : 7;  /**< [  6:  0](R/W) Trace ID value for instruction trace. */
-        uint32_t reserved_7_31         : 25;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trctraceidr_s cn; */
-} bdk_trcx_trctraceidr_t;
-
-static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long a)
-{
-    return 0x87a00fc30040ll + 0x80000ll * ((a) & 0x7);
-}
-
-#define typedef_BDK_TRCX_TRCTRACEIDR(a) bdk_trcx_trctraceidr_t
-#define bustype_BDK_TRCX_TRCTRACEIDR(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCTRACEIDR(a) "TRCX_TRCTRACEIDR"
-#define busnum_BDK_TRCX_TRCTRACEIDR(a) (a)
-#define arguments_BDK_TRCX_TRCTRACEIDR(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trceventctl0r
@@ -1649,7 +1428,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCEVENTCTL0R(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCEVENTCTL0R(unsigned long a)
 {
-    return 0x87a00fc30020ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30020ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCEVENTCTL0R", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCEVENTCTL0R(a) bdk_trcx_trceventctl0r_t
@@ -1707,7 +1488,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCVIPCSSCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVIPCSSCTLR(unsigned long a)
 {
-    return 0x87a00fc3008cll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc3008cll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCVIPCSSCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCVIPCSSCTLR(a) bdk_trcx_trcvipcssctlr_t
@@ -1739,7 +1522,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCIDCCTLR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDCCTLR1(unsigned long a)
 {
-    return 0x87a00fc30684ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30684ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCIDCCTLR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCIDCCTLR1(a) bdk_trcx_trccidcctlr1_t
@@ -1827,7 +1612,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSTALLCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSTALLCTLR(unsigned long a)
 {
-    return 0x87a00fc3002cll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc3002cll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSTALLCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSTALLCTLR(a) bdk_trcx_trcstallctlr_t
@@ -1859,7 +1646,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCDVCVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDVCVR0(unsigned long a)
 {
-    return 0x87a00fc30500ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30500ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCDVCVR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCDVCVR0(a) bdk_trcx_trcdvcvr0_t
@@ -1867,6 +1656,93 @@ static inline uint64_t BDK_TRCX_TRCDVCVR0(unsigned long a)
 #define basename_BDK_TRCX_TRCDVCVR0(a) "TRCX_TRCDVCVR0"
 #define busnum_BDK_TRCX_TRCDVCVR0(a) (a)
 #define arguments_BDK_TRCX_TRCDVCVR0(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) trc#_trcdevaff1
+ *
+ * ETMv4 Management Device Affinity Register 1
+ * Causes event pulses to be generated on ECT channels.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcdevaff1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trcdevaff1_s cn; */
+} bdk_trcx_trcdevaff1_t;
+
+static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30facll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCDEVAFF1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCDEVAFF1(a) bdk_trcx_trcdevaff1_t
+#define bustype_BDK_TRCX_TRCDEVAFF1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCDEVAFF1(a) "TRCX_TRCDEVAFF1"
+#define busnum_BDK_TRCX_TRCDEVAFF1(a) (a)
+#define arguments_BDK_TRCX_TRCDEVAFF1(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) trc#_trcdevaff0
+ *
+ * ETMv4 Management Device Affinity Register 0
+ * Causes event pulses to be generated on ECT channels.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcdevaff0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_trcx_trcdevaff0_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
+        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node
+                                                                 Added in pass 2. */
+        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16
+                                                                 Added in pass 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16
+                                                                 Added in pass 2. */
+        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node
+                                                                 Added in pass 2. */
+        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } cn83xx;
+    /* struct bdk_trcx_trcdevaff0_cn83xx cn88xxp2; */
+    /* struct bdk_trcx_trcdevaff0_s cn88xxp1; */
+} bdk_trcx_trcdevaff0_t;
+
+static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30fa8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCDEVAFF0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCDEVAFF0(a) bdk_trcx_trcdevaff0_t
+#define bustype_BDK_TRCX_TRCDEVAFF0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCDEVAFF0(a) "TRCX_TRCDEVAFF0"
+#define busnum_BDK_TRCX_TRCDEVAFF0(a) (a)
+#define arguments_BDK_TRCX_TRCDEVAFF0(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trcvdctlr
@@ -1929,7 +1805,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCVDCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVDCTLR(unsigned long a)
 {
-    return 0x87a00fc300a0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc300a0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCVDCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCVDCTLR(a) bdk_trcx_trcvdctlr_t
@@ -1961,7 +1839,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCACATR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACATR3(unsigned long a)
 {
-    return 0x87a00fc30498ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30498ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCACATR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCACATR3(a) bdk_trcx_trcacatr3_t
@@ -1993,7 +1873,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCACATR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACATR2(unsigned long a)
 {
-    return 0x87a00fc30490ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30490ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCACATR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCACATR2(a) bdk_trcx_trcacatr2_t
@@ -2025,7 +1907,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCACATR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACATR1(unsigned long a)
 {
-    return 0x87a00fc30488ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30488ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCACATR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCACATR1(a) bdk_trcx_trcacatr1_t
@@ -2059,7 +1943,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCCCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCCCTLR(unsigned long a)
 {
-    return 0x87a00fc30038ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30038ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCCCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCCCTLR(a) bdk_trcx_trcccctlr_t
@@ -2095,7 +1981,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSEQEVR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQEVR1(unsigned long a)
 {
-    return 0x87a00fc30104ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30104ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSEQEVR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSEQEVR1(a) bdk_trcx_trcseqevr1_t
@@ -2131,7 +2019,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSEQEVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQEVR0(unsigned long a)
 {
-    return 0x87a00fc30100ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30100ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSEQEVR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSEQEVR0(a) bdk_trcx_trcseqevr0_t
@@ -2167,7 +2057,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSEQEVR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQEVR3(unsigned long a)
 {
-    return 0x87a00fc3010cll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc3010cll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSEQEVR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSEQEVR3(a) bdk_trcx_trcseqevr3_t
@@ -2203,7 +2095,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSEQEVR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQEVR2(unsigned long a)
 {
-    return 0x87a00fc30108ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30108ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSEQEVR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSEQEVR2(a) bdk_trcx_trcseqevr2_t
@@ -2257,7 +2151,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCVIIECTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVIIECTLR(unsigned long a)
 {
-    return 0x87a00fc30084ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30084ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCVIIECTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCVIIECTLR(a) bdk_trcx_trcviiectlr_t
@@ -2391,7 +2287,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCONFIGR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCONFIGR(unsigned long a)
 {
-    return 0x87a00fc30010ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30010ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCONFIGR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCONFIGR(a) bdk_trcx_trcconfigr_t
@@ -2423,7 +2321,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCACATR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACATR0(unsigned long a)
 {
-    return 0x87a00fc30480ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30480ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCACATR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCACATR0(a) bdk_trcx_trcacatr0_t
@@ -2457,7 +2357,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSEQRSTEVR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQRSTEVR(unsigned long a)
 {
-    return 0x87a00fc30118ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30118ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSEQRSTEVR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSEQRSTEVR(a) bdk_trcx_trcseqrstevr_t
@@ -2515,7 +2417,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCVISSCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVISSCTLR(unsigned long a)
 {
-    return 0x87a00fc30088ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30088ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCVISSCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCVISSCTLR(a) bdk_trcx_trcvissctlr_t
@@ -2523,6 +2427,42 @@ static inline uint64_t BDK_TRCX_TRCVISSCTLR(unsigned long a)
 #define basename_BDK_TRCX_TRCVISSCTLR(a) "TRCX_TRCVISSCTLR"
 #define busnum_BDK_TRCX_TRCVISSCTLR(a) (a)
 #define arguments_BDK_TRCX_TRCVISSCTLR(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) trc#_trctraceidr
+ *
+ * ETMv4 Trace ID Register
+ * set the Trace ID value for instruction trace.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trctraceidr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_7_31         : 25;
+        uint32_t traceid               : 7;  /**< [  6:  0](R/W) Trace ID value for instruction trace. */
+#else /* Word 0 - Little Endian */
+        uint32_t traceid               : 7;  /**< [  6:  0](R/W) Trace ID value for instruction trace. */
+        uint32_t reserved_7_31         : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trctraceidr_s cn; */
+} bdk_trcx_trctraceidr_t;
+
+static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30040ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCTRACEIDR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCTRACEIDR(a) bdk_trcx_trctraceidr_t
+#define bustype_BDK_TRCX_TRCTRACEIDR(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCTRACEIDR(a) "TRCX_TRCTRACEIDR"
+#define busnum_BDK_TRCX_TRCTRACEIDR(a) (a)
+#define arguments_BDK_TRCX_TRCTRACEIDR(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trctsctlr
@@ -2547,7 +2487,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCTSCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCTSCTLR(unsigned long a)
 {
-    return 0x87a00fc30030ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30030ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCTSCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCTSCTLR(a) bdk_trcx_trctsctlr_t
@@ -2584,7 +2526,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCLAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCLAR(unsigned long a)
 {
-    return 0x87a00fc30fb0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fb0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCLAR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCLAR(a) bdk_trcx_trclar_t
@@ -2616,7 +2560,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCAUXCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCAUXCTLR(unsigned long a)
 {
-    return 0x87a00fc30018ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30018ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCAUXCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCAUXCTLR(a) bdk_trcx_trcauxctlr_t
@@ -2648,7 +2594,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCACVR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACVR1(unsigned long a)
 {
-    return 0x87a00fc30408ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30408ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCACVR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCACVR1(a) bdk_trcx_trcacvr1_t
@@ -2656,6 +2604,40 @@ static inline uint64_t BDK_TRCX_TRCACVR1(unsigned long a)
 #define basename_BDK_TRCX_TRCACVR1(a) "TRCX_TRCACVR1"
 #define busnum_BDK_TRCX_TRCACVR1(a) (a)
 #define arguments_BDK_TRCX_TRCACVR1(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) trc#_trcacvr0
+ *
+ * ETMv4 Address Comparator Value Register 0
+ * Causes event pulses to be generated on ECT channels.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcacvr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trcacvr0_s cn; */
+} bdk_trcx_trcacvr0_t;
+
+static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30400ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCACVR0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCACVR0(a) bdk_trcx_trcacvr0_t
+#define bustype_BDK_TRCX_TRCACVR0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCACVR0(a) "TRCX_TRCACVR0"
+#define busnum_BDK_TRCX_TRCACVR0(a) (a)
+#define arguments_BDK_TRCX_TRCACVR0(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trcacvr3
@@ -2680,7 +2662,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCACVR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACVR3(unsigned long a)
 {
-    return 0x87a00fc30418ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30418ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCACVR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCACVR3(a) bdk_trcx_trcacvr3_t
@@ -2712,7 +2696,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCACVR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCACVR2(unsigned long a)
 {
-    return 0x87a00fc30410ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30410ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCACVR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCACVR2(a) bdk_trcx_trcacvr2_t
@@ -2744,7 +2730,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCVMIDCCTLR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVMIDCCTLR0(unsigned long a)
 {
-    return 0x87a00fc30688ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30688ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCVMIDCCTLR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCVMIDCCTLR0(a) bdk_trcx_trcvmidcctlr0_t
@@ -2776,7 +2764,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCVMIDCCTLR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVMIDCCTLR1(unsigned long a)
 {
-    return 0x87a00fc3068cll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc3068cll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCVMIDCCTLR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCVMIDCCTLR1(a) bdk_trcx_trcvmidcctlr1_t
@@ -2821,7 +2811,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCAUTHSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCAUTHSTATUS(unsigned long a)
 {
-    return 0x87a00fc30fb8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fb8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCAUTHSTATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCAUTHSTATUS(a) bdk_trcx_trcauthstatus_t
@@ -2863,7 +2855,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSEQSTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSEQSTR(unsigned long a)
 {
-    return 0x87a00fc3011cll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc3011cll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSEQSTR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSEQSTR(a) bdk_trcx_trcseqstr_t
@@ -2963,7 +2957,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCDEVID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDEVID(unsigned long a)
 {
-    return 0x87a00fc30fc8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fc8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCDEVID", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCDEVID(a) bdk_trcx_trcdevid_t
@@ -2995,7 +2991,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCDVCMR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCDVCMR0(unsigned long a)
 {
-    return 0x87a00fc30580ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30580ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCDVCMR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCDVCMR0(a) bdk_trcx_trcdvcmr0_t
@@ -3027,7 +3025,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCSSPCICR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCSSPCICR0(unsigned long a)
 {
-    return 0x87a00fc302c0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc302c0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCSSPCICR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCSSPCICR0(a) bdk_trcx_trcsspcicr0_t
@@ -3035,6 +3035,40 @@ static inline uint64_t BDK_TRCX_TRCSSPCICR0(unsigned long a)
 #define basename_BDK_TRCX_TRCSSPCICR0(a) "TRCX_TRCSSPCICR0"
 #define busnum_BDK_TRCX_TRCSSPCICR0(a) (a)
 #define arguments_BDK_TRCX_TRCSSPCICR0(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) trc#_trcrsctlr5
+ *
+ * ETMv4 Resource Selection Control Register 5
+ * Causes event pulses to be generated on ECT channels.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcrsctlr5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trcrsctlr5_s cn; */
+} bdk_trcx_trcrsctlr5_t;
+
+static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30214ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCRSCTLR5", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCRSCTLR5(a) bdk_trcx_trcrsctlr5_t
+#define bustype_BDK_TRCX_TRCRSCTLR5(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCRSCTLR5(a) "TRCX_TRCRSCTLR5"
+#define busnum_BDK_TRCX_TRCRSCTLR5(a) (a)
+#define arguments_BDK_TRCX_TRCRSCTLR5(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trcrsctlr4
@@ -3059,7 +3093,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCRSCTLR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR4(unsigned long a)
 {
-    return 0x87a00fc30210ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30210ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCRSCTLR4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCRSCTLR4(a) bdk_trcx_trcrsctlr4_t
@@ -3091,7 +3127,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCRSCTLR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR7(unsigned long a)
 {
-    return 0x87a00fc3021cll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc3021cll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCRSCTLR7", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCRSCTLR7(a) bdk_trcx_trcrsctlr7_t
@@ -3123,7 +3161,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCRSCTLR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR6(unsigned long a)
 {
-    return 0x87a00fc30218ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30218ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCRSCTLR6", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCRSCTLR6(a) bdk_trcx_trcrsctlr6_t
@@ -3155,7 +3195,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCRSCTLR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR1(unsigned long a)
 {
-    return 0x87a00fc30204ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30204ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCRSCTLR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCRSCTLR1(a) bdk_trcx_trcrsctlr1_t
@@ -3187,7 +3229,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCRSCTLR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR0(unsigned long a)
 {
-    return 0x87a00fc30200ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30200ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCRSCTLR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCRSCTLR0(a) bdk_trcx_trcrsctlr0_t
@@ -3219,7 +3263,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCRSCTLR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR3(unsigned long a)
 {
-    return 0x87a00fc3020cll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc3020cll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCRSCTLR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCRSCTLR3(a) bdk_trcx_trcrsctlr3_t
@@ -3251,7 +3297,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCRSCTLR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCRSCTLR2(unsigned long a)
 {
-    return 0x87a00fc30208ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30208ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCRSCTLR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCRSCTLR2(a) bdk_trcx_trcrsctlr2_t
@@ -3285,7 +3333,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR0(unsigned long a)
 {
-    return 0x87a00fc30fe0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fe0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCPIDR0(a) bdk_trcx_trcpidr0_t
@@ -3321,7 +3371,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR1(unsigned long a)
 {
-    return 0x87a00fc30fe4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fe4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCPIDR1(a) bdk_trcx_trcpidr1_t
@@ -3359,7 +3411,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCPIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR2(unsigned long a)
 {
-    return 0x87a00fc30fe8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fe8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCPIDR2(a) bdk_trcx_trcpidr2_t
@@ -3397,7 +3451,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCPIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR3(unsigned long a)
 {
-    return 0x87a00fc30fecll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fecll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCPIDR3(a) bdk_trcx_trcpidr3_t
@@ -3435,7 +3491,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCPIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR4(unsigned long a)
 {
-    return 0x87a00fc30fd0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fd0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPIDR4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCPIDR4(a) bdk_trcx_trcpidr4_t
@@ -3467,7 +3525,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCPIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR5(unsigned long a)
 {
-    return 0x87a00fc30fd4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fd4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPIDR5", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCPIDR5(a) bdk_trcx_trcpidr5_t
@@ -3499,7 +3559,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR6(unsigned long a)
 {
-    return 0x87a00fc30fd8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fd8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPIDR6", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCPIDR6(a) bdk_trcx_trcpidr6_t
@@ -3531,7 +3593,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPIDR7(unsigned long a)
 {
-    return 0x87a00fc30fdcll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30fdcll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPIDR7", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCPIDR7(a) bdk_trcx_trcpidr7_t
@@ -3563,7 +3627,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCOSLAR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCOSLAR(unsigned long a)
 {
-    return 0x87a00fc30300ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30300ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCOSLAR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCOSLAR(a) bdk_trcx_trcoslar_t
@@ -3617,7 +3683,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCPDSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCPDSR(unsigned long a)
 {
-    return 0x87a00fc30314ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30314ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPDSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCPDSR(a) bdk_trcx_trcpdsr_t
@@ -3625,6 +3693,56 @@ static inline uint64_t BDK_TRCX_TRCPDSR(unsigned long a)
 #define basename_BDK_TRCX_TRCPDSR(a) "TRCX_TRCPDSR"
 #define busnum_BDK_TRCX_TRCPDSR(a) (a)
 #define arguments_BDK_TRCX_TRCPDSR(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) trc#_trcoslsr
+ *
+ * ETMv4 OS Lock Status Register
+ * Causes event pulses to be generated on ECT channels.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcoslsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t apppulse              : 3;  /**< [  2:  0](RO) Generate event pulse on ECT channel <x>.
+                                                                 N is the number of ECT channels implemented as defined by the
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 Writing to this bit has the following effect:
+                                                                 0 = No effect.
+                                                                 1 = Channel <x> event pulse generated for one clock period. */
+#else /* Word 0 - Little Endian */
+        uint32_t apppulse              : 3;  /**< [  2:  0](RO) Generate event pulse on ECT channel <x>.
+                                                                 N is the number of ECT channels implemented as defined by the
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 Writing to this bit has the following effect:
+                                                                 0 = No effect.
+                                                                 1 = Channel <x> event pulse generated for one clock period. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trcoslsr_s cn; */
+} bdk_trcx_trcoslsr_t;
+
+static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30304ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCOSLSR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCOSLSR(a) bdk_trcx_trcoslsr_t
+#define bustype_BDK_TRCX_TRCOSLSR(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCOSLSR(a) "TRCX_TRCOSLSR"
+#define busnum_BDK_TRCX_TRCOSLSR(a) (a)
+#define arguments_BDK_TRCX_TRCOSLSR(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trcidr11
@@ -3649,9 +3767,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR11(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR11(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc3018cll + 0x80000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc3018cll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR11", 1, a, 0, 0, 0);
 }
@@ -3687,9 +3805,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR10(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR10(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc30188ll + 0x80000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc30188ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR10", 1, a, 0, 0, 0);
 }
@@ -3725,9 +3843,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR13(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR13(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc30194ll + 0x80000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc30194ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR13", 1, a, 0, 0, 0);
 }
@@ -3763,9 +3881,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR12(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR12(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc30190ll + 0x80000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc30190ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR12", 1, a, 0, 0, 0);
 }
@@ -3828,7 +3946,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR1(unsigned long a)
 {
-    return 0x87a00fc301e4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc301e4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCIDR1(a) bdk_trcx_trcidr1_t
@@ -4093,7 +4213,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR0(unsigned long a)
 {
-    return 0x87a00fc301e0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc301e0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCIDR0(a) bdk_trcx_trcidr0_t
@@ -4252,7 +4374,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR3(unsigned long a)
 {
-    return 0x87a00fc301ecll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc301ecll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCIDR3(a) bdk_trcx_trcidr3_t
@@ -4443,7 +4567,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR5(unsigned long a)
 {
-    return 0x87a00fc301f4ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc301f4ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCIDR5", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCIDR5(a) bdk_trcx_trcidr5_t
@@ -4542,7 +4668,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR4(unsigned long a)
 {
-    return 0x87a00fc301f0ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc301f0ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCIDR4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCIDR4(a) bdk_trcx_trcidr4_t
@@ -4574,9 +4702,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR7(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc301fcll + 0x80000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc301fcll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR7", 1, a, 0, 0, 0);
 }
@@ -4610,9 +4738,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR6(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc301f8ll + 0x80000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc301f8ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR6", 1, a, 0, 0, 0);
 }
@@ -4664,9 +4792,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR9(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR9(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc30184ll + 0x80000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc30184ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR9", 1, a, 0, 0, 0);
 }
@@ -4708,9 +4836,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCIDR8(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCIDR8(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87a00fc30180ll + 0x80000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=7))
         return 0x87a00fc30180ll + 0x80000ll * ((a) & 0x7);
     __bdk_csr_fatal("TRCX_TRCIDR8", 1, a, 0, 0, 0);
 }
@@ -4720,6 +4848,48 @@ static inline uint64_t BDK_TRCX_TRCIDR8(unsigned long a)
 #define basename_BDK_TRCX_TRCIDR8(a) "TRCX_TRCIDR8"
 #define busnum_BDK_TRCX_TRCIDR8(a) (a)
 #define arguments_BDK_TRCX_TRCIDR8(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) trc#_trcprgctlr
+ *
+ * ETMv4 Programming Control Register
+ * Controls whether the TRC is enabled.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcprgctlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enables or disables the Trace Unit:
+                                                                 0 = Trace Unit is disabled.
+                                                                     All trace resources are inactive and no Trace is generated.
+                                                                 1 = Trace Unit is enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enables or disables the Trace Unit:
+                                                                 0 = Trace Unit is disabled.
+                                                                     All trace resources are inactive and no Trace is generated.
+                                                                 1 = Trace Unit is enabled. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trcprgctlr_s cn; */
+} bdk_trcx_trcprgctlr_t;
+
+static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30004ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPRGCTLR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCPRGCTLR(a) bdk_trcx_trcprgctlr_t
+#define bustype_BDK_TRCX_TRCPRGCTLR(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCPRGCTLR(a) "TRCX_TRCPRGCTLR"
+#define busnum_BDK_TRCX_TRCPRGCTLR(a) (a)
+#define arguments_BDK_TRCX_TRCPRGCTLR(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trccidcctlr0
@@ -4744,7 +4914,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCIDCCTLR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCIDCCTLR0(unsigned long a)
 {
-    return 0x87a00fc30680ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30680ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCIDCCTLR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCIDCCTLR0(a) bdk_trcx_trccidcctlr0_t
@@ -4804,7 +4976,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCEVENTCTL1R(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCEVENTCTL1R(unsigned long a)
 {
-    return 0x87a00fc30024ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30024ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCEVENTCTL1R", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCEVENTCTL1R(a) bdk_trcx_trceventctl1r_t
@@ -4852,7 +5026,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCNTCTLR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTCTLR0(unsigned long a)
 {
-    return 0x87a00fc30150ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30150ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCNTCTLR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCNTCTLR0(a) bdk_trcx_trccntctlr0_t
@@ -4900,7 +5076,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCNTCTLR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTCTLR1(unsigned long a)
 {
-    return 0x87a00fc30154ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30154ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCNTCTLR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCNTCTLR1(a) bdk_trcx_trccntctlr1_t
@@ -4954,7 +5132,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCVDARCCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCVDARCCTLR(unsigned long a)
 {
-    return 0x87a00fc300a8ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc300a8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCVDARCCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCVDARCCTLR(a) bdk_trcx_trcvdarcctlr_t
@@ -4988,7 +5168,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCNTVR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTVR1(unsigned long a)
 {
-    return 0x87a00fc30164ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30164ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCNTVR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCNTVR1(a) bdk_trcx_trccntvr1_t
@@ -5022,7 +5204,9 @@ typedef union
 static inline uint64_t BDK_TRCX_TRCCNTVR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_TRCX_TRCCNTVR0(unsigned long a)
 {
-    return 0x87a00fc30160ll + 0x80000ll * ((a) & 0x7);
+    if (a<=7)
+        return 0x87a00fc30160ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCCNTVR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_TRCX_TRCCNTVR0(a) bdk_trcx_trccntvr0_t

@@ -117,7 +117,9 @@ typedef union
 static inline uint64_t BDK_UAAX_MIS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_MIS(unsigned long a)
 {
-    return 0x87e024000040ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000040ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_MIS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_MIS(a) bdk_uaax_mis_t
@@ -149,7 +151,9 @@ typedef union
 static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long a)
 {
-    return 0x87e024001010ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024001010ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_UCTL_SPARE0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_UCTL_SPARE0(a) bdk_uaax_uctl_spare0_t
@@ -182,7 +186,9 @@ typedef union
 static inline uint64_t BDK_UAAX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_CIDR3(unsigned long a)
 {
-    return 0x87e024000ffcll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000ffcll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_CIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_CIDR3(a) bdk_uaax_cidr3_t
@@ -215,7 +221,9 @@ typedef union
 static inline uint64_t BDK_UAAX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_CIDR2(unsigned long a)
 {
-    return 0x87e024000ff8ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000ff8ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_CIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_CIDR2(a) bdk_uaax_cidr2_t
@@ -248,7 +256,9 @@ typedef union
 static inline uint64_t BDK_UAAX_CIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_CIDR1(unsigned long a)
 {
-    return 0x87e024000ff4ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000ff4ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_CIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_CIDR1(a) bdk_uaax_cidr1_t
@@ -281,7 +291,9 @@ typedef union
 static inline uint64_t BDK_UAAX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_CIDR0(unsigned long a)
 {
-    return 0x87e024000ff0ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000ff0ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_CIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_CIDR0(a) bdk_uaax_cidr0_t
@@ -335,7 +347,9 @@ typedef union
 static inline uint64_t BDK_UAAX_ICR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_ICR(unsigned long a)
 {
-    return 0x87e024000044ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000044ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_ICR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_ICR(a) bdk_uaax_icr_t
@@ -376,7 +390,9 @@ typedef union
 static inline uint64_t BDK_UAAX_FBRD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_FBRD(unsigned long a)
 {
-    return 0x87e024000028ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000028ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_FBRD", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_FBRD(a) bdk_uaax_fbrd_t
@@ -410,7 +426,9 @@ typedef union
 static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    return 0x87e024ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x87e024ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("UAAX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_UAAX_MSIX_PBAX(a,b) bdk_uaax_msix_pbax_t
@@ -463,7 +481,9 @@ typedef union
 static inline uint64_t BDK_UAAX_IMSC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_IMSC(unsigned long a)
 {
-    return 0x87e024000038ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000038ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_IMSC", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_IMSC(a) bdk_uaax_imsc_t
@@ -496,7 +516,9 @@ typedef union
 static inline uint64_t BDK_UAAX_PIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR0(unsigned long a)
 {
-    return 0x87e024000fe0ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000fe0ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_PIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_PIDR0(a) bdk_uaax_pidr0_t
@@ -531,7 +553,9 @@ typedef union
 static inline uint64_t BDK_UAAX_PIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR1(unsigned long a)
 {
-    return 0x87e024000fe4ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000fe4ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_PIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_PIDR1(a) bdk_uaax_pidr1_t
@@ -570,7 +594,9 @@ typedef union
 static inline uint64_t BDK_UAAX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR2(unsigned long a)
 {
-    return 0x87e024000fe8ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000fe8ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_PIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_PIDR2(a) bdk_uaax_pidr2_t
@@ -607,7 +633,9 @@ typedef union
 static inline uint64_t BDK_UAAX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR3(unsigned long a)
 {
-    return 0x87e024000fecll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000fecll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_PIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_PIDR3(a) bdk_uaax_pidr3_t
@@ -638,7 +666,9 @@ typedef union
 static inline uint64_t BDK_UAAX_PIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR4(unsigned long a)
 {
-    return 0x87e024000fd0ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000fd0ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_PIDR4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_PIDR4(a) bdk_uaax_pidr4_t
@@ -669,7 +699,9 @@ typedef union
 static inline uint64_t BDK_UAAX_PIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR5(unsigned long a)
 {
-    return 0x87e024000fd4ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000fd4ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_PIDR5", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_PIDR5(a) bdk_uaax_pidr5_t
@@ -700,7 +732,9 @@ typedef union
 static inline uint64_t BDK_UAAX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR7(unsigned long a)
 {
-    return 0x87e024000fdcll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000fdcll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_PIDR7", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_PIDR7(a) bdk_uaax_pidr7_t
@@ -731,7 +765,9 @@ typedef union
 static inline uint64_t BDK_UAAX_PIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_PIDR6(unsigned long a)
 {
-    return 0x87e024000fd8ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000fd8ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_PIDR6", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_PIDR6(a) bdk_uaax_pidr6_t
@@ -774,7 +810,9 @@ typedef union
 static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long a)
 {
-    return 0x87e024000004ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000004ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_RSR_ECR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_RSR_ECR(a) bdk_uaax_rsr_ecr_t
@@ -807,7 +845,9 @@ typedef union
 static inline uint64_t BDK_UAAX_IBRD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_IBRD(unsigned long a)
 {
-    return 0x87e024000024ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000024ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_IBRD", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_IBRD(a) bdk_uaax_ibrd_t
@@ -861,7 +901,9 @@ typedef union
 static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    return 0x87e024f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e024f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("UAAX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_UAAX_MSIX_VECX_ADDR(a,b) bdk_uaax_msix_vecx_addr_t
@@ -915,7 +957,9 @@ typedef union
 static inline uint64_t BDK_UAAX_RIS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_RIS(unsigned long a)
 {
-    return 0x87e02400003cll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e02400003cll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_RIS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_RIS(a) bdk_uaax_ris_t
@@ -964,7 +1008,9 @@ typedef union
 static inline uint64_t BDK_UAAX_FR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_FR(unsigned long a)
 {
-    return 0x87e024000018ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000018ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_FR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_FR(a) bdk_uaax_fr_t
@@ -1002,7 +1048,9 @@ typedef union
 static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e024f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e024f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("UAAX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_UAAX_MSIX_VECX_CTL(a,b) bdk_uaax_msix_vecx_ctl_t
@@ -1047,7 +1095,9 @@ typedef union
 static inline uint64_t BDK_UAAX_DR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_DR(unsigned long a)
 {
-    return 0x87e024000000ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_DR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_DR(a) bdk_uaax_dr_t
@@ -1104,7 +1154,9 @@ typedef union
 static inline uint64_t BDK_UAAX_LCR_H(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_LCR_H(unsigned long a)
 {
-    return 0x87e02400002cll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e02400002cll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_LCR_H", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_LCR_H(a) bdk_uaax_lcr_h_t
@@ -1223,7 +1275,9 @@ typedef union
 static inline uint64_t BDK_UAAX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_UCTL_CTL(unsigned long a)
 {
-    return 0x87e024001000ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024001000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_UCTL_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_UCTL_CTL(a) bdk_uaax_uctl_ctl_t
@@ -1255,7 +1309,9 @@ typedef union
 static inline uint64_t BDK_UAAX_UCTL_SPARE1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_UCTL_SPARE1(unsigned long a)
 {
-    return 0x87e0240010f8ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0240010f8ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_UCTL_SPARE1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_UCTL_SPARE1(a) bdk_uaax_uctl_spare1_t
@@ -1314,7 +1370,9 @@ typedef union
 static inline uint64_t BDK_UAAX_IFLS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_IFLS(unsigned long a)
 {
-    return 0x87e024000034ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000034ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_IFLS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_IFLS(a) bdk_uaax_ifls_t
@@ -1420,7 +1478,9 @@ typedef union
 static inline uint64_t BDK_UAAX_CR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_UAAX_CR(unsigned long a)
 {
-    return 0x87e024000030ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e024000030ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_CR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_UAAX_CR(a) bdk_uaax_cr_t

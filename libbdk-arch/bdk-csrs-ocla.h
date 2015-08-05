@@ -196,7 +196,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_CONST(unsigned long a)
 {
-    return 0x87e0a8000000ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000000ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_CONST", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_CONST(a) bdk_oclax_const_t
@@ -239,7 +241,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_MATX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0a8200000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
+    if ((a<=4) && (b<=3))
+        return 0x87e0a8200000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
+    __bdk_csr_fatal("OCLAX_MATX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_MATX_CTL(a,b) bdk_oclax_matx_ctl_t
@@ -272,7 +276,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_FSMX_ORX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FSMX_ORX(unsigned long a, unsigned long b, unsigned long c)
 {
-    return 0x87e0a8310000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    if ((a<=4) && (b<=1) && (c<=15))
+        return 0x87e0a8310000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    __bdk_csr_fatal("OCLAX_FSMX_ORX", 3, a, b, c, 0);
 }
 
 #define typedef_BDK_OCLAX_FSMX_ORX(a,b,c) bdk_oclax_fsmx_orx_t
@@ -305,7 +311,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_SFT_RST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_SFT_RST(unsigned long a)
 {
-    return 0x87e0a8000020ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000020ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_SFT_RST", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_SFT_RST(a) bdk_oclax_sft_rst_t
@@ -344,7 +352,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_FIFO_TRIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_TRIG(unsigned long a)
 {
-    return 0x87e0a80002a0ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a80002a0ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_FIFO_TRIG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_FIFO_TRIG(a) bdk_oclax_fifo_trig_t
@@ -398,7 +408,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    return 0x87e0a8f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
+    if ((a<=4) && (b==0))
+        return 0x87e0a8f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("OCLAX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_MSIX_VECX_ADDR(a,b) bdk_oclax_msix_vecx_addr_t
@@ -433,7 +445,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_MATX_THRESH(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_THRESH(unsigned long a, unsigned long b)
 {
-    return 0x87e0a8240000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
+    if ((a<=4) && (b<=3))
+        return 0x87e0a8240000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
+    __bdk_csr_fatal("OCLAX_MATX_THRESH", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_MATX_THRESH(a,b) bdk_oclax_matx_thresh_t
@@ -501,7 +515,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_STATE_SET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_SET(unsigned long a)
 {
-    return 0x87e0a80000a0ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a80000a0ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_STATE_SET", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_STATE_SET(a) bdk_oclax_state_set_t
@@ -550,7 +566,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_MATX_MASKX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_MASKX(unsigned long a, unsigned long b, unsigned long c)
 {
-    return 0x87e0a8220000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if ((a<=4) && (b<=3) && (c<=1))
+        return 0x87e0a8220000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    __bdk_csr_fatal("OCLAX_MATX_MASKX", 3, a, b, c, 0);
 }
 
 #define typedef_BDK_OCLAX_MATX_MASKX(a,b,c) bdk_oclax_matx_maskx_t
@@ -585,7 +603,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_STACK_WRAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_WRAP(unsigned long a)
 {
-    return 0x87e0a8000440ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000440ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_STACK_WRAP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_STACK_WRAP(a) bdk_oclax_stack_wrap_t
@@ -648,7 +668,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_FSMX_ANDX_IX(unsigned long a, unsigned long b, unsigned long c, unsigned long d) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FSMX_ANDX_IX(unsigned long a, unsigned long b, unsigned long c, unsigned long d)
 {
-    return 0x87e0a8300000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 0x10ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
+    if ((a<=4) && (b<=1) && (c<=15) && (d<=1))
+        return 0x87e0a8300000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 0x10ll * ((c) & 0xf) + 8ll * ((d) & 0x1);
+    __bdk_csr_fatal("OCLAX_FSMX_ANDX_IX", 4, a, b, c, d);
 }
 
 #define typedef_BDK_OCLAX_FSMX_ANDX_IX(a,b,c,d) bdk_oclax_fsmx_andx_ix_t
@@ -681,7 +703,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_DATX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_DATX(unsigned long a, unsigned long b)
 {
-    return 0x87e0a8400000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1fff);
+    if ((a<=4) && (b<=8191))
+        return 0x87e0a8400000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1fff);
+    __bdk_csr_fatal("OCLAX_DATX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_DATX(a,b) bdk_oclax_datx_t
@@ -714,9 +738,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_ECO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=4))
         return 0x87e0a83200d0ll + 0x1000000ll * ((a) & 0x7);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=4))
         return 0x87e0a83200d0ll + 0x1000000ll * ((a) & 0x7);
     __bdk_csr_fatal("OCLAX_ECO", 1, a, 0, 0, 0);
 }
@@ -751,7 +775,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_RAWX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_RAWX(unsigned long a, unsigned long b)
 {
-    return 0x87e0a8000100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if ((a<=4) && (b<=1))
+        return 0x87e0a8000100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("OCLAX_RAWX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_RAWX(a,b) bdk_oclax_rawx_t
@@ -786,7 +812,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_BIST_RESULT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_BIST_RESULT(unsigned long a)
 {
-    return 0x87e0a8000040ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000040ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_BIST_RESULT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_BIST_RESULT(a) bdk_oclax_bist_result_t
@@ -820,7 +848,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0a8ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if ((a<=4) && (b==0))
+        return 0x87e0a8ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("OCLAX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_MSIX_PBAX(a,b) bdk_oclax_msix_pbax_t
@@ -905,7 +935,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_STATE_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_INT(unsigned long a)
 {
-    return 0x87e0a8000080ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000080ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_STATE_INT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_STATE_INT(a) bdk_oclax_state_int_t
@@ -960,7 +992,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_TIME(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_TIME(unsigned long a)
 {
-    return 0x87e0a80000c0ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a80000c0ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_TIME", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_TIME(a) bdk_oclax_time_t
@@ -993,7 +1027,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_FIFO_DEPTH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_DEPTH(unsigned long a)
 {
-    return 0x87e0a8000200ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000200ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_FIFO_DEPTH", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_FIFO_DEPTH(a) bdk_oclax_fifo_depth_t
@@ -1026,7 +1062,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_STACK_STORE_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_STORE_CNT(unsigned long a)
 {
-    return 0x87e0a8000460ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000460ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_STACK_STORE_CNT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_STACK_STORE_CNT(a) bdk_oclax_stack_store_cnt_t
@@ -1109,7 +1147,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_STACK_BASE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_BASE(unsigned long a)
 {
-    return 0x87e0a8000400ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000400ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_STACK_BASE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_STACK_BASE(a) bdk_oclax_stack_base_t
@@ -1142,7 +1182,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_FIFO_TAIL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_TAIL(unsigned long a)
 {
-    return 0x87e0a8000260ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000260ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_FIFO_TAIL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_FIFO_TAIL(a) bdk_oclax_fifo_tail_t
@@ -1217,7 +1259,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_CDHX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_CDHX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0a8000600ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    if ((a<=4) && (b<=1))
+        return 0x87e0a8000600ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("OCLAX_CDHX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_CDHX_CTL(a,b) bdk_oclax_cdhx_ctl_t
@@ -1258,7 +1302,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_STACK_CUR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_CUR(unsigned long a)
 {
-    return 0x87e0a8000480ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000480ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_STACK_CUR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_STACK_CUR(a) bdk_oclax_stack_cur_t
@@ -1296,7 +1342,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0a8f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
+    if ((a<=4) && (b==0))
+        return 0x87e0a8f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("OCLAX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_MSIX_VECX_CTL(a,b) bdk_oclax_msix_vecx_ctl_t
@@ -1331,7 +1379,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_MATX_COUNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_COUNT(unsigned long a, unsigned long b)
 {
-    return 0x87e0a8230000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
+    if ((a<=4) && (b<=3))
+        return 0x87e0a8230000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3);
+    __bdk_csr_fatal("OCLAX_MATX_COUNT", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_MATX_COUNT(a,b) bdk_oclax_matx_count_t
@@ -1429,7 +1479,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_GEN_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_GEN_CTL(unsigned long a)
 {
-    return 0x87e0a8000060ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000060ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_GEN_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_GEN_CTL(a) bdk_oclax_gen_ctl_t
@@ -1478,7 +1530,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_DAT_POP(unsigned long a)
 {
-    return 0x87e0a8000800ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000800ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_DAT_POP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_DAT_POP(a) bdk_oclax_dat_pop_t
@@ -1513,7 +1567,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_MATX_VALUEX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_MATX_VALUEX(unsigned long a, unsigned long b, unsigned long c)
 {
-    return 0x87e0a8210000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    if ((a<=4) && (b<=3) && (c<=1))
+        return 0x87e0a8210000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x3) + 8ll * ((c) & 0x1);
+    __bdk_csr_fatal("OCLAX_MATX_VALUEX", 3, a, b, c, 0);
 }
 
 #define typedef_BDK_OCLAX_MATX_VALUEX(a,b,c) bdk_oclax_matx_valuex_t
@@ -1546,7 +1602,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_STAGEX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STAGEX(unsigned long a, unsigned long b)
 {
-    return 0x87e0a8100000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7f);
+    if ((a<=4) && (b<=71))
+        return 0x87e0a8100000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x7f);
+    __bdk_csr_fatal("OCLAX_STAGEX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_STAGEX(a,b) bdk_oclax_stagex_t
@@ -1597,7 +1655,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_FIFO_LIMIT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_LIMIT(unsigned long a)
 {
-    return 0x87e0a8000240ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000240ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_FIFO_LIMIT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_FIFO_LIMIT(a) bdk_oclax_fifo_limit_t
@@ -1655,7 +1715,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_FSMX_STATEX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FSMX_STATEX(unsigned long a, unsigned long b, unsigned long c)
 {
-    return 0x87e0a8320000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    if ((a<=4) && (b<=1) && (c<=15))
+        return 0x87e0a8320000ll + 0x1000000ll * ((a) & 0x7) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xf);
+    __bdk_csr_fatal("OCLAX_FSMX_STATEX", 3, a, b, c, 0);
 }
 
 #define typedef_BDK_OCLAX_FSMX_STATEX(a,b,c) bdk_oclax_fsmx_statex_t
@@ -1694,7 +1756,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_STACK_TOP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STACK_TOP(unsigned long a)
 {
-    return 0x87e0a8000420ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000420ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_STACK_TOP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_STACK_TOP(a) bdk_oclax_stack_top_t
@@ -1748,7 +1812,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1S(unsigned long a)
 {
-    return 0x87e0a80000b0ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a80000b0ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_STATE_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_STATE_ENA_W1S(a) bdk_oclax_state_ena_w1s_t
@@ -1802,7 +1868,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_STATE_ENA_W1C(unsigned long a)
 {
-    return 0x87e0a80000b8ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a80000b8ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_STATE_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_STATE_ENA_W1C(a) bdk_oclax_state_ena_w1c_t
@@ -1839,7 +1907,9 @@ typedef union
 static inline uint64_t BDK_OCLAX_FIFO_WRAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_OCLAX_FIFO_WRAP(unsigned long a)
 {
-    return 0x87e0a8000280ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=4)
+        return 0x87e0a8000280ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("OCLAX_FIFO_WRAP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_OCLAX_FIFO_WRAP(a) bdk_oclax_fifo_wrap_t

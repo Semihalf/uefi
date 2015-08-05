@@ -89,7 +89,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG038(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG038(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000098ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG038", 1, a, 0, 0, 0);
 }
@@ -149,7 +149,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG032(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG032(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000080ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG032", 1, a, 0, 0, 0);
 }
@@ -203,7 +203,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG031(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG031(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x5000000007cll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG031", 1, a, 0, 0, 0);
 }
@@ -301,7 +301,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG030(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG030(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000078ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG030", 1, a, 0, 0, 0);
 }
@@ -381,7 +381,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG037(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000094ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG037", 1, a, 0, 0, 0);
 }
@@ -417,7 +417,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG011(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG011(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x5000000002cll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG011", 1, a, 0, 0, 0);
 }
@@ -451,7 +451,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG010(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG010(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000028ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG010", 1, a, 0, 0, 0);
 }
@@ -487,7 +487,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG013(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG013(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000034ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG013", 1, a, 0, 0, 0);
 }
@@ -525,7 +525,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG012(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG012(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000030ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG012", 1, a, 0, 0, 0);
 }
@@ -565,7 +565,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG015(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG015(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x5000000003cll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG015", 1, a, 0, 0, 0);
 }
@@ -611,7 +611,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG028(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG028(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000070ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG028", 1, a, 0, 0, 0);
 }
@@ -700,7 +700,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG029(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG029(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000074ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG029", 1, a, 0, 0, 0);
 }
@@ -734,7 +734,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG008(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG008(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000020ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG008", 1, a, 0, 0, 0);
 }
@@ -768,7 +768,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG009(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG009(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000024ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG009", 1, a, 0, 0, 0);
 }
@@ -802,7 +802,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG006(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG006(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000018ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG006", 1, a, 0, 0, 0);
 }
@@ -836,7 +836,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG007(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG007(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x5000000001cll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG007", 1, a, 0, 0, 0);
 }
@@ -870,7 +870,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG004(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG004(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000010ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG004", 1, a, 0, 0, 0);
 }
@@ -904,7 +904,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG005(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG005(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000014ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG005", 1, a, 0, 0, 0);
 }
@@ -944,7 +944,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG002(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG002(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000008ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG002", 1, a, 0, 0, 0);
 }
@@ -994,7 +994,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG003(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG003(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x5000000000cll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG003", 1, a, 0, 0, 0);
 }
@@ -1030,7 +1030,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG000(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG000(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000000ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG000", 1, a, 0, 0, 0);
 }
@@ -1120,7 +1120,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG001(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG001(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000004ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG001", 1, a, 0, 0, 0);
 }
@@ -1168,7 +1168,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG065(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG065(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000104ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG065", 1, a, 0, 0, 0);
 }
@@ -1222,7 +1222,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG040(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG040(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x500000000a0ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG040", 1, a, 0, 0, 0);
 }
@@ -1258,7 +1258,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG046(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG046(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x500000000b8ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG046", 1, a, 0, 0, 0);
 }
@@ -1316,7 +1316,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG044(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG044(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x500000000b0ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG044", 1, a, 0, 0, 0);
 }
@@ -1352,7 +1352,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG045(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG045(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x500000000b4ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG045", 1, a, 0, 0, 0);
 }
@@ -1390,7 +1390,7 @@ typedef union
 static inline uint64_t BDK_PCIEEPVFX_CFG064(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCIEEPVFX_CFG064(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
         return 0x50000000100ll + 0x100000000ll * ((a) & 0x7);
     __bdk_csr_fatal("PCIEEPVFX_CFG064", 1, a, 0, 0, 0);
 }

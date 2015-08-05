@@ -143,7 +143,9 @@ typedef union
 static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b)
 {
-    return 0x87e048050000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if ((a<=3) && (b<=255))
+        return 0x87e048050000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    __bdk_csr_fatal("ECAMX_RSLX_NSDIS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_ECAMX_RSLX_NSDIS(a,b) bdk_ecamx_rslx_nsdis_t
@@ -174,7 +176,9 @@ typedef union
 static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a)
 {
-    return 0x87e048000080ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x87e048000080ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("ECAMX_NOP_ONF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ECAMX_NOP_ONF(a) bdk_ecamx_nop_onf_t
@@ -205,7 +209,9 @@ typedef union
 static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a)
 {
-    return 0x87e048000180ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x87e048000180ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("ECAMX_NOP_ZNF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ECAMX_NOP_ZNF(a) bdk_ecamx_nop_znf_t
@@ -236,7 +242,9 @@ typedef union
 static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a)
 {
-    return 0x87e048000000ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x87e048000000ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("ECAMX_NOP_OF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ECAMX_NOP_OF(a) bdk_ecamx_nop_of_t
@@ -282,7 +290,9 @@ typedef union
 static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b)
 {
-    return 0x87e048040000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if ((a<=3) && (b<=255))
+        return 0x87e048040000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    __bdk_csr_fatal("ECAMX_RSLX_SDIS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_ECAMX_RSLX_SDIS(a,b) bdk_ecamx_rslx_sdis_t
@@ -327,7 +337,9 @@ typedef union
 static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long a, unsigned long b)
 {
-    return 0x87e048060000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    if ((a<=3) && (b<=31))
+        return 0x87e048060000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    __bdk_csr_fatal("ECAMX_DEVX_SDIS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_ECAMX_DEVX_SDIS(a,b) bdk_ecamx_devx_sdis_t
@@ -370,7 +382,9 @@ typedef union
 static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b)
 {
-    return 0x87e048020000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if ((a<=3) && (b<=255))
+        return 0x87e048020000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    __bdk_csr_fatal("ECAMX_BUSX_SDIS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_ECAMX_BUSX_SDIS(a,b) bdk_ecamx_busx_sdis_t
@@ -401,7 +415,9 @@ typedef union
 static inline uint64_t BDK_ECAMX_NOP_ZF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_NOP_ZF(unsigned long a)
 {
-    return 0x87e048000100ll + 0x1000000ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x87e048000100ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("ECAMX_NOP_ZF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_ECAMX_NOP_ZF(a) bdk_ecamx_nop_zf_t
@@ -440,7 +456,9 @@ typedef union
 static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b)
 {
-    return 0x87e048070000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    if ((a<=3) && (b<=31))
+        return 0x87e048070000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    __bdk_csr_fatal("ECAMX_DEVX_NSDIS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_ECAMX_DEVX_NSDIS(a,b) bdk_ecamx_devx_nsdis_t
@@ -481,7 +499,9 @@ typedef union
 static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b)
 {
-    return 0x87e048030000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    if ((a<=3) && (b<=255))
+        return 0x87e048030000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    __bdk_csr_fatal("ECAMX_BUSX_NSDIS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_ECAMX_BUSX_NSDIS(a,b) bdk_ecamx_busx_nsdis_t

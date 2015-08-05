@@ -226,7 +226,9 @@ typedef union
 static inline uint64_t BDK_PEMX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_BIST_STATUS(unsigned long a)
 {
-    return 0x87e0c0000468ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000468ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_BIST_STATUS(a) bdk_pemx_bist_status_t
@@ -261,7 +263,9 @@ typedef union
 static inline uint64_t BDK_PEMX_P2N_BAR1_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_P2N_BAR1_START(unsigned long a)
 {
-    return 0x87e0c0000088ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000088ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_P2N_BAR1_START", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_P2N_BAR1_START(a) bdk_pemx_p2n_bar1_start_t
@@ -319,7 +323,9 @@ typedef union
 static inline uint64_t BDK_PEMX_BAR_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_BAR_CTL(unsigned long a)
 {
-    return 0x87e0c00000a8ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c00000a8ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_BAR_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_BAR_CTL(a) bdk_pemx_bar_ctl_t
@@ -590,7 +596,9 @@ typedef union
 static inline uint64_t BDK_PEMX_DBG_INFO_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DBG_INFO_W1S(unsigned long a)
 {
-    return 0x87e0c0000450ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000450ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_DBG_INFO_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_DBG_INFO_W1S(a) bdk_pemx_dbg_info_w1s_t
@@ -650,7 +658,9 @@ typedef union
 static inline uint64_t BDK_PEMX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CFG(unsigned long a)
 {
-    return 0x87e0c0000410ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000410ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_CFG(a) bdk_pemx_cfg_t
@@ -708,7 +718,9 @@ typedef union
 static inline uint64_t BDK_PEMX_ECC_SYND_CTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_ECC_SYND_CTRL(unsigned long a)
 {
-    return 0x87e0c0000478ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000478ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_ECC_SYND_CTRL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_ECC_SYND_CTRL(a) bdk_pemx_ecc_synd_ctrl_t
@@ -766,7 +778,9 @@ typedef union
 static inline uint64_t BDK_PEMX_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_INT_SUM_W1S(unsigned long a)
 {
-    return 0x87e0c0000430ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000430ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_INT_SUM_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_INT_SUM_W1S(a) bdk_pemx_int_sum_w1s_t
@@ -810,7 +824,9 @@ typedef union
 static inline uint64_t BDK_PEMX_CLK_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CLK_EN(unsigned long a)
 {
-    return 0x87e0c0000400ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000400ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_CLK_EN", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_CLK_EN(a) bdk_pemx_clk_en_t
@@ -889,7 +905,9 @@ typedef union
 static inline uint64_t BDK_PEMX_TLP_CREDITS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_TLP_CREDITS(unsigned long a)
 {
-    return 0x87e0c0000038ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000038ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_TLP_CREDITS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_TLP_CREDITS(a) bdk_pemx_tlp_credits_t
@@ -923,7 +941,9 @@ typedef union
 static inline uint64_t BDK_PEMX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0c0ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    if ((a<=5) && (b==0))
+        return 0x87e0c0ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("PEMX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_PEMX_MSIX_PBAX(a,b) bdk_pemx_msix_pbax_t
@@ -965,7 +985,9 @@ typedef union
 static inline uint64_t BDK_PEMX_DIAG_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DIAG_STATUS(unsigned long a)
 {
-    return 0x87e0c0000020ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000020ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_DIAG_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_DIAG_STATUS(a) bdk_pemx_diag_status_t
@@ -1181,7 +1203,9 @@ typedef union
 static inline uint64_t BDK_PEMX_CTL_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CTL_STATUS(unsigned long a)
 {
-    return 0x87e0c0000000ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000000ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_CTL_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_CTL_STATUS(a) bdk_pemx_ctl_status_t
@@ -1221,7 +1245,9 @@ typedef union
 static inline uint64_t BDK_PEMX_CFG_RD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CFG_RD(unsigned long a)
 {
-    return 0x87e0c0000030ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000030ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_CFG_RD", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_CFG_RD(a) bdk_pemx_cfg_rd_t
@@ -1270,7 +1296,9 @@ typedef union
 static inline uint64_t BDK_PEMX_INB_READ_CREDITS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_INB_READ_CREDITS(unsigned long a)
 {
-    return 0x87e0c00000b8ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c00000b8ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_INB_READ_CREDITS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_INB_READ_CREDITS(a) bdk_pemx_inb_read_credits_t
@@ -1319,7 +1347,9 @@ typedef union
 static inline uint64_t BDK_PEMX_DEBUG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DEBUG(unsigned long a)
 {
-    return 0x87e0c0000480ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000480ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_DEBUG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_DEBUG(a) bdk_pemx_debug_t
@@ -1377,7 +1407,9 @@ typedef union
 static inline uint64_t BDK_PEMX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_INT_ENA_W1C(unsigned long a)
 {
-    return 0x87e0c0000438ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000438ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_INT_ENA_W1C(a) bdk_pemx_int_ena_w1c_t
@@ -1435,7 +1467,9 @@ typedef union
 static inline uint64_t BDK_PEMX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_INT_ENA_W1S(unsigned long a)
 {
-    return 0x87e0c0000440ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000440ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_INT_ENA_W1S(a) bdk_pemx_int_ena_w1s_t
@@ -1493,7 +1527,9 @@ typedef union
 static inline uint64_t BDK_PEMX_ECC_ENA(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_ECC_ENA(unsigned long a)
 {
-    return 0x87e0c0000470ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000470ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_ECC_ENA", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_ECC_ENA(a) bdk_pemx_ecc_ena_t
@@ -1804,7 +1840,9 @@ typedef union
 static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long a)
 {
-    return 0x87e0c0000448ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000448ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_DBG_INFO", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_DBG_INFO(a) bdk_pemx_dbg_info_t
@@ -1862,7 +1900,9 @@ typedef union
 static inline uint64_t BDK_PEMX_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_INT_SUM(unsigned long a)
 {
-    return 0x87e0c0000428ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000428ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_INT_SUM", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_INT_SUM(a) bdk_pemx_int_sum_t
@@ -1897,7 +1937,9 @@ typedef union
 static inline uint64_t BDK_PEMX_P2N_BAR0_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_P2N_BAR0_START(unsigned long a)
 {
-    return 0x87e0c0000080ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000080ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_P2N_BAR0_START", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_P2N_BAR0_START(a) bdk_pemx_p2n_bar0_start_t
@@ -2168,7 +2210,9 @@ typedef union
 static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long a)
 {
-    return 0x87e0c0000458ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000458ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_DBG_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_DBG_ENA_W1C(a) bdk_pemx_dbg_ena_w1c_t
@@ -2439,7 +2483,9 @@ typedef union
 static inline uint64_t BDK_PEMX_DBG_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_DBG_ENA_W1S(unsigned long a)
 {
-    return 0x87e0c0000460ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000460ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_DBG_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_DBG_ENA_W1S(a) bdk_pemx_dbg_ena_w1s_t
@@ -2483,7 +2529,9 @@ typedef union
 static inline uint64_t BDK_PEMX_CTL_STATUS2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CTL_STATUS2(unsigned long a)
 {
-    return 0x87e0c0000008ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000008ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_CTL_STATUS2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_CTL_STATUS2(a) bdk_pemx_ctl_status2_t
@@ -2521,7 +2569,9 @@ typedef union
 static inline uint64_t BDK_PEMX_BAR2_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_BAR2_MASK(unsigned long a)
 {
-    return 0x87e0c00000b0ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c00000b0ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_BAR2_MASK", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_BAR2_MASK(a) bdk_pemx_bar2_mask_t
@@ -2553,7 +2603,9 @@ typedef union
 static inline uint64_t BDK_PEMX_CPL_LUT_VALID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CPL_LUT_VALID(unsigned long a)
 {
-    return 0x87e0c0000098ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000098ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_CPL_LUT_VALID", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_CPL_LUT_VALID(a) bdk_pemx_cpl_lut_valid_t
@@ -2594,7 +2646,9 @@ typedef union
 static inline uint64_t BDK_PEMX_BAR1_INDEXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_BAR1_INDEXX(unsigned long a, unsigned long b)
 {
-    return 0x87e0c0000100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    if ((a<=5) && (b<=15))
+        return 0x87e0c0000100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0xf);
+    __bdk_csr_fatal("PEMX_BAR1_INDEXX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_PEMX_BAR1_INDEXX(a,b) bdk_pemx_bar1_indexx_t
@@ -2649,7 +2703,13 @@ typedef union
 static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    return 0x87e0c0f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=5) && (b<=15)))
+        return 0x87e0c0f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((a<=5) && (b<=13)))
+        return 0x87e0c0f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=5) && (b<=15)))
+        return 0x87e0c0f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    __bdk_csr_fatal("PEMX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_PEMX_MSIX_VECX_ADDR(a,b) bdk_pemx_msix_vecx_addr_t
@@ -2688,7 +2748,9 @@ typedef union
 static inline uint64_t BDK_PEMX_P2N_BAR2_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_P2N_BAR2_START(unsigned long a)
 {
-    return 0x87e0c0000090ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000090ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_P2N_BAR2_START", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_P2N_BAR2_START(a) bdk_pemx_p2n_bar2_start_t
@@ -2730,7 +2792,9 @@ typedef union
 static inline uint64_t BDK_PEMX_CFG_WR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_CFG_WR(unsigned long a)
 {
-    return 0x87e0c0000028ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000028ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_CFG_WR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_CFG_WR(a) bdk_pemx_cfg_wr_t
@@ -2770,7 +2834,9 @@ typedef union
 static inline uint64_t BDK_PEMX_ON(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_ON(unsigned long a)
 {
-    return 0x87e0c0000420ll + 0x1000000ll * ((a) & 0x7);
+    if (a<=5)
+        return 0x87e0c0000420ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PEMX_ON", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_PEMX_ON(a) bdk_pemx_on_t
@@ -2809,7 +2875,13 @@ typedef union
 static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0c0f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=5) && (b<=15)))
+        return 0x87e0c0f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((a<=5) && (b<=13)))
+        return 0x87e0c0f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && ((a<=5) && (b<=15)))
+        return 0x87e0c0f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
+    __bdk_csr_fatal("PEMX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_PEMX_MSIX_VECX_CTL(a,b) bdk_pemx_msix_vecx_ctl_t

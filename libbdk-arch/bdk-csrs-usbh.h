@@ -189,7 +189,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_20X(unsigned long a, unsigned long b)
 {
-    return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UAHC_PORTLI_20X", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_PORTLI_20X(a,b) bdk_usbhx_uahc_portli_20x_t
@@ -229,7 +231,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GDBGBMU(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGBMU(unsigned long a)
 {
-    return 0x86800000c16cll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c16cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GDBGBMU", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GDBGBMU(a) bdk_usbhx_uahc_gdbgbmu_t
@@ -288,7 +292,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GDMAHLRATIO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDMAHLRATIO(unsigned long a)
 {
-    return 0x86800000c624ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c624ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GDMAHLRATIO", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GDMAHLRATIO(a) bdk_usbhx_uahc_gdmahlratio_t
@@ -372,7 +378,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_PORTSCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTSCX(unsigned long a, unsigned long b)
 {
-    return 0x868000000420ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x868000000420ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_PORTSCX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_PORTSCX(a,b) bdk_usbhx_uahc_portscx_t
@@ -406,7 +414,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW3(unsigned long a)
 {
-    return 0x86800000089cll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000089cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT2_DW3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW3(a) bdk_usbhx_uahc_suptprt2_dw3_t
@@ -438,7 +448,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW1(unsigned long a)
 {
-    return 0x868000000894ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000894ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT2_DW1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW1(a) bdk_usbhx_uahc_suptprt2_dw1_t
@@ -476,7 +488,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW0(unsigned long a)
 {
-    return 0x868000000890ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000890ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT2_DW0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW0(a) bdk_usbhx_uahc_suptprt2_dw0_t
@@ -510,7 +524,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long a)
 {
-    return 0x868000000018ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000018ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_RTSOFF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_RTSOFF(a) bdk_usbhx_uahc_rtsoff_t
@@ -518,48 +534,6 @@ static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long a)
 #define basename_BDK_USBHX_UAHC_RTSOFF(a) "USBHX_UAHC_RTSOFF"
 #define busnum_BDK_USBHX_UAHC_RTSOFF(a) (a)
 #define arguments_BDK_USBHX_UAHC_RTSOFF(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) usbh#_uahc_gprtbimap_hs
- *
- * UAHC High-Speed Port-to-Bus Instance Mapping Register
- * This register specifies the high-speed USB instance number to which each USB 2.0 port is
- * connected. By default, USB 2.0 ports are evenly distributed among all high-speed USB
- * instances. Software can program this register to specify how USB 2.0 ports are connected to
- * high-speed USB instances. The UAHC only implements one high-speed bus-instance, so this
- * register should always be 0.
- *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
- *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_usbhx_uahc_gprtbimap_hs_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t binum1                : 4;  /**< [  3:  0](R/W) High-speed USB instance number for port 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t binum1                : 4;  /**< [  3:  0](R/W) High-speed USB instance number for port 1. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_usbhx_uahc_gprtbimap_hs_s cn; */
-} bdk_usbhx_uahc_gprtbimap_hs_t;
-
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a)
-{
-    return 0x86800000c180ll + 0x1000000000ll * ((a) & 0x1);
-}
-
-#define typedef_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) bdk_usbhx_uahc_gprtbimap_hs_t
-#define bustype_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) "USBHX_UAHC_GPRTBIMAP_HS"
-#define busnum_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a)
-#define arguments_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) usbh#_uahc_gtxfifoprihst
@@ -612,7 +586,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GTXFIFOPRIHST(unsigned long a)
 {
-    return 0x86800000c618ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c618ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GTXFIFOPRIHST", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GTXFIFOPRIHST(a) bdk_usbhx_uahc_gtxfifoprihst_t
@@ -691,7 +667,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GPMSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GPMSTS(unsigned long a)
 {
-    return 0x86800000c114ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c114ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GPMSTS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GPMSTS(a) bdk_usbhx_uahc_gpmsts_t
@@ -745,7 +723,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GRXFIFOSIZX(unsigned long a, unsigned long b)
 {
-    return 0x86800000c380ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
+    if ((a<=1) && (b<=2))
+        return 0x86800000c380ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
+    __bdk_csr_fatal("USBHX_UAHC_GRXFIFOSIZX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GRXFIFOSIZX(a,b) bdk_usbhx_uahc_grxfifosizx_t
@@ -884,7 +864,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_HOST_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_HOST_CFG(unsigned long a)
 {
-    return 0x8680001000e0ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x8680001000e0ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UCTL_HOST_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_HOST_CFG(a) bdk_usbhx_uctl_host_cfg_t
@@ -922,7 +904,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS1(unsigned long a)
 {
-    return 0x868000000004ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000004ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_HCSPARAMS1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_HCSPARAMS1(a) bdk_usbhx_uahc_hcsparams1_t
@@ -958,7 +942,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS3(unsigned long a)
 {
-    return 0x86800000000cll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000000cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_HCSPARAMS3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_HCSPARAMS3(a) bdk_usbhx_uahc_hcsparams3_t
@@ -1000,7 +986,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_HCSPARAMS2(unsigned long a)
 {
-    return 0x868000000008ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000008ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_HCSPARAMS2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_HCSPARAMS2(a) bdk_usbhx_uahc_hcsparams2_t
@@ -1052,7 +1040,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GBUSERRADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GBUSERRADDR(unsigned long a)
 {
-    return 0x86800000c130ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c130ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GBUSERRADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GBUSERRADDR(a) bdk_usbhx_uahc_gbuserraddr_t
@@ -1093,7 +1083,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_ERDPX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_ERDPX(unsigned long a, unsigned long b)
 {
-    return 0x868000000478ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x868000000478ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UAHC_ERDPX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_ERDPX(a,b) bdk_usbhx_uahc_erdpx_t
@@ -1150,7 +1142,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GRXFIFOPRIHST(unsigned long a)
 {
-    return 0x86800000c61cll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c61cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GRXFIFOPRIHST", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GRXFIFOPRIHST(a) bdk_usbhx_uahc_grxfifoprihst_t
@@ -1193,7 +1187,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(unsigned long a, unsigned long b)
 {
-    return 0x868000100068ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x868000100068ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UCTL_PORTX_CR_DBG_STATUS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_PORTX_CR_DBG_STATUS(a,b) bdk_usbhx_uctl_portx_cr_dbg_status_t
@@ -1295,7 +1291,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GUCTL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUCTL1(unsigned long a)
 {
-    return 0x86800000c11cll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c11cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GUCTL1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GUCTL1(a) bdk_usbhx_uahc_guctl1_t
@@ -1329,7 +1327,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTLI_SSX(unsigned long a, unsigned long b)
 {
-    return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if ((a<=1) && (b==1))
+        return 0x868000000428ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_PORTLI_SSX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_PORTLI_SSX(a,b) bdk_usbhx_uahc_portli_ssx_t
@@ -1365,7 +1365,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned long b)
 {
-    return 0x86800000c240ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x86800000c240ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UAHC_GUSB2I2CCTLX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) bdk_usbhx_uahc_gusb2i2cctlx_t
@@ -1373,82 +1375,6 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned lon
 #define basename_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) "USBHX_UAHC_GUSB2I2CCTLX"
 #define busnum_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) (a)
 #define arguments_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) usbh#_uahc_gprtbimap_fs
- *
- * UAHC Full/LowSpeed Port-to-Bus Instance Mapping Register
- * This register specifies the full-speed/low-speed USB instance number to which each USB 1.1
- * port is connected. By default, USB 1.1 ports are evenly distributed among all full-speed/
- * low-speed USB instances. Software can program this register to specify how USB 1.1 ports are
- * connected to full-speed/low-speed USB instances. The UAHC only implements one full-speed/
- * low-speed bus-instance, so this register should always be 0x0.
- *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
- *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.3.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_usbhx_uahc_gprtbimap_fs_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t binum1                : 4;  /**< [  3:  0](R/W) Full-speed USB instance number for port 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t binum1                : 4;  /**< [  3:  0](R/W) Full-speed USB instance number for port 1. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_usbhx_uahc_gprtbimap_fs_s cn; */
-} bdk_usbhx_uahc_gprtbimap_fs_t;
-
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long a)
-{
-    return 0x86800000c188ll + 0x1000000000ll * ((a) & 0x1);
-}
-
-#define typedef_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) bdk_usbhx_uahc_gprtbimap_fs_t
-#define bustype_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) "USBHX_UAHC_GPRTBIMAP_FS"
-#define busnum_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) (a)
-#define arguments_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) usbh#_uahc_gdbglsp
- *
- * UAHC LSP Debug Register
- * See description in USBH()_UAHC_GDBGFIFOSPACE.
- *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_usbhx_uahc_gdbglsp_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lsp_dbg               : 32; /**< [ 31:  0](RO/H) LSP debug information. */
-#else /* Word 0 - Little Endian */
-        uint32_t lsp_dbg               : 32; /**< [ 31:  0](RO/H) LSP debug information. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_usbhx_uahc_gdbglsp_s cn; */
-} bdk_usbhx_uahc_gdbglsp_t;
-
-static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a)
-{
-    return 0x86800000c174ll + 0x1000000000ll * ((a) & 0x1);
-}
-
-#define typedef_BDK_USBHX_UAHC_GDBGLSP(a) bdk_usbhx_uahc_gdbglsp_t
-#define bustype_BDK_USBHX_UAHC_GDBGLSP(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_GDBGLSP(a) "USBHX_UAHC_GDBGLSP"
-#define busnum_BDK_USBHX_UAHC_GDBGLSP(a) (a)
-#define arguments_BDK_USBHX_UAHC_GDBGLSP(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) usbh#_uahc_usblegsup
@@ -1488,7 +1414,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a)
 {
-    return 0x868000000880ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000880ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_USBLEGSUP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_USBLEGSUP(a) bdk_usbhx_uahc_usblegsup_t
@@ -1496,6 +1424,86 @@ static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a)
 #define basename_BDK_USBHX_UAHC_USBLEGSUP(a) "USBHX_UAHC_USBLEGSUP"
 #define busnum_BDK_USBHX_UAHC_USBLEGSUP(a) (a)
 #define arguments_BDK_USBHX_UAHC_USBLEGSUP(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uahc_gprtbimap_fs
+ *
+ * UAHC Full/LowSpeed Port-to-Bus Instance Mapping Register
+ * This register specifies the full-speed/low-speed USB instance number to which each USB 1.1
+ * port is connected. By default, USB 1.1 ports are evenly distributed among all full-speed/
+ * low-speed USB instances. Software can program this register to specify how USB 1.1 ports are
+ * connected to full-speed/low-speed USB instances. The UAHC only implements one full-speed/
+ * low-speed bus-instance, so this register should always be 0x0.
+ *
+ * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ *
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.3.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_usbhx_uahc_gprtbimap_fs_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t binum1                : 4;  /**< [  3:  0](R/W) Full-speed USB instance number for port 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t binum1                : 4;  /**< [  3:  0](R/W) Full-speed USB instance number for port 1. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbhx_uahc_gprtbimap_fs_s cn; */
+} bdk_usbhx_uahc_gprtbimap_fs_t;
+
+static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_FS(unsigned long a)
+{
+    if (a<=1)
+        return 0x86800000c188ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GPRTBIMAP_FS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) bdk_usbhx_uahc_gprtbimap_fs_t
+#define bustype_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) "USBHX_UAHC_GPRTBIMAP_FS"
+#define busnum_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) (a)
+#define arguments_BDK_USBHX_UAHC_GPRTBIMAP_FS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) usbh#_uahc_gdbglsp
+ *
+ * UAHC LSP Debug Register
+ * See description in USBH()_UAHC_GDBGFIFOSPACE.
+ *
+ * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbhx_uahc_gdbglsp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lsp_dbg               : 32; /**< [ 31:  0](RO/H) LSP debug information. */
+#else /* Word 0 - Little Endian */
+        uint32_t lsp_dbg               : 32; /**< [ 31:  0](RO/H) LSP debug information. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbhx_uahc_gdbglsp_s cn; */
+} bdk_usbhx_uahc_gdbglsp_t;
+
+static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a)
+{
+    if (a<=1)
+        return 0x86800000c174ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GDBGLSP", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBHX_UAHC_GDBGLSP(a) bdk_usbhx_uahc_gdbglsp_t
+#define bustype_BDK_USBHX_UAHC_GDBGLSP(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBHX_UAHC_GDBGLSP(a) "USBHX_UAHC_GDBGLSP"
+#define busnum_BDK_USBHX_UAHC_GDBGLSP(a) (a)
+#define arguments_BDK_USBHX_UAHC_GDBGLSP(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) usbh#_msix_vec#_addr
@@ -1544,7 +1552,9 @@ typedef union
 static inline uint64_t BDK_USBHX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    return 0x868000200000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x868000200000ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("USBHX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_MSIX_VECX_ADDR(a,b) bdk_usbhx_msix_vecx_addr_t
@@ -1626,7 +1636,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_USBLEGCTLSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_USBLEGCTLSTS(unsigned long a)
 {
-    return 0x868000000884ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000884ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_USBLEGCTLSTS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_USBLEGCTLSTS(a) bdk_usbhx_uahc_usblegctlsts_t
@@ -1726,7 +1738,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG0(unsigned long a)
 {
-    return 0x86800000c100ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c100ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GSBUSCFG0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GSBUSCFG0(a) bdk_usbhx_uahc_gsbuscfg0_t
@@ -1797,7 +1811,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GSBUSCFG1(unsigned long a)
 {
-    return 0x86800000c104ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c104ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GSBUSCFG1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GSBUSCFG1(a) bdk_usbhx_uahc_gsbuscfg1_t
@@ -1836,7 +1852,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GGPIO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GGPIO(unsigned long a)
 {
-    return 0x86800000c124ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c124ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GGPIO", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GGPIO(a) bdk_usbhx_uahc_ggpio_t
@@ -1884,7 +1902,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT2_DW2(unsigned long a)
 {
-    return 0x868000000898ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000898ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT2_DW2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_SUPTPRT2_DW2(a) bdk_usbhx_uahc_suptprt2_dw2_t
@@ -1952,7 +1972,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_INTENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_INTENA_W1S(unsigned long a)
 {
-    return 0x868000100048ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000100048ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UCTL_INTENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_INTENA_W1S(a) bdk_usbhx_uctl_intena_w1s_t
@@ -1995,7 +2017,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_DBX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_DBX(unsigned long a, unsigned long b)
 {
-    return 0x868000000480ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x7f);
+    if ((a<=1) && (b<=64))
+        return 0x868000000480ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x7f);
+    __bdk_csr_fatal("USBHX_UAHC_DBX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_DBX(a,b) bdk_usbhx_uahc_dbx_t
@@ -2224,7 +2248,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GUCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUCTL(unsigned long a)
 {
-    return 0x86800000c12cll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c12cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GUCTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GUCTL(a) bdk_usbhx_uahc_guctl_t
@@ -2232,6 +2258,50 @@ static inline uint64_t BDK_USBHX_UAHC_GUCTL(unsigned long a)
 #define basename_BDK_USBHX_UAHC_GUCTL(a) "USBHX_UAHC_GUCTL"
 #define busnum_BDK_USBHX_UAHC_GUCTL(a) (a)
 #define arguments_BDK_USBHX_UAHC_GUCTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) usbh#_uahc_gprtbimap_hs
+ *
+ * UAHC High-Speed Port-to-Bus Instance Mapping Register
+ * This register specifies the high-speed USB instance number to which each USB 2.0 port is
+ * connected. By default, USB 2.0 ports are evenly distributed among all high-speed USB
+ * instances. Software can program this register to specify how USB 2.0 ports are connected to
+ * high-speed USB instances. The UAHC only implements one high-speed bus-instance, so this
+ * register should always be 0.
+ *
+ * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ *
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_usbhx_uahc_gprtbimap_hs_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t binum1                : 4;  /**< [  3:  0](R/W) High-speed USB instance number for port 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t binum1                : 4;  /**< [  3:  0](R/W) High-speed USB instance number for port 1. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbhx_uahc_gprtbimap_hs_s cn; */
+} bdk_usbhx_uahc_gprtbimap_hs_t;
+
+static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a)
+{
+    if (a<=1)
+        return 0x86800000c180ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GPRTBIMAP_HS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) bdk_usbhx_uahc_gprtbimap_hs_t
+#define bustype_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) "USBHX_UAHC_GPRTBIMAP_HS"
+#define busnum_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a)
+#define arguments_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) usbh#_uahc_dnctrl
@@ -2263,7 +2333,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_DNCTRL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_DNCTRL(unsigned long a)
 {
-    return 0x868000000034ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000034ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_DNCTRL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_DNCTRL(a) bdk_usbhx_uahc_dnctrl_t
@@ -2328,7 +2400,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_20X(unsigned long a, unsigned long b)
 {
-    return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UAHC_PORTHLPMC_20X", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_PORTHLPMC_20X(a,b) bdk_usbhx_uahc_porthlpmc_20x_t
@@ -2481,7 +2555,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GRXTHRCFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GRXTHRCFG(unsigned long a)
 {
-    return 0x86800000c10cll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c10cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GRXTHRCFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GRXTHRCFG(a) bdk_usbhx_uahc_grxthrcfg_t
@@ -2727,7 +2803,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_SS(unsigned long a, unsigned long b)
 {
-    return 0x868000100058ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x868000100058ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UCTL_PORTX_CFG_SS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_PORTX_CFG_SS(a,b) bdk_usbhx_uctl_portx_cfg_ss_t
@@ -2766,7 +2844,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_IMODX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_IMODX(unsigned long a, unsigned long b)
 {
-    return 0x868000000464ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x868000000464ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UAHC_IMODX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_IMODX(a,b) bdk_usbhx_uahc_imodx_t
@@ -3056,7 +3136,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GCTL(unsigned long a)
 {
-    return 0x86800000c110ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c110ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GCTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GCTL(a) bdk_usbhx_uahc_gctl_t
@@ -3115,7 +3197,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_BIST_STATUS(unsigned long a)
 {
-    return 0x868000100008ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000100008ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UCTL_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_BIST_STATUS(a) bdk_usbhx_uctl_bist_status_t
@@ -3324,7 +3408,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GFLADJ(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GFLADJ(unsigned long a)
 {
-    return 0x86800000c630ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c630ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GFLADJ", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GFLADJ(a) bdk_usbhx_uahc_gfladj_t
@@ -3382,7 +3468,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_HCCPARAMS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_HCCPARAMS(unsigned long a)
 {
-    return 0x868000000010ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000010ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_HCCPARAMS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_HCCPARAMS(a) bdk_usbhx_uahc_hccparams_t
@@ -3423,7 +3511,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_IMANX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_IMANX(unsigned long a, unsigned long b)
 {
-    return 0x868000000460ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x868000000460ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UAHC_IMANX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_IMANX(a,b) bdk_usbhx_uahc_imanx_t
@@ -3807,7 +3897,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_CTL(unsigned long a)
 {
-    return 0x868000100000ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000100000ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UCTL_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_CTL(a) bdk_usbhx_uctl_ctl_t
@@ -3906,7 +3998,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GDBGLTSSM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGLTSSM(unsigned long a)
 {
-    return 0x86800000c164ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c164ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GDBGLTSSM", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GDBGLTSSM(a) bdk_usbhx_uahc_gdbgltssm_t
@@ -3986,7 +4080,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_ECC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_ECC(unsigned long a)
 {
-    return 0x8680001000f0ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x8680001000f0ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UCTL_ECC", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_ECC(a) bdk_usbhx_uctl_ecc_t
@@ -4025,7 +4121,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_ERSTBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_ERSTBAX(unsigned long a, unsigned long b)
 {
-    return 0x868000000470ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x868000000470ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UAHC_ERSTBAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_ERSTBAX(a,b) bdk_usbhx_uahc_erstbax_t
@@ -4064,7 +4162,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_MFINDEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_MFINDEX(unsigned long a)
 {
-    return 0x868000000440ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000440ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_MFINDEX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_MFINDEX(a) bdk_usbhx_uahc_mfindex_t
@@ -4132,7 +4232,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_INTSTAT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_INTSTAT_W1S(unsigned long a)
 {
-    return 0x868000100038ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000100038ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UCTL_INTSTAT_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_INTSTAT_W1S(a) bdk_usbhx_uctl_intstat_w1s_t
@@ -4166,7 +4268,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS8(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS8(unsigned long a)
 {
-    return 0x86800000c600ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c600ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS8", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS8(a) bdk_usbhx_uahc_ghwparams8_t
@@ -4220,7 +4324,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS3(unsigned long a)
 {
-    return 0x86800000c14cll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c14cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS3(a) bdk_usbhx_uahc_ghwparams3_t
@@ -4254,7 +4360,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS2(unsigned long a)
 {
-    return 0x86800000c148ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c148ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS2(a) bdk_usbhx_uahc_ghwparams2_t
@@ -4322,7 +4430,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS1(unsigned long a)
 {
-    return 0x86800000c144ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c144ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS1(a) bdk_usbhx_uahc_ghwparams1_t
@@ -4366,7 +4476,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS0(unsigned long a)
 {
-    return 0x86800000c140ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c140ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS0(a) bdk_usbhx_uahc_ghwparams0_t
@@ -4402,7 +4514,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS7(unsigned long a)
 {
-    return 0x86800000c15cll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c15cll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS7", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS7(a) bdk_usbhx_uahc_ghwparams7_t
@@ -4456,7 +4570,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS6(unsigned long a)
 {
-    return 0x86800000c158ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c158ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS6", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS6(a) bdk_usbhx_uahc_ghwparams6_t
@@ -4500,7 +4616,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS5(unsigned long a)
 {
-    return 0x86800000c154ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c154ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS5", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS5(a) bdk_usbhx_uahc_ghwparams5_t
@@ -4550,7 +4668,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GHWPARAMS4(unsigned long a)
 {
-    return 0x86800000c150ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c150ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GHWPARAMS4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GHWPARAMS4(a) bdk_usbhx_uahc_ghwparams4_t
@@ -4641,7 +4761,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_INTSTAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_INTSTAT(unsigned long a)
 {
-    return 0x868000100030ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000100030ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UCTL_INTSTAT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_INTSTAT(a) bdk_usbhx_uctl_intstat_t
@@ -4781,7 +4903,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GTXTHRCFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GTXTHRCFG(unsigned long a)
 {
-    return 0x86800000c108ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c108ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GTXTHRCFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GTXTHRCFG(a) bdk_usbhx_uahc_gtxthrcfg_t
@@ -4849,7 +4973,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_INTENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_INTENA_W1C(unsigned long a)
 {
-    return 0x868000100040ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000100040ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UCTL_INTENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_INTENA_W1C(a) bdk_usbhx_uctl_intena_w1c_t
@@ -4890,7 +5016,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GUID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUID(unsigned long a)
 {
-    return 0x86800000c128ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c128ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GUID", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GUID(a) bdk_usbhx_uahc_guid_t
@@ -4929,7 +5057,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_ERSTSZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_ERSTSZX(unsigned long a, unsigned long b)
 {
-    return 0x868000000468ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x868000000468ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UAHC_ERSTSZX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_ERSTSZX(a,b) bdk_usbhx_uahc_erstszx_t
@@ -5236,7 +5366,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUSB3PIPECTLX(unsigned long a, unsigned long b)
 {
-    return 0x86800000c2c0ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x86800000c2c0ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UAHC_GUSB3PIPECTLX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GUSB3PIPECTLX(a,b) bdk_usbhx_uahc_gusb3pipectlx_t
@@ -5270,7 +5402,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_PAGESIZE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PAGESIZE(unsigned long a)
 {
-    return 0x868000000028ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000028ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_PAGESIZE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_PAGESIZE(a) bdk_usbhx_uahc_pagesize_t
@@ -5312,7 +5446,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GRLSID(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GRLSID(unsigned long a)
 {
-    return 0x86800000c120ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c120ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GRLSID", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GRLSID(a) bdk_usbhx_uahc_grlsid_t
@@ -5351,7 +5487,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_DCBAAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_DCBAAP(unsigned long a)
 {
-    return 0x868000000050ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000050ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_DCBAAP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_DCBAAP(a) bdk_usbhx_uahc_dcbaap_t
@@ -5393,7 +5531,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GDBGLNMCC(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGLNMCC(unsigned long a)
 {
-    return 0x86800000c168ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c168ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GDBGLNMCC", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GDBGLNMCC(a) bdk_usbhx_uahc_gdbglnmcc_t
@@ -5468,7 +5608,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_SHIM_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_SHIM_CFG(unsigned long a)
 {
-    return 0x8680001000e8ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x8680001000e8ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UCTL_SHIM_CFG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_SHIM_CFG(a) bdk_usbhx_uctl_shim_cfg_t
@@ -5502,7 +5644,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_SPARE1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_SPARE1(unsigned long a)
 {
-    return 0x8680001000f8ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x8680001000f8ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UCTL_SPARE1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_SPARE1(a) bdk_usbhx_uctl_spare1_t
@@ -5534,7 +5678,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_SPARE0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_SPARE0(unsigned long a)
 {
-    return 0x868000100010ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000100010ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UCTL_SPARE0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_SPARE0(a) bdk_usbhx_uctl_spare0_t
@@ -5581,7 +5727,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_CRCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_CRCR(unsigned long a)
 {
-    return 0x868000000038ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000038ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_CRCR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_CRCR(a) bdk_usbhx_uahc_crcr_t
@@ -5652,7 +5800,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GDBGFIFOSPACE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGFIFOSPACE(unsigned long a)
 {
-    return 0x86800000c160ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c160ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GDBGFIFOSPACE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GDBGFIFOSPACE(a) bdk_usbhx_uahc_gdbgfifospace_t
@@ -5691,7 +5841,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_CONFIG(unsigned long a)
 {
-    return 0x868000000058ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000058ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_CONFIG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_CONFIG(a) bdk_usbhx_uahc_config_t
@@ -5740,7 +5892,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_20X(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_20X(unsigned long a, unsigned long b)
 {
-    return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UAHC_PORTPMSC_20X", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_PORTPMSC_20X(a,b) bdk_usbhx_uahc_portpmsc_20x_t
@@ -5797,7 +5951,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GDBGLSPMUX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGLSPMUX(unsigned long a)
 {
-    return 0x86800000c170ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c170ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GDBGLSPMUX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GDBGLSPMUX(a) bdk_usbhx_uahc_gdbglspmux_t
@@ -5831,7 +5987,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GDBGEPINFO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GDBGEPINFO(unsigned long a)
 {
-    return 0x86800000c178ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c178ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GDBGEPINFO", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GDBGEPINFO(a) bdk_usbhx_uahc_gdbgepinfo_t
@@ -6032,7 +6190,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CFG_HS(unsigned long a, unsigned long b)
 {
-    return 0x868000100050ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x868000100050ll + 0x1000000000ll * ((a) & 0x1) + 0x20ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UCTL_PORTX_CFG_HS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_PORTX_CFG_HS(a,b) bdk_usbhx_uctl_portx_cfg_hs_t
@@ -6136,7 +6296,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(unsigned long a, unsigned long b)
 {
-    return 0x868000100060ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x868000100060ll + 0x1000000000ll * ((a) & 0x1) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UCTL_PORTX_CR_DBG_CFG", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UCTL_PORTX_CR_DBG_CFG(a,b) bdk_usbhx_uctl_portx_cr_dbg_cfg_t
@@ -6191,7 +6353,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GTXFIFOSIZX(unsigned long a, unsigned long b)
 {
-    return 0x86800000c300ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
+    if ((a<=1) && (b<=2))
+        return 0x86800000c300ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x3);
+    __bdk_csr_fatal("USBHX_UAHC_GTXFIFOSIZX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GTXFIFOSIZX(a,b) bdk_usbhx_uahc_gtxfifosizx_t
@@ -6227,7 +6391,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_CAPLENGTH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_CAPLENGTH(unsigned long a)
 {
-    return 0x868000000000ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000000ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_CAPLENGTH", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_CAPLENGTH(a) bdk_usbhx_uahc_caplength_t
@@ -6541,7 +6707,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GUSB2PHYCFGX(unsigned long a, unsigned long b)
 {
-    return 0x86800000c200ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x86800000c200ll + 0x1000000000ll * ((a) & 0x1) + 4ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_UAHC_GUSB2PHYCFGX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GUSB2PHYCFGX(a,b) bdk_usbhx_uahc_gusb2phycfgx_t
@@ -6579,7 +6747,9 @@ typedef union
 static inline uint64_t BDK_USBHX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x868000200008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x868000200008ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x3);
+    __bdk_csr_fatal("USBHX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_MSIX_VECX_CTL(a,b) bdk_usbhx_msix_vecx_ctl_t
@@ -6613,7 +6783,9 @@ typedef union
 static inline uint64_t BDK_USBHX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    return 0x8680002f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x8680002f0000ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("USBHX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_MSIX_PBAX(a,b) bdk_usbhx_msix_pbax_t
@@ -6671,7 +6843,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GSTS(unsigned long a)
 {
-    return 0x86800000c118ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c118ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GSTS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GSTS(a) bdk_usbhx_uahc_gsts_t
@@ -6705,7 +6879,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_DBOFF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_DBOFF(unsigned long a)
 {
-    return 0x868000000014ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000014ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_DBOFF", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_DBOFF(a) bdk_usbhx_uahc_dboff_t
@@ -6764,7 +6940,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_USBSTS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_USBSTS(unsigned long a)
 {
-    return 0x868000000024ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000024ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_USBSTS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_USBSTS(a) bdk_usbhx_uahc_usbsts_t
@@ -6802,7 +6980,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW2(unsigned long a)
 {
-    return 0x8680000008a8ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x8680000008a8ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT3_DW2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW2(a) bdk_usbhx_uahc_suptprt3_dw2_t
@@ -6836,7 +7016,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW3(unsigned long a)
 {
-    return 0x8680000008acll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x8680000008acll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT3_DW3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW3(a) bdk_usbhx_uahc_suptprt3_dw3_t
@@ -6878,7 +7060,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW0(unsigned long a)
 {
-    return 0x8680000008a0ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x8680000008a0ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT3_DW0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW0(a) bdk_usbhx_uahc_suptprt3_dw0_t
@@ -6910,7 +7094,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_SUPTPRT3_DW1(unsigned long a)
 {
-    return 0x8680000008a4ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x8680000008a4ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_SUPTPRT3_DW1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_SUPTPRT3_DW1(a) bdk_usbhx_uahc_suptprt3_dw1_t
@@ -6948,7 +7134,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTHLPMC_SSX(unsigned long a, unsigned long b)
 {
-    return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if ((a<=1) && (b==1))
+        return 0x86800000042cll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_PORTHLPMC_SSX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_PORTHLPMC_SSX(a,b) bdk_usbhx_uahc_porthlpmc_ssx_t
@@ -6991,7 +7179,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_SSX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_PORTPMSC_SSX(unsigned long a, unsigned long b)
 {
-    return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    if ((a<=1) && (b==1))
+        return 0x868000000424ll + 0x1000000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_PORTPMSC_SSX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_PORTPMSC_SSX(a,b) bdk_usbhx_uahc_portpmsc_ssx_t
@@ -7048,7 +7238,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_USBCMD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_USBCMD(unsigned long a)
 {
-    return 0x868000000020ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x868000000020ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_USBCMD", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_USBCMD(a) bdk_usbhx_uahc_usbcmd_t
@@ -7090,7 +7282,9 @@ typedef union
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP(unsigned long a)
 {
-    return 0x86800000c138ll + 0x1000000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x86800000c138ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GPRTBIMAP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_USBHX_UAHC_GPRTBIMAP(a) bdk_usbhx_uahc_gprtbimap_t

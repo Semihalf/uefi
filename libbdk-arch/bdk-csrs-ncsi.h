@@ -173,7 +173,9 @@ typedef union
 static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a)
 {
-    return 0x87e00bf00008ll + 0x10ll * ((a) & 0x0);
+    if (a==0)
+        return 0x87e00bf00008ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("NCSI_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NCSI_MSIX_VECX_CTL(a) bdk_ncsi_msix_vecx_ctl_t
@@ -291,7 +293,9 @@ typedef union
 static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a)
 {
-    return 0x87e00b000200ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e00b000200ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("NCSI_TX_FRM_SMACX_CAM", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NCSI_TX_FRM_SMACX_CAM(a) bdk_ncsi_tx_frm_smacx_cam_t
@@ -1238,7 +1242,9 @@ typedef union
 static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a)
 {
-    return 0x87e00bff0000ll + 8ll * ((a) & 0x0);
+    if (a==0)
+        return 0x87e00bff0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("NCSI_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NCSI_MSIX_PBAX(a) bdk_ncsi_msix_pbax_t
@@ -1399,7 +1405,9 @@ typedef union
 static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a)
 {
-    return 0x87e00b000a00ll + 8ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x87e00b000a00ll + 8ll * ((a) & 0xf);
+    __bdk_csr_fatal("NCSI_TX_NCP_PERMX_TABLE_LOW", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) bdk_ncsi_tx_ncp_permx_table_low_t
@@ -1475,7 +1483,9 @@ typedef union
 static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_HI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_HI(unsigned long a)
 {
-    return 0x87e00b000900ll + 8ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x87e00b000900ll + 8ll * ((a) & 0xf);
+    __bdk_csr_fatal("NCSI_TX_NCP_PERMX_TABLE_HI", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NCSI_TX_NCP_PERMX_TABLE_HI(a) bdk_ncsi_tx_ncp_permx_table_hi_t
@@ -1565,7 +1575,9 @@ typedef union
 static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a)
 {
-    return 0x87e00bf00000ll + 0x10ll * ((a) & 0x0);
+    if (a==0)
+        return 0x87e00bf00000ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("NCSI_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_NCSI_MSIX_VECX_ADDR(a) bdk_ncsi_msix_vecx_addr_t

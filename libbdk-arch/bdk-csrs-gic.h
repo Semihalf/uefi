@@ -64,28 +64,6 @@
 #define BDK_GIC_BAR_E_GIC_PF_BAR4 (0x801080000000ll) /**< Base address for GICRx registers. */
 
 /**
- * Enumeration gits_cmd_err_e
- *
- * ITS Command Error Enumeration
- * The actual 24-bit ITS command SEI is defined as {8'h01,
- * GITS_CMD_TYPE(8-bit), GITS_CMD_ERR(8-bit)}.
- */
-#define BDK_GITS_CMD_ERR_E_CSEI_CMD_TO (0xe0) /**< Command time out.  Added in pass 2. */
-#define BDK_GITS_CMD_ERR_E_CSEI_COLLECTION_OOR (3) /**< Collection is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_DEVICE_OOR (1) /**< Device ID is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_ID_OOR (5) /**< ID is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_ITE_INVALID (0x10) /**< ITE is invalid. */
-#define BDK_GITS_CMD_ERR_E_CSEI_ITTSIZE_OOR (2) /**< ITT SIZE is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_PHYSICALID_OOR (6) /**< Physical ID is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID (0xe1) /**< SYNC ACK was received when no SYNC command is executed by ITS, and most likely
-                                       the SYNC ACK was received after the SYNC command is timed out. Added in pass 2. */
-#define BDK_GITS_CMD_ERR_E_CSEI_TA_INVALID (0xfe) /**< Target address is invalid. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_COLLECTION (9) /**< Collection is unmapped. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_DEVICE (4) /**< Device is unmapped. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_INTERRUPT (7) /**< Interrupt is unmapped. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNSUPPORTED_CMD (0xff) /**< Command not supported. */
-
-/**
  * Enumeration gits_cmd_type_e
  *
  * ITS Command Type Enumeration
@@ -115,6 +93,28 @@
                                        of the interrupt collection specified by collection. */
 #define BDK_GITS_CMD_TYPE_E_CMD_SYNC (5) /**< This command specifies that all actions for the specified re-distributor must be completed. */
 #define BDK_GITS_CMD_TYPE_E_CMD_UDF (0) /**< This is an undefined ITS command (value 0x0). */
+
+/**
+ * Enumeration gits_cmd_err_e
+ *
+ * ITS Command Error Enumeration
+ * The actual 24-bit ITS command SEI is defined as {8'h01,
+ * GITS_CMD_TYPE(8-bit), GITS_CMD_ERR(8-bit)}.
+ */
+#define BDK_GITS_CMD_ERR_E_CSEI_CMD_TO (0xe0) /**< Command time out.  Added in pass 2. */
+#define BDK_GITS_CMD_ERR_E_CSEI_COLLECTION_OOR (3) /**< Collection is out of range. */
+#define BDK_GITS_CMD_ERR_E_CSEI_DEVICE_OOR (1) /**< Device ID is out of range. */
+#define BDK_GITS_CMD_ERR_E_CSEI_ID_OOR (5) /**< ID is out of range. */
+#define BDK_GITS_CMD_ERR_E_CSEI_ITE_INVALID (0x10) /**< ITE is invalid. */
+#define BDK_GITS_CMD_ERR_E_CSEI_ITTSIZE_OOR (2) /**< ITT SIZE is out of range. */
+#define BDK_GITS_CMD_ERR_E_CSEI_PHYSICALID_OOR (6) /**< Physical ID is out of range. */
+#define BDK_GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID (0xe1) /**< SYNC ACK was received when no SYNC command is executed by ITS, and most likely
+                                       the SYNC ACK was received after the SYNC command is timed out. Added in pass 2. */
+#define BDK_GITS_CMD_ERR_E_CSEI_TA_INVALID (0xfe) /**< Target address is invalid. */
+#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_COLLECTION (9) /**< Collection is unmapped. */
+#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_DEVICE (4) /**< Device is unmapped. */
+#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_INTERRUPT (7) /**< Interrupt is unmapped. */
+#define BDK_GITS_CMD_ERR_E_CSEI_UNSUPPORTED_CMD (0xff) /**< Command not supported. */
 
 /**
  * Structure gits_cmd_mapd_s
@@ -869,54 +869,6 @@ static inline uint64_t BDK_GITS_PIDR6_FUNC(void)
 #define arguments_BDK_GITS_PIDR6 -1,-1,-1,-1
 
 /**
- * Register (NCB32b) gits_pidr2
- *
- * GIC ITS Peripheral Identification Register 2
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_gits_pidr2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t archrev               : 4;  /**< [  7:  4](RO) Architectural revision:
-                                                                   0x1 = GICv1.
-                                                                   0x2 = GICV2.
-                                                                   0x3 = GICv3.
-                                                                   0x4 = GICv4.
-                                                                   0x5-0xF = Reserved. */
-        uint32_t usesjepcode           : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t jepid                 : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
-#else /* Word 0 - Little Endian */
-        uint32_t jepid                 : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
-        uint32_t usesjepcode           : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t archrev               : 4;  /**< [  7:  4](RO) Architectural revision:
-                                                                   0x1 = GICv1.
-                                                                   0x2 = GICV2.
-                                                                   0x3 = GICv3.
-                                                                   0x4 = GICv4.
-                                                                   0x5-0xF = Reserved. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gits_pidr2_s cn; */
-} bdk_gits_pidr2_t;
-
-#define BDK_GITS_PIDR2 BDK_GITS_PIDR2_FUNC()
-static inline uint64_t BDK_GITS_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GITS_PIDR2_FUNC(void)
-{
-    return 0x80100002ffe8ll;
-}
-
-#define typedef_BDK_GITS_PIDR2 bdk_gits_pidr2_t
-#define bustype_BDK_GITS_PIDR2 BDK_CSR_TYPE_NCB32b
-#define basename_BDK_GITS_PIDR2 "GITS_PIDR2"
-#define busnum_BDK_GITS_PIDR2 0
-#define arguments_BDK_GITS_PIDR2 -1,-1,-1,-1
-
-/**
  * Register (NCB32b) gits_translater
  *
  * GIC ITS Translate Register
@@ -1047,7 +999,9 @@ typedef union
 static inline uint64_t BDK_GICRX_PENDBASER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PENDBASER(unsigned long a)
 {
-    return 0x801080000078ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000078ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_PENDBASER", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_PENDBASER(a) bdk_gicrx_pendbaser_t
@@ -1148,7 +1102,9 @@ typedef union
 static inline uint64_t BDK_GICRX_WAKER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_WAKER(unsigned long a)
 {
-    return 0x801080000014ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000014ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_WAKER", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_WAKER(a) bdk_gicrx_waker_t
@@ -1197,7 +1153,9 @@ typedef union
 static inline uint64_t BDK_GICRX_IIDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_IIDR(unsigned long a)
 {
-    return 0x801080000004ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000004ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_IIDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_IIDR(a) bdk_gicrx_iidr_t
@@ -1205,6 +1163,54 @@ static inline uint64_t BDK_GICRX_IIDR(unsigned long a)
 #define basename_BDK_GICRX_IIDR(a) "GICRX_IIDR"
 #define busnum_BDK_GICRX_IIDR(a) (a)
 #define arguments_BDK_GICRX_IIDR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) gits_pidr2
+ *
+ * GIC ITS Peripheral Identification Register 2
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_gits_pidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t archrev               : 4;  /**< [  7:  4](RO) Architectural revision:
+                                                                   0x1 = GICv1.
+                                                                   0x2 = GICV2.
+                                                                   0x3 = GICv3.
+                                                                   0x4 = GICv4.
+                                                                   0x5-0xF = Reserved. */
+        uint32_t usesjepcode           : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t jepid                 : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
+#else /* Word 0 - Little Endian */
+        uint32_t jepid                 : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
+        uint32_t usesjepcode           : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t archrev               : 4;  /**< [  7:  4](RO) Architectural revision:
+                                                                   0x1 = GICv1.
+                                                                   0x2 = GICV2.
+                                                                   0x3 = GICv3.
+                                                                   0x4 = GICv4.
+                                                                   0x5-0xF = Reserved. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gits_pidr2_s cn; */
+} bdk_gits_pidr2_t;
+
+#define BDK_GITS_PIDR2 BDK_GITS_PIDR2_FUNC()
+static inline uint64_t BDK_GITS_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GITS_PIDR2_FUNC(void)
+{
+    return 0x80100002ffe8ll;
+}
+
+#define typedef_BDK_GITS_PIDR2 bdk_gits_pidr2_t
+#define bustype_BDK_GITS_PIDR2 BDK_CSR_TYPE_NCB32b
+#define basename_BDK_GITS_PIDR2 "GITS_PIDR2"
+#define busnum_BDK_GITS_PIDR2 0
+#define arguments_BDK_GITS_PIDR2 -1,-1,-1,-1
 
 /**
  * Register (NCB32b) gicr#_setdel3tr_el1s
@@ -1238,7 +1244,9 @@ typedef union
 static inline uint64_t BDK_GICRX_SETDEL3TR_EL1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SETDEL3TR_EL1S(unsigned long a)
 {
-    return 0x80108000c000ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000c000ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_SETDEL3TR_EL1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_SETDEL3TR_EL1S(a) bdk_gicrx_setdel3tr_el1s_t
@@ -1277,7 +1285,9 @@ typedef union
 static inline uint64_t BDK_GICRX_SETLPIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SETLPIR(unsigned long a)
 {
-    return 0x801080000040ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000040ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_SETLPIR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_SETLPIR(a) bdk_gicrx_setlpir_t
@@ -1316,7 +1326,9 @@ typedef union
 static inline uint64_t BDK_GICRX_SEIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SEIR(unsigned long a)
 {
-    return 0x801080000068ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000068ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_SEIR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_SEIR(a) bdk_gicrx_seir_t
@@ -1349,7 +1361,9 @@ typedef union
 static inline uint64_t BDK_GICRX_INVALLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_INVALLR(unsigned long a)
 {
-    return 0x8010800000b0ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x8010800000b0ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_INVALLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_INVALLR(a) bdk_gicrx_invallr_t
@@ -1445,7 +1459,9 @@ typedef union
 static inline uint64_t BDK_GICD_IPRIORITYRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_IPRIORITYRX(unsigned long a)
 {
-    return 0x801000000400ll + 4ll * ((a) & 0x3f);
+    if ((a>=8)&&(a<=39))
+        return 0x801000000400ll + 4ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICD_IPRIORITYRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_IPRIORITYRX(a) bdk_gicd_ipriorityrx_t
@@ -1613,7 +1629,9 @@ typedef union
 static inline uint64_t BDK_GICRX_SSTATUSR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SSTATUSR(unsigned long a)
 {
-    return 0x801080000010ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000010ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_SSTATUSR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_SSTATUSR(a) bdk_gicrx_sstatusr_t
@@ -1660,7 +1678,9 @@ typedef union
 static inline uint64_t BDK_GICD_ISACTIVERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ISACTIVERX(unsigned long a)
 {
-    return 0x801000000300ll + 4ll * ((a) & 0x7);
+    if ((a>=1)&&(a<=4))
+        return 0x801000000300ll + 4ll * ((a) & 0x7);
+    __bdk_csr_fatal("GICD_ISACTIVERX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_ISACTIVERX(a) bdk_gicd_isactiverx_t
@@ -1703,7 +1723,9 @@ typedef union
 static inline uint64_t BDK_GICD_ICFGRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ICFGRX(unsigned long a)
 {
-    return 0x801000000c00ll + 4ll * ((a) & 0xf);
+    if ((a>=2)&&(a<=9))
+        return 0x801000000c00ll + 4ll * ((a) & 0xf);
+    __bdk_csr_fatal("GICD_ICFGRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_ICFGRX(a) bdk_gicd_icfgrx_t
@@ -1711,6 +1733,57 @@ static inline uint64_t BDK_GICD_ICFGRX(unsigned long a)
 #define basename_BDK_GICD_ICFGRX(a) "GICD_ICFGRX"
 #define busnum_BDK_GICD_ICFGRX(a) (a)
 #define arguments_BDK_GICD_ICFGRX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gits_imp_tseir
+ *
+ * GIC ITS Implementation Defined Translator SEI Register
+ * This register holds the SEI status of the ITS translator error.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gits_imp_tseir_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear fields [V, M,
+                                                                 DEV_ID, INT_ID, ERROR]. */
+        uint64_t m                     : 1;  /**< [ 62: 62](RO/H) When set, it means multiple errors have happened. */
+        uint64_t reserved_53_61        : 9;
+        uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Input device ID to the interrupt translator. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t int_id                : 20; /**< [ 27:  8](RO/H) Input interrupt ID to the interrupt translator. */
+        uint64_t error                 : 8;  /**< [  7:  0](RO/H) Error code for the first error. Valid encoding is one of [CSEI_UNMAPPED_DEVICE,
+                                                                 CSEI_DEVICE_OOR, CSEI_ID_OOR,
+                                                                 CSEI_UNMAPPED_INTERRUPT,CSEI_UNMAPPED_COLLECTION] (as defined in GITS_CMD_ERR_E). */
+#else /* Word 0 - Little Endian */
+        uint64_t error                 : 8;  /**< [  7:  0](RO/H) Error code for the first error. Valid encoding is one of [CSEI_UNMAPPED_DEVICE,
+                                                                 CSEI_DEVICE_OOR, CSEI_ID_OOR,
+                                                                 CSEI_UNMAPPED_INTERRUPT,CSEI_UNMAPPED_COLLECTION] (as defined in GITS_CMD_ERR_E). */
+        uint64_t int_id                : 20; /**< [ 27:  8](RO/H) Input interrupt ID to the interrupt translator. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Input device ID to the interrupt translator. */
+        uint64_t reserved_53_61        : 9;
+        uint64_t m                     : 1;  /**< [ 62: 62](RO/H) When set, it means multiple errors have happened. */
+        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear fields [V, M,
+                                                                 DEV_ID, INT_ID, ERROR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gits_imp_tseir_s cn; */
+} bdk_gits_imp_tseir_t;
+
+#define BDK_GITS_IMP_TSEIR BDK_GITS_IMP_TSEIR_FUNC()
+static inline uint64_t BDK_GITS_IMP_TSEIR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GITS_IMP_TSEIR_FUNC(void)
+{
+    return 0x801000020028ll;
+}
+
+#define typedef_BDK_GITS_IMP_TSEIR bdk_gits_imp_tseir_t
+#define bustype_BDK_GITS_IMP_TSEIR BDK_CSR_TYPE_NCB
+#define basename_BDK_GITS_IMP_TSEIR "GITS_IMP_TSEIR"
+#define busnum_BDK_GITS_IMP_TSEIR 0
+#define arguments_BDK_GITS_IMP_TSEIR -1,-1,-1,-1
 
 /**
  * Register (NCB32b) gicr#_pidr4
@@ -1738,7 +1811,9 @@ typedef union
 static inline uint64_t BDK_GICRX_PIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR4(unsigned long a)
 {
-    return 0x80108000ffd0ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000ffd0ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_PIDR4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_PIDR4(a) bdk_gicrx_pidr4_t
@@ -1769,7 +1844,9 @@ typedef union
 static inline uint64_t BDK_GICRX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR7(unsigned long a)
 {
-    return 0x80108000ffdcll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000ffdcll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_PIDR7", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_PIDR7(a) bdk_gicrx_pidr7_t
@@ -1800,7 +1877,9 @@ typedef union
 static inline uint64_t BDK_GICRX_PIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR6(unsigned long a)
 {
-    return 0x80108000ffd8ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000ffd8ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_PIDR6", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_PIDR6(a) bdk_gicrx_pidr6_t
@@ -1835,7 +1914,9 @@ typedef union
 static inline uint64_t BDK_GICRX_PIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR1(unsigned long a)
 {
-    return 0x80108000ffe4ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000ffe4ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_PIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_PIDR1(a) bdk_gicrx_pidr1_t
@@ -1868,7 +1949,9 @@ typedef union
 static inline uint64_t BDK_GICRX_PIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR0(unsigned long a)
 {
-    return 0x80108000ffe0ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000ffe0ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_PIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_PIDR0(a) bdk_gicrx_pidr0_t
@@ -1905,7 +1988,9 @@ typedef union
 static inline uint64_t BDK_GICRX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR3(unsigned long a)
 {
-    return 0x80108000ffecll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000ffecll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_PIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_PIDR3(a) bdk_gicrx_pidr3_t
@@ -1952,7 +2037,9 @@ typedef union
 static inline uint64_t BDK_GICRX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR2(unsigned long a)
 {
-    return 0x80108000ffe8ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000ffe8ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_PIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_PIDR2(a) bdk_gicrx_pidr2_t
@@ -2536,7 +2623,9 @@ typedef union
 static inline uint64_t BDK_GITS_BASERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GITS_BASERX(unsigned long a)
 {
-    return 0x801000020100ll + 8ll * ((a) & 0x0);
+    if (a==0)
+        return 0x801000020100ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("GITS_BASERX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GITS_BASERX(a) bdk_gits_baserx_t
@@ -2644,7 +2733,9 @@ typedef union
 static inline uint64_t BDK_GICRX_CLRLPIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_CLRLPIR(unsigned long a)
 {
-    return 0x801080000048ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000048ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_CLRLPIR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_CLRLPIR(a) bdk_gicrx_clrlpir_t
@@ -3100,7 +3191,9 @@ typedef union
 static inline uint64_t BDK_GICD_ISPENDRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ISPENDRX(unsigned long a)
 {
-    return 0x801000000200ll + 4ll * ((a) & 0x7);
+    if ((a>=1)&&(a<=4))
+        return 0x801000000200ll + 4ll * ((a) & 0x7);
+    __bdk_csr_fatal("GICD_ISPENDRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_ISPENDRX(a) bdk_gicd_ispendrx_t
@@ -3152,7 +3245,9 @@ typedef union
 static inline uint64_t BDK_GICD_ICENABLERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ICENABLERX(unsigned long a)
 {
-    return 0x801000000180ll + 4ll * ((a) & 0x7);
+    if ((a>=1)&&(a<=4))
+        return 0x801000000180ll + 4ll * ((a) & 0x7);
+    __bdk_csr_fatal("GICD_ICENABLERX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_ICENABLERX(a) bdk_gicd_icenablerx_t
@@ -3260,7 +3355,9 @@ typedef union
 static inline uint64_t BDK_GICRX_TYPER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_TYPER(unsigned long a)
 {
-    return 0x801080000008ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000008ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_TYPER", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_TYPER(a) bdk_gicrx_typer_t
@@ -3300,7 +3397,9 @@ typedef union
 static inline uint64_t BDK_GICD_ISENABLERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ISENABLERX(unsigned long a)
 {
-    return 0x801000000100ll + 4ll * ((a) & 0x7);
+    if ((a>=1)&&(a<=4))
+        return 0x801000000100ll + 4ll * ((a) & 0x7);
+    __bdk_csr_fatal("GICD_ISENABLERX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_ISENABLERX(a) bdk_gicd_isenablerx_t
@@ -3370,7 +3469,9 @@ typedef union
 static inline uint64_t BDK_GICRX_SCTLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SCTLR(unsigned long a)
 {
-    return 0x801080000000ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000000ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_SCTLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_SCTLR(a) bdk_gicrx_sctlr_t
@@ -3409,7 +3510,9 @@ typedef union
 static inline uint64_t BDK_GICRX_MOVLPIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_MOVLPIR(unsigned long a)
 {
-    return 0x801080000100ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000100ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_MOVLPIR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_MOVLPIR(a) bdk_gicrx_movlpir_t
@@ -3496,7 +3599,9 @@ typedef union
 static inline uint64_t BDK_GICRX_INVLPIR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_INVLPIR(unsigned long a)
 {
-    return 0x8010800000a0ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x8010800000a0ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_INVLPIR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_INVLPIR(a) bdk_gicrx_invlpir_t
@@ -3538,7 +3643,9 @@ typedef union
 static inline uint64_t BDK_GICRX_IGRPMODR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_IGRPMODR0(unsigned long a)
 {
-    return 0x801080010d00ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080010d00ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_IGRPMODR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_IGRPMODR0(a) bdk_gicrx_igrpmodr0_t
@@ -3797,7 +3904,9 @@ typedef union
 static inline uint64_t BDK_GICD_IGRPMODRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_IGRPMODRX(unsigned long a)
 {
-    return 0x801000000d00ll + 4ll * ((a) & 0x7);
+    if ((a>=1)&&(a<=4))
+        return 0x801000000d00ll + 4ll * ((a) & 0x7);
+    __bdk_csr_fatal("GICD_IGRPMODRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_IGRPMODRX(a) bdk_gicd_igrpmodrx_t
@@ -3851,7 +3960,9 @@ typedef union
 static inline uint64_t BDK_GICRX_ICENABLER0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ICENABLER0(unsigned long a)
 {
-    return 0x801080010180ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080010180ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_ICENABLER0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_ICENABLER0(a) bdk_gicrx_icenabler0_t
@@ -3900,7 +4011,9 @@ typedef union
 static inline uint64_t BDK_GICRX_ICFGR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ICFGR0(unsigned long a)
 {
-    return 0x801080010c00ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080010c00ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_ICFGR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_ICFGR0(a) bdk_gicrx_icfgr0_t
@@ -3948,7 +4061,9 @@ typedef union
 static inline uint64_t BDK_GICRX_ICFGR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ICFGR1(unsigned long a)
 {
-    return 0x801080010c04ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080010c04ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_ICFGR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_ICFGR1(a) bdk_gicrx_icfgr1_t
@@ -3993,7 +4108,9 @@ typedef union
 static inline uint64_t BDK_GICRX_ISACTIVER0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ISACTIVER0(unsigned long a)
 {
-    return 0x801080010300ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080010300ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_ISACTIVER0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_ISACTIVER0(a) bdk_gicrx_isactiver0_t
@@ -4024,7 +4141,9 @@ typedef union
 static inline uint64_t BDK_GICRX_PIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PIDR5(unsigned long a)
 {
-    return 0x80108000ffd4ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000ffd4ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_PIDR5", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_PIDR5(a) bdk_gicrx_pidr5_t
@@ -4073,7 +4192,9 @@ typedef union
 static inline uint64_t BDK_GICD_IROUTERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_IROUTERX(unsigned long a)
 {
-    return 0x801000006000ll + 8ll * ((a) & 0xff);
+    if ((a>=32)&&(a<=159))
+        return 0x801000006000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("GICD_IROUTERX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_IROUTERX(a) bdk_gicd_irouterx_t
@@ -4234,7 +4355,9 @@ typedef union
 static inline uint64_t BDK_GICRX_PROPBASER(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_PROPBASER(unsigned long a)
 {
-    return 0x801080000070ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000070ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_PROPBASER", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_PROPBASER(a) bdk_gicrx_propbaser_t
@@ -4281,7 +4404,9 @@ typedef union
 static inline uint64_t BDK_GICD_ICACTIVERX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ICACTIVERX(unsigned long a)
 {
-    return 0x801000000380ll + 4ll * ((a) & 0x7);
+    if ((a>=1)&&(a<=4))
+        return 0x801000000380ll + 4ll * ((a) & 0x7);
+    __bdk_csr_fatal("GICD_ICACTIVERX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_ICACTIVERX(a) bdk_gicd_icactiverx_t
@@ -4359,7 +4484,9 @@ typedef union
 static inline uint64_t BDK_GICRX_ICPENDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ICPENDR0(unsigned long a)
 {
-    return 0x801080010280ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080010280ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_ICPENDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_ICPENDR0(a) bdk_gicrx_icpendr0_t
@@ -4399,7 +4526,9 @@ typedef union
 static inline uint64_t BDK_GICRX_ISENABLER0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ISENABLER0(unsigned long a)
 {
-    return 0x801080010100ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080010100ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_ISENABLER0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_ISENABLER0(a) bdk_gicrx_isenabler0_t
@@ -4491,7 +4620,9 @@ typedef union
 static inline uint64_t BDK_GICRX_ICACTIVER0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ICACTIVER0(unsigned long a)
 {
-    return 0x801080010380ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080010380ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_ICACTIVER0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_ICACTIVER0(a) bdk_gicrx_icactiver0_t
@@ -4530,7 +4661,9 @@ typedef union
 static inline uint64_t BDK_GICRX_MOVALLR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_MOVALLR(unsigned long a)
 {
-    return 0x801080000110ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080000110ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_MOVALLR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_MOVALLR(a) bdk_gicrx_movallr_t
@@ -4565,7 +4698,9 @@ typedef union
 static inline uint64_t BDK_GITS_BASERX_ROWI(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GITS_BASERX_ROWI(unsigned long a)
 {
-    return 0x801000020100ll + 8ll * ((a) & 0x7);
+    if ((a>=1)&&(a<=7))
+        return 0x801000020100ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("GITS_BASERX_ROWI", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GITS_BASERX_ROWI(a) bdk_gits_baserx_rowi_t
@@ -4699,7 +4834,9 @@ typedef union
 static inline uint64_t BDK_GICRX_IGROUPR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_IGROUPR0(unsigned long a)
 {
-    return 0x801080010080ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080010080ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_IGROUPR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_IGROUPR0(a) bdk_gicrx_igroupr0_t
@@ -4746,7 +4883,9 @@ typedef union
 static inline uint64_t BDK_GICRX_IPRIORITYRX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_IPRIORITYRX(unsigned long a, unsigned long b)
 {
-    return 0x801080010400ll + 0x20000ll * ((a) & 0x3f) + 4ll * ((b) & 0x7);
+    if ((a<=47) && (b<=7))
+        return 0x801080010400ll + 0x20000ll * ((a) & 0x3f) + 4ll * ((b) & 0x7);
+    __bdk_csr_fatal("GICRX_IPRIORITYRX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_GICRX_IPRIORITYRX(a,b) bdk_gicrx_ipriorityrx_t
@@ -4779,7 +4918,9 @@ typedef union
 static inline uint64_t BDK_GICRX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_CIDR2(unsigned long a)
 {
-    return 0x80108000fff8ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000fff8ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_CIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_CIDR2(a) bdk_gicrx_cidr2_t
@@ -4812,7 +4953,9 @@ typedef union
 static inline uint64_t BDK_GICRX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_CIDR3(unsigned long a)
 {
-    return 0x80108000fffcll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000fffcll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_CIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_CIDR3(a) bdk_gicrx_cidr3_t
@@ -4845,7 +4988,9 @@ typedef union
 static inline uint64_t BDK_GICRX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_CIDR0(unsigned long a)
 {
-    return 0x80108000fff0ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000fff0ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_CIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_CIDR0(a) bdk_gicrx_cidr0_t
@@ -4878,7 +5023,9 @@ typedef union
 static inline uint64_t BDK_GICRX_CIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_CIDR1(unsigned long a)
 {
-    return 0x80108000fff4ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x80108000fff4ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_CIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_CIDR1(a) bdk_gicrx_cidr1_t
@@ -4886,57 +5033,6 @@ static inline uint64_t BDK_GICRX_CIDR1(unsigned long a)
 #define basename_BDK_GICRX_CIDR1(a) "GICRX_CIDR1"
 #define busnum_BDK_GICRX_CIDR1(a) (a)
 #define arguments_BDK_GICRX_CIDR1(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) gits_imp_tseir
- *
- * GIC ITS Implementation Defined Translator SEI Register
- * This register holds the SEI status of the ITS translator error.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gits_imp_tseir_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear fields [V, M,
-                                                                 DEV_ID, INT_ID, ERROR]. */
-        uint64_t m                     : 1;  /**< [ 62: 62](RO/H) When set, it means multiple errors have happened. */
-        uint64_t reserved_53_61        : 9;
-        uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Input device ID to the interrupt translator. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t int_id                : 20; /**< [ 27:  8](RO/H) Input interrupt ID to the interrupt translator. */
-        uint64_t error                 : 8;  /**< [  7:  0](RO/H) Error code for the first error. Valid encoding is one of [CSEI_UNMAPPED_DEVICE,
-                                                                 CSEI_DEVICE_OOR, CSEI_ID_OOR,
-                                                                 CSEI_UNMAPPED_INTERRUPT,CSEI_UNMAPPED_COLLECTION] (as defined in GITS_CMD_ERR_E). */
-#else /* Word 0 - Little Endian */
-        uint64_t error                 : 8;  /**< [  7:  0](RO/H) Error code for the first error. Valid encoding is one of [CSEI_UNMAPPED_DEVICE,
-                                                                 CSEI_DEVICE_OOR, CSEI_ID_OOR,
-                                                                 CSEI_UNMAPPED_INTERRUPT,CSEI_UNMAPPED_COLLECTION] (as defined in GITS_CMD_ERR_E). */
-        uint64_t int_id                : 20; /**< [ 27:  8](RO/H) Input interrupt ID to the interrupt translator. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Input device ID to the interrupt translator. */
-        uint64_t reserved_53_61        : 9;
-        uint64_t m                     : 1;  /**< [ 62: 62](RO/H) When set, it means multiple errors have happened. */
-        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear fields [V, M,
-                                                                 DEV_ID, INT_ID, ERROR]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gits_imp_tseir_s cn; */
-} bdk_gits_imp_tseir_t;
-
-#define BDK_GITS_IMP_TSEIR BDK_GITS_IMP_TSEIR_FUNC()
-static inline uint64_t BDK_GITS_IMP_TSEIR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GITS_IMP_TSEIR_FUNC(void)
-{
-    return 0x801000020028ll;
-}
-
-#define typedef_BDK_GITS_IMP_TSEIR bdk_gits_imp_tseir_t
-#define bustype_BDK_GITS_IMP_TSEIR BDK_CSR_TYPE_NCB
-#define basename_BDK_GITS_IMP_TSEIR "GITS_IMP_TSEIR"
-#define busnum_BDK_GITS_IMP_TSEIR 0
-#define arguments_BDK_GITS_IMP_TSEIR -1,-1,-1,-1
 
 /**
  * Register (NCB) gic_rib_err_adrr
@@ -5065,7 +5161,9 @@ typedef union
 static inline uint64_t BDK_GICRX_NSACR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_NSACR(unsigned long a)
 {
-    return 0x801080010e00ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080010e00ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_NSACR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_NSACR(a) bdk_gicrx_nsacr_t
@@ -5712,7 +5810,9 @@ typedef union
 static inline uint64_t BDK_GICRX_ISPENDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_ISPENDR0(unsigned long a)
 {
-    return 0x801080010200ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x801080010200ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_ISPENDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_ISPENDR0(a) bdk_gicrx_ispendr0_t
@@ -5812,7 +5912,9 @@ typedef union
 static inline uint64_t BDK_GICRX_SYNCR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICRX_SYNCR(unsigned long a)
 {
-    return 0x8010800000c0ll + 0x20000ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x8010800000c0ll + 0x20000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GICRX_SYNCR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICRX_SYNCR(a) bdk_gicrx_syncr_t
@@ -5848,7 +5950,9 @@ typedef union
 static inline uint64_t BDK_GICD_IGROUPRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_IGROUPRX(unsigned long a)
 {
-    return 0x801000000080ll + 4ll * ((a) & 0x7);
+    if ((a>=1)&&(a<=4))
+        return 0x801000000080ll + 4ll * ((a) & 0x7);
+    __bdk_csr_fatal("GICD_IGROUPRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_IGROUPRX(a) bdk_gicd_igrouprx_t
@@ -6153,7 +6257,9 @@ typedef union
 static inline uint64_t BDK_GICD_ICPENDRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_ICPENDRX(unsigned long a)
 {
-    return 0x801000000280ll + 4ll * ((a) & 0x7);
+    if ((a>=1)&&(a<=4))
+        return 0x801000000280ll + 4ll * ((a) & 0x7);
+    __bdk_csr_fatal("GICD_ICPENDRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_ICPENDRX(a) bdk_gicd_icpendrx_t
@@ -6214,7 +6320,9 @@ typedef union
 static inline uint64_t BDK_GICD_NSACRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GICD_NSACRX(unsigned long a)
 {
-    return 0x801000000e00ll + 4ll * ((a) & 0xf);
+    if ((a>=2)&&(a<=9))
+        return 0x801000000e00ll + 4ll * ((a) & 0xf);
+    __bdk_csr_fatal("GICD_NSACRX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GICD_NSACRX(a) bdk_gicd_nsacrx_t

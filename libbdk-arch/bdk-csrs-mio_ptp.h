@@ -331,7 +331,9 @@ typedef union
 static inline uint64_t BDK_MIO_PTP_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_PTP_MSIX_VECX_ADDR(unsigned long a)
 {
-    return 0x807000f00000ll + 0x10ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x807000f00000ll + 0x10ll * ((a) & 0x1);
+    __bdk_csr_fatal("MIO_PTP_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MIO_PTP_MSIX_VECX_ADDR(a) bdk_mio_ptp_msix_vecx_addr_t
@@ -406,7 +408,9 @@ typedef union
 static inline uint64_t BDK_MIO_PTP_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_PTP_MSIX_PBAX(unsigned long a)
 {
-    return 0x807000ff0000ll + 8ll * ((a) & 0x0);
+    if (a==0)
+        return 0x807000ff0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("MIO_PTP_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MIO_PTP_MSIX_PBAX(a) bdk_mio_ptp_msix_pbax_t
@@ -480,7 +484,9 @@ typedef union
 static inline uint64_t BDK_MIO_PTP_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_PTP_MSIX_VECX_CTL(unsigned long a)
 {
-    return 0x807000f00008ll + 0x10ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x807000f00008ll + 0x10ll * ((a) & 0x1);
+    __bdk_csr_fatal("MIO_PTP_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MIO_PTP_MSIX_VECX_CTL(a) bdk_mio_ptp_msix_vecx_ctl_t

@@ -960,7 +960,9 @@ typedef union
 static inline uint64_t BDK_RAD_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MSIX_VECX_ADDR(unsigned long a)
 {
-    return 0x870000f00000ll + 0x10ll * ((a) & 0x0);
+    if (a==0)
+        return 0x870000f00000ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("RAD_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_MSIX_VECX_ADDR(a) bdk_rad_msix_vecx_addr_t
@@ -1885,7 +1887,9 @@ typedef union
 static inline uint64_t BDK_RAD_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MSIX_PBAX(unsigned long a)
 {
-    return 0x870000ff0000ll + 8ll * ((a) & 0x0);
+    if (a==0)
+        return 0x870000ff0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("RAD_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_MSIX_PBAX(a) bdk_rad_msix_pbax_t
@@ -1923,7 +1927,9 @@ typedef union
 static inline uint64_t BDK_RAD_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MSIX_VECX_CTL(unsigned long a)
 {
-    return 0x870000f00008ll + 0x10ll * ((a) & 0x0);
+    if (a==0)
+        return 0x870000f00008ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("RAD_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_MSIX_VECX_CTL(a) bdk_rad_msix_vecx_ctl_t

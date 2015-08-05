@@ -204,7 +204,7 @@ typedef union
 static inline uint64_t BDK_DFA_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x846a00000008ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("DFA_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -249,7 +249,7 @@ typedef union
 static inline uint64_t BDK_DFA_ASC_REGIONX_END(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_ASC_REGIONX_END(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x8462000001a0ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("DFA_ASC_REGIONX_END", 1, a, 0, 0, 0);
 }
@@ -1254,7 +1254,7 @@ typedef union
 static inline uint64_t BDK_DFA_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_MSIX_PBAX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
         return 0x846a000f0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("DFA_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -1293,7 +1293,7 @@ typedef union
 static inline uint64_t BDK_DFA_ASC_REGIONX_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_ASC_REGIONX_START(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x846200000180ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("DFA_ASC_REGIONX_START", 1, a, 0, 0, 0);
 }
@@ -1348,7 +1348,7 @@ typedef union
 static inline uint64_t BDK_DFA_ASC_REGIONX_OFFSET(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_ASC_REGIONX_OFFSET(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x8462000001e0ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("DFA_ASC_REGIONX_OFFSET", 1, a, 0, 0, 0);
 }
@@ -1958,7 +1958,7 @@ typedef union
 static inline uint64_t BDK_DFA_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x846a00000000ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("DFA_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -2003,7 +2003,7 @@ typedef union
 static inline uint64_t BDK_DFA_ASC_REGIONX_ATTR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DFA_ASC_REGIONX_ATTR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
         return 0x8462000001c0ll + 8ll * ((a) & 0x3);
     __bdk_csr_fatal("DFA_ASC_REGIONX_ATTR", 1, a, 0, 0, 0);
 }

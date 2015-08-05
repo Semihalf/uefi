@@ -122,7 +122,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_GBL_DLL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_GBL_DLL(unsigned long a)
 {
-    return 0x87e0f000a000ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f000a000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_GBL_DLL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_GBL_DLL(a) bdk_iobnx_gbl_dll_t
@@ -184,7 +186,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_INT_SUM_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_SUM_W1S(unsigned long a)
 {
-    return 0x87e0f0007000ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0007000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_INT_SUM_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_INT_SUM_W1S(a) bdk_iobnx_int_sum_w1s_t
@@ -246,7 +250,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_ENA_W1S(unsigned long a)
 {
-    return 0x87e0f0009000ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0009000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_INT_ENA_W1S", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_INT_ENA_W1S(a) bdk_iobnx_int_ena_w1s_t
@@ -308,7 +314,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_ENA_W1C(unsigned long a)
 {
-    return 0x87e0f0008000ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0008000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_INT_ENA_W1C(a) bdk_iobnx_int_ena_w1c_t
@@ -381,7 +389,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(unsigned long a)
 {
-    return 0x87e0f000a100ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f000a100ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_CHIP_GLB_PWR_THROTTLE", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_CHIP_GLB_PWR_THROTTLE(a) bdk_iobnx_chip_glb_pwr_throttle_t
@@ -412,7 +422,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_SCRATCH(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_SCRATCH(unsigned long a)
 {
-    return 0x87e0f0003020ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0003020ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_SCRATCH", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_SCRATCH(a) bdk_iobnx_scratch_t
@@ -714,7 +726,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_INT_SUM(unsigned long a)
 {
-    return 0x87e0f0006000ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0006000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_INT_SUM", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_INT_SUM(a) bdk_iobnx_int_sum_t
@@ -773,7 +787,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CHIP_CUR_PWR(unsigned long a)
 {
-    return 0x87e0f000a110ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f000a110ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_CHIP_CUR_PWR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_CHIP_CUR_PWR(a) bdk_iobnx_chip_cur_pwr_t
@@ -892,7 +908,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_SLITAGX_CONTROL(unsigned long a, unsigned long b)
 {
-    return 0x87e0f0000000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
+    if ((a<=1) && (b<=2))
+        return 0x87e0f0000000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
+    __bdk_csr_fatal("IOBNX_SLITAGX_CONTROL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_SLITAGX_CONTROL(a,b) bdk_iobnx_slitagx_control_t
@@ -940,7 +958,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCBX_CREDITS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_CREDITS(unsigned long a, unsigned long b)
 {
-    return 0x87e0f0001000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0f0001000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
+    __bdk_csr_fatal("IOBNX_NCBX_CREDITS", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_NCBX_CREDITS(a,b) bdk_iobnx_ncbx_credits_t
@@ -974,7 +994,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCB0_SDISX(unsigned long a, unsigned long b)
 {
-    return 0x87e0f0002000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
+    if ((a<=1) && (b<=3))
+        return 0x87e0f0002000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3);
+    __bdk_csr_fatal("IOBNX_NCB0_SDISX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_NCB0_SDISX(a,b) bdk_iobnx_ncb0_sdisx_t
@@ -1030,7 +1052,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_BISTS_REG(unsigned long a)
 {
-    return 0x87e0f0005000ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0005000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_BISTS_REG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_BISTS_REG(a) bdk_iobnx_bists_reg_t
@@ -1102,7 +1126,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_ROC_DLL(unsigned long a)
 {
-    return 0x87e0f000a008ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f000a008ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_ROC_DLL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_ROC_DLL(a) bdk_iobnx_roc_dll_t
@@ -1200,7 +1226,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_MCTLR_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MCTLR_REG(unsigned long a)
 {
-    return 0x87e0f0005108ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0005108ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_MCTLR_REG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_MCTLR_REG(a) bdk_iobnx_mctlr_reg_t
@@ -1254,7 +1282,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCBX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0f0004000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
+    if ((a<=1) && (b<=1))
+        return 0x87e0f0004000ll + 0x1000000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x1);
+    __bdk_csr_fatal("IOBNX_NCBX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_NCBX_CTL(a,b) bdk_iobnx_ncbx_ctl_t
@@ -1393,7 +1423,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_DIS_NCBI_IO(unsigned long a)
 {
-    return 0x87e0f0003000ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0003000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_DIS_NCBI_IO", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_DIS_NCBI_IO(a) bdk_iobnx_dis_ncbi_io_t
@@ -1427,7 +1459,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    return 0x87e0f0ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x87e0f0ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("IOBNX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_MSIX_PBAX(a,b) bdk_iobnx_msix_pbax_t
@@ -1465,7 +1499,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    return 0x87e0f0f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x87e0f0f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("IOBNX_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_MSIX_VECX_CTL(a,b) bdk_iobnx_msix_vecx_ctl_t
@@ -1551,7 +1587,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_MCTLS_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MCTLS_REG(unsigned long a)
 {
-    return 0x87e0f0005100ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0005100ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_MCTLS_REG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_MCTLS_REG(a) bdk_iobnx_mctls_reg_t
@@ -1603,7 +1641,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CORE_BIST_STATUS(unsigned long a)
 {
-    return 0x87e0f0005008ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0005008ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_CORE_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_CORE_BIST_STATUS(a) bdk_iobnx_core_bist_status_t
@@ -1655,7 +1695,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    return 0x87e0f0f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    if ((a<=1) && (b==0))
+        return 0x87e0f0f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("IOBNX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_MSIX_VECX_ADDR(a,b) bdk_iobnx_msix_vecx_addr_t
@@ -1727,7 +1769,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_BISTR_REG(unsigned long a)
 {
-    return 0x87e0f0005080ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0005080ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_BISTR_REG", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_BISTR_REG(a) bdk_iobnx_bistr_reg_t
@@ -1780,7 +1824,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_CHIP_PWR_OUT(unsigned long a)
 {
-    return 0x87e0f000a108ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f000a108ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_CHIP_PWR_OUT", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_CHIP_PWR_OUT(a) bdk_iobnx_chip_pwr_out_t
@@ -1813,7 +1859,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_TEST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_TEST(unsigned long a)
 {
-    return 0x87e0f0003010ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0003010ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_TEST", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_TEST(a) bdk_iobnx_test_t
@@ -1846,7 +1894,9 @@ typedef union
 static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_IOBNX_NCB0_HP(unsigned long a)
 {
-    return 0x87e0f0003008ll + 0x1000000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e0f0003008ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("IOBNX_NCB0_HP", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_IOBNX_NCB0_HP(a) bdk_iobnx_ncb0_hp_t

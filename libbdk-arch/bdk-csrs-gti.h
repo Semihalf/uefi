@@ -649,7 +649,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_W_IIDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_W_IIDR(unsigned long a)
 {
-    return 0x844000080fccll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080fccll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_W_IIDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_W_IIDR(a) bdk_gti_wcx_w_iidr_t
@@ -815,7 +817,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_CIDR0(unsigned long a)
 {
-    return 0x844000080ff0ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080ff0ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_CIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_CIDR0(a) bdk_gti_wcx_cidr0_t
@@ -850,7 +854,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_CIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_CIDR1(unsigned long a)
 {
-    return 0x844000080ff4ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080ff4ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_CIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_CIDR1(a) bdk_gti_wcx_cidr1_t
@@ -883,7 +889,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_CIDR2(unsigned long a)
 {
-    return 0x844000080ff8ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080ff8ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_CIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_CIDR2(a) bdk_gti_wcx_cidr2_t
@@ -916,7 +924,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_CIDR3(unsigned long a)
 {
-    return 0x844000080ffcll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080ffcll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_CIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_CIDR3(a) bdk_gti_wcx_cidr3_t
@@ -1266,7 +1276,9 @@ typedef union
 static inline uint64_t BDK_GTI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_MSIX_VECX_CTL(unsigned long a)
 {
-    return 0x84400f000008ll + 0x10ll * ((a) & 0x7f);
+    if (a<=105)
+        return 0x84400f000008ll + 0x10ll * ((a) & 0x7f);
+    __bdk_csr_fatal("GTI_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_MSIX_VECX_CTL(a) bdk_gti_msix_vecx_ctl_t
@@ -1329,7 +1341,9 @@ typedef union
 static inline uint64_t BDK_GTI_CWD_POKEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_POKEX(unsigned long a)
 {
-    return 0x844000050000ll + 8ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x844000050000ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GTI_CWD_POKEX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_CWD_POKEX(a) bdk_gti_cwd_pokex_t
@@ -1416,7 +1430,9 @@ typedef union
 static inline uint64_t BDK_GTI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_MSIX_VECX_ADDR(unsigned long a)
 {
-    return 0x84400f000000ll + 0x10ll * ((a) & 0x7f);
+    if (a<=105)
+        return 0x84400f000000ll + 0x10ll * ((a) & 0x7f);
+    __bdk_csr_fatal("GTI_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_MSIX_VECX_ADDR(a) bdk_gti_msix_vecx_addr_t
@@ -1529,6 +1545,88 @@ static inline uint64_t BDK_GTI_ERR_INT_ENA_SET_FUNC(void)
 #define arguments_BDK_GTI_ERR_INT_ENA_SET -1,-1,-1,-1
 
 /**
+ * Register (NCB32b) gti_wc#_pidr3
+ *
+ * GTI Watchdog Control Peripheral Identification Register 3
+ * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_gti_wcx_pidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
+        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 0x1 = Overall product information should be consulted for
+                                                                 product, major and minor pass numbers. */
+#else /* Word 0 - Little Endian */
+        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 0x1 = Overall product information should be consulted for
+                                                                 product, major and minor pass numbers. */
+        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gti_wcx_pidr3_s cn; */
+} bdk_gti_wcx_pidr3_t;
+
+static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a)
+{
+    if (a<=1)
+        return 0x844000080fecll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_PIDR3", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GTI_WCX_PIDR3(a) bdk_gti_wcx_pidr3_t
+#define bustype_BDK_GTI_WCX_PIDR3(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_GTI_WCX_PIDR3(a) "GTI_WCX_PIDR3"
+#define busnum_BDK_GTI_WCX_PIDR3(a) (a)
+#define arguments_BDK_GTI_WCX_PIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) gti_wc#_pidr2
+ *
+ * GTI Watchdog Control Peripheral Identification Register 2
+ * GTI_WC(0) accesses the secure watchdog and is accessable only by the
+ * secure-world. GTI_WC(1) accesses the non-secure watchdog.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_gti_wcx_pidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
+#else /* Word 0 - Little Endian */
+        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
+        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gti_wcx_pidr2_s cn; */
+} bdk_gti_wcx_pidr2_t;
+
+static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a)
+{
+    if (a<=1)
+        return 0x844000080fe8ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_PIDR2", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GTI_WCX_PIDR2(a) bdk_gti_wcx_pidr2_t
+#define bustype_BDK_GTI_WCX_PIDR2(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_GTI_WCX_PIDR2(a) "GTI_WCX_PIDR2"
+#define busnum_BDK_GTI_WCX_PIDR2(a) (a)
+#define arguments_BDK_GTI_WCX_PIDR2(a) (a),-1,-1,-1
+
+/**
  * Register (NCB32b) gti_wc#_pidr1
  *
  * GTI Watchdog Control Peripheral Identification Register 1
@@ -1556,7 +1654,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_PIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR1(unsigned long a)
 {
-    return 0x844000080fe4ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080fe4ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_PIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_PIDR1(a) bdk_gti_wcx_pidr1_t
@@ -1591,7 +1691,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_PIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR0(unsigned long a)
 {
-    return 0x844000080fe0ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080fe0ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_PIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_PIDR0(a) bdk_gti_wcx_pidr0_t
@@ -1622,7 +1724,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR7(unsigned long a)
 {
-    return 0x844000080fdcll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080fdcll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_PIDR7", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_PIDR7(a) bdk_gti_wcx_pidr7_t
@@ -1653,7 +1757,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_PIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR6(unsigned long a)
 {
-    return 0x844000080fd8ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080fd8ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_PIDR6", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_PIDR6(a) bdk_gti_wcx_pidr6_t
@@ -1684,7 +1790,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_PIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR5(unsigned long a)
 {
-    return 0x844000080fd4ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080fd4ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_PIDR5", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_PIDR5(a) bdk_gti_wcx_pidr5_t
@@ -1960,7 +2068,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_WRR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_WRR(unsigned long a)
 {
-    return 0x844000090000ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090000ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_WRR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_WRR(a) bdk_gti_wrx_wrr_t
@@ -2200,7 +2310,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_PIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR4(unsigned long a)
 {
-    return 0x844000090fd0ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090fd0ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_PIDR4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_PIDR4(a) bdk_gti_wrx_pidr4_t
@@ -2272,7 +2384,9 @@ typedef union
 static inline uint64_t BDK_GTI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_MSIX_PBAX(unsigned long a)
 {
-    return 0x84400f0f0000ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x84400f0f0000ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_MSIX_PBAX(a) bdk_gti_msix_pbax_t
@@ -2280,84 +2394,6 @@ static inline uint64_t BDK_GTI_MSIX_PBAX(unsigned long a)
 #define basename_BDK_GTI_MSIX_PBAX(a) "GTI_MSIX_PBAX"
 #define busnum_BDK_GTI_MSIX_PBAX(a) (a)
 #define arguments_BDK_GTI_MSIX_PBAX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) gti_wc#_pidr3
- *
- * GTI Watchdog Control Peripheral Identification Register 3
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_gti_wcx_pidr3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
-        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 0x1 = Overall product information should be consulted for
-                                                                 product, major and minor pass numbers. */
-#else /* Word 0 - Little Endian */
-        uint32_t cust                  : 4;  /**< [  3:  0](RO) Customer modified. 0x1 = Overall product information should be consulted for
-                                                                 product, major and minor pass numbers. */
-        uint32_t revand                : 4;  /**< [  7:  4](RO) Manufacturer revision number. For CNXXXX always 0x0. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gti_wcx_pidr3_s cn; */
-} bdk_gti_wcx_pidr3_t;
-
-static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GTI_WCX_PIDR3(unsigned long a)
-{
-    return 0x844000080fecll + 0x20000ll * ((a) & 0x1);
-}
-
-#define typedef_BDK_GTI_WCX_PIDR3(a) bdk_gti_wcx_pidr3_t
-#define bustype_BDK_GTI_WCX_PIDR3(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_GTI_WCX_PIDR3(a) "GTI_WCX_PIDR3"
-#define busnum_BDK_GTI_WCX_PIDR3(a) (a)
-#define arguments_BDK_GTI_WCX_PIDR3(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) gti_wc#_pidr2
- *
- * GTI Watchdog Control Peripheral Identification Register 2
- * GTI_WC(0) accesses the secure watchdog and is accessable only by the
- * secure-world. GTI_WC(1) accesses the non-secure watchdog.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_gti_wcx_pidr2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
-        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
-#else /* Word 0 - Little Endian */
-        uint32_t idcode                : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
-        uint32_t jedec                 : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t revision              : 4;  /**< [  7:  4](RO) Architectural revision, as assigned by ARM. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gti_wcx_pidr2_s cn; */
-} bdk_gti_wcx_pidr2_t;
-
-static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GTI_WCX_PIDR2(unsigned long a)
-{
-    return 0x844000080fe8ll + 0x20000ll * ((a) & 0x1);
-}
-
-#define typedef_BDK_GTI_WCX_PIDR2(a) bdk_gti_wcx_pidr2_t
-#define bustype_BDK_GTI_WCX_PIDR2(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_GTI_WCX_PIDR2(a) "GTI_WCX_PIDR2"
-#define busnum_BDK_GTI_WCX_PIDR2(a) (a)
-#define arguments_BDK_GTI_WCX_PIDR2(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) gti_cc_cntmb_int_ena_set
@@ -2424,7 +2460,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_PIDR4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_PIDR4(unsigned long a)
 {
-    return 0x844000080fd0ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080fd0ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_PIDR4", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_PIDR4(a) bdk_gti_wcx_pidr4_t
@@ -2573,7 +2611,9 @@ typedef union
 static inline uint64_t BDK_GTI_CWD_WDOGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_CWD_WDOGX(unsigned long a)
 {
-    return 0x844000040000ll + 8ll * ((a) & 0x3f);
+    if (a<=47)
+        return 0x844000040000ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("GTI_CWD_WDOGX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_CWD_WDOGX(a) bdk_gti_cwd_wdogx_t
@@ -2755,7 +2795,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_W_IIDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_W_IIDR(unsigned long a)
 {
-    return 0x844000090fccll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090fccll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_W_IIDR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_W_IIDR(a) bdk_gti_wrx_w_iidr_t
@@ -2894,7 +2936,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_CIDR3(unsigned long a)
 {
-    return 0x844000090ffcll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090ffcll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_CIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_CIDR3(a) bdk_gti_wrx_cidr3_t
@@ -2927,7 +2971,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_CIDR2(unsigned long a)
 {
-    return 0x844000090ff8ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090ff8ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_CIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_CIDR2(a) bdk_gti_wrx_cidr2_t
@@ -2962,7 +3008,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_CIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_CIDR1(unsigned long a)
 {
-    return 0x844000090ff4ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090ff4ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_CIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_CIDR1(a) bdk_gti_wrx_cidr1_t
@@ -2995,7 +3043,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_CIDR0(unsigned long a)
 {
-    return 0x844000090ff0ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090ff0ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_CIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_CIDR0(a) bdk_gti_wrx_cidr0_t
@@ -3026,7 +3076,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_PIDR5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR5(unsigned long a)
 {
-    return 0x844000090fd4ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090fd4ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_PIDR5", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_PIDR5(a) bdk_gti_wrx_pidr5_t
@@ -3057,7 +3109,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_PIDR6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR6(unsigned long a)
 {
-    return 0x844000090fd8ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090fd8ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_PIDR6", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_PIDR6(a) bdk_gti_wrx_pidr6_t
@@ -3088,7 +3142,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR7(unsigned long a)
 {
-    return 0x844000090fdcll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090fdcll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_PIDR7", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_PIDR7(a) bdk_gti_wrx_pidr7_t
@@ -3121,7 +3177,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_PIDR0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR0(unsigned long a)
 {
-    return 0x844000090fe0ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090fe0ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_PIDR0", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_PIDR0(a) bdk_gti_wrx_pidr0_t
@@ -3156,7 +3214,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_PIDR1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR1(unsigned long a)
 {
-    return 0x844000090fe4ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090fe4ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_PIDR1", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_PIDR1(a) bdk_gti_wrx_pidr1_t
@@ -3193,7 +3253,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_PIDR2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR2(unsigned long a)
 {
-    return 0x844000090fe8ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090fe8ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_PIDR2", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_PIDR2(a) bdk_gti_wrx_pidr2_t
@@ -3230,7 +3292,9 @@ typedef union
 static inline uint64_t BDK_GTI_WRX_PIDR3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WRX_PIDR3(unsigned long a)
 {
-    return 0x844000090fecll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000090fecll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WRX_PIDR3", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WRX_PIDR3(a) bdk_gti_wrx_pidr3_t
@@ -3370,7 +3434,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_WOR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_WOR(unsigned long a)
 {
-    return 0x844000080008ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080008ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_WOR", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_WOR(a) bdk_gti_wcx_wor_t
@@ -3945,7 +4011,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_WCS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_WCS(unsigned long a)
 {
-    return 0x844000080000ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080000ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_WCS", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_WCS(a) bdk_gti_wcx_wcs_t
@@ -3978,7 +4046,9 @@ typedef union
 static inline uint64_t BDK_GTI_WCX_WCV(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_GTI_WCX_WCV(unsigned long a)
 {
-    return 0x844000080010ll + 0x20000ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x844000080010ll + 0x20000ll * ((a) & 0x1);
+    __bdk_csr_fatal("GTI_WCX_WCV", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_GTI_WCX_WCV(a) bdk_gti_wcx_wcv_t

@@ -215,9 +215,9 @@ typedef union
 static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e003001440ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
         return 0x87e003001440ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("MIO_FUS_PNAMEX", 1, a, 0, 0, 0);
 }
@@ -568,7 +568,9 @@ typedef union
 static inline uint64_t BDK_MIO_FUS_RPR_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_FUS_RPR_DATX(unsigned long a)
 {
-    return 0x87e003001530ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e003001530ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("MIO_FUS_RPR_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MIO_FUS_RPR_DATX(a) bdk_mio_fus_rpr_datx_t
@@ -639,7 +641,9 @@ typedef union
 static inline uint64_t BDK_MIO_FUS_BNK_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_FUS_BNK_DATX(unsigned long a)
 {
-    return 0x87e003001520ll + 8ll * ((a) & 0x1);
+    if (a<=1)
+        return 0x87e003001520ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("MIO_FUS_BNK_DATX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_MIO_FUS_BNK_DATX(a) bdk_mio_fus_bnk_datx_t

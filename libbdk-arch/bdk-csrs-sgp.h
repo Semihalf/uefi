@@ -253,7 +253,9 @@ typedef union
 static inline uint64_t BDK_SGP_IMP_DRIVEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SGP_IMP_DRIVEX(unsigned long a)
 {
-    return 0x87e027040000ll + 8ll * ((a) & 0xf);
+    if (a<=15)
+        return 0x87e027040000ll + 8ll * ((a) & 0xf);
+    __bdk_csr_fatal("SGP_IMP_DRIVEX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SGP_IMP_DRIVEX(a) bdk_sgp_imp_drivex_t
@@ -342,7 +344,9 @@ typedef union
 static inline uint64_t BDK_SGP_TXX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SGP_TXX(unsigned long a)
 {
-    return 0x87e027000c00ll + 4ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x87e027000c00ll + 4ll * ((a) & 0x3);
+    __bdk_csr_fatal("SGP_TXX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SGP_TXX(a) bdk_sgp_txx_t
@@ -577,7 +581,9 @@ typedef union
 static inline uint64_t BDK_SGP_RX_GPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SGP_RX_GPX(unsigned long a)
 {
-    return 0x87e027000800ll + 4ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=2))
+        return 0x87e027000800ll + 4ll * ((a) & 0x3);
+    __bdk_csr_fatal("SGP_RX_GPX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SGP_RX_GPX(a) bdk_sgp_rx_gpx_t
@@ -676,7 +682,9 @@ typedef union
 static inline uint64_t BDK_SGP_TX_GPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SGP_TX_GPX(unsigned long a)
 {
-    return 0x87e027001000ll + 4ll * ((a) & 0x3);
+    if ((a>=1)&&(a<=2))
+        return 0x87e027001000ll + 4ll * ((a) & 0x3);
+    __bdk_csr_fatal("SGP_TX_GPX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SGP_TX_GPX(a) bdk_sgp_tx_gpx_t
@@ -721,7 +729,9 @@ typedef union
 static inline uint64_t BDK_SGP_RXX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SGP_RXX(unsigned long a)
 {
-    return 0x87e027000400ll + 4ll * ((a) & 0x3);
+    if (a<=3)
+        return 0x87e027000400ll + 4ll * ((a) & 0x3);
+    __bdk_csr_fatal("SGP_RXX", 1, a, 0, 0, 0);
 }
 
 #define typedef_BDK_SGP_RXX(a) bdk_sgp_rxx_t

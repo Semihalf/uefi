@@ -53,6 +53,81 @@
  */
 
 /**
+ * Register (NCB32b) tb_ppu5mask
+ *
+ * Trickbox PPU*MASK Register
+ * NOTE: Per docs, this is not used for 64bit AVS
+ *
+ * The PPU Mask along with PPU address defines the region of memory to be
+ * protected by PPU.  For each register pair, an address match is deemed to
+ * have occurred when:
+ *
+ * AddressMatch<n> = Enable<n> & ( ! ( (AddressOnBus[31:10] ^ PPU<n>Addr[31:10] ) &
+ * PPU<n>Mask[31:10] ) );
+ *
+ * In addition, a region abort occurs when:
+ *
+ * RegionAbort<n> = AddressMatch<n> & ( (AccessNS & !RegionNS<n>) + ( !AccessNS & RegionNS<n> &!
+ * PPUMode<n>) );
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_tb_ppu5mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t address_mask          : 22; /**< [ 31: 10](R/W) Used to define the range over which the PPU is enabled for */
+        uint32_t reserved_3_9          : 7;
+        uint32_t mode                  : 1;  /**< [  2:  2](R/W) The Mode bit is defined as 0=strict, 1=real.  In "strict" mode, transfers
+                                                                 must have the same NS bit value as the targeted memory in every case.  In
+                                                                 "real" mode, the PPU behavior is modified slightly to allow secure
+                                                                 accesses to Non Secure memory regions.  Most validation tests will be run
+                                                                 with the PPU in "strict" mode, as this allows more rigorous checking of
+                                                                 the NS attribute issued by the processor.
+
+                                                                 The Mode bit may be thought of as "allow S to access NS regions".  By
+                                                                 marking a region as NS with the Mode bit for the region set as 1, the
+                                                                 region will respond to all accesses. */
+        uint32_t non_secure            : 1;  /**< [  1:  1](R/W) - 0 protection enabled for non-secure memory
+                                                                 - 1 protection enabled for secure memory */
+        uint32_t enable                : 1;  /**< [  0:  0](R/W) - 0 disable the PPU region
+                                                                 - 1 enable the PPU region */
+#else /* Word 0 - Little Endian */
+        uint32_t enable                : 1;  /**< [  0:  0](R/W) - 0 disable the PPU region
+                                                                 - 1 enable the PPU region */
+        uint32_t non_secure            : 1;  /**< [  1:  1](R/W) - 0 protection enabled for non-secure memory
+                                                                 - 1 protection enabled for secure memory */
+        uint32_t mode                  : 1;  /**< [  2:  2](R/W) The Mode bit is defined as 0=strict, 1=real.  In "strict" mode, transfers
+                                                                 must have the same NS bit value as the targeted memory in every case.  In
+                                                                 "real" mode, the PPU behavior is modified slightly to allow secure
+                                                                 accesses to Non Secure memory regions.  Most validation tests will be run
+                                                                 with the PPU in "strict" mode, as this allows more rigorous checking of
+                                                                 the NS attribute issued by the processor.
+
+                                                                 The Mode bit may be thought of as "allow S to access NS regions".  By
+                                                                 marking a region as NS with the Mode bit for the region set as 1, the
+                                                                 region will respond to all accesses. */
+        uint32_t reserved_3_9          : 7;
+        uint32_t address_mask          : 22; /**< [ 31: 10](R/W) Used to define the range over which the PPU is enabled for */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tb_ppu5mask_s cn; */
+} bdk_tb_ppu5mask_t;
+
+#define BDK_TB_PPU5MASK BDK_TB_PPU5MASK_FUNC()
+static inline uint64_t BDK_TB_PPU5MASK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TB_PPU5MASK_FUNC(void)
+{
+    return 0x87e01300025cll;
+}
+
+#define typedef_BDK_TB_PPU5MASK bdk_tb_ppu5mask_t
+#define bustype_BDK_TB_PPU5MASK BDK_CSR_TYPE_NCB32b
+#define basename_BDK_TB_PPU5MASK "TB_PPU5MASK"
+#define busnum_BDK_TB_PPU5MASK 0
+#define arguments_BDK_TB_PPU5MASK -1,-1,-1,-1
+
+/**
  * Register (NCB32b) tb_gte_api_status_64
  *
  * Trickbox GTE_API_STATUS_64 Register
@@ -265,81 +340,6 @@ static inline uint64_t BDK_TB_DEVICE_ID_FUNC(void)
 #define basename_BDK_TB_DEVICE_ID "TB_DEVICE_ID"
 #define busnum_BDK_TB_DEVICE_ID 0
 #define arguments_BDK_TB_DEVICE_ID -1,-1,-1,-1
-
-/**
- * Register (NCB32b) tb_ppu2mask
- *
- * Trickbox PPU*MASK Register
- * NOTE: Per docs, this is not used for 64bit AVS
- *
- * The PPU Mask along with PPU address defines the region of memory to be
- * protected by PPU.  For each register pair, an address match is deemed to
- * have occurred when:
- *
- * AddressMatch<n> = Enable<n> & ( ! ( (AddressOnBus[31:10] ^ PPU<n>Addr[31:10] ) &
- * PPU<n>Mask[31:10] ) );
- *
- * In addition, a region abort occurs when:
- *
- * RegionAbort<n> = AddressMatch<n> & ( (AccessNS & !RegionNS<n>) + ( !AccessNS & RegionNS<n> &!
- * PPUMode<n>) );
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_tb_ppu2mask_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t address_mask          : 22; /**< [ 31: 10](R/W) Used to define the range over which the PPU is enabled for */
-        uint32_t reserved_3_9          : 7;
-        uint32_t mode                  : 1;  /**< [  2:  2](R/W) The Mode bit is defined as 0=strict, 1=real.  In "strict" mode, transfers
-                                                                 must have the same NS bit value as the targeted memory in every case.  In
-                                                                 "real" mode, the PPU behavior is modified slightly to allow secure
-                                                                 accesses to Non Secure memory regions.  Most validation tests will be run
-                                                                 with the PPU in "strict" mode, as this allows more rigorous checking of
-                                                                 the NS attribute issued by the processor.
-
-                                                                 The Mode bit may be thought of as "allow S to access NS regions".  By
-                                                                 marking a region as NS with the Mode bit for the region set as 1, the
-                                                                 region will respond to all accesses. */
-        uint32_t non_secure            : 1;  /**< [  1:  1](R/W) - 0 protection enabled for non-secure memory
-                                                                 - 1 protection enabled for secure memory */
-        uint32_t enable                : 1;  /**< [  0:  0](R/W) - 0 disable the PPU region
-                                                                 - 1 enable the PPU region */
-#else /* Word 0 - Little Endian */
-        uint32_t enable                : 1;  /**< [  0:  0](R/W) - 0 disable the PPU region
-                                                                 - 1 enable the PPU region */
-        uint32_t non_secure            : 1;  /**< [  1:  1](R/W) - 0 protection enabled for non-secure memory
-                                                                 - 1 protection enabled for secure memory */
-        uint32_t mode                  : 1;  /**< [  2:  2](R/W) The Mode bit is defined as 0=strict, 1=real.  In "strict" mode, transfers
-                                                                 must have the same NS bit value as the targeted memory in every case.  In
-                                                                 "real" mode, the PPU behavior is modified slightly to allow secure
-                                                                 accesses to Non Secure memory regions.  Most validation tests will be run
-                                                                 with the PPU in "strict" mode, as this allows more rigorous checking of
-                                                                 the NS attribute issued by the processor.
-
-                                                                 The Mode bit may be thought of as "allow S to access NS regions".  By
-                                                                 marking a region as NS with the Mode bit for the region set as 1, the
-                                                                 region will respond to all accesses. */
-        uint32_t reserved_3_9          : 7;
-        uint32_t address_mask          : 22; /**< [ 31: 10](R/W) Used to define the range over which the PPU is enabled for */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tb_ppu2mask_s cn; */
-} bdk_tb_ppu2mask_t;
-
-#define BDK_TB_PPU2MASK BDK_TB_PPU2MASK_FUNC()
-static inline uint64_t BDK_TB_PPU2MASK_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TB_PPU2MASK_FUNC(void)
-{
-    return 0x87e013000244ll;
-}
-
-#define typedef_BDK_TB_PPU2MASK bdk_tb_ppu2mask_t
-#define bustype_BDK_TB_PPU2MASK BDK_CSR_TYPE_NCB32b
-#define basename_BDK_TB_PPU2MASK "TB_PPU2MASK"
-#define busnum_BDK_TB_PPU2MASK 0
-#define arguments_BDK_TB_PPU2MASK -1,-1,-1,-1
 
 /**
  * Register (NCB32b) tb_ppu3mask
@@ -1555,81 +1555,6 @@ static inline uint64_t BDK_TB_PPU4ADDR_FUNC(void)
 #define arguments_BDK_TB_PPU4ADDR -1,-1,-1,-1
 
 /**
- * Register (NCB32b) tb_ppu5mask
- *
- * Trickbox PPU*MASK Register
- * NOTE: Per docs, this is not used for 64bit AVS
- *
- * The PPU Mask along with PPU address defines the region of memory to be
- * protected by PPU.  For each register pair, an address match is deemed to
- * have occurred when:
- *
- * AddressMatch<n> = Enable<n> & ( ! ( (AddressOnBus[31:10] ^ PPU<n>Addr[31:10] ) &
- * PPU<n>Mask[31:10] ) );
- *
- * In addition, a region abort occurs when:
- *
- * RegionAbort<n> = AddressMatch<n> & ( (AccessNS & !RegionNS<n>) + ( !AccessNS & RegionNS<n> &!
- * PPUMode<n>) );
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_tb_ppu5mask_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t address_mask          : 22; /**< [ 31: 10](R/W) Used to define the range over which the PPU is enabled for */
-        uint32_t reserved_3_9          : 7;
-        uint32_t mode                  : 1;  /**< [  2:  2](R/W) The Mode bit is defined as 0=strict, 1=real.  In "strict" mode, transfers
-                                                                 must have the same NS bit value as the targeted memory in every case.  In
-                                                                 "real" mode, the PPU behavior is modified slightly to allow secure
-                                                                 accesses to Non Secure memory regions.  Most validation tests will be run
-                                                                 with the PPU in "strict" mode, as this allows more rigorous checking of
-                                                                 the NS attribute issued by the processor.
-
-                                                                 The Mode bit may be thought of as "allow S to access NS regions".  By
-                                                                 marking a region as NS with the Mode bit for the region set as 1, the
-                                                                 region will respond to all accesses. */
-        uint32_t non_secure            : 1;  /**< [  1:  1](R/W) - 0 protection enabled for non-secure memory
-                                                                 - 1 protection enabled for secure memory */
-        uint32_t enable                : 1;  /**< [  0:  0](R/W) - 0 disable the PPU region
-                                                                 - 1 enable the PPU region */
-#else /* Word 0 - Little Endian */
-        uint32_t enable                : 1;  /**< [  0:  0](R/W) - 0 disable the PPU region
-                                                                 - 1 enable the PPU region */
-        uint32_t non_secure            : 1;  /**< [  1:  1](R/W) - 0 protection enabled for non-secure memory
-                                                                 - 1 protection enabled for secure memory */
-        uint32_t mode                  : 1;  /**< [  2:  2](R/W) The Mode bit is defined as 0=strict, 1=real.  In "strict" mode, transfers
-                                                                 must have the same NS bit value as the targeted memory in every case.  In
-                                                                 "real" mode, the PPU behavior is modified slightly to allow secure
-                                                                 accesses to Non Secure memory regions.  Most validation tests will be run
-                                                                 with the PPU in "strict" mode, as this allows more rigorous checking of
-                                                                 the NS attribute issued by the processor.
-
-                                                                 The Mode bit may be thought of as "allow S to access NS regions".  By
-                                                                 marking a region as NS with the Mode bit for the region set as 1, the
-                                                                 region will respond to all accesses. */
-        uint32_t reserved_3_9          : 7;
-        uint32_t address_mask          : 22; /**< [ 31: 10](R/W) Used to define the range over which the PPU is enabled for */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tb_ppu5mask_s cn; */
-} bdk_tb_ppu5mask_t;
-
-#define BDK_TB_PPU5MASK BDK_TB_PPU5MASK_FUNC()
-static inline uint64_t BDK_TB_PPU5MASK_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TB_PPU5MASK_FUNC(void)
-{
-    return 0x87e01300025cll;
-}
-
-#define typedef_BDK_TB_PPU5MASK bdk_tb_ppu5mask_t
-#define bustype_BDK_TB_PPU5MASK BDK_CSR_TYPE_NCB32b
-#define basename_BDK_TB_PPU5MASK "TB_PPU5MASK"
-#define busnum_BDK_TB_PPU5MASK 0
-#define arguments_BDK_TB_PPU5MASK -1,-1,-1,-1
-
-/**
  * Register (NCB32b) tb_sei_value
  *
  * Trickbox SEI_VALUE Register
@@ -2584,6 +2509,81 @@ static inline uint64_t BDK_TB_ABORT_RGN64_HI1_FUNC(void)
 #define basename_BDK_TB_ABORT_RGN64_HI1 "TB_ABORT_RGN64_HI1"
 #define busnum_BDK_TB_ABORT_RGN64_HI1 0
 #define arguments_BDK_TB_ABORT_RGN64_HI1 -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) tb_ppu2mask
+ *
+ * Trickbox PPU*MASK Register
+ * NOTE: Per docs, this is not used for 64bit AVS
+ *
+ * The PPU Mask along with PPU address defines the region of memory to be
+ * protected by PPU.  For each register pair, an address match is deemed to
+ * have occurred when:
+ *
+ * AddressMatch<n> = Enable<n> & ( ! ( (AddressOnBus[31:10] ^ PPU<n>Addr[31:10] ) &
+ * PPU<n>Mask[31:10] ) );
+ *
+ * In addition, a region abort occurs when:
+ *
+ * RegionAbort<n> = AddressMatch<n> & ( (AccessNS & !RegionNS<n>) + ( !AccessNS & RegionNS<n> &!
+ * PPUMode<n>) );
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_tb_ppu2mask_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t address_mask          : 22; /**< [ 31: 10](R/W) Used to define the range over which the PPU is enabled for */
+        uint32_t reserved_3_9          : 7;
+        uint32_t mode                  : 1;  /**< [  2:  2](R/W) The Mode bit is defined as 0=strict, 1=real.  In "strict" mode, transfers
+                                                                 must have the same NS bit value as the targeted memory in every case.  In
+                                                                 "real" mode, the PPU behavior is modified slightly to allow secure
+                                                                 accesses to Non Secure memory regions.  Most validation tests will be run
+                                                                 with the PPU in "strict" mode, as this allows more rigorous checking of
+                                                                 the NS attribute issued by the processor.
+
+                                                                 The Mode bit may be thought of as "allow S to access NS regions".  By
+                                                                 marking a region as NS with the Mode bit for the region set as 1, the
+                                                                 region will respond to all accesses. */
+        uint32_t non_secure            : 1;  /**< [  1:  1](R/W) - 0 protection enabled for non-secure memory
+                                                                 - 1 protection enabled for secure memory */
+        uint32_t enable                : 1;  /**< [  0:  0](R/W) - 0 disable the PPU region
+                                                                 - 1 enable the PPU region */
+#else /* Word 0 - Little Endian */
+        uint32_t enable                : 1;  /**< [  0:  0](R/W) - 0 disable the PPU region
+                                                                 - 1 enable the PPU region */
+        uint32_t non_secure            : 1;  /**< [  1:  1](R/W) - 0 protection enabled for non-secure memory
+                                                                 - 1 protection enabled for secure memory */
+        uint32_t mode                  : 1;  /**< [  2:  2](R/W) The Mode bit is defined as 0=strict, 1=real.  In "strict" mode, transfers
+                                                                 must have the same NS bit value as the targeted memory in every case.  In
+                                                                 "real" mode, the PPU behavior is modified slightly to allow secure
+                                                                 accesses to Non Secure memory regions.  Most validation tests will be run
+                                                                 with the PPU in "strict" mode, as this allows more rigorous checking of
+                                                                 the NS attribute issued by the processor.
+
+                                                                 The Mode bit may be thought of as "allow S to access NS regions".  By
+                                                                 marking a region as NS with the Mode bit for the region set as 1, the
+                                                                 region will respond to all accesses. */
+        uint32_t reserved_3_9          : 7;
+        uint32_t address_mask          : 22; /**< [ 31: 10](R/W) Used to define the range over which the PPU is enabled for */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tb_ppu2mask_s cn; */
+} bdk_tb_ppu2mask_t;
+
+#define BDK_TB_PPU2MASK BDK_TB_PPU2MASK_FUNC()
+static inline uint64_t BDK_TB_PPU2MASK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TB_PPU2MASK_FUNC(void)
+{
+    return 0x87e013000244ll;
+}
+
+#define typedef_BDK_TB_PPU2MASK bdk_tb_ppu2mask_t
+#define bustype_BDK_TB_PPU2MASK BDK_CSR_TYPE_NCB32b
+#define basename_BDK_TB_PPU2MASK "TB_PPU2MASK"
+#define busnum_BDK_TB_PPU2MASK 0
+#define arguments_BDK_TB_PPU2MASK -1,-1,-1,-1
 
 /**
  * Register (NCB32b) tb_abort_rgn64_lo2_hi
