@@ -401,7 +401,10 @@ int main(void)
     BDK_EXTRACT(boot_method, gpio_strap.u, 0, 4);
     BDK_EXTRACT(vrm_disable, gpio_strap.u, 9, 1);
     BDK_EXTRACT(trust_mode, gpio_strap.u, 10, 1);
-    BDK_CSR_INIT(ocx_com_node, node, BDK_OCX_COM_NODE);
+    BDK_CSR_DEFINE(ocx_com_node, BDK_OCX_COM_NODE);
+    ocx_com_node.u = 0;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        ocx_com_node.u = BDK_CSR_READ(node, BDK_OCX_COM_NODE);
 
     switch (boot_method)
     {
@@ -442,8 +445,11 @@ int main(void)
         "\n"
         "===============\n"
         "BDK Stage1 Boot\n"
-        "===============\n"
-        "Node:  %d%s\n"
+        "===============\n",
+        bdk_version_string());
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        printf("Node:  %d%s\n", node, (ocx_com_node.s.fixed_pin) ? " (Fixed)" : "");
+    printf(
         "Chip:  0x%x Pass %d.%d\n"
         "L2:    %d KB\n"
         "RCLK:  %lu Mhz\n"
@@ -451,8 +457,6 @@ int main(void)
         "Boot:  %s(%d)\n"
         "VRM:   %s\n"
         "Trust: %s\n",
-        bdk_version_string(),
-        node, (ocx_com_node.s.fixed_pin) ? " (Fixed)" : "",
         midr_el1.s.partnum, midr_el1.s.variant + 1, midr_el1.s.revision,
         bdk_l2c_get_cache_size_bytes(node) >> 10,
         bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000,
