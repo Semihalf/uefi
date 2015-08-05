@@ -143,7 +143,7 @@ void __bdk_init(uint32_t image_crc)
         /* Initialize the platform */
         __bdk_platform_init();
 
-        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR) && CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         {
             /* If L2C_OCI_CTL[ENAOCI] shows we didn't bring up the CCPI link,
                make sure it is down. We can't change the QLM tuning with it up */
