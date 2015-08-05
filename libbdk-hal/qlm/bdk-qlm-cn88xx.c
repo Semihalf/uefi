@@ -327,6 +327,65 @@ static int get_lane_mode_for_speed_and_ref_clk(const char *mode_name, int qlm, i
 }
 
 /**
+ * (GSER-26150) 10 Gb temperature excursions can cause lock
+ * failure Change the calibration point of the VCO at start up
+ * to shift some available range of the VCO from -deltaT
+ * direction to the +deltaT ramp direction allowing a greater
+ * range of VCO temperatures before experiencing the failure.
+ *
+ * @param node
+ * @param qlm
+ *
+ * @return
+ */
+static int qlm_errata_gser_26150(bdk_node_t node, int qlm)
+{
+    /* (GSER-26150) 10 Gb temperature excursions can cause lock failure */
+    /* Change the calibration point of the VCO at start up to shift some
+       available range of the VCO from -deltaT direction to the +deltaT
+       ramp direction allowing a greater range of VCO temperatures before
+       experiencing the failure. */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_3(qlm),
+        c.s.pll_vctrl_sel_lcvco_val = 0x2;
+        c.s.pcs_sds_pll_vco_amp = 0);
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_MISC_CONFIG_1(qlm),
+        c.s.pcs_sds_trim_chp_reg = 0x2);
+
+    /* Recalibrates the PLL with the new PLL settings*/
+
+    /* Step 1: GSERx_GLBL_PLL_CFG_1.CFG_PLL_CTRL_EN -> set to 1'b1 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_1(qlm),
+        c.s.cfg_pll_ctrl_en = 1);
+
+    /* Step 2: GSERx_GLBL_PLL_CFG_2.PCS_SDS_PLL_COUNTER_RESETN -> set to 1'b0 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_2(qlm),
+        c.s.pcs_sds_pll_counter_resetn = 0);
+
+    /* Step 3: GSERx_GLBL_PLL_CFG_0.PCS_SDS_PLL_STRT_CAL_B -> set to 1'b0 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_0(qlm),
+        c.s.pcs_sds_pll_strt_cal_b = 0);
+
+    /* Step 4: GSERx_GLBL_PLL_CFG_2.PCS_SDS_PLL_COUNTER_RESETN -> set to 1'b1 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_2(qlm),
+        c.s.pcs_sds_pll_counter_resetn = 1);
+
+    /* Step 5: Wait 10us */
+    bdk_wait_usec(10);
+
+    /* Step 6: GSERx_GLBL_PLL_CFG_0.PCS_SDS_PLL_STRT_CAL_B ->set to 1'b1 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_0(qlm),
+        c.s.pcs_sds_pll_strt_cal_b = 1);
+
+    /* Step 7: GSERx_GLBL_PLL_CFG_1. CFG_PLL_CTRL_EN -> set to 1'b0 */
+    BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_1(qlm),
+        c.s.cfg_pll_ctrl_en = 0);
+
+    /* Step 8: Wait 10ms to allow PLL to recalibrate */
+    bdk_wait_usec(10000);
+    return 0;
+}
+
+/**
  * Setup the PEM to either driver or receive reset from PRST based on RC or EP
  *
  * @param node   Node to use in a Numa setup
@@ -1023,20 +1082,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             c.s.lmac_type = lmac_type);
     }
 
-    /* (GSER-26150) 10 Gb temperature excursions can cause lock failure */
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-    {
-        /* Change the calibration point of the VCO at start up to shift some
-           available range of the VCO from -deltaT direction to the +deltaT
-           ramp direction allowing a greater range of VCO temperatures before
-           experiencing the failure. */
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_PLL_CFG_3(qlm),
-            c.s.pll_vctrl_sel_lcvco_val = 0x2;
-            c.s.pcs_sds_pll_vco_amp = 0);
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_GLBL_MISC_CONFIG_1(qlm),
-            c.s.pcs_sds_trim_chp_reg = 0x2);
-    }
-
     /* Bring phy out of reset */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
         c.s.phy_reset = 0);
@@ -1065,6 +1110,10 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             return -1;
         }
     }
+
+    /* (GSER-26150) 10 Gb temperature excursions can cause lock failure */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        qlm_errata_gser_26150(node, qlm);
 
     /* cdrlock will be checked in the BGX */
 
