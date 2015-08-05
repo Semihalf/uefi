@@ -320,14 +320,56 @@ def writeReg(out, arch, reg):
     for chip in reg["address"]:
         if not csr_utils.isChipArch(arch, chip):
             continue
-        address_items[chip] = csr_utils.addressToString(reg["address"][chip], reg["ranges"][chip], addSuffix=True)
+        # Build the parameter check boolean logic
+        check_all = []
+        for i,r in enumerate(reg["ranges"][chip]):
+            param = chr(ord('a') + i)
+            check_param = []
+            for pair in r:
+                if pair[0] == pair[1]:
+                    check = "%s==%d" % (param, pair[0])
+                elif pair[0] == 0:
+                    check = "%s<=%d" % (param, pair[1])
+                else:
+                    check = "(%s>=%d)&&(%s<=%d)" % (param, pair[0], param, pair[1])
+                check_param.append(check)
+            if len(check_param) > 1:
+                check = "(%s)" % (") || (".join(check_param))
+            else:
+                check = check_param[0]
+            check_all.append(check)
+        if len(check_all) > 1:
+            check = "(%s)" % (") && (".join(check_all))
+        elif len(check_all) == 1:
+            check = check_all[0]
+        else:
+            check = None
+        # Save the check and the equation. Both must be the same for
+        # conssolidation
+        address_items[chip] = check, csr_utils.addressToString(reg["address"][chip], reg["ranges"][chip], addSuffix=True)
     consolidateChips(address_items, useArch=arch)
+    # Build the call for fatal failures if the CSR was accessed with the
+    # incorrect parameter or on the wrong chip
+    num_args = len(reg_range)
+    fatal_line = "    __bdk_csr_fatal(\"%s\", %d" % (base_name, num_args)
+    for i in range(4):
+        if i < num_args:
+            fatal_line += ", %s" % chr(ord('a') + i)
+        else:
+            fatal_line += ", 0"
+    fatal_line += ");\n"
+    # Check if all chips are the same
     chips = address_items.keys()
     if "CN" in chips:
         # All chips are same, simplify the address function to a single return
         assert len(chips) == 1, chips
-        out.write("    return %s;\n" % address_items["CN"])
-    else:
+        if address_items["CN"][0] == None: # No param check
+            out.write("    return %s;\n" % address_items["CN"][1])
+        else: # Need param check
+            out.write("    if (%s)\n" % address_items["CN"][0])
+            out.write("        return %s;\n" % address_items["CN"][1])
+            out.write(fatal_line)
+    else: # Need model checks
         chips.sort()
         for chip in chips:
             if "_" in chip: # A specific major and minor
@@ -336,16 +378,12 @@ def writeReg(out, arch, reg):
                 chip_name = "CAVIUM_" + chip.replace("P", "_PASS") + "_X"
             else: # A model, and pass
                 chip_name = "CAVIUM_" + chip
-            out.write("    if (CAVIUM_IS_MODEL(%s))\n" % chip_name)
-            out.write("        return %s;\n" % address_items[chip])
-        num_args = len(reg_range)
-        out.write("    __bdk_csr_fatal(\"%s\", %d" % (base_name, num_args))
-        for i in range(4):
-            if i < num_args:
-                out.write(", %s" % chr(ord('a') + i))
-            else:
-                out.write(", 0")
-        out.write(");\n")
+            if address_items[chip][0] == None: # No param check
+                out.write("    if (CAVIUM_IS_MODEL(%s))\n" % chip_name)
+            else: # Need param check
+                out.write("    if (CAVIUM_IS_MODEL(%s) && (%s))\n" % (chip_name, address_items[chip][0]))
+            out.write("        return %s;\n" % address_items[chip][1])
+        out.write(fatal_line)
     out.write("}\n")
     out.write("\n")
     # Macros to support CSR modify macros
