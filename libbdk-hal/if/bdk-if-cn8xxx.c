@@ -59,7 +59,7 @@ static void segment_free(uint64_t address, int length)
     bdk_spinlock_unlock(&free_list_lock);
 }
 
-const __bdk_if_global_ops_t __bdk_if_global_ops_cn88xx = {
+const __bdk_if_global_ops_t __bdk_if_global_ops_cn8xxx = {
     .init = segment_init,
     .alloc = segment_alloc,
     .free = segment_free,

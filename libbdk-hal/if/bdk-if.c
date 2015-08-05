@@ -4,7 +4,7 @@
 
 static void __bdk_if_link_poll(int unused1, void *unused2);
 
-extern __bdk_if_global_ops_t __bdk_if_global_ops_cn88xx;
+extern __bdk_if_global_ops_t __bdk_if_global_ops_cn8xxx;
 
 extern const __bdk_if_ops_t __bdk_if_ops_bgx;
 extern const __bdk_if_ops_t __bdk_if_ops_pcie;
@@ -117,10 +117,7 @@ static int __bdk_if_init(void)
     static_assert(sizeof(bdk_if_packet_t) == BDK_CACHE_LINE_SIZE);
     int result = 0;
 
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        __bdk_if_global_ops = __bdk_if_global_ops_cn88xx;
-    else
-        bdk_fatal("bdk-if: Unsupported chip\n");
+    __bdk_if_global_ops = __bdk_if_global_ops_cn8xxx;
 
     if (__bdk_if_global_ops.init())
     {
