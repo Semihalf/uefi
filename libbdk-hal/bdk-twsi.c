@@ -39,7 +39,11 @@ int bdk_twsix_initialize(bdk_node_t node)
     sw_twsi.s.eop_ia = 3;  /* R=0 selects CLKCTL, R=1 selects STAT */
     sw_twsi.s.data = ((M_divider & 0xf) << 3) | ((N_divider & 0x7) << 0);
 
-    for (int bus = 0; bus < 6; bus++)
+    int num_busses = 2;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        num_busses = 6;
+
+    for (int bus = 0; bus < num_busses; bus++)
     {
         /* Only init non-slave ports */
         BDK_CSR_INIT(state, node, BDK_MIO_TWSX_SW_TWSI(bus));

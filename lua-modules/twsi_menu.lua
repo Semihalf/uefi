@@ -57,7 +57,10 @@ local m = menu.new("TWSI Menu")
 m:item_node() -- Adds option to choose the node number
 
 -- Build a list of TWSI busses
-local twsi_busses = 6
+local twsi_busses = 2
+if cavium.is_model(cavium.CN88XX) then
+    twsi_busses = 6
+end
 for bus = 0, twsi_busses-1 do
     m:item("bus" .. bus, "TWSI bus " .. bus, twsi_submenu, bus)
 end
