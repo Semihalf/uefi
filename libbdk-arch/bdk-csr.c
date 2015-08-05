@@ -37,6 +37,7 @@ uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, i
             break;
 
         case BDK_CSR_TYPE_PCICONFIGRC:
+        case BDK_CSR_TYPE_PCICONFIGEP:
         {
             union bdk_pcc_dev_con_s dev_con;
             switch (busnum)
@@ -103,6 +104,7 @@ void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int 
             break;
 
         case BDK_CSR_TYPE_PCICONFIGRC:
+        case BDK_CSR_TYPE_PCICONFIGEP:
         {
             union bdk_pcc_dev_con_s dev_con;
             switch (busnum)

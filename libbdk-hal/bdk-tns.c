@@ -314,7 +314,7 @@ static int bdk_tns_config_header_size(bdk_node_t node, uint8_t size)
 {
     bdk_tns_rdma_nb_hdr_sz_cfg_t rdma_nb_hdr_sz_cfg;
 
-    if (size >= BDK_TNS_RDMA_HDR_SZ_E_ENUM_LAST)
+    if (size > BDK_TNS_RDMA_HDR_SZ_E_BYTES_256)
     {
         bdk_warn("bdk_tns_config_header_size: Illegal Header size was specified\n");
         return -1;

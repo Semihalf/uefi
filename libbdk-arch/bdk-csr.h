@@ -21,6 +21,7 @@ typedef enum {
    BDK_CSR_TYPE_PCCPF,
    BDK_CSR_TYPE_PCCVF,
    BDK_CSR_TYPE_PCICONFIGRC,    /**< PCIe config address (RC mode) */
+   BDK_CSR_TYPE_PCICONFIGEP,    /**< PCIe config address (EP mode) */
    BDK_CSR_TYPE_PEXP,           /**< PCIe BAR 0 address only */
    BDK_CSR_TYPE_PEXP_NCB,       /**< NCB-direct and PCIe BAR0 address */
    BDK_CSR_TYPE_RSL,            /**< Slow 64bit CSR */
@@ -31,8 +32,8 @@ typedef enum {
 #define BDK_CSR_DB_MAX_PARAM 4
 typedef struct __attribute__ ((packed)) {
     uint32_t        name_index : 20;/**< Index into __bdk_csr_db_string where the name is */
-    uint32_t        base_index : 12;/**< Index into __bdk_csr_db_number where the base address is */
-    uint8_t         unused;         /**< CSR width in bytes */
+    uint32_t        base_index : 13;/**< Index into __bdk_csr_db_number where the base address is */
+    uint8_t         unused : 7;
     bdk_csr_type_t  type : 4;       /**< Enum type from above */
     uint8_t         width : 4;      /**< CSR width in bytes */
     uint16_t        field_index;    /**< Index into __bdk_csr_db_fieldList where the fields start */
@@ -52,8 +53,6 @@ typedef struct {
 } __bdk_csr_db_map_t;
 
 extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigned long arg2, unsigned long arg3, unsigned long arg4) __attribute__ ((noreturn));
-#define csr_fatal __bdk_csr_fatal
-
 extern int bdk_csr_decode(const char *name, uint64_t value);
 extern int bdk_csr_field(const char *csr_name, int field_start_bit, const char **field_name);
 extern uint64_t bdk_csr_read_by_name(bdk_node_t node, const char *name);

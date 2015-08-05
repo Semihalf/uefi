@@ -1059,7 +1059,7 @@ static int vnic_setup_rbdr(bdk_if_handle_t handle)
             c.s.ena = 1;
             c.s.ldwb = BDK_USE_DWB;
             c.s.qsize = RBDR_ENTRIES_QSIZE;
-            c.s.lines = buffer_size / 128);
+            c.cn88xxp1.lines = buffer_size / 128);
         do_fill = 1;
     }
 
@@ -1136,9 +1136,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
         c.s.tl3a = tl2_index);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CFG(tl3_index),
         c.s.rr_quantum = (MAX_MTU+4) / 4);
-    int tl_channel = (handle->interface) ? BDK_NIC_CHAN_E_BGX1_PORT0_CH0 : BDK_NIC_CHAN_E_BGX0_PORT0_CH0;
-    tl_channel += (BDK_NIC_CHAN_E_BGX0_PORT1_CH0 - BDK_NIC_CHAN_E_BGX0_PORT0_CH0) * priv->port;
-    tl_channel += priv->channel;
+    int tl_channel = BDK_NIC_CHAN_E_BGXX_PORTX_CHX(handle->interface, priv->port, priv->channel);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CHAN(tl3_index),
         c.s.chan = tl_channel);
 
@@ -1229,7 +1227,7 @@ static int vnic_setup(bdk_if_handle_t handle)
         c.s.vlan_strip = 0;
         c.s.len_l4 = 0;
         c.s.len_l3 = 0;
-        c.s.csum_sctp = 0;
+        c.cn88xxp1.csum_sctp = 0;
         c.s.csum_l4 = 0;
         c.s.ip6_udp_opt = 0;
         c.s.splt_hdr_ena = 0;

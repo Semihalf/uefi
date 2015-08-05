@@ -160,8 +160,8 @@ static void check_cn88xx(bdk_node_t node)
         BDK_CSR_INIT(c, node, BDK_L2C_TADX_INT_W1C(index));
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, wrdisoci);
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, rddisoci);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, rtgdbe);
-        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, rtgsbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), cn88xxp1, rtgdbe);
+        CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), cn88xxp1, rtgsbe);
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, lfbto);
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, wrdislmc);
         CHECK_CHIP_ERROR(BDK_L2C_TADX_INT_W1C(index), s, rddislmc);

@@ -116,13 +116,6 @@ int fatfs_diskio_init()
 
 	switch (boot_method)
 	{
-		case BDK_RST_BOOT_METHOD_E_CCPI0:
-		case BDK_RST_BOOT_METHOD_E_CCPI1:
-		case BDK_RST_BOOT_METHOD_E_CCPI2:
-		case BDK_RST_BOOT_METHOD_E_PCIE0:
-		case BDK_RST_BOOT_METHOD_E_REMOTE:
-			break;
-
 		case BDK_RST_BOOT_METHOD_E_EMMC_LS:
 		case BDK_RST_BOOT_METHOD_E_EMMC_SS:
 			/* Set the default volume to MMC */

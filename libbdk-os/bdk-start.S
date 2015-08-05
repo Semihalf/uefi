@@ -98,8 +98,8 @@ __bdk_start:
 #endif
 
     /* Get our base link address and store it in x7 */
-    adr     x0, bdk_fs_dev_uart0/* Pick a structure that has a pointer in it */
-    ldr     x0, [x0]            /* Read the pointer, which should be at link address */
+    adrp    x0, bdk_fs_dev_uart0/* Pick a structure that has a pointer in it */
+    ldr     x0, [x0,:lo12:bdk_fs_dev_uart0] /* Read the pointer, which should be at link address */
     and     x7, x0, 0xffffff0000000000 /* Strip off the lower bits */
 
     /* Check that we're running on the node we're linked for */

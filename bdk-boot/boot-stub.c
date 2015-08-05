@@ -234,7 +234,8 @@ static void boot_image(const char *path)
         goto out;
     }
 
-    image = memalign(128, header.length);
+    /* Must be 4KB alight for ADRP to work */
+    image = memalign(4096, header.length);
     if (image == NULL)
     {
         bdk_error("Failed to allocate %d bytes for image\n", header.length);
@@ -404,13 +405,13 @@ int main(void)
 
     switch (boot_method)
     {
-        case BDK_RST_BOOT_METHOD_E_CCPI0:
+        case BDK_RST_BOOT_METHOD_E_CCPI0_CN88XX:
             boot_method_str = "CCPI0";
             break;
-        case BDK_RST_BOOT_METHOD_E_CCPI1:
+        case BDK_RST_BOOT_METHOD_E_CCPI1_CN88XX:
             boot_method_str = "CCPI1";
             break;
-        case BDK_RST_BOOT_METHOD_E_CCPI2:
+        case BDK_RST_BOOT_METHOD_E_CCPI2_CN88XX:
             boot_method_str = "CCPI2";
             break;
         case BDK_RST_BOOT_METHOD_E_EMMC_LS:
@@ -419,7 +420,7 @@ int main(void)
         case BDK_RST_BOOT_METHOD_E_EMMC_SS:
             boot_method_str = "EMMC_SS";
             break;
-        case BDK_RST_BOOT_METHOD_E_PCIE0:
+        case BDK_RST_BOOT_METHOD_E_PCIE0_CN88XX:
             boot_method_str = "PCIE0";
             break;
         case BDK_RST_BOOT_METHOD_E_REMOTE:

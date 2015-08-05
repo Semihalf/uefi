@@ -29,6 +29,7 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_CSR_TYPE_PCCPF);
     push_bdk_enum(BDK_CSR_TYPE_PCCVF);
     push_bdk_enum(BDK_CSR_TYPE_PCICONFIGRC);
+    push_bdk_enum(BDK_CSR_TYPE_PCICONFIGEP);
     push_bdk_enum(BDK_CSR_TYPE_PEXP);
     push_bdk_enum(BDK_CSR_TYPE_PEXP_NCB);
     push_bdk_enum(BDK_CSR_TYPE_RSL);
