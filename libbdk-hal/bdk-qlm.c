@@ -8,9 +8,11 @@ BDK_REQUIRE_DEFINE(QLM);
 
 /* Each chip has its own QLM operation table */
 extern const bdk_qlm_ops_t bdk_qlm_ops_cn88xx;
+extern const bdk_qlm_ops_t bdk_qlm_ops_cn83xx;
 
 static const bdk_qlm_ops_t *qlm_ops_list[] = {
     &bdk_qlm_ops_cn88xx,
+    &bdk_qlm_ops_cn83xx,
     NULL
 };
 static const bdk_qlm_ops_t *qlm_ops;
