@@ -990,7 +990,7 @@ function TrafficGen.new()
             cavium.c.get_sbrk() / 1024,
             ERASE_EOL);
         -- Show CCPI link load statistics
-        if not cavium.is_platform(cavium.PLATFORM_EMULATOR) then
+        if not cavium.is_platform(cavium.PLATFORM_EMULATOR) and cavium.is_model(cavium.CN88XX) then
             local ccpi_load = {}
             local ccpi_err = {}
             for link=1,3 do
