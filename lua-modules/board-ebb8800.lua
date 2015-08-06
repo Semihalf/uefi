@@ -24,7 +24,5 @@ set_config(cavium.CONFIG_PHY_IF1_PORT1, 0xff000105)
 set_config(cavium.CONFIG_PHY_IF1_PORT2, 0xff000106)
 set_config(cavium.CONFIG_PHY_IF1_PORT3, 0xff000107)
 
-if not cavium.is_platform(cavium.PLATFORM_EMULATOR) then
-    cavium.c.bdk_qlm_auto_config(cavium.MASTER_NODE)
-end
+cavium.c.bdk_qlm_auto_config(cavium.MASTER_NODE)
 

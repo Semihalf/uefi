@@ -1,5 +1,5 @@
--- Configure the BDK for a ebb880x board.
-print("Configuring for the EBB880X")
+-- Configure the BDK for a ebb830x board.
+print("Configuring for the EBB830X")
 
 local set_config = cavium.c.bdk_config_set
 
@@ -32,7 +32,5 @@ set_config(cavium.CONFIG_PHY_IF2_PORT3, 0xff000207)
 set_config(cavium.CONFIG_PHY_IF3_PORT0, 0xff000304)
 set_config(cavium.CONFIG_PHY_IF3_PORT1, 0xff000305)
 
-if not cavium.is_platform(cavium.PLATFORM_EMULATOR) then
-    cavium.c.bdk_qlm_auto_config(cavium.MASTER_NODE)
-end
+cavium.c.bdk_qlm_auto_config(cavium.MASTER_NODE)
 
