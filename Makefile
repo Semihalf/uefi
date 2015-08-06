@@ -100,7 +100,7 @@ ifeq ($(shell test -d .git;echo $$?),0)
       BUILD_REV := "$(word 2, $(BUILD_REV))"
       BUILD_DATE=$(shell date "+%Y %m %d")
       BUILD_BRANCH := $(shell git status | grep "On branch")
-      BUILD_BRANCH := $(word 4, $(BUILD_BRANCH))
+      BUILD_BRANCH := $(word 3, $(BUILD_BRANCH))
     endif
 else ifeq ($(shell test -d .svn;echo $$?),0)
     # Using subversion
