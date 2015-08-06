@@ -1,6 +1,12 @@
 #include <bdk.h>
 #include "bdk-qlm-common.h"
 
+/* Use a global variable to determine if we are in KR or XFI/XLAUI mode. We
+   used to use the training bit in BGX, but that require us to enable
+   training before the link was ready. Now BGX doesn't enable training
+   until much later */
+static uint8_t kr_mode[BDK_NUMA_MAX_NODES][14] = {{0,},};
+
 /**
  * Return the number of QLMs supported for the chip
  *
@@ -34,6 +40,17 @@ static int qlm_get_lanes(bdk_node_t node, int qlm)
  */
 static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
+    /* Tuning parameters override the KR training. Don't apply them for KR links */
+    switch (mode)
+    {
+        case BDK_QLM_MODE_10G_KR_2X1:
+        case BDK_QLM_MODE_10G_KR_4X1:
+        case BDK_QLM_MODE_40G_KR4_1X4:
+            return;
+        default:
+            break;
+    }
+
     int did_update = 0;
     /* We're apply tuning for all lanes on this QLM */
     int num_lanes = bdk_qlm_get_lanes(node, qlm);
@@ -297,21 +314,18 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
                 return BDK_QLM_MODE_DISABLED;
             int bgx_block = qlm;
             BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx_block, 0));
-            BDK_CSR_INIT(spux_br_pmd_control, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0));
             switch (cmrx_config.s.lmac_type)
             {
                 case 0x0: return BDK_QLM_MODE_SGMII_4X1;
                 case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differentiate between XAUI and DXAUI */
                 case 0x2: return BDK_QLM_MODE_RXAUI_2X2;
                 case 0x3:
-                    /* Use training to determine if we're in 10GBASE-KR or XFI */
-                    if (spux_br_pmd_control.s.train_en)
+                    if (kr_mode[node][qlm])
                         return BDK_QLM_MODE_10G_KR_4X1;
                     else
                         return BDK_QLM_MODE_XFI_4X1;
                 case 0x4:
-                    /* Use training to determine if we're in 40GBASE-KR4 or XLAUI */
-                    if (spux_br_pmd_control.s.train_en)
+                    if (kr_mode[node][qlm])
                         return BDK_QLM_MODE_40G_KR4_1X4;
                     else
                         return BDK_QLM_MODE_XLAUI_1X4;
@@ -734,6 +748,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     int measured_ref = bdk_qlm_measure_clock(node, qlm);
     int ref_clk = __bdk_qlm_round_refclock(measured_ref);
 
+    /* Clear the KR mode flag. It will be set below if necessary */
+    kr_mode[node][qlm] = 0;
+
     switch (mode)
     {
         case BDK_QLM_MODE_PCIE_1X4:
@@ -937,8 +954,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("XFI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
-            /* Disable training. We use this to tell the difference between 10GBASE-KR and XFI */
-            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 0);
             break;
         case BDK_QLM_MODE_XLAUI_1X4:
             lmac_type = 4; /* 40G_R */
@@ -946,8 +961,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("XLAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
-            /* Disable training. We use this to tell the difference between 40GBASE-KR4 and XLAUI */
-            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 0);
             break;
         case BDK_QLM_MODE_10G_KR_4X1:
             lmac_type = 3; /* 10G_R */
@@ -955,8 +968,12 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("10G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
-            /* Enable training. We use this to tell the difference between 10GBASE-KR and XFI */
-            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 1);
+            /* Remember we are in KR mode */
+            kr_mode[node][qlm] = 1;
+            /* Errata (GSER-26636) KR training coefficient update inverted */
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
+                c.s.rx_precorr_chg_dir = 1;
+                c.s.rx_tap1_chg_dir = 1);
             break;
         case BDK_QLM_MODE_40G_KR4_1X4:
             lmac_type = 4; /* 40G_R */
@@ -964,8 +981,12 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("40G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
-            /* Enable training. We use this to tell the difference between 40GBASE-KR4 and XLAUI */
-            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 1);
+            /* Remember we are in KR mode */
+            kr_mode[node][qlm] = 1;
+            /* Errata (GSER-26636) KR training coefficient update inverted */
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
+                c.s.rx_precorr_chg_dir = 1;
+                c.s.rx_tap1_chg_dir = 1);
             break;
         case BDK_QLM_MODE_DISABLED:
             /* Set gser for the interface mode */
