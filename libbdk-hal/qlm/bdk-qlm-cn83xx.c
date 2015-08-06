@@ -350,23 +350,20 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     int sata_port;
     switch (qlm)
     {
-        case 2: /* SATA 0-3 = QLM2 lanes 0-3 */
+        case 4: /* SATA 0-1 = DLM4 lanes 0-1 */
             sata_port = 0;
             break;
-        case 3: /* SATA 4-7 = QLM3 lanes 0-3 */
+        case 5: /* SATA 2-3 = DLM5 lanes 0-1 */
+            sata_port = 2;
+            break;
+        case 6: /* SATA 4-5 = DLM6 lanes 0-1 */
             sata_port = 4;
-            break;
-        case 6: /* SATA 8-11 = QLM6 lanes 0-3 */
-            sata_port = 8;
-            break;
-        case 7: /* SATA 12-15 = QLM7 lanes 0-3 */
-            sata_port = 12;
             break;
         default:
             bdk_error("Attempted to configure SATA on QLM that doesn't support it\n");
             return -1;
     }
-    int sata_port_end = sata_port + 4;
+    int sata_port_end = sata_port + 2;
 
     /* 26.4.1 Cold Reset */
     /* 1.  Ensure that the SerDes reference clock is up and stable. */
@@ -509,7 +506,7 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 
     /* 6. Modify the electrical IDLE detect on delay: set
        GSER(0..13)_LANE(0..3)_MISC_CFG_0[EIE_DET_STL_ON_TIME] = 0x4 */
-    for (int lane=0; lane<4; lane++)
+    for (int lane=0; lane<2; lane++)
     {
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_MISC_CFG_0(qlm, lane),
             c.s.eie_det_stl_on_time = 4);
@@ -573,7 +570,7 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             c.s.pcs_sds_rx_sdll_swsel = 0);
     }
 
-    for (int p=0; p<4; p++)
+    for (int p=0; p<2; p++)
     {
         BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_MISC_CFG_0(qlm, p),
             c.s.use_pma_polarity     = 0;
