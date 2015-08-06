@@ -37,94 +37,49 @@ static int qlm_get_lanes(bdk_node_t node, int qlm)
  */
 static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
 {
-    int did_update = 0;
-    /* We're apply tuning for all lanes on this QLM */
+    /* Tuning parameters override the KR training. Don't apply them for KR links */
+    switch (mode)
+    {
+        case BDK_QLM_MODE_10G_KR_2X1:
+        case BDK_QLM_MODE_10G_KR_4X1:
+        case BDK_QLM_MODE_40G_KR4_1X4:
+            return;
+        default:
+            break;
+    }
     int num_lanes = bdk_qlm_get_lanes(node, qlm);
+    int tx_swing = 0;
+    int tx_premptap = 0;
+
+    switch (baud_mhz)
+    {
+        case 6250: /* 6.25G, from lab measurements of 78xx */
+            tx_swing = 0xa;
+            tx_premptap = 0xa0;
+            break;
+        case 10312: /* 10.3125G, from lab measurements of 78xx */
+            tx_swing = 0xd;
+            tx_premptap = 0xd0;
+            break;
+    }
+
     for (int lane = 0; lane < num_lanes; lane++)
     {
-        /* Get current settings */
-        BDK_CSR_INIT(cfg_0, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane));
-        BDK_CSR_INIT(cfg_1, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane));
-        BDK_CSR_INIT(pre_emphasis, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane));
-
-        /* TX Swing: First read any board specific setting from the environment */
-        int swing = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_SWING, node, qlm, lane);
-        /* If no setting, use hard coded generic defaults */
-        if ((swing == -1) && !cfg_1.s.tx_swing_ovrrd_en)
+        if (tx_swing)
         {
-            if (baud_mhz == 6250)
-            {
-                /* From lab measurements of EBB8800 at 6.25G */
-                if (mode == BDK_QLM_MODE_OCI)
-                    swing = 0xc;
-                else
-                    swing = 0xa;
-            }
-            else if (baud_mhz == 10312)
-            {
-                /* From lab measurements of EBB8800 at 10.3125G */
-                swing = 0xd;
-            }
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
+                c.s.cfg_tx_swing = tx_swing);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
+                c.s.tx_swing_ovrrd_en = 1);
         }
-        /* Apply TX Swing settings */
-        if (swing != -1)
+        if (tx_premptap)
         {
-            /* Only update if something has changed */
-            if (cfg_0.s.cfg_tx_swing != swing)
-            {
-                BDK_TRACE(QLM, "N%d.QLM%d: Lane %d: TX_SWING = 0x%x\n", node, qlm, lane, swing);
-                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
-                    c.s.cfg_tx_swing = swing);
-                did_update = 1;
-            }
-            if (!cfg_1.s.tx_swing_ovrrd_en)
-            {
-                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-                    c.s.tx_swing_ovrrd_en = 1);
-                did_update = 1;
-            }
-        }
-
-        /* TX Premptap: First read any board specific setting from the environment */
-        int premptap = bdk_brd_cfg_get_int(-1, BDK_BRD_CFG_QLM_TUNING_TX_PREMPTAP, node, qlm, lane);
-        /* If no setting, use hard coded generic defaults */
-        if ((premptap == -1) && !cfg_1.s.tx_premptap_ovrrd_val)
-        {
-            if (baud_mhz == 6250)
-            {
-                /* From lab measurements of EBB8800 at 6.25G */
-                if (mode == BDK_QLM_MODE_OCI)
-                    premptap = 0xc0;
-                else
-                    premptap = 0xa0;
-            }
-            else if (baud_mhz == 10312)
-            {
-                /* From lab measurements of EBB8800 at 10.3125G */
-                premptap = 0xd0;
-            }
-        }
-        /* Apply TX Premptap settings */
-        if (premptap != -1)
-        {
-            /* Only update if something has changed */
-            if (pre_emphasis.s.cfg_tx_premptap != premptap)
-            {
-                BDK_TRACE(QLM, "N%d.QLM%d: Lane %d: TX_PREMPTAP = 0x%x\n", node, qlm, lane, premptap);
-                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
-                    c.s.cfg_tx_premptap = premptap);
-                did_update = 1;
-            }
-            if (!cfg_1.s.tx_premptap_ovrrd_val)
-            {
-                BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-                    c.s.tx_premptap_ovrrd_val = 1);
-                did_update = 1;
-            }
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
+                c.s.cfg_tx_premptap = tx_premptap);
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
+                c.s.tx_premptap_ovrrd_val = 1);
         }
     }
-    if (did_update)
-        bdk_wait_usec(10);
 }
 
 /**
