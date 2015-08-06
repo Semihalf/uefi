@@ -99,13 +99,38 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
     {
         case BDK_IF_BGX:
         {
-            if (interface >= 2)
-                return -1;
-            /* Figure out which QLM the BGX connects to */
-            int qlm = interface;
+            int qlm;
+            switch (interface)
+            {
+                case 0:
+                    qlm = 2;
+                    break;
+                case 1:
+                    qlm = 3;
+                    break;
+                case 2:
+                {
+                    /* This BGX spans two DLMs. The index must be used to
+                       figure out which DLM we are using */
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(5));
+                    if (gserx_cfg.s.bgx)
+                    {
+                        if (gserx_cfg.s.bgx_quad) /* 4 lanes together */
+                            qlm = 5;
+                        else if (gserx_cfg.s.bgx_dual) /* 2 lanes together */
+                            qlm = (index >= 1) ? 6 : 5;
+                        else /* All lanes independent */
+                            qlm = (index >= 2) ? 6 : 5;
+                    }
+                    else
+                        qlm = 6;
+                    break;
+                }
+                default:
+                    return -1;
+            }
             if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
                 return qlm;
-
             /* Make sure the QLM is powered up and out of reset */
             BDK_CSR_INIT(phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
             if (phy_ctl.s.phy_pd || phy_ctl.s.phy_reset)
@@ -125,60 +150,73 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int 
             {
                 case 0: /* PEM0 */
                 {
-                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(2));
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(0));
                     if (gserx_cfg.s.pcie)
-                        return 2; /* PEM0 is on QLM2 (x4) and possibly QLM3 (x8) */
+                        return 0; /* PEM0 is on QLM0 and possibly QLM1 */
                     else
                         return -1; /* PEM0 is disabled */
                 }
                 case 1: /* PEM1 */
                 {
                     BDK_CSR_INIT(pem0_cfg, node, BDK_PEMX_CFG(0));
-                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(3));
+                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(1));
                     if (!pem0_cfg.s.lanes8 && gserx_cfg.s.pcie)
-                        return 3; /* PEM1 is on QLM 3 (x4) */
+                        return 1; /* PEM1 is on QLM 1 */
                     else
                         return -1; /* PEM1 is disabled */
                 }
                 case 2: /* PEM2 */
                 {
-                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(4));
-                    if (gserx_cfg.s.pcie)
-                        return 4; /* PEM2 is on QLM4 (x4) and possibly QLM5 (x8) */
+                    // FIXME: CN83XX PEM routing
+                    //BDK_CSR_INIT(pemx_qlm, node, BDK_PEMX_QLM(2));
+                    if (0 /* pemx_qlm.cn83xx.pemdlmsel */)
+                    {
+                        /* PEM2 is routed to DLM5 */
+                        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(5));
+                        if (gserx_cfg.s.pcie)
+                            return 5; /* PEM2 is on DLM5 */
+                        else
+                            return -1; /* PEM2 is disabled */
+                    }
                     else
-                        return -1; /* PEM2 is disabled */
+                    {
+                        /* PEM2 is routed to QLM2 */
+                        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(2));
+                        if (gserx_cfg.s.pcie)
+                            return 2; /* PEM2 is on QLM2 and possibly QLM3 */
+                        else
+                            return -1; /* PEM2 is disabled */
+                    }
                 }
                 case 3: /* PEM3 */
                 {
-                    BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
-                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(5));
-                    if (!pem2_cfg.s.lanes8 && gserx_cfg.s.pcie)
-                        return 5; /* PEM3 is on QLM5 (x4) */
+                    // FIXME: CN83XX PEM routing
+                    //BDK_CSR_INIT(pemx_qlm, node, BDK_PEMX_QLM(3));
+                    if (0 /* pemx_qlm.cn83xx.pemdlmsel */)
+                    {
+                        /* PEM3 is routed to DLM6 */
+                        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(6));
+                        if (gserx_cfg.s.pcie)
+                            return 6; /* PEM3 is on DLM6 */
+                        else
+                            return -1; /* PEM3 is disabled */
+                    }
                     else
-                        return -1; /* PEM3 is disabled */
+                    {
+                        /* PEM3 is routed to QLM3 */
+                        BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
+                        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(3));
+                        if (!pem2_cfg.s.lanes8 && gserx_cfg.s.pcie)
+                            return 3; /* PEM3 is on QLM3 */
+                        else
+                            return -1; /* PEM3 is disabled */
+                    }
                 }
-                case 4: /* PEM4 */
-                {
-                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(6));
-                    if (gserx_cfg.s.pcie)
-                        return 6; /* PEM4 is on QLM6 (x4) and possibly QLM7 (x8) */
-                    else
-                        return -1; /* PEM4 is disabled */
-                }
-                case 5: /* PEM5 */
-                {
-                    BDK_CSR_INIT(pem4_cfg, node, BDK_PEMX_CFG(4));
-                    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(7));
-                    if (!pem4_cfg.s.lanes8 && gserx_cfg.s.pcie)
-                        return 7; /* PEM5 is on QLM7 (x4) */
-                    else
-                        return -1; /* PEM5 is disabled */
-                }
-                default: /* Max of 6 PEMs, 0-5 */
+                default: /* Max of 4 PEMs, 0-3 */
                     return -1;
             }
         }
-        default: /* Not supported by CN88XX */
+        default: /* Not supported by CN83XX */
             return -1;
     }
 }
