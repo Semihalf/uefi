@@ -1,6 +1,12 @@
 #include <bdk.h>
 #include "bdk-qlm-common.h"
 
+/* Use a global variable to determine if we are in KR or XFI/XLAUI mode. We
+   used to use the training bit in BGX, but that require us to enable
+   training before the link was ready. Now BGX doesn't enable training
+   until much later */
+static uint8_t kr_mode[BDK_NUMA_MAX_NODES][8] = {{0,},};
+
 /**
  * Return the number of QLMs supported for the chip
  *
@@ -232,7 +238,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
-        if (qlm < 2)
+        if ((qlm == 2) || (qlm == 3))
             return BDK_QLM_MODE_XFI_4X1;
         else
             return BDK_QLM_MODE_DISABLED;
@@ -242,76 +248,96 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
     {
         switch (qlm)
         {
-            case 2: /* Either PEM0 x4 or PEM0 x8 */
-            case 3: /* Either PEM0 x8 or PEM1 x4 */
+            case 0: /* Either PEM0 x4 or PEM0 x8 */
+            case 1: /* Either PEM0 x8 or PEM1 x4 */
             {
                 BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
                 if (pemx_cfg.s.lanes8)
-                    return BDK_QLM_MODE_PCIE_1X8; /* PEM0 x8 */
+                    return BDK_QLM_MODE_PCIE_1X8;
                 else
-                    return BDK_QLM_MODE_PCIE_1X4; /* PEM0-1 x4 */
+                    return BDK_QLM_MODE_PCIE_1X4;
             }
-            case 4: /* Either PEM2 x4 or PEM2 x8 */
-            case 5: /* Either PEM2 x8 or PEM3 x4 */
+            case 2: /* Either PEM2 x4 or PEM2 x8 */
             {
                 BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(2));
                 if (pemx_cfg.s.lanes8)
                     return BDK_QLM_MODE_PCIE_1X8; /* PEM2 x8 */
                 else
-                    return BDK_QLM_MODE_PCIE_1X4; /* PEM2-3 x4 */
+                    return BDK_QLM_MODE_PCIE_1X4; /* PEM2 x4 */
             }
-            case 6: /* Either PEM4 x8 or PEM4 x4 */
-            case 7: /* Either PEM4 x8 or PEM5 x4 */
+            case 3: /* Either PEM2 x8 or PEM3 x4 */
             {
-                BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(4));
-                if (pemx_cfg.s.lanes8)
-                    return BDK_QLM_MODE_PCIE_1X8; /* PEM4 x8 */
-                else
-                    return BDK_QLM_MODE_PCIE_1X4; /* PEM4-5 x4 */
+                /* Can be last 4 lanes of PEM2 */
+                BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
+                if (pem2_cfg.s.lanes8)
+                    return BDK_QLM_MODE_PCIE_1X8; /* PEM2 x8 */
+                /* Can be 4 lanes of PEM3 */
+                return BDK_QLM_MODE_PCIE_1X4; /* PEM3 x4 */
             }
-            default: /* QLMs 0-1 can't be PCIe */
+            case 5: /* PEM2 x2 */
+                return BDK_QLM_MODE_PCIE_1X2; /* PEM2 x2 */
+            case 6: /* PEM3 x2 */
+                return BDK_QLM_MODE_PCIE_1X2; /* PEM3 x2 */
+            default:
                 return BDK_QLM_MODE_DISABLED;
         }
     }
-    else if (gserx_cfg.s.ila)
-        return BDK_QLM_MODE_ILK;
-    else if (gserx_cfg.s.sata)
-    {
-        /* Hardcode SATA to QLM mapping for CN88XX */
-        int sata = (qlm >= 6) ? 8 + (qlm-6) * 4 : (qlm-2) * 4;
-        BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(sata));
-        if (uctl_ctl.s.a_clk_en && !uctl_ctl.s.a_clkdiv_rst)
-            return BDK_QLM_MODE_SATA_4X1;
-        else
-            return BDK_QLM_MODE_DISABLED;
-    }
     else if (gserx_cfg.s.bgx)
     {
-        if (qlm >= 2)
-            return BDK_QLM_MODE_DISABLED;
-        int bgx_block = qlm;
-        BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx_block, 0));
-        BDK_CSR_INIT(spux_br_pmd_control, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0));
+        int bgx;
+        int bgx_index;
+        switch (qlm)
+        {
+            case 2:
+                bgx = 0;
+                bgx_index = 1;
+                break;
+            case 3:
+                bgx = 1;
+                bgx_index = 1;
+                break;
+            case 4:
+                bgx = 3;
+                bgx_index = 1;
+                break;
+            case 5:
+            case 6:
+                bgx = 2;
+                bgx_index = (qlm == 5) ? 1 : 3;
+                if (qlm == 5)
+                {
+                    /* Special check for RXAUI in DLM5. If DLM6 is XFI and there
+                       is no RGMII, BGX will overwrite index 1 with XFI's mode
+                       and RGMII will be shown in index 0 */
+                    BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx, 0));
+                    if (cmrx_config.s.lmac_type == 0x2)
+                        bgx_index=0;
+                }
+                break;
+            default:
+                return BDK_QLM_MODE_DISABLED;
+        }
+        BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx, bgx_index));
         switch (cmrx_config.s.lmac_type)
         {
-            case 0x0: return BDK_QLM_MODE_SGMII_4X1;
-            case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differentiate between XAUI and DXAUI */
-            case 0x2: return BDK_QLM_MODE_RXAUI_2X2;
+            case 0x0: return (bgx >= 2) ? BDK_QLM_MODE_SGMII_2X1 : BDK_QLM_MODE_SGMII_4X1;
+            case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differntiate between XAUI and DXAUI */
+            case 0x2: return (bgx >= 2) ? BDK_QLM_MODE_RXAUI_1X2 : BDK_QLM_MODE_RXAUI_2X2;
             case 0x3:
-                /* Use training to determine if we're in 10GBASE-KR or XFI */
-                if (spux_br_pmd_control.s.train_en)
-                    return BDK_QLM_MODE_10G_KR_4X1;
+                if (kr_mode[node][qlm])
+                    return (bgx >= 2) ? BDK_QLM_MODE_10G_KR_2X1 : BDK_QLM_MODE_10G_KR_4X1;
                 else
-                    return BDK_QLM_MODE_XFI_4X1;
+                    return (bgx >= 2) ? BDK_QLM_MODE_XFI_2X1 : BDK_QLM_MODE_XFI_4X1;
             case 0x4:
-                /* Use training to determine if we're in 40GBASE-KR4 or XLAUI */
-                if (spux_br_pmd_control.s.train_en)
+                if (kr_mode[node][qlm])
                     return BDK_QLM_MODE_40G_KR4_1X4;
                 else
                     return BDK_QLM_MODE_XLAUI_1X4;
             default:  return BDK_QLM_MODE_DISABLED;
         }
     }
+    else if (gserx_cfg.s.sata)
+        return BDK_QLM_MODE_SATA_2X1;
     else
         return BDK_QLM_MODE_DISABLED;
 }
