@@ -317,6 +317,42 @@ static inline uint64_t BDK_BCH_BIST_RESULT_FUNC(void)
 #define arguments_BDK_BCH_BIST_RESULT -1,-1,-1,-1
 
 /**
+ * Register (RSL) bch_eco
+ *
+ * INTERNAL: BCH ECO Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bch_eco_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+#else /* Word 0 - Little Endian */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bch_eco_s cn; */
+} bdk_bch_eco_t;
+
+#define BDK_BCH_ECO BDK_BCH_ECO_FUNC()
+static inline uint64_t BDK_BCH_ECO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BCH_ECO_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x871000000030ll;
+    __bdk_csr_fatal("BCH_ECO", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_BCH_ECO bdk_bch_eco_t
+#define bustype_BDK_BCH_ECO BDK_CSR_TYPE_RSL
+#define basename_BDK_BCH_ECO "BCH_ECO"
+#define busnum_BDK_BCH_ECO 0
+#define arguments_BDK_BCH_ECO -1,-1,-1,-1
+
+/**
  * Register (NCB) bch_vq#_ctl
  *
  * BCH Queue Control Register
@@ -942,41 +978,5 @@ static inline uint64_t BDK_BCH_BP_TEST_FUNC(void)
 #define basename_BDK_BCH_BP_TEST "BCH_BP_TEST"
 #define busnum_BDK_BCH_BP_TEST 0
 #define arguments_BDK_BCH_BP_TEST -1,-1,-1,-1
-
-/**
- * Register (RSL) bch_eco
- *
- * INTERNAL: BCH ECO Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_bch_eco_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
-#else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bch_eco_s cn; */
-} bdk_bch_eco_t;
-
-#define BDK_BCH_ECO BDK_BCH_ECO_FUNC()
-static inline uint64_t BDK_BCH_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BCH_ECO_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x871000000030ll;
-    __bdk_csr_fatal("BCH_ECO", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_BCH_ECO bdk_bch_eco_t
-#define bustype_BDK_BCH_ECO BDK_CSR_TYPE_RSL
-#define basename_BDK_BCH_ECO "BCH_ECO"
-#define busnum_BDK_BCH_ECO 0
-#define arguments_BDK_BCH_ECO -1,-1,-1,-1
 
 #endif /* __BDK_CSRS_BCH_H__ */

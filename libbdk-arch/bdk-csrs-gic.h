@@ -64,6 +64,28 @@
 #define BDK_GIC_BAR_E_GIC_PF_BAR4 (0x801080000000ll) /**< Base address for GICRx registers. */
 
 /**
+ * Enumeration gits_cmd_err_e
+ *
+ * ITS Command Error Enumeration
+ * The actual 24-bit ITS command SEI is defined as {8'h01,
+ * GITS_CMD_TYPE(8-bit), GITS_CMD_ERR(8-bit)}.
+ */
+#define BDK_GITS_CMD_ERR_E_CSEI_CMD_TO (0xe0) /**< Command time out.  Added in pass 2. */
+#define BDK_GITS_CMD_ERR_E_CSEI_COLLECTION_OOR (3) /**< Collection is out of range. */
+#define BDK_GITS_CMD_ERR_E_CSEI_DEVICE_OOR (1) /**< Device ID is out of range. */
+#define BDK_GITS_CMD_ERR_E_CSEI_ID_OOR (5) /**< ID is out of range. */
+#define BDK_GITS_CMD_ERR_E_CSEI_ITE_INVALID (0x10) /**< ITE is invalid. */
+#define BDK_GITS_CMD_ERR_E_CSEI_ITTSIZE_OOR (2) /**< ITT SIZE is out of range. */
+#define BDK_GITS_CMD_ERR_E_CSEI_PHYSICALID_OOR (6) /**< Physical ID is out of range. */
+#define BDK_GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID (0xe1) /**< SYNC ACK was received when no SYNC command is executed by ITS, and most likely
+                                       the SYNC ACK was received after the SYNC command is timed out. Added in pass 2. */
+#define BDK_GITS_CMD_ERR_E_CSEI_TA_INVALID (0xfe) /**< Target address is invalid. */
+#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_COLLECTION (9) /**< Collection is unmapped. */
+#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_DEVICE (4) /**< Device is unmapped. */
+#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_INTERRUPT (7) /**< Interrupt is unmapped. */
+#define BDK_GITS_CMD_ERR_E_CSEI_UNSUPPORTED_CMD (0xff) /**< Command not supported. */
+
+/**
  * Enumeration gits_cmd_type_e
  *
  * ITS Command Type Enumeration
@@ -93,28 +115,6 @@
                                        of the interrupt collection specified by collection. */
 #define BDK_GITS_CMD_TYPE_E_CMD_SYNC (5) /**< This command specifies that all actions for the specified re-distributor must be completed. */
 #define BDK_GITS_CMD_TYPE_E_CMD_UDF (0) /**< This is an undefined ITS command (value 0x0). */
-
-/**
- * Enumeration gits_cmd_err_e
- *
- * ITS Command Error Enumeration
- * The actual 24-bit ITS command SEI is defined as {8'h01,
- * GITS_CMD_TYPE(8-bit), GITS_CMD_ERR(8-bit)}.
- */
-#define BDK_GITS_CMD_ERR_E_CSEI_CMD_TO (0xe0) /**< Command time out.  Added in pass 2. */
-#define BDK_GITS_CMD_ERR_E_CSEI_COLLECTION_OOR (3) /**< Collection is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_DEVICE_OOR (1) /**< Device ID is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_ID_OOR (5) /**< ID is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_ITE_INVALID (0x10) /**< ITE is invalid. */
-#define BDK_GITS_CMD_ERR_E_CSEI_ITTSIZE_OOR (2) /**< ITT SIZE is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_PHYSICALID_OOR (6) /**< Physical ID is out of range. */
-#define BDK_GITS_CMD_ERR_E_CSEI_SYNCACK_INVALID (0xe1) /**< SYNC ACK was received when no SYNC command is executed by ITS, and most likely
-                                       the SYNC ACK was received after the SYNC command is timed out. Added in pass 2. */
-#define BDK_GITS_CMD_ERR_E_CSEI_TA_INVALID (0xfe) /**< Target address is invalid. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_COLLECTION (9) /**< Collection is unmapped. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_DEVICE (4) /**< Device is unmapped. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNMAPPED_INTERRUPT (7) /**< Interrupt is unmapped. */
-#define BDK_GITS_CMD_ERR_E_CSEI_UNSUPPORTED_CMD (0xff) /**< Command not supported. */
 
 /**
  * Structure gits_cmd_mapd_s
@@ -869,6 +869,54 @@ static inline uint64_t BDK_GITS_PIDR6_FUNC(void)
 #define arguments_BDK_GITS_PIDR6 -1,-1,-1,-1
 
 /**
+ * Register (NCB32b) gits_pidr2
+ *
+ * GIC ITS Peripheral Identification Register 2
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_gits_pidr2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t archrev               : 4;  /**< [  7:  4](RO) Architectural revision:
+                                                                   0x1 = GICv1.
+                                                                   0x2 = GICV2.
+                                                                   0x3 = GICv3.
+                                                                   0x4 = GICv4.
+                                                                   0x5-0xF = Reserved. */
+        uint32_t usesjepcode           : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t jepid                 : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
+#else /* Word 0 - Little Endian */
+        uint32_t jepid                 : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
+        uint32_t usesjepcode           : 1;  /**< [  3:  3](RO) JEDEC assigned. */
+        uint32_t archrev               : 4;  /**< [  7:  4](RO) Architectural revision:
+                                                                   0x1 = GICv1.
+                                                                   0x2 = GICV2.
+                                                                   0x3 = GICv3.
+                                                                   0x4 = GICv4.
+                                                                   0x5-0xF = Reserved. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gits_pidr2_s cn; */
+} bdk_gits_pidr2_t;
+
+#define BDK_GITS_PIDR2 BDK_GITS_PIDR2_FUNC()
+static inline uint64_t BDK_GITS_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GITS_PIDR2_FUNC(void)
+{
+    return 0x80100002ffe8ll;
+}
+
+#define typedef_BDK_GITS_PIDR2 bdk_gits_pidr2_t
+#define bustype_BDK_GITS_PIDR2 BDK_CSR_TYPE_NCB32b
+#define basename_BDK_GITS_PIDR2 "GITS_PIDR2"
+#define busnum_BDK_GITS_PIDR2 0
+#define arguments_BDK_GITS_PIDR2 -1,-1,-1,-1
+
+/**
  * Register (NCB32b) gits_translater
  *
  * GIC ITS Translate Register
@@ -1163,54 +1211,6 @@ static inline uint64_t BDK_GICRX_IIDR(unsigned long a)
 #define basename_BDK_GICRX_IIDR(a) "GICRX_IIDR"
 #define busnum_BDK_GICRX_IIDR(a) (a)
 #define arguments_BDK_GICRX_IIDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) gits_pidr2
- *
- * GIC ITS Peripheral Identification Register 2
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_gits_pidr2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t archrev               : 4;  /**< [  7:  4](RO) Architectural revision:
-                                                                   0x1 = GICv1.
-                                                                   0x2 = GICV2.
-                                                                   0x3 = GICv3.
-                                                                   0x4 = GICv4.
-                                                                   0x5-0xF = Reserved. */
-        uint32_t usesjepcode           : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t jepid                 : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
-#else /* Word 0 - Little Endian */
-        uint32_t jepid                 : 3;  /**< [  2:  0](RO) JEP106 identification code <6:4>. Cavium code is 0x4C. */
-        uint32_t usesjepcode           : 1;  /**< [  3:  3](RO) JEDEC assigned. */
-        uint32_t archrev               : 4;  /**< [  7:  4](RO) Architectural revision:
-                                                                   0x1 = GICv1.
-                                                                   0x2 = GICV2.
-                                                                   0x3 = GICv3.
-                                                                   0x4 = GICv4.
-                                                                   0x5-0xF = Reserved. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gits_pidr2_s cn; */
-} bdk_gits_pidr2_t;
-
-#define BDK_GITS_PIDR2 BDK_GITS_PIDR2_FUNC()
-static inline uint64_t BDK_GITS_PIDR2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GITS_PIDR2_FUNC(void)
-{
-    return 0x80100002ffe8ll;
-}
-
-#define typedef_BDK_GITS_PIDR2 bdk_gits_pidr2_t
-#define bustype_BDK_GITS_PIDR2 BDK_CSR_TYPE_NCB32b
-#define basename_BDK_GITS_PIDR2 "GITS_PIDR2"
-#define busnum_BDK_GITS_PIDR2 0
-#define arguments_BDK_GITS_PIDR2 -1,-1,-1,-1
 
 /**
  * Register (NCB32b) gicr#_setdel3tr_el1s
@@ -1733,57 +1733,6 @@ static inline uint64_t BDK_GICD_ICFGRX(unsigned long a)
 #define basename_BDK_GICD_ICFGRX(a) "GICD_ICFGRX"
 #define busnum_BDK_GICD_ICFGRX(a) (a)
 #define arguments_BDK_GICD_ICFGRX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) gits_imp_tseir
- *
- * GIC ITS Implementation Defined Translator SEI Register
- * This register holds the SEI status of the ITS translator error.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gits_imp_tseir_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear fields [V, M,
-                                                                 DEV_ID, INT_ID, ERROR]. */
-        uint64_t m                     : 1;  /**< [ 62: 62](RO/H) When set, it means multiple errors have happened. */
-        uint64_t reserved_53_61        : 9;
-        uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Input device ID to the interrupt translator. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t int_id                : 20; /**< [ 27:  8](RO/H) Input interrupt ID to the interrupt translator. */
-        uint64_t error                 : 8;  /**< [  7:  0](RO/H) Error code for the first error. Valid encoding is one of [CSEI_UNMAPPED_DEVICE,
-                                                                 CSEI_DEVICE_OOR, CSEI_ID_OOR,
-                                                                 CSEI_UNMAPPED_INTERRUPT,CSEI_UNMAPPED_COLLECTION] (as defined in GITS_CMD_ERR_E). */
-#else /* Word 0 - Little Endian */
-        uint64_t error                 : 8;  /**< [  7:  0](RO/H) Error code for the first error. Valid encoding is one of [CSEI_UNMAPPED_DEVICE,
-                                                                 CSEI_DEVICE_OOR, CSEI_ID_OOR,
-                                                                 CSEI_UNMAPPED_INTERRUPT,CSEI_UNMAPPED_COLLECTION] (as defined in GITS_CMD_ERR_E). */
-        uint64_t int_id                : 20; /**< [ 27:  8](RO/H) Input interrupt ID to the interrupt translator. */
-        uint64_t reserved_28_31        : 4;
-        uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Input device ID to the interrupt translator. */
-        uint64_t reserved_53_61        : 9;
-        uint64_t m                     : 1;  /**< [ 62: 62](RO/H) When set, it means multiple errors have happened. */
-        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear fields [V, M,
-                                                                 DEV_ID, INT_ID, ERROR]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gits_imp_tseir_s cn; */
-} bdk_gits_imp_tseir_t;
-
-#define BDK_GITS_IMP_TSEIR BDK_GITS_IMP_TSEIR_FUNC()
-static inline uint64_t BDK_GITS_IMP_TSEIR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GITS_IMP_TSEIR_FUNC(void)
-{
-    return 0x801000020028ll;
-}
-
-#define typedef_BDK_GITS_IMP_TSEIR bdk_gits_imp_tseir_t
-#define bustype_BDK_GITS_IMP_TSEIR BDK_CSR_TYPE_NCB
-#define basename_BDK_GITS_IMP_TSEIR "GITS_IMP_TSEIR"
-#define busnum_BDK_GITS_IMP_TSEIR 0
-#define arguments_BDK_GITS_IMP_TSEIR -1,-1,-1,-1
 
 /**
  * Register (NCB32b) gicr#_pidr4
@@ -5033,6 +4982,57 @@ static inline uint64_t BDK_GICRX_CIDR1(unsigned long a)
 #define basename_BDK_GICRX_CIDR1(a) "GICRX_CIDR1"
 #define busnum_BDK_GICRX_CIDR1(a) (a)
 #define arguments_BDK_GICRX_CIDR1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gits_imp_tseir
+ *
+ * GIC ITS Implementation Defined Translator SEI Register
+ * This register holds the SEI status of the ITS translator error.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gits_imp_tseir_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear fields [V, M,
+                                                                 DEV_ID, INT_ID, ERROR]. */
+        uint64_t m                     : 1;  /**< [ 62: 62](RO/H) When set, it means multiple errors have happened. */
+        uint64_t reserved_53_61        : 9;
+        uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Input device ID to the interrupt translator. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t int_id                : 20; /**< [ 27:  8](RO/H) Input interrupt ID to the interrupt translator. */
+        uint64_t error                 : 8;  /**< [  7:  0](RO/H) Error code for the first error. Valid encoding is one of [CSEI_UNMAPPED_DEVICE,
+                                                                 CSEI_DEVICE_OOR, CSEI_ID_OOR,
+                                                                 CSEI_UNMAPPED_INTERRUPT,CSEI_UNMAPPED_COLLECTION] (as defined in GITS_CMD_ERR_E). */
+#else /* Word 0 - Little Endian */
+        uint64_t error                 : 8;  /**< [  7:  0](RO/H) Error code for the first error. Valid encoding is one of [CSEI_UNMAPPED_DEVICE,
+                                                                 CSEI_DEVICE_OOR, CSEI_ID_OOR,
+                                                                 CSEI_UNMAPPED_INTERRUPT,CSEI_UNMAPPED_COLLECTION] (as defined in GITS_CMD_ERR_E). */
+        uint64_t int_id                : 20; /**< [ 27:  8](RO/H) Input interrupt ID to the interrupt translator. */
+        uint64_t reserved_28_31        : 4;
+        uint64_t dev_id                : 21; /**< [ 52: 32](RO/H) Input device ID to the interrupt translator. */
+        uint64_t reserved_53_61        : 9;
+        uint64_t m                     : 1;  /**< [ 62: 62](RO/H) When set, it means multiple errors have happened. */
+        uint64_t v                     : 1;  /**< [ 63: 63](R/W1C/H) When set, the translator error is valid. Write 1 to this field will clear fields [V, M,
+                                                                 DEV_ID, INT_ID, ERROR]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gits_imp_tseir_s cn; */
+} bdk_gits_imp_tseir_t;
+
+#define BDK_GITS_IMP_TSEIR BDK_GITS_IMP_TSEIR_FUNC()
+static inline uint64_t BDK_GITS_IMP_TSEIR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GITS_IMP_TSEIR_FUNC(void)
+{
+    return 0x801000020028ll;
+}
+
+#define typedef_BDK_GITS_IMP_TSEIR bdk_gits_imp_tseir_t
+#define bustype_BDK_GITS_IMP_TSEIR BDK_CSR_TYPE_NCB
+#define basename_BDK_GITS_IMP_TSEIR "GITS_IMP_TSEIR"
+#define busnum_BDK_GITS_IMP_TSEIR 0
+#define arguments_BDK_GITS_IMP_TSEIR -1,-1,-1,-1
 
 /**
  * Register (NCB) gic_rib_err_adrr

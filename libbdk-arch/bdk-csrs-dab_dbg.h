@@ -2213,40 +2213,6 @@ static inline uint64_t BDK_DBGX_EDECCR(unsigned long a)
 #define arguments_BDK_DBGX_EDECCR(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) dbg#_dbgwvr#_el1_lo
- *
- * AP DBG Debug Watchpoint Value Low Registers
- * Watchpoint value register (low order 32 bits)
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_dbgx_dbgwvrx_el1_lo_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t value                 : 32; /**< [ 31:  0](R/W/H) Reserved. */
-#else /* Word 0 - Little Endian */
-        uint32_t value                 : 32; /**< [ 31:  0](R/W/H) Reserved. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dbgx_dbgwvrx_el1_lo_s cn; */
-} bdk_dbgx_dbgwvrx_el1_lo_t;
-
-static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b)
-{
-    if ((a<=47) && (b<=5))
-        return 0x87a008000800ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
-    __bdk_csr_fatal("DBGX_DBGWVRX_EL1_LO", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_DBGX_DBGWVRX_EL1_LO(a,b) bdk_dbgx_dbgwvrx_el1_lo_t
-#define bustype_BDK_DBGX_DBGWVRX_EL1_LO(a,b) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_DBGX_DBGWVRX_EL1_LO(a,b) "DBGX_DBGWVRX_EL1_LO"
-#define busnum_BDK_DBGX_DBGWVRX_EL1_LO(a,b) (a)
-#define arguments_BDK_DBGX_DBGWVRX_EL1_LO(a,b) (a),(b),-1,-1
-
-/**
  * Register (DAB32b) dbg#_edcidsr
  *
  * AP DBG External Debug Context ID Sample Register
@@ -3170,6 +3136,40 @@ static inline uint64_t BDK_DBGX_MIDR_EL1(unsigned long a)
 #define basename_BDK_DBGX_MIDR_EL1(a) "DBGX_MIDR_EL1"
 #define busnum_BDK_DBGX_MIDR_EL1(a) (a)
 #define arguments_BDK_DBGX_MIDR_EL1(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) dbg#_dbgwvr#_el1_lo
+ *
+ * AP DBG Debug Watchpoint Value Low Registers
+ * Watchpoint value register (low order 32 bits)
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_dbgx_dbgwvrx_el1_lo_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t value                 : 32; /**< [ 31:  0](R/W/H) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t value                 : 32; /**< [ 31:  0](R/W/H) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dbgx_dbgwvrx_el1_lo_s cn; */
+} bdk_dbgx_dbgwvrx_el1_lo_t;
+
+static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DBGX_DBGWVRX_EL1_LO(unsigned long a, unsigned long b)
+{
+    if ((a<=47) && (b<=5))
+        return 0x87a008000800ll + 0x80000ll * ((a) & 0x3f) + 0x10ll * ((b) & 0x7);
+    __bdk_csr_fatal("DBGX_DBGWVRX_EL1_LO", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_DBGX_DBGWVRX_EL1_LO(a,b) bdk_dbgx_dbgwvrx_el1_lo_t
+#define bustype_BDK_DBGX_DBGWVRX_EL1_LO(a,b) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_DBGX_DBGWVRX_EL1_LO(a,b) "DBGX_DBGWVRX_EL1_LO"
+#define busnum_BDK_DBGX_DBGWVRX_EL1_LO(a,b) (a)
+#define arguments_BDK_DBGX_DBGWVRX_EL1_LO(a,b) (a),(b),-1,-1
 
 /**
  * Register (DAB32b) dbg#_eddevarch

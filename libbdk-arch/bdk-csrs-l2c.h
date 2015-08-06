@@ -268,6 +268,29 @@
 #define BDK_L2C_TAD_PRF_SEL_E_WAIT_VAB (9) /**< LFB wait VAB (each cycle adds number of LFBs waiting for VAB). */
 
 /**
+ * Enumeration oci_ireq_cmd_e
+ *
+ * INTERNAL: OCI IREQ Command Enumeration
+ */
+#define BDK_OCI_IREQ_CMD_E_IAADD (0x10) /**< IO Atomic add of 8, 16, 32, or 64 bits. */
+#define BDK_OCI_IREQ_CMD_E_IACAS (0x15) /**< IO Atomic compare and swap of 8, 16, 32, 64, or 128 bits. */
+#define BDK_OCI_IREQ_CMD_E_IACLR (0x12) /**< IO Atomic clear of 8, 16, 32, or 64 bits. */
+#define BDK_OCI_IREQ_CMD_E_IASET (0x13) /**< IO Atomic set of 8, 16, 32, or 64 bits. */
+#define BDK_OCI_IREQ_CMD_E_IASWP (0x14) /**< IO Atomic swap of 8, 16, 32, or 64 bits. */
+#define BDK_OCI_IREQ_CMD_E_IDLE (0x1f) /**< No operation. */
+#define BDK_OCI_IREQ_CMD_E_IOBADDR (6) /**< Same as LMTST without any data. */
+#define BDK_OCI_IREQ_CMD_E_IOBADDRA (7) /**< Same as IOBADDR, destination node will respond with IOACK. */
+#define BDK_OCI_IREQ_CMD_E_IOBLD (0) /**< IO load request of 8, 16, 32, 64, or 128 bits. */
+#define BDK_OCI_IREQ_CMD_E_IOBST (2) /**< IO store request of 8, 16, 32, 64, or 128 bits. */
+#define BDK_OCI_IREQ_CMD_E_IOBSTA (3) /**< Same as IOBST, destination node will respond with an IOACK. */
+#define BDK_OCI_IREQ_CMD_E_IOBSTP (4) /**< IO partial store request of 64 bits. */
+#define BDK_OCI_IREQ_CMD_E_IOBSTPA (5) /**< Same as IOBSTP, destination node will respond with IOACK. */
+#define BDK_OCI_IREQ_CMD_E_LMTST (8) /**< Vector IO store request. */
+#define BDK_OCI_IREQ_CMD_E_LMTSTA (9) /**< Same as LMTST, destination node will respond with IOACK. */
+#define BDK_OCI_IREQ_CMD_E_SLILD (0x1c) /**< SLI-initiated IO load request of 8, 16, 32, or 64 bits. */
+#define BDK_OCI_IREQ_CMD_E_SLIST (0x1d) /**< SLI-initiated IO store request of 8, 16, 32, or 64 bits. */
+
+/**
  * Enumeration oci_mrsp_cmd_e
  *
  * INTERNAL: OCI MRSP Command Enumeration
@@ -324,29 +347,6 @@
 #define BDK_L2C_TAG_ERRPRIO_E_NBE (0) /**< No error. */
 #define BDK_L2C_TAG_ERRPRIO_E_NOWAY (1) /**< TAG NOWAY error. */
 #define BDK_L2C_TAG_ERRPRIO_E_SBE (2) /**< TAG single-bit error. */
-
-/**
- * Enumeration oci_ireq_cmd_e
- *
- * INTERNAL: OCI IREQ Command Enumeration
- */
-#define BDK_OCI_IREQ_CMD_E_IAADD (0x10) /**< IO Atomic add of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IACAS (0x15) /**< IO Atomic compare and swap of 8, 16, 32, 64, or 128 bits. */
-#define BDK_OCI_IREQ_CMD_E_IACLR (0x12) /**< IO Atomic clear of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IASET (0x13) /**< IO Atomic set of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IASWP (0x14) /**< IO Atomic swap of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IDLE (0x1f) /**< No operation. */
-#define BDK_OCI_IREQ_CMD_E_IOBADDR (6) /**< Same as LMTST without any data. */
-#define BDK_OCI_IREQ_CMD_E_IOBADDRA (7) /**< Same as IOBADDR, destination node will respond with IOACK. */
-#define BDK_OCI_IREQ_CMD_E_IOBLD (0) /**< IO load request of 8, 16, 32, 64, or 128 bits. */
-#define BDK_OCI_IREQ_CMD_E_IOBST (2) /**< IO store request of 8, 16, 32, 64, or 128 bits. */
-#define BDK_OCI_IREQ_CMD_E_IOBSTA (3) /**< Same as IOBST, destination node will respond with an IOACK. */
-#define BDK_OCI_IREQ_CMD_E_IOBSTP (4) /**< IO partial store request of 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_IOBSTPA (5) /**< Same as IOBSTP, destination node will respond with IOACK. */
-#define BDK_OCI_IREQ_CMD_E_LMTST (8) /**< Vector IO store request. */
-#define BDK_OCI_IREQ_CMD_E_LMTSTA (9) /**< Same as LMTST, destination node will respond with IOACK. */
-#define BDK_OCI_IREQ_CMD_E_SLILD (0x1c) /**< SLI-initiated IO load request of 8, 16, 32, or 64 bits. */
-#define BDK_OCI_IREQ_CMD_E_SLIST (0x1d) /**< SLI-initiated IO store request of 8, 16, 32, or 64 bits. */
 
 /**
  * Enumeration ior_cmd_e

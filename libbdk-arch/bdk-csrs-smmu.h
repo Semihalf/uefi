@@ -53,6 +53,17 @@
  */
 
 /**
+ * Enumeration smmu_ctype_e
+ *
+ * SMMU Context Bank Type Enumeration
+ * Enumerates the values of SMMU()_CBAR()[CTYPE].
+ */
+#define BDK_SMMU_CTYPE_E_STAGE1_BYP2 (1) /**< Stage 1 contact with stage 2 bypass. */
+#define BDK_SMMU_CTYPE_E_STAGE1_FAULT2 (2) /**< Stage 1 contact with stage 2 fault. */
+#define BDK_SMMU_CTYPE_E_STAGE1_STAGE2 (3) /**< Stage 1 contact with stage 2 nested translation. */
+#define BDK_SMMU_CTYPE_E_STAGE2 (0) /**< Stage 2 context. */
+
+/**
  * Enumeration smmu_int_vec_e
  *
  * SMMU MSI-X Vector Enumeration
@@ -76,17 +87,6 @@
                                        and enables SMMU(0..3)_(S)CR0[GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE, GFIE].
                                        (GFIE is a common enable.) Applies only to secure mode. */
 #define BDK_SMMU_INT_VEC_E_SGFSR_CLEAR (0x103) /**< Level sensitive interrupt clear vector. */
-
-/**
- * Enumeration smmu_ctype_e
- *
- * SMMU Context Bank Type Enumeration
- * Enumerates the values of SMMU()_CBAR()[CTYPE].
- */
-#define BDK_SMMU_CTYPE_E_STAGE1_BYP2 (1) /**< Stage 1 contact with stage 2 bypass. */
-#define BDK_SMMU_CTYPE_E_STAGE1_FAULT2 (2) /**< Stage 1 contact with stage 2 fault. */
-#define BDK_SMMU_CTYPE_E_STAGE1_STAGE2 (3) /**< Stage 1 contact with stage 2 nested translation. */
-#define BDK_SMMU_CTYPE_E_STAGE2 (0) /**< Stage 2 context. */
 
 /**
  * Enumeration smmu_bar_e
@@ -588,39 +588,6 @@ static inline uint64_t BDK_SMMUX_CBX_RESUME(unsigned long a, unsigned long b)
 #define basename_BDK_SMMUX_CBX_RESUME(a,b) "SMMUX_CBX_RESUME"
 #define busnum_BDK_SMMUX_CBX_RESUME(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_RESUME(a,b) (a),(b),-1,-1
-
-/**
- * Register (NCB) smmu#_nsptread_perf
- *
- * SMMU Non-secure Page Table Reads Performance Counter Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_smmux_nsptread_perf_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to non-secure memory. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to non-secure memory. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_smmux_nsptread_perf_s cn; */
-} bdk_smmux_nsptread_perf_t;
-
-static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a)
-{
-    if (a<=3)
-        return 0x830000021050ll + 0x1000000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("SMMUX_NSPTREAD_PERF", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_SMMUX_NSPTREAD_PERF(a) bdk_smmux_nsptread_perf_t
-#define bustype_BDK_SMMUX_NSPTREAD_PERF(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_SMMUX_NSPTREAD_PERF(a) "SMMUX_NSPTREAD_PERF"
-#define busnum_BDK_SMMUX_NSPTREAD_PERF(a) (a)
-#define arguments_BDK_SMMUX_NSPTREAD_PERF(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) smmu#_cb#_tlbstatus
@@ -2036,6 +2003,39 @@ static inline uint64_t BDK_SMMUX_CBX_TLBIALL(unsigned long a, unsigned long b)
 #define basename_BDK_SMMUX_CBX_TLBIALL(a,b) "SMMUX_CBX_TLBIALL"
 #define busnum_BDK_SMMUX_CBX_TLBIALL(a,b) (a)
 #define arguments_BDK_SMMUX_CBX_TLBIALL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) smmu#_nsptread_perf
+ *
+ * SMMU Non-secure Page Table Reads Performance Counter Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_smmux_nsptread_perf_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to non-secure memory. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of page table reads issued to non-secure memory. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smmux_nsptread_perf_s cn; */
+} bdk_smmux_nsptread_perf_t;
+
+static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMMUX_NSPTREAD_PERF(unsigned long a)
+{
+    if (a<=3)
+        return 0x830000021050ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSPTREAD_PERF", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SMMUX_NSPTREAD_PERF(a) bdk_smmux_nsptread_perf_t
+#define bustype_BDK_SMMUX_NSPTREAD_PERF(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SMMUX_NSPTREAD_PERF(a) "SMMUX_NSPTREAD_PERF"
+#define busnum_BDK_SMMUX_NSPTREAD_PERF(a) (a)
+#define arguments_BDK_SMMUX_NSPTREAD_PERF(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) smmu#_look_strm
@@ -4582,6 +4582,41 @@ static inline uint64_t BDK_SMMUX_CBX_TCR2(unsigned long a, unsigned long b)
 #define arguments_BDK_SMMUX_CBX_TCR2(a,b) (a),(b),-1,-1
 
 /**
+ * Register (NCB) smmu#_nsmiss_perf
+ *
+ * SMMU Non-secure Misses Performance Counter Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_smmux_nsmiss_perf_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in non-secure mode which missed the IOTLB.
+                                                                 Also includes sign-extension position translation faults. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in non-secure mode which missed the IOTLB.
+                                                                 Also includes sign-extension position translation faults. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smmux_nsmiss_perf_s cn; */
+} bdk_smmux_nsmiss_perf_t;
+
+static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a)
+{
+    if (a<=3)
+        return 0x830000021030ll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_NSMISS_PERF", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SMMUX_NSMISS_PERF(a) bdk_smmux_nsmiss_perf_t
+#define bustype_BDK_SMMUX_NSMISS_PERF(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SMMUX_NSMISS_PERF(a) "SMMUX_NSMISS_PERF"
+#define busnum_BDK_SMMUX_NSMISS_PERF(a) (a)
+#define arguments_BDK_SMMUX_NSMISS_PERF(a) (a),-1,-1,-1
+
+/**
  * Register (NCB32b) smmu#_sgfsr
  *
  * SMMU (Secure) Global Fault Status Register
@@ -5091,6 +5126,47 @@ static inline uint64_t BDK_SMMUX_IDR0(unsigned long a)
 #define arguments_BDK_SMMUX_IDR0(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB32b) smmu#_idr7
+ *
+ * SMMU Identification Register 7
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_smmux_idr7_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t major                 : 4;  /**< [  7:  4](RO) The major part of the implementation version number.
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<7:4>. */
+        uint32_t minor                 : 4;  /**< [  3:  0](RO) The minor part of the implementation version number.
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<3:0>. */
+#else /* Word 0 - Little Endian */
+        uint32_t minor                 : 4;  /**< [  3:  0](RO) The minor part of the implementation version number.
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<3:0>. */
+        uint32_t major                 : 4;  /**< [  7:  4](RO) The major part of the implementation version number.
+                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<7:4>. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smmux_idr7_s cn; */
+} bdk_smmux_idr7_t;
+
+static inline uint64_t BDK_SMMUX_IDR7(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SMMUX_IDR7(unsigned long a)
+{
+    if (a<=3)
+        return 0x83000000003cll + 0x1000000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("SMMUX_IDR7", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SMMUX_IDR7(a) bdk_smmux_idr7_t
+#define bustype_BDK_SMMUX_IDR7(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_SMMUX_IDR7(a) "SMMUX_IDR7"
+#define busnum_BDK_SMMUX_IDR7(a) (a)
+#define arguments_BDK_SMMUX_IDR7(a) (a),-1,-1,-1
+
+/**
  * Register (NCB32b) smmu#_idr6
  *
  * SMMU Identification Register 6
@@ -5283,41 +5359,6 @@ static inline uint64_t BDK_SMMUX_NSGFAR(unsigned long a)
 #define basename_BDK_SMMUX_NSGFAR(a) "SMMUX_NSGFAR"
 #define busnum_BDK_SMMUX_NSGFAR(a) (a)
 #define arguments_BDK_SMMUX_NSGFAR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) smmu#_nsmiss_perf
- *
- * SMMU Non-secure Misses Performance Counter Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_smmux_nsmiss_perf_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in non-secure mode which missed the IOTLB.
-                                                                 Also includes sign-extension position translation faults. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Counts the number of lookup requests in non-secure mode which missed the IOTLB.
-                                                                 Also includes sign-extension position translation faults. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_smmux_nsmiss_perf_s cn; */
-} bdk_smmux_nsmiss_perf_t;
-
-static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SMMUX_NSMISS_PERF(unsigned long a)
-{
-    if (a<=3)
-        return 0x830000021030ll + 0x1000000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("SMMUX_NSMISS_PERF", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_SMMUX_NSMISS_PERF(a) bdk_smmux_nsmiss_perf_t
-#define bustype_BDK_SMMUX_NSMISS_PERF(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_SMMUX_NSMISS_PERF(a) "SMMUX_NSMISS_PERF"
-#define busnum_BDK_SMMUX_NSMISS_PERF(a) (a)
-#define arguments_BDK_SMMUX_NSMISS_PERF(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) smmu#_err_ena_w1c
@@ -6396,47 +6437,6 @@ static inline uint64_t BDK_SMMUX_ECC_CTL_1(unsigned long a)
 #define basename_BDK_SMMUX_ECC_CTL_1(a) "SMMUX_ECC_CTL_1"
 #define busnum_BDK_SMMUX_ECC_CTL_1(a) (a)
 #define arguments_BDK_SMMUX_ECC_CTL_1(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) smmu#_idr7
- *
- * SMMU Identification Register 7
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_smmux_idr7_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t major                 : 4;  /**< [  7:  4](RO) The major part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<7:4>. */
-        uint32_t minor                 : 4;  /**< [  3:  0](RO) The minor part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<3:0>. */
-#else /* Word 0 - Little Endian */
-        uint32_t minor                 : 4;  /**< [  3:  0](RO) The minor part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<3:0>. */
-        uint32_t major                 : 4;  /**< [  7:  4](RO) The major part of the implementation version number.
-                                                                 For CNXXXX from PCCPF_SMMU()_REV[RID]<7:4>. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_smmux_idr7_s cn; */
-} bdk_smmux_idr7_t;
-
-static inline uint64_t BDK_SMMUX_IDR7(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_SMMUX_IDR7(unsigned long a)
-{
-    if (a<=3)
-        return 0x83000000003cll + 0x1000000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("SMMUX_IDR7", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_SMMUX_IDR7(a) bdk_smmux_idr7_t
-#define bustype_BDK_SMMUX_IDR7(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_SMMUX_IDR7(a) "SMMUX_IDR7"
-#define busnum_BDK_SMMUX_IDR7(a) (a)
-#define arguments_BDK_SMMUX_IDR7(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) smmu#_sgfsynr2

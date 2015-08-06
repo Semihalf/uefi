@@ -447,141 +447,6 @@ static inline uint64_t BDK_PCM_TEX_INT_SUM_W1S(unsigned long a)
 #define arguments_BDK_PCM_TEX_INT_SUM_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) pcm_clk#_cfg
- *
- * PCM Clock Configuration Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_pcm_clkx_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t fsyncgood             : 1;  /**< [ 63: 63](RO/H) FSYNC status.
-                                                                 0 = None/extra fsync pulse seen on most recent frame.
-                                                                 1 = Last frame had a correctly positioned fsync pulse.
-
-                                                                 NOTE: This is intended for startup. the FSYNCEXTRA and FSYNCMISSING interrupts
-                                                                 are intended for detecting loss of sync during normal operation. */
-        uint64_t reserved_48_62        : 15;
-        uint64_t fsyncsamp             : 16; /**< [ 47: 32](R/W) Number of ECLKs from internal BCLK edge to sample FSYNC. Used to sync to the
-                                                                 start of a frame and to check for FSYNC errors. */
-        uint64_t reserved_26_31        : 6;
-        uint64_t fsynclen              : 5;  /**< [ 25: 21](R/W) Number of 1/2 BCLKs FSYNC is asserted for.
-                                                                 Only used when GEN==1. */
-        uint64_t fsyncloc              : 5;  /**< [ 20: 16](R/W) FSYNC location, in 1/2 BCLKS before timeslot 0, bit 0.
-                                                                 Used to detect framing errors and
-                                                                 therefore must have a correct value even if GEN=0. */
-        uint64_t numslots              : 10; /**< [ 15:  6](R/W) Number of 8-bit slots in a frame.
-                                                                 This, along with EXTRABIT and Fbclk
-                                                                 determines FSYNC frequency when GEN = 1.
-                                                                 Also used to detect framing errors and
-                                                                 therefore must have a correct value even if GEN = 0. */
-        uint64_t extrabit              : 1;  /**< [  5:  5](R/W) Add extra.
-                                                                 0 = No frame bit.
-                                                                 1 = Add one extra bit time for frame bit.
-
-                                                                 If GEN == 1, then FSYNC will be delayed one extra bit time.
-
-                                                                 Also used to detect framing errors and therefore must have a correct value even
-                                                                 if GEN=0.
-
-                                                                 The extra bit comes from the LSB/MSB of the first byte of the frame in the
-                                                                 transmit memory region.  LSB vs MSB is determined from the setting of
-                                                                 PCM_TE()_TDM_CFG[LSBFIRST]. */
-        uint64_t bitlen                : 2;  /**< [  4:  3](R/W) Number of BCLKs in a bit time.
-                                                                 0 = 1 BCLK.
-                                                                 1 = 2 BCLKs.
-                                                                 2 = 4 BCLKs.
-                                                                 3 = Reserved. */
-        uint64_t bclkpol               : 1;  /**< [  2:  2](R/W) BCLK polarity.
-                                                                 0 = BCLK rise edge is start of bit time.
-                                                                 1 = BCLK fall edge is start of bit time.
-
-                                                                 Also used to detect framing errors and therefore must have a correct value even
-                                                                 if GEN=0. */
-        uint64_t fsyncpol              : 1;  /**< [  1:  1](R/W) FSYNC polarity.
-                                                                 0 = FSYNC idles low, asserts high.
-                                                                 1 = FSYNC idles high, asserts low.
-
-                                                                 Also used to detect framing errors and therefore must have a correct value even
-                                                                 if GEN=0. */
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Clock enable.
-                                                                 0 = Clock receiving logic is doing nothing.
-                                                                 1 = Clock receiving logic is looking for sync. */
-#else /* Word 0 - Little Endian */
-        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Clock enable.
-                                                                 0 = Clock receiving logic is doing nothing.
-                                                                 1 = Clock receiving logic is looking for sync. */
-        uint64_t fsyncpol              : 1;  /**< [  1:  1](R/W) FSYNC polarity.
-                                                                 0 = FSYNC idles low, asserts high.
-                                                                 1 = FSYNC idles high, asserts low.
-
-                                                                 Also used to detect framing errors and therefore must have a correct value even
-                                                                 if GEN=0. */
-        uint64_t bclkpol               : 1;  /**< [  2:  2](R/W) BCLK polarity.
-                                                                 0 = BCLK rise edge is start of bit time.
-                                                                 1 = BCLK fall edge is start of bit time.
-
-                                                                 Also used to detect framing errors and therefore must have a correct value even
-                                                                 if GEN=0. */
-        uint64_t bitlen                : 2;  /**< [  4:  3](R/W) Number of BCLKs in a bit time.
-                                                                 0 = 1 BCLK.
-                                                                 1 = 2 BCLKs.
-                                                                 2 = 4 BCLKs.
-                                                                 3 = Reserved. */
-        uint64_t extrabit              : 1;  /**< [  5:  5](R/W) Add extra.
-                                                                 0 = No frame bit.
-                                                                 1 = Add one extra bit time for frame bit.
-
-                                                                 If GEN == 1, then FSYNC will be delayed one extra bit time.
-
-                                                                 Also used to detect framing errors and therefore must have a correct value even
-                                                                 if GEN=0.
-
-                                                                 The extra bit comes from the LSB/MSB of the first byte of the frame in the
-                                                                 transmit memory region.  LSB vs MSB is determined from the setting of
-                                                                 PCM_TE()_TDM_CFG[LSBFIRST]. */
-        uint64_t numslots              : 10; /**< [ 15:  6](R/W) Number of 8-bit slots in a frame.
-                                                                 This, along with EXTRABIT and Fbclk
-                                                                 determines FSYNC frequency when GEN = 1.
-                                                                 Also used to detect framing errors and
-                                                                 therefore must have a correct value even if GEN = 0. */
-        uint64_t fsyncloc              : 5;  /**< [ 20: 16](R/W) FSYNC location, in 1/2 BCLKS before timeslot 0, bit 0.
-                                                                 Used to detect framing errors and
-                                                                 therefore must have a correct value even if GEN=0. */
-        uint64_t fsynclen              : 5;  /**< [ 25: 21](R/W) Number of 1/2 BCLKs FSYNC is asserted for.
-                                                                 Only used when GEN==1. */
-        uint64_t reserved_26_31        : 6;
-        uint64_t fsyncsamp             : 16; /**< [ 47: 32](R/W) Number of ECLKs from internal BCLK edge to sample FSYNC. Used to sync to the
-                                                                 start of a frame and to check for FSYNC errors. */
-        uint64_t reserved_48_62        : 15;
-        uint64_t fsyncgood             : 1;  /**< [ 63: 63](RO/H) FSYNC status.
-                                                                 0 = None/extra fsync pulse seen on most recent frame.
-                                                                 1 = Last frame had a correctly positioned fsync pulse.
-
-                                                                 NOTE: This is intended for startup. the FSYNCEXTRA and FSYNCMISSING interrupts
-                                                                 are intended for detecting loss of sync during normal operation. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcm_clkx_cfg_s cn; */
-} bdk_pcm_clkx_cfg_t;
-
-static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x806000010000ll + 0x4000ll * ((a) & 0x1);
-    __bdk_csr_fatal("PCM_CLKX_CFG", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCM_CLKX_CFG(a) bdk_pcm_clkx_cfg_t
-#define bustype_BDK_PCM_CLKX_CFG(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_PCM_CLKX_CFG(a) "PCM_CLKX_CFG"
-#define busnum_BDK_PCM_CLKX_CFG(a) (a)
-#define arguments_BDK_PCM_CLKX_CFG(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) pcm_te#_int_sum
  *
  * PCM Interrupt Summary Register
@@ -797,6 +662,141 @@ static inline uint64_t BDK_PCM_TEX_RXSTART(unsigned long a)
 #define basename_BDK_PCM_TEX_RXSTART(a) "PCM_TEX_RXSTART"
 #define busnum_BDK_PCM_TEX_RXSTART(a) (a)
 #define arguments_BDK_PCM_TEX_RXSTART(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) pcm_clk#_cfg
+ *
+ * PCM Clock Configuration Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pcm_clkx_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t fsyncgood             : 1;  /**< [ 63: 63](RO/H) FSYNC status.
+                                                                 0 = None/extra fsync pulse seen on most recent frame.
+                                                                 1 = Last frame had a correctly positioned fsync pulse.
+
+                                                                 NOTE: This is intended for startup. the FSYNCEXTRA and FSYNCMISSING interrupts
+                                                                 are intended for detecting loss of sync during normal operation. */
+        uint64_t reserved_48_62        : 15;
+        uint64_t fsyncsamp             : 16; /**< [ 47: 32](R/W) Number of ECLKs from internal BCLK edge to sample FSYNC. Used to sync to the
+                                                                 start of a frame and to check for FSYNC errors. */
+        uint64_t reserved_26_31        : 6;
+        uint64_t fsynclen              : 5;  /**< [ 25: 21](R/W) Number of 1/2 BCLKs FSYNC is asserted for.
+                                                                 Only used when GEN==1. */
+        uint64_t fsyncloc              : 5;  /**< [ 20: 16](R/W) FSYNC location, in 1/2 BCLKS before timeslot 0, bit 0.
+                                                                 Used to detect framing errors and
+                                                                 therefore must have a correct value even if GEN=0. */
+        uint64_t numslots              : 10; /**< [ 15:  6](R/W) Number of 8-bit slots in a frame.
+                                                                 This, along with EXTRABIT and Fbclk
+                                                                 determines FSYNC frequency when GEN = 1.
+                                                                 Also used to detect framing errors and
+                                                                 therefore must have a correct value even if GEN = 0. */
+        uint64_t extrabit              : 1;  /**< [  5:  5](R/W) Add extra.
+                                                                 0 = No frame bit.
+                                                                 1 = Add one extra bit time for frame bit.
+
+                                                                 If GEN == 1, then FSYNC will be delayed one extra bit time.
+
+                                                                 Also used to detect framing errors and therefore must have a correct value even
+                                                                 if GEN=0.
+
+                                                                 The extra bit comes from the LSB/MSB of the first byte of the frame in the
+                                                                 transmit memory region.  LSB vs MSB is determined from the setting of
+                                                                 PCM_TE()_TDM_CFG[LSBFIRST]. */
+        uint64_t bitlen                : 2;  /**< [  4:  3](R/W) Number of BCLKs in a bit time.
+                                                                 0 = 1 BCLK.
+                                                                 1 = 2 BCLKs.
+                                                                 2 = 4 BCLKs.
+                                                                 3 = Reserved. */
+        uint64_t bclkpol               : 1;  /**< [  2:  2](R/W) BCLK polarity.
+                                                                 0 = BCLK rise edge is start of bit time.
+                                                                 1 = BCLK fall edge is start of bit time.
+
+                                                                 Also used to detect framing errors and therefore must have a correct value even
+                                                                 if GEN=0. */
+        uint64_t fsyncpol              : 1;  /**< [  1:  1](R/W) FSYNC polarity.
+                                                                 0 = FSYNC idles low, asserts high.
+                                                                 1 = FSYNC idles high, asserts low.
+
+                                                                 Also used to detect framing errors and therefore must have a correct value even
+                                                                 if GEN=0. */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Clock enable.
+                                                                 0 = Clock receiving logic is doing nothing.
+                                                                 1 = Clock receiving logic is looking for sync. */
+#else /* Word 0 - Little Endian */
+        uint64_t ena                   : 1;  /**< [  0:  0](R/W) Clock enable.
+                                                                 0 = Clock receiving logic is doing nothing.
+                                                                 1 = Clock receiving logic is looking for sync. */
+        uint64_t fsyncpol              : 1;  /**< [  1:  1](R/W) FSYNC polarity.
+                                                                 0 = FSYNC idles low, asserts high.
+                                                                 1 = FSYNC idles high, asserts low.
+
+                                                                 Also used to detect framing errors and therefore must have a correct value even
+                                                                 if GEN=0. */
+        uint64_t bclkpol               : 1;  /**< [  2:  2](R/W) BCLK polarity.
+                                                                 0 = BCLK rise edge is start of bit time.
+                                                                 1 = BCLK fall edge is start of bit time.
+
+                                                                 Also used to detect framing errors and therefore must have a correct value even
+                                                                 if GEN=0. */
+        uint64_t bitlen                : 2;  /**< [  4:  3](R/W) Number of BCLKs in a bit time.
+                                                                 0 = 1 BCLK.
+                                                                 1 = 2 BCLKs.
+                                                                 2 = 4 BCLKs.
+                                                                 3 = Reserved. */
+        uint64_t extrabit              : 1;  /**< [  5:  5](R/W) Add extra.
+                                                                 0 = No frame bit.
+                                                                 1 = Add one extra bit time for frame bit.
+
+                                                                 If GEN == 1, then FSYNC will be delayed one extra bit time.
+
+                                                                 Also used to detect framing errors and therefore must have a correct value even
+                                                                 if GEN=0.
+
+                                                                 The extra bit comes from the LSB/MSB of the first byte of the frame in the
+                                                                 transmit memory region.  LSB vs MSB is determined from the setting of
+                                                                 PCM_TE()_TDM_CFG[LSBFIRST]. */
+        uint64_t numslots              : 10; /**< [ 15:  6](R/W) Number of 8-bit slots in a frame.
+                                                                 This, along with EXTRABIT and Fbclk
+                                                                 determines FSYNC frequency when GEN = 1.
+                                                                 Also used to detect framing errors and
+                                                                 therefore must have a correct value even if GEN = 0. */
+        uint64_t fsyncloc              : 5;  /**< [ 20: 16](R/W) FSYNC location, in 1/2 BCLKS before timeslot 0, bit 0.
+                                                                 Used to detect framing errors and
+                                                                 therefore must have a correct value even if GEN=0. */
+        uint64_t fsynclen              : 5;  /**< [ 25: 21](R/W) Number of 1/2 BCLKs FSYNC is asserted for.
+                                                                 Only used when GEN==1. */
+        uint64_t reserved_26_31        : 6;
+        uint64_t fsyncsamp             : 16; /**< [ 47: 32](R/W) Number of ECLKs from internal BCLK edge to sample FSYNC. Used to sync to the
+                                                                 start of a frame and to check for FSYNC errors. */
+        uint64_t reserved_48_62        : 15;
+        uint64_t fsyncgood             : 1;  /**< [ 63: 63](RO/H) FSYNC status.
+                                                                 0 = None/extra fsync pulse seen on most recent frame.
+                                                                 1 = Last frame had a correctly positioned fsync pulse.
+
+                                                                 NOTE: This is intended for startup. the FSYNCEXTRA and FSYNCMISSING interrupts
+                                                                 are intended for detecting loss of sync during normal operation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcm_clkx_cfg_s cn; */
+} bdk_pcm_clkx_cfg_t;
+
+static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCM_CLKX_CFG(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x806000010000ll + 0x4000ll * ((a) & 0x1);
+    __bdk_csr_fatal("PCM_CLKX_CFG", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCM_CLKX_CFG(a) bdk_pcm_clkx_cfg_t
+#define bustype_BDK_PCM_CLKX_CFG(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_PCM_CLKX_CFG(a) "PCM_CLKX_CFG"
+#define busnum_BDK_PCM_CLKX_CFG(a) (a)
+#define arguments_BDK_PCM_CLKX_CFG(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) pcm_clk#_gen

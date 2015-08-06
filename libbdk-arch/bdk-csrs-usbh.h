@@ -536,6 +536,50 @@ static inline uint64_t BDK_USBHX_UAHC_RTSOFF(unsigned long a)
 #define arguments_BDK_USBHX_UAHC_RTSOFF(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) usbh#_uahc_gprtbimap_hs
+ *
+ * UAHC High-Speed Port-to-Bus Instance Mapping Register
+ * This register specifies the high-speed USB instance number to which each USB 2.0 port is
+ * connected. By default, USB 2.0 ports are evenly distributed among all high-speed USB
+ * instances. Software can program this register to specify how USB 2.0 ports are connected to
+ * high-speed USB instances. The UAHC only implements one high-speed bus-instance, so this
+ * register should always be 0.
+ *
+ * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
+ *
+ * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_usbhx_uahc_gprtbimap_hs_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t binum1                : 4;  /**< [  3:  0](R/W) High-speed USB instance number for port 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t binum1                : 4;  /**< [  3:  0](R/W) High-speed USB instance number for port 1. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbhx_uahc_gprtbimap_hs_s cn; */
+} bdk_usbhx_uahc_gprtbimap_hs_t;
+
+static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a)
+{
+    if (a<=1)
+        return 0x86800000c180ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_GPRTBIMAP_HS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) bdk_usbhx_uahc_gprtbimap_hs_t
+#define bustype_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) "USBHX_UAHC_GPRTBIMAP_HS"
+#define busnum_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a)
+#define arguments_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a),-1,-1,-1
+
+/**
  * Register (NCB32b) usbh#_uahc_gtxfifoprihst
  *
  * UAHC TX FIFOs DMA Priority Register
@@ -1377,55 +1421,6 @@ static inline uint64_t BDK_USBHX_UAHC_GUSB2I2CCTLX(unsigned long a, unsigned lon
 #define arguments_BDK_USBHX_UAHC_GUSB2I2CCTLX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB32b) usbh#_uahc_usblegsup
- *
- * XHCI Legacy Support Capability Register
- * For information on this register, refer to the xHCI Specification, v1.0, section 7.1.1.
- *
- * This register can be reset by NCB reset,
- * or USBH()_UCTL_CTL[UAHC_RST],
- * or USBH()_UAHC_GCTL[CORESOFTRESET],
- * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_usbhx_uahc_usblegsup_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_25_31        : 7;
-        uint32_t hc_os_owned_semaphores : 1; /**< [ 24: 24](R/W) HC OS-owned semaphore. */
-        uint32_t reserved_17_23        : 7;
-        uint32_t hc_bios_owned_semaphores : 1;/**< [ 16: 16](R/W) HC BIOS-owned semaphore. */
-        uint32_t nextcapptr            : 8;  /**< [ 15:  8](RO) Next xHCI extended-capability pointer. */
-        uint32_t capid                 : 8;  /**< [  7:  0](RO) Capability ID = USB legacy support. */
-#else /* Word 0 - Little Endian */
-        uint32_t capid                 : 8;  /**< [  7:  0](RO) Capability ID = USB legacy support. */
-        uint32_t nextcapptr            : 8;  /**< [ 15:  8](RO) Next xHCI extended-capability pointer. */
-        uint32_t hc_bios_owned_semaphores : 1;/**< [ 16: 16](R/W) HC BIOS-owned semaphore. */
-        uint32_t reserved_17_23        : 7;
-        uint32_t hc_os_owned_semaphores : 1; /**< [ 24: 24](R/W) HC OS-owned semaphore. */
-        uint32_t reserved_25_31        : 7;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_usbhx_uahc_usblegsup_s cn; */
-} bdk_usbhx_uahc_usblegsup_t;
-
-static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a)
-{
-    if (a<=1)
-        return 0x868000000880ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_USBLEGSUP", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_USBHX_UAHC_USBLEGSUP(a) bdk_usbhx_uahc_usblegsup_t
-#define bustype_BDK_USBHX_UAHC_USBLEGSUP(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_USBHX_UAHC_USBLEGSUP(a) "USBHX_UAHC_USBLEGSUP"
-#define busnum_BDK_USBHX_UAHC_USBLEGSUP(a) (a)
-#define arguments_BDK_USBHX_UAHC_USBLEGSUP(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) usbh#_uahc_gprtbimap_fs
  *
  * UAHC Full/LowSpeed Port-to-Bus Instance Mapping Register
@@ -1504,6 +1499,55 @@ static inline uint64_t BDK_USBHX_UAHC_GDBGLSP(unsigned long a)
 #define basename_BDK_USBHX_UAHC_GDBGLSP(a) "USBHX_UAHC_GDBGLSP"
 #define busnum_BDK_USBHX_UAHC_GDBGLSP(a) (a)
 #define arguments_BDK_USBHX_UAHC_GDBGLSP(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) usbh#_uahc_usblegsup
+ *
+ * XHCI Legacy Support Capability Register
+ * For information on this register, refer to the xHCI Specification, v1.0, section 7.1.1.
+ *
+ * This register can be reset by NCB reset,
+ * or USBH()_UCTL_CTL[UAHC_RST],
+ * or USBH()_UAHC_GCTL[CORESOFTRESET],
+ * or USBH()_UAHC_USBCMD[HCRST], or USBH()_UAHC_USBCMD[LHCRST].
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_usbhx_uahc_usblegsup_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_25_31        : 7;
+        uint32_t hc_os_owned_semaphores : 1; /**< [ 24: 24](R/W) HC OS-owned semaphore. */
+        uint32_t reserved_17_23        : 7;
+        uint32_t hc_bios_owned_semaphores : 1;/**< [ 16: 16](R/W) HC BIOS-owned semaphore. */
+        uint32_t nextcapptr            : 8;  /**< [ 15:  8](RO) Next xHCI extended-capability pointer. */
+        uint32_t capid                 : 8;  /**< [  7:  0](RO) Capability ID = USB legacy support. */
+#else /* Word 0 - Little Endian */
+        uint32_t capid                 : 8;  /**< [  7:  0](RO) Capability ID = USB legacy support. */
+        uint32_t nextcapptr            : 8;  /**< [ 15:  8](RO) Next xHCI extended-capability pointer. */
+        uint32_t hc_bios_owned_semaphores : 1;/**< [ 16: 16](R/W) HC BIOS-owned semaphore. */
+        uint32_t reserved_17_23        : 7;
+        uint32_t hc_os_owned_semaphores : 1; /**< [ 24: 24](R/W) HC OS-owned semaphore. */
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_usbhx_uahc_usblegsup_s cn; */
+} bdk_usbhx_uahc_usblegsup_t;
+
+static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_USBHX_UAHC_USBLEGSUP(unsigned long a)
+{
+    if (a<=1)
+        return 0x868000000880ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("USBHX_UAHC_USBLEGSUP", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_USBHX_UAHC_USBLEGSUP(a) bdk_usbhx_uahc_usblegsup_t
+#define bustype_BDK_USBHX_UAHC_USBLEGSUP(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_USBHX_UAHC_USBLEGSUP(a) "USBHX_UAHC_USBLEGSUP"
+#define busnum_BDK_USBHX_UAHC_USBLEGSUP(a) (a)
+#define arguments_BDK_USBHX_UAHC_USBLEGSUP(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) usbh#_msix_vec#_addr
@@ -2258,50 +2302,6 @@ static inline uint64_t BDK_USBHX_UAHC_GUCTL(unsigned long a)
 #define basename_BDK_USBHX_UAHC_GUCTL(a) "USBHX_UAHC_GUCTL"
 #define busnum_BDK_USBHX_UAHC_GUCTL(a) (a)
 #define arguments_BDK_USBHX_UAHC_GUCTL(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) usbh#_uahc_gprtbimap_hs
- *
- * UAHC High-Speed Port-to-Bus Instance Mapping Register
- * This register specifies the high-speed USB instance number to which each USB 2.0 port is
- * connected. By default, USB 2.0 ports are evenly distributed among all high-speed USB
- * instances. Software can program this register to specify how USB 2.0 ports are connected to
- * high-speed USB instances. The UAHC only implements one high-speed bus-instance, so this
- * register should always be 0.
- *
- * This register can be reset by NCB reset or with USBH()_UCTL_CTL[UAHC_RST].
- *
- * INTERNAL: See Synopsys DWC_usb3 Databook v2.20a, section 6.2.2.2.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_usbhx_uahc_gprtbimap_hs_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t binum1                : 4;  /**< [  3:  0](R/W) High-speed USB instance number for port 1. */
-#else /* Word 0 - Little Endian */
-        uint64_t binum1                : 4;  /**< [  3:  0](R/W) High-speed USB instance number for port 1. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_usbhx_uahc_gprtbimap_hs_s cn; */
-} bdk_usbhx_uahc_gprtbimap_hs_t;
-
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_USBHX_UAHC_GPRTBIMAP_HS(unsigned long a)
-{
-    if (a<=1)
-        return 0x86800000c180ll + 0x1000000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("USBHX_UAHC_GPRTBIMAP_HS", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) bdk_usbhx_uahc_gprtbimap_hs_t
-#define bustype_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) "USBHX_UAHC_GPRTBIMAP_HS"
-#define busnum_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a)
-#define arguments_BDK_USBHX_UAHC_GPRTBIMAP_HS(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) usbh#_uahc_dnctrl

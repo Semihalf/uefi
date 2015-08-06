@@ -2442,44 +2442,6 @@ static inline uint64_t BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(unsigned long a)
 #define arguments_BDK_TNS_SDE_LDEX_ACMRH_INT_EN_LO(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) tns_txq_cnt_h1_fw_len_ct#
- *
- * TNS TxQ CNT H1 Forward Length Count Registers
- * CPU access to H1 forwarded packet byte count memory
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tns_txq_cnt_h1_fw_len_ctx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_41_63        : 23;
-        uint64_t saturate              : 1;  /**< [ 40: 40](R/W) -- */
-        uint64_t count                 : 40; /**< [ 39:  0](R/W) -- */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 40; /**< [ 39:  0](R/W) -- */
-        uint64_t saturate              : 1;  /**< [ 40: 40](R/W) -- */
-        uint64_t reserved_41_63        : 23;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tns_txq_cnt_h1_fw_len_ctx_s cn; */
-} bdk_tns_txq_cnt_h1_fw_len_ctx_t;
-
-static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
-        return 0x8420706d7000ll + 8ll * ((a) & 0xff);
-    __bdk_csr_fatal("TNS_TXQ_CNT_H1_FW_LEN_CTX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) bdk_tns_txq_cnt_h1_fw_len_ctx_t
-#define bustype_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) "TNS_TXQ_CNT_H1_FW_LEN_CTX"
-#define busnum_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) (a)
-#define arguments_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) (a),-1,-1,-1
-
-/**
  * Register (NCB32b) tns_txq_tbm_ft_fif_dbg
  *
  * TNS TxQ Token Buffer Manager Free Token FIFO Debug Register
@@ -10438,42 +10400,42 @@ static inline uint64_t BDK_TNS_SDE_URW2B_MREIF_FUNC(void)
 #define arguments_BDK_TNS_SDE_URW2B_MREIF -1,-1,-1,-1
 
 /**
- * Register (NCB32b) tns_se_tcam_scrb#_int_frc#
+ * Register (NCB) tns_txq_cnt_h1_fw_len_ct#
  *
- * TNS Search TCAM Scrub Interrrupt Force Registers
- * TCAM scrub interrupt register
+ * TNS TxQ CNT H1 Forward Length Count Registers
+ * CPU access to H1 forwarded packet byte count memory
  */
 typedef union
 {
-    uint32_t u;
-    struct bdk_tns_se_tcam_scrbx_int_frcx_s
+    uint64_t u;
+    struct bdk_tns_txq_cnt_h1_fw_len_ctx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_2_31         : 30;
-        uint32_t tcam_scrb_db_err      : 1;  /**< [  1:  1](WO) TCAM scrub has double bit ECC interrupt */
-        uint32_t tcam_scrb_sb_err      : 1;  /**< [  0:  0](WO) TCAM scrub has single bit ECC interrupt */
+        uint64_t reserved_41_63        : 23;
+        uint64_t saturate              : 1;  /**< [ 40: 40](R/W) -- */
+        uint64_t count                 : 40; /**< [ 39:  0](R/W) -- */
 #else /* Word 0 - Little Endian */
-        uint32_t tcam_scrb_sb_err      : 1;  /**< [  0:  0](WO) TCAM scrub has single bit ECC interrupt */
-        uint32_t tcam_scrb_db_err      : 1;  /**< [  1:  1](WO) TCAM scrub has double bit ECC interrupt */
-        uint32_t reserved_2_31         : 30;
+        uint64_t count                 : 40; /**< [ 39:  0](R/W) -- */
+        uint64_t saturate              : 1;  /**< [ 40: 40](R/W) -- */
+        uint64_t reserved_41_63        : 23;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tns_se_tcam_scrbx_int_frcx_s cn; */
-} bdk_tns_se_tcam_scrbx_int_frcx_t;
+    /* struct bdk_tns_txq_cnt_h1_fw_len_ctx_s cn; */
+} bdk_tns_txq_cnt_h1_fw_len_ctx_t;
 
-static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=5)))
-        return 0x842052101824ll + 0x20000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
-    __bdk_csr_fatal("TNS_SE_TCAM_SCRBX_INT_FRCX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=255))
+        return 0x8420706d7000ll + 8ll * ((a) & 0xff);
+    __bdk_csr_fatal("TNS_TXQ_CNT_H1_FW_LEN_CTX", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) bdk_tns_se_tcam_scrbx_int_frcx_t
-#define bustype_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) "TNS_SE_TCAM_SCRBX_INT_FRCX"
-#define busnum_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) (a)
-#define arguments_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) (a),(b),-1,-1
+#define typedef_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) bdk_tns_txq_cnt_h1_fw_len_ctx_t
+#define bustype_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) "TNS_TXQ_CNT_H1_FW_LEN_CTX"
+#define busnum_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) (a)
+#define arguments_BDK_TNS_TXQ_CNT_H1_FW_LEN_CTX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) tns_sde_lde#_ofcp2_ml_dlut
@@ -11799,6 +11761,41 @@ static inline uint64_t BDK_TNS_SDE_LDEX_LDEB_INT_W1C(unsigned long a)
 #define basename_BDK_TNS_SDE_LDEX_LDEB_INT_W1C(a) "TNS_SDE_LDEX_LDEB_INT_W1C"
 #define busnum_BDK_TNS_SDE_LDEX_LDEB_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_LDEB_INT_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB32b) tns_se_tcam_tbl_lock
+ *
+ * TNS Search TCAM Table Lock Register
+ * Lock Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_tns_se_tcam_tbl_lock_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lock                  : 32; /**< [ 31:  0](R/W/H) -- */
+#else /* Word 0 - Little Endian */
+        uint32_t lock                  : 32; /**< [ 31:  0](R/W/H) -- */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tns_se_tcam_tbl_lock_s cn; */
+} bdk_tns_se_tcam_tbl_lock_t;
+
+#define BDK_TNS_SE_TCAM_TBL_LOCK BDK_TNS_SE_TCAM_TBL_LOCK_FUNC()
+static inline uint64_t BDK_TNS_SE_TCAM_TBL_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_SE_TCAM_TBL_LOCK_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x842052200048ll;
+    __bdk_csr_fatal("TNS_SE_TCAM_TBL_LOCK", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TNS_SE_TCAM_TBL_LOCK bdk_tns_se_tcam_tbl_lock_t
+#define bustype_BDK_TNS_SE_TCAM_TBL_LOCK BDK_CSR_TYPE_NCB32b
+#define basename_BDK_TNS_SE_TCAM_TBL_LOCK "TNS_SE_TCAM_TBL_LOCK"
+#define busnum_BDK_TNS_SE_TCAM_TBL_LOCK 0
+#define arguments_BDK_TNS_SE_TCAM_TBL_LOCK -1,-1,-1,-1
 
 /**
  * Register (NCB32b) tns_sde_isme_rt_fw_mode
@@ -18600,6 +18597,41 @@ static inline uint64_t BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(unsigned long a)
 #define basename_BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(a) "TNS_TXQ_CNT_Q_FW_LEN_CTX"
 #define busnum_BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(a) (a)
 #define arguments_BDK_TNS_TXQ_CNT_Q_FW_LEN_CTX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) tns_se_cfg_spare
+ *
+ * TNS Search Configuration Spare Register
+ * --
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tns_se_cfg_spare_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t xp_se_spare           : 64; /**< [ 63:  0](R/W) Spare register with an SE debug signature 0x0FEDCBA987654321 */
+#else /* Word 0 - Little Endian */
+        uint64_t xp_se_spare           : 64; /**< [ 63:  0](R/W) Spare register with an SE debug signature 0x0FEDCBA987654321 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tns_se_cfg_spare_s cn; */
+} bdk_tns_se_cfg_spare_t;
+
+#define BDK_TNS_SE_CFG_SPARE BDK_TNS_SE_CFG_SPARE_FUNC()
+static inline uint64_t BDK_TNS_SE_CFG_SPARE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_SE_CFG_SPARE_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x842052200040ll;
+    __bdk_csr_fatal("TNS_SE_CFG_SPARE", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TNS_SE_CFG_SPARE bdk_tns_se_cfg_spare_t
+#define bustype_BDK_TNS_SE_CFG_SPARE BDK_CSR_TYPE_NCB
+#define basename_BDK_TNS_SE_CFG_SPARE "TNS_SE_CFG_SPARE"
+#define busnum_BDK_TNS_SE_CFG_SPARE 0
+#define arguments_BDK_TNS_SE_CFG_SPARE -1,-1,-1,-1
 
 /**
  * Register (NCB) tns_sde_lde#_cfg_kfit2#_w0
@@ -31892,6 +31924,60 @@ static inline uint64_t BDK_TNS_SE_TCAM_DBX_BIST_STDN(unsigned long a)
 #define arguments_BDK_TNS_SE_TCAM_DBX_BIST_STDN(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB32b) tns_se_urw_tbl_urw#
+ *
+ * TNS Search URW Table URW Registers
+ * Same as xp_se_config_table_direct
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_tns_se_urw_tbl_urwx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_19_31        : 13;
+        uint32_t data_size             : 4;  /**< [ 18: 15](R/W) 0x2:     64-bit
+                                                                 0x4:     128-bit
+                                                                 0x8:     256-bit
+                                                                 0x9(>8): 512-bit */
+        uint32_t pool                  : 3;  /**< [ 14: 12](R/W) Pool ID out of the 8 pools, which this table resides. */
+        uint32_t row_blk_inc           : 6;  /**< [ 11:  6](R/W) Each table occupies row blocks [row_blk_start, row_blk_start + row_blk_inc],
+                                                                 inclusive */
+        uint32_t row_blk_start         : 6;  /**< [  5:  0](R/W) Each row_blk is 1K row, it is a logic concept, software need to assign tables
+                                                                 in unit
+                                                                 of tile, which are physical, for optimized performance. */
+#else /* Word 0 - Little Endian */
+        uint32_t row_blk_start         : 6;  /**< [  5:  0](R/W) Each row_blk is 1K row, it is a logic concept, software need to assign tables
+                                                                 in unit
+                                                                 of tile, which are physical, for optimized performance. */
+        uint32_t row_blk_inc           : 6;  /**< [ 11:  6](R/W) Each table occupies row blocks [row_blk_start, row_blk_start + row_blk_inc],
+                                                                 inclusive */
+        uint32_t pool                  : 3;  /**< [ 14: 12](R/W) Pool ID out of the 8 pools, which this table resides. */
+        uint32_t data_size             : 4;  /**< [ 18: 15](R/W) 0x2:     64-bit
+                                                                 0x4:     128-bit
+                                                                 0x8:     256-bit
+                                                                 0x9(>8): 512-bit */
+        uint32_t reserved_19_31        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tns_se_urw_tbl_urwx_s cn; */
+} bdk_tns_se_urw_tbl_urwx_t;
+
+static inline uint64_t BDK_TNS_SE_URW_TBL_URWX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_SE_URW_TBL_URWX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=31))
+        return 0x842056109800ll + 4ll * ((a) & 0x1f);
+    __bdk_csr_fatal("TNS_SE_URW_TBL_URWX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TNS_SE_URW_TBL_URWX(a) bdk_tns_se_urw_tbl_urwx_t
+#define bustype_BDK_TNS_SE_URW_TBL_URWX(a) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_TNS_SE_URW_TBL_URWX(a) "TNS_SE_URW_TBL_URWX"
+#define busnum_BDK_TNS_SE_URW_TBL_URWX(a) (a)
+#define arguments_BDK_TNS_SE_URW_TBL_URWX(a) (a),-1,-1,-1
+
+/**
  * Register (NCB32b) tns_sde_lde#_ofcp0_bypm_dmux
  *
  * TNS SDE LDE OFCP Stage 0 Bypassmux Dynamic MUX Registers
@@ -32675,41 +32761,6 @@ static inline uint64_t BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(unsigned long a)
 #define arguments_BDK_TNS_SDE_LDEX_KFCP_INT_EN_LO(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) tns_se_cfg_spare
- *
- * TNS Search Configuration Spare Register
- * --
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tns_se_cfg_spare_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t xp_se_spare           : 64; /**< [ 63:  0](R/W) Spare register with an SE debug signature 0x0FEDCBA987654321 */
-#else /* Word 0 - Little Endian */
-        uint64_t xp_se_spare           : 64; /**< [ 63:  0](R/W) Spare register with an SE debug signature 0x0FEDCBA987654321 */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tns_se_cfg_spare_s cn; */
-} bdk_tns_se_cfg_spare_t;
-
-#define BDK_TNS_SE_CFG_SPARE BDK_TNS_SE_CFG_SPARE_FUNC()
-static inline uint64_t BDK_TNS_SE_CFG_SPARE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TNS_SE_CFG_SPARE_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x842052200040ll;
-    __bdk_csr_fatal("TNS_SE_CFG_SPARE", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_TNS_SE_CFG_SPARE bdk_tns_se_cfg_spare_t
-#define bustype_BDK_TNS_SE_CFG_SPARE BDK_CSR_TYPE_NCB
-#define basename_BDK_TNS_SE_CFG_SPARE "TNS_SE_CFG_SPARE"
-#define busnum_BDK_TNS_SE_CFG_SPARE 0
-#define arguments_BDK_TNS_SE_CFG_SPARE -1,-1,-1,-1
-
-/**
  * Register (NCB32b) tns_se_age_mem_age_int_en_hi
  *
  * TNS Search Age Memory Age Interrrupt Enable High Register
@@ -32883,49 +32934,6 @@ static inline uint64_t BDK_TNS_SDE_PE_LCMD_NENGX_W0(unsigned long a)
 #define basename_BDK_TNS_SDE_PE_LCMD_NENGX_W0(a) "TNS_SDE_PE_LCMD_NENGX_W0"
 #define busnum_BDK_TNS_SDE_PE_LCMD_NENGX_W0(a) (a)
 #define arguments_BDK_TNS_SDE_PE_LCMD_NENGX_W0(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) tns_se_age_mem_age_sta_w2
- *
- * TNS Search Age Memory Age Status Word 2 Register
- * Continuation of structure defined in TNS_SE_AGE_MEM_AGE_STA_W0
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_tns_se_age_mem_age_sta_w2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_23_31        : 9;
-        uint32_t refr_done             : 1;  /**< [ 22: 22](R/W/H) In triggered mode, done last triggered age referesh if set.
-                                                                 In auto mode, currently not in refresh state if set. */
-        uint32_t fifo_usage            : 7;  /**< [ 21: 15](R/W/H) -- */
-        uint32_t mem_offset            : 15; /**< [ 14:  0](R/W/H) -- */
-#else /* Word 0 - Little Endian */
-        uint32_t mem_offset            : 15; /**< [ 14:  0](R/W/H) -- */
-        uint32_t fifo_usage            : 7;  /**< [ 21: 15](R/W/H) -- */
-        uint32_t refr_done             : 1;  /**< [ 22: 22](R/W/H) In triggered mode, done last triggered age referesh if set.
-                                                                 In auto mode, currently not in refresh state if set. */
-        uint32_t reserved_23_31        : 9;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tns_se_age_mem_age_sta_w2_s cn; */
-} bdk_tns_se_age_mem_age_sta_w2_t;
-
-#define BDK_TNS_SE_AGE_MEM_AGE_STA_W2 BDK_TNS_SE_AGE_MEM_AGE_STA_W2_FUNC()
-static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W2_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x842056010028ll;
-    __bdk_csr_fatal("TNS_SE_AGE_MEM_AGE_STA_W2", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 bdk_tns_se_age_mem_age_sta_w2_t
-#define bustype_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 BDK_CSR_TYPE_NCB32b
-#define basename_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 "TNS_SE_AGE_MEM_AGE_STA_W2"
-#define busnum_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 0
-#define arguments_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 -1,-1,-1,-1
 
 /**
  * Register (NCB32b) tns_sde_mreb_arb_out_ct
@@ -33449,41 +33457,6 @@ static inline uint64_t BDK_TNS_SDE_LDEX_OFCP_INT_W1C(unsigned long a)
 #define basename_BDK_TNS_SDE_LDEX_OFCP_INT_W1C(a) "TNS_SDE_LDEX_OFCP_INT_W1C"
 #define busnum_BDK_TNS_SDE_LDEX_OFCP_INT_W1C(a) (a)
 #define arguments_BDK_TNS_SDE_LDEX_OFCP_INT_W1C(a) (a),-1,-1,-1
-
-/**
- * Register (NCB32b) tns_se_tcam_tbl_lock
- *
- * TNS Search TCAM Table Lock Register
- * Lock Register
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_tns_se_tcam_tbl_lock_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lock                  : 32; /**< [ 31:  0](R/W/H) -- */
-#else /* Word 0 - Little Endian */
-        uint32_t lock                  : 32; /**< [ 31:  0](R/W/H) -- */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tns_se_tcam_tbl_lock_s cn; */
-} bdk_tns_se_tcam_tbl_lock_t;
-
-#define BDK_TNS_SE_TCAM_TBL_LOCK BDK_TNS_SE_TCAM_TBL_LOCK_FUNC()
-static inline uint64_t BDK_TNS_SE_TCAM_TBL_LOCK_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TNS_SE_TCAM_TBL_LOCK_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-        return 0x842052200048ll;
-    __bdk_csr_fatal("TNS_SE_TCAM_TBL_LOCK", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_TNS_SE_TCAM_TBL_LOCK bdk_tns_se_tcam_tbl_lock_t
-#define bustype_BDK_TNS_SE_TCAM_TBL_LOCK BDK_CSR_TYPE_NCB32b
-#define basename_BDK_TNS_SE_TCAM_TBL_LOCK "TNS_SE_TCAM_TBL_LOCK"
-#define busnum_BDK_TNS_SE_TCAM_TBL_LOCK 0
-#define arguments_BDK_TNS_SE_TCAM_TBL_LOCK -1,-1,-1,-1
 
 /**
  * Register (NCB32b) tns_txq_cnt_h1_dlcm_ecc_log
@@ -36677,6 +36650,49 @@ static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W1_FUNC(void)
 #define arguments_BDK_TNS_SE_AGE_MEM_AGE_STA_W1 -1,-1,-1,-1
 
 /**
+ * Register (NCB32b) tns_se_age_mem_age_sta_w2
+ *
+ * TNS Search Age Memory Age Status Word 2 Register
+ * Continuation of structure defined in TNS_SE_AGE_MEM_AGE_STA_W0
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_tns_se_age_mem_age_sta_w2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_23_31        : 9;
+        uint32_t refr_done             : 1;  /**< [ 22: 22](R/W/H) In triggered mode, done last triggered age referesh if set.
+                                                                 In auto mode, currently not in refresh state if set. */
+        uint32_t fifo_usage            : 7;  /**< [ 21: 15](R/W/H) -- */
+        uint32_t mem_offset            : 15; /**< [ 14:  0](R/W/H) -- */
+#else /* Word 0 - Little Endian */
+        uint32_t mem_offset            : 15; /**< [ 14:  0](R/W/H) -- */
+        uint32_t fifo_usage            : 7;  /**< [ 21: 15](R/W/H) -- */
+        uint32_t refr_done             : 1;  /**< [ 22: 22](R/W/H) In triggered mode, done last triggered age referesh if set.
+                                                                 In auto mode, currently not in refresh state if set. */
+        uint32_t reserved_23_31        : 9;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tns_se_age_mem_age_sta_w2_s cn; */
+} bdk_tns_se_age_mem_age_sta_w2_t;
+
+#define BDK_TNS_SE_AGE_MEM_AGE_STA_W2 BDK_TNS_SE_AGE_MEM_AGE_STA_W2_FUNC()
+static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_SE_AGE_MEM_AGE_STA_W2_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x842056010028ll;
+    __bdk_csr_fatal("TNS_SE_AGE_MEM_AGE_STA_W2", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 bdk_tns_se_age_mem_age_sta_w2_t
+#define bustype_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 BDK_CSR_TYPE_NCB32b
+#define basename_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 "TNS_SE_AGE_MEM_AGE_STA_W2"
+#define busnum_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 0
+#define arguments_BDK_TNS_SE_AGE_MEM_AGE_STA_W2 -1,-1,-1,-1
+
+/**
  * Register (NCB32b) tns_txq_eq_disto_wsarb_wgt
  *
  * INTERNAL: TNS TxQ Enque Distributor Output WRR/SP Arbiter Weight Register
@@ -38333,6 +38349,44 @@ static inline uint64_t BDK_TNS_SDE_MRET_HDRCYC_CT_FUNC(void)
 #define basename_BDK_TNS_SDE_MRET_HDRCYC_CT "TNS_SDE_MRET_HDRCYC_CT"
 #define busnum_BDK_TNS_SDE_MRET_HDRCYC_CT 0
 #define arguments_BDK_TNS_SDE_MRET_HDRCYC_CT -1,-1,-1,-1
+
+/**
+ * Register (NCB32b) tns_se_tcam_scrb#_int_frc#
+ *
+ * TNS Search TCAM Scrub Interrrupt Force Registers
+ * TCAM scrub interrupt register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_tns_se_tcam_scrbx_int_frcx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_2_31         : 30;
+        uint32_t tcam_scrb_db_err      : 1;  /**< [  1:  1](WO) TCAM scrub has double bit ECC interrupt */
+        uint32_t tcam_scrb_sb_err      : 1;  /**< [  0:  0](WO) TCAM scrub has single bit ECC interrupt */
+#else /* Word 0 - Little Endian */
+        uint32_t tcam_scrb_sb_err      : 1;  /**< [  0:  0](WO) TCAM scrub has single bit ECC interrupt */
+        uint32_t tcam_scrb_db_err      : 1;  /**< [  1:  1](WO) TCAM scrub has double bit ECC interrupt */
+        uint32_t reserved_2_31         : 30;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tns_se_tcam_scrbx_int_frcx_s cn; */
+} bdk_tns_se_tcam_scrbx_int_frcx_t;
+
+static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=5)))
+        return 0x842052101824ll + 0x20000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x7);
+    __bdk_csr_fatal("TNS_SE_TCAM_SCRBX_INT_FRCX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) bdk_tns_se_tcam_scrbx_int_frcx_t
+#define bustype_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) BDK_CSR_TYPE_NCB32b
+#define basename_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) "TNS_SE_TCAM_SCRBX_INT_FRCX"
+#define busnum_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) (a)
+#define arguments_BDK_TNS_SE_TCAM_SCRBX_INT_FRCX(a,b) (a),(b),-1,-1
 
 /**
  * Register (NCB32b) tns_sde_lde#_kfmisc_spad
@@ -43399,60 +43453,6 @@ static inline uint64_t BDK_TNS_TXQ_EQ_TAIL_REQ_CT_FUNC(void)
 #define basename_BDK_TNS_TXQ_EQ_TAIL_REQ_CT "TNS_TXQ_EQ_TAIL_REQ_CT"
 #define busnum_BDK_TNS_TXQ_EQ_TAIL_REQ_CT 0
 #define arguments_BDK_TNS_TXQ_EQ_TAIL_REQ_CT -1,-1,-1,-1
-
-/**
- * Register (NCB32b) tns_se_urw_tbl_urw#
- *
- * TNS Search URW Table URW Registers
- * Same as xp_se_config_table_direct
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_tns_se_urw_tbl_urwx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_19_31        : 13;
-        uint32_t data_size             : 4;  /**< [ 18: 15](R/W) 0x2:     64-bit
-                                                                 0x4:     128-bit
-                                                                 0x8:     256-bit
-                                                                 0x9(>8): 512-bit */
-        uint32_t pool                  : 3;  /**< [ 14: 12](R/W) Pool ID out of the 8 pools, which this table resides. */
-        uint32_t row_blk_inc           : 6;  /**< [ 11:  6](R/W) Each table occupies row blocks [row_blk_start, row_blk_start + row_blk_inc],
-                                                                 inclusive */
-        uint32_t row_blk_start         : 6;  /**< [  5:  0](R/W) Each row_blk is 1K row, it is a logic concept, software need to assign tables
-                                                                 in unit
-                                                                 of tile, which are physical, for optimized performance. */
-#else /* Word 0 - Little Endian */
-        uint32_t row_blk_start         : 6;  /**< [  5:  0](R/W) Each row_blk is 1K row, it is a logic concept, software need to assign tables
-                                                                 in unit
-                                                                 of tile, which are physical, for optimized performance. */
-        uint32_t row_blk_inc           : 6;  /**< [ 11:  6](R/W) Each table occupies row blocks [row_blk_start, row_blk_start + row_blk_inc],
-                                                                 inclusive */
-        uint32_t pool                  : 3;  /**< [ 14: 12](R/W) Pool ID out of the 8 pools, which this table resides. */
-        uint32_t data_size             : 4;  /**< [ 18: 15](R/W) 0x2:     64-bit
-                                                                 0x4:     128-bit
-                                                                 0x8:     256-bit
-                                                                 0x9(>8): 512-bit */
-        uint32_t reserved_19_31        : 13;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tns_se_urw_tbl_urwx_s cn; */
-} bdk_tns_se_urw_tbl_urwx_t;
-
-static inline uint64_t BDK_TNS_SE_URW_TBL_URWX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TNS_SE_URW_TBL_URWX(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=31))
-        return 0x842056109800ll + 4ll * ((a) & 0x1f);
-    __bdk_csr_fatal("TNS_SE_URW_TBL_URWX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TNS_SE_URW_TBL_URWX(a) bdk_tns_se_urw_tbl_urwx_t
-#define bustype_BDK_TNS_SE_URW_TBL_URWX(a) BDK_CSR_TYPE_NCB32b
-#define basename_BDK_TNS_SE_URW_TBL_URWX(a) "TNS_SE_URW_TBL_URWX"
-#define busnum_BDK_TNS_SE_URW_TBL_URWX(a) (a)
-#define arguments_BDK_TNS_SE_URW_TBL_URWX(a) (a),-1,-1,-1
 
 /**
  * Register (NCB32b) tns_txq_cnt_q_dlcm_ecc_log

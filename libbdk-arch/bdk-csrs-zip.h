@@ -53,6 +53,17 @@
  */
 
 /**
+ * Enumeration zip_op_e
+ *
+ * ZIP Operation Enumeration
+ * Enumerates ZIP_INST_S[OP].
+ * INTERNAL: This encoding provides backward compatibility with CN88XX software.
+ */
+#define BDK_ZIP_OP_E_COMP (2) /**< Compression. */
+#define BDK_ZIP_OP_E_DECOMP (0) /**< Decompression. */
+#define BDK_ZIP_OP_E_NOCOMP (1) /**< Hash only; no compression nor decompression. */
+
+/**
  * Enumeration zip_int_vec_e
  *
  * ZIP MSI-X Vector Enumeration
@@ -79,17 +90,6 @@
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR0 (0x838000000000ll) /**< Base address for standard registers. */
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN88XX (0x838000f00000ll) /**< Base address for MSI-X registers. */
 #define BDK_ZIP_BAR_E_ZIP_PF_BAR4_CN83XX (0x838010000000ll) /**< Base address for MSI-X registers. */
-
-/**
- * Enumeration zip_op_e
- *
- * ZIP Operation Enumeration
- * Enumerates ZIP_INST_S[OP].
- * INTERNAL: This encoding provides backward compatibility with CN88XX software.
- */
-#define BDK_ZIP_OP_E_COMP (2) /**< Compression. */
-#define BDK_ZIP_OP_E_DECOMP (0) /**< Decompression. */
-#define BDK_ZIP_OP_E_NOCOMP (1) /**< Hash only; no compression nor decompression. */
 
 /**
  * Enumeration zip_comp_e

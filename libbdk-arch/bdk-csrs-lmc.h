@@ -7454,93 +7454,6 @@ static inline uint64_t BDK_LMCX_CHAR_MASK3(unsigned long a)
 #define arguments_BDK_LMCX_CHAR_MASK3(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) lmc#_char_mask4
- *
- * INTERNAL: LMC Characterization Mask Register 4
- *
- * This register is an assortment of various control fields needed to characterize the DDR3 interface.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_lmcx_char_mask4_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ref_pin_on_mask       : 9;  /**< [ 63: 55](R/W) This mask is applied to the REF_PIN_ON signals that go to the PHY, so that each byte lane
-                                                                 can selectively turn off or on the signals once the master signals are enabled. Using the
-                                                                 symbol R, the mask looks like this:
-                                                                 RRRRRRRRR
-                                                                 876543210 */
-        uint64_t dac_on_mask           : 9;  /**< [ 54: 46](R/W) This mask is applied to the DAC_ON signals that go to the PHY, so that each byte lane can
-                                                                 selectively turn off or on the signals once the master signals are enabled. Using the
-                                                                 symbol D for DAC_ON, the mask looks like this:
-                                                                 DDDDDDDDD
-                                                                 876543210 */
-        uint64_t reserved_45           : 1;
-        uint64_t dbi_mask              : 9;  /**< [ 44: 36](R/W) Mask for DBI/DQS<1>. */
-        uint64_t par_mask              : 1;  /**< [ 35: 35](R/W) Mask for PAR. */
-        uint64_t act_n_mask            : 1;  /**< [ 34: 34](R/W) Mask for ACT_N. */
-        uint64_t a17_mask              : 1;  /**< [ 33: 33](R/W) Mask for A17. */
-        uint64_t reset_n_mask          : 1;  /**< [ 32: 32](R/W) Mask for RESET_L. */
-        uint64_t a_mask                : 16; /**< [ 31: 16](R/W) Mask for A<15:0>. */
-        uint64_t ba_mask               : 3;  /**< [ 15: 13](R/W) Mask for BA<2:0>. */
-        uint64_t we_n_mask             : 1;  /**< [ 12: 12](R/W) Mask for WE_N. */
-        uint64_t cas_n_mask            : 1;  /**< [ 11: 11](R/W) Mask for CAS_N. */
-        uint64_t ras_n_mask            : 1;  /**< [ 10: 10](R/W) Mask for RAS_N. */
-        uint64_t odt1_mask             : 2;  /**< [  9:  8](R/W) Mask for ODT1. */
-        uint64_t odt0_mask             : 2;  /**< [  7:  6](R/W) Mask for ODT0. */
-        uint64_t cs1_n_mask            : 2;  /**< [  5:  4](R/W) Mask for CS1_N. */
-        uint64_t cs0_n_mask            : 2;  /**< [  3:  2](R/W) Mask for CS0_N. */
-        uint64_t cke_mask              : 2;  /**< [  1:  0](R/W) Mask for CKE*. */
-#else /* Word 0 - Little Endian */
-        uint64_t cke_mask              : 2;  /**< [  1:  0](R/W) Mask for CKE*. */
-        uint64_t cs0_n_mask            : 2;  /**< [  3:  2](R/W) Mask for CS0_N. */
-        uint64_t cs1_n_mask            : 2;  /**< [  5:  4](R/W) Mask for CS1_N. */
-        uint64_t odt0_mask             : 2;  /**< [  7:  6](R/W) Mask for ODT0. */
-        uint64_t odt1_mask             : 2;  /**< [  9:  8](R/W) Mask for ODT1. */
-        uint64_t ras_n_mask            : 1;  /**< [ 10: 10](R/W) Mask for RAS_N. */
-        uint64_t cas_n_mask            : 1;  /**< [ 11: 11](R/W) Mask for CAS_N. */
-        uint64_t we_n_mask             : 1;  /**< [ 12: 12](R/W) Mask for WE_N. */
-        uint64_t ba_mask               : 3;  /**< [ 15: 13](R/W) Mask for BA<2:0>. */
-        uint64_t a_mask                : 16; /**< [ 31: 16](R/W) Mask for A<15:0>. */
-        uint64_t reset_n_mask          : 1;  /**< [ 32: 32](R/W) Mask for RESET_L. */
-        uint64_t a17_mask              : 1;  /**< [ 33: 33](R/W) Mask for A17. */
-        uint64_t act_n_mask            : 1;  /**< [ 34: 34](R/W) Mask for ACT_N. */
-        uint64_t par_mask              : 1;  /**< [ 35: 35](R/W) Mask for PAR. */
-        uint64_t dbi_mask              : 9;  /**< [ 44: 36](R/W) Mask for DBI/DQS<1>. */
-        uint64_t reserved_45           : 1;
-        uint64_t dac_on_mask           : 9;  /**< [ 54: 46](R/W) This mask is applied to the DAC_ON signals that go to the PHY, so that each byte lane can
-                                                                 selectively turn off or on the signals once the master signals are enabled. Using the
-                                                                 symbol D for DAC_ON, the mask looks like this:
-                                                                 DDDDDDDDD
-                                                                 876543210 */
-        uint64_t ref_pin_on_mask       : 9;  /**< [ 63: 55](R/W) This mask is applied to the REF_PIN_ON signals that go to the PHY, so that each byte lane
-                                                                 can selectively turn off or on the signals once the master signals are enabled. Using the
-                                                                 symbol R, the mask looks like this:
-                                                                 RRRRRRRRR
-                                                                 876543210 */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_lmcx_char_mask4_s cn; */
-} bdk_lmcx_char_mask4_t;
-
-static inline uint64_t BDK_LMCX_CHAR_MASK4(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_LMCX_CHAR_MASK4(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e088000318ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
-        return 0x87e088000318ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("LMCX_CHAR_MASK4", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_LMCX_CHAR_MASK4(a) bdk_lmcx_char_mask4_t
-#define bustype_BDK_LMCX_CHAR_MASK4(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_LMCX_CHAR_MASK4(a) "LMCX_CHAR_MASK4"
-#define busnum_BDK_LMCX_CHAR_MASK4(a) (a)
-#define arguments_BDK_LMCX_CHAR_MASK4(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) lmc#_retry_config
  *
  * LMC Automatic Retry Configuration Registers
@@ -8601,6 +8514,93 @@ static inline uint64_t BDK_LMCX_DIMMX_PARAMS(unsigned long a, unsigned long b)
 #define basename_BDK_LMCX_DIMMX_PARAMS(a,b) "LMCX_DIMMX_PARAMS"
 #define busnum_BDK_LMCX_DIMMX_PARAMS(a,b) (a)
 #define arguments_BDK_LMCX_DIMMX_PARAMS(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) lmc#_char_mask4
+ *
+ * INTERNAL: LMC Characterization Mask Register 4
+ *
+ * This register is an assortment of various control fields needed to characterize the DDR3 interface.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_lmcx_char_mask4_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ref_pin_on_mask       : 9;  /**< [ 63: 55](R/W) This mask is applied to the REF_PIN_ON signals that go to the PHY, so that each byte lane
+                                                                 can selectively turn off or on the signals once the master signals are enabled. Using the
+                                                                 symbol R, the mask looks like this:
+                                                                 RRRRRRRRR
+                                                                 876543210 */
+        uint64_t dac_on_mask           : 9;  /**< [ 54: 46](R/W) This mask is applied to the DAC_ON signals that go to the PHY, so that each byte lane can
+                                                                 selectively turn off or on the signals once the master signals are enabled. Using the
+                                                                 symbol D for DAC_ON, the mask looks like this:
+                                                                 DDDDDDDDD
+                                                                 876543210 */
+        uint64_t reserved_45           : 1;
+        uint64_t dbi_mask              : 9;  /**< [ 44: 36](R/W) Mask for DBI/DQS<1>. */
+        uint64_t par_mask              : 1;  /**< [ 35: 35](R/W) Mask for PAR. */
+        uint64_t act_n_mask            : 1;  /**< [ 34: 34](R/W) Mask for ACT_N. */
+        uint64_t a17_mask              : 1;  /**< [ 33: 33](R/W) Mask for A17. */
+        uint64_t reset_n_mask          : 1;  /**< [ 32: 32](R/W) Mask for RESET_L. */
+        uint64_t a_mask                : 16; /**< [ 31: 16](R/W) Mask for A<15:0>. */
+        uint64_t ba_mask               : 3;  /**< [ 15: 13](R/W) Mask for BA<2:0>. */
+        uint64_t we_n_mask             : 1;  /**< [ 12: 12](R/W) Mask for WE_N. */
+        uint64_t cas_n_mask            : 1;  /**< [ 11: 11](R/W) Mask for CAS_N. */
+        uint64_t ras_n_mask            : 1;  /**< [ 10: 10](R/W) Mask for RAS_N. */
+        uint64_t odt1_mask             : 2;  /**< [  9:  8](R/W) Mask for ODT1. */
+        uint64_t odt0_mask             : 2;  /**< [  7:  6](R/W) Mask for ODT0. */
+        uint64_t cs1_n_mask            : 2;  /**< [  5:  4](R/W) Mask for CS1_N. */
+        uint64_t cs0_n_mask            : 2;  /**< [  3:  2](R/W) Mask for CS0_N. */
+        uint64_t cke_mask              : 2;  /**< [  1:  0](R/W) Mask for CKE*. */
+#else /* Word 0 - Little Endian */
+        uint64_t cke_mask              : 2;  /**< [  1:  0](R/W) Mask for CKE*. */
+        uint64_t cs0_n_mask            : 2;  /**< [  3:  2](R/W) Mask for CS0_N. */
+        uint64_t cs1_n_mask            : 2;  /**< [  5:  4](R/W) Mask for CS1_N. */
+        uint64_t odt0_mask             : 2;  /**< [  7:  6](R/W) Mask for ODT0. */
+        uint64_t odt1_mask             : 2;  /**< [  9:  8](R/W) Mask for ODT1. */
+        uint64_t ras_n_mask            : 1;  /**< [ 10: 10](R/W) Mask for RAS_N. */
+        uint64_t cas_n_mask            : 1;  /**< [ 11: 11](R/W) Mask for CAS_N. */
+        uint64_t we_n_mask             : 1;  /**< [ 12: 12](R/W) Mask for WE_N. */
+        uint64_t ba_mask               : 3;  /**< [ 15: 13](R/W) Mask for BA<2:0>. */
+        uint64_t a_mask                : 16; /**< [ 31: 16](R/W) Mask for A<15:0>. */
+        uint64_t reset_n_mask          : 1;  /**< [ 32: 32](R/W) Mask for RESET_L. */
+        uint64_t a17_mask              : 1;  /**< [ 33: 33](R/W) Mask for A17. */
+        uint64_t act_n_mask            : 1;  /**< [ 34: 34](R/W) Mask for ACT_N. */
+        uint64_t par_mask              : 1;  /**< [ 35: 35](R/W) Mask for PAR. */
+        uint64_t dbi_mask              : 9;  /**< [ 44: 36](R/W) Mask for DBI/DQS<1>. */
+        uint64_t reserved_45           : 1;
+        uint64_t dac_on_mask           : 9;  /**< [ 54: 46](R/W) This mask is applied to the DAC_ON signals that go to the PHY, so that each byte lane can
+                                                                 selectively turn off or on the signals once the master signals are enabled. Using the
+                                                                 symbol D for DAC_ON, the mask looks like this:
+                                                                 DDDDDDDDD
+                                                                 876543210 */
+        uint64_t ref_pin_on_mask       : 9;  /**< [ 63: 55](R/W) This mask is applied to the REF_PIN_ON signals that go to the PHY, so that each byte lane
+                                                                 can selectively turn off or on the signals once the master signals are enabled. Using the
+                                                                 symbol R, the mask looks like this:
+                                                                 RRRRRRRRR
+                                                                 876543210 */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_lmcx_char_mask4_s cn; */
+} bdk_lmcx_char_mask4_t;
+
+static inline uint64_t BDK_LMCX_CHAR_MASK4(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LMCX_CHAR_MASK4(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e088000318ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e088000318ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("LMCX_CHAR_MASK4", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_LMCX_CHAR_MASK4(a) bdk_lmcx_char_mask4_t
+#define bustype_BDK_LMCX_CHAR_MASK4(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_LMCX_CHAR_MASK4(a) "LMCX_CHAR_MASK4"
+#define busnum_BDK_LMCX_CHAR_MASK4(a) (a)
+#define arguments_BDK_LMCX_CHAR_MASK4(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) lmc#_int

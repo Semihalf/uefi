@@ -2136,6 +2136,40 @@ static inline uint64_t BDK_PCIEEPX_CFG107(unsigned long a)
 #define arguments_BDK_PCIEEPX_CFG107(a) (a),-1,-1,-1
 
 /**
+ * Register (PCICONFIGEP) pcieep#_cfg106
+ *
+ * PCI Express SR-IOV BAR 3 Register
+ * This register contains the one hundred seventh 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepx_cfg106_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepx_cfg106_s cn; */
+} bdk_pcieepx_cfg106_t;
+
+static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
+        return 0x300000001a8ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPX_CFG106", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPX_CFG106(a) bdk_pcieepx_cfg106_t
+#define bustype_BDK_PCIEEPX_CFG106(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPX_CFG106(a) "PCIEEPX_CFG106"
+#define busnum_BDK_PCIEEPX_CFG106(a) (a)
+#define arguments_BDK_PCIEEPX_CFG106(a) (a),-1,-1,-1
+
+/**
  * Register (PCICONFIGEP) pcieep#_cfg101
  *
  * PCI Express SR-IOV Supported Page Sizes Register
@@ -3959,40 +3993,6 @@ static inline uint64_t BDK_PCIEEPX_CFG015(unsigned long a)
 #define basename_BDK_PCIEEPX_CFG015(a) "PCIEEPX_CFG015"
 #define busnum_BDK_PCIEEPX_CFG015(a) (a)
 #define arguments_BDK_PCIEEPX_CFG015(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieep#_cfg106
- *
- * PCI Express SR-IOV BAR 3 Register
- * This register contains the one hundred seventh 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepx_cfg106_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepx_cfg106_s cn; */
-} bdk_pcieepx_cfg106_t;
-
-static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPX_CFG106(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=5))
-        return 0x300000001a8ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPX_CFG106", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPX_CFG106(a) bdk_pcieepx_cfg106_t
-#define bustype_BDK_PCIEEPX_CFG106(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPX_CFG106(a) "PCIEEPX_CFG106"
-#define busnum_BDK_PCIEEPX_CFG106(a) (a)
-#define arguments_BDK_PCIEEPX_CFG106(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieep#_cfg462

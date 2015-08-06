@@ -324,6 +324,40 @@ static inline uint64_t BDK_TRCX_TRCSYNCPR(unsigned long a)
 #define arguments_BDK_TRCX_TRCSYNCPR(a) (a),-1,-1,-1
 
 /**
+ * Register (DAB32b) trc#_trcrsctlr5
+ *
+ * ETMv4 Resource Selection Control Register 5
+ * Causes event pulses to be generated on ECT channels.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcrsctlr5_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trcrsctlr5_s cn; */
+} bdk_trcx_trcrsctlr5_t;
+
+static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30214ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCRSCTLR5", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCRSCTLR5(a) bdk_trcx_trcrsctlr5_t
+#define bustype_BDK_TRCX_TRCRSCTLR5(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCRSCTLR5(a) "TRCX_TRCRSCTLR5"
+#define busnum_BDK_TRCX_TRCRSCTLR5(a) (a)
+#define arguments_BDK_TRCX_TRCRSCTLR5(a) (a),-1,-1,-1
+
+/**
  * Register (DAB32b) trc#_trccidr3
  *
  * TRC Component Identification Register 3
@@ -514,6 +548,82 @@ static inline uint64_t BDK_TRCX_TRCSTATR(unsigned long a)
 #define basename_BDK_TRCX_TRCSTATR(a) "TRCX_TRCSTATR"
 #define busnum_BDK_TRCX_TRCSTATR(a) (a)
 #define arguments_BDK_TRCX_TRCSTATR(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) trc#_trcacvr0
+ *
+ * ETMv4 Address Comparator Value Register 0
+ * Causes event pulses to be generated on ECT channels.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcacvr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trcacvr0_s cn; */
+} bdk_trcx_trcacvr0_t;
+
+static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30400ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCACVR0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCACVR0(a) bdk_trcx_trcacvr0_t
+#define bustype_BDK_TRCX_TRCACVR0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCACVR0(a) "TRCX_TRCACVR0"
+#define busnum_BDK_TRCX_TRCACVR0(a) (a)
+#define arguments_BDK_TRCX_TRCACVR0(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) trc#_trcprgctlr
+ *
+ * ETMv4 Programming Control Register
+ * Controls whether the TRC is enabled.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcprgctlr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_1_31         : 31;
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enables or disables the Trace Unit:
+                                                                 0 = Trace Unit is disabled.
+                                                                     All trace resources are inactive and no Trace is generated.
+                                                                 1 = Trace Unit is enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enables or disables the Trace Unit:
+                                                                 0 = Trace Unit is disabled.
+                                                                     All trace resources are inactive and no Trace is generated.
+                                                                 1 = Trace Unit is enabled. */
+        uint32_t reserved_1_31         : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trcprgctlr_s cn; */
+} bdk_trcx_trcprgctlr_t;
+
+static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30004ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCPRGCTLR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCPRGCTLR(a) bdk_trcx_trcprgctlr_t
+#define bustype_BDK_TRCX_TRCPRGCTLR(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCPRGCTLR(a) "TRCX_TRCPRGCTLR"
+#define busnum_BDK_TRCX_TRCPRGCTLR(a) (a)
+#define arguments_BDK_TRCX_TRCPRGCTLR(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trcvictlr
@@ -804,6 +914,93 @@ static inline uint64_t BDK_TRCX_TRCVMIDCVR0(unsigned long a)
 #define arguments_BDK_TRCX_TRCVMIDCVR0(a) (a),-1,-1,-1
 
 /**
+ * Register (DAB32b) trc#_trcdevaff1
+ *
+ * ETMv4 Management Device Affinity Register 1
+ * Causes event pulses to be generated on ECT channels.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcdevaff1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trcdevaff1_s cn; */
+} bdk_trcx_trcdevaff1_t;
+
+static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30facll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCDEVAFF1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCDEVAFF1(a) bdk_trcx_trcdevaff1_t
+#define bustype_BDK_TRCX_TRCDEVAFF1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCDEVAFF1(a) "TRCX_TRCDEVAFF1"
+#define busnum_BDK_TRCX_TRCDEVAFF1(a) (a)
+#define arguments_BDK_TRCX_TRCDEVAFF1(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) trc#_trcdevaff0
+ *
+ * ETMv4 Management Device Affinity Register 0
+ * Causes event pulses to be generated on ECT channels.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcdevaff0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_trcx_trcdevaff0_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
+        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node
+                                                                 Added in pass 2. */
+        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16
+                                                                 Added in pass 2. */
+#else /* Word 0 - Little Endian */
+        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16
+                                                                 Added in pass 2. */
+        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node
+                                                                 Added in pass 2. */
+        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } cn83xx;
+    /* struct bdk_trcx_trcdevaff0_cn83xx cn88xxp2; */
+    /* struct bdk_trcx_trcdevaff0_s cn88xxp1; */
+} bdk_trcx_trcdevaff0_t;
+
+static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30fa8ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCDEVAFF0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCDEVAFF0(a) bdk_trcx_trcdevaff0_t
+#define bustype_BDK_TRCX_TRCDEVAFF0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCDEVAFF0(a) "TRCX_TRCDEVAFF0"
+#define busnum_BDK_TRCX_TRCDEVAFF0(a) (a)
+#define arguments_BDK_TRCX_TRCDEVAFF0(a) (a),-1,-1,-1
+
+/**
  * Register (DAB32b) trc#_trcvdsacctlr
  *
  * ETMv4 ViewData Include/Exclude Single Address Comparator Control Register
@@ -1005,6 +1202,56 @@ static inline uint64_t BDK_TRCX_TRCCNTRLDVR1(unsigned long a)
 #define basename_BDK_TRCX_TRCCNTRLDVR1(a) "TRCX_TRCCNTRLDVR1"
 #define busnum_BDK_TRCX_TRCCNTRLDVR1(a) (a)
 #define arguments_BDK_TRCX_TRCCNTRLDVR1(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) trc#_trcoslsr
+ *
+ * ETMv4 OS Lock Status Register
+ * Causes event pulses to be generated on ECT channels.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trcoslsr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t apppulse              : 3;  /**< [  2:  0](RO) Generate event pulse on ECT channel <x>.
+                                                                 N is the number of ECT channels implemented as defined by the
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 Writing to this bit has the following effect:
+                                                                 0 = No effect.
+                                                                 1 = Channel <x> event pulse generated for one clock period. */
+#else /* Word 0 - Little Endian */
+        uint32_t apppulse              : 3;  /**< [  2:  0](RO) Generate event pulse on ECT channel <x>.
+                                                                 N is the number of ECT channels implemented as defined by the
+                                                                     TRC()_TRCDEVID[NUMCHAN] field.
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 Writing to this bit has the following effect:
+                                                                 0 = No effect.
+                                                                 1 = Channel <x> event pulse generated for one clock period. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trcoslsr_s cn; */
+} bdk_trcx_trcoslsr_t;
+
+static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30304ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCOSLSR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCOSLSR(a) bdk_trcx_trcoslsr_t
+#define bustype_BDK_TRCX_TRCOSLSR(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCOSLSR(a) "TRCX_TRCOSLSR"
+#define busnum_BDK_TRCX_TRCOSLSR(a) (a)
+#define arguments_BDK_TRCX_TRCOSLSR(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trccntrldvr0
@@ -1400,6 +1647,42 @@ static inline uint64_t BDK_TRCX_TRCIDR2(unsigned long a)
 #define arguments_BDK_TRCX_TRCIDR2(a) (a),-1,-1,-1
 
 /**
+ * Register (DAB32b) trc#_trctraceidr
+ *
+ * ETMv4 Trace ID Register
+ * set the Trace ID value for instruction trace.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_trcx_trctraceidr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_7_31         : 25;
+        uint32_t traceid               : 7;  /**< [  6:  0](R/W) Trace ID value for instruction trace. */
+#else /* Word 0 - Little Endian */
+        uint32_t traceid               : 7;  /**< [  6:  0](R/W) Trace ID value for instruction trace. */
+        uint32_t reserved_7_31         : 25;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_trcx_trctraceidr_s cn; */
+} bdk_trcx_trctraceidr_t;
+
+static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long a)
+{
+    if (a<=7)
+        return 0x87a00fc30040ll + 0x80000ll * ((a) & 0x7);
+    __bdk_csr_fatal("TRCX_TRCTRACEIDR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TRCX_TRCTRACEIDR(a) bdk_trcx_trctraceidr_t
+#define bustype_BDK_TRCX_TRCTRACEIDR(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_TRCX_TRCTRACEIDR(a) "TRCX_TRCTRACEIDR"
+#define busnum_BDK_TRCX_TRCTRACEIDR(a) (a)
+#define arguments_BDK_TRCX_TRCTRACEIDR(a) (a),-1,-1,-1
+
+/**
  * Register (DAB32b) trc#_trceventctl0r
  *
  * ETMv4 Event Control 0 Register
@@ -1656,93 +1939,6 @@ static inline uint64_t BDK_TRCX_TRCDVCVR0(unsigned long a)
 #define basename_BDK_TRCX_TRCDVCVR0(a) "TRCX_TRCDVCVR0"
 #define busnum_BDK_TRCX_TRCDVCVR0(a) (a)
 #define arguments_BDK_TRCX_TRCDVCVR0(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcdevaff1
- *
- * ETMv4 Management Device Affinity Register 1
- * Causes event pulses to be generated on ECT channels.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcdevaff1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcdevaff1_s cn; */
-} bdk_trcx_trcdevaff1_t;
-
-static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCDEVAFF1(unsigned long a)
-{
-    if (a<=7)
-        return 0x87a00fc30facll + 0x80000ll * ((a) & 0x7);
-    __bdk_csr_fatal("TRCX_TRCDEVAFF1", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TRCX_TRCDEVAFF1(a) bdk_trcx_trcdevaff1_t
-#define bustype_BDK_TRCX_TRCDEVAFF1(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCDEVAFF1(a) "TRCX_TRCDEVAFF1"
-#define busnum_BDK_TRCX_TRCDEVAFF1(a) (a)
-#define arguments_BDK_TRCX_TRCDEVAFF1(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcdevaff0
- *
- * ETMv4 Management Device Affinity Register 0
- * Causes event pulses to be generated on ECT channels.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcdevaff0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    struct bdk_trcx_trcdevaff0_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
-        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node
-                                                                 Added in pass 2. */
-        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16
-                                                                 Added in pass 2. */
-#else /* Word 0 - Little Endian */
-        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16
-                                                                 Added in pass 2. */
-        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node
-                                                                 Added in pass 2. */
-        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_trcx_trcdevaff0_cn83xx cn88xxp2; */
-    /* struct bdk_trcx_trcdevaff0_s cn88xxp1; */
-} bdk_trcx_trcdevaff0_t;
-
-static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCDEVAFF0(unsigned long a)
-{
-    if (a<=7)
-        return 0x87a00fc30fa8ll + 0x80000ll * ((a) & 0x7);
-    __bdk_csr_fatal("TRCX_TRCDEVAFF0", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TRCX_TRCDEVAFF0(a) bdk_trcx_trcdevaff0_t
-#define bustype_BDK_TRCX_TRCDEVAFF0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCDEVAFF0(a) "TRCX_TRCDEVAFF0"
-#define busnum_BDK_TRCX_TRCDEVAFF0(a) (a)
-#define arguments_BDK_TRCX_TRCDEVAFF0(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trcvdctlr
@@ -2429,42 +2625,6 @@ static inline uint64_t BDK_TRCX_TRCVISSCTLR(unsigned long a)
 #define arguments_BDK_TRCX_TRCVISSCTLR(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) trc#_trctraceidr
- *
- * ETMv4 Trace ID Register
- * set the Trace ID value for instruction trace.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trctraceidr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_7_31         : 25;
-        uint32_t traceid               : 7;  /**< [  6:  0](R/W) Trace ID value for instruction trace. */
-#else /* Word 0 - Little Endian */
-        uint32_t traceid               : 7;  /**< [  6:  0](R/W) Trace ID value for instruction trace. */
-        uint32_t reserved_7_31         : 25;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trctraceidr_s cn; */
-} bdk_trcx_trctraceidr_t;
-
-static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCTRACEIDR(unsigned long a)
-{
-    if (a<=7)
-        return 0x87a00fc30040ll + 0x80000ll * ((a) & 0x7);
-    __bdk_csr_fatal("TRCX_TRCTRACEIDR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TRCX_TRCTRACEIDR(a) bdk_trcx_trctraceidr_t
-#define bustype_BDK_TRCX_TRCTRACEIDR(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCTRACEIDR(a) "TRCX_TRCTRACEIDR"
-#define busnum_BDK_TRCX_TRCTRACEIDR(a) (a)
-#define arguments_BDK_TRCX_TRCTRACEIDR(a) (a),-1,-1,-1
-
-/**
  * Register (DAB32b) trc#_trctsctlr
  *
  * ETMv4 Global Timestamp Control Register
@@ -2604,40 +2764,6 @@ static inline uint64_t BDK_TRCX_TRCACVR1(unsigned long a)
 #define basename_BDK_TRCX_TRCACVR1(a) "TRCX_TRCACVR1"
 #define busnum_BDK_TRCX_TRCACVR1(a) (a)
 #define arguments_BDK_TRCX_TRCACVR1(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcacvr0
- *
- * ETMv4 Address Comparator Value Register 0
- * Causes event pulses to be generated on ECT channels.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcacvr0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcacvr0_s cn; */
-} bdk_trcx_trcacvr0_t;
-
-static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCACVR0(unsigned long a)
-{
-    if (a<=7)
-        return 0x87a00fc30400ll + 0x80000ll * ((a) & 0x7);
-    __bdk_csr_fatal("TRCX_TRCACVR0", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TRCX_TRCACVR0(a) bdk_trcx_trcacvr0_t
-#define bustype_BDK_TRCX_TRCACVR0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCACVR0(a) "TRCX_TRCACVR0"
-#define busnum_BDK_TRCX_TRCACVR0(a) (a)
-#define arguments_BDK_TRCX_TRCACVR0(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trcacvr3
@@ -3035,40 +3161,6 @@ static inline uint64_t BDK_TRCX_TRCSSPCICR0(unsigned long a)
 #define basename_BDK_TRCX_TRCSSPCICR0(a) "TRCX_TRCSSPCICR0"
 #define busnum_BDK_TRCX_TRCSSPCICR0(a) (a)
 #define arguments_BDK_TRCX_TRCSSPCICR0(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcrsctlr5
- *
- * ETMv4 Resource Selection Control Register 5
- * Causes event pulses to be generated on ECT channels.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcrsctlr5_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcrsctlr5_s cn; */
-} bdk_trcx_trcrsctlr5_t;
-
-static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCRSCTLR5(unsigned long a)
-{
-    if (a<=7)
-        return 0x87a00fc30214ll + 0x80000ll * ((a) & 0x7);
-    __bdk_csr_fatal("TRCX_TRCRSCTLR5", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TRCX_TRCRSCTLR5(a) bdk_trcx_trcrsctlr5_t
-#define bustype_BDK_TRCX_TRCRSCTLR5(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCRSCTLR5(a) "TRCX_TRCRSCTLR5"
-#define busnum_BDK_TRCX_TRCRSCTLR5(a) (a)
-#define arguments_BDK_TRCX_TRCRSCTLR5(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trcrsctlr4
@@ -3693,56 +3785,6 @@ static inline uint64_t BDK_TRCX_TRCPDSR(unsigned long a)
 #define basename_BDK_TRCX_TRCPDSR(a) "TRCX_TRCPDSR"
 #define busnum_BDK_TRCX_TRCPDSR(a) (a)
 #define arguments_BDK_TRCX_TRCPDSR(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcoslsr
- *
- * ETMv4 OS Lock Status Register
- * Causes event pulses to be generated on ECT channels.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcoslsr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_3_31         : 29;
-        uint32_t apppulse              : 3;  /**< [  2:  0](RO) Generate event pulse on ECT channel <x>.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     TRC()_TRCDEVID[NUMCHAN] field.
-                                                                 Bits [31:N] are RAZ/WI.
-
-                                                                 Writing to this bit has the following effect:
-                                                                 0 = No effect.
-                                                                 1 = Channel <x> event pulse generated for one clock period. */
-#else /* Word 0 - Little Endian */
-        uint32_t apppulse              : 3;  /**< [  2:  0](RO) Generate event pulse on ECT channel <x>.
-                                                                 N is the number of ECT channels implemented as defined by the
-                                                                     TRC()_TRCDEVID[NUMCHAN] field.
-                                                                 Bits [31:N] are RAZ/WI.
-
-                                                                 Writing to this bit has the following effect:
-                                                                 0 = No effect.
-                                                                 1 = Channel <x> event pulse generated for one clock period. */
-        uint32_t reserved_3_31         : 29;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcoslsr_s cn; */
-} bdk_trcx_trcoslsr_t;
-
-static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCOSLSR(unsigned long a)
-{
-    if (a<=7)
-        return 0x87a00fc30304ll + 0x80000ll * ((a) & 0x7);
-    __bdk_csr_fatal("TRCX_TRCOSLSR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TRCX_TRCOSLSR(a) bdk_trcx_trcoslsr_t
-#define bustype_BDK_TRCX_TRCOSLSR(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCOSLSR(a) "TRCX_TRCOSLSR"
-#define busnum_BDK_TRCX_TRCOSLSR(a) (a)
-#define arguments_BDK_TRCX_TRCOSLSR(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trcidr11
@@ -4848,48 +4890,6 @@ static inline uint64_t BDK_TRCX_TRCIDR8(unsigned long a)
 #define basename_BDK_TRCX_TRCIDR8(a) "TRCX_TRCIDR8"
 #define busnum_BDK_TRCX_TRCIDR8(a) (a)
 #define arguments_BDK_TRCX_TRCIDR8(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) trc#_trcprgctlr
- *
- * ETMv4 Programming Control Register
- * Controls whether the TRC is enabled.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_trcx_trcprgctlr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enables or disables the Trace Unit:
-                                                                 0 = Trace Unit is disabled.
-                                                                     All trace resources are inactive and no Trace is generated.
-                                                                 1 = Trace Unit is enabled. */
-#else /* Word 0 - Little Endian */
-        uint32_t en                    : 1;  /**< [  0:  0](R/W) Enables or disables the Trace Unit:
-                                                                 0 = Trace Unit is disabled.
-                                                                     All trace resources are inactive and no Trace is generated.
-                                                                 1 = Trace Unit is enabled. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_trcx_trcprgctlr_s cn; */
-} bdk_trcx_trcprgctlr_t;
-
-static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TRCX_TRCPRGCTLR(unsigned long a)
-{
-    if (a<=7)
-        return 0x87a00fc30004ll + 0x80000ll * ((a) & 0x7);
-    __bdk_csr_fatal("TRCX_TRCPRGCTLR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TRCX_TRCPRGCTLR(a) bdk_trcx_trcprgctlr_t
-#define bustype_BDK_TRCX_TRCPRGCTLR(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_TRCX_TRCPRGCTLR(a) "TRCX_TRCPRGCTLR"
-#define busnum_BDK_TRCX_TRCPRGCTLR(a) (a)
-#define arguments_BDK_TRCX_TRCPRGCTLR(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) trc#_trccidcctlr0

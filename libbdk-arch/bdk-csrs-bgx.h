@@ -121,19 +121,6 @@
  * BGX Error Opcode Enumeration
  * Enumerates the error opcodes created by BGX and presented into MIX frames.
  */
-#define BDK_BGX_OPCODE_E_BAD_TERM (9) /**< The framer received a control character other than 'T' or
-                                       'E' in the middle of processing a packet, or one of the conditions
-                                       referring to this error elsewhere occurred. In all cases data is
-                                       truncated and EOP generated.  In the case of SGMII traffic, this code
-                                       is used for the CAREXT or carrier extend error. */
-#define BDK_BGX_OPCODE_E_FCSERR_RCVERR (8) /**< Both and FCS CRC error was observed as well as 'E' error control characters. */
-#define BDK_BGX_OPCODE_E_FCS_ERR (3) /**< The packet failed the FCS CRC error check. */
-#define BDK_BGX_OPCODE_E_JABBER_ERR (2) /**< The packet length exceeded JABBER bytes. BGX terminated
-                                       the packet with an EOP on the beat on which JABBER was exceeded. */
-#define BDK_BGX_OPCODE_E_NONE (0) /**< No error. */
-#define BDK_BGX_OPCODE_E_PARTIAL_ERR (1) /**< Receive buffer overflowed and packet in progress was terminated cleanly
-                                       with fabricated EOP. */
-#define BDK_BGX_OPCODE_E_RCV_ERR (0xb) /**< The packet got one or more 'E' error control characters. */
 #define BDK_BGX_OPCODE_E_RE_FCS (7) /**< FCS error: The packet was received with an FCS error. */
 #define BDK_BGX_OPCODE_E_RE_FCS_RCV (8) /**< FCS and receive error: The packet was received with an FCS error and included one or more
                                        control words. */
@@ -150,7 +137,6 @@
 #define BDK_BGX_OPCODE_E_RE_TERMINATE (9) /**< Terminate error: the packet was terminated incorrectly. For SGMII or RGMII, the packet had
                                        a CarrierExtendError before the slot time expired, else the packet was terminated with an
                                        idle or invalid control word. */
-#define BDK_BGX_OPCODE_E_SKP_ERR (0xc) /**< The packet ended and its byte count did not reach UDD_SKP[LEN]. */
 
 /**
  * Enumeration bgx_spu_br_train_cst_e
@@ -316,6 +302,43 @@ union bdk_bgx_spu_br_train_cup_s
 };
 
 /**
+ * Structure bgx_spu_br_lane_train_status_s
+ *
+ * BGX Lane Training Status Structure
+ * This is the group of lane status bits for a single lane in the BASE-R PMD status register
+ * (MDIO address 1.151) as defined in 802.3ba-2010, Table 45-55.
+ */
+union bdk_bgx_spu_br_lane_train_status_s
+{
+    uint32_t u;
+    struct bdk_bgx_spu_br_lane_train_status_s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_4_31         : 28;
+        uint32_t training_failure      : 1;  /**< [  3:  3] Link training failure. */
+        uint32_t training              : 1;  /**< [  2:  2] Link training state.
+                                                                 0 = Training in progress.
+                                                                 1 = Training has completed. */
+        uint32_t frame_lock            : 1;  /**< [  1:  1] Frame lock status. Set when training frame delineation has been detected. */
+        uint32_t rx_trained            : 1;  /**< [  0:  0] Receiver trained status.
+                                                                 0 = Receiver training.
+                                                                 1 = Receiver trained and ready to receive data for the lane. */
+#else /* Word 0 - Little Endian */
+        uint32_t rx_trained            : 1;  /**< [  0:  0] Receiver trained status.
+                                                                 0 = Receiver training.
+                                                                 1 = Receiver trained and ready to receive data for the lane. */
+        uint32_t frame_lock            : 1;  /**< [  1:  1] Frame lock status. Set when training frame delineation has been detected. */
+        uint32_t training              : 1;  /**< [  2:  2] Link training state.
+                                                                 0 = Training in progress.
+                                                                 1 = Training has completed. */
+        uint32_t training_failure      : 1;  /**< [  3:  3] Link training failure. */
+        uint32_t reserved_4_31         : 28;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgx_spu_br_lane_train_status_s_s cn; */
+};
+
+/**
  * Structure bgx_spu_sds_cu_s
  *
  * INTERNAL: BGX Training Coeffiecient Structure
@@ -386,43 +409,6 @@ union bdk_bgx_spu_br_train_rep_s
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_bgx_spu_br_train_rep_s_s cn; */
-};
-
-/**
- * Structure bgx_spu_br_lane_train_status_s
- *
- * BGX Lane Training Status Structure
- * This is the group of lane status bits for a single lane in the BASE-R PMD status register
- * (MDIO address 1.151) as defined in 802.3ba-2010, Table 45-55.
- */
-union bdk_bgx_spu_br_lane_train_status_s
-{
-    uint32_t u;
-    struct bdk_bgx_spu_br_lane_train_status_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_4_31         : 28;
-        uint32_t training_failure      : 1;  /**< [  3:  3] Link training failure. */
-        uint32_t training              : 1;  /**< [  2:  2] Link training state.
-                                                                 0 = Training in progress.
-                                                                 1 = Training has completed. */
-        uint32_t frame_lock            : 1;  /**< [  1:  1] Frame lock status. Set when training frame delineation has been detected. */
-        uint32_t rx_trained            : 1;  /**< [  0:  0] Receiver trained status.
-                                                                 0 = Receiver training.
-                                                                 1 = Receiver trained and ready to receive data for the lane. */
-#else /* Word 0 - Little Endian */
-        uint32_t rx_trained            : 1;  /**< [  0:  0] Receiver trained status.
-                                                                 0 = Receiver training.
-                                                                 1 = Receiver trained and ready to receive data for the lane. */
-        uint32_t frame_lock            : 1;  /**< [  1:  1] Frame lock status. Set when training frame delineation has been detected. */
-        uint32_t training              : 1;  /**< [  2:  2] Link training state.
-                                                                 0 = Training in progress.
-                                                                 1 = Training has completed. */
-        uint32_t training_failure      : 1;  /**< [  3:  3] Link training failure. */
-        uint32_t reserved_4_31         : 28;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgx_spu_br_lane_train_status_s_s cn; */
 };
 
 /**
@@ -2976,44 +2962,6 @@ static inline uint64_t BDK_BGXX_GMP_PCS_TXX_STATES(unsigned long a, unsigned lon
 #define arguments_BDK_BGXX_GMP_PCS_TXX_STATES(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) bgx#_spu_bist_status
- *
- * BGX SPU BIST Status Registers
- * This register provides memory BIST status from the SPU RX_BUF lane FIFOs.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_bgxx_spu_bist_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t rx_buf_bist_status    : 4;  /**< [  3:  0](RO/H) SPU RX_BUF BIST status for lanes 3-0. One bit per SerDes lane, set to indicate BIST
-                                                                 failure for the associated RX_BUF lane FIFO. */
-#else /* Word 0 - Little Endian */
-        uint64_t rx_buf_bist_status    : 4;  /**< [  3:  0](RO/H) SPU RX_BUF BIST status for lanes 3-0. One bit per SerDes lane, set to indicate BIST
-                                                                 failure for the associated RX_BUF lane FIFO. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_spu_bist_status_s cn; */
-} bdk_bgxx_spu_bist_status_t;
-
-static inline uint64_t BDK_BGXX_SPU_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BGXX_SPU_BIST_STATUS(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e0e0010330ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("BGXX_SPU_BIST_STATUS", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_BGXX_SPU_BIST_STATUS(a) bdk_bgxx_spu_bist_status_t
-#define bustype_BDK_BGXX_SPU_BIST_STATUS(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_BGXX_SPU_BIST_STATUS(a) "BGXX_SPU_BIST_STATUS"
-#define busnum_BDK_BGXX_SPU_BIST_STATUS(a) (a)
-#define arguments_BDK_BGXX_SPU_BIST_STATUS(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) bgx#_gmp_pcs_an#_adv
  *
  * BGX GMP PCS Autonegotiation Advertisement Registers
@@ -4049,44 +3997,6 @@ static inline uint64_t BDK_BGXX_CMRX_RX_STAT6(unsigned long a, unsigned long b)
 #define arguments_BDK_BGXX_CMRX_RX_STAT6(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) bgx#_cmr#_rx_stat1
- *
- * BGX Receive Status Register 1
- * These registers provide a count of octets of received packets.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_bgxx_cmrx_rx_stat1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. CNT will wrap and is cleared if LMAC is disabled with
-                                                                 BGX()_CMR()_CONFIG[ENABLE]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. CNT will wrap and is cleared if LMAC is disabled with
-                                                                 BGX()_CMR()_CONFIG[ENABLE]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_rx_stat1_s cn; */
-} bdk_bgxx_cmrx_rx_stat1_t;
-
-static inline uint64_t BDK_BGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b)
-{
-    if ((a<=1) && (b<=3))
-        return 0x87e0e0000078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
-    __bdk_csr_fatal("BGXX_CMRX_RX_STAT1", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_BGXX_CMRX_RX_STAT1(a,b) bdk_bgxx_cmrx_rx_stat1_t
-#define bustype_BDK_BGXX_CMRX_RX_STAT1(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_BGXX_CMRX_RX_STAT1(a,b) "BGXX_CMRX_RX_STAT1"
-#define busnum_BDK_BGXX_CMRX_RX_STAT1(a,b) (a)
-#define arguments_BDK_BGXX_CMRX_RX_STAT1(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) bgx#_smu#_ext_loopback
  *
  * BGX SMU External Loopback Registers
@@ -4167,37 +4077,7 @@ typedef union
                                                                  _ LMAC interface 3, x = 63, y = 48. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmr_chan_msk_and_s cn88xx; */
-    struct bdk_bgxx_cmr_chan_msk_and_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t msk_and               : 64; /**< [ 63:  0](R/W) Assert physical backpressure when the backpressure channel vector combined with MSK_AND
-                                                                 indicates backpressure as follows:
-                                                                 _ phys_bp_msk_and = (CHAN_VECTOR<x:y> & MSK_AND<x:y>) == MSK_AND<x:y>
-                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
-
-                                                                 In single LMAC configurations, x = 63, y = 0.
-
-                                                                 In multi-LMAC configurations, x/y are set as follows:
-                                                                 _ LMAC interface 0, x = 15, y = 0.
-                                                                 _ LMAC interface 1, x = 31, y = 16.
-                                                                 _ LMAC interface 2, x = 47, y = 32.
-                                                                 _ LMAC interface 3, x = 63, y = 48. */
-#else /* Word 0 - Little Endian */
-        uint64_t msk_and               : 64; /**< [ 63:  0](R/W) Assert physical backpressure when the backpressure channel vector combined with MSK_AND
-                                                                 indicates backpressure as follows:
-                                                                 _ phys_bp_msk_and = (CHAN_VECTOR<x:y> & MSK_AND<x:y>) == MSK_AND<x:y>
-                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
-
-                                                                 In single LMAC configurations, x = 63, y = 0.
-
-                                                                 In multi-LMAC configurations, x/y are set as follows:
-                                                                 _ LMAC interface 0, x = 15, y = 0.
-                                                                 _ LMAC interface 1, x = 31, y = 16.
-                                                                 _ LMAC interface 2, x = 47, y = 32.
-                                                                 _ LMAC interface 3, x = 63, y = 48. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_cmr_chan_msk_and_s cn; */
 } bdk_bgxx_cmr_chan_msk_and_t;
 
 static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_AND(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4574,6 +4454,45 @@ static inline uint64_t BDK_BGXX_GMP_GMI_TX_LFSR(unsigned long a)
 #define arguments_BDK_BGXX_GMP_GMI_TX_LFSR(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) bgx#_cmr#_tx_ovr_bp
+ *
+ * BGX CMR Transmit-Channels Backpressure Override Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_cmrx_tx_ovr_bp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO.
+                                                                 0 = channel is available.
+                                                                 1 = channel should be backpressured. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO.
+                                                                 0 = channel is available.
+                                                                 1 = channel should be backpressured. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_cmrx_tx_ovr_bp_s cn; */
+} bdk_bgxx_cmrx_tx_ovr_bp_t;
+
+static inline uint64_t BDK_BGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b)
+{
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000520ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_TX_OVR_BP", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_BGXX_CMRX_TX_OVR_BP(a,b) bdk_bgxx_cmrx_tx_ovr_bp_t
+#define bustype_BDK_BGXX_CMRX_TX_OVR_BP(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_CMRX_TX_OVR_BP(a,b) "BGXX_CMRX_TX_OVR_BP"
+#define busnum_BDK_BGXX_CMRX_TX_OVR_BP(a,b) (a)
+#define arguments_BDK_BGXX_CMRX_TX_OVR_BP(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) bgx#_spu#_an_lp_base
  *
  * BGX SPU Autonegotiation Link-Partner Base-Page Ability Registers
@@ -4769,41 +4688,6 @@ static inline uint64_t BDK_BGXX_CMR_RX_LMACS(unsigned long a)
 #define basename_BDK_BGXX_CMR_RX_LMACS(a) "BGXX_CMR_RX_LMACS"
 #define busnum_BDK_BGXX_CMR_RX_LMACS(a) (a)
 #define arguments_BDK_BGXX_CMR_RX_LMACS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) bgx#_smu#_smac
- *
- * BGX SMU SMAC Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_bgxx_smux_smac_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
-#else /* Word 0 - Little Endian */
-        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_smux_smac_s cn; */
-} bdk_bgxx_smux_smac_t;
-
-static inline uint64_t BDK_BGXX_SMUX_SMAC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BGXX_SMUX_SMAC(unsigned long a, unsigned long b)
-{
-    if ((a<=1) && (b<=3))
-        return 0x87e0e0020108ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
-    __bdk_csr_fatal("BGXX_SMUX_SMAC", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_BGXX_SMUX_SMAC(a,b) bdk_bgxx_smux_smac_t
-#define bustype_BDK_BGXX_SMUX_SMAC(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_BGXX_SMUX_SMAC(a,b) "BGXX_SMUX_SMAC"
-#define busnum_BDK_BGXX_SMUX_SMAC(a,b) (a)
-#define arguments_BDK_BGXX_SMUX_SMAC(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) bgx#_spu_mem_status
@@ -6803,6 +6687,44 @@ static inline uint64_t BDK_BGXX_CMR_GLOBAL_CONFIG(unsigned long a)
 #define arguments_BDK_BGXX_CMR_GLOBAL_CONFIG(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) bgx#_spu_bist_status
+ *
+ * BGX SPU BIST Status Registers
+ * This register provides memory BIST status from the SPU RX_BUF lane FIFOs.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_spu_bist_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t rx_buf_bist_status    : 4;  /**< [  3:  0](RO/H) SPU RX_BUF BIST status for lanes 3-0. One bit per SerDes lane, set to indicate BIST
+                                                                 failure for the associated RX_BUF lane FIFO. */
+#else /* Word 0 - Little Endian */
+        uint64_t rx_buf_bist_status    : 4;  /**< [  3:  0](RO/H) SPU RX_BUF BIST status for lanes 3-0. One bit per SerDes lane, set to indicate BIST
+                                                                 failure for the associated RX_BUF lane FIFO. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_spu_bist_status_s cn; */
+} bdk_bgxx_spu_bist_status_t;
+
+static inline uint64_t BDK_BGXX_SPU_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_SPU_BIST_STATUS(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e0e0010330ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_SPU_BIST_STATUS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_BGXX_SPU_BIST_STATUS(a) bdk_bgxx_spu_bist_status_t
+#define bustype_BDK_BGXX_SPU_BIST_STATUS(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_SPU_BIST_STATUS(a) "BGXX_SPU_BIST_STATUS"
+#define busnum_BDK_BGXX_SPU_BIST_STATUS(a) (a)
+#define arguments_BDK_BGXX_SPU_BIST_STATUS(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) bgx#_smu#_tx_ctl
  *
  * BGX SMU Transmit Control Registers
@@ -8647,39 +8569,7 @@ typedef union
                                                                  _ LMAC interface 3, x = 63, y = 48. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmr_chan_msk_or_s cn88xx; */
-    struct bdk_bgxx_cmr_chan_msk_or_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t msk_or                : 64; /**< [ 63:  0](R/W) Assert physical backpressure when the backpressure channel vector combined with MSK_OR
-                                                                 indicates backpressure as follows:
-
-                                                                 _ phys_bp_msk_or = (CHAN_VECTOR<x:y> & MSK_AND<x:y>) & MSK_OR<x:y>
-                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
-
-                                                                 In single LMAC configurations, x = 63, y = 0.
-
-                                                                 In multi-LMAC configurations, x/y are set as follows:
-                                                                 _ LMAC interface 0, x = 15, y = 0.
-                                                                 _ LMAC interface 1, x = 31, y = 16.
-                                                                 _ LMAC interface 2, x = 47, y = 32.
-                                                                 _ LMAC interface 3, x = 63, y = 48. */
-#else /* Word 0 - Little Endian */
-        uint64_t msk_or                : 64; /**< [ 63:  0](R/W) Assert physical backpressure when the backpressure channel vector combined with MSK_OR
-                                                                 indicates backpressure as follows:
-
-                                                                 _ phys_bp_msk_or = (CHAN_VECTOR<x:y> & MSK_AND<x:y>) & MSK_OR<x:y>
-                                                                 _ phys_bp = phys_bp_msk_or || phys_bp_msk_and
-
-                                                                 In single LMAC configurations, x = 63, y = 0.
-
-                                                                 In multi-LMAC configurations, x/y are set as follows:
-                                                                 _ LMAC interface 0, x = 15, y = 0.
-                                                                 _ LMAC interface 1, x = 31, y = 16.
-                                                                 _ LMAC interface 2, x = 47, y = 32.
-                                                                 _ LMAC interface 3, x = 63, y = 48. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_cmr_chan_msk_or_s cn; */
 } bdk_bgxx_cmr_chan_msk_or_t;
 
 static inline uint64_t BDK_BGXX_CMR_CHAN_MSK_OR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -9334,6 +9224,44 @@ static inline uint64_t BDK_BGXX_CMRX_RX_STAT0(unsigned long a, unsigned long b)
 #define arguments_BDK_BGXX_CMRX_RX_STAT0(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) bgx#_cmr#_rx_stat1
+ *
+ * BGX Receive Status Register 1
+ * These registers provide a count of octets of received packets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_cmrx_rx_stat1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. CNT will wrap and is cleared if LMAC is disabled with
+                                                                 BGX()_CMR()_CONFIG[ENABLE]=0. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Octet count of received packets. CNT will wrap and is cleared if LMAC is disabled with
+                                                                 BGX()_CMR()_CONFIG[ENABLE]=0. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_cmrx_rx_stat1_s cn; */
+} bdk_bgxx_cmrx_rx_stat1_t;
+
+static inline uint64_t BDK_BGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_CMRX_RX_STAT1(unsigned long a, unsigned long b)
+{
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0000078ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_CMRX_RX_STAT1", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_BGXX_CMRX_RX_STAT1(a,b) bdk_bgxx_cmrx_rx_stat1_t
+#define bustype_BDK_BGXX_CMRX_RX_STAT1(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_CMRX_RX_STAT1(a,b) "BGXX_CMRX_RX_STAT1"
+#define busnum_BDK_BGXX_CMRX_RX_STAT1(a,b) (a)
+#define arguments_BDK_BGXX_CMRX_RX_STAT1(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) bgx#_cmr#_rx_stat2
  *
  * BGX Receive Status Register 2
@@ -9497,45 +9425,6 @@ static inline uint64_t BDK_BGXX_SPUX_AN_LP_XNP(unsigned long a, unsigned long b)
 #define basename_BDK_BGXX_SPUX_AN_LP_XNP(a,b) "BGXX_SPUX_AN_LP_XNP"
 #define busnum_BDK_BGXX_SPUX_AN_LP_XNP(a,b) (a)
 #define arguments_BDK_BGXX_SPUX_AN_LP_XNP(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) bgx#_cmr#_tx_ovr_bp
- *
- * BGX CMR Transmit-Channels Backpressure Override Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_bgxx_cmrx_tx_ovr_bp_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO.
-                                                                 0 = channel is available.
-                                                                 1 = channel should be backpressured. */
-#else /* Word 0 - Little Endian */
-        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO.
-                                                                 0 = channel is available.
-                                                                 1 = channel should be backpressured. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmrx_tx_ovr_bp_s cn; */
-} bdk_bgxx_cmrx_tx_ovr_bp_t;
-
-static inline uint64_t BDK_BGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_BGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b)
-{
-    if ((a<=1) && (b<=3))
-        return 0x87e0e0000520ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
-    __bdk_csr_fatal("BGXX_CMRX_TX_OVR_BP", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_BGXX_CMRX_TX_OVR_BP(a,b) bdk_bgxx_cmrx_tx_ovr_bp_t
-#define bustype_BDK_BGXX_CMRX_TX_OVR_BP(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_BGXX_CMRX_TX_OVR_BP(a,b) "BGXX_CMRX_TX_OVR_BP"
-#define busnum_BDK_BGXX_CMRX_TX_OVR_BP(a,b) (a)
-#define arguments_BDK_BGXX_CMRX_TX_OVR_BP(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) bgx#_cmr_rx_steering#
@@ -11471,6 +11360,41 @@ static inline uint64_t BDK_BGXX_SMUX_TX_INT_ENA_W1C(unsigned long a, unsigned lo
 #define basename_BDK_BGXX_SMUX_TX_INT_ENA_W1C(a,b) "BGXX_SMUX_TX_INT_ENA_W1C"
 #define busnum_BDK_BGXX_SMUX_TX_INT_ENA_W1C(a,b) (a)
 #define arguments_BDK_BGXX_SMUX_TX_INT_ENA_W1C(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) bgx#_smu#_smac
+ *
+ * BGX SMU SMAC Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_smux_smac_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
+#else /* Word 0 - Little Endian */
+        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_smux_smac_s cn; */
+} bdk_bgxx_smux_smac_t;
+
+static inline uint64_t BDK_BGXX_SMUX_SMAC(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_SMUX_SMAC(unsigned long a, unsigned long b)
+{
+    if ((a<=1) && (b<=3))
+        return 0x87e0e0020108ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_SMUX_SMAC", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_BGXX_SMUX_SMAC(a,b) bdk_bgxx_smux_smac_t
+#define bustype_BDK_BGXX_SMUX_SMAC(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_SMUX_SMAC(a,b) "BGXX_SMUX_SMAC"
+#define busnum_BDK_BGXX_SMUX_SMAC(a,b) (a)
+#define arguments_BDK_BGXX_SMUX_SMAC(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) bgx#_smu#_ctrl

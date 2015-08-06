@@ -492,6 +492,15 @@
                                        Else used for L1 and MAC errors. */
 
 /**
+ * Enumeration nic_intf_block_e
+ *
+ * NIC Interface Block ID Enumeration
+ * Enumerates the values of NIC_PF_INTF()_SEND_CFG[BLOCK] and NIC_PF_INTF()_BP_CFG[BP_ID].
+ */
+#define BDK_NIC_INTF_BLOCK_E_BGXX_BLOCK(a) (8 + (a)) /**< (0..1)BGX{a} block ID. */
+#define BDK_NIC_INTF_BLOCK_E_TNS_PORTX_BLOCK(a) (6 + (a)) /**< (0..1)TNS port {a} block ID. */
+
+/**
  * Enumeration nic_stat_vnic_tx_e
  *
  * NIC VNIC Transmit Statistics Enumeration
@@ -662,15 +671,6 @@
  */
 #define BDK_NIC_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< (0..1)(0..3)(0..15)BGX {a} port {b} channel {c}. */
 #define BDK_NIC_CHAN_E_TNS_PORTX_CHX(a,b) (0x600 + 0x100 * (a) + (b)) /**< (0..1)(0..127)TNS port {a} channel {b}. */
-
-/**
- * Enumeration nic_intf_block_e
- *
- * NIC Interface Block ID Enumeration
- * Enumerates the values of NIC_PF_INTF()_SEND_CFG[BLOCK] and NIC_PF_INTF()_BP_CFG[BP_ID].
- */
-#define BDK_NIC_INTF_BLOCK_E_BGXX_BLOCK(a) (8 + (a)) /**< (0..1)BGX{a} block ID. */
-#define BDK_NIC_INTF_BLOCK_E_TNS_PORTX_BLOCK(a) (6 + (a)) /**< (0..1)TNS port {a} block ID. */
 
 /**
  * Enumeration nic_stat_rq_e
@@ -10510,92 +10510,6 @@ static inline uint64_t BDK_NIC_PF_TL3AX_CFG(unsigned long a)
 #define arguments_BDK_NIC_PF_TL3AX_CFG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) nic_pf_lmac#_credit
- *
- * NIC LMAC Credit Registers
- * Index enumerated by NIC_TX_LMAC_E.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_nic_pf_lmacx_credit_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
-                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
-                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
-                                                                 and one TNS credit unit otherwise, as specified by
-                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
-                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
-                                                                 flow when the count is less than zero. As such, the most significant bit should normally
-                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
-                                                                 - 1.
-
-                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
-                                                                 CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
-
-                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
-
-                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
-                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
-                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
-                                                                 192. */
-        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
-                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
-                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
-                                                                 when the count is less than zero. As such the most significant bit should normally be
-                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
-        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
-        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
-                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
-                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
-                                                                 when the count is less than zero. As such the most significant bit should normally be
-                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
-        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
-                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
-                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
-                                                                 and one TNS credit unit otherwise, as specified by
-                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
-                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
-                                                                 flow when the count is less than zero. As such, the most significant bit should normally
-                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
-                                                                 - 1.
-
-                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
-                                                                 CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
-
-                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
-
-                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
-                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
-                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
-                                                                 192. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_nic_pf_lmacx_credit_s cn; */
-} bdk_nic_pf_lmacx_credit_t;
-
-static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a)
-{
-    if (a<=7)
-        return 0x843000244000ll + 8ll * ((a) & 0x7);
-    __bdk_csr_fatal("NIC_PF_LMACX_CREDIT", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_NIC_PF_LMACX_CREDIT(a) bdk_nic_pf_lmacx_credit_t
-#define bustype_BDK_NIC_PF_LMACX_CREDIT(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_NIC_PF_LMACX_CREDIT(a) "NIC_PF_LMACX_CREDIT"
-#define busnum_BDK_NIC_PF_LMACX_CREDIT(a) (a)
-#define arguments_BDK_NIC_PF_LMACX_CREDIT(a) (a),-1,-1,-1
-
-/**
  * Register (NCB) nic_pf_bist0_status
  *
  * NIC Memory BIST 0 Status Register
@@ -10762,6 +10676,92 @@ static inline uint64_t BDK_NIC_PF_RBDR_BP_STATEX(unsigned long a)
 #define basename_BDK_NIC_PF_RBDR_BP_STATEX(a) "NIC_PF_RBDR_BP_STATEX"
 #define busnum_BDK_NIC_PF_RBDR_BP_STATEX(a) (a)
 #define arguments_BDK_NIC_PF_RBDR_BP_STATEX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) nic_pf_lmac#_credit
+ *
+ * NIC LMAC Credit Registers
+ * Index enumerated by NIC_TX_LMAC_E.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_nic_pf_lmacx_credit_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
+                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
+                                                                 and one TNS credit unit otherwise, as specified by
+                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
+                                                                 CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
+                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t cc_enable             : 1;  /**< [  1:  1](R/W) Channel-credit enable. Enables CC_UNIT_CNT and CC_PACKET_CNT aggregate credit processing. */
+        uint64_t cc_packet_cnt         : 10; /**< [ 11:  2](R/W/H) Channel-credit packet count. This value, plus 1, represents the maximum outstanding
+                                                                 aggregate packet count for this LMAC. Note that this 10-bit field represents a signed
+                                                                 value that decrements towards zero as credits are used. Packets are not allowed to flow
+                                                                 when the count is less than zero. As such the most significant bit should normally be
+                                                                 programmed as zero (positive count). This gives a maximum value for this field of 2^9 - 1. */
+        uint64_t cc_unit_cnt           : 20; /**< [ 31: 12](R/W/H) Channel-credit unit count. This value, plus 1 MTU, represents the maximum outstanding
+                                                                 aggregate channel credit units for this LMAC. A credit unit is 16 bytes when the
+                                                                 associated TNS interface is bypassed (NIC_PF_INTF()_SEND_CFG[TNS_NONBYPASS] is clear),
+                                                                 and one TNS credit unit otherwise, as specified by
+                                                                 NIC_PF_INTF()_SEND_CFG[TNS_CREDIT_SIZE]. Note that this 20-bit field represents a
+                                                                 signed value that decrements towards zero as credits are used. Packets are not allowed to
+                                                                 flow when the count is less than zero. As such, the most significant bit should normally
+                                                                 be programmed as zero (positive count). This gives a maximum value for this field of 2^19
+                                                                 - 1.
+
+                                                                 In order to prevent blocking between LMACs when the associated TNS interface is bypassed,
+                                                                 CC_ENABLE should be set to 1 and CC_UNIT_CNT should be less than
+
+                                                                 _     ((LMAC TX buffer size in BGX) - (MTU excluding FCS))/16
+
+                                                                 The LMAC TX buffer size is defined by BGX()_CMR_TX_LMACS[LMACS]. For example, if TNS is
+                                                                 bypassed, BGX()_CMR_TX_LMACS[LMACS]=0x4 (12 KB per LMAC) and the LMAC's MTU excluding FCS
+                                                                 is 9212 bytes (9216 minus 4 byte FCS), then CC_UNIT_CNT should be < (12288 - 9212)/16 =
+                                                                 192. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_nic_pf_lmacx_credit_s cn; */
+} bdk_nic_pf_lmacx_credit_t;
+
+static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NIC_PF_LMACX_CREDIT(unsigned long a)
+{
+    if (a<=7)
+        return 0x843000244000ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("NIC_PF_LMACX_CREDIT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_NIC_PF_LMACX_CREDIT(a) bdk_nic_pf_lmacx_credit_t
+#define bustype_BDK_NIC_PF_LMACX_CREDIT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_NIC_PF_LMACX_CREDIT(a) "NIC_PF_LMACX_CREDIT"
+#define busnum_BDK_NIC_PF_LMACX_CREDIT(a) (a)
+#define arguments_BDK_NIC_PF_LMACX_CREDIT(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) nic_pf_qs#_cfg
