@@ -30,6 +30,8 @@ elseif package.searchpath("board-setup", package.path) then
     menu.dofile("board-setup")
 elseif cavium.is_model(cavium.CN88XX) then
     menu.dofile("board-ebb8800")
+elseif cavium.is_model(cavium.CN83XX) then
+    menu.dofile("board-ebb830x")
 end
 BOARD_SETUP_DONE = true
 
