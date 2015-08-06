@@ -192,95 +192,90 @@ static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
  */
 static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
 {
-    if (qlm < 8)
+    if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
     {
-        if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
-        {
-            if (qlm < 2)
-                return BDK_QLM_MODE_XFI_4X1;
-            else
-                return BDK_QLM_MODE_DISABLED;
-        }
-        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
-        if (gserx_cfg.s.pcie)
-        {
-            switch (qlm)
-            {
-                case 2: /* Either PEM0 x4 or PEM0 x8 */
-                case 3: /* Either PEM0 x8 or PEM1 x4 */
-                {
-                    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
-                    if (pemx_cfg.s.lanes8)
-                        return BDK_QLM_MODE_PCIE_1X8; /* PEM0 x8 */
-                    else
-                        return BDK_QLM_MODE_PCIE_1X4; /* PEM0-1 x4 */
-                }
-                case 4: /* Either PEM2 x4 or PEM2 x8 */
-                case 5: /* Either PEM2 x8 or PEM3 x4 */
-                {
-                    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(2));
-                    if (pemx_cfg.s.lanes8)
-                        return BDK_QLM_MODE_PCIE_1X8; /* PEM2 x8 */
-                    else
-                        return BDK_QLM_MODE_PCIE_1X4; /* PEM2-3 x4 */
-                }
-                case 6: /* Either PEM4 x8 or PEM4 x4 */
-                case 7: /* Either PEM4 x8 or PEM5 x4 */
-                {
-                    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(4));
-                    if (pemx_cfg.s.lanes8)
-                        return BDK_QLM_MODE_PCIE_1X8; /* PEM4 x8 */
-                    else
-                        return BDK_QLM_MODE_PCIE_1X4; /* PEM4-5 x4 */
-                }
-                default: /* QLMs 0-1 can't be PCIe */
-                    return BDK_QLM_MODE_DISABLED;
-            }
-        }
-        else if (gserx_cfg.s.ila)
-            return BDK_QLM_MODE_ILK;
-        else if (gserx_cfg.s.sata)
-        {
-            /* Hardcode SATA to QLM mapping for CN88XX */
-            int sata = (qlm >= 6) ? 8 + (qlm-6) * 4 : (qlm-2) * 4;
-            BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(sata));
-            if (uctl_ctl.s.a_clk_en && !uctl_ctl.s.a_clkdiv_rst)
-                return BDK_QLM_MODE_SATA_4X1;
-            else
-                return BDK_QLM_MODE_DISABLED;
-        }
-        else if (gserx_cfg.s.bgx)
-        {
-            if (qlm >= 2)
-                return BDK_QLM_MODE_DISABLED;
-            int bgx_block = qlm;
-            BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx_block, 0));
-            BDK_CSR_INIT(spux_br_pmd_control, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0));
-            switch (cmrx_config.s.lmac_type)
-            {
-                case 0x0: return BDK_QLM_MODE_SGMII_4X1;
-                case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differentiate between XAUI and DXAUI */
-                case 0x2: return BDK_QLM_MODE_RXAUI_2X2;
-                case 0x3:
-                    /* Use training to determine if we're in 10GBASE-KR or XFI */
-                    if (spux_br_pmd_control.s.train_en)
-                        return BDK_QLM_MODE_10G_KR_4X1;
-                    else
-                        return BDK_QLM_MODE_XFI_4X1;
-                case 0x4:
-                    /* Use training to determine if we're in 40GBASE-KR4 or XLAUI */
-                    if (spux_br_pmd_control.s.train_en)
-                        return BDK_QLM_MODE_40G_KR4_1X4;
-                    else
-                        return BDK_QLM_MODE_XLAUI_1X4;
-                default:  return BDK_QLM_MODE_DISABLED;
-            }
-        }
+        if (qlm < 2)
+            return BDK_QLM_MODE_XFI_4X1;
         else
             return BDK_QLM_MODE_DISABLED;
     }
+    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+    if (gserx_cfg.s.pcie)
+    {
+        switch (qlm)
+        {
+            case 2: /* Either PEM0 x4 or PEM0 x8 */
+            case 3: /* Either PEM0 x8 or PEM1 x4 */
+            {
+                BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
+                if (pemx_cfg.s.lanes8)
+                    return BDK_QLM_MODE_PCIE_1X8; /* PEM0 x8 */
+                else
+                    return BDK_QLM_MODE_PCIE_1X4; /* PEM0-1 x4 */
+            }
+            case 4: /* Either PEM2 x4 or PEM2 x8 */
+            case 5: /* Either PEM2 x8 or PEM3 x4 */
+            {
+                BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(2));
+                if (pemx_cfg.s.lanes8)
+                    return BDK_QLM_MODE_PCIE_1X8; /* PEM2 x8 */
+                else
+                    return BDK_QLM_MODE_PCIE_1X4; /* PEM2-3 x4 */
+            }
+            case 6: /* Either PEM4 x8 or PEM4 x4 */
+            case 7: /* Either PEM4 x8 or PEM5 x4 */
+            {
+                BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(4));
+                if (pemx_cfg.s.lanes8)
+                    return BDK_QLM_MODE_PCIE_1X8; /* PEM4 x8 */
+                else
+                    return BDK_QLM_MODE_PCIE_1X4; /* PEM4-5 x4 */
+            }
+            default: /* QLMs 0-1 can't be PCIe */
+                return BDK_QLM_MODE_DISABLED;
+        }
+    }
+    else if (gserx_cfg.s.ila)
+        return BDK_QLM_MODE_ILK;
+    else if (gserx_cfg.s.sata)
+    {
+        /* Hardcode SATA to QLM mapping for CN88XX */
+        int sata = (qlm >= 6) ? 8 + (qlm-6) * 4 : (qlm-2) * 4;
+        BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(sata));
+        if (uctl_ctl.s.a_clk_en && !uctl_ctl.s.a_clkdiv_rst)
+            return BDK_QLM_MODE_SATA_4X1;
+        else
+            return BDK_QLM_MODE_DISABLED;
+    }
+    else if (gserx_cfg.s.bgx)
+    {
+        if (qlm >= 2)
+            return BDK_QLM_MODE_DISABLED;
+        int bgx_block = qlm;
+        BDK_CSR_INIT(cmrx_config, node, BDK_BGXX_CMRX_CONFIG(bgx_block, 0));
+        BDK_CSR_INIT(spux_br_pmd_control, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0));
+        switch (cmrx_config.s.lmac_type)
+        {
+            case 0x0: return BDK_QLM_MODE_SGMII_4X1;
+            case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differentiate between XAUI and DXAUI */
+            case 0x2: return BDK_QLM_MODE_RXAUI_2X2;
+            case 0x3:
+                /* Use training to determine if we're in 10GBASE-KR or XFI */
+                if (spux_br_pmd_control.s.train_en)
+                    return BDK_QLM_MODE_10G_KR_4X1;
+                else
+                    return BDK_QLM_MODE_XFI_4X1;
+            case 0x4:
+                /* Use training to determine if we're in 40GBASE-KR4 or XLAUI */
+                if (spux_br_pmd_control.s.train_en)
+                    return BDK_QLM_MODE_40G_KR4_1X4;
+                else
+                    return BDK_QLM_MODE_XLAUI_1X4;
+            default:  return BDK_QLM_MODE_DISABLED;
+        }
+    }
     else
-        return BDK_QLM_MODE_OCI;
+        return BDK_QLM_MODE_DISABLED;
 }
 
 static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags)
@@ -874,39 +869,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
                 c.s.phy_reset = 1);
             return 0;
-        case BDK_QLM_MODE_OCI:
-            lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("CCPI", qlm, ref_clk, baud_mhz);
-            if (lane_mode == -1)
-                return -1;
-            /* OCI is now in software mode as we are reprogramming it */
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_SPD(qlm),
-                c.s.spd = 0xf);
-            /* 6.25G normally doesn't do TX training. In software mode, force
-               enable  TX training */
-            if (baud_mhz == 6250)
-            {
-                for (int lane = 0; lane < 4; lane++)
-                {
-                    /* 3) Program override for the Tx coefficient request
-                        Write GSER(8..13)_LANE(0..3)_PCS_CTLIFC_0.CFG_TX_COEFF_REQ_OVRRD_VAL = 0x1 */
-                    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_0(qlm, lane),
-                        c.s.cfg_tx_coeff_req_ovrrd_val = 1);
-                    /* 4) Enable the Tx coefficient request override enable
-                        Write GSER(8..13)_LANE(0..3)_PCS_CTLIFC_2.CFG_TX_COEFF_REQ_OVRRD_EN = 0x1 */
-                    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
-                        c.s.cfg_tx_coeff_req_ovrrd_en = 1);
-                    /* 5) Issue a Control Interface Configuration Override request
-                        to start the Tx equalizer Optimization cycle which applies
-                        the new Tx swing and equalization settings
-                        Write GSER(0..13)_LANE(0..3)_PCS_CTLIFC_2.CTLIFC_OVRRD_REQ = 0x1
-                        The new Tx swing and Pre-cursor and Post-cursor settings
-                        will now take effect. */
-                    BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_PCS_CTLIFC_2(qlm, lane),
-                        c.s.ctlifc_ovrrd_req = 1);
-                }
-            }
-            is_ilk = 1; /* CCPI looks like ILK */
-            break;
         default:
             bdk_error("Unsupported QLM mode %d\n", mode);
             return -1;
@@ -999,157 +961,98 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
         return 10312;
 
-    if (qlm < 8)
+    BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
+    if (gserx_cfg.u == 0)
+        return 0;
+    if (gserx_cfg.s.pcie)
     {
-        BDK_CSR_INIT(gserx_cfg, node, BDK_GSERX_CFG(qlm));
-        if (gserx_cfg.u == 0)
-            return 0;
-        if (gserx_cfg.s.pcie)
+        /* QLMs in PCIe mode ignore LMODE and get their speed from
+           the PEM block that controls them */
+        int pem;
+        switch (qlm)
         {
-            /* QLMs in PCIe mode ignore LMODE and get their speed from
-               the PEM block that controls them */
-            int pem;
-            switch (qlm)
+            case 2: /* Either PEM0 x4 or PEM0 x8 */
+                pem = 0;
+                break;
+            case 3: /* Either PEM0 x8 or PEM1 x4 */
             {
-                case 2: /* Either PEM0 x4 or PEM0 x8 */
+                BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
+                if (pemx_cfg.s.lanes8)
                     pem = 0;
-                    break;
-                case 3: /* Either PEM0 x8 or PEM1 x4 */
-                {
-                    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
-                    if (pemx_cfg.s.lanes8)
-                        pem = 0;
-                    else
-                        pem = 1;
-                    break;
-                }
-                case 4: /* Either PEM2 x4 or PEM2 x8 */
+                else
+                    pem = 1;
+                break;
+            }
+            case 4: /* Either PEM2 x4 or PEM2 x8 */
+                pem = 2;
+                break;
+            case 5: /* Either PEM2 x8 or PEM 3 x4 */
+            {
+                /* Can be last 4 lanes of PEM2 */
+                BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
+                if (pem2_cfg.s.lanes8)
                     pem = 2;
-                    break;
-                case 5: /* Either PEM2 x8 or PEM 3 x4 */
-                {
-                    /* Can be last 4 lanes of PEM2 */
-                    BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
-                    if (pem2_cfg.s.lanes8)
-                        pem = 2;
-                    else
-                        pem = 3;
-                    break;
-                }
-                case 6: /* Either PEM4 x8 or PEM4 x4 */
+                else
+                    pem = 3;
+                break;
+            }
+            case 6: /* Either PEM4 x8 or PEM4 x4 */
+                pem = 4;
+                break;
+            case 7: /* Either PEM4 x8 or PEm5 x4 */
+            {
+                /* Can be last 4 lanes of PEM4 */
+                BDK_CSR_INIT(pem4_cfg, node, BDK_PEMX_CFG(4));
+                if (pem4_cfg.s.lanes8)
                     pem = 4;
-                    break;
-                case 7: /* Either PEM4 x8 or PEm5 x4 */
-                {
-                    /* Can be last 4 lanes of PEM4 */
-                    BDK_CSR_INIT(pem4_cfg, node, BDK_PEMX_CFG(4));
-                    if (pem4_cfg.s.lanes8)
-                        pem = 4;
-                    else
-                        pem = 5;
-                    break;
-                }
-                default:
-                    bdk_fatal("QLM%d: In PCIe mode, which shouldn't happen\n", qlm);
+                else
+                    pem = 5;
+                break;
             }
-            return __bdk_qlm_get_gbaud_mhz_pem(node, pem);
+            default:
+                bdk_fatal("QLM%d: In PCIe mode, which shouldn't happen\n", qlm);
         }
-        else if (gserx_cfg.s.sata)
+        return __bdk_qlm_get_gbaud_mhz_pem(node, pem);
+    }
+    else if (gserx_cfg.s.sata)
+    {
+        int sata;
+        switch (qlm)
         {
-            int sata;
-            switch (qlm)
-            {
-                case 2:
-                    sata = 0;
-                    break;
-                case 3:
-                    sata = 4;
-                    break;
-                case 6:
-                    sata = 8;
-                    break;
-                case 7:
-                    sata = 12;
-                    break;
-                default:
-                    return 0;
-            }
-            BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(sata));
-            if (!uctl_ctl.s.a_clk_en || uctl_ctl.s.a_clkdiv_rst)
+            case 2:
+                sata = 0;
+                break;
+            case 3:
+                sata = 4;
+                break;
+            case 6:
+                sata = 8;
+                break;
+            case 7:
+                sata = 12;
+                break;
+            default:
                 return 0;
-            BDK_CSR_INIT(sctl, node, BDK_SATAX_UAHC_P0_SCTL(sata));
-            switch (sctl.s.spd)
-            {
-                case 1:
-                    return 1500;
-                case 2:
-                    return 3000;
-                case 3:
-                    return 6000;
-                default:
-                    return 0;
-            }
         }
-        else
+        BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(sata));
+        if (!uctl_ctl.s.a_clk_en || uctl_ctl.s.a_clkdiv_rst)
+            return 0;
+        BDK_CSR_INIT(sctl, node, BDK_SATAX_UAHC_P0_SCTL(sata));
+        switch (sctl.s.spd)
         {
-            /* Fall through to lane mode check below */
+            case 1:
+                return 1500;
+            case 2:
+                return 3000;
+            case 3:
+                return 6000;
+            default:
+                return 0;
         }
     }
     else
     {
-        /* Use the OCI strapping to find the speed. This will not work if
-           the OCI is in SW_MODE */
-        BDK_CSR_INIT(gserx_spd, node, BDK_GSERX_SPD(qlm));
-        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-        {
-            /* Pass 1.x used a different encoding than pass 2.x */
-            switch (gserx_spd.s.spd)
-            {
-                case 0x0: return 1250; /* Ref 100Mhz */
-                case 0x1: return 2500;
-                case 0x2: return 5000;
-                case 0x3: return 8000;
-                case 0x4: return 1250; /* Ref 125Mhz */
-                case 0x5: return 2500;
-                case 0x6: return 3125;
-                case 0x7: return 5000;
-                case 0x8: return 6250;
-                case 0x9: return 8000;
-                case 0xa: return 2500; /* Ref 156.25Mhz */
-                case 0xb: return 3125;
-                case 0xc: return 5000;
-                case 0xd: return 6250;
-                case 0xe: return 10312; /* KR training */
-                default: /* Software mode */
-                    /* Fall through to lane mode check below */
-                    break;
-            }
-        }
-        else
-        {
-            /* This is for pass 2.x (and beyond) */
-            switch (gserx_spd.s.spd)
-            {
-                case 0x0: return 5000; /* Ref 100Mhz, Training short (Rx EQ only) */
-                case 0x1: return 2500; /* Ref 100Mhz, No training */
-                case 0x2: return 5000; /* Ref 100Mhz, No training */
-                case 0x3: return 8000; /* Ref 100Mhz, No training */
-                case 0x4: return 8000; /* Ref 100Mhz, Training short (Rx EQ only) */
-                case 0x5: return 8000; /* Ref 100Mhz, KR training */
-                case 0x6: return 3125; /* Ref 156.25Mhz, No training */
-                case 0x7: return 5000; /* Ref 125Mhz, No training */
-                case 0x8: return 6250; /* Ref 156.25Mhz, No training */
-                case 0x9: return 8000; /* Ref 125Mhz, No training */
-                case 0xa: return 10312;/* Ref 156.25Mhz, Training short (Rx EQ only) */
-                case 0xb: return 3125; /* Ref 156.25Mhz, No training */
-                case 0xc: return 5000; /* Ref 125Mhz, Training short (Rx EQ only) */
-                case 0xd: return 6250; /* Ref 156.25Mhz, Training short (Rx EQ only) */
-                case 0xe: return 10312;/* Ref 156.25Mhz, KR training */
-                default: /* Software mode */
-                    /* Fall through to lane mode check below */
-                    break;
-            }
-        }
+        /* Fall through to lane mode check below */
     }
 
     /* Show PHYs in reset as down */
