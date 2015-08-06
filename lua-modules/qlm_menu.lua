@@ -15,6 +15,10 @@ repeat
         require("qlm_menu_cn88xx")
         m:item("set", "Change QLM/DLM configuration", qlm_setup_cn88xx)
     end
+    if cavium.is_model(cavium.CN83XX) then
+        require("qlm_menu_cn83xx")
+        m:item("set", "Change QLM/DLM configuration", qlm_setup_cn83xx)
+    end
     -- Build a list of QLMs showing the current config. Selecting them
     -- does nothing
     local num_qlms = cavium.c.bdk_qlm_get_num(menu.node)
