@@ -5,6 +5,7 @@ endif
 include $(BDK_ROOT)/libbdk/bdk.mk
 
 TFTPBOOT?=/tftpboot/
+ASIM_CHIP?=CN88XX:2.0
 
 .PHONY: all
 all: version
@@ -56,21 +57,21 @@ run:
 ifndef ASIM
 	echo ERROR: Define ASIM in the environment, the directory of asim && false
 endif
-	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/bdk.bin SYMBOL_IMAGE=$(BDK_ROOT)/bdk-boot/diagnostics $(ASIM)/asim -e bdk.asim
+	ASIM_CHIP=$(ASIM_CHIP) UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/bdk.bin SYMBOL_IMAGE=$(BDK_ROOT)/bdk-boot/diagnostics $(ASIM)/asim -e bdk.asim
 
 .PHONY: run-normal
 run-normal:
 ifndef ASIM
 	echo ERROR: Define ASIM in the environment, the directory of asim && false
 endif
-	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
+	ASIM_CHIP=$(ASIM_CHIP) UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
 
 .PHONY: run-screen
 run-screen:
 ifndef ASIM
 	echo ERROR: Define ASIM in the environment, the directory of asim && false
 endif
-	UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-screen-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/screen-ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
+	ASIM_CHIP=$(ASIM_CHIP) UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-screen-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/screen-ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
 
 
 #

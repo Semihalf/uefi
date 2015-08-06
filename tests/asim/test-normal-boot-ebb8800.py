@@ -28,6 +28,8 @@ os.environ["UART0PORT"] = UART0PORT
 os.environ["UART1PORT"] = UART1PORT
 os.environ["BIN_IMAGE"] = BDK_ROOT + "/target-bin/normal-ebb8800.bin"
 os.environ["SYMBOL_IMAGE"] = BDK_ROOT + "/normal-boot-ebb8800/diagnostics"
+if not "ASIM_CHIP" in os.environ:
+    os.environ["ASIM_CHIP"] = "CN88XX:2.0"
 #
 # Load the simulator
 #

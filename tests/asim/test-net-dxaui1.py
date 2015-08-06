@@ -29,6 +29,8 @@ os.environ["UART0PORT"] = UART0PORT
 os.environ["UART1PORT"] = UART1PORT
 os.environ["BIN_IMAGE"] = BDK_ROOT + "/target-bin/bdk.bin"
 os.environ["SYMBOL_IMAGE"] = BDK_ROOT + "/bdk-boot/diagnostics"
+if not "ASIM_CHIP" in os.environ:
+    os.environ["ASIM_CHIP"] = "CN88XX:1.0" # Asim doesn't model new BGX yet
 
 #
 # Load the simulator
@@ -69,7 +71,7 @@ wait_for("===============")
 wait_for("BDK Stage1 Boot")
 wait_for("===============")
 wait_for("Node:  0")
-wait_for("Chip:  0xa1 Pass 1.0")
+wait_for("Chip:  0xa")
 wait_for("RCLK:  2500 Mhz")
 wait_for("SCLK:  800 Mhz")
 wait_for("Boot:  SPI24(5)")
