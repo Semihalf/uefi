@@ -159,6 +159,16 @@ extern int bdk_qlm_mcu_auto_config(bdk_node_t node);
 extern int __bdk_qlm_rx_equalization(bdk_node_t node, int qlm, int qlm_lane);
 
 /**
+ * Some QLM speeds need to override the default tuning parameters
+ *
+ * @param node     Node to use in a Numa setup
+ * @param qlm      QLM to configure
+ * @param mode     Desired mode
+ * @param baud_mhz Desired speed
+ */
+extern void __bdk_qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz);
+
+/**
  * Capture an eye diagram for the given QLM lane. The output data is written
  * to "eye".
  *

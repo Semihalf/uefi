@@ -34,61 +34,6 @@ static int qlm_get_lanes(bdk_node_t node, int qlm)
 }
 
 /**
- * Some QLM speeds need to override the default tuning parameters
- *
- * @param node     Node to use in a Numa setup
- * @param qlm      QLM to configure
- * @param mode     Desired mode
- * @param baud_mhz Desired speed
- */
-static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz)
-{
-    /* Tuning parameters override the KR training. Don't apply them for KR links */
-    switch (mode)
-    {
-        case BDK_QLM_MODE_10G_KR_2X1:
-        case BDK_QLM_MODE_10G_KR_4X1:
-        case BDK_QLM_MODE_40G_KR4_1X4:
-            return;
-        default:
-            break;
-    }
-    int num_lanes = bdk_qlm_get_lanes(node, qlm);
-    int tx_swing = 0;
-    int tx_premptap = 0;
-
-    switch (baud_mhz)
-    {
-        case 6250: /* 6.25G, from lab measurements of 78xx */
-            tx_swing = 0xa;
-            tx_premptap = 0xa0;
-            break;
-        case 10312: /* 10.3125G, from lab measurements of 78xx */
-            tx_swing = 0xd;
-            tx_premptap = 0xd0;
-            break;
-    }
-
-    for (int lane = 0; lane < num_lanes; lane++)
-    {
-        if (tx_swing)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_0(qlm, lane),
-                c.s.cfg_tx_swing = tx_swing);
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-                c.s.tx_swing_ovrrd_en = 1);
-        }
-        if (tx_premptap)
-        {
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_PRE_EMPHASIS(qlm, lane),
-                c.s.cfg_tx_premptap = tx_premptap);
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANEX_TX_CFG_1(qlm, lane),
-                c.s.tx_premptap_ovrrd_val = 1);
-        }
-    }
-}
-
-/**
  * Lookup the hardware QLM number for a given interface type and index. This
  * function will fail with a fatal error if called on invalid interfaces for
  * a chip. It returns the QLM number for an interface without checking to
@@ -634,7 +579,7 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     }
 
     /* Apply any custom tuning */
-    qlm_tune(node, qlm, mode, baud_mhz);
+    __bdk_qlm_tune(node, qlm, mode, baud_mhz);
     return 0;
 }
 
@@ -1000,7 +945,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* cdrlock will be checked in the BGX */
 
     /* Apply any custom tuning */
-    qlm_tune(node, qlm, mode, baud_mhz);
+    __bdk_qlm_tune(node, qlm, mode, baud_mhz);
 
     /* If we're setting up the first QLM of a PCIe x8 interface, go ahead and
        setup the other inteface automatically */
@@ -1144,7 +1089,7 @@ static void qlm_init(bdk_node_t node)
         {
             bdk_qlm_modes_t mode = bdk_qlm_get_mode(node, qlm);
             int baud_mhz = bdk_qlm_get_gbaud_mhz(node, qlm);
-            qlm_tune(node, qlm, mode, baud_mhz);
+            __bdk_qlm_tune(node, qlm, mode, baud_mhz);
         }
     }
 
