@@ -76,15 +76,20 @@ const char *bdk_qlm_mode_to_cfg_str(bdk_qlm_modes_t mode)
         MODE_CASE(BDK_QLM_MODE_PCIE_1X8);
 
         MODE_CASE(BDK_QLM_MODE_SATA_4X1);
+        MODE_CASE(BDK_QLM_MODE_SATA_2X1);
 
         MODE_CASE(BDK_QLM_MODE_ILK);
-        MODE_CASE(BDK_QLM_MODE_SGMII);
+        MODE_CASE(BDK_QLM_MODE_SGMII_4X1);
+        MODE_CASE(BDK_QLM_MODE_SGMII_2X1);
         MODE_CASE(BDK_QLM_MODE_XAUI_1X4);
         MODE_CASE(BDK_QLM_MODE_RXAUI_2X2);
+        MODE_CASE(BDK_QLM_MODE_RXAUI_1X2);
         MODE_CASE(BDK_QLM_MODE_OCI);
         MODE_CASE(BDK_QLM_MODE_XFI_4X1);
+        MODE_CASE(BDK_QLM_MODE_XFI_2X1);
         MODE_CASE(BDK_QLM_MODE_XLAUI_1X4);
         MODE_CASE(BDK_QLM_MODE_10G_KR_4X1);
+        MODE_CASE(BDK_QLM_MODE_10G_KR_2X1);
         MODE_CASE(BDK_QLM_MODE_40G_KR4_1X4);
 
         case BDK_QLM_MODE_LAST: break; /* fall through error */
@@ -147,12 +152,18 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
         case BDK_QLM_MODE_SATA_4X1:
             result = "4 SATA, one lane each";
             break;
+        case BDK_QLM_MODE_SATA_2X1:
+            result = "2 SATA, one lane each";
+            break;
 
         case BDK_QLM_MODE_ILK:
             result = "Interlaken";
             break;
-        case BDK_QLM_MODE_SGMII:
-            result = "SGMII, 1 lane each";
+        case BDK_QLM_MODE_SGMII_4X1:
+            result = "4 SGMII, 1 lane each";
+            break;
+        case BDK_QLM_MODE_SGMII_2X1:
+            result = "2 SGMII, 1 lane each";
             break;
         case BDK_QLM_MODE_XAUI_1X4:
             result = "1 XAUI, 4 lanes";
@@ -160,17 +171,26 @@ const char *bdk_qlm_mode_tostring(bdk_qlm_modes_t mode)
         case BDK_QLM_MODE_RXAUI_2X2:
             result = "2 RXAUI, 2 lanes each";
             break;
+        case BDK_QLM_MODE_RXAUI_1X2:
+            result = "1 RXAUI, 2 lanes each";
+            break;
         case BDK_QLM_MODE_OCI:
             result = "Cavium Coherent Processor Interconnect";
             break;
         case BDK_QLM_MODE_XFI_4X1:
             result = "4 XFI, 1 lane each";
             break;
+        case BDK_QLM_MODE_XFI_2X1:
+            result = "2 XFI, 1 lane each";
+            break;
         case BDK_QLM_MODE_XLAUI_1X4:
             result = "1 XLAUI, 4 lanes";
             break;
         case BDK_QLM_MODE_10G_KR_4X1:
             result = "4 10GBASE-KR, 1 lane each";
+            break;
+        case BDK_QLM_MODE_10G_KR_2X1:
+            result = "2 10GBASE-KR, 1 lane each";
             break;
         case BDK_QLM_MODE_40G_KR4_1X4:
             result = "1 40GBASE-KR4, 4 lanes";

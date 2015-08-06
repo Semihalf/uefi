@@ -20,15 +20,20 @@ typedef enum
     BDK_QLM_MODE_PCIE_1X8,  /* 1 PCIe, 8 lanes */
 
     BDK_QLM_MODE_SATA_4X1,  /* SATA, each lane independent (cn88xx) */
+    BDK_QLM_MODE_SATA_2X1,  /* SATA, each lane independent (cn83xx) */
 
     BDK_QLM_MODE_ILK,           /* ILK 4 lanes (cn78xx) */
-    BDK_QLM_MODE_SGMII,         /* SGMII, each lane independent (cn88xx) */
+    BDK_QLM_MODE_SGMII_4X1,     /* SGMII, each lane independent (cn88xx) */
+    BDK_QLM_MODE_SGMII_2X1,     /* SGMII, each lane independent (cn83xx) */
     BDK_QLM_MODE_XAUI_1X4,      /* 1 XAUI or DXAUI, 4 lanes (cn88xx), use gbaud to tell difference */
-    BDK_QLM_MODE_RXAUI_2X2,     /* 2 RXAUI, 2 lanes each (cn78xx) */
+    BDK_QLM_MODE_RXAUI_2X2,     /* 2 RXAUI, 2 lanes each (cn88xx) */
+    BDK_QLM_MODE_RXAUI_1X2,     /* 1 RXAUI, 2 lanes each (cn83xx) */
     BDK_QLM_MODE_OCI,           /* OCI Multichip interconnect (cn88xx) */
     BDK_QLM_MODE_XFI_4X1,       /* 4 XFI, 1 lane each (cn88xx) */
+    BDK_QLM_MODE_XFI_2X1,       /* 2 XFI, 1 lane each (cn83xx) */
     BDK_QLM_MODE_XLAUI_1X4,     /* 1 XLAUI, 4 lanes each (cn88xx) */
     BDK_QLM_MODE_10G_KR_4X1,    /* 4 10GBASE-KR, 1 lane each (cn88xx) */
+    BDK_QLM_MODE_10G_KR_2X1,    /* 2 10GBASE-KR, 1 lane each (cn83xx) */
     BDK_QLM_MODE_40G_KR4_1X4,   /* 1 40GBASE-KR4, 4 lanes each (cn88xx) */
     BDK_QLM_MODE_LAST,
 } bdk_qlm_modes_t;

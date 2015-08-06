@@ -89,7 +89,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
 
     switch (qlm_mode)
     {
-        case BDK_QLM_MODE_SGMII:
+        case BDK_QLM_MODE_SGMII_4X1:
             priv->num_port = 4;
             priv->mode = BGX_MODE_SGMII;
             break;

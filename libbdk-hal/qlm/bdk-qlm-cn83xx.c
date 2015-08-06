@@ -211,7 +211,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             BDK_CSR_INIT(spux_br_pmd_control, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0));
             switch (cmrx_config.s.lmac_type)
             {
-                case 0x0: return BDK_QLM_MODE_SGMII;
+                case 0x0: return BDK_QLM_MODE_SGMII_4X1;
                 case 0x1: return BDK_QLM_MODE_XAUI_1X4; /* Doesn't differentiate between XAUI and DXAUI */
                 case 0x2: return BDK_QLM_MODE_RXAUI_2X2;
                 case 0x3:
@@ -953,7 +953,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             /* SATA initialization is different than BGX. Call its init function
                and skip the rest of this routine */
             return qlm_set_sata(node, qlm, mode, baud_mhz, flags);
-        case BDK_QLM_MODE_SGMII:
+        case BDK_QLM_MODE_SGMII_4X1:
             lmac_type = 0; /* SGMII */
             is_bgx = 1;
             lane_mode = get_lane_mode_for_speed_and_ref_clk("SGMII", qlm, ref_clk, baud_mhz);
@@ -1581,7 +1581,7 @@ static int qlm_auto_config(bdk_node_t node)
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
     {
         printf("N%d: QLM Config: Configuring QLMs for a sample setup\n", node);
-        bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_SGMII, 1250, 0);
+        bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_SGMII_4X1, 1250, 0);
         bdk_qlm_set_mode(node, 1, BDK_QLM_MODE_XAUI_1X4, 6250, 0);
         bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_PCIE_1X8, 8000, 0);
         bdk_qlm_set_mode(node, 4, BDK_QLM_MODE_PCIE_1X4, 5000, 0);
@@ -1661,7 +1661,7 @@ static int qlm_auto_config(bdk_node_t node)
                 qlm_mode = (width == 8) ? BDK_QLM_MODE_PCIE_1X8 : BDK_QLM_MODE_PCIE_1X4;
                 break;
             case 0x1000: /* SGMII */
-                qlm_mode = BDK_QLM_MODE_SGMII;
+                qlm_mode = BDK_QLM_MODE_SGMII_4X1;
                 break;
             case 0x2000: /* XAUI */
                 qlm_mode = BDK_QLM_MODE_XAUI_1X4;
