@@ -93,7 +93,7 @@ static void qlm_tune(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mh
  *
  * @return QLM number. Dies on a fatal error on failure.
  */
-static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface)
+static int qlm_get_qlm_num(bdk_node_t node, bdk_if_t iftype, int interface, int index)
 {
     switch (iftype)
     {

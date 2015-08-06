@@ -91,7 +91,7 @@ typedef struct
     int (*set_mode)(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud_mhz, bdk_qlm_mode_flags_t flags);
     int (*get_gbaud_mhz)(bdk_node_t node, int qlm);
     int (*measure_refclock)(bdk_node_t node, int qlm);
-    int (*get_qlm_num)(bdk_node_t node, bdk_if_t iftype, int interface);
+    int (*get_qlm_num)(bdk_node_t node, bdk_if_t iftype, int interface, int index);
     int (*reset)(bdk_node_t node, int qlm);
     int (*enable_prbs)(bdk_node_t node, int qlm, int prbs, bdk_qlm_direction_t dir);
     uint64_t (*get_prbs_errors)(bdk_node_t node, int qlm, int lane, int clear);
@@ -219,10 +219,14 @@ extern int bdk_qlm_measure_clock(bdk_node_t node, int qlm);
  * @param node      Node to use in a Numa setup
  * @param iftype    Interface type
  * @param interface Interface index number
+ * @param index     Port on the interface. Most chips use the
+ *                  same mode for all ports, but there are
+ *                  exceptions. For example, BGX2 on CN83XX
+ *                  spans two DLMs.
  *
  * @return QLM number or -1 on failure
  */
-extern int bdk_qlm_get(bdk_node_t node, bdk_if_t iftype, int interface);
+extern int bdk_qlm_get(bdk_node_t node, bdk_if_t iftype, int interface, int index);
 
 /**
  * Reset a QLM to its initial state

@@ -636,7 +636,7 @@ void boot_init_pci()
             for (int p = 0; p < bdk_pcie_get_num_ports(n); p++)
             {
                 /* Only init PCIe that are attached to QLMs */
-                if (bdk_qlm_get(n, BDK_IF_PCIE, p) != -1)
+                if (bdk_qlm_get(n, BDK_IF_PCIE, p, 0) != -1)
                 {
                     BDK_TRACE(BOOT_STUB, "Initializing PCIe%d on Node %d\n", p, n);
                     bdk_pcie_rc_initialize(n, p);

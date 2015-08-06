@@ -80,7 +80,7 @@ static bdk_if_handle_t global_handle_table[128];
 static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *priv)
 {
     memset(priv, 0, sizeof(*priv));
-    int qlm = bdk_qlm_get(node, BDK_IF_BGX, interface);
+    int qlm = bdk_qlm_get(node, BDK_IF_BGX, interface, index);
     if (qlm < 0)
         return;
 
@@ -834,7 +834,7 @@ static int xaui_link(bdk_if_handle_t handle)
         if ((priv->mode == BGX_MODE_XFI) || (priv->mode == BGX_MODE_XLAUI) ||
             (priv->mode == BGX_MODE_DXAUI))
         {
-            int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
+            int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface, handle->index);
             int lane = -1; /* Default to all lanes */
             if (priv->mode == BGX_MODE_XFI) /* XFI affects only one lane */
                 lane = handle->index;
@@ -843,7 +843,7 @@ static int xaui_link(bdk_if_handle_t handle)
         else if (priv->mode == BGX_MODE_RXAUI)
         {
             /* We need to do two lanes for RXAUI */
-            int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
+            int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface, handle->index);
             int lane = handle->index * 2;
             bdk_qlm_rx_equalization(handle->node, qlm, lane);
             bdk_qlm_rx_equalization(handle->node, qlm, lane+1);
@@ -1394,7 +1394,7 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
 
     result.u64 = 0;
 
-    int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
+    int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface, handle->index);
     int speed = bdk_qlm_get_gbaud_mhz(handle->node, qlm) * 8 / 10;
 
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
@@ -1509,7 +1509,7 @@ static bdk_if_link_t if_link_get_xaui(bdk_if_handle_t handle)
 
     if (link_up)
     {
-        int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface);
+        int qlm = bdk_qlm_get(handle->node, BDK_IF_BGX, handle->interface, handle->index);
         result.s.lanes = 4 / priv->num_port;
         result.s.up = 1;
         result.s.full_duplex = 1;

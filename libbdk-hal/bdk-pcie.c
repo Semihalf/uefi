@@ -494,7 +494,7 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
         c.s.fere = 1); /* Fatal error reporting enable. */
 
     /* Make sure the PEM agrees with GSERX about the speed its going to try */
-    const int qlm = bdk_qlm_get(node, BDK_IF_PCIE, pcie_port);
+    const int qlm = bdk_qlm_get(node, BDK_IF_PCIE, pcie_port, 0);
     const int gbaud = bdk_qlm_get_gbaud_mhz(node, qlm);
     switch (gbaud)
     {
@@ -693,7 +693,7 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
  */
 int bdk_pcie_rc_initialize(bdk_node_t node, int pcie_port)
 {
-    const int qlm = bdk_qlm_get(node, BDK_IF_PCIE, pcie_port);
+    const int qlm = bdk_qlm_get(node, BDK_IF_PCIE, pcie_port, 0);
     if (qlm < 0)
     {
         bdk_error("N%d.PCIe%d: QLM not in PCIe mode.\n", node, pcie_port);

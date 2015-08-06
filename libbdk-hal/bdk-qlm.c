@@ -28,19 +28,23 @@ int bdk_qlm_get_num(bdk_node_t node)
 }
 
 /**
- * Lookup the hardware QLM number for a given interface type and index. This
- * function will fail with a fatal error if called on invalid interfaces for
- * a chip. It returns the QLM number for an interface without checking to
- * see if the QLM is in hte correct mode.
+ * Lookup the hardware QLM number for a given interface type and
+ * index. If the associated interface doesn't map to a QLM,
+ * returns -1.
  *
+ * @param node      Node to use in a Numa setup
  * @param iftype    Interface type
  * @param interface Interface index number
+ * @param index     Port on the interface. Most chips use the
+ *                  same mode for all ports, but there are
+ *                  exceptions. For example, BGX2 on CN83XX
+ *                  spans two DLMs.
  *
- * @return QLM number. Dies on a fatal error on failure.
+ * @return QLM number or -1 on failure
  */
-int bdk_qlm_get(bdk_node_t node, bdk_if_t iftype, int interface)
+int bdk_qlm_get(bdk_node_t node, bdk_if_t iftype, int interface, int index)
 {
-    return qlm_ops->get_qlm_num(node, iftype, interface);
+    return qlm_ops->get_qlm_num(node, iftype, interface, index);
 }
 
 /**
