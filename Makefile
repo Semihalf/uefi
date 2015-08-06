@@ -15,8 +15,8 @@ all: version
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-1s
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-2s
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800
-	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804 # REMOVE-RELEASE
-	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800
+	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804
+	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 # REMOVE-RELEASE
 
 #
 # Split docs out from all to allow build to reach tftp when docs fails.
@@ -35,7 +35,7 @@ clean:
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800 clean
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804 clean
 	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 clean # REMOVE-RELEASE
-	$(MAKE) -C docs clean # REMOVE-RELEASE
+	$(MAKE) -C docs clean
 	rm -f target-bin/*.bin
 
 .PHONY: distclean
