@@ -254,6 +254,14 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
     /* Set the default pause interval as the hardware default is too short */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SMUX_TX_PAUSE_PKT_TIME(handle->interface, handle->index),
             c.s.p_time = 0x100);
+
+    /* For RXAUI, We're using a Marvel PHY on the plugin modules. The code
+       below programs all BGXs to use "Interleaved running disparity", which
+       is required for these PHYs. This will need to be changed if PHYs are
+       used that expect "Common running disparity". */
+    BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_MISC_CONTROL(handle->interface, handle->index),
+        c.s.intlv_rdisp = 1);
+
     return 0;
 }
 

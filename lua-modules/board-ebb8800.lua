@@ -24,16 +24,6 @@ set_config(cavium.CONFIG_PHY_IF1_PORT1, 0xff000105)
 set_config(cavium.CONFIG_PHY_IF1_PORT2, 0xff000106)
 set_config(cavium.CONFIG_PHY_IF1_PORT3, 0xff000107)
 
--- For RXAUI, We're using a Marvel PHY on the plugin modules. The code below
--- programs all BGXs to use "Interleaved running disparity", which is required
--- for these PHYs. This will need to be changed if PHYs are used that expect
--- "Common running disparity".
-for bgx=0,1 do
-    for i=0,1 do
-        cavium.csr[cavium.MASTER_NODE].BGXX_SPUX_MISC_CONTROL(bgx,i).intlv_rdisp = 1
-    end
-end
-
 --------------------------------------------------------------
 -- Configuring QLMs in Lua code
 --------------------------------------------------------------
