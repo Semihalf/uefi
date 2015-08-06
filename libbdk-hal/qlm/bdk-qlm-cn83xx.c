@@ -661,45 +661,52 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     int lane_mode = 0xf;
     int lmac_type = -1;
     int is_pcie = 0;
-    int is_sata = 0;
     int is_ilk = 0;
     int is_bgx = 0;
-    int bgx_block = (qlm < 2) ? qlm : -1;
+    int bgx_block;
+    int bgx_index;
 
-    /* Disable QLMs that are affected by the QLM we're working on */
     switch (qlm)
     {
         case 2:
-        case 4:
-        case 6:
-            /* When reconfiguring QLM that are the first of 8 pcie lanes, disable the
-               second set as their config will change too */
-            if ((mode != BDK_QLM_MODE_PCIE_1X8) &&
-                (qlm_get_mode(node, qlm + 1) == BDK_QLM_MODE_PCIE_1X8))
-                BDK_CSR_WRITE(node, BDK_GSERX_CFG(qlm + 1), 0);
+            bgx_block = 0;
+            bgx_index = 1;
             break;
         case 3:
-        case 5:
-        case 7:
-            /* When reconfiguring QLM that are the second of 8 pcie lanes, disable the
-               first set as their config will change too */
-            if ((mode != BDK_QLM_MODE_PCIE_1X8) &&
-                (qlm_get_mode(node, qlm - 1) == BDK_QLM_MODE_PCIE_1X8))
-                BDK_CSR_WRITE(node, BDK_GSERX_CFG(qlm - 1), 0);
+            bgx_block = 1;
+            bgx_index = 1;
+            break;
+        case 4:
+            bgx_block = 3;
+            bgx_index = 1;
+            break;
+        case 5 ... 6:
+            bgx_block = 2;
+            bgx_index = (qlm == 5) ? 1 : 3;
+            break;
+        default:
+            bgx_block = -1;
+            bgx_index = -1;
             break;
     }
 
     int measured_ref = bdk_qlm_measure_clock(node, qlm);
-    int ref_clk = __bdk_qlm_round_refclock(measured_ref);
+    int ref_clk = (mode == BDK_QLM_MODE_DISABLED) ? 0 : __bdk_qlm_round_refclock(measured_ref);
+
+    /* In simulation, override the reference clock for QLM/DLM that are
+       used for BGX*/
+    if (bdk_is_platform(BDK_PLATFORM_ASIM) && (qlm > 1) && (qlm != 4))
+        ref_clk = REF_156MHZ;
+
+    /* Clear the KR mode flag. It will be set below if necessary */
+    kr_mode[node][qlm] = 0;
 
     switch (mode)
     {
+        case BDK_QLM_MODE_PCIE_1X2:
         case BDK_QLM_MODE_PCIE_1X4:
         case BDK_QLM_MODE_PCIE_1X8:
         {
-            /* Force a 100Mhz clock on PCIe */
-            if (bdk_is_platform(BDK_PLATFORM_ASIM))
-                ref_clk = REF_100MHZ;
             /* Note: PCIe ignores baud_mhz. Use the GEN 1/2/3 flags
                to control speed */
             is_pcie = 1;
@@ -707,9 +714,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             {
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
                     c.s.pcie_refclk125 = 0);
-                if (baud_mhz == 2500)
+                if (baud_mhz < 5000)
                     lane_mode = BDK_GSER_LMODE_E_R_25G_REFCLK100;
-                else if (baud_mhz == 5000)
+                else if (baud_mhz < 8000)
                     lane_mode = BDK_GSER_LMODE_E_R_5G_REFCLK100;
                 else
                     lane_mode = BDK_GSER_LMODE_E_R_8G_REFCLK100;
@@ -718,9 +725,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             {
                 BDK_CSR_MODIFY(c, node, BDK_GSERX_REFCLK_SEL(qlm),
                     c.s.pcie_refclk125 = 1);
-                if (baud_mhz == 2500)
+                if (baud_mhz < 5000)
                     lane_mode = BDK_GSER_LMODE_E_R_25G_REFCLK125;
-                else if (baud_mhz == 5000)
+                else if (baud_mhz < 8000)
                     lane_mode = BDK_GSER_LMODE_E_R_5G_REFCLK125;
                 else
                     lane_mode = BDK_GSER_LMODE_E_R_8G_REFCLK125;
@@ -731,28 +738,28 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 return -1;
             }
             int cfg_md;
-            if (baud_mhz == 2500)
+            if (baud_mhz < 5000)
                 cfg_md = 0; /* Gen1 Speed */
-            else if (baud_mhz == 5000)
+            else if (baud_mhz < 8000)
                 cfg_md = 1; /* Gen2 Speed */
             else
                 cfg_md = 2; /* Gen3 Speed */
             switch (qlm)
             {
-                case 2: /* Either x4 or x8 based on PEM0 */
+                case 0: /* Either x4 or x8 based on PEM0 */
                     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(0),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 0, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(0),
                         c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X8);
-                        //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                        // FIXME: c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         c.s.md = cfg_md);
                     /* x8 mode waits for QLM1 setup before turning on the PEM */
                     if (mode == BDK_QLM_MODE_PCIE_1X4)
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(0),
                             c.s.pemon = 1);
                     break;
-                case 3: /* Either PEM0 x8 or PEM1 x4 */
+                case 1: /* Either PEM0 x8 or PEM1 x4 */
                     if (mode == BDK_QLM_MODE_PCIE_1X8)
                     {
                         /* Last 4 lanes of PEM0 */
@@ -766,34 +773,39 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                         BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(1),
                             c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                         __bdk_qlm_setup_pem_reset(node, 1, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(0),
-                            c.s.lanes8 = 0);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(1),
                             c.s.lanes8 = 0;
-                            //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                            // FIXME: c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                             c.s.md = cfg_md);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(1),
                             c.s.pemon = 1);
                     }
                     break;
-                case 4: /* Either PEM2 x4 or PEM2 x8 */
+                case 2: /* Either PEM2 x4 or PEM2 x8 */
+                    // FIXME: BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(2),
+                        //c.s.pemdlmsel = 0); /* PEM2 is on QLM2 */
                     BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(2),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                     __bdk_qlm_setup_pem_reset(node, 2, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                     BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(2),
                         c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X8);
-                        //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                        // FIXME: c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         c.s.md = cfg_md);
                     /* x8 mode waits for QLM3 setup before turning on the PEM */
                     if (mode == BDK_QLM_MODE_PCIE_1X4)
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2),
                             c.s.pemon = 1);
+                    /* GSER5 can't be PCIe */
+                    BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(5), c.s.pcie = 0);
                     break;
-                case 5: /* Either PEM2 x8, or PEM3 x4 */
+                case 3: /* Either PEM2 x8, or PEM3 x4 */
                 {
-                    if (mode == BDK_QLM_MODE_PCIE_1X8)
+                    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(2));
+                    if (pemx_cfg.s.lanes8)
                     {
                         /* Last 4 lanes of PEM2 */
+                        // FIXME: BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(3),
+                            //c.s.pemdlmsel = 1); /* PEM3 can only be on DLM6 */
                         /* PEMX_CFG already setup */
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2),
                             c.s.pemon = 1);
@@ -801,74 +813,61 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                     else
                     {
                         /* Four lanes of PEM3 */
+                        // FIXME: BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(3),
+                            //c.s.pemdlmsel = 0); /* PEM3 is on QLM3 */
                         BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(3),
                             c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
                         __bdk_qlm_setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(2),
-                            c.s.lanes8 = 0);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(3),
                             c.s.lanes8 = 0;
-                            //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                            // FIXME: c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                             c.s.md = cfg_md);
                         BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
                             c.s.pemon = 1);
+                        /* GSER6 can't be PCIe */
+                        BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(6), c.s.pcie = 0);
                     }
                     break;
                 }
-                case 6: /* Either PEM4 x4 or PEM4 x8 */
-                    BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(4),
+                case 5: /* PEM2 x2 on DLM5 */
+                    // FIXME: BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(2),
+                        //c.s.pemdlmsel = 1); /* PEM2 is on DLM5 */
+                    BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(2),
                         c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
-                    __bdk_qlm_setup_pem_reset(node, 4, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
-                    BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(4),
-                        c.s.lanes8 = (mode == BDK_QLM_MODE_PCIE_1X8);
-                        //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                    __bdk_qlm_setup_pem_reset(node, 2, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                    BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(2),
+                        c.s.lanes8 = 0;
+                        // FIXME: c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
                         c.s.md = cfg_md);
-                    /* x8 mode waits for QLM1 setup before turning on the PEM */
-                    if (mode == BDK_QLM_MODE_PCIE_1X4)
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(4),
-                            c.s.pemon = 1);
+                    BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(2),
+                        c.s.pemon = 1);
+                    /* GSER2 can't be PCIe */
+                    BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(2), c.s.pcie = 0);
                     break;
-                case 7: /* PEM4 x8 */
-                    if (mode == BDK_QLM_MODE_PCIE_1X8)
-                    {
-                        /* Last 4 lanes of PEM4 */
-                        /* PEMX_CFG already setup */
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(4),
-                            c.s.pemon = 1);
-                    }
-                    else
-                    {
-                        /* Four lanes of PEM5 */
-                        BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(5),
-                            c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
-                        __bdk_qlm_setup_pem_reset(node, 5, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(4),
-                            c.s.lanes8 = 0);
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(5),
-                            c.s.lanes8 = 0;
-                            //c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
-                            c.s.md = cfg_md);
-                        BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(5),
-                            c.s.pemon = 1);
-                    }
+                case 6: /* PEM3 x2 on DLM6 */
+                    // FIXME: BDK_CSR_MODIFY(c, node, BDK_PEMX_QLM(3),
+                        //c.s.pemdlmsel = 1); /* PEM3 is on DLM6 */
+                    BDK_CSR_MODIFY(c, node, BDK_RST_SOFT_PRSTX(3),
+                        c.s.soft_prst = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT));
+                    __bdk_qlm_setup_pem_reset(node, 3, flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                    BDK_CSR_MODIFY(c, node, BDK_PEMX_CFG(3),
+                        c.s.lanes8 = 0;
+                        // FIXME: c.s.hostmd = !(flags & BDK_QLM_MODE_FLAG_ENDPOINT);
+                        c.s.md = cfg_md);
+                    BDK_CSR_MODIFY(c, node, BDK_PEMX_ON(3),
+                        c.s.pemon = 1);
+                    /* GSER3 can't be PCIe unless pem2 is x8 */
+                    BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(2));
+                    if (!pemx_cfg.s.lanes8)
+                        BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(3), c.s.pcie = 0);
                     break;
                 default:
                     return -1;
             }
             break;
         }
-        case BDK_QLM_MODE_ILK:
-            is_ilk = 1;
-            lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("ILK", qlm, ref_clk, baud_mhz);
-            if (lane_mode == -1)
-                return -1;
-            break;
-        case BDK_QLM_MODE_SATA_4X1:
-            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm), c.s.lmode = BDK_GSER_LMODE_E_R_8G_REFCLK100);
-            /* SATA initialization is different than BGX. Call its init function
-               and skip the rest of this routine */
-            return qlm_set_sata(node, qlm, mode, baud_mhz, flags);
         case BDK_QLM_MODE_SGMII_4X1:
+        case BDK_QLM_MODE_SGMII_2X1:
             lmac_type = 0; /* SGMII */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("SGMII", qlm, ref_clk, baud_mhz);
@@ -883,6 +882,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 return -1;
             break;
         case BDK_QLM_MODE_RXAUI_2X2:
+        case BDK_QLM_MODE_RXAUI_1X2:
             lmac_type = 2; /* RXAUI */
             is_bgx = 3;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("RXAUI", qlm, ref_clk, baud_mhz);
@@ -890,13 +890,12 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
                 return -1;
             break;
         case BDK_QLM_MODE_XFI_4X1:
+        case BDK_QLM_MODE_XFI_2X1:
             lmac_type = 3; /* 10G_R */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("XFI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
-            /* Disable training. We use this to tell the difference between 10GBASE-KR and XFI */
-            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 0);
             break;
         case BDK_QLM_MODE_XLAUI_1X4:
             lmac_type = 4; /* 40G_R */
@@ -904,17 +903,20 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("XLAUI", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
-            /* Disable training. We use this to tell the difference between 40GBASE-KR4 and XLAUI */
-            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 0);
             break;
         case BDK_QLM_MODE_10G_KR_4X1:
+        case BDK_QLM_MODE_10G_KR_2X1:
             lmac_type = 3; /* 10G_R */
             is_bgx = 1;
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("10G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
-            /* Enable training. We use this to tell the difference between 10GBASE-KR and XFI */
-            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 1);
+            /* Remember we are in KR mode */
+            kr_mode[node][qlm] = 1;
+            /* Errata (GSER-26636) KR training coefficient update inverted */
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
+                c.s.rx_precorr_chg_dir = 1;
+                c.s.rx_tap1_chg_dir = 1);
             break;
         case BDK_QLM_MODE_40G_KR4_1X4:
             lmac_type = 4; /* 40G_R */
@@ -922,9 +924,18 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             lane_mode = __bdk_qlm_get_lane_mode_for_speed_and_ref_clk("40G-KR", qlm, ref_clk, baud_mhz);
             if (lane_mode == -1)
                 return -1;
-            /* Enable training. We use this to tell the difference between 40GBASE-KR4 and XLAUI */
-            BDK_CSR_MODIFY(c, node, BDK_BGXX_SPUX_BR_PMD_CONTROL(bgx_block, 0), c.s.train_en = 1);
+            /* Remember we are in KR mode */
+            kr_mode[node][qlm] = 1;
+            /* Errata (GSER-26636) KR training coefficient update inverted */
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_RX_TXDIR_CTRL_1(qlm),
+                c.s.rx_precorr_chg_dir = 1;
+                c.s.rx_tap1_chg_dir = 1);
             break;
+        case BDK_QLM_MODE_SATA_2X1:
+            BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm), c.s.lmode = BDK_GSER_LMODE_E_R_8G_REFCLK100);
+            /* SATA initialization is different than BGX. Call its init function
+               and skip the rest of this routine */
+            return qlm_set_sata(node, qlm, mode, baud_mhz, flags);
         case BDK_QLM_MODE_DISABLED:
             /* Set gser for the interface mode */
             BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(qlm),
@@ -945,7 +956,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
 
     /* Set gser for the interface mode */
     BDK_CSR_MODIFY(c, node, BDK_GSERX_CFG(qlm),
-        c.s.sata = is_sata;
         c.s.ila = is_ilk;
         c.s.bgx = is_bgx & 1;
         c.s.bgx_quad = (is_bgx >> 2) & 1;
@@ -959,7 +969,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* LMAC type. We only program one port as the full setup is done in BGX */
     if (lmac_type != -1)
     {
-        BDK_CSR_MODIFY(c, node, BDK_BGXX_CMRX_CONFIG(bgx_block, 0),
+        BDK_CSR_MODIFY(c, node, BDK_BGXX_CMRX_CONFIG(bgx_block, bgx_index),
             c.s.enable = 0;
             c.s.lmac_type = lmac_type);
     }
@@ -968,29 +978,26 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     BDK_CSR_MODIFY(c, node, BDK_GSERX_PHY_CTL(qlm),
         c.s.phy_reset = 0);
 
-    /* Wait 250 ns until the management interface is ready to accept
+    /* Wait 1us until the management interface is ready to accept
        read/write commands.*/
     bdk_wait_usec(1);
+
+    /* PCIe mode doesn't become ready until the PEM block attempts to bring
+       the interface up. Skip this check for PCIe */
+    if (!is_pcie && BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
+    {
+        bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
+        return -1;
+    }
 
     /* Configure the gser pll */
     __bdk_qlm_init_mode_table(node, qlm);
 
-    if (!bdk_is_platform(BDK_PLATFORM_ASIM))
+    /* Wait for reset to complete and the PLL to lock */
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_PLL_STAT(qlm), pll_lock, ==, 1, 10000))
     {
-        /* Wait for reset to complete and the PLL to lock */
-        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_PLL_STAT(qlm), pll_lock, ==, 1, 10000))
-        {
-            bdk_error("QLM%d: Timeout waiting for GSERX_PLL_STAT[pll_lock]\n", qlm);
-            return -1;
-        }
-
-        /* PCIe mode doesn't become ready until the PEM block attempts to bring
-           the interface up. Skip this check for PCIe */
-        if (!is_pcie && BDK_CSR_WAIT_FOR_FIELD(node, BDK_GSERX_QLM_STAT(qlm), rst_rdy, ==, 1, 10000))
-        {
-            bdk_error("QLM%d: Timeout waiting for GSERX_QLM_STAT[rst_rdy]\n", qlm);
-            return -1;
-        }
+        bdk_error("QLM%d: Timeout waiting for GSERX_PLL_STAT[pll_lock]\n", qlm);
+        return -1;
     }
 
     /* cdrlock will be checked in the BGX */
@@ -1004,12 +1011,27 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     {
         switch (qlm)
         {
+            case 0:
             case 2:
-            case 4:
-            case 6:
+                /* Use the same reference clock for the second QLM */
+                BDK_CSR_WRITE(node, BDK_GSERX_REFCLK_SEL(qlm + 1),
+                    BDK_CSR_READ(node, BDK_GSERX_REFCLK_SEL(qlm)));
                 return bdk_qlm_set_mode(node, qlm + 1, mode, baud_mhz, flags);
         }
     }
+
+    /* If we're setting up the first DLM of a 4 lane interface on DLM5-6, go
+       ahead and setup the other inteface automatically */
+    if ((qlm == 5) && ((mode == BDK_QLM_MODE_XAUI_1X4) ||
+                       (mode == BDK_QLM_MODE_XLAUI_1X4) ||
+                       (mode == BDK_QLM_MODE_40G_KR4_1X4)))
+    {
+        /* Use the same reference clock for the second DLM */
+        BDK_CSR_WRITE(node, BDK_GSERX_REFCLK_SEL(qlm + 1),
+            BDK_CSR_READ(node, BDK_GSERX_REFCLK_SEL(qlm)));
+        return bdk_qlm_set_mode(node, qlm + 1, mode, baud_mhz, flags);
+    }
+
     return 0;
 }
 
