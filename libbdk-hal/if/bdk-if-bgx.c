@@ -361,20 +361,26 @@ static int if_probe(bdk_if_handle_t handle)
     return 0;
 }
 
+static int get_phy_address(bdk_if_handle_t handle)
+{
+    return (int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + handle->interface * 4 + handle->index);
+}
+
 static int sgmii_link(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
     const int bgx_index = handle->index;
+    int phy_address = get_phy_address(handle);
 
     int forced_speed_mbps = 0;  /* Default to no forced speed, use autonegotiation */
     /* Check for special PHY address values that indicate a forced speed, and no MDIO
        connection to the PHY.  In these cases we will also force the SGMII speed, and not
        do SGMII autonegotiation. Only 1000/100 Mbits/second are supported.*/
-    if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index) == 0x1000))
+    if (phy_address == 0x1000)
         forced_speed_mbps = 1000;
-    else if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index) == 0x1001))
+    else if (phy_address == 0x1001)
         forced_speed_mbps = 100;
-    else if ((((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index) & BDK_IF_PHY_TYPE_MASK) == BDK_IF_PHY_TWSI))
+    else if ((phy_address & BDK_IF_PHY_TYPE_MASK) == BDK_IF_PHY_TWSI)
         forced_speed_mbps = 1000;
 
     /* Take PCS through a reset sequence.
@@ -455,8 +461,8 @@ static int sgmii_link(bdk_if_handle_t handle)
     }
     else
     {
-        if (((int)bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index) == -1) &&
-            !pcs_miscx_ctl.s.mac_phy)
+        int phy_address = get_phy_address(handle);
+        if ((phy_address == -1) && !pcs_miscx_ctl.s.mac_phy)
         {
             bdk_warn("%s: Forcing PHY mode as PHY address is not set\n", handle->name);
             pcs_miscx_ctl.s.mac_phy = 1;
@@ -615,10 +621,10 @@ static int setup_auto_neg(bdk_if_handle_t handle)
         c.s.rf = 0);
 
     /* 3. Set BGX(0..5)_SPU_DBG_CONTROL[AN_ARB_LINK_CHK_EN] = 1. */
-    /* Errata (BGX-22994) BGX SPU always picks the same value for XMTTED_NONCE */
+    /* This needs to be set if any port on the BGX uses AN */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPU_DBG_CONTROL(bgx_block),
-        c.s.an_nonce_match_dis=1; /* Needed for loopback and BGX-22994 */
-        c.s.an_arb_link_chk_en = use_auto_neg);
+        c.s.an_nonce_match_dis=1; /* Needed for loopback */
+        c.s.an_arb_link_chk_en |= use_auto_neg);
 
     /* 4. Execute the link bring-up sequence in Section 33.6.3. */
     /* Done after this function is called */
@@ -802,15 +808,9 @@ static int xaui_link(bdk_if_handle_t handle)
         BDK_CSR_INIT(spux_an_control, handle->node, BDK_BGXX_SPUX_AN_CONTROL(bgx_block, bgx_index));
         if (spux_an_control.s.an_en)
         {
-            BDK_CSR_INIT(spux_int, handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
-            if (!spux_int.s.an_link_good)
+            BDK_CSR_INIT(an_status, handle->node, BDK_BGXX_SPUX_AN_STATUS(bgx_block, bgx_index));
+            if (!an_status.s.an_complete)
             {
-                /* Clear the auto negotiation (W1C) */
-                spux_int.u = 0;
-                spux_int.s.an_complete = 1;
-                spux_int.s.an_link_good = 1;
-                spux_int.s.an_page_rx = 1;
-                BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index), spux_int.u);
                 /* Restart auto negotiation */
                 BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_SPUX_AN_CONTROL(bgx_block, bgx_index),
                     c.s.an_restart = 1);
@@ -899,6 +899,8 @@ static int xaui_link(bdk_if_handle_t handle)
                 BDK_CSR_INIT(spux_int, handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index));
                 if (!spux_int.s.training_done)
                     restart_training(handle);
+                else /* Clear everything and restart */
+                    BDK_CSR_WRITE(handle->node, BDK_BGXX_SPUX_INT(bgx_block, bgx_index), spux_int.u);
             }
             return -1;
         }
@@ -1394,6 +1396,13 @@ static int if_disable(bdk_if_handle_t handle)
     return 0;
 }
 
+/**
+ * Get SGMII link speed
+ *
+ * @param handle
+ *
+ * @return
+ */
 static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
 {
     const int bgx_block = handle->interface;
@@ -1481,9 +1490,8 @@ static bdk_if_link_t if_link_get_sgmii(bdk_if_handle_t handle)
         }
         else /* MAC Mode */
         {
-            /* Force the PHY address to be for the same node the interface is on */
-            int phy = bdk_config_get(BDK_CONFIG_PHY_IF0_PORT0 + bgx_block*4 + bgx_index);
-            result = __bdk_if_phy_get(handle->node, phy);
+            int phy_address = get_phy_address(handle);
+            result = __bdk_if_phy_get(handle->node, phy_address);
         }
     }
     return result;
