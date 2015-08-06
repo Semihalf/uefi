@@ -1057,10 +1057,10 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
         int pem;
         switch (qlm)
         {
-            case 2: /* Either PEM0 x4 or PEM0 x8 */
+            case 0: /* Either PEM0 x4 or PEM0 x8 */
                 pem = 0;
                 break;
-            case 3: /* Either PEM0 x8 or PEM1 x4 */
+            case 1: /* Either PEM0 x8 or PEM1 x4 */
             {
                 BDK_CSR_INIT(pemx_cfg, node, BDK_PEMX_CFG(0));
                 if (pemx_cfg.s.lanes8)
@@ -1069,32 +1069,30 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
                     pem = 1;
                 break;
             }
-            case 4: /* Either PEM2 x4 or PEM2 x8 */
+            case 2: /* Either PEM2 x4 or PEM2 x8 */
                 pem = 2;
                 break;
-            case 5: /* Either PEM2 x8 or PEM 3 x4 */
+            case 3: /* Either PEM2 x8 or PEM3 x4 */
             {
                 /* Can be last 4 lanes of PEM2 */
                 BDK_CSR_INIT(pem2_cfg, node, BDK_PEMX_CFG(2));
                 if (pem2_cfg.s.lanes8)
+                {
                     pem = 2;
+                }
                 else
+                {
+                    /* Not last 4 lanes of PEM2, so should surely be PEM3 */
                     pem = 3;
+                }
                 break;
             }
-            case 6: /* Either PEM4 x8 or PEM4 x4 */
-                pem = 4;
+            case 5: /* PEM2 x2 */
+                pem = 2;
                 break;
-            case 7: /* Either PEM4 x8 or PEm5 x4 */
-            {
-                /* Can be last 4 lanes of PEM4 */
-                BDK_CSR_INIT(pem4_cfg, node, BDK_PEMX_CFG(4));
-                if (pem4_cfg.s.lanes8)
-                    pem = 4;
-                else
-                    pem = 5;
+            case 6: /* PEM3 x2 */
+                pem = 3;
                 break;
-            }
             default:
                 bdk_fatal("QLM%d: In PCIe mode, which shouldn't happen\n", qlm);
         }
@@ -1105,50 +1103,32 @@ static int qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
         int sata;
         switch (qlm)
         {
-            case 2:
+            case 4:
                 sata = 0;
                 break;
-            case 3:
-                sata = 4;
+            case 5:
+                sata = 2;
                 break;
             case 6:
-                sata = 8;
-                break;
-            case 7:
-                sata = 12;
+                sata = 4;
                 break;
             default:
                 return 0;
         }
-        BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(sata));
-        if (!uctl_ctl.s.a_clk_en || uctl_ctl.s.a_clkdiv_rst)
+        BDK_CSR_INIT(sata_uctl_ctl, node, BDK_SATAX_UCTL_CTL(sata));
+        if (!sata_uctl_ctl.s.a_clk_en)
             return 0;
         BDK_CSR_INIT(sctl, node, BDK_SATAX_UAHC_P0_SCTL(sata));
         switch (sctl.s.spd)
         {
-            case 1:
-                return 1500;
-            case 2:
-                return 3000;
-            case 3:
-                return 6000;
-            default:
-                return 0;
+            case 1: return 1500;
+            case 2: return 3000;
+            case 3: return 6000;
+            default: return 0;
         }
     }
     else
-    {
-        /* Fall through to lane mode check below */
-    }
-
-    /* Show PHYs in reset as down */
-    BDK_CSR_INIT(gserx_phy_ctl, node, BDK_GSERX_PHY_CTL(qlm));
-    if (gserx_phy_ctl.s.phy_reset)
-        return 0;
-
-    /* QLM is not in PCIe, assume LMODE is good enough for determining
-       the speed */
-    return __bdk_qlm_get_gbaud_mhz_lmode(node, qlm);
+        return __bdk_qlm_get_gbaud_mhz_lmode(node, qlm);
 }
 
 /**
