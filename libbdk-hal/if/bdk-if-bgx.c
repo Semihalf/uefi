@@ -208,6 +208,8 @@ static int if_num_interfaces(bdk_node_t node)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 2;
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 2; /* FIXME: Really have 4 BGX, but CSRs not updated yet */
     else
         return 0;
 }
