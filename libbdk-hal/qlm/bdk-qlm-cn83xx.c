@@ -235,20 +235,20 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
         {
             case 2:
                 bgx = 0;
-                bgx_index = 1;
+                bgx_index = 0;
                 break;
             case 3:
                 bgx = 1;
-                bgx_index = 1;
+                bgx_index = 0;
                 break;
             case 4:
                 bgx = 3;
-                bgx_index = 1;
+                bgx_index = 0;
                 break;
             case 5:
             case 6:
                 bgx = 2;
-                bgx_index = (qlm == 5) ? 1 : 3;
+                bgx_index = (qlm == 5) ? 0 : 2;
                 if (qlm == 5)
                 {
                     /* Special check for RXAUI in DLM5. If DLM6 is XFI and there
@@ -612,19 +612,19 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     {
         case 2:
             bgx_block = 0;
-            bgx_index = 1;
+            bgx_index = 0;
             break;
         case 3:
             bgx_block = 1;
-            bgx_index = 1;
+            bgx_index = 0;
             break;
         case 4:
             bgx_block = 3;
-            bgx_index = 1;
+            bgx_index = 0;
             break;
         case 5 ... 6:
             bgx_block = 2;
-            bgx_index = (qlm == 5) ? 1 : 3;
+            bgx_index = (qlm == 5) ? 0 : 2;
             break;
         default:
             bgx_block = -1;
