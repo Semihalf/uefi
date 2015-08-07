@@ -506,7 +506,9 @@ def writeFooter(out, block=None):
 # Write all enumarations for a given block
 #
 def writeEnums(out, arch, block, enums):
-    for name in enums:
+    names = enums.keys()
+    names.sort()
+    for name in names:
         if block == enums[name]["block"] and csr_utils.isArch(arch, enums[name]):
             writeEnum(out, arch, enums[name])
 
@@ -514,7 +516,9 @@ def writeEnums(out, arch, block, enums):
 # Write all structures for a given block
 #
 def writeStructs(out, arch, block, structs):
-    for name in structs:
+    names = structs.keys()
+    names.sort()
+    for name in names:
         if block == structs[name]["block"] and csr_utils.isArch(arch, structs[name]):
             writeStruct(out, arch, structs[name])
 
@@ -522,7 +526,9 @@ def writeStructs(out, arch, block, structs):
 # Write all registers for a given block
 #
 def writeRegs(out, arch, block, regs):
-    for name in regs:
+    names = regs.keys()
+    names.sort()
+    for name in names:
         if block == regs[name]["block"] and csr_utils.isArch(arch, regs[name]):
             writeReg(out, arch, regs[name])
 
