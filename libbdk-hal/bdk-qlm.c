@@ -310,12 +310,6 @@ int bdk_qlm_get_gbaud_mhz(bdk_node_t node, int qlm)
  */
 int bdk_qlm_measure_clock(bdk_node_t node, int qlm)
 {
-    if (bdk_is_platform(BDK_PLATFORM_ASIM))
-    {
-        /* Force the reference to 156.25Mhz when running in simulation.
-            This supports the most speeds */
-        return 156250000;
-    }
     int ref_clock = qlm_ops->measure_refclock(node, qlm);
     BDK_TRACE(QLM, "N%d.QLM%d: Ref clock %d Hz\n", node, qlm, ref_clock);
     return ref_clock;

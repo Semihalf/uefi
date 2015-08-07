@@ -125,8 +125,25 @@ int __bdk_qlm_measure_refclock(bdk_node_t node, int qlm)
 {
     if (bdk_is_platform(BDK_PLATFORM_ASIM))
     {
-        /* Default reference of 100Mhz */
-        return 100000000;
+        /* Asim doesn't have reference clocks. Return reasonable values for
+           the default config we support in Asim */
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        {
+            /* BGX on QLM0-1, everything else needs a 100Mhz ref */
+            if (qlm < 2)
+                return REF_156MHZ;
+            else
+                return REF_100MHZ;
+        }
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        {
+            /* BGX on QLM2-3,5-6, everything else needs a 100Mhz ref */
+            if ((qlm == 2) || (qlm == 3) || (qlm == 5) || (qlm == 6))
+                return REF_156MHZ;
+            else
+                return REF_100MHZ;
+        }
+        return 0; /* Default to none */
     }
 
     /* Clear the counter */

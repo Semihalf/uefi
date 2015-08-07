@@ -635,11 +635,6 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     int measured_ref = bdk_qlm_measure_clock(node, qlm);
     int ref_clk = (mode == BDK_QLM_MODE_DISABLED) ? 0 : __bdk_qlm_round_refclock(measured_ref);
 
-    /* In simulation, override the reference clock for QLM/DLM that are
-       used for BGX*/
-    if (bdk_is_platform(BDK_PLATFORM_ASIM) && (qlm > 1) && (qlm != 4))
-        ref_clk = REF_156MHZ;
-
     /* Clear the KR mode flag. It will be set below if necessary */
     kr_mode[node][qlm] = 0;
 
