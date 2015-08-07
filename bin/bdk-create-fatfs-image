@@ -92,7 +92,7 @@ dd bs=64K seek=8 if=${FATFS_TMP} of=${OUT_FILE} conv=notrunc 2> /dev/null
 #    t          Change type
 #    1          FAT12
 #    w          Write changes
-fdisk ${OUT_FILE} >/dev/null <<EOF
+fdisk -c=nondos -u=sectors -C 1 ${OUT_FILE} &>/dev/null <<EOF
 n
 p
 1
