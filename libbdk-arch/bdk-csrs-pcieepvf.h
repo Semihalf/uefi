@@ -53,344 +53,458 @@
  */
 
 /**
- * Register (PCICONFIGEP) pcieepvf#_cfg038
+ * Register (PCICONFIGEP) pcieepvf#_cfg000
  *
- * Device Control 2 Register/Device Status 2 Register
- * This register contains the thirty-ninth 32-bits of PCIe type 0 configuration space.
+ * PCIe Vendor and Device Register
+ * This register contains the first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pcieepvfx_cfg038_s
+    struct bdk_pcieepvfx_cfg000_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_10_31        : 22;
-        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
-        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
-        uint32_t reserved_7            : 1;
-        uint32_t atom_op               : 1;  /**< [  6:  6](RO/H) Read-only copy of the associated PF's PCIEP()_CFG038[ATOM_OP]. */
-        uint32_t reserved_5            : 1;
-        uint32_t ctd                   : 1;  /**< [  4:  4](RO) Read-only copy of the associated PF's PCIEP()_CFG038[CTD]. */
-        uint32_t ctv                   : 4;  /**< [  3:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG038[CTV]. */
+        uint32_t devid                 : 16; /**< [ 31: 16](RO) VF Device ID. */
+        uint32_t vendid                : 16; /**< [ 15:  0](RO) VF Vendor ID. */
 #else /* Word 0 - Little Endian */
-        uint32_t ctv                   : 4;  /**< [  3:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG038[CTV]. */
-        uint32_t ctd                   : 1;  /**< [  4:  4](RO) Read-only copy of the associated PF's PCIEP()_CFG038[CTD]. */
-        uint32_t reserved_5            : 1;
-        uint32_t atom_op               : 1;  /**< [  6:  6](RO/H) Read-only copy of the associated PF's PCIEP()_CFG038[ATOM_OP]. */
-        uint32_t reserved_7            : 1;
-        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
-        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
-        uint32_t reserved_10_31        : 22;
+        uint32_t vendid                : 16; /**< [ 15:  0](RO) VF Vendor ID. */
+        uint32_t devid                 : 16; /**< [ 31: 16](RO) VF Device ID. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg038_s cn; */
-} bdk_pcieepvfx_cfg038_t;
+    /* struct bdk_pcieepvfx_cfg000_s cn; */
+} bdk_pcieepvfx_cfg000_t;
 
-static inline uint64_t BDK_PCIEEPVFX_CFG038(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG038(unsigned long a)
+static inline uint64_t BDK_PCIEEPVFX_CFG000(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG000(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000098ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG038", 1, a, 0, 0, 0);
+        return 0x50000000000ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG000", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PCIEEPVFX_CFG038(a) bdk_pcieepvfx_cfg038_t
-#define bustype_BDK_PCIEEPVFX_CFG038(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG038(a) "PCIEEPVFX_CFG038"
-#define busnum_BDK_PCIEEPVFX_CFG038(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG038(a) (a),-1,-1,-1
+#define typedef_BDK_PCIEEPVFX_CFG000(a) bdk_pcieepvfx_cfg000_t
+#define bustype_BDK_PCIEEPVFX_CFG000(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG000(a) "PCIEEPVFX_CFG000"
+#define busnum_BDK_PCIEEPVFX_CFG000(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG000(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieepvf#_cfg032
+ * Register (PCICONFIGEP) pcieepvf#_cfg001
  *
- * Link Control/Link Status Register
- * This register contains the thirty-third 32-bits of PCIe type 0 configuration space.
+ * Command/Status Register
+ * This register contains the second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pcieepvfx_cfg032_s
+    struct bdk_pcieepvfx_cfg001_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_12_31        : 20;
-        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](RO) Link autonomous bandwidth interrupt enable. This bit is not applicable and is reserved for
-                                                                 endpoints. */
-        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](RO) Link bandwidth management interrupt enable. This bit is not applicable and is reserved for
-                                                                 endpoints. */
-        uint32_t hawd                  : 1;  /**< [  9:  9](RO) Hardware autonomous width disable (not supported). */
-        uint32_t ecpm                  : 1;  /**< [  8:  8](RO) Read-only copy of the associated PF's PCIEP()_CFG032[ECPM]. */
-        uint32_t es                    : 1;  /**< [  7:  7](RO) Read-only copy of the associated PF's PCIEP()_CFG032[ES]. */
-        uint32_t ccc                   : 1;  /**< [  6:  6](RO) Read-only copy of the associated PF's PCIEP()_CFG032[CCC]. */
-        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
-        uint32_t ld                    : 1;  /**< [  4:  4](RO) Link disable. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
-        uint32_t rcb                   : 1;  /**< [  3:  3](RO) VF's read-only zeros. */
-        uint32_t reserved_2            : 1;
-        uint32_t aslpc                 : 2;  /**< [  1:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG032[ASLPC]. */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t reserved_22           : 1;
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
+        uint32_t i_stat                : 1;  /**< [ 19: 19](RO/H) INTx status. Not applicable for SR-IOV.  Hardwired to 0. */
+        uint32_t reserved_11_18        : 8;
+        uint32_t i_dis                 : 1;  /**< [ 10: 10](RO) VF read-only zero. */
+        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t see                   : 1;  /**< [  8:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG001[SEE]. */
+        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t per                   : 1;  /**< [  6:  6](RO/H) Read-only copy of the associated PF's PCIEP()_CFG001[PER]. */
+        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W/H) Bus master enable. If the VF tries to master the bus when this bit is not set,
+                                                                 the request is discarded. A interrupt will be generated setting the
+                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
+                                                                 to SLI/DPI/NQM soon thereafter.
+                                                                 Bus master enable mimics the behavor of SPEM()_FLR_PF()_VF()_STOPREQ. */
+        uint32_t msae                  : 1;  /**< [  1:  1](RO) VF read-only zero. */
+        uint32_t isae                  : 1;  /**< [  0:  0](RO) VF read-only zero. */
 #else /* Word 0 - Little Endian */
-        uint32_t aslpc                 : 2;  /**< [  1:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG032[ASLPC]. */
-        uint32_t reserved_2            : 1;
-        uint32_t rcb                   : 1;  /**< [  3:  3](RO) VF's read-only zeros. */
-        uint32_t ld                    : 1;  /**< [  4:  4](RO) Link disable. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
-        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
-        uint32_t ccc                   : 1;  /**< [  6:  6](RO) Read-only copy of the associated PF's PCIEP()_CFG032[CCC]. */
-        uint32_t es                    : 1;  /**< [  7:  7](RO) Read-only copy of the associated PF's PCIEP()_CFG032[ES]. */
-        uint32_t ecpm                  : 1;  /**< [  8:  8](RO) Read-only copy of the associated PF's PCIEP()_CFG032[ECPM]. */
-        uint32_t hawd                  : 1;  /**< [  9:  9](RO) Hardware autonomous width disable (not supported). */
-        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](RO) Link bandwidth management interrupt enable. This bit is not applicable and is reserved for
-                                                                 endpoints. */
-        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](RO) Link autonomous bandwidth interrupt enable. This bit is not applicable and is reserved for
-                                                                 endpoints. */
-        uint32_t reserved_12_31        : 20;
+        uint32_t isae                  : 1;  /**< [  0:  0](RO) VF read-only zero. */
+        uint32_t msae                  : 1;  /**< [  1:  1](RO) VF read-only zero. */
+        uint32_t me                    : 1;  /**< [  2:  2](R/W/H) Bus master enable. If the VF tries to master the bus when this bit is not set,
+                                                                 the request is discarded. A interrupt will be generated setting the
+                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
+                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
+                                                                 to SLI/DPI/NQM soon thereafter.
+                                                                 Bus master enable mimics the behavor of SPEM()_FLR_PF()_VF()_STOPREQ. */
+        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t per                   : 1;  /**< [  6:  6](RO/H) Read-only copy of the associated PF's PCIEP()_CFG001[PER]. */
+        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t see                   : 1;  /**< [  8:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG001[SEE]. */
+        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
+        uint32_t i_dis                 : 1;  /**< [ 10: 10](RO) VF read-only zero. */
+        uint32_t reserved_11_18        : 8;
+        uint32_t i_stat                : 1;  /**< [ 19: 19](RO/H) INTx status. Not applicable for SR-IOV.  Hardwired to 0. */
+        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
+        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t reserved_22           : 1;
+        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
+        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
+        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
+        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
+        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
+        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
+        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
+        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg032_s cn; */
-} bdk_pcieepvfx_cfg032_t;
+    /* struct bdk_pcieepvfx_cfg001_s cn; */
+} bdk_pcieepvfx_cfg001_t;
 
-static inline uint64_t BDK_PCIEEPVFX_CFG032(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG032(unsigned long a)
+static inline uint64_t BDK_PCIEEPVFX_CFG001(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG001(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000080ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG032", 1, a, 0, 0, 0);
+        return 0x50000000004ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG001", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PCIEEPVFX_CFG032(a) bdk_pcieepvfx_cfg032_t
-#define bustype_BDK_PCIEEPVFX_CFG032(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG032(a) "PCIEEPVFX_CFG032"
-#define busnum_BDK_PCIEEPVFX_CFG032(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG032(a) (a),-1,-1,-1
+#define typedef_BDK_PCIEEPVFX_CFG001(a) bdk_pcieepvfx_cfg001_t
+#define bustype_BDK_PCIEEPVFX_CFG001(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG001(a) "PCIEEPVFX_CFG001"
+#define busnum_BDK_PCIEEPVFX_CFG001(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG001(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieepvf#_cfg031
+ * Register (PCICONFIGEP) pcieepvf#_cfg002
  *
- * Link Capabilities Register
- * This register contains the thirty-second 32-bits of PCIe type 0 configuration space.
+ * Class Code/Revision ID Register
+ * This register contains the third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pcieepvfx_cfg031_s
+    struct bdk_pcieepvfx_cfg002_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t pnum                  : 8;  /**< [ 31: 24](RO) Read-only copy of the associated PF's PCIEP()_CFG031[PNUM]. */
-        uint32_t reserved_22_23        : 2;
-        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO) Read-only copy of the associated PF's PCIEP()_CFG031[LBNC]. */
-        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Read-only copy of the associated PF's PCIEP()_CFG031[DLLARC]. */
-        uint32_t sderc                 : 1;  /**< [ 19: 19](RO) Read-only copy of the associated PF's PCIEP()_CFG031[SDERC]. */
-        uint32_t cpm                   : 1;  /**< [ 18: 18](RO) Read-only copy of the associated PF's PCIEP()_CFG031[CPM]. */
-        uint32_t l1el                  : 3;  /**< [ 17: 15](RO) Read-only copy of the associated PF's PCIEP()_CFG031[L1EL]. */
-        uint32_t l0el                  : 3;  /**< [ 14: 12](RO) Read-only copy of the associated PF's PCIEP()_CFG031[L0EL]. */
-        uint32_t aslpms                : 2;  /**< [ 11: 10](RO) Read-only copy of the associated PF's PCIEP()_CFG031[ASLPMS]. */
-        uint32_t mlw                   : 6;  /**< [  9:  4](RO/H) Read-only copy of the associated PF's PCIEP()_CFG031[MLW]. */
-        uint32_t mls                   : 4;  /**< [  3:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG031[MLS]. */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[BCC]. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[SC]. */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[PI]. */
+        uint32_t rid                   : 8;  /**< [  7:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG002[RID]. */
 #else /* Word 0 - Little Endian */
-        uint32_t mls                   : 4;  /**< [  3:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG031[MLS]. */
-        uint32_t mlw                   : 6;  /**< [  9:  4](RO/H) Read-only copy of the associated PF's PCIEP()_CFG031[MLW]. */
-        uint32_t aslpms                : 2;  /**< [ 11: 10](RO) Read-only copy of the associated PF's PCIEP()_CFG031[ASLPMS]. */
-        uint32_t l0el                  : 3;  /**< [ 14: 12](RO) Read-only copy of the associated PF's PCIEP()_CFG031[L0EL]. */
-        uint32_t l1el                  : 3;  /**< [ 17: 15](RO) Read-only copy of the associated PF's PCIEP()_CFG031[L1EL]. */
-        uint32_t cpm                   : 1;  /**< [ 18: 18](RO) Read-only copy of the associated PF's PCIEP()_CFG031[CPM]. */
-        uint32_t sderc                 : 1;  /**< [ 19: 19](RO) Read-only copy of the associated PF's PCIEP()_CFG031[SDERC]. */
-        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Read-only copy of the associated PF's PCIEP()_CFG031[DLLARC]. */
-        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO) Read-only copy of the associated PF's PCIEP()_CFG031[LBNC]. */
-        uint32_t reserved_22_23        : 2;
-        uint32_t pnum                  : 8;  /**< [ 31: 24](RO) Read-only copy of the associated PF's PCIEP()_CFG031[PNUM]. */
+        uint32_t rid                   : 8;  /**< [  7:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG002[RID]. */
+        uint32_t pi                    : 8;  /**< [ 15:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[PI]. */
+        uint32_t sc                    : 8;  /**< [ 23: 16](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[SC]. */
+        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[BCC]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg031_s cn; */
-} bdk_pcieepvfx_cfg031_t;
+    /* struct bdk_pcieepvfx_cfg002_s cn; */
+} bdk_pcieepvfx_cfg002_t;
 
-static inline uint64_t BDK_PCIEEPVFX_CFG031(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG031(unsigned long a)
+static inline uint64_t BDK_PCIEEPVFX_CFG002(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG002(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x5000000007cll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG031", 1, a, 0, 0, 0);
+        return 0x50000000008ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG002", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PCIEEPVFX_CFG031(a) bdk_pcieepvfx_cfg031_t
-#define bustype_BDK_PCIEEPVFX_CFG031(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG031(a) "PCIEEPVFX_CFG031"
-#define busnum_BDK_PCIEEPVFX_CFG031(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG031(a) (a),-1,-1,-1
+#define typedef_BDK_PCIEEPVFX_CFG002(a) bdk_pcieepvfx_cfg002_t
+#define bustype_BDK_PCIEEPVFX_CFG002(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG002(a) "PCIEEPVFX_CFG002"
+#define busnum_BDK_PCIEEPVFX_CFG002(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG002(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieepvf#_cfg030
+ * Register (PCICONFIGEP) pcieepvf#_cfg003
  *
- * Device Control/Device Status Register
- * This register contains the thirty-first 32-bits of PCIe type 0 configuration space.
+ * BIST, Header Type, Master Latency Timer, Cache Line Size Register
+ * This register contains the fourth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pcieepvfx_cfg030_s
+    struct bdk_pcieepvfx_cfg003_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_22_31        : 10;
-        uint32_t tp                    : 1;  /**< [ 21: 21](RO/H) Transaction pending. Set to 1 when nonposted requests are not yet completed and set to 0
-                                                                 when they are completed. */
-        uint32_t ap_d                  : 1;  /**< [ 20: 20](RO) VF's read-only zeros. */
-        uint32_t ur_d                  : 1;  /**< [ 19: 19](RO/H) Unsupported request detected. Errors are logged in this register regardless of whether or
-                                                                 not error reporting is enabled in the device control register. UR_D occurs when we receive
-                                                                 something unsupported. Unsupported requests are nonfatal errors, so UR_D should cause
-                                                                 NFE_D. Receiving a vendor-defined message should cause an unsupported request. */
-        uint32_t fe_d                  : 1;  /**< [ 18: 18](RO/H) Fatal error detected. Errors are logged in this register regardless of whether or not
-                                                                 error reporting is enabled in the device control register. This field is set if we receive
-                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to fatal. Malformed TLPs
-                                                                 generally fit into this category. */
-        uint32_t nfe_d                 : 1;  /**< [ 17: 17](RO/H) Nonfatal error detected. Errors are logged in this register regardless of whether or not
-                                                                 error reporting is enabled in the device control register. This field is set if we receive
-                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to nonfatal and does not
-                                                                 meet advisory nonfatal criteria, which most poisoned TLPs should. */
-        uint32_t ce_d                  : 1;  /**< [ 16: 16](RO/H) Correctable error detected. Errors are logged in this register regardless of whether or
-                                                                 not error reporting is enabled in the device control register. This field is set if we
-                                                                 receive any of the errors in PCIEEPVF()_CFG068, for example a replay-timer timeout.
-                                                                 Also, it can be set if we get any of the errors in PCIEEPVF()_CFG066 that has a severity
-                                                                 set to Nonfatal and meets the Advisory Nonfatal criteria, which most ECRC errors should. */
-        uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset. */
-        uint32_t mrrs                  : 3;  /**< [ 14: 12](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[MRRS]. */
-        uint32_t ns_en                 : 1;  /**< [ 11: 11](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[NS_EN]. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) Read-only copy of the associated PF's PCIEP()_CFG030[AP_EN]. */
-        uint32_t pf_en                 : 1;  /**< [  9:  9](RO) Read-only copy of the associated PF's PCIEP()_CFG030[PF_EN]. */
-        uint32_t etf_en                : 1;  /**< [  8:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[ETF_EN]. */
-        uint32_t mps                   : 3;  /**< [  7:  5](RO) Read-only copy of the associated PF's PCIEP()_CFG030[MPS]. */
-        uint32_t ro_en                 : 1;  /**< [  4:  4](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[RO_EN]. */
-        uint32_t ur_en                 : 1;  /**< [  3:  3](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[UR_EN]. */
-        uint32_t fe_en                 : 1;  /**< [  2:  2](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[FE_EN]. */
-        uint32_t nfe_en                : 1;  /**< [  1:  1](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[NFE_EN]. */
-        uint32_t ce_en                 : 1;  /**< [  0:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[CE_EN]. */
+        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are
+                                                                 hardwired to 0x0. */
+        uint32_t mfd                   : 1;  /**< [ 23: 23](RO/H) Read-only copy of the associated PF's PCIEP()_CFG003[MFD]. */
+        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x0 for type 0. */
+        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
+        uint32_t cls                   : 8;  /**< [  7:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG003[CLS].
+                                                                 The cache line size register is R/W for legacy compatibility purposes and
+                                                                 is not applicable to PCI Express device functionality. Writing to the cache line size
+                                                                 register does not impact functionality of the PCI Express bus. */
 #else /* Word 0 - Little Endian */
-        uint32_t ce_en                 : 1;  /**< [  0:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[CE_EN]. */
-        uint32_t nfe_en                : 1;  /**< [  1:  1](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[NFE_EN]. */
-        uint32_t fe_en                 : 1;  /**< [  2:  2](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[FE_EN]. */
-        uint32_t ur_en                 : 1;  /**< [  3:  3](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[UR_EN]. */
-        uint32_t ro_en                 : 1;  /**< [  4:  4](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[RO_EN]. */
-        uint32_t mps                   : 3;  /**< [  7:  5](RO) Read-only copy of the associated PF's PCIEP()_CFG030[MPS]. */
-        uint32_t etf_en                : 1;  /**< [  8:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[ETF_EN]. */
-        uint32_t pf_en                 : 1;  /**< [  9:  9](RO) Read-only copy of the associated PF's PCIEP()_CFG030[PF_EN]. */
-        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) Read-only copy of the associated PF's PCIEP()_CFG030[AP_EN]. */
-        uint32_t ns_en                 : 1;  /**< [ 11: 11](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[NS_EN]. */
-        uint32_t mrrs                  : 3;  /**< [ 14: 12](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[MRRS]. */
-        uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset. */
-        uint32_t ce_d                  : 1;  /**< [ 16: 16](RO/H) Correctable error detected. Errors are logged in this register regardless of whether or
-                                                                 not error reporting is enabled in the device control register. This field is set if we
-                                                                 receive any of the errors in PCIEEPVF()_CFG068, for example a replay-timer timeout.
-                                                                 Also, it can be set if we get any of the errors in PCIEEPVF()_CFG066 that has a severity
-                                                                 set to Nonfatal and meets the Advisory Nonfatal criteria, which most ECRC errors should. */
-        uint32_t nfe_d                 : 1;  /**< [ 17: 17](RO/H) Nonfatal error detected. Errors are logged in this register regardless of whether or not
-                                                                 error reporting is enabled in the device control register. This field is set if we receive
-                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to nonfatal and does not
-                                                                 meet advisory nonfatal criteria, which most poisoned TLPs should. */
-        uint32_t fe_d                  : 1;  /**< [ 18: 18](RO/H) Fatal error detected. Errors are logged in this register regardless of whether or not
-                                                                 error reporting is enabled in the device control register. This field is set if we receive
-                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to fatal. Malformed TLPs
-                                                                 generally fit into this category. */
-        uint32_t ur_d                  : 1;  /**< [ 19: 19](RO/H) Unsupported request detected. Errors are logged in this register regardless of whether or
-                                                                 not error reporting is enabled in the device control register. UR_D occurs when we receive
-                                                                 something unsupported. Unsupported requests are nonfatal errors, so UR_D should cause
-                                                                 NFE_D. Receiving a vendor-defined message should cause an unsupported request. */
-        uint32_t ap_d                  : 1;  /**< [ 20: 20](RO) VF's read-only zeros. */
-        uint32_t tp                    : 1;  /**< [ 21: 21](RO/H) Transaction pending. Set to 1 when nonposted requests are not yet completed and set to 0
-                                                                 when they are completed. */
-        uint32_t reserved_22_31        : 10;
+        uint32_t cls                   : 8;  /**< [  7:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG003[CLS].
+                                                                 The cache line size register is R/W for legacy compatibility purposes and
+                                                                 is not applicable to PCI Express device functionality. Writing to the cache line size
+                                                                 register does not impact functionality of the PCI Express bus. */
+        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
+        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x0 for type 0. */
+        uint32_t mfd                   : 1;  /**< [ 23: 23](RO/H) Read-only copy of the associated PF's PCIEP()_CFG003[MFD]. */
+        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are
+                                                                 hardwired to 0x0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg030_s cn; */
-} bdk_pcieepvfx_cfg030_t;
+    /* struct bdk_pcieepvfx_cfg003_s cn; */
+} bdk_pcieepvfx_cfg003_t;
 
-static inline uint64_t BDK_PCIEEPVFX_CFG030(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG030(unsigned long a)
+static inline uint64_t BDK_PCIEEPVFX_CFG003(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG003(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000078ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG030", 1, a, 0, 0, 0);
+        return 0x5000000000cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG003", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PCIEEPVFX_CFG030(a) bdk_pcieepvfx_cfg030_t
-#define bustype_BDK_PCIEEPVFX_CFG030(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG030(a) "PCIEEPVFX_CFG030"
-#define busnum_BDK_PCIEEPVFX_CFG030(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG030(a) (a),-1,-1,-1
+#define typedef_BDK_PCIEEPVFX_CFG003(a) bdk_pcieepvfx_cfg003_t
+#define bustype_BDK_PCIEEPVFX_CFG003(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG003(a) "PCIEEPVFX_CFG003"
+#define busnum_BDK_PCIEEPVFX_CFG003(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG003(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieepvf#_cfg037
+ * Register (PCICONFIGEP) pcieepvf#_cfg004
  *
- * Device Capabilities 2 Register
- * This register contains the thirty-eighth 32-bits of PCIe type 0 configuration space.
+ * Base Address 0 Low Register
+ * This register contains the fifth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pcieepvfx_cfg037_s
+    struct bdk_pcieepvfx_cfg004_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Read-only copy of the associated PF's PCIEP()_CFG037[MEETP]. */
-        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
-        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t reserved_14_17        : 4;
-        uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
-        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
-        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO/H) 64-bit AtomicOp supported.
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request.
-                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
-                                                                 ATOM64S is set as an inherited attribute from the PF. */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO/H) 32-bit AtomicOp supported.
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request.
-                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
-                                                                 ATOM64S is set as an inherited attribute from the PF. */
-        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported (not applicable for EP). */
-        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
-        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
-        uint32_t ctrs                  : 4;  /**< [  3:  0](RO) Completion timeout ranges supported. */
+        uint32_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
-        uint32_t ctrs                  : 4;  /**< [  3:  0](RO) Completion timeout ranges supported. */
-        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
-        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
-        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported (not applicable for EP). */
-        uint32_t atom32s               : 1;  /**< [  7:  7](RO/H) 32-bit AtomicOp supported.
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request.
-                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
-                                                                 ATOM64S is set as an inherited attribute from the PF. */
-        uint32_t atom64s               : 1;  /**< [  8:  8](RO/H) 64-bit AtomicOp supported.
-                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
-                                                                 unsupported request.
-                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
-                                                                 ATOM64S is set as an inherited attribute from the PF. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
-        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
-        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
-        uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
-        uint32_t reserved_14_17        : 4;
-        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
-        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Read-only copy of the associated PF's PCIEP()_CFG037[MEETP]. */
-        uint32_t reserved_24_31        : 8;
+        uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg037_s cn; */
-} bdk_pcieepvfx_cfg037_t;
+    /* struct bdk_pcieepvfx_cfg004_s cn; */
+} bdk_pcieepvfx_cfg004_t;
 
-static inline uint64_t BDK_PCIEEPVFX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG037(unsigned long a)
+static inline uint64_t BDK_PCIEEPVFX_CFG004(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG004(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000094ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG037", 1, a, 0, 0, 0);
+        return 0x50000000010ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG004", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PCIEEPVFX_CFG037(a) bdk_pcieepvfx_cfg037_t
-#define bustype_BDK_PCIEEPVFX_CFG037(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG037(a) "PCIEEPVFX_CFG037"
-#define busnum_BDK_PCIEEPVFX_CFG037(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG037(a) (a),-1,-1,-1
+#define typedef_BDK_PCIEEPVFX_CFG004(a) bdk_pcieepvfx_cfg004_t
+#define bustype_BDK_PCIEEPVFX_CFG004(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG004(a) "PCIEEPVFX_CFG004"
+#define busnum_BDK_PCIEEPVFX_CFG004(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG004(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieepvf#_cfg005
+ *
+ * Base Address 0 High Register
+ * This register contains the sixth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepvfx_cfg005_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepvfx_cfg005_s cn; */
+} bdk_pcieepvfx_cfg005_t;
+
+static inline uint64_t BDK_PCIEEPVFX_CFG005(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG005(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
+        return 0x50000000014ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG005", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPVFX_CFG005(a) bdk_pcieepvfx_cfg005_t
+#define bustype_BDK_PCIEEPVFX_CFG005(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG005(a) "PCIEEPVFX_CFG005"
+#define busnum_BDK_PCIEEPVFX_CFG005(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG005(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieepvf#_cfg006
+ *
+ * Base Address 1 Low Register
+ * This register contains the seventh 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepvfx_cfg006_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepvfx_cfg006_s cn; */
+} bdk_pcieepvfx_cfg006_t;
+
+static inline uint64_t BDK_PCIEEPVFX_CFG006(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG006(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
+        return 0x50000000018ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG006", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPVFX_CFG006(a) bdk_pcieepvfx_cfg006_t
+#define bustype_BDK_PCIEEPVFX_CFG006(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG006(a) "PCIEEPVFX_CFG006"
+#define busnum_BDK_PCIEEPVFX_CFG006(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG006(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieepvf#_cfg007
+ *
+ * Base Address 1 High Register
+ * This register contains the eighth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepvfx_cfg007_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepvfx_cfg007_s cn; */
+} bdk_pcieepvfx_cfg007_t;
+
+static inline uint64_t BDK_PCIEEPVFX_CFG007(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG007(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
+        return 0x5000000001cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG007", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPVFX_CFG007(a) bdk_pcieepvfx_cfg007_t
+#define bustype_BDK_PCIEEPVFX_CFG007(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG007(a) "PCIEEPVFX_CFG007"
+#define busnum_BDK_PCIEEPVFX_CFG007(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG007(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieepvf#_cfg008
+ *
+ * Base Address 2 Low Register
+ * This register contains the ninth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepvfx_cfg008_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepvfx_cfg008_s cn; */
+} bdk_pcieepvfx_cfg008_t;
+
+static inline uint64_t BDK_PCIEEPVFX_CFG008(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG008(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
+        return 0x50000000020ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG008", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPVFX_CFG008(a) bdk_pcieepvfx_cfg008_t
+#define bustype_BDK_PCIEEPVFX_CFG008(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG008(a) "PCIEEPVFX_CFG008"
+#define busnum_BDK_PCIEEPVFX_CFG008(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG008(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieepvf#_cfg009
+ *
+ * Base Address Register 2 - High Register
+ * This register contains the tenth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepvfx_cfg009_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepvfx_cfg009_s cn; */
+} bdk_pcieepvfx_cfg009_t;
+
+static inline uint64_t BDK_PCIEEPVFX_CFG009(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG009(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
+        return 0x50000000024ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG009", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPVFX_CFG009(a) bdk_pcieepvfx_cfg009_t
+#define bustype_BDK_PCIEEPVFX_CFG009(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG009(a) "PCIEEPVFX_CFG009"
+#define busnum_BDK_PCIEEPVFX_CFG009(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG009(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieepvf#_cfg010
+ *
+ * Card Bus CIS Pointer Register
+ * This register contains the eleventh 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepvfx_cfg010_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t cisp                  : 32; /**< [ 31:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG010[CISP]. */
+#else /* Word 0 - Little Endian */
+        uint32_t cisp                  : 32; /**< [ 31:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG010[CISP]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepvfx_cfg010_s cn; */
+} bdk_pcieepvfx_cfg010_t;
+
+static inline uint64_t BDK_PCIEEPVFX_CFG010(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG010(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
+        return 0x50000000028ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG010", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPVFX_CFG010(a) bdk_pcieepvfx_cfg010_t
+#define bustype_BDK_PCIEEPVFX_CFG010(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG010(a) "PCIEEPVFX_CFG010"
+#define busnum_BDK_PCIEEPVFX_CFG010(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG010(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg011
@@ -429,76 +543,6 @@ static inline uint64_t BDK_PCIEEPVFX_CFG011(unsigned long a)
 #define arguments_BDK_PCIEEPVFX_CFG011(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieepvf#_cfg010
- *
- * Card Bus CIS Pointer Register
- * This register contains the eleventh 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepvfx_cfg010_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t cisp                  : 32; /**< [ 31:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG010[CISP]. */
-#else /* Word 0 - Little Endian */
-        uint32_t cisp                  : 32; /**< [ 31:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG010[CISP]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepvfx_cfg010_s cn; */
-} bdk_pcieepvfx_cfg010_t;
-
-static inline uint64_t BDK_PCIEEPVFX_CFG010(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG010(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000028ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG010", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPVFX_CFG010(a) bdk_pcieepvfx_cfg010_t
-#define bustype_BDK_PCIEEPVFX_CFG010(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG010(a) "PCIEEPVFX_CFG010"
-#define busnum_BDK_PCIEEPVFX_CFG010(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG010(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieepvf#_cfg013
- *
- * Capability Pointer Register
- * This register contains the fourteenth 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepvfx_cfg013_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t cp                    : 8;  /**< [  7:  0](RO) Next capability pointer. Points to PCI Express capabilities. */
-#else /* Word 0 - Little Endian */
-        uint32_t cp                    : 8;  /**< [  7:  0](RO) Next capability pointer. Points to PCI Express capabilities. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepvfx_cfg013_s cn; */
-} bdk_pcieepvfx_cfg013_t;
-
-static inline uint64_t BDK_PCIEEPVFX_CFG013(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG013(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000034ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG013", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPVFX_CFG013(a) bdk_pcieepvfx_cfg013_t
-#define bustype_BDK_PCIEEPVFX_CFG013(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG013(a) "PCIEEPVFX_CFG013"
-#define busnum_BDK_PCIEEPVFX_CFG013(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG013(a) (a),-1,-1,-1
-
-/**
  * Register (PCICONFIGEP) pcieepvf#_cfg012
  *
  * Expansion ROM Base Address Register
@@ -535,6 +579,42 @@ static inline uint64_t BDK_PCIEEPVFX_CFG012(unsigned long a)
 #define basename_BDK_PCIEEPVFX_CFG012(a) "PCIEEPVFX_CFG012"
 #define busnum_BDK_PCIEEPVFX_CFG012(a) (a)
 #define arguments_BDK_PCIEEPVFX_CFG012(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieepvf#_cfg013
+ *
+ * Capability Pointer Register
+ * This register contains the fourteenth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepvfx_cfg013_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t cp                    : 8;  /**< [  7:  0](RO) Next capability pointer. Points to PCI Express capabilities. */
+#else /* Word 0 - Little Endian */
+        uint32_t cp                    : 8;  /**< [  7:  0](RO) Next capability pointer. Points to PCI Express capabilities. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepvfx_cfg013_s cn; */
+} bdk_pcieepvfx_cfg013_t;
+
+static inline uint64_t BDK_PCIEEPVFX_CFG013(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG013(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
+        return 0x50000000034ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG013", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPVFX_CFG013(a) bdk_pcieepvfx_cfg013_t
+#define bustype_BDK_PCIEEPVFX_CFG013(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG013(a) "PCIEEPVFX_CFG013"
+#define busnum_BDK_PCIEEPVFX_CFG013(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG013(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg015
@@ -712,472 +792,344 @@ static inline uint64_t BDK_PCIEEPVFX_CFG029(unsigned long a)
 #define arguments_BDK_PCIEEPVFX_CFG029(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieepvf#_cfg008
+ * Register (PCICONFIGEP) pcieepvf#_cfg030
  *
- * Base Address 2 Low Register
- * This register contains the ninth 32-bits of PCIe type 0 configuration space.
+ * Device Control/Device Status Register
+ * This register contains the thirty-first 32-bits of PCIe type 0 configuration space.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pcieepvfx_cfg008_s
+    struct bdk_pcieepvfx_cfg030_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t reserved_22_31        : 10;
+        uint32_t tp                    : 1;  /**< [ 21: 21](RO/H) Transaction pending. Set to 1 when nonposted requests are not yet completed and set to 0
+                                                                 when they are completed. */
+        uint32_t ap_d                  : 1;  /**< [ 20: 20](RO) VF's read-only zeros. */
+        uint32_t ur_d                  : 1;  /**< [ 19: 19](RO/H) Unsupported request detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. UR_D occurs when we receive
+                                                                 something unsupported. Unsupported requests are nonfatal errors, so UR_D should cause
+                                                                 NFE_D. Receiving a vendor-defined message should cause an unsupported request. */
+        uint32_t fe_d                  : 1;  /**< [ 18: 18](RO/H) Fatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to fatal. Malformed TLPs
+                                                                 generally fit into this category. */
+        uint32_t nfe_d                 : 1;  /**< [ 17: 17](RO/H) Nonfatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to nonfatal and does not
+                                                                 meet advisory nonfatal criteria, which most poisoned TLPs should. */
+        uint32_t ce_d                  : 1;  /**< [ 16: 16](RO/H) Correctable error detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. This field is set if we
+                                                                 receive any of the errors in PCIEEPVF()_CFG068, for example a replay-timer timeout.
+                                                                 Also, it can be set if we get any of the errors in PCIEEPVF()_CFG066 that has a severity
+                                                                 set to Nonfatal and meets the Advisory Nonfatal criteria, which most ECRC errors should. */
+        uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset. */
+        uint32_t mrrs                  : 3;  /**< [ 14: 12](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[MRRS]. */
+        uint32_t ns_en                 : 1;  /**< [ 11: 11](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[NS_EN]. */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) Read-only copy of the associated PF's PCIEP()_CFG030[AP_EN]. */
+        uint32_t pf_en                 : 1;  /**< [  9:  9](RO) Read-only copy of the associated PF's PCIEP()_CFG030[PF_EN]. */
+        uint32_t etf_en                : 1;  /**< [  8:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[ETF_EN]. */
+        uint32_t mps                   : 3;  /**< [  7:  5](RO) Read-only copy of the associated PF's PCIEP()_CFG030[MPS]. */
+        uint32_t ro_en                 : 1;  /**< [  4:  4](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[RO_EN]. */
+        uint32_t ur_en                 : 1;  /**< [  3:  3](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[UR_EN]. */
+        uint32_t fe_en                 : 1;  /**< [  2:  2](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[FE_EN]. */
+        uint32_t nfe_en                : 1;  /**< [  1:  1](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[NFE_EN]. */
+        uint32_t ce_en                 : 1;  /**< [  0:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[CE_EN]. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t ce_en                 : 1;  /**< [  0:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[CE_EN]. */
+        uint32_t nfe_en                : 1;  /**< [  1:  1](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[NFE_EN]. */
+        uint32_t fe_en                 : 1;  /**< [  2:  2](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[FE_EN]. */
+        uint32_t ur_en                 : 1;  /**< [  3:  3](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[UR_EN]. */
+        uint32_t ro_en                 : 1;  /**< [  4:  4](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[RO_EN]. */
+        uint32_t mps                   : 3;  /**< [  7:  5](RO) Read-only copy of the associated PF's PCIEP()_CFG030[MPS]. */
+        uint32_t etf_en                : 1;  /**< [  8:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[ETF_EN]. */
+        uint32_t pf_en                 : 1;  /**< [  9:  9](RO) Read-only copy of the associated PF's PCIEP()_CFG030[PF_EN]. */
+        uint32_t ap_en                 : 1;  /**< [ 10: 10](RO) Read-only copy of the associated PF's PCIEP()_CFG030[AP_EN]. */
+        uint32_t ns_en                 : 1;  /**< [ 11: 11](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[NS_EN]. */
+        uint32_t mrrs                  : 3;  /**< [ 14: 12](RO/H) Read-only copy of the associated PF's PCIEP()_CFG030[MRRS]. */
+        uint32_t i_flr                 : 1;  /**< [ 15: 15](WO) Initiate function level reset. */
+        uint32_t ce_d                  : 1;  /**< [ 16: 16](RO/H) Correctable error detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. This field is set if we
+                                                                 receive any of the errors in PCIEEPVF()_CFG068, for example a replay-timer timeout.
+                                                                 Also, it can be set if we get any of the errors in PCIEEPVF()_CFG066 that has a severity
+                                                                 set to Nonfatal and meets the Advisory Nonfatal criteria, which most ECRC errors should. */
+        uint32_t nfe_d                 : 1;  /**< [ 17: 17](RO/H) Nonfatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to nonfatal and does not
+                                                                 meet advisory nonfatal criteria, which most poisoned TLPs should. */
+        uint32_t fe_d                  : 1;  /**< [ 18: 18](RO/H) Fatal error detected. Errors are logged in this register regardless of whether or not
+                                                                 error reporting is enabled in the device control register. This field is set if we receive
+                                                                 any of the errors in PCIEEPVF()_CFG066 that has a severity set to fatal. Malformed TLPs
+                                                                 generally fit into this category. */
+        uint32_t ur_d                  : 1;  /**< [ 19: 19](RO/H) Unsupported request detected. Errors are logged in this register regardless of whether or
+                                                                 not error reporting is enabled in the device control register. UR_D occurs when we receive
+                                                                 something unsupported. Unsupported requests are nonfatal errors, so UR_D should cause
+                                                                 NFE_D. Receiving a vendor-defined message should cause an unsupported request. */
+        uint32_t ap_d                  : 1;  /**< [ 20: 20](RO) VF's read-only zeros. */
+        uint32_t tp                    : 1;  /**< [ 21: 21](RO/H) Transaction pending. Set to 1 when nonposted requests are not yet completed and set to 0
+                                                                 when they are completed. */
+        uint32_t reserved_22_31        : 10;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg008_s cn; */
-} bdk_pcieepvfx_cfg008_t;
+    /* struct bdk_pcieepvfx_cfg030_s cn; */
+} bdk_pcieepvfx_cfg030_t;
 
-static inline uint64_t BDK_PCIEEPVFX_CFG008(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG008(unsigned long a)
+static inline uint64_t BDK_PCIEEPVFX_CFG030(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG030(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000020ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG008", 1, a, 0, 0, 0);
+        return 0x50000000078ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG030", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PCIEEPVFX_CFG008(a) bdk_pcieepvfx_cfg008_t
-#define bustype_BDK_PCIEEPVFX_CFG008(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG008(a) "PCIEEPVFX_CFG008"
-#define busnum_BDK_PCIEEPVFX_CFG008(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG008(a) (a),-1,-1,-1
+#define typedef_BDK_PCIEEPVFX_CFG030(a) bdk_pcieepvfx_cfg030_t
+#define bustype_BDK_PCIEEPVFX_CFG030(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG030(a) "PCIEEPVFX_CFG030"
+#define busnum_BDK_PCIEEPVFX_CFG030(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG030(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieepvf#_cfg009
+ * Register (PCICONFIGEP) pcieepvf#_cfg031
  *
- * Base Address Register 2 - High Register
- * This register contains the tenth 32-bits of PCIe type 0 configuration space.
+ * Link Capabilities Register
+ * This register contains the thirty-second 32-bits of PCIe type 0 configuration space.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pcieepvfx_cfg009_s
+    struct bdk_pcieepvfx_cfg031_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t pnum                  : 8;  /**< [ 31: 24](RO) Read-only copy of the associated PF's PCIEP()_CFG031[PNUM]. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO) Read-only copy of the associated PF's PCIEP()_CFG031[LBNC]. */
+        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Read-only copy of the associated PF's PCIEP()_CFG031[DLLARC]. */
+        uint32_t sderc                 : 1;  /**< [ 19: 19](RO) Read-only copy of the associated PF's PCIEP()_CFG031[SDERC]. */
+        uint32_t cpm                   : 1;  /**< [ 18: 18](RO) Read-only copy of the associated PF's PCIEP()_CFG031[CPM]. */
+        uint32_t l1el                  : 3;  /**< [ 17: 15](RO) Read-only copy of the associated PF's PCIEP()_CFG031[L1EL]. */
+        uint32_t l0el                  : 3;  /**< [ 14: 12](RO) Read-only copy of the associated PF's PCIEP()_CFG031[L0EL]. */
+        uint32_t aslpms                : 2;  /**< [ 11: 10](RO) Read-only copy of the associated PF's PCIEP()_CFG031[ASLPMS]. */
+        uint32_t mlw                   : 6;  /**< [  9:  4](RO/H) Read-only copy of the associated PF's PCIEP()_CFG031[MLW]. */
+        uint32_t mls                   : 4;  /**< [  3:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG031[MLS]. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t mls                   : 4;  /**< [  3:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG031[MLS]. */
+        uint32_t mlw                   : 6;  /**< [  9:  4](RO/H) Read-only copy of the associated PF's PCIEP()_CFG031[MLW]. */
+        uint32_t aslpms                : 2;  /**< [ 11: 10](RO) Read-only copy of the associated PF's PCIEP()_CFG031[ASLPMS]. */
+        uint32_t l0el                  : 3;  /**< [ 14: 12](RO) Read-only copy of the associated PF's PCIEP()_CFG031[L0EL]. */
+        uint32_t l1el                  : 3;  /**< [ 17: 15](RO) Read-only copy of the associated PF's PCIEP()_CFG031[L1EL]. */
+        uint32_t cpm                   : 1;  /**< [ 18: 18](RO) Read-only copy of the associated PF's PCIEP()_CFG031[CPM]. */
+        uint32_t sderc                 : 1;  /**< [ 19: 19](RO) Read-only copy of the associated PF's PCIEP()_CFG031[SDERC]. */
+        uint32_t dllarc                : 1;  /**< [ 20: 20](RO) Read-only copy of the associated PF's PCIEP()_CFG031[DLLARC]. */
+        uint32_t lbnc                  : 1;  /**< [ 21: 21](RO) Read-only copy of the associated PF's PCIEP()_CFG031[LBNC]. */
+        uint32_t reserved_22_23        : 2;
+        uint32_t pnum                  : 8;  /**< [ 31: 24](RO) Read-only copy of the associated PF's PCIEP()_CFG031[PNUM]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg009_s cn; */
-} bdk_pcieepvfx_cfg009_t;
+    /* struct bdk_pcieepvfx_cfg031_s cn; */
+} bdk_pcieepvfx_cfg031_t;
 
-static inline uint64_t BDK_PCIEEPVFX_CFG009(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG009(unsigned long a)
+static inline uint64_t BDK_PCIEEPVFX_CFG031(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG031(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000024ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG009", 1, a, 0, 0, 0);
+        return 0x5000000007cll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG031", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PCIEEPVFX_CFG009(a) bdk_pcieepvfx_cfg009_t
-#define bustype_BDK_PCIEEPVFX_CFG009(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG009(a) "PCIEEPVFX_CFG009"
-#define busnum_BDK_PCIEEPVFX_CFG009(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG009(a) (a),-1,-1,-1
+#define typedef_BDK_PCIEEPVFX_CFG031(a) bdk_pcieepvfx_cfg031_t
+#define bustype_BDK_PCIEEPVFX_CFG031(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG031(a) "PCIEEPVFX_CFG031"
+#define busnum_BDK_PCIEEPVFX_CFG031(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG031(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieepvf#_cfg006
+ * Register (PCICONFIGEP) pcieepvf#_cfg032
  *
- * Base Address 1 Low Register
- * This register contains the seventh 32-bits of PCIe type 0 configuration space.
+ * Link Control/Link Status Register
+ * This register contains the thirty-third 32-bits of PCIe type 0 configuration space.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pcieepvfx_cfg006_s
+    struct bdk_pcieepvfx_cfg032_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t reserved_12_31        : 20;
+        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](RO) Link autonomous bandwidth interrupt enable. This bit is not applicable and is reserved for
+                                                                 endpoints. */
+        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](RO) Link bandwidth management interrupt enable. This bit is not applicable and is reserved for
+                                                                 endpoints. */
+        uint32_t hawd                  : 1;  /**< [  9:  9](RO) Hardware autonomous width disable (not supported). */
+        uint32_t ecpm                  : 1;  /**< [  8:  8](RO) Read-only copy of the associated PF's PCIEP()_CFG032[ECPM]. */
+        uint32_t es                    : 1;  /**< [  7:  7](RO) Read-only copy of the associated PF's PCIEP()_CFG032[ES]. */
+        uint32_t ccc                   : 1;  /**< [  6:  6](RO) Read-only copy of the associated PF's PCIEP()_CFG032[CCC]. */
+        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t ld                    : 1;  /**< [  4:  4](RO) Link disable. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t rcb                   : 1;  /**< [  3:  3](RO) VF's read-only zeros. */
+        uint32_t reserved_2            : 1;
+        uint32_t aslpc                 : 2;  /**< [  1:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG032[ASLPC]. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
+        uint32_t aslpc                 : 2;  /**< [  1:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG032[ASLPC]. */
+        uint32_t reserved_2            : 1;
+        uint32_t rcb                   : 1;  /**< [  3:  3](RO) VF's read-only zeros. */
+        uint32_t ld                    : 1;  /**< [  4:  4](RO) Link disable. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t rl                    : 1;  /**< [  5:  5](RO) Retrain link. Not applicable for an upstream port or endpoint device. Hardwired to 0. */
+        uint32_t ccc                   : 1;  /**< [  6:  6](RO) Read-only copy of the associated PF's PCIEP()_CFG032[CCC]. */
+        uint32_t es                    : 1;  /**< [  7:  7](RO) Read-only copy of the associated PF's PCIEP()_CFG032[ES]. */
+        uint32_t ecpm                  : 1;  /**< [  8:  8](RO) Read-only copy of the associated PF's PCIEP()_CFG032[ECPM]. */
+        uint32_t hawd                  : 1;  /**< [  9:  9](RO) Hardware autonomous width disable (not supported). */
+        uint32_t lbm_int_enb           : 1;  /**< [ 10: 10](RO) Link bandwidth management interrupt enable. This bit is not applicable and is reserved for
+                                                                 endpoints. */
+        uint32_t lab_int_enb           : 1;  /**< [ 11: 11](RO) Link autonomous bandwidth interrupt enable. This bit is not applicable and is reserved for
+                                                                 endpoints. */
+        uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg006_s cn; */
-} bdk_pcieepvfx_cfg006_t;
+    /* struct bdk_pcieepvfx_cfg032_s cn; */
+} bdk_pcieepvfx_cfg032_t;
 
-static inline uint64_t BDK_PCIEEPVFX_CFG006(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG006(unsigned long a)
+static inline uint64_t BDK_PCIEEPVFX_CFG032(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG032(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000018ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG006", 1, a, 0, 0, 0);
+        return 0x50000000080ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG032", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PCIEEPVFX_CFG006(a) bdk_pcieepvfx_cfg006_t
-#define bustype_BDK_PCIEEPVFX_CFG006(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG006(a) "PCIEEPVFX_CFG006"
-#define busnum_BDK_PCIEEPVFX_CFG006(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG006(a) (a),-1,-1,-1
+#define typedef_BDK_PCIEEPVFX_CFG032(a) bdk_pcieepvfx_cfg032_t
+#define bustype_BDK_PCIEEPVFX_CFG032(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG032(a) "PCIEEPVFX_CFG032"
+#define busnum_BDK_PCIEEPVFX_CFG032(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG032(a) (a),-1,-1,-1
 
 /**
- * Register (PCICONFIGEP) pcieepvf#_cfg007
+ * Register (PCICONFIGEP) pcieepvf#_cfg037
  *
- * Base Address 1 High Register
- * This register contains the eighth 32-bits of PCIe type 0 configuration space.
+ * Device Capabilities 2 Register
+ * This register contains the thirty-eighth 32-bits of PCIe type 0 configuration space.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pcieepvfx_cfg007_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepvfx_cfg007_s cn; */
-} bdk_pcieepvfx_cfg007_t;
-
-static inline uint64_t BDK_PCIEEPVFX_CFG007(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG007(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x5000000001cll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG007", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPVFX_CFG007(a) bdk_pcieepvfx_cfg007_t
-#define bustype_BDK_PCIEEPVFX_CFG007(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG007(a) "PCIEEPVFX_CFG007"
-#define busnum_BDK_PCIEEPVFX_CFG007(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG007(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieepvf#_cfg004
- *
- * Base Address 0 Low Register
- * This register contains the fifth 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepvfx_cfg004_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepvfx_cfg004_s cn; */
-} bdk_pcieepvfx_cfg004_t;
-
-static inline uint64_t BDK_PCIEEPVFX_CFG004(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG004(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000010ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG004", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPVFX_CFG004(a) bdk_pcieepvfx_cfg004_t
-#define bustype_BDK_PCIEEPVFX_CFG004(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG004(a) "PCIEEPVFX_CFG004"
-#define busnum_BDK_PCIEEPVFX_CFG004(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG004(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieepvf#_cfg005
- *
- * Base Address 0 High Register
- * This register contains the sixth 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepvfx_cfg005_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepvfx_cfg005_s cn; */
-} bdk_pcieepvfx_cfg005_t;
-
-static inline uint64_t BDK_PCIEEPVFX_CFG005(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG005(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000014ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG005", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPVFX_CFG005(a) bdk_pcieepvfx_cfg005_t
-#define bustype_BDK_PCIEEPVFX_CFG005(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG005(a) "PCIEEPVFX_CFG005"
-#define busnum_BDK_PCIEEPVFX_CFG005(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG005(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieepvf#_cfg002
- *
- * Class Code/Revision ID Register
- * This register contains the third 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepvfx_cfg002_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[BCC]. */
-        uint32_t sc                    : 8;  /**< [ 23: 16](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[SC]. */
-        uint32_t pi                    : 8;  /**< [ 15:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[PI]. */
-        uint32_t rid                   : 8;  /**< [  7:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG002[RID]. */
-#else /* Word 0 - Little Endian */
-        uint32_t rid                   : 8;  /**< [  7:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG002[RID]. */
-        uint32_t pi                    : 8;  /**< [ 15:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[PI]. */
-        uint32_t sc                    : 8;  /**< [ 23: 16](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[SC]. */
-        uint32_t bcc                   : 8;  /**< [ 31: 24](RO/H) Read-only copy of the associated PF's PCIEP()_CFG002[BCC]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepvfx_cfg002_s cn; */
-} bdk_pcieepvfx_cfg002_t;
-
-static inline uint64_t BDK_PCIEEPVFX_CFG002(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG002(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000008ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG002", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPVFX_CFG002(a) bdk_pcieepvfx_cfg002_t
-#define bustype_BDK_PCIEEPVFX_CFG002(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG002(a) "PCIEEPVFX_CFG002"
-#define busnum_BDK_PCIEEPVFX_CFG002(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG002(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieepvf#_cfg003
- *
- * BIST, Header Type, Master Latency Timer, Cache Line Size Register
- * This register contains the fourth 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepvfx_cfg003_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are
-                                                                 hardwired to 0x0. */
-        uint32_t mfd                   : 1;  /**< [ 23: 23](RO/H) Read-only copy of the associated PF's PCIEP()_CFG003[MFD]. */
-        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x0 for type 0. */
-        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
-        uint32_t cls                   : 8;  /**< [  7:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG003[CLS].
-                                                                 The cache line size register is R/W for legacy compatibility purposes and
-                                                                 is not applicable to PCI Express device functionality. Writing to the cache line size
-                                                                 register does not impact functionality of the PCI Express bus. */
-#else /* Word 0 - Little Endian */
-        uint32_t cls                   : 8;  /**< [  7:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG003[CLS].
-                                                                 The cache line size register is R/W for legacy compatibility purposes and
-                                                                 is not applicable to PCI Express device functionality. Writing to the cache line size
-                                                                 register does not impact functionality of the PCI Express bus. */
-        uint32_t lt                    : 8;  /**< [ 15:  8](RO) Master latency timer. Not applicable for PCI Express, hardwired to 0x0. */
-        uint32_t chf                   : 7;  /**< [ 22: 16](RO) Configuration header format. Hardwired to 0x0 for type 0. */
-        uint32_t mfd                   : 1;  /**< [ 23: 23](RO/H) Read-only copy of the associated PF's PCIEP()_CFG003[MFD]. */
-        uint32_t bist                  : 8;  /**< [ 31: 24](RO) The BIST register functions are not supported. All 8 bits of the BIST register are
-                                                                 hardwired to 0x0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepvfx_cfg003_s cn; */
-} bdk_pcieepvfx_cfg003_t;
-
-static inline uint64_t BDK_PCIEEPVFX_CFG003(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG003(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x5000000000cll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG003", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPVFX_CFG003(a) bdk_pcieepvfx_cfg003_t
-#define bustype_BDK_PCIEEPVFX_CFG003(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG003(a) "PCIEEPVFX_CFG003"
-#define busnum_BDK_PCIEEPVFX_CFG003(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG003(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieepvf#_cfg000
- *
- * PCIe Vendor and Device Register
- * This register contains the first 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepvfx_cfg000_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t devid                 : 16; /**< [ 31: 16](RO) VF Device ID. */
-        uint32_t vendid                : 16; /**< [ 15:  0](RO) VF Vendor ID. */
-#else /* Word 0 - Little Endian */
-        uint32_t vendid                : 16; /**< [ 15:  0](RO) VF Vendor ID. */
-        uint32_t devid                 : 16; /**< [ 31: 16](RO) VF Device ID. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepvfx_cfg000_s cn; */
-} bdk_pcieepvfx_cfg000_t;
-
-static inline uint64_t BDK_PCIEEPVFX_CFG000(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG000(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000000ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG000", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPVFX_CFG000(a) bdk_pcieepvfx_cfg000_t
-#define bustype_BDK_PCIEEPVFX_CFG000(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG000(a) "PCIEEPVFX_CFG000"
-#define busnum_BDK_PCIEEPVFX_CFG000(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG000(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieepvf#_cfg001
- *
- * Command/Status Register
- * This register contains the second 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepvfx_cfg001_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
-        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
-        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
-        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
-        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
-        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
-        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
-        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
-        uint32_t reserved_22           : 1;
-        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
-        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
-        uint32_t i_stat                : 1;  /**< [ 19: 19](RO/H) INTx status. Not applicable for SR-IOV.  Hardwired to 0. */
-        uint32_t reserved_11_18        : 8;
-        uint32_t i_dis                 : 1;  /**< [ 10: 10](RO) VF read-only zero. */
-        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t see                   : 1;  /**< [  8:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG001[SEE]. */
-        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t per                   : 1;  /**< [  6:  6](RO/H) Read-only copy of the associated PF's PCIEP()_CFG001[PER]. */
-        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t me                    : 1;  /**< [  2:  2](R/W/H) Bus master enable. If the VF tries to master the bus when this bit is not set,
-                                                                 the request is discarded. A interrupt will be generated setting the
-                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
-                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
-                                                                 to SLI/DPI/NQM soon thereafter.
-                                                                 Bus master enable mimics the behavor of SPEM()_FLR_PF()_VF()_STOPREQ. */
-        uint32_t msae                  : 1;  /**< [  1:  1](RO) VF read-only zero. */
-        uint32_t isae                  : 1;  /**< [  0:  0](RO) VF read-only zero. */
-#else /* Word 0 - Little Endian */
-        uint32_t isae                  : 1;  /**< [  0:  0](RO) VF read-only zero. */
-        uint32_t msae                  : 1;  /**< [  1:  1](RO) VF read-only zero. */
-        uint32_t me                    : 1;  /**< [  2:  2](R/W/H) Bus master enable. If the VF tries to master the bus when this bit is not set,
-                                                                 the request is discarded. A interrupt will be generated setting the
-                                                                 SPEM()_PF()_DBG_INFO[P()_BMD_E bit.
-                                                                 Transactions are dropped in the Client.  Non-posted transactions returns a SWI_RSP_ERROR
-                                                                 to SLI/DPI/NQM soon thereafter.
-                                                                 Bus master enable mimics the behavor of SPEM()_FLR_PF()_VF()_STOPREQ. */
-        uint32_t scse                  : 1;  /**< [  3:  3](RO) Special cycle enable. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t mwice                 : 1;  /**< [  4:  4](RO) Memory write and invalidate. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t vps                   : 1;  /**< [  5:  5](RO) VGA palette snoop. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t per                   : 1;  /**< [  6:  6](RO/H) Read-only copy of the associated PF's PCIEP()_CFG001[PER]. */
-        uint32_t ids_wcc               : 1;  /**< [  7:  7](RO) IDSEL stepping/wait cycle control. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t see                   : 1;  /**< [  8:  8](RO/H) Read-only copy of the associated PF's PCIEP()_CFG001[SEE]. */
-        uint32_t fbbe                  : 1;  /**< [  9:  9](RO) Fast back-to-back transaction enable. Not applicable for PCI Express. Must be hardwired to 0. */
-        uint32_t i_dis                 : 1;  /**< [ 10: 10](RO) VF read-only zero. */
-        uint32_t reserved_11_18        : 8;
-        uint32_t i_stat                : 1;  /**< [ 19: 19](RO/H) INTx status. Not applicable for SR-IOV.  Hardwired to 0. */
-        uint32_t cl                    : 1;  /**< [ 20: 20](RO) Capabilities list. Indicates presence of an extended capability item. Hardwired to 1. */
-        uint32_t m66                   : 1;  /**< [ 21: 21](RO) 66 MHz capable. Not applicable for PCI Express. Hardwired to 0. */
-        uint32_t reserved_22           : 1;
-        uint32_t fbb                   : 1;  /**< [ 23: 23](RO) Fast back-to-back capable. Not applicable for PCI Express. Hardwired to 0. */
-        uint32_t mdpe                  : 1;  /**< [ 24: 24](R/W1C/H) Master data parity error. */
-        uint32_t devt                  : 2;  /**< [ 26: 25](RO) DEVSEL timing. Not applicable for PCI Express. Hardwired to 0x0. */
-        uint32_t sta                   : 1;  /**< [ 27: 27](R/W1C/H) Signaled target abort. */
-        uint32_t rta                   : 1;  /**< [ 28: 28](R/W1C/H) Received target abort. */
-        uint32_t rma                   : 1;  /**< [ 29: 29](R/W1C/H) Received master abort. */
-        uint32_t sse                   : 1;  /**< [ 30: 30](R/W1C/H) Signaled system error. */
-        uint32_t dpe                   : 1;  /**< [ 31: 31](R/W1C/H) Detected parity error. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepvfx_cfg001_s cn; */
-} bdk_pcieepvfx_cfg001_t;
-
-static inline uint64_t BDK_PCIEEPVFX_CFG001(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG001(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000004ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG001", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPVFX_CFG001(a) bdk_pcieepvfx_cfg001_t
-#define bustype_BDK_PCIEEPVFX_CFG001(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG001(a) "PCIEEPVFX_CFG001"
-#define busnum_BDK_PCIEEPVFX_CFG001(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG001(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieepvf#_cfg065
- *
- * PCI Express ARI Capability Register/PCI Express ARI Control Register
- * This register contains the sixty-sixth 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepvfx_cfg065_s
+    struct bdk_pcieepvfx_cfg037_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
-        uint32_t fg                    : 4;  /**< [ 23: 20](RO) Function group. */
-        uint32_t reserved_18_19        : 2;
-        uint32_t acsfge                : 1;  /**< [ 17: 17](RO) ACS function groups enable (A). */
-        uint32_t mfvcfge               : 1;  /**< [ 16: 16](RO) MFVC function groups enable (M). */
-        uint32_t reserved_2_15         : 14;
-        uint32_t acsfgc                : 1;  /**< [  1:  1](RO) ACS function groups capability. */
-        uint32_t mfvcfgc               : 1;  /**< [  0:  0](RO) MFVC function groups capability. */
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Read-only copy of the associated PF's PCIEP()_CFG037[MEETP]. */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
+        uint32_t reserved_14_17        : 4;
+        uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO/H) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request.
+                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
+                                                                 ATOM64S is set as an inherited attribute from the PF. */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO/H) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request.
+                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
+                                                                 ATOM64S is set as an inherited attribute from the PF. */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported (not applicable for EP). */
+        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO) Completion timeout ranges supported. */
 #else /* Word 0 - Little Endian */
-        uint32_t mfvcfgc               : 1;  /**< [  0:  0](RO) MFVC function groups capability. */
-        uint32_t acsfgc                : 1;  /**< [  1:  1](RO) ACS function groups capability. */
-        uint32_t reserved_2_15         : 14;
-        uint32_t mfvcfge               : 1;  /**< [ 16: 16](RO) MFVC function groups enable (M). */
-        uint32_t acsfge                : 1;  /**< [ 17: 17](RO) ACS function groups enable (A). */
-        uint32_t reserved_18_19        : 2;
-        uint32_t fg                    : 4;  /**< [ 23: 20](RO) Function group. */
+        uint32_t ctrs                  : 4;  /**< [  3:  0](RO) Completion timeout ranges supported. */
+        uint32_t ctds                  : 1;  /**< [  4:  4](RO) Completion timeout disable supported. */
+        uint32_t ari                   : 1;  /**< [  5:  5](RO) Alternate routing ID forwarding supported (not applicable for EP). */
+        uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported (not applicable for EP). */
+        uint32_t atom32s               : 1;  /**< [  7:  7](RO/H) 32-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request.
+                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
+                                                                 ATOM64S is set as an inherited attribute from the PF. */
+        uint32_t atom64s               : 1;  /**< [  8:  8](RO/H) 64-bit AtomicOp supported.
+                                                                 Note that inbound AtomicOps targeting BAR0 are not supported and are dropped as an
+                                                                 unsupported request.
+                                                                 Since VF's are tied to BAR0, all AtomicOp's will be dropped as unsupported requests.
+                                                                 ATOM64S is set as an inherited attribute from the PF. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
+        uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. (This bit applies to RCs.) */
+        uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
+        uint32_t tphs                  : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
+        uint32_t reserved_14_17        : 4;
+        uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
+        uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Read-only copy of the associated PF's PCIEP()_CFG037[MEETP]. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pcieepvfx_cfg065_s cn; */
-} bdk_pcieepvfx_cfg065_t;
+    /* struct bdk_pcieepvfx_cfg037_s cn; */
+} bdk_pcieepvfx_cfg037_t;
 
-static inline uint64_t BDK_PCIEEPVFX_CFG065(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG065(unsigned long a)
+static inline uint64_t BDK_PCIEEPVFX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG037(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x50000000104ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG065", 1, a, 0, 0, 0);
+        return 0x50000000094ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG037", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PCIEEPVFX_CFG065(a) bdk_pcieepvfx_cfg065_t
-#define bustype_BDK_PCIEEPVFX_CFG065(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG065(a) "PCIEEPVFX_CFG065"
-#define busnum_BDK_PCIEEPVFX_CFG065(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG065(a) (a),-1,-1,-1
+#define typedef_BDK_PCIEEPVFX_CFG037(a) bdk_pcieepvfx_cfg037_t
+#define bustype_BDK_PCIEEPVFX_CFG037(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG037(a) "PCIEEPVFX_CFG037"
+#define busnum_BDK_PCIEEPVFX_CFG037(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG037(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieepvf#_cfg038
+ *
+ * Device Control 2 Register/Device Status 2 Register
+ * This register contains the thirty-ninth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepvfx_cfg038_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_10_31        : 22;
+        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
+        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
+        uint32_t reserved_7            : 1;
+        uint32_t atom_op               : 1;  /**< [  6:  6](RO/H) Read-only copy of the associated PF's PCIEP()_CFG038[ATOM_OP]. */
+        uint32_t reserved_5            : 1;
+        uint32_t ctd                   : 1;  /**< [  4:  4](RO) Read-only copy of the associated PF's PCIEP()_CFG038[CTD]. */
+        uint32_t ctv                   : 4;  /**< [  3:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG038[CTV]. */
+#else /* Word 0 - Little Endian */
+        uint32_t ctv                   : 4;  /**< [  3:  0](RO/H) Read-only copy of the associated PF's PCIEP()_CFG038[CTV]. */
+        uint32_t ctd                   : 1;  /**< [  4:  4](RO) Read-only copy of the associated PF's PCIEP()_CFG038[CTD]. */
+        uint32_t reserved_5            : 1;
+        uint32_t atom_op               : 1;  /**< [  6:  6](RO/H) Read-only copy of the associated PF's PCIEP()_CFG038[ATOM_OP]. */
+        uint32_t reserved_7            : 1;
+        uint32_t id0_rq                : 1;  /**< [  8:  8](RO) ID based ordering request enable (not supported). */
+        uint32_t id0_cp                : 1;  /**< [  9:  9](RO) ID based ordering completion enable (not supported). */
+        uint32_t reserved_10_31        : 22;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepvfx_cfg038_s cn; */
+} bdk_pcieepvfx_cfg038_t;
+
+static inline uint64_t BDK_PCIEEPVFX_CFG038(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG038(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
+        return 0x50000000098ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG038", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPVFX_CFG038(a) bdk_pcieepvfx_cfg038_t
+#define bustype_BDK_PCIEEPVFX_CFG038(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG038(a) "PCIEEPVFX_CFG038"
+#define busnum_BDK_PCIEEPVFX_CFG038(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG038(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg040
@@ -1232,42 +1184,6 @@ static inline uint64_t BDK_PCIEEPVFX_CFG040(unsigned long a)
 #define basename_BDK_PCIEEPVFX_CFG040(a) "PCIEEPVFX_CFG040"
 #define busnum_BDK_PCIEEPVFX_CFG040(a) (a)
 #define arguments_BDK_PCIEEPVFX_CFG040(a) (a),-1,-1,-1
-
-/**
- * Register (PCICONFIGEP) pcieepvf#_cfg046
- *
- * PCI Express MSI-X PBA Offset and BIR Register
- * This register contains the forty-seventh 32-bits of PCIe type 0 configuration space.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pcieepvfx_cfg046_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/H) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPOFFS]. */
-        uint32_t msixpbir              : 3;  /**< [  2:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPBIR]. */
-#else /* Word 0 - Little Endian */
-        uint32_t msixpbir              : 3;  /**< [  2:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPBIR]. */
-        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/H) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPOFFS]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pcieepvfx_cfg046_s cn; */
-} bdk_pcieepvfx_cfg046_t;
-
-static inline uint64_t BDK_PCIEEPVFX_CFG046(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PCIEEPVFX_CFG046(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
-        return 0x500000000b8ll + 0x100000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("PCIEEPVFX_CFG046", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PCIEEPVFX_CFG046(a) bdk_pcieepvfx_cfg046_t
-#define bustype_BDK_PCIEEPVFX_CFG046(a) BDK_CSR_TYPE_PCICONFIGEP
-#define basename_BDK_PCIEEPVFX_CFG046(a) "PCIEEPVFX_CFG046"
-#define busnum_BDK_PCIEEPVFX_CFG046(a) (a)
-#define arguments_BDK_PCIEEPVFX_CFG046(a) (a),-1,-1,-1
 
 /**
  * Register (PCICONFIGEP) pcieepvf#_cfg044
@@ -1364,6 +1280,42 @@ static inline uint64_t BDK_PCIEEPVFX_CFG045(unsigned long a)
 #define arguments_BDK_PCIEEPVFX_CFG045(a) (a),-1,-1,-1
 
 /**
+ * Register (PCICONFIGEP) pcieepvf#_cfg046
+ *
+ * PCI Express MSI-X PBA Offset and BIR Register
+ * This register contains the forty-seventh 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepvfx_cfg046_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/H) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPOFFS]. */
+        uint32_t msixpbir              : 3;  /**< [  2:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPBIR]. */
+#else /* Word 0 - Little Endian */
+        uint32_t msixpbir              : 3;  /**< [  2:  0](RO) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPBIR]. */
+        uint32_t msixpoffs             : 29; /**< [ 31:  3](RO/H) Read-only copy of the associated PF's PCIEP()_CFG046[MSIXPOFFS]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepvfx_cfg046_s cn; */
+} bdk_pcieepvfx_cfg046_t;
+
+static inline uint64_t BDK_PCIEEPVFX_CFG046(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG046(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
+        return 0x500000000b8ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG046", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPVFX_CFG046(a) bdk_pcieepvfx_cfg046_t
+#define bustype_BDK_PCIEEPVFX_CFG046(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG046(a) "PCIEEPVFX_CFG046"
+#define busnum_BDK_PCIEEPVFX_CFG046(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG046(a) (a),-1,-1,-1
+
+/**
  * Register (PCICONFIGEP) pcieepvf#_cfg064
  *
  * PCI Express ARI Extended Capability
@@ -1400,5 +1352,53 @@ static inline uint64_t BDK_PCIEEPVFX_CFG064(unsigned long a)
 #define basename_BDK_PCIEEPVFX_CFG064(a) "PCIEEPVFX_CFG064"
 #define busnum_BDK_PCIEEPVFX_CFG064(a) (a)
 #define arguments_BDK_PCIEEPVFX_CFG064(a) (a),-1,-1,-1
+
+/**
+ * Register (PCICONFIGEP) pcieepvf#_cfg065
+ *
+ * PCI Express ARI Capability Register/PCI Express ARI Control Register
+ * This register contains the sixty-sixth 32-bits of PCIe type 0 configuration space.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pcieepvfx_cfg065_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t fg                    : 4;  /**< [ 23: 20](RO) Function group. */
+        uint32_t reserved_18_19        : 2;
+        uint32_t acsfge                : 1;  /**< [ 17: 17](RO) ACS function groups enable (A). */
+        uint32_t mfvcfge               : 1;  /**< [ 16: 16](RO) MFVC function groups enable (M). */
+        uint32_t reserved_2_15         : 14;
+        uint32_t acsfgc                : 1;  /**< [  1:  1](RO) ACS function groups capability. */
+        uint32_t mfvcfgc               : 1;  /**< [  0:  0](RO) MFVC function groups capability. */
+#else /* Word 0 - Little Endian */
+        uint32_t mfvcfgc               : 1;  /**< [  0:  0](RO) MFVC function groups capability. */
+        uint32_t acsfgc                : 1;  /**< [  1:  1](RO) ACS function groups capability. */
+        uint32_t reserved_2_15         : 14;
+        uint32_t mfvcfge               : 1;  /**< [ 16: 16](RO) MFVC function groups enable (M). */
+        uint32_t acsfge                : 1;  /**< [ 17: 17](RO) ACS function groups enable (A). */
+        uint32_t reserved_18_19        : 2;
+        uint32_t fg                    : 4;  /**< [ 23: 20](RO) Function group. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pcieepvfx_cfg065_s cn; */
+} bdk_pcieepvfx_cfg065_t;
+
+static inline uint64_t BDK_PCIEEPVFX_CFG065(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PCIEEPVFX_CFG065(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) || (a==4)))
+        return 0x50000000104ll + 0x100000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("PCIEEPVFX_CFG065", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PCIEEPVFX_CFG065(a) bdk_pcieepvfx_cfg065_t
+#define bustype_BDK_PCIEEPVFX_CFG065(a) BDK_CSR_TYPE_PCICONFIGEP
+#define basename_BDK_PCIEEPVFX_CFG065(a) "PCIEEPVFX_CFG065"
+#define busnum_BDK_PCIEEPVFX_CFG065(a) (a)
+#define arguments_BDK_PCIEEPVFX_CFG065(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_PCIEEPVF_H__ */

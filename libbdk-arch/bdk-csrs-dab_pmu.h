@@ -520,67 +520,472 @@
 #define BDK_PMU_PERF_E_WDAT (0xdc) /**< Number of cycles on the XMD bus which are used to transfer data from the writebuffer to the L2C. */
 
 /**
- * Register (DAB32b) pmu#_pmovsclr_el0
+ * Register (DAB32b) pmu#_pmauthstatus
  *
- * Performance Monitors Overflow Flag Status Clear Register
- * Contains the state of the overflow bit for the Cycle Count
- *     Register, PMU()_PMCCNTR_EL0, and each of the implemented event
- *     counters PMEVCNTR<x>. Writing to this register clears these
- *     bits.
+ * Performance Monitors Authentication Status Register
+ * Provides information about the state of the implementation
+ * defined authentication interface for performance monitors.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmovsclr_el0_s
+    struct bdk_pmux_pmauthstatus_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow bit. Possible values are:
-                                                                 PMU()_PMCR_EL0[LC] is used to control from which bit of PMU()_PMCCNTR_EL0
-                                                                     (bit 31 or bit 63) an overflow is detected.
-                                                                 0 = When read, means the cycle counter has not overflowed. When
-                                                                     written, has no effect.
-                                                                 1 = When read, means the cycle counter has overflowed. When
-                                                                     written, clears the overflow bit to 0. */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow clear bit for PMEVCNTR<x>.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values of each bit are:
-                                                                 0 = When read, means that PMEVCNTR<x> has not overflowed. When
-                                                                     written, has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> has overflowed. When
-                                                                     written, clears the PMEVCNTR<x> overflow bit to 0. */
+        uint32_t reserved_8_31         : 24;
+        uint32_t snid                  : 2;  /**< [  7:  6](RO) Holds the same value as DBGAUTHSTATUS_EL1.SNID. */
+        uint32_t reserved_4_5          : 2;
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Holds the same value as DBGAUTHSTATUS_EL1.NSNID. */
+        uint32_t reserved_0_1          : 2;
 #else /* Word 0 - Little Endian */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow clear bit for PMEVCNTR<x>.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values of each bit are:
-                                                                 0 = When read, means that PMEVCNTR<x> has not overflowed. When
-                                                                     written, has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> has overflowed. When
-                                                                     written, clears the PMEVCNTR<x> overflow bit to 0. */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow bit. Possible values are:
-                                                                 PMU()_PMCR_EL0[LC] is used to control from which bit of PMU()_PMCCNTR_EL0
-                                                                     (bit 31 or bit 63) an overflow is detected.
-                                                                 0 = When read, means the cycle counter has not overflowed. When
-                                                                     written, has no effect.
-                                                                 1 = When read, means the cycle counter has overflowed. When
-                                                                     written, clears the overflow bit to 0. */
+        uint32_t reserved_0_1          : 2;
+        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Holds the same value as DBGAUTHSTATUS_EL1.NSNID. */
+        uint32_t reserved_4_5          : 2;
+        uint32_t snid                  : 2;  /**< [  7:  6](RO) Holds the same value as DBGAUTHSTATUS_EL1.SNID. */
+        uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmovsclr_el0_s cn; */
-} bdk_pmux_pmovsclr_el0_t;
+    /* struct bdk_pmux_pmauthstatus_s cn; */
+} bdk_pmux_pmauthstatus_t;
 
-static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long a)
+static inline uint64_t BDK_PMUX_PMAUTHSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMAUTHSTATUS(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020c80ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMOVSCLR_EL0", 1, a, 0, 0, 0);
+        return 0x87a008020fb8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMAUTHSTATUS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMOVSCLR_EL0(a) bdk_pmux_pmovsclr_el0_t
-#define bustype_BDK_PMUX_PMOVSCLR_EL0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMOVSCLR_EL0(a) "PMUX_PMOVSCLR_EL0"
-#define busnum_BDK_PMUX_PMOVSCLR_EL0(a) (a)
-#define arguments_BDK_PMUX_PMOVSCLR_EL0(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMAUTHSTATUS(a) bdk_pmux_pmauthstatus_t
+#define bustype_BDK_PMUX_PMAUTHSTATUS(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMAUTHSTATUS(a) "PMUX_PMAUTHSTATUS"
+#define busnum_BDK_PMUX_PMAUTHSTATUS(a) (a)
+#define arguments_BDK_PMUX_PMAUTHSTATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmccfiltr_el0
+ *
+ * Performance Monitors Cycle Counter Filter Register
+ * Determines the modes in which the Cycle Counter, PMU()_PMCCNTR_EL0,
+ *     increments.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmccfiltr_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
+                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     controlled by the NSK bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count cycles in EL1.
+                                                                 1 = Do not count cycles in EL1. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
+                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     controlled by the NSU bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count cycles in EL0.
+                                                                 1 = Do not count cycles in EL0. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
+                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, cycles in
+                                                                     Non-secure EL1 are counted.
+                                                                 Otherwise, cycles in Non-secure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
+                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of U, cycles in
+                                                                     Non-secure EL0 are counted.
+                                                                 Otherwise, cycles in Non-secure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
+                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                 0 = Do not count cycles in EL2.
+                                                                 1 = Count cycles in EL2. */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
+                                                                     bit and set the value to zero. If EL3 is not implemented, this
+                                                                     bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, cycles in
+                                                                     Secure EL3 are counted.
+                                                                 Otherwise, cycles in Secure EL3 are not counted. */
+        uint32_t reserved_0_25         : 26;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_25         : 26;
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
+                                                                     bit and set the value to zero. If EL3 is not implemented, this
+                                                                     bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, cycles in
+                                                                     Secure EL3 are counted.
+                                                                 Otherwise, cycles in Secure EL3 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
+                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                 0 = Do not count cycles in EL2.
+                                                                 1 = Count cycles in EL2. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
+                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of U, cycles in
+                                                                     Non-secure EL0 are counted.
+                                                                 Otherwise, cycles in Non-secure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
+                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, cycles in
+                                                                     Non-secure EL1 are counted.
+                                                                 Otherwise, cycles in Non-secure EL1 are not counted. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
+                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     controlled by the NSU bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count cycles in EL0.
+                                                                 1 = Do not count cycles in EL0. */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
+                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     controlled by the NSK bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count cycles in EL1.
+                                                                 1 = Do not count cycles in EL1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmccfiltr_el0_s cn; */
+} bdk_pmux_pmccfiltr_el0_t;
+
+static inline uint64_t BDK_PMUX_PMCCFILTR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMCCFILTR_EL0(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a00802047cll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMCCFILTR_EL0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMCCFILTR_EL0(a) bdk_pmux_pmccfiltr_el0_t
+#define bustype_BDK_PMUX_PMCCFILTR_EL0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMCCFILTR_EL0(a) "PMUX_PMCCFILTR_EL0"
+#define busnum_BDK_PMUX_PMCCFILTR_EL0(a) (a)
+#define arguments_BDK_PMUX_PMCCFILTR_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmccntr_el0_hi
+ *
+ * Performance Monitors Cycle Counter High Register
+ * Holds the value of the processor Cycle Counter, CCNT, that counts processor clock cycles.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmccntr_el0_hi_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t value                 : 32; /**< [ 31:  0](R/W) Cycle count. Depending on the values of PMU()_PMCR_EL0[LC,D], the cycle count
+                                                                 increments in one of the following ways:
+                                                                 * Every processor clock cycle.
+                                                                 * Every 64th processor clock cycle.
+                                                                 The cycle count can be reset to zero by writing 1 to PMU()_PMCR_EL0[C]. */
+#else /* Word 0 - Little Endian */
+        uint32_t value                 : 32; /**< [ 31:  0](R/W) Cycle count. Depending on the values of PMU()_PMCR_EL0[LC,D], the cycle count
+                                                                 increments in one of the following ways:
+                                                                 * Every processor clock cycle.
+                                                                 * Every 64th processor clock cycle.
+                                                                 The cycle count can be reset to zero by writing 1 to PMU()_PMCR_EL0[C]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmccntr_el0_hi_s cn; */
+} bdk_pmux_pmccntr_el0_hi_t;
+
+static inline uint64_t BDK_PMUX_PMCCNTR_EL0_HI(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMCCNTR_EL0_HI(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a0080200fcll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMCCNTR_EL0_HI", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMCCNTR_EL0_HI(a) bdk_pmux_pmccntr_el0_hi_t
+#define bustype_BDK_PMUX_PMCCNTR_EL0_HI(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMCCNTR_EL0_HI(a) "PMUX_PMCCNTR_EL0_HI"
+#define busnum_BDK_PMUX_PMCCNTR_EL0_HI(a) (a)
+#define arguments_BDK_PMUX_PMCCNTR_EL0_HI(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmccntr_el0_lo
+ *
+ * Performance Monitors Cycle Counter Low Register
+ * Holds the value of the processor Cycle Counter, CCNT, that counts processor clock cycles.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmccntr_el0_lo_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t value                 : 32; /**< [ 31:  0](R/W) Cycle count. Depending on the values of PMU()_PMCR_EL0[LC,D], the cycle count
+                                                                 increments in one of the following ways:
+                                                                 * Every processor clock cycle.
+                                                                 * Every 64th processor clock cycle.
+                                                                 The cycle count can be reset to zero by writing 1 to PMU()_PMCR_EL0[C]. */
+#else /* Word 0 - Little Endian */
+        uint32_t value                 : 32; /**< [ 31:  0](R/W) Cycle count. Depending on the values of PMU()_PMCR_EL0[LC,D], the cycle count
+                                                                 increments in one of the following ways:
+                                                                 * Every processor clock cycle.
+                                                                 * Every 64th processor clock cycle.
+                                                                 The cycle count can be reset to zero by writing 1 to PMU()_PMCR_EL0[C]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmccntr_el0_lo_s cn; */
+} bdk_pmux_pmccntr_el0_lo_t;
+
+static inline uint64_t BDK_PMUX_PMCCNTR_EL0_LO(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMCCNTR_EL0_LO(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a0080200f8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMCCNTR_EL0_LO", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMCCNTR_EL0_LO(a) bdk_pmux_pmccntr_el0_lo_t
+#define bustype_BDK_PMUX_PMCCNTR_EL0_LO(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMCCNTR_EL0_LO(a) "PMUX_PMCCNTR_EL0_LO"
+#define busnum_BDK_PMUX_PMCCNTR_EL0_LO(a) (a)
+#define arguments_BDK_PMUX_PMCCNTR_EL0_LO(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmceid0
+ *
+ * Performance Monitors Common Event Identification Register 0
+ * Defines which common architectural and common
+ *     microarchitectural feature events are implemented. If a
+ *     particular bit is set to 1, then the event for that bit is
+ *     implemented. Alias for PMU()_PMCEID1_EL0[31:0].
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmceid0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ce                    : 32; /**< [ 31:  0](RO) Common architectural and microarchitectural feature events that can be counted
+                                                                 by the PMU event counters.
+
+                                                                 In CNXXXX, the following bits are set to indicate the corresponding events are
+                                                                 implemented:
+                                                                   30 = 0x001e = CHAIN.
+                                                                   28 = 0x001c = TTBR_WRITE_RETIRED.
+                                                                   27 = 0x001b = INST_SPEC.
+                                                                   26 = 0x001a = MEMORY_ERROR.
+                                                                   24 = 0x0018 = L2D_CACHE_WB.
+                                                                   23 = 0x0017 = L2D_CACHE_REFILL.
+                                                                   22 = 0x0016 = L2D_CACHE.
+                                                                   20 = 0x0014 = L1I_CACHE.
+                                                                   19 = 0x0013 = MEM_ACCESS.
+                                                                   18 = 0x0012 = BR_PRED.
+                                                                   17 = 0x0011 = CPU_CYCLES.
+                                                                   16 = 0x0010 = BR_MIS_PRED.
+                                                                   15 = 0x000f = UNALIGNED_LDST_RETIRED.
+                                                                   14 = 0x000e = BR_RETURN_RETIRED.
+                                                                   13 = 0x000d = BR_IMMED_RETIRED.
+                                                                   12 = 0x000c = PC_WRITE_RETIRED.
+                                                                   11 = 0x000b = CID_WRITE_RETIRED.
+                                                                   10 = 0x000a = EXC_RETURN.
+                                                                    9 = 0x0009 = EXC_TAKEN.
+                                                                    8 = 0x0008 = INST_RETIRED.
+                                                                    7 = 0x0007 = ST_RETIRED.
+                                                                    6 = 0x0006 = LD_RETIRED.
+                                                                    5 = 0x0005 = L1D_TLB_REFILL.
+                                                                    4 = 0x0004 = L1D_CACHE.
+                                                                    3 = 0x0003 = L1D_CACHE_REFILL.
+                                                                    2 = 0x0002 = L1I_TLB_REFILL.
+                                                                    1 = 0x0001 = L1I_CACHE_REFILL.
+                                                                    0 = 0x0000 = SW_INCR. */
+#else /* Word 0 - Little Endian */
+        uint32_t ce                    : 32; /**< [ 31:  0](RO) Common architectural and microarchitectural feature events that can be counted
+                                                                 by the PMU event counters.
+
+                                                                 In CNXXXX, the following bits are set to indicate the corresponding events are
+                                                                 implemented:
+                                                                   30 = 0x001e = CHAIN.
+                                                                   28 = 0x001c = TTBR_WRITE_RETIRED.
+                                                                   27 = 0x001b = INST_SPEC.
+                                                                   26 = 0x001a = MEMORY_ERROR.
+                                                                   24 = 0x0018 = L2D_CACHE_WB.
+                                                                   23 = 0x0017 = L2D_CACHE_REFILL.
+                                                                   22 = 0x0016 = L2D_CACHE.
+                                                                   20 = 0x0014 = L1I_CACHE.
+                                                                   19 = 0x0013 = MEM_ACCESS.
+                                                                   18 = 0x0012 = BR_PRED.
+                                                                   17 = 0x0011 = CPU_CYCLES.
+                                                                   16 = 0x0010 = BR_MIS_PRED.
+                                                                   15 = 0x000f = UNALIGNED_LDST_RETIRED.
+                                                                   14 = 0x000e = BR_RETURN_RETIRED.
+                                                                   13 = 0x000d = BR_IMMED_RETIRED.
+                                                                   12 = 0x000c = PC_WRITE_RETIRED.
+                                                                   11 = 0x000b = CID_WRITE_RETIRED.
+                                                                   10 = 0x000a = EXC_RETURN.
+                                                                    9 = 0x0009 = EXC_TAKEN.
+                                                                    8 = 0x0008 = INST_RETIRED.
+                                                                    7 = 0x0007 = ST_RETIRED.
+                                                                    6 = 0x0006 = LD_RETIRED.
+                                                                    5 = 0x0005 = L1D_TLB_REFILL.
+                                                                    4 = 0x0004 = L1D_CACHE.
+                                                                    3 = 0x0003 = L1D_CACHE_REFILL.
+                                                                    2 = 0x0002 = L1I_TLB_REFILL.
+                                                                    1 = 0x0001 = L1I_CACHE_REFILL.
+                                                                    0 = 0x0000 = SW_INCR. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmceid0_s cn; */
+} bdk_pmux_pmceid0_t;
+
+static inline uint64_t BDK_PMUX_PMCEID0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMCEID0(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a008020e20ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMCEID0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMCEID0(a) bdk_pmux_pmceid0_t
+#define bustype_BDK_PMUX_PMCEID0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMCEID0(a) "PMUX_PMCEID0"
+#define busnum_BDK_PMUX_PMCEID0(a) (a)
+#define arguments_BDK_PMUX_PMCEID0(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmceid1
+ *
+ * Performance Monitors Common Event Identification Register 1
+ * Reserved for future indication of which common architectural
+ *     and common microarchitectural feature events are implemented.
+ *     These events are in the range 0x20-0x3f.
+ *     Alias for PMU()_PMCEID1_EL0[31:0].
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmceid1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ce                    : 32; /**< [ 31:  0](RO) Common architectural and microarchitectural feature events that can be counted
+                                                                 by the PMU event counters.
+
+                                                                 In CNXXXX, the following bits are set to indicate the corresponding events are
+                                                                 implemented:
+                                                                   15 = 0x002f = L2D_TLB.
+                                                                   14 = 0x002e = L2I_TLB_REFILL.
+                                                                   13 = 0x002d = L2D_TLB_REFILL.
+                                                                   8  = 0x0028 = L2I_CACHE_REFILL.
+                                                                   7  = 0x0027 = L2I_CACHE.
+                                                                   6  = 0x0026 = L1I_TLB.
+                                                                   5  = 0x0025 = L1D_TLB.
+                                                                   4  = 0x0024 = STALL_BACKEND.
+                                                                   3  = 0x0023 = STALL_FRONTEND.
+                                                                   2  = 0x0022 = BR_MIS_PRED_RETIRED.
+                                                                   1  = 0x0021 = BR_RETIRED. */
+#else /* Word 0 - Little Endian */
+        uint32_t ce                    : 32; /**< [ 31:  0](RO) Common architectural and microarchitectural feature events that can be counted
+                                                                 by the PMU event counters.
+
+                                                                 In CNXXXX, the following bits are set to indicate the corresponding events are
+                                                                 implemented:
+                                                                   15 = 0x002f = L2D_TLB.
+                                                                   14 = 0x002e = L2I_TLB_REFILL.
+                                                                   13 = 0x002d = L2D_TLB_REFILL.
+                                                                   8  = 0x0028 = L2I_CACHE_REFILL.
+                                                                   7  = 0x0027 = L2I_CACHE.
+                                                                   6  = 0x0026 = L1I_TLB.
+                                                                   5  = 0x0025 = L1D_TLB.
+                                                                   4  = 0x0024 = STALL_BACKEND.
+                                                                   3  = 0x0023 = STALL_FRONTEND.
+                                                                   2  = 0x0022 = BR_MIS_PRED_RETIRED.
+                                                                   1  = 0x0021 = BR_RETIRED. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmceid1_s cn; */
+} bdk_pmux_pmceid1_t;
+
+static inline uint64_t BDK_PMUX_PMCEID1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMCEID1(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a008020e24ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMCEID1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMCEID1(a) bdk_pmux_pmceid1_t
+#define bustype_BDK_PMUX_PMCEID1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMCEID1(a) "PMUX_PMCEID1"
+#define busnum_BDK_PMUX_PMCEID1(a) (a)
+#define arguments_BDK_PMUX_PMCEID1(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmceid2
+ *
+ * Performance Monitors Common Event Identification Register 2
+ * Reserved for future indication of which common architectural
+ *     and common microarchitectural feature events are implemented.
+ *     These events are in the range 0x4000-0x401f
+ *     Alias for PMU()_PMCEID0_EL0[63:32]
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmceid2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t ce                    : 32; /**< [ 31:  0](RAZ) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t ce                    : 32; /**< [ 31:  0](RAZ) Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmceid2_s cn; */
+} bdk_pmux_pmceid2_t;
+
+static inline uint64_t BDK_PMUX_PMCEID2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMCEID2(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a008020e28ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMCEID2", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMCEID2(a) bdk_pmux_pmceid2_t
+#define bustype_BDK_PMUX_PMCEID2(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMCEID2(a) "PMUX_PMCEID2"
+#define busnum_BDK_PMUX_PMCEID2(a) (a)
+#define arguments_BDK_PMUX_PMCEID2(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmceid3
+ *
+ * Performance Monitors Common Event Identification Register 3
+ * Reserved for future indication of which common architectural
+ *     and common microarchitectural feature events are implemented.
+ *     These events are in the range 0x4020-0x403f
+ *     Alias for PMU()_PMCEID1_EL0[63:32]
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmceid3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0_31         : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmceid3_s cn; */
+} bdk_pmux_pmceid3_t;
+
+static inline uint64_t BDK_PMUX_PMCEID3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMCEID3(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a008020e2cll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMCEID3", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMCEID3(a) bdk_pmux_pmceid3_t
+#define bustype_BDK_PMUX_PMCEID3(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMCEID3(a) "PMUX_PMCEID3"
+#define busnum_BDK_PMUX_PMCEID3(a) (a)
+#define arguments_BDK_PMUX_PMCEID3(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) pmu#_pmcfgr
@@ -669,6 +1074,43 @@ static inline uint64_t BDK_PMUX_PMCFGR(unsigned long a)
 #define arguments_BDK_PMUX_PMCFGR(a) (a),-1,-1,-1
 
 /**
+ * Register (DAB32b) pmu#_pmcidr0
+ *
+ * Performance Monitors Component Identification Register 0
+ * Provides information to identify a Performance Monitor
+ *     component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmcidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x0D. */
+#else /* Word 0 - Little Endian */
+        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x0D. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmcidr0_s cn; */
+} bdk_pmux_pmcidr0_t;
+
+static inline uint64_t BDK_PMUX_PMCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMCIDR0(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a008020ff0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMCIDR0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMCIDR0(a) bdk_pmux_pmcidr0_t
+#define bustype_BDK_PMUX_PMCIDR0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMCIDR0(a) "PMUX_PMCIDR0"
+#define busnum_BDK_PMUX_PMCIDR0(a) (a)
+#define arguments_BDK_PMUX_PMCIDR0(a) (a),-1,-1,-1
+
+/**
  * Register (DAB32b) pmu#_pmcidr1
  *
  * Performance Monitors Component Identification Register 1
@@ -708,41 +1150,41 @@ static inline uint64_t BDK_PMUX_PMCIDR1(unsigned long a)
 #define arguments_BDK_PMUX_PMCIDR1(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmcidr0
+ * Register (DAB32b) pmu#_pmcidr2
  *
- * Performance Monitors Component Identification Register 0
+ * Performance Monitors Component Identification Register 2
  * Provides information to identify a Performance Monitor
  *     component.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmcidr0_s
+    struct bdk_pmux_pmcidr2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
-        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x0D. */
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x05. */
 #else /* Word 0 - Little Endian */
-        uint32_t prmbl_0               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x0D. */
+        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x05. */
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmcidr0_s cn; */
-} bdk_pmux_pmcidr0_t;
+    /* struct bdk_pmux_pmcidr2_s cn; */
+} bdk_pmux_pmcidr2_t;
 
-static inline uint64_t BDK_PMUX_PMCIDR0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMCIDR0(unsigned long a)
+static inline uint64_t BDK_PMUX_PMCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMCIDR2(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020ff0ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMCIDR0", 1, a, 0, 0, 0);
+        return 0x87a008020ff8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMCIDR2", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMCIDR0(a) bdk_pmux_pmcidr0_t
-#define bustype_BDK_PMUX_PMCIDR0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMCIDR0(a) "PMUX_PMCIDR0"
-#define busnum_BDK_PMUX_PMCIDR0(a) (a)
-#define arguments_BDK_PMUX_PMCIDR0(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMCIDR2(a) bdk_pmux_pmcidr2_t
+#define bustype_BDK_PMUX_PMCIDR2(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMCIDR2(a) "PMUX_PMCIDR2"
+#define busnum_BDK_PMUX_PMCIDR2(a) (a)
+#define arguments_BDK_PMUX_PMCIDR2(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) pmu#_pmcidr3
@@ -782,41 +1224,124 @@ static inline uint64_t BDK_PMUX_PMCIDR3(unsigned long a)
 #define arguments_BDK_PMUX_PMCIDR3(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmcidr2
+ * Register (DAB32b) pmu#_pmcntenclr_el0
  *
- * Performance Monitors Component Identification Register 2
- * Provides information to identify a Performance Monitor
- *     component.
+ * Performance Monitors Count Enable Clear Register
+ * Disables the Cycle Count Register, PMU()_PMCCNTR_EL0, and any
+ *     implemented event counters PMEVCNTR<x>. Reading this register
+ *     shows which counters are enabled.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmcidr2_s
+    struct bdk_pmux_pmcntenclr_el0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x05. */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 disable bit. Disables the cycle counter register.
+                                                                     Possible values are:
+                                                                 0 = When read, means the cycle counter is disabled. When written,
+                                                                     has no effect.
+                                                                 1 = When read, means the cycle counter is enabled. When written,
+                                                                     disables the cycle counter. */
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter disable bit for PMEVCNTR<x>.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values of each bit are:
+                                                                 0 = When read, means that PMEVCNTR<x> is disabled. When written,
+                                                                     has no effect.
+                                                                 1 = When read, means that PMEVCNTR<x> is enabled. When written,
+                                                                     disables PMEVCNTR<x>. */
 #else /* Word 0 - Little Endian */
-        uint32_t prmbl_2               : 8;  /**< [  7:  0](RO) Preamble. Must read as 0x05. */
-        uint32_t reserved_8_31         : 24;
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter disable bit for PMEVCNTR<x>.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values of each bit are:
+                                                                 0 = When read, means that PMEVCNTR<x> is disabled. When written,
+                                                                     has no effect.
+                                                                 1 = When read, means that PMEVCNTR<x> is enabled. When written,
+                                                                     disables PMEVCNTR<x>. */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 disable bit. Disables the cycle counter register.
+                                                                     Possible values are:
+                                                                 0 = When read, means the cycle counter is disabled. When written,
+                                                                     has no effect.
+                                                                 1 = When read, means the cycle counter is enabled. When written,
+                                                                     disables the cycle counter. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmcidr2_s cn; */
-} bdk_pmux_pmcidr2_t;
+    /* struct bdk_pmux_pmcntenclr_el0_s cn; */
+} bdk_pmux_pmcntenclr_el0_t;
 
-static inline uint64_t BDK_PMUX_PMCIDR2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMCIDR2(unsigned long a)
+static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020ff8ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMCIDR2", 1, a, 0, 0, 0);
+        return 0x87a008020c20ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMCNTENCLR_EL0", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMCIDR2(a) bdk_pmux_pmcidr2_t
-#define bustype_BDK_PMUX_PMCIDR2(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMCIDR2(a) "PMUX_PMCIDR2"
-#define busnum_BDK_PMUX_PMCIDR2(a) (a)
-#define arguments_BDK_PMUX_PMCIDR2(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMCNTENCLR_EL0(a) bdk_pmux_pmcntenclr_el0_t
+#define bustype_BDK_PMUX_PMCNTENCLR_EL0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMCNTENCLR_EL0(a) "PMUX_PMCNTENCLR_EL0"
+#define busnum_BDK_PMUX_PMCNTENCLR_EL0(a) (a)
+#define arguments_BDK_PMUX_PMCNTENCLR_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmcntenset_el0
+ *
+ * Performance Monitors Count Enable Set Register
+ * Enables the Cycle Count Register, PMU()_PMCCNTR_EL0, and any
+ *     implemented event counters PMEVCNTR<x>. Reading this register
+ *     shows which counters are enabled.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmcntenset_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 enable bit. Enables the cycle counter register.
+                                                                     Possible values are:
+                                                                 0 = When read, means the cycle counter is disabled. When written,
+                                                                     has no effect.
+                                                                 1 = When read, means the cycle counter is enabled. When written,
+                                                                     enables the cycle counter. */
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter enable bit for PMEVCNTR<x>.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values of each bit are:
+                                                                 0 = When read, means that PMEVCNTR<x> is disabled. When written,
+                                                                     has no effect.
+                                                                 1 = When read, means that PMEVCNTR<x> event counter is enabled.
+                                                                     When written, enables PMEVCNTR<x>. */
+#else /* Word 0 - Little Endian */
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter enable bit for PMEVCNTR<x>.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values of each bit are:
+                                                                 0 = When read, means that PMEVCNTR<x> is disabled. When written,
+                                                                     has no effect.
+                                                                 1 = When read, means that PMEVCNTR<x> event counter is enabled.
+                                                                     When written, enables PMEVCNTR<x>. */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 enable bit. Enables the cycle counter register.
+                                                                     Possible values are:
+                                                                 0 = When read, means the cycle counter is disabled. When written,
+                                                                     has no effect.
+                                                                 1 = When read, means the cycle counter is enabled. When written,
+                                                                     enables the cycle counter. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmcntenset_el0_s cn; */
+} bdk_pmux_pmcntenset_el0_t;
+
+static inline uint64_t BDK_PMUX_PMCNTENSET_EL0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMCNTENSET_EL0(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a008020c00ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMCNTENSET_EL0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMCNTENSET_EL0(a) bdk_pmux_pmcntenset_el0_t
+#define bustype_BDK_PMUX_PMCNTENSET_EL0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMCNTENSET_EL0(a) "PMUX_PMCNTENSET_EL0"
+#define busnum_BDK_PMUX_PMCNTENSET_EL0(a) (a)
+#define arguments_BDK_PMUX_PMCNTENSET_EL0(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) pmu#_pmcr_el0
@@ -1088,613 +1613,200 @@ static inline uint64_t BDK_PMUX_PMCR_EL0(unsigned long a)
 #define arguments_BDK_PMUX_PMCR_EL0(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmcntenset_el0
+ * Register (DAB32b) pmu#_pmdevaff0
  *
- * Performance Monitors Count Enable Set Register
- * Enables the Cycle Count Register, PMU()_PMCCNTR_EL0, and any
- *     implemented event counters PMEVCNTR<x>. Reading this register
- *     shows which counters are enabled.
+ * Performance Monitors Device Affinity Register 0
+ * Copy of the low half of the processor MPIDR_EL1 register that
+ *     allows a debugger to determine which processor in a
+ *     multiprocessor system the Performance Monitor component
+ *     relates to.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmcntenset_el0_s
+    struct bdk_pmux_pmdevaff0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 enable bit. Enables the cycle counter register.
-                                                                     Possible values are:
-                                                                 0 = When read, means the cycle counter is disabled. When written,
-                                                                     has no effect.
-                                                                 1 = When read, means the cycle counter is enabled. When written,
-                                                                     enables the cycle counter. */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter enable bit for PMEVCNTR<x>.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values of each bit are:
-                                                                 0 = When read, means that PMEVCNTR<x> is disabled. When written,
-                                                                     has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> event counter is enabled.
-                                                                     When written, enables PMEVCNTR<x>. */
+        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 low half
+                                                                 MPIDR_EL1 low half. Read-only copy of the low half of
+                                                                    MPIDR_EL1, as seen from the highest implemented exception
+                                                                    level. */
 #else /* Word 0 - Little Endian */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter enable bit for PMEVCNTR<x>.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values of each bit are:
-                                                                 0 = When read, means that PMEVCNTR<x> is disabled. When written,
-                                                                     has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> event counter is enabled.
-                                                                     When written, enables PMEVCNTR<x>. */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 enable bit. Enables the cycle counter register.
-                                                                     Possible values are:
-                                                                 0 = When read, means the cycle counter is disabled. When written,
-                                                                     has no effect.
-                                                                 1 = When read, means the cycle counter is enabled. When written,
-                                                                     enables the cycle counter. */
+        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 low half
+                                                                 MPIDR_EL1 low half. Read-only copy of the low half of
+                                                                    MPIDR_EL1, as seen from the highest implemented exception
+                                                                    level. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmcntenset_el0_s cn; */
-} bdk_pmux_pmcntenset_el0_t;
+    /* struct bdk_pmux_pmdevaff0_s cn; */
+} bdk_pmux_pmdevaff0_t;
 
-static inline uint64_t BDK_PMUX_PMCNTENSET_EL0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMCNTENSET_EL0(unsigned long a)
+static inline uint64_t BDK_PMUX_PMDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMDEVAFF0(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020c00ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMCNTENSET_EL0", 1, a, 0, 0, 0);
+        return 0x87a008020fa8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMDEVAFF0", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMCNTENSET_EL0(a) bdk_pmux_pmcntenset_el0_t
-#define bustype_BDK_PMUX_PMCNTENSET_EL0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMCNTENSET_EL0(a) "PMUX_PMCNTENSET_EL0"
-#define busnum_BDK_PMUX_PMCNTENSET_EL0(a) (a)
-#define arguments_BDK_PMUX_PMCNTENSET_EL0(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMDEVAFF0(a) bdk_pmux_pmdevaff0_t
+#define bustype_BDK_PMUX_PMDEVAFF0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMDEVAFF0(a) "PMUX_PMDEVAFF0"
+#define busnum_BDK_PMUX_PMDEVAFF0(a) (a)
+#define arguments_BDK_PMUX_PMDEVAFF0(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmlar
+ * Register (DAB32b) pmu#_pmdevaff1
  *
- * Performance Monitors Lock Access Register
- * Allows or disallows access to the Performance Monitors
- *     registers through a memory-mapped interface.
+ * Performance Monitors Device Affinity Register 1
+ * Copy of the high half of the processor MPIDR_EL1 register that
+ *     allows a debugger to determine which processor in a
+ *     multiprocessor system the Performance Monitor component
+ *     relates to.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmlar_s
+    struct bdk_pmux_pmdevaff1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock access control. Writing the key value 0xC5ACCE55 unlocks the lock.
-                                                                 Writing any other value to this register locks the lock, disabling write
-                                                                 accesses to this component's registers through a memory mapped interface. */
+        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 high half
+                                                                 MPIDR_EL1 high half. Read-only copy of the high half of
+                                                                    MPIDR_EL1, as seen from the highest implemented exception
+                                                                    level. */
 #else /* Word 0 - Little Endian */
-        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock access control. Writing the key value 0xC5ACCE55 unlocks the lock.
-                                                                 Writing any other value to this register locks the lock, disabling write
-                                                                 accesses to this component's registers through a memory mapped interface. */
+        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 high half
+                                                                 MPIDR_EL1 high half. Read-only copy of the high half of
+                                                                    MPIDR_EL1, as seen from the highest implemented exception
+                                                                    level. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmlar_s cn; */
-} bdk_pmux_pmlar_t;
+    /* struct bdk_pmux_pmdevaff1_s cn; */
+} bdk_pmux_pmdevaff1_t;
 
-static inline uint64_t BDK_PMUX_PMLAR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMLAR(unsigned long a)
+static inline uint64_t BDK_PMUX_PMDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMDEVAFF1(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020fb0ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMLAR", 1, a, 0, 0, 0);
+        return 0x87a008020facll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMDEVAFF1", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMLAR(a) bdk_pmux_pmlar_t
-#define bustype_BDK_PMUX_PMLAR(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMLAR(a) "PMUX_PMLAR"
-#define busnum_BDK_PMUX_PMLAR(a) (a)
-#define arguments_BDK_PMUX_PMLAR(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMDEVAFF1(a) bdk_pmux_pmdevaff1_t
+#define bustype_BDK_PMUX_PMDEVAFF1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMDEVAFF1(a) "PMUX_PMDEVAFF1"
+#define busnum_BDK_PMUX_PMDEVAFF1(a) (a)
+#define arguments_BDK_PMUX_PMDEVAFF1(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmccfiltr_el0
+ * Register (DAB32b) pmu#_pmdevarch
  *
- * Performance Monitors Cycle Counter Filter Register
- * Determines the modes in which the Cycle Counter, PMU()_PMCCNTR_EL0,
- *     increments.
+ * Performance Monitors Device Architecture Register
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmccfiltr_el0_s
+    struct bdk_pmux_pmdevarch_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
-                                                                     controlled by the NSK bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count cycles in EL1.
-                                                                 1 = Do not count cycles in EL1. */
-        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
-                                                                     controlled by the NSU bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count cycles in EL0.
-                                                                 1 = Do not count cycles in EL0. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, cycles in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, cycles in Non-secure EL1 are not counted. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of U, cycles in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, cycles in Non-secure EL0 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
-                                                                 0 = Do not count cycles in EL2.
-                                                                 1 = Count cycles in EL2. */
-        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
-                                                                     bit and set the value to zero. If EL3 is not implemented, this
-                                                                     bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, cycles in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, cycles in Secure EL3 are not counted. */
-        uint32_t reserved_0_25         : 26;
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For Performance
+                                                                     Monitors, this is ARM Limited.
+
+                                                                 Bits [31:28] are the JEP 106 continuation code, 0x4.
+
+                                                                 Bits [27:21] are the JEP 106 ID code, 0x3B. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
+                                                                 This field is 1 in v8-A. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
+                                                                     by ARM this is the minor revision.
+                                                                 For Performance Monitors, the revision defined by v8-A is 0x0.
+                                                                 All other values are reserved. */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
+                                                                     architectures defined by ARM this is further subdivided.
+                                                                 For Performance Monitors:
+                                                                  Bits [15:12] are the architecture version, 0x2.
+                                                                  Bits [11:0] are the architecture part number, 0xA16.
+
+                                                                 This corresponds to Performance Monitors architecture version
+                                                                     PMUv3. */
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_25         : 26;
-        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
-                                                                     bit and set the value to zero. If EL3 is not implemented, this
-                                                                     bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, cycles in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, cycles in Secure EL3 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
-                                                                 0 = Do not count cycles in EL2.
-                                                                 1 = Count cycles in EL2. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of U, cycles in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, cycles in Non-secure EL0 are not counted. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, cycles in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, cycles in Non-secure EL1 are not counted. */
-        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
-                                                                     controlled by the NSU bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count cycles in EL0.
-                                                                 1 = Do not count cycles in EL0. */
-        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
-                                                                     controlled by the NSK bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count cycles in EL1.
-                                                                 1 = Do not count cycles in EL1. */
+        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
+                                                                     architectures defined by ARM this is further subdivided.
+                                                                 For Performance Monitors:
+                                                                  Bits [15:12] are the architecture version, 0x2.
+                                                                  Bits [11:0] are the architecture part number, 0xA16.
+
+                                                                 This corresponds to Performance Monitors architecture version
+                                                                     PMUv3. */
+        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
+                                                                     by ARM this is the minor revision.
+                                                                 For Performance Monitors, the revision defined by v8-A is 0x0.
+                                                                 All other values are reserved. */
+        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
+                                                                 This field is 1 in v8-A. */
+        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For Performance
+                                                                     Monitors, this is ARM Limited.
+
+                                                                 Bits [31:28] are the JEP 106 continuation code, 0x4.
+
+                                                                 Bits [27:21] are the JEP 106 ID code, 0x3B. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmccfiltr_el0_s cn; */
-} bdk_pmux_pmccfiltr_el0_t;
+    /* struct bdk_pmux_pmdevarch_s cn; */
+} bdk_pmux_pmdevarch_t;
 
-static inline uint64_t BDK_PMUX_PMCCFILTR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMCCFILTR_EL0(unsigned long a)
+static inline uint64_t BDK_PMUX_PMDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMDEVARCH(unsigned long a)
 {
     if (a<=47)
-        return 0x87a00802047cll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMCCFILTR_EL0", 1, a, 0, 0, 0);
+        return 0x87a008020fbcll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMDEVARCH", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMCCFILTR_EL0(a) bdk_pmux_pmccfiltr_el0_t
-#define bustype_BDK_PMUX_PMCCFILTR_EL0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMCCFILTR_EL0(a) "PMUX_PMCCFILTR_EL0"
-#define busnum_BDK_PMUX_PMCCFILTR_EL0(a) (a)
-#define arguments_BDK_PMUX_PMCCFILTR_EL0(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMDEVARCH(a) bdk_pmux_pmdevarch_t
+#define bustype_BDK_PMUX_PMDEVARCH(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMDEVARCH(a) "PMUX_PMDEVARCH"
+#define busnum_BDK_PMUX_PMDEVARCH(a) (a)
+#define arguments_BDK_PMUX_PMDEVARCH(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmceid2
+ * Register (DAB32b) pmu#_pmdevtype
  *
- * Performance Monitors Common Event Identification Register 2
- * Reserved for future indication of which common architectural
- *     and common microarchitectural feature events are implemented.
- *     These events are in the range 0x4000-0x401f
- *     Alias for PMU()_PMCEID0_EL0[63:32]
+ * Performance Monitors Device Type Register
+ * Indicates to a debugger that this component is part of a
+ *     processor's performance monitor interface.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmceid2_s
+    struct bdk_pmux_pmdevtype_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ce                    : 32; /**< [ 31:  0](RAZ) Reserved. */
+        uint32_t reserved_8_31         : 24;
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Must read as 0x1. */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Must read as 0x6. */
 #else /* Word 0 - Little Endian */
-        uint32_t ce                    : 32; /**< [ 31:  0](RAZ) Reserved. */
+        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Must read as 0x6. */
+        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Must read as 0x1. */
+        uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmceid2_s cn; */
-} bdk_pmux_pmceid2_t;
+    /* struct bdk_pmux_pmdevtype_s cn; */
+} bdk_pmux_pmdevtype_t;
 
-static inline uint64_t BDK_PMUX_PMCEID2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMCEID2(unsigned long a)
+static inline uint64_t BDK_PMUX_PMDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMDEVTYPE(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020e28ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMCEID2", 1, a, 0, 0, 0);
+        return 0x87a008020fccll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMDEVTYPE", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMCEID2(a) bdk_pmux_pmceid2_t
-#define bustype_BDK_PMUX_PMCEID2(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMCEID2(a) "PMUX_PMCEID2"
-#define busnum_BDK_PMUX_PMCEID2(a) (a)
-#define arguments_BDK_PMUX_PMCEID2(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmceid3
- *
- * Performance Monitors Common Event Identification Register 3
- * Reserved for future indication of which common architectural
- *     and common microarchitectural feature events are implemented.
- *     These events are in the range 0x4020-0x403f
- *     Alias for PMU()_PMCEID1_EL0[63:32]
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmceid3_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmceid3_s cn; */
-} bdk_pmux_pmceid3_t;
-
-static inline uint64_t BDK_PMUX_PMCEID3(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMCEID3(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020e2cll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMCEID3", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMCEID3(a) bdk_pmux_pmceid3_t
-#define bustype_BDK_PMUX_PMCEID3(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMCEID3(a) "PMUX_PMCEID3"
-#define busnum_BDK_PMUX_PMCEID3(a) (a)
-#define arguments_BDK_PMUX_PMCEID3(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmceid0
- *
- * Performance Monitors Common Event Identification Register 0
- * Defines which common architectural and common
- *     microarchitectural feature events are implemented. If a
- *     particular bit is set to 1, then the event for that bit is
- *     implemented. Alias for PMU()_PMCEID1_EL0[31:0].
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmceid0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ce                    : 32; /**< [ 31:  0](RO) Common architectural and microarchitectural feature events that can be counted
-                                                                 by the PMU event counters.
-
-                                                                 In CNXXXX, the following bits are set to indicate the corresponding events are
-                                                                 implemented:
-                                                                   30 = 0x001e = CHAIN.
-                                                                   28 = 0x001c = TTBR_WRITE_RETIRED.
-                                                                   27 = 0x001b = INST_SPEC.
-                                                                   26 = 0x001a = MEMORY_ERROR.
-                                                                   24 = 0x0018 = L2D_CACHE_WB.
-                                                                   23 = 0x0017 = L2D_CACHE_REFILL.
-                                                                   22 = 0x0016 = L2D_CACHE.
-                                                                   20 = 0x0014 = L1I_CACHE.
-                                                                   19 = 0x0013 = MEM_ACCESS.
-                                                                   18 = 0x0012 = BR_PRED.
-                                                                   17 = 0x0011 = CPU_CYCLES.
-                                                                   16 = 0x0010 = BR_MIS_PRED.
-                                                                   15 = 0x000f = UNALIGNED_LDST_RETIRED.
-                                                                   14 = 0x000e = BR_RETURN_RETIRED.
-                                                                   13 = 0x000d = BR_IMMED_RETIRED.
-                                                                   12 = 0x000c = PC_WRITE_RETIRED.
-                                                                   11 = 0x000b = CID_WRITE_RETIRED.
-                                                                   10 = 0x000a = EXC_RETURN.
-                                                                    9 = 0x0009 = EXC_TAKEN.
-                                                                    8 = 0x0008 = INST_RETIRED.
-                                                                    7 = 0x0007 = ST_RETIRED.
-                                                                    6 = 0x0006 = LD_RETIRED.
-                                                                    5 = 0x0005 = L1D_TLB_REFILL.
-                                                                    4 = 0x0004 = L1D_CACHE.
-                                                                    3 = 0x0003 = L1D_CACHE_REFILL.
-                                                                    2 = 0x0002 = L1I_TLB_REFILL.
-                                                                    1 = 0x0001 = L1I_CACHE_REFILL.
-                                                                    0 = 0x0000 = SW_INCR. */
-#else /* Word 0 - Little Endian */
-        uint32_t ce                    : 32; /**< [ 31:  0](RO) Common architectural and microarchitectural feature events that can be counted
-                                                                 by the PMU event counters.
-
-                                                                 In CNXXXX, the following bits are set to indicate the corresponding events are
-                                                                 implemented:
-                                                                   30 = 0x001e = CHAIN.
-                                                                   28 = 0x001c = TTBR_WRITE_RETIRED.
-                                                                   27 = 0x001b = INST_SPEC.
-                                                                   26 = 0x001a = MEMORY_ERROR.
-                                                                   24 = 0x0018 = L2D_CACHE_WB.
-                                                                   23 = 0x0017 = L2D_CACHE_REFILL.
-                                                                   22 = 0x0016 = L2D_CACHE.
-                                                                   20 = 0x0014 = L1I_CACHE.
-                                                                   19 = 0x0013 = MEM_ACCESS.
-                                                                   18 = 0x0012 = BR_PRED.
-                                                                   17 = 0x0011 = CPU_CYCLES.
-                                                                   16 = 0x0010 = BR_MIS_PRED.
-                                                                   15 = 0x000f = UNALIGNED_LDST_RETIRED.
-                                                                   14 = 0x000e = BR_RETURN_RETIRED.
-                                                                   13 = 0x000d = BR_IMMED_RETIRED.
-                                                                   12 = 0x000c = PC_WRITE_RETIRED.
-                                                                   11 = 0x000b = CID_WRITE_RETIRED.
-                                                                   10 = 0x000a = EXC_RETURN.
-                                                                    9 = 0x0009 = EXC_TAKEN.
-                                                                    8 = 0x0008 = INST_RETIRED.
-                                                                    7 = 0x0007 = ST_RETIRED.
-                                                                    6 = 0x0006 = LD_RETIRED.
-                                                                    5 = 0x0005 = L1D_TLB_REFILL.
-                                                                    4 = 0x0004 = L1D_CACHE.
-                                                                    3 = 0x0003 = L1D_CACHE_REFILL.
-                                                                    2 = 0x0002 = L1I_TLB_REFILL.
-                                                                    1 = 0x0001 = L1I_CACHE_REFILL.
-                                                                    0 = 0x0000 = SW_INCR. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmceid0_s cn; */
-} bdk_pmux_pmceid0_t;
-
-static inline uint64_t BDK_PMUX_PMCEID0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMCEID0(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020e20ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMCEID0", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMCEID0(a) bdk_pmux_pmceid0_t
-#define bustype_BDK_PMUX_PMCEID0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMCEID0(a) "PMUX_PMCEID0"
-#define busnum_BDK_PMUX_PMCEID0(a) (a)
-#define arguments_BDK_PMUX_PMCEID0(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmceid1
- *
- * Performance Monitors Common Event Identification Register 1
- * Reserved for future indication of which common architectural
- *     and common microarchitectural feature events are implemented.
- *     These events are in the range 0x20-0x3f.
- *     Alias for PMU()_PMCEID1_EL0[31:0].
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmceid1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t ce                    : 32; /**< [ 31:  0](RO) Common architectural and microarchitectural feature events that can be counted
-                                                                 by the PMU event counters.
-
-                                                                 In CNXXXX, the following bits are set to indicate the corresponding events are
-                                                                 implemented:
-                                                                   15 = 0x002f = L2D_TLB.
-                                                                   14 = 0x002e = L2I_TLB_REFILL.
-                                                                   13 = 0x002d = L2D_TLB_REFILL.
-                                                                   8  = 0x0028 = L2I_CACHE_REFILL.
-                                                                   7  = 0x0027 = L2I_CACHE.
-                                                                   6  = 0x0026 = L1I_TLB.
-                                                                   5  = 0x0025 = L1D_TLB.
-                                                                   4  = 0x0024 = STALL_BACKEND.
-                                                                   3  = 0x0023 = STALL_FRONTEND.
-                                                                   2  = 0x0022 = BR_MIS_PRED_RETIRED.
-                                                                   1  = 0x0021 = BR_RETIRED. */
-#else /* Word 0 - Little Endian */
-        uint32_t ce                    : 32; /**< [ 31:  0](RO) Common architectural and microarchitectural feature events that can be counted
-                                                                 by the PMU event counters.
-
-                                                                 In CNXXXX, the following bits are set to indicate the corresponding events are
-                                                                 implemented:
-                                                                   15 = 0x002f = L2D_TLB.
-                                                                   14 = 0x002e = L2I_TLB_REFILL.
-                                                                   13 = 0x002d = L2D_TLB_REFILL.
-                                                                   8  = 0x0028 = L2I_CACHE_REFILL.
-                                                                   7  = 0x0027 = L2I_CACHE.
-                                                                   6  = 0x0026 = L1I_TLB.
-                                                                   5  = 0x0025 = L1D_TLB.
-                                                                   4  = 0x0024 = STALL_BACKEND.
-                                                                   3  = 0x0023 = STALL_FRONTEND.
-                                                                   2  = 0x0022 = BR_MIS_PRED_RETIRED.
-                                                                   1  = 0x0021 = BR_RETIRED. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmceid1_s cn; */
-} bdk_pmux_pmceid1_t;
-
-static inline uint64_t BDK_PMUX_PMCEID1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMCEID1(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020e24ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMCEID1", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMCEID1(a) bdk_pmux_pmceid1_t
-#define bustype_BDK_PMUX_PMCEID1(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMCEID1(a) "PMUX_PMCEID1"
-#define busnum_BDK_PMUX_PMCEID1(a) (a)
-#define arguments_BDK_PMUX_PMCEID1(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmintenset_el1
- *
- * Performance Monitors Interrupt Enable Set Register
- * Enables the generation of interrupt requests on overflows from
- *     the Cycle Count Register, PMU()_PMCCNTR_EL0, and the event counters
- *     PMEVCNTR<n>_EL0. Reading the register shows which overflow
- *     interrupt requests are enabled.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmintenset_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow interrupt request enable bit. Possible
-                                                                     values are:
-                                                                 0 = When read, means the cycle counter overflow interrupt request
-                                                                     is disabled. When written, has no effect.
-                                                                 1 = When read, means the cycle counter overflow interrupt request
-                                                                     is enabled. When written, enables the cycle count overflow
-                                                                     interrupt request. */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request enable bit for
-                                                                     PMEVCNTR<x>_EL0.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values are:
-                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is disabled. When written, has no effect.
-                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is enabled. When written, enables the
-                                                                     PMEVCNTR<x>_EL0 interrupt request. */
-#else /* Word 0 - Little Endian */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request enable bit for
-                                                                     PMEVCNTR<x>_EL0.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values are:
-                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is disabled. When written, has no effect.
-                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is enabled. When written, enables the
-                                                                     PMEVCNTR<x>_EL0 interrupt request. */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow interrupt request enable bit. Possible
-                                                                     values are:
-                                                                 0 = When read, means the cycle counter overflow interrupt request
-                                                                     is disabled. When written, has no effect.
-                                                                 1 = When read, means the cycle counter overflow interrupt request
-                                                                     is enabled. When written, enables the cycle count overflow
-                                                                     interrupt request. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmintenset_el1_s cn; */
-} bdk_pmux_pmintenset_el1_t;
-
-static inline uint64_t BDK_PMUX_PMINTENSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMINTENSET_EL1(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020c40ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMINTENSET_EL1", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMINTENSET_EL1(a) bdk_pmux_pmintenset_el1_t
-#define bustype_BDK_PMUX_PMINTENSET_EL1(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMINTENSET_EL1(a) "PMUX_PMINTENSET_EL1"
-#define busnum_BDK_PMUX_PMINTENSET_EL1(a) (a)
-#define arguments_BDK_PMUX_PMINTENSET_EL1(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmcntenclr_el0
- *
- * Performance Monitors Count Enable Clear Register
- * Disables the Cycle Count Register, PMU()_PMCCNTR_EL0, and any
- *     implemented event counters PMEVCNTR<x>. Reading this register
- *     shows which counters are enabled.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmcntenclr_el0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 disable bit. Disables the cycle counter register.
-                                                                     Possible values are:
-                                                                 0 = When read, means the cycle counter is disabled. When written,
-                                                                     has no effect.
-                                                                 1 = When read, means the cycle counter is enabled. When written,
-                                                                     disables the cycle counter. */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter disable bit for PMEVCNTR<x>.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values of each bit are:
-                                                                 0 = When read, means that PMEVCNTR<x> is disabled. When written,
-                                                                     has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> is enabled. When written,
-                                                                     disables PMEVCNTR<x>. */
-#else /* Word 0 - Little Endian */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter disable bit for PMEVCNTR<x>.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values of each bit are:
-                                                                 0 = When read, means that PMEVCNTR<x> is disabled. When written,
-                                                                     has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> is enabled. When written,
-                                                                     disables PMEVCNTR<x>. */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 disable bit. Disables the cycle counter register.
-                                                                     Possible values are:
-                                                                 0 = When read, means the cycle counter is disabled. When written,
-                                                                     has no effect.
-                                                                 1 = When read, means the cycle counter is enabled. When written,
-                                                                     disables the cycle counter. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmcntenclr_el0_s cn; */
-} bdk_pmux_pmcntenclr_el0_t;
-
-static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMCNTENCLR_EL0(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020c20ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMCNTENCLR_EL0", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMCNTENCLR_EL0(a) bdk_pmux_pmcntenclr_el0_t
-#define bustype_BDK_PMUX_PMCNTENCLR_EL0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMCNTENCLR_EL0(a) "PMUX_PMCNTENCLR_EL0"
-#define busnum_BDK_PMUX_PMCNTENCLR_EL0(a) (a)
-#define arguments_BDK_PMUX_PMCNTENCLR_EL0(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmccntr_el0_lo
- *
- * Performance Monitors Cycle Counter Low Register
- * Holds the value of the processor Cycle Counter, CCNT, that counts processor clock cycles.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmccntr_el0_lo_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t value                 : 32; /**< [ 31:  0](R/W) Cycle count. Depending on the values of PMU()_PMCR_EL0[LC,D], the cycle count
-                                                                 increments in one of the following ways:
-                                                                 * Every processor clock cycle.
-                                                                 * Every 64th processor clock cycle.
-                                                                 The cycle count can be reset to zero by writing 1 to PMU()_PMCR_EL0[C]. */
-#else /* Word 0 - Little Endian */
-        uint32_t value                 : 32; /**< [ 31:  0](R/W) Cycle count. Depending on the values of PMU()_PMCR_EL0[LC,D], the cycle count
-                                                                 increments in one of the following ways:
-                                                                 * Every processor clock cycle.
-                                                                 * Every 64th processor clock cycle.
-                                                                 The cycle count can be reset to zero by writing 1 to PMU()_PMCR_EL0[C]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmccntr_el0_lo_s cn; */
-} bdk_pmux_pmccntr_el0_lo_t;
-
-static inline uint64_t BDK_PMUX_PMCCNTR_EL0_LO(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMCCNTR_EL0_LO(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a0080200f8ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMCCNTR_EL0_LO", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMCCNTR_EL0_LO(a) bdk_pmux_pmccntr_el0_lo_t
-#define bustype_BDK_PMUX_PMCCNTR_EL0_LO(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMCCNTR_EL0_LO(a) "PMUX_PMCCNTR_EL0_LO"
-#define busnum_BDK_PMUX_PMCCNTR_EL0_LO(a) (a)
-#define arguments_BDK_PMUX_PMCCNTR_EL0_LO(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMDEVTYPE(a) bdk_pmux_pmdevtype_t
+#define bustype_BDK_PMUX_PMDEVTYPE(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMDEVTYPE(a) "PMUX_PMDEVTYPE"
+#define busnum_BDK_PMUX_PMDEVTYPE(a) (a)
+#define arguments_BDK_PMUX_PMDEVTYPE(a) (a),-1,-1,-1
 
 /**
  * Register (DAB) pmu#_pmevcntr#_el0
@@ -1731,146 +1843,6 @@ static inline uint64_t BDK_PMUX_PMEVCNTRX_EL0(unsigned long a, unsigned long b)
 #define basename_BDK_PMUX_PMEVCNTRX_EL0(a,b) "PMUX_PMEVCNTRX_EL0"
 #define busnum_BDK_PMUX_PMEVCNTRX_EL0(a,b) (a)
 #define arguments_BDK_PMUX_PMEVCNTRX_EL0(a,b) (a),(b),-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmitctrl
- *
- * Performance Monitors Integration Mode Control Register
- * Enables the Performance Monitors to switch from default mode
- *     into integration mode, where test software can control
- *     directly the inputs and outputs of the processor, for
- *     integration testing or topology detection.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmitctrl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_1_31         : 31;
-        uint32_t ime                   : 1;  /**< [  0:  0](RO) Integration mode enable. When IME == 1, the device reverts to
-                                                                     an integration mode to enable integration testing or topology
-                                                                     detection. The integration mode behavior is implementation
-                                                                     defined.
-                                                                 0 = Normal operation.
-                                                                 1 = Integration mode enabled. */
-#else /* Word 0 - Little Endian */
-        uint32_t ime                   : 1;  /**< [  0:  0](RO) Integration mode enable. When IME == 1, the device reverts to
-                                                                     an integration mode to enable integration testing or topology
-                                                                     detection. The integration mode behavior is implementation
-                                                                     defined.
-                                                                 0 = Normal operation.
-                                                                 1 = Integration mode enabled. */
-        uint32_t reserved_1_31         : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmitctrl_s cn; */
-} bdk_pmux_pmitctrl_t;
-
-static inline uint64_t BDK_PMUX_PMITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMITCTRL(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020f00ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMITCTRL", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMITCTRL(a) bdk_pmux_pmitctrl_t
-#define bustype_BDK_PMUX_PMITCTRL(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMITCTRL(a) "PMUX_PMITCTRL"
-#define busnum_BDK_PMUX_PMITCTRL(a) (a)
-#define arguments_BDK_PMUX_PMITCTRL(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmswinc_el0
- *
- * Performance Monitors Software Increment Register
- * Increments a counter that is configured to count the Software
- *     increment event, event0x00
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmswinc_el0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t p                     : 31; /**< [ 30:  0](RO) Event counter software increment bit for PMEVCNTR<x>.
-                                                                 P<x> is WI if x >= PMU()_PMCR_EL0[N], the number of implemented
-                                                                     counters.
-                                                                 Otherwise, the effects of writing to this bit are:
-                                                                 0 = No action. The write to this bit is ignored.
-                                                                 1 = It is CONSTRAINED UNPREDICTABLE whether a SW_INCR event is
-                                                                     generated for event counter x. */
-#else /* Word 0 - Little Endian */
-        uint32_t p                     : 31; /**< [ 30:  0](RO) Event counter software increment bit for PMEVCNTR<x>.
-                                                                 P<x> is WI if x >= PMU()_PMCR_EL0[N], the number of implemented
-                                                                     counters.
-                                                                 Otherwise, the effects of writing to this bit are:
-                                                                 0 = No action. The write to this bit is ignored.
-                                                                 1 = It is CONSTRAINED UNPREDICTABLE whether a SW_INCR event is
-                                                                     generated for event counter x. */
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmswinc_el0_s cn; */
-} bdk_pmux_pmswinc_el0_t;
-
-static inline uint64_t BDK_PMUX_PMSWINC_EL0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMSWINC_EL0(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020ca0ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMSWINC_EL0", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMSWINC_EL0(a) bdk_pmux_pmswinc_el0_t
-#define bustype_BDK_PMUX_PMSWINC_EL0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMSWINC_EL0(a) "PMUX_PMSWINC_EL0"
-#define busnum_BDK_PMUX_PMSWINC_EL0(a) (a)
-#define arguments_BDK_PMUX_PMSWINC_EL0(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmccntr_el0_hi
- *
- * Performance Monitors Cycle Counter High Register
- * Holds the value of the processor Cycle Counter, CCNT, that counts processor clock cycles.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmccntr_el0_hi_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t value                 : 32; /**< [ 31:  0](R/W) Cycle count. Depending on the values of PMU()_PMCR_EL0[LC,D], the cycle count
-                                                                 increments in one of the following ways:
-                                                                 * Every processor clock cycle.
-                                                                 * Every 64th processor clock cycle.
-                                                                 The cycle count can be reset to zero by writing 1 to PMU()_PMCR_EL0[C]. */
-#else /* Word 0 - Little Endian */
-        uint32_t value                 : 32; /**< [ 31:  0](R/W) Cycle count. Depending on the values of PMU()_PMCR_EL0[LC,D], the cycle count
-                                                                 increments in one of the following ways:
-                                                                 * Every processor clock cycle.
-                                                                 * Every 64th processor clock cycle.
-                                                                 The cycle count can be reset to zero by writing 1 to PMU()_PMCR_EL0[C]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmccntr_el0_hi_s cn; */
-} bdk_pmux_pmccntr_el0_hi_t;
-
-static inline uint64_t BDK_PMUX_PMCCNTR_EL0_HI(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMCCNTR_EL0_HI(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a0080200fcll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMCCNTR_EL0_HI", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMCCNTR_EL0_HI(a) bdk_pmux_pmccntr_el0_hi_t
-#define bustype_BDK_PMUX_PMCCNTR_EL0_HI(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMCCNTR_EL0_HI(a) "PMUX_PMCCNTR_EL0_HI"
-#define busnum_BDK_PMUX_PMCCNTR_EL0_HI(a) (a)
-#define arguments_BDK_PMUX_PMCCNTR_EL0_HI(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) pmu#_pmevtyper#_el0
@@ -2163,129 +2135,226 @@ static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long a, unsigned long b)
 #define arguments_BDK_PMUX_PMEVTYPERX_EL0(a,b) (a),(b),-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmdevtype
+ * Register (DAB32b) pmu#_pmintenclr_el1
  *
- * Performance Monitors Device Type Register
- * Indicates to a debugger that this component is part of a
- *     processor's performance monitor interface.
+ * Performance Monitors Interrupt Enable Clear Register
+ * Disables the generation of interrupt requests on overflows
+ *     from the Cycle Count Register, PMU()_PMCCNTR_EL0, and the event
+ *     counters PMEVCNTR<n>_EL0. Reading the register shows which
+ *     overflow interrupt requests are enabled.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmdevtype_s
+    struct bdk_pmux_pmintenclr_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Must read as 0x1. */
-        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Must read as 0x6. */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow interrupt request disable bit. Possible
+                                                                     values are:
+                                                                 0 = When read, means the cycle counter overflow interrupt request
+                                                                     is disabled. When written, has no effect.
+                                                                 1 = When read, means the cycle counter overflow interrupt request
+                                                                     is enabled. When written, disables the cycle count overflow
+                                                                     interrupt request. */
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request disable bit for
+                                                                     PMEVCNTR<x>_EL0.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values are:
+                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                     interrupt request is disabled. When written, has no effect.
+                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                     interrupt request is enabled. When written, disables the
+                                                                     PMEVCNTR<x>_EL0 interrupt request. */
 #else /* Word 0 - Little Endian */
-        uint32_t major                 : 4;  /**< [  3:  0](RO) Major type. Must read as 0x6. */
-        uint32_t sub                   : 4;  /**< [  7:  4](RO) Subtype. Must read as 0x1. */
-        uint32_t reserved_8_31         : 24;
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request disable bit for
+                                                                     PMEVCNTR<x>_EL0.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values are:
+                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                     interrupt request is disabled. When written, has no effect.
+                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                     interrupt request is enabled. When written, disables the
+                                                                     PMEVCNTR<x>_EL0 interrupt request. */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow interrupt request disable bit. Possible
+                                                                     values are:
+                                                                 0 = When read, means the cycle counter overflow interrupt request
+                                                                     is disabled. When written, has no effect.
+                                                                 1 = When read, means the cycle counter overflow interrupt request
+                                                                     is enabled. When written, disables the cycle count overflow
+                                                                     interrupt request. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmdevtype_s cn; */
-} bdk_pmux_pmdevtype_t;
+    /* struct bdk_pmux_pmintenclr_el1_s cn; */
+} bdk_pmux_pmintenclr_el1_t;
 
-static inline uint64_t BDK_PMUX_PMDEVTYPE(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMDEVTYPE(unsigned long a)
+static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020fccll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMDEVTYPE", 1, a, 0, 0, 0);
+        return 0x87a008020c60ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMINTENCLR_EL1", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMDEVTYPE(a) bdk_pmux_pmdevtype_t
-#define bustype_BDK_PMUX_PMDEVTYPE(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMDEVTYPE(a) "PMUX_PMDEVTYPE"
-#define busnum_BDK_PMUX_PMDEVTYPE(a) (a)
-#define arguments_BDK_PMUX_PMDEVTYPE(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMINTENCLR_EL1(a) bdk_pmux_pmintenclr_el1_t
+#define bustype_BDK_PMUX_PMINTENCLR_EL1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMINTENCLR_EL1(a) "PMUX_PMINTENCLR_EL1"
+#define busnum_BDK_PMUX_PMINTENCLR_EL1(a) (a)
+#define arguments_BDK_PMUX_PMINTENCLR_EL1(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmdevaff1
+ * Register (DAB32b) pmu#_pmintenset_el1
  *
- * Performance Monitors Device Affinity Register 1
- * Copy of the high half of the processor MPIDR_EL1 register that
- *     allows a debugger to determine which processor in a
- *     multiprocessor system the Performance Monitor component
- *     relates to.
+ * Performance Monitors Interrupt Enable Set Register
+ * Enables the generation of interrupt requests on overflows from
+ *     the Cycle Count Register, PMU()_PMCCNTR_EL0, and the event counters
+ *     PMEVCNTR<n>_EL0. Reading the register shows which overflow
+ *     interrupt requests are enabled.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmdevaff1_s
+    struct bdk_pmux_pmintenset_el1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 high half
-                                                                 MPIDR_EL1 high half. Read-only copy of the high half of
-                                                                    MPIDR_EL1, as seen from the highest implemented exception
-                                                                    level. */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow interrupt request enable bit. Possible
+                                                                     values are:
+                                                                 0 = When read, means the cycle counter overflow interrupt request
+                                                                     is disabled. When written, has no effect.
+                                                                 1 = When read, means the cycle counter overflow interrupt request
+                                                                     is enabled. When written, enables the cycle count overflow
+                                                                     interrupt request. */
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request enable bit for
+                                                                     PMEVCNTR<x>_EL0.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values are:
+                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                     interrupt request is disabled. When written, has no effect.
+                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                     interrupt request is enabled. When written, enables the
+                                                                     PMEVCNTR<x>_EL0 interrupt request. */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 high half
-                                                                 MPIDR_EL1 high half. Read-only copy of the high half of
-                                                                    MPIDR_EL1, as seen from the highest implemented exception
-                                                                    level. */
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request enable bit for
+                                                                     PMEVCNTR<x>_EL0.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values are:
+                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                     interrupt request is disabled. When written, has no effect.
+                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
+                                                                     interrupt request is enabled. When written, enables the
+                                                                     PMEVCNTR<x>_EL0 interrupt request. */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow interrupt request enable bit. Possible
+                                                                     values are:
+                                                                 0 = When read, means the cycle counter overflow interrupt request
+                                                                     is disabled. When written, has no effect.
+                                                                 1 = When read, means the cycle counter overflow interrupt request
+                                                                     is enabled. When written, enables the cycle count overflow
+                                                                     interrupt request. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmdevaff1_s cn; */
-} bdk_pmux_pmdevaff1_t;
+    /* struct bdk_pmux_pmintenset_el1_s cn; */
+} bdk_pmux_pmintenset_el1_t;
 
-static inline uint64_t BDK_PMUX_PMDEVAFF1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMDEVAFF1(unsigned long a)
+static inline uint64_t BDK_PMUX_PMINTENSET_EL1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMINTENSET_EL1(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020facll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMDEVAFF1", 1, a, 0, 0, 0);
+        return 0x87a008020c40ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMINTENSET_EL1", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMDEVAFF1(a) bdk_pmux_pmdevaff1_t
-#define bustype_BDK_PMUX_PMDEVAFF1(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMDEVAFF1(a) "PMUX_PMDEVAFF1"
-#define busnum_BDK_PMUX_PMDEVAFF1(a) (a)
-#define arguments_BDK_PMUX_PMDEVAFF1(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMINTENSET_EL1(a) bdk_pmux_pmintenset_el1_t
+#define bustype_BDK_PMUX_PMINTENSET_EL1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMINTENSET_EL1(a) "PMUX_PMINTENSET_EL1"
+#define busnum_BDK_PMUX_PMINTENSET_EL1(a) (a)
+#define arguments_BDK_PMUX_PMINTENSET_EL1(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmdevaff0
+ * Register (DAB32b) pmu#_pmitctrl
  *
- * Performance Monitors Device Affinity Register 0
- * Copy of the low half of the processor MPIDR_EL1 register that
- *     allows a debugger to determine which processor in a
- *     multiprocessor system the Performance Monitor component
- *     relates to.
+ * Performance Monitors Integration Mode Control Register
+ * Enables the Performance Monitors to switch from default mode
+ *     into integration mode, where test software can control
+ *     directly the inputs and outputs of the processor, for
+ *     integration testing or topology detection.
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmdevaff0_s
+    struct bdk_pmux_pmitctrl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 low half
-                                                                 MPIDR_EL1 low half. Read-only copy of the low half of
-                                                                    MPIDR_EL1, as seen from the highest implemented exception
-                                                                    level. */
+        uint32_t reserved_1_31         : 31;
+        uint32_t ime                   : 1;  /**< [  0:  0](RO) Integration mode enable. When IME == 1, the device reverts to
+                                                                     an integration mode to enable integration testing or topology
+                                                                     detection. The integration mode behavior is implementation
+                                                                     defined.
+                                                                 0 = Normal operation.
+                                                                 1 = Integration mode enabled. */
 #else /* Word 0 - Little Endian */
-        uint32_t data                  : 32; /**< [ 31:  0](RO) MPIDR_EL1 low half
-                                                                 MPIDR_EL1 low half. Read-only copy of the low half of
-                                                                    MPIDR_EL1, as seen from the highest implemented exception
-                                                                    level. */
+        uint32_t ime                   : 1;  /**< [  0:  0](RO) Integration mode enable. When IME == 1, the device reverts to
+                                                                     an integration mode to enable integration testing or topology
+                                                                     detection. The integration mode behavior is implementation
+                                                                     defined.
+                                                                 0 = Normal operation.
+                                                                 1 = Integration mode enabled. */
+        uint32_t reserved_1_31         : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmdevaff0_s cn; */
-} bdk_pmux_pmdevaff0_t;
+    /* struct bdk_pmux_pmitctrl_s cn; */
+} bdk_pmux_pmitctrl_t;
 
-static inline uint64_t BDK_PMUX_PMDEVAFF0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMDEVAFF0(unsigned long a)
+static inline uint64_t BDK_PMUX_PMITCTRL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMITCTRL(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020fa8ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMDEVAFF0", 1, a, 0, 0, 0);
+        return 0x87a008020f00ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMITCTRL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMDEVAFF0(a) bdk_pmux_pmdevaff0_t
-#define bustype_BDK_PMUX_PMDEVAFF0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMDEVAFF0(a) "PMUX_PMDEVAFF0"
-#define busnum_BDK_PMUX_PMDEVAFF0(a) (a)
-#define arguments_BDK_PMUX_PMDEVAFF0(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMITCTRL(a) bdk_pmux_pmitctrl_t
+#define bustype_BDK_PMUX_PMITCTRL(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMITCTRL(a) "PMUX_PMITCTRL"
+#define busnum_BDK_PMUX_PMITCTRL(a) (a)
+#define arguments_BDK_PMUX_PMITCTRL(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmlar
+ *
+ * Performance Monitors Lock Access Register
+ * Allows or disallows access to the Performance Monitors
+ *     registers through a memory-mapped interface.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmlar_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock access control. Writing the key value 0xC5ACCE55 unlocks the lock.
+                                                                 Writing any other value to this register locks the lock, disabling write
+                                                                 accesses to this component's registers through a memory mapped interface. */
+#else /* Word 0 - Little Endian */
+        uint32_t key                   : 32; /**< [ 31:  0](WO) Lock access control. Writing the key value 0xC5ACCE55 unlocks the lock.
+                                                                 Writing any other value to this register locks the lock, disabling write
+                                                                 accesses to this component's registers through a memory mapped interface. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmlar_s cn; */
+} bdk_pmux_pmlar_t;
+
+static inline uint64_t BDK_PMUX_PMLAR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMLAR(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a008020fb0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMLAR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMLAR(a) bdk_pmux_pmlar_t
+#define bustype_BDK_PMUX_PMLAR(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMLAR(a) "PMUX_PMLAR"
+#define busnum_BDK_PMUX_PMLAR(a) (a)
+#define arguments_BDK_PMUX_PMLAR(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) pmu#_pmlsr
@@ -2355,6 +2424,203 @@ static inline uint64_t BDK_PMUX_PMLSR(unsigned long a)
 #define basename_BDK_PMUX_PMLSR(a) "PMUX_PMLSR"
 #define busnum_BDK_PMUX_PMLSR(a) (a)
 #define arguments_BDK_PMUX_PMLSR(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmovsclr_el0
+ *
+ * Performance Monitors Overflow Flag Status Clear Register
+ * Contains the state of the overflow bit for the Cycle Count
+ *     Register, PMU()_PMCCNTR_EL0, and each of the implemented event
+ *     counters PMEVCNTR<x>. Writing to this register clears these
+ *     bits.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmovsclr_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow bit. Possible values are:
+                                                                 PMU()_PMCR_EL0[LC] is used to control from which bit of PMU()_PMCCNTR_EL0
+                                                                     (bit 31 or bit 63) an overflow is detected.
+                                                                 0 = When read, means the cycle counter has not overflowed. When
+                                                                     written, has no effect.
+                                                                 1 = When read, means the cycle counter has overflowed. When
+                                                                     written, clears the overflow bit to 0. */
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow clear bit for PMEVCNTR<x>.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values of each bit are:
+                                                                 0 = When read, means that PMEVCNTR<x> has not overflowed. When
+                                                                     written, has no effect.
+                                                                 1 = When read, means that PMEVCNTR<x> has overflowed. When
+                                                                     written, clears the PMEVCNTR<x> overflow bit to 0. */
+#else /* Word 0 - Little Endian */
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow clear bit for PMEVCNTR<x>.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values of each bit are:
+                                                                 0 = When read, means that PMEVCNTR<x> has not overflowed. When
+                                                                     written, has no effect.
+                                                                 1 = When read, means that PMEVCNTR<x> has overflowed. When
+                                                                     written, clears the PMEVCNTR<x> overflow bit to 0. */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow bit. Possible values are:
+                                                                 PMU()_PMCR_EL0[LC] is used to control from which bit of PMU()_PMCCNTR_EL0
+                                                                     (bit 31 or bit 63) an overflow is detected.
+                                                                 0 = When read, means the cycle counter has not overflowed. When
+                                                                     written, has no effect.
+                                                                 1 = When read, means the cycle counter has overflowed. When
+                                                                     written, clears the overflow bit to 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmovsclr_el0_s cn; */
+} bdk_pmux_pmovsclr_el0_t;
+
+static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMOVSCLR_EL0(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a008020c80ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMOVSCLR_EL0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMOVSCLR_EL0(a) bdk_pmux_pmovsclr_el0_t
+#define bustype_BDK_PMUX_PMOVSCLR_EL0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMOVSCLR_EL0(a) "PMUX_PMOVSCLR_EL0"
+#define busnum_BDK_PMUX_PMOVSCLR_EL0(a) (a)
+#define arguments_BDK_PMUX_PMOVSCLR_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmovsset_el0
+ *
+ * Performance Monitors Overflow Flag Status Set Register
+ * Sets the state of the overflow bit for the Cycle Count
+ *     Register, PMU()_PMCCNTR_EL0, and each of the implemented event
+ *     counters PMEVCNTR<x>.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmovsset_el0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow bit. Possible values are:
+                                                                 0 = When read, means the cycle counter has not overflowed. When
+                                                                     written, has no effect.
+                                                                 1 = When read, means the cycle counter has overflowed. When
+                                                                     written, sets the overflow bit to 1. */
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow set bit for PMEVCNTR<x>.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values are:
+                                                                 0 = When read, means that PMEVCNTR<x> has not overflowed. When
+                                                                     written, has no effect.
+                                                                 1 = When read, means that PMEVCNTR<x> has overflowed. When
+                                                                     written, sets the PMEVCNTR<x> overflow bit to 1. */
+#else /* Word 0 - Little Endian */
+        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow set bit for PMEVCNTR<x>.
+                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
+                                                                 Possible values are:
+                                                                 0 = When read, means that PMEVCNTR<x> has not overflowed. When
+                                                                     written, has no effect.
+                                                                 1 = When read, means that PMEVCNTR<x> has overflowed. When
+                                                                     written, sets the PMEVCNTR<x> overflow bit to 1. */
+        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow bit. Possible values are:
+                                                                 0 = When read, means the cycle counter has not overflowed. When
+                                                                     written, has no effect.
+                                                                 1 = When read, means the cycle counter has overflowed. When
+                                                                     written, sets the overflow bit to 1. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmovsset_el0_s cn; */
+} bdk_pmux_pmovsset_el0_t;
+
+static inline uint64_t BDK_PMUX_PMOVSSET_EL0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMOVSSET_EL0(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a008020cc0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMOVSSET_EL0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMOVSSET_EL0(a) bdk_pmux_pmovsset_el0_t
+#define bustype_BDK_PMUX_PMOVSSET_EL0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMOVSSET_EL0(a) "PMUX_PMOVSSET_EL0"
+#define busnum_BDK_PMUX_PMOVSSET_EL0(a) (a)
+#define arguments_BDK_PMUX_PMOVSSET_EL0(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmpidr0
+ *
+ * Performance Monitors Peripheral Identification Register 0
+ * Provides information to identify a Performance Monitor
+ *     component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmpidr0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::PMU. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::PMU. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmpidr0_s cn; */
+} bdk_pmux_pmpidr0_t;
+
+static inline uint64_t BDK_PMUX_PMPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMPIDR0(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a008020fe0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMPIDR0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMPIDR0(a) bdk_pmux_pmpidr0_t
+#define bustype_BDK_PMUX_PMPIDR0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMPIDR0(a) "PMUX_PMPIDR0"
+#define busnum_BDK_PMUX_PMPIDR0(a) (a)
+#define arguments_BDK_PMUX_PMPIDR0(a) (a),-1,-1,-1
+
+/**
+ * Register (DAB32b) pmu#_pmpidr1
+ *
+ * Performance Monitors Peripheral Identification Register 1
+ * Provides information to identify a Performance Monitor
+ *     component.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_pmux_pmpidr1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code <3:0>. Cavium code is 0x4C. */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+#else /* Word 0 - Little Endian */
+        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
+        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code <3:0>. Cavium code is 0x4C. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pmux_pmpidr1_s cn; */
+} bdk_pmux_pmpidr1_t;
+
+static inline uint64_t BDK_PMUX_PMPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMPIDR1(unsigned long a)
+{
+    if (a<=47)
+        return 0x87a008020fe4ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMPIDR1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_PMUX_PMPIDR1(a) bdk_pmux_pmpidr1_t
+#define bustype_BDK_PMUX_PMPIDR1(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMPIDR1(a) "PMUX_PMPIDR1"
+#define busnum_BDK_PMUX_PMPIDR1(a) (a)
+#define arguments_BDK_PMUX_PMPIDR1(a) (a),-1,-1,-1
 
 /**
  * Register (DAB32b) pmu#_pmpidr2
@@ -2439,148 +2705,6 @@ static inline uint64_t BDK_PMUX_PMPIDR3(unsigned long a)
 #define arguments_BDK_PMUX_PMPIDR3(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmpidr0
- *
- * Performance Monitors Peripheral Identification Register 0
- * Provides information to identify a Performance Monitor
- *     component.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmpidr0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::PMU. */
-#else /* Word 0 - Little Endian */
-        uint32_t part_0                : 8;  /**< [  7:  0](RO) Part number <7:0>.  Indicates PCC_PIDR_PARTNUM0_E::PMU. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmpidr0_s cn; */
-} bdk_pmux_pmpidr0_t;
-
-static inline uint64_t BDK_PMUX_PMPIDR0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMPIDR0(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020fe0ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMPIDR0", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMPIDR0(a) bdk_pmux_pmpidr0_t
-#define bustype_BDK_PMUX_PMPIDR0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMPIDR0(a) "PMUX_PMPIDR0"
-#define busnum_BDK_PMUX_PMPIDR0(a) (a)
-#define arguments_BDK_PMUX_PMPIDR0(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmpidr1
- *
- * Performance Monitors Peripheral Identification Register 1
- * Provides information to identify a Performance Monitor
- *     component.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmpidr1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code <3:0>. Cavium code is 0x4C. */
-        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-#else /* Word 0 - Little Endian */
-        uint32_t part_1                : 4;  /**< [  3:  0](RO) Part number <11:8>.  Indicates PCC_PIDR_PARTNUM1_E::COMP. */
-        uint32_t des_0                 : 4;  /**< [  7:  4](RO) JEP106 identification code <3:0>. Cavium code is 0x4C. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmpidr1_s cn; */
-} bdk_pmux_pmpidr1_t;
-
-static inline uint64_t BDK_PMUX_PMPIDR1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMPIDR1(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020fe4ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMPIDR1", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMPIDR1(a) bdk_pmux_pmpidr1_t
-#define bustype_BDK_PMUX_PMPIDR1(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMPIDR1(a) "PMUX_PMPIDR1"
-#define busnum_BDK_PMUX_PMPIDR1(a) (a)
-#define arguments_BDK_PMUX_PMPIDR1(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmpidr6
- *
- * Performance Monitors Peripheral Identification Register 6
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmpidr6_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmpidr6_s cn; */
-} bdk_pmux_pmpidr6_t;
-
-static inline uint64_t BDK_PMUX_PMPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMPIDR6(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020fd8ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMPIDR6", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMPIDR6(a) bdk_pmux_pmpidr6_t
-#define bustype_BDK_PMUX_PMPIDR6(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMPIDR6(a) "PMUX_PMPIDR6"
-#define busnum_BDK_PMUX_PMPIDR6(a) (a)
-#define arguments_BDK_PMUX_PMPIDR6(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmpidr7
- *
- * Performance Monitors Peripheral Identification Register 7
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmpidr7_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmpidr7_s cn; */
-} bdk_pmux_pmpidr7_t;
-
-static inline uint64_t BDK_PMUX_PMPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMPIDR7(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020fdcll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMPIDR7", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMPIDR7(a) bdk_pmux_pmpidr7_t
-#define bustype_BDK_PMUX_PMPIDR7(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMPIDR7(a) "PMUX_PMPIDR7"
-#define busnum_BDK_PMUX_PMPIDR7(a) (a)
-#define arguments_BDK_PMUX_PMPIDR7(a) (a),-1,-1,-1
-
-/**
  * Register (DAB32b) pmu#_pmpidr4
  *
  * Performance Monitors Peripheral Identification Register 4
@@ -2657,242 +2781,118 @@ static inline uint64_t BDK_PMUX_PMPIDR5(unsigned long a)
 #define arguments_BDK_PMUX_PMPIDR5(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmauthstatus
+ * Register (DAB32b) pmu#_pmpidr6
  *
- * Performance Monitors Authentication Status Register
- * Provides information about the state of the implementation
- * defined authentication interface for performance monitors.
+ * Performance Monitors Peripheral Identification Register 6
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmauthstatus_s
+    struct bdk_pmux_pmpidr6_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t snid                  : 2;  /**< [  7:  6](RO) Holds the same value as DBGAUTHSTATUS_EL1.SNID. */
-        uint32_t reserved_4_5          : 2;
-        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Holds the same value as DBGAUTHSTATUS_EL1.NSNID. */
-        uint32_t reserved_0_1          : 2;
+        uint32_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
-        uint32_t reserved_0_1          : 2;
-        uint32_t nsnid                 : 2;  /**< [  3:  2](RO) Holds the same value as DBGAUTHSTATUS_EL1.NSNID. */
-        uint32_t reserved_4_5          : 2;
-        uint32_t snid                  : 2;  /**< [  7:  6](RO) Holds the same value as DBGAUTHSTATUS_EL1.SNID. */
-        uint32_t reserved_8_31         : 24;
+        uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmauthstatus_s cn; */
-} bdk_pmux_pmauthstatus_t;
+    /* struct bdk_pmux_pmpidr6_s cn; */
+} bdk_pmux_pmpidr6_t;
 
-static inline uint64_t BDK_PMUX_PMAUTHSTATUS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMAUTHSTATUS(unsigned long a)
+static inline uint64_t BDK_PMUX_PMPIDR6(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMPIDR6(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020fb8ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMAUTHSTATUS", 1, a, 0, 0, 0);
+        return 0x87a008020fd8ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMPIDR6", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMAUTHSTATUS(a) bdk_pmux_pmauthstatus_t
-#define bustype_BDK_PMUX_PMAUTHSTATUS(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMAUTHSTATUS(a) "PMUX_PMAUTHSTATUS"
-#define busnum_BDK_PMUX_PMAUTHSTATUS(a) (a)
-#define arguments_BDK_PMUX_PMAUTHSTATUS(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMPIDR6(a) bdk_pmux_pmpidr6_t
+#define bustype_BDK_PMUX_PMPIDR6(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMPIDR6(a) "PMUX_PMPIDR6"
+#define busnum_BDK_PMUX_PMPIDR6(a) (a)
+#define arguments_BDK_PMUX_PMPIDR6(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmdevarch
+ * Register (DAB32b) pmu#_pmpidr7
  *
- * Performance Monitors Device Architecture Register
+ * Performance Monitors Peripheral Identification Register 7
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmdevarch_s
+    struct bdk_pmux_pmpidr7_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For Performance
-                                                                     Monitors, this is ARM Limited.
-
-                                                                 Bits [31:28] are the JEP 106 continuation code, 0x4.
-
-                                                                 Bits [27:21] are the JEP 106 ID code, 0x3B. */
-        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
-                                                                 This field is 1 in v8-A. */
-        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
-                                                                 For Performance Monitors, the revision defined by v8-A is 0x0.
-                                                                 All other values are reserved. */
-        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
-                                                                 For Performance Monitors:
-                                                                  Bits [15:12] are the architecture version, 0x2.
-                                                                  Bits [11:0] are the architecture part number, 0xA16.
-
-                                                                 This corresponds to Performance Monitors architecture version
-                                                                     PMUv3. */
+        uint32_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
-        uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
-                                                                     architectures defined by ARM this is further subdivided.
-                                                                 For Performance Monitors:
-                                                                  Bits [15:12] are the architecture version, 0x2.
-                                                                  Bits [11:0] are the architecture part number, 0xA16.
-
-                                                                 This corresponds to Performance Monitors architecture version
-                                                                     PMUv3. */
-        uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
-                                                                     by ARM this is the minor revision.
-                                                                 For Performance Monitors, the revision defined by v8-A is 0x0.
-                                                                 All other values are reserved. */
-        uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
-                                                                 This field is 1 in v8-A. */
-        uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. For Performance
-                                                                     Monitors, this is ARM Limited.
-
-                                                                 Bits [31:28] are the JEP 106 continuation code, 0x4.
-
-                                                                 Bits [27:21] are the JEP 106 ID code, 0x3B. */
+        uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmdevarch_s cn; */
-} bdk_pmux_pmdevarch_t;
+    /* struct bdk_pmux_pmpidr7_s cn; */
+} bdk_pmux_pmpidr7_t;
 
-static inline uint64_t BDK_PMUX_PMDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMDEVARCH(unsigned long a)
+static inline uint64_t BDK_PMUX_PMPIDR7(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMPIDR7(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020fbcll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMDEVARCH", 1, a, 0, 0, 0);
+        return 0x87a008020fdcll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMPIDR7", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMDEVARCH(a) bdk_pmux_pmdevarch_t
-#define bustype_BDK_PMUX_PMDEVARCH(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMDEVARCH(a) "PMUX_PMDEVARCH"
-#define busnum_BDK_PMUX_PMDEVARCH(a) (a)
-#define arguments_BDK_PMUX_PMDEVARCH(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMPIDR7(a) bdk_pmux_pmpidr7_t
+#define bustype_BDK_PMUX_PMPIDR7(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMPIDR7(a) "PMUX_PMPIDR7"
+#define busnum_BDK_PMUX_PMPIDR7(a) (a)
+#define arguments_BDK_PMUX_PMPIDR7(a) (a),-1,-1,-1
 
 /**
- * Register (DAB32b) pmu#_pmovsset_el0
+ * Register (DAB32b) pmu#_pmswinc_el0
  *
- * Performance Monitors Overflow Flag Status Set Register
- * Sets the state of the overflow bit for the Cycle Count
- *     Register, PMU()_PMCCNTR_EL0, and each of the implemented event
- *     counters PMEVCNTR<x>.
+ * Performance Monitors Software Increment Register
+ * Increments a counter that is configured to count the Software
+ *     increment event, event0x00
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_pmux_pmovsset_el0_s
+    struct bdk_pmux_pmswinc_el0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow bit. Possible values are:
-                                                                 0 = When read, means the cycle counter has not overflowed. When
-                                                                     written, has no effect.
-                                                                 1 = When read, means the cycle counter has overflowed. When
-                                                                     written, sets the overflow bit to 1. */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow set bit for PMEVCNTR<x>.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values are:
-                                                                 0 = When read, means that PMEVCNTR<x> has not overflowed. When
-                                                                     written, has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> has overflowed. When
-                                                                     written, sets the PMEVCNTR<x> overflow bit to 1. */
+        uint32_t reserved_31           : 1;
+        uint32_t p                     : 31; /**< [ 30:  0](RO) Event counter software increment bit for PMEVCNTR<x>.
+                                                                 P<x> is WI if x >= PMU()_PMCR_EL0[N], the number of implemented
+                                                                     counters.
+                                                                 Otherwise, the effects of writing to this bit are:
+                                                                 0 = No action. The write to this bit is ignored.
+                                                                 1 = It is CONSTRAINED UNPREDICTABLE whether a SW_INCR event is
+                                                                     generated for event counter x. */
 #else /* Word 0 - Little Endian */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow set bit for PMEVCNTR<x>.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values are:
-                                                                 0 = When read, means that PMEVCNTR<x> has not overflowed. When
-                                                                     written, has no effect.
-                                                                 1 = When read, means that PMEVCNTR<x> has overflowed. When
-                                                                     written, sets the PMEVCNTR<x> overflow bit to 1. */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow bit. Possible values are:
-                                                                 0 = When read, means the cycle counter has not overflowed. When
-                                                                     written, has no effect.
-                                                                 1 = When read, means the cycle counter has overflowed. When
-                                                                     written, sets the overflow bit to 1. */
+        uint32_t p                     : 31; /**< [ 30:  0](RO) Event counter software increment bit for PMEVCNTR<x>.
+                                                                 P<x> is WI if x >= PMU()_PMCR_EL0[N], the number of implemented
+                                                                     counters.
+                                                                 Otherwise, the effects of writing to this bit are:
+                                                                 0 = No action. The write to this bit is ignored.
+                                                                 1 = It is CONSTRAINED UNPREDICTABLE whether a SW_INCR event is
+                                                                     generated for event counter x. */
+        uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pmux_pmovsset_el0_s cn; */
-} bdk_pmux_pmovsset_el0_t;
+    /* struct bdk_pmux_pmswinc_el0_s cn; */
+} bdk_pmux_pmswinc_el0_t;
 
-static inline uint64_t BDK_PMUX_PMOVSSET_EL0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMOVSSET_EL0(unsigned long a)
+static inline uint64_t BDK_PMUX_PMSWINC_EL0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PMUX_PMSWINC_EL0(unsigned long a)
 {
     if (a<=47)
-        return 0x87a008020cc0ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMOVSSET_EL0", 1, a, 0, 0, 0);
+        return 0x87a008020ca0ll + 0x80000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("PMUX_PMSWINC_EL0", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_PMUX_PMOVSSET_EL0(a) bdk_pmux_pmovsset_el0_t
-#define bustype_BDK_PMUX_PMOVSSET_EL0(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMOVSSET_EL0(a) "PMUX_PMOVSSET_EL0"
-#define busnum_BDK_PMUX_PMOVSSET_EL0(a) (a)
-#define arguments_BDK_PMUX_PMOVSSET_EL0(a) (a),-1,-1,-1
-
-/**
- * Register (DAB32b) pmu#_pmintenclr_el1
- *
- * Performance Monitors Interrupt Enable Clear Register
- * Disables the generation of interrupt requests on overflows
- *     from the Cycle Count Register, PMU()_PMCCNTR_EL0, and the event
- *     counters PMEVCNTR<n>_EL0. Reading the register shows which
- *     overflow interrupt requests are enabled.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_pmux_pmintenclr_el1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow interrupt request disable bit. Possible
-                                                                     values are:
-                                                                 0 = When read, means the cycle counter overflow interrupt request
-                                                                     is disabled. When written, has no effect.
-                                                                 1 = When read, means the cycle counter overflow interrupt request
-                                                                     is enabled. When written, disables the cycle count overflow
-                                                                     interrupt request. */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request disable bit for
-                                                                     PMEVCNTR<x>_EL0.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values are:
-                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is disabled. When written, has no effect.
-                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is enabled. When written, disables the
-                                                                     PMEVCNTR<x>_EL0 interrupt request. */
-#else /* Word 0 - Little Endian */
-        uint32_t p                     : 31; /**< [ 30:  0](R/W) Event counter overflow interrupt request disable bit for
-                                                                     PMEVCNTR<x>_EL0.
-                                                                 N is the value in PMU()_PMCR_EL0[N]. Bits [30:N] are RAZ/WI.
-                                                                 Possible values are:
-                                                                 0 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is disabled. When written, has no effect.
-                                                                 1 = When read, means that the PMEVCNTR<x>_EL0 event counter
-                                                                     interrupt request is enabled. When written, disables the
-                                                                     PMEVCNTR<x>_EL0 interrupt request. */
-        uint32_t c_set                 : 1;  /**< [ 31: 31](R/W) PMU()_PMCCNTR_EL0 overflow interrupt request disable bit. Possible
-                                                                     values are:
-                                                                 0 = When read, means the cycle counter overflow interrupt request
-                                                                     is disabled. When written, has no effect.
-                                                                 1 = When read, means the cycle counter overflow interrupt request
-                                                                     is enabled. When written, disables the cycle count overflow
-                                                                     interrupt request. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pmux_pmintenclr_el1_s cn; */
-} bdk_pmux_pmintenclr_el1_t;
-
-static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_PMUX_PMINTENCLR_EL1(unsigned long a)
-{
-    if (a<=47)
-        return 0x87a008020c60ll + 0x80000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("PMUX_PMINTENCLR_EL1", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_PMUX_PMINTENCLR_EL1(a) bdk_pmux_pmintenclr_el1_t
-#define bustype_BDK_PMUX_PMINTENCLR_EL1(a) BDK_CSR_TYPE_DAB32b
-#define basename_BDK_PMUX_PMINTENCLR_EL1(a) "PMUX_PMINTENCLR_EL1"
-#define busnum_BDK_PMUX_PMINTENCLR_EL1(a) (a)
-#define arguments_BDK_PMUX_PMINTENCLR_EL1(a) (a),-1,-1,-1
+#define typedef_BDK_PMUX_PMSWINC_EL0(a) bdk_pmux_pmswinc_el0_t
+#define bustype_BDK_PMUX_PMSWINC_EL0(a) BDK_CSR_TYPE_DAB32b
+#define basename_BDK_PMUX_PMSWINC_EL0(a) "PMUX_PMSWINC_EL0"
+#define busnum_BDK_PMUX_PMSWINC_EL0(a) (a)
+#define arguments_BDK_PMUX_PMSWINC_EL0(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_DAB_PMU_H__ */

@@ -96,41 +96,536 @@
                                        MIO_EMM_INT_ENA_W1C[SWITCH_ERR], and enable sets MIO_EMM_INT_ENA_W1S[SWITCH_ERR]. */
 
 /**
- * Register (RSL) mio_emm_dma_int_ena_w1c
+ * Register (RSL) mio_emm_access_wdog
  *
- * eMMC DMA Interrupt Enable Clear Register
- * This register clears interrupt enable bits.
+ * MIO eMMC Access Watchdog Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mio_emm_dma_int_ena_w1c_s
+    struct bdk_mio_emm_access_wdog_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for MIO_EMM_DMA_INT[FIFO]. */
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MIO_EMM_DMA_INT[DONE]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t clk_cnt               : 32; /**< [ 31:  0](R/W) Number of coprocessor-clocks to allow for a store operation to the device to complete
+                                                                 before hardware will halt the operation.
+                                                                 Hardware will inject an error on the next 512-byte block boundary.   The pending DMA
+                                                                 operation can be resumed or terminated. A value of zero disables timer. */
 #else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MIO_EMM_DMA_INT[DONE]. */
-        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for MIO_EMM_DMA_INT[FIFO]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t clk_cnt               : 32; /**< [ 31:  0](R/W) Number of coprocessor-clocks to allow for a store operation to the device to complete
+                                                                 before hardware will halt the operation.
+                                                                 Hardware will inject an error on the next 512-byte block boundary.   The pending DMA
+                                                                 operation can be resumed or terminated. A value of zero disables timer. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mio_emm_dma_int_ena_w1c_s cn; */
-} bdk_mio_emm_dma_int_ena_w1c_t;
+    /* struct bdk_mio_emm_access_wdog_s cn; */
+} bdk_mio_emm_access_wdog_t;
 
-#define BDK_MIO_EMM_DMA_INT_ENA_W1C BDK_MIO_EMM_DMA_INT_ENA_W1C_FUNC()
-static inline uint64_t BDK_MIO_EMM_DMA_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_DMA_INT_ENA_W1C_FUNC(void)
+#define BDK_MIO_EMM_ACCESS_WDOG BDK_MIO_EMM_ACCESS_WDOG_FUNC()
+static inline uint64_t BDK_MIO_EMM_ACCESS_WDOG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_ACCESS_WDOG_FUNC(void)
 {
-    return 0x87e0090001a8ll;
+    return 0x87e0090020f0ll;
 }
 
-#define typedef_BDK_MIO_EMM_DMA_INT_ENA_W1C bdk_mio_emm_dma_int_ena_w1c_t
-#define bustype_BDK_MIO_EMM_DMA_INT_ENA_W1C BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_DMA_INT_ENA_W1C "MIO_EMM_DMA_INT_ENA_W1C"
-#define busnum_BDK_MIO_EMM_DMA_INT_ENA_W1C 0
-#define arguments_BDK_MIO_EMM_DMA_INT_ENA_W1C -1,-1,-1,-1
+#define typedef_BDK_MIO_EMM_ACCESS_WDOG bdk_mio_emm_access_wdog_t
+#define bustype_BDK_MIO_EMM_ACCESS_WDOG BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_ACCESS_WDOG "MIO_EMM_ACCESS_WDOG"
+#define busnum_BDK_MIO_EMM_ACCESS_WDOG 0
+#define arguments_BDK_MIO_EMM_ACCESS_WDOG -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_buf_dat
+ *
+ * MIO eMMC Data Buffer Access Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_buf_dat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Direct access to the 1KB data buffer memory. Address specified by MIO_EMM_BUF_IDX. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Direct access to the 1KB data buffer memory. Address specified by MIO_EMM_BUF_IDX. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_buf_dat_s cn; */
+} bdk_mio_emm_buf_dat_t;
+
+#define BDK_MIO_EMM_BUF_DAT BDK_MIO_EMM_BUF_DAT_FUNC()
+static inline uint64_t BDK_MIO_EMM_BUF_DAT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_BUF_DAT_FUNC(void)
+{
+    return 0x87e0090020e8ll;
+}
+
+#define typedef_BDK_MIO_EMM_BUF_DAT bdk_mio_emm_buf_dat_t
+#define bustype_BDK_MIO_EMM_BUF_DAT BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_BUF_DAT "MIO_EMM_BUF_DAT"
+#define busnum_BDK_MIO_EMM_BUF_DAT 0
+#define arguments_BDK_MIO_EMM_BUF_DAT -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_buf_idx
+ *
+ * MIO eMMC Data Buffer Address Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_buf_idx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t inc                   : 1;  /**< [ 16: 16](R/W) Automatically advance BUF_NUM/OFFSET after each access to MIO_EMM_BUF_DAT. Wraps after the
+                                                                 last offset of the last data buffer. */
+        uint64_t reserved_7_15         : 9;
+        uint64_t buf_num               : 1;  /**< [  6:  6](R/W/H) Specify the data buffer for the next access to MIO_EMM_BUF_DAT. */
+        uint64_t offset                : 6;  /**< [  5:  0](R/W/H) Specify the 8B data buffer offset for the next access to MIO_EMM_BUF_DAT. */
+#else /* Word 0 - Little Endian */
+        uint64_t offset                : 6;  /**< [  5:  0](R/W/H) Specify the 8B data buffer offset for the next access to MIO_EMM_BUF_DAT. */
+        uint64_t buf_num               : 1;  /**< [  6:  6](R/W/H) Specify the data buffer for the next access to MIO_EMM_BUF_DAT. */
+        uint64_t reserved_7_15         : 9;
+        uint64_t inc                   : 1;  /**< [ 16: 16](R/W) Automatically advance BUF_NUM/OFFSET after each access to MIO_EMM_BUF_DAT. Wraps after the
+                                                                 last offset of the last data buffer. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_buf_idx_s cn; */
+} bdk_mio_emm_buf_idx_t;
+
+#define BDK_MIO_EMM_BUF_IDX BDK_MIO_EMM_BUF_IDX_FUNC()
+static inline uint64_t BDK_MIO_EMM_BUF_IDX_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_BUF_IDX_FUNC(void)
+{
+    return 0x87e0090020e0ll;
+}
+
+#define typedef_BDK_MIO_EMM_BUF_IDX bdk_mio_emm_buf_idx_t
+#define bustype_BDK_MIO_EMM_BUF_IDX BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_BUF_IDX "MIO_EMM_BUF_IDX"
+#define busnum_BDK_MIO_EMM_BUF_IDX 0
+#define arguments_BDK_MIO_EMM_BUF_IDX -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_cfg
+ *
+ * MIO eMMC Configuration Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
+
+                                                                 Setting bit0 of BUS_ENA causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
+                                                                 disabling any NOR use).
+
+                                                                 Setting bit1 of BUS_ENA causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
+                                                                 disabling any NOR use).
+
+                                                                 Setting bit2 of BUS_ENA causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
+                                                                 disabling any NOR use).
+
+                                                                 Bit3 of BUS_ENA is reserved.
+
+                                                                 Setting any bit of BUS_ENA causes EMMC_CLK to become the eMMC clock for both bus0 and
+                                                                 bus1. */
+#else /* Word 0 - Little Endian */
+        uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
+
+                                                                 Setting bit0 of BUS_ENA causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
+                                                                 disabling any NOR use).
+
+                                                                 Setting bit1 of BUS_ENA causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
+                                                                 disabling any NOR use).
+
+                                                                 Setting bit2 of BUS_ENA causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
+                                                                 disabling any NOR use).
+
+                                                                 Bit3 of BUS_ENA is reserved.
+
+                                                                 Setting any bit of BUS_ENA causes EMMC_CLK to become the eMMC clock for both bus0 and
+                                                                 bus1. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_cfg_s cn; */
+} bdk_mio_emm_cfg_t;
+
+#define BDK_MIO_EMM_CFG BDK_MIO_EMM_CFG_FUNC()
+static inline uint64_t BDK_MIO_EMM_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_CFG_FUNC(void)
+{
+    return 0x87e009002000ll;
+}
+
+#define typedef_BDK_MIO_EMM_CFG bdk_mio_emm_cfg_t
+#define bustype_BDK_MIO_EMM_CFG BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_CFG "MIO_EMM_CFG"
+#define busnum_BDK_MIO_EMM_CFG 0
+#define arguments_BDK_MIO_EMM_CFG -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_cmd
+ *
+ * MIO eMMC Command Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_cmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t skip_busy             : 1;  /**< [ 62: 62](R/W) Controls when command is completed.
+                                                                 0 = Command doesn't complete until card has dropped the BUSY signal.
+                                                                 1 = Complete command regardless of the BUSY signal. Status of signal can be read in
+                                                                 MIO_EMM_RSP_STS[RSP_BUSYBIT]. */
+        uint64_t bus_id                : 2;  /**< [ 61: 60](R/W) Specify the eMMC bus */
+        uint64_t cmd_val               : 1;  /**< [ 59: 59](R/W/H) Request valid. Software writes this bit to a 1. Hardware clears it when the operation completes. */
+        uint64_t reserved_56_58        : 3;
+        uint64_t dbuf                  : 1;  /**< [ 55: 55](R/W) Specify the data buffer to be used for a block transfer. */
+        uint64_t offset                : 6;  /**< [ 54: 49](R/W) Debug only. Specify the number of 8-byte transfers used in the command. Value is
+                                                                 64-OFFSET. The block transfer still starts at the first byte in the 512B data buffer.
+                                                                 Software must ensure CMD16 has updated the card block length. */
+        uint64_t reserved_43_48        : 6;
+        uint64_t ctype_xor             : 2;  /**< [ 42: 41](R/W) Command type override; typically zero. Value is XOR'd with the default command type. See
+                                                                 Command and Response Types for command types per command index. Types are:
+                                                                 0x0 = No data.
+                                                                 0x1 = Read data into Dbuf.
+                                                                 0x2 = Write data from Dbuf.
+                                                                 0x3 = Reserved. */
+        uint64_t rtype_xor             : 3;  /**< [ 40: 38](R/W) Response type override; typically zero. Value is XOR'd with default response type. See
+                                                                 Command and Response Types for response types per command index. Types are:
+                                                                 0x0 = No Response.
+                                                                 0x1 = R1, 48 bits.
+                                                                 0x2 = R2, 136 bits.
+                                                                 0x3 = R3, 48 bits.
+                                                                 0x4 = R4, 48 bits.
+                                                                 0x5 = R5, 48 bits.
+                                                                 0x6, 0x7 = Reserved. */
+        uint64_t cmd_idx               : 6;  /**< [ 37: 32](R/W/H) eMMC command */
+        uint64_t arg                   : 32; /**< [ 31:  0](R/W/H) eMMC command argument */
+#else /* Word 0 - Little Endian */
+        uint64_t arg                   : 32; /**< [ 31:  0](R/W/H) eMMC command argument */
+        uint64_t cmd_idx               : 6;  /**< [ 37: 32](R/W/H) eMMC command */
+        uint64_t rtype_xor             : 3;  /**< [ 40: 38](R/W) Response type override; typically zero. Value is XOR'd with default response type. See
+                                                                 Command and Response Types for response types per command index. Types are:
+                                                                 0x0 = No Response.
+                                                                 0x1 = R1, 48 bits.
+                                                                 0x2 = R2, 136 bits.
+                                                                 0x3 = R3, 48 bits.
+                                                                 0x4 = R4, 48 bits.
+                                                                 0x5 = R5, 48 bits.
+                                                                 0x6, 0x7 = Reserved. */
+        uint64_t ctype_xor             : 2;  /**< [ 42: 41](R/W) Command type override; typically zero. Value is XOR'd with the default command type. See
+                                                                 Command and Response Types for command types per command index. Types are:
+                                                                 0x0 = No data.
+                                                                 0x1 = Read data into Dbuf.
+                                                                 0x2 = Write data from Dbuf.
+                                                                 0x3 = Reserved. */
+        uint64_t reserved_43_48        : 6;
+        uint64_t offset                : 6;  /**< [ 54: 49](R/W) Debug only. Specify the number of 8-byte transfers used in the command. Value is
+                                                                 64-OFFSET. The block transfer still starts at the first byte in the 512B data buffer.
+                                                                 Software must ensure CMD16 has updated the card block length. */
+        uint64_t dbuf                  : 1;  /**< [ 55: 55](R/W) Specify the data buffer to be used for a block transfer. */
+        uint64_t reserved_56_58        : 3;
+        uint64_t cmd_val               : 1;  /**< [ 59: 59](R/W/H) Request valid. Software writes this bit to a 1. Hardware clears it when the operation completes. */
+        uint64_t bus_id                : 2;  /**< [ 61: 60](R/W) Specify the eMMC bus */
+        uint64_t skip_busy             : 1;  /**< [ 62: 62](R/W) Controls when command is completed.
+                                                                 0 = Command doesn't complete until card has dropped the BUSY signal.
+                                                                 1 = Complete command regardless of the BUSY signal. Status of signal can be read in
+                                                                 MIO_EMM_RSP_STS[RSP_BUSYBIT]. */
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_cmd_s cn; */
+} bdk_mio_emm_cmd_t;
+
+#define BDK_MIO_EMM_CMD BDK_MIO_EMM_CMD_FUNC()
+static inline uint64_t BDK_MIO_EMM_CMD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_CMD_FUNC(void)
+{
+    return 0x87e009002058ll;
+}
+
+#define typedef_BDK_MIO_EMM_CMD bdk_mio_emm_cmd_t
+#define bustype_BDK_MIO_EMM_CMD BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_CMD "MIO_EMM_CMD"
+#define busnum_BDK_MIO_EMM_CMD 0
+#define arguments_BDK_MIO_EMM_CMD -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_dma
+ *
+ * MIO eMMC External DMA Configuration Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_dma_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t skip_busy             : 1;  /**< [ 62: 62](R/W) Controls when DMA is completed.
+                                                                 0 = DMA doesn't complete until card has dropped the BUSY signal.
+                                                                 1 = Complete DMA after last transfer regardless of the BUSY signal. Status of signal can
+                                                                 be read in MIO_EMM_RSP_STS[RSP_BUSYBIT]. */
+        uint64_t bus_id                : 2;  /**< [ 61: 60](R/W) Specify the eMMC bus */
+        uint64_t dma_val               : 1;  /**< [ 59: 59](R/W/H) Software writes this bit to a 1 to indicate that hardware should perform the DMA transfer.
+                                                                 Hardware clears this bit when the DMA operation completes or is terminated. */
+        uint64_t sector                : 1;  /**< [ 58: 58](R/W/H) Specify CARD_ADDR and eMMC are using sector (512B) addressing. */
+        uint64_t dat_null              : 1;  /**< [ 57: 57](R/W) Do not perform any eMMC commands. A DMA read returns all 0s. A DMA write tosses the data.
+                                                                 In the case of a failure, this can be used to unwind the DMA engine. */
+        uint64_t thres                 : 6;  /**< [ 56: 51](R/W) Number of 8-byte blocks of data that must exist in the DBUF before starting the 512-byte
+                                                                 block transfer. Zero indicates to wait for the entire block. */
+        uint64_t rel_wr                : 1;  /**< [ 50: 50](R/W) Set the reliable write parameter when performing CMD23 (SET_BLOCK_COUNT) for a multiple block. */
+        uint64_t rw                    : 1;  /**< [ 49: 49](R/W) Read/write bit (0 = read, 1 = write) */
+        uint64_t multi                 : 1;  /**< [ 48: 48](R/W) Perform operation using a multiple block command instead of a series of single block commands. */
+        uint64_t block_cnt             : 16; /**< [ 47: 32](R/W/H) Number of blocks to read/write. Hardware decrements the block count after each successful
+                                                                 block transfer. */
+        uint64_t card_addr             : 32; /**< [ 31:  0](R/W/H) Data address for media <= 2GB is a 32-bit byte address, and data address for media > 2GB
+                                                                 is a 32-bit sector (512B) address. Hardware advances the card address after each
+                                                                 successful block transfer by 512 for byte addressing and by 1 for sector addressing. */
+#else /* Word 0 - Little Endian */
+        uint64_t card_addr             : 32; /**< [ 31:  0](R/W/H) Data address for media <= 2GB is a 32-bit byte address, and data address for media > 2GB
+                                                                 is a 32-bit sector (512B) address. Hardware advances the card address after each
+                                                                 successful block transfer by 512 for byte addressing and by 1 for sector addressing. */
+        uint64_t block_cnt             : 16; /**< [ 47: 32](R/W/H) Number of blocks to read/write. Hardware decrements the block count after each successful
+                                                                 block transfer. */
+        uint64_t multi                 : 1;  /**< [ 48: 48](R/W) Perform operation using a multiple block command instead of a series of single block commands. */
+        uint64_t rw                    : 1;  /**< [ 49: 49](R/W) Read/write bit (0 = read, 1 = write) */
+        uint64_t rel_wr                : 1;  /**< [ 50: 50](R/W) Set the reliable write parameter when performing CMD23 (SET_BLOCK_COUNT) for a multiple block. */
+        uint64_t thres                 : 6;  /**< [ 56: 51](R/W) Number of 8-byte blocks of data that must exist in the DBUF before starting the 512-byte
+                                                                 block transfer. Zero indicates to wait for the entire block. */
+        uint64_t dat_null              : 1;  /**< [ 57: 57](R/W) Do not perform any eMMC commands. A DMA read returns all 0s. A DMA write tosses the data.
+                                                                 In the case of a failure, this can be used to unwind the DMA engine. */
+        uint64_t sector                : 1;  /**< [ 58: 58](R/W/H) Specify CARD_ADDR and eMMC are using sector (512B) addressing. */
+        uint64_t dma_val               : 1;  /**< [ 59: 59](R/W/H) Software writes this bit to a 1 to indicate that hardware should perform the DMA transfer.
+                                                                 Hardware clears this bit when the DMA operation completes or is terminated. */
+        uint64_t bus_id                : 2;  /**< [ 61: 60](R/W) Specify the eMMC bus */
+        uint64_t skip_busy             : 1;  /**< [ 62: 62](R/W) Controls when DMA is completed.
+                                                                 0 = DMA doesn't complete until card has dropped the BUSY signal.
+                                                                 1 = Complete DMA after last transfer regardless of the BUSY signal. Status of signal can
+                                                                 be read in MIO_EMM_RSP_STS[RSP_BUSYBIT]. */
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_dma_s cn; */
+} bdk_mio_emm_dma_t;
+
+#define BDK_MIO_EMM_DMA BDK_MIO_EMM_DMA_FUNC()
+static inline uint64_t BDK_MIO_EMM_DMA_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_DMA_FUNC(void)
+{
+    return 0x87e009002050ll;
+}
+
+#define typedef_BDK_MIO_EMM_DMA bdk_mio_emm_dma_t
+#define bustype_BDK_MIO_EMM_DMA BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_DMA "MIO_EMM_DMA"
+#define busnum_BDK_MIO_EMM_DMA 0
+#define arguments_BDK_MIO_EMM_DMA -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_dma_adr
+ *
+ * eMMC DMA Address Register
+ * This register sets the address for eMMC/SD flash transfers to/from memory. Sixty-four-bit
+ * operations must be used to access this register.  This register is updated by the dma
+ * hardware and can be reloaded by the values placed in the MIO_EMM_DMA_FIFO_ADR.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_dma_adr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t adr                   : 49; /**< [ 48:  0](R/W/H) DMA engine address. Must be 64-bit aligned. */
+#else /* Word 0 - Little Endian */
+        uint64_t adr                   : 49; /**< [ 48:  0](R/W/H) DMA engine address. Must be 64-bit aligned. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_dma_adr_s cn; */
+} bdk_mio_emm_dma_adr_t;
+
+#define BDK_MIO_EMM_DMA_ADR BDK_MIO_EMM_DMA_ADR_FUNC()
+static inline uint64_t BDK_MIO_EMM_DMA_ADR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_DMA_ADR_FUNC(void)
+{
+    return 0x87e009000188ll;
+}
+
+#define typedef_BDK_MIO_EMM_DMA_ADR bdk_mio_emm_dma_adr_t
+#define bustype_BDK_MIO_EMM_DMA_ADR BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_DMA_ADR "MIO_EMM_DMA_ADR"
+#define busnum_BDK_MIO_EMM_DMA_ADR 0
+#define arguments_BDK_MIO_EMM_DMA_ADR -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_dma_cfg
+ *
+ * eMMC DMA Configuration Register
+ * This register controls the internal DMA engine used with the eMMC/SD flash controller. Sixty-
+ * four-bit operations must be used to access this register.  This register is updated by the
+ * hardware dma engine and can also be reloaded by writes to the MIO_EMM_DMA_FIFO_CMD register.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_dma_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t en                    : 1;  /**< [ 63: 63](R/W/H) DMA engine enable. */
+        uint64_t rw                    : 1;  /**< [ 62: 62](R/W/H) DMA engine R/W bit: 0 = read, 1 = write. */
+        uint64_t clr                   : 1;  /**< [ 61: 61](R/W/H) DMA engine abort. When set to 1, DMA is aborted and EN is cleared on completion. */
+        uint64_t reserved_60           : 1;
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W/H) DMA engine 32-bit swap. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W/H) DMA engine enable 16-bit swap. */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W/H) DMA engine enable 8-bit swap. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W/H) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
+        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
+                                                                 example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
+        uint64_t reserved_0_35         : 36;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_35         : 36;
+        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
+                                                                 example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W/H) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W/H) DMA engine enable 8-bit swap. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W/H) DMA engine enable 16-bit swap. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W/H) DMA engine 32-bit swap. */
+        uint64_t reserved_60           : 1;
+        uint64_t clr                   : 1;  /**< [ 61: 61](R/W/H) DMA engine abort. When set to 1, DMA is aborted and EN is cleared on completion. */
+        uint64_t rw                    : 1;  /**< [ 62: 62](R/W/H) DMA engine R/W bit: 0 = read, 1 = write. */
+        uint64_t en                    : 1;  /**< [ 63: 63](R/W/H) DMA engine enable. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_dma_cfg_s cn; */
+} bdk_mio_emm_dma_cfg_t;
+
+#define BDK_MIO_EMM_DMA_CFG BDK_MIO_EMM_DMA_CFG_FUNC()
+static inline uint64_t BDK_MIO_EMM_DMA_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_DMA_CFG_FUNC(void)
+{
+    return 0x87e009000180ll;
+}
+
+#define typedef_BDK_MIO_EMM_DMA_CFG bdk_mio_emm_dma_cfg_t
+#define bustype_BDK_MIO_EMM_DMA_CFG BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_DMA_CFG "MIO_EMM_DMA_CFG"
+#define busnum_BDK_MIO_EMM_DMA_CFG 0
+#define arguments_BDK_MIO_EMM_DMA_CFG -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_dma_fifo_adr
+ *
+ * eMMC Internal DMA FIFO Address Register
+ * This register specifies the internal address that is loaded into the eMMC internal DMA FIFO.
+ * The FIFO is used to queue up operations for the MIO_EMM_DMA_CFG/MIO_EMM_DMA_ADR when the DMA
+ * completes successfully.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_dma_fifo_adr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t adr                   : 46; /**< [ 48:  3](R/W) DMA engine address. Must be 64-bit aligned. */
+        uint64_t reserved_0_2          : 3;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_2          : 3;
+        uint64_t adr                   : 46; /**< [ 48:  3](R/W) DMA engine address. Must be 64-bit aligned. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_dma_fifo_adr_s cn; */
+} bdk_mio_emm_dma_fifo_adr_t;
+
+#define BDK_MIO_EMM_DMA_FIFO_ADR BDK_MIO_EMM_DMA_FIFO_ADR_FUNC()
+static inline uint64_t BDK_MIO_EMM_DMA_FIFO_ADR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_DMA_FIFO_ADR_FUNC(void)
+{
+    return 0x87e009000170ll;
+}
+
+#define typedef_BDK_MIO_EMM_DMA_FIFO_ADR bdk_mio_emm_dma_fifo_adr_t
+#define bustype_BDK_MIO_EMM_DMA_FIFO_ADR BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_DMA_FIFO_ADR "MIO_EMM_DMA_FIFO_ADR"
+#define busnum_BDK_MIO_EMM_DMA_FIFO_ADR 0
+#define arguments_BDK_MIO_EMM_DMA_FIFO_ADR -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_dma_fifo_cfg
+ *
+ * eMMC Internal DMA FIFO Configuration Register
+ * This register controls DMA FIFO Operations.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_dma_fifo_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t clr                   : 1;  /**< [ 16: 16](R/W) DMA FIFO Clear. When set erases all commands in the DMA FIFO. Must be zero for normal operation. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t int_lvl               : 5;  /**< [ 12:  8](R/W) Interrupt threshold indicating the number of entries remaining in the
+                                                                 DMA FIFO.  An interrupt occurs if the FIFO is read at the level specified.
+                                                                 A value of 0 disables the interrupt.  A value of 17 or greater will cause an
+                                                                 interrupt only if the FIFO is overflowed.
+                                                                 See MIO_EMM_DMA_INT[FIFO]. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t count                 : 5;  /**< [  4:  0](RO/H) Number of entries in the DMA FIFO. This count is incremented by writes to the
+                                                                 MIO_EMM_DMA_FIFO_CMD register and decremented each time the internal DMA engine completes
+                                                                 the previous command successfully.
+
+                                                                 Up to 16 entries can be placed in the FIFO. Entries written to a full FIFO will
+                                                                 potentially corrupt existing entries.  Care must be taken by software to insure
+                                                                 that this condition does not occur. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 5;  /**< [  4:  0](RO/H) Number of entries in the DMA FIFO. This count is incremented by writes to the
+                                                                 MIO_EMM_DMA_FIFO_CMD register and decremented each time the internal DMA engine completes
+                                                                 the previous command successfully.
+
+                                                                 Up to 16 entries can be placed in the FIFO. Entries written to a full FIFO will
+                                                                 potentially corrupt existing entries.  Care must be taken by software to insure
+                                                                 that this condition does not occur. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t int_lvl               : 5;  /**< [ 12:  8](R/W) Interrupt threshold indicating the number of entries remaining in the
+                                                                 DMA FIFO.  An interrupt occurs if the FIFO is read at the level specified.
+                                                                 A value of 0 disables the interrupt.  A value of 17 or greater will cause an
+                                                                 interrupt only if the FIFO is overflowed.
+                                                                 See MIO_EMM_DMA_INT[FIFO]. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t clr                   : 1;  /**< [ 16: 16](R/W) DMA FIFO Clear. When set erases all commands in the DMA FIFO. Must be zero for normal operation. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_dma_fifo_cfg_s cn; */
+} bdk_mio_emm_dma_fifo_cfg_t;
+
+#define BDK_MIO_EMM_DMA_FIFO_CFG BDK_MIO_EMM_DMA_FIFO_CFG_FUNC()
+static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CFG_FUNC(void)
+{
+    return 0x87e009000160ll;
+}
+
+#define typedef_BDK_MIO_EMM_DMA_FIFO_CFG bdk_mio_emm_dma_fifo_cfg_t
+#define bustype_BDK_MIO_EMM_DMA_FIFO_CFG BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_DMA_FIFO_CFG "MIO_EMM_DMA_FIFO_CFG"
+#define busnum_BDK_MIO_EMM_DMA_FIFO_CFG 0
+#define arguments_BDK_MIO_EMM_DMA_FIFO_CFG -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_dma_fifo_cmd
@@ -267,6 +762,80 @@ static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CMD_FUNC(void)
 #define arguments_BDK_MIO_EMM_DMA_FIFO_CMD -1,-1,-1,-1
 
 /**
+ * Register (RSL) mio_emm_dma_int
+ *
+ * eMMC DMA Interrupt Register
+ * Sixty-four-bit operations must be used to access this register.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_dma_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1C/H) Internal DMA FIFO has dropped to level specified by MIO_EMM_DMA_FIFO_CFG[INT_LVL]. */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Internal DMA engine request completion interrupt. */
+#else /* Word 0 - Little Endian */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Internal DMA engine request completion interrupt. */
+        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1C/H) Internal DMA FIFO has dropped to level specified by MIO_EMM_DMA_FIFO_CFG[INT_LVL]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_dma_int_s cn; */
+} bdk_mio_emm_dma_int_t;
+
+#define BDK_MIO_EMM_DMA_INT BDK_MIO_EMM_DMA_INT_FUNC()
+static inline uint64_t BDK_MIO_EMM_DMA_INT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_DMA_INT_FUNC(void)
+{
+    return 0x87e009000190ll;
+}
+
+#define typedef_BDK_MIO_EMM_DMA_INT bdk_mio_emm_dma_int_t
+#define bustype_BDK_MIO_EMM_DMA_INT BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_DMA_INT "MIO_EMM_DMA_INT"
+#define busnum_BDK_MIO_EMM_DMA_INT 0
+#define arguments_BDK_MIO_EMM_DMA_INT -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_dma_int_ena_w1c
+ *
+ * eMMC DMA Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_dma_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for MIO_EMM_DMA_INT[FIFO]. */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MIO_EMM_DMA_INT[DONE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MIO_EMM_DMA_INT[DONE]. */
+        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for MIO_EMM_DMA_INT[FIFO]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_dma_int_ena_w1c_s cn; */
+} bdk_mio_emm_dma_int_ena_w1c_t;
+
+#define BDK_MIO_EMM_DMA_INT_ENA_W1C BDK_MIO_EMM_DMA_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_MIO_EMM_DMA_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_DMA_INT_ENA_W1C_FUNC(void)
+{
+    return 0x87e0090001a8ll;
+}
+
+#define typedef_BDK_MIO_EMM_DMA_INT_ENA_W1C bdk_mio_emm_dma_int_ena_w1c_t
+#define bustype_BDK_MIO_EMM_DMA_INT_ENA_W1C BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_DMA_INT_ENA_W1C "MIO_EMM_DMA_INT_ENA_W1C"
+#define busnum_BDK_MIO_EMM_DMA_INT_ENA_W1C 0
+#define arguments_BDK_MIO_EMM_DMA_INT_ENA_W1C -1,-1,-1,-1
+
+/**
  * Register (RSL) mio_emm_dma_int_ena_w1s
  *
  * eMMC DMA Interrupt Enable Set Register
@@ -304,41 +873,392 @@ static inline uint64_t BDK_MIO_EMM_DMA_INT_ENA_W1S_FUNC(void)
 #define arguments_BDK_MIO_EMM_DMA_INT_ENA_W1S -1,-1,-1,-1
 
 /**
- * Register (RSL) mio_emm_dma_int
+ * Register (RSL) mio_emm_dma_int_w1s
  *
- * eMMC DMA Interrupt Register
- * Sixty-four-bit operations must be used to access this register.
+ * eMMC DMA Interrupt Set Register
+ * This register sets interrupt bits.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mio_emm_dma_int_s
+    struct bdk_mio_emm_dma_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1C/H) Internal DMA FIFO has dropped to level specified by MIO_EMM_DMA_FIFO_CFG[INT_LVL]. */
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Internal DMA engine request completion interrupt. */
+        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_EMM_DMA_INT[FIFO]. */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_EMM_DMA_INT[DONE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Internal DMA engine request completion interrupt. */
-        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1C/H) Internal DMA FIFO has dropped to level specified by MIO_EMM_DMA_FIFO_CFG[INT_LVL]. */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_EMM_DMA_INT[DONE]. */
+        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_EMM_DMA_INT[FIFO]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mio_emm_dma_int_s cn; */
-} bdk_mio_emm_dma_int_t;
+    /* struct bdk_mio_emm_dma_int_w1s_s cn; */
+} bdk_mio_emm_dma_int_w1s_t;
 
-#define BDK_MIO_EMM_DMA_INT BDK_MIO_EMM_DMA_INT_FUNC()
-static inline uint64_t BDK_MIO_EMM_DMA_INT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_DMA_INT_FUNC(void)
+#define BDK_MIO_EMM_DMA_INT_W1S BDK_MIO_EMM_DMA_INT_W1S_FUNC()
+static inline uint64_t BDK_MIO_EMM_DMA_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_DMA_INT_W1S_FUNC(void)
 {
-    return 0x87e009000190ll;
+    return 0x87e009000198ll;
 }
 
-#define typedef_BDK_MIO_EMM_DMA_INT bdk_mio_emm_dma_int_t
-#define bustype_BDK_MIO_EMM_DMA_INT BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_DMA_INT "MIO_EMM_DMA_INT"
-#define busnum_BDK_MIO_EMM_DMA_INT 0
-#define arguments_BDK_MIO_EMM_DMA_INT -1,-1,-1,-1
+#define typedef_BDK_MIO_EMM_DMA_INT_W1S bdk_mio_emm_dma_int_w1s_t
+#define bustype_BDK_MIO_EMM_DMA_INT_W1S BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_DMA_INT_W1S "MIO_EMM_DMA_INT_W1S"
+#define busnum_BDK_MIO_EMM_DMA_INT_W1S 0
+#define arguments_BDK_MIO_EMM_DMA_INT_W1S -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_int
+ *
+ * MIO eMMC Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1C/H) Switch operation encountered an error. */
+        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1C/H) Switch operation completed successfully. */
+        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1C/H) External DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
+        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1C/H) Operation specified by MIO_EMM_CMD encountered an error. See MIO_EMM_RSP_STS. */
+        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1C/H) External DMA transfer completed successfully. */
+        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1C/H) Operation specified by MIO_EMM_CMD completed successfully. */
+        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1C/H) The next 512B block transfer of a multiblock transfer has completed. */
+#else /* Word 0 - Little Endian */
+        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1C/H) The next 512B block transfer of a multiblock transfer has completed. */
+        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1C/H) Operation specified by MIO_EMM_CMD completed successfully. */
+        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1C/H) External DMA transfer completed successfully. */
+        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1C/H) Operation specified by MIO_EMM_CMD encountered an error. See MIO_EMM_RSP_STS. */
+        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1C/H) External DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
+        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1C/H) Switch operation completed successfully. */
+        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1C/H) Switch operation encountered an error. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_int_s cn; */
+} bdk_mio_emm_int_t;
+
+#define BDK_MIO_EMM_INT BDK_MIO_EMM_INT_FUNC()
+static inline uint64_t BDK_MIO_EMM_INT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_INT_FUNC(void)
+{
+    return 0x87e009002078ll;
+}
+
+#define typedef_BDK_MIO_EMM_INT bdk_mio_emm_int_t
+#define bustype_BDK_MIO_EMM_INT BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_INT "MIO_EMM_INT"
+#define busnum_BDK_MIO_EMM_INT 0
+#define arguments_BDK_MIO_EMM_INT -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_int_ena_w1c
+ *
+ * eMMC Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for MIO_EMM_INT[SWITCH_ERR]. */
+        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for MIO_EMM_INT[SWITCH_DONE]. */
+        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for MIO_EMM_INT[DMA_ERR]. */
+        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for MIO_EMM_INT[CMD_ERR]. */
+        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for MIO_EMM_INT[DMA_DONE]. */
+        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for MIO_EMM_INT[CMD_DONE]. */
+        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MIO_EMM_INT[BUF_DONE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MIO_EMM_INT[BUF_DONE]. */
+        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for MIO_EMM_INT[CMD_DONE]. */
+        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for MIO_EMM_INT[DMA_DONE]. */
+        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for MIO_EMM_INT[CMD_ERR]. */
+        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for MIO_EMM_INT[DMA_ERR]. */
+        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for MIO_EMM_INT[SWITCH_DONE]. */
+        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for MIO_EMM_INT[SWITCH_ERR]. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_int_ena_w1c_s cn; */
+} bdk_mio_emm_int_ena_w1c_t;
+
+#define BDK_MIO_EMM_INT_ENA_W1C BDK_MIO_EMM_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_MIO_EMM_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_INT_ENA_W1C_FUNC(void)
+{
+    return 0x87e0090020b8ll;
+}
+
+#define typedef_BDK_MIO_EMM_INT_ENA_W1C bdk_mio_emm_int_ena_w1c_t
+#define bustype_BDK_MIO_EMM_INT_ENA_W1C BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_INT_ENA_W1C "MIO_EMM_INT_ENA_W1C"
+#define busnum_BDK_MIO_EMM_INT_ENA_W1C 0
+#define arguments_BDK_MIO_EMM_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_int_ena_w1s
+ *
+ * eMMC Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for MIO_EMM_INT[SWITCH_ERR]. */
+        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for MIO_EMM_INT[SWITCH_DONE]. */
+        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for MIO_EMM_INT[DMA_ERR]. */
+        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for MIO_EMM_INT[CMD_ERR]. */
+        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for MIO_EMM_INT[DMA_DONE]. */
+        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for MIO_EMM_INT[CMD_DONE]. */
+        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for MIO_EMM_INT[BUF_DONE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for MIO_EMM_INT[BUF_DONE]. */
+        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for MIO_EMM_INT[CMD_DONE]. */
+        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for MIO_EMM_INT[DMA_DONE]. */
+        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for MIO_EMM_INT[CMD_ERR]. */
+        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for MIO_EMM_INT[DMA_ERR]. */
+        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for MIO_EMM_INT[SWITCH_DONE]. */
+        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for MIO_EMM_INT[SWITCH_ERR]. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_int_ena_w1s_s cn; */
+} bdk_mio_emm_int_ena_w1s_t;
+
+#define BDK_MIO_EMM_INT_ENA_W1S BDK_MIO_EMM_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_MIO_EMM_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_INT_ENA_W1S_FUNC(void)
+{
+    return 0x87e0090020b0ll;
+}
+
+#define typedef_BDK_MIO_EMM_INT_ENA_W1S bdk_mio_emm_int_ena_w1s_t
+#define bustype_BDK_MIO_EMM_INT_ENA_W1S BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_INT_ENA_W1S "MIO_EMM_INT_ENA_W1S"
+#define busnum_BDK_MIO_EMM_INT_ENA_W1S 0
+#define arguments_BDK_MIO_EMM_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_int_w1s
+ *
+ * MIO eMMC Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets MIO_EMM_INT[SWITCH_ERR]. */
+        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets MIO_EMM_INT[SWITCH_DONE]. */
+        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets MIO_EMM_INT[DMA_ERR]. */
+        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets MIO_EMM_INT[CMD_ERR]. */
+        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets MIO_EMM_INT[DMA_DONE]. */
+        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_EMM_INT[CMD_DONE]. */
+        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_EMM_INT[BUF_DONE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_EMM_INT[BUF_DONE]. */
+        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_EMM_INT[CMD_DONE]. */
+        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets MIO_EMM_INT[DMA_DONE]. */
+        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets MIO_EMM_INT[CMD_ERR]. */
+        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets MIO_EMM_INT[DMA_ERR]. */
+        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets MIO_EMM_INT[SWITCH_DONE]. */
+        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets MIO_EMM_INT[SWITCH_ERR]. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_int_w1s_s cn; */
+} bdk_mio_emm_int_w1s_t;
+
+#define BDK_MIO_EMM_INT_W1S BDK_MIO_EMM_INT_W1S_FUNC()
+static inline uint64_t BDK_MIO_EMM_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_INT_W1S_FUNC(void)
+{
+    return 0x87e009002080ll;
+}
+
+#define typedef_BDK_MIO_EMM_INT_W1S bdk_mio_emm_int_w1s_t
+#define bustype_BDK_MIO_EMM_INT_W1S BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_INT_W1S "MIO_EMM_INT_W1S"
+#define busnum_BDK_MIO_EMM_INT_W1S 0
+#define arguments_BDK_MIO_EMM_INT_W1S -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_mode#
+ *
+ * MIO eMMC Operating Mode Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_modex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t hs_timing             : 1;  /**< [ 48: 48](RO/H) Current high-speed timing mode. Required when CLK frequency is higher than 20MHz. */
+        uint64_t reserved_43_47        : 5;
+        uint64_t bus_width             : 3;  /**< [ 42: 40](RO/H) Current card bus mode. Out of reset, the card is in 1-bit data bus mode. Select bus width.
+                                                                 0x0 = 1-bit data bus (power on).
+                                                                 0x1 = 4-bit data bus.
+                                                                 0x2 = 8-bit data bus.
+                                                                 0x3 = Reserved.
+                                                                 0x4 = Reserved.
+                                                                 0x5 = 4-bit data bus (dual data rate).
+                                                                 0x6 = 8-bit data bus (dual data rate).
+                                                                 0x7 = Reserved.
+                                                                 0x8 = Reserved. */
+        uint64_t reserved_36_39        : 4;
+        uint64_t power_class           : 4;  /**< [ 35: 32](RO/H) Out of reset, the card power class is 0, which is the minimum current consumption class
+                                                                 for the card. EXT_CSD bytes [203:200] and [239:238] contain the power class for different
+                                                                 BUS_WITDH and CLK frequencies. Software should write this field with the 4-bit field from
+                                                                 the EXT_CSD bytes corresponding to the selected operating mode. */
+        uint64_t clk_hi                : 16; /**< [ 31: 16](RO/H) Current number of coprocessor-clocks to hold the eMMC CLK pin high. */
+        uint64_t clk_lo                : 16; /**< [ 15:  0](RO/H) Current number of coprocessor-clocks to hold the eMMC CLK pin low. */
+#else /* Word 0 - Little Endian */
+        uint64_t clk_lo                : 16; /**< [ 15:  0](RO/H) Current number of coprocessor-clocks to hold the eMMC CLK pin low. */
+        uint64_t clk_hi                : 16; /**< [ 31: 16](RO/H) Current number of coprocessor-clocks to hold the eMMC CLK pin high. */
+        uint64_t power_class           : 4;  /**< [ 35: 32](RO/H) Out of reset, the card power class is 0, which is the minimum current consumption class
+                                                                 for the card. EXT_CSD bytes [203:200] and [239:238] contain the power class for different
+                                                                 BUS_WITDH and CLK frequencies. Software should write this field with the 4-bit field from
+                                                                 the EXT_CSD bytes corresponding to the selected operating mode. */
+        uint64_t reserved_36_39        : 4;
+        uint64_t bus_width             : 3;  /**< [ 42: 40](RO/H) Current card bus mode. Out of reset, the card is in 1-bit data bus mode. Select bus width.
+                                                                 0x0 = 1-bit data bus (power on).
+                                                                 0x1 = 4-bit data bus.
+                                                                 0x2 = 8-bit data bus.
+                                                                 0x3 = Reserved.
+                                                                 0x4 = Reserved.
+                                                                 0x5 = 4-bit data bus (dual data rate).
+                                                                 0x6 = 8-bit data bus (dual data rate).
+                                                                 0x7 = Reserved.
+                                                                 0x8 = Reserved. */
+        uint64_t reserved_43_47        : 5;
+        uint64_t hs_timing             : 1;  /**< [ 48: 48](RO/H) Current high-speed timing mode. Required when CLK frequency is higher than 20MHz. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_modex_s cn; */
+} bdk_mio_emm_modex_t;
+
+static inline uint64_t BDK_MIO_EMM_MODEX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_MODEX(unsigned long a)
+{
+    if (a<=3)
+        return 0x87e009002008ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("MIO_EMM_MODEX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MIO_EMM_MODEX(a) bdk_mio_emm_modex_t
+#define bustype_BDK_MIO_EMM_MODEX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_MODEX(a) "MIO_EMM_MODEX"
+#define busnum_BDK_MIO_EMM_MODEX(a) (a)
+#define arguments_BDK_MIO_EMM_MODEX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_msix_pba#
+ *
+ * eMMC MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the MIO_EMM_INT_VEC_E
+ * enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MIO_EMM_MSIX_VEC()_CTL, enumerated by
+                                                                 MIO_EMM_INT_VEC_E. Bits that have no associated MIO_EMM_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MIO_EMM_MSIX_VEC()_CTL, enumerated by
+                                                                 MIO_EMM_INT_VEC_E. Bits that have no associated MIO_EMM_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_msix_pbax_s cn; */
+} bdk_mio_emm_msix_pbax_t;
+
+static inline uint64_t BDK_MIO_EMM_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_MSIX_PBAX(unsigned long a)
+{
+    if (a==0)
+        return 0x87e009ff0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("MIO_EMM_MSIX_PBAX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MIO_EMM_MSIX_PBAX(a) bdk_mio_emm_msix_pbax_t
+#define bustype_BDK_MIO_EMM_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_MSIX_PBAX(a) "MIO_EMM_MSIX_PBAX"
+#define busnum_BDK_MIO_EMM_MSIX_PBAX(a) (a)
+#define arguments_BDK_MIO_EMM_MSIX_PBAX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) mio_emm_msix_vec#_addr
+ *
+ * eMMC MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the MIO_EMM_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_emm_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's MIO_EMM_MSIX_VEC()_ADDR, MIO_EMM_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of MIO_EMM_MSIX_PBA() are RAZ/WI and does not cause a fault when
+                                                                 accessed by the non-secure world.
+
+                                                                 If PCCPF_MIO_EMM_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's MIO_EMM_MSIX_VEC()_ADDR, MIO_EMM_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of MIO_EMM_MSIX_PBA() are RAZ/WI and does not cause a fault when
+                                                                 accessed by the non-secure world.
+
+                                                                 If PCCPF_MIO_EMM_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_emm_msix_vecx_addr_s cn; */
+} bdk_mio_emm_msix_vecx_addr_t;
+
+static inline uint64_t BDK_MIO_EMM_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_MSIX_VECX_ADDR(unsigned long a)
+{
+    if (a<=8)
+        return 0x87e009f00000ll + 0x10ll * ((a) & 0xf);
+    __bdk_csr_fatal("MIO_EMM_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MIO_EMM_MSIX_VECX_ADDR(a) bdk_mio_emm_msix_vecx_addr_t
+#define bustype_BDK_MIO_EMM_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_MSIX_VECX_ADDR(a) "MIO_EMM_MSIX_VECX_ADDR"
+#define busnum_BDK_MIO_EMM_MSIX_VECX_ADDR(a) (a)
+#define arguments_BDK_MIO_EMM_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_msix_vec#_ctl
@@ -417,180 +1337,46 @@ static inline uint64_t BDK_MIO_EMM_RCA_FUNC(void)
 #define arguments_BDK_MIO_EMM_RCA -1,-1,-1,-1
 
 /**
- * Register (RSL) mio_emm_cfg
+ * Register (RSL) mio_emm_rsp_hi
  *
- * MIO eMMC Configuration Register
+ * MIO eMMC Response Data High Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mio_emm_cfg_s
+    struct bdk_mio_emm_rsp_hi_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
-
-                                                                 Setting bit0 of BUS_ENA causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Setting bit1 of BUS_ENA causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Setting bit2 of BUS_ENA causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Bit3 of BUS_ENA is reserved.
-
-                                                                 Setting any bit of BUS_ENA causes EMMC_CLK to become the eMMC clock for both bus0 and
-                                                                 bus1. */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Command response (as per JEDEC eMMC spec and SD Specifications):
+                                                                 _ RSP_TYPE = 1: DAT[63:0] = 0x0.
+                                                                 _ RSP_TYPE = 2: DAT[63:0] = CID[127:64] or CSD[127:64].
+                                                                 _ RSP_TYPE = 3: DAT[63:0] = 0x0.
+                                                                 _ RSP_TYPE = 4: DAT[63:0] = 0x0.
+                                                                 _ RSP_TYPE = 5: DAT[63:0] = 0x0. */
 #else /* Word 0 - Little Endian */
-        uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
-
-                                                                 Setting bit0 of BUS_ENA causes EMMC_CMD[0] to become dedicated eMMC bus 0 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Setting bit1 of BUS_ENA causes EMMC_CMD[1] to become dedicated eMMC bus 1 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Setting bit2 of BUS_ENA causes EMMC_CMD[2] to become dedicated eMMC bus 2 command (i.e.
-                                                                 disabling any NOR use).
-
-                                                                 Bit3 of BUS_ENA is reserved.
-
-                                                                 Setting any bit of BUS_ENA causes EMMC_CLK to become the eMMC clock for both bus0 and
-                                                                 bus1. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Command response (as per JEDEC eMMC spec and SD Specifications):
+                                                                 _ RSP_TYPE = 1: DAT[63:0] = 0x0.
+                                                                 _ RSP_TYPE = 2: DAT[63:0] = CID[127:64] or CSD[127:64].
+                                                                 _ RSP_TYPE = 3: DAT[63:0] = 0x0.
+                                                                 _ RSP_TYPE = 4: DAT[63:0] = 0x0.
+                                                                 _ RSP_TYPE = 5: DAT[63:0] = 0x0. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mio_emm_cfg_s cn; */
-} bdk_mio_emm_cfg_t;
+    /* struct bdk_mio_emm_rsp_hi_s cn; */
+} bdk_mio_emm_rsp_hi_t;
 
-#define BDK_MIO_EMM_CFG BDK_MIO_EMM_CFG_FUNC()
-static inline uint64_t BDK_MIO_EMM_CFG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_CFG_FUNC(void)
+#define BDK_MIO_EMM_RSP_HI BDK_MIO_EMM_RSP_HI_FUNC()
+static inline uint64_t BDK_MIO_EMM_RSP_HI_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_RSP_HI_FUNC(void)
 {
-    return 0x87e009002000ll;
+    return 0x87e009002070ll;
 }
 
-#define typedef_BDK_MIO_EMM_CFG bdk_mio_emm_cfg_t
-#define bustype_BDK_MIO_EMM_CFG BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_CFG "MIO_EMM_CFG"
-#define busnum_BDK_MIO_EMM_CFG 0
-#define arguments_BDK_MIO_EMM_CFG -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_access_wdog
- *
- * MIO eMMC Access Watchdog Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_access_wdog_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t clk_cnt               : 32; /**< [ 31:  0](R/W) Number of coprocessor-clocks to allow for a store operation to the device to complete
-                                                                 before hardware will halt the operation.
-                                                                 Hardware will inject an error on the next 512-byte block boundary.   The pending DMA
-                                                                 operation can be resumed or terminated. A value of zero disables timer. */
-#else /* Word 0 - Little Endian */
-        uint64_t clk_cnt               : 32; /**< [ 31:  0](R/W) Number of coprocessor-clocks to allow for a store operation to the device to complete
-                                                                 before hardware will halt the operation.
-                                                                 Hardware will inject an error on the next 512-byte block boundary.   The pending DMA
-                                                                 operation can be resumed or terminated. A value of zero disables timer. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_access_wdog_s cn; */
-} bdk_mio_emm_access_wdog_t;
-
-#define BDK_MIO_EMM_ACCESS_WDOG BDK_MIO_EMM_ACCESS_WDOG_FUNC()
-static inline uint64_t BDK_MIO_EMM_ACCESS_WDOG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_ACCESS_WDOG_FUNC(void)
-{
-    return 0x87e0090020f0ll;
-}
-
-#define typedef_BDK_MIO_EMM_ACCESS_WDOG bdk_mio_emm_access_wdog_t
-#define bustype_BDK_MIO_EMM_ACCESS_WDOG BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_ACCESS_WDOG "MIO_EMM_ACCESS_WDOG"
-#define busnum_BDK_MIO_EMM_ACCESS_WDOG 0
-#define arguments_BDK_MIO_EMM_ACCESS_WDOG -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_dma_int_w1s
- *
- * eMMC DMA Interrupt Set Register
- * This register sets interrupt bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_dma_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_EMM_DMA_INT[FIFO]. */
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_EMM_DMA_INT[DONE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_EMM_DMA_INT[DONE]. */
-        uint64_t fifo                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_EMM_DMA_INT[FIFO]. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_dma_int_w1s_s cn; */
-} bdk_mio_emm_dma_int_w1s_t;
-
-#define BDK_MIO_EMM_DMA_INT_W1S BDK_MIO_EMM_DMA_INT_W1S_FUNC()
-static inline uint64_t BDK_MIO_EMM_DMA_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_DMA_INT_W1S_FUNC(void)
-{
-    return 0x87e009000198ll;
-}
-
-#define typedef_BDK_MIO_EMM_DMA_INT_W1S bdk_mio_emm_dma_int_w1s_t
-#define bustype_BDK_MIO_EMM_DMA_INT_W1S BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_DMA_INT_W1S "MIO_EMM_DMA_INT_W1S"
-#define busnum_BDK_MIO_EMM_DMA_INT_W1S 0
-#define arguments_BDK_MIO_EMM_DMA_INT_W1S -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_msix_pba#
- *
- * eMMC MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table; the bit number is indexed by the MIO_EMM_INT_VEC_E
- * enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_msix_pbax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MIO_EMM_MSIX_VEC()_CTL, enumerated by
-                                                                 MIO_EMM_INT_VEC_E. Bits that have no associated MIO_EMM_INT_VEC_E are 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MIO_EMM_MSIX_VEC()_CTL, enumerated by
-                                                                 MIO_EMM_INT_VEC_E. Bits that have no associated MIO_EMM_INT_VEC_E are 0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_msix_pbax_s cn; */
-} bdk_mio_emm_msix_pbax_t;
-
-static inline uint64_t BDK_MIO_EMM_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_MSIX_PBAX(unsigned long a)
-{
-    if (a==0)
-        return 0x87e009ff0000ll + 8ll * ((a) & 0x0);
-    __bdk_csr_fatal("MIO_EMM_MSIX_PBAX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MIO_EMM_MSIX_PBAX(a) bdk_mio_emm_msix_pbax_t
-#define bustype_BDK_MIO_EMM_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_MSIX_PBAX(a) "MIO_EMM_MSIX_PBAX"
-#define busnum_BDK_MIO_EMM_MSIX_PBAX(a) (a)
-#define arguments_BDK_MIO_EMM_MSIX_PBAX(a) (a),-1,-1,-1
+#define typedef_BDK_MIO_EMM_RSP_HI bdk_mio_emm_rsp_hi_t
+#define bustype_BDK_MIO_EMM_RSP_HI BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_RSP_HI "MIO_EMM_RSP_HI"
+#define busnum_BDK_MIO_EMM_RSP_HI 0
+#define arguments_BDK_MIO_EMM_RSP_HI -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_rsp_lo
@@ -703,279 +1489,6 @@ static inline uint64_t BDK_MIO_EMM_RSP_LO_FUNC(void)
 #define basename_BDK_MIO_EMM_RSP_LO "MIO_EMM_RSP_LO"
 #define busnum_BDK_MIO_EMM_RSP_LO 0
 #define arguments_BDK_MIO_EMM_RSP_LO -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_int_w1s
- *
- * MIO eMMC Interrupt Set Register
- * This register sets interrupt bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets MIO_EMM_INT[SWITCH_ERR]. */
-        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets MIO_EMM_INT[SWITCH_DONE]. */
-        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets MIO_EMM_INT[DMA_ERR]. */
-        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets MIO_EMM_INT[CMD_ERR]. */
-        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets MIO_EMM_INT[DMA_DONE]. */
-        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_EMM_INT[CMD_DONE]. */
-        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_EMM_INT[BUF_DONE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_EMM_INT[BUF_DONE]. */
-        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_EMM_INT[CMD_DONE]. */
-        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets MIO_EMM_INT[DMA_DONE]. */
-        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets MIO_EMM_INT[CMD_ERR]. */
-        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets MIO_EMM_INT[DMA_ERR]. */
-        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets MIO_EMM_INT[SWITCH_DONE]. */
-        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets MIO_EMM_INT[SWITCH_ERR]. */
-        uint64_t reserved_7_63         : 57;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_int_w1s_s cn; */
-} bdk_mio_emm_int_w1s_t;
-
-#define BDK_MIO_EMM_INT_W1S BDK_MIO_EMM_INT_W1S_FUNC()
-static inline uint64_t BDK_MIO_EMM_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_INT_W1S_FUNC(void)
-{
-    return 0x87e009002080ll;
-}
-
-#define typedef_BDK_MIO_EMM_INT_W1S bdk_mio_emm_int_w1s_t
-#define bustype_BDK_MIO_EMM_INT_W1S BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_INT_W1S "MIO_EMM_INT_W1S"
-#define busnum_BDK_MIO_EMM_INT_W1S 0
-#define arguments_BDK_MIO_EMM_INT_W1S -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_rsp_hi
- *
- * MIO eMMC Response Data High Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_rsp_hi_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Command response (as per JEDEC eMMC spec and SD Specifications):
-                                                                 _ RSP_TYPE = 1: DAT[63:0] = 0x0.
-                                                                 _ RSP_TYPE = 2: DAT[63:0] = CID[127:64] or CSD[127:64].
-                                                                 _ RSP_TYPE = 3: DAT[63:0] = 0x0.
-                                                                 _ RSP_TYPE = 4: DAT[63:0] = 0x0.
-                                                                 _ RSP_TYPE = 5: DAT[63:0] = 0x0. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Command response (as per JEDEC eMMC spec and SD Specifications):
-                                                                 _ RSP_TYPE = 1: DAT[63:0] = 0x0.
-                                                                 _ RSP_TYPE = 2: DAT[63:0] = CID[127:64] or CSD[127:64].
-                                                                 _ RSP_TYPE = 3: DAT[63:0] = 0x0.
-                                                                 _ RSP_TYPE = 4: DAT[63:0] = 0x0.
-                                                                 _ RSP_TYPE = 5: DAT[63:0] = 0x0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_rsp_hi_s cn; */
-} bdk_mio_emm_rsp_hi_t;
-
-#define BDK_MIO_EMM_RSP_HI BDK_MIO_EMM_RSP_HI_FUNC()
-static inline uint64_t BDK_MIO_EMM_RSP_HI_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_RSP_HI_FUNC(void)
-{
-    return 0x87e009002070ll;
-}
-
-#define typedef_BDK_MIO_EMM_RSP_HI bdk_mio_emm_rsp_hi_t
-#define bustype_BDK_MIO_EMM_RSP_HI BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_RSP_HI "MIO_EMM_RSP_HI"
-#define busnum_BDK_MIO_EMM_RSP_HI 0
-#define arguments_BDK_MIO_EMM_RSP_HI -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_sts_mask
- *
- * MIO eMMC Status Mask Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_sts_mask_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t sts_msk               : 32; /**< [ 31:  0](R/W) Any bit set in STS_MSK causes the corresponding bit in the card status to be considered
-                                                                 when computing response bad status. */
-#else /* Word 0 - Little Endian */
-        uint64_t sts_msk               : 32; /**< [ 31:  0](R/W) Any bit set in STS_MSK causes the corresponding bit in the card status to be considered
-                                                                 when computing response bad status. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_sts_mask_s cn; */
-} bdk_mio_emm_sts_mask_t;
-
-#define BDK_MIO_EMM_STS_MASK BDK_MIO_EMM_STS_MASK_FUNC()
-static inline uint64_t BDK_MIO_EMM_STS_MASK_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_STS_MASK_FUNC(void)
-{
-    return 0x87e009002098ll;
-}
-
-#define typedef_BDK_MIO_EMM_STS_MASK bdk_mio_emm_sts_mask_t
-#define bustype_BDK_MIO_EMM_STS_MASK BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_STS_MASK "MIO_EMM_STS_MASK"
-#define busnum_BDK_MIO_EMM_STS_MASK 0
-#define arguments_BDK_MIO_EMM_STS_MASK -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_int_ena_w1c
- *
- * eMMC Interrupt Enable Clear Register
- * This register clears interrupt enable bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_int_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for MIO_EMM_INT[SWITCH_ERR]. */
-        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for MIO_EMM_INT[SWITCH_DONE]. */
-        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for MIO_EMM_INT[DMA_ERR]. */
-        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for MIO_EMM_INT[CMD_ERR]. */
-        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for MIO_EMM_INT[DMA_DONE]. */
-        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for MIO_EMM_INT[CMD_DONE]. */
-        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MIO_EMM_INT[BUF_DONE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for MIO_EMM_INT[BUF_DONE]. */
-        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for MIO_EMM_INT[CMD_DONE]. */
-        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for MIO_EMM_INT[DMA_DONE]. */
-        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for MIO_EMM_INT[CMD_ERR]. */
-        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for MIO_EMM_INT[DMA_ERR]. */
-        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for MIO_EMM_INT[SWITCH_DONE]. */
-        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for MIO_EMM_INT[SWITCH_ERR]. */
-        uint64_t reserved_7_63         : 57;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_int_ena_w1c_s cn; */
-} bdk_mio_emm_int_ena_w1c_t;
-
-#define BDK_MIO_EMM_INT_ENA_W1C BDK_MIO_EMM_INT_ENA_W1C_FUNC()
-static inline uint64_t BDK_MIO_EMM_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_INT_ENA_W1C_FUNC(void)
-{
-    return 0x87e0090020b8ll;
-}
-
-#define typedef_BDK_MIO_EMM_INT_ENA_W1C bdk_mio_emm_int_ena_w1c_t
-#define bustype_BDK_MIO_EMM_INT_ENA_W1C BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_INT_ENA_W1C "MIO_EMM_INT_ENA_W1C"
-#define busnum_BDK_MIO_EMM_INT_ENA_W1C 0
-#define arguments_BDK_MIO_EMM_INT_ENA_W1C -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_dma_fifo_cfg
- *
- * eMMC Internal DMA FIFO Configuration Register
- * This register controls DMA FIFO Operations.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_dma_fifo_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t clr                   : 1;  /**< [ 16: 16](R/W) DMA FIFO Clear. When set erases all commands in the DMA FIFO. Must be zero for normal operation. */
-        uint64_t reserved_13_15        : 3;
-        uint64_t int_lvl               : 5;  /**< [ 12:  8](R/W) Interrupt threshold indicating the number of entries remaining in the
-                                                                 DMA FIFO.  An interrupt occurs if the FIFO is read at the level specified.
-                                                                 A value of 0 disables the interrupt.  A value of 17 or greater will cause an
-                                                                 interrupt only if the FIFO is overflowed.
-                                                                 See MIO_EMM_DMA_INT[FIFO]. */
-        uint64_t reserved_5_7          : 3;
-        uint64_t count                 : 5;  /**< [  4:  0](RO/H) Number of entries in the DMA FIFO. This count is incremented by writes to the
-                                                                 MIO_EMM_DMA_FIFO_CMD register and decremented each time the internal DMA engine completes
-                                                                 the previous command successfully.
-
-                                                                 Up to 16 entries can be placed in the FIFO. Entries written to a full FIFO will
-                                                                 potentially corrupt existing entries.  Care must be taken by software to insure
-                                                                 that this condition does not occur. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 5;  /**< [  4:  0](RO/H) Number of entries in the DMA FIFO. This count is incremented by writes to the
-                                                                 MIO_EMM_DMA_FIFO_CMD register and decremented each time the internal DMA engine completes
-                                                                 the previous command successfully.
-
-                                                                 Up to 16 entries can be placed in the FIFO. Entries written to a full FIFO will
-                                                                 potentially corrupt existing entries.  Care must be taken by software to insure
-                                                                 that this condition does not occur. */
-        uint64_t reserved_5_7          : 3;
-        uint64_t int_lvl               : 5;  /**< [ 12:  8](R/W) Interrupt threshold indicating the number of entries remaining in the
-                                                                 DMA FIFO.  An interrupt occurs if the FIFO is read at the level specified.
-                                                                 A value of 0 disables the interrupt.  A value of 17 or greater will cause an
-                                                                 interrupt only if the FIFO is overflowed.
-                                                                 See MIO_EMM_DMA_INT[FIFO]. */
-        uint64_t reserved_13_15        : 3;
-        uint64_t clr                   : 1;  /**< [ 16: 16](R/W) DMA FIFO Clear. When set erases all commands in the DMA FIFO. Must be zero for normal operation. */
-        uint64_t reserved_17_63        : 47;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_dma_fifo_cfg_s cn; */
-} bdk_mio_emm_dma_fifo_cfg_t;
-
-#define BDK_MIO_EMM_DMA_FIFO_CFG BDK_MIO_EMM_DMA_FIFO_CFG_FUNC()
-static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CFG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_DMA_FIFO_CFG_FUNC(void)
-{
-    return 0x87e009000160ll;
-}
-
-#define typedef_BDK_MIO_EMM_DMA_FIFO_CFG bdk_mio_emm_dma_fifo_cfg_t
-#define bustype_BDK_MIO_EMM_DMA_FIFO_CFG BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_DMA_FIFO_CFG "MIO_EMM_DMA_FIFO_CFG"
-#define busnum_BDK_MIO_EMM_DMA_FIFO_CFG 0
-#define arguments_BDK_MIO_EMM_DMA_FIFO_CFG -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_sample
- *
- * MIO eMMC Sampling Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_sample_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_26_63        : 38;
-        uint64_t cmd_cnt               : 10; /**< [ 25: 16](R/W) Number of coprocessor-clocks before the eMMC clock rising edge to sample the command pin. */
-        uint64_t reserved_10_15        : 6;
-        uint64_t dat_cnt               : 10; /**< [  9:  0](R/W) Number of coprocessor-clocks before the eMMC clock edge to sample the data pin. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat_cnt               : 10; /**< [  9:  0](R/W) Number of coprocessor-clocks before the eMMC clock edge to sample the data pin. */
-        uint64_t reserved_10_15        : 6;
-        uint64_t cmd_cnt               : 10; /**< [ 25: 16](R/W) Number of coprocessor-clocks before the eMMC clock rising edge to sample the command pin. */
-        uint64_t reserved_26_63        : 38;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_sample_s cn; */
-} bdk_mio_emm_sample_t;
-
-#define BDK_MIO_EMM_SAMPLE BDK_MIO_EMM_SAMPLE_FUNC()
-static inline uint64_t BDK_MIO_EMM_SAMPLE_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_SAMPLE_FUNC(void)
-{
-    return 0x87e009002090ll;
-}
-
-#define typedef_BDK_MIO_EMM_SAMPLE bdk_mio_emm_sample_t
-#define bustype_BDK_MIO_EMM_SAMPLE BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_SAMPLE "MIO_EMM_SAMPLE"
-#define busnum_BDK_MIO_EMM_SAMPLE 0
-#define arguments_BDK_MIO_EMM_SAMPLE -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_rsp_sts
@@ -1102,507 +1615,78 @@ static inline uint64_t BDK_MIO_EMM_RSP_STS_FUNC(void)
 #define arguments_BDK_MIO_EMM_RSP_STS -1,-1,-1,-1
 
 /**
- * Register (RSL) mio_emm_cmd
+ * Register (RSL) mio_emm_sample
  *
- * MIO eMMC Command Register
+ * MIO eMMC Sampling Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mio_emm_cmd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t skip_busy             : 1;  /**< [ 62: 62](R/W) Controls when command is completed.
-                                                                 0 = Command doesn't complete until card has dropped the BUSY signal.
-                                                                 1 = Complete command regardless of the BUSY signal. Status of signal can be read in
-                                                                 MIO_EMM_RSP_STS[RSP_BUSYBIT]. */
-        uint64_t bus_id                : 2;  /**< [ 61: 60](R/W) Specify the eMMC bus */
-        uint64_t cmd_val               : 1;  /**< [ 59: 59](R/W/H) Request valid. Software writes this bit to a 1. Hardware clears it when the operation completes. */
-        uint64_t reserved_56_58        : 3;
-        uint64_t dbuf                  : 1;  /**< [ 55: 55](R/W) Specify the data buffer to be used for a block transfer. */
-        uint64_t offset                : 6;  /**< [ 54: 49](R/W) Debug only. Specify the number of 8-byte transfers used in the command. Value is
-                                                                 64-OFFSET. The block transfer still starts at the first byte in the 512B data buffer.
-                                                                 Software must ensure CMD16 has updated the card block length. */
-        uint64_t reserved_43_48        : 6;
-        uint64_t ctype_xor             : 2;  /**< [ 42: 41](R/W) Command type override; typically zero. Value is XOR'd with the default command type. See
-                                                                 Command and Response Types for command types per command index. Types are:
-                                                                 0x0 = No data.
-                                                                 0x1 = Read data into Dbuf.
-                                                                 0x2 = Write data from Dbuf.
-                                                                 0x3 = Reserved. */
-        uint64_t rtype_xor             : 3;  /**< [ 40: 38](R/W) Response type override; typically zero. Value is XOR'd with default response type. See
-                                                                 Command and Response Types for response types per command index. Types are:
-                                                                 0x0 = No Response.
-                                                                 0x1 = R1, 48 bits.
-                                                                 0x2 = R2, 136 bits.
-                                                                 0x3 = R3, 48 bits.
-                                                                 0x4 = R4, 48 bits.
-                                                                 0x5 = R5, 48 bits.
-                                                                 0x6, 0x7 = Reserved. */
-        uint64_t cmd_idx               : 6;  /**< [ 37: 32](R/W/H) eMMC command */
-        uint64_t arg                   : 32; /**< [ 31:  0](R/W/H) eMMC command argument */
-#else /* Word 0 - Little Endian */
-        uint64_t arg                   : 32; /**< [ 31:  0](R/W/H) eMMC command argument */
-        uint64_t cmd_idx               : 6;  /**< [ 37: 32](R/W/H) eMMC command */
-        uint64_t rtype_xor             : 3;  /**< [ 40: 38](R/W) Response type override; typically zero. Value is XOR'd with default response type. See
-                                                                 Command and Response Types for response types per command index. Types are:
-                                                                 0x0 = No Response.
-                                                                 0x1 = R1, 48 bits.
-                                                                 0x2 = R2, 136 bits.
-                                                                 0x3 = R3, 48 bits.
-                                                                 0x4 = R4, 48 bits.
-                                                                 0x5 = R5, 48 bits.
-                                                                 0x6, 0x7 = Reserved. */
-        uint64_t ctype_xor             : 2;  /**< [ 42: 41](R/W) Command type override; typically zero. Value is XOR'd with the default command type. See
-                                                                 Command and Response Types for command types per command index. Types are:
-                                                                 0x0 = No data.
-                                                                 0x1 = Read data into Dbuf.
-                                                                 0x2 = Write data from Dbuf.
-                                                                 0x3 = Reserved. */
-        uint64_t reserved_43_48        : 6;
-        uint64_t offset                : 6;  /**< [ 54: 49](R/W) Debug only. Specify the number of 8-byte transfers used in the command. Value is
-                                                                 64-OFFSET. The block transfer still starts at the first byte in the 512B data buffer.
-                                                                 Software must ensure CMD16 has updated the card block length. */
-        uint64_t dbuf                  : 1;  /**< [ 55: 55](R/W) Specify the data buffer to be used for a block transfer. */
-        uint64_t reserved_56_58        : 3;
-        uint64_t cmd_val               : 1;  /**< [ 59: 59](R/W/H) Request valid. Software writes this bit to a 1. Hardware clears it when the operation completes. */
-        uint64_t bus_id                : 2;  /**< [ 61: 60](R/W) Specify the eMMC bus */
-        uint64_t skip_busy             : 1;  /**< [ 62: 62](R/W) Controls when command is completed.
-                                                                 0 = Command doesn't complete until card has dropped the BUSY signal.
-                                                                 1 = Complete command regardless of the BUSY signal. Status of signal can be read in
-                                                                 MIO_EMM_RSP_STS[RSP_BUSYBIT]. */
-        uint64_t reserved_63           : 1;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_cmd_s cn; */
-} bdk_mio_emm_cmd_t;
-
-#define BDK_MIO_EMM_CMD BDK_MIO_EMM_CMD_FUNC()
-static inline uint64_t BDK_MIO_EMM_CMD_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_CMD_FUNC(void)
-{
-    return 0x87e009002058ll;
-}
-
-#define typedef_BDK_MIO_EMM_CMD bdk_mio_emm_cmd_t
-#define bustype_BDK_MIO_EMM_CMD BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_CMD "MIO_EMM_CMD"
-#define busnum_BDK_MIO_EMM_CMD 0
-#define arguments_BDK_MIO_EMM_CMD -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_buf_dat
- *
- * MIO eMMC Data Buffer Access Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_buf_dat_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Direct access to the 1KB data buffer memory. Address specified by MIO_EMM_BUF_IDX. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](R/W/H) Direct access to the 1KB data buffer memory. Address specified by MIO_EMM_BUF_IDX. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_buf_dat_s cn; */
-} bdk_mio_emm_buf_dat_t;
-
-#define BDK_MIO_EMM_BUF_DAT BDK_MIO_EMM_BUF_DAT_FUNC()
-static inline uint64_t BDK_MIO_EMM_BUF_DAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_BUF_DAT_FUNC(void)
-{
-    return 0x87e0090020e8ll;
-}
-
-#define typedef_BDK_MIO_EMM_BUF_DAT bdk_mio_emm_buf_dat_t
-#define bustype_BDK_MIO_EMM_BUF_DAT BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_BUF_DAT "MIO_EMM_BUF_DAT"
-#define busnum_BDK_MIO_EMM_BUF_DAT 0
-#define arguments_BDK_MIO_EMM_BUF_DAT -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_buf_idx
- *
- * MIO eMMC Data Buffer Address Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_buf_idx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t inc                   : 1;  /**< [ 16: 16](R/W) Automatically advance BUF_NUM/OFFSET after each access to MIO_EMM_BUF_DAT. Wraps after the
-                                                                 last offset of the last data buffer. */
-        uint64_t reserved_7_15         : 9;
-        uint64_t buf_num               : 1;  /**< [  6:  6](R/W/H) Specify the data buffer for the next access to MIO_EMM_BUF_DAT. */
-        uint64_t offset                : 6;  /**< [  5:  0](R/W/H) Specify the 8B data buffer offset for the next access to MIO_EMM_BUF_DAT. */
-#else /* Word 0 - Little Endian */
-        uint64_t offset                : 6;  /**< [  5:  0](R/W/H) Specify the 8B data buffer offset for the next access to MIO_EMM_BUF_DAT. */
-        uint64_t buf_num               : 1;  /**< [  6:  6](R/W/H) Specify the data buffer for the next access to MIO_EMM_BUF_DAT. */
-        uint64_t reserved_7_15         : 9;
-        uint64_t inc                   : 1;  /**< [ 16: 16](R/W) Automatically advance BUF_NUM/OFFSET after each access to MIO_EMM_BUF_DAT. Wraps after the
-                                                                 last offset of the last data buffer. */
-        uint64_t reserved_17_63        : 47;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_buf_idx_s cn; */
-} bdk_mio_emm_buf_idx_t;
-
-#define BDK_MIO_EMM_BUF_IDX BDK_MIO_EMM_BUF_IDX_FUNC()
-static inline uint64_t BDK_MIO_EMM_BUF_IDX_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_BUF_IDX_FUNC(void)
-{
-    return 0x87e0090020e0ll;
-}
-
-#define typedef_BDK_MIO_EMM_BUF_IDX bdk_mio_emm_buf_idx_t
-#define bustype_BDK_MIO_EMM_BUF_IDX BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_BUF_IDX "MIO_EMM_BUF_IDX"
-#define busnum_BDK_MIO_EMM_BUF_IDX 0
-#define arguments_BDK_MIO_EMM_BUF_IDX -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_dma_adr
- *
- * eMMC DMA Address Register
- * This register sets the address for eMMC/SD flash transfers to/from memory. Sixty-four-bit
- * operations must be used to access this register.  This register is updated by the dma
- * hardware and can be reloaded by the values placed in the MIO_EMM_DMA_FIFO_ADR.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_dma_adr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t adr                   : 49; /**< [ 48:  0](R/W/H) DMA engine address. Must be 64-bit aligned. */
-#else /* Word 0 - Little Endian */
-        uint64_t adr                   : 49; /**< [ 48:  0](R/W/H) DMA engine address. Must be 64-bit aligned. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_dma_adr_s cn; */
-} bdk_mio_emm_dma_adr_t;
-
-#define BDK_MIO_EMM_DMA_ADR BDK_MIO_EMM_DMA_ADR_FUNC()
-static inline uint64_t BDK_MIO_EMM_DMA_ADR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_DMA_ADR_FUNC(void)
-{
-    return 0x87e009000188ll;
-}
-
-#define typedef_BDK_MIO_EMM_DMA_ADR bdk_mio_emm_dma_adr_t
-#define bustype_BDK_MIO_EMM_DMA_ADR BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_DMA_ADR "MIO_EMM_DMA_ADR"
-#define busnum_BDK_MIO_EMM_DMA_ADR 0
-#define arguments_BDK_MIO_EMM_DMA_ADR -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_msix_vec#_addr
- *
- * eMMC MSI-X Vector-Table Address Register
- * This register is the MSI-X vector table, indexed by the MIO_EMM_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_msix_vecx_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's MIO_EMM_MSIX_VEC()_ADDR, MIO_EMM_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of MIO_EMM_MSIX_PBA() are RAZ/WI and does not cause a fault when
-                                                                 accessed by the non-secure world.
-
-                                                                 If PCCPF_MIO_EMM_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
-                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's MIO_EMM_MSIX_VEC()_ADDR, MIO_EMM_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of MIO_EMM_MSIX_PBA() are RAZ/WI and does not cause a fault when
-                                                                 accessed by the non-secure world.
-
-                                                                 If PCCPF_MIO_EMM_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
-                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_msix_vecx_addr_s cn; */
-} bdk_mio_emm_msix_vecx_addr_t;
-
-static inline uint64_t BDK_MIO_EMM_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_MSIX_VECX_ADDR(unsigned long a)
-{
-    if (a<=8)
-        return 0x87e009f00000ll + 0x10ll * ((a) & 0xf);
-    __bdk_csr_fatal("MIO_EMM_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MIO_EMM_MSIX_VECX_ADDR(a) bdk_mio_emm_msix_vecx_addr_t
-#define bustype_BDK_MIO_EMM_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_MSIX_VECX_ADDR(a) "MIO_EMM_MSIX_VECX_ADDR"
-#define busnum_BDK_MIO_EMM_MSIX_VECX_ADDR(a) (a)
-#define arguments_BDK_MIO_EMM_MSIX_VECX_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_int
- *
- * MIO eMMC Interrupt Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1C/H) Switch operation encountered an error. */
-        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1C/H) Switch operation completed successfully. */
-        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1C/H) External DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
-        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1C/H) Operation specified by MIO_EMM_CMD encountered an error. See MIO_EMM_RSP_STS. */
-        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1C/H) External DMA transfer completed successfully. */
-        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1C/H) Operation specified by MIO_EMM_CMD completed successfully. */
-        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1C/H) The next 512B block transfer of a multiblock transfer has completed. */
-#else /* Word 0 - Little Endian */
-        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1C/H) The next 512B block transfer of a multiblock transfer has completed. */
-        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1C/H) Operation specified by MIO_EMM_CMD completed successfully. */
-        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1C/H) External DMA transfer completed successfully. */
-        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1C/H) Operation specified by MIO_EMM_CMD encountered an error. See MIO_EMM_RSP_STS. */
-        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1C/H) External DMA transfer encountered an error. See MIO_EMM_RSP_STS. */
-        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1C/H) Switch operation completed successfully. */
-        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1C/H) Switch operation encountered an error. */
-        uint64_t reserved_7_63         : 57;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_int_s cn; */
-} bdk_mio_emm_int_t;
-
-#define BDK_MIO_EMM_INT BDK_MIO_EMM_INT_FUNC()
-static inline uint64_t BDK_MIO_EMM_INT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_INT_FUNC(void)
-{
-    return 0x87e009002078ll;
-}
-
-#define typedef_BDK_MIO_EMM_INT bdk_mio_emm_int_t
-#define bustype_BDK_MIO_EMM_INT BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_INT "MIO_EMM_INT"
-#define busnum_BDK_MIO_EMM_INT 0
-#define arguments_BDK_MIO_EMM_INT -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_wdog
- *
- * MIO eMMC Watchdog Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_wdog_s
+    struct bdk_mio_emm_sample_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
-        uint64_t clk_cnt               : 26; /**< [ 25:  0](R/W) Maximum number of CLK_CNT cycles to wait for the card to return a response, read data, or
-                                                                 the 3-bit CRC status token following write data. The following timeouts are detected:
-
-                                                                 Expected response to a command doesn't occur causing MIO_EMM_RSP_STS[RSP_TIMEOUT].
-
-                                                                 On a read command, expected data isn't returned causing MIO_EMM_RSP_STS[BLK_TIMEOUT].
-
-                                                                 On a multi read command, expected data isn't returned causing
-                                                                 MIO_EMM_RSP_STS[BLK_TIMEOUT].
-
-                                                                 On a write command, expected token to a write block isn't received causing
-                                                                 MIO_EMM_RSP_STS[BLK_TIMEOUT].
-
-                                                                 If a stop command is issued by the hardware and no response is returned causing
-                                                                 MIO_EMM_RSP_STS[STP_TIMEOUT].
-
-                                                                 Issues this timeout doesn't cover are stalls induced by the card which are not limited by
-                                                                 the specifications.
-                                                                 For example, when a write multi command is issued to the card and a block (not the last)
-                                                                 is transferred the card can "stall" CNXXXX by forcing emmc_data<0> low for as long as
-                                                                 it wants to free up buffer space.
-
-                                                                 The second case is when the last block of a write or multi write is being transferred and
-                                                                 the card elects to perform some background tasks. The same stall mechanism with
-                                                                 emmc_data<0> is used but this can last for an extend time period. */
+        uint64_t cmd_cnt               : 10; /**< [ 25: 16](R/W) Number of coprocessor-clocks before the eMMC clock rising edge to sample the command pin. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t dat_cnt               : 10; /**< [  9:  0](R/W) Number of coprocessor-clocks before the eMMC clock edge to sample the data pin. */
 #else /* Word 0 - Little Endian */
-        uint64_t clk_cnt               : 26; /**< [ 25:  0](R/W) Maximum number of CLK_CNT cycles to wait for the card to return a response, read data, or
-                                                                 the 3-bit CRC status token following write data. The following timeouts are detected:
-
-                                                                 Expected response to a command doesn't occur causing MIO_EMM_RSP_STS[RSP_TIMEOUT].
-
-                                                                 On a read command, expected data isn't returned causing MIO_EMM_RSP_STS[BLK_TIMEOUT].
-
-                                                                 On a multi read command, expected data isn't returned causing
-                                                                 MIO_EMM_RSP_STS[BLK_TIMEOUT].
-
-                                                                 On a write command, expected token to a write block isn't received causing
-                                                                 MIO_EMM_RSP_STS[BLK_TIMEOUT].
-
-                                                                 If a stop command is issued by the hardware and no response is returned causing
-                                                                 MIO_EMM_RSP_STS[STP_TIMEOUT].
-
-                                                                 Issues this timeout doesn't cover are stalls induced by the card which are not limited by
-                                                                 the specifications.
-                                                                 For example, when a write multi command is issued to the card and a block (not the last)
-                                                                 is transferred the card can "stall" CNXXXX by forcing emmc_data<0> low for as long as
-                                                                 it wants to free up buffer space.
-
-                                                                 The second case is when the last block of a write or multi write is being transferred and
-                                                                 the card elects to perform some background tasks. The same stall mechanism with
-                                                                 emmc_data<0> is used but this can last for an extend time period. */
+        uint64_t dat_cnt               : 10; /**< [  9:  0](R/W) Number of coprocessor-clocks before the eMMC clock edge to sample the data pin. */
+        uint64_t reserved_10_15        : 6;
+        uint64_t cmd_cnt               : 10; /**< [ 25: 16](R/W) Number of coprocessor-clocks before the eMMC clock rising edge to sample the command pin. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mio_emm_wdog_s cn; */
-} bdk_mio_emm_wdog_t;
+    /* struct bdk_mio_emm_sample_s cn; */
+} bdk_mio_emm_sample_t;
 
-#define BDK_MIO_EMM_WDOG BDK_MIO_EMM_WDOG_FUNC()
-static inline uint64_t BDK_MIO_EMM_WDOG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_WDOG_FUNC(void)
+#define BDK_MIO_EMM_SAMPLE BDK_MIO_EMM_SAMPLE_FUNC()
+static inline uint64_t BDK_MIO_EMM_SAMPLE_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_SAMPLE_FUNC(void)
 {
-    return 0x87e009002088ll;
+    return 0x87e009002090ll;
 }
 
-#define typedef_BDK_MIO_EMM_WDOG bdk_mio_emm_wdog_t
-#define bustype_BDK_MIO_EMM_WDOG BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_WDOG "MIO_EMM_WDOG"
-#define busnum_BDK_MIO_EMM_WDOG 0
-#define arguments_BDK_MIO_EMM_WDOG -1,-1,-1,-1
+#define typedef_BDK_MIO_EMM_SAMPLE bdk_mio_emm_sample_t
+#define bustype_BDK_MIO_EMM_SAMPLE BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_SAMPLE "MIO_EMM_SAMPLE"
+#define busnum_BDK_MIO_EMM_SAMPLE 0
+#define arguments_BDK_MIO_EMM_SAMPLE -1,-1,-1,-1
 
 /**
- * Register (RSL) mio_emm_int_ena_w1s
+ * Register (RSL) mio_emm_sts_mask
  *
- * eMMC Interrupt Enable Set Register
- * This register sets interrupt enable bits.
+ * MIO eMMC Status Mask Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mio_emm_int_ena_w1s_s
+    struct bdk_mio_emm_sts_mask_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_7_63         : 57;
-        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for MIO_EMM_INT[SWITCH_ERR]. */
-        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for MIO_EMM_INT[SWITCH_DONE]. */
-        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for MIO_EMM_INT[DMA_ERR]. */
-        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for MIO_EMM_INT[CMD_ERR]. */
-        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for MIO_EMM_INT[DMA_DONE]. */
-        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for MIO_EMM_INT[CMD_DONE]. */
-        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for MIO_EMM_INT[BUF_DONE]. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t sts_msk               : 32; /**< [ 31:  0](R/W) Any bit set in STS_MSK causes the corresponding bit in the card status to be considered
+                                                                 when computing response bad status. */
 #else /* Word 0 - Little Endian */
-        uint64_t buf_done              : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for MIO_EMM_INT[BUF_DONE]. */
-        uint64_t cmd_done              : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for MIO_EMM_INT[CMD_DONE]. */
-        uint64_t dma_done              : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for MIO_EMM_INT[DMA_DONE]. */
-        uint64_t cmd_err               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for MIO_EMM_INT[CMD_ERR]. */
-        uint64_t dma_err               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for MIO_EMM_INT[DMA_ERR]. */
-        uint64_t switch_done           : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for MIO_EMM_INT[SWITCH_DONE]. */
-        uint64_t switch_err            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for MIO_EMM_INT[SWITCH_ERR]. */
-        uint64_t reserved_7_63         : 57;
+        uint64_t sts_msk               : 32; /**< [ 31:  0](R/W) Any bit set in STS_MSK causes the corresponding bit in the card status to be considered
+                                                                 when computing response bad status. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mio_emm_int_ena_w1s_s cn; */
-} bdk_mio_emm_int_ena_w1s_t;
+    /* struct bdk_mio_emm_sts_mask_s cn; */
+} bdk_mio_emm_sts_mask_t;
 
-#define BDK_MIO_EMM_INT_ENA_W1S BDK_MIO_EMM_INT_ENA_W1S_FUNC()
-static inline uint64_t BDK_MIO_EMM_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_INT_ENA_W1S_FUNC(void)
+#define BDK_MIO_EMM_STS_MASK BDK_MIO_EMM_STS_MASK_FUNC()
+static inline uint64_t BDK_MIO_EMM_STS_MASK_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_STS_MASK_FUNC(void)
 {
-    return 0x87e0090020b0ll;
+    return 0x87e009002098ll;
 }
 
-#define typedef_BDK_MIO_EMM_INT_ENA_W1S bdk_mio_emm_int_ena_w1s_t
-#define bustype_BDK_MIO_EMM_INT_ENA_W1S BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_INT_ENA_W1S "MIO_EMM_INT_ENA_W1S"
-#define busnum_BDK_MIO_EMM_INT_ENA_W1S 0
-#define arguments_BDK_MIO_EMM_INT_ENA_W1S -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_mode#
- *
- * MIO eMMC Operating Mode Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_modex_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t hs_timing             : 1;  /**< [ 48: 48](RO/H) Current high-speed timing mode. Required when CLK frequency is higher than 20MHz. */
-        uint64_t reserved_43_47        : 5;
-        uint64_t bus_width             : 3;  /**< [ 42: 40](RO/H) Current card bus mode. Out of reset, the card is in 1-bit data bus mode. Select bus width.
-                                                                 0x0 = 1-bit data bus (power on).
-                                                                 0x1 = 4-bit data bus.
-                                                                 0x2 = 8-bit data bus.
-                                                                 0x3 = Reserved.
-                                                                 0x4 = Reserved.
-                                                                 0x5 = 4-bit data bus (dual data rate).
-                                                                 0x6 = 8-bit data bus (dual data rate).
-                                                                 0x7 = Reserved.
-                                                                 0x8 = Reserved. */
-        uint64_t reserved_36_39        : 4;
-        uint64_t power_class           : 4;  /**< [ 35: 32](RO/H) Out of reset, the card power class is 0, which is the minimum current consumption class
-                                                                 for the card. EXT_CSD bytes [203:200] and [239:238] contain the power class for different
-                                                                 BUS_WITDH and CLK frequencies. Software should write this field with the 4-bit field from
-                                                                 the EXT_CSD bytes corresponding to the selected operating mode. */
-        uint64_t clk_hi                : 16; /**< [ 31: 16](RO/H) Current number of coprocessor-clocks to hold the eMMC CLK pin high. */
-        uint64_t clk_lo                : 16; /**< [ 15:  0](RO/H) Current number of coprocessor-clocks to hold the eMMC CLK pin low. */
-#else /* Word 0 - Little Endian */
-        uint64_t clk_lo                : 16; /**< [ 15:  0](RO/H) Current number of coprocessor-clocks to hold the eMMC CLK pin low. */
-        uint64_t clk_hi                : 16; /**< [ 31: 16](RO/H) Current number of coprocessor-clocks to hold the eMMC CLK pin high. */
-        uint64_t power_class           : 4;  /**< [ 35: 32](RO/H) Out of reset, the card power class is 0, which is the minimum current consumption class
-                                                                 for the card. EXT_CSD bytes [203:200] and [239:238] contain the power class for different
-                                                                 BUS_WITDH and CLK frequencies. Software should write this field with the 4-bit field from
-                                                                 the EXT_CSD bytes corresponding to the selected operating mode. */
-        uint64_t reserved_36_39        : 4;
-        uint64_t bus_width             : 3;  /**< [ 42: 40](RO/H) Current card bus mode. Out of reset, the card is in 1-bit data bus mode. Select bus width.
-                                                                 0x0 = 1-bit data bus (power on).
-                                                                 0x1 = 4-bit data bus.
-                                                                 0x2 = 8-bit data bus.
-                                                                 0x3 = Reserved.
-                                                                 0x4 = Reserved.
-                                                                 0x5 = 4-bit data bus (dual data rate).
-                                                                 0x6 = 8-bit data bus (dual data rate).
-                                                                 0x7 = Reserved.
-                                                                 0x8 = Reserved. */
-        uint64_t reserved_43_47        : 5;
-        uint64_t hs_timing             : 1;  /**< [ 48: 48](RO/H) Current high-speed timing mode. Required when CLK frequency is higher than 20MHz. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_modex_s cn; */
-} bdk_mio_emm_modex_t;
-
-static inline uint64_t BDK_MIO_EMM_MODEX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_MODEX(unsigned long a)
-{
-    if (a<=3)
-        return 0x87e009002008ll + 8ll * ((a) & 0x3);
-    __bdk_csr_fatal("MIO_EMM_MODEX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MIO_EMM_MODEX(a) bdk_mio_emm_modex_t
-#define bustype_BDK_MIO_EMM_MODEX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_MODEX(a) "MIO_EMM_MODEX"
-#define busnum_BDK_MIO_EMM_MODEX(a) (a)
-#define arguments_BDK_MIO_EMM_MODEX(a) (a),-1,-1,-1
+#define typedef_BDK_MIO_EMM_STS_MASK bdk_mio_emm_sts_mask_t
+#define bustype_BDK_MIO_EMM_STS_MASK BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_STS_MASK "MIO_EMM_STS_MASK"
+#define busnum_BDK_MIO_EMM_STS_MASK 0
+#define arguments_BDK_MIO_EMM_STS_MASK -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_emm_switch
@@ -1699,169 +1783,85 @@ static inline uint64_t BDK_MIO_EMM_SWITCH_FUNC(void)
 #define arguments_BDK_MIO_EMM_SWITCH -1,-1,-1,-1
 
 /**
- * Register (RSL) mio_emm_dma_fifo_adr
+ * Register (RSL) mio_emm_wdog
  *
- * eMMC Internal DMA FIFO Address Register
- * This register specifies the internal address that is loaded into the eMMC internal DMA FIFO.
- * The FIFO is used to queue up operations for the MIO_EMM_DMA_CFG/MIO_EMM_DMA_ADR when the DMA
- * completes successfully.
+ * MIO eMMC Watchdog Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mio_emm_dma_fifo_adr_s
+    struct bdk_mio_emm_wdog_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t adr                   : 46; /**< [ 48:  3](R/W) DMA engine address. Must be 64-bit aligned. */
-        uint64_t reserved_0_2          : 3;
+        uint64_t reserved_26_63        : 38;
+        uint64_t clk_cnt               : 26; /**< [ 25:  0](R/W) Maximum number of CLK_CNT cycles to wait for the card to return a response, read data, or
+                                                                 the 3-bit CRC status token following write data. The following timeouts are detected:
+
+                                                                 Expected response to a command doesn't occur causing MIO_EMM_RSP_STS[RSP_TIMEOUT].
+
+                                                                 On a read command, expected data isn't returned causing MIO_EMM_RSP_STS[BLK_TIMEOUT].
+
+                                                                 On a multi read command, expected data isn't returned causing
+                                                                 MIO_EMM_RSP_STS[BLK_TIMEOUT].
+
+                                                                 On a write command, expected token to a write block isn't received causing
+                                                                 MIO_EMM_RSP_STS[BLK_TIMEOUT].
+
+                                                                 If a stop command is issued by the hardware and no response is returned causing
+                                                                 MIO_EMM_RSP_STS[STP_TIMEOUT].
+
+                                                                 Issues this timeout doesn't cover are stalls induced by the card which are not limited by
+                                                                 the specifications.
+                                                                 For example, when a write multi command is issued to the card and a block (not the last)
+                                                                 is transferred the card can "stall" CNXXXX by forcing emmc_data<0> low for as long as
+                                                                 it wants to free up buffer space.
+
+                                                                 The second case is when the last block of a write or multi write is being transferred and
+                                                                 the card elects to perform some background tasks. The same stall mechanism with
+                                                                 emmc_data<0> is used but this can last for an extend time period. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_2          : 3;
-        uint64_t adr                   : 46; /**< [ 48:  3](R/W) DMA engine address. Must be 64-bit aligned. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t clk_cnt               : 26; /**< [ 25:  0](R/W) Maximum number of CLK_CNT cycles to wait for the card to return a response, read data, or
+                                                                 the 3-bit CRC status token following write data. The following timeouts are detected:
+
+                                                                 Expected response to a command doesn't occur causing MIO_EMM_RSP_STS[RSP_TIMEOUT].
+
+                                                                 On a read command, expected data isn't returned causing MIO_EMM_RSP_STS[BLK_TIMEOUT].
+
+                                                                 On a multi read command, expected data isn't returned causing
+                                                                 MIO_EMM_RSP_STS[BLK_TIMEOUT].
+
+                                                                 On a write command, expected token to a write block isn't received causing
+                                                                 MIO_EMM_RSP_STS[BLK_TIMEOUT].
+
+                                                                 If a stop command is issued by the hardware and no response is returned causing
+                                                                 MIO_EMM_RSP_STS[STP_TIMEOUT].
+
+                                                                 Issues this timeout doesn't cover are stalls induced by the card which are not limited by
+                                                                 the specifications.
+                                                                 For example, when a write multi command is issued to the card and a block (not the last)
+                                                                 is transferred the card can "stall" CNXXXX by forcing emmc_data<0> low for as long as
+                                                                 it wants to free up buffer space.
+
+                                                                 The second case is when the last block of a write or multi write is being transferred and
+                                                                 the card elects to perform some background tasks. The same stall mechanism with
+                                                                 emmc_data<0> is used but this can last for an extend time period. */
+        uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mio_emm_dma_fifo_adr_s cn; */
-} bdk_mio_emm_dma_fifo_adr_t;
+    /* struct bdk_mio_emm_wdog_s cn; */
+} bdk_mio_emm_wdog_t;
 
-#define BDK_MIO_EMM_DMA_FIFO_ADR BDK_MIO_EMM_DMA_FIFO_ADR_FUNC()
-static inline uint64_t BDK_MIO_EMM_DMA_FIFO_ADR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_DMA_FIFO_ADR_FUNC(void)
+#define BDK_MIO_EMM_WDOG BDK_MIO_EMM_WDOG_FUNC()
+static inline uint64_t BDK_MIO_EMM_WDOG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_EMM_WDOG_FUNC(void)
 {
-    return 0x87e009000170ll;
+    return 0x87e009002088ll;
 }
 
-#define typedef_BDK_MIO_EMM_DMA_FIFO_ADR bdk_mio_emm_dma_fifo_adr_t
-#define bustype_BDK_MIO_EMM_DMA_FIFO_ADR BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_DMA_FIFO_ADR "MIO_EMM_DMA_FIFO_ADR"
-#define busnum_BDK_MIO_EMM_DMA_FIFO_ADR 0
-#define arguments_BDK_MIO_EMM_DMA_FIFO_ADR -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_dma
- *
- * MIO eMMC External DMA Configuration Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_dma_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t skip_busy             : 1;  /**< [ 62: 62](R/W) Controls when DMA is completed.
-                                                                 0 = DMA doesn't complete until card has dropped the BUSY signal.
-                                                                 1 = Complete DMA after last transfer regardless of the BUSY signal. Status of signal can
-                                                                 be read in MIO_EMM_RSP_STS[RSP_BUSYBIT]. */
-        uint64_t bus_id                : 2;  /**< [ 61: 60](R/W) Specify the eMMC bus */
-        uint64_t dma_val               : 1;  /**< [ 59: 59](R/W/H) Software writes this bit to a 1 to indicate that hardware should perform the DMA transfer.
-                                                                 Hardware clears this bit when the DMA operation completes or is terminated. */
-        uint64_t sector                : 1;  /**< [ 58: 58](R/W/H) Specify CARD_ADDR and eMMC are using sector (512B) addressing. */
-        uint64_t dat_null              : 1;  /**< [ 57: 57](R/W) Do not perform any eMMC commands. A DMA read returns all 0s. A DMA write tosses the data.
-                                                                 In the case of a failure, this can be used to unwind the DMA engine. */
-        uint64_t thres                 : 6;  /**< [ 56: 51](R/W) Number of 8-byte blocks of data that must exist in the DBUF before starting the 512-byte
-                                                                 block transfer. Zero indicates to wait for the entire block. */
-        uint64_t rel_wr                : 1;  /**< [ 50: 50](R/W) Set the reliable write parameter when performing CMD23 (SET_BLOCK_COUNT) for a multiple block. */
-        uint64_t rw                    : 1;  /**< [ 49: 49](R/W) Read/write bit (0 = read, 1 = write) */
-        uint64_t multi                 : 1;  /**< [ 48: 48](R/W) Perform operation using a multiple block command instead of a series of single block commands. */
-        uint64_t block_cnt             : 16; /**< [ 47: 32](R/W/H) Number of blocks to read/write. Hardware decrements the block count after each successful
-                                                                 block transfer. */
-        uint64_t card_addr             : 32; /**< [ 31:  0](R/W/H) Data address for media <= 2GB is a 32-bit byte address, and data address for media > 2GB
-                                                                 is a 32-bit sector (512B) address. Hardware advances the card address after each
-                                                                 successful block transfer by 512 for byte addressing and by 1 for sector addressing. */
-#else /* Word 0 - Little Endian */
-        uint64_t card_addr             : 32; /**< [ 31:  0](R/W/H) Data address for media <= 2GB is a 32-bit byte address, and data address for media > 2GB
-                                                                 is a 32-bit sector (512B) address. Hardware advances the card address after each
-                                                                 successful block transfer by 512 for byte addressing and by 1 for sector addressing. */
-        uint64_t block_cnt             : 16; /**< [ 47: 32](R/W/H) Number of blocks to read/write. Hardware decrements the block count after each successful
-                                                                 block transfer. */
-        uint64_t multi                 : 1;  /**< [ 48: 48](R/W) Perform operation using a multiple block command instead of a series of single block commands. */
-        uint64_t rw                    : 1;  /**< [ 49: 49](R/W) Read/write bit (0 = read, 1 = write) */
-        uint64_t rel_wr                : 1;  /**< [ 50: 50](R/W) Set the reliable write parameter when performing CMD23 (SET_BLOCK_COUNT) for a multiple block. */
-        uint64_t thres                 : 6;  /**< [ 56: 51](R/W) Number of 8-byte blocks of data that must exist in the DBUF before starting the 512-byte
-                                                                 block transfer. Zero indicates to wait for the entire block. */
-        uint64_t dat_null              : 1;  /**< [ 57: 57](R/W) Do not perform any eMMC commands. A DMA read returns all 0s. A DMA write tosses the data.
-                                                                 In the case of a failure, this can be used to unwind the DMA engine. */
-        uint64_t sector                : 1;  /**< [ 58: 58](R/W/H) Specify CARD_ADDR and eMMC are using sector (512B) addressing. */
-        uint64_t dma_val               : 1;  /**< [ 59: 59](R/W/H) Software writes this bit to a 1 to indicate that hardware should perform the DMA transfer.
-                                                                 Hardware clears this bit when the DMA operation completes or is terminated. */
-        uint64_t bus_id                : 2;  /**< [ 61: 60](R/W) Specify the eMMC bus */
-        uint64_t skip_busy             : 1;  /**< [ 62: 62](R/W) Controls when DMA is completed.
-                                                                 0 = DMA doesn't complete until card has dropped the BUSY signal.
-                                                                 1 = Complete DMA after last transfer regardless of the BUSY signal. Status of signal can
-                                                                 be read in MIO_EMM_RSP_STS[RSP_BUSYBIT]. */
-        uint64_t reserved_63           : 1;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_dma_s cn; */
-} bdk_mio_emm_dma_t;
-
-#define BDK_MIO_EMM_DMA BDK_MIO_EMM_DMA_FUNC()
-static inline uint64_t BDK_MIO_EMM_DMA_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_DMA_FUNC(void)
-{
-    return 0x87e009002050ll;
-}
-
-#define typedef_BDK_MIO_EMM_DMA bdk_mio_emm_dma_t
-#define bustype_BDK_MIO_EMM_DMA BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_DMA "MIO_EMM_DMA"
-#define busnum_BDK_MIO_EMM_DMA 0
-#define arguments_BDK_MIO_EMM_DMA -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_emm_dma_cfg
- *
- * eMMC DMA Configuration Register
- * This register controls the internal DMA engine used with the eMMC/SD flash controller. Sixty-
- * four-bit operations must be used to access this register.  This register is updated by the
- * hardware dma engine and can also be reloaded by writes to the MIO_EMM_DMA_FIFO_CMD register.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_emm_dma_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t en                    : 1;  /**< [ 63: 63](R/W/H) DMA engine enable. */
-        uint64_t rw                    : 1;  /**< [ 62: 62](R/W/H) DMA engine R/W bit: 0 = read, 1 = write. */
-        uint64_t clr                   : 1;  /**< [ 61: 61](R/W/H) DMA engine abort. When set to 1, DMA is aborted and EN is cleared on completion. */
-        uint64_t reserved_60           : 1;
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W/H) DMA engine 32-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W/H) DMA engine enable 16-bit swap. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W/H) DMA engine enable 8-bit swap. */
-        uint64_t endian                : 1;  /**< [ 56: 56](R/W/H) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
-        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
-                                                                 example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
-        uint64_t reserved_0_35         : 36;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_35         : 36;
-        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
-                                                                 example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
-        uint64_t endian                : 1;  /**< [ 56: 56](R/W/H) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W/H) DMA engine enable 8-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W/H) DMA engine enable 16-bit swap. */
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W/H) DMA engine 32-bit swap. */
-        uint64_t reserved_60           : 1;
-        uint64_t clr                   : 1;  /**< [ 61: 61](R/W/H) DMA engine abort. When set to 1, DMA is aborted and EN is cleared on completion. */
-        uint64_t rw                    : 1;  /**< [ 62: 62](R/W/H) DMA engine R/W bit: 0 = read, 1 = write. */
-        uint64_t en                    : 1;  /**< [ 63: 63](R/W/H) DMA engine enable. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_emm_dma_cfg_s cn; */
-} bdk_mio_emm_dma_cfg_t;
-
-#define BDK_MIO_EMM_DMA_CFG BDK_MIO_EMM_DMA_CFG_FUNC()
-static inline uint64_t BDK_MIO_EMM_DMA_CFG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_EMM_DMA_CFG_FUNC(void)
-{
-    return 0x87e009000180ll;
-}
-
-#define typedef_BDK_MIO_EMM_DMA_CFG bdk_mio_emm_dma_cfg_t
-#define bustype_BDK_MIO_EMM_DMA_CFG BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_EMM_DMA_CFG "MIO_EMM_DMA_CFG"
-#define busnum_BDK_MIO_EMM_DMA_CFG 0
-#define arguments_BDK_MIO_EMM_DMA_CFG -1,-1,-1,-1
+#define typedef_BDK_MIO_EMM_WDOG bdk_mio_emm_wdog_t
+#define bustype_BDK_MIO_EMM_WDOG BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_EMM_WDOG "MIO_EMM_WDOG"
+#define busnum_BDK_MIO_EMM_WDOG 0
+#define arguments_BDK_MIO_EMM_WDOG -1,-1,-1,-1
 
 #endif /* __BDK_CSRS_MIO_EMM_H__ */

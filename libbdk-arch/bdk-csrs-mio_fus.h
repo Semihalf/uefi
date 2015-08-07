@@ -61,561 +61,6 @@
 #define BDK_MIO_FUS_BAR_E_MIO_FUS_PF_BAR0 (0x87e003000000ll) /**< Base address for standard registers. */
 
 /**
- * Register (RSL) mio_fus_soft_repair
- *
- * INTERNAL: MIO Fuse Soft Repair Register
- *
- * Internal:
- * INTERNAL: Aka `Soft Blow'. Upon reset fuse repairs are loaded into REPAIR_MEM as they are
- * loaded into the memories. Any new defects are loaded in afterwards, leaving END_PTR at the
- * last defect.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_soft_repair_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_20_63        : 44;
-        uint64_t rpr_flip_synd         : 2;  /**< [ 19: 18](R/W/H) INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic use only. */
-        uint64_t autoblow              : 1;  /**< [ 17: 17](R/W/H) INTERNAL: Set to initiate burning of defect fuses to fuse macro. Clears when fuses are
-                                                                 blown. */
-        uint64_t too_many              : 1;  /**< [ 16: 16](RO/H) INTERNAL: Set if the sum of fuse repairs and memory defects exceeds 195. */
-        uint64_t numdefects            : 8;  /**< [ 15:  8](RO/H) INTERNAL: After reset/BIST indicates the number of memory defects reported. Defects are
-                                                                 stored in REPAIR_MEM from bit address NUMREPAIRS*21 to (NUMREPAIRS*21 + NUMDEFECTS*21 -
-                                                                 1). */
-        uint64_t numrepairs            : 8;  /**< [  7:  0](R/W) INTERNAL: Indicates the number of soft repairs to load from repair mem to the memories on
-                                                                 a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem on a
-                                                                 cold reset. */
-#else /* Word 0 - Little Endian */
-        uint64_t numrepairs            : 8;  /**< [  7:  0](R/W) INTERNAL: Indicates the number of soft repairs to load from repair mem to the memories on
-                                                                 a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem on a
-                                                                 cold reset. */
-        uint64_t numdefects            : 8;  /**< [ 15:  8](RO/H) INTERNAL: After reset/BIST indicates the number of memory defects reported. Defects are
-                                                                 stored in REPAIR_MEM from bit address NUMREPAIRS*21 to (NUMREPAIRS*21 + NUMDEFECTS*21 -
-                                                                 1). */
-        uint64_t too_many              : 1;  /**< [ 16: 16](RO/H) INTERNAL: Set if the sum of fuse repairs and memory defects exceeds 195. */
-        uint64_t autoblow              : 1;  /**< [ 17: 17](R/W/H) INTERNAL: Set to initiate burning of defect fuses to fuse macro. Clears when fuses are
-                                                                 blown. */
-        uint64_t rpr_flip_synd         : 2;  /**< [ 19: 18](R/W/H) INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic use only. */
-        uint64_t reserved_20_63        : 44;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_soft_repair_s cn; */
-} bdk_mio_fus_soft_repair_t;
-
-#define BDK_MIO_FUS_SOFT_REPAIR BDK_MIO_FUS_SOFT_REPAIR_FUNC()
-static inline uint64_t BDK_MIO_FUS_SOFT_REPAIR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_SOFT_REPAIR_FUNC(void)
-{
-    return 0x87e003001540ll;
-}
-
-#define typedef_BDK_MIO_FUS_SOFT_REPAIR bdk_mio_fus_soft_repair_t
-#define bustype_BDK_MIO_FUS_SOFT_REPAIR BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_SOFT_REPAIR "MIO_FUS_SOFT_REPAIR"
-#define busnum_BDK_MIO_FUS_SOFT_REPAIR 0
-#define arguments_BDK_MIO_FUS_SOFT_REPAIR -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_fus_prog_times
- *
- * INTERNAL: MIO Fuse Program Times Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_prog_times_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_35_63        : 29;
-        uint64_t vgate_pin             : 1;  /**< [ 34: 34](RO) INTERNAL: Efuse vgate pin (L6G). */
-        uint64_t fsrc_pin              : 1;  /**< [ 33: 33](RO) INTERNAL: Efuse fsource pin (L6G). */
-        uint64_t prog_pin              : 1;  /**< [ 32: 32](RO) INTERNAL: Efuse program pin (IFB). */
-        uint64_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_31         : 32;
-        uint64_t prog_pin              : 1;  /**< [ 32: 32](RO) INTERNAL: Efuse program pin (IFB). */
-        uint64_t fsrc_pin              : 1;  /**< [ 33: 33](RO) INTERNAL: Efuse fsource pin (L6G). */
-        uint64_t vgate_pin             : 1;  /**< [ 34: 34](RO) INTERNAL: Efuse vgate pin (L6G). */
-        uint64_t reserved_35_63        : 29;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_prog_times_s cn; */
-} bdk_mio_fus_prog_times_t;
-
-#define BDK_MIO_FUS_PROG_TIMES BDK_MIO_FUS_PROG_TIMES_FUNC()
-static inline uint64_t BDK_MIO_FUS_PROG_TIMES_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_PROG_TIMES_FUNC(void)
-{
-    return 0x87e003001518ll;
-}
-
-#define typedef_BDK_MIO_FUS_PROG_TIMES bdk_mio_fus_prog_times_t
-#define bustype_BDK_MIO_FUS_PROG_TIMES BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_PROG_TIMES "MIO_FUS_PROG_TIMES"
-#define busnum_BDK_MIO_FUS_PROG_TIMES 0
-#define arguments_BDK_MIO_FUS_PROG_TIMES -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_fus_pname#
- *
- * MIO Fuse Product Name Register
- * "These registers contain a 24-character string representing the part number,
- * e.g. "CN8800-2000BG2601-CPT-PR".
- *
- * The string is represented in a RAD-40-like encoding, padded with trailing spaces
- * that must be removed.  If the resulting string is empty, the product has not been
- * fused programmed and the name should be constructed from e.g. the core's device
- * number.
- *
- * This register was added in pass 2.
- *
- * Pseudocode for the decoding:
- * <pre>
- * datap = data_from_fuses;
- * //      where bit 0 of byte 0 array is fuse 1408;
- * //      i.e. bit 0 of MIO_FUS_PNAME(0)
- * void rad50_decode(const uint8_t* datap, char* bufferp) {
- *    // Psudocode only - assumes datap sized to at least 16 bytes,
- *    // and bufferp to at least 26 characters.
- *    const char* CHAR_MAP = " ABCDEFGHIJKLMNOPQRSTUVWXYZ#.-0123456789";
- *    char* cp = bufferp;
- *    for (int i=0; i<FUSE_BYTES; i+=2) {
- *       // Data is stored little endian
- *       uint16_t data = ((const uint16_t*)datap)[i/2];
- *       ifndef MACHINE_LITTLE_ENDIAN
- *          data = __swab16(data);
- *       endif
- *       *cp++ = CHAR_MAP[(data/40/40) % 40];
- *       *cp++ = CHAR_MAP[(data/40) % 40];
- *       *cp++ = CHAR_MAP[(data) % 40];
- *    }
- *    *cp++ = '\0';
- *    for (cp = bufferp+strlen(bufferp)-1; cp>=bufferp && isspace(*cp); --cp) *cp='\0';
- * }
- * </pre>
- *
- * INTERNAL: Fuse[1535:1408]."
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_pnamex_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Product name information. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Product name information. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_pnamex_s cn; */
-} bdk_mio_fus_pnamex_t;
-
-static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e003001440ll + 8ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
-        return 0x87e003001440ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("MIO_FUS_PNAMEX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MIO_FUS_PNAMEX(a) bdk_mio_fus_pnamex_t
-#define bustype_BDK_MIO_FUS_PNAMEX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_PNAMEX(a) "MIO_FUS_PNAMEX"
-#define busnum_BDK_MIO_FUS_PNAMEX(a) (a)
-#define arguments_BDK_MIO_FUS_PNAMEX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mio_fus_tgg
- *
- * MIO Fuse TGG Register
- * This register exists to support Authentik. Authentik code should read this register, then
- * clear VAL to prevent other software from observing the value of the TGG fuses.
- *
- * INTERNAL: It is never possible to read the TGG fuses via MIO_FUS_RCMD. Whenever the fuse
- * corresponding to VAL (TGG<63>) is blown, it is not possible to blow any of TGG<62:0>. The fuse
- * corresponding to VAL must be the one and only lock down bit for TGG<62:0> - no other fuse
- * lockdown bit can prevent blowing TGG<62:0>. It must always be possible to blow the fuse
- * corresponding to VAL when it is not already blown. If an Authentik part may be converted to a
- * non-Authentik part (via some JTAG mechanism or any other mechanism), it must not be possible
- * to read the TGG fuse values from the Authentik part by performing this conversion -> the reset
- * value of VAL should be zero in this converted case.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_tgg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t val                   : 1;  /**< [ 63: 63](R/W/H) Software can write VAL to 0, but cannot write VAL to a 1. When VAL = 1, DAT reads
-                                                                 the corresponding TGG fuses. When VAL = 0, DAT reads as 0s. The reset value of
-                                                                 this VAL bit is normally its fuse setting (i.e. TGG<63>). */
-        uint64_t dat                   : 63; /**< [ 62:  0](RO/H) When VAL = 0, DAT always reads as 0x0, regardless of the value of the TGG<62:0>
-                                                                 fuses. When VAL = 1, DAT returns the value of the TGG<62:0> fuses. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 63; /**< [ 62:  0](RO/H) When VAL = 0, DAT always reads as 0x0, regardless of the value of the TGG<62:0>
-                                                                 fuses. When VAL = 1, DAT returns the value of the TGG<62:0> fuses. */
-        uint64_t val                   : 1;  /**< [ 63: 63](R/W/H) Software can write VAL to 0, but cannot write VAL to a 1. When VAL = 1, DAT reads
-                                                                 the corresponding TGG fuses. When VAL = 0, DAT reads as 0s. The reset value of
-                                                                 this VAL bit is normally its fuse setting (i.e. TGG<63>). */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_tgg_s cn; */
-} bdk_mio_fus_tgg_t;
-
-#define BDK_MIO_FUS_TGG BDK_MIO_FUS_TGG_FUNC()
-static inline uint64_t BDK_MIO_FUS_TGG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_TGG_FUNC(void)
-{
-    return 0x87e003001430ll;
-}
-
-#define typedef_BDK_MIO_FUS_TGG bdk_mio_fus_tgg_t
-#define bustype_BDK_MIO_FUS_TGG BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_TGG "MIO_FUS_TGG"
-#define busnum_BDK_MIO_FUS_TGG 0
-#define arguments_BDK_MIO_FUS_TGG -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_fus_wadr
- *
- * MIO Fuse Read Command Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_wadr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t addr                  : 6;  /**< [  5:  0](R/W) Indicates which of the banks of 128 fuses to blow. */
-#else /* Word 0 - Little Endian */
-        uint64_t addr                  : 6;  /**< [  5:  0](R/W) Indicates which of the banks of 128 fuses to blow. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_wadr_s cn; */
-} bdk_mio_fus_wadr_t;
-
-#define BDK_MIO_FUS_WADR BDK_MIO_FUS_WADR_FUNC()
-static inline uint64_t BDK_MIO_FUS_WADR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_WADR_FUNC(void)
-{
-    return 0x87e003001508ll;
-}
-
-#define typedef_BDK_MIO_FUS_WADR bdk_mio_fus_wadr_t
-#define bustype_BDK_MIO_FUS_WADR BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_WADR "MIO_FUS_WADR"
-#define busnum_BDK_MIO_FUS_WADR 0
-#define arguments_BDK_MIO_FUS_WADR -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_fus_prog
- *
- * INTERNAL: MIO Fuse Programming Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_prog_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t sft                   : 1;  /**< [  1:  1](R/W/H) INTERNAL: When set with PROG, causes only the local storage to change and will not blow
-                                                                 any fuses. Hardware will clear when the program operation is complete. */
-        uint64_t prog                  : 1;  /**< [  0:  0](R/W/H) INTERNAL: When written to one by software, blow the fuse bank. Hardware will clear when
-                                                                 the program operation is complete.
-                                                                 To write a bank of fuses, software must set MIO_FUS_WADR[ADDR] to the bank to be
-                                                                 programmed and then set each bit within MIO_FUS_BNK_DAT() to indicate which fuses to blow.
-                                                                 Once ADDR, and DAT are setup, SW can write to MIO_FUS_PROG[PROG] to start the bank write
-                                                                 and poll on PROG. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip will behave as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
-#else /* Word 0 - Little Endian */
-        uint64_t prog                  : 1;  /**< [  0:  0](R/W/H) INTERNAL: When written to one by software, blow the fuse bank. Hardware will clear when
-                                                                 the program operation is complete.
-                                                                 To write a bank of fuses, software must set MIO_FUS_WADR[ADDR] to the bank to be
-                                                                 programmed and then set each bit within MIO_FUS_BNK_DAT() to indicate which fuses to blow.
-                                                                 Once ADDR, and DAT are setup, SW can write to MIO_FUS_PROG[PROG] to start the bank write
-                                                                 and poll on PROG. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip will behave as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
-        uint64_t sft                   : 1;  /**< [  1:  1](R/W/H) INTERNAL: When set with PROG, causes only the local storage to change and will not blow
-                                                                 any fuses. Hardware will clear when the program operation is complete. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_prog_s cn; */
-} bdk_mio_fus_prog_t;
-
-#define BDK_MIO_FUS_PROG BDK_MIO_FUS_PROG_FUNC()
-static inline uint64_t BDK_MIO_FUS_PROG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_PROG_FUNC(void)
-{
-    return 0x87e003001510ll;
-}
-
-#define typedef_BDK_MIO_FUS_PROG bdk_mio_fus_prog_t
-#define bustype_BDK_MIO_FUS_PROG BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_PROG "MIO_FUS_PROG"
-#define busnum_BDK_MIO_FUS_PROG 0
-#define arguments_BDK_MIO_FUS_PROG -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_fus_read_times
- *
- * MIO Fuse Read Times Register
- * IFB fuses are 0 to 1791. The reset values are for IFB fuses for PLL_REF_CLK up to 100MHz when
- * core PLL is engaged. If any of the formulas below result in a value less than zero, the
- * corresponding timing parameter should be set to zero.
- *
- * Prior to issuing a read to the fuse banks (via MIO_FUS_RCMD), this register should be written
- * with the timing parameters that will be read.
- * This register should not be written while MIO_FUS_RCMD[PEND] = 1.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_read_times_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t done                  : 4;  /**< [ 31: 28](R/W) Hold time of CSB, PGENB, and LOAD with respect to falling edge of STROBE for read and
-                                                                 write mode in PLL_REF_CLK + 1 cycles. Timing specs are th_CS = 6ns, th_PG = 10ns, th_LD_p
-                                                                 = 7ns. Default of 0x0 yields 20ns for a PLL_REF_CLK of 50 MHz, 10ns at 100MHz. */
-        uint64_t ahd                   : 4;  /**< [ 27: 24](R/W) Hold time of A with respect to falling edge of STROBE for read and write modes in
-                                                                 PLL_REF_CLK + 2 cycles. Timing spec of tsu_A_r and tsu_A_p is 3ns min. Default of 0x0
-                                                                 yields 40ns for a PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
-        uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in PLL_REF_CLK + 1 cycles. Timing spec of
-                                                                 twh_SB_p is 9.8us max. Default of 0x1F3 yields 10 us at PLL_REF_CLK of 50 MHz. */
-        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in PLL_REF_CLK + 1 cycles. Timing spec of twh_SB_p
-                                                                 is 20ns min. Default of 0x1 yields 40 ns at PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
-        uint64_t asu                   : 4;  /**< [  7:  4](R/W) Setup time of A to rising edge of STROBE for read and write modes in PLL_REF_CLK cycles.
-                                                                 Timing spec of tsu_A_r and tsu_A_p is 12 ns min. Default of 0x1 yields 40 ns at
-                                                                 PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
-        uint64_t setup                 : 4;  /**< [  3:  0](R/W) Setup time of CSB, PGENB, LOAD to rising edge of STROBE in read and write modes in
-                                                                 PLL_REF_CLK + 1 cycles. tsu_CS = 16ns, tsu_PG = 14ns, tsu_LD_r = 10ns. Default of 0x0
-                                                                 yields 20 ns plus ASU cycles at PLL_REF_CLK of 50 MHz, 10ns + ASU at 100MHz. */
-#else /* Word 0 - Little Endian */
-        uint64_t setup                 : 4;  /**< [  3:  0](R/W) Setup time of CSB, PGENB, LOAD to rising edge of STROBE in read and write modes in
-                                                                 PLL_REF_CLK + 1 cycles. tsu_CS = 16ns, tsu_PG = 14ns, tsu_LD_r = 10ns. Default of 0x0
-                                                                 yields 20 ns plus ASU cycles at PLL_REF_CLK of 50 MHz, 10ns + ASU at 100MHz. */
-        uint64_t asu                   : 4;  /**< [  7:  4](R/W) Setup time of A to rising edge of STROBE for read and write modes in PLL_REF_CLK cycles.
-                                                                 Timing spec of tsu_A_r and tsu_A_p is 12 ns min. Default of 0x1 yields 40 ns at
-                                                                 PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
-        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in PLL_REF_CLK + 1 cycles. Timing spec of twh_SB_p
-                                                                 is 20ns min. Default of 0x1 yields 40 ns at PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
-        uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in PLL_REF_CLK + 1 cycles. Timing spec of
-                                                                 twh_SB_p is 9.8us max. Default of 0x1F3 yields 10 us at PLL_REF_CLK of 50 MHz. */
-        uint64_t ahd                   : 4;  /**< [ 27: 24](R/W) Hold time of A with respect to falling edge of STROBE for read and write modes in
-                                                                 PLL_REF_CLK + 2 cycles. Timing spec of tsu_A_r and tsu_A_p is 3ns min. Default of 0x0
-                                                                 yields 40ns for a PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
-        uint64_t done                  : 4;  /**< [ 31: 28](R/W) Hold time of CSB, PGENB, and LOAD with respect to falling edge of STROBE for read and
-                                                                 write mode in PLL_REF_CLK + 1 cycles. Timing specs are th_CS = 6ns, th_PG = 10ns, th_LD_p
-                                                                 = 7ns. Default of 0x0 yields 20ns for a PLL_REF_CLK of 50 MHz, 10ns at 100MHz. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_read_times_s cn; */
-} bdk_mio_fus_read_times_t;
-
-#define BDK_MIO_FUS_READ_TIMES BDK_MIO_FUS_READ_TIMES_FUNC()
-static inline uint64_t BDK_MIO_FUS_READ_TIMES_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_READ_TIMES_FUNC(void)
-{
-    return 0x87e003001570ll;
-}
-
-#define typedef_BDK_MIO_FUS_READ_TIMES bdk_mio_fus_read_times_t
-#define bustype_BDK_MIO_FUS_READ_TIMES BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_READ_TIMES "MIO_FUS_READ_TIMES"
-#define busnum_BDK_MIO_FUS_READ_TIMES 0
-#define arguments_BDK_MIO_FUS_READ_TIMES -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_fus_pdf
- *
- * MIO Fuse Product Definition Field Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_pdf_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pdf                   : 64; /**< [ 63:  0](RO) Fuse information--product definition field. */
-#else /* Word 0 - Little Endian */
-        uint64_t pdf                   : 64; /**< [ 63:  0](RO) Fuse information--product definition field. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_pdf_s cn; */
-} bdk_mio_fus_pdf_t;
-
-#define BDK_MIO_FUS_PDF BDK_MIO_FUS_PDF_FUNC()
-static inline uint64_t BDK_MIO_FUS_PDF_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_PDF_FUNC(void)
-{
-    return 0x87e003001428ll;
-}
-
-#define typedef_BDK_MIO_FUS_PDF bdk_mio_fus_pdf_t
-#define bustype_BDK_MIO_FUS_PDF BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_PDF "MIO_FUS_PDF"
-#define busnum_BDK_MIO_FUS_PDF 0
-#define arguments_BDK_MIO_FUS_PDF -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_fus_pll
- *
- * MIO Fuse PLL Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_pll_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_15_63        : 49;
-        uint64_t core_status           : 3;  /**< [ 14: 12](RO) Core-clock PLL status information. */
-        uint64_t reserved_11           : 1;
-        uint64_t pnr_status            : 3;  /**< [ 10:  8](RO) Coprocessor-clock PLL status information. */
-        uint64_t c_cout_rst            : 1;  /**< [  7:  7](R/W) Core clockout postscaler reset. The core clockout postscaler should be placed in reset at
-                                                                 least 10 reference-clock cycles prior to changing C_COUT_SEL. The core clockout postscaler
-                                                                 should remain under reset for at least 10 reference-clock cycles after C_COUT_SEL changes. */
-        uint64_t c_cout_sel            : 2;  /**< [  6:  5](R/W) Core-clock output select:
-                                                                 0x0 = Core clock.
-                                                                 0x1 = PS output.
-                                                                 0x2 = PLL output.
-                                                                 0x3 = Undivided core clock. */
-        uint64_t pnr_cout_rst          : 1;  /**< [  4:  4](R/W) SYS clockout postscaler reset. The PNR clockout postscaler should be placed in reset at
-                                                                 least 10 reference-clock cycles prior to changing PNR_COUT_SEL. The SYS clockout
-                                                                 postscaler
-                                                                 should remain under reset for at least 10 reference-clock cycles after PNR_COUT_SEL
-                                                                 changes. */
-        uint64_t pnr_cout_sel          : 2;  /**< [  3:  2](R/W) Coprocessor-clock output select:
-                                                                 0x0 = Coprocessor clock.
-                                                                 0x1 = PS output.
-                                                                 0x2 = PLL output.
-                                                                 0x3 = Undivided core clock. */
-        uint64_t reserved_0_1          : 2;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_1          : 2;
-        uint64_t pnr_cout_sel          : 2;  /**< [  3:  2](R/W) Coprocessor-clock output select:
-                                                                 0x0 = Coprocessor clock.
-                                                                 0x1 = PS output.
-                                                                 0x2 = PLL output.
-                                                                 0x3 = Undivided core clock. */
-        uint64_t pnr_cout_rst          : 1;  /**< [  4:  4](R/W) SYS clockout postscaler reset. The PNR clockout postscaler should be placed in reset at
-                                                                 least 10 reference-clock cycles prior to changing PNR_COUT_SEL. The SYS clockout
-                                                                 postscaler
-                                                                 should remain under reset for at least 10 reference-clock cycles after PNR_COUT_SEL
-                                                                 changes. */
-        uint64_t c_cout_sel            : 2;  /**< [  6:  5](R/W) Core-clock output select:
-                                                                 0x0 = Core clock.
-                                                                 0x1 = PS output.
-                                                                 0x2 = PLL output.
-                                                                 0x3 = Undivided core clock. */
-        uint64_t c_cout_rst            : 1;  /**< [  7:  7](R/W) Core clockout postscaler reset. The core clockout postscaler should be placed in reset at
-                                                                 least 10 reference-clock cycles prior to changing C_COUT_SEL. The core clockout postscaler
-                                                                 should remain under reset for at least 10 reference-clock cycles after C_COUT_SEL changes. */
-        uint64_t pnr_status            : 3;  /**< [ 10:  8](RO) Coprocessor-clock PLL status information. */
-        uint64_t reserved_11           : 1;
-        uint64_t core_status           : 3;  /**< [ 14: 12](RO) Core-clock PLL status information. */
-        uint64_t reserved_15_63        : 49;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_pll_s cn; */
-} bdk_mio_fus_pll_t;
-
-#define BDK_MIO_FUS_PLL BDK_MIO_FUS_PLL_FUNC()
-static inline uint64_t BDK_MIO_FUS_PLL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_PLL_FUNC(void)
-{
-    return 0x87e003001580ll;
-}
-
-#define typedef_BDK_MIO_FUS_PLL bdk_mio_fus_pll_t
-#define bustype_BDK_MIO_FUS_PLL BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_PLL "MIO_FUS_PLL"
-#define busnum_BDK_MIO_FUS_PLL 0
-#define arguments_BDK_MIO_FUS_PLL -1,-1,-1,-1
-
-/**
- * Register (RSL) mio_fus_rpr_dat#
- *
- * INTERNAL: MIO Fuse Repair Memory Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_rpr_datx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](R/W) INTERNAL: Repair memory store (RPR_MEM). Data for read and write. A write to
-                                                                 MIO_FUS_RPR_DAT(1) writes all 128 bits from both registers to RPR_MEM. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](R/W) INTERNAL: Repair memory store (RPR_MEM). Data for read and write. A write to
-                                                                 MIO_FUS_RPR_DAT(1) writes all 128 bits from both registers to RPR_MEM. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_rpr_datx_s cn; */
-} bdk_mio_fus_rpr_datx_t;
-
-static inline uint64_t BDK_MIO_FUS_RPR_DATX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_RPR_DATX(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e003001530ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("MIO_FUS_RPR_DATX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MIO_FUS_RPR_DATX(a) bdk_mio_fus_rpr_datx_t
-#define bustype_BDK_MIO_FUS_RPR_DATX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_RPR_DATX(a) "MIO_FUS_RPR_DATX"
-#define busnum_BDK_MIO_FUS_RPR_DATX(a) (a)
-#define arguments_BDK_MIO_FUS_RPR_DATX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mio_fus_int
- *
- * INTERNAL: MIO Fuse Repair Interrupt Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t rpr_dbe               : 1;  /**< [  1:  1](R/W1C/H) INTERNAL: Indicates an uncorrectable double-bit-error occurred to RPR_MEM. */
-        uint64_t rpr_sbe               : 1;  /**< [  0:  0](R/W1C/H) INTERNAL: Indicates a corrected single-bit-error occurred to RPR_MEM. */
-#else /* Word 0 - Little Endian */
-        uint64_t rpr_sbe               : 1;  /**< [  0:  0](R/W1C/H) INTERNAL: Indicates a corrected single-bit-error occurred to RPR_MEM. */
-        uint64_t rpr_dbe               : 1;  /**< [  1:  1](R/W1C/H) INTERNAL: Indicates an uncorrectable double-bit-error occurred to RPR_MEM. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_int_s cn; */
-} bdk_mio_fus_int_t;
-
-#define BDK_MIO_FUS_INT BDK_MIO_FUS_INT_FUNC()
-static inline uint64_t BDK_MIO_FUS_INT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_INT_FUNC(void)
-{
-    return 0x87e003001548ll;
-}
-
-#define typedef_BDK_MIO_FUS_INT bdk_mio_fus_int_t
-#define bustype_BDK_MIO_FUS_INT BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_INT "MIO_FUS_INT"
-#define busnum_BDK_MIO_FUS_INT 0
-#define arguments_BDK_MIO_FUS_INT -1,-1,-1,-1
-
-/**
  * Register (RSL) mio_fus_bnk_dat#
  *
  * MIO Fuse Bank Store Register
@@ -651,64 +96,6 @@ static inline uint64_t BDK_MIO_FUS_BNK_DATX(unsigned long a)
 #define basename_BDK_MIO_FUS_BNK_DATX(a) "MIO_FUS_BNK_DATX"
 #define busnum_BDK_MIO_FUS_BNK_DATX(a) (a)
 #define arguments_BDK_MIO_FUS_BNK_DATX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mio_fus_rcmd
- *
- * MIO Fuse Read Command Register
- * To read an efuse, software writes MIO_FUS_RCMD[ADDR,PEND] with the byte address of the fuse in
- * question, then software can poll MIO_FUS_RCMD[PEND]. When PEND is clear, then
- * MIO_FUS_RCMD[DAT] is valid. In addition, if the efuse read went to the efuse banks (e.g.
- * (ADDR/16) not {0,1,7} || EFUSE), software can read MIO_FUS_BNK_DAT() which contains all 128
- * fuses in the bank associated in ADDR.  Fuses 1023..960 are not accessable if
- * MIO_FUS_DAT2[DORM_CRYPTO] is enabled.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_fus_rcmd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t dat                   : 8;  /**< [ 23: 16](RO/H) Eight bits of fuse data. */
-        uint64_t reserved_13_15        : 3;
-        uint64_t pend                  : 1;  /**< [ 12: 12](R/W/H) Software sets this bit to 1 on a write operation that starts FUSE read operation. Hardware
-                                                                 clears this bit when the read operation
-                                                                 is complete and the DAT is valid. */
-        uint64_t reserved_11           : 1;
-        uint64_t addr_hi               : 2;  /**< [ 10:  9](R/W) Upper fuse address bits to extend space beyond 2k fuses. Valid range is 0x0-0x3. */
-        uint64_t efuse                 : 1;  /**< [  8:  8](R/W) Efuse storage. When set to 1, the return data is from the efuse storage rather than the
-                                                                 local storage. */
-        uint64_t addr                  : 8;  /**< [  7:  0](R/W) Address. Specifies the byte address of the fuse to read. */
-#else /* Word 0 - Little Endian */
-        uint64_t addr                  : 8;  /**< [  7:  0](R/W) Address. Specifies the byte address of the fuse to read. */
-        uint64_t efuse                 : 1;  /**< [  8:  8](R/W) Efuse storage. When set to 1, the return data is from the efuse storage rather than the
-                                                                 local storage. */
-        uint64_t addr_hi               : 2;  /**< [ 10:  9](R/W) Upper fuse address bits to extend space beyond 2k fuses. Valid range is 0x0-0x3. */
-        uint64_t reserved_11           : 1;
-        uint64_t pend                  : 1;  /**< [ 12: 12](R/W/H) Software sets this bit to 1 on a write operation that starts FUSE read operation. Hardware
-                                                                 clears this bit when the read operation
-                                                                 is complete and the DAT is valid. */
-        uint64_t reserved_13_15        : 3;
-        uint64_t dat                   : 8;  /**< [ 23: 16](RO/H) Eight bits of fuse data. */
-        uint64_t reserved_24_63        : 40;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_fus_rcmd_s cn; */
-} bdk_mio_fus_rcmd_t;
-
-#define BDK_MIO_FUS_RCMD BDK_MIO_FUS_RCMD_FUNC()
-static inline uint64_t BDK_MIO_FUS_RCMD_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_FUS_RCMD_FUNC(void)
-{
-    return 0x87e003001500ll;
-}
-
-#define typedef_BDK_MIO_FUS_RCMD bdk_mio_fus_rcmd_t
-#define bustype_BDK_MIO_FUS_RCMD BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_FUS_RCMD "MIO_FUS_RCMD"
-#define busnum_BDK_MIO_FUS_RCMD 0
-#define arguments_BDK_MIO_FUS_RCMD -1,-1,-1,-1
 
 /**
  * Register (RSL) mio_fus_dat0
@@ -1138,5 +525,618 @@ static inline uint64_t BDK_MIO_FUS_DAT4_FUNC(void)
 #define basename_BDK_MIO_FUS_DAT4 "MIO_FUS_DAT4"
 #define busnum_BDK_MIO_FUS_DAT4 0
 #define arguments_BDK_MIO_FUS_DAT4 -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_int
+ *
+ * INTERNAL: MIO Fuse Repair Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_int_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t rpr_dbe               : 1;  /**< [  1:  1](R/W1C/H) INTERNAL: Indicates an uncorrectable double-bit-error occurred to RPR_MEM. */
+        uint64_t rpr_sbe               : 1;  /**< [  0:  0](R/W1C/H) INTERNAL: Indicates a corrected single-bit-error occurred to RPR_MEM. */
+#else /* Word 0 - Little Endian */
+        uint64_t rpr_sbe               : 1;  /**< [  0:  0](R/W1C/H) INTERNAL: Indicates a corrected single-bit-error occurred to RPR_MEM. */
+        uint64_t rpr_dbe               : 1;  /**< [  1:  1](R/W1C/H) INTERNAL: Indicates an uncorrectable double-bit-error occurred to RPR_MEM. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_int_s cn; */
+} bdk_mio_fus_int_t;
+
+#define BDK_MIO_FUS_INT BDK_MIO_FUS_INT_FUNC()
+static inline uint64_t BDK_MIO_FUS_INT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_INT_FUNC(void)
+{
+    return 0x87e003001548ll;
+}
+
+#define typedef_BDK_MIO_FUS_INT bdk_mio_fus_int_t
+#define bustype_BDK_MIO_FUS_INT BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_INT "MIO_FUS_INT"
+#define busnum_BDK_MIO_FUS_INT 0
+#define arguments_BDK_MIO_FUS_INT -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_pdf
+ *
+ * MIO Fuse Product Definition Field Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_pdf_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pdf                   : 64; /**< [ 63:  0](RO) Fuse information--product definition field. */
+#else /* Word 0 - Little Endian */
+        uint64_t pdf                   : 64; /**< [ 63:  0](RO) Fuse information--product definition field. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_pdf_s cn; */
+} bdk_mio_fus_pdf_t;
+
+#define BDK_MIO_FUS_PDF BDK_MIO_FUS_PDF_FUNC()
+static inline uint64_t BDK_MIO_FUS_PDF_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_PDF_FUNC(void)
+{
+    return 0x87e003001428ll;
+}
+
+#define typedef_BDK_MIO_FUS_PDF bdk_mio_fus_pdf_t
+#define bustype_BDK_MIO_FUS_PDF BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_PDF "MIO_FUS_PDF"
+#define busnum_BDK_MIO_FUS_PDF 0
+#define arguments_BDK_MIO_FUS_PDF -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_pll
+ *
+ * MIO Fuse PLL Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_pll_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_15_63        : 49;
+        uint64_t core_status           : 3;  /**< [ 14: 12](RO) Core-clock PLL status information. */
+        uint64_t reserved_11           : 1;
+        uint64_t pnr_status            : 3;  /**< [ 10:  8](RO) Coprocessor-clock PLL status information. */
+        uint64_t c_cout_rst            : 1;  /**< [  7:  7](R/W) Core clockout postscaler reset. The core clockout postscaler should be placed in reset at
+                                                                 least 10 reference-clock cycles prior to changing C_COUT_SEL. The core clockout postscaler
+                                                                 should remain under reset for at least 10 reference-clock cycles after C_COUT_SEL changes. */
+        uint64_t c_cout_sel            : 2;  /**< [  6:  5](R/W) Core-clock output select:
+                                                                 0x0 = Core clock.
+                                                                 0x1 = PS output.
+                                                                 0x2 = PLL output.
+                                                                 0x3 = Undivided core clock. */
+        uint64_t pnr_cout_rst          : 1;  /**< [  4:  4](R/W) SYS clockout postscaler reset. The PNR clockout postscaler should be placed in reset at
+                                                                 least 10 reference-clock cycles prior to changing PNR_COUT_SEL. The SYS clockout
+                                                                 postscaler
+                                                                 should remain under reset for at least 10 reference-clock cycles after PNR_COUT_SEL
+                                                                 changes. */
+        uint64_t pnr_cout_sel          : 2;  /**< [  3:  2](R/W) Coprocessor-clock output select:
+                                                                 0x0 = Coprocessor clock.
+                                                                 0x1 = PS output.
+                                                                 0x2 = PLL output.
+                                                                 0x3 = Undivided core clock. */
+        uint64_t reserved_0_1          : 2;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_1          : 2;
+        uint64_t pnr_cout_sel          : 2;  /**< [  3:  2](R/W) Coprocessor-clock output select:
+                                                                 0x0 = Coprocessor clock.
+                                                                 0x1 = PS output.
+                                                                 0x2 = PLL output.
+                                                                 0x3 = Undivided core clock. */
+        uint64_t pnr_cout_rst          : 1;  /**< [  4:  4](R/W) SYS clockout postscaler reset. The PNR clockout postscaler should be placed in reset at
+                                                                 least 10 reference-clock cycles prior to changing PNR_COUT_SEL. The SYS clockout
+                                                                 postscaler
+                                                                 should remain under reset for at least 10 reference-clock cycles after PNR_COUT_SEL
+                                                                 changes. */
+        uint64_t c_cout_sel            : 2;  /**< [  6:  5](R/W) Core-clock output select:
+                                                                 0x0 = Core clock.
+                                                                 0x1 = PS output.
+                                                                 0x2 = PLL output.
+                                                                 0x3 = Undivided core clock. */
+        uint64_t c_cout_rst            : 1;  /**< [  7:  7](R/W) Core clockout postscaler reset. The core clockout postscaler should be placed in reset at
+                                                                 least 10 reference-clock cycles prior to changing C_COUT_SEL. The core clockout postscaler
+                                                                 should remain under reset for at least 10 reference-clock cycles after C_COUT_SEL changes. */
+        uint64_t pnr_status            : 3;  /**< [ 10:  8](RO) Coprocessor-clock PLL status information. */
+        uint64_t reserved_11           : 1;
+        uint64_t core_status           : 3;  /**< [ 14: 12](RO) Core-clock PLL status information. */
+        uint64_t reserved_15_63        : 49;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_pll_s cn; */
+} bdk_mio_fus_pll_t;
+
+#define BDK_MIO_FUS_PLL BDK_MIO_FUS_PLL_FUNC()
+static inline uint64_t BDK_MIO_FUS_PLL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_PLL_FUNC(void)
+{
+    return 0x87e003001580ll;
+}
+
+#define typedef_BDK_MIO_FUS_PLL bdk_mio_fus_pll_t
+#define bustype_BDK_MIO_FUS_PLL BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_PLL "MIO_FUS_PLL"
+#define busnum_BDK_MIO_FUS_PLL 0
+#define arguments_BDK_MIO_FUS_PLL -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_pname#
+ *
+ * MIO Fuse Product Name Register
+ * "These registers contain a 24-character string representing the part number,
+ * e.g. "CN8800-2000BG2601-CPT-PR".
+ *
+ * The string is represented in a RAD-40-like encoding, padded with trailing spaces
+ * that must be removed.  If the resulting string is empty, the product has not been
+ * fused programmed and the name should be constructed from e.g. the core's device
+ * number.
+ *
+ * This register was added in pass 2.
+ *
+ * Pseudocode for the decoding:
+ * <pre>
+ * datap = data_from_fuses;
+ * //      where bit 0 of byte 0 array is fuse 1408;
+ * //      i.e. bit 0 of MIO_FUS_PNAME(0)
+ * void rad50_decode(const uint8_t* datap, char* bufferp) {
+ *    // Psudocode only - assumes datap sized to at least 16 bytes,
+ *    // and bufferp to at least 26 characters.
+ *    const char* CHAR_MAP = " ABCDEFGHIJKLMNOPQRSTUVWXYZ#.-0123456789";
+ *    char* cp = bufferp;
+ *    for (int i=0; i<FUSE_BYTES; i+=2) {
+ *       // Data is stored little endian
+ *       uint16_t data = ((const uint16_t*)datap)[i/2];
+ *       ifndef MACHINE_LITTLE_ENDIAN
+ *          data = __swab16(data);
+ *       endif
+ *       *cp++ = CHAR_MAP[(data/40/40) % 40];
+ *       *cp++ = CHAR_MAP[(data/40) % 40];
+ *       *cp++ = CHAR_MAP[(data) % 40];
+ *    }
+ *    *cp++ = '\0';
+ *    for (cp = bufferp+strlen(bufferp)-1; cp>=bufferp && isspace(*cp); --cp) *cp='\0';
+ * }
+ * </pre>
+ *
+ * INTERNAL: Fuse[1535:1408]."
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_pnamex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Product name information. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Product name information. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_pnamex_s cn; */
+} bdk_mio_fus_pnamex_t;
+
+static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e003001440ll + 8ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
+        return 0x87e003001440ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("MIO_FUS_PNAMEX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MIO_FUS_PNAMEX(a) bdk_mio_fus_pnamex_t
+#define bustype_BDK_MIO_FUS_PNAMEX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_PNAMEX(a) "MIO_FUS_PNAMEX"
+#define busnum_BDK_MIO_FUS_PNAMEX(a) (a)
+#define arguments_BDK_MIO_FUS_PNAMEX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_prog
+ *
+ * INTERNAL: MIO Fuse Programming Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_prog_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t sft                   : 1;  /**< [  1:  1](R/W/H) INTERNAL: When set with PROG, causes only the local storage to change and will not blow
+                                                                 any fuses. Hardware will clear when the program operation is complete. */
+        uint64_t prog                  : 1;  /**< [  0:  0](R/W/H) INTERNAL: When written to one by software, blow the fuse bank. Hardware will clear when
+                                                                 the program operation is complete.
+                                                                 To write a bank of fuses, software must set MIO_FUS_WADR[ADDR] to the bank to be
+                                                                 programmed and then set each bit within MIO_FUS_BNK_DAT() to indicate which fuses to blow.
+                                                                 Once ADDR, and DAT are setup, SW can write to MIO_FUS_PROG[PROG] to start the bank write
+                                                                 and poll on PROG. Once PROG is clear, the bank write is complete. A soft blow is still
+                                                                 subject to lockdown fuses. After a soft/warm reset, the chip will behave as though the
+                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+#else /* Word 0 - Little Endian */
+        uint64_t prog                  : 1;  /**< [  0:  0](R/W/H) INTERNAL: When written to one by software, blow the fuse bank. Hardware will clear when
+                                                                 the program operation is complete.
+                                                                 To write a bank of fuses, software must set MIO_FUS_WADR[ADDR] to the bank to be
+                                                                 programmed and then set each bit within MIO_FUS_BNK_DAT() to indicate which fuses to blow.
+                                                                 Once ADDR, and DAT are setup, SW can write to MIO_FUS_PROG[PROG] to start the bank write
+                                                                 and poll on PROG. Once PROG is clear, the bank write is complete. A soft blow is still
+                                                                 subject to lockdown fuses. After a soft/warm reset, the chip will behave as though the
+                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+        uint64_t sft                   : 1;  /**< [  1:  1](R/W/H) INTERNAL: When set with PROG, causes only the local storage to change and will not blow
+                                                                 any fuses. Hardware will clear when the program operation is complete. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_prog_s cn; */
+} bdk_mio_fus_prog_t;
+
+#define BDK_MIO_FUS_PROG BDK_MIO_FUS_PROG_FUNC()
+static inline uint64_t BDK_MIO_FUS_PROG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_PROG_FUNC(void)
+{
+    return 0x87e003001510ll;
+}
+
+#define typedef_BDK_MIO_FUS_PROG bdk_mio_fus_prog_t
+#define bustype_BDK_MIO_FUS_PROG BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_PROG "MIO_FUS_PROG"
+#define busnum_BDK_MIO_FUS_PROG 0
+#define arguments_BDK_MIO_FUS_PROG -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_prog_times
+ *
+ * INTERNAL: MIO Fuse Program Times Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_prog_times_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_35_63        : 29;
+        uint64_t vgate_pin             : 1;  /**< [ 34: 34](RO) INTERNAL: Efuse vgate pin (L6G). */
+        uint64_t fsrc_pin              : 1;  /**< [ 33: 33](RO) INTERNAL: Efuse fsource pin (L6G). */
+        uint64_t prog_pin              : 1;  /**< [ 32: 32](RO) INTERNAL: Efuse program pin (IFB). */
+        uint64_t reserved_0_31         : 32;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_31         : 32;
+        uint64_t prog_pin              : 1;  /**< [ 32: 32](RO) INTERNAL: Efuse program pin (IFB). */
+        uint64_t fsrc_pin              : 1;  /**< [ 33: 33](RO) INTERNAL: Efuse fsource pin (L6G). */
+        uint64_t vgate_pin             : 1;  /**< [ 34: 34](RO) INTERNAL: Efuse vgate pin (L6G). */
+        uint64_t reserved_35_63        : 29;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_prog_times_s cn; */
+} bdk_mio_fus_prog_times_t;
+
+#define BDK_MIO_FUS_PROG_TIMES BDK_MIO_FUS_PROG_TIMES_FUNC()
+static inline uint64_t BDK_MIO_FUS_PROG_TIMES_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_PROG_TIMES_FUNC(void)
+{
+    return 0x87e003001518ll;
+}
+
+#define typedef_BDK_MIO_FUS_PROG_TIMES bdk_mio_fus_prog_times_t
+#define bustype_BDK_MIO_FUS_PROG_TIMES BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_PROG_TIMES "MIO_FUS_PROG_TIMES"
+#define busnum_BDK_MIO_FUS_PROG_TIMES 0
+#define arguments_BDK_MIO_FUS_PROG_TIMES -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_rcmd
+ *
+ * MIO Fuse Read Command Register
+ * To read an efuse, software writes MIO_FUS_RCMD[ADDR,PEND] with the byte address of the fuse in
+ * question, then software can poll MIO_FUS_RCMD[PEND]. When PEND is clear, then
+ * MIO_FUS_RCMD[DAT] is valid. In addition, if the efuse read went to the efuse banks (e.g.
+ * (ADDR/16) not {0,1,7} || EFUSE), software can read MIO_FUS_BNK_DAT() which contains all 128
+ * fuses in the bank associated in ADDR.  Fuses 1023..960 are not accessable if
+ * MIO_FUS_DAT2[DORM_CRYPTO] is enabled.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_rcmd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t dat                   : 8;  /**< [ 23: 16](RO/H) Eight bits of fuse data. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t pend                  : 1;  /**< [ 12: 12](R/W/H) Software sets this bit to 1 on a write operation that starts FUSE read operation. Hardware
+                                                                 clears this bit when the read operation
+                                                                 is complete and the DAT is valid. */
+        uint64_t reserved_11           : 1;
+        uint64_t addr_hi               : 2;  /**< [ 10:  9](R/W) Upper fuse address bits to extend space beyond 2k fuses. Valid range is 0x0-0x3. */
+        uint64_t efuse                 : 1;  /**< [  8:  8](R/W) Efuse storage. When set to 1, the return data is from the efuse storage rather than the
+                                                                 local storage. */
+        uint64_t addr                  : 8;  /**< [  7:  0](R/W) Address. Specifies the byte address of the fuse to read. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 8;  /**< [  7:  0](R/W) Address. Specifies the byte address of the fuse to read. */
+        uint64_t efuse                 : 1;  /**< [  8:  8](R/W) Efuse storage. When set to 1, the return data is from the efuse storage rather than the
+                                                                 local storage. */
+        uint64_t addr_hi               : 2;  /**< [ 10:  9](R/W) Upper fuse address bits to extend space beyond 2k fuses. Valid range is 0x0-0x3. */
+        uint64_t reserved_11           : 1;
+        uint64_t pend                  : 1;  /**< [ 12: 12](R/W/H) Software sets this bit to 1 on a write operation that starts FUSE read operation. Hardware
+                                                                 clears this bit when the read operation
+                                                                 is complete and the DAT is valid. */
+        uint64_t reserved_13_15        : 3;
+        uint64_t dat                   : 8;  /**< [ 23: 16](RO/H) Eight bits of fuse data. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_rcmd_s cn; */
+} bdk_mio_fus_rcmd_t;
+
+#define BDK_MIO_FUS_RCMD BDK_MIO_FUS_RCMD_FUNC()
+static inline uint64_t BDK_MIO_FUS_RCMD_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_RCMD_FUNC(void)
+{
+    return 0x87e003001500ll;
+}
+
+#define typedef_BDK_MIO_FUS_RCMD bdk_mio_fus_rcmd_t
+#define bustype_BDK_MIO_FUS_RCMD BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_RCMD "MIO_FUS_RCMD"
+#define busnum_BDK_MIO_FUS_RCMD 0
+#define arguments_BDK_MIO_FUS_RCMD -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_read_times
+ *
+ * MIO Fuse Read Times Register
+ * IFB fuses are 0 to 1791. The reset values are for IFB fuses for PLL_REF_CLK up to 100MHz when
+ * core PLL is engaged. If any of the formulas below result in a value less than zero, the
+ * corresponding timing parameter should be set to zero.
+ *
+ * Prior to issuing a read to the fuse banks (via MIO_FUS_RCMD), this register should be written
+ * with the timing parameters that will be read.
+ * This register should not be written while MIO_FUS_RCMD[PEND] = 1.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_read_times_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t done                  : 4;  /**< [ 31: 28](R/W) Hold time of CSB, PGENB, and LOAD with respect to falling edge of STROBE for read and
+                                                                 write mode in PLL_REF_CLK + 1 cycles. Timing specs are th_CS = 6ns, th_PG = 10ns, th_LD_p
+                                                                 = 7ns. Default of 0x0 yields 20ns for a PLL_REF_CLK of 50 MHz, 10ns at 100MHz. */
+        uint64_t ahd                   : 4;  /**< [ 27: 24](R/W) Hold time of A with respect to falling edge of STROBE for read and write modes in
+                                                                 PLL_REF_CLK + 2 cycles. Timing spec of tsu_A_r and tsu_A_p is 3ns min. Default of 0x0
+                                                                 yields 40ns for a PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
+        uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in PLL_REF_CLK + 1 cycles. Timing spec of
+                                                                 twh_SB_p is 9.8us max. Default of 0x1F3 yields 10 us at PLL_REF_CLK of 50 MHz. */
+        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in PLL_REF_CLK + 1 cycles. Timing spec of twh_SB_p
+                                                                 is 20ns min. Default of 0x1 yields 40 ns at PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
+        uint64_t asu                   : 4;  /**< [  7:  4](R/W) Setup time of A to rising edge of STROBE for read and write modes in PLL_REF_CLK cycles.
+                                                                 Timing spec of tsu_A_r and tsu_A_p is 12 ns min. Default of 0x1 yields 40 ns at
+                                                                 PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
+        uint64_t setup                 : 4;  /**< [  3:  0](R/W) Setup time of CSB, PGENB, LOAD to rising edge of STROBE in read and write modes in
+                                                                 PLL_REF_CLK + 1 cycles. tsu_CS = 16ns, tsu_PG = 14ns, tsu_LD_r = 10ns. Default of 0x0
+                                                                 yields 20 ns plus ASU cycles at PLL_REF_CLK of 50 MHz, 10ns + ASU at 100MHz. */
+#else /* Word 0 - Little Endian */
+        uint64_t setup                 : 4;  /**< [  3:  0](R/W) Setup time of CSB, PGENB, LOAD to rising edge of STROBE in read and write modes in
+                                                                 PLL_REF_CLK + 1 cycles. tsu_CS = 16ns, tsu_PG = 14ns, tsu_LD_r = 10ns. Default of 0x0
+                                                                 yields 20 ns plus ASU cycles at PLL_REF_CLK of 50 MHz, 10ns + ASU at 100MHz. */
+        uint64_t asu                   : 4;  /**< [  7:  4](R/W) Setup time of A to rising edge of STROBE for read and write modes in PLL_REF_CLK cycles.
+                                                                 Timing spec of tsu_A_r and tsu_A_p is 12 ns min. Default of 0x1 yields 40 ns at
+                                                                 PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
+        uint64_t rdstb_wh              : 4;  /**< [ 11:  8](R/W) Pulse width high of STROBE in read mode in PLL_REF_CLK + 1 cycles. Timing spec of twh_SB_p
+                                                                 is 20ns min. Default of 0x1 yields 40 ns at PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
+        uint64_t wrstb_wh              : 12; /**< [ 23: 12](R/W) Pulse width high of STROBE in write mode in PLL_REF_CLK + 1 cycles. Timing spec of
+                                                                 twh_SB_p is 9.8us max. Default of 0x1F3 yields 10 us at PLL_REF_CLK of 50 MHz. */
+        uint64_t ahd                   : 4;  /**< [ 27: 24](R/W) Hold time of A with respect to falling edge of STROBE for read and write modes in
+                                                                 PLL_REF_CLK + 2 cycles. Timing spec of tsu_A_r and tsu_A_p is 3ns min. Default of 0x0
+                                                                 yields 40ns for a PLL_REF_CLK of 50 MHz, 20ns at 100MHz. */
+        uint64_t done                  : 4;  /**< [ 31: 28](R/W) Hold time of CSB, PGENB, and LOAD with respect to falling edge of STROBE for read and
+                                                                 write mode in PLL_REF_CLK + 1 cycles. Timing specs are th_CS = 6ns, th_PG = 10ns, th_LD_p
+                                                                 = 7ns. Default of 0x0 yields 20ns for a PLL_REF_CLK of 50 MHz, 10ns at 100MHz. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_read_times_s cn; */
+} bdk_mio_fus_read_times_t;
+
+#define BDK_MIO_FUS_READ_TIMES BDK_MIO_FUS_READ_TIMES_FUNC()
+static inline uint64_t BDK_MIO_FUS_READ_TIMES_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_READ_TIMES_FUNC(void)
+{
+    return 0x87e003001570ll;
+}
+
+#define typedef_BDK_MIO_FUS_READ_TIMES bdk_mio_fus_read_times_t
+#define bustype_BDK_MIO_FUS_READ_TIMES BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_READ_TIMES "MIO_FUS_READ_TIMES"
+#define busnum_BDK_MIO_FUS_READ_TIMES 0
+#define arguments_BDK_MIO_FUS_READ_TIMES -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_rpr_dat#
+ *
+ * INTERNAL: MIO Fuse Repair Memory Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_rpr_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W) INTERNAL: Repair memory store (RPR_MEM). Data for read and write. A write to
+                                                                 MIO_FUS_RPR_DAT(1) writes all 128 bits from both registers to RPR_MEM. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](R/W) INTERNAL: Repair memory store (RPR_MEM). Data for read and write. A write to
+                                                                 MIO_FUS_RPR_DAT(1) writes all 128 bits from both registers to RPR_MEM. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_rpr_datx_s cn; */
+} bdk_mio_fus_rpr_datx_t;
+
+static inline uint64_t BDK_MIO_FUS_RPR_DATX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_RPR_DATX(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e003001530ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("MIO_FUS_RPR_DATX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MIO_FUS_RPR_DATX(a) bdk_mio_fus_rpr_datx_t
+#define bustype_BDK_MIO_FUS_RPR_DATX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_RPR_DATX(a) "MIO_FUS_RPR_DATX"
+#define busnum_BDK_MIO_FUS_RPR_DATX(a) (a)
+#define arguments_BDK_MIO_FUS_RPR_DATX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_soft_repair
+ *
+ * INTERNAL: MIO Fuse Soft Repair Register
+ *
+ * Internal:
+ * INTERNAL: Aka `Soft Blow'. Upon reset fuse repairs are loaded into REPAIR_MEM as they are
+ * loaded into the memories. Any new defects are loaded in afterwards, leaving END_PTR at the
+ * last defect.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_soft_repair_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_20_63        : 44;
+        uint64_t rpr_flip_synd         : 2;  /**< [ 19: 18](R/W/H) INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic use only. */
+        uint64_t autoblow              : 1;  /**< [ 17: 17](R/W/H) INTERNAL: Set to initiate burning of defect fuses to fuse macro. Clears when fuses are
+                                                                 blown. */
+        uint64_t too_many              : 1;  /**< [ 16: 16](RO/H) INTERNAL: Set if the sum of fuse repairs and memory defects exceeds 195. */
+        uint64_t numdefects            : 8;  /**< [ 15:  8](RO/H) INTERNAL: After reset/BIST indicates the number of memory defects reported. Defects are
+                                                                 stored in REPAIR_MEM from bit address NUMREPAIRS*21 to (NUMREPAIRS*21 + NUMDEFECTS*21 -
+                                                                 1). */
+        uint64_t numrepairs            : 8;  /**< [  7:  0](R/W) INTERNAL: Indicates the number of soft repairs to load from repair mem to the memories on
+                                                                 a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem on a
+                                                                 cold reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t numrepairs            : 8;  /**< [  7:  0](R/W) INTERNAL: Indicates the number of soft repairs to load from repair mem to the memories on
+                                                                 a soft/warm reset. Indicates the number of repairs loaded from efuses to repair mem on a
+                                                                 cold reset. */
+        uint64_t numdefects            : 8;  /**< [ 15:  8](RO/H) INTERNAL: After reset/BIST indicates the number of memory defects reported. Defects are
+                                                                 stored in REPAIR_MEM from bit address NUMREPAIRS*21 to (NUMREPAIRS*21 + NUMDEFECTS*21 -
+                                                                 1). */
+        uint64_t too_many              : 1;  /**< [ 16: 16](RO/H) INTERNAL: Set if the sum of fuse repairs and memory defects exceeds 195. */
+        uint64_t autoblow              : 1;  /**< [ 17: 17](R/W/H) INTERNAL: Set to initiate burning of defect fuses to fuse macro. Clears when fuses are
+                                                                 blown. */
+        uint64_t rpr_flip_synd         : 2;  /**< [ 19: 18](R/W/H) INTERNAL: Flip syndrome bits on RPR_MEM writes. For diagnostic use only. */
+        uint64_t reserved_20_63        : 44;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_soft_repair_s cn; */
+} bdk_mio_fus_soft_repair_t;
+
+#define BDK_MIO_FUS_SOFT_REPAIR BDK_MIO_FUS_SOFT_REPAIR_FUNC()
+static inline uint64_t BDK_MIO_FUS_SOFT_REPAIR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_SOFT_REPAIR_FUNC(void)
+{
+    return 0x87e003001540ll;
+}
+
+#define typedef_BDK_MIO_FUS_SOFT_REPAIR bdk_mio_fus_soft_repair_t
+#define bustype_BDK_MIO_FUS_SOFT_REPAIR BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_SOFT_REPAIR "MIO_FUS_SOFT_REPAIR"
+#define busnum_BDK_MIO_FUS_SOFT_REPAIR 0
+#define arguments_BDK_MIO_FUS_SOFT_REPAIR -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_tgg
+ *
+ * MIO Fuse TGG Register
+ * This register exists to support Authentik. Authentik code should read this register, then
+ * clear VAL to prevent other software from observing the value of the TGG fuses.
+ *
+ * INTERNAL: It is never possible to read the TGG fuses via MIO_FUS_RCMD. Whenever the fuse
+ * corresponding to VAL (TGG<63>) is blown, it is not possible to blow any of TGG<62:0>. The fuse
+ * corresponding to VAL must be the one and only lock down bit for TGG<62:0> - no other fuse
+ * lockdown bit can prevent blowing TGG<62:0>. It must always be possible to blow the fuse
+ * corresponding to VAL when it is not already blown. If an Authentik part may be converted to a
+ * non-Authentik part (via some JTAG mechanism or any other mechanism), it must not be possible
+ * to read the TGG fuse values from the Authentik part by performing this conversion -> the reset
+ * value of VAL should be zero in this converted case.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_tgg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t val                   : 1;  /**< [ 63: 63](R/W/H) Software can write VAL to 0, but cannot write VAL to a 1. When VAL = 1, DAT reads
+                                                                 the corresponding TGG fuses. When VAL = 0, DAT reads as 0s. The reset value of
+                                                                 this VAL bit is normally its fuse setting (i.e. TGG<63>). */
+        uint64_t dat                   : 63; /**< [ 62:  0](RO/H) When VAL = 0, DAT always reads as 0x0, regardless of the value of the TGG<62:0>
+                                                                 fuses. When VAL = 1, DAT returns the value of the TGG<62:0> fuses. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 63; /**< [ 62:  0](RO/H) When VAL = 0, DAT always reads as 0x0, regardless of the value of the TGG<62:0>
+                                                                 fuses. When VAL = 1, DAT returns the value of the TGG<62:0> fuses. */
+        uint64_t val                   : 1;  /**< [ 63: 63](R/W/H) Software can write VAL to 0, but cannot write VAL to a 1. When VAL = 1, DAT reads
+                                                                 the corresponding TGG fuses. When VAL = 0, DAT reads as 0s. The reset value of
+                                                                 this VAL bit is normally its fuse setting (i.e. TGG<63>). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_tgg_s cn; */
+} bdk_mio_fus_tgg_t;
+
+#define BDK_MIO_FUS_TGG BDK_MIO_FUS_TGG_FUNC()
+static inline uint64_t BDK_MIO_FUS_TGG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_TGG_FUNC(void)
+{
+    return 0x87e003001430ll;
+}
+
+#define typedef_BDK_MIO_FUS_TGG bdk_mio_fus_tgg_t
+#define bustype_BDK_MIO_FUS_TGG BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_TGG "MIO_FUS_TGG"
+#define busnum_BDK_MIO_FUS_TGG 0
+#define arguments_BDK_MIO_FUS_TGG -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_fus_wadr
+ *
+ * MIO Fuse Read Command Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_fus_wadr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t addr                  : 6;  /**< [  5:  0](R/W) Indicates which of the banks of 128 fuses to blow. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 6;  /**< [  5:  0](R/W) Indicates which of the banks of 128 fuses to blow. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_fus_wadr_s cn; */
+} bdk_mio_fus_wadr_t;
+
+#define BDK_MIO_FUS_WADR BDK_MIO_FUS_WADR_FUNC()
+static inline uint64_t BDK_MIO_FUS_WADR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_FUS_WADR_FUNC(void)
+{
+    return 0x87e003001508ll;
+}
+
+#define typedef_BDK_MIO_FUS_WADR bdk_mio_fus_wadr_t
+#define bustype_BDK_MIO_FUS_WADR BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_FUS_WADR "MIO_FUS_WADR"
+#define busnum_BDK_MIO_FUS_WADR 0
+#define arguments_BDK_MIO_FUS_WADR -1,-1,-1,-1
 
 #endif /* __BDK_CSRS_MIO_FUS_H__ */

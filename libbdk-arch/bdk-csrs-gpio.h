@@ -53,6 +53,15 @@
  */
 
 /**
+ * Enumeration gpio_bar_e
+ *
+ * GPIO Base Address Register Enumeration
+ * Enumerates the base address registers.
+ */
+#define BDK_GPIO_BAR_E_GPIO_PF_BAR0 (0x803000000000ll) /**< Base address for standard registers. */
+#define BDK_GPIO_BAR_E_GPIO_PF_BAR4 (0x803000f00000ll) /**< Base address for MSI-X registers. */
+
+/**
  * Enumeration gpio_int_vec_e
  *
  * GPIO MSI-X Vector Enumeration
@@ -203,627 +212,6 @@
 #define BDK_GPIO_PIN_SEL_E_USBX_VBUS_CTRL(a) (0x74 + (a)) /**< (0..1)USBH Vbus control output; see USB chapter. */
 
 /**
- * Enumeration gpio_bar_e
- *
- * GPIO Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#define BDK_GPIO_BAR_E_GPIO_PF_BAR0 (0x803000000000ll) /**< Base address for standard registers. */
-#define BDK_GPIO_BAR_E_GPIO_PF_BAR4 (0x803000f00000ll) /**< Base address for MSI-X registers. */
-
-/**
- * Register (NCB) gpio_tx_clr
- *
- * GPIO Transmit Clear Mask Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_tx_clr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
-        uint64_t clr                   : 51; /**< [ 50:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
-                                                                 returns the GPIO_TX_DAT storage. */
-#else /* Word 0 - Little Endian */
-        uint64_t clr                   : 51; /**< [ 50:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
-                                                                 returns the GPIO_TX_DAT storage. */
-        uint64_t reserved_51_63        : 13;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_tx_clr_s cn; */
-} bdk_gpio_tx_clr_t;
-
-#define BDK_GPIO_TX_CLR BDK_GPIO_TX_CLR_FUNC()
-static inline uint64_t BDK_GPIO_TX_CLR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_TX_CLR_FUNC(void)
-{
-    return 0x803000000010ll;
-}
-
-#define typedef_BDK_GPIO_TX_CLR bdk_gpio_tx_clr_t
-#define bustype_BDK_GPIO_TX_CLR BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_TX_CLR "GPIO_TX_CLR"
-#define busnum_BDK_GPIO_TX_CLR 0
-#define arguments_BDK_GPIO_TX_CLR -1,-1,-1,-1
-
-/**
- * Register (NCB) gpio_msix_pba#
- *
- * GPIO MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table; the bit number is indexed by the GPIO_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_msix_pbax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated GPIO_MSIX_VEC()_CTL, enumerated by
-                                                                 GPIO_INT_VEC_E. Bits
-                                                                 that have no associated GPIO_INT_VEC_E are 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated GPIO_MSIX_VEC()_CTL, enumerated by
-                                                                 GPIO_INT_VEC_E. Bits
-                                                                 that have no associated GPIO_INT_VEC_E are 0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_msix_pbax_s cn; */
-} bdk_gpio_msix_pbax_t;
-
-static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a)
-{
-    if (a<=2)
-        return 0x803000ff0000ll + 8ll * ((a) & 0x3);
-    __bdk_csr_fatal("GPIO_MSIX_PBAX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_GPIO_MSIX_PBAX(a) bdk_gpio_msix_pbax_t
-#define bustype_BDK_GPIO_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_MSIX_PBAX(a) "GPIO_MSIX_PBAX"
-#define busnum_BDK_GPIO_MSIX_PBAX(a) (a)
-#define arguments_BDK_GPIO_MSIX_PBAX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) gpio_msix_vec#_addr
- *
- * GPIO MSI-X Vector-Table Address Register
- * This register is the MSI-X vector table, indexed by the GPIO_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_msix_vecx_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's GPIO_MSIX_VEC()_ADDR, GPIO_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of GPIO_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_GPIO_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
-                                                                 is set, all vectors are secure and function as if [SECVEC] was set. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's GPIO_MSIX_VEC()_ADDR, GPIO_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of GPIO_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_GPIO_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
-                                                                 is set, all vectors are secure and function as if [SECVEC] was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_msix_vecx_addr_s cn; */
-} bdk_gpio_msix_vecx_addr_t;
-
-static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a)
-{
-    if (a<=149)
-        return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
-    __bdk_csr_fatal("GPIO_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_GPIO_MSIX_VECX_ADDR(a) bdk_gpio_msix_vecx_addr_t
-#define bustype_BDK_GPIO_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_MSIX_VECX_ADDR(a) "GPIO_MSIX_VECX_ADDR"
-#define busnum_BDK_GPIO_MSIX_VECX_ADDR(a) (a)
-#define arguments_BDK_GPIO_MSIX_VECX_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) gpio_clk_gen#
- *
- * GPIO Clock Generator Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_clk_genx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t n                     : 32; /**< [ 31:  0](R/W) Determines the frequency of the GPIO clock generator. N should be less than or equal to
-                                                                 2^31-1.
-                                                                 The frequency of the GPIO clock generator equals the coprocessor-clock frequency times N
-                                                                 divided by 2^32.
-                                                                 Writing N = 0x0 stops the clock generator. */
-#else /* Word 0 - Little Endian */
-        uint64_t n                     : 32; /**< [ 31:  0](R/W) Determines the frequency of the GPIO clock generator. N should be less than or equal to
-                                                                 2^31-1.
-                                                                 The frequency of the GPIO clock generator equals the coprocessor-clock frequency times N
-                                                                 divided by 2^32.
-                                                                 Writing N = 0x0 stops the clock generator. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_clk_genx_s cn; */
-} bdk_gpio_clk_genx_t;
-
-static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a)
-{
-    if (a<=3)
-        return 0x803000000040ll + 8ll * ((a) & 0x3);
-    __bdk_csr_fatal("GPIO_CLK_GENX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_GPIO_CLK_GENX(a) bdk_gpio_clk_genx_t
-#define bustype_BDK_GPIO_CLK_GENX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_CLK_GENX(a) "GPIO_CLK_GENX"
-#define busnum_BDK_GPIO_CLK_GENX(a) (a)
-#define arguments_BDK_GPIO_CLK_GENX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) gpio_strap
- *
- * GPIO Strap Value Register
- * This register contains GPIO strap data captured at the rising edge of DC_OK.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_strap_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
-        uint64_t strap                 : 51; /**< [ 50:  0](RO/H) GPIO strap data. */
-#else /* Word 0 - Little Endian */
-        uint64_t strap                 : 51; /**< [ 50:  0](RO/H) GPIO strap data. */
-        uint64_t reserved_51_63        : 13;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_strap_s cn; */
-} bdk_gpio_strap_t;
-
-#define BDK_GPIO_STRAP BDK_GPIO_STRAP_FUNC()
-static inline uint64_t BDK_GPIO_STRAP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_STRAP_FUNC(void)
-{
-    return 0x803000000028ll;
-}
-
-#define typedef_BDK_GPIO_STRAP bdk_gpio_strap_t
-#define bustype_BDK_GPIO_STRAP BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_STRAP "GPIO_STRAP"
-#define busnum_BDK_GPIO_STRAP 0
-#define arguments_BDK_GPIO_STRAP -1,-1,-1,-1
-
-/**
- * Register (NCB) gpio_mc_intr#_w1s
- *
- * GPIO Bit Multicast Interrupt W1S Registers
- * This register sets interrupt bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_mc_intrx_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t intr                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GPIO_MC_INTR(4..7)[INTR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t intr                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GPIO_MC_INTR(4..7)[INTR]. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_mc_intrx_w1s_s cn; */
-} bdk_gpio_mc_intrx_w1s_t;
-
-static inline uint64_t BDK_GPIO_MC_INTRX_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_MC_INTRX_W1S(unsigned long a)
-{
-    if ((a>=4)&&(a<=7))
-        return 0x803000001100ll + 8ll * ((a) & 0x7);
-    __bdk_csr_fatal("GPIO_MC_INTRX_W1S", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_GPIO_MC_INTRX_W1S(a) bdk_gpio_mc_intrx_w1s_t
-#define bustype_BDK_GPIO_MC_INTRX_W1S(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_MC_INTRX_W1S(a) "GPIO_MC_INTRX_W1S"
-#define busnum_BDK_GPIO_MC_INTRX_W1S(a) (a)
-#define arguments_BDK_GPIO_MC_INTRX_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) gpio_clk_synce#
- *
- * GPIO Clock SyncE Registers
- * A QLM can be configured as a clock source. The GPIO block can support up to two unique clocks
- * to send out any GPIO pin as configured by GPIO_BIT_CFG()[SYNCE_SEL]. The clock can be
- * divided by 20, 40, 80 or 160 of the selected RX lane clock.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_clk_syncex_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which QLM(0..7) to select from. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to QLM SerDes CLOCK_SYNCE. The maximum
-                                                                 supported GPIO output frequency is 125 MHz.
-                                                                 0x0 = Divide by 20.
-                                                                 0x1 = Divide by 40.
-                                                                 0x2 = Divide by 80.
-                                                                 0x3 = Divide by 160. */
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Selects which RX lane clock from QLMx to use as the GPIO internal QLMx clock. */
-#else /* Word 0 - Little Endian */
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Selects which RX lane clock from QLMx to use as the GPIO internal QLMx clock. */
-        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to QLM SerDes CLOCK_SYNCE. The maximum
-                                                                 supported GPIO output frequency is 125 MHz.
-                                                                 0x0 = Divide by 20.
-                                                                 0x1 = Divide by 40.
-                                                                 0x2 = Divide by 80.
-                                                                 0x3 = Divide by 160. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which QLM(0..7) to select from. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_clk_syncex_s cn; */
-} bdk_gpio_clk_syncex_t;
-
-static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a)
-{
-    if (a<=1)
-        return 0x803000000060ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("GPIO_CLK_SYNCEX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_GPIO_CLK_SYNCEX(a) bdk_gpio_clk_syncex_t
-#define bustype_BDK_GPIO_CLK_SYNCEX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_CLK_SYNCEX(a) "GPIO_CLK_SYNCEX"
-#define busnum_BDK_GPIO_CLK_SYNCEX(a) (a)
-#define arguments_BDK_GPIO_CLK_SYNCEX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) gpio_mc_intr#_ena_w1s
- *
- * GPIO Bit Multicast Interrupt Registers
- * This register sets interrupt enable bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_mc_intrx_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t intr                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR(4..7)[INTR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t intr                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR(4..7)[INTR]. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_mc_intrx_ena_w1s_s cn; */
-} bdk_gpio_mc_intrx_ena_w1s_t;
-
-static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1S(unsigned long a)
-{
-    if ((a>=4)&&(a<=7))
-        return 0x803000001300ll + 8ll * ((a) & 0x7);
-    __bdk_csr_fatal("GPIO_MC_INTRX_ENA_W1S", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_GPIO_MC_INTRX_ENA_W1S(a) bdk_gpio_mc_intrx_ena_w1s_t
-#define bustype_BDK_GPIO_MC_INTRX_ENA_W1S(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_MC_INTRX_ENA_W1S(a) "GPIO_MC_INTRX_ENA_W1S"
-#define busnum_BDK_GPIO_MC_INTRX_ENA_W1S(a) (a)
-#define arguments_BDK_GPIO_MC_INTRX_ENA_W1S(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) gpio_mc_intr#_ena_w1c
- *
- * GPIO Bit Multicast Interrupt Registers
- * This register clears interrupt enable bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_mc_intrx_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t intr                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR(4..7)[INTR]. */
-#else /* Word 0 - Little Endian */
-        uint64_t intr                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR(4..7)[INTR]. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_mc_intrx_ena_w1c_s cn; */
-} bdk_gpio_mc_intrx_ena_w1c_t;
-
-static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1C(unsigned long a)
-{
-    if ((a>=4)&&(a<=7))
-        return 0x803000001200ll + 8ll * ((a) & 0x7);
-    __bdk_csr_fatal("GPIO_MC_INTRX_ENA_W1C", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_GPIO_MC_INTRX_ENA_W1C(a) bdk_gpio_mc_intrx_ena_w1c_t
-#define bustype_BDK_GPIO_MC_INTRX_ENA_W1C(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_MC_INTRX_ENA_W1C(a) "GPIO_MC_INTRX_ENA_W1C"
-#define busnum_BDK_GPIO_MC_INTRX_ENA_W1C(a) (a)
-#define arguments_BDK_GPIO_MC_INTRX_ENA_W1C(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) gpio_multi_cast
- *
- * GPIO Multicast Register
- * This register enables multicast GPIO interrupts.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_multi_cast_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable GPIO interrupt multicast mode. When EN is set, GPIO<7:4> functions in multicast
-                                                                 mode allowing these four GPIOs to interrupt multiple cores. Multicast functionality allows
-                                                                 the GPIO to exist as per-core interrupts as opposed to a global interrupt. */
-#else /* Word 0 - Little Endian */
-        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable GPIO interrupt multicast mode. When EN is set, GPIO<7:4> functions in multicast
-                                                                 mode allowing these four GPIOs to interrupt multiple cores. Multicast functionality allows
-                                                                 the GPIO to exist as per-core interrupts as opposed to a global interrupt. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_multi_cast_s cn; */
-} bdk_gpio_multi_cast_t;
-
-#define BDK_GPIO_MULTI_CAST BDK_GPIO_MULTI_CAST_FUNC()
-static inline uint64_t BDK_GPIO_MULTI_CAST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_MULTI_CAST_FUNC(void)
-{
-    return 0x803000000018ll;
-}
-
-#define typedef_BDK_GPIO_MULTI_CAST bdk_gpio_multi_cast_t
-#define bustype_BDK_GPIO_MULTI_CAST BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_MULTI_CAST "GPIO_MULTI_CAST"
-#define busnum_BDK_GPIO_MULTI_CAST 0
-#define arguments_BDK_GPIO_MULTI_CAST -1,-1,-1,-1
-
-/**
- * Register (NCB) gpio_mc_intr#
- *
- * GPIO Bit Multicast Interrupt Registers
- * Each register provides interrupt multicasting for GPIO(4..7).
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_mc_intrx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t intr                  : 48; /**< [ 47:  0](R/W1C/H) GPIO interrupt for each core. When corresponding GPIO4-7 is edge-triggered and MULTI_CAST
-                                                                 is enabled, a GPIO assertion will set all 48 bits. Each bit is expected to be routed to
-                                                                 interrupt a different core using the CIU, and each core will then write one to clear its
-                                                                 corresponding bit in this register. */
-#else /* Word 0 - Little Endian */
-        uint64_t intr                  : 48; /**< [ 47:  0](R/W1C/H) GPIO interrupt for each core. When corresponding GPIO4-7 is edge-triggered and MULTI_CAST
-                                                                 is enabled, a GPIO assertion will set all 48 bits. Each bit is expected to be routed to
-                                                                 interrupt a different core using the CIU, and each core will then write one to clear its
-                                                                 corresponding bit in this register. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_mc_intrx_s cn; */
-} bdk_gpio_mc_intrx_t;
-
-static inline uint64_t BDK_GPIO_MC_INTRX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_MC_INTRX(unsigned long a)
-{
-    if ((a>=4)&&(a<=7))
-        return 0x803000001000ll + 8ll * ((a) & 0x7);
-    __bdk_csr_fatal("GPIO_MC_INTRX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_GPIO_MC_INTRX(a) bdk_gpio_mc_intrx_t
-#define bustype_BDK_GPIO_MC_INTRX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_MC_INTRX(a) "GPIO_MC_INTRX"
-#define busnum_BDK_GPIO_MC_INTRX(a) (a)
-#define arguments_BDK_GPIO_MC_INTRX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) gpio_tx_set
- *
- * GPIO Transmit Set Mask Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_tx_set_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
-        uint64_t set                   : 51; /**< [ 50:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
-                                                                 returns the GPIO_TX_DAT storage. */
-#else /* Word 0 - Little Endian */
-        uint64_t set                   : 51; /**< [ 50:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
-                                                                 returns the GPIO_TX_DAT storage. */
-        uint64_t reserved_51_63        : 13;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_tx_set_s cn; */
-} bdk_gpio_tx_set_t;
-
-#define BDK_GPIO_TX_SET BDK_GPIO_TX_SET_FUNC()
-static inline uint64_t BDK_GPIO_TX_SET_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_TX_SET_FUNC(void)
-{
-    return 0x803000000008ll;
-}
-
-#define typedef_BDK_GPIO_TX_SET bdk_gpio_tx_set_t
-#define bustype_BDK_GPIO_TX_SET BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_TX_SET "GPIO_TX_SET"
-#define busnum_BDK_GPIO_TX_SET 0
-#define arguments_BDK_GPIO_TX_SET -1,-1,-1,-1
-
-/**
- * Register (NCB) gpio_comp
- *
- * GPIO Compensation Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_comp_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
-        uint64_t pctl                  : 3;  /**< [ 10:  8](R/W) GPIO bus driver PCTL. Suggested values:
-                                                                 0x4 = 60 ohm.
-                                                                 0x6 = 40 ohm.
-                                                                 0x7 = 30 ohm. */
-        uint64_t reserved_3_7          : 5;
-        uint64_t nctl                  : 3;  /**< [  2:  0](R/W) GPIO bus driver NCTL. Suggested values:
-                                                                 0x4 = 60 ohm.
-                                                                 0x6 = 40 ohm.
-                                                                 0x7 = 30 ohm. */
-#else /* Word 0 - Little Endian */
-        uint64_t nctl                  : 3;  /**< [  2:  0](R/W) GPIO bus driver NCTL. Suggested values:
-                                                                 0x4 = 60 ohm.
-                                                                 0x6 = 40 ohm.
-                                                                 0x7 = 30 ohm. */
-        uint64_t reserved_3_7          : 5;
-        uint64_t pctl                  : 3;  /**< [ 10:  8](R/W) GPIO bus driver PCTL. Suggested values:
-                                                                 0x4 = 60 ohm.
-                                                                 0x6 = 40 ohm.
-                                                                 0x7 = 30 ohm. */
-        uint64_t reserved_11_63        : 53;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_comp_s cn; */
-} bdk_gpio_comp_t;
-
-#define BDK_GPIO_COMP BDK_GPIO_COMP_FUNC()
-static inline uint64_t BDK_GPIO_COMP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_COMP_FUNC(void)
-{
-    return 0x803000000080ll;
-}
-
-#define typedef_BDK_GPIO_COMP bdk_gpio_comp_t
-#define bustype_BDK_GPIO_COMP BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_COMP "GPIO_COMP"
-#define busnum_BDK_GPIO_COMP 0
-#define arguments_BDK_GPIO_COMP -1,-1,-1,-1
-
-/**
- * Register (NCB) gpio_ocla_exten_trig
- *
- * GPIO OCLA External Trigger Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_ocla_exten_trig_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t m_trig                : 1;  /**< [  0:  0](R/W) Manual Trigger.  This external trigger can also use the GPIO(0..50) input pin, when
-                                                                 GPIO_BIT_CFG()[PIN_SEL] = GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER.
-                                                                 This signal report to the OCLA coprocessor for GPIO-based triggering. When external
-                                                                 trigger and manual trigger
-                                                                 active at the same time, an ORed version of trigger is used. */
-#else /* Word 0 - Little Endian */
-        uint64_t m_trig                : 1;  /**< [  0:  0](R/W) Manual Trigger.  This external trigger can also use the GPIO(0..50) input pin, when
-                                                                 GPIO_BIT_CFG()[PIN_SEL] = GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER.
-                                                                 This signal report to the OCLA coprocessor for GPIO-based triggering. When external
-                                                                 trigger and manual trigger
-                                                                 active at the same time, an ORed version of trigger is used. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_ocla_exten_trig_s cn; */
-} bdk_gpio_ocla_exten_trig_t;
-
-#define BDK_GPIO_OCLA_EXTEN_TRIG BDK_GPIO_OCLA_EXTEN_TRIG_FUNC()
-static inline uint64_t BDK_GPIO_OCLA_EXTEN_TRIG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_OCLA_EXTEN_TRIG_FUNC(void)
-{
-    return 0x803000000020ll;
-}
-
-#define typedef_BDK_GPIO_OCLA_EXTEN_TRIG bdk_gpio_ocla_exten_trig_t
-#define bustype_BDK_GPIO_OCLA_EXTEN_TRIG BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_OCLA_EXTEN_TRIG "GPIO_OCLA_EXTEN_TRIG"
-#define busnum_BDK_GPIO_OCLA_EXTEN_TRIG 0
-#define arguments_BDK_GPIO_OCLA_EXTEN_TRIG -1,-1,-1,-1
-
-/**
- * Register (NCB) gpio_rx_dat
- *
- * GPIO Receive Data Register
- * This register contains the state of the GPIO pins.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_gpio_rx_dat_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_51_63        : 13;
-        uint64_t dat                   : 51; /**< [ 50:  0](RO/H) GPIO read data. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 51; /**< [ 50:  0](RO/H) GPIO read data. */
-        uint64_t reserved_51_63        : 13;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_gpio_rx_dat_s cn; */
-} bdk_gpio_rx_dat_t;
-
-#define BDK_GPIO_RX_DAT BDK_GPIO_RX_DAT_FUNC()
-static inline uint64_t BDK_GPIO_RX_DAT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_GPIO_RX_DAT_FUNC(void)
-{
-    return 0x803000000000ll;
-}
-
-#define typedef_BDK_GPIO_RX_DAT bdk_gpio_rx_dat_t
-#define bustype_BDK_GPIO_RX_DAT BDK_CSR_TYPE_NCB
-#define basename_BDK_GPIO_RX_DAT "GPIO_RX_DAT"
-#define busnum_BDK_GPIO_RX_DAT 0
-#define arguments_BDK_GPIO_RX_DAT -1,-1,-1,-1
-
-/**
  * Register (NCB) gpio_bit_cfg#
  *
  * GPIO Bit Configuration Registers
@@ -928,6 +316,153 @@ static inline uint64_t BDK_GPIO_BIT_CFGX(unsigned long a)
 #define arguments_BDK_GPIO_BIT_CFGX(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) gpio_clk_gen#
+ *
+ * GPIO Clock Generator Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_clk_genx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t n                     : 32; /**< [ 31:  0](R/W) Determines the frequency of the GPIO clock generator. N should be less than or equal to
+                                                                 2^31-1.
+                                                                 The frequency of the GPIO clock generator equals the coprocessor-clock frequency times N
+                                                                 divided by 2^32.
+                                                                 Writing N = 0x0 stops the clock generator. */
+#else /* Word 0 - Little Endian */
+        uint64_t n                     : 32; /**< [ 31:  0](R/W) Determines the frequency of the GPIO clock generator. N should be less than or equal to
+                                                                 2^31-1.
+                                                                 The frequency of the GPIO clock generator equals the coprocessor-clock frequency times N
+                                                                 divided by 2^32.
+                                                                 Writing N = 0x0 stops the clock generator. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_clk_genx_s cn; */
+} bdk_gpio_clk_genx_t;
+
+static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_CLK_GENX(unsigned long a)
+{
+    if (a<=3)
+        return 0x803000000040ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("GPIO_CLK_GENX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_CLK_GENX(a) bdk_gpio_clk_genx_t
+#define bustype_BDK_GPIO_CLK_GENX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_CLK_GENX(a) "GPIO_CLK_GENX"
+#define busnum_BDK_GPIO_CLK_GENX(a) (a)
+#define arguments_BDK_GPIO_CLK_GENX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_clk_synce#
+ *
+ * GPIO Clock SyncE Registers
+ * A QLM can be configured as a clock source. The GPIO block can support up to two unique clocks
+ * to send out any GPIO pin as configured by GPIO_BIT_CFG()[SYNCE_SEL]. The clock can be
+ * divided by 20, 40, 80 or 160 of the selected RX lane clock.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_clk_syncex_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_12_63        : 52;
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which QLM(0..7) to select from. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to QLM SerDes CLOCK_SYNCE. The maximum
+                                                                 supported GPIO output frequency is 125 MHz.
+                                                                 0x0 = Divide by 20.
+                                                                 0x1 = Divide by 40.
+                                                                 0x2 = Divide by 80.
+                                                                 0x3 = Divide by 160. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Selects which RX lane clock from QLMx to use as the GPIO internal QLMx clock. */
+#else /* Word 0 - Little Endian */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Selects which RX lane clock from QLMx to use as the GPIO internal QLMx clock. */
+        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to QLM SerDes CLOCK_SYNCE. The maximum
+                                                                 supported GPIO output frequency is 125 MHz.
+                                                                 0x0 = Divide by 20.
+                                                                 0x1 = Divide by 40.
+                                                                 0x2 = Divide by 80.
+                                                                 0x3 = Divide by 160. */
+        uint64_t reserved_4_7          : 4;
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which QLM(0..7) to select from. */
+        uint64_t reserved_12_63        : 52;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_clk_syncex_s cn; */
+} bdk_gpio_clk_syncex_t;
+
+static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_CLK_SYNCEX(unsigned long a)
+{
+    if (a<=1)
+        return 0x803000000060ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("GPIO_CLK_SYNCEX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_CLK_SYNCEX(a) bdk_gpio_clk_syncex_t
+#define bustype_BDK_GPIO_CLK_SYNCEX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_CLK_SYNCEX(a) "GPIO_CLK_SYNCEX"
+#define busnum_BDK_GPIO_CLK_SYNCEX(a) (a)
+#define arguments_BDK_GPIO_CLK_SYNCEX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_comp
+ *
+ * GPIO Compensation Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_comp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t pctl                  : 3;  /**< [ 10:  8](R/W) GPIO bus driver PCTL. Suggested values:
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
+        uint64_t reserved_3_7          : 5;
+        uint64_t nctl                  : 3;  /**< [  2:  0](R/W) GPIO bus driver NCTL. Suggested values:
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
+#else /* Word 0 - Little Endian */
+        uint64_t nctl                  : 3;  /**< [  2:  0](R/W) GPIO bus driver NCTL. Suggested values:
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
+        uint64_t reserved_3_7          : 5;
+        uint64_t pctl                  : 3;  /**< [ 10:  8](R/W) GPIO bus driver PCTL. Suggested values:
+                                                                 0x4 = 60 ohm.
+                                                                 0x6 = 40 ohm.
+                                                                 0x7 = 30 ohm. */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_comp_s cn; */
+} bdk_gpio_comp_t;
+
+#define BDK_GPIO_COMP BDK_GPIO_COMP_FUNC()
+static inline uint64_t BDK_GPIO_COMP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_COMP_FUNC(void)
+{
+    return 0x803000000080ll;
+}
+
+#define typedef_BDK_GPIO_COMP bdk_gpio_comp_t
+#define bustype_BDK_GPIO_COMP BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_COMP "GPIO_COMP"
+#define busnum_BDK_GPIO_COMP 0
+#define arguments_BDK_GPIO_COMP -1,-1,-1,-1
+
+/**
  * Register (NCB) gpio_intr#
  *
  * GPIO Bit Interrupt Registers
@@ -984,6 +519,248 @@ static inline uint64_t BDK_GPIO_INTRX(unsigned long a)
 #define arguments_BDK_GPIO_INTRX(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) gpio_mc_intr#
+ *
+ * GPIO Bit Multicast Interrupt Registers
+ * Each register provides interrupt multicasting for GPIO(4..7).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_mc_intrx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t intr                  : 48; /**< [ 47:  0](R/W1C/H) GPIO interrupt for each core. When corresponding GPIO4-7 is edge-triggered and MULTI_CAST
+                                                                 is enabled, a GPIO assertion will set all 48 bits. Each bit is expected to be routed to
+                                                                 interrupt a different core using the CIU, and each core will then write one to clear its
+                                                                 corresponding bit in this register. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 48; /**< [ 47:  0](R/W1C/H) GPIO interrupt for each core. When corresponding GPIO4-7 is edge-triggered and MULTI_CAST
+                                                                 is enabled, a GPIO assertion will set all 48 bits. Each bit is expected to be routed to
+                                                                 interrupt a different core using the CIU, and each core will then write one to clear its
+                                                                 corresponding bit in this register. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_mc_intrx_s cn; */
+} bdk_gpio_mc_intrx_t;
+
+static inline uint64_t BDK_GPIO_MC_INTRX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_MC_INTRX(unsigned long a)
+{
+    if ((a>=4)&&(a<=7))
+        return 0x803000001000ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("GPIO_MC_INTRX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_MC_INTRX(a) bdk_gpio_mc_intrx_t
+#define bustype_BDK_GPIO_MC_INTRX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_MC_INTRX(a) "GPIO_MC_INTRX"
+#define busnum_BDK_GPIO_MC_INTRX(a) (a)
+#define arguments_BDK_GPIO_MC_INTRX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_mc_intr#_ena_w1c
+ *
+ * GPIO Bit Multicast Interrupt Registers
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_mc_intrx_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t intr                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR(4..7)[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 48; /**< [ 47:  0](R/W1C/H) Reads or clears enable for GPIO_MC_INTR(4..7)[INTR]. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_mc_intrx_ena_w1c_s cn; */
+} bdk_gpio_mc_intrx_ena_w1c_t;
+
+static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1C(unsigned long a)
+{
+    if ((a>=4)&&(a<=7))
+        return 0x803000001200ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("GPIO_MC_INTRX_ENA_W1C", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_MC_INTRX_ENA_W1C(a) bdk_gpio_mc_intrx_ena_w1c_t
+#define bustype_BDK_GPIO_MC_INTRX_ENA_W1C(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_MC_INTRX_ENA_W1C(a) "GPIO_MC_INTRX_ENA_W1C"
+#define busnum_BDK_GPIO_MC_INTRX_ENA_W1C(a) (a)
+#define arguments_BDK_GPIO_MC_INTRX_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_mc_intr#_ena_w1s
+ *
+ * GPIO Bit Multicast Interrupt Registers
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_mc_intrx_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t intr                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR(4..7)[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets enable for GPIO_MC_INTR(4..7)[INTR]. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_mc_intrx_ena_w1s_s cn; */
+} bdk_gpio_mc_intrx_ena_w1s_t;
+
+static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_MC_INTRX_ENA_W1S(unsigned long a)
+{
+    if ((a>=4)&&(a<=7))
+        return 0x803000001300ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("GPIO_MC_INTRX_ENA_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_MC_INTRX_ENA_W1S(a) bdk_gpio_mc_intrx_ena_w1s_t
+#define bustype_BDK_GPIO_MC_INTRX_ENA_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_MC_INTRX_ENA_W1S(a) "GPIO_MC_INTRX_ENA_W1S"
+#define busnum_BDK_GPIO_MC_INTRX_ENA_W1S(a) (a)
+#define arguments_BDK_GPIO_MC_INTRX_ENA_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_mc_intr#_w1s
+ *
+ * GPIO Bit Multicast Interrupt W1S Registers
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_mc_intrx_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t intr                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GPIO_MC_INTR(4..7)[INTR]. */
+#else /* Word 0 - Little Endian */
+        uint64_t intr                  : 48; /**< [ 47:  0](R/W1S/H) Reads or sets GPIO_MC_INTR(4..7)[INTR]. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_mc_intrx_w1s_s cn; */
+} bdk_gpio_mc_intrx_w1s_t;
+
+static inline uint64_t BDK_GPIO_MC_INTRX_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_MC_INTRX_W1S(unsigned long a)
+{
+    if ((a>=4)&&(a<=7))
+        return 0x803000001100ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("GPIO_MC_INTRX_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_MC_INTRX_W1S(a) bdk_gpio_mc_intrx_w1s_t
+#define bustype_BDK_GPIO_MC_INTRX_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_MC_INTRX_W1S(a) "GPIO_MC_INTRX_W1S"
+#define busnum_BDK_GPIO_MC_INTRX_W1S(a) (a)
+#define arguments_BDK_GPIO_MC_INTRX_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_msix_pba#
+ *
+ * GPIO MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the GPIO_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated GPIO_MSIX_VEC()_CTL, enumerated by
+                                                                 GPIO_INT_VEC_E. Bits
+                                                                 that have no associated GPIO_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated GPIO_MSIX_VEC()_CTL, enumerated by
+                                                                 GPIO_INT_VEC_E. Bits
+                                                                 that have no associated GPIO_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_msix_pbax_s cn; */
+} bdk_gpio_msix_pbax_t;
+
+static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_MSIX_PBAX(unsigned long a)
+{
+    if (a<=2)
+        return 0x803000ff0000ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("GPIO_MSIX_PBAX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_MSIX_PBAX(a) bdk_gpio_msix_pbax_t
+#define bustype_BDK_GPIO_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_MSIX_PBAX(a) "GPIO_MSIX_PBAX"
+#define busnum_BDK_GPIO_MSIX_PBAX(a) (a)
+#define arguments_BDK_GPIO_MSIX_PBAX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_msix_vec#_addr
+ *
+ * GPIO MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the GPIO_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's GPIO_MSIX_VEC()_ADDR, GPIO_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of GPIO_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_GPIO_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
+                                                                 is set, all vectors are secure and function as if [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's GPIO_MSIX_VEC()_ADDR, GPIO_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of GPIO_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_GPIO_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
+                                                                 is set, all vectors are secure and function as if [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_msix_vecx_addr_s cn; */
+} bdk_gpio_msix_vecx_addr_t;
+
+static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_MSIX_VECX_ADDR(unsigned long a)
+{
+    if (a<=149)
+        return 0x803000f00000ll + 0x10ll * ((a) & 0xff);
+    __bdk_csr_fatal("GPIO_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_GPIO_MSIX_VECX_ADDR(a) bdk_gpio_msix_vecx_addr_t
+#define bustype_BDK_GPIO_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_MSIX_VECX_ADDR(a) "GPIO_MSIX_VECX_ADDR"
+#define busnum_BDK_GPIO_MSIX_VECX_ADDR(a) (a)
+#define arguments_BDK_GPIO_MSIX_VECX_ADDR(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) gpio_msix_vec#_ctl
  *
  * GPIO MSI-X Vector-Table Control and Data Register
@@ -1022,5 +799,228 @@ static inline uint64_t BDK_GPIO_MSIX_VECX_CTL(unsigned long a)
 #define basename_BDK_GPIO_MSIX_VECX_CTL(a) "GPIO_MSIX_VECX_CTL"
 #define busnum_BDK_GPIO_MSIX_VECX_CTL(a) (a)
 #define arguments_BDK_GPIO_MSIX_VECX_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) gpio_multi_cast
+ *
+ * GPIO Multicast Register
+ * This register enables multicast GPIO interrupts.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_multi_cast_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable GPIO interrupt multicast mode. When EN is set, GPIO<7:4> functions in multicast
+                                                                 mode allowing these four GPIOs to interrupt multiple cores. Multicast functionality allows
+                                                                 the GPIO to exist as per-core interrupts as opposed to a global interrupt. */
+#else /* Word 0 - Little Endian */
+        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable GPIO interrupt multicast mode. When EN is set, GPIO<7:4> functions in multicast
+                                                                 mode allowing these four GPIOs to interrupt multiple cores. Multicast functionality allows
+                                                                 the GPIO to exist as per-core interrupts as opposed to a global interrupt. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_multi_cast_s cn; */
+} bdk_gpio_multi_cast_t;
+
+#define BDK_GPIO_MULTI_CAST BDK_GPIO_MULTI_CAST_FUNC()
+static inline uint64_t BDK_GPIO_MULTI_CAST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_MULTI_CAST_FUNC(void)
+{
+    return 0x803000000018ll;
+}
+
+#define typedef_BDK_GPIO_MULTI_CAST bdk_gpio_multi_cast_t
+#define bustype_BDK_GPIO_MULTI_CAST BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_MULTI_CAST "GPIO_MULTI_CAST"
+#define busnum_BDK_GPIO_MULTI_CAST 0
+#define arguments_BDK_GPIO_MULTI_CAST -1,-1,-1,-1
+
+/**
+ * Register (NCB) gpio_ocla_exten_trig
+ *
+ * GPIO OCLA External Trigger Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_ocla_exten_trig_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t m_trig                : 1;  /**< [  0:  0](R/W) Manual Trigger.  This external trigger can also use the GPIO(0..50) input pin, when
+                                                                 GPIO_BIT_CFG()[PIN_SEL] = GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER.
+                                                                 This signal report to the OCLA coprocessor for GPIO-based triggering. When external
+                                                                 trigger and manual trigger
+                                                                 active at the same time, an ORed version of trigger is used. */
+#else /* Word 0 - Little Endian */
+        uint64_t m_trig                : 1;  /**< [  0:  0](R/W) Manual Trigger.  This external trigger can also use the GPIO(0..50) input pin, when
+                                                                 GPIO_BIT_CFG()[PIN_SEL] = GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER.
+                                                                 This signal report to the OCLA coprocessor for GPIO-based triggering. When external
+                                                                 trigger and manual trigger
+                                                                 active at the same time, an ORed version of trigger is used. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_ocla_exten_trig_s cn; */
+} bdk_gpio_ocla_exten_trig_t;
+
+#define BDK_GPIO_OCLA_EXTEN_TRIG BDK_GPIO_OCLA_EXTEN_TRIG_FUNC()
+static inline uint64_t BDK_GPIO_OCLA_EXTEN_TRIG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_OCLA_EXTEN_TRIG_FUNC(void)
+{
+    return 0x803000000020ll;
+}
+
+#define typedef_BDK_GPIO_OCLA_EXTEN_TRIG bdk_gpio_ocla_exten_trig_t
+#define bustype_BDK_GPIO_OCLA_EXTEN_TRIG BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_OCLA_EXTEN_TRIG "GPIO_OCLA_EXTEN_TRIG"
+#define busnum_BDK_GPIO_OCLA_EXTEN_TRIG 0
+#define arguments_BDK_GPIO_OCLA_EXTEN_TRIG -1,-1,-1,-1
+
+/**
+ * Register (NCB) gpio_rx_dat
+ *
+ * GPIO Receive Data Register
+ * This register contains the state of the GPIO pins.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_rx_dat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_51_63        : 13;
+        uint64_t dat                   : 51; /**< [ 50:  0](RO/H) GPIO read data. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 51; /**< [ 50:  0](RO/H) GPIO read data. */
+        uint64_t reserved_51_63        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_rx_dat_s cn; */
+} bdk_gpio_rx_dat_t;
+
+#define BDK_GPIO_RX_DAT BDK_GPIO_RX_DAT_FUNC()
+static inline uint64_t BDK_GPIO_RX_DAT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_RX_DAT_FUNC(void)
+{
+    return 0x803000000000ll;
+}
+
+#define typedef_BDK_GPIO_RX_DAT bdk_gpio_rx_dat_t
+#define bustype_BDK_GPIO_RX_DAT BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_RX_DAT "GPIO_RX_DAT"
+#define busnum_BDK_GPIO_RX_DAT 0
+#define arguments_BDK_GPIO_RX_DAT -1,-1,-1,-1
+
+/**
+ * Register (NCB) gpio_strap
+ *
+ * GPIO Strap Value Register
+ * This register contains GPIO strap data captured at the rising edge of DC_OK.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_strap_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_51_63        : 13;
+        uint64_t strap                 : 51; /**< [ 50:  0](RO/H) GPIO strap data. */
+#else /* Word 0 - Little Endian */
+        uint64_t strap                 : 51; /**< [ 50:  0](RO/H) GPIO strap data. */
+        uint64_t reserved_51_63        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_strap_s cn; */
+} bdk_gpio_strap_t;
+
+#define BDK_GPIO_STRAP BDK_GPIO_STRAP_FUNC()
+static inline uint64_t BDK_GPIO_STRAP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_STRAP_FUNC(void)
+{
+    return 0x803000000028ll;
+}
+
+#define typedef_BDK_GPIO_STRAP bdk_gpio_strap_t
+#define bustype_BDK_GPIO_STRAP BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_STRAP "GPIO_STRAP"
+#define busnum_BDK_GPIO_STRAP 0
+#define arguments_BDK_GPIO_STRAP -1,-1,-1,-1
+
+/**
+ * Register (NCB) gpio_tx_clr
+ *
+ * GPIO Transmit Clear Mask Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_tx_clr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_51_63        : 13;
+        uint64_t clr                   : 51; /**< [ 50:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+                                                                 returns the GPIO_TX_DAT storage. */
+#else /* Word 0 - Little Endian */
+        uint64_t clr                   : 51; /**< [ 50:  0](R/W1C/H) Clear mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 0. When read, CLR
+                                                                 returns the GPIO_TX_DAT storage. */
+        uint64_t reserved_51_63        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_tx_clr_s cn; */
+} bdk_gpio_tx_clr_t;
+
+#define BDK_GPIO_TX_CLR BDK_GPIO_TX_CLR_FUNC()
+static inline uint64_t BDK_GPIO_TX_CLR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_TX_CLR_FUNC(void)
+{
+    return 0x803000000010ll;
+}
+
+#define typedef_BDK_GPIO_TX_CLR bdk_gpio_tx_clr_t
+#define bustype_BDK_GPIO_TX_CLR BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_TX_CLR "GPIO_TX_CLR"
+#define busnum_BDK_GPIO_TX_CLR 0
+#define arguments_BDK_GPIO_TX_CLR -1,-1,-1,-1
+
+/**
+ * Register (NCB) gpio_tx_set
+ *
+ * GPIO Transmit Set Mask Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_gpio_tx_set_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_51_63        : 13;
+        uint64_t set                   : 51; /**< [ 50:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+                                                                 returns the GPIO_TX_DAT storage. */
+#else /* Word 0 - Little Endian */
+        uint64_t set                   : 51; /**< [ 50:  0](R/W1S/H) Set mask. Bit mask to indicate which GPIO_TX_DAT bits to set to 1. When read, SET
+                                                                 returns the GPIO_TX_DAT storage. */
+        uint64_t reserved_51_63        : 13;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_gpio_tx_set_s cn; */
+} bdk_gpio_tx_set_t;
+
+#define BDK_GPIO_TX_SET BDK_GPIO_TX_SET_FUNC()
+static inline uint64_t BDK_GPIO_TX_SET_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_GPIO_TX_SET_FUNC(void)
+{
+    return 0x803000000008ll;
+}
+
+#define typedef_BDK_GPIO_TX_SET bdk_gpio_tx_set_t
+#define bustype_BDK_GPIO_TX_SET BDK_CSR_TYPE_NCB
+#define basename_BDK_GPIO_TX_SET "GPIO_TX_SET"
+#define busnum_BDK_GPIO_TX_SET 0
+#define arguments_BDK_GPIO_TX_SET -1,-1,-1,-1
 
 #endif /* __BDK_CSRS_GPIO_H__ */

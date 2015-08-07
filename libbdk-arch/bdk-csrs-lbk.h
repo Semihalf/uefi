@@ -71,207 +71,6 @@
                                        LBK()_ERR_INT_ENA_W1C, and enable sets LBK()_ERR_INT_ENA_W1S. */
 
 /**
- * Register (RSL) lbk#_ecc_cfg
- *
- * Loopback ECC Configuration Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_lbkx_ecc_cfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t dat_flip              : 2;  /**< [  2:  1](R/W) Testing feature. Flip syndrome bits <1:0> on writes to the Data FIFO RAM to test
-                                                                 single-bit or double-bit errors. */
-        uint64_t dat_cdis              : 1;  /**< [  0:  0](R/W) Disable ECC corrector on Data FIFO RAM outputs. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat_cdis              : 1;  /**< [  0:  0](R/W) Disable ECC corrector on Data FIFO RAM outputs. */
-        uint64_t dat_flip              : 2;  /**< [  2:  1](R/W) Testing feature. Flip syndrome bits <1:0> on writes to the Data FIFO RAM to test
-                                                                 single-bit or double-bit errors. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_lbkx_ecc_cfg_s cn; */
-} bdk_lbkx_ecc_cfg_t;
-
-static inline uint64_t BDK_LBKX_ECC_CFG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_LBKX_ECC_CFG(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e018000060ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("LBKX_ECC_CFG", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_LBKX_ECC_CFG(a) bdk_lbkx_ecc_cfg_t
-#define bustype_BDK_LBKX_ECC_CFG(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_LBKX_ECC_CFG(a) "LBKX_ECC_CFG"
-#define busnum_BDK_LBKX_ECC_CFG(a) (a)
-#define arguments_BDK_LBKX_ECC_CFG(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) lbk#_msix_pba#
- *
- * LBK MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table; the bit number is indexed by the LBK_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_lbkx_msix_pbax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated LBK()_MSIX_VEC()_CTL, enumerated by
-                                                                 LBK_INT_VEC_E. Bits that have no associated LBK_INT_VEC_E are 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated LBK()_MSIX_VEC()_CTL, enumerated by
-                                                                 LBK_INT_VEC_E. Bits that have no associated LBK_INT_VEC_E are 0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_lbkx_msix_pbax_s cn; */
-} bdk_lbkx_msix_pbax_t;
-
-static inline uint64_t BDK_LBKX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_LBKX_MSIX_PBAX(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
-        return 0x87e018ff0008ll + 0x1000000ll * ((a) & 0x3) + 0ll * ((b) & 0x0);
-    __bdk_csr_fatal("LBKX_MSIX_PBAX", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_LBKX_MSIX_PBAX(a,b) bdk_lbkx_msix_pbax_t
-#define bustype_BDK_LBKX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_LBKX_MSIX_PBAX(a,b) "LBKX_MSIX_PBAX"
-#define busnum_BDK_LBKX_MSIX_PBAX(a,b) (a)
-#define arguments_BDK_LBKX_MSIX_PBAX(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) lbk#_ch#_pkind
- *
- * Loopback Channel to Port Kind Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_lbkx_chx_pkind_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t pkind                 : 6;  /**< [  5:  0](R/W) Loopback pkind for the respective loopback channel. */
-#else /* Word 0 - Little Endian */
-        uint64_t pkind                 : 6;  /**< [  5:  0](R/W) Loopback pkind for the respective loopback channel. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_lbkx_chx_pkind_s cn; */
-} bdk_lbkx_chx_pkind_t;
-
-static inline uint64_t BDK_LBKX_CHX_PKIND(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_LBKX_CHX_PKIND(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=63)))
-        return 0x87e018000200ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3f);
-    __bdk_csr_fatal("LBKX_CHX_PKIND", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_LBKX_CHX_PKIND(a,b) bdk_lbkx_chx_pkind_t
-#define bustype_BDK_LBKX_CHX_PKIND(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_LBKX_CHX_PKIND(a,b) "LBKX_CHX_PKIND"
-#define busnum_BDK_LBKX_CHX_PKIND(a,b) (a)
-#define arguments_BDK_LBKX_CHX_PKIND(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) lbk#_sft_rst
- *
- * Loopback Reset Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_lbkx_sft_rst_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When set, causes a reset of Loopback, except RSL. */
-#else /* Word 0 - Little Endian */
-        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When set, causes a reset of Loopback, except RSL. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_lbkx_sft_rst_s cn; */
-} bdk_lbkx_sft_rst_t;
-
-static inline uint64_t BDK_LBKX_SFT_RST(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_LBKX_SFT_RST(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e018000000ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("LBKX_SFT_RST", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_LBKX_SFT_RST(a) bdk_lbkx_sft_rst_t
-#define bustype_BDK_LBKX_SFT_RST(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_LBKX_SFT_RST(a) "LBKX_SFT_RST"
-#define busnum_BDK_LBKX_SFT_RST(a) (a)
-#define arguments_BDK_LBKX_SFT_RST(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) lbk#_msix_vec#_addr
- *
- * LBK MSI-X Vector-Table Address Register
- * This register is the MSI-X vector table, indexed by the LBK_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_lbkx_msix_vecx_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's LBK()_MSIX_VEC()_ADDR, LBK()_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of LBK()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_LBK_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
-                                                                 [SECVEC] was set. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's LBK()_MSIX_VEC()_ADDR, LBK()_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of LBK()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_LBK_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
-                                                                 [SECVEC] was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_lbkx_msix_vecx_addr_s cn; */
-} bdk_lbkx_msix_vecx_addr_t;
-
-static inline uint64_t BDK_LBKX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_LBKX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
-        return 0x87e018f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
-    __bdk_csr_fatal("LBKX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_LBKX_MSIX_VECX_ADDR(a,b) bdk_lbkx_msix_vecx_addr_t
-#define bustype_BDK_LBKX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_LBKX_MSIX_VECX_ADDR(a,b) "LBKX_MSIX_VECX_ADDR"
-#define busnum_BDK_LBKX_MSIX_VECX_ADDR(a,b) (a)
-#define arguments_BDK_LBKX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) lbk#_bist_result
  *
  * Loopback BIST Result Register
@@ -309,44 +108,114 @@ static inline uint64_t BDK_LBKX_BIST_RESULT(unsigned long a)
 #define arguments_BDK_LBKX_BIST_RESULT(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) lbk#_msix_vec#_ctl
+ * Register (RSL) lbk#_ch#_pkind
  *
- * LBK MSI-X Vector-Table Control and Data Register
- * This register is the MSI-X vector table, indexed by the LBK_INT_VEC_E enumeration.
+ * Loopback Channel to Port Kind Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_lbkx_msix_vecx_ctl_s
+    struct bdk_lbkx_chx_pkind_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_6_63         : 58;
+        uint64_t pkind                 : 6;  /**< [  5:  0](R/W) Loopback pkind for the respective loopback channel. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_33_63        : 31;
+        uint64_t pkind                 : 6;  /**< [  5:  0](R/W) Loopback pkind for the respective loopback channel. */
+        uint64_t reserved_6_63         : 58;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_lbkx_msix_vecx_ctl_s cn; */
-} bdk_lbkx_msix_vecx_ctl_t;
+    /* struct bdk_lbkx_chx_pkind_s cn; */
+} bdk_lbkx_chx_pkind_t;
 
-static inline uint64_t BDK_LBKX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_LBKX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
+static inline uint64_t BDK_LBKX_CHX_PKIND(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LBKX_CHX_PKIND(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
-        return 0x87e018f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
-    __bdk_csr_fatal("LBKX_MSIX_VECX_CTL", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=63)))
+        return 0x87e018000200ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3f);
+    __bdk_csr_fatal("LBKX_CHX_PKIND", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_LBKX_MSIX_VECX_CTL(a,b) bdk_lbkx_msix_vecx_ctl_t
-#define bustype_BDK_LBKX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_LBKX_MSIX_VECX_CTL(a,b) "LBKX_MSIX_VECX_CTL"
-#define busnum_BDK_LBKX_MSIX_VECX_CTL(a,b) (a)
-#define arguments_BDK_LBKX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+#define typedef_BDK_LBKX_CHX_PKIND(a,b) bdk_lbkx_chx_pkind_t
+#define bustype_BDK_LBKX_CHX_PKIND(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_LBKX_CHX_PKIND(a,b) "LBKX_CHX_PKIND"
+#define busnum_BDK_LBKX_CHX_PKIND(a,b) (a)
+#define arguments_BDK_LBKX_CHX_PKIND(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) lbk#_clk_gate_ctl
+ *
+ * Loopback Reset Register
+ * This register is for diagnostic use only.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_lbkx_clk_gate_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Clock gate disable. When set, forces gated clock to always on. */
+#else /* Word 0 - Little Endian */
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Clock gate disable. When set, forces gated clock to always on. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_lbkx_clk_gate_ctl_s cn; */
+} bdk_lbkx_clk_gate_ctl_t;
+
+static inline uint64_t BDK_LBKX_CLK_GATE_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LBKX_CLK_GATE_CTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e018000008ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("LBKX_CLK_GATE_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_LBKX_CLK_GATE_CTL(a) bdk_lbkx_clk_gate_ctl_t
+#define bustype_BDK_LBKX_CLK_GATE_CTL(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_LBKX_CLK_GATE_CTL(a) "LBKX_CLK_GATE_CTL"
+#define busnum_BDK_LBKX_CLK_GATE_CTL(a) (a)
+#define arguments_BDK_LBKX_CLK_GATE_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) lbk#_ecc_cfg
+ *
+ * Loopback ECC Configuration Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_lbkx_ecc_cfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t dat_flip              : 2;  /**< [  2:  1](R/W) Testing feature. Flip syndrome bits <1:0> on writes to the Data FIFO RAM to test
+                                                                 single-bit or double-bit errors. */
+        uint64_t dat_cdis              : 1;  /**< [  0:  0](R/W) Disable ECC corrector on Data FIFO RAM outputs. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat_cdis              : 1;  /**< [  0:  0](R/W) Disable ECC corrector on Data FIFO RAM outputs. */
+        uint64_t dat_flip              : 2;  /**< [  2:  1](R/W) Testing feature. Flip syndrome bits <1:0> on writes to the Data FIFO RAM to test
+                                                                 single-bit or double-bit errors. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_lbkx_ecc_cfg_s cn; */
+} bdk_lbkx_ecc_cfg_t;
+
+static inline uint64_t BDK_LBKX_ECC_CFG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LBKX_ECC_CFG(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e018000060ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("LBKX_ECC_CFG", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_LBKX_ECC_CFG(a) bdk_lbkx_ecc_cfg_t
+#define bustype_BDK_LBKX_ECC_CFG(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_LBKX_ECC_CFG(a) "LBKX_ECC_CFG"
+#define busnum_BDK_LBKX_ECC_CFG(a) (a)
+#define arguments_BDK_LBKX_ECC_CFG(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) lbk#_err_int
@@ -392,42 +261,6 @@ static inline uint64_t BDK_LBKX_ERR_INT(unsigned long a)
 #define basename_BDK_LBKX_ERR_INT(a) "LBKX_ERR_INT"
 #define busnum_BDK_LBKX_ERR_INT(a) (a)
 #define arguments_BDK_LBKX_ERR_INT(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) lbk#_clk_gate_ctl
- *
- * Loopback Reset Register
- * This register is for diagnostic use only.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_lbkx_clk_gate_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Clock gate disable. When set, forces gated clock to always on. */
-#else /* Word 0 - Little Endian */
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Clock gate disable. When set, forces gated clock to always on. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_lbkx_clk_gate_ctl_s cn; */
-} bdk_lbkx_clk_gate_ctl_t;
-
-static inline uint64_t BDK_LBKX_CLK_GATE_CTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_LBKX_CLK_GATE_CTL(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e018000008ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("LBKX_CLK_GATE_CTL", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_LBKX_CLK_GATE_CTL(a) bdk_lbkx_clk_gate_ctl_t
-#define bustype_BDK_LBKX_CLK_GATE_CTL(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_LBKX_CLK_GATE_CTL(a) "LBKX_CLK_GATE_CTL"
-#define busnum_BDK_LBKX_CLK_GATE_CTL(a) (a)
-#define arguments_BDK_LBKX_CLK_GATE_CTL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) lbk#_err_int_ena_w1c
@@ -566,5 +399,172 @@ static inline uint64_t BDK_LBKX_ERR_INT_W1S(unsigned long a)
 #define basename_BDK_LBKX_ERR_INT_W1S(a) "LBKX_ERR_INT_W1S"
 #define busnum_BDK_LBKX_ERR_INT_W1S(a) (a)
 #define arguments_BDK_LBKX_ERR_INT_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) lbk#_msix_pba#
+ *
+ * LBK MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the LBK_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_lbkx_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated LBK()_MSIX_VEC()_CTL, enumerated by
+                                                                 LBK_INT_VEC_E. Bits that have no associated LBK_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated LBK()_MSIX_VEC()_CTL, enumerated by
+                                                                 LBK_INT_VEC_E. Bits that have no associated LBK_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_lbkx_msix_pbax_s cn; */
+} bdk_lbkx_msix_pbax_t;
+
+static inline uint64_t BDK_LBKX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LBKX_MSIX_PBAX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
+        return 0x87e018ff0008ll + 0x1000000ll * ((a) & 0x3) + 0ll * ((b) & 0x0);
+    __bdk_csr_fatal("LBKX_MSIX_PBAX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_LBKX_MSIX_PBAX(a,b) bdk_lbkx_msix_pbax_t
+#define bustype_BDK_LBKX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_LBKX_MSIX_PBAX(a,b) "LBKX_MSIX_PBAX"
+#define busnum_BDK_LBKX_MSIX_PBAX(a,b) (a)
+#define arguments_BDK_LBKX_MSIX_PBAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) lbk#_msix_vec#_addr
+ *
+ * LBK MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the LBK_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_lbkx_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's LBK()_MSIX_VEC()_ADDR, LBK()_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of LBK()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_LBK_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
+                                                                 [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's LBK()_MSIX_VEC()_ADDR, LBK()_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of LBK()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_LBK_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
+                                                                 [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_lbkx_msix_vecx_addr_s cn; */
+} bdk_lbkx_msix_vecx_addr_t;
+
+static inline uint64_t BDK_LBKX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LBKX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
+        return 0x87e018f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("LBKX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_LBKX_MSIX_VECX_ADDR(a,b) bdk_lbkx_msix_vecx_addr_t
+#define bustype_BDK_LBKX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_LBKX_MSIX_VECX_ADDR(a,b) "LBKX_MSIX_VECX_ADDR"
+#define busnum_BDK_LBKX_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_BDK_LBKX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) lbk#_msix_vec#_ctl
+ *
+ * LBK MSI-X Vector-Table Control and Data Register
+ * This register is the MSI-X vector table, indexed by the LBK_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_lbkx_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_lbkx_msix_vecx_ctl_s cn; */
+} bdk_lbkx_msix_vecx_ctl_t;
+
+static inline uint64_t BDK_LBKX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LBKX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
+        return 0x87e018f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("LBKX_MSIX_VECX_CTL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_LBKX_MSIX_VECX_CTL(a,b) bdk_lbkx_msix_vecx_ctl_t
+#define bustype_BDK_LBKX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_LBKX_MSIX_VECX_CTL(a,b) "LBKX_MSIX_VECX_CTL"
+#define busnum_BDK_LBKX_MSIX_VECX_CTL(a,b) (a)
+#define arguments_BDK_LBKX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) lbk#_sft_rst
+ *
+ * Loopback Reset Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_lbkx_sft_rst_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When set, causes a reset of Loopback, except RSL. */
+#else /* Word 0 - Little Endian */
+        uint64_t reset                 : 1;  /**< [  0:  0](R/W1) Reset. When set, causes a reset of Loopback, except RSL. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_lbkx_sft_rst_s cn; */
+} bdk_lbkx_sft_rst_t;
+
+static inline uint64_t BDK_LBKX_SFT_RST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LBKX_SFT_RST(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e018000000ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("LBKX_SFT_RST", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_LBKX_SFT_RST(a) bdk_lbkx_sft_rst_t
+#define bustype_BDK_LBKX_SFT_RST(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_LBKX_SFT_RST(a) "LBKX_SFT_RST"
+#define busnum_BDK_LBKX_SFT_RST(a) (a)
+#define arguments_BDK_LBKX_SFT_RST(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_LBK_H__ */

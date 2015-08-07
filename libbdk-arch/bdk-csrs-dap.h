@@ -62,6 +62,124 @@
 #define BDK_DAP_BAR_E_DAP_PF_BAR2 (0x87a080000000ll) /**< Base address for core access to the DAB. */
 
 /**
+ * Register (RSL) dap_eco
+ *
+ * INTERNAL: DAP ECO Register
+ *
+ * Added in pass 2.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dap_eco_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eco_ro                : 16; /**< [ 31: 16](RO) Reserved for ECO usage. */
+        uint64_t eco_rw                : 16; /**< [ 15:  0](R/W) Reserved for ECO usage. */
+#else /* Word 0 - Little Endian */
+        uint64_t eco_rw                : 16; /**< [ 15:  0](R/W) Reserved for ECO usage. */
+        uint64_t eco_ro                : 16; /**< [ 31: 16](RO) Reserved for ECO usage. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dap_eco_s cn; */
+} bdk_dap_eco_t;
+
+#define BDK_DAP_ECO BDK_DAP_ECO_FUNC()
+static inline uint64_t BDK_DAP_ECO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DAP_ECO_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e002000120ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+        return 0x87e002000120ll;
+    __bdk_csr_fatal("DAP_ECO", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_DAP_ECO bdk_dap_eco_t
+#define bustype_BDK_DAP_ECO BDK_CSR_TYPE_RSL
+#define basename_BDK_DAP_ECO "DAP_ECO"
+#define busnum_BDK_DAP_ECO 0
+#define arguments_BDK_DAP_ECO -1,-1,-1,-1
+
+/**
+ * Register (RSL32b) dap_hwpoll_cnt
+ *
+ * DAP Hardware Poll Counter Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_dap_hwpoll_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
+                                                                 With the approximate transaction delay of 256 cycles, the default
+                                                                 results in a poll approximately every 2048 cycles.
+                                                                 Must not be zero. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
+                                                                 With the approximate transaction delay of 256 cycles, the default
+                                                                 results in a poll approximately every 2048 cycles.
+                                                                 Must not be zero. For diagnostic use only. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_dap_hwpoll_cnt_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. Added in pass 2. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
+                                                                 With the approximate transaction delay of 256 cycles, the default
+                                                                 results in a poll approximately every 2048 cycles.
+                                                                 Must not be zero. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
+                                                                 With the approximate transaction delay of 256 cycles, the default
+                                                                 results in a poll approximately every 2048 cycles.
+                                                                 Must not be zero. For diagnostic use only. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. Added in pass 2. */
+#endif /* Word 0 - End */
+    } cn83xx;
+    /* struct bdk_dap_hwpoll_cnt_cn83xx cn88xxp2; */
+    struct bdk_dap_hwpoll_cnt_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t reserved_16_30        : 15;
+        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
+                                                                 With the approximate transaction delay of 256 cycles, the default
+                                                                 results in a poll approximately every 2048 cycles.
+                                                                 Must not be zero. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
+                                                                 With the approximate transaction delay of 256 cycles, the default
+                                                                 results in a poll approximately every 2048 cycles.
+                                                                 Must not be zero. For diagnostic use only. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+} bdk_dap_hwpoll_cnt_t;
+
+#define BDK_DAP_HWPOLL_CNT BDK_DAP_HWPOLL_CNT_FUNC()
+static inline uint64_t BDK_DAP_HWPOLL_CNT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DAP_HWPOLL_CNT_FUNC(void)
+{
+    return 0x87e002000114ll;
+}
+
+#define typedef_BDK_DAP_HWPOLL_CNT bdk_dap_hwpoll_cnt_t
+#define bustype_BDK_DAP_HWPOLL_CNT BDK_CSR_TYPE_RSL32b
+#define basename_BDK_DAP_HWPOLL_CNT "DAP_HWPOLL_CNT"
+#define busnum_BDK_DAP_HWPOLL_CNT 0
+#define arguments_BDK_DAP_HWPOLL_CNT -1,-1,-1,-1
+
+/**
  * Register (RSL32b) dap_imp_dar
  *
  * DAP Debug Authentication Register
@@ -298,46 +416,87 @@ static inline uint64_t BDK_DAP_OWB_TO_FUNC(void)
 #define arguments_BDK_DAP_OWB_TO -1,-1,-1,-1
 
 /**
- * Register (RSL) dap_eco
+ * Register (RSL) dap_rst_on_warm
  *
- * INTERNAL: DAP ECO Register
- *
+ * DAP Reset On Warm Reset Register
  * Added in pass 2.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_dap_eco_s
+    struct bdk_dap_rst_on_warm_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_ro                : 16; /**< [ 31: 16](RO) Reserved for ECO usage. */
-        uint64_t eco_rw                : 16; /**< [ 15:  0](R/W) Reserved for ECO usage. */
+        uint64_t reserved_1_63         : 63;
+        uint64_t rst_on_warm           : 1;  /**< [  0:  0](R/W1S) Always reset DAR register.
+                                                                 Once set this bit cannout be cleared until the next cold reset.
+                                                                 RST_ON_WARM is set to 1 when trusted-mode changes from 0 to 1 (i.e. a
+                                                                 non-trusted boot is followed by a trusted boot). */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 16; /**< [ 15:  0](R/W) Reserved for ECO usage. */
-        uint64_t eco_ro                : 16; /**< [ 31: 16](RO) Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t rst_on_warm           : 1;  /**< [  0:  0](R/W1S) Always reset DAR register.
+                                                                 Once set this bit cannout be cleared until the next cold reset.
+                                                                 RST_ON_WARM is set to 1 when trusted-mode changes from 0 to 1 (i.e. a
+                                                                 non-trusted boot is followed by a trusted boot). */
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dap_eco_s cn; */
-} bdk_dap_eco_t;
+    /* struct bdk_dap_rst_on_warm_s cn; */
+} bdk_dap_rst_on_warm_t;
 
-#define BDK_DAP_ECO BDK_DAP_ECO_FUNC()
-static inline uint64_t BDK_DAP_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DAP_ECO_FUNC(void)
+#define BDK_DAP_RST_ON_WARM BDK_DAP_RST_ON_WARM_FUNC()
+static inline uint64_t BDK_DAP_RST_ON_WARM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DAP_RST_ON_WARM_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e002000120ll;
+        return 0x87e002000128ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
-        return 0x87e002000120ll;
-    __bdk_csr_fatal("DAP_ECO", 0, 0, 0, 0, 0);
+        return 0x87e002000128ll;
+    __bdk_csr_fatal("DAP_RST_ON_WARM", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_DAP_ECO bdk_dap_eco_t
-#define bustype_BDK_DAP_ECO BDK_CSR_TYPE_RSL
-#define basename_BDK_DAP_ECO "DAP_ECO"
-#define busnum_BDK_DAP_ECO 0
-#define arguments_BDK_DAP_ECO -1,-1,-1,-1
+#define typedef_BDK_DAP_RST_ON_WARM bdk_dap_rst_on_warm_t
+#define bustype_BDK_DAP_RST_ON_WARM BDK_CSR_TYPE_RSL
+#define basename_BDK_DAP_RST_ON_WARM "DAP_RST_ON_WARM"
+#define busnum_BDK_DAP_RST_ON_WARM 0
+#define arguments_BDK_DAP_RST_ON_WARM -1,-1,-1,-1
+
+/**
+ * Register (RSL) dap_scratch
+ *
+ * INTERNAL: DAP Scratch Register
+ *
+ * This register is a scratch register for software use. Added in pass 2.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_dap_scratch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Scratch data, not used by hardware. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 64; /**< [ 63:  0](R/W) Scratch data, not used by hardware. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_dap_scratch_s cn; */
+} bdk_dap_scratch_t;
+
+#define BDK_DAP_SCRATCH BDK_DAP_SCRATCH_FUNC()
+static inline uint64_t BDK_DAP_SCRATCH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DAP_SCRATCH_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x87e002000118ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
+        return 0x87e002000118ll;
+    __bdk_csr_fatal("DAP_SCRATCH", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_DAP_SCRATCH bdk_dap_scratch_t
+#define bustype_BDK_DAP_SCRATCH BDK_CSR_TYPE_RSL
+#define basename_BDK_DAP_SCRATCH "DAP_SCRATCH"
+#define busnum_BDK_DAP_SCRATCH 0
+#define arguments_BDK_DAP_SCRATCH -1,-1,-1,-1
 
 /**
  * Register (RSL32b) dap_sraaddr
@@ -448,165 +607,6 @@ static inline uint64_t BDK_DAP_SRAADDR_FUNC(void)
 #define basename_BDK_DAP_SRAADDR "DAP_SRAADDR"
 #define busnum_BDK_DAP_SRAADDR 0
 #define arguments_BDK_DAP_SRAADDR -1,-1,-1,-1
-
-/**
- * Register (RSL) dap_rst_on_warm
- *
- * DAP Reset On Warm Reset Register
- * Added in pass 2.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dap_rst_on_warm_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t rst_on_warm           : 1;  /**< [  0:  0](R/W1S) Always reset DAR register.
-                                                                 Once set this bit cannout be cleared until the next cold reset.
-                                                                 RST_ON_WARM is set to 1 when trusted-mode changes from 0 to 1 (i.e. a
-                                                                 non-trusted boot is followed by a trusted boot). */
-#else /* Word 0 - Little Endian */
-        uint64_t rst_on_warm           : 1;  /**< [  0:  0](R/W1S) Always reset DAR register.
-                                                                 Once set this bit cannout be cleared until the next cold reset.
-                                                                 RST_ON_WARM is set to 1 when trusted-mode changes from 0 to 1 (i.e. a
-                                                                 non-trusted boot is followed by a trusted boot). */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dap_rst_on_warm_s cn; */
-} bdk_dap_rst_on_warm_t;
-
-#define BDK_DAP_RST_ON_WARM BDK_DAP_RST_ON_WARM_FUNC()
-static inline uint64_t BDK_DAP_RST_ON_WARM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DAP_RST_ON_WARM_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e002000128ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
-        return 0x87e002000128ll;
-    __bdk_csr_fatal("DAP_RST_ON_WARM", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_DAP_RST_ON_WARM bdk_dap_rst_on_warm_t
-#define bustype_BDK_DAP_RST_ON_WARM BDK_CSR_TYPE_RSL
-#define basename_BDK_DAP_RST_ON_WARM "DAP_RST_ON_WARM"
-#define busnum_BDK_DAP_RST_ON_WARM 0
-#define arguments_BDK_DAP_RST_ON_WARM -1,-1,-1,-1
-
-/**
- * Register (RSL) dap_scratch
- *
- * INTERNAL: DAP Scratch Register
- *
- * This register is a scratch register for software use. Added in pass 2.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_dap_scratch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Scratch data, not used by hardware. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 64; /**< [ 63:  0](R/W) Scratch data, not used by hardware. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_dap_scratch_s cn; */
-} bdk_dap_scratch_t;
-
-#define BDK_DAP_SCRATCH BDK_DAP_SCRATCH_FUNC()
-static inline uint64_t BDK_DAP_SCRATCH_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DAP_SCRATCH_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x87e002000118ll;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
-        return 0x87e002000118ll;
-    __bdk_csr_fatal("DAP_SCRATCH", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_DAP_SCRATCH bdk_dap_scratch_t
-#define bustype_BDK_DAP_SCRATCH BDK_CSR_TYPE_RSL
-#define basename_BDK_DAP_SCRATCH "DAP_SCRATCH"
-#define busnum_BDK_DAP_SCRATCH 0
-#define arguments_BDK_DAP_SCRATCH -1,-1,-1,-1
-
-/**
- * Register (RSL32b) dap_hwpoll_cnt
- *
- * DAP Hardware Poll Counter Register
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_dap_hwpoll_cnt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } s;
-    struct bdk_dap_hwpoll_cnt_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. Added in pass 2. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. Added in pass 2. */
-#endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_dap_hwpoll_cnt_cn83xx cn88xxp2; */
-    struct bdk_dap_hwpoll_cnt_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t reserved_16_30        : 15;
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn88xxp1;
-} bdk_dap_hwpoll_cnt_t;
-
-#define BDK_DAP_HWPOLL_CNT BDK_DAP_HWPOLL_CNT_FUNC()
-static inline uint64_t BDK_DAP_HWPOLL_CNT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DAP_HWPOLL_CNT_FUNC(void)
-{
-    return 0x87e002000114ll;
-}
-
-#define typedef_BDK_DAP_HWPOLL_CNT bdk_dap_hwpoll_cnt_t
-#define bustype_BDK_DAP_HWPOLL_CNT BDK_CSR_TYPE_RSL32b
-#define basename_BDK_DAP_HWPOLL_CNT "DAP_HWPOLL_CNT"
-#define busnum_BDK_DAP_HWPOLL_CNT 0
-#define arguments_BDK_DAP_HWPOLL_CNT -1,-1,-1,-1
 
 /**
  * Register (RSL) dap_sradata

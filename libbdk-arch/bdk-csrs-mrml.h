@@ -53,6 +53,15 @@
  */
 
 /**
+ * Enumeration mrml_bar_e
+ *
+ * MRML Base Address Register Enumeration
+ * Enumerates the base address registers.
+ */
+#define BDK_MRML_BAR_E_MRML_PF_BAR0 (0x87e0fc000000ll) /**< Base address for standard registers. */
+#define BDK_MRML_BAR_E_MRML_PF_BAR4 (0x87e0fcf00000ll) /**< Base address for MSI-X registers. */
+
+/**
  * Enumeration mrml_int_vec_e
  *
  * MRML MSI-X Vector Enumeration
@@ -64,48 +73,41 @@
                                        and enable sets MRML_INT_ENA_W1S. */
 
 /**
- * Enumeration mrml_bar_e
+ * Register (RSL) mrml_int_ena_w1c
  *
- * MRML Base Address Register Enumeration
- * Enumerates the base address registers.
- */
-#define BDK_MRML_BAR_E_MRML_PF_BAR0 (0x87e0fc000000ll) /**< Base address for standard registers. */
-#define BDK_MRML_BAR_E_MRML_PF_BAR4 (0x87e0fcf00000ll) /**< Base address for MSI-X registers. */
-
-/**
- * Register (RSL) mrml_int_ocx_to
- *
- * MRML OCX Timeout Register
- * Configures remote-node timeouts.
+ * MRML Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mrml_int_ocx_to_s
+    struct bdk_mrml_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor-clocks. */
+        uint64_t reserved_2_63         : 62;
+        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[LOCAL_TOE]. */
+        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[OCX_TOE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor-clocks. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[OCX_TOE]. */
+        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[LOCAL_TOE]. */
+        uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mrml_int_ocx_to_s cn; */
-} bdk_mrml_int_ocx_to_t;
+    /* struct bdk_mrml_int_ena_w1c_s cn; */
+} bdk_mrml_int_ena_w1c_t;
 
-#define BDK_MRML_INT_OCX_TO BDK_MRML_INT_OCX_TO_FUNC()
-static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void)
+#define BDK_MRML_INT_ENA_W1C BDK_MRML_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_MRML_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MRML_INT_ENA_W1C_FUNC(void)
 {
-    return 0x87e0fc000808ll;
+    return 0x87e0fc000880ll;
 }
 
-#define typedef_BDK_MRML_INT_OCX_TO bdk_mrml_int_ocx_to_t
-#define bustype_BDK_MRML_INT_OCX_TO BDK_CSR_TYPE_RSL
-#define basename_BDK_MRML_INT_OCX_TO "MRML_INT_OCX_TO"
-#define busnum_BDK_MRML_INT_OCX_TO 0
-#define arguments_BDK_MRML_INT_OCX_TO -1,-1,-1,-1
+#define typedef_BDK_MRML_INT_ENA_W1C bdk_mrml_int_ena_w1c_t
+#define bustype_BDK_MRML_INT_ENA_W1C BDK_CSR_TYPE_RSL
+#define basename_BDK_MRML_INT_ENA_W1C "MRML_INT_ENA_W1C"
+#define busnum_BDK_MRML_INT_ENA_W1C 0
+#define arguments_BDK_MRML_INT_ENA_W1C -1,-1,-1,-1
 
 /**
  * Register (RSL) mrml_int_ena_w1s
@@ -180,41 +182,149 @@ static inline uint64_t BDK_MRML_INT_LOCAL_TO_FUNC(void)
 #define arguments_BDK_MRML_INT_LOCAL_TO -1,-1,-1,-1
 
 /**
- * Register (RSL) mrml_int_ena_w1c
+ * Register (RSL) mrml_int_ocx_to
  *
- * MRML Interrupt Enable Clear Register
- * This register clears interrupt enable bits.
+ * MRML OCX Timeout Register
+ * Configures remote-node timeouts.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mrml_int_ena_w1c_s
+    struct bdk_mrml_int_ocx_to_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor-clocks. */
+#else /* Word 0 - Little Endian */
+        uint64_t tovalue               : 32; /**< [ 31:  0](SR/W) OCX timeout value, in coprocessor-clocks. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mrml_int_ocx_to_s cn; */
+} bdk_mrml_int_ocx_to_t;
+
+#define BDK_MRML_INT_OCX_TO BDK_MRML_INT_OCX_TO_FUNC()
+static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MRML_INT_OCX_TO_FUNC(void)
+{
+    return 0x87e0fc000808ll;
+}
+
+#define typedef_BDK_MRML_INT_OCX_TO bdk_mrml_int_ocx_to_t
+#define bustype_BDK_MRML_INT_OCX_TO BDK_CSR_TYPE_RSL
+#define basename_BDK_MRML_INT_OCX_TO "MRML_INT_OCX_TO"
+#define busnum_BDK_MRML_INT_OCX_TO 0
+#define arguments_BDK_MRML_INT_OCX_TO -1,-1,-1,-1
+
+/**
+ * Register (RSL) mrml_int_sum
+ *
+ * MRML Interrupt Summary Register
+ * This register contains the different interrupt-summary bits of the MRML.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mrml_int_sum_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[LOCAL_TOE]. */
-        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[OCX_TOE]. */
+        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Local timeout error. When set, a local timeout error has occurred. */
+        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) OCX timeout error. When set, an OCX timeout error has occurred. */
 #else /* Word 0 - Little Endian */
-        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[OCX_TOE]. */
-        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Reads or clears enable for MRML_INT_SUM[LOCAL_TOE]. */
+        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) OCX timeout error. When set, an OCX timeout error has occurred. */
+        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Local timeout error. When set, a local timeout error has occurred. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mrml_int_ena_w1c_s cn; */
-} bdk_mrml_int_ena_w1c_t;
+    /* struct bdk_mrml_int_sum_s cn; */
+} bdk_mrml_int_sum_t;
 
-#define BDK_MRML_INT_ENA_W1C BDK_MRML_INT_ENA_W1C_FUNC()
-static inline uint64_t BDK_MRML_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MRML_INT_ENA_W1C_FUNC(void)
+#define BDK_MRML_INT_SUM BDK_MRML_INT_SUM_FUNC()
+static inline uint64_t BDK_MRML_INT_SUM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MRML_INT_SUM_FUNC(void)
 {
-    return 0x87e0fc000880ll;
+    return 0x87e0fc000810ll;
 }
 
-#define typedef_BDK_MRML_INT_ENA_W1C bdk_mrml_int_ena_w1c_t
-#define bustype_BDK_MRML_INT_ENA_W1C BDK_CSR_TYPE_RSL
-#define basename_BDK_MRML_INT_ENA_W1C "MRML_INT_ENA_W1C"
-#define busnum_BDK_MRML_INT_ENA_W1C 0
-#define arguments_BDK_MRML_INT_ENA_W1C -1,-1,-1,-1
+#define typedef_BDK_MRML_INT_SUM bdk_mrml_int_sum_t
+#define bustype_BDK_MRML_INT_SUM BDK_CSR_TYPE_RSL
+#define basename_BDK_MRML_INT_SUM "MRML_INT_SUM"
+#define busnum_BDK_MRML_INT_SUM 0
+#define arguments_BDK_MRML_INT_SUM -1,-1,-1,-1
+
+/**
+ * Register (RSL) mrml_int_sum_w1s
+ *
+ * MRML Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mrml_int_sum_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets MRML_INT_SUM[LOCAL_TOE]. */
+        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets MRML_INT_SUM[OCX_TOE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets MRML_INT_SUM[OCX_TOE]. */
+        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets MRML_INT_SUM[LOCAL_TOE]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mrml_int_sum_w1s_s cn; */
+} bdk_mrml_int_sum_w1s_t;
+
+#define BDK_MRML_INT_SUM_W1S BDK_MRML_INT_SUM_W1S_FUNC()
+static inline uint64_t BDK_MRML_INT_SUM_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MRML_INT_SUM_W1S_FUNC(void)
+{
+    return 0x87e0fc000818ll;
+}
+
+#define typedef_BDK_MRML_INT_SUM_W1S bdk_mrml_int_sum_w1s_t
+#define bustype_BDK_MRML_INT_SUM_W1S BDK_CSR_TYPE_RSL
+#define basename_BDK_MRML_INT_SUM_W1S "MRML_INT_SUM_W1S"
+#define busnum_BDK_MRML_INT_SUM_W1S 0
+#define arguments_BDK_MRML_INT_SUM_W1S -1,-1,-1,-1
+
+/**
+ * Register (RSL) mrml_msix_pba#
+ *
+ * MRML MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the MRML_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mrml_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MRML_MSIX_VEC()_CTL, enumerated by MRML_INT_VEC_E.
+                                                                 Bits that have no associated MRML_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MRML_MSIX_VEC()_CTL, enumerated by MRML_INT_VEC_E.
+                                                                 Bits that have no associated MRML_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mrml_msix_pbax_s cn; */
+} bdk_mrml_msix_pbax_t;
+
+static inline uint64_t BDK_MRML_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MRML_MSIX_PBAX(unsigned long a)
+{
+    if (a==0)
+        return 0x87e0fcff0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("MRML_MSIX_PBAX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MRML_MSIX_PBAX(a) bdk_mrml_msix_pbax_t
+#define bustype_BDK_MRML_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MRML_MSIX_PBAX(a) "MRML_MSIX_PBAX"
+#define busnum_BDK_MRML_MSIX_PBAX(a) (a)
+#define arguments_BDK_MRML_MSIX_PBAX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mrml_msix_vec#_addr
@@ -269,132 +379,6 @@ static inline uint64_t BDK_MRML_MSIX_VECX_ADDR(unsigned long a)
 #define basename_BDK_MRML_MSIX_VECX_ADDR(a) "MRML_MSIX_VECX_ADDR"
 #define busnum_BDK_MRML_MSIX_VECX_ADDR(a) (a)
 #define arguments_BDK_MRML_MSIX_VECX_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mrml_int_sum_w1s
- *
- * MRML Interrupt Set Register
- * This register sets interrupt bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mrml_int_sum_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets MRML_INT_SUM[LOCAL_TOE]. */
-        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets MRML_INT_SUM[OCX_TOE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1S/H) Reads or sets MRML_INT_SUM[OCX_TOE]. */
-        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1S/H) Reads or sets MRML_INT_SUM[LOCAL_TOE]. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mrml_int_sum_w1s_s cn; */
-} bdk_mrml_int_sum_w1s_t;
-
-#define BDK_MRML_INT_SUM_W1S BDK_MRML_INT_SUM_W1S_FUNC()
-static inline uint64_t BDK_MRML_INT_SUM_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MRML_INT_SUM_W1S_FUNC(void)
-{
-    return 0x87e0fc000818ll;
-}
-
-#define typedef_BDK_MRML_INT_SUM_W1S bdk_mrml_int_sum_w1s_t
-#define bustype_BDK_MRML_INT_SUM_W1S BDK_CSR_TYPE_RSL
-#define basename_BDK_MRML_INT_SUM_W1S "MRML_INT_SUM_W1S"
-#define busnum_BDK_MRML_INT_SUM_W1S 0
-#define arguments_BDK_MRML_INT_SUM_W1S -1,-1,-1,-1
-
-/**
- * Register (RSL) mrml_rsl#_sdev
- *
- * MRML RSL Secure Device Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mrml_rslx_sdev_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sec                   : 64; /**< [ 63:  0](SR/W) RSL function secure. If set, the corresponding RSL device ID will be secure access
-                                                                 only. Read/writes from non-secure agents will be RAZ/WI.
-                                                                 The register index 0..3 indicates which group of 64 functions, and bit index indicates
-                                                                 which mod-64 function, for 256 function bits total.
-
-                                                                 For compatibility with ARM secure boot at least the following RSL devices typically
-                                                                 need to be marked secure: DAP, FUSF, IOBN, KEY, L2C, L2C_CBC, L2C_MCI, L2C_TAD, LMC,
-                                                                 MIO_BOOT, MIO_FUS, MRML, OCLA, OCX, PCCBR_MRML, RST, SLI, VRM.
-
-                                                                 RSL function number 0xFF, which is not present but used internally by MRML, must
-                                                                 be marked secure. */
-#else /* Word 0 - Little Endian */
-        uint64_t sec                   : 64; /**< [ 63:  0](SR/W) RSL function secure. If set, the corresponding RSL device ID will be secure access
-                                                                 only. Read/writes from non-secure agents will be RAZ/WI.
-                                                                 The register index 0..3 indicates which group of 64 functions, and bit index indicates
-                                                                 which mod-64 function, for 256 function bits total.
-
-                                                                 For compatibility with ARM secure boot at least the following RSL devices typically
-                                                                 need to be marked secure: DAP, FUSF, IOBN, KEY, L2C, L2C_CBC, L2C_MCI, L2C_TAD, LMC,
-                                                                 MIO_BOOT, MIO_FUS, MRML, OCLA, OCX, PCCBR_MRML, RST, SLI, VRM.
-
-                                                                 RSL function number 0xFF, which is not present but used internally by MRML, must
-                                                                 be marked secure. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mrml_rslx_sdev_s cn; */
-} bdk_mrml_rslx_sdev_t;
-
-static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a)
-{
-    if (a<=3)
-        return 0x87e0fc000200ll + 8ll * ((a) & 0x3);
-    __bdk_csr_fatal("MRML_RSLX_SDEV", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MRML_RSLX_SDEV(a) bdk_mrml_rslx_sdev_t
-#define bustype_BDK_MRML_RSLX_SDEV(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_MRML_RSLX_SDEV(a) "MRML_RSLX_SDEV"
-#define busnum_BDK_MRML_RSLX_SDEV(a) (a)
-#define arguments_BDK_MRML_RSLX_SDEV(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mrml_msix_pba#
- *
- * MRML MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table; the bit number is indexed by the MRML_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mrml_msix_pbax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MRML_MSIX_VEC()_CTL, enumerated by MRML_INT_VEC_E.
-                                                                 Bits that have no associated MRML_INT_VEC_E are 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MRML_MSIX_VEC()_CTL, enumerated by MRML_INT_VEC_E.
-                                                                 Bits that have no associated MRML_INT_VEC_E are 0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mrml_msix_pbax_s cn; */
-} bdk_mrml_msix_pbax_t;
-
-static inline uint64_t BDK_MRML_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MRML_MSIX_PBAX(unsigned long a)
-{
-    if (a==0)
-        return 0x87e0fcff0000ll + 8ll * ((a) & 0x0);
-    __bdk_csr_fatal("MRML_MSIX_PBAX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MRML_MSIX_PBAX(a) bdk_mrml_msix_pbax_t
-#define bustype_BDK_MRML_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_MRML_MSIX_PBAX(a) "MRML_MSIX_PBAX"
-#define busnum_BDK_MRML_MSIX_PBAX(a) (a)
-#define arguments_BDK_MRML_MSIX_PBAX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mrml_msix_vec#_ctl
@@ -470,41 +454,57 @@ static inline uint64_t BDK_MRML_NCBX_SDEV(unsigned long a)
 #define arguments_BDK_MRML_NCBX_SDEV(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mrml_int_sum
+ * Register (RSL) mrml_rsl#_sdev
  *
- * MRML Interrupt Summary Register
- * This register contains the different interrupt-summary bits of the MRML.
+ * MRML RSL Secure Device Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mrml_int_sum_s
+    struct bdk_mrml_rslx_sdev_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Local timeout error. When set, a local timeout error has occurred. */
-        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) OCX timeout error. When set, an OCX timeout error has occurred. */
+        uint64_t sec                   : 64; /**< [ 63:  0](SR/W) RSL function secure. If set, the corresponding RSL device ID will be secure access
+                                                                 only. Read/writes from non-secure agents will be RAZ/WI.
+                                                                 The register index 0..3 indicates which group of 64 functions, and bit index indicates
+                                                                 which mod-64 function, for 256 function bits total.
+
+                                                                 For compatibility with ARM secure boot at least the following RSL devices typically
+                                                                 need to be marked secure: DAP, FUSF, IOBN, KEY, L2C, L2C_CBC, L2C_MCI, L2C_TAD, LMC,
+                                                                 MIO_BOOT, MIO_FUS, MRML, OCLA, OCX, PCCBR_MRML, RST, SLI, VRM.
+
+                                                                 RSL function number 0xFF, which is not present but used internally by MRML, must
+                                                                 be marked secure. */
 #else /* Word 0 - Little Endian */
-        uint64_t ocx_toe               : 1;  /**< [  0:  0](SR/W1C/H) OCX timeout error. When set, an OCX timeout error has occurred. */
-        uint64_t local_toe             : 1;  /**< [  1:  1](SR/W1C/H) Local timeout error. When set, a local timeout error has occurred. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t sec                   : 64; /**< [ 63:  0](SR/W) RSL function secure. If set, the corresponding RSL device ID will be secure access
+                                                                 only. Read/writes from non-secure agents will be RAZ/WI.
+                                                                 The register index 0..3 indicates which group of 64 functions, and bit index indicates
+                                                                 which mod-64 function, for 256 function bits total.
+
+                                                                 For compatibility with ARM secure boot at least the following RSL devices typically
+                                                                 need to be marked secure: DAP, FUSF, IOBN, KEY, L2C, L2C_CBC, L2C_MCI, L2C_TAD, LMC,
+                                                                 MIO_BOOT, MIO_FUS, MRML, OCLA, OCX, PCCBR_MRML, RST, SLI, VRM.
+
+                                                                 RSL function number 0xFF, which is not present but used internally by MRML, must
+                                                                 be marked secure. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mrml_int_sum_s cn; */
-} bdk_mrml_int_sum_t;
+    /* struct bdk_mrml_rslx_sdev_s cn; */
+} bdk_mrml_rslx_sdev_t;
 
-#define BDK_MRML_INT_SUM BDK_MRML_INT_SUM_FUNC()
-static inline uint64_t BDK_MRML_INT_SUM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MRML_INT_SUM_FUNC(void)
+static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MRML_RSLX_SDEV(unsigned long a)
 {
-    return 0x87e0fc000810ll;
+    if (a<=3)
+        return 0x87e0fc000200ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("MRML_RSLX_SDEV", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_MRML_INT_SUM bdk_mrml_int_sum_t
-#define bustype_BDK_MRML_INT_SUM BDK_CSR_TYPE_RSL
-#define basename_BDK_MRML_INT_SUM "MRML_INT_SUM"
-#define busnum_BDK_MRML_INT_SUM 0
-#define arguments_BDK_MRML_INT_SUM -1,-1,-1,-1
+#define typedef_BDK_MRML_RSLX_SDEV(a) bdk_mrml_rslx_sdev_t
+#define bustype_BDK_MRML_RSLX_SDEV(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MRML_RSLX_SDEV(a) "MRML_RSLX_SDEV"
+#define busnum_BDK_MRML_RSLX_SDEV(a) (a)
+#define arguments_BDK_MRML_RSLX_SDEV(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mrml_scfg

@@ -61,6 +61,40 @@
 #define BDK_MIO_BOOT_BAR_E_MIO_BOOT_PF_BAR0 (0x87e000000000ll) /**< Base address for standard registers. */
 
 /**
+ * Register (RSL) mio_boot_ap_jump
+ *
+ * MIO Boot AP Jump Address Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_boot_ap_jump_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Boot address.  This register contains the address the internal boot loader
+                                                                 will jump to after reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Boot address.  This register contains the address the internal boot loader
+                                                                 will jump to after reset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_boot_ap_jump_s cn; */
+} bdk_mio_boot_ap_jump_t;
+
+#define BDK_MIO_BOOT_AP_JUMP BDK_MIO_BOOT_AP_JUMP_FUNC()
+static inline uint64_t BDK_MIO_BOOT_AP_JUMP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_BOOT_AP_JUMP_FUNC(void)
+{
+    return 0x87e0000000d0ll;
+}
+
+#define typedef_BDK_MIO_BOOT_AP_JUMP bdk_mio_boot_ap_jump_t
+#define bustype_BDK_MIO_BOOT_AP_JUMP BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_BOOT_AP_JUMP "MIO_BOOT_AP_JUMP"
+#define busnum_BDK_MIO_BOOT_AP_JUMP 0
+#define arguments_BDK_MIO_BOOT_AP_JUMP -1,-1,-1,-1
+
+/**
  * Register (RSL) mio_boot_bist_stat
  *
  * MIO Boot BIST Status Register
@@ -117,45 +151,6 @@ static inline uint64_t BDK_MIO_BOOT_BIST_STAT_FUNC(void)
 #define arguments_BDK_MIO_BOOT_BIST_STAT -1,-1,-1,-1
 
 /**
- * Register (RSL) mio_boot_thr
- *
- * MIO Boot Threshold Register
- * The boot-threshold register contains MIO boot-threshold values.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_boot_thr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t fif_cnt               : 6;  /**< [ 13:  8](RO/H) Current NCB FIFO count. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t fif_thr               : 6;  /**< [  5:  0](R/W) NCB busy threshold. Should always read 0x19 (the only legal value). */
-#else /* Word 0 - Little Endian */
-        uint64_t fif_thr               : 6;  /**< [  5:  0](R/W) NCB busy threshold. Should always read 0x19 (the only legal value). */
-        uint64_t reserved_6_7          : 2;
-        uint64_t fif_cnt               : 6;  /**< [ 13:  8](RO/H) Current NCB FIFO count. */
-        uint64_t reserved_14_63        : 50;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_boot_thr_s cn; */
-} bdk_mio_boot_thr_t;
-
-#define BDK_MIO_BOOT_THR BDK_MIO_BOOT_THR_FUNC()
-static inline uint64_t BDK_MIO_BOOT_THR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_BOOT_THR_FUNC(void)
-{
-    return 0x87e0000000b0ll;
-}
-
-#define typedef_BDK_MIO_BOOT_THR bdk_mio_boot_thr_t
-#define bustype_BDK_MIO_BOOT_THR BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_BOOT_THR "MIO_BOOT_THR"
-#define busnum_BDK_MIO_BOOT_THR 0
-#define arguments_BDK_MIO_BOOT_THR -1,-1,-1,-1
-
-/**
  * Register (RSL) mio_boot_pin_defs
  *
  * MIO Boot Pin Defaults Register
@@ -210,40 +205,6 @@ static inline uint64_t BDK_MIO_BOOT_PIN_DEFS_FUNC(void)
 #define arguments_BDK_MIO_BOOT_PIN_DEFS -1,-1,-1,-1
 
 /**
- * Register (RSL) mio_boot_ap_jump
- *
- * MIO Boot AP Jump Address Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_boot_ap_jump_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Boot address.  This register contains the address the internal boot loader
-                                                                 will jump to after reset. */
-#else /* Word 0 - Little Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Boot address.  This register contains the address the internal boot loader
-                                                                 will jump to after reset. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_boot_ap_jump_s cn; */
-} bdk_mio_boot_ap_jump_t;
-
-#define BDK_MIO_BOOT_AP_JUMP BDK_MIO_BOOT_AP_JUMP_FUNC()
-static inline uint64_t BDK_MIO_BOOT_AP_JUMP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_BOOT_AP_JUMP_FUNC(void)
-{
-    return 0x87e0000000d0ll;
-}
-
-#define typedef_BDK_MIO_BOOT_AP_JUMP bdk_mio_boot_ap_jump_t
-#define bustype_BDK_MIO_BOOT_AP_JUMP BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_BOOT_AP_JUMP "MIO_BOOT_AP_JUMP"
-#define busnum_BDK_MIO_BOOT_AP_JUMP 0
-#define arguments_BDK_MIO_BOOT_AP_JUMP -1,-1,-1,-1
-
-/**
  * Register (RSL) mio_boot_rom_limit
  *
  * MIO Boot ROM Limit Register
@@ -289,5 +250,44 @@ static inline uint64_t BDK_MIO_BOOT_ROM_LIMIT_FUNC(void)
 #define basename_BDK_MIO_BOOT_ROM_LIMIT "MIO_BOOT_ROM_LIMIT"
 #define busnum_BDK_MIO_BOOT_ROM_LIMIT 0
 #define arguments_BDK_MIO_BOOT_ROM_LIMIT -1,-1,-1,-1
+
+/**
+ * Register (RSL) mio_boot_thr
+ *
+ * MIO Boot Threshold Register
+ * The boot-threshold register contains MIO boot-threshold values.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_boot_thr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t fif_cnt               : 6;  /**< [ 13:  8](RO/H) Current NCB FIFO count. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fif_thr               : 6;  /**< [  5:  0](R/W) NCB busy threshold. Should always read 0x19 (the only legal value). */
+#else /* Word 0 - Little Endian */
+        uint64_t fif_thr               : 6;  /**< [  5:  0](R/W) NCB busy threshold. Should always read 0x19 (the only legal value). */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fif_cnt               : 6;  /**< [ 13:  8](RO/H) Current NCB FIFO count. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_boot_thr_s cn; */
+} bdk_mio_boot_thr_t;
+
+#define BDK_MIO_BOOT_THR BDK_MIO_BOOT_THR_FUNC()
+static inline uint64_t BDK_MIO_BOOT_THR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_BOOT_THR_FUNC(void)
+{
+    return 0x87e0000000b0ll;
+}
+
+#define typedef_BDK_MIO_BOOT_THR bdk_mio_boot_thr_t
+#define bustype_BDK_MIO_BOOT_THR BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_BOOT_THR "MIO_BOOT_THR"
+#define busnum_BDK_MIO_BOOT_THR 0
+#define arguments_BDK_MIO_BOOT_THR -1,-1,-1,-1
 
 #endif /* __BDK_CSRS_MIO_BOOT_H__ */

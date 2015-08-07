@@ -53,6 +53,27 @@
  */
 
 /**
+ * Enumeration inv_cmd_e
+ *
+ * INTERNAL: INV Command Enumeration
+ *
+ * Enumerates the different INV command encodings.
+ */
+#define BDK_INV_CMD_E_ALLEX (0xc) /**< Broadcast TLB invalidate (ALLEXIS). */
+#define BDK_INV_CMD_E_ASIDE1 (0xd) /**< Broadcast TLB invalidate (ASIDE1IS). */
+#define BDK_INV_CMD_E_GBLSYNC (0xf) /**< Broadcast Global Sync. */
+#define BDK_INV_CMD_E_IALLU (9) /**< Broadcast icache invalidate (IALLUIS). */
+#define BDK_INV_CMD_E_INV (8) /**< Dcache invalidate by PA. */
+#define BDK_INV_CMD_E_IPAS2E1 (7) /**< Broadcast TLB invalidate by IPA (IPAS2E1IS). */
+#define BDK_INV_CMD_E_IVAU (4) /**< Broadcast icache invalidate by VA (IVAU when page set to IS). */
+#define BDK_INV_CMD_E_NOP (0) /**< No operation. */
+#define BDK_INV_CMD_E_SEV (0xe) /**< Broadcast SEV. */
+#define BDK_INV_CMD_E_VAAE1 (6) /**< Broadcast TLB invalidate by VA (VAAE1IS). */
+#define BDK_INV_CMD_E_VAEX (5) /**< Broadcast TLB invalidate by VA (VAEXIS). */
+#define BDK_INV_CMD_E_VMALLE1 (0xa) /**< Broadcast TLB invalidate (VMALLE1IS). */
+#define BDK_INV_CMD_E_VMALLS12 (0xb) /**< Broadcast TLB invalidate (VMALLS12E1IS). */
+
+/**
  * Enumeration ioc_cmd_e
  *
  * INTERNAL: IOC Command Enumeration
@@ -74,98 +95,37 @@
 #define BDK_IOC_CMD_E_STOREP (9) /**< Partial store of size 8 bytes. */
 
 /**
- * Enumeration xmc_cmd_e
+ * Enumeration ior_cmd_e
  *
- * INTERNAL: XMC Command Enumeration
+ * INTERNAL: IOR Command Enumeration
  *
- * Enumerates the different XMC command encodings.
+ * Enumerates the different IOR command encodings.
  */
-#define BDK_XMC_CMD_E_AADD (0x28) /**< Atomic add (load/store varieties). */
-#define BDK_XMC_CMD_E_ACAS (0x26) /**< Atomic compare and swap. */
-#define BDK_XMC_CMD_E_ACLR (0x29) /**< Atomic clear (load/store varieties). */
-#define BDK_XMC_CMD_E_ADEC (0x25) /**< Atomic decrement. */
-#define BDK_XMC_CMD_E_AEOR (0x2a) /**< Atomic EOR (load/store varieties). */
-#define BDK_XMC_CMD_E_AINC (0x24) /**< Atomic increment. */
-#define BDK_XMC_CMD_E_ALLEX (0x3c) /**< Broadcast TLB invalidate (ALLEXIS). */
-#define BDK_XMC_CMD_E_ASET (0x2b) /**< Atomic set (load/store varieties). */
-#define BDK_XMC_CMD_E_ASIDE1 (0x3d) /**< Broadcast TLB invalidate (ASIDE1IS). */
-#define BDK_XMC_CMD_E_ASMAX (0x2c) /**< Atomic signed max (load/store varieties). */
-#define BDK_XMC_CMD_E_ASMIN (0x2d) /**< Atomic signed min (load/store varieties). */
-#define BDK_XMC_CMD_E_ASWP (0x27) /**< Atomic swap. */
-#define BDK_XMC_CMD_E_AUMAX (0x2e) /**< Atomic unsigned max (load/store varieties). */
-#define BDK_XMC_CMD_E_AUMIN (0x2f) /**< Atomic unsigned min (load/store varieties). */
-#define BDK_XMC_CMD_E_DWB (5) /**< Clear dirty bit (no writeback) + RPL2 if found in requester L2. */
-#define BDK_XMC_CMD_E_GBLSYNC (0x3f) /**< Broadcast Global Sync. */
-#define BDK_XMC_CMD_E_IAADD (0x68) /**< I/O atomic add (load only, LD==1). */
-#define BDK_XMC_CMD_E_IACAS (0x66) /**< I/O atomic compare and swap. */
-#define BDK_XMC_CMD_E_IACLR (0x69) /**< I/O atomic clear (load only, LD==1). */
-#define BDK_XMC_CMD_E_IALLU (0x39) /**< Broadcast icache invalidate (IALLUIS). */
-#define BDK_XMC_CMD_E_IASET (0x6b) /**< I/O atomic set (load only, LD==1). */
-#define BDK_XMC_CMD_E_IASWP (0x67) /**< I/O atomic swap. */
-#define BDK_XMC_CMD_E_INVL2 (0x1c) /**< Invalidate, clear use bit, by address (dirty data is LOST). */
-#define BDK_XMC_CMD_E_IOBADDR (0x43) /**< I/O send address only. */
-#define BDK_XMC_CMD_E_IOBADDRA (0x53) /**< I/O send address only, with commit. */
-#define BDK_XMC_CMD_E_IOBLD (0x40) /**< I/O load (any size, naturally aligned address). */
-#define BDK_XMC_CMD_E_IOBST (0x41) /**< I/O store (any size, naturally aligned address). */
-#define BDK_XMC_CMD_E_IOBSTA (0x51) /**< I/O store (any size, naturally aligned address), with commit. */
-#define BDK_XMC_CMD_E_IOBSTP (0x42) /**< I/O store partial (up to 64-bits based on byte-mask, 64-bit aligned address). */
-#define BDK_XMC_CMD_E_IOBSTPA (0x52) /**< I/O store partial (up to 64-bits based on byte-mask, 64-bit aligned address), with commit. */
-#define BDK_XMC_CMD_E_IPAS2E1 (0x37) /**< Broadcast TLB invalidate by IPA (IPAS2E1IS). */
-#define BDK_XMC_CMD_E_IVAU (0x34) /**< Broadcast icache invalidate by VA (IVAU when page set to IS). */
-#define BDK_XMC_CMD_E_LCKL2 (0x1f) /**< Set lock bit, set use bit, by address. */
-#define BDK_XMC_CMD_E_LDD (8) /**< Allocate in requester L2, attempt to return exclusive but might return shared. */
-#define BDK_XMC_CMD_E_LDDT (0xc) /**< Transient load (LDD, but mark for replacement in L2). */
-#define BDK_XMC_CMD_E_LDE (0xb) /**< Bring exclusive into requester L2, allocate in L1.  Perform all invalidates as if a store
-                                       to minimize future store latency. */
-#define BDK_XMC_CMD_E_LDI (2) /**< Don't allocate L1, allocates L2 at requester. */
-#define BDK_XMC_CMD_E_LDP (7) /**< Partial load (1 RSD tick), don't allocate L1, allocates L2 at requester shared. */
-#define BDK_XMC_CMD_E_LDT (1) /**< Don't allocate L2 or L1 at home or requester. */
-#define BDK_XMC_CMD_E_LDWB (0xd) /**< As LDT, but additional implied DWB if found in home or requester L2. */
-#define BDK_XMC_CMD_E_LDY (6) /**< Allocate in home L2. */
-#define BDK_XMC_CMD_E_LMTST (0x45) /**< I/O multi-quadword store. */
-#define BDK_XMC_CMD_E_LMTSTA (0x55) /**< I/O multi-quadword store, with commit. */
-#define BDK_XMC_CMD_E_LTGL2I (0x19) /**< Read tag at index/way into CSR. */
-#define BDK_XMC_CMD_E_NOP (0) /**< No operation. */
-#define BDK_XMC_CMD_E_PL2 (3) /**< Prefetch into requester L2. */
-#define BDK_XMC_CMD_E_PL2T (0x16) /**< Prefetch into requester L2, transient (mark for replacement in L2). */
-#define BDK_XMC_CMD_E_PS2 (0xa) /**< Prefetch into requester L2, exclusive. */
-#define BDK_XMC_CMD_E_PS2T (0x17) /**< Prefetch into requester L2, exclusive, transient (mark for replacement in L2). */
-#define BDK_XMC_CMD_E_PSL1 (9) /**< Prefetch into L1, bypass L2 (unless L1 is subset L2, then behaves exactly as LDD). */
-#define BDK_XMC_CMD_E_RPL2 (4) /**< Mark for replacement if found in requester L2. */
-#define BDK_XMC_CMD_E_RSTP (0xf) /**< Partial store allocating in home L2. */
-#define BDK_XMC_CMD_E_SEV (0x3e) /**< Broadcast SEV. */
-#define BDK_XMC_CMD_E_STC (0x13) /**< Conditional partial store.  Allocation variable based on CSR. */
-#define BDK_XMC_CMD_E_STF (0x10) /**< Full block store allocating in requester L2, fill zeros. */
-#define BDK_XMC_CMD_E_STFIL1 (0x14) /**< Full block store allocating in requester L2, fill zeros, self-inval L1. */
-#define BDK_XMC_CMD_E_STGL2I (0x1a) /**< Write tag at index/way from CSR. */
-#define BDK_XMC_CMD_E_STP (0x12) /**< Partial store allocating in requester L2. */
-#define BDK_XMC_CMD_E_STT (0x11) /**< Full block store bypass home and remote L2, fill zeros. */
-#define BDK_XMC_CMD_E_STTIL1 (0x15) /**< Full block store bypass home and requester L2, fill zeros, self-inval L1. */
-#define BDK_XMC_CMD_E_STY (0xe) /**< Full block store allocating in home L2, fill zeros. */
-#define BDK_XMC_CMD_E_VAAE1 (0x36) /**< Broadcast TLB invalidate by VA (VAAE1IS). */
-#define BDK_XMC_CMD_E_VAEX (0x35) /**< Broadcast TLB invalidate by VA (VAEXIS). */
-#define BDK_XMC_CMD_E_VMALLE1 (0x3a) /**< Broadcast TLB invalidate (VMALLE1IS). */
-#define BDK_XMC_CMD_E_VMALLS12 (0x3b) /**< Broadcast TLB invalidate (VMALLS12E1IS). */
-#define BDK_XMC_CMD_E_WBIL2 (0x1d) /**< Writeback if dirty, invalidate, clear use bit, by address. */
-#define BDK_XMC_CMD_E_WBIL2I (0x18) /**< Writeback if dirty, invalidate, clear use bit, by index/way. */
-#define BDK_XMC_CMD_E_WBL2 (0x1e) /**< Writeback if dirty, make clean, clear use bit, by address. */
-#define BDK_XMC_CMD_E_WBL2I (0x1b) /**< Writeback if dirty, make clean, clear use bit, by index/way. */
+#define BDK_IOR_CMD_E_DATA (1) /**< Response data return for IOC LOAD, IACAS, IASWP, IAADD, IACLR, IASET. */
+#define BDK_IOR_CMD_E_IDLE (0) /**< Idle cycle. */
+#define BDK_IOR_CMD_E_SLIRSP (3) /**< Response data return for IOC_SLILD. */
 
 /**
- * Enumeration rsc_cmd_e
+ * Enumeration l2c_bar_e
  *
- * INTERNAL: RSC Command Enumeration
- *
- * Enumerates the different RSC command encodings.
+ * L2C Base Address Register Enumeration
+ * Enumerates the base address registers.
  */
-#define BDK_RSC_CMD_E_FLDN (3) /**< Filling data, last fill. */
-#define BDK_RSC_CMD_E_GSDN (2) /**< Global Sync done. */
-#define BDK_RSC_CMD_E_IACK (5) /**< IO store commit. */
-#define BDK_RSC_CMD_E_IFDN (1) /**< Filling data, last fill, must write L1T invalid. */
-#define BDK_RSC_CMD_E_NOP (0) /**< No operation. */
-#define BDK_RSC_CMD_E_SCDN (6) /**< Store conditional pass/commit. */
-#define BDK_RSC_CMD_E_SCFL (7) /**< Store conditional fail/commit. */
-#define BDK_RSC_CMD_E_STDN (4) /**< Store commit. */
+#define BDK_L2C_BAR_E_L2C_PF_BAR0 (0x87e080800000ll) /**< Base address for standard registers. */
+
+/**
+ * Enumeration l2c_dat_errprio_e
+ *
+ * L2C Quad Error Priority Enumeration
+ * Enumerates the different quad error priorities.
+ */
+#define BDK_L2C_DAT_ERRPRIO_E_FBFDBE (4) /**< FBF double-bit error. */
+#define BDK_L2C_DAT_ERRPRIO_E_FBFSBE (1) /**< FBF single-bit error. */
+#define BDK_L2C_DAT_ERRPRIO_E_L2DDBE (6) /**< L2D double-bit error. */
+#define BDK_L2C_DAT_ERRPRIO_E_L2DSBE (3) /**< L2D single-bit error. */
+#define BDK_L2C_DAT_ERRPRIO_E_NBE (0) /**< No error. */
+#define BDK_L2C_DAT_ERRPRIO_E_SBFDBE (5) /**< SBF double-bit error. */
+#define BDK_L2C_DAT_ERRPRIO_E_SBFSBE (2) /**< SBF single-bit error. */
 
 /**
  * Enumeration l2c_tad_prf_sel_e
@@ -268,6 +228,17 @@
 #define BDK_L2C_TAD_PRF_SEL_E_WAIT_VAB (9) /**< LFB wait VAB (each cycle adds number of LFBs waiting for VAB). */
 
 /**
+ * Enumeration l2c_tag_errprio_e
+ *
+ * L2C Tag Error Priority Enumeration
+ * Enumerates the different TAG error priorities.
+ */
+#define BDK_L2C_TAG_ERRPRIO_E_DBE (3) /**< TAG double-bit error. */
+#define BDK_L2C_TAG_ERRPRIO_E_NBE (0) /**< No error. */
+#define BDK_L2C_TAG_ERRPRIO_E_NOWAY (1) /**< TAG NOWAY error. */
+#define BDK_L2C_TAG_ERRPRIO_E_SBE (2) /**< TAG single-bit error. */
+
+/**
  * Enumeration oci_ireq_cmd_e
  *
  * INTERNAL: OCI IREQ Command Enumeration
@@ -291,28 +262,6 @@
 #define BDK_OCI_IREQ_CMD_E_SLIST (0x1d) /**< SLI-initiated IO store request of 8, 16, 32, or 64 bits. */
 
 /**
- * Enumeration oci_mrsp_cmd_e
- *
- * INTERNAL: OCI MRSP Command Enumeration
- */
-#define BDK_OCI_MRSP_CMD_E_GSDN (0x18) /**< Global sync broadcast done indication back to requesting node. */
-#define BDK_OCI_MRSP_CMD_E_HAKD (4) /**< To home Ack. */
-#define BDK_OCI_MRSP_CMD_E_HAKI (6) /**< To home Ack - VICx in progress, state is I. */
-#define BDK_OCI_MRSP_CMD_E_HAKN_S (5) /**< To home Ack, state is S. */
-#define BDK_OCI_MRSP_CMD_E_HAKS (7) /**< To home Ack - VICx in progress, state is S. */
-#define BDK_OCI_MRSP_CMD_E_HAKV (8) /**< To home Ack - VICS in progress. */
-#define BDK_OCI_MRSP_CMD_E_IDLE (0x1f) /**< No operation. */
-#define BDK_OCI_MRSP_CMD_E_P2DF (0xd) /**< Response Faul. */
-#define BDK_OCI_MRSP_CMD_E_PACK (0xc) /**< Response Ack (wo data). */
-#define BDK_OCI_MRSP_CMD_E_PATM (0xb) /**< Response w Data - (atomic requests). */
-#define BDK_OCI_MRSP_CMD_E_PEMD (0xa) /**< Response to request, from "owning node". */
-#define BDK_OCI_MRSP_CMD_E_PSHA (9) /**< Response w Data - to S/I. */
-#define BDK_OCI_MRSP_CMD_E_VICC (1) /**< Vic from E or O to S. */
-#define BDK_OCI_MRSP_CMD_E_VICD (0) /**< Vic from E or O to I. */
-#define BDK_OCI_MRSP_CMD_E_VICDHI (3) /**< Home forced VICD. */
-#define BDK_OCI_MRSP_CMD_E_VICS (2) /**< Vic from S to I. */
-
-/**
  * Enumeration oci_irsp_cmd_e
  *
  * INTERNAL: OCI IRSP Command Enumeration
@@ -324,40 +273,26 @@
 #define BDK_OCI_IRSP_CMD_E_SLIRSP (2) /**< Response to a SLILD*. */
 
 /**
- * Enumeration l2c_dat_errprio_e
+ * Enumeration oci_mfwd_cmd_e
  *
- * L2C Quad Error Priority Enumeration
- * Enumerates the different quad error priorities.
+ * INTERNAL: OCI MFWD Command Enumeration
  */
-#define BDK_L2C_DAT_ERRPRIO_E_FBFDBE (4) /**< FBF double-bit error. */
-#define BDK_L2C_DAT_ERRPRIO_E_FBFSBE (1) /**< FBF single-bit error. */
-#define BDK_L2C_DAT_ERRPRIO_E_L2DDBE (6) /**< L2D double-bit error. */
-#define BDK_L2C_DAT_ERRPRIO_E_L2DSBE (3) /**< L2D single-bit error. */
-#define BDK_L2C_DAT_ERRPRIO_E_NBE (0) /**< No error. */
-#define BDK_L2C_DAT_ERRPRIO_E_SBFDBE (5) /**< SBF double-bit error. */
-#define BDK_L2C_DAT_ERRPRIO_E_SBFSBE (2) /**< SBF single-bit error. */
-
-/**
- * Enumeration l2c_tag_errprio_e
- *
- * L2C Tag Error Priority Enumeration
- * Enumerates the different TAG error priorities.
- */
-#define BDK_L2C_TAG_ERRPRIO_E_DBE (3) /**< TAG double-bit error. */
-#define BDK_L2C_TAG_ERRPRIO_E_NBE (0) /**< No error. */
-#define BDK_L2C_TAG_ERRPRIO_E_NOWAY (1) /**< TAG NOWAY error. */
-#define BDK_L2C_TAG_ERRPRIO_E_SBE (2) /**< TAG single-bit error. */
-
-/**
- * Enumeration ior_cmd_e
- *
- * INTERNAL: IOR Command Enumeration
- *
- * Enumerates the different IOR command encodings.
- */
-#define BDK_IOR_CMD_E_DATA (1) /**< Response data return for IOC LOAD, IACAS, IASWP, IAADD, IACLR, IASET. */
-#define BDK_IOR_CMD_E_IDLE (0) /**< Idle cycle. */
-#define BDK_IOR_CMD_E_SLIRSP (3) /**< Response data return for IOC_SLILD. */
+#define BDK_OCI_MFWD_CMD_E_FEVX_EH (0xb) /**< Forward for home eviction (home RTG state is E). */
+#define BDK_OCI_MFWD_CMD_E_FEVX_OH (0xc) /**< Forward for home eviction (home RTG state is O). */
+#define BDK_OCI_MFWD_CMD_E_FLDRO_E (0) /**< Forward read data - ROWNED_MODE=1 (home RTG state is E). */
+#define BDK_OCI_MFWD_CMD_E_FLDRO_O (1) /**< Forward read data - ROWNED_MODE=1 (home RTG state is O). */
+#define BDK_OCI_MFWD_CMD_E_FLDRS_E (2) /**< Forward read data - ROWNED_MODE=0 (home RTG state is E). */
+#define BDK_OCI_MFWD_CMD_E_FLDRS_EH (4) /**< Forward home read data (home RTG state is E). */
+#define BDK_OCI_MFWD_CMD_E_FLDRS_O (3) /**< Forward read data - ROWNED_MODE=0 (home RTG state is O). */
+#define BDK_OCI_MFWD_CMD_E_FLDRS_OH (5) /**< Forward home read data (home RTG state is O). */
+#define BDK_OCI_MFWD_CMD_E_FLDT_E (6) /**< Forward read through (home RTG state is E). */
+#define BDK_OCI_MFWD_CMD_E_FLDX_E (7) /**< Forward read exclusive (home RTG state is E). */
+#define BDK_OCI_MFWD_CMD_E_FLDX_EH (9) /**< Forward home read exclusive (home RTG state is E). */
+#define BDK_OCI_MFWD_CMD_E_FLDX_O (8) /**< Forward read exclusive (home RTG state is O). */
+#define BDK_OCI_MFWD_CMD_E_FLDX_OH (0xa) /**< Forward home read exclusive (home RTG state is O). */
+#define BDK_OCI_MFWD_CMD_E_IDLE (0x1f) /**< No operation. */
+#define BDK_OCI_MFWD_CMD_E_SINV (0xd) /**< Shared invalidate. */
+#define BDK_OCI_MFWD_CMD_E_SINV_H (0xe) /**< Shared invalidate home is requester. */
 
 /**
  * Enumeration oci_mreq_cmd_e
@@ -397,435 +332,163 @@
 #define BDK_OCI_MREQ_CMD_E_RUMIN (0x1e) /**< Atomic unsigned min. */
 
 /**
- * Enumeration inv_cmd_e
+ * Enumeration oci_mrsp_cmd_e
  *
- * INTERNAL: INV Command Enumeration
- *
- * Enumerates the different INV command encodings.
+ * INTERNAL: OCI MRSP Command Enumeration
  */
-#define BDK_INV_CMD_E_ALLEX (0xc) /**< Broadcast TLB invalidate (ALLEXIS). */
-#define BDK_INV_CMD_E_ASIDE1 (0xd) /**< Broadcast TLB invalidate (ASIDE1IS). */
-#define BDK_INV_CMD_E_GBLSYNC (0xf) /**< Broadcast Global Sync. */
-#define BDK_INV_CMD_E_IALLU (9) /**< Broadcast icache invalidate (IALLUIS). */
-#define BDK_INV_CMD_E_INV (8) /**< Dcache invalidate by PA. */
-#define BDK_INV_CMD_E_IPAS2E1 (7) /**< Broadcast TLB invalidate by IPA (IPAS2E1IS). */
-#define BDK_INV_CMD_E_IVAU (4) /**< Broadcast icache invalidate by VA (IVAU when page set to IS). */
-#define BDK_INV_CMD_E_NOP (0) /**< No operation. */
-#define BDK_INV_CMD_E_SEV (0xe) /**< Broadcast SEV. */
-#define BDK_INV_CMD_E_VAAE1 (6) /**< Broadcast TLB invalidate by VA (VAAE1IS). */
-#define BDK_INV_CMD_E_VAEX (5) /**< Broadcast TLB invalidate by VA (VAEXIS). */
-#define BDK_INV_CMD_E_VMALLE1 (0xa) /**< Broadcast TLB invalidate (VMALLE1IS). */
-#define BDK_INV_CMD_E_VMALLS12 (0xb) /**< Broadcast TLB invalidate (VMALLS12E1IS). */
+#define BDK_OCI_MRSP_CMD_E_GSDN (0x18) /**< Global sync broadcast done indication back to requesting node. */
+#define BDK_OCI_MRSP_CMD_E_HAKD (4) /**< To home Ack. */
+#define BDK_OCI_MRSP_CMD_E_HAKI (6) /**< To home Ack - VICx in progress, state is I. */
+#define BDK_OCI_MRSP_CMD_E_HAKN_S (5) /**< To home Ack, state is S. */
+#define BDK_OCI_MRSP_CMD_E_HAKS (7) /**< To home Ack - VICx in progress, state is S. */
+#define BDK_OCI_MRSP_CMD_E_HAKV (8) /**< To home Ack - VICS in progress. */
+#define BDK_OCI_MRSP_CMD_E_IDLE (0x1f) /**< No operation. */
+#define BDK_OCI_MRSP_CMD_E_P2DF (0xd) /**< Response Faul. */
+#define BDK_OCI_MRSP_CMD_E_PACK (0xc) /**< Response Ack (wo data). */
+#define BDK_OCI_MRSP_CMD_E_PATM (0xb) /**< Response w Data - (atomic requests). */
+#define BDK_OCI_MRSP_CMD_E_PEMD (0xa) /**< Response to request, from "owning node". */
+#define BDK_OCI_MRSP_CMD_E_PSHA (9) /**< Response w Data - to S/I. */
+#define BDK_OCI_MRSP_CMD_E_VICC (1) /**< Vic from E or O to S. */
+#define BDK_OCI_MRSP_CMD_E_VICD (0) /**< Vic from E or O to I. */
+#define BDK_OCI_MRSP_CMD_E_VICDHI (3) /**< Home forced VICD. */
+#define BDK_OCI_MRSP_CMD_E_VICS (2) /**< Vic from S to I. */
 
 /**
- * Enumeration l2c_bar_e
+ * Enumeration rsc_cmd_e
  *
- * L2C Base Address Register Enumeration
- * Enumerates the base address registers.
+ * INTERNAL: RSC Command Enumeration
+ *
+ * Enumerates the different RSC command encodings.
  */
-#define BDK_L2C_BAR_E_L2C_PF_BAR0 (0x87e080800000ll) /**< Base address for standard registers. */
+#define BDK_RSC_CMD_E_FLDN (3) /**< Filling data, last fill. */
+#define BDK_RSC_CMD_E_GSDN (2) /**< Global Sync done. */
+#define BDK_RSC_CMD_E_IACK (5) /**< IO store commit. */
+#define BDK_RSC_CMD_E_IFDN (1) /**< Filling data, last fill, must write L1T invalid. */
+#define BDK_RSC_CMD_E_NOP (0) /**< No operation. */
+#define BDK_RSC_CMD_E_SCDN (6) /**< Store conditional pass/commit. */
+#define BDK_RSC_CMD_E_SCFL (7) /**< Store conditional fail/commit. */
+#define BDK_RSC_CMD_E_STDN (4) /**< Store commit. */
 
 /**
- * Enumeration oci_mfwd_cmd_e
+ * Enumeration xmc_cmd_e
  *
- * INTERNAL: OCI MFWD Command Enumeration
+ * INTERNAL: XMC Command Enumeration
+ *
+ * Enumerates the different XMC command encodings.
  */
-#define BDK_OCI_MFWD_CMD_E_FEVX_EH (0xb) /**< Forward for home eviction (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FEVX_OH (0xc) /**< Forward for home eviction (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_FLDRO_E (0) /**< Forward read data - ROWNED_MODE=1 (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDRO_O (1) /**< Forward read data - ROWNED_MODE=1 (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_FLDRS_E (2) /**< Forward read data - ROWNED_MODE=0 (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDRS_EH (4) /**< Forward home read data (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDRS_O (3) /**< Forward read data - ROWNED_MODE=0 (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_FLDRS_OH (5) /**< Forward home read data (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_FLDT_E (6) /**< Forward read through (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDX_E (7) /**< Forward read exclusive (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDX_EH (9) /**< Forward home read exclusive (home RTG state is E). */
-#define BDK_OCI_MFWD_CMD_E_FLDX_O (8) /**< Forward read exclusive (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_FLDX_OH (0xa) /**< Forward home read exclusive (home RTG state is O). */
-#define BDK_OCI_MFWD_CMD_E_IDLE (0x1f) /**< No operation. */
-#define BDK_OCI_MFWD_CMD_E_SINV (0xd) /**< Shared invalidate. */
-#define BDK_OCI_MFWD_CMD_E_SINV_H (0xe) /**< Shared invalidate home is requester. */
+#define BDK_XMC_CMD_E_AADD (0x28) /**< Atomic add (load/store varieties). */
+#define BDK_XMC_CMD_E_ACAS (0x26) /**< Atomic compare and swap. */
+#define BDK_XMC_CMD_E_ACLR (0x29) /**< Atomic clear (load/store varieties). */
+#define BDK_XMC_CMD_E_ADEC (0x25) /**< Atomic decrement. */
+#define BDK_XMC_CMD_E_AEOR (0x2a) /**< Atomic EOR (load/store varieties). */
+#define BDK_XMC_CMD_E_AINC (0x24) /**< Atomic increment. */
+#define BDK_XMC_CMD_E_ALLEX (0x3c) /**< Broadcast TLB invalidate (ALLEXIS). */
+#define BDK_XMC_CMD_E_ASET (0x2b) /**< Atomic set (load/store varieties). */
+#define BDK_XMC_CMD_E_ASIDE1 (0x3d) /**< Broadcast TLB invalidate (ASIDE1IS). */
+#define BDK_XMC_CMD_E_ASMAX (0x2c) /**< Atomic signed max (load/store varieties). */
+#define BDK_XMC_CMD_E_ASMIN (0x2d) /**< Atomic signed min (load/store varieties). */
+#define BDK_XMC_CMD_E_ASWP (0x27) /**< Atomic swap. */
+#define BDK_XMC_CMD_E_AUMAX (0x2e) /**< Atomic unsigned max (load/store varieties). */
+#define BDK_XMC_CMD_E_AUMIN (0x2f) /**< Atomic unsigned min (load/store varieties). */
+#define BDK_XMC_CMD_E_DWB (5) /**< Clear dirty bit (no writeback) + RPL2 if found in requester L2. */
+#define BDK_XMC_CMD_E_GBLSYNC (0x3f) /**< Broadcast Global Sync. */
+#define BDK_XMC_CMD_E_IAADD (0x68) /**< I/O atomic add (load only, LD==1). */
+#define BDK_XMC_CMD_E_IACAS (0x66) /**< I/O atomic compare and swap. */
+#define BDK_XMC_CMD_E_IACLR (0x69) /**< I/O atomic clear (load only, LD==1). */
+#define BDK_XMC_CMD_E_IALLU (0x39) /**< Broadcast icache invalidate (IALLUIS). */
+#define BDK_XMC_CMD_E_IASET (0x6b) /**< I/O atomic set (load only, LD==1). */
+#define BDK_XMC_CMD_E_IASWP (0x67) /**< I/O atomic swap. */
+#define BDK_XMC_CMD_E_INVL2 (0x1c) /**< Invalidate, clear use bit, by address (dirty data is LOST). */
+#define BDK_XMC_CMD_E_IOBADDR (0x43) /**< I/O send address only. */
+#define BDK_XMC_CMD_E_IOBADDRA (0x53) /**< I/O send address only, with commit. */
+#define BDK_XMC_CMD_E_IOBLD (0x40) /**< I/O load (any size, naturally aligned address). */
+#define BDK_XMC_CMD_E_IOBST (0x41) /**< I/O store (any size, naturally aligned address). */
+#define BDK_XMC_CMD_E_IOBSTA (0x51) /**< I/O store (any size, naturally aligned address), with commit. */
+#define BDK_XMC_CMD_E_IOBSTP (0x42) /**< I/O store partial (up to 64-bits based on byte-mask, 64-bit aligned address). */
+#define BDK_XMC_CMD_E_IOBSTPA (0x52) /**< I/O store partial (up to 64-bits based on byte-mask, 64-bit aligned address), with commit. */
+#define BDK_XMC_CMD_E_IPAS2E1 (0x37) /**< Broadcast TLB invalidate by IPA (IPAS2E1IS). */
+#define BDK_XMC_CMD_E_IVAU (0x34) /**< Broadcast icache invalidate by VA (IVAU when page set to IS). */
+#define BDK_XMC_CMD_E_LCKL2 (0x1f) /**< Set lock bit, set use bit, by address. */
+#define BDK_XMC_CMD_E_LDD (8) /**< Allocate in requester L2, attempt to return exclusive but might return shared. */
+#define BDK_XMC_CMD_E_LDDT (0xc) /**< Transient load (LDD, but mark for replacement in L2). */
+#define BDK_XMC_CMD_E_LDE (0xb) /**< Bring exclusive into requester L2, allocate in L1.  Perform all invalidates as if a store
+                                       to minimize future store latency. */
+#define BDK_XMC_CMD_E_LDI (2) /**< Don't allocate L1, allocates L2 at requester. */
+#define BDK_XMC_CMD_E_LDP (7) /**< Partial load (1 RSD tick), don't allocate L1, allocates L2 at requester shared. */
+#define BDK_XMC_CMD_E_LDT (1) /**< Don't allocate L2 or L1 at home or requester. */
+#define BDK_XMC_CMD_E_LDWB (0xd) /**< As LDT, but additional implied DWB if found in home or requester L2. */
+#define BDK_XMC_CMD_E_LDY (6) /**< Allocate in home L2. */
+#define BDK_XMC_CMD_E_LMTST (0x45) /**< I/O multi-quadword store. */
+#define BDK_XMC_CMD_E_LMTSTA (0x55) /**< I/O multi-quadword store, with commit. */
+#define BDK_XMC_CMD_E_LTGL2I (0x19) /**< Read tag at index/way into CSR. */
+#define BDK_XMC_CMD_E_NOP (0) /**< No operation. */
+#define BDK_XMC_CMD_E_PL2 (3) /**< Prefetch into requester L2. */
+#define BDK_XMC_CMD_E_PL2T (0x16) /**< Prefetch into requester L2, transient (mark for replacement in L2). */
+#define BDK_XMC_CMD_E_PS2 (0xa) /**< Prefetch into requester L2, exclusive. */
+#define BDK_XMC_CMD_E_PS2T (0x17) /**< Prefetch into requester L2, exclusive, transient (mark for replacement in L2). */
+#define BDK_XMC_CMD_E_PSL1 (9) /**< Prefetch into L1, bypass L2 (unless L1 is subset L2, then behaves exactly as LDD). */
+#define BDK_XMC_CMD_E_RPL2 (4) /**< Mark for replacement if found in requester L2. */
+#define BDK_XMC_CMD_E_RSTP (0xf) /**< Partial store allocating in home L2. */
+#define BDK_XMC_CMD_E_SEV (0x3e) /**< Broadcast SEV. */
+#define BDK_XMC_CMD_E_STC (0x13) /**< Conditional partial store.  Allocation variable based on CSR. */
+#define BDK_XMC_CMD_E_STF (0x10) /**< Full block store allocating in requester L2, fill zeros. */
+#define BDK_XMC_CMD_E_STFIL1 (0x14) /**< Full block store allocating in requester L2, fill zeros, self-inval L1. */
+#define BDK_XMC_CMD_E_STGL2I (0x1a) /**< Write tag at index/way from CSR. */
+#define BDK_XMC_CMD_E_STP (0x12) /**< Partial store allocating in requester L2. */
+#define BDK_XMC_CMD_E_STT (0x11) /**< Full block store bypass home and remote L2, fill zeros. */
+#define BDK_XMC_CMD_E_STTIL1 (0x15) /**< Full block store bypass home and requester L2, fill zeros, self-inval L1. */
+#define BDK_XMC_CMD_E_STY (0xe) /**< Full block store allocating in home L2, fill zeros. */
+#define BDK_XMC_CMD_E_VAAE1 (0x36) /**< Broadcast TLB invalidate by VA (VAAE1IS). */
+#define BDK_XMC_CMD_E_VAEX (0x35) /**< Broadcast TLB invalidate by VA (VAEXIS). */
+#define BDK_XMC_CMD_E_VMALLE1 (0x3a) /**< Broadcast TLB invalidate (VMALLE1IS). */
+#define BDK_XMC_CMD_E_VMALLS12 (0x3b) /**< Broadcast TLB invalidate (VMALLS12E1IS). */
+#define BDK_XMC_CMD_E_WBIL2 (0x1d) /**< Writeback if dirty, invalidate, clear use bit, by address. */
+#define BDK_XMC_CMD_E_WBIL2I (0x18) /**< Writeback if dirty, invalidate, clear use bit, by index/way. */
+#define BDK_XMC_CMD_E_WBL2 (0x1e) /**< Writeback if dirty, make clean, clear use bit, by address. */
+#define BDK_XMC_CMD_E_WBL2I (0x1b) /**< Writeback if dirty, make clean, clear use bit, by index/way. */
 
 /**
- * Register (RSL) l2c_tad#_stat
+ * Register (RSL) l2c_asc_region#_attr
  *
- * Level 2 Cache TAD Status Registers
- * This register holds information about the instantaneous state of the TAD.
+ * Level 2 Cache Address Space Control Region Attributes Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_l2c_tadx_stat_s
+    struct bdk_l2c_asc_regionx_attr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t lfb_valid_cnt         : 6;  /**< [ 13:  8](RO/H) The number of LFBs in use. */
-        uint64_t reserved_5_7          : 3;
-        uint64_t vbf_inuse_cnt         : 5;  /**< [  4:  0](RO/H) The number of MCI VBFs in use. */
+        uint64_t reserved_2_63         : 62;
+        uint64_t s_en                  : 1;  /**< [  1:  1](R/W) Enables secure access to region.
+                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region. */
+        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables non-secure access to region.
+                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region.
+                                                                 See also DFA_ASC_REGION()_ATTR[NS_EN]. */
 #else /* Word 0 - Little Endian */
-        uint64_t vbf_inuse_cnt         : 5;  /**< [  4:  0](RO/H) The number of MCI VBFs in use. */
-        uint64_t reserved_5_7          : 3;
-        uint64_t lfb_valid_cnt         : 6;  /**< [ 13:  8](RO/H) The number of LFBs in use. */
-        uint64_t reserved_14_63        : 50;
+        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables non-secure access to region.
+                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region.
+                                                                 See also DFA_ASC_REGION()_ATTR[NS_EN]. */
+        uint64_t s_en                  : 1;  /**< [  1:  1](R/W) Enables secure access to region.
+                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region. */
+        uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_tadx_stat_s cn; */
-} bdk_l2c_tadx_stat_t;
+    /* struct bdk_l2c_asc_regionx_attr_s cn; */
+} bdk_l2c_asc_regionx_attr_t;
 
-static inline uint64_t BDK_L2C_TADX_STAT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_STAT(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050020008ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050020008ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_STAT", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_STAT(a) bdk_l2c_tadx_stat_t
-#define bustype_BDK_L2C_TADX_STAT(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_STAT(a) "L2C_TADX_STAT"
-#define busnum_BDK_L2C_TADX_STAT(a) (a)
-#define arguments_BDK_L2C_TADX_STAT(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_tad#_tag
- *
- * Level 2 Cache Tag Data Registers
- * This register holds the tag information for LTGL2I and STGL2I commands.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_tag_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
-        uint64_t reserved_59           : 1;
-        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
-        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-        uint64_t reserved_6_41         : 36;
-        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
-        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
-                                                                 0x0 = Invalid.
-                                                                 0x1 = Shared.
-                                                                 0x2 = Exclusive.
-
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-#else /* Word 0 - Little Endian */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
-                                                                 0x0 = Invalid.
-                                                                 0x1 = Shared.
-                                                                 0x2 = Exclusive.
-
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
-        uint64_t reserved_6_41         : 36;
-        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
-        uint64_t reserved_59           : 1;
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
-#endif /* Word 0 - End */
-    } s;
-    struct bdk_l2c_tadx_tag_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
-        uint64_t reserved_59           : 1;
-        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
-        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-        uint64_t tag                   : 22; /**< [ 41: 20](R/W/H) The tag. TAG<39:20> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
-                                                                 address. TAG<41:40> is the CCPI node of the address. The RTG must always have the
-                                                                 TAG<41:40> equal to the current node or operation is undefined. */
-        uint64_t reserved_6_19         : 14;
-        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
-        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
-                                                                 0x0 = Invalid.
-                                                                 0x1 = Shared.
-                                                                 0x2 = Exclusive.
-
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-#else /* Word 0 - Little Endian */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
-                                                                 0x0 = Invalid.
-                                                                 0x1 = Shared.
-                                                                 0x2 = Exclusive.
-
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
-        uint64_t reserved_6_19         : 14;
-        uint64_t tag                   : 22; /**< [ 41: 20](R/W/H) The tag. TAG<39:20> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
-                                                                 address. TAG<41:40> is the CCPI node of the address. The RTG must always have the
-                                                                 TAG<41:40> equal to the current node or operation is undefined. */
-        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
-        uint64_t reserved_59           : 1;
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
-#endif /* Word 0 - End */
-    } cn88xx;
-    struct bdk_l2c_tadx_tag_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
-        uint64_t reserved_59           : 1;
-        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
-        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-        uint64_t reserved_40_41        : 2;
-        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
-                                                                 address. */
-        uint64_t reserved_6_17         : 12;
-        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
-        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
-                                                                 0x0 = Invalid.
-                                                                 0x1 = Shared.
-                                                                 0x2 = Exclusive.
-
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-#else /* Word 0 - Little Endian */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
-                                                                 0x0 = Invalid.
-                                                                 0x1 = Shared.
-                                                                 0x2 = Exclusive.
-
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
-        uint64_t reserved_6_17         : 12;
-        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
-                                                                 address. */
-        uint64_t reserved_40_41        : 2;
-        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
-        uint64_t reserved_59           : 1;
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
-#endif /* Word 0 - End */
-    } cn83xx;
-} bdk_l2c_tadx_tag_t;
-
-static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050020000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050020000ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_TAG", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_TAG(a) bdk_l2c_tadx_tag_t
-#define bustype_BDK_L2C_TADX_TAG(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_TAG(a) "L2C_TADX_TAG"
-#define busnum_BDK_L2C_TADX_TAG(a) (a)
-#define arguments_BDK_L2C_TADX_TAG(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_asc_region#_start
- *
- * Level 2 Cache Address Space Control Region Start Address Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_asc_regionx_start_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t addr                  : 20; /**< [ 39: 20](R/W) Node-local physical address <39:20> marking the start of the corresponding ASC region.
-                                                                 Software must ensure that regions do not overlap. */
-        uint64_t reserved_0_19         : 20;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_19         : 20;
-        uint64_t addr                  : 20; /**< [ 39: 20](R/W) Node-local physical address <39:20> marking the start of the corresponding ASC region.
-                                                                 Software must ensure that regions do not overlap. */
-        uint64_t reserved_40_63        : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_asc_regionx_start_s cn; */
-} bdk_l2c_asc_regionx_start_t;
-
-static inline uint64_t BDK_L2C_ASC_REGIONX_START(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_ASC_REGIONX_START(unsigned long a)
+static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a)
 {
     if (a<=3)
-        return 0x87e080801000ll + 0x40ll * ((a) & 0x3);
-    __bdk_csr_fatal("L2C_ASC_REGIONX_START", 1, a, 0, 0, 0);
+        return 0x87e080801010ll + 0x40ll * ((a) & 0x3);
+    __bdk_csr_fatal("L2C_ASC_REGIONX_ATTR", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_L2C_ASC_REGIONX_START(a) bdk_l2c_asc_regionx_start_t
-#define bustype_BDK_L2C_ASC_REGIONX_START(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_ASC_REGIONX_START(a) "L2C_ASC_REGIONX_START"
-#define busnum_BDK_L2C_ASC_REGIONX_START(a) (a)
-#define arguments_BDK_L2C_ASC_REGIONX_START(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_wpar_iob#
- *
- * Level 2 Cache IOB Way Partitioning Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_wpar_iobx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
-                                                                 because of the L2C cripple fuses. */
-#else /* Word 0 - Little Endian */
-        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
-                                                                 because of the L2C cripple fuses. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_wpar_iobx_s cn; */
-} bdk_l2c_wpar_iobx_t;
-
-static inline uint64_t BDK_L2C_WPAR_IOBX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_WPAR_IOBX(unsigned long a)
-{
-    if (a<=15)
-        return 0x87e080840200ll + 8ll * ((a) & 0xf);
-    __bdk_csr_fatal("L2C_WPAR_IOBX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_WPAR_IOBX(a) bdk_l2c_wpar_iobx_t
-#define bustype_BDK_L2C_WPAR_IOBX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_WPAR_IOBX(a) "L2C_WPAR_IOBX"
-#define busnum_BDK_L2C_WPAR_IOBX(a) (a)
-#define arguments_BDK_L2C_WPAR_IOBX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_mci#_bist_status
- *
- * Level 2 MCI BIST Status (DCLK) Registers
- * If clear BIST is desired, CLEAR_BIST must be written to 1 before START_BIST is written to 1
- * using a separate CSR write operation.
- * CLEAR_BIST must not be changed after writing START_BIST to 1 until the BIST operation
- * completes (indicated by START_BIST returning to 0) or operation is undefined.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_mcix_bist_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t start_bist            : 1;  /**< [ 63: 63](R/W/H) When written to 1, starts BIST. Remains 1 until BIST is complete. */
-        uint64_t clear_bist            : 1;  /**< [ 62: 62](R/W) When BIST is triggered, run clear BIST. */
-        uint64_t reserved_2_61         : 60;
-        uint64_t vbffl                 : 2;  /**< [  1:  0](RO/H) BIST failure status for VBF0-1. */
-#else /* Word 0 - Little Endian */
-        uint64_t vbffl                 : 2;  /**< [  1:  0](RO/H) BIST failure status for VBF0-1. */
-        uint64_t reserved_2_61         : 60;
-        uint64_t clear_bist            : 1;  /**< [ 62: 62](R/W) When BIST is triggered, run clear BIST. */
-        uint64_t start_bist            : 1;  /**< [ 63: 63](R/W/H) When written to 1, starts BIST. Remains 1 until BIST is complete. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_mcix_bist_status_s cn; */
-} bdk_l2c_mcix_bist_status_t;
-
-static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
-        return 0x87e05c020000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
-        return 0x87e05c020000ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("L2C_MCIX_BIST_STATUS", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_MCIX_BIST_STATUS(a) bdk_l2c_mcix_bist_status_t
-#define bustype_BDK_L2C_MCIX_BIST_STATUS(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_MCIX_BIST_STATUS(a) "L2C_MCIX_BIST_STATUS"
-#define busnum_BDK_L2C_MCIX_BIST_STATUS(a) (a)
-#define arguments_BDK_L2C_MCIX_BIST_STATUS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_qos_wgt
- *
- * Level 2 Cache QOS Weight Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_qos_wgt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t wgt7                  : 8;  /**< [ 63: 56](R/W) Weight for QOS level 7. */
-        uint64_t wgt6                  : 8;  /**< [ 55: 48](R/W) Weight for QOS level 6. */
-        uint64_t wgt5                  : 8;  /**< [ 47: 40](R/W) Weight for QOS level 5. */
-        uint64_t wgt4                  : 8;  /**< [ 39: 32](R/W) Weight for QOS level 4. */
-        uint64_t wgt3                  : 8;  /**< [ 31: 24](R/W) Weight for QOS level 3. */
-        uint64_t wgt2                  : 8;  /**< [ 23: 16](R/W) Weight for QOS level 2. */
-        uint64_t wgt1                  : 8;  /**< [ 15:  8](R/W) Weight for QOS level 1. */
-        uint64_t wgt0                  : 8;  /**< [  7:  0](R/W) Weight for QOS level 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t wgt0                  : 8;  /**< [  7:  0](R/W) Weight for QOS level 0. */
-        uint64_t wgt1                  : 8;  /**< [ 15:  8](R/W) Weight for QOS level 1. */
-        uint64_t wgt2                  : 8;  /**< [ 23: 16](R/W) Weight for QOS level 2. */
-        uint64_t wgt3                  : 8;  /**< [ 31: 24](R/W) Weight for QOS level 3. */
-        uint64_t wgt4                  : 8;  /**< [ 39: 32](R/W) Weight for QOS level 4. */
-        uint64_t wgt5                  : 8;  /**< [ 47: 40](R/W) Weight for QOS level 5. */
-        uint64_t wgt6                  : 8;  /**< [ 55: 48](R/W) Weight for QOS level 6. */
-        uint64_t wgt7                  : 8;  /**< [ 63: 56](R/W) Weight for QOS level 7. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_qos_wgt_s cn; */
-} bdk_l2c_qos_wgt_t;
-
-#define BDK_L2C_QOS_WGT BDK_L2C_QOS_WGT_FUNC()
-static inline uint64_t BDK_L2C_QOS_WGT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_QOS_WGT_FUNC(void)
-{
-    return 0x87e080800008ll;
-}
-
-#define typedef_BDK_L2C_QOS_WGT bdk_l2c_qos_wgt_t
-#define bustype_BDK_L2C_QOS_WGT BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_QOS_WGT "L2C_QOS_WGT"
-#define busnum_BDK_L2C_QOS_WGT 0
-#define arguments_BDK_L2C_QOS_WGT -1,-1,-1,-1
+#define typedef_BDK_L2C_ASC_REGIONX_ATTR(a) bdk_l2c_asc_regionx_attr_t
+#define bustype_BDK_L2C_ASC_REGIONX_ATTR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_ASC_REGIONX_ATTR(a) "L2C_ASC_REGIONX_ATTR"
+#define busnum_BDK_L2C_ASC_REGIONX_ATTR(a) (a)
+#define arguments_BDK_L2C_ASC_REGIONX_ATTR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) l2c_asc_region#_end
@@ -873,6 +536,226 @@ static inline uint64_t BDK_L2C_ASC_REGIONX_END(unsigned long a)
 #define basename_BDK_L2C_ASC_REGIONX_END(a) "L2C_ASC_REGIONX_END"
 #define busnum_BDK_L2C_ASC_REGIONX_END(a) (a)
 #define arguments_BDK_L2C_ASC_REGIONX_END(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_asc_region#_start
+ *
+ * Level 2 Cache Address Space Control Region Start Address Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_asc_regionx_start_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t addr                  : 20; /**< [ 39: 20](R/W) Node-local physical address <39:20> marking the start of the corresponding ASC region.
+                                                                 Software must ensure that regions do not overlap. */
+        uint64_t reserved_0_19         : 20;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_19         : 20;
+        uint64_t addr                  : 20; /**< [ 39: 20](R/W) Node-local physical address <39:20> marking the start of the corresponding ASC region.
+                                                                 Software must ensure that regions do not overlap. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_asc_regionx_start_s cn; */
+} bdk_l2c_asc_regionx_start_t;
+
+static inline uint64_t BDK_L2C_ASC_REGIONX_START(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_ASC_REGIONX_START(unsigned long a)
+{
+    if (a<=3)
+        return 0x87e080801000ll + 0x40ll * ((a) & 0x3);
+    __bdk_csr_fatal("L2C_ASC_REGIONX_START", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_ASC_REGIONX_START(a) bdk_l2c_asc_regionx_start_t
+#define bustype_BDK_L2C_ASC_REGIONX_START(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_ASC_REGIONX_START(a) "L2C_ASC_REGIONX_START"
+#define busnum_BDK_L2C_ASC_REGIONX_START(a) (a)
+#define arguments_BDK_L2C_ASC_REGIONX_START(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_cbc#_bist_status
+ *
+ * Level 2 Cache CBC BIST Status Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_cbcx_bist_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_37_63        : 27;
+        uint64_t mibfl                 : 5;  /**< [ 36: 32](RO/H) BIST failure status for various MIB memories. ({XMD, IPM, IRM, MXD, MXN}) */
+        uint64_t rsdfl                 : 32; /**< [ 31:  0](RO/H) BIST failure status for RSDQW0-31. */
+#else /* Word 0 - Little Endian */
+        uint64_t rsdfl                 : 32; /**< [ 31:  0](RO/H) BIST failure status for RSDQW0-31. */
+        uint64_t mibfl                 : 5;  /**< [ 36: 32](RO/H) BIST failure status for various MIB memories. ({XMD, IPM, IRM, MXD, MXN}) */
+        uint64_t reserved_37_63        : 27;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_cbcx_bist_status_s cn; */
+} bdk_l2c_cbcx_bist_status_t;
+
+static inline uint64_t BDK_L2C_CBCX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_CBCX_BIST_STATUS(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0580a0000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e0580a0000ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("L2C_CBCX_BIST_STATUS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_CBCX_BIST_STATUS(a) bdk_l2c_cbcx_bist_status_t
+#define bustype_BDK_L2C_CBCX_BIST_STATUS(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_CBCX_BIST_STATUS(a) "L2C_CBCX_BIST_STATUS"
+#define busnum_BDK_L2C_CBCX_BIST_STATUS(a) (a)
+#define arguments_BDK_L2C_CBCX_BIST_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_cbc#_dll
+ *
+ * L2C CBC DLL Observability Register
+ * Register for DLL observability.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_cbcx_dll_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_60_63        : 4;
+        uint64_t max_dll_setting       : 12; /**< [ 59: 48](RO/H) Max reported DLL setting. */
+        uint64_t min_dll_setting       : 12; /**< [ 47: 36](RO/H) Min reported DLL setting. */
+        uint64_t pd_pos_rclk_refclk    : 1;  /**< [ 35: 35](RO/H) Phase detector output. */
+        uint64_t pdl_rclk_refclk       : 1;  /**< [ 34: 34](RO/H) Phase detector output. */
+        uint64_t pdr_rclk_refclk       : 1;  /**< [ 33: 33](RO/H) Phase detector output. */
+        uint64_t reserved_32           : 1;
+        uint64_t dly_elem_enable       : 16; /**< [ 31: 16](RO/H) Delay element enable. */
+        uint64_t dll_setting           : 12; /**< [ 15:  4](RO/H) DLL setting. */
+        uint64_t reserved_1_3          : 3;
+        uint64_t dll_lock              : 1;  /**< [  0:  0](RO/H) DLL locked. */
+#else /* Word 0 - Little Endian */
+        uint64_t dll_lock              : 1;  /**< [  0:  0](RO/H) DLL locked. */
+        uint64_t reserved_1_3          : 3;
+        uint64_t dll_setting           : 12; /**< [ 15:  4](RO/H) DLL setting. */
+        uint64_t dly_elem_enable       : 16; /**< [ 31: 16](RO/H) Delay element enable. */
+        uint64_t reserved_32           : 1;
+        uint64_t pdr_rclk_refclk       : 1;  /**< [ 33: 33](RO/H) Phase detector output. */
+        uint64_t pdl_rclk_refclk       : 1;  /**< [ 34: 34](RO/H) Phase detector output. */
+        uint64_t pd_pos_rclk_refclk    : 1;  /**< [ 35: 35](RO/H) Phase detector output. */
+        uint64_t min_dll_setting       : 12; /**< [ 47: 36](RO/H) Min reported DLL setting. */
+        uint64_t max_dll_setting       : 12; /**< [ 59: 48](RO/H) Max reported DLL setting. */
+        uint64_t reserved_60_63        : 4;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_cbcx_dll_s cn; */
+} bdk_l2c_cbcx_dll_t;
+
+static inline uint64_t BDK_L2C_CBCX_DLL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_CBCX_DLL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e058040000ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e058040000ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("L2C_CBCX_DLL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_CBCX_DLL(a) bdk_l2c_cbcx_dll_t
+#define bustype_BDK_L2C_CBCX_DLL(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_CBCX_DLL(a) "L2C_CBCX_DLL"
+#define busnum_BDK_L2C_CBCX_DLL(a) (a)
+#define arguments_BDK_L2C_CBCX_DLL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_cbc#_iocerr
+ *
+ * Level 2 Cache CBC Error Information Registers
+ * Reserved.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_cbcx_iocerr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_cbcx_iocerr_s cn; */
+} bdk_l2c_cbcx_iocerr_t;
+
+static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e058080010ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e058080010ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("L2C_CBCX_IOCERR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_CBCX_IOCERR(a) bdk_l2c_cbcx_iocerr_t
+#define bustype_BDK_L2C_CBCX_IOCERR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_CBCX_IOCERR(a) "L2C_CBCX_IOCERR"
+#define busnum_BDK_L2C_CBCX_IOCERR(a) (a)
+#define arguments_BDK_L2C_CBCX_IOCERR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_cbc#_iodisocierr
+ *
+ * Level 2 Cache IODISOCI Error Information Registers
+ * Reserved.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_cbcx_iodisocierr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t iorddisoci            : 1;  /**< [ 63: 63](RO/H) Logged information is for a IORDDISOCI error. */
+        uint64_t iowrdisoci            : 1;  /**< [ 62: 62](RO/H) Logged information is for a IOWRDISOCI error. */
+        uint64_t reserved_59_61        : 3;
+        uint64_t cmd                   : 7;  /**< [ 58: 52](RO/H) Encoding of XMC command.  INTERNAL: Enumerated by XMC_CMD_E. */
+        uint64_t ppvid                 : 6;  /**< [ 51: 46](RO/H) CMB source PPVID. */
+        uint64_t node                  : 2;  /**< [ 45: 44](RO/H) Destination node ID. */
+        uint64_t did                   : 8;  /**< [ 43: 36](RO/H) Destination device ID. */
+        uint64_t addr                  : 36; /**< [ 35:  0](RO/H) I/O address. */
+#else /* Word 0 - Little Endian */
+        uint64_t addr                  : 36; /**< [ 35:  0](RO/H) I/O address. */
+        uint64_t did                   : 8;  /**< [ 43: 36](RO/H) Destination device ID. */
+        uint64_t node                  : 2;  /**< [ 45: 44](RO/H) Destination node ID. */
+        uint64_t ppvid                 : 6;  /**< [ 51: 46](RO/H) CMB source PPVID. */
+        uint64_t cmd                   : 7;  /**< [ 58: 52](RO/H) Encoding of XMC command.  INTERNAL: Enumerated by XMC_CMD_E. */
+        uint64_t reserved_59_61        : 3;
+        uint64_t iowrdisoci            : 1;  /**< [ 62: 62](RO/H) Logged information is for a IOWRDISOCI error. */
+        uint64_t iorddisoci            : 1;  /**< [ 63: 63](RO/H) Logged information is for a IORDDISOCI error. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_cbcx_iodisocierr_s cn; */
+} bdk_l2c_cbcx_iodisocierr_t;
+
+static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e058080008ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e058080008ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("L2C_CBCX_IODISOCIERR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_CBCX_IODISOCIERR(a) bdk_l2c_cbcx_iodisocierr_t
+#define bustype_BDK_L2C_CBCX_IODISOCIERR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_CBCX_IODISOCIERR(a) "L2C_CBCX_IODISOCIERR"
+#define busnum_BDK_L2C_CBCX_IODISOCIERR(a) (a)
+#define arguments_BDK_L2C_CBCX_IODISOCIERR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) l2c_cbc#_miberr
@@ -931,173 +814,59 @@ static inline uint64_t BDK_L2C_CBCX_MIBERR(unsigned long a)
 #define arguments_BDK_L2C_CBCX_MIBERR(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) l2c_tad#_prf
+ * Register (RSL) l2c_cbc#_rsderr
  *
- * Level 2 Cache TAD Performance Counter Control Registers
- * All four counters are equivalent and can use any of the defined selects.
+ * Level 2 Cache RSD Error Information Registers
+ * This register records error information for all CBC RSD errors.
+ * An error locks the INDEX, and SYN fields and set the bit corresponding to the error received.
+ * RSDDBE errors take priority and overwrite an earlier logged RSDSBE error. Only one of
+ * RSDSBE/RSDDBE is set at any given time and serves to document which error the INDEX/SYN is
+ * associated with.
+ * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_l2c_tadx_prf_s
+    struct bdk_l2c_cbcx_rsderr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..7)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..7)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..7)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..7)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t rsddbe                : 1;  /**< [ 63: 63](RO/H) INDEX/SYN corresponds to a double-bit RSD ECC error */
+        uint64_t rsdsbe                : 1;  /**< [ 62: 62](RO/H) INDEX/SYN corresponds to a single-bit RSD ECC error */
+        uint64_t reserved_40_61        : 22;
+        uint64_t syn                   : 8;  /**< [ 39: 32](RO/H) Error syndrome. */
+        uint64_t reserved_9_31         : 23;
+        uint64_t tadnum                : 3;  /**< [  8:  6](RO/H) Indicates the TAD FIFO containing the error. */
+        uint64_t qwnum                 : 2;  /**< [  5:  4](RO/H) Indicates the QW containing the error. */
+        uint64_t rsdnum                : 4;  /**< [  3:  0](RO/H) Indicates the RSD that had the error. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..7)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..7)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..7)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..7)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t rsdnum                : 4;  /**< [  3:  0](RO/H) Indicates the RSD that had the error. */
+        uint64_t qwnum                 : 2;  /**< [  5:  4](RO/H) Indicates the QW containing the error. */
+        uint64_t tadnum                : 3;  /**< [  8:  6](RO/H) Indicates the TAD FIFO containing the error. */
+        uint64_t reserved_9_31         : 23;
+        uint64_t syn                   : 8;  /**< [ 39: 32](RO/H) Error syndrome. */
+        uint64_t reserved_40_61        : 22;
+        uint64_t rsdsbe                : 1;  /**< [ 62: 62](RO/H) INDEX/SYN corresponds to a single-bit RSD ECC error */
+        uint64_t rsddbe                : 1;  /**< [ 63: 63](RO/H) INDEX/SYN corresponds to a double-bit RSD ECC error */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_tadx_prf_s cn88xx; */
-    struct bdk_l2c_tadx_prf_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn83xx;
-} bdk_l2c_tadx_prf_t;
+    /* struct bdk_l2c_cbcx_rsderr_s cn; */
+} bdk_l2c_cbcx_rsderr_t;
 
-static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a)
+static inline uint64_t BDK_L2C_CBCX_RSDERR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_CBCX_RSDERR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050010000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050010000ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_PRF", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e058080018ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e058080018ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("L2C_CBCX_RSDERR", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_L2C_TADX_PRF(a) bdk_l2c_tadx_prf_t
-#define bustype_BDK_L2C_TADX_PRF(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_PRF(a) "L2C_TADX_PRF"
-#define busnum_BDK_L2C_TADX_PRF(a) (a)
-#define arguments_BDK_L2C_TADX_PRF(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_tad#_pfc#
- *
- * Level 2 Cache TAD Performance Counter Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_pfcx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Current counter value. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Current counter value. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_tadx_pfcx_s cn; */
-} bdk_l2c_tadx_pfcx_t;
-
-static inline uint64_t BDK_L2C_TADX_PFCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_PFCX(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
-        return 0x87e050010100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=3)))
-        return 0x87e050010100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
-    __bdk_csr_fatal("L2C_TADX_PFCX", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_PFCX(a,b) bdk_l2c_tadx_pfcx_t
-#define bustype_BDK_L2C_TADX_PFCX(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_PFCX(a,b) "L2C_TADX_PFCX"
-#define busnum_BDK_L2C_TADX_PFCX(a,b) (a)
-#define arguments_BDK_L2C_TADX_PFCX(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) l2c_tad#_err
- *
- * Level 2 Cache TAD Request Error Info Registers
- * This register records error information for BIG* interrupts. The BIG logic only
- * applies to local addresses. The first BIGWR error will lock the register until the
- * logged error type is cleared; BIGRD never locks the register.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_err_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a RDNXM error. */
-        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a WRNXM error. */
-        uint64_t rddisoci              : 1;  /**< [ 61: 61](RO/H) Logged information is for a RDDISOCI error. */
-        uint64_t wrdisoci              : 1;  /**< [ 60: 60](RO/H) Logged information is for a WRDISOCI error. */
-        uint64_t nonsec                : 1;  /**< [ 59: 59](RO/H) Non-secure (NS) bit of request causing error. */
-        uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error. INTERNAL: If CMD[7]==1, use XMC_CMD_E to
-                                                                 decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
-                                                                 use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
-                                                                 CMD[4:0]. */
-        uint64_t source                : 7;  /**< [ 50: 44](RO/H) XMC source of request causing error. If SOURCE<6>==0, then SOURCE<5:0> is PPID, else
-                                                                 SOURCE<3:0> is BUSID of the IOB which made the request. If CMD[7]==0, this field is
-                                                                 unpredictable. */
-        uint64_t reserved_42_43        : 2;
-        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) CCPI node of XMC request causing error. For *NXM errors NODE is always the node that
-                                                                 generated request causing the error (*NXM errors are logged at the home node). For *DISOCI
-                                                                 errors, is the NODE the request is directed to (DISOCI request is always the current
-                                                                 node). */
-        uint64_t addr                  : 40; /**< [ 39:  0](RO/H) XMC address causing the error. ADDR<6:0> is unpredictable for *DISOCI and *NXM
-                                                                 errors. This field is the physical address after index aliasing (if enabled). */
-#else /* Word 0 - Little Endian */
-        uint64_t addr                  : 40; /**< [ 39:  0](RO/H) XMC address causing the error. ADDR<6:0> is unpredictable for *DISOCI and *NXM
-                                                                 errors. This field is the physical address after index aliasing (if enabled). */
-        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) CCPI node of XMC request causing error. For *NXM errors NODE is always the node that
-                                                                 generated request causing the error (*NXM errors are logged at the home node). For *DISOCI
-                                                                 errors, is the NODE the request is directed to (DISOCI request is always the current
-                                                                 node). */
-        uint64_t reserved_42_43        : 2;
-        uint64_t source                : 7;  /**< [ 50: 44](RO/H) XMC source of request causing error. If SOURCE<6>==0, then SOURCE<5:0> is PPID, else
-                                                                 SOURCE<3:0> is BUSID of the IOB which made the request. If CMD[7]==0, this field is
-                                                                 unpredictable. */
-        uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error. INTERNAL: If CMD[7]==1, use XMC_CMD_E to
-                                                                 decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
-                                                                 use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
-                                                                 CMD[4:0]. */
-        uint64_t nonsec                : 1;  /**< [ 59: 59](RO/H) Non-secure (NS) bit of request causing error. */
-        uint64_t wrdisoci              : 1;  /**< [ 60: 60](RO/H) Logged information is for a WRDISOCI error. */
-        uint64_t rddisoci              : 1;  /**< [ 61: 61](RO/H) Logged information is for a RDDISOCI error. */
-        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a WRNXM error. */
-        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a RDNXM error. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_tadx_err_s cn; */
-} bdk_l2c_tadx_err_t;
-
-static inline uint64_t BDK_L2C_TADX_ERR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_ERR(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050060000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050060000ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_ERR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_ERR(a) bdk_l2c_tadx_err_t
-#define bustype_BDK_L2C_TADX_ERR(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_ERR(a) "L2C_TADX_ERR"
-#define busnum_BDK_L2C_TADX_ERR(a) (a)
-#define arguments_BDK_L2C_TADX_ERR(a) (a),-1,-1,-1
+#define typedef_BDK_L2C_CBCX_RSDERR(a) bdk_l2c_cbcx_rsderr_t
+#define bustype_BDK_L2C_CBCX_RSDERR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_CBCX_RSDERR(a) "L2C_CBCX_RSDERR"
+#define busnum_BDK_L2C_CBCX_RSDERR(a) (a)
+#define arguments_BDK_L2C_CBCX_RSDERR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) l2c_ctl
@@ -1292,56 +1061,6 @@ static inline uint64_t BDK_L2C_CTL_FUNC(void)
 #define arguments_BDK_L2C_CTL -1,-1,-1,-1
 
 /**
- * Register (RSL) l2c_cbc#_iodisocierr
- *
- * Level 2 Cache IODISOCI Error Information Registers
- * Reserved.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_cbcx_iodisocierr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t iorddisoci            : 1;  /**< [ 63: 63](RO/H) Logged information is for a IORDDISOCI error. */
-        uint64_t iowrdisoci            : 1;  /**< [ 62: 62](RO/H) Logged information is for a IOWRDISOCI error. */
-        uint64_t reserved_59_61        : 3;
-        uint64_t cmd                   : 7;  /**< [ 58: 52](RO/H) Encoding of XMC command.  INTERNAL: Enumerated by XMC_CMD_E. */
-        uint64_t ppvid                 : 6;  /**< [ 51: 46](RO/H) CMB source PPVID. */
-        uint64_t node                  : 2;  /**< [ 45: 44](RO/H) Destination node ID. */
-        uint64_t did                   : 8;  /**< [ 43: 36](RO/H) Destination device ID. */
-        uint64_t addr                  : 36; /**< [ 35:  0](RO/H) I/O address. */
-#else /* Word 0 - Little Endian */
-        uint64_t addr                  : 36; /**< [ 35:  0](RO/H) I/O address. */
-        uint64_t did                   : 8;  /**< [ 43: 36](RO/H) Destination device ID. */
-        uint64_t node                  : 2;  /**< [ 45: 44](RO/H) Destination node ID. */
-        uint64_t ppvid                 : 6;  /**< [ 51: 46](RO/H) CMB source PPVID. */
-        uint64_t cmd                   : 7;  /**< [ 58: 52](RO/H) Encoding of XMC command.  INTERNAL: Enumerated by XMC_CMD_E. */
-        uint64_t reserved_59_61        : 3;
-        uint64_t iowrdisoci            : 1;  /**< [ 62: 62](RO/H) Logged information is for a IOWRDISOCI error. */
-        uint64_t iorddisoci            : 1;  /**< [ 63: 63](RO/H) Logged information is for a IORDDISOCI error. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_cbcx_iodisocierr_s cn; */
-} bdk_l2c_cbcx_iodisocierr_t;
-
-static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e058080008ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
-        return 0x87e058080008ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("L2C_CBCX_IODISOCIERR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_CBCX_IODISOCIERR(a) bdk_l2c_cbcx_iodisocierr_t
-#define bustype_BDK_L2C_CBCX_IODISOCIERR(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_CBCX_IODISOCIERR(a) "L2C_CBCX_IODISOCIERR"
-#define busnum_BDK_L2C_CBCX_IODISOCIERR(a) (a)
-#define arguments_BDK_L2C_CBCX_IODISOCIERR(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) l2c_ecc_ctl
  *
  * L2C ECC Control Register
@@ -1405,103 +1124,114 @@ static inline uint64_t BDK_L2C_ECC_CTL_FUNC(void)
 #define arguments_BDK_L2C_ECC_CTL -1,-1,-1,-1
 
 /**
- * Register (RSL) l2c_asc_region#_attr
+ * Register (RSL) l2c_mci#_bist_status
  *
- * Level 2 Cache Address Space Control Region Attributes Registers
+ * Level 2 MCI BIST Status (DCLK) Registers
+ * If clear BIST is desired, CLEAR_BIST must be written to 1 before START_BIST is written to 1
+ * using a separate CSR write operation.
+ * CLEAR_BIST must not be changed after writing START_BIST to 1 until the BIST operation
+ * completes (indicated by START_BIST returning to 0) or operation is undefined.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_l2c_asc_regionx_attr_s
+    struct bdk_l2c_mcix_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t s_en                  : 1;  /**< [  1:  1](R/W) Enables secure access to region.
-                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region. */
-        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables non-secure access to region.
-                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region.
-                                                                 See also DFA_ASC_REGION()_ATTR[NS_EN]. */
+        uint64_t start_bist            : 1;  /**< [ 63: 63](R/W/H) When written to 1, starts BIST. Remains 1 until BIST is complete. */
+        uint64_t clear_bist            : 1;  /**< [ 62: 62](R/W) When BIST is triggered, run clear BIST. */
+        uint64_t reserved_2_61         : 60;
+        uint64_t vbffl                 : 2;  /**< [  1:  0](RO/H) BIST failure status for VBF0-1. */
 #else /* Word 0 - Little Endian */
-        uint64_t ns_en                 : 1;  /**< [  0:  0](R/W) Enables non-secure access to region.
-                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region.
-                                                                 See also DFA_ASC_REGION()_ATTR[NS_EN]. */
-        uint64_t s_en                  : 1;  /**< [  1:  1](R/W) Enables secure access to region.
-                                                                 Undefined if both [S_EN] and [NS_EN] are set for the same region. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t vbffl                 : 2;  /**< [  1:  0](RO/H) BIST failure status for VBF0-1. */
+        uint64_t reserved_2_61         : 60;
+        uint64_t clear_bist            : 1;  /**< [ 62: 62](R/W) When BIST is triggered, run clear BIST. */
+        uint64_t start_bist            : 1;  /**< [ 63: 63](R/W/H) When written to 1, starts BIST. Remains 1 until BIST is complete. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_asc_regionx_attr_s cn; */
-} bdk_l2c_asc_regionx_attr_t;
+    /* struct bdk_l2c_mcix_bist_status_s cn; */
+} bdk_l2c_mcix_bist_status_t;
 
-static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_ASC_REGIONX_ATTR(unsigned long a)
+static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a)
 {
-    if (a<=3)
-        return 0x87e080801010ll + 0x40ll * ((a) & 0x3);
-    __bdk_csr_fatal("L2C_ASC_REGIONX_ATTR", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e05c020000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e05c020000ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("L2C_MCIX_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_L2C_ASC_REGIONX_ATTR(a) bdk_l2c_asc_regionx_attr_t
-#define bustype_BDK_L2C_ASC_REGIONX_ATTR(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_ASC_REGIONX_ATTR(a) "L2C_ASC_REGIONX_ATTR"
-#define busnum_BDK_L2C_ASC_REGIONX_ATTR(a) (a)
-#define arguments_BDK_L2C_ASC_REGIONX_ATTR(a) (a),-1,-1,-1
+#define typedef_BDK_L2C_MCIX_BIST_STATUS(a) bdk_l2c_mcix_bist_status_t
+#define bustype_BDK_L2C_MCIX_BIST_STATUS(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_MCIX_BIST_STATUS(a) "L2C_MCIX_BIST_STATUS"
+#define busnum_BDK_L2C_MCIX_BIST_STATUS(a) (a)
+#define arguments_BDK_L2C_MCIX_BIST_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) l2c_tad#_timetwo
+ * Register (RSL) l2c_mci#_err
  *
- * Level 2 Cache LFB Timeout Count Registers
- * This register records the number of LFB entries that have timed out.
+ * Level 2 Cache MCI Error Information Registers
+ * This register records error information for all MCI errors.
+ * An error locks the VBF4, INDEX, and SYN0/1 fields and set the bit corresponding to the error
+ * received. VBFDBE errors take priority and will overwrite an earlier logged VBFSBE error. The
+ * information from exactly one VBF read is present at any given time and serves to document
+ * which error(s) were present in the read with the highest priority error.
+ * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_l2c_tadx_timetwo_s
+    struct bdk_l2c_mcix_err_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t sid                   : 4;  /**< [ 32: 29](RO/H) Source id of the original request, that is 'source' of request. This is only valid if the
-                                                                 request is a local request (valid if L2C_TAD()_TIMEOUT[CMD] is an XMC request and not
-                                                                 relevant if it is an CCPI request). */
-        uint64_t busid                 : 4;  /**< [ 28: 25](RO/H) Busid of the original request, that is 'source' of request. */
-        uint64_t vabst                 : 3;  /**< [ 24: 22](RO/H) This is the LFB internal state if INFOLFB is set, else will contain VAB internal state if
-                                                                 INFOVAB is set. */
-        uint64_t lfbst                 : 14; /**< [ 21:  8](RO/H) This is the LFB internal state if INFOLFB is set, else will contain VAB internal state if
-                                                                 INFOVAB is set. */
-        uint64_t tocnt                 : 8;  /**< [  7:  0](RO/H) This is a running count of the LFB that has timed out ... the count will saturate at 0xFF.
-                                                                 Will clear when the LFBTO interrupt is cleared. */
+        uint64_t vbfdbe1               : 1;  /**< [ 63: 63](RO/H) INDEX/SYN1 corresponds to a double-bit VBF ECC error. */
+        uint64_t vbfdbe0               : 1;  /**< [ 62: 62](RO/H) INDEX/SYN0 corresponds to a double-bit VBF ECC error. */
+        uint64_t vbfsbe1               : 1;  /**< [ 61: 61](RO/H) INDEX/SYN1 corresponds to a single-bit VBF ECC error. */
+        uint64_t vbfsbe0               : 1;  /**< [ 60: 60](RO/H) INDEX/SYN0 corresponds to a single-bit VBF ECC error. */
+        uint64_t reserved_48_59        : 12;
+        uint64_t syn1                  : 8;  /**< [ 47: 40](RO/H) Error syndrome for QW1 ([127:64]).
+                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
+        uint64_t syn0                  : 8;  /**< [ 39: 32](RO/H) Error syndrome for QW0 ([63:0]).
+                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
+        uint64_t reserved_12_31        : 20;
+        uint64_t vbf4                  : 1;  /**< [ 11: 11](RO/H) When 1, errors were from VBF (4+a), when 0, from VBF (0+a). */
+        uint64_t index                 : 7;  /**< [ 10:  4](RO/H) VBF index which was read and had the error(s). */
+        uint64_t reserved_0_3          : 4;
 #else /* Word 0 - Little Endian */
-        uint64_t tocnt                 : 8;  /**< [  7:  0](RO/H) This is a running count of the LFB that has timed out ... the count will saturate at 0xFF.
-                                                                 Will clear when the LFBTO interrupt is cleared. */
-        uint64_t lfbst                 : 14; /**< [ 21:  8](RO/H) This is the LFB internal state if INFOLFB is set, else will contain VAB internal state if
-                                                                 INFOVAB is set. */
-        uint64_t vabst                 : 3;  /**< [ 24: 22](RO/H) This is the LFB internal state if INFOLFB is set, else will contain VAB internal state if
-                                                                 INFOVAB is set. */
-        uint64_t busid                 : 4;  /**< [ 28: 25](RO/H) Busid of the original request, that is 'source' of request. */
-        uint64_t sid                   : 4;  /**< [ 32: 29](RO/H) Source id of the original request, that is 'source' of request. This is only valid if the
-                                                                 request is a local request (valid if L2C_TAD()_TIMEOUT[CMD] is an XMC request and not
-                                                                 relevant if it is an CCPI request). */
-        uint64_t reserved_33_63        : 31;
+        uint64_t reserved_0_3          : 4;
+        uint64_t index                 : 7;  /**< [ 10:  4](RO/H) VBF index which was read and had the error(s). */
+        uint64_t vbf4                  : 1;  /**< [ 11: 11](RO/H) When 1, errors were from VBF (4+a), when 0, from VBF (0+a). */
+        uint64_t reserved_12_31        : 20;
+        uint64_t syn0                  : 8;  /**< [ 39: 32](RO/H) Error syndrome for QW0 ([63:0]).
+                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
+        uint64_t syn1                  : 8;  /**< [ 47: 40](RO/H) Error syndrome for QW1 ([127:64]).
+                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
+        uint64_t reserved_48_59        : 12;
+        uint64_t vbfsbe0               : 1;  /**< [ 60: 60](RO/H) INDEX/SYN0 corresponds to a single-bit VBF ECC error. */
+        uint64_t vbfsbe1               : 1;  /**< [ 61: 61](RO/H) INDEX/SYN1 corresponds to a single-bit VBF ECC error. */
+        uint64_t vbfdbe0               : 1;  /**< [ 62: 62](RO/H) INDEX/SYN0 corresponds to a double-bit VBF ECC error. */
+        uint64_t vbfdbe1               : 1;  /**< [ 63: 63](RO/H) INDEX/SYN1 corresponds to a double-bit VBF ECC error. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_tadx_timetwo_s cn; */
-} bdk_l2c_tadx_timetwo_t;
+    /* struct bdk_l2c_mcix_err_s cn; */
+} bdk_l2c_mcix_err_t;
 
-static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a)
+static inline uint64_t BDK_L2C_MCIX_ERR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_MCIX_ERR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050050000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050050000ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_TIMETWO", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e05c010000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e05c010000ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("L2C_MCIX_ERR", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_L2C_TADX_TIMETWO(a) bdk_l2c_tadx_timetwo_t
-#define bustype_BDK_L2C_TADX_TIMETWO(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_TIMETWO(a) "L2C_TADX_TIMETWO"
-#define busnum_BDK_L2C_TADX_TIMETWO(a) (a)
-#define arguments_BDK_L2C_TADX_TIMETWO(a) (a),-1,-1,-1
+#define typedef_BDK_L2C_MCIX_ERR(a) bdk_l2c_mcix_err_t
+#define bustype_BDK_L2C_MCIX_ERR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_MCIX_ERR(a) "L2C_MCIX_ERR"
+#define busnum_BDK_L2C_MCIX_ERR(a) (a)
+#define arguments_BDK_L2C_MCIX_ERR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) l2c_oci_ctl
@@ -1971,60 +1701,87 @@ static inline uint64_t BDK_L2C_OCI_CTL_FUNC(void)
 #define arguments_BDK_L2C_OCI_CTL -1,-1,-1,-1
 
 /**
- * Register (RSL) l2c_cbc#_dll
+ * Register (RSL) l2c_qos_pp#
  *
- * L2C CBC DLL Observability Register
- * Register for DLL observability.
+ * Level 2 Cache Core QOS Level Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_l2c_cbcx_dll_s
+    struct bdk_l2c_qos_ppx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
-        uint64_t max_dll_setting       : 12; /**< [ 59: 48](RO/H) Max reported DLL setting. */
-        uint64_t min_dll_setting       : 12; /**< [ 47: 36](RO/H) Min reported DLL setting. */
-        uint64_t pd_pos_rclk_refclk    : 1;  /**< [ 35: 35](RO/H) Phase detector output. */
-        uint64_t pdl_rclk_refclk       : 1;  /**< [ 34: 34](RO/H) Phase detector output. */
-        uint64_t pdr_rclk_refclk       : 1;  /**< [ 33: 33](RO/H) Phase detector output. */
-        uint64_t reserved_32           : 1;
-        uint64_t dly_elem_enable       : 16; /**< [ 31: 16](RO/H) Delay element enable. */
-        uint64_t dll_setting           : 12; /**< [ 15:  4](RO/H) DLL setting. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t dll_lock              : 1;  /**< [  0:  0](RO/H) DLL locked. */
+        uint64_t reserved_3_63         : 61;
+        uint64_t lvl                   : 3;  /**< [  2:  0](R/W) QOS level to use for this core. */
 #else /* Word 0 - Little Endian */
-        uint64_t dll_lock              : 1;  /**< [  0:  0](RO/H) DLL locked. */
-        uint64_t reserved_1_3          : 3;
-        uint64_t dll_setting           : 12; /**< [ 15:  4](RO/H) DLL setting. */
-        uint64_t dly_elem_enable       : 16; /**< [ 31: 16](RO/H) Delay element enable. */
-        uint64_t reserved_32           : 1;
-        uint64_t pdr_rclk_refclk       : 1;  /**< [ 33: 33](RO/H) Phase detector output. */
-        uint64_t pdl_rclk_refclk       : 1;  /**< [ 34: 34](RO/H) Phase detector output. */
-        uint64_t pd_pos_rclk_refclk    : 1;  /**< [ 35: 35](RO/H) Phase detector output. */
-        uint64_t min_dll_setting       : 12; /**< [ 47: 36](RO/H) Min reported DLL setting. */
-        uint64_t max_dll_setting       : 12; /**< [ 59: 48](RO/H) Max reported DLL setting. */
-        uint64_t reserved_60_63        : 4;
+        uint64_t lvl                   : 3;  /**< [  2:  0](R/W) QOS level to use for this core. */
+        uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_cbcx_dll_s cn; */
-} bdk_l2c_cbcx_dll_t;
+    /* struct bdk_l2c_qos_ppx_s cn; */
+} bdk_l2c_qos_ppx_t;
 
-static inline uint64_t BDK_L2C_CBCX_DLL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_CBCX_DLL(unsigned long a)
+static inline uint64_t BDK_L2C_QOS_PPX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_QOS_PPX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e058040000ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
-        return 0x87e058040000ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("L2C_CBCX_DLL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=23))
+        return 0x87e080880000ll + 8ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
+        return 0x87e080880000ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("L2C_QOS_PPX", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_L2C_CBCX_DLL(a) bdk_l2c_cbcx_dll_t
-#define bustype_BDK_L2C_CBCX_DLL(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_CBCX_DLL(a) "L2C_CBCX_DLL"
-#define busnum_BDK_L2C_CBCX_DLL(a) (a)
-#define arguments_BDK_L2C_CBCX_DLL(a) (a),-1,-1,-1
+#define typedef_BDK_L2C_QOS_PPX(a) bdk_l2c_qos_ppx_t
+#define bustype_BDK_L2C_QOS_PPX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_QOS_PPX(a) "L2C_QOS_PPX"
+#define busnum_BDK_L2C_QOS_PPX(a) (a)
+#define arguments_BDK_L2C_QOS_PPX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_qos_wgt
+ *
+ * Level 2 Cache QOS Weight Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_qos_wgt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t wgt7                  : 8;  /**< [ 63: 56](R/W) Weight for QOS level 7. */
+        uint64_t wgt6                  : 8;  /**< [ 55: 48](R/W) Weight for QOS level 6. */
+        uint64_t wgt5                  : 8;  /**< [ 47: 40](R/W) Weight for QOS level 5. */
+        uint64_t wgt4                  : 8;  /**< [ 39: 32](R/W) Weight for QOS level 4. */
+        uint64_t wgt3                  : 8;  /**< [ 31: 24](R/W) Weight for QOS level 3. */
+        uint64_t wgt2                  : 8;  /**< [ 23: 16](R/W) Weight for QOS level 2. */
+        uint64_t wgt1                  : 8;  /**< [ 15:  8](R/W) Weight for QOS level 1. */
+        uint64_t wgt0                  : 8;  /**< [  7:  0](R/W) Weight for QOS level 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t wgt0                  : 8;  /**< [  7:  0](R/W) Weight for QOS level 0. */
+        uint64_t wgt1                  : 8;  /**< [ 15:  8](R/W) Weight for QOS level 1. */
+        uint64_t wgt2                  : 8;  /**< [ 23: 16](R/W) Weight for QOS level 2. */
+        uint64_t wgt3                  : 8;  /**< [ 31: 24](R/W) Weight for QOS level 3. */
+        uint64_t wgt4                  : 8;  /**< [ 39: 32](R/W) Weight for QOS level 4. */
+        uint64_t wgt5                  : 8;  /**< [ 47: 40](R/W) Weight for QOS level 5. */
+        uint64_t wgt6                  : 8;  /**< [ 55: 48](R/W) Weight for QOS level 6. */
+        uint64_t wgt7                  : 8;  /**< [ 63: 56](R/W) Weight for QOS level 7. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_qos_wgt_s cn; */
+} bdk_l2c_qos_wgt_t;
+
+#define BDK_L2C_QOS_WGT BDK_L2C_QOS_WGT_FUNC()
+static inline uint64_t BDK_L2C_QOS_WGT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_QOS_WGT_FUNC(void)
+{
+    return 0x87e080800008ll;
+}
+
+#define typedef_BDK_L2C_QOS_WGT bdk_l2c_qos_wgt_t
+#define bustype_BDK_L2C_QOS_WGT BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_QOS_WGT "L2C_QOS_WGT"
+#define busnum_BDK_L2C_QOS_WGT 0
+#define arguments_BDK_L2C_QOS_WGT -1,-1,-1,-1
 
 /**
  * Register (RSL) l2c_tad#_dll
@@ -2083,80 +1840,520 @@ static inline uint64_t BDK_L2C_TADX_DLL(unsigned long a)
 #define arguments_BDK_L2C_TADX_DLL(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) l2c_wpar_pp#
+ * Register (RSL) l2c_tad#_err
  *
- * Level 2 Cache Core Way Partitioning Registers
+ * Level 2 Cache TAD Request Error Info Registers
+ * This register records error information for BIG* interrupts. The BIG logic only
+ * applies to local addresses. The first BIGWR error will lock the register until the
+ * logged error type is cleared; BIGRD never locks the register.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_l2c_wpar_ppx_s
+    struct bdk_l2c_tadx_err_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
-                                                                 because of the L2C cripple fuses. */
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a RDNXM error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a WRNXM error. */
+        uint64_t rddisoci              : 1;  /**< [ 61: 61](RO/H) Logged information is for a RDDISOCI error. */
+        uint64_t wrdisoci              : 1;  /**< [ 60: 60](RO/H) Logged information is for a WRDISOCI error. */
+        uint64_t nonsec                : 1;  /**< [ 59: 59](RO/H) Non-secure (NS) bit of request causing error. */
+        uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error. INTERNAL: If CMD[7]==1, use XMC_CMD_E to
+                                                                 decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
+                                                                 use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
+                                                                 CMD[4:0]. */
+        uint64_t source                : 7;  /**< [ 50: 44](RO/H) XMC source of request causing error. If SOURCE<6>==0, then SOURCE<5:0> is PPID, else
+                                                                 SOURCE<3:0> is BUSID of the IOB which made the request. If CMD[7]==0, this field is
+                                                                 unpredictable. */
+        uint64_t reserved_42_43        : 2;
+        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) CCPI node of XMC request causing error. For *NXM errors NODE is always the node that
+                                                                 generated request causing the error (*NXM errors are logged at the home node). For *DISOCI
+                                                                 errors, is the NODE the request is directed to (DISOCI request is always the current
+                                                                 node). */
+        uint64_t addr                  : 40; /**< [ 39:  0](RO/H) XMC address causing the error. ADDR<6:0> is unpredictable for *DISOCI and *NXM
+                                                                 errors. This field is the physical address after index aliasing (if enabled). */
 #else /* Word 0 - Little Endian */
-        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
-                                                                 because of the L2C cripple fuses. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t addr                  : 40; /**< [ 39:  0](RO/H) XMC address causing the error. ADDR<6:0> is unpredictable for *DISOCI and *NXM
+                                                                 errors. This field is the physical address after index aliasing (if enabled). */
+        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) CCPI node of XMC request causing error. For *NXM errors NODE is always the node that
+                                                                 generated request causing the error (*NXM errors are logged at the home node). For *DISOCI
+                                                                 errors, is the NODE the request is directed to (DISOCI request is always the current
+                                                                 node). */
+        uint64_t reserved_42_43        : 2;
+        uint64_t source                : 7;  /**< [ 50: 44](RO/H) XMC source of request causing error. If SOURCE<6>==0, then SOURCE<5:0> is PPID, else
+                                                                 SOURCE<3:0> is BUSID of the IOB which made the request. If CMD[7]==0, this field is
+                                                                 unpredictable. */
+        uint64_t cmd                   : 8;  /**< [ 58: 51](RO/H) Encoding of XMC or CCPI command causing error. INTERNAL: If CMD[7]==1, use XMC_CMD_E to
+                                                                 decode CMD[6:0]. If CMD[7:5]==0, use OCI_MREQ_CMD_E to decode CMD[4:0]. If CMD[7:5]==1,
+                                                                 use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2, use OCI_MRSP_CMD_E to decode
+                                                                 CMD[4:0]. */
+        uint64_t nonsec                : 1;  /**< [ 59: 59](RO/H) Non-secure (NS) bit of request causing error. */
+        uint64_t wrdisoci              : 1;  /**< [ 60: 60](RO/H) Logged information is for a WRDISOCI error. */
+        uint64_t rddisoci              : 1;  /**< [ 61: 61](RO/H) Logged information is for a RDDISOCI error. */
+        uint64_t wrnxm                 : 1;  /**< [ 62: 62](RO/H) Logged information is for a WRNXM error. */
+        uint64_t rdnxm                 : 1;  /**< [ 63: 63](RO/H) Logged information is for a RDNXM error. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_wpar_ppx_s cn; */
-} bdk_l2c_wpar_ppx_t;
+    /* struct bdk_l2c_tadx_err_s cn; */
+} bdk_l2c_tadx_err_t;
 
-static inline uint64_t BDK_L2C_WPAR_PPX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_WPAR_PPX(unsigned long a)
+static inline uint64_t BDK_L2C_TADX_ERR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_ERR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=23))
-        return 0x87e080840000ll + 8ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
-        return 0x87e080840000ll + 8ll * ((a) & 0x3f);
-    __bdk_csr_fatal("L2C_WPAR_PPX", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e050060000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
+        return 0x87e050060000ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_ERR", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_L2C_WPAR_PPX(a) bdk_l2c_wpar_ppx_t
-#define bustype_BDK_L2C_WPAR_PPX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_WPAR_PPX(a) "L2C_WPAR_PPX"
-#define busnum_BDK_L2C_WPAR_PPX(a) (a)
-#define arguments_BDK_L2C_WPAR_PPX(a) (a),-1,-1,-1
+#define typedef_BDK_L2C_TADX_ERR(a) bdk_l2c_tadx_err_t
+#define bustype_BDK_L2C_TADX_ERR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_ERR(a) "L2C_TADX_ERR"
+#define busnum_BDK_L2C_TADX_ERR(a) (a)
+#define arguments_BDK_L2C_TADX_ERR(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) l2c_qos_pp#
+ * Register (RSL) l2c_tad#_pfc#
  *
- * Level 2 Cache Core QOS Level Registers
+ * Level 2 Cache TAD Performance Counter Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_l2c_qos_ppx_s
+    struct bdk_l2c_tadx_pfcx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t lvl                   : 3;  /**< [  2:  0](R/W) QOS level to use for this core. */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Current counter value. */
 #else /* Word 0 - Little Endian */
-        uint64_t lvl                   : 3;  /**< [  2:  0](R/W) QOS level to use for this core. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Current counter value. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_qos_ppx_s cn; */
-} bdk_l2c_qos_ppx_t;
+    /* struct bdk_l2c_tadx_pfcx_s cn; */
+} bdk_l2c_tadx_pfcx_t;
 
-static inline uint64_t BDK_L2C_QOS_PPX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_QOS_PPX(unsigned long a)
+static inline uint64_t BDK_L2C_TADX_PFCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_PFCX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=23))
-        return 0x87e080880000ll + 8ll * ((a) & 0x1f);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
-        return 0x87e080880000ll + 8ll * ((a) & 0x3f);
-    __bdk_csr_fatal("L2C_QOS_PPX", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
+        return 0x87e050010100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=3)))
+        return 0x87e050010100ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x3);
+    __bdk_csr_fatal("L2C_TADX_PFCX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_L2C_QOS_PPX(a) bdk_l2c_qos_ppx_t
-#define bustype_BDK_L2C_QOS_PPX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_QOS_PPX(a) "L2C_QOS_PPX"
-#define busnum_BDK_L2C_QOS_PPX(a) (a)
-#define arguments_BDK_L2C_QOS_PPX(a) (a),-1,-1,-1
+#define typedef_BDK_L2C_TADX_PFCX(a,b) bdk_l2c_tadx_pfcx_t
+#define bustype_BDK_L2C_TADX_PFCX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_PFCX(a,b) "L2C_TADX_PFCX"
+#define busnum_BDK_L2C_TADX_PFCX(a,b) (a)
+#define arguments_BDK_L2C_TADX_PFCX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_prf
+ *
+ * Level 2 Cache TAD Performance Counter Control Registers
+ * All four counters are equivalent and can use any of the defined selects.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_prf_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..7)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..7)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..7)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..7)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..7)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..7)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..7)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..7)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_tadx_prf_s cn88xx; */
+    struct bdk_l2c_tadx_prf_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn83xx;
+} bdk_l2c_tadx_prf_t;
+
+static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e050010000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
+        return 0x87e050010000ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_PRF", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_PRF(a) bdk_l2c_tadx_prf_t
+#define bustype_BDK_L2C_TADX_PRF(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_PRF(a) "L2C_TADX_PRF"
+#define busnum_BDK_L2C_TADX_PRF(a) (a)
+#define arguments_BDK_L2C_TADX_PRF(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_stat
+ *
+ * Level 2 Cache TAD Status Registers
+ * This register holds information about the instantaneous state of the TAD.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_stat_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_14_63        : 50;
+        uint64_t lfb_valid_cnt         : 6;  /**< [ 13:  8](RO/H) The number of LFBs in use. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t vbf_inuse_cnt         : 5;  /**< [  4:  0](RO/H) The number of MCI VBFs in use. */
+#else /* Word 0 - Little Endian */
+        uint64_t vbf_inuse_cnt         : 5;  /**< [  4:  0](RO/H) The number of MCI VBFs in use. */
+        uint64_t reserved_5_7          : 3;
+        uint64_t lfb_valid_cnt         : 6;  /**< [ 13:  8](RO/H) The number of LFBs in use. */
+        uint64_t reserved_14_63        : 50;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_tadx_stat_s cn; */
+} bdk_l2c_tadx_stat_t;
+
+static inline uint64_t BDK_L2C_TADX_STAT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_STAT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e050020008ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
+        return 0x87e050020008ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_STAT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_STAT(a) bdk_l2c_tadx_stat_t
+#define bustype_BDK_L2C_TADX_STAT(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_STAT(a) "L2C_TADX_STAT"
+#define busnum_BDK_L2C_TADX_STAT(a) (a)
+#define arguments_BDK_L2C_TADX_STAT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_tag
+ *
+ * Level 2 Cache Tag Data Registers
+ * This register holds the tag information for LTGL2I and STGL2I commands.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_tag_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
+                                                                 must be 0 or operation is undefined. */
+        uint64_t reserved_59           : 1;
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
+        uint64_t reserved_6_41         : 36;
+        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
+        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
+                                                                 0x0 = Invalid.
+                                                                 0x1 = Shared.
+                                                                 0x2 = Exclusive.
+
+                                                                 Note that a local address will never have the value of exclusive as that state is encoded
+                                                                 as shared in the TAG and invalid in the RTG. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
+                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
+                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+#else /* Word 0 - Little Endian */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
+                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
+                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
+                                                                 0x0 = Invalid.
+                                                                 0x1 = Shared.
+                                                                 0x2 = Exclusive.
+
+                                                                 Note that a local address will never have the value of exclusive as that state is encoded
+                                                                 as shared in the TAG and invalid in the RTG. */
+        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
+        uint64_t reserved_6_41         : 36;
+        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t reserved_59           : 1;
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
+                                                                 must be 0 or operation is undefined. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_l2c_tadx_tag_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
+                                                                 must be 0 or operation is undefined. */
+        uint64_t reserved_59           : 1;
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
+        uint64_t tag                   : 22; /**< [ 41: 20](R/W/H) The tag. TAG<39:20> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
+                                                                 address. TAG<41:40> is the CCPI node of the address. The RTG must always have the
+                                                                 TAG<41:40> equal to the current node or operation is undefined. */
+        uint64_t reserved_6_19         : 14;
+        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
+        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
+                                                                 0x0 = Invalid.
+                                                                 0x1 = Shared.
+                                                                 0x2 = Exclusive.
+
+                                                                 Note that a local address will never have the value of exclusive as that state is encoded
+                                                                 as shared in the TAG and invalid in the RTG. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
+                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
+                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+#else /* Word 0 - Little Endian */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
+                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
+                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
+                                                                 0x0 = Invalid.
+                                                                 0x1 = Shared.
+                                                                 0x2 = Exclusive.
+
+                                                                 Note that a local address will never have the value of exclusive as that state is encoded
+                                                                 as shared in the TAG and invalid in the RTG. */
+        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
+        uint64_t reserved_6_19         : 14;
+        uint64_t tag                   : 22; /**< [ 41: 20](R/W/H) The tag. TAG<39:20> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
+                                                                 address. TAG<41:40> is the CCPI node of the address. The RTG must always have the
+                                                                 TAG<41:40> equal to the current node or operation is undefined. */
+        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t reserved_59           : 1;
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
+                                                                 must be 0 or operation is undefined. */
+#endif /* Word 0 - End */
+    } cn88xx;
+    struct bdk_l2c_tadx_tag_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
+                                                                 must be 0 or operation is undefined. */
+        uint64_t reserved_59           : 1;
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
+        uint64_t reserved_40_41        : 2;
+        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
+                                                                 address. */
+        uint64_t reserved_6_17         : 12;
+        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
+        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
+                                                                 0x0 = Invalid.
+                                                                 0x1 = Shared.
+                                                                 0x2 = Exclusive.
+
+                                                                 Note that a local address will never have the value of exclusive as that state is encoded
+                                                                 as shared in the TAG and invalid in the RTG. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
+                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
+                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+#else /* Word 0 - Little Endian */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
+                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
+                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
+                                                                 0x0 = Invalid.
+                                                                 0x1 = Shared.
+                                                                 0x2 = Exclusive.
+
+                                                                 Note that a local address will never have the value of exclusive as that state is encoded
+                                                                 as shared in the TAG and invalid in the RTG. */
+        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
+        uint64_t reserved_6_17         : 12;
+        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
+                                                                 address. */
+        uint64_t reserved_40_41        : 2;
+        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t reserved_59           : 1;
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
+                                                                 must be 0 or operation is undefined. */
+#endif /* Word 0 - End */
+    } cn83xx;
+} bdk_l2c_tadx_tag_t;
+
+static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e050020000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
+        return 0x87e050020000ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_TAG", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_TAG(a) bdk_l2c_tadx_tag_t
+#define bustype_BDK_L2C_TADX_TAG(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_TAG(a) "L2C_TADX_TAG"
+#define busnum_BDK_L2C_TADX_TAG(a) (a)
+#define arguments_BDK_L2C_TADX_TAG(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_timeout
+ *
+ * Level 2 Cache LFB Timeout Info Registers
+ * This register records error information for an LFBTO (LFB TimeOut). The first LFBTO error will
+ * lock the register until the logged error type s cleared. If multiple LFBs timed out
+ * simultaneously, then this will contain the information form the lowest LFB number that has
+ * timed-out. The address can be for the original transaction address or the replacement address
+ * (if both could have timed out, then the transaction address will be here).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_timeout_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t infolfb               : 1;  /**< [ 63: 63](RO/H) Logged address information is for the LFB original transation. */
+        uint64_t infovab               : 1;  /**< [ 62: 62](RO/H) Logged address information is for the VAB (replacement). If both this and INFOLFB is set,
+                                                                 then both could have timed out, but info captured is from the original LFB. */
+        uint64_t reserved_57_61        : 5;
+        uint64_t lfbnum                : 5;  /**< [ 56: 52](RO/H) The LFB number of the entry that timed out, and have its info captures in this register. */
+        uint64_t cmd                   : 8;  /**< [ 51: 44](RO/H) Encoding of XMC or CCPI command causing error.
+                                                                 INTERNAL: If CMD[7]==1, use XMC_CMD_E to decode CMD[6:0]. If CMD[7:5]==0, use
+                                                                 OCI_MREQ_CMD_E to
+                                                                 decode CMD[4:0]. If CMD[7:5]==1, use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2,
+                                                                 use OCI_MRSP_CMD_E to decode CMD[4:0]. */
+        uint64_t reserved_42_43        : 2;
+        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) Home node of the address causing the error. Similar the ADDR below, this can be the
+                                                                 request address (if INFOLFB is set), else it is the replacement address (if INFOLFB is
+                                                                 clear & INFOVAB is set). */
+        uint64_t addr                  : 33; /**< [ 39:  7](RO/H) Cache line address causing the error. This can be either the request address or the
+                                                                 replacement (if INFOLFB is set), else it is the replacement address (if INFOLFB is clear &
+                                                                 INFOVAB is set). This address is a physical address. L2C performs index
+                                                                 aliasing (if enabled) on the written address and uses that for the command. This
+                                                                 index-aliased address is what is returned on a read of L2C_XMC_CMD. */
+        uint64_t reserved_0_6          : 7;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_6          : 7;
+        uint64_t addr                  : 33; /**< [ 39:  7](RO/H) Cache line address causing the error. This can be either the request address or the
+                                                                 replacement (if INFOLFB is set), else it is the replacement address (if INFOLFB is clear &
+                                                                 INFOVAB is set). This address is a physical address. L2C performs index
+                                                                 aliasing (if enabled) on the written address and uses that for the command. This
+                                                                 index-aliased address is what is returned on a read of L2C_XMC_CMD. */
+        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) Home node of the address causing the error. Similar the ADDR below, this can be the
+                                                                 request address (if INFOLFB is set), else it is the replacement address (if INFOLFB is
+                                                                 clear & INFOVAB is set). */
+        uint64_t reserved_42_43        : 2;
+        uint64_t cmd                   : 8;  /**< [ 51: 44](RO/H) Encoding of XMC or CCPI command causing error.
+                                                                 INTERNAL: If CMD[7]==1, use XMC_CMD_E to decode CMD[6:0]. If CMD[7:5]==0, use
+                                                                 OCI_MREQ_CMD_E to
+                                                                 decode CMD[4:0]. If CMD[7:5]==1, use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2,
+                                                                 use OCI_MRSP_CMD_E to decode CMD[4:0]. */
+        uint64_t lfbnum                : 5;  /**< [ 56: 52](RO/H) The LFB number of the entry that timed out, and have its info captures in this register. */
+        uint64_t reserved_57_61        : 5;
+        uint64_t infovab               : 1;  /**< [ 62: 62](RO/H) Logged address information is for the VAB (replacement). If both this and INFOLFB is set,
+                                                                 then both could have timed out, but info captured is from the original LFB. */
+        uint64_t infolfb               : 1;  /**< [ 63: 63](RO/H) Logged address information is for the LFB original transation. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_tadx_timeout_s cn; */
+} bdk_l2c_tadx_timeout_t;
+
+static inline uint64_t BDK_L2C_TADX_TIMEOUT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_TIMEOUT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e050050100ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
+        return 0x87e050050100ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_TIMEOUT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_TIMEOUT(a) bdk_l2c_tadx_timeout_t
+#define bustype_BDK_L2C_TADX_TIMEOUT(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_TIMEOUT(a) "L2C_TADX_TIMEOUT"
+#define busnum_BDK_L2C_TADX_TIMEOUT(a) (a)
+#define arguments_BDK_L2C_TADX_TIMEOUT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_timetwo
+ *
+ * Level 2 Cache LFB Timeout Count Registers
+ * This register records the number of LFB entries that have timed out.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_timetwo_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t sid                   : 4;  /**< [ 32: 29](RO/H) Source id of the original request, that is 'source' of request. This is only valid if the
+                                                                 request is a local request (valid if L2C_TAD()_TIMEOUT[CMD] is an XMC request and not
+                                                                 relevant if it is an CCPI request). */
+        uint64_t busid                 : 4;  /**< [ 28: 25](RO/H) Busid of the original request, that is 'source' of request. */
+        uint64_t vabst                 : 3;  /**< [ 24: 22](RO/H) This is the LFB internal state if INFOLFB is set, else will contain VAB internal state if
+                                                                 INFOVAB is set. */
+        uint64_t lfbst                 : 14; /**< [ 21:  8](RO/H) This is the LFB internal state if INFOLFB is set, else will contain VAB internal state if
+                                                                 INFOVAB is set. */
+        uint64_t tocnt                 : 8;  /**< [  7:  0](RO/H) This is a running count of the LFB that has timed out ... the count will saturate at 0xFF.
+                                                                 Will clear when the LFBTO interrupt is cleared. */
+#else /* Word 0 - Little Endian */
+        uint64_t tocnt                 : 8;  /**< [  7:  0](RO/H) This is a running count of the LFB that has timed out ... the count will saturate at 0xFF.
+                                                                 Will clear when the LFBTO interrupt is cleared. */
+        uint64_t lfbst                 : 14; /**< [ 21:  8](RO/H) This is the LFB internal state if INFOLFB is set, else will contain VAB internal state if
+                                                                 INFOVAB is set. */
+        uint64_t vabst                 : 3;  /**< [ 24: 22](RO/H) This is the LFB internal state if INFOLFB is set, else will contain VAB internal state if
+                                                                 INFOVAB is set. */
+        uint64_t busid                 : 4;  /**< [ 28: 25](RO/H) Busid of the original request, that is 'source' of request. */
+        uint64_t sid                   : 4;  /**< [ 32: 29](RO/H) Source id of the original request, that is 'source' of request. This is only valid if the
+                                                                 request is a local request (valid if L2C_TAD()_TIMEOUT[CMD] is an XMC request and not
+                                                                 relevant if it is an CCPI request). */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_tadx_timetwo_s cn; */
+} bdk_l2c_tadx_timetwo_t;
+
+static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e050050000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
+        return 0x87e050050000ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_TIMETWO", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_TIMETWO(a) bdk_l2c_tadx_timetwo_t
+#define bustype_BDK_L2C_TADX_TIMETWO(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_TIMETWO(a) "L2C_TADX_TIMETWO"
+#define busnum_BDK_L2C_TADX_TIMETWO(a) (a)
+#define arguments_BDK_L2C_TADX_TIMETWO(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) l2c_tad_ctl
@@ -2261,276 +2458,79 @@ static inline uint64_t BDK_L2C_TAD_CTL_FUNC(void)
 #define arguments_BDK_L2C_TAD_CTL -1,-1,-1,-1
 
 /**
- * Register (RSL) l2c_cbc#_iocerr
+ * Register (RSL) l2c_wpar_iob#
  *
- * Level 2 Cache CBC Error Information Registers
- * Reserved.
+ * Level 2 Cache IOB Way Partitioning Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_l2c_cbcx_iocerr_s
+    struct bdk_l2c_wpar_iobx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t reserved_16_63        : 48;
+        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
+                                                                 because of the L2C cripple fuses. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_63         : 64;
+        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
+                                                                 because of the L2C cripple fuses. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_cbcx_iocerr_s cn; */
-} bdk_l2c_cbcx_iocerr_t;
+    /* struct bdk_l2c_wpar_iobx_s cn; */
+} bdk_l2c_wpar_iobx_t;
 
-static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a)
+static inline uint64_t BDK_L2C_WPAR_IOBX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_WPAR_IOBX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e058080010ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
-        return 0x87e058080010ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("L2C_CBCX_IOCERR", 1, a, 0, 0, 0);
+    if (a<=15)
+        return 0x87e080840200ll + 8ll * ((a) & 0xf);
+    __bdk_csr_fatal("L2C_WPAR_IOBX", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_L2C_CBCX_IOCERR(a) bdk_l2c_cbcx_iocerr_t
-#define bustype_BDK_L2C_CBCX_IOCERR(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_CBCX_IOCERR(a) "L2C_CBCX_IOCERR"
-#define busnum_BDK_L2C_CBCX_IOCERR(a) (a)
-#define arguments_BDK_L2C_CBCX_IOCERR(a) (a),-1,-1,-1
+#define typedef_BDK_L2C_WPAR_IOBX(a) bdk_l2c_wpar_iobx_t
+#define bustype_BDK_L2C_WPAR_IOBX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_WPAR_IOBX(a) "L2C_WPAR_IOBX"
+#define busnum_BDK_L2C_WPAR_IOBX(a) (a)
+#define arguments_BDK_L2C_WPAR_IOBX(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) l2c_mci#_err
+ * Register (RSL) l2c_wpar_pp#
  *
- * Level 2 Cache MCI Error Information Registers
- * This register records error information for all MCI errors.
- * An error locks the VBF4, INDEX, and SYN0/1 fields and set the bit corresponding to the error
- * received. VBFDBE errors take priority and will overwrite an earlier logged VBFSBE error. The
- * information from exactly one VBF read is present at any given time and serves to document
- * which error(s) were present in the read with the highest priority error.
- * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+ * Level 2 Cache Core Way Partitioning Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_l2c_mcix_err_s
+    struct bdk_l2c_wpar_ppx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vbfdbe1               : 1;  /**< [ 63: 63](RO/H) INDEX/SYN1 corresponds to a double-bit VBF ECC error. */
-        uint64_t vbfdbe0               : 1;  /**< [ 62: 62](RO/H) INDEX/SYN0 corresponds to a double-bit VBF ECC error. */
-        uint64_t vbfsbe1               : 1;  /**< [ 61: 61](RO/H) INDEX/SYN1 corresponds to a single-bit VBF ECC error. */
-        uint64_t vbfsbe0               : 1;  /**< [ 60: 60](RO/H) INDEX/SYN0 corresponds to a single-bit VBF ECC error. */
-        uint64_t reserved_48_59        : 12;
-        uint64_t syn1                  : 8;  /**< [ 47: 40](RO/H) Error syndrome for QW1 ([127:64]).
-                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
-        uint64_t syn0                  : 8;  /**< [ 39: 32](RO/H) Error syndrome for QW0 ([63:0]).
-                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
-        uint64_t reserved_12_31        : 20;
-        uint64_t vbf4                  : 1;  /**< [ 11: 11](RO/H) When 1, errors were from VBF (4+a), when 0, from VBF (0+a). */
-        uint64_t index                 : 7;  /**< [ 10:  4](RO/H) VBF index which was read and had the error(s). */
-        uint64_t reserved_0_3          : 4;
+        uint64_t reserved_16_63        : 48;
+        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
+                                                                 because of the L2C cripple fuses. */
 #else /* Word 0 - Little Endian */
-        uint64_t reserved_0_3          : 4;
-        uint64_t index                 : 7;  /**< [ 10:  4](RO/H) VBF index which was read and had the error(s). */
-        uint64_t vbf4                  : 1;  /**< [ 11: 11](RO/H) When 1, errors were from VBF (4+a), when 0, from VBF (0+a). */
-        uint64_t reserved_12_31        : 20;
-        uint64_t syn0                  : 8;  /**< [ 39: 32](RO/H) Error syndrome for QW0 ([63:0]).
-                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
-        uint64_t syn1                  : 8;  /**< [ 47: 40](RO/H) Error syndrome for QW1 ([127:64]).
-                                                                 Records only on single bit errors. INTERNAL: See bug26334. */
-        uint64_t reserved_48_59        : 12;
-        uint64_t vbfsbe0               : 1;  /**< [ 60: 60](RO/H) INDEX/SYN0 corresponds to a single-bit VBF ECC error. */
-        uint64_t vbfsbe1               : 1;  /**< [ 61: 61](RO/H) INDEX/SYN1 corresponds to a single-bit VBF ECC error. */
-        uint64_t vbfdbe0               : 1;  /**< [ 62: 62](RO/H) INDEX/SYN0 corresponds to a double-bit VBF ECC error. */
-        uint64_t vbfdbe1               : 1;  /**< [ 63: 63](RO/H) INDEX/SYN1 corresponds to a double-bit VBF ECC error. */
+        uint64_t mask                  : 16; /**< [ 15:  0](R/W/H) Way partitioning mask (1 means do not use). The read value of MASK includes bits set
+                                                                 because of the L2C cripple fuses. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_mcix_err_s cn; */
-} bdk_l2c_mcix_err_t;
+    /* struct bdk_l2c_wpar_ppx_s cn; */
+} bdk_l2c_wpar_ppx_t;
 
-static inline uint64_t BDK_L2C_MCIX_ERR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_MCIX_ERR(unsigned long a)
+static inline uint64_t BDK_L2C_WPAR_PPX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_WPAR_PPX(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
-        return 0x87e05c010000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
-        return 0x87e05c010000ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("L2C_MCIX_ERR", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=23))
+        return 0x87e080840000ll + 8ll * ((a) & 0x1f);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
+        return 0x87e080840000ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("L2C_WPAR_PPX", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_L2C_MCIX_ERR(a) bdk_l2c_mcix_err_t
-#define bustype_BDK_L2C_MCIX_ERR(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_MCIX_ERR(a) "L2C_MCIX_ERR"
-#define busnum_BDK_L2C_MCIX_ERR(a) (a)
-#define arguments_BDK_L2C_MCIX_ERR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_cbc#_rsderr
- *
- * Level 2 Cache RSD Error Information Registers
- * This register records error information for all CBC RSD errors.
- * An error locks the INDEX, and SYN fields and set the bit corresponding to the error received.
- * RSDDBE errors take priority and overwrite an earlier logged RSDSBE error. Only one of
- * RSDSBE/RSDDBE is set at any given time and serves to document which error the INDEX/SYN is
- * associated with.
- * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_cbcx_rsderr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t rsddbe                : 1;  /**< [ 63: 63](RO/H) INDEX/SYN corresponds to a double-bit RSD ECC error */
-        uint64_t rsdsbe                : 1;  /**< [ 62: 62](RO/H) INDEX/SYN corresponds to a single-bit RSD ECC error */
-        uint64_t reserved_40_61        : 22;
-        uint64_t syn                   : 8;  /**< [ 39: 32](RO/H) Error syndrome. */
-        uint64_t reserved_9_31         : 23;
-        uint64_t tadnum                : 3;  /**< [  8:  6](RO/H) Indicates the TAD FIFO containing the error. */
-        uint64_t qwnum                 : 2;  /**< [  5:  4](RO/H) Indicates the QW containing the error. */
-        uint64_t rsdnum                : 4;  /**< [  3:  0](RO/H) Indicates the RSD that had the error. */
-#else /* Word 0 - Little Endian */
-        uint64_t rsdnum                : 4;  /**< [  3:  0](RO/H) Indicates the RSD that had the error. */
-        uint64_t qwnum                 : 2;  /**< [  5:  4](RO/H) Indicates the QW containing the error. */
-        uint64_t tadnum                : 3;  /**< [  8:  6](RO/H) Indicates the TAD FIFO containing the error. */
-        uint64_t reserved_9_31         : 23;
-        uint64_t syn                   : 8;  /**< [ 39: 32](RO/H) Error syndrome. */
-        uint64_t reserved_40_61        : 22;
-        uint64_t rsdsbe                : 1;  /**< [ 62: 62](RO/H) INDEX/SYN corresponds to a single-bit RSD ECC error */
-        uint64_t rsddbe                : 1;  /**< [ 63: 63](RO/H) INDEX/SYN corresponds to a double-bit RSD ECC error */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_cbcx_rsderr_s cn; */
-} bdk_l2c_cbcx_rsderr_t;
-
-static inline uint64_t BDK_L2C_CBCX_RSDERR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_CBCX_RSDERR(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e058080018ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
-        return 0x87e058080018ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("L2C_CBCX_RSDERR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_CBCX_RSDERR(a) bdk_l2c_cbcx_rsderr_t
-#define bustype_BDK_L2C_CBCX_RSDERR(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_CBCX_RSDERR(a) "L2C_CBCX_RSDERR"
-#define busnum_BDK_L2C_CBCX_RSDERR(a) (a)
-#define arguments_BDK_L2C_CBCX_RSDERR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_tad#_timeout
- *
- * Level 2 Cache LFB Timeout Info Registers
- * This register records error information for an LFBTO (LFB TimeOut). The first LFBTO error will
- * lock the register until the logged error type s cleared. If multiple LFBs timed out
- * simultaneously, then this will contain the information form the lowest LFB number that has
- * timed-out. The address can be for the original transaction address or the replacement address
- * (if both could have timed out, then the transaction address will be here).
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_timeout_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t infolfb               : 1;  /**< [ 63: 63](RO/H) Logged address information is for the LFB original transation. */
-        uint64_t infovab               : 1;  /**< [ 62: 62](RO/H) Logged address information is for the VAB (replacement). If both this and INFOLFB is set,
-                                                                 then both could have timed out, but info captured is from the original LFB. */
-        uint64_t reserved_57_61        : 5;
-        uint64_t lfbnum                : 5;  /**< [ 56: 52](RO/H) The LFB number of the entry that timed out, and have its info captures in this register. */
-        uint64_t cmd                   : 8;  /**< [ 51: 44](RO/H) Encoding of XMC or CCPI command causing error.
-                                                                 INTERNAL: If CMD[7]==1, use XMC_CMD_E to decode CMD[6:0]. If CMD[7:5]==0, use
-                                                                 OCI_MREQ_CMD_E to
-                                                                 decode CMD[4:0]. If CMD[7:5]==1, use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2,
-                                                                 use OCI_MRSP_CMD_E to decode CMD[4:0]. */
-        uint64_t reserved_42_43        : 2;
-        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) Home node of the address causing the error. Similar the ADDR below, this can be the
-                                                                 request address (if INFOLFB is set), else it is the replacement address (if INFOLFB is
-                                                                 clear & INFOVAB is set). */
-        uint64_t addr                  : 33; /**< [ 39:  7](RO/H) Cache line address causing the error. This can be either the request address or the
-                                                                 replacement (if INFOLFB is set), else it is the replacement address (if INFOLFB is clear &
-                                                                 INFOVAB is set). This address is a physical address. L2C performs index
-                                                                 aliasing (if enabled) on the written address and uses that for the command. This
-                                                                 index-aliased address is what is returned on a read of L2C_XMC_CMD. */
-        uint64_t reserved_0_6          : 7;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_6          : 7;
-        uint64_t addr                  : 33; /**< [ 39:  7](RO/H) Cache line address causing the error. This can be either the request address or the
-                                                                 replacement (if INFOLFB is set), else it is the replacement address (if INFOLFB is clear &
-                                                                 INFOVAB is set). This address is a physical address. L2C performs index
-                                                                 aliasing (if enabled) on the written address and uses that for the command. This
-                                                                 index-aliased address is what is returned on a read of L2C_XMC_CMD. */
-        uint64_t node                  : 2;  /**< [ 41: 40](RO/H) Home node of the address causing the error. Similar the ADDR below, this can be the
-                                                                 request address (if INFOLFB is set), else it is the replacement address (if INFOLFB is
-                                                                 clear & INFOVAB is set). */
-        uint64_t reserved_42_43        : 2;
-        uint64_t cmd                   : 8;  /**< [ 51: 44](RO/H) Encoding of XMC or CCPI command causing error.
-                                                                 INTERNAL: If CMD[7]==1, use XMC_CMD_E to decode CMD[6:0]. If CMD[7:5]==0, use
-                                                                 OCI_MREQ_CMD_E to
-                                                                 decode CMD[4:0]. If CMD[7:5]==1, use OCI_MFWD_CMD_E to decode CMD[4:0]. If CMD[7:5]==2,
-                                                                 use OCI_MRSP_CMD_E to decode CMD[4:0]. */
-        uint64_t lfbnum                : 5;  /**< [ 56: 52](RO/H) The LFB number of the entry that timed out, and have its info captures in this register. */
-        uint64_t reserved_57_61        : 5;
-        uint64_t infovab               : 1;  /**< [ 62: 62](RO/H) Logged address information is for the VAB (replacement). If both this and INFOLFB is set,
-                                                                 then both could have timed out, but info captured is from the original LFB. */
-        uint64_t infolfb               : 1;  /**< [ 63: 63](RO/H) Logged address information is for the LFB original transation. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_tadx_timeout_s cn; */
-} bdk_l2c_tadx_timeout_t;
-
-static inline uint64_t BDK_L2C_TADX_TIMEOUT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_TIMEOUT(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050050100ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050050100ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_TIMEOUT", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_TIMEOUT(a) bdk_l2c_tadx_timeout_t
-#define bustype_BDK_L2C_TADX_TIMEOUT(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_TIMEOUT(a) "L2C_TADX_TIMEOUT"
-#define busnum_BDK_L2C_TADX_TIMEOUT(a) (a)
-#define arguments_BDK_L2C_TADX_TIMEOUT(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_cbc#_bist_status
- *
- * Level 2 Cache CBC BIST Status Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_cbcx_bist_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_37_63        : 27;
-        uint64_t mibfl                 : 5;  /**< [ 36: 32](RO/H) BIST failure status for various MIB memories. ({XMD, IPM, IRM, MXD, MXN}) */
-        uint64_t rsdfl                 : 32; /**< [ 31:  0](RO/H) BIST failure status for RSDQW0-31. */
-#else /* Word 0 - Little Endian */
-        uint64_t rsdfl                 : 32; /**< [ 31:  0](RO/H) BIST failure status for RSDQW0-31. */
-        uint64_t mibfl                 : 5;  /**< [ 36: 32](RO/H) BIST failure status for various MIB memories. ({XMD, IPM, IRM, MXD, MXN}) */
-        uint64_t reserved_37_63        : 27;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_cbcx_bist_status_s cn; */
-} bdk_l2c_cbcx_bist_status_t;
-
-static inline uint64_t BDK_L2C_CBCX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_CBCX_BIST_STATUS(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0580a0000ll + 0x1000000ll * ((a) & 0x1);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
-        return 0x87e0580a0000ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("L2C_CBCX_BIST_STATUS", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_CBCX_BIST_STATUS(a) bdk_l2c_cbcx_bist_status_t
-#define bustype_BDK_L2C_CBCX_BIST_STATUS(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_CBCX_BIST_STATUS(a) "L2C_CBCX_BIST_STATUS"
-#define busnum_BDK_L2C_CBCX_BIST_STATUS(a) (a)
-#define arguments_BDK_L2C_CBCX_BIST_STATUS(a) (a),-1,-1,-1
+#define typedef_BDK_L2C_WPAR_PPX(a) bdk_l2c_wpar_ppx_t
+#define bustype_BDK_L2C_WPAR_PPX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_WPAR_PPX(a) "L2C_WPAR_PPX"
+#define busnum_BDK_L2C_WPAR_PPX(a) (a)
+#define arguments_BDK_L2C_WPAR_PPX(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_L2C_H__ */

@@ -72,54 +72,101 @@
                                        MIO_TWS(0..5)_INT_ENA_W1C, and enable sets MIO_TWS(0..5)_INT_ENA_W1S. */
 
 /**
- * Register (RSL) mio_tws#_sw_twsi_ext
+ * Register (RSL) mio_tws#_int
  *
- * Software to TWSI Extension Register
- * This register contains an additional byte of internal address and four additional bytes of
- * data to be used with TWSI master-mode operations.
- *
- * The IA field is sent as the first byte of internal address when performing master-mode
- * combined-read/write-with-IA operations and MIO_TWS()_SW_TWSI[EIA] is set. The D field
- * extends the data field of MIO_TWS()_SW_TWSI for a total of 8 bytes (SOVR must be set to
- * perform operations greater than 4 bytes).
+ * TWSI Interrupt Register
+ * This register contains the TWSI interrupt-enable mask and the interrupt-source bits.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mio_twsx_sw_twsi_ext_s
+    struct bdk_mio_twsx_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_40_63        : 24;
-        uint64_t ia                    : 8;  /**< [ 39: 32](R/W) Extended internal address. Sent as the first byte of internal address when performing
-                                                                 master-mode combined-read/write-with-IA operations and MIO_TWS()_SW_TWSI[EIA] is set. */
-        uint64_t data                  : 32; /**< [ 31:  0](R/W/H) Extended data. Extends the data field of MIO_TWS()_SW_TWSI for a total of eight bytes
-                                                                 (MIO_TWS()_SW_TWSI[SOVR] must be set to 1 to perform operations greater than four
-                                                                 bytes). */
+        uint64_t reserved_12_63        : 52;
+        uint64_t scl                   : 1;  /**< [ 11: 11](RO/H) SCL signal. */
+        uint64_t sda                   : 1;  /**< [ 10: 10](RO/H) SDA signal. */
+        uint64_t scl_ovr               : 1;  /**< [  9:  9](R/W) SCL testing override:
+                                                                 0 = Normal operation, SCL bus controlled by TWSI core.
+                                                                 1 = Pull SCL low. */
+        uint64_t sda_ovr               : 1;  /**< [  8:  8](R/W) SDA testing override:
+                                                                 0 = Normal operation, SDA bus controlled by TWSI core.
+                                                                 1 = Pull SDA low. */
+        uint64_t reserved_3_7          : 5;
+        uint64_t core_int              : 1;  /**< [  2:  2](RO/H) TWSI core interrupt, whenever IFLG is set. Ignored when the HLC is enabled. */
+        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1C/H) MIO_TWS()_TWSI_SW register-update interrupt. Ignored when the HLC is disabled. */
+        uint64_t st_int                : 1;  /**< [  0:  0](R/W1C/H) MIO_TWS()_SW_TWSI register-update interrupt. Ignored when the HLC is disabled. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 32; /**< [ 31:  0](R/W/H) Extended data. Extends the data field of MIO_TWS()_SW_TWSI for a total of eight bytes
-                                                                 (MIO_TWS()_SW_TWSI[SOVR] must be set to 1 to perform operations greater than four
-                                                                 bytes). */
-        uint64_t ia                    : 8;  /**< [ 39: 32](R/W) Extended internal address. Sent as the first byte of internal address when performing
-                                                                 master-mode combined-read/write-with-IA operations and MIO_TWS()_SW_TWSI[EIA] is set. */
-        uint64_t reserved_40_63        : 24;
+        uint64_t st_int                : 1;  /**< [  0:  0](R/W1C/H) MIO_TWS()_SW_TWSI register-update interrupt. Ignored when the HLC is disabled. */
+        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1C/H) MIO_TWS()_TWSI_SW register-update interrupt. Ignored when the HLC is disabled. */
+        uint64_t core_int              : 1;  /**< [  2:  2](RO/H) TWSI core interrupt, whenever IFLG is set. Ignored when the HLC is enabled. */
+        uint64_t reserved_3_7          : 5;
+        uint64_t sda_ovr               : 1;  /**< [  8:  8](R/W) SDA testing override:
+                                                                 0 = Normal operation, SDA bus controlled by TWSI core.
+                                                                 1 = Pull SDA low. */
+        uint64_t scl_ovr               : 1;  /**< [  9:  9](R/W) SCL testing override:
+                                                                 0 = Normal operation, SCL bus controlled by TWSI core.
+                                                                 1 = Pull SCL low. */
+        uint64_t sda                   : 1;  /**< [ 10: 10](RO/H) SDA signal. */
+        uint64_t scl                   : 1;  /**< [ 11: 11](RO/H) SCL signal. */
+        uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mio_twsx_sw_twsi_ext_s cn; */
-} bdk_mio_twsx_sw_twsi_ext_t;
+    /* struct bdk_mio_twsx_int_s cn; */
+} bdk_mio_twsx_int_t;
 
-static inline uint64_t BDK_MIO_TWSX_SW_TWSI_EXT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_TWSX_SW_TWSI_EXT(unsigned long a)
+static inline uint64_t BDK_MIO_TWSX_INT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_TWSX_INT(unsigned long a)
 {
     if (a<=5)
-        return 0x87e0d0001018ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("MIO_TWSX_SW_TWSI_EXT", 1, a, 0, 0, 0);
+        return 0x87e0d0001010ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("MIO_TWSX_INT", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_MIO_TWSX_SW_TWSI_EXT(a) bdk_mio_twsx_sw_twsi_ext_t
-#define bustype_BDK_MIO_TWSX_SW_TWSI_EXT(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_TWSX_SW_TWSI_EXT(a) "MIO_TWSX_SW_TWSI_EXT"
-#define busnum_BDK_MIO_TWSX_SW_TWSI_EXT(a) (a)
-#define arguments_BDK_MIO_TWSX_SW_TWSI_EXT(a) (a),-1,-1,-1
+#define typedef_BDK_MIO_TWSX_INT(a) bdk_mio_twsx_int_t
+#define bustype_BDK_MIO_TWSX_INT(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_TWSX_INT(a) "MIO_TWSX_INT"
+#define busnum_BDK_MIO_TWSX_INT(a) (a)
+#define arguments_BDK_MIO_TWSX_INT(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) mio_tws#_int_ena_w1c
+ *
+ * TWSI Interrupt Enable Clear Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_twsx_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t core_int              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears MIO_TWS()_INT[CORE_INT]. */
+        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears MIO_TWS()_INT[TS_INT]. */
+        uint64_t st_int                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears MIO_TWS()_INT[ST_INT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t st_int                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears MIO_TWS()_INT[ST_INT]. */
+        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears MIO_TWS()_INT[TS_INT]. */
+        uint64_t core_int              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears MIO_TWS()_INT[CORE_INT]. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_twsx_int_ena_w1c_s cn; */
+} bdk_mio_twsx_int_ena_w1c_t;
+
+static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1C(unsigned long a)
+{
+    if (a<=5)
+        return 0x87e0d0001028ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("MIO_TWSX_INT_ENA_W1C", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MIO_TWSX_INT_ENA_W1C(a) bdk_mio_twsx_int_ena_w1c_t
+#define bustype_BDK_MIO_TWSX_INT_ENA_W1C(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_TWSX_INT_ENA_W1C(a) "MIO_TWSX_INT_ENA_W1C"
+#define busnum_BDK_MIO_TWSX_INT_ENA_W1C(a) (a)
+#define arguments_BDK_MIO_TWSX_INT_ENA_W1C(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mio_tws#_int_ena_w1s
@@ -161,43 +208,43 @@ static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1S(unsigned long a)
 #define arguments_BDK_MIO_TWSX_INT_ENA_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) mio_tws#_int_ena_w1c
+ * Register (RSL) mio_tws#_int_w1s
  *
- * TWSI Interrupt Enable Clear Register
+ * TWSI Interrupt Set Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_mio_twsx_int_ena_w1c_s
+    struct bdk_mio_twsx_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_3_63         : 61;
-        uint64_t core_int              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears MIO_TWS()_INT[CORE_INT]. */
-        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears MIO_TWS()_INT[TS_INT]. */
-        uint64_t st_int                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears MIO_TWS()_INT[ST_INT]. */
+        uint64_t core_int              : 1;  /**< [  2:  2](RO/H) Reads MIO_TWS()_INT[CORE_INT]. */
+        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_TWS()_INT[TS_INT]. */
+        uint64_t st_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_TWS()_INT[ST_INT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t st_int                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears MIO_TWS()_INT[ST_INT]. */
-        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears MIO_TWS()_INT[TS_INT]. */
-        uint64_t core_int              : 1;  /**< [  2:  2](R/W1C/H) Reads or clears MIO_TWS()_INT[CORE_INT]. */
+        uint64_t st_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_TWS()_INT[ST_INT]. */
+        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_TWS()_INT[TS_INT]. */
+        uint64_t core_int              : 1;  /**< [  2:  2](RO/H) Reads MIO_TWS()_INT[CORE_INT]. */
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_mio_twsx_int_ena_w1c_s cn; */
-} bdk_mio_twsx_int_ena_w1c_t;
+    /* struct bdk_mio_twsx_int_w1s_s cn; */
+} bdk_mio_twsx_int_w1s_t;
 
-static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_TWSX_INT_ENA_W1C(unsigned long a)
+static inline uint64_t BDK_MIO_TWSX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_TWSX_INT_W1S(unsigned long a)
 {
     if (a<=5)
-        return 0x87e0d0001028ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("MIO_TWSX_INT_ENA_W1C", 1, a, 0, 0, 0);
+        return 0x87e0d0001020ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("MIO_TWSX_INT_W1S", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_MIO_TWSX_INT_ENA_W1C(a) bdk_mio_twsx_int_ena_w1c_t
-#define bustype_BDK_MIO_TWSX_INT_ENA_W1C(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_TWSX_INT_ENA_W1C(a) "MIO_TWSX_INT_ENA_W1C"
-#define busnum_BDK_MIO_TWSX_INT_ENA_W1C(a) (a)
-#define arguments_BDK_MIO_TWSX_INT_ENA_W1C(a) (a),-1,-1,-1
+#define typedef_BDK_MIO_TWSX_INT_W1S(a) bdk_mio_twsx_int_w1s_t
+#define bustype_BDK_MIO_TWSX_INT_W1S(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_TWSX_INT_W1S(a) "MIO_TWSX_INT_W1S"
+#define busnum_BDK_MIO_TWSX_INT_W1S(a) (a)
+#define arguments_BDK_MIO_TWSX_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mio_tws#_mode
@@ -261,6 +308,99 @@ static inline uint64_t BDK_MIO_TWSX_MODE(unsigned long a)
 #define arguments_BDK_MIO_TWSX_MODE(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) mio_tws#_msix_pba#
+ *
+ * TWSI MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table, the bit number is indexed by the MIO_TWS_INT_VEC_E
+ * enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_twsx_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MIO_TWS()_MSIX_VEC()_CTL, enumerated by
+                                                                 MIO_TWS_INT_VEC_E. Bits that have no associated MIO_TWS_INT_VEC_E are zero. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MIO_TWS()_MSIX_VEC()_CTL, enumerated by
+                                                                 MIO_TWS_INT_VEC_E. Bits that have no associated MIO_TWS_INT_VEC_E are zero. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_twsx_msix_pbax_s cn; */
+} bdk_mio_twsx_msix_pbax_t;
+
+static inline uint64_t BDK_MIO_TWSX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_TWSX_MSIX_PBAX(unsigned long a, unsigned long b)
+{
+    if ((a<=5) && (b==0))
+        return 0x87e0d0ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("MIO_TWSX_MSIX_PBAX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_MIO_TWSX_MSIX_PBAX(a,b) bdk_mio_twsx_msix_pbax_t
+#define bustype_BDK_MIO_TWSX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_TWSX_MSIX_PBAX(a,b) "MIO_TWSX_MSIX_PBAX"
+#define busnum_BDK_MIO_TWSX_MSIX_PBAX(a,b) (a)
+#define arguments_BDK_MIO_TWSX_MSIX_PBAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) mio_tws#_msix_vec#_addr
+ *
+ * TWSI MSI-X Vector Table Address Registers
+ * This register is the MSI-X vector table, indexed by the MIO_TWS_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_twsx_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's MIO_TWS()_MSIX_VEC()_ADDR, MIO_TWS()_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of MIO_TWS()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_MIO_TWS()_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
+                                                                 was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's MIO_TWS()_MSIX_VEC()_ADDR, MIO_TWS()_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of MIO_TWS()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_MIO_TWS()_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
+                                                                 was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_twsx_msix_vecx_addr_s cn; */
+} bdk_mio_twsx_msix_vecx_addr_t;
+
+static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
+{
+    if ((a<=5) && (b==0))
+        return 0x87e0d0f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("MIO_TWSX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) bdk_mio_twsx_msix_vecx_addr_t
+#define bustype_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) "MIO_TWSX_MSIX_VECX_ADDR"
+#define busnum_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) mio_tws#_msix_vec#_ctl
  *
  * TWSI MSI-X Vector Table Control and Data Registers
@@ -299,45 +439,6 @@ static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_CTL(unsigned long a, unsigned long
 #define basename_BDK_MIO_TWSX_MSIX_VECX_CTL(a,b) "MIO_TWSX_MSIX_VECX_CTL"
 #define busnum_BDK_MIO_TWSX_MSIX_VECX_CTL(a,b) (a)
 #define arguments_BDK_MIO_TWSX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mio_tws#_int_w1s
- *
- * TWSI Interrupt Set Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_twsx_int_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t core_int              : 1;  /**< [  2:  2](RO/H) Reads MIO_TWS()_INT[CORE_INT]. */
-        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_TWS()_INT[TS_INT]. */
-        uint64_t st_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_TWS()_INT[ST_INT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t st_int                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets MIO_TWS()_INT[ST_INT]. */
-        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets MIO_TWS()_INT[TS_INT]. */
-        uint64_t core_int              : 1;  /**< [  2:  2](RO/H) Reads MIO_TWS()_INT[CORE_INT]. */
-        uint64_t reserved_3_63         : 61;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_twsx_int_w1s_s cn; */
-} bdk_mio_twsx_int_w1s_t;
-
-static inline uint64_t BDK_MIO_TWSX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_TWSX_INT_W1S(unsigned long a)
-{
-    if (a<=5)
-        return 0x87e0d0001020ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("MIO_TWSX_INT_W1S", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MIO_TWSX_INT_W1S(a) bdk_mio_twsx_int_w1s_t
-#define bustype_BDK_MIO_TWSX_INT_W1S(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_TWSX_INT_W1S(a) "MIO_TWSX_INT_W1S"
-#define busnum_BDK_MIO_TWSX_INT_W1S(a) (a)
-#define arguments_BDK_MIO_TWSX_INT_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) mio_tws#_sw_twsi
@@ -514,6 +615,56 @@ static inline uint64_t BDK_MIO_TWSX_SW_TWSI(unsigned long a)
 #define arguments_BDK_MIO_TWSX_SW_TWSI(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) mio_tws#_sw_twsi_ext
+ *
+ * Software to TWSI Extension Register
+ * This register contains an additional byte of internal address and four additional bytes of
+ * data to be used with TWSI master-mode operations.
+ *
+ * The IA field is sent as the first byte of internal address when performing master-mode
+ * combined-read/write-with-IA operations and MIO_TWS()_SW_TWSI[EIA] is set. The D field
+ * extends the data field of MIO_TWS()_SW_TWSI for a total of 8 bytes (SOVR must be set to
+ * perform operations greater than 4 bytes).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mio_twsx_sw_twsi_ext_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t ia                    : 8;  /**< [ 39: 32](R/W) Extended internal address. Sent as the first byte of internal address when performing
+                                                                 master-mode combined-read/write-with-IA operations and MIO_TWS()_SW_TWSI[EIA] is set. */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W/H) Extended data. Extends the data field of MIO_TWS()_SW_TWSI for a total of eight bytes
+                                                                 (MIO_TWS()_SW_TWSI[SOVR] must be set to 1 to perform operations greater than four
+                                                                 bytes). */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 32; /**< [ 31:  0](R/W/H) Extended data. Extends the data field of MIO_TWS()_SW_TWSI for a total of eight bytes
+                                                                 (MIO_TWS()_SW_TWSI[SOVR] must be set to 1 to perform operations greater than four
+                                                                 bytes). */
+        uint64_t ia                    : 8;  /**< [ 39: 32](R/W) Extended internal address. Sent as the first byte of internal address when performing
+                                                                 master-mode combined-read/write-with-IA operations and MIO_TWS()_SW_TWSI[EIA] is set. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mio_twsx_sw_twsi_ext_s cn; */
+} bdk_mio_twsx_sw_twsi_ext_t;
+
+static inline uint64_t BDK_MIO_TWSX_SW_TWSI_EXT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MIO_TWSX_SW_TWSI_EXT(unsigned long a)
+{
+    if (a<=5)
+        return 0x87e0d0001018ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("MIO_TWSX_SW_TWSI_EXT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MIO_TWSX_SW_TWSI_EXT(a) bdk_mio_twsx_sw_twsi_ext_t
+#define bustype_BDK_MIO_TWSX_SW_TWSI_EXT(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_MIO_TWSX_SW_TWSI_EXT(a) "MIO_TWSX_SW_TWSI_EXT"
+#define busnum_BDK_MIO_TWSX_SW_TWSI_EXT(a) (a)
+#define arguments_BDK_MIO_TWSX_SW_TWSI_EXT(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) mio_tws#_twsi_sw
  *
  * TWSI to Software Register
@@ -557,156 +708,5 @@ static inline uint64_t BDK_MIO_TWSX_TWSI_SW(unsigned long a)
 #define basename_BDK_MIO_TWSX_TWSI_SW(a) "MIO_TWSX_TWSI_SW"
 #define busnum_BDK_MIO_TWSX_TWSI_SW(a) (a)
 #define arguments_BDK_MIO_TWSX_TWSI_SW(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mio_tws#_msix_vec#_addr
- *
- * TWSI MSI-X Vector Table Address Registers
- * This register is the MSI-X vector table, indexed by the MIO_TWS_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_twsx_msix_vecx_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's MIO_TWS()_MSIX_VEC()_ADDR, MIO_TWS()_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of MIO_TWS()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_MIO_TWS()_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
-                                                                 was set. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's MIO_TWS()_MSIX_VEC()_ADDR, MIO_TWS()_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of MIO_TWS()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_MIO_TWS()_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
-                                                                 was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_twsx_msix_vecx_addr_s cn; */
-} bdk_mio_twsx_msix_vecx_addr_t;
-
-static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_TWSX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
-{
-    if ((a<=5) && (b==0))
-        return 0x87e0d0f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
-    __bdk_csr_fatal("MIO_TWSX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) bdk_mio_twsx_msix_vecx_addr_t
-#define bustype_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) "MIO_TWSX_MSIX_VECX_ADDR"
-#define busnum_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) (a)
-#define arguments_BDK_MIO_TWSX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) mio_tws#_int
- *
- * TWSI Interrupt Register
- * This register contains the TWSI interrupt-enable mask and the interrupt-source bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_twsx_int_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_12_63        : 52;
-        uint64_t scl                   : 1;  /**< [ 11: 11](RO/H) SCL signal. */
-        uint64_t sda                   : 1;  /**< [ 10: 10](RO/H) SDA signal. */
-        uint64_t scl_ovr               : 1;  /**< [  9:  9](R/W) SCL testing override:
-                                                                 0 = Normal operation, SCL bus controlled by TWSI core.
-                                                                 1 = Pull SCL low. */
-        uint64_t sda_ovr               : 1;  /**< [  8:  8](R/W) SDA testing override:
-                                                                 0 = Normal operation, SDA bus controlled by TWSI core.
-                                                                 1 = Pull SDA low. */
-        uint64_t reserved_3_7          : 5;
-        uint64_t core_int              : 1;  /**< [  2:  2](RO/H) TWSI core interrupt, whenever IFLG is set. Ignored when the HLC is enabled. */
-        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1C/H) MIO_TWS()_TWSI_SW register-update interrupt. Ignored when the HLC is disabled. */
-        uint64_t st_int                : 1;  /**< [  0:  0](R/W1C/H) MIO_TWS()_SW_TWSI register-update interrupt. Ignored when the HLC is disabled. */
-#else /* Word 0 - Little Endian */
-        uint64_t st_int                : 1;  /**< [  0:  0](R/W1C/H) MIO_TWS()_SW_TWSI register-update interrupt. Ignored when the HLC is disabled. */
-        uint64_t ts_int                : 1;  /**< [  1:  1](R/W1C/H) MIO_TWS()_TWSI_SW register-update interrupt. Ignored when the HLC is disabled. */
-        uint64_t core_int              : 1;  /**< [  2:  2](RO/H) TWSI core interrupt, whenever IFLG is set. Ignored when the HLC is enabled. */
-        uint64_t reserved_3_7          : 5;
-        uint64_t sda_ovr               : 1;  /**< [  8:  8](R/W) SDA testing override:
-                                                                 0 = Normal operation, SDA bus controlled by TWSI core.
-                                                                 1 = Pull SDA low. */
-        uint64_t scl_ovr               : 1;  /**< [  9:  9](R/W) SCL testing override:
-                                                                 0 = Normal operation, SCL bus controlled by TWSI core.
-                                                                 1 = Pull SCL low. */
-        uint64_t sda                   : 1;  /**< [ 10: 10](RO/H) SDA signal. */
-        uint64_t scl                   : 1;  /**< [ 11: 11](RO/H) SCL signal. */
-        uint64_t reserved_12_63        : 52;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_twsx_int_s cn; */
-} bdk_mio_twsx_int_t;
-
-static inline uint64_t BDK_MIO_TWSX_INT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_TWSX_INT(unsigned long a)
-{
-    if (a<=5)
-        return 0x87e0d0001010ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("MIO_TWSX_INT", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MIO_TWSX_INT(a) bdk_mio_twsx_int_t
-#define bustype_BDK_MIO_TWSX_INT(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_TWSX_INT(a) "MIO_TWSX_INT"
-#define busnum_BDK_MIO_TWSX_INT(a) (a)
-#define arguments_BDK_MIO_TWSX_INT(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) mio_tws#_msix_pba#
- *
- * TWSI MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table, the bit number is indexed by the MIO_TWS_INT_VEC_E
- * enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mio_twsx_msix_pbax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MIO_TWS()_MSIX_VEC()_CTL, enumerated by
-                                                                 MIO_TWS_INT_VEC_E. Bits that have no associated MIO_TWS_INT_VEC_E are zero. */
-#else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MIO_TWS()_MSIX_VEC()_CTL, enumerated by
-                                                                 MIO_TWS_INT_VEC_E. Bits that have no associated MIO_TWS_INT_VEC_E are zero. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mio_twsx_msix_pbax_s cn; */
-} bdk_mio_twsx_msix_pbax_t;
-
-static inline uint64_t BDK_MIO_TWSX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MIO_TWSX_MSIX_PBAX(unsigned long a, unsigned long b)
-{
-    if ((a<=5) && (b==0))
-        return 0x87e0d0ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __bdk_csr_fatal("MIO_TWSX_MSIX_PBAX", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_MIO_TWSX_MSIX_PBAX(a,b) bdk_mio_twsx_msix_pbax_t
-#define bustype_BDK_MIO_TWSX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_MIO_TWSX_MSIX_PBAX(a,b) "MIO_TWSX_MSIX_PBAX"
-#define busnum_BDK_MIO_TWSX_MSIX_PBAX(a,b) (a)
-#define arguments_BDK_MIO_TWSX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
 #endif /* __BDK_CSRS_MIO_TWS_H__ */

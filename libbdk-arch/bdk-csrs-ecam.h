@@ -113,193 +113,133 @@ union bdk_ecam_cfg_addr_s
 };
 
 /**
- * Register (RSL) ecam#_rsl#_nsdis
+ * Register (RSL) ecam#_bus#_nsdis
  *
- * ECAM RSL Function Non-secure Disable Registers
- * This register is only implemented for ECAM0 which sources RSL.
+ * ECAM Bus Non-secure Disable Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ecamx_rslx_nsdis_s
+    struct bdk_ecamx_busx_nsdis_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM RSL function in non-secure mode. If set, the specified RSL function number
-                                                                 (under ECAM 0 bus 1) is RAO/WI when accessed via the ECAM space with non-secure
-                                                                 transactions. Note this affects only ECAM configuration access, not normal I/O mapped
-                                                                 memory accesses to the device. */
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM bus in non-secure mode. If set, the indexed ECAM bus number is RAO/WI
+                                                                 when accessed via the ECAM space with non-secure transactions. Note this affects only ECAM
+                                                                 configuration access, not normal I/O mapped memory accesses to the device. ECAM 0, bus 0
+                                                                 (corresponding to RSL devices) is not generally disabled, instead  may be used to disable
+                                                                 RSL discovery. */
 #else /* Word 0 - Little Endian */
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM RSL function in non-secure mode. If set, the specified RSL function number
-                                                                 (under ECAM 0 bus 1) is RAO/WI when accessed via the ECAM space with non-secure
-                                                                 transactions. Note this affects only ECAM configuration access, not normal I/O mapped
-                                                                 memory accesses to the device. */
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM bus in non-secure mode. If set, the indexed ECAM bus number is RAO/WI
+                                                                 when accessed via the ECAM space with non-secure transactions. Note this affects only ECAM
+                                                                 configuration access, not normal I/O mapped memory accesses to the device. ECAM 0, bus 0
+                                                                 (corresponding to RSL devices) is not generally disabled, instead  may be used to disable
+                                                                 RSL discovery. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ecamx_rslx_nsdis_s cn; */
-} bdk_ecamx_rslx_nsdis_t;
+    /* struct bdk_ecamx_busx_nsdis_s cn; */
+} bdk_ecamx_busx_nsdis_t;
 
-static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b)
+static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b)
 {
     if ((a<=3) && (b<=255))
-        return 0x87e048050000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    __bdk_csr_fatal("ECAMX_RSLX_NSDIS", 2, a, b, 0, 0);
+        return 0x87e048030000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    __bdk_csr_fatal("ECAMX_BUSX_NSDIS", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_ECAMX_RSLX_NSDIS(a,b) bdk_ecamx_rslx_nsdis_t
-#define bustype_BDK_ECAMX_RSLX_NSDIS(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_ECAMX_RSLX_NSDIS(a,b) "ECAMX_RSLX_NSDIS"
-#define busnum_BDK_ECAMX_RSLX_NSDIS(a,b) (a)
-#define arguments_BDK_ECAMX_RSLX_NSDIS(a,b) (a),(b),-1,-1
+#define typedef_BDK_ECAMX_BUSX_NSDIS(a,b) bdk_ecamx_busx_nsdis_t
+#define bustype_BDK_ECAMX_BUSX_NSDIS(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_BUSX_NSDIS(a,b) "ECAMX_BUSX_NSDIS"
+#define busnum_BDK_ECAMX_BUSX_NSDIS(a,b) (a)
+#define arguments_BDK_ECAMX_BUSX_NSDIS(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) ecam#_nop_onf
+ * Register (RSL) ecam#_bus#_sdis
  *
- * ECAM No-Operation Ones Non-Faulting Register
+ * ECAM Bus Secure Disable Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ecamx_nop_onf_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ones                  : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
-#else /* Word 0 - Little Endian */
-        uint64_t ones                  : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ecamx_nop_onf_s cn; */
-} bdk_ecamx_nop_onf_t;
-
-static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a)
-{
-    if (a<=3)
-        return 0x87e048000080ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("ECAMX_NOP_ONF", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_ECAMX_NOP_ONF(a) bdk_ecamx_nop_onf_t
-#define bustype_BDK_ECAMX_NOP_ONF(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_ECAMX_NOP_ONF(a) "ECAMX_NOP_ONF"
-#define busnum_BDK_ECAMX_NOP_ONF(a) (a)
-#define arguments_BDK_ECAMX_NOP_ONF(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) ecam#_nop_znf
- *
- * ECAM No-Operation Zero Non-Faulting Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ecamx_nop_znf_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t zeros                 : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
-#else /* Word 0 - Little Endian */
-        uint64_t zeros                 : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ecamx_nop_znf_s cn; */
-} bdk_ecamx_nop_znf_t;
-
-static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a)
-{
-    if (a<=3)
-        return 0x87e048000180ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("ECAMX_NOP_ZNF", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_ECAMX_NOP_ZNF(a) bdk_ecamx_nop_znf_t
-#define bustype_BDK_ECAMX_NOP_ZNF(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_ECAMX_NOP_ZNF(a) "ECAMX_NOP_ZNF"
-#define busnum_BDK_ECAMX_NOP_ZNF(a) (a)
-#define arguments_BDK_ECAMX_NOP_ZNF(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) ecam#_nop_of
- *
- * ECAM No-Operation Ones Faulting Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ecamx_nop_of_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ones                  : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
-#else /* Word 0 - Little Endian */
-        uint64_t ones                  : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ecamx_nop_of_s cn; */
-} bdk_ecamx_nop_of_t;
-
-static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a)
-{
-    if (a<=3)
-        return 0x87e048000000ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("ECAMX_NOP_OF", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_ECAMX_NOP_OF(a) bdk_ecamx_nop_of_t
-#define bustype_BDK_ECAMX_NOP_OF(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_ECAMX_NOP_OF(a) "ECAMX_NOP_OF"
-#define busnum_BDK_ECAMX_NOP_OF(a) (a)
-#define arguments_BDK_ECAMX_NOP_OF(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) ecam#_rsl#_sdis
- *
- * ECAM RSL Function Secure Disable Registers
- * This register is only implemented for ECAM0 which sources RSL.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ecamx_rslx_sdis_s
+    struct bdk_ecamx_busx_sdis_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_2_63         : 62;
-        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM RSL function. If set, the indexed RSL function number (under ECAM 0
-                                                                 bus 1) is secured and RAO/WI when accessed via the ECAM space with non-secure
-                                                                 transactions. This bit overrides ECAM()_RSL()_NSDIS[DIS]. */
-        uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM RSL function in secure mode. If set, ECAM secure read/write operations to the
-                                                                 indexed
-                                                                 RSL function number (under ECAM 0 bus 1) are RAO/WI when accessed via the ECAM
-                                                                 space. This bit is similar to the non-secure ECAM()_RSL()_NSDIS[DIS]. */
+        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM bus. If set, the indexed ECAM bus number is secured and RAO/WI when
+                                                                 accessed via the ECAM space with non-secure transactions. This bit overrides
+                                                                 ECAM()_BUS()_NSDIS[DIS]. */
+        uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM bus in secure mode. If set, the indexed ECAM bus number is RAO/WI when
+                                                                 accessed via the ECAM space with secure transactions. This bit is similar to the non-
+                                                                 secure ECAM()_BUS()_NSDIS[DIS]. */
 #else /* Word 0 - Little Endian */
-        uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM RSL function in secure mode. If set, ECAM secure read/write operations to the
-                                                                 indexed
-                                                                 RSL function number (under ECAM 0 bus 1) are RAO/WI when accessed via the ECAM
-                                                                 space. This bit is similar to the non-secure ECAM()_RSL()_NSDIS[DIS]. */
-        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM RSL function. If set, the indexed RSL function number (under ECAM 0
-                                                                 bus 1) is secured and RAO/WI when accessed via the ECAM space with non-secure
-                                                                 transactions. This bit overrides ECAM()_RSL()_NSDIS[DIS]. */
+        uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM bus in secure mode. If set, the indexed ECAM bus number is RAO/WI when
+                                                                 accessed via the ECAM space with secure transactions. This bit is similar to the non-
+                                                                 secure ECAM()_BUS()_NSDIS[DIS]. */
+        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM bus. If set, the indexed ECAM bus number is secured and RAO/WI when
+                                                                 accessed via the ECAM space with non-secure transactions. This bit overrides
+                                                                 ECAM()_BUS()_NSDIS[DIS]. */
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ecamx_rslx_sdis_s cn; */
-} bdk_ecamx_rslx_sdis_t;
+    /* struct bdk_ecamx_busx_sdis_s cn; */
+} bdk_ecamx_busx_sdis_t;
 
-static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b)
+static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b)
 {
     if ((a<=3) && (b<=255))
-        return 0x87e048040000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    __bdk_csr_fatal("ECAMX_RSLX_SDIS", 2, a, b, 0, 0);
+        return 0x87e048020000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    __bdk_csr_fatal("ECAMX_BUSX_SDIS", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_ECAMX_RSLX_SDIS(a,b) bdk_ecamx_rslx_sdis_t
-#define bustype_BDK_ECAMX_RSLX_SDIS(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_ECAMX_RSLX_SDIS(a,b) "ECAMX_RSLX_SDIS"
-#define busnum_BDK_ECAMX_RSLX_SDIS(a,b) (a)
-#define arguments_BDK_ECAMX_RSLX_SDIS(a,b) (a),(b),-1,-1
+#define typedef_BDK_ECAMX_BUSX_SDIS(a,b) bdk_ecamx_busx_sdis_t
+#define bustype_BDK_ECAMX_BUSX_SDIS(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_BUSX_SDIS(a,b) "ECAMX_BUSX_SDIS"
+#define busnum_BDK_ECAMX_BUSX_SDIS(a,b) (a)
+#define arguments_BDK_ECAMX_BUSX_SDIS(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ecam#_dev#_nsdis
+ *
+ * ECAM Device Non-secure Disable Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ecamx_devx_nsdis_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM device in non-secure mode. If set, the specified device
+                                                                 number on bus 0 are RAO/WI when accessed via the ECAM space with
+                                                                 non-secure transactions. Note this affects only ECAM configuration
+                                                                 access, not normal I/O mapped memory accesses to the device. */
+#else /* Word 0 - Little Endian */
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM device in non-secure mode. If set, the specified device
+                                                                 number on bus 0 are RAO/WI when accessed via the ECAM space with
+                                                                 non-secure transactions. Note this affects only ECAM configuration
+                                                                 access, not normal I/O mapped memory accesses to the device. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ecamx_devx_nsdis_s cn; */
+} bdk_ecamx_devx_nsdis_t;
+
+static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b)
+{
+    if ((a<=3) && (b<=31))
+        return 0x87e048070000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
+    __bdk_csr_fatal("ECAMX_DEVX_NSDIS", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_ECAMX_DEVX_NSDIS(a,b) bdk_ecamx_devx_nsdis_t
+#define bustype_BDK_ECAMX_DEVX_NSDIS(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_DEVX_NSDIS(a,b) "ECAMX_DEVX_NSDIS"
+#define busnum_BDK_ECAMX_DEVX_NSDIS(a,b) (a)
+#define arguments_BDK_ECAMX_DEVX_NSDIS(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL) ecam#_dev#_sdis
@@ -349,49 +289,70 @@ static inline uint64_t BDK_ECAMX_DEVX_SDIS(unsigned long a, unsigned long b)
 #define arguments_BDK_ECAMX_DEVX_SDIS(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) ecam#_bus#_sdis
+ * Register (RSL) ecam#_nop_of
  *
- * ECAM Bus Secure Disable Registers
+ * ECAM No-Operation Ones Faulting Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ecamx_busx_sdis_s
+    struct bdk_ecamx_nop_of_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM bus. If set, the indexed ECAM bus number is secured and RAO/WI when
-                                                                 accessed via the ECAM space with non-secure transactions. This bit overrides
-                                                                 ECAM()_BUS()_NSDIS[DIS]. */
-        uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM bus in secure mode. If set, the indexed ECAM bus number is RAO/WI when
-                                                                 accessed via the ECAM space with secure transactions. This bit is similar to the non-
-                                                                 secure ECAM()_BUS()_NSDIS[DIS]. */
+        uint64_t ones                  : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
 #else /* Word 0 - Little Endian */
-        uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM bus in secure mode. If set, the indexed ECAM bus number is RAO/WI when
-                                                                 accessed via the ECAM space with secure transactions. This bit is similar to the non-
-                                                                 secure ECAM()_BUS()_NSDIS[DIS]. */
-        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM bus. If set, the indexed ECAM bus number is secured and RAO/WI when
-                                                                 accessed via the ECAM space with non-secure transactions. This bit overrides
-                                                                 ECAM()_BUS()_NSDIS[DIS]. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t ones                  : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ecamx_busx_sdis_s cn; */
-} bdk_ecamx_busx_sdis_t;
+    /* struct bdk_ecamx_nop_of_s cn; */
+} bdk_ecamx_nop_of_t;
 
-static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b)
+static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_NOP_OF(unsigned long a)
 {
-    if ((a<=3) && (b<=255))
-        return 0x87e048020000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    __bdk_csr_fatal("ECAMX_BUSX_SDIS", 2, a, b, 0, 0);
+    if (a<=3)
+        return 0x87e048000000ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("ECAMX_NOP_OF", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_ECAMX_BUSX_SDIS(a,b) bdk_ecamx_busx_sdis_t
-#define bustype_BDK_ECAMX_BUSX_SDIS(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_ECAMX_BUSX_SDIS(a,b) "ECAMX_BUSX_SDIS"
-#define busnum_BDK_ECAMX_BUSX_SDIS(a,b) (a)
-#define arguments_BDK_ECAMX_BUSX_SDIS(a,b) (a),(b),-1,-1
+#define typedef_BDK_ECAMX_NOP_OF(a) bdk_ecamx_nop_of_t
+#define bustype_BDK_ECAMX_NOP_OF(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_NOP_OF(a) "ECAMX_NOP_OF"
+#define busnum_BDK_ECAMX_NOP_OF(a) (a)
+#define arguments_BDK_ECAMX_NOP_OF(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ecam#_nop_onf
+ *
+ * ECAM No-Operation Ones Non-Faulting Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ecamx_nop_onf_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t ones                  : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
+#else /* Word 0 - Little Endian */
+        uint64_t ones                  : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ecamx_nop_onf_s cn; */
+} bdk_ecamx_nop_onf_t;
+
+static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_NOP_ONF(unsigned long a)
+{
+    if (a<=3)
+        return 0x87e048000080ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("ECAMX_NOP_ONF", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_ECAMX_NOP_ONF(a) bdk_ecamx_nop_onf_t
+#define bustype_BDK_ECAMX_NOP_ONF(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_NOP_ONF(a) "ECAMX_NOP_ONF"
+#define busnum_BDK_ECAMX_NOP_ONF(a) (a)
+#define arguments_BDK_ECAMX_NOP_ONF(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) ecam#_nop_zf
@@ -427,87 +388,126 @@ static inline uint64_t BDK_ECAMX_NOP_ZF(unsigned long a)
 #define arguments_BDK_ECAMX_NOP_ZF(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) ecam#_dev#_nsdis
+ * Register (RSL) ecam#_nop_znf
  *
- * ECAM Device Non-secure Disable Registers
+ * ECAM No-Operation Zero Non-Faulting Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ecamx_devx_nsdis_s
+    struct bdk_ecamx_nop_znf_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM device in non-secure mode. If set, the specified device
-                                                                 number on bus 0 are RAO/WI when accessed via the ECAM space with
-                                                                 non-secure transactions. Note this affects only ECAM configuration
-                                                                 access, not normal I/O mapped memory accesses to the device. */
+        uint64_t zeros                 : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
 #else /* Word 0 - Little Endian */
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM device in non-secure mode. If set, the specified device
-                                                                 number on bus 0 are RAO/WI when accessed via the ECAM space with
-                                                                 non-secure transactions. Note this affects only ECAM configuration
-                                                                 access, not normal I/O mapped memory accesses to the device. */
-        uint64_t reserved_1_63         : 63;
+        uint64_t zeros                 : 64; /**< [ 63:  0](RO) Used internally to handle disabled read/write transactions. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ecamx_devx_nsdis_s cn; */
-} bdk_ecamx_devx_nsdis_t;
+    /* struct bdk_ecamx_nop_znf_s cn; */
+} bdk_ecamx_nop_znf_t;
 
-static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_ECAMX_DEVX_NSDIS(unsigned long a, unsigned long b)
+static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_NOP_ZNF(unsigned long a)
 {
-    if ((a<=3) && (b<=31))
-        return 0x87e048070000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x1f);
-    __bdk_csr_fatal("ECAMX_DEVX_NSDIS", 2, a, b, 0, 0);
+    if (a<=3)
+        return 0x87e048000180ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("ECAMX_NOP_ZNF", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_ECAMX_DEVX_NSDIS(a,b) bdk_ecamx_devx_nsdis_t
-#define bustype_BDK_ECAMX_DEVX_NSDIS(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_ECAMX_DEVX_NSDIS(a,b) "ECAMX_DEVX_NSDIS"
-#define busnum_BDK_ECAMX_DEVX_NSDIS(a,b) (a)
-#define arguments_BDK_ECAMX_DEVX_NSDIS(a,b) (a),(b),-1,-1
+#define typedef_BDK_ECAMX_NOP_ZNF(a) bdk_ecamx_nop_znf_t
+#define bustype_BDK_ECAMX_NOP_ZNF(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_NOP_ZNF(a) "ECAMX_NOP_ZNF"
+#define busnum_BDK_ECAMX_NOP_ZNF(a) (a)
+#define arguments_BDK_ECAMX_NOP_ZNF(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) ecam#_bus#_nsdis
+ * Register (RSL) ecam#_rsl#_nsdis
  *
- * ECAM Bus Non-secure Disable Registers
+ * ECAM RSL Function Non-secure Disable Registers
+ * This register is only implemented for ECAM0 which sources RSL.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ecamx_busx_nsdis_s
+    struct bdk_ecamx_rslx_nsdis_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM bus in non-secure mode. If set, the indexed ECAM bus number is RAO/WI
-                                                                 when accessed via the ECAM space with non-secure transactions. Note this affects only ECAM
-                                                                 configuration access, not normal I/O mapped memory accesses to the device. ECAM 0, bus 0
-                                                                 (corresponding to RSL devices) is not generally disabled, instead  may be used to disable
-                                                                 RSL discovery. */
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM RSL function in non-secure mode. If set, the specified RSL function number
+                                                                 (under ECAM 0 bus 1) is RAO/WI when accessed via the ECAM space with non-secure
+                                                                 transactions. Note this affects only ECAM configuration access, not normal I/O mapped
+                                                                 memory accesses to the device. */
 #else /* Word 0 - Little Endian */
-        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM bus in non-secure mode. If set, the indexed ECAM bus number is RAO/WI
-                                                                 when accessed via the ECAM space with non-secure transactions. Note this affects only ECAM
-                                                                 configuration access, not normal I/O mapped memory accesses to the device. ECAM 0, bus 0
-                                                                 (corresponding to RSL devices) is not generally disabled, instead  may be used to disable
-                                                                 RSL discovery. */
+        uint64_t dis                   : 1;  /**< [  0:  0](R/W) Disable ECAM RSL function in non-secure mode. If set, the specified RSL function number
+                                                                 (under ECAM 0 bus 1) is RAO/WI when accessed via the ECAM space with non-secure
+                                                                 transactions. Note this affects only ECAM configuration access, not normal I/O mapped
+                                                                 memory accesses to the device. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ecamx_busx_nsdis_s cn; */
-} bdk_ecamx_busx_nsdis_t;
+    /* struct bdk_ecamx_rslx_nsdis_s cn; */
+} bdk_ecamx_rslx_nsdis_t;
 
-static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_ECAMX_BUSX_NSDIS(unsigned long a, unsigned long b)
+static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_RSLX_NSDIS(unsigned long a, unsigned long b)
 {
     if ((a<=3) && (b<=255))
-        return 0x87e048030000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
-    __bdk_csr_fatal("ECAMX_BUSX_NSDIS", 2, a, b, 0, 0);
+        return 0x87e048050000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    __bdk_csr_fatal("ECAMX_RSLX_NSDIS", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_ECAMX_BUSX_NSDIS(a,b) bdk_ecamx_busx_nsdis_t
-#define bustype_BDK_ECAMX_BUSX_NSDIS(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_ECAMX_BUSX_NSDIS(a,b) "ECAMX_BUSX_NSDIS"
-#define busnum_BDK_ECAMX_BUSX_NSDIS(a,b) (a)
-#define arguments_BDK_ECAMX_BUSX_NSDIS(a,b) (a),(b),-1,-1
+#define typedef_BDK_ECAMX_RSLX_NSDIS(a,b) bdk_ecamx_rslx_nsdis_t
+#define bustype_BDK_ECAMX_RSLX_NSDIS(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_RSLX_NSDIS(a,b) "ECAMX_RSLX_NSDIS"
+#define busnum_BDK_ECAMX_RSLX_NSDIS(a,b) (a)
+#define arguments_BDK_ECAMX_RSLX_NSDIS(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) ecam#_rsl#_sdis
+ *
+ * ECAM RSL Function Secure Disable Registers
+ * This register is only implemented for ECAM0 which sources RSL.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ecamx_rslx_sdis_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM RSL function. If set, the indexed RSL function number (under ECAM 0
+                                                                 bus 1) is secured and RAO/WI when accessed via the ECAM space with non-secure
+                                                                 transactions. This bit overrides ECAM()_RSL()_NSDIS[DIS]. */
+        uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM RSL function in secure mode. If set, ECAM secure read/write operations to the
+                                                                 indexed
+                                                                 RSL function number (under ECAM 0 bus 1) are RAO/WI when accessed via the ECAM
+                                                                 space. This bit is similar to the non-secure ECAM()_RSL()_NSDIS[DIS]. */
+#else /* Word 0 - Little Endian */
+        uint64_t dis                   : 1;  /**< [  0:  0](SR/W) Disable ECAM RSL function in secure mode. If set, ECAM secure read/write operations to the
+                                                                 indexed
+                                                                 RSL function number (under ECAM 0 bus 1) are RAO/WI when accessed via the ECAM
+                                                                 space. This bit is similar to the non-secure ECAM()_RSL()_NSDIS[DIS]. */
+        uint64_t sec                   : 1;  /**< [  1:  1](SR/W) Secure ECAM RSL function. If set, the indexed RSL function number (under ECAM 0
+                                                                 bus 1) is secured and RAO/WI when accessed via the ECAM space with non-secure
+                                                                 transactions. This bit overrides ECAM()_RSL()_NSDIS[DIS]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ecamx_rslx_sdis_s cn; */
+} bdk_ecamx_rslx_sdis_t;
+
+static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_RSLX_SDIS(unsigned long a, unsigned long b)
+{
+    if ((a<=3) && (b<=255))
+        return 0x87e048040000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0xff);
+    __bdk_csr_fatal("ECAMX_RSLX_SDIS", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_ECAMX_RSLX_SDIS(a,b) bdk_ecamx_rslx_sdis_t
+#define bustype_BDK_ECAMX_RSLX_SDIS(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_RSLX_SDIS(a,b) "ECAMX_RSLX_SDIS"
+#define busnum_BDK_ECAMX_RSLX_SDIS(a,b) (a)
+#define arguments_BDK_ECAMX_RSLX_SDIS(a,b) (a),(b),-1,-1
 
 #endif /* __BDK_CSRS_ECAM_H__ */

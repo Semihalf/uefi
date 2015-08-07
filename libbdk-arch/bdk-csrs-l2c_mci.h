@@ -79,46 +79,6 @@
                                        and enable sets L2C_MCI(0..2)_INT_ENA_W1S. */
 
 /**
- * Register (RSL) l2c_mci#_scratch
- *
- * INTERNAL: L2C MCI General Purpose Scratch Register
- *
- * These registers are only reset by hardware during chip cold reset. The values of the CSR
- * fields in these registers do not change during chip warm or soft resets.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_mcix_scratch_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t scratch               : 8;  /**< [  7:  0](R/W) General purpose scratch register. */
-#else /* Word 0 - Little Endian */
-        uint64_t scratch               : 8;  /**< [  7:  0](R/W) General purpose scratch register. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_mcix_scratch_s cn; */
-} bdk_l2c_mcix_scratch_t;
-
-static inline uint64_t BDK_L2C_MCIX_SCRATCH(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_MCIX_SCRATCH(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
-        return 0x87e05c030000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
-        return 0x87e05c030000ll + 0x1000000ll * ((a) & 0x3);
-    __bdk_csr_fatal("L2C_MCIX_SCRATCH", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_MCIX_SCRATCH(a) bdk_l2c_mcix_scratch_t
-#define bustype_BDK_L2C_MCIX_SCRATCH(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_MCIX_SCRATCH(a) "L2C_MCIX_SCRATCH"
-#define busnum_BDK_L2C_MCIX_SCRATCH(a) (a)
-#define arguments_BDK_L2C_MCIX_SCRATCH(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) l2c_mci#_int_ena_w1c
  *
  * Level 2 Cache MCI Interrupt Enable Clear Registers
@@ -354,48 +314,6 @@ static inline uint64_t BDK_L2C_MCIX_MSIX_PBAX(unsigned long a, unsigned long b)
 #define arguments_BDK_L2C_MCIX_MSIX_PBAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (RSL) l2c_mci#_msix_vec#_ctl
- *
- * L2C_MCI MSI-X Vector-Table Control and Data Register
- * This register is the MSI-X vector table, indexed by the L2C_MCI_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_mcix_msix_vecx_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_mcix_msix_vecx_ctl_s cn; */
-} bdk_l2c_mcix_msix_vecx_ctl_t;
-
-static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b==0)))
-        return 0x87e05cf00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b==0)))
-        return 0x87e05cf00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
-    __bdk_csr_fatal("L2C_MCIX_MSIX_VECX_CTL", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_L2C_MCIX_MSIX_VECX_CTL(a,b) bdk_l2c_mcix_msix_vecx_ctl_t
-#define bustype_BDK_L2C_MCIX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_MCIX_MSIX_VECX_CTL(a,b) "L2C_MCIX_MSIX_VECX_CTL"
-#define busnum_BDK_L2C_MCIX_MSIX_VECX_CTL(a,b) (a)
-#define arguments_BDK_L2C_MCIX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
-
-/**
  * Register (RSL) l2c_mci#_msix_vec#_addr
  *
  * L2C_MCI MSI-X Vector-Table Address Register
@@ -452,5 +370,87 @@ static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_ADDR(unsigned long a, unsigned lon
 #define basename_BDK_L2C_MCIX_MSIX_VECX_ADDR(a,b) "L2C_MCIX_MSIX_VECX_ADDR"
 #define busnum_BDK_L2C_MCIX_MSIX_VECX_ADDR(a,b) (a)
 #define arguments_BDK_L2C_MCIX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) l2c_mci#_msix_vec#_ctl
+ *
+ * L2C_MCI MSI-X Vector-Table Control and Data Register
+ * This register is the MSI-X vector table, indexed by the L2C_MCI_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_mcix_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_mcix_msix_vecx_ctl_s cn; */
+} bdk_l2c_mcix_msix_vecx_ctl_t;
+
+static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_MCIX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=2) && (b==0)))
+        return 0x87e05cf00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b==0)))
+        return 0x87e05cf00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("L2C_MCIX_MSIX_VECX_CTL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_L2C_MCIX_MSIX_VECX_CTL(a,b) bdk_l2c_mcix_msix_vecx_ctl_t
+#define bustype_BDK_L2C_MCIX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_MCIX_MSIX_VECX_CTL(a,b) "L2C_MCIX_MSIX_VECX_CTL"
+#define busnum_BDK_L2C_MCIX_MSIX_VECX_CTL(a,b) (a)
+#define arguments_BDK_L2C_MCIX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) l2c_mci#_scratch
+ *
+ * INTERNAL: L2C MCI General Purpose Scratch Register
+ *
+ * These registers are only reset by hardware during chip cold reset. The values of the CSR
+ * fields in these registers do not change during chip warm or soft resets.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_mcix_scratch_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t scratch               : 8;  /**< [  7:  0](R/W) General purpose scratch register. */
+#else /* Word 0 - Little Endian */
+        uint64_t scratch               : 8;  /**< [  7:  0](R/W) General purpose scratch register. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_mcix_scratch_s cn; */
+} bdk_l2c_mcix_scratch_t;
+
+static inline uint64_t BDK_L2C_MCIX_SCRATCH(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_MCIX_SCRATCH(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
+        return 0x87e05c030000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
+        return 0x87e05c030000ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("L2C_MCIX_SCRATCH", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_MCIX_SCRATCH(a) bdk_l2c_mcix_scratch_t
+#define bustype_BDK_L2C_MCIX_SCRATCH(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_MCIX_SCRATCH(a) "L2C_MCIX_SCRATCH"
+#define busnum_BDK_L2C_MCIX_SCRATCH(a) (a)
+#define arguments_BDK_L2C_MCIX_SCRATCH(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_L2C_MCI_H__ */

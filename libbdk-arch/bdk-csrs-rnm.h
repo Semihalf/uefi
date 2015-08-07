@@ -62,42 +62,6 @@
 #define BDK_RNM_BAR_E_RNM_VF_BAR0 (0x840000800000ll) /**< Base address for RNM_RANDOM. */
 
 /**
- * Register (NCB) rnm_random
- *
- * RNM Random Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_rnm_random_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. This register is on a independent page, and may be mapped into guest operating
-                                                                 systems. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
-                                                                 operation. This register is on a independent page, and may be mapped into guest operating
-                                                                 systems. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rnm_random_s cn; */
-} bdk_rnm_random_t;
-
-#define BDK_RNM_RANDOM BDK_RNM_RANDOM_FUNC()
-static inline uint64_t BDK_RNM_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_RNM_RANDOM_FUNC(void)
-{
-    return 0x840000800000ll;
-}
-
-#define typedef_BDK_RNM_RANDOM bdk_rnm_random_t
-#define bustype_BDK_RNM_RANDOM BDK_CSR_TYPE_NCB
-#define basename_BDK_RNM_RANDOM "RNM_RANDOM"
-#define busnum_BDK_RNM_RANDOM 0
-#define arguments_BDK_RNM_RANDOM -1,-1,-1,-1
-
-/**
  * Register (RSL) rnm_bist_status
  *
  * RNM BIST Status Register
@@ -134,38 +98,6 @@ static inline uint64_t BDK_RNM_BIST_STATUS_FUNC(void)
 #define basename_BDK_RNM_BIST_STATUS "RNM_BIST_STATUS"
 #define busnum_BDK_RNM_BIST_STATUS 0
 #define arguments_BDK_RNM_BIST_STATUS -1,-1,-1,-1
-
-/**
- * Register (RSL) rnm_serial_num
- *
- * RNM Fuse Serial Number Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_rnm_serial_num_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Dormant encryption serial number. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Dormant encryption serial number. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rnm_serial_num_s cn; */
-} bdk_rnm_serial_num_t;
-
-#define BDK_RNM_SERIAL_NUM BDK_RNM_SERIAL_NUM_FUNC()
-static inline uint64_t BDK_RNM_SERIAL_NUM_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_RNM_SERIAL_NUM_FUNC(void)
-{
-    return 0x87e040000020ll;
-}
-
-#define typedef_BDK_RNM_SERIAL_NUM bdk_rnm_serial_num_t
-#define bustype_BDK_RNM_SERIAL_NUM BDK_CSR_TYPE_RSL
-#define basename_BDK_RNM_SERIAL_NUM "RNM_SERIAL_NUM"
-#define busnum_BDK_RNM_SERIAL_NUM 0
-#define arguments_BDK_RNM_SERIAL_NUM -1,-1,-1,-1
 
 /**
  * Register (RSL) rnm_ctl_status
@@ -273,6 +205,41 @@ static inline uint64_t BDK_RNM_CTL_STATUS_FUNC(void)
 #define arguments_BDK_RNM_CTL_STATUS -1,-1,-1,-1
 
 /**
+ * Register (RSL) rnm_eer_dbg
+ *
+ * RNM Encryption Enable Debug Register
+ * This register is the encryption enable debug register.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_rnm_eer_dbg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Dormant encryption debug info. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Dormant encryption debug info. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_rnm_eer_dbg_s cn; */
+} bdk_rnm_eer_dbg_t;
+
+#define BDK_RNM_EER_DBG BDK_RNM_EER_DBG_FUNC()
+static inline uint64_t BDK_RNM_EER_DBG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_RNM_EER_DBG_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
+        return 0x87e040000018ll;
+    __bdk_csr_fatal("RNM_EER_DBG", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_RNM_EER_DBG bdk_rnm_eer_dbg_t
+#define bustype_BDK_RNM_EER_DBG BDK_CSR_TYPE_RSL
+#define basename_BDK_RNM_EER_DBG "RNM_EER_DBG"
+#define busnum_BDK_RNM_EER_DBG 0
+#define arguments_BDK_RNM_EER_DBG -1,-1,-1,-1
+
+/**
  * Register (RSL) rnm_eer_key
  *
  * RNM Encryption Enable Register
@@ -308,38 +275,71 @@ static inline uint64_t BDK_RNM_EER_KEY_FUNC(void)
 #define arguments_BDK_RNM_EER_KEY -1,-1,-1,-1
 
 /**
- * Register (RSL) rnm_eer_dbg
+ * Register (NCB) rnm_random
  *
- * RNM Encryption Enable Debug Register
- * This register is the encryption enable debug register.
+ * RNM Random Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_rnm_eer_dbg_s
+    struct bdk_rnm_random_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Dormant encryption debug info. */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
+                                                                 operation. This register is on a independent page, and may be mapped into guest operating
+                                                                 systems. */
 #else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO/H) Dormant encryption debug info. */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Generated random number. This register may be accessed with a 8, 16, 32 or 64-bit
+                                                                 operation. This register is on a independent page, and may be mapped into guest operating
+                                                                 systems. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_rnm_eer_dbg_s cn; */
-} bdk_rnm_eer_dbg_t;
+    /* struct bdk_rnm_random_s cn; */
+} bdk_rnm_random_t;
 
-#define BDK_RNM_EER_DBG BDK_RNM_EER_DBG_FUNC()
-static inline uint64_t BDK_RNM_EER_DBG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_RNM_EER_DBG_FUNC(void)
+#define BDK_RNM_RANDOM BDK_RNM_RANDOM_FUNC()
+static inline uint64_t BDK_RNM_RANDOM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_RNM_RANDOM_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
-        return 0x87e040000018ll;
-    __bdk_csr_fatal("RNM_EER_DBG", 0, 0, 0, 0, 0);
+    return 0x840000800000ll;
 }
 
-#define typedef_BDK_RNM_EER_DBG bdk_rnm_eer_dbg_t
-#define bustype_BDK_RNM_EER_DBG BDK_CSR_TYPE_RSL
-#define basename_BDK_RNM_EER_DBG "RNM_EER_DBG"
-#define busnum_BDK_RNM_EER_DBG 0
-#define arguments_BDK_RNM_EER_DBG -1,-1,-1,-1
+#define typedef_BDK_RNM_RANDOM bdk_rnm_random_t
+#define bustype_BDK_RNM_RANDOM BDK_CSR_TYPE_NCB
+#define basename_BDK_RNM_RANDOM "RNM_RANDOM"
+#define busnum_BDK_RNM_RANDOM 0
+#define arguments_BDK_RNM_RANDOM -1,-1,-1,-1
+
+/**
+ * Register (RSL) rnm_serial_num
+ *
+ * RNM Fuse Serial Number Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_rnm_serial_num_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Dormant encryption serial number. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](RO/H) Dormant encryption serial number. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_rnm_serial_num_s cn; */
+} bdk_rnm_serial_num_t;
+
+#define BDK_RNM_SERIAL_NUM BDK_RNM_SERIAL_NUM_FUNC()
+static inline uint64_t BDK_RNM_SERIAL_NUM_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_RNM_SERIAL_NUM_FUNC(void)
+{
+    return 0x87e040000020ll;
+}
+
+#define typedef_BDK_RNM_SERIAL_NUM bdk_rnm_serial_num_t
+#define bustype_BDK_RNM_SERIAL_NUM BDK_CSR_TYPE_RSL
+#define basename_BDK_RNM_SERIAL_NUM "RNM_SERIAL_NUM"
+#define busnum_BDK_RNM_SERIAL_NUM 0
+#define arguments_BDK_RNM_SERIAL_NUM -1,-1,-1,-1
 
 #endif /* __BDK_CSRS_RNM_H__ */

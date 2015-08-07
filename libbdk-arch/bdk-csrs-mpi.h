@@ -71,50 +71,6 @@
                                        clears MPI_INT_ENA_W1C[MPI_INTR], and enable sets MPI_INT_ENA_W1S[MPI_INTR]. */
 
 /**
- * Register (NCB) mpi_sts
- *
- * MPI/SPI STS Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mpi_sts_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_13_63        : 51;
-        uint64_t rxnum                 : 5;  /**< [ 12:  8](RO/H) Number of bytes written for the transaction. */
-        uint64_t reserved_2_7          : 6;
-        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C/H) MPI interrupt on transaction done. */
-        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy.
-                                                                 0 = no MPI/SPI transaction in progress.
-                                                                 1 = MPI/SPI engine is processing a transaction. */
-#else /* Word 0 - Little Endian */
-        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy.
-                                                                 0 = no MPI/SPI transaction in progress.
-                                                                 1 = MPI/SPI engine is processing a transaction. */
-        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C/H) MPI interrupt on transaction done. */
-        uint64_t reserved_2_7          : 6;
-        uint64_t rxnum                 : 5;  /**< [ 12:  8](RO/H) Number of bytes written for the transaction. */
-        uint64_t reserved_13_63        : 51;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mpi_sts_s cn; */
-} bdk_mpi_sts_t;
-
-#define BDK_MPI_STS BDK_MPI_STS_FUNC()
-static inline uint64_t BDK_MPI_STS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MPI_STS_FUNC(void)
-{
-    return 0x804000001008ll;
-}
-
-#define typedef_BDK_MPI_STS bdk_mpi_sts_t
-#define bustype_BDK_MPI_STS BDK_CSR_TYPE_NCB
-#define basename_BDK_MPI_STS "MPI_STS"
-#define busnum_BDK_MPI_STS 0
-#define arguments_BDK_MPI_STS -1,-1,-1,-1
-
-/**
  * Register (NCB) mpi_cfg
  *
  * MPI/SPI Configuration Register
@@ -210,6 +166,289 @@ static inline uint64_t BDK_MPI_CFG_FUNC(void)
 #define basename_BDK_MPI_CFG "MPI_CFG"
 #define busnum_BDK_MPI_CFG 0
 #define arguments_BDK_MPI_CFG -1,-1,-1,-1
+
+/**
+ * Register (NCB) mpi_dat#
+ *
+ * MPI/SPI Data Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mpi_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t data                  : 8;  /**< [  7:  0](R/W/H) Data to transmit/receive. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 8;  /**< [  7:  0](R/W/H) Data to transmit/receive. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mpi_datx_s cn; */
+} bdk_mpi_datx_t;
+
+static inline uint64_t BDK_MPI_DATX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MPI_DATX(unsigned long a)
+{
+    if (a<=8)
+        return 0x804000001080ll + 8ll * ((a) & 0xf);
+    __bdk_csr_fatal("MPI_DATX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MPI_DATX(a) bdk_mpi_datx_t
+#define bustype_BDK_MPI_DATX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_MPI_DATX(a) "MPI_DATX"
+#define busnum_BDK_MPI_DATX(a) (a)
+#define arguments_BDK_MPI_DATX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mpi_int_ena_w1c
+ *
+ * MPI Interrupt Enable Clear Register
+ * This register clears interrupt enables.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mpi_int_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C) Reads or clears MPI_INT_ENA_W1S[MPI_INTR]. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C) Reads or clears MPI_INT_ENA_W1S[MPI_INTR]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mpi_int_ena_w1c_s cn; */
+} bdk_mpi_int_ena_w1c_t;
+
+#define BDK_MPI_INT_ENA_W1C BDK_MPI_INT_ENA_W1C_FUNC()
+static inline uint64_t BDK_MPI_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MPI_INT_ENA_W1C_FUNC(void)
+{
+    return 0x804000001030ll;
+}
+
+#define typedef_BDK_MPI_INT_ENA_W1C bdk_mpi_int_ena_w1c_t
+#define bustype_BDK_MPI_INT_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_MPI_INT_ENA_W1C "MPI_INT_ENA_W1C"
+#define busnum_BDK_MPI_INT_ENA_W1C 0
+#define arguments_BDK_MPI_INT_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) mpi_int_ena_w1s
+ *
+ * MPI Interrupt Enable Set Register
+ * This register sets interrupt enables.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mpi_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1S) Enables reporting of MPI_STS[MPI_INTR]. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1S) Enables reporting of MPI_STS[MPI_INTR]. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mpi_int_ena_w1s_s cn; */
+} bdk_mpi_int_ena_w1s_t;
+
+#define BDK_MPI_INT_ENA_W1S BDK_MPI_INT_ENA_W1S_FUNC()
+static inline uint64_t BDK_MPI_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MPI_INT_ENA_W1S_FUNC(void)
+{
+    return 0x804000001038ll;
+}
+
+#define typedef_BDK_MPI_INT_ENA_W1S bdk_mpi_int_ena_w1s_t
+#define bustype_BDK_MPI_INT_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_MPI_INT_ENA_W1S "MPI_INT_ENA_W1S"
+#define busnum_BDK_MPI_INT_ENA_W1S 0
+#define arguments_BDK_MPI_INT_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) mpi_msix_pba#
+ *
+ * MPI MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table, the bit number is indexed by the MPI_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mpi_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MPI_MSIX_VEC()_CTL, enumerated by MPI_INT_VEC_E. Bits
+                                                                 that have no associated MPI_INT_VEC_E are zero. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MPI_MSIX_VEC()_CTL, enumerated by MPI_INT_VEC_E. Bits
+                                                                 that have no associated MPI_INT_VEC_E are zero. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mpi_msix_pbax_s cn; */
+} bdk_mpi_msix_pbax_t;
+
+static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a)
+{
+    if (a==0)
+        return 0x804000ff0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("MPI_MSIX_PBAX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MPI_MSIX_PBAX(a) bdk_mpi_msix_pbax_t
+#define bustype_BDK_MPI_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_MPI_MSIX_PBAX(a) "MPI_MSIX_PBAX"
+#define busnum_BDK_MPI_MSIX_PBAX(a) (a)
+#define arguments_BDK_MPI_MSIX_PBAX(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mpi_msix_vec#_addr
+ *
+ * MPI MSI-X Vector Table Address Registers
+ * This register is the MSI-X vector table, indexed by the MPI_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mpi_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's MPI_MSIX_VEC()_ADDR, MPI_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of MPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_MPI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's MPI_MSIX_VEC()_ADDR, MPI_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of MPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_MPI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mpi_msix_vecx_addr_s cn; */
+} bdk_mpi_msix_vecx_addr_t;
+
+static inline uint64_t BDK_MPI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MPI_MSIX_VECX_ADDR(unsigned long a)
+{
+    if (a==0)
+        return 0x804000f00000ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("MPI_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MPI_MSIX_VECX_ADDR(a) bdk_mpi_msix_vecx_addr_t
+#define bustype_BDK_MPI_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_MPI_MSIX_VECX_ADDR(a) "MPI_MSIX_VECX_ADDR"
+#define busnum_BDK_MPI_MSIX_VECX_ADDR(a) (a)
+#define arguments_BDK_MPI_MSIX_VECX_ADDR(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mpi_msix_vec#_ctl
+ *
+ * MPI MSI-X Vector Table Control and Data Registers
+ * This register is the MSI-X vector table, indexed by the MPI_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mpi_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts will be sent to this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts will be sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mpi_msix_vecx_ctl_s cn; */
+} bdk_mpi_msix_vecx_ctl_t;
+
+static inline uint64_t BDK_MPI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MPI_MSIX_VECX_CTL(unsigned long a)
+{
+    if (a==0)
+        return 0x804000f00008ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("MPI_MSIX_VECX_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_MPI_MSIX_VECX_CTL(a) bdk_mpi_msix_vecx_ctl_t
+#define bustype_BDK_MPI_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_MPI_MSIX_VECX_CTL(a) "MPI_MSIX_VECX_CTL"
+#define busnum_BDK_MPI_MSIX_VECX_CTL(a) (a)
+#define arguments_BDK_MPI_MSIX_VECX_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) mpi_sts
+ *
+ * MPI/SPI STS Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_mpi_sts_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_13_63        : 51;
+        uint64_t rxnum                 : 5;  /**< [ 12:  8](RO/H) Number of bytes written for the transaction. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C/H) MPI interrupt on transaction done. */
+        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy.
+                                                                 0 = no MPI/SPI transaction in progress.
+                                                                 1 = MPI/SPI engine is processing a transaction. */
+#else /* Word 0 - Little Endian */
+        uint64_t busy                  : 1;  /**< [  0:  0](RO/H) Busy.
+                                                                 0 = no MPI/SPI transaction in progress.
+                                                                 1 = MPI/SPI engine is processing a transaction. */
+        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C/H) MPI interrupt on transaction done. */
+        uint64_t reserved_2_7          : 6;
+        uint64_t rxnum                 : 5;  /**< [ 12:  8](RO/H) Number of bytes written for the transaction. */
+        uint64_t reserved_13_63        : 51;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_mpi_sts_s cn; */
+} bdk_mpi_sts_t;
+
+#define BDK_MPI_STS BDK_MPI_STS_FUNC()
+static inline uint64_t BDK_MPI_STS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_MPI_STS_FUNC(void)
+{
+    return 0x804000001008ll;
+}
+
+#define typedef_BDK_MPI_STS bdk_mpi_sts_t
+#define bustype_BDK_MPI_STS BDK_CSR_TYPE_NCB
+#define basename_BDK_MPI_STS "MPI_STS"
+#define busnum_BDK_MPI_STS 0
+#define arguments_BDK_MPI_STS -1,-1,-1,-1
 
 /**
  * Register (NCB) mpi_sts_w1s
@@ -329,244 +568,5 @@ static inline uint64_t BDK_MPI_WIDE_DAT_FUNC(void)
 #define basename_BDK_MPI_WIDE_DAT "MPI_WIDE_DAT"
 #define busnum_BDK_MPI_WIDE_DAT 0
 #define arguments_BDK_MPI_WIDE_DAT -1,-1,-1,-1
-
-/**
- * Register (NCB) mpi_msix_vec#_ctl
- *
- * MPI MSI-X Vector Table Control and Data Registers
- * This register is the MSI-X vector table, indexed by the MPI_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mpi_msix_vecx_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts will be sent to this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts will be sent to this vector. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mpi_msix_vecx_ctl_s cn; */
-} bdk_mpi_msix_vecx_ctl_t;
-
-static inline uint64_t BDK_MPI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MPI_MSIX_VECX_CTL(unsigned long a)
-{
-    if (a==0)
-        return 0x804000f00008ll + 0x10ll * ((a) & 0x0);
-    __bdk_csr_fatal("MPI_MSIX_VECX_CTL", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MPI_MSIX_VECX_CTL(a) bdk_mpi_msix_vecx_ctl_t
-#define bustype_BDK_MPI_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_MPI_MSIX_VECX_CTL(a) "MPI_MSIX_VECX_CTL"
-#define busnum_BDK_MPI_MSIX_VECX_CTL(a) (a)
-#define arguments_BDK_MPI_MSIX_VECX_CTL(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mpi_msix_vec#_addr
- *
- * MPI MSI-X Vector Table Address Registers
- * This register is the MSI-X vector table, indexed by the MPI_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mpi_msix_vecx_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's MPI_MSIX_VEC()_ADDR, MPI_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of MPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_MPI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
-                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's MPI_MSIX_VEC()_ADDR, MPI_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of MPI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_MPI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
-                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mpi_msix_vecx_addr_s cn; */
-} bdk_mpi_msix_vecx_addr_t;
-
-static inline uint64_t BDK_MPI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MPI_MSIX_VECX_ADDR(unsigned long a)
-{
-    if (a==0)
-        return 0x804000f00000ll + 0x10ll * ((a) & 0x0);
-    __bdk_csr_fatal("MPI_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MPI_MSIX_VECX_ADDR(a) bdk_mpi_msix_vecx_addr_t
-#define bustype_BDK_MPI_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_MPI_MSIX_VECX_ADDR(a) "MPI_MSIX_VECX_ADDR"
-#define busnum_BDK_MPI_MSIX_VECX_ADDR(a) (a)
-#define arguments_BDK_MPI_MSIX_VECX_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mpi_dat#
- *
- * MPI/SPI Data Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mpi_datx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_8_63         : 56;
-        uint64_t data                  : 8;  /**< [  7:  0](R/W/H) Data to transmit/receive. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 8;  /**< [  7:  0](R/W/H) Data to transmit/receive. */
-        uint64_t reserved_8_63         : 56;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mpi_datx_s cn; */
-} bdk_mpi_datx_t;
-
-static inline uint64_t BDK_MPI_DATX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MPI_DATX(unsigned long a)
-{
-    if (a<=8)
-        return 0x804000001080ll + 8ll * ((a) & 0xf);
-    __bdk_csr_fatal("MPI_DATX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MPI_DATX(a) bdk_mpi_datx_t
-#define bustype_BDK_MPI_DATX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_MPI_DATX(a) "MPI_DATX"
-#define busnum_BDK_MPI_DATX(a) (a)
-#define arguments_BDK_MPI_DATX(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) mpi_int_ena_w1s
- *
- * MPI Interrupt Enable Set Register
- * This register sets interrupt enables.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mpi_int_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1S) Enables reporting of MPI_STS[MPI_INTR]. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1S) Enables reporting of MPI_STS[MPI_INTR]. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mpi_int_ena_w1s_s cn; */
-} bdk_mpi_int_ena_w1s_t;
-
-#define BDK_MPI_INT_ENA_W1S BDK_MPI_INT_ENA_W1S_FUNC()
-static inline uint64_t BDK_MPI_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MPI_INT_ENA_W1S_FUNC(void)
-{
-    return 0x804000001038ll;
-}
-
-#define typedef_BDK_MPI_INT_ENA_W1S bdk_mpi_int_ena_w1s_t
-#define bustype_BDK_MPI_INT_ENA_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_MPI_INT_ENA_W1S "MPI_INT_ENA_W1S"
-#define busnum_BDK_MPI_INT_ENA_W1S 0
-#define arguments_BDK_MPI_INT_ENA_W1S -1,-1,-1,-1
-
-/**
- * Register (NCB) mpi_int_ena_w1c
- *
- * MPI Interrupt Enable Clear Register
- * This register clears interrupt enables.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mpi_int_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C) Reads or clears MPI_INT_ENA_W1S[MPI_INTR]. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t mpi_intr              : 1;  /**< [  1:  1](R/W1C) Reads or clears MPI_INT_ENA_W1S[MPI_INTR]. */
-        uint64_t reserved_2_63         : 62;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mpi_int_ena_w1c_s cn; */
-} bdk_mpi_int_ena_w1c_t;
-
-#define BDK_MPI_INT_ENA_W1C BDK_MPI_INT_ENA_W1C_FUNC()
-static inline uint64_t BDK_MPI_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MPI_INT_ENA_W1C_FUNC(void)
-{
-    return 0x804000001030ll;
-}
-
-#define typedef_BDK_MPI_INT_ENA_W1C bdk_mpi_int_ena_w1c_t
-#define bustype_BDK_MPI_INT_ENA_W1C BDK_CSR_TYPE_NCB
-#define basename_BDK_MPI_INT_ENA_W1C "MPI_INT_ENA_W1C"
-#define busnum_BDK_MPI_INT_ENA_W1C 0
-#define arguments_BDK_MPI_INT_ENA_W1C -1,-1,-1,-1
-
-/**
- * Register (NCB) mpi_msix_pba#
- *
- * MPI MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table, the bit number is indexed by the MPI_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_mpi_msix_pbax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MPI_MSIX_VEC()_CTL, enumerated by MPI_INT_VEC_E. Bits
-                                                                 that have no associated MPI_INT_VEC_E are zero. */
-#else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated MPI_MSIX_VEC()_CTL, enumerated by MPI_INT_VEC_E. Bits
-                                                                 that have no associated MPI_INT_VEC_E are zero. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_mpi_msix_pbax_s cn; */
-} bdk_mpi_msix_pbax_t;
-
-static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_MPI_MSIX_PBAX(unsigned long a)
-{
-    if (a==0)
-        return 0x804000ff0000ll + 8ll * ((a) & 0x0);
-    __bdk_csr_fatal("MPI_MSIX_PBAX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_MPI_MSIX_PBAX(a) bdk_mpi_msix_pbax_t
-#define bustype_BDK_MPI_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_MPI_MSIX_PBAX(a) "MPI_MSIX_PBAX"
-#define busnum_BDK_MPI_MSIX_PBAX(a) (a)
-#define arguments_BDK_MPI_MSIX_PBAX(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_MPI_H__ */

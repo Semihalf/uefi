@@ -53,19 +53,14 @@
  */
 
 /**
- * Enumeration tim_pf_int_vec_e
+ * Enumeration tim_bar_e
  *
- * TIM MSI-X Vector Enumeration
- * Enumerates the MSI-X interrupt vectors.
+ * TIM Base Address Register Enumeration
+ * Enumerates the base address registers.
  */
-#define BDK_TIM_PF_INT_VEC_E_ECCERR (0) /**< See interrupt clears TIM_INT_ECCERR,
-                                       interrupt sets TIM_INT_ECCERR_W1S,
-                                       enable clears TIM_INT_ECCERR_ENA_W1C,
-                                       and enable sets TIM_INT_ECCERR_ENA_W1S. */
-#define BDK_TIM_PF_INT_VEC_E_INT0 (1) /**< See interrupt clears TIM_INT0,
-                                       interrupt sets TIM_INT0_W1S,
-                                       enable clears TIM_INT0_ENA_W1C,
-                                       and enable sets TIM_INT0_ENA_W1S. */
+#define BDK_TIM_BAR_E_TIM_PF_BAR0 (0x858000000000ll) /**< Base address for standard registers. */
+#define BDK_TIM_BAR_E_TIM_PF_BAR4 (0x858000f00000ll) /**< Base address for MSI-X registers. */
+#define BDK_TIM_BAR_E_TIM_VFX_BAR0(a) (0x858010000000ll + 0x100000ll * (a)) /**< (0..63)Base address for standard registers. */
 
 /**
  * Enumeration tim_clk_srcs_e
@@ -79,44 +74,19 @@
 #define BDK_TIM_CLK_SRCS_E_SCLK (0) /**< Coprocessor clocks from the interval timer. */
 
 /**
- * Enumeration tim_bar_e
+ * Enumeration tim_pf_int_vec_e
  *
- * TIM Base Address Register Enumeration
- * Enumerates the base address registers.
+ * TIM MSI-X Vector Enumeration
+ * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_TIM_BAR_E_TIM_PF_BAR0 (0x858000000000ll) /**< Base address for standard registers. */
-#define BDK_TIM_BAR_E_TIM_PF_BAR4 (0x858000f00000ll) /**< Base address for MSI-X registers. */
-#define BDK_TIM_BAR_E_TIM_VFX_BAR0(a) (0x858010000000ll + 0x100000ll * (a)) /**< (0..63)Base address for standard registers. */
-
-/**
- * Structure tim_mem_entry_s
- *
- * TIM Memory Entry Structure
- * Chunks contain 32-byte entries:
- */
-union bdk_tim_mem_entry_s
-{
-    uint64_t u;
-    struct bdk_tim_mem_entry_s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_62_63        : 2;
-        uint64_t grp                   : 10; /**< [ 61: 52] SSO group. Note the upper two bits correspond to a node number. */
-        uint64_t tt                    : 2;  /**< [ 51: 50] SSO tag type. */
-        uint64_t reserved_42_49        : 8;
-        uint64_t wqp                   : 42; /**< [ 41:  0] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
-                                                                 a NOP. <2:0> must be zero. */
-#else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 42; /**< [ 41:  0] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
-                                                                 a NOP. <2:0> must be zero. */
-        uint64_t reserved_42_49        : 8;
-        uint64_t tt                    : 2;  /**< [ 51: 50] SSO tag type. */
-        uint64_t grp                   : 10; /**< [ 61: 52] SSO group. Note the upper two bits correspond to a node number. */
-        uint64_t reserved_62_63        : 2;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_mem_entry_s_s cn; */
-};
+#define BDK_TIM_PF_INT_VEC_E_ECCERR (0) /**< See interrupt clears TIM_INT_ECCERR,
+                                       interrupt sets TIM_INT_ECCERR_W1S,
+                                       enable clears TIM_INT_ECCERR_ENA_W1C,
+                                       and enable sets TIM_INT_ECCERR_ENA_W1S. */
+#define BDK_TIM_PF_INT_VEC_E_INT0 (1) /**< See interrupt clears TIM_INT0,
+                                       interrupt sets TIM_INT0_W1S,
+                                       enable clears TIM_INT0_ENA_W1C,
+                                       and enable sets TIM_INT0_ENA_W1S. */
 
 /**
  * Structure tim_mem_bucket_s
@@ -169,38 +139,34 @@ union bdk_tim_mem_bucket_s
 };
 
 /**
- * Register (NCB) tim_fr_rn_ptp
+ * Structure tim_mem_entry_s
  *
- * TIM Free Running PTP Count Register
+ * TIM Memory Entry Structure
+ * Chunks contain 32-byte entries:
  */
-typedef union
+union bdk_tim_mem_entry_s
 {
     uint64_t u;
-    struct bdk_tim_fr_rn_ptp_s
+    struct bdk_tim_mem_entry_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t reserved_62_63        : 2;
+        uint64_t grp                   : 10; /**< [ 61: 52] SSO group. Note the upper two bits correspond to a node number. */
+        uint64_t tt                    : 2;  /**< [ 51: 50] SSO tag type. */
+        uint64_t reserved_42_49        : 8;
+        uint64_t wqp                   : 42; /**< [ 41:  0] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
+                                                                 a NOP. <2:0> must be zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t wqp                   : 42; /**< [ 41:  0] Pointer to a work-queue entry. An all-zero [WQP] is not sent to the SSO and may be used as
+                                                                 a NOP. <2:0> must be zero. */
+        uint64_t reserved_42_49        : 8;
+        uint64_t tt                    : 2;  /**< [ 51: 50] SSO tag type. */
+        uint64_t grp                   : 10; /**< [ 61: 52] SSO group. Note the upper two bits correspond to a node number. */
+        uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_fr_rn_ptp_s cn; */
-} bdk_tim_fr_rn_ptp_t;
-
-#define BDK_TIM_FR_RN_PTP BDK_TIM_FR_RN_PTP_FUNC()
-static inline uint64_t BDK_TIM_FR_RN_PTP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_FR_RN_PTP_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8580000000d8ll;
-    __bdk_csr_fatal("TIM_FR_RN_PTP", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_FR_RN_PTP bdk_tim_fr_rn_ptp_t
-#define bustype_BDK_TIM_FR_RN_PTP BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_FR_RN_PTP "TIM_FR_RN_PTP"
-#define busnum_BDK_TIM_FR_RN_PTP 0
-#define arguments_BDK_TIM_FR_RN_PTP -1,-1,-1,-1
+    /* struct bdk_tim_mem_entry_s_s cn; */
+};
 
 /**
  * Register (RSL) tim_bist_result
@@ -313,187 +279,6 @@ static inline uint64_t BDK_TIM_BP_TEST_FUNC(void)
 #define basename_BDK_TIM_BP_TEST "TIM_BP_TEST"
 #define busnum_BDK_TIM_BP_TEST 0
 #define arguments_BDK_TIM_BP_TEST -1,-1,-1,-1
-
-/**
- * Register (NCB) tim_vring#_ctl2
- *
- * TIM Ring Control 2 Registers
- * This register is a read-only copy of TIM_RING(0..63)_CTL2.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_vringx_ctl2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_53_63        : 11;
-        uint64_t csize                 : 13; /**< [ 52: 40](RO) Read-only TIM_RING(0..63)_CTL2[CSIZE]. */
-        uint64_t reserved_0_39         : 40;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_39         : 40;
-        uint64_t csize                 : 13; /**< [ 52: 40](RO) Read-only TIM_RING(0..63)_CTL2[CSIZE]. */
-        uint64_t reserved_53_63        : 11;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_vringx_ctl2_s cn; */
-} bdk_tim_vringx_ctl2_t;
-
-static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000220ll + 0x100000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("TIM_VRINGX_CTL2", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_VRINGX_CTL2(a) bdk_tim_vringx_ctl2_t
-#define bustype_BDK_TIM_VRINGX_CTL2(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_VRINGX_CTL2(a) "TIM_VRINGX_CTL2"
-#define busnum_BDK_TIM_VRINGX_CTL2(a) (a)
-#define arguments_BDK_TIM_VRINGX_CTL2(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) tim_vring#_ctl1
- *
- * TIM Ring Control 1 Registers
- * This register is a read-only copy of TIM_RING(0..63)_CTL1.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_vringx_ctl1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_55_63        : 9;
-        uint64_t be                    : 1;  /**< [ 54: 54](RO) Read-only TIM_RING(0..63)_CTL1[BE]. */
-        uint64_t clk_src               : 3;  /**< [ 53: 51](RO) Read-only TIM_RING(0..63)_CTL1[CLK_SRC]. */
-        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Read-only TIM_RING(0..63)_CTL1[RCF_BUSY]. */
-        uint64_t intc                  : 2;  /**< [ 49: 48](RO) Read-only TIM_RING(0..63)_CTL1[INTC]. */
-        uint64_t ena                   : 1;  /**< [ 47: 47](RO) Read-only TIM_RING(0..63)_CTL1[ENA]. */
-        uint64_t reserved_46           : 1;
-        uint64_t ena_prd               : 1;  /**< [ 45: 45](RO) Read-only TIM_RING(0..63)_CTL1[ENA_PRD]. */
-        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](RO) Read-only TIM_RING(0..63)_CTL1[ENA_LDWB]. */
-        uint64_t ena_dfb               : 1;  /**< [ 43: 43](RO) Read-only TIM_RING(0..63)_CTL1[ENA_DFB]. */
-        uint64_t reserved_40_42        : 3;
-        uint64_t bucket                : 20; /**< [ 39: 20](RO/H) Read-only TIM_RING(0..63)_CTL1[BUCKET]. */
-        uint64_t bsize                 : 20; /**< [ 19:  0](RO) Read-only TIM_RING(0..63)_CTL1[BSIZE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t bsize                 : 20; /**< [ 19:  0](RO) Read-only TIM_RING(0..63)_CTL1[BSIZE]. */
-        uint64_t bucket                : 20; /**< [ 39: 20](RO/H) Read-only TIM_RING(0..63)_CTL1[BUCKET]. */
-        uint64_t reserved_40_42        : 3;
-        uint64_t ena_dfb               : 1;  /**< [ 43: 43](RO) Read-only TIM_RING(0..63)_CTL1[ENA_DFB]. */
-        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](RO) Read-only TIM_RING(0..63)_CTL1[ENA_LDWB]. */
-        uint64_t ena_prd               : 1;  /**< [ 45: 45](RO) Read-only TIM_RING(0..63)_CTL1[ENA_PRD]. */
-        uint64_t reserved_46           : 1;
-        uint64_t ena                   : 1;  /**< [ 47: 47](RO) Read-only TIM_RING(0..63)_CTL1[ENA]. */
-        uint64_t intc                  : 2;  /**< [ 49: 48](RO) Read-only TIM_RING(0..63)_CTL1[INTC]. */
-        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Read-only TIM_RING(0..63)_CTL1[RCF_BUSY]. */
-        uint64_t clk_src               : 3;  /**< [ 53: 51](RO) Read-only TIM_RING(0..63)_CTL1[CLK_SRC]. */
-        uint64_t be                    : 1;  /**< [ 54: 54](RO) Read-only TIM_RING(0..63)_CTL1[BE]. */
-        uint64_t reserved_55_63        : 9;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_vringx_ctl1_s cn; */
-} bdk_tim_vringx_ctl1_t;
-
-static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000210ll + 0x100000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("TIM_VRINGX_CTL1", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_VRINGX_CTL1(a) bdk_tim_vringx_ctl1_t
-#define bustype_BDK_TIM_VRINGX_CTL1(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_VRINGX_CTL1(a) "TIM_VRINGX_CTL1"
-#define busnum_BDK_TIM_VRINGX_CTL1(a) (a)
-#define arguments_BDK_TIM_VRINGX_CTL1(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) tim_vring#_ctl0
- *
- * TIM Ring Control 0 Registers
- * This register is a read-only copy of TIM_RING(0..63)_CTL0.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_vringx_ctl0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t expire_offset         : 32; /**< [ 63: 32](RO/H) Read-only TIM_RING(0..63)_CTL0[EXPIRE_OFFSET]. */
-        uint64_t interval              : 32; /**< [ 31:  0](RO) Read-only TIM_RING(0..63)_CTL0[INTERVAL]. */
-#else /* Word 0 - Little Endian */
-        uint64_t interval              : 32; /**< [ 31:  0](RO) Read-only TIM_RING(0..63)_CTL0[INTERVAL]. */
-        uint64_t expire_offset         : 32; /**< [ 63: 32](RO/H) Read-only TIM_RING(0..63)_CTL0[EXPIRE_OFFSET]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_vringx_ctl0_s cn; */
-} bdk_tim_vringx_ctl0_t;
-
-static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000200ll + 0x100000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("TIM_VRINGX_CTL0", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_VRINGX_CTL0(a) bdk_tim_vringx_ctl0_t
-#define bustype_BDK_TIM_VRINGX_CTL0(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_VRINGX_CTL0(a) "TIM_VRINGX_CTL0"
-#define busnum_BDK_TIM_VRINGX_CTL0(a) (a)
-#define arguments_BDK_TIM_VRINGX_CTL0(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) tim_ring#_gmctl
- *
- * TIM Ring Guest Machine Control Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_ringx_gmctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_24_63        : 40;
-        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
-
-                                                                 Stream 0x0 corresponds to the PF, and VFs start at 0x1.
-
-                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer free, or to SSO
-                                                                 for all submit work operations initiated by this ring. Must be non-zero or
-                                                                 FPA/SSO will drop requests. */
-#else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer free, or to SSO
-                                                                 for all submit work operations initiated by this ring. Must be non-zero or
-                                                                 FPA/SSO will drop requests. */
-        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
-
-                                                                 Stream 0x0 corresponds to the PF, and VFs start at 0x1.
-
-                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
-        uint64_t reserved_24_63        : 40;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_ringx_gmctl_s cn; */
-} bdk_tim_ringx_gmctl_t;
-
-static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858000003800ll + 8ll * ((a) & 0x3f);
-    __bdk_csr_fatal("TIM_RINGX_GMCTL", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_RINGX_GMCTL(a) bdk_tim_ringx_gmctl_t
-#define bustype_BDK_TIM_RINGX_GMCTL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_RINGX_GMCTL(a) "TIM_RINGX_GMCTL"
-#define busnum_BDK_TIM_RINGX_GMCTL(a) (a)
-#define arguments_BDK_TIM_RINGX_GMCTL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tim_dbg2
@@ -626,88 +411,483 @@ static inline uint64_t BDK_TIM_ECC_CFG_FUNC(void)
 #define arguments_BDK_TIM_ECC_CFG -1,-1,-1,-1
 
 /**
- * Register (NCB) tim_vring#_rel
+ * Register (NCB) tim_eco
  *
- * TIM Ring Relative Position Register
- * Current positions of the TIM walker in both time and ring position, for easy synchronization
- * with software.
- * INTERNAL: For VM-safety this register contains only read-only fields.
+ * INTERNAL: TIM ECO Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_tim_vringx_rel_s
+    struct bdk_tim_eco_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cur_bucket            : 20; /**< [ 63: 44](RO/H) Current bucket. Indicates the ring's current bucket. See TIM_RING()_CTL1[BUCKET]. */
-        uint64_t reserved_34_43        : 10;
-        uint64_t ring_esr              : 2;  /**< [ 33: 32](RO/H) Ring expiration status register dynamic status. These registers hold the expiration status
-                                                                 of the ring.
-                                                                 0x0 = Ring has not expired.
-                                                                 0x1 = Interval expired. Ring is queued to be traversed.
-                                                                 0x2 = First interval expiration while ring is queued to be traversed.
-                                                                 0x3 = Second interval expiration while ring is queued to be traversed.
-
-                                                                 This field is zeroed when TIM_RING()_CTL1[ENA] transitions from 0 to 1.
-                                                                 In normal operation, the values of this register are dynamically changing due to the
-                                                                 status of the ring. */
-        uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval expiration,
-                                                                 calculated as TIM_RING()_CTL0[EXPIRE_OFFSET] minus current time (TIM_FR_RN_CYCLES or
-                                                                 TIM_FR_RN_GPIOS).
-
-                                                                 Once ENA = 1, TIMERCOUNT will be observed to count down timer ticks. When TIMERCOUNT
-                                                                 reaches 0x0, the ring's interval expired and the hardware forces a bucket traversal (and
-                                                                 increments RING_ESR).
-
-                                                                 Typical initialization value should be interval/constant; Cavium recommends that the
-                                                                 constant be unique per ring. This creates an offset between the rings.
-                                                                 TIMERCOUNT becomes and remains unpredictable whenever ENA = 0 or ENA_GPIO changes. It is
-                                                                 software's responsibility to set TIMERCOUNT before TIM_RING()_CTL1[ENA] transitions
-                                                                 from 0 -> 1. */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
 #else /* Word 0 - Little Endian */
-        uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval expiration,
-                                                                 calculated as TIM_RING()_CTL0[EXPIRE_OFFSET] minus current time (TIM_FR_RN_CYCLES or
-                                                                 TIM_FR_RN_GPIOS).
-
-                                                                 Once ENA = 1, TIMERCOUNT will be observed to count down timer ticks. When TIMERCOUNT
-                                                                 reaches 0x0, the ring's interval expired and the hardware forces a bucket traversal (and
-                                                                 increments RING_ESR).
-
-                                                                 Typical initialization value should be interval/constant; Cavium recommends that the
-                                                                 constant be unique per ring. This creates an offset between the rings.
-                                                                 TIMERCOUNT becomes and remains unpredictable whenever ENA = 0 or ENA_GPIO changes. It is
-                                                                 software's responsibility to set TIMERCOUNT before TIM_RING()_CTL1[ENA] transitions
-                                                                 from 0 -> 1. */
-        uint64_t ring_esr              : 2;  /**< [ 33: 32](RO/H) Ring expiration status register dynamic status. These registers hold the expiration status
-                                                                 of the ring.
-                                                                 0x0 = Ring has not expired.
-                                                                 0x1 = Interval expired. Ring is queued to be traversed.
-                                                                 0x2 = First interval expiration while ring is queued to be traversed.
-                                                                 0x3 = Second interval expiration while ring is queued to be traversed.
-
-                                                                 This field is zeroed when TIM_RING()_CTL1[ENA] transitions from 0 to 1.
-                                                                 In normal operation, the values of this register are dynamically changing due to the
-                                                                 status of the ring. */
-        uint64_t reserved_34_43        : 10;
-        uint64_t cur_bucket            : 20; /**< [ 63: 44](RO/H) Current bucket. Indicates the ring's current bucket. See TIM_RING()_CTL1[BUCKET]. */
+        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_vringx_rel_s cn; */
-} bdk_tim_vringx_rel_t;
+    /* struct bdk_tim_eco_s cn; */
+} bdk_tim_eco_t;
 
-static inline uint64_t BDK_TIM_VRINGX_REL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_VRINGX_REL(unsigned long a)
+#define BDK_TIM_ECO BDK_TIM_ECO_FUNC()
+static inline uint64_t BDK_TIM_ECO_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_ECO_FUNC(void)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000250ll + 0x100000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("TIM_VRINGX_REL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000000140ll;
+    __bdk_csr_fatal("TIM_ECO", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_TIM_VRINGX_REL(a) bdk_tim_vringx_rel_t
-#define bustype_BDK_TIM_VRINGX_REL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_VRINGX_REL(a) "TIM_VRINGX_REL"
-#define busnum_BDK_TIM_VRINGX_REL(a) (a)
-#define arguments_BDK_TIM_VRINGX_REL(a) (a),-1,-1,-1
+#define typedef_BDK_TIM_ECO bdk_tim_eco_t
+#define bustype_BDK_TIM_ECO BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_ECO "TIM_ECO"
+#define busnum_BDK_TIM_ECO 0
+#define arguments_BDK_TIM_ECO -1,-1,-1,-1
+
+/**
+ * Register (RSL) tim_eng#_active
+ *
+ * TIM Engine Active Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_engx_active_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t act                   : 1;  /**< [  8:  8](RO/H) Engine active. For diagnostic use. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t ring_id               : 6;  /**< [  5:  0](RO/H) Current ring ID. For diagnostic use. */
+#else /* Word 0 - Little Endian */
+        uint64_t ring_id               : 6;  /**< [  5:  0](RO/H) Current ring ID. For diagnostic use. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t act                   : 1;  /**< [  8:  8](RO/H) Engine active. For diagnostic use. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_engx_active_s cn; */
+} bdk_tim_engx_active_t;
+
+static inline uint64_t BDK_TIM_ENGX_ACTIVE(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_ENGX_ACTIVE(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x858000001000ll + 8ll * ((a) & 0x3);
+    __bdk_csr_fatal("TIM_ENGX_ACTIVE", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_ENGX_ACTIVE(a) bdk_tim_engx_active_t
+#define bustype_BDK_TIM_ENGX_ACTIVE(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_TIM_ENGX_ACTIVE(a) "TIM_ENGX_ACTIVE"
+#define busnum_BDK_TIM_ENGX_ACTIVE(a) (a)
+#define arguments_BDK_TIM_ENGX_ACTIVE(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) tim_fr_rn_cycles
+ *
+ * TIM Free Running Cycle Count Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_fr_rn_cycles_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of system coprocessor-clock cycles. This register is only writable when
+                                                                 TIM_REG_FLAGS[ENA_TIM] = 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of system coprocessor-clock cycles. This register is only writable when
+                                                                 TIM_REG_FLAGS[ENA_TIM] = 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_fr_rn_cycles_s cn; */
+} bdk_tim_fr_rn_cycles_t;
+
+#define BDK_TIM_FR_RN_CYCLES BDK_TIM_FR_RN_CYCLES_FUNC()
+static inline uint64_t BDK_TIM_FR_RN_CYCLES_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_FR_RN_CYCLES_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8580000000c0ll;
+    __bdk_csr_fatal("TIM_FR_RN_CYCLES", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_FR_RN_CYCLES bdk_tim_fr_rn_cycles_t
+#define bustype_BDK_TIM_FR_RN_CYCLES BDK_CSR_TYPE_RSL
+#define basename_BDK_TIM_FR_RN_CYCLES "TIM_FR_RN_CYCLES"
+#define busnum_BDK_TIM_FR_RN_CYCLES 0
+#define arguments_BDK_TIM_FR_RN_CYCLES -1,-1,-1,-1
+
+/**
+ * Register (RSL) tim_fr_rn_gpios
+ *
+ * TIM Free Running GPIO Count Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_fr_rn_gpios_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GPIO cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GPIO cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_fr_rn_gpios_s cn; */
+} bdk_tim_fr_rn_gpios_t;
+
+#define BDK_TIM_FR_RN_GPIOS BDK_TIM_FR_RN_GPIOS_FUNC()
+static inline uint64_t BDK_TIM_FR_RN_GPIOS_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_FR_RN_GPIOS_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8580000000c8ll;
+    __bdk_csr_fatal("TIM_FR_RN_GPIOS", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_FR_RN_GPIOS bdk_tim_fr_rn_gpios_t
+#define bustype_BDK_TIM_FR_RN_GPIOS BDK_CSR_TYPE_RSL
+#define basename_BDK_TIM_FR_RN_GPIOS "TIM_FR_RN_GPIOS"
+#define busnum_BDK_TIM_FR_RN_GPIOS 0
+#define arguments_BDK_TIM_FR_RN_GPIOS -1,-1,-1,-1
+
+/**
+ * Register (NCB) tim_fr_rn_gti
+ *
+ * TIM Free Running System Clock Count Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_fr_rn_gti_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GTI system timer cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GTI system timer cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_fr_rn_gti_s cn; */
+} bdk_tim_fr_rn_gti_t;
+
+#define BDK_TIM_FR_RN_GTI BDK_TIM_FR_RN_GTI_FUNC()
+static inline uint64_t BDK_TIM_FR_RN_GTI_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_FR_RN_GTI_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8580000000d0ll;
+    __bdk_csr_fatal("TIM_FR_RN_GTI", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_FR_RN_GTI bdk_tim_fr_rn_gti_t
+#define bustype_BDK_TIM_FR_RN_GTI BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_FR_RN_GTI "TIM_FR_RN_GTI"
+#define busnum_BDK_TIM_FR_RN_GTI 0
+#define arguments_BDK_TIM_FR_RN_GTI -1,-1,-1,-1
+
+/**
+ * Register (NCB) tim_fr_rn_ptp
+ *
+ * TIM Free Running PTP Count Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_fr_rn_ptp_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of PTP cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_fr_rn_ptp_s cn; */
+} bdk_tim_fr_rn_ptp_t;
+
+#define BDK_TIM_FR_RN_PTP BDK_TIM_FR_RN_PTP_FUNC()
+static inline uint64_t BDK_TIM_FR_RN_PTP_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_FR_RN_PTP_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x8580000000d8ll;
+    __bdk_csr_fatal("TIM_FR_RN_PTP", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_FR_RN_PTP bdk_tim_fr_rn_ptp_t
+#define bustype_BDK_TIM_FR_RN_PTP BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_FR_RN_PTP "TIM_FR_RN_PTP"
+#define busnum_BDK_TIM_FR_RN_PTP 0
+#define arguments_BDK_TIM_FR_RN_PTP -1,-1,-1,-1
+
+/**
+ * Register (RSL) tim_gpio_en
+ *
+ * TIM GPIO Enable Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_gpio_en_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t gpio_en               : 64; /**< [ 63:  0](RO/H) Each bit corresponds to rings [63:0] respectively. This register reflects the
+                                                                 values written to TIM_RING()_CTL1[ENA_GPIO]. For debug only; Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t gpio_en               : 64; /**< [ 63:  0](RO/H) Each bit corresponds to rings [63:0] respectively. This register reflects the
+                                                                 values written to TIM_RING()_CTL1[ENA_GPIO]. For debug only; Reserved. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_gpio_en_s cn; */
+} bdk_tim_gpio_en_t;
+
+#define BDK_TIM_GPIO_EN BDK_TIM_GPIO_EN_FUNC()
+static inline uint64_t BDK_TIM_GPIO_EN_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_GPIO_EN_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000000080ll;
+    __bdk_csr_fatal("TIM_GPIO_EN", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_GPIO_EN bdk_tim_gpio_en_t
+#define bustype_BDK_TIM_GPIO_EN BDK_CSR_TYPE_RSL
+#define basename_BDK_TIM_GPIO_EN "TIM_GPIO_EN"
+#define busnum_BDK_TIM_GPIO_EN 0
+#define arguments_BDK_TIM_GPIO_EN -1,-1,-1,-1
+
+/**
+ * Register (RSL) tim_int0
+ *
+ * TIM Ring Error Interrupt Register
+ * A ring is in error if its interval has elapsed more than once without having been serviced,
+ * either due to too many events in this ring's previous interval, or another ring having too
+ * many events to process within this ring's interval. This is usually a programming error where
+ * the number of entries in the bucket is too large for the interval specified across the rings.
+ * When in error, TIM may process events in an interval later than requested. Any bit in the INT
+ * field should be cleared by writing one to it.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_int0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t int0                  : 64; /**< [ 63:  0](R/W1C/H) Interrupt bit per ring. Each bit indicates the ring number in error. */
+#else /* Word 0 - Little Endian */
+        uint64_t int0                  : 64; /**< [ 63:  0](R/W1C/H) Interrupt bit per ring. Each bit indicates the ring number in error. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_int0_s cn; */
+} bdk_tim_int0_t;
+
+#define BDK_TIM_INT0 BDK_TIM_INT0_FUNC()
+static inline uint64_t BDK_TIM_INT0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_INT0_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000000030ll;
+    __bdk_csr_fatal("TIM_INT0", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_INT0 bdk_tim_int0_t
+#define bustype_BDK_TIM_INT0 BDK_CSR_TYPE_RSL
+#define basename_BDK_TIM_INT0 "TIM_INT0"
+#define busnum_BDK_TIM_INT0 0
+#define arguments_BDK_TIM_INT0 -1,-1,-1,-1
+
+/**
+ * Register (NCB) tim_int0_ena_w1c
+ *
+ * TIM Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_int0_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t int0                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for TIM_INT0[INT0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t int0                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for TIM_INT0[INT0]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_int0_ena_w1c_s cn; */
+} bdk_tim_int0_ena_w1c_t;
+
+#define BDK_TIM_INT0_ENA_W1C BDK_TIM_INT0_ENA_W1C_FUNC()
+static inline uint64_t BDK_TIM_INT0_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_INT0_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000000100ll;
+    __bdk_csr_fatal("TIM_INT0_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_INT0_ENA_W1C bdk_tim_int0_ena_w1c_t
+#define bustype_BDK_TIM_INT0_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_INT0_ENA_W1C "TIM_INT0_ENA_W1C"
+#define busnum_BDK_TIM_INT0_ENA_W1C 0
+#define arguments_BDK_TIM_INT0_ENA_W1C -1,-1,-1,-1
+
+/**
+ * Register (NCB) tim_int0_ena_w1s
+ *
+ * TIM Interrupt Enable Set Register
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_int0_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t int0                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for TIM_INT0[INT0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t int0                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for TIM_INT0[INT0]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_int0_ena_w1s_s cn; */
+} bdk_tim_int0_ena_w1s_t;
+
+#define BDK_TIM_INT0_ENA_W1S BDK_TIM_INT0_ENA_W1S_FUNC()
+static inline uint64_t BDK_TIM_INT0_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_INT0_ENA_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000000110ll;
+    __bdk_csr_fatal("TIM_INT0_ENA_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_INT0_ENA_W1S bdk_tim_int0_ena_w1s_t
+#define bustype_BDK_TIM_INT0_ENA_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_INT0_ENA_W1S "TIM_INT0_ENA_W1S"
+#define busnum_BDK_TIM_INT0_ENA_W1S 0
+#define arguments_BDK_TIM_INT0_ENA_W1S -1,-1,-1,-1
+
+/**
+ * Register (NCB) tim_int0_w1s
+ *
+ * TIM Interrupt Set Register
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_int0_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t int0                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets TIM_INT0[INT0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t int0                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets TIM_INT0[INT0]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_int0_w1s_s cn; */
+} bdk_tim_int0_w1s_t;
+
+#define BDK_TIM_INT0_W1S BDK_TIM_INT0_W1S_FUNC()
+static inline uint64_t BDK_TIM_INT0_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_INT0_W1S_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000000040ll;
+    __bdk_csr_fatal("TIM_INT0_W1S", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_INT0_W1S bdk_tim_int0_w1s_t
+#define bustype_BDK_TIM_INT0_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_INT0_W1S "TIM_INT0_W1S"
+#define busnum_BDK_TIM_INT0_W1S 0
+#define arguments_BDK_TIM_INT0_W1S -1,-1,-1,-1
+
+/**
+ * Register (RSL) tim_int_eccerr
+ *
+ * TIM ECC Error Interrupt Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_int_eccerr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) TIM CTL memory had a double-bit error. */
+        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) TIM CTL memory had a single-bit error. */
+        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) TIM RDS memory had a double-bit error. */
+        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) TIM RDS memory had a single-bit error. */
+#else /* Word 0 - Little Endian */
+        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) TIM RDS memory had a single-bit error. */
+        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) TIM RDS memory had a double-bit error. */
+        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) TIM CTL memory had a single-bit error. */
+        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) TIM CTL memory had a double-bit error. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_int_eccerr_s cn; */
+} bdk_tim_int_eccerr_t;
+
+#define BDK_TIM_INT_ECCERR BDK_TIM_INT_ECCERR_FUNC()
+static inline uint64_t BDK_TIM_INT_ECCERR_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_INT_ECCERR_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000000060ll;
+    __bdk_csr_fatal("TIM_INT_ECCERR", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_INT_ECCERR bdk_tim_int_eccerr_t
+#define bustype_BDK_TIM_INT_ECCERR BDK_CSR_TYPE_RSL
+#define basename_BDK_TIM_INT_ECCERR "TIM_INT_ECCERR"
+#define busnum_BDK_TIM_INT_ECCERR 0
+#define arguments_BDK_TIM_INT_ECCERR -1,-1,-1,-1
+
+/**
+ * Register (NCB) tim_int_eccerr_ena_w1c
+ *
+ * TIM Interrupt Enable Clear Register
+ * This register clears interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_int_eccerr_ena_w1c_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_DBE]. */
+        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_SBE]. */
+        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[DBE]. */
+        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[SBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[SBE]. */
+        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[DBE]. */
+        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_SBE]. */
+        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_DBE]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_int_eccerr_ena_w1c_s cn; */
+} bdk_tim_int_eccerr_ena_w1c_t;
+
+#define BDK_TIM_INT_ECCERR_ENA_W1C BDK_TIM_INT_ECCERR_ENA_W1C_FUNC()
+static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1C_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x858000000120ll;
+    __bdk_csr_fatal("TIM_INT_ECCERR_ENA_W1C", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_INT_ECCERR_ENA_W1C bdk_tim_int_eccerr_ena_w1c_t
+#define bustype_BDK_TIM_INT_ECCERR_ENA_W1C BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_INT_ECCERR_ENA_W1C "TIM_INT_ECCERR_ENA_W1C"
+#define busnum_BDK_TIM_INT_ECCERR_ENA_W1C 0
+#define arguments_BDK_TIM_INT_ECCERR_ENA_W1C -1,-1,-1,-1
 
 /**
  * Register (NCB) tim_int_eccerr_ena_w1s
@@ -753,74 +933,47 @@ static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1S_FUNC(void)
 #define arguments_BDK_TIM_INT_ECCERR_ENA_W1S -1,-1,-1,-1
 
 /**
- * Register (RSL) tim_gpio_en
+ * Register (NCB) tim_int_eccerr_w1s
  *
- * TIM GPIO Enable Register
+ * TIM Interrupt Set Register
+ * This register sets interrupt bits.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_tim_gpio_en_s
+    struct bdk_tim_int_eccerr_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t gpio_en               : 64; /**< [ 63:  0](RO/H) Each bit corresponds to rings [63:0] respectively. This register reflects the
-                                                                 values written to TIM_RING()_CTL1[ENA_GPIO]. For debug only; Reserved. */
+        uint64_t reserved_4_63         : 60;
+        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_DBE]. */
+        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_SBE]. */
+        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_INT_ECCERR[DBE]. */
+        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_INT_ECCERR[SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t gpio_en               : 64; /**< [ 63:  0](RO/H) Each bit corresponds to rings [63:0] respectively. This register reflects the
-                                                                 values written to TIM_RING()_CTL1[ENA_GPIO]. For debug only; Reserved. */
+        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_INT_ECCERR[SBE]. */
+        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_INT_ECCERR[DBE]. */
+        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_SBE]. */
+        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_DBE]. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_gpio_en_s cn; */
-} bdk_tim_gpio_en_t;
+    /* struct bdk_tim_int_eccerr_w1s_s cn; */
+} bdk_tim_int_eccerr_w1s_t;
 
-#define BDK_TIM_GPIO_EN BDK_TIM_GPIO_EN_FUNC()
-static inline uint64_t BDK_TIM_GPIO_EN_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_GPIO_EN_FUNC(void)
+#define BDK_TIM_INT_ECCERR_W1S BDK_TIM_INT_ECCERR_W1S_FUNC()
+static inline uint64_t BDK_TIM_INT_ECCERR_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_INT_ECCERR_W1S_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000080ll;
-    __bdk_csr_fatal("TIM_GPIO_EN", 0, 0, 0, 0, 0);
+        return 0x858000000068ll;
+    __bdk_csr_fatal("TIM_INT_ECCERR_W1S", 0, 0, 0, 0, 0);
 }
 
-#define typedef_BDK_TIM_GPIO_EN bdk_tim_gpio_en_t
-#define bustype_BDK_TIM_GPIO_EN BDK_CSR_TYPE_RSL
-#define basename_BDK_TIM_GPIO_EN "TIM_GPIO_EN"
-#define busnum_BDK_TIM_GPIO_EN 0
-#define arguments_BDK_TIM_GPIO_EN -1,-1,-1,-1
-
-/**
- * Register (NCB) tim_vring#_fr_rn_gti
- *
- * TIM Ring Free Running System Clock Count Register
- * This register is a read-only copy of TIM_FR_RN_GTI.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_vringx_fr_rn_gti_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_GTI[COUNT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_GTI[COUNT]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_vringx_fr_rn_gti_s cn; */
-} bdk_tim_vringx_fr_rn_gti_t;
-
-static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000110ll + 0x100000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("TIM_VRINGX_FR_RN_GTI", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_VRINGX_FR_RN_GTI(a) bdk_tim_vringx_fr_rn_gti_t
-#define bustype_BDK_TIM_VRINGX_FR_RN_GTI(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_VRINGX_FR_RN_GTI(a) "TIM_VRINGX_FR_RN_GTI"
-#define busnum_BDK_TIM_VRINGX_FR_RN_GTI(a) (a)
-#define arguments_BDK_TIM_VRINGX_FR_RN_GTI(a) (a),-1,-1,-1
+#define typedef_BDK_TIM_INT_ECCERR_W1S bdk_tim_int_eccerr_w1s_t
+#define bustype_BDK_TIM_INT_ECCERR_W1S BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_INT_ECCERR_W1S "TIM_INT_ECCERR_W1S"
+#define busnum_BDK_TIM_INT_ECCERR_W1S 0
+#define arguments_BDK_TIM_INT_ECCERR_W1S -1,-1,-1,-1
 
 /**
  * Register (NCB) tim_pf_msix_pba#
@@ -860,82 +1013,100 @@ static inline uint64_t BDK_TIM_PF_MSIX_PBAX(unsigned long a)
 #define arguments_BDK_TIM_PF_MSIX_PBAX(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) tim_vring#_aura
+ * Register (NCB) tim_pf_msix_vec#_addr
  *
- * TIM Ring Aura Registers
+ * TIM PF MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the TIM_PF_INT_VEC_E enumeration.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_tim_vringx_aura_s
+    struct bdk_tim_pf_msix_vecx_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Aura number used to free and return chucks to. Bits <15:12> must be zero. */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's TIM_PF_MSIX_VEC()_ADDR, TIM_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of TIM_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_TIM_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
+                                                                 [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
-        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Aura number used to free and return chucks to. Bits <15:12> must be zero. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's TIM_PF_MSIX_VEC()_ADDR, TIM_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of TIM_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_TIM_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
+                                                                 [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_vringx_aura_s cn; */
-} bdk_tim_vringx_aura_t;
+    /* struct bdk_tim_pf_msix_vecx_addr_s cn; */
+} bdk_tim_pf_msix_vecx_addr_t;
 
-static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a)
+static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000240ll + 0x100000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("TIM_VRINGX_AURA", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x858000f00000ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("TIM_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_TIM_VRINGX_AURA(a) bdk_tim_vringx_aura_t
-#define bustype_BDK_TIM_VRINGX_AURA(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_VRINGX_AURA(a) "TIM_VRINGX_AURA"
-#define busnum_BDK_TIM_VRINGX_AURA(a) (a)
-#define arguments_BDK_TIM_VRINGX_AURA(a) (a),-1,-1,-1
+#define typedef_BDK_TIM_PF_MSIX_VECX_ADDR(a) bdk_tim_pf_msix_vecx_addr_t
+#define bustype_BDK_TIM_PF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_PF_MSIX_VECX_ADDR(a) "TIM_PF_MSIX_VECX_ADDR"
+#define busnum_BDK_TIM_PF_MSIX_VECX_ADDR(a) (a)
+#define arguments_BDK_TIM_PF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) tim_int_eccerr_ena_w1c
+ * Register (NCB) tim_pf_msix_vec#_ctl
  *
- * TIM Interrupt Enable Clear Register
- * This register clears interrupt enable bits.
+ * TIM PF MSI-X Vector-Table Control and Data Register
+ * This register is the MSI-X vector table, indexed by the TIM_PF_INT_VEC_E enumeration.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_tim_int_eccerr_ena_w1c_s
+    struct bdk_tim_pf_msix_vecx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_DBE]. */
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_SBE]. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[DBE]. */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[SBE]. */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
 #else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[SBE]. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[DBE]. */
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_SBE]. */
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for TIM_INT_ECCERR[CTL_DBE]. */
-        uint64_t reserved_4_63         : 60;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_int_eccerr_ena_w1c_s cn; */
-} bdk_tim_int_eccerr_ena_w1c_t;
+    /* struct bdk_tim_pf_msix_vecx_ctl_s cn; */
+} bdk_tim_pf_msix_vecx_ctl_t;
 
-#define BDK_TIM_INT_ECCERR_ENA_W1C BDK_TIM_INT_ECCERR_ENA_W1C_FUNC()
-static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_INT_ECCERR_ENA_W1C_FUNC(void)
+static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000120ll;
-    __bdk_csr_fatal("TIM_INT_ECCERR_ENA_W1C", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x858000f00008ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("TIM_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_TIM_INT_ECCERR_ENA_W1C bdk_tim_int_eccerr_ena_w1c_t
-#define bustype_BDK_TIM_INT_ECCERR_ENA_W1C BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_INT_ECCERR_ENA_W1C "TIM_INT_ECCERR_ENA_W1C"
-#define busnum_BDK_TIM_INT_ECCERR_ENA_W1C 0
-#define arguments_BDK_TIM_INT_ECCERR_ENA_W1C -1,-1,-1,-1
+#define typedef_BDK_TIM_PF_MSIX_VECX_CTL(a) bdk_tim_pf_msix_vecx_ctl_t
+#define bustype_BDK_TIM_PF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_PF_MSIX_VECX_CTL(a) "TIM_PF_MSIX_VECX_CTL"
+#define busnum_BDK_TIM_PF_MSIX_VECX_CTL(a) (a)
+#define arguments_BDK_TIM_PF_MSIX_VECX_CTL(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tim_reg_flags
@@ -1011,6 +1182,79 @@ static inline uint64_t BDK_TIM_REG_FLAGS_FUNC(void)
 #define basename_BDK_TIM_REG_FLAGS "TIM_REG_FLAGS"
 #define busnum_BDK_TIM_REG_FLAGS 0
 #define arguments_BDK_TIM_REG_FLAGS -1,-1,-1,-1
+
+/**
+ * Register (RSL) tim_ring#_ctl0
+ *
+ * TIM Ring Control 0 Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_ringx_ctl0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_RING()_REL
+                                                                 for the position relative to current time.
+
+                                                                 If TIM_RING()_CTL1[ENA] = 0, then contains an offset. When ENA transitions from a
+                                                                 zero to a one this offset will be added to the current time and loaded back into
+                                                                 EXPIRE_OFFSET. Thus the offset sets the delta time between ENA transitioning to one and
+                                                                 the very first time the ring will be serviced. Software should program different offsets
+                                                                 on each ring to reduce congestion to prevent many rings from otherwise expiring
+                                                                 concurrently.
+
+                                                                 If TIM_RING()_CTL1[ENA] = 1, then contains the time the next bucket will be serviced.
+
+                                                                 When EXPIRE_OFFSET reaches the current time (TIM_FR_RN_CYCLES or TIM_FR_RN_GPIOS),
+                                                                 EXPIRE_OFFSET is set to the next expiration time (current time plus
+                                                                 TIM_RING()_CTL0[INTERVAL]).
+                                                                 EXPIRE_OFFSET is unpredictable after ENA_GPIO changes or TIM_RING()_CTL1[ENA]
+                                                                 transitions from 1 to 0, and must be reprogrammed before (re-) setting
+                                                                 TIM_RING()_CTL1[ENA]. */
+        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions.
+                                                                 For every 64 entries in a bucket, the interval should be at least 1u. Minimal recommended
+                                                                 value is 1u. */
+#else /* Word 0 - Little Endian */
+        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions.
+                                                                 For every 64 entries in a bucket, the interval should be at least 1u. Minimal recommended
+                                                                 value is 1u. */
+        uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_RING()_REL
+                                                                 for the position relative to current time.
+
+                                                                 If TIM_RING()_CTL1[ENA] = 0, then contains an offset. When ENA transitions from a
+                                                                 zero to a one this offset will be added to the current time and loaded back into
+                                                                 EXPIRE_OFFSET. Thus the offset sets the delta time between ENA transitioning to one and
+                                                                 the very first time the ring will be serviced. Software should program different offsets
+                                                                 on each ring to reduce congestion to prevent many rings from otherwise expiring
+                                                                 concurrently.
+
+                                                                 If TIM_RING()_CTL1[ENA] = 1, then contains the time the next bucket will be serviced.
+
+                                                                 When EXPIRE_OFFSET reaches the current time (TIM_FR_RN_CYCLES or TIM_FR_RN_GPIOS),
+                                                                 EXPIRE_OFFSET is set to the next expiration time (current time plus
+                                                                 TIM_RING()_CTL0[INTERVAL]).
+                                                                 EXPIRE_OFFSET is unpredictable after ENA_GPIO changes or TIM_RING()_CTL1[ENA]
+                                                                 transitions from 1 to 0, and must be reprogrammed before (re-) setting
+                                                                 TIM_RING()_CTL1[ENA]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_ringx_ctl0_s cn; */
+} bdk_tim_ringx_ctl0_t;
+
+static inline uint64_t BDK_TIM_RINGX_CTL0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_RINGX_CTL0(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x858000002000ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("TIM_RINGX_CTL0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_RINGX_CTL0(a) bdk_tim_ringx_ctl0_t
+#define bustype_BDK_TIM_RINGX_CTL0(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_TIM_RINGX_CTL0(a) "TIM_RINGX_CTL0"
+#define busnum_BDK_TIM_RINGX_CTL0(a) (a)
+#define arguments_BDK_TIM_RINGX_CTL0(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) tim_ring#_ctl1
@@ -1106,76 +1350,6 @@ static inline uint64_t BDK_TIM_RINGX_CTL1(unsigned long a)
 #define arguments_BDK_TIM_RINGX_CTL1(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) tim_int0_ena_w1c
- *
- * TIM Interrupt Enable Clear Register
- * This register clears interrupt enable bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_int0_ena_w1c_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t int0                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for TIM_INT0[INT0]. */
-#else /* Word 0 - Little Endian */
-        uint64_t int0                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for TIM_INT0[INT0]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_int0_ena_w1c_s cn; */
-} bdk_tim_int0_ena_w1c_t;
-
-#define BDK_TIM_INT0_ENA_W1C BDK_TIM_INT0_ENA_W1C_FUNC()
-static inline uint64_t BDK_TIM_INT0_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_INT0_ENA_W1C_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000100ll;
-    __bdk_csr_fatal("TIM_INT0_ENA_W1C", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_INT0_ENA_W1C bdk_tim_int0_ena_w1c_t
-#define bustype_BDK_TIM_INT0_ENA_W1C BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_INT0_ENA_W1C "TIM_INT0_ENA_W1C"
-#define busnum_BDK_TIM_INT0_ENA_W1C 0
-#define arguments_BDK_TIM_INT0_ENA_W1C -1,-1,-1,-1
-
-/**
- * Register (NCB) tim_int0_ena_w1s
- *
- * TIM Interrupt Enable Set Register
- * This register sets interrupt enable bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_int0_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t int0                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for TIM_INT0[INT0]. */
-#else /* Word 0 - Little Endian */
-        uint64_t int0                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for TIM_INT0[INT0]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_int0_ena_w1s_s cn; */
-} bdk_tim_int0_ena_w1s_t;
-
-#define BDK_TIM_INT0_ENA_W1S BDK_TIM_INT0_ENA_W1S_FUNC()
-static inline uint64_t BDK_TIM_INT0_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_INT0_ENA_W1S_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000110ll;
-    __bdk_csr_fatal("TIM_INT0_ENA_W1S", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_INT0_ENA_W1S bdk_tim_int0_ena_w1s_t
-#define bustype_BDK_TIM_INT0_ENA_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_INT0_ENA_W1S "TIM_INT0_ENA_W1S"
-#define busnum_BDK_TIM_INT0_ENA_W1S 0
-#define arguments_BDK_TIM_INT0_ENA_W1S -1,-1,-1,-1
-
-/**
  * Register (RSL) tim_ring#_ctl2
  *
  * TIM Ring Control 2 Registers
@@ -1213,356 +1387,88 @@ static inline uint64_t BDK_TIM_RINGX_CTL2(unsigned long a)
 #define arguments_BDK_TIM_RINGX_CTL2(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tim_ring#_ctl0
+ * Register (NCB) tim_ring#_gmctl
  *
- * TIM Ring Control 0 Registers
+ * TIM Ring Guest Machine Control Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_tim_ringx_ctl0_s
+    struct bdk_tim_ringx_gmctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_RING()_REL
-                                                                 for the position relative to current time.
+        uint64_t reserved_24_63        : 40;
+        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
 
-                                                                 If TIM_RING()_CTL1[ENA] = 0, then contains an offset. When ENA transitions from a
-                                                                 zero to a one this offset will be added to the current time and loaded back into
-                                                                 EXPIRE_OFFSET. Thus the offset sets the delta time between ENA transitioning to one and
-                                                                 the very first time the ring will be serviced. Software should program different offsets
-                                                                 on each ring to reduce congestion to prevent many rings from otherwise expiring
-                                                                 concurrently.
+                                                                 Stream 0x0 corresponds to the PF, and VFs start at 0x1.
 
-                                                                 If TIM_RING()_CTL1[ENA] = 1, then contains the time the next bucket will be serviced.
-
-                                                                 When EXPIRE_OFFSET reaches the current time (TIM_FR_RN_CYCLES or TIM_FR_RN_GPIOS),
-                                                                 EXPIRE_OFFSET is set to the next expiration time (current time plus
-                                                                 TIM_RING()_CTL0[INTERVAL]).
-                                                                 EXPIRE_OFFSET is unpredictable after ENA_GPIO changes or TIM_RING()_CTL1[ENA]
-                                                                 transitions from 1 to 0, and must be reprogrammed before (re-) setting
-                                                                 TIM_RING()_CTL1[ENA]. */
-        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions.
-                                                                 For every 64 entries in a bucket, the interval should be at least 1u. Minimal recommended
-                                                                 value is 1u. */
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer free, or to SSO
+                                                                 for all submit work operations initiated by this ring. Must be non-zero or
+                                                                 FPA/SSO will drop requests. */
 #else /* Word 0 - Little Endian */
-        uint64_t interval              : 32; /**< [ 31:  0](R/W) Timer interval, measured in cycles or GPIO transitions.
-                                                                 For every 64 entries in a bucket, the interval should be at least 1u. Minimal recommended
-                                                                 value is 1u. */
-        uint64_t expire_offset         : 32; /**< [ 63: 32](R/W/H) Time at which the next bucket will be serviced, or offset. See also TIM_RING()_REL
-                                                                 for the position relative to current time.
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all buffer free, or to SSO
+                                                                 for all submit work operations initiated by this ring. Must be non-zero or
+                                                                 FPA/SSO will drop requests. */
+        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing requests.
 
-                                                                 If TIM_RING()_CTL1[ENA] = 0, then contains an offset. When ENA transitions from a
-                                                                 zero to a one this offset will be added to the current time and loaded back into
-                                                                 EXPIRE_OFFSET. Thus the offset sets the delta time between ENA transitioning to one and
-                                                                 the very first time the ring will be serviced. Software should program different offsets
-                                                                 on each ring to reduce congestion to prevent many rings from otherwise expiring
-                                                                 concurrently.
+                                                                 Stream 0x0 corresponds to the PF, and VFs start at 0x1.
 
-                                                                 If TIM_RING()_CTL1[ENA] = 1, then contains the time the next bucket will be serviced.
-
-                                                                 When EXPIRE_OFFSET reaches the current time (TIM_FR_RN_CYCLES or TIM_FR_RN_GPIOS),
-                                                                 EXPIRE_OFFSET is set to the next expiration time (current time plus
-                                                                 TIM_RING()_CTL0[INTERVAL]).
-                                                                 EXPIRE_OFFSET is unpredictable after ENA_GPIO changes or TIM_RING()_CTL1[ENA]
-                                                                 transitions from 1 to 0, and must be reprogrammed before (re-) setting
-                                                                 TIM_RING()_CTL1[ENA]. */
+                                                                 Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_ringx_ctl0_s cn; */
-} bdk_tim_ringx_ctl0_t;
+    /* struct bdk_tim_ringx_gmctl_s cn; */
+} bdk_tim_ringx_gmctl_t;
 
-static inline uint64_t BDK_TIM_RINGX_CTL0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_RINGX_CTL0(unsigned long a)
+static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_RINGX_GMCTL(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858000002000ll + 8ll * ((a) & 0x3f);
-    __bdk_csr_fatal("TIM_RINGX_CTL0", 1, a, 0, 0, 0);
+        return 0x858000003800ll + 8ll * ((a) & 0x3f);
+    __bdk_csr_fatal("TIM_RINGX_GMCTL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_TIM_RINGX_CTL0(a) bdk_tim_ringx_ctl0_t
-#define bustype_BDK_TIM_RINGX_CTL0(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_TIM_RINGX_CTL0(a) "TIM_RINGX_CTL0"
-#define busnum_BDK_TIM_RINGX_CTL0(a) (a)
-#define arguments_BDK_TIM_RINGX_CTL0(a) (a),-1,-1,-1
+#define typedef_BDK_TIM_RINGX_GMCTL(a) bdk_tim_ringx_gmctl_t
+#define bustype_BDK_TIM_RINGX_GMCTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_RINGX_GMCTL(a) "TIM_RINGX_GMCTL"
+#define busnum_BDK_TIM_RINGX_GMCTL(a) (a)
+#define arguments_BDK_TIM_RINGX_GMCTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) tim_vring#_fr_rn_cycles
+ * Register (NCB) tim_vring#_aura
  *
- * TIM Ring Free Running Cycle Count Register
- * This register is a read-only copy of TIM_FR_RN_CYCLES.
+ * TIM Ring Aura Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_tim_vringx_fr_rn_cycles_s
+    struct bdk_tim_vringx_aura_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_CYCLES[COUNT]. */
+        uint64_t reserved_16_63        : 48;
+        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Aura number used to free and return chucks to. Bits <15:12> must be zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_CYCLES[COUNT]. */
+        uint64_t aura                  : 16; /**< [ 15:  0](R/W) Aura number used to free and return chucks to. Bits <15:12> must be zero. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_vringx_fr_rn_cycles_s cn; */
-} bdk_tim_vringx_fr_rn_cycles_t;
+    /* struct bdk_tim_vringx_aura_s cn; */
+} bdk_tim_vringx_aura_t;
 
-static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a)
+static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_VRINGX_AURA(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000100ll + 0x100000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("TIM_VRINGX_FR_RN_CYCLES", 1, a, 0, 0, 0);
+        return 0x858010000240ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("TIM_VRINGX_AURA", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_TIM_VRINGX_FR_RN_CYCLES(a) bdk_tim_vringx_fr_rn_cycles_t
-#define bustype_BDK_TIM_VRINGX_FR_RN_CYCLES(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_VRINGX_FR_RN_CYCLES(a) "TIM_VRINGX_FR_RN_CYCLES"
-#define busnum_BDK_TIM_VRINGX_FR_RN_CYCLES(a) (a)
-#define arguments_BDK_TIM_VRINGX_FR_RN_CYCLES(a) (a),-1,-1,-1
-
-/**
- * Register (NCB) tim_pf_msix_vec#_addr
- *
- * TIM PF MSI-X Vector-Table Address Register
- * This register is the MSI-X vector table, indexed by the TIM_PF_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_pf_msix_vecx_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's TIM_PF_MSIX_VEC()_ADDR, TIM_PF_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of TIM_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_TIM_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
-                                                                 [SECVEC] was set. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's TIM_PF_MSIX_VEC()_ADDR, TIM_PF_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of TIM_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_TIM_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
-                                                                 [SECVEC] was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_pf_msix_vecx_addr_s cn; */
-} bdk_tim_pf_msix_vecx_addr_t;
-
-static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_PF_MSIX_VECX_ADDR(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x858000f00000ll + 0x10ll * ((a) & 0x0);
-    __bdk_csr_fatal("TIM_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_PF_MSIX_VECX_ADDR(a) bdk_tim_pf_msix_vecx_addr_t
-#define bustype_BDK_TIM_PF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_PF_MSIX_VECX_ADDR(a) "TIM_PF_MSIX_VECX_ADDR"
-#define busnum_BDK_TIM_PF_MSIX_VECX_ADDR(a) (a)
-#define arguments_BDK_TIM_PF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) tim_int_eccerr
- *
- * TIM ECC Error Interrupt Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_int_eccerr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) TIM CTL memory had a double-bit error. */
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) TIM CTL memory had a single-bit error. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) TIM RDS memory had a double-bit error. */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) TIM RDS memory had a single-bit error. */
-#else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1C/H) TIM RDS memory had a single-bit error. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1C/H) TIM RDS memory had a double-bit error. */
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1C/H) TIM CTL memory had a single-bit error. */
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1C/H) TIM CTL memory had a double-bit error. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_int_eccerr_s cn; */
-} bdk_tim_int_eccerr_t;
-
-#define BDK_TIM_INT_ECCERR BDK_TIM_INT_ECCERR_FUNC()
-static inline uint64_t BDK_TIM_INT_ECCERR_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_INT_ECCERR_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000060ll;
-    __bdk_csr_fatal("TIM_INT_ECCERR", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_INT_ECCERR bdk_tim_int_eccerr_t
-#define bustype_BDK_TIM_INT_ECCERR BDK_CSR_TYPE_RSL
-#define basename_BDK_TIM_INT_ECCERR "TIM_INT_ECCERR"
-#define busnum_BDK_TIM_INT_ECCERR 0
-#define arguments_BDK_TIM_INT_ECCERR -1,-1,-1,-1
-
-/**
- * Register (NCB) tim_int_eccerr_w1s
- *
- * TIM Interrupt Set Register
- * This register sets interrupt bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_int_eccerr_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_DBE]. */
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_SBE]. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_INT_ECCERR[DBE]. */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_INT_ECCERR[SBE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 1;  /**< [  0:  0](R/W1S/H) Reads or sets TIM_INT_ECCERR[SBE]. */
-        uint64_t dbe                   : 1;  /**< [  1:  1](R/W1S/H) Reads or sets TIM_INT_ECCERR[DBE]. */
-        uint64_t ctl_sbe               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_SBE]. */
-        uint64_t ctl_dbe               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets TIM_INT_ECCERR[CTL_DBE]. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_int_eccerr_w1s_s cn; */
-} bdk_tim_int_eccerr_w1s_t;
-
-#define BDK_TIM_INT_ECCERR_W1S BDK_TIM_INT_ECCERR_W1S_FUNC()
-static inline uint64_t BDK_TIM_INT_ECCERR_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_INT_ECCERR_W1S_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000068ll;
-    __bdk_csr_fatal("TIM_INT_ECCERR_W1S", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_INT_ECCERR_W1S bdk_tim_int_eccerr_w1s_t
-#define bustype_BDK_TIM_INT_ECCERR_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_INT_ECCERR_W1S "TIM_INT_ECCERR_W1S"
-#define busnum_BDK_TIM_INT_ECCERR_W1S 0
-#define arguments_BDK_TIM_INT_ECCERR_W1S -1,-1,-1,-1
-
-/**
- * Register (NCB) tim_fr_rn_gti
- *
- * TIM Free Running System Clock Count Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_fr_rn_gti_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GTI system timer cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GTI system timer cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_fr_rn_gti_s cn; */
-} bdk_tim_fr_rn_gti_t;
-
-#define BDK_TIM_FR_RN_GTI BDK_TIM_FR_RN_GTI_FUNC()
-static inline uint64_t BDK_TIM_FR_RN_GTI_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_FR_RN_GTI_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8580000000d0ll;
-    __bdk_csr_fatal("TIM_FR_RN_GTI", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_FR_RN_GTI bdk_tim_fr_rn_gti_t
-#define bustype_BDK_TIM_FR_RN_GTI BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_FR_RN_GTI "TIM_FR_RN_GTI"
-#define busnum_BDK_TIM_FR_RN_GTI 0
-#define arguments_BDK_TIM_FR_RN_GTI -1,-1,-1,-1
-
-/**
- * Register (RSL) tim_fr_rn_cycles
- *
- * TIM Free Running Cycle Count Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_fr_rn_cycles_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of system coprocessor-clock cycles. This register is only writable when
-                                                                 TIM_REG_FLAGS[ENA_TIM] = 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of system coprocessor-clock cycles. This register is only writable when
-                                                                 TIM_REG_FLAGS[ENA_TIM] = 0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_fr_rn_cycles_s cn; */
-} bdk_tim_fr_rn_cycles_t;
-
-#define BDK_TIM_FR_RN_CYCLES BDK_TIM_FR_RN_CYCLES_FUNC()
-static inline uint64_t BDK_TIM_FR_RN_CYCLES_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_FR_RN_CYCLES_FUNC(void)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8580000000c0ll;
-    __bdk_csr_fatal("TIM_FR_RN_CYCLES", 0, 0, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_FR_RN_CYCLES bdk_tim_fr_rn_cycles_t
-#define bustype_BDK_TIM_FR_RN_CYCLES BDK_CSR_TYPE_RSL
-#define basename_BDK_TIM_FR_RN_CYCLES "TIM_FR_RN_CYCLES"
-#define busnum_BDK_TIM_FR_RN_CYCLES 0
-#define arguments_BDK_TIM_FR_RN_CYCLES -1,-1,-1,-1
-
-/**
- * Register (NCB) tim_vring#_fr_rn_ptp
- *
- * TIM Ring Free Running PTP Count Register
- * This register is a read-only copy of TIM_FR_RN_PTP.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_vringx_fr_rn_ptp_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_PTP[COUNT]. */
-#else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_PTP[COUNT]. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_vringx_fr_rn_ptp_s cn; */
-} bdk_tim_vringx_fr_rn_ptp_t;
-
-static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
-        return 0x858010000118ll + 0x100000ll * ((a) & 0x3f);
-    __bdk_csr_fatal("TIM_VRINGX_FR_RN_PTP", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_VRINGX_FR_RN_PTP(a) bdk_tim_vringx_fr_rn_ptp_t
-#define bustype_BDK_TIM_VRINGX_FR_RN_PTP(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_VRINGX_FR_RN_PTP(a) "TIM_VRINGX_FR_RN_PTP"
-#define busnum_BDK_TIM_VRINGX_FR_RN_PTP(a) (a)
-#define arguments_BDK_TIM_VRINGX_FR_RN_PTP(a) (a),-1,-1,-1
+#define typedef_BDK_TIM_VRINGX_AURA(a) bdk_tim_vringx_aura_t
+#define bustype_BDK_TIM_VRINGX_AURA(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_VRINGX_AURA(a) "TIM_VRINGX_AURA"
+#define busnum_BDK_TIM_VRINGX_AURA(a) (a)
+#define arguments_BDK_TIM_VRINGX_AURA(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) tim_vring#_base
@@ -1602,75 +1508,170 @@ static inline uint64_t BDK_TIM_VRINGX_BASE(unsigned long a)
 #define arguments_BDK_TIM_VRINGX_BASE(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) tim_eco
+ * Register (NCB) tim_vring#_ctl0
  *
- * INTERNAL: TIM ECO Register
+ * TIM Ring Control 0 Registers
+ * This register is a read-only copy of TIM_RING(0..63)_CTL0.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_tim_eco_s
+    struct bdk_tim_vringx_ctl0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
+        uint64_t expire_offset         : 32; /**< [ 63: 32](RO/H) Read-only TIM_RING(0..63)_CTL0[EXPIRE_OFFSET]. */
+        uint64_t interval              : 32; /**< [ 31:  0](RO) Read-only TIM_RING(0..63)_CTL0[INTERVAL]. */
 #else /* Word 0 - Little Endian */
-        uint64_t eco_rw                : 32; /**< [ 31:  0](R/W) INTERNAL: Reserved for ECO usage. */
-        uint64_t reserved_32_63        : 32;
+        uint64_t interval              : 32; /**< [ 31:  0](RO) Read-only TIM_RING(0..63)_CTL0[INTERVAL]. */
+        uint64_t expire_offset         : 32; /**< [ 63: 32](RO/H) Read-only TIM_RING(0..63)_CTL0[EXPIRE_OFFSET]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_eco_s cn; */
-} bdk_tim_eco_t;
+    /* struct bdk_tim_vringx_ctl0_s cn; */
+} bdk_tim_vringx_ctl0_t;
 
-#define BDK_TIM_ECO BDK_TIM_ECO_FUNC()
-static inline uint64_t BDK_TIM_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_ECO_FUNC(void)
+static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000140ll;
-    __bdk_csr_fatal("TIM_ECO", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x858010000200ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("TIM_VRINGX_CTL0", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_TIM_ECO bdk_tim_eco_t
-#define bustype_BDK_TIM_ECO BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_ECO "TIM_ECO"
-#define busnum_BDK_TIM_ECO 0
-#define arguments_BDK_TIM_ECO -1,-1,-1,-1
+#define typedef_BDK_TIM_VRINGX_CTL0(a) bdk_tim_vringx_ctl0_t
+#define bustype_BDK_TIM_VRINGX_CTL0(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_VRINGX_CTL0(a) "TIM_VRINGX_CTL0"
+#define busnum_BDK_TIM_VRINGX_CTL0(a) (a)
+#define arguments_BDK_TIM_VRINGX_CTL0(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) tim_int0_w1s
+ * Register (NCB) tim_vring#_ctl1
  *
- * TIM Interrupt Set Register
- * This register sets interrupt bits.
+ * TIM Ring Control 1 Registers
+ * This register is a read-only copy of TIM_RING(0..63)_CTL1.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_tim_int0_w1s_s
+    struct bdk_tim_vringx_ctl1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t int0                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets TIM_INT0[INT0]. */
+        uint64_t reserved_55_63        : 9;
+        uint64_t be                    : 1;  /**< [ 54: 54](RO) Read-only TIM_RING(0..63)_CTL1[BE]. */
+        uint64_t clk_src               : 3;  /**< [ 53: 51](RO) Read-only TIM_RING(0..63)_CTL1[CLK_SRC]. */
+        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Read-only TIM_RING(0..63)_CTL1[RCF_BUSY]. */
+        uint64_t intc                  : 2;  /**< [ 49: 48](RO) Read-only TIM_RING(0..63)_CTL1[INTC]. */
+        uint64_t ena                   : 1;  /**< [ 47: 47](RO) Read-only TIM_RING(0..63)_CTL1[ENA]. */
+        uint64_t reserved_46           : 1;
+        uint64_t ena_prd               : 1;  /**< [ 45: 45](RO) Read-only TIM_RING(0..63)_CTL1[ENA_PRD]. */
+        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](RO) Read-only TIM_RING(0..63)_CTL1[ENA_LDWB]. */
+        uint64_t ena_dfb               : 1;  /**< [ 43: 43](RO) Read-only TIM_RING(0..63)_CTL1[ENA_DFB]. */
+        uint64_t reserved_40_42        : 3;
+        uint64_t bucket                : 20; /**< [ 39: 20](RO/H) Read-only TIM_RING(0..63)_CTL1[BUCKET]. */
+        uint64_t bsize                 : 20; /**< [ 19:  0](RO) Read-only TIM_RING(0..63)_CTL1[BSIZE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t int0                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets TIM_INT0[INT0]. */
+        uint64_t bsize                 : 20; /**< [ 19:  0](RO) Read-only TIM_RING(0..63)_CTL1[BSIZE]. */
+        uint64_t bucket                : 20; /**< [ 39: 20](RO/H) Read-only TIM_RING(0..63)_CTL1[BUCKET]. */
+        uint64_t reserved_40_42        : 3;
+        uint64_t ena_dfb               : 1;  /**< [ 43: 43](RO) Read-only TIM_RING(0..63)_CTL1[ENA_DFB]. */
+        uint64_t ena_ldwb              : 1;  /**< [ 44: 44](RO) Read-only TIM_RING(0..63)_CTL1[ENA_LDWB]. */
+        uint64_t ena_prd               : 1;  /**< [ 45: 45](RO) Read-only TIM_RING(0..63)_CTL1[ENA_PRD]. */
+        uint64_t reserved_46           : 1;
+        uint64_t ena                   : 1;  /**< [ 47: 47](RO) Read-only TIM_RING(0..63)_CTL1[ENA]. */
+        uint64_t intc                  : 2;  /**< [ 49: 48](RO) Read-only TIM_RING(0..63)_CTL1[INTC]. */
+        uint64_t rcf_busy              : 1;  /**< [ 50: 50](RO/H) Read-only TIM_RING(0..63)_CTL1[RCF_BUSY]. */
+        uint64_t clk_src               : 3;  /**< [ 53: 51](RO) Read-only TIM_RING(0..63)_CTL1[CLK_SRC]. */
+        uint64_t be                    : 1;  /**< [ 54: 54](RO) Read-only TIM_RING(0..63)_CTL1[BE]. */
+        uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_int0_w1s_s cn; */
-} bdk_tim_int0_w1s_t;
+    /* struct bdk_tim_vringx_ctl1_s cn; */
+} bdk_tim_vringx_ctl1_t;
 
-#define BDK_TIM_INT0_W1S BDK_TIM_INT0_W1S_FUNC()
-static inline uint64_t BDK_TIM_INT0_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_INT0_W1S_FUNC(void)
+static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000040ll;
-    __bdk_csr_fatal("TIM_INT0_W1S", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x858010000210ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("TIM_VRINGX_CTL1", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_TIM_INT0_W1S bdk_tim_int0_w1s_t
-#define bustype_BDK_TIM_INT0_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_INT0_W1S "TIM_INT0_W1S"
-#define busnum_BDK_TIM_INT0_W1S 0
-#define arguments_BDK_TIM_INT0_W1S -1,-1,-1,-1
+#define typedef_BDK_TIM_VRINGX_CTL1(a) bdk_tim_vringx_ctl1_t
+#define bustype_BDK_TIM_VRINGX_CTL1(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_VRINGX_CTL1(a) "TIM_VRINGX_CTL1"
+#define busnum_BDK_TIM_VRINGX_CTL1(a) (a)
+#define arguments_BDK_TIM_VRINGX_CTL1(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) tim_vring#_ctl2
+ *
+ * TIM Ring Control 2 Registers
+ * This register is a read-only copy of TIM_RING(0..63)_CTL2.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_vringx_ctl2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t csize                 : 13; /**< [ 52: 40](RO) Read-only TIM_RING(0..63)_CTL2[CSIZE]. */
+        uint64_t reserved_0_39         : 40;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_39         : 40;
+        uint64_t csize                 : 13; /**< [ 52: 40](RO) Read-only TIM_RING(0..63)_CTL2[CSIZE]. */
+        uint64_t reserved_53_63        : 11;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_vringx_ctl2_s cn; */
+} bdk_tim_vringx_ctl2_t;
+
+static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_VRINGX_CTL2(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x858010000220ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("TIM_VRINGX_CTL2", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_VRINGX_CTL2(a) bdk_tim_vringx_ctl2_t
+#define bustype_BDK_TIM_VRINGX_CTL2(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_VRINGX_CTL2(a) "TIM_VRINGX_CTL2"
+#define busnum_BDK_TIM_VRINGX_CTL2(a) (a)
+#define arguments_BDK_TIM_VRINGX_CTL2(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) tim_vring#_fr_rn_cycles
+ *
+ * TIM Ring Free Running Cycle Count Register
+ * This register is a read-only copy of TIM_FR_RN_CYCLES.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_tim_vringx_fr_rn_cycles_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_CYCLES[COUNT]. */
+#else /* Word 0 - Little Endian */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_CYCLES[COUNT]. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_tim_vringx_fr_rn_cycles_s cn; */
+} bdk_tim_vringx_fr_rn_cycles_t;
+
+static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_VRINGX_FR_RN_CYCLES(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x858010000100ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("TIM_VRINGX_FR_RN_CYCLES", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_TIM_VRINGX_FR_RN_CYCLES(a) bdk_tim_vringx_fr_rn_cycles_t
+#define bustype_BDK_TIM_VRINGX_FR_RN_CYCLES(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_VRINGX_FR_RN_CYCLES(a) "TIM_VRINGX_FR_RN_CYCLES"
+#define busnum_BDK_TIM_VRINGX_FR_RN_CYCLES(a) (a)
+#define arguments_BDK_TIM_VRINGX_FR_RN_CYCLES(a) (a),-1,-1,-1
 
 /**
  * Register (NCB) tim_vring#_fr_rn_gpios
@@ -1707,156 +1708,155 @@ static inline uint64_t BDK_TIM_VRINGX_FR_RN_GPIOS(unsigned long a)
 #define arguments_BDK_TIM_VRINGX_FR_RN_GPIOS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) tim_pf_msix_vec#_ctl
+ * Register (NCB) tim_vring#_fr_rn_gti
  *
- * TIM PF MSI-X Vector-Table Control and Data Register
- * This register is the MSI-X vector table, indexed by the TIM_PF_INT_VEC_E enumeration.
+ * TIM Ring Free Running System Clock Count Register
+ * This register is a read-only copy of TIM_FR_RN_GTI.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_tim_pf_msix_vecx_ctl_s
+    struct bdk_tim_vringx_fr_rn_gti_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_GTI[COUNT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_33_63        : 31;
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_GTI[COUNT]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_pf_msix_vecx_ctl_s cn; */
-} bdk_tim_pf_msix_vecx_ctl_t;
+    /* struct bdk_tim_vringx_fr_rn_gti_s cn; */
+} bdk_tim_vringx_fr_rn_gti_t;
 
-static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_PF_MSIX_VECX_CTL(unsigned long a)
+static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_VRINGX_FR_RN_GTI(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x858000f00008ll + 0x10ll * ((a) & 0x0);
-    __bdk_csr_fatal("TIM_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x858010000110ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("TIM_VRINGX_FR_RN_GTI", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_TIM_PF_MSIX_VECX_CTL(a) bdk_tim_pf_msix_vecx_ctl_t
-#define bustype_BDK_TIM_PF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_TIM_PF_MSIX_VECX_CTL(a) "TIM_PF_MSIX_VECX_CTL"
-#define busnum_BDK_TIM_PF_MSIX_VECX_CTL(a) (a)
-#define arguments_BDK_TIM_PF_MSIX_VECX_CTL(a) (a),-1,-1,-1
+#define typedef_BDK_TIM_VRINGX_FR_RN_GTI(a) bdk_tim_vringx_fr_rn_gti_t
+#define bustype_BDK_TIM_VRINGX_FR_RN_GTI(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_VRINGX_FR_RN_GTI(a) "TIM_VRINGX_FR_RN_GTI"
+#define busnum_BDK_TIM_VRINGX_FR_RN_GTI(a) (a)
+#define arguments_BDK_TIM_VRINGX_FR_RN_GTI(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tim_fr_rn_gpios
+ * Register (NCB) tim_vring#_fr_rn_ptp
  *
- * TIM Free Running GPIO Count Register
+ * TIM Ring Free Running PTP Count Register
+ * This register is a read-only copy of TIM_FR_RN_PTP.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_tim_fr_rn_gpios_s
+    struct bdk_tim_vringx_fr_rn_ptp_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GPIO cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_PTP[COUNT]. */
 #else /* Word 0 - Little Endian */
-        uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Count of GPIO cycles. This register is only writable when TIM_REG_FLAGS[ENA_TIM] = 0. */
+        uint64_t count                 : 64; /**< [ 63:  0](RO/H) Read-only TIM_FR_RN_PTP[COUNT]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_fr_rn_gpios_s cn; */
-} bdk_tim_fr_rn_gpios_t;
+    /* struct bdk_tim_vringx_fr_rn_ptp_s cn; */
+} bdk_tim_vringx_fr_rn_ptp_t;
 
-#define BDK_TIM_FR_RN_GPIOS BDK_TIM_FR_RN_GPIOS_FUNC()
-static inline uint64_t BDK_TIM_FR_RN_GPIOS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_FR_RN_GPIOS_FUNC(void)
+static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_VRINGX_FR_RN_PTP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x8580000000c8ll;
-    __bdk_csr_fatal("TIM_FR_RN_GPIOS", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x858010000118ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("TIM_VRINGX_FR_RN_PTP", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_TIM_FR_RN_GPIOS bdk_tim_fr_rn_gpios_t
-#define bustype_BDK_TIM_FR_RN_GPIOS BDK_CSR_TYPE_RSL
-#define basename_BDK_TIM_FR_RN_GPIOS "TIM_FR_RN_GPIOS"
-#define busnum_BDK_TIM_FR_RN_GPIOS 0
-#define arguments_BDK_TIM_FR_RN_GPIOS -1,-1,-1,-1
+#define typedef_BDK_TIM_VRINGX_FR_RN_PTP(a) bdk_tim_vringx_fr_rn_ptp_t
+#define bustype_BDK_TIM_VRINGX_FR_RN_PTP(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_VRINGX_FR_RN_PTP(a) "TIM_VRINGX_FR_RN_PTP"
+#define busnum_BDK_TIM_VRINGX_FR_RN_PTP(a) (a)
+#define arguments_BDK_TIM_VRINGX_FR_RN_PTP(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) tim_int0
+ * Register (NCB) tim_vring#_rel
  *
- * TIM Ring Error Interrupt Register
- * A ring is in error if its interval has elapsed more than once without having been serviced,
- * either due to too many events in this ring's previous interval, or another ring having too
- * many events to process within this ring's interval. This is usually a programming error where
- * the number of entries in the bucket is too large for the interval specified across the rings.
- * When in error, TIM may process events in an interval later than requested. Any bit in the INT
- * field should be cleared by writing one to it.
+ * TIM Ring Relative Position Register
+ * Current positions of the TIM walker in both time and ring position, for easy synchronization
+ * with software.
+ * INTERNAL: For VM-safety this register contains only read-only fields.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_tim_int0_s
+    struct bdk_tim_vringx_rel_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t int0                  : 64; /**< [ 63:  0](R/W1C/H) Interrupt bit per ring. Each bit indicates the ring number in error. */
+        uint64_t cur_bucket            : 20; /**< [ 63: 44](RO/H) Current bucket. Indicates the ring's current bucket. See TIM_RING()_CTL1[BUCKET]. */
+        uint64_t reserved_34_43        : 10;
+        uint64_t ring_esr              : 2;  /**< [ 33: 32](RO/H) Ring expiration status register dynamic status. These registers hold the expiration status
+                                                                 of the ring.
+                                                                 0x0 = Ring has not expired.
+                                                                 0x1 = Interval expired. Ring is queued to be traversed.
+                                                                 0x2 = First interval expiration while ring is queued to be traversed.
+                                                                 0x3 = Second interval expiration while ring is queued to be traversed.
+
+                                                                 This field is zeroed when TIM_RING()_CTL1[ENA] transitions from 0 to 1.
+                                                                 In normal operation, the values of this register are dynamically changing due to the
+                                                                 status of the ring. */
+        uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval expiration,
+                                                                 calculated as TIM_RING()_CTL0[EXPIRE_OFFSET] minus current time (TIM_FR_RN_CYCLES or
+                                                                 TIM_FR_RN_GPIOS).
+
+                                                                 Once ENA = 1, TIMERCOUNT will be observed to count down timer ticks. When TIMERCOUNT
+                                                                 reaches 0x0, the ring's interval expired and the hardware forces a bucket traversal (and
+                                                                 increments RING_ESR).
+
+                                                                 Typical initialization value should be interval/constant; Cavium recommends that the
+                                                                 constant be unique per ring. This creates an offset between the rings.
+                                                                 TIMERCOUNT becomes and remains unpredictable whenever ENA = 0 or ENA_GPIO changes. It is
+                                                                 software's responsibility to set TIMERCOUNT before TIM_RING()_CTL1[ENA] transitions
+                                                                 from 0 -> 1. */
 #else /* Word 0 - Little Endian */
-        uint64_t int0                  : 64; /**< [ 63:  0](R/W1C/H) Interrupt bit per ring. Each bit indicates the ring number in error. */
+        uint64_t timercount            : 32; /**< [ 31:  0](RO/H) Timer count indicates how many timer ticks are left until the interval expiration,
+                                                                 calculated as TIM_RING()_CTL0[EXPIRE_OFFSET] minus current time (TIM_FR_RN_CYCLES or
+                                                                 TIM_FR_RN_GPIOS).
+
+                                                                 Once ENA = 1, TIMERCOUNT will be observed to count down timer ticks. When TIMERCOUNT
+                                                                 reaches 0x0, the ring's interval expired and the hardware forces a bucket traversal (and
+                                                                 increments RING_ESR).
+
+                                                                 Typical initialization value should be interval/constant; Cavium recommends that the
+                                                                 constant be unique per ring. This creates an offset between the rings.
+                                                                 TIMERCOUNT becomes and remains unpredictable whenever ENA = 0 or ENA_GPIO changes. It is
+                                                                 software's responsibility to set TIMERCOUNT before TIM_RING()_CTL1[ENA] transitions
+                                                                 from 0 -> 1. */
+        uint64_t ring_esr              : 2;  /**< [ 33: 32](RO/H) Ring expiration status register dynamic status. These registers hold the expiration status
+                                                                 of the ring.
+                                                                 0x0 = Ring has not expired.
+                                                                 0x1 = Interval expired. Ring is queued to be traversed.
+                                                                 0x2 = First interval expiration while ring is queued to be traversed.
+                                                                 0x3 = Second interval expiration while ring is queued to be traversed.
+
+                                                                 This field is zeroed when TIM_RING()_CTL1[ENA] transitions from 0 to 1.
+                                                                 In normal operation, the values of this register are dynamically changing due to the
+                                                                 status of the ring. */
+        uint64_t reserved_34_43        : 10;
+        uint64_t cur_bucket            : 20; /**< [ 63: 44](RO/H) Current bucket. Indicates the ring's current bucket. See TIM_RING()_CTL1[BUCKET]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_tim_int0_s cn; */
-} bdk_tim_int0_t;
+    /* struct bdk_tim_vringx_rel_s cn; */
+} bdk_tim_vringx_rel_t;
 
-#define BDK_TIM_INT0 BDK_TIM_INT0_FUNC()
-static inline uint64_t BDK_TIM_INT0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_INT0_FUNC(void)
+static inline uint64_t BDK_TIM_VRINGX_REL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_TIM_VRINGX_REL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x858000000030ll;
-    __bdk_csr_fatal("TIM_INT0", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
+        return 0x858010000250ll + 0x100000ll * ((a) & 0x3f);
+    __bdk_csr_fatal("TIM_VRINGX_REL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_TIM_INT0 bdk_tim_int0_t
-#define bustype_BDK_TIM_INT0 BDK_CSR_TYPE_RSL
-#define basename_BDK_TIM_INT0 "TIM_INT0"
-#define busnum_BDK_TIM_INT0 0
-#define arguments_BDK_TIM_INT0 -1,-1,-1,-1
-
-/**
- * Register (RSL) tim_eng#_active
- *
- * TIM Engine Active Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_tim_engx_active_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t act                   : 1;  /**< [  8:  8](RO/H) Engine active. For diagnostic use. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t ring_id               : 6;  /**< [  5:  0](RO/H) Current ring ID. For diagnostic use. */
-#else /* Word 0 - Little Endian */
-        uint64_t ring_id               : 6;  /**< [  5:  0](RO/H) Current ring ID. For diagnostic use. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t act                   : 1;  /**< [  8:  8](RO/H) Engine active. For diagnostic use. */
-        uint64_t reserved_9_63         : 55;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_tim_engx_active_s cn; */
-} bdk_tim_engx_active_t;
-
-static inline uint64_t BDK_TIM_ENGX_ACTIVE(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_TIM_ENGX_ACTIVE(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x858000001000ll + 8ll * ((a) & 0x3);
-    __bdk_csr_fatal("TIM_ENGX_ACTIVE", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_TIM_ENGX_ACTIVE(a) bdk_tim_engx_active_t
-#define bustype_BDK_TIM_ENGX_ACTIVE(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_TIM_ENGX_ACTIVE(a) "TIM_ENGX_ACTIVE"
-#define busnum_BDK_TIM_ENGX_ACTIVE(a) (a)
-#define arguments_BDK_TIM_ENGX_ACTIVE(a) (a),-1,-1,-1
+#define typedef_BDK_TIM_VRINGX_REL(a) bdk_tim_vringx_rel_t
+#define bustype_BDK_TIM_VRINGX_REL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_TIM_VRINGX_REL(a) "TIM_VRINGX_REL"
+#define busnum_BDK_TIM_VRINGX_REL(a) (a)
+#define arguments_BDK_TIM_VRINGX_REL(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_TIM_H__ */

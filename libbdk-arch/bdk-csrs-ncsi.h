@@ -53,25 +53,13 @@
  */
 
 /**
- * Enumeration ncsi_int_vec_e
+ * Enumeration ncsi_bar_e
  *
- * NCSI MSI-X Vector Enumeration
- * Enumerates the MSI-X interrupt vectors.
+ * NCSI Base Address Register Enumeration
+ * Enumerates the base address registers.
  */
-#define BDK_NCSI_INT_VEC_E_INTS (0) /**< See interrupt clears NCSI_INT, interrupt sets NCSI_INT_W1S, enable clears
-                                       NCSI_INT_ENA_W1C, and enable sets NCSI_INT_ENA_W1S. */
-
-/**
- * Enumeration ncsi_resp_e
- *
- * NCSI Response Code Enumeration
- */
-#define BDK_NCSI_RESP_E_COMPLETED (0) /**< Command completed. */
-#define BDK_NCSI_RESP_E_CSR_READ (0x8000) /**< OEM-specific response to OEM CSR read. */
-#define BDK_NCSI_RESP_E_CSR_WRITE (0x8001) /**< OEM-specific response to OEM CSR write. */
-#define BDK_NCSI_RESP_E_FAILED (1) /**< Command failed. */
-#define BDK_NCSI_RESP_E_UNAVAIL (2) /**< Command unavailable. */
-#define BDK_NCSI_RESP_E_UNSUP (3) /**< Command unsupported. */
+#define BDK_NCSI_BAR_E_NCSI_PF_BAR0 (0x87e00b000000ll) /**< Base address for standard registers. */
+#define BDK_NCSI_BAR_E_NCSI_PF_BAR4 (0x87e00bf00000ll) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration ncsi_ctl_pkt_type_e
@@ -125,13 +113,13 @@
                                        BGX()_CMR_RX_STEERING(). */
 
 /**
- * Enumeration ncsi_bar_e
+ * Enumeration ncsi_int_vec_e
  *
- * NCSI Base Address Register Enumeration
- * Enumerates the base address registers.
+ * NCSI MSI-X Vector Enumeration
+ * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_NCSI_BAR_E_NCSI_PF_BAR0 (0x87e00b000000ll) /**< Base address for standard registers. */
-#define BDK_NCSI_BAR_E_NCSI_PF_BAR4 (0x87e00bf00000ll) /**< Base address for MSI-X registers. */
+#define BDK_NCSI_INT_VEC_E_INTS (0) /**< See interrupt clears NCSI_INT, interrupt sets NCSI_INT_W1S, enable clears
+                                       NCSI_INT_ENA_W1C, and enable sets NCSI_INT_ENA_W1S. */
 
 /**
  * Enumeration ncsi_reason_e
@@ -145,79 +133,16 @@
 #define BDK_NCSI_REASON_E_UNSUP (2) /**< Parameter is invalid, unsupported, or out-of-range. */
 
 /**
- * Register (RSL) ncsi_msix_vec#_ctl
+ * Enumeration ncsi_resp_e
  *
- * NCSI MSI-X Vector-Table Control and Data Register
- * This register is the MSI-X vector table, indexed by the NCSI_INT_VEC_E enumeration.
+ * NCSI Response Code Enumeration
  */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ncsi_msix_vecx_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_msix_vecx_ctl_s cn; */
-} bdk_ncsi_msix_vecx_ctl_t;
-
-static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a)
-{
-    if (a==0)
-        return 0x87e00bf00008ll + 0x10ll * ((a) & 0x0);
-    __bdk_csr_fatal("NCSI_MSIX_VECX_CTL", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_NCSI_MSIX_VECX_CTL(a) bdk_ncsi_msix_vecx_ctl_t
-#define bustype_BDK_NCSI_MSIX_VECX_CTL(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_MSIX_VECX_CTL(a) "NCSI_MSIX_VECX_CTL"
-#define busnum_BDK_NCSI_MSIX_VECX_CTL(a) (a)
-#define arguments_BDK_NCSI_MSIX_VECX_CTL(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) ncsi_tx_mix
- *
- * NCSI TX MIX Configuration Register
- * This register specifies configuration parameters for the MIX interface of BGX.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ncsi_tx_mix_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t port                  : 4;  /**< [  3:  0](R/W) Port value inserted into MIX frames headed to the BGX where it is used as the channel number. */
-#else /* Word 0 - Little Endian */
-        uint64_t port                  : 4;  /**< [  3:  0](R/W) Port value inserted into MIX frames headed to the BGX where it is used as the channel number. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_tx_mix_s cn; */
-} bdk_ncsi_tx_mix_t;
-
-#define BDK_NCSI_TX_MIX BDK_NCSI_TX_MIX_FUNC()
-static inline uint64_t BDK_NCSI_TX_MIX_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_TX_MIX_FUNC(void)
-{
-    return 0x87e00b000138ll;
-}
-
-#define typedef_BDK_NCSI_TX_MIX bdk_ncsi_tx_mix_t
-#define bustype_BDK_NCSI_TX_MIX BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_TX_MIX "NCSI_TX_MIX"
-#define busnum_BDK_NCSI_TX_MIX 0
-#define arguments_BDK_NCSI_TX_MIX -1,-1,-1,-1
+#define BDK_NCSI_RESP_E_COMPLETED (0) /**< Command completed. */
+#define BDK_NCSI_RESP_E_CSR_READ (0x8000) /**< OEM-specific response to OEM CSR read. */
+#define BDK_NCSI_RESP_E_CSR_WRITE (0x8001) /**< OEM-specific response to OEM CSR write. */
+#define BDK_NCSI_RESP_E_FAILED (1) /**< Command failed. */
+#define BDK_NCSI_RESP_E_UNAVAIL (2) /**< Command unavailable. */
+#define BDK_NCSI_RESP_E_UNSUP (3) /**< Command unsupported. */
 
 /**
  * Register (RSL) ncsi_bmc2cpu_msg
@@ -262,250 +187,87 @@ static inline uint64_t BDK_NCSI_BMC2CPU_MSG_FUNC(void)
 #define arguments_BDK_NCSI_BMC2CPU_MSG -1,-1,-1,-1
 
 /**
- * Register (RSL) ncsi_tx_frm_smac#_cam
+ * Register (RSL) ncsi_config
  *
- * NCSI TX SMAC CAM Registers
- * These registers set TX framer Source MAC address CAM.  See NCSI_CONFIG for addition CAM config
- * options.
+ * NCSI Configuration Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ncsi_tx_frm_smacx_cam_s
+    struct bdk_ncsi_config_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t en                    : 1;  /**< [ 48: 48](R/W) CAM entry enable for this SMAC address.
-                                                                 1 = Include this address in the matching algorithm.
-                                                                 0 = Don't include this address in the matching algorithm. */
-        uint64_t adr                   : 48; /**< [ 47:  0](R/W) SMAC address in the CAM used for matching. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t pkg_id                : 3;  /**< [  4:  2](R/W/H) Override the NCSI package id
+                                                                 which defaults to the global node ID.  MSB must be set to 0
+                                                                 for NCSI V1.0 compliance.
+                                                                 Added in pass 2. */
+        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
+                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
+                                                                 BGX.
+                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to BGX. */
+        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
+                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
+                                                                 0 = Reject the packet on SMAC CAM address match.
+                                                                 1 = Accept the packet on SMAC CAM address match. */
 #else /* Word 0 - Little Endian */
-        uint64_t adr                   : 48; /**< [ 47:  0](R/W) SMAC address in the CAM used for matching. */
-        uint64_t en                    : 1;  /**< [ 48: 48](R/W) CAM entry enable for this SMAC address.
-                                                                 1 = Include this address in the matching algorithm.
-                                                                 0 = Don't include this address in the matching algorithm. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
+                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
+                                                                 0 = Reject the packet on SMAC CAM address match.
+                                                                 1 = Accept the packet on SMAC CAM address match. */
+        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
+                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
+                                                                 BGX.
+                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to BGX. */
+        uint64_t pkg_id                : 3;  /**< [  4:  2](R/W/H) Override the NCSI package id
+                                                                 which defaults to the global node ID.  MSB must be set to 0
+                                                                 for NCSI V1.0 compliance.
+                                                                 Added in pass 2. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_tx_frm_smacx_cam_s cn; */
-} bdk_ncsi_tx_frm_smacx_cam_t;
-
-static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e00b000200ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("NCSI_TX_FRM_SMACX_CAM", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_NCSI_TX_FRM_SMACX_CAM(a) bdk_ncsi_tx_frm_smacx_cam_t
-#define bustype_BDK_NCSI_TX_FRM_SMACX_CAM(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_TX_FRM_SMACX_CAM(a) "NCSI_TX_FRM_SMACX_CAM"
-#define busnum_BDK_NCSI_TX_FRM_SMACX_CAM(a) (a)
-#define arguments_BDK_NCSI_TX_FRM_SMACX_CAM(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) ncsi_tx_ncp_ch_st
- *
- * NCSI TX NCP State Register
- * This register provides the NCSI command processor channel state status.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ncsi_tx_ncp_ch_st_s
+    /* struct bdk_ncsi_config_s cn83xx; */
+    /* struct bdk_ncsi_config_s cn88xxp2; */
+    struct bdk_ncsi_config_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_2_63         : 62;
-        uint64_t ald                   : 1;  /**< [  1:  1](RO/H) Current state of ALD (allow link disable) in the last received disable channel command. */
-        uint64_t state                 : 1;  /**< [  0:  0](RO/H) Current state of the NCSI command processor channel state. */
+        uint64_t reserved_5_63         : 59;
+        uint64_t pkg_id                : 3;  /**< [  4:  2](RAZ) Reserved. */
+        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
+                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
+                                                                 BGX.
+                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to BGX. */
+        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
+                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
+                                                                 0 = Reject the packet on SMAC CAM address match.
+                                                                 1 = Accept the packet on SMAC CAM address match. */
 #else /* Word 0 - Little Endian */
-        uint64_t state                 : 1;  /**< [  0:  0](RO/H) Current state of the NCSI command processor channel state. */
-        uint64_t ald                   : 1;  /**< [  1:  1](RO/H) Current state of ALD (allow link disable) in the last received disable channel command. */
-        uint64_t reserved_2_63         : 62;
+        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
+                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
+                                                                 0 = Reject the packet on SMAC CAM address match.
+                                                                 1 = Accept the packet on SMAC CAM address match. */
+        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
+                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
+                                                                 BGX.
+                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to BGX. */
+        uint64_t pkg_id                : 3;  /**< [  4:  2](RAZ) Reserved. */
+        uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_tx_ncp_ch_st_s cn; */
-} bdk_ncsi_tx_ncp_ch_st_t;
+    } cn88xxp1;
+} bdk_ncsi_config_t;
 
-#define BDK_NCSI_TX_NCP_CH_ST BDK_NCSI_TX_NCP_CH_ST_FUNC()
-static inline uint64_t BDK_NCSI_TX_NCP_CH_ST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_TX_NCP_CH_ST_FUNC(void)
+#define BDK_NCSI_CONFIG BDK_NCSI_CONFIG_FUNC()
+static inline uint64_t BDK_NCSI_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_CONFIG_FUNC(void)
 {
-    return 0x87e00b000140ll;
+    return 0x87e00b000110ll;
 }
 
-#define typedef_BDK_NCSI_TX_NCP_CH_ST bdk_ncsi_tx_ncp_ch_st_t
-#define bustype_BDK_NCSI_TX_NCP_CH_ST BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_TX_NCP_CH_ST "NCSI_TX_NCP_CH_ST"
-#define busnum_BDK_NCSI_TX_NCP_CH_ST 0
-#define arguments_BDK_NCSI_TX_NCP_CH_ST -1,-1,-1,-1
-
-/**
- * Register (RSL) ncsi_tx_stat0
- *
- * NCSI TX Statistics Register 0
- * This register provides a count of valid packets detected at the output of the transmit side
- * NCSI framer.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ncsi_tx_stat0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid packets through the tx side framers. CNT will wrap and is cleared if NCSI
-                                                                 is disabled with
-                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid packets through the tx side framers. CNT will wrap and is cleared if NCSI
-                                                                 is disabled with
-                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_tx_stat0_s cn; */
-} bdk_ncsi_tx_stat0_t;
-
-#define BDK_NCSI_TX_STAT0 BDK_NCSI_TX_STAT0_FUNC()
-static inline uint64_t BDK_NCSI_TX_STAT0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_TX_STAT0_FUNC(void)
-{
-    return 0x87e00b000300ll;
-}
-
-#define typedef_BDK_NCSI_TX_STAT0 bdk_ncsi_tx_stat0_t
-#define bustype_BDK_NCSI_TX_STAT0 BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_TX_STAT0 "NCSI_TX_STAT0"
-#define busnum_BDK_NCSI_TX_STAT0 0
-#define arguments_BDK_NCSI_TX_STAT0 -1,-1,-1,-1
-
-/**
- * Register (RSL) ncsi_tx_stat1
- *
- * NCSI TX Statistics Register 1
- * This register provides a count of valid bytes detected at the output of the transmit side
- * NCSI framer.  These bytes are detected as being part of a valid frame.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ncsi_tx_stat1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid bytes through the tx side framer. CNT will wrap and is cleared if NCSI is
-                                                                 disabled with
-                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid bytes through the tx side framer. CNT will wrap and is cleared if NCSI is
-                                                                 disabled with
-                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_tx_stat1_s cn; */
-} bdk_ncsi_tx_stat1_t;
-
-#define BDK_NCSI_TX_STAT1 BDK_NCSI_TX_STAT1_FUNC()
-static inline uint64_t BDK_NCSI_TX_STAT1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_TX_STAT1_FUNC(void)
-{
-    return 0x87e00b000308ll;
-}
-
-#define typedef_BDK_NCSI_TX_STAT1 bdk_ncsi_tx_stat1_t
-#define bustype_BDK_NCSI_TX_STAT1 BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_TX_STAT1 "NCSI_TX_STAT1"
-#define busnum_BDK_NCSI_TX_STAT1 0
-#define arguments_BDK_NCSI_TX_STAT1 -1,-1,-1,-1
-
-/**
- * Register (RSL) ncsi_rx_stat0
- *
- * NCSI RX Statistics Register 0
- * This register provides a count of valid packets through the recieve side NCSI at the output of
- * the recieve side buffers.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ncsi_rx_stat0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of packets through the rx-side NCSI. This includes both pass through and response
-                                                                 packets and does not include those
-                                                                 stored in the fifo waiting to be dequeued. CNT will wrap and is cleared if NCSI is
-                                                                 disabled with NCSI_SECURE_CONFIG[NCSIEN]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of packets through the rx-side NCSI. This includes both pass through and response
-                                                                 packets and does not include those
-                                                                 stored in the fifo waiting to be dequeued. CNT will wrap and is cleared if NCSI is
-                                                                 disabled with NCSI_SECURE_CONFIG[NCSIEN]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_rx_stat0_s cn; */
-} bdk_ncsi_rx_stat0_t;
-
-#define BDK_NCSI_RX_STAT0 BDK_NCSI_RX_STAT0_FUNC()
-static inline uint64_t BDK_NCSI_RX_STAT0_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_RX_STAT0_FUNC(void)
-{
-    return 0x87e00b000600ll;
-}
-
-#define typedef_BDK_NCSI_RX_STAT0 bdk_ncsi_rx_stat0_t
-#define bustype_BDK_NCSI_RX_STAT0 BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_RX_STAT0 "NCSI_RX_STAT0"
-#define busnum_BDK_NCSI_RX_STAT0 0
-#define arguments_BDK_NCSI_RX_STAT0 -1,-1,-1,-1
-
-/**
- * Register (RSL) ncsi_rx_stat1
- *
- * NCSI RX Statistics Register 1
- * This register provides a count of valid bytes through the recieve side NCSI at the output of
- * the recieve side buffers. During underflow situations the count may deviate from the
- * the number of bytes that appear on the RMII interface.  This is due to the fact the design
- * does not deassert CRS_DV during underflow situations until the packet boundary is detected.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ncsi_rx_stat1_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid bytes through the RX-side NCSI.  This includes both pass through and
-                                                                 response packet bytes and does not include those stored in the FIFO waiting to be
-                                                                 dequeued. CNT will wrap and is cleared if NCSI is disabled with
-                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
-#else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid bytes through the RX-side NCSI.  This includes both pass through and
-                                                                 response packet bytes and does not include those stored in the FIFO waiting to be
-                                                                 dequeued. CNT will wrap and is cleared if NCSI is disabled with
-                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_rx_stat1_s cn; */
-} bdk_ncsi_rx_stat1_t;
-
-#define BDK_NCSI_RX_STAT1 BDK_NCSI_RX_STAT1_FUNC()
-static inline uint64_t BDK_NCSI_RX_STAT1_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_RX_STAT1_FUNC(void)
-{
-    return 0x87e00b000608ll;
-}
-
-#define typedef_BDK_NCSI_RX_STAT1 bdk_ncsi_rx_stat1_t
-#define bustype_BDK_NCSI_RX_STAT1 BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_RX_STAT1 "NCSI_RX_STAT1"
-#define busnum_BDK_NCSI_RX_STAT1 0
-#define arguments_BDK_NCSI_RX_STAT1 -1,-1,-1,-1
+#define typedef_BDK_NCSI_CONFIG bdk_ncsi_config_t
+#define bustype_BDK_NCSI_CONFIG BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_CONFIG "NCSI_CONFIG"
+#define busnum_BDK_NCSI_CONFIG 0
+#define arguments_BDK_NCSI_CONFIG -1,-1,-1,-1
 
 /**
  * Register (RSL) ncsi_cpu2bmc_msg
@@ -544,51 +306,125 @@ static inline uint64_t BDK_NCSI_CPU2BMC_MSG_FUNC(void)
 #define arguments_BDK_NCSI_CPU2BMC_MSG -1,-1,-1,-1
 
 /**
- * Register (RSL) ncsi_rx_frm_ctl
+ * Register (RSL) ncsi_int
  *
- * NCSI RX Frame Control Registers
- * This register should be set in coordination with BGX registers that control similar
- * parameters.
- * If NCSI should is configured to prepend preamble and postpend FCS, then these should be
- * stripped
- * by BGX.  If NCSI is configured not to prepend preamble and postpend FCS, then BGX should not
- * be stripping these values.
- * Practically speaking, preamble and FCS should be set together.
+ * NCSI Memory Interrupt Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ncsi_rx_frm_ctl_s
+    struct bdk_ncsi_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_3_63         : 61;
-        uint64_t fcs                   : 1;  /**< [  2:  2](R/W) Append the Ethernet FCS on each pass through packet going to RMII. */
-        uint64_t pad                   : 1;  /**< [  1:  1](R/W) Append PAD bytes such that minimum-sized pass through packet is sent over RMII. FCS will
-                                                                 be appended in this case by default. */
-        uint64_t preamble              : 1;  /**< [  0:  0](R/W) Prepend the Ethernet preamble on each pass through transfer over RMII */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. Added in pass 2. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
+                                                                 FCSERR indication takes precedence over JABBER error. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
+                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
+                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
+                                                                 bytes. */
 #else /* Word 0 - Little Endian */
-        uint64_t preamble              : 1;  /**< [  0:  0](R/W) Prepend the Ethernet preamble on each pass through transfer over RMII */
-        uint64_t pad                   : 1;  /**< [  1:  1](R/W) Append PAD bytes such that minimum-sized pass through packet is sent over RMII. FCS will
-                                                                 be appended in this case by default. */
-        uint64_t fcs                   : 1;  /**< [  2:  2](R/W) Append the Ethernet FCS on each pass through packet going to RMII. */
-        uint64_t reserved_3_63         : 61;
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
+                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
+                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
+                                                                 bytes. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
+                                                                 FCSERR indication takes precedence over JABBER error. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. Added in pass 2. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_rx_frm_ctl_s cn; */
-} bdk_ncsi_rx_frm_ctl_t;
+    /* struct bdk_ncsi_int_s cn83xx; */
+    /* struct bdk_ncsi_int_s cn88xxp2; */
+    struct bdk_ncsi_int_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reserved. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
+                                                                 FCSERR indication takes precedence over JABBER error. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
+                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
+                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
+                                                                 bytes. */
+#else /* Word 0 - Little Endian */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
+                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
+                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
+                                                                 bytes. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
+                                                                 FCSERR indication takes precedence over JABBER error. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reserved. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+} bdk_ncsi_int_t;
 
-#define BDK_NCSI_RX_FRM_CTL BDK_NCSI_RX_FRM_CTL_FUNC()
-static inline uint64_t BDK_NCSI_RX_FRM_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_RX_FRM_CTL_FUNC(void)
+#define BDK_NCSI_INT BDK_NCSI_INT_FUNC()
+static inline uint64_t BDK_NCSI_INT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_INT_FUNC(void)
 {
-    return 0x87e00b000508ll;
+    return 0x87e00b000000ll;
 }
 
-#define typedef_BDK_NCSI_RX_FRM_CTL bdk_ncsi_rx_frm_ctl_t
-#define bustype_BDK_NCSI_RX_FRM_CTL BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_RX_FRM_CTL "NCSI_RX_FRM_CTL"
-#define busnum_BDK_NCSI_RX_FRM_CTL 0
-#define arguments_BDK_NCSI_RX_FRM_CTL -1,-1,-1,-1
+#define typedef_BDK_NCSI_INT bdk_ncsi_int_t
+#define bustype_BDK_NCSI_INT BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_INT "NCSI_INT"
+#define busnum_BDK_NCSI_INT 0
+#define arguments_BDK_NCSI_INT -1,-1,-1,-1
 
 /**
  * Register (RSL) ncsi_int_ena_w1c
@@ -803,44 +639,331 @@ static inline uint64_t BDK_NCSI_INT_ENA_W1S_FUNC(void)
 #define arguments_BDK_NCSI_INT_ENA_W1S -1,-1,-1,-1
 
 /**
- * Register (RSL) ncsi_tx_jabber
+ * Register (RSL) ncsi_int_w1s
  *
- * NCSI TX Maximum Packet-Size Registers
- * The max size of a packet in bytes, including preamble, SFD and FCS, that the NCSI will allow.
- * Any packet recieved by the NCSI TX RMII interface larger than NCSI_TX_JABBER[CNT] will be
- * marked with error and become eligible for packet truncation.  Transmission will resume at
- * the detection of the next packet.
+ * NCSI Interrupt Set Register
+ * This register sets interrupt bits.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ncsi_tx_jabber_s
+    struct bdk_ncsi_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Byte count for jabber check. Failing packets set the JABBER interrupt and are
-                                                                 sent with opcode = JABBER. NCSI truncates the packet to CNT+1 bytes. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets NCSI_INT[BMC2CPU]. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Byte count for jabber check. Failing packets set the JABBER interrupt and are
-                                                                 sent with opcode = JABBER. NCSI truncates the packet to CNT+1 bytes. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_tx_jabber_s cn; */
-} bdk_ncsi_tx_jabber_t;
+    /* struct bdk_ncsi_int_w1s_s cn83xx; */
+    /* struct bdk_ncsi_int_w1s_s cn88xxp2; */
+    struct bdk_ncsi_int_w1s_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
+#else /* Word 0 - Little Endian */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+} bdk_ncsi_int_w1s_t;
 
-#define BDK_NCSI_TX_JABBER BDK_NCSI_TX_JABBER_FUNC()
-static inline uint64_t BDK_NCSI_TX_JABBER_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_TX_JABBER_FUNC(void)
+#define BDK_NCSI_INT_W1S BDK_NCSI_INT_W1S_FUNC()
+static inline uint64_t BDK_NCSI_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_INT_W1S_FUNC(void)
 {
-    return 0x87e00b000128ll;
+    return 0x87e00b000008ll;
 }
 
-#define typedef_BDK_NCSI_TX_JABBER bdk_ncsi_tx_jabber_t
-#define bustype_BDK_NCSI_TX_JABBER BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_TX_JABBER "NCSI_TX_JABBER"
-#define busnum_BDK_NCSI_TX_JABBER 0
-#define arguments_BDK_NCSI_TX_JABBER -1,-1,-1,-1
+#define typedef_BDK_NCSI_INT_W1S bdk_ncsi_int_w1s_t
+#define bustype_BDK_NCSI_INT_W1S BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_INT_W1S "NCSI_INT_W1S"
+#define busnum_BDK_NCSI_INT_W1S 0
+#define arguments_BDK_NCSI_INT_W1S -1,-1,-1,-1
+
+/**
+ * Register (RSL) ncsi_mem_ctrl
+ *
+ * NCSI Memory Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_mem_ctrl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_9_63         : 55;
+        uint64_t rx_rsp_synd           : 2;  /**< [  8:  7](R/W) Syndrome to flip and generate single-bit/double-bit for RX RSP FIFO. */
+        uint64_t rx_rsp_cor_dis        : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RX RSP FIFO. */
+        uint64_t rx_pmac_synd          : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit for RX PMAC FIFO. */
+        uint64_t rx_pmac_cor_dis       : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RX PMAC FIFO. */
+        uint64_t tx_mix_synd           : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit for TX MIX_FIFO. */
+        uint64_t tx_mix_cor_dis        : 1;  /**< [  0:  0](R/W) ECC-correction disable for the TX MIX FIFO. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_mix_cor_dis        : 1;  /**< [  0:  0](R/W) ECC-correction disable for the TX MIX FIFO. */
+        uint64_t tx_mix_synd           : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit for TX MIX_FIFO. */
+        uint64_t rx_pmac_cor_dis       : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RX PMAC FIFO. */
+        uint64_t rx_pmac_synd          : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit for RX PMAC FIFO. */
+        uint64_t rx_rsp_cor_dis        : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RX RSP FIFO. */
+        uint64_t rx_rsp_synd           : 2;  /**< [  8:  7](R/W) Syndrome to flip and generate single-bit/double-bit for RX RSP FIFO. */
+        uint64_t reserved_9_63         : 55;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_mem_ctrl_s cn; */
+} bdk_ncsi_mem_ctrl_t;
+
+#define BDK_NCSI_MEM_CTRL BDK_NCSI_MEM_CTRL_FUNC()
+static inline uint64_t BDK_NCSI_MEM_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_MEM_CTRL_FUNC(void)
+{
+    return 0x87e00b000118ll;
+}
+
+#define typedef_BDK_NCSI_MEM_CTRL bdk_ncsi_mem_ctrl_t
+#define bustype_BDK_NCSI_MEM_CTRL BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_MEM_CTRL "NCSI_MEM_CTRL"
+#define busnum_BDK_NCSI_MEM_CTRL 0
+#define arguments_BDK_NCSI_MEM_CTRL -1,-1,-1,-1
+
+/**
+ * Register (RSL) ncsi_msix_pba#
+ *
+ * NCSI MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the NCSI_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated NCSI_MSIX_VEC()_CTL, enumerated by NCSI_INT_VEC_E.
+                                                                 Bits that have no associated NCSI_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated NCSI_MSIX_VEC()_CTL, enumerated by NCSI_INT_VEC_E.
+                                                                 Bits that have no associated NCSI_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_msix_pbax_s cn; */
+} bdk_ncsi_msix_pbax_t;
+
+static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a)
+{
+    if (a==0)
+        return 0x87e00bff0000ll + 8ll * ((a) & 0x0);
+    __bdk_csr_fatal("NCSI_MSIX_PBAX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_NCSI_MSIX_PBAX(a) bdk_ncsi_msix_pbax_t
+#define bustype_BDK_NCSI_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_MSIX_PBAX(a) "NCSI_MSIX_PBAX"
+#define busnum_BDK_NCSI_MSIX_PBAX(a) (a)
+#define arguments_BDK_NCSI_MSIX_PBAX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ncsi_msix_vec#_addr
+ *
+ * NCSI MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the NCSI_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's NCSI_MSIX_VEC()_ADDR, NCSI_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of NCSI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_NCSI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
+                                                                 is set, all vectors are secure and function as if [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's NCSI_MSIX_VEC()_ADDR, NCSI_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of NCSI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_NCSI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
+                                                                 is set, all vectors are secure and function as if [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_msix_vecx_addr_s cn; */
+} bdk_ncsi_msix_vecx_addr_t;
+
+static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a)
+{
+    if (a==0)
+        return 0x87e00bf00000ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("NCSI_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_NCSI_MSIX_VECX_ADDR(a) bdk_ncsi_msix_vecx_addr_t
+#define bustype_BDK_NCSI_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_MSIX_VECX_ADDR(a) "NCSI_MSIX_VECX_ADDR"
+#define busnum_BDK_NCSI_MSIX_VECX_ADDR(a) (a)
+#define arguments_BDK_NCSI_MSIX_VECX_ADDR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ncsi_msix_vec#_ctl
+ *
+ * NCSI MSI-X Vector-Table Control and Data Register
+ * This register is the MSI-X vector table, indexed by the NCSI_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_msix_vecx_ctl_s cn; */
+} bdk_ncsi_msix_vecx_ctl_t;
+
+static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_MSIX_VECX_CTL(unsigned long a)
+{
+    if (a==0)
+        return 0x87e00bf00008ll + 0x10ll * ((a) & 0x0);
+    __bdk_csr_fatal("NCSI_MSIX_VECX_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_NCSI_MSIX_VECX_CTL(a) bdk_ncsi_msix_vecx_ctl_t
+#define bustype_BDK_NCSI_MSIX_VECX_CTL(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_MSIX_VECX_CTL(a) "NCSI_MSIX_VECX_CTL"
+#define busnum_BDK_NCSI_MSIX_VECX_CTL(a) (a)
+#define arguments_BDK_NCSI_MSIX_VECX_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) ncsi_rx_frm_ctl
+ *
+ * NCSI RX Frame Control Registers
+ * This register should be set in coordination with BGX registers that control similar
+ * parameters.
+ * If NCSI should is configured to prepend preamble and postpend FCS, then these should be
+ * stripped
+ * by BGX.  If NCSI is configured not to prepend preamble and postpend FCS, then BGX should not
+ * be stripping these values.
+ * Practically speaking, preamble and FCS should be set together.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_rx_frm_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_3_63         : 61;
+        uint64_t fcs                   : 1;  /**< [  2:  2](R/W) Append the Ethernet FCS on each pass through packet going to RMII. */
+        uint64_t pad                   : 1;  /**< [  1:  1](R/W) Append PAD bytes such that minimum-sized pass through packet is sent over RMII. FCS will
+                                                                 be appended in this case by default. */
+        uint64_t preamble              : 1;  /**< [  0:  0](R/W) Prepend the Ethernet preamble on each pass through transfer over RMII */
+#else /* Word 0 - Little Endian */
+        uint64_t preamble              : 1;  /**< [  0:  0](R/W) Prepend the Ethernet preamble on each pass through transfer over RMII */
+        uint64_t pad                   : 1;  /**< [  1:  1](R/W) Append PAD bytes such that minimum-sized pass through packet is sent over RMII. FCS will
+                                                                 be appended in this case by default. */
+        uint64_t fcs                   : 1;  /**< [  2:  2](R/W) Append the Ethernet FCS on each pass through packet going to RMII. */
+        uint64_t reserved_3_63         : 61;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_rx_frm_ctl_s cn; */
+} bdk_ncsi_rx_frm_ctl_t;
+
+#define BDK_NCSI_RX_FRM_CTL BDK_NCSI_RX_FRM_CTL_FUNC()
+static inline uint64_t BDK_NCSI_RX_FRM_CTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_RX_FRM_CTL_FUNC(void)
+{
+    return 0x87e00b000508ll;
+}
+
+#define typedef_BDK_NCSI_RX_FRM_CTL bdk_ncsi_rx_frm_ctl_t
+#define bustype_BDK_NCSI_RX_FRM_CTL BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_RX_FRM_CTL "NCSI_RX_FRM_CTL"
+#define busnum_BDK_NCSI_RX_FRM_CTL 0
+#define arguments_BDK_NCSI_RX_FRM_CTL -1,-1,-1,-1
 
 /**
  * Register (RSL) ncsi_rx_ifg
@@ -886,6 +1009,213 @@ static inline uint64_t BDK_NCSI_RX_IFG_FUNC(void)
 #define basename_BDK_NCSI_RX_IFG "NCSI_RX_IFG"
 #define busnum_BDK_NCSI_RX_IFG 0
 #define arguments_BDK_NCSI_RX_IFG -1,-1,-1,-1
+
+/**
+ * Register (RSL) ncsi_rx_mfg
+ *
+ * NCSI RX Manufacturer ID Register
+ * This register sets the manufacturer ID.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_rx_mfg_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t id                    : 32; /**< [ 31:  0](R/W) Manufacturer ID to place in the NCSI OEM and GET_ID response packets.
+                                                                 The value should not conflict with the existing vendor enterprise numbers in the
+                                                                 IANA database. For commands on the TX side, the incoming OEM command mfg id entry
+                                                                 will go unchecked since the package and channel fields of the NCSI header are
+                                                                 sufficient to address the network controller. */
+#else /* Word 0 - Little Endian */
+        uint64_t id                    : 32; /**< [ 31:  0](R/W) Manufacturer ID to place in the NCSI OEM and GET_ID response packets.
+                                                                 The value should not conflict with the existing vendor enterprise numbers in the
+                                                                 IANA database. For commands on the TX side, the incoming OEM command mfg id entry
+                                                                 will go unchecked since the package and channel fields of the NCSI header are
+                                                                 sufficient to address the network controller. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_rx_mfg_s cn; */
+} bdk_ncsi_rx_mfg_t;
+
+#define BDK_NCSI_RX_MFG BDK_NCSI_RX_MFG_FUNC()
+static inline uint64_t BDK_NCSI_RX_MFG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_RX_MFG_FUNC(void)
+{
+    return 0x87e00b000520ll;
+}
+
+#define typedef_BDK_NCSI_RX_MFG bdk_ncsi_rx_mfg_t
+#define bustype_BDK_NCSI_RX_MFG BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_RX_MFG "NCSI_RX_MFG"
+#define busnum_BDK_NCSI_RX_MFG 0
+#define arguments_BDK_NCSI_RX_MFG -1,-1,-1,-1
+
+/**
+ * Register (RSL) ncsi_rx_min_pkt
+ *
+ * NCSI RX Minimum-Size-Packet Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_rx_min_pkt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_6_63         : 58;
+        uint64_t min_size              : 6;  /**< [  5:  0](R/W) Minimum frame size in bytes before the FCS is applied for packets going to the RMII
+                                                                 interface and does not include Preamble/SFD. Padding is only appended when
+                                                                 NCSI_RX_FRM_CTL[PAD] set.
+                                                                 The reset value pads to 60 bytes. */
+#else /* Word 0 - Little Endian */
+        uint64_t min_size              : 6;  /**< [  5:  0](R/W) Minimum frame size in bytes before the FCS is applied for packets going to the RMII
+                                                                 interface and does not include Preamble/SFD. Padding is only appended when
+                                                                 NCSI_RX_FRM_CTL[PAD] set.
+                                                                 The reset value pads to 60 bytes. */
+        uint64_t reserved_6_63         : 58;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_rx_min_pkt_s cn; */
+} bdk_ncsi_rx_min_pkt_t;
+
+#define BDK_NCSI_RX_MIN_PKT BDK_NCSI_RX_MIN_PKT_FUNC()
+static inline uint64_t BDK_NCSI_RX_MIN_PKT_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_RX_MIN_PKT_FUNC(void)
+{
+    return 0x87e00b000510ll;
+}
+
+#define typedef_BDK_NCSI_RX_MIN_PKT bdk_ncsi_rx_min_pkt_t
+#define bustype_BDK_NCSI_RX_MIN_PKT BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_RX_MIN_PKT "NCSI_RX_MIN_PKT"
+#define busnum_BDK_NCSI_RX_MIN_PKT 0
+#define arguments_BDK_NCSI_RX_MIN_PKT -1,-1,-1,-1
+
+/**
+ * Register (RSL) ncsi_rx_stat0
+ *
+ * NCSI RX Statistics Register 0
+ * This register provides a count of valid packets through the recieve side NCSI at the output of
+ * the recieve side buffers.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_rx_stat0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of packets through the rx-side NCSI. This includes both pass through and response
+                                                                 packets and does not include those
+                                                                 stored in the fifo waiting to be dequeued. CNT will wrap and is cleared if NCSI is
+                                                                 disabled with NCSI_SECURE_CONFIG[NCSIEN]=0. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of packets through the rx-side NCSI. This includes both pass through and response
+                                                                 packets and does not include those
+                                                                 stored in the fifo waiting to be dequeued. CNT will wrap and is cleared if NCSI is
+                                                                 disabled with NCSI_SECURE_CONFIG[NCSIEN]=0. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_rx_stat0_s cn; */
+} bdk_ncsi_rx_stat0_t;
+
+#define BDK_NCSI_RX_STAT0 BDK_NCSI_RX_STAT0_FUNC()
+static inline uint64_t BDK_NCSI_RX_STAT0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_RX_STAT0_FUNC(void)
+{
+    return 0x87e00b000600ll;
+}
+
+#define typedef_BDK_NCSI_RX_STAT0 bdk_ncsi_rx_stat0_t
+#define bustype_BDK_NCSI_RX_STAT0 BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_RX_STAT0 "NCSI_RX_STAT0"
+#define busnum_BDK_NCSI_RX_STAT0 0
+#define arguments_BDK_NCSI_RX_STAT0 -1,-1,-1,-1
+
+/**
+ * Register (RSL) ncsi_rx_stat1
+ *
+ * NCSI RX Statistics Register 1
+ * This register provides a count of valid bytes through the recieve side NCSI at the output of
+ * the recieve side buffers. During underflow situations the count may deviate from the
+ * the number of bytes that appear on the RMII interface.  This is due to the fact the design
+ * does not deassert CRS_DV during underflow situations until the packet boundary is detected.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_rx_stat1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid bytes through the RX-side NCSI.  This includes both pass through and
+                                                                 response packet bytes and does not include those stored in the FIFO waiting to be
+                                                                 dequeued. CNT will wrap and is cleared if NCSI is disabled with
+                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid bytes through the RX-side NCSI.  This includes both pass through and
+                                                                 response packet bytes and does not include those stored in the FIFO waiting to be
+                                                                 dequeued. CNT will wrap and is cleared if NCSI is disabled with
+                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_rx_stat1_s cn; */
+} bdk_ncsi_rx_stat1_t;
+
+#define BDK_NCSI_RX_STAT1 BDK_NCSI_RX_STAT1_FUNC()
+static inline uint64_t BDK_NCSI_RX_STAT1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_RX_STAT1_FUNC(void)
+{
+    return 0x87e00b000608ll;
+}
+
+#define typedef_BDK_NCSI_RX_STAT1 bdk_ncsi_rx_stat1_t
+#define bustype_BDK_NCSI_RX_STAT1 BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_RX_STAT1 "NCSI_RX_STAT1"
+#define busnum_BDK_NCSI_RX_STAT1 0
+#define arguments_BDK_NCSI_RX_STAT1 -1,-1,-1,-1
+
+/**
+ * Register (RSL) ncsi_rx_thresh
+ *
+ * NCSI RX Threshold Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_rx_thresh_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t cnt                   : 11; /**< [ 10:  0](R/W) Number of bytes to accumulate in the RX FIFO before sending on the RMII
+                                                                 interface. This field should be large enough to prevent underflow on the packet interface
+                                                                 and must never be set to 0x0. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 11; /**< [ 10:  0](R/W) Number of bytes to accumulate in the RX FIFO before sending on the RMII
+                                                                 interface. This field should be large enough to prevent underflow on the packet interface
+                                                                 and must never be set to 0x0. */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_rx_thresh_s cn; */
+} bdk_ncsi_rx_thresh_t;
+
+#define BDK_NCSI_RX_THRESH BDK_NCSI_RX_THRESH_FUNC()
+static inline uint64_t BDK_NCSI_RX_THRESH_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_RX_THRESH_FUNC(void)
+{
+    return 0x87e00b000500ll;
+}
+
+#define typedef_BDK_NCSI_RX_THRESH bdk_ncsi_rx_thresh_t
+#define bustype_BDK_NCSI_RX_THRESH BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_RX_THRESH "NCSI_RX_THRESH"
+#define busnum_BDK_NCSI_RX_THRESH 0
+#define arguments_BDK_NCSI_RX_THRESH -1,-1,-1,-1
 
 /**
  * Register (RSL) ncsi_secure_config
@@ -1056,202 +1386,47 @@ static inline uint64_t BDK_NCSI_TX_FRM_CTL_FUNC(void)
 #define arguments_BDK_NCSI_TX_FRM_CTL -1,-1,-1,-1
 
 /**
- * Register (RSL) ncsi_mem_ctrl
+ * Register (RSL) ncsi_tx_frm_smac#_cam
  *
- * NCSI Memory Control Register
+ * NCSI TX SMAC CAM Registers
+ * These registers set TX framer Source MAC address CAM.  See NCSI_CONFIG for addition CAM config
+ * options.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ncsi_mem_ctrl_s
+    struct bdk_ncsi_tx_frm_smacx_cam_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_9_63         : 55;
-        uint64_t rx_rsp_synd           : 2;  /**< [  8:  7](R/W) Syndrome to flip and generate single-bit/double-bit for RX RSP FIFO. */
-        uint64_t rx_rsp_cor_dis        : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RX RSP FIFO. */
-        uint64_t rx_pmac_synd          : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit for RX PMAC FIFO. */
-        uint64_t rx_pmac_cor_dis       : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RX PMAC FIFO. */
-        uint64_t tx_mix_synd           : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit for TX MIX_FIFO. */
-        uint64_t tx_mix_cor_dis        : 1;  /**< [  0:  0](R/W) ECC-correction disable for the TX MIX FIFO. */
+        uint64_t reserved_49_63        : 15;
+        uint64_t en                    : 1;  /**< [ 48: 48](R/W) CAM entry enable for this SMAC address.
+                                                                 1 = Include this address in the matching algorithm.
+                                                                 0 = Don't include this address in the matching algorithm. */
+        uint64_t adr                   : 48; /**< [ 47:  0](R/W) SMAC address in the CAM used for matching. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_mix_cor_dis        : 1;  /**< [  0:  0](R/W) ECC-correction disable for the TX MIX FIFO. */
-        uint64_t tx_mix_synd           : 2;  /**< [  2:  1](R/W) Syndrome to flip and generate single-bit/double-bit for TX MIX_FIFO. */
-        uint64_t rx_pmac_cor_dis       : 1;  /**< [  3:  3](R/W) ECC-correction disable for the RX PMAC FIFO. */
-        uint64_t rx_pmac_synd          : 2;  /**< [  5:  4](R/W) Syndrome to flip and generate single-bit/double-bit for RX PMAC FIFO. */
-        uint64_t rx_rsp_cor_dis        : 1;  /**< [  6:  6](R/W) ECC-correction disable for the RX RSP FIFO. */
-        uint64_t rx_rsp_synd           : 2;  /**< [  8:  7](R/W) Syndrome to flip and generate single-bit/double-bit for RX RSP FIFO. */
-        uint64_t reserved_9_63         : 55;
+        uint64_t adr                   : 48; /**< [ 47:  0](R/W) SMAC address in the CAM used for matching. */
+        uint64_t en                    : 1;  /**< [ 48: 48](R/W) CAM entry enable for this SMAC address.
+                                                                 1 = Include this address in the matching algorithm.
+                                                                 0 = Don't include this address in the matching algorithm. */
+        uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_mem_ctrl_s cn; */
-} bdk_ncsi_mem_ctrl_t;
+    /* struct bdk_ncsi_tx_frm_smacx_cam_s cn; */
+} bdk_ncsi_tx_frm_smacx_cam_t;
 
-#define BDK_NCSI_MEM_CTRL BDK_NCSI_MEM_CTRL_FUNC()
-static inline uint64_t BDK_NCSI_MEM_CTRL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_MEM_CTRL_FUNC(void)
+static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_TX_FRM_SMACX_CAM(unsigned long a)
 {
-    return 0x87e00b000118ll;
+    if (a<=1)
+        return 0x87e00b000200ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("NCSI_TX_FRM_SMACX_CAM", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_NCSI_MEM_CTRL bdk_ncsi_mem_ctrl_t
-#define bustype_BDK_NCSI_MEM_CTRL BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_MEM_CTRL "NCSI_MEM_CTRL"
-#define busnum_BDK_NCSI_MEM_CTRL 0
-#define arguments_BDK_NCSI_MEM_CTRL -1,-1,-1,-1
-
-/**
- * Register (RSL) ncsi_rx_min_pkt
- *
- * NCSI RX Minimum-Size-Packet Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ncsi_rx_min_pkt_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_6_63         : 58;
-        uint64_t min_size              : 6;  /**< [  5:  0](R/W) Minimum frame size in bytes before the FCS is applied for packets going to the RMII
-                                                                 interface and does not include Preamble/SFD. Padding is only appended when
-                                                                 NCSI_RX_FRM_CTL[PAD] set.
-                                                                 The reset value pads to 60 bytes. */
-#else /* Word 0 - Little Endian */
-        uint64_t min_size              : 6;  /**< [  5:  0](R/W) Minimum frame size in bytes before the FCS is applied for packets going to the RMII
-                                                                 interface and does not include Preamble/SFD. Padding is only appended when
-                                                                 NCSI_RX_FRM_CTL[PAD] set.
-                                                                 The reset value pads to 60 bytes. */
-        uint64_t reserved_6_63         : 58;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_rx_min_pkt_s cn; */
-} bdk_ncsi_rx_min_pkt_t;
-
-#define BDK_NCSI_RX_MIN_PKT BDK_NCSI_RX_MIN_PKT_FUNC()
-static inline uint64_t BDK_NCSI_RX_MIN_PKT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_RX_MIN_PKT_FUNC(void)
-{
-    return 0x87e00b000510ll;
-}
-
-#define typedef_BDK_NCSI_RX_MIN_PKT bdk_ncsi_rx_min_pkt_t
-#define bustype_BDK_NCSI_RX_MIN_PKT BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_RX_MIN_PKT "NCSI_RX_MIN_PKT"
-#define busnum_BDK_NCSI_RX_MIN_PKT 0
-#define arguments_BDK_NCSI_RX_MIN_PKT -1,-1,-1,-1
-
-/**
- * Register (RSL) ncsi_tx_ncp_pkg_st
- *
- * NCSI TX NCP State Register
- * This register provides the NCSI command processor package state status.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ncsi_tx_ncp_pkg_st_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_1_63         : 63;
-        uint64_t state                 : 1;  /**< [  0:  0](RO/H) Currect state of the NCSI command processor package state. */
-#else /* Word 0 - Little Endian */
-        uint64_t state                 : 1;  /**< [  0:  0](RO/H) Currect state of the NCSI command processor package state. */
-        uint64_t reserved_1_63         : 63;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_tx_ncp_pkg_st_s cn; */
-} bdk_ncsi_tx_ncp_pkg_st_t;
-
-#define BDK_NCSI_TX_NCP_PKG_ST BDK_NCSI_TX_NCP_PKG_ST_FUNC()
-static inline uint64_t BDK_NCSI_TX_NCP_PKG_ST_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_TX_NCP_PKG_ST_FUNC(void)
-{
-    return 0x87e00b000148ll;
-}
-
-#define typedef_BDK_NCSI_TX_NCP_PKG_ST bdk_ncsi_tx_ncp_pkg_st_t
-#define bustype_BDK_NCSI_TX_NCP_PKG_ST BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_TX_NCP_PKG_ST "NCSI_TX_NCP_PKG_ST"
-#define busnum_BDK_NCSI_TX_NCP_PKG_ST 0
-#define arguments_BDK_NCSI_TX_NCP_PKG_ST -1,-1,-1,-1
-
-/**
- * Register (RSL) ncsi_rx_mfg
- *
- * NCSI RX Manufacturer ID Register
- * This register sets the manufacturer ID.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ncsi_rx_mfg_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t id                    : 32; /**< [ 31:  0](R/W) Manufacturer ID to place in the NCSI OEM and GET_ID response packets.
-                                                                 The value should not conflict with the existing vendor enterprise numbers in the
-                                                                 IANA database. For commands on the TX side, the incoming OEM command mfg id entry
-                                                                 will go unchecked since the package and channel fields of the NCSI header are
-                                                                 sufficient to address the network controller. */
-#else /* Word 0 - Little Endian */
-        uint64_t id                    : 32; /**< [ 31:  0](R/W) Manufacturer ID to place in the NCSI OEM and GET_ID response packets.
-                                                                 The value should not conflict with the existing vendor enterprise numbers in the
-                                                                 IANA database. For commands on the TX side, the incoming OEM command mfg id entry
-                                                                 will go unchecked since the package and channel fields of the NCSI header are
-                                                                 sufficient to address the network controller. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_rx_mfg_s cn; */
-} bdk_ncsi_rx_mfg_t;
-
-#define BDK_NCSI_RX_MFG BDK_NCSI_RX_MFG_FUNC()
-static inline uint64_t BDK_NCSI_RX_MFG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_RX_MFG_FUNC(void)
-{
-    return 0x87e00b000520ll;
-}
-
-#define typedef_BDK_NCSI_RX_MFG bdk_ncsi_rx_mfg_t
-#define bustype_BDK_NCSI_RX_MFG BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_RX_MFG "NCSI_RX_MFG"
-#define busnum_BDK_NCSI_RX_MFG 0
-#define arguments_BDK_NCSI_RX_MFG -1,-1,-1,-1
-
-/**
- * Register (RSL) ncsi_msix_pba#
- *
- * NCSI MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table; the bit number is indexed by the NCSI_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_ncsi_msix_pbax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated NCSI_MSIX_VEC()_CTL, enumerated by NCSI_INT_VEC_E.
-                                                                 Bits that have no associated NCSI_INT_VEC_E are 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated NCSI_MSIX_VEC()_CTL, enumerated by NCSI_INT_VEC_E.
-                                                                 Bits that have no associated NCSI_INT_VEC_E are 0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_msix_pbax_s cn; */
-} bdk_ncsi_msix_pbax_t;
-
-static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_MSIX_PBAX(unsigned long a)
-{
-    if (a==0)
-        return 0x87e00bff0000ll + 8ll * ((a) & 0x0);
-    __bdk_csr_fatal("NCSI_MSIX_PBAX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_NCSI_MSIX_PBAX(a) bdk_ncsi_msix_pbax_t
-#define bustype_BDK_NCSI_MSIX_PBAX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_MSIX_PBAX(a) "NCSI_MSIX_PBAX"
-#define busnum_BDK_NCSI_MSIX_PBAX(a) (a)
-#define arguments_BDK_NCSI_MSIX_PBAX(a) (a),-1,-1,-1
+#define typedef_BDK_NCSI_TX_FRM_SMACX_CAM(a) bdk_ncsi_tx_frm_smacx_cam_t
+#define bustype_BDK_NCSI_TX_FRM_SMACX_CAM(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_TX_FRM_SMACX_CAM(a) "NCSI_TX_FRM_SMACX_CAM"
+#define busnum_BDK_NCSI_TX_FRM_SMACX_CAM(a) (a)
+#define arguments_BDK_NCSI_TX_FRM_SMACX_CAM(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) ncsi_tx_ifg
@@ -1298,123 +1473,116 @@ static inline uint64_t BDK_NCSI_TX_IFG_FUNC(void)
 #define arguments_BDK_NCSI_TX_IFG -1,-1,-1,-1
 
 /**
- * Register (RSL) ncsi_config
+ * Register (RSL) ncsi_tx_jabber
  *
- * NCSI Configuration Register
+ * NCSI TX Maximum Packet-Size Registers
+ * The max size of a packet in bytes, including preamble, SFD and FCS, that the NCSI will allow.
+ * Any packet recieved by the NCSI TX RMII interface larger than NCSI_TX_JABBER[CNT] will be
+ * marked with error and become eligible for packet truncation.  Transmission will resume at
+ * the detection of the next packet.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ncsi_config_s
+    struct bdk_ncsi_tx_jabber_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t pkg_id                : 3;  /**< [  4:  2](R/W/H) Override the NCSI package id
-                                                                 which defaults to the global node ID.  MSB must be set to 0
-                                                                 for NCSI V1.0 compliance.
-                                                                 Added in pass 2. */
-        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
-                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
-                                                                 BGX.
-                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to BGX. */
-        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
-                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
-                                                                 0 = Reject the packet on SMAC CAM address match.
-                                                                 1 = Accept the packet on SMAC CAM address match. */
+        uint64_t reserved_16_63        : 48;
+        uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Byte count for jabber check. Failing packets set the JABBER interrupt and are
+                                                                 sent with opcode = JABBER. NCSI truncates the packet to CNT+1 bytes. */
 #else /* Word 0 - Little Endian */
-        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
-                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
-                                                                 0 = Reject the packet on SMAC CAM address match.
-                                                                 1 = Accept the packet on SMAC CAM address match. */
-        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
-                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
-                                                                 BGX.
-                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to BGX. */
-        uint64_t pkg_id                : 3;  /**< [  4:  2](R/W/H) Override the NCSI package id
-                                                                 which defaults to the global node ID.  MSB must be set to 0
-                                                                 for NCSI V1.0 compliance.
-                                                                 Added in pass 2. */
-        uint64_t reserved_5_63         : 59;
+        uint64_t cnt                   : 16; /**< [ 15:  0](R/W) Byte count for jabber check. Failing packets set the JABBER interrupt and are
+                                                                 sent with opcode = JABBER. NCSI truncates the packet to CNT+1 bytes. */
+        uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_config_s cn83xx; */
-    /* struct bdk_ncsi_config_s cn88xxp2; */
-    struct bdk_ncsi_config_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_5_63         : 59;
-        uint64_t pkg_id                : 3;  /**< [  4:  2](RAZ) Reserved. */
-        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
-                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
-                                                                 BGX.
-                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to BGX. */
-        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
-                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
-                                                                 0 = Reject the packet on SMAC CAM address match.
-                                                                 1 = Accept the packet on SMAC CAM address match. */
-#else /* Word 0 - Little Endian */
-        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
-                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
-                                                                 0 = Reject the packet on SMAC CAM address match.
-                                                                 1 = Accept the packet on SMAC CAM address match. */
-        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
-                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
-                                                                 BGX.
-                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to BGX. */
-        uint64_t pkg_id                : 3;  /**< [  4:  2](RAZ) Reserved. */
-        uint64_t reserved_5_63         : 59;
-#endif /* Word 0 - End */
-    } cn88xxp1;
-} bdk_ncsi_config_t;
+    /* struct bdk_ncsi_tx_jabber_s cn; */
+} bdk_ncsi_tx_jabber_t;
 
-#define BDK_NCSI_CONFIG BDK_NCSI_CONFIG_FUNC()
-static inline uint64_t BDK_NCSI_CONFIG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_CONFIG_FUNC(void)
+#define BDK_NCSI_TX_JABBER BDK_NCSI_TX_JABBER_FUNC()
+static inline uint64_t BDK_NCSI_TX_JABBER_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_TX_JABBER_FUNC(void)
 {
-    return 0x87e00b000110ll;
+    return 0x87e00b000128ll;
 }
 
-#define typedef_BDK_NCSI_CONFIG bdk_ncsi_config_t
-#define bustype_BDK_NCSI_CONFIG BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_CONFIG "NCSI_CONFIG"
-#define busnum_BDK_NCSI_CONFIG 0
-#define arguments_BDK_NCSI_CONFIG -1,-1,-1,-1
+#define typedef_BDK_NCSI_TX_JABBER bdk_ncsi_tx_jabber_t
+#define bustype_BDK_NCSI_TX_JABBER BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_TX_JABBER "NCSI_TX_JABBER"
+#define busnum_BDK_NCSI_TX_JABBER 0
+#define arguments_BDK_NCSI_TX_JABBER -1,-1,-1,-1
 
 /**
- * Register (RSL) ncsi_tx_ncp_perm#_table_low
+ * Register (RSL) ncsi_tx_mix
  *
- * NCSI TX NCP Permissions Table Low Registers
- * These registers set the TX NCP Permission table low address range filter for the OEM command.
+ * NCSI TX MIX Configuration Register
+ * This register specifies configuration parameters for the MIX interface of BGX.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ncsi_tx_ncp_permx_table_low_s
+    struct bdk_ncsi_tx_mix_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Specifies the low physical address in formulating a permissions filter for OEM command
-                                                                 access.  See NCSI_TX_NCP_PERM()_TABLE_HI. */
+        uint64_t reserved_4_63         : 60;
+        uint64_t port                  : 4;  /**< [  3:  0](R/W) Port value inserted into MIX frames headed to the BGX where it is used as the channel number. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Specifies the low physical address in formulating a permissions filter for OEM command
-                                                                 access.  See NCSI_TX_NCP_PERM()_TABLE_HI. */
+        uint64_t port                  : 4;  /**< [  3:  0](R/W) Port value inserted into MIX frames headed to the BGX where it is used as the channel number. */
+        uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_tx_ncp_permx_table_low_s cn; */
-} bdk_ncsi_tx_ncp_permx_table_low_t;
+    /* struct bdk_ncsi_tx_mix_s cn; */
+} bdk_ncsi_tx_mix_t;
 
-static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a)
+#define BDK_NCSI_TX_MIX BDK_NCSI_TX_MIX_FUNC()
+static inline uint64_t BDK_NCSI_TX_MIX_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_TX_MIX_FUNC(void)
 {
-    if (a<=15)
-        return 0x87e00b000a00ll + 8ll * ((a) & 0xf);
-    __bdk_csr_fatal("NCSI_TX_NCP_PERMX_TABLE_LOW", 1, a, 0, 0, 0);
+    return 0x87e00b000138ll;
 }
 
-#define typedef_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) bdk_ncsi_tx_ncp_permx_table_low_t
-#define bustype_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) "NCSI_TX_NCP_PERMX_TABLE_LOW"
-#define busnum_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) (a)
-#define arguments_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) (a),-1,-1,-1
+#define typedef_BDK_NCSI_TX_MIX bdk_ncsi_tx_mix_t
+#define bustype_BDK_NCSI_TX_MIX BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_TX_MIX "NCSI_TX_MIX"
+#define busnum_BDK_NCSI_TX_MIX 0
+#define arguments_BDK_NCSI_TX_MIX -1,-1,-1,-1
+
+/**
+ * Register (RSL) ncsi_tx_ncp_ch_st
+ *
+ * NCSI TX NCP State Register
+ * This register provides the NCSI command processor channel state status.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ncsi_tx_ncp_ch_st_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t ald                   : 1;  /**< [  1:  1](RO/H) Current state of ALD (allow link disable) in the last received disable channel command. */
+        uint64_t state                 : 1;  /**< [  0:  0](RO/H) Current state of the NCSI command processor channel state. */
+#else /* Word 0 - Little Endian */
+        uint64_t state                 : 1;  /**< [  0:  0](RO/H) Current state of the NCSI command processor channel state. */
+        uint64_t ald                   : 1;  /**< [  1:  1](RO/H) Current state of ALD (allow link disable) in the last received disable channel command. */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_tx_ncp_ch_st_s cn; */
+} bdk_ncsi_tx_ncp_ch_st_t;
+
+#define BDK_NCSI_TX_NCP_CH_ST BDK_NCSI_TX_NCP_CH_ST_FUNC()
+static inline uint64_t BDK_NCSI_TX_NCP_CH_ST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_TX_NCP_CH_ST_FUNC(void)
+{
+    return 0x87e00b000140ll;
+}
+
+#define typedef_BDK_NCSI_TX_NCP_CH_ST bdk_ncsi_tx_ncp_ch_st_t
+#define bustype_BDK_NCSI_TX_NCP_CH_ST BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_TX_NCP_CH_ST "NCSI_TX_NCP_CH_ST"
+#define busnum_BDK_NCSI_TX_NCP_CH_ST 0
+#define arguments_BDK_NCSI_TX_NCP_CH_ST -1,-1,-1,-1
 
 /**
  * Register (RSL) ncsi_tx_ncp_perm#_table_hi
@@ -1495,322 +1663,154 @@ static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_HI(unsigned long a)
 #define arguments_BDK_NCSI_TX_NCP_PERMX_TABLE_HI(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) ncsi_rx_thresh
+ * Register (RSL) ncsi_tx_ncp_perm#_table_low
  *
- * NCSI RX Threshold Register
+ * NCSI TX NCP Permissions Table Low Registers
+ * These registers set the TX NCP Permission table low address range filter for the OEM command.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ncsi_rx_thresh_s
+    struct bdk_ncsi_tx_ncp_permx_table_low_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_11_63        : 53;
-        uint64_t cnt                   : 11; /**< [ 10:  0](R/W) Number of bytes to accumulate in the RX FIFO before sending on the RMII
-                                                                 interface. This field should be large enough to prevent underflow on the packet interface
-                                                                 and must never be set to 0x0. */
+        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Specifies the low physical address in formulating a permissions filter for OEM command
+                                                                 access.  See NCSI_TX_NCP_PERM()_TABLE_HI. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 11; /**< [ 10:  0](R/W) Number of bytes to accumulate in the RX FIFO before sending on the RMII
-                                                                 interface. This field should be large enough to prevent underflow on the packet interface
-                                                                 and must never be set to 0x0. */
-        uint64_t reserved_11_63        : 53;
+        uint64_t addr                  : 64; /**< [ 63:  0](SR/W) Specifies the low physical address in formulating a permissions filter for OEM command
+                                                                 access.  See NCSI_TX_NCP_PERM()_TABLE_HI. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_rx_thresh_s cn; */
-} bdk_ncsi_rx_thresh_t;
+    /* struct bdk_ncsi_tx_ncp_permx_table_low_s cn; */
+} bdk_ncsi_tx_ncp_permx_table_low_t;
 
-#define BDK_NCSI_RX_THRESH BDK_NCSI_RX_THRESH_FUNC()
-static inline uint64_t BDK_NCSI_RX_THRESH_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_RX_THRESH_FUNC(void)
+static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(unsigned long a)
 {
-    return 0x87e00b000500ll;
+    if (a<=15)
+        return 0x87e00b000a00ll + 8ll * ((a) & 0xf);
+    __bdk_csr_fatal("NCSI_TX_NCP_PERMX_TABLE_LOW", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_NCSI_RX_THRESH bdk_ncsi_rx_thresh_t
-#define bustype_BDK_NCSI_RX_THRESH BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_RX_THRESH "NCSI_RX_THRESH"
-#define busnum_BDK_NCSI_RX_THRESH 0
-#define arguments_BDK_NCSI_RX_THRESH -1,-1,-1,-1
+#define typedef_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) bdk_ncsi_tx_ncp_permx_table_low_t
+#define bustype_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) "NCSI_TX_NCP_PERMX_TABLE_LOW"
+#define busnum_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) (a)
+#define arguments_BDK_NCSI_TX_NCP_PERMX_TABLE_LOW(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) ncsi_msix_vec#_addr
+ * Register (RSL) ncsi_tx_ncp_pkg_st
  *
- * NCSI MSI-X Vector-Table Address Register
- * This register is the MSI-X vector table, indexed by the NCSI_INT_VEC_E enumeration.
+ * NCSI TX NCP State Register
+ * This register provides the NCSI command processor package state status.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ncsi_msix_vecx_addr_s
+    struct bdk_ncsi_tx_ncp_pkg_st_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's NCSI_MSIX_VEC()_ADDR, NCSI_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of NCSI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_NCSI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
-                                                                 is set, all vectors are secure and function as if [SECVEC] was set. */
+        uint64_t reserved_1_63         : 63;
+        uint64_t state                 : 1;  /**< [  0:  0](RO/H) Currect state of the NCSI command processor package state. */
 #else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's NCSI_MSIX_VEC()_ADDR, NCSI_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of NCSI_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_NCSI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
-                                                                 is set, all vectors are secure and function as if [SECVEC] was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
+        uint64_t state                 : 1;  /**< [  0:  0](RO/H) Currect state of the NCSI command processor package state. */
+        uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_msix_vecx_addr_s cn; */
-} bdk_ncsi_msix_vecx_addr_t;
+    /* struct bdk_ncsi_tx_ncp_pkg_st_s cn; */
+} bdk_ncsi_tx_ncp_pkg_st_t;
 
-static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_MSIX_VECX_ADDR(unsigned long a)
+#define BDK_NCSI_TX_NCP_PKG_ST BDK_NCSI_TX_NCP_PKG_ST_FUNC()
+static inline uint64_t BDK_NCSI_TX_NCP_PKG_ST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_TX_NCP_PKG_ST_FUNC(void)
 {
-    if (a==0)
-        return 0x87e00bf00000ll + 0x10ll * ((a) & 0x0);
-    __bdk_csr_fatal("NCSI_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
+    return 0x87e00b000148ll;
 }
 
-#define typedef_BDK_NCSI_MSIX_VECX_ADDR(a) bdk_ncsi_msix_vecx_addr_t
-#define bustype_BDK_NCSI_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_MSIX_VECX_ADDR(a) "NCSI_MSIX_VECX_ADDR"
-#define busnum_BDK_NCSI_MSIX_VECX_ADDR(a) (a)
-#define arguments_BDK_NCSI_MSIX_VECX_ADDR(a) (a),-1,-1,-1
+#define typedef_BDK_NCSI_TX_NCP_PKG_ST bdk_ncsi_tx_ncp_pkg_st_t
+#define bustype_BDK_NCSI_TX_NCP_PKG_ST BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_TX_NCP_PKG_ST "NCSI_TX_NCP_PKG_ST"
+#define busnum_BDK_NCSI_TX_NCP_PKG_ST 0
+#define arguments_BDK_NCSI_TX_NCP_PKG_ST -1,-1,-1,-1
 
 /**
- * Register (RSL) ncsi_int
+ * Register (RSL) ncsi_tx_stat0
  *
- * NCSI Memory Interrupt Register
+ * NCSI TX Statistics Register 0
+ * This register provides a count of valid packets detected at the output of the transmit side
+ * NCSI framer.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ncsi_int_s
+    struct bdk_ncsi_tx_stat0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. Added in pass 2. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
-                                                                 FCSERR indication takes precedence over JABBER error. */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
-                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
-                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
-                                                                 bytes. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid packets through the tx side framers. CNT will wrap and is cleared if NCSI
+                                                                 is disabled with
+                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
-                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
-                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
-                                                                 bytes. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
-                                                                 FCSERR indication takes precedence over JABBER error. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. Added in pass 2. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid packets through the tx side framers. CNT will wrap and is cleared if NCSI
+                                                                 is disabled with
+                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_int_s cn83xx; */
-    /* struct bdk_ncsi_int_s cn88xxp2; */
-    struct bdk_ncsi_int_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reserved. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
-                                                                 FCSERR indication takes precedence over JABBER error. */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
-                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
-                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
-                                                                 bytes. */
-#else /* Word 0 - Little Endian */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
-                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
-                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
-                                                                 bytes. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
-                                                                 FCSERR indication takes precedence over JABBER error. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reserved. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn88xxp1;
-} bdk_ncsi_int_t;
+    /* struct bdk_ncsi_tx_stat0_s cn; */
+} bdk_ncsi_tx_stat0_t;
 
-#define BDK_NCSI_INT BDK_NCSI_INT_FUNC()
-static inline uint64_t BDK_NCSI_INT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_INT_FUNC(void)
+#define BDK_NCSI_TX_STAT0 BDK_NCSI_TX_STAT0_FUNC()
+static inline uint64_t BDK_NCSI_TX_STAT0_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_TX_STAT0_FUNC(void)
 {
-    return 0x87e00b000000ll;
+    return 0x87e00b000300ll;
 }
 
-#define typedef_BDK_NCSI_INT bdk_ncsi_int_t
-#define bustype_BDK_NCSI_INT BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_INT "NCSI_INT"
-#define busnum_BDK_NCSI_INT 0
-#define arguments_BDK_NCSI_INT -1,-1,-1,-1
+#define typedef_BDK_NCSI_TX_STAT0 bdk_ncsi_tx_stat0_t
+#define bustype_BDK_NCSI_TX_STAT0 BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_TX_STAT0 "NCSI_TX_STAT0"
+#define busnum_BDK_NCSI_TX_STAT0 0
+#define arguments_BDK_NCSI_TX_STAT0 -1,-1,-1,-1
 
 /**
- * Register (RSL) ncsi_int_w1s
+ * Register (RSL) ncsi_tx_stat1
  *
- * NCSI Interrupt Set Register
- * This register sets interrupt bits.
+ * NCSI TX Statistics Register 1
+ * This register provides a count of valid bytes detected at the output of the transmit side
+ * NCSI framer.  These bytes are detected as being part of a valid frame.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ncsi_int_w1s_s
+    struct bdk_ncsi_tx_stat1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets NCSI_INT[BMC2CPU]. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
+        uint64_t reserved_48_63        : 16;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid bytes through the tx side framer. CNT will wrap and is cleared if NCSI is
+                                                                 disabled with
+                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
 #else /* Word 0 - Little Endian */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets NCSI_INT[BMC2CPU]. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t cnt                   : 48; /**< [ 47:  0](R/W/H) Count of valid bytes through the tx side framer. CNT will wrap and is cleared if NCSI is
+                                                                 disabled with
+                                                                 NCSI_SECURE_CONFIG[NCSIEN]=0. */
+        uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ncsi_int_w1s_s cn83xx; */
-    /* struct bdk_ncsi_int_w1s_s cn88xxp2; */
-    struct bdk_ncsi_int_w1s_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
-#else /* Word 0 - Little Endian */
-        uint64_t jabber                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets NCSI_INT[JABBER]. */
-        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1S/H) Reads or sets NCSI_INT[PMAC_FCSERR]. */
-        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1S/H) Reads or sets NCSI_INT[NCP_FCSERR]. */
-        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets NCSI_INT[PCTERR]. */
-        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets NCSI_INT[IFGERR]. */
-        uint64_t runterr               : 1;  /**< [  5:  5](R/W1S/H) Reads or sets NCSI_INT[RUNTERR]. */
-        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_DBE]. */
-        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_SBE]. */
-        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1S/H) Reads or sets NCSI_INT[TX_MIX_OVERFL]. */
-        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_DBE]. */
-        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_SBE]. */
-        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets NCSI_INT[RX_PMAC_UNDERFL]. */
-        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
-        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
-        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } cn88xxp1;
-} bdk_ncsi_int_w1s_t;
+    /* struct bdk_ncsi_tx_stat1_s cn; */
+} bdk_ncsi_tx_stat1_t;
 
-#define BDK_NCSI_INT_W1S BDK_NCSI_INT_W1S_FUNC()
-static inline uint64_t BDK_NCSI_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_NCSI_INT_W1S_FUNC(void)
+#define BDK_NCSI_TX_STAT1 BDK_NCSI_TX_STAT1_FUNC()
+static inline uint64_t BDK_NCSI_TX_STAT1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_NCSI_TX_STAT1_FUNC(void)
 {
-    return 0x87e00b000008ll;
+    return 0x87e00b000308ll;
 }
 
-#define typedef_BDK_NCSI_INT_W1S bdk_ncsi_int_w1s_t
-#define bustype_BDK_NCSI_INT_W1S BDK_CSR_TYPE_RSL
-#define basename_BDK_NCSI_INT_W1S "NCSI_INT_W1S"
-#define busnum_BDK_NCSI_INT_W1S 0
-#define arguments_BDK_NCSI_INT_W1S -1,-1,-1,-1
+#define typedef_BDK_NCSI_TX_STAT1 bdk_ncsi_tx_stat1_t
+#define bustype_BDK_NCSI_TX_STAT1 BDK_CSR_TYPE_RSL
+#define basename_BDK_NCSI_TX_STAT1 "NCSI_TX_STAT1"
+#define busnum_BDK_NCSI_TX_STAT1 0
+#define arguments_BDK_NCSI_TX_STAT1 -1,-1,-1,-1
 
 #endif /* __BDK_CSRS_NCSI_H__ */

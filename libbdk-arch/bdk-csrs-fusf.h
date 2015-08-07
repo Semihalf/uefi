@@ -61,6 +61,43 @@
 #define BDK_FUSF_BAR_E_FUSF_PF_BAR0 (0x87e004000000ll) /**< Base address for standard registers. */
 
 /**
+ * Register (RSL) fusf_bnk_dat#
+ *
+ * Field Fuse Bank Store Register
+ * The initial state of FUSF_BNK_DAT() is as if bank15 were just read,
+ * i.e. DAT* = fus[2047:1920].
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_fusf_bnk_datx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](SR/W/H) Efuse bank store. For read operations, the DAT gets the fus bank last read. For write
+                                                                 operations, the DAT determines which fuses to blow. */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](SR/W/H) Efuse bank store. For read operations, the DAT gets the fus bank last read. For write
+                                                                 operations, the DAT determines which fuses to blow. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_fusf_bnk_datx_s cn; */
+} bdk_fusf_bnk_datx_t;
+
+static inline uint64_t BDK_FUSF_BNK_DATX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_FUSF_BNK_DATX(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e004000120ll + 8ll * ((a) & 0x1);
+    __bdk_csr_fatal("FUSF_BNK_DATX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_FUSF_BNK_DATX(a) bdk_fusf_bnk_datx_t
+#define bustype_BDK_FUSF_BNK_DATX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_FUSF_BNK_DATX(a) "FUSF_BNK_DATX"
+#define busnum_BDK_FUSF_BNK_DATX(a) (a)
+#define arguments_BDK_FUSF_BNK_DATX(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) fusf_ctl
  *
  * Field Fuse Control Register
@@ -195,61 +232,6 @@ static inline uint64_t BDK_FUSF_CTL_FUNC(void)
 #define arguments_BDK_FUSF_CTL -1,-1,-1,-1
 
 /**
- * Register (RSL) fusf_sw#
- *
- * Field Fuse Software Fuses Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_fusf_swx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO) Software assigned fuse data, as retrieved from FusesF.
-
-                                                                 This space is opaque to hardware/ROM for use of TBL1FW firmware as required.
-
-                                                                 FUSF_SW() reads as 0x0 when RST_BOOT[DIS_HUK] is set.
-
-                                                                 Some uses for this space include:
-                                                                   * One-hot encoding of TrustedFirmwareNvCounter <31:0>,
-                                                                   number of firmware updates.
-                                                                   * One-hot encoding of NonTrustedFirmwareNvCounter <234:0>,
-                                                                   number of firmware updates.
-                                                                   * Along with FUSF_EK as a private endorsement key (EK). */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SRO) Software assigned fuse data, as retrieved from FusesF.
-
-                                                                 This space is opaque to hardware/ROM for use of TBL1FW firmware as required.
-
-                                                                 FUSF_SW() reads as 0x0 when RST_BOOT[DIS_HUK] is set.
-
-                                                                 Some uses for this space include:
-                                                                   * One-hot encoding of TrustedFirmwareNvCounter <31:0>,
-                                                                   number of firmware updates.
-                                                                   * One-hot encoding of NonTrustedFirmwareNvCounter <234:0>,
-                                                                   number of firmware updates.
-                                                                   * Along with FUSF_EK as a private endorsement key (EK). */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_fusf_swx_s cn; */
-} bdk_fusf_swx_t;
-
-static inline uint64_t BDK_FUSF_SWX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_FUSF_SWX(unsigned long a)
-{
-    if (a<=7)
-        return 0x87e0040000c0ll + 8ll * ((a) & 0x7);
-    __bdk_csr_fatal("FUSF_SWX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_FUSF_SWX(a) bdk_fusf_swx_t
-#define bustype_BDK_FUSF_SWX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_FUSF_SWX(a) "FUSF_SWX"
-#define busnum_BDK_FUSF_SWX(a) (a)
-#define arguments_BDK_FUSF_SWX(a) (a),-1,-1,-1
-
-/**
  * Register (RSL) fusf_ek#
  *
  * Field Fuse ECC Private Endorsement Key Registers
@@ -303,43 +285,6 @@ static inline uint64_t BDK_FUSF_EKX(unsigned long a)
 #define basename_BDK_FUSF_EKX(a) "FUSF_EKX"
 #define busnum_BDK_FUSF_EKX(a) (a)
 #define arguments_BDK_FUSF_EKX(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) fusf_bnk_dat#
- *
- * Field Fuse Bank Store Register
- * The initial state of FUSF_BNK_DAT() is as if bank15 were just read,
- * i.e. DAT* = fus[2047:1920].
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_fusf_bnk_datx_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SR/W/H) Efuse bank store. For read operations, the DAT gets the fus bank last read. For write
-                                                                 operations, the DAT determines which fuses to blow. */
-#else /* Word 0 - Little Endian */
-        uint64_t dat                   : 64; /**< [ 63:  0](SR/W/H) Efuse bank store. For read operations, the DAT gets the fus bank last read. For write
-                                                                 operations, the DAT determines which fuses to blow. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_fusf_bnk_datx_s cn; */
-} bdk_fusf_bnk_datx_t;
-
-static inline uint64_t BDK_FUSF_BNK_DATX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_FUSF_BNK_DATX(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e004000120ll + 8ll * ((a) & 0x1);
-    __bdk_csr_fatal("FUSF_BNK_DATX", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_FUSF_BNK_DATX(a) bdk_fusf_bnk_datx_t
-#define bustype_BDK_FUSF_BNK_DATX(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_FUSF_BNK_DATX(a) "FUSF_BNK_DATX"
-#define busnum_BDK_FUSF_BNK_DATX(a) (a)
-#define arguments_BDK_FUSF_BNK_DATX(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) fusf_huk#
@@ -401,6 +346,113 @@ static inline uint64_t BDK_FUSF_HUKX(unsigned long a)
 #define basename_BDK_FUSF_HUKX(a) "FUSF_HUKX"
 #define busnum_BDK_FUSF_HUKX(a) (a)
 #define arguments_BDK_FUSF_HUKX(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) fusf_prog
+ *
+ * Field Fuse Programming Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_fusf_prog_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin.
+                                                                 Access changed in pass 2. */
+        uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
+                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
+        uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
+                                                                 any fuses. Hardware will clear when the program operation is complete. */
+        uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
+                                                                 the program operation is complete.
+
+                                                                 To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
+                                                                 programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
+
+                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
+                                                                 write
+                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
+                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
+                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+#else /* Word 0 - Little Endian */
+        uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
+                                                                 the program operation is complete.
+
+                                                                 To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
+                                                                 programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
+
+                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
+                                                                 write
+                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
+                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
+                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+        uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
+                                                                 any fuses. Hardware will clear when the program operation is complete. */
+        uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
+                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
+        uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin.
+                                                                 Access changed in pass 2. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_fusf_prog_s cn83xx; */
+    /* struct bdk_fusf_prog_s cn88xxp2; */
+    struct bdk_fusf_prog_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t volt_en               : 1;  /**< [  3:  3](SWO) Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
+        uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
+                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
+        uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
+                                                                 any fuses. Hardware will clear when the program operation is complete. */
+        uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
+                                                                 the program operation is complete.
+
+                                                                 To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
+                                                                 programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
+
+                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
+                                                                 write
+                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
+                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
+                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+#else /* Word 0 - Little Endian */
+        uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
+                                                                 the program operation is complete.
+
+                                                                 To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
+                                                                 programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
+
+                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
+                                                                 write
+                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
+                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
+                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
+        uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
+                                                                 any fuses. Hardware will clear when the program operation is complete. */
+        uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
+                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
+        uint64_t volt_en               : 1;  /**< [  3:  3](SWO) Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+} bdk_fusf_prog_t;
+
+#define BDK_FUSF_PROG BDK_FUSF_PROG_FUNC()
+static inline uint64_t BDK_FUSF_PROG_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_FUSF_PROG_FUNC(void)
+{
+    return 0x87e004000110ll;
+}
+
+#define typedef_BDK_FUSF_PROG bdk_fusf_prog_t
+#define bustype_BDK_FUSF_PROG BDK_CSR_TYPE_RSL
+#define basename_BDK_FUSF_PROG "FUSF_PROG"
+#define busnum_BDK_FUSF_PROG 0
+#define arguments_BDK_FUSF_PROG -1,-1,-1,-1
 
 /**
  * Register (RSL) fusf_rcmd
@@ -581,6 +633,61 @@ static inline uint64_t BDK_FUSF_SSKX(unsigned long a)
 #define arguments_BDK_FUSF_SSKX(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) fusf_sw#
+ *
+ * Field Fuse Software Fuses Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_fusf_swx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO) Software assigned fuse data, as retrieved from FusesF.
+
+                                                                 This space is opaque to hardware/ROM for use of TBL1FW firmware as required.
+
+                                                                 FUSF_SW() reads as 0x0 when RST_BOOT[DIS_HUK] is set.
+
+                                                                 Some uses for this space include:
+                                                                   * One-hot encoding of TrustedFirmwareNvCounter <31:0>,
+                                                                   number of firmware updates.
+                                                                   * One-hot encoding of NonTrustedFirmwareNvCounter <234:0>,
+                                                                   number of firmware updates.
+                                                                   * Along with FUSF_EK as a private endorsement key (EK). */
+#else /* Word 0 - Little Endian */
+        uint64_t dat                   : 64; /**< [ 63:  0](SRO) Software assigned fuse data, as retrieved from FusesF.
+
+                                                                 This space is opaque to hardware/ROM for use of TBL1FW firmware as required.
+
+                                                                 FUSF_SW() reads as 0x0 when RST_BOOT[DIS_HUK] is set.
+
+                                                                 Some uses for this space include:
+                                                                   * One-hot encoding of TrustedFirmwareNvCounter <31:0>,
+                                                                   number of firmware updates.
+                                                                   * One-hot encoding of NonTrustedFirmwareNvCounter <234:0>,
+                                                                   number of firmware updates.
+                                                                   * Along with FUSF_EK as a private endorsement key (EK). */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_fusf_swx_s cn; */
+} bdk_fusf_swx_t;
+
+static inline uint64_t BDK_FUSF_SWX(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_FUSF_SWX(unsigned long a)
+{
+    if (a<=7)
+        return 0x87e0040000c0ll + 8ll * ((a) & 0x7);
+    __bdk_csr_fatal("FUSF_SWX", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_FUSF_SWX(a) bdk_fusf_swx_t
+#define bustype_BDK_FUSF_SWX(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_FUSF_SWX(a) "FUSF_SWX"
+#define busnum_BDK_FUSF_SWX(a) (a)
+#define arguments_BDK_FUSF_SWX(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) fusf_wadr
  *
  * Field Fuse Write Address Register
@@ -613,112 +720,5 @@ static inline uint64_t BDK_FUSF_WADR_FUNC(void)
 #define basename_BDK_FUSF_WADR "FUSF_WADR"
 #define busnum_BDK_FUSF_WADR 0
 #define arguments_BDK_FUSF_WADR -1,-1,-1,-1
-
-/**
- * Register (RSL) fusf_prog
- *
- * Field Fuse Programming Register
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_fusf_prog_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin.
-                                                                 Access changed in pass 2. */
-        uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
-        uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
-                                                                 any fuses. Hardware will clear when the program operation is complete. */
-        uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
-                                                                 the program operation is complete.
-
-                                                                 To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
-                                                                 programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
-
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
-                                                                 write
-                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
-#else /* Word 0 - Little Endian */
-        uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
-                                                                 the program operation is complete.
-
-                                                                 To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
-                                                                 programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
-
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
-                                                                 write
-                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
-        uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
-                                                                 any fuses. Hardware will clear when the program operation is complete. */
-        uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
-        uint64_t volt_en               : 1;  /**< [  3:  3](SR/W) Enable programming voltage.  Asserts EFUSE_ENABLE_L open-drain output pin.
-                                                                 Access changed in pass 2. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_fusf_prog_s cn83xx; */
-    /* struct bdk_fusf_prog_s cn88xxp2; */
-    struct bdk_fusf_prog_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t volt_en               : 1;  /**< [  3:  3](SWO) Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
-        uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
-        uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
-                                                                 any fuses. Hardware will clear when the program operation is complete. */
-        uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
-                                                                 the program operation is complete.
-
-                                                                 To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
-                                                                 programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
-
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
-                                                                 write
-                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
-#else /* Word 0 - Little Endian */
-        uint64_t prog                  : 1;  /**< [  0:  0](SR/W/H) When written to 1 by software, blow the fuse bank. Hardware clears this bit when
-                                                                 the program operation is complete.
-
-                                                                 To write a bank of fuses, software must set FUSF_WADR[ADDR] to the bank to be
-                                                                 programmed and then set each bit within FUSF_BNK_DATX to indicate which fuses to blow.
-
-                                                                 Once FUSF_WADR[ADDR], and DAT are setup, SW can write to FUSF_PROG[PROG] to start the bank
-                                                                 write
-                                                                 and poll on [PROG]. Once PROG is clear, the bank write is complete. A soft blow is still
-                                                                 subject to lockdown fuses. After a soft/warm reset, the chip behaves as though the
-                                                                 fuses were actually blown. A cold reset restores the actual fuse values. */
-        uint64_t sft                   : 1;  /**< [  1:  1](SR/W/H) When set with [PROG], causes only the local storage to change and will not blow
-                                                                 any fuses. Hardware will clear when the program operation is complete. */
-        uint64_t prog_pin              : 1;  /**< [  2:  2](SRO) Efuse program voltage (EFUS_PROG) is applied.
-                                                                 INTERNAL: Indicates state of pi_efuse_pgm_ext not pi_efuse_pgm_int. */
-        uint64_t volt_en               : 1;  /**< [  3:  3](SWO) Enable programming voltage.  Asserts EFUSE_ENABLE_L opep-drain output pin. */
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } cn88xxp1;
-} bdk_fusf_prog_t;
-
-#define BDK_FUSF_PROG BDK_FUSF_PROG_FUNC()
-static inline uint64_t BDK_FUSF_PROG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_FUSF_PROG_FUNC(void)
-{
-    return 0x87e004000110ll;
-}
-
-#define typedef_BDK_FUSF_PROG bdk_fusf_prog_t
-#define bustype_BDK_FUSF_PROG BDK_CSR_TYPE_RSL
-#define basename_BDK_FUSF_PROG "FUSF_PROG"
-#define busnum_BDK_FUSF_PROG 0
-#define arguments_BDK_FUSF_PROG -1,-1,-1,-1
 
 #endif /* __BDK_CSRS_FUSF_H__ */

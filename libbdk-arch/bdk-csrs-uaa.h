@@ -71,106 +71,14 @@
 #define BDK_UAA_INT_VEC_E_INTS_CLEAR (1) /**< Level sensitive interrupt clear vector. */
 
 /**
- * Register (RSL32b) uaa#_mis
+ * Register (RSL32b) uaa#_cidr0
  *
- * UART Masked Interrupt Status Register
- * Indicates state of interrupts after masking.
- * INTERNAL: Note this register was not present in SBSA 2.3, but is referenced
- * by the Linux driver, so has been defined here.
+ * UART Component Identification Register 0
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_uaax_mis_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_11_31        : 21;
-        uint32_t oemis                 : 1;  /**< [ 10: 10](RO/H) Overrun-error interrupt status. */
-        uint32_t bemis                 : 1;  /**< [  9:  9](RO/H) Break-error interrupt status. */
-        uint32_t pemis                 : 1;  /**< [  8:  8](RO/H) Parity-error interrupt status. */
-        uint32_t femis                 : 1;  /**< [  7:  7](RO/H) Framing-error interrupt status. */
-        uint32_t rtmis                 : 1;  /**< [  6:  6](RO/H) Receive-timeout interrupt status. */
-        uint32_t txmis                 : 1;  /**< [  5:  5](RO/H) Transmit-interrupt status. */
-        uint32_t rxmis                 : 1;  /**< [  4:  4](RO/H) Receive-interrupt status. */
-        uint32_t dsrmmis               : 1;  /**< [  3:  3](RO/H) DSR modem interrupt status. */
-        uint32_t dcdmmis               : 1;  /**< [  2:  2](RO/H) DCD modem interrupt status. */
-        uint32_t ctsmmis               : 1;  /**< [  1:  1](RO/H) CTS modem interrupt status. */
-        uint32_t rimmis                : 1;  /**< [  0:  0](RO/H) Ring-indicator interrupt status. Not implemented. */
-#else /* Word 0 - Little Endian */
-        uint32_t rimmis                : 1;  /**< [  0:  0](RO/H) Ring-indicator interrupt status. Not implemented. */
-        uint32_t ctsmmis               : 1;  /**< [  1:  1](RO/H) CTS modem interrupt status. */
-        uint32_t dcdmmis               : 1;  /**< [  2:  2](RO/H) DCD modem interrupt status. */
-        uint32_t dsrmmis               : 1;  /**< [  3:  3](RO/H) DSR modem interrupt status. */
-        uint32_t rxmis                 : 1;  /**< [  4:  4](RO/H) Receive-interrupt status. */
-        uint32_t txmis                 : 1;  /**< [  5:  5](RO/H) Transmit-interrupt status. */
-        uint32_t rtmis                 : 1;  /**< [  6:  6](RO/H) Receive-timeout interrupt status. */
-        uint32_t femis                 : 1;  /**< [  7:  7](RO/H) Framing-error interrupt status. */
-        uint32_t pemis                 : 1;  /**< [  8:  8](RO/H) Parity-error interrupt status. */
-        uint32_t bemis                 : 1;  /**< [  9:  9](RO/H) Break-error interrupt status. */
-        uint32_t oemis                 : 1;  /**< [ 10: 10](RO/H) Overrun-error interrupt status. */
-        uint32_t reserved_11_31        : 21;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_uaax_mis_s cn; */
-} bdk_uaax_mis_t;
-
-static inline uint64_t BDK_UAAX_MIS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_MIS(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e024000040ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_MIS", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_UAAX_MIS(a) bdk_uaax_mis_t
-#define bustype_BDK_UAAX_MIS(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_MIS(a) "UAAX_MIS"
-#define busnum_BDK_UAAX_MIS(a) (a)
-#define arguments_BDK_UAAX_MIS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) uaa#_uctl_spare0
- *
- * UART UCTL Spare Register 0
- * This register is a spare register. This register can be reset by NCB reset.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_uaax_uctl_spare0_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Spare. */
-#else /* Word 0 - Little Endian */
-        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Spare. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_uaax_uctl_spare0_s cn; */
-} bdk_uaax_uctl_spare0_t;
-
-static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e024001010ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_UCTL_SPARE0", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_UAAX_UCTL_SPARE0(a) bdk_uaax_uctl_spare0_t
-#define bustype_BDK_UAAX_UCTL_SPARE0(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_UAAX_UCTL_SPARE0(a) "UAAX_UCTL_SPARE0"
-#define busnum_BDK_UAAX_UCTL_SPARE0(a) (a)
-#define arguments_BDK_UAAX_UCTL_SPARE0(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) uaa#_cidr3
- *
- * UART Component Identification Register 3
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_uaax_cidr3_s
+    struct bdk_uaax_cidr0_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -180,57 +88,22 @@ typedef union
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_uaax_cidr3_s cn; */
-} bdk_uaax_cidr3_t;
+    /* struct bdk_uaax_cidr0_s cn; */
+} bdk_uaax_cidr0_t;
 
-static inline uint64_t BDK_UAAX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_CIDR3(unsigned long a)
+static inline uint64_t BDK_UAAX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_CIDR0(unsigned long a)
 {
     if (a<=1)
-        return 0x87e024000ffcll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_CIDR3", 1, a, 0, 0, 0);
+        return 0x87e024000ff0ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_CIDR0", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_UAAX_CIDR3(a) bdk_uaax_cidr3_t
-#define bustype_BDK_UAAX_CIDR3(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_CIDR3(a) "UAAX_CIDR3"
-#define busnum_BDK_UAAX_CIDR3(a) (a)
-#define arguments_BDK_UAAX_CIDR3(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) uaa#_cidr2
- *
- * UART Component Identification Register 2
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_uaax_cidr2_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
-#else /* Word 0 - Little Endian */
-        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_uaax_cidr2_s cn; */
-} bdk_uaax_cidr2_t;
-
-static inline uint64_t BDK_UAAX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_CIDR2(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e024000ff8ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_CIDR2", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_UAAX_CIDR2(a) bdk_uaax_cidr2_t
-#define bustype_BDK_UAAX_CIDR2(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_CIDR2(a) "UAAX_CIDR2"
-#define busnum_BDK_UAAX_CIDR2(a) (a)
-#define arguments_BDK_UAAX_CIDR2(a) (a),-1,-1,-1
+#define typedef_BDK_UAAX_CIDR0(a) bdk_uaax_cidr0_t
+#define bustype_BDK_UAAX_CIDR0(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_CIDR0(a) "UAAX_CIDR0"
+#define busnum_BDK_UAAX_CIDR0(a) (a)
+#define arguments_BDK_UAAX_CIDR0(a) (a),-1,-1,-1
 
 /**
  * Register (RSL32b) uaa#_cidr1
@@ -268,14 +141,14 @@ static inline uint64_t BDK_UAAX_CIDR1(unsigned long a)
 #define arguments_BDK_UAAX_CIDR1(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) uaa#_cidr0
+ * Register (RSL32b) uaa#_cidr2
  *
- * UART Component Identification Register 0
+ * UART Component Identification Register 2
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_uaax_cidr0_s
+    struct bdk_uaax_cidr2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_8_31         : 24;
@@ -285,22 +158,341 @@ typedef union
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_uaax_cidr0_s cn; */
-} bdk_uaax_cidr0_t;
+    /* struct bdk_uaax_cidr2_s cn; */
+} bdk_uaax_cidr2_t;
 
-static inline uint64_t BDK_UAAX_CIDR0(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_CIDR0(unsigned long a)
+static inline uint64_t BDK_UAAX_CIDR2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_CIDR2(unsigned long a)
 {
     if (a<=1)
-        return 0x87e024000ff0ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_CIDR0", 1, a, 0, 0, 0);
+        return 0x87e024000ff8ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_CIDR2", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_UAAX_CIDR0(a) bdk_uaax_cidr0_t
-#define bustype_BDK_UAAX_CIDR0(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_CIDR0(a) "UAAX_CIDR0"
-#define busnum_BDK_UAAX_CIDR0(a) (a)
-#define arguments_BDK_UAAX_CIDR0(a) (a),-1,-1,-1
+#define typedef_BDK_UAAX_CIDR2(a) bdk_uaax_cidr2_t
+#define bustype_BDK_UAAX_CIDR2(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_CIDR2(a) "UAAX_CIDR2"
+#define busnum_BDK_UAAX_CIDR2(a) (a)
+#define arguments_BDK_UAAX_CIDR2(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) uaa#_cidr3
+ *
+ * UART Component Identification Register 3
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_uaax_cidr3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
+#else /* Word 0 - Little Endian */
+        uint32_t preamble              : 8;  /**< [  7:  0](RO) Preamble identification value. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_uaax_cidr3_s cn; */
+} bdk_uaax_cidr3_t;
+
+static inline uint64_t BDK_UAAX_CIDR3(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_CIDR3(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e024000ffcll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_CIDR3", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_UAAX_CIDR3(a) bdk_uaax_cidr3_t
+#define bustype_BDK_UAAX_CIDR3(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_CIDR3(a) "UAAX_CIDR3"
+#define busnum_BDK_UAAX_CIDR3(a) (a)
+#define arguments_BDK_UAAX_CIDR3(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) uaa#_cr
+ *
+ * UART Control Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_uaax_cr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t ctsen                 : 1;  /**< [ 15: 15](R/W) "CTS hardware flow control enable. If set, data is only transmitted when UART#_CTS_L is
+                                                                 asserted (low)." */
+        uint32_t rtsen                 : 1;  /**< [ 14: 14](R/W) RTS hardware flow control enable. If set, data is only requested when space in the receive FIFO. */
+        uint32_t out2                  : 1;  /**< [ 13: 13](R/W) Unused. */
+        uint32_t out1                  : 1;  /**< [ 12: 12](R/W) Data carrier detect. If set, drive UART#_DCD_L asserted (low). */
+        uint32_t rts                   : 1;  /**< [ 11: 11](R/W) Request to send. If set, assert UART#_RTS_L. */
+        uint32_t dtr                   : 1;  /**< [ 10: 10](R/W) Data terminal ready. If set, assert UART#_DTR_N. */
+        uint32_t rxe                   : 1;  /**< [  9:  9](R/W) Receive enable. If set, receive section is enabled. */
+        uint32_t txe                   : 1;  /**< [  8:  8](R/W) Transmit enable. */
+        uint32_t lbe                   : 1;  /**< [  7:  7](R/W) "Loopback enable. If set the serial output is looped into the serial input as if UART#_SIN
+                                                                 was physically attached to UART#_SOUT." */
+        uint32_t reserved_1_6          : 6;
+        uint32_t uarten                : 1;  /**< [  0:  0](R/W) UART enable.
+                                                                 0 = UART is disabled. If the UART is disabled in the middle of transmission or reception,
+                                                                 it completes the current character.
+                                                                 1 = UART enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t uarten                : 1;  /**< [  0:  0](R/W) UART enable.
+                                                                 0 = UART is disabled. If the UART is disabled in the middle of transmission or reception,
+                                                                 it completes the current character.
+                                                                 1 = UART enabled. */
+        uint32_t reserved_1_6          : 6;
+        uint32_t lbe                   : 1;  /**< [  7:  7](R/W) "Loopback enable. If set the serial output is looped into the serial input as if UART#_SIN
+                                                                 was physically attached to UART#_SOUT." */
+        uint32_t txe                   : 1;  /**< [  8:  8](R/W) Transmit enable. */
+        uint32_t rxe                   : 1;  /**< [  9:  9](R/W) Receive enable. If set, receive section is enabled. */
+        uint32_t dtr                   : 1;  /**< [ 10: 10](R/W) Data terminal ready. If set, assert UART#_DTR_N. */
+        uint32_t rts                   : 1;  /**< [ 11: 11](R/W) Request to send. If set, assert UART#_RTS_L. */
+        uint32_t out1                  : 1;  /**< [ 12: 12](R/W) Data carrier detect. If set, drive UART#_DCD_L asserted (low). */
+        uint32_t out2                  : 1;  /**< [ 13: 13](R/W) Unused. */
+        uint32_t rtsen                 : 1;  /**< [ 14: 14](R/W) RTS hardware flow control enable. If set, data is only requested when space in the receive FIFO. */
+        uint32_t ctsen                 : 1;  /**< [ 15: 15](R/W) "CTS hardware flow control enable. If set, data is only transmitted when UART#_CTS_L is
+                                                                 asserted (low)." */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_uaax_cr_cn
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t ctsen                 : 1;  /**< [ 15: 15](R/W) "CTS hardware flow control enable. If set, data is only transmitted when UART#_CTS_L is
+                                                                 asserted (low)." */
+        uint32_t rtsen                 : 1;  /**< [ 14: 14](R/W) RTS hardware flow control enable. If set, data is only requested when space in the receive FIFO. */
+        uint32_t out2                  : 1;  /**< [ 13: 13](R/W) Unused. */
+        uint32_t out1                  : 1;  /**< [ 12: 12](R/W) Data carrier detect. If set, drive UART#_DCD_L asserted (low). */
+        uint32_t rts                   : 1;  /**< [ 11: 11](R/W) Request to send. If set, assert UART#_RTS_L. */
+        uint32_t dtr                   : 1;  /**< [ 10: 10](R/W) Data terminal ready. If set, assert UART#_DTR_N. */
+        uint32_t rxe                   : 1;  /**< [  9:  9](R/W) Receive enable. If set, receive section is enabled. */
+        uint32_t txe                   : 1;  /**< [  8:  8](R/W) Transmit enable. */
+        uint32_t lbe                   : 1;  /**< [  7:  7](R/W) "Loopback enable. If set the serial output is looped into the serial input as if UART#_SIN
+                                                                 was physically attached to UART#_SOUT." */
+        uint32_t reserved_3_6          : 4;
+        uint32_t reserved_2            : 1;
+        uint32_t reserved_1            : 1;
+        uint32_t uarten                : 1;  /**< [  0:  0](R/W) UART enable.
+                                                                 0 = UART is disabled. If the UART is disabled in the middle of transmission or reception,
+                                                                 it completes the current character.
+                                                                 1 = UART enabled. */
+#else /* Word 0 - Little Endian */
+        uint32_t uarten                : 1;  /**< [  0:  0](R/W) UART enable.
+                                                                 0 = UART is disabled. If the UART is disabled in the middle of transmission or reception,
+                                                                 it completes the current character.
+                                                                 1 = UART enabled. */
+        uint32_t reserved_1            : 1;
+        uint32_t reserved_2            : 1;
+        uint32_t reserved_3_6          : 4;
+        uint32_t lbe                   : 1;  /**< [  7:  7](R/W) "Loopback enable. If set the serial output is looped into the serial input as if UART#_SIN
+                                                                 was physically attached to UART#_SOUT." */
+        uint32_t txe                   : 1;  /**< [  8:  8](R/W) Transmit enable. */
+        uint32_t rxe                   : 1;  /**< [  9:  9](R/W) Receive enable. If set, receive section is enabled. */
+        uint32_t dtr                   : 1;  /**< [ 10: 10](R/W) Data terminal ready. If set, assert UART#_DTR_N. */
+        uint32_t rts                   : 1;  /**< [ 11: 11](R/W) Request to send. If set, assert UART#_RTS_L. */
+        uint32_t out1                  : 1;  /**< [ 12: 12](R/W) Data carrier detect. If set, drive UART#_DCD_L asserted (low). */
+        uint32_t out2                  : 1;  /**< [ 13: 13](R/W) Unused. */
+        uint32_t rtsen                 : 1;  /**< [ 14: 14](R/W) RTS hardware flow control enable. If set, data is only requested when space in the receive FIFO. */
+        uint32_t ctsen                 : 1;  /**< [ 15: 15](R/W) "CTS hardware flow control enable. If set, data is only transmitted when UART#_CTS_L is
+                                                                 asserted (low)." */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } cn;
+} bdk_uaax_cr_t;
+
+static inline uint64_t BDK_UAAX_CR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_CR(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e024000030ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_CR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_UAAX_CR(a) bdk_uaax_cr_t
+#define bustype_BDK_UAAX_CR(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_CR(a) "UAAX_CR"
+#define busnum_BDK_UAAX_CR(a) (a)
+#define arguments_BDK_UAAX_CR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) uaa#_dr
+ *
+ * UART Data Register
+ * Writing to this register pushes data to the FIFO for transmission. Reading it retrieves
+ * received data from the receive FIFO.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_uaax_dr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_12_31        : 20;
+        uint32_t oe                    : 1;  /**< [ 11: 11](RO/H) Overrun error. Set if data is received and FIFO was full. Cleared once a new character is
+                                                                 written to the FIFO. */
+        uint32_t be                    : 1;  /**< [ 10: 10](RO/H) Break error. Indicates received data input was held low for longer than a full-transmission time. */
+        uint32_t pe                    : 1;  /**< [  9:  9](RO/H) Parity error. Indicates the parity did not match that expected. */
+        uint32_t fe                    : 1;  /**< [  8:  8](RO/H) Framing error. Indicates that the received character did not have a stop bit. */
+        uint32_t data                  : 8;  /**< [  7:  0](R/W/H) On write operations, data to transmit. On read operations, received data. */
+#else /* Word 0 - Little Endian */
+        uint32_t data                  : 8;  /**< [  7:  0](R/W/H) On write operations, data to transmit. On read operations, received data. */
+        uint32_t fe                    : 1;  /**< [  8:  8](RO/H) Framing error. Indicates that the received character did not have a stop bit. */
+        uint32_t pe                    : 1;  /**< [  9:  9](RO/H) Parity error. Indicates the parity did not match that expected. */
+        uint32_t be                    : 1;  /**< [ 10: 10](RO/H) Break error. Indicates received data input was held low for longer than a full-transmission time. */
+        uint32_t oe                    : 1;  /**< [ 11: 11](RO/H) Overrun error. Set if data is received and FIFO was full. Cleared once a new character is
+                                                                 written to the FIFO. */
+        uint32_t reserved_12_31        : 20;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_uaax_dr_s cn; */
+} bdk_uaax_dr_t;
+
+static inline uint64_t BDK_UAAX_DR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_DR(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e024000000ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_DR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_UAAX_DR(a) bdk_uaax_dr_t
+#define bustype_BDK_UAAX_DR(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_DR(a) "UAAX_DR"
+#define busnum_BDK_UAAX_DR(a) (a)
+#define arguments_BDK_UAAX_DR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) uaa#_fbrd
+ *
+ * UART Fractional Baud Rate Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_uaax_fbrd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_6_31         : 26;
+        uint32_t baud_divfrac          : 6;  /**< [  5:  0](R/W) Fractional part of baud rate divisor. The output baud rate is equal to the coprocessor-
+                                                                 clock frequency divided by sixteen times the value of the baud-rate divisor, as follows:
+                                                                 baud rate = coprocessor-clock frequency / (16 * divisor).
+                                                                 Note that once both divisor-latch registers are set, at least eight coprocessor-clock
+                                                                 cycles should be allowed to pass before transmitting or receiving data. */
+#else /* Word 0 - Little Endian */
+        uint32_t baud_divfrac          : 6;  /**< [  5:  0](R/W) Fractional part of baud rate divisor. The output baud rate is equal to the coprocessor-
+                                                                 clock frequency divided by sixteen times the value of the baud-rate divisor, as follows:
+                                                                 baud rate = coprocessor-clock frequency / (16 * divisor).
+                                                                 Note that once both divisor-latch registers are set, at least eight coprocessor-clock
+                                                                 cycles should be allowed to pass before transmitting or receiving data. */
+        uint32_t reserved_6_31         : 26;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_uaax_fbrd_s cn; */
+} bdk_uaax_fbrd_t;
+
+static inline uint64_t BDK_UAAX_FBRD(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_FBRD(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e024000028ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_FBRD", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_UAAX_FBRD(a) bdk_uaax_fbrd_t
+#define bustype_BDK_UAAX_FBRD(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_FBRD(a) "UAAX_FBRD"
+#define busnum_BDK_UAAX_FBRD(a) (a)
+#define arguments_BDK_UAAX_FBRD(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) uaa#_fr
+ *
+ * UART Flag Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_uaax_fr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_9_31         : 23;
+        uint32_t ri                    : 1;  /**< [  8:  8](RO/H) Complement of Ring indicator. not supported. */
+        uint32_t txfe                  : 1;  /**< [  7:  7](RO/H) Transmit FIFO empty. */
+        uint32_t rxff                  : 1;  /**< [  6:  6](RO/H) Receive FIFO full. */
+        uint32_t txff                  : 1;  /**< [  5:  5](RO/H) Transmit FIFO full. */
+        uint32_t rxfe                  : 1;  /**< [  4:  4](RO/H) Receive FIFO empty. */
+        uint32_t busy                  : 1;  /**< [  3:  3](RO/H) UART busy transmitting data. */
+        uint32_t dcd                   : 1;  /**< [  2:  2](RO/H) Data carrier detect. */
+        uint32_t dsr                   : 1;  /**< [  1:  1](RO/H) Data set ready. */
+        uint32_t cts                   : 1;  /**< [  0:  0](RO/H) Clear to send. Complement of the UART#_CTS_L modem status input pin. */
+#else /* Word 0 - Little Endian */
+        uint32_t cts                   : 1;  /**< [  0:  0](RO/H) Clear to send. Complement of the UART#_CTS_L modem status input pin. */
+        uint32_t dsr                   : 1;  /**< [  1:  1](RO/H) Data set ready. */
+        uint32_t dcd                   : 1;  /**< [  2:  2](RO/H) Data carrier detect. */
+        uint32_t busy                  : 1;  /**< [  3:  3](RO/H) UART busy transmitting data. */
+        uint32_t rxfe                  : 1;  /**< [  4:  4](RO/H) Receive FIFO empty. */
+        uint32_t txff                  : 1;  /**< [  5:  5](RO/H) Transmit FIFO full. */
+        uint32_t rxff                  : 1;  /**< [  6:  6](RO/H) Receive FIFO full. */
+        uint32_t txfe                  : 1;  /**< [  7:  7](RO/H) Transmit FIFO empty. */
+        uint32_t ri                    : 1;  /**< [  8:  8](RO/H) Complement of Ring indicator. not supported. */
+        uint32_t reserved_9_31         : 23;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_uaax_fr_s cn; */
+} bdk_uaax_fr_t;
+
+static inline uint64_t BDK_UAAX_FR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_FR(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e024000018ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_FR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_UAAX_FR(a) bdk_uaax_fr_t
+#define bustype_BDK_UAAX_FR(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_FR(a) "UAAX_FR"
+#define busnum_BDK_UAAX_FR(a) (a)
+#define arguments_BDK_UAAX_FR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) uaa#_ibrd
+ *
+ * UART Integer Baud Rate Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_uaax_ibrd_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_16_31        : 16;
+        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..1)_FBRD. */
+#else /* Word 0 - Little Endian */
+        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..1)_FBRD. */
+        uint32_t reserved_16_31        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_uaax_ibrd_s cn; */
+} bdk_uaax_ibrd_t;
+
+static inline uint64_t BDK_UAAX_IBRD(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_IBRD(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e024000024ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_IBRD", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_UAAX_IBRD(a) bdk_uaax_ibrd_t
+#define bustype_BDK_UAAX_IBRD(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_IBRD(a) "UAAX_IBRD"
+#define busnum_BDK_UAAX_IBRD(a) (a)
+#define arguments_BDK_UAAX_IBRD(a) (a),-1,-1,-1
 
 /**
  * Register (RSL32b) uaa#_icr
@@ -359,83 +551,65 @@ static inline uint64_t BDK_UAAX_ICR(unsigned long a)
 #define arguments_BDK_UAAX_ICR(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) uaa#_fbrd
+ * Register (RSL32b) uaa#_ifls
  *
- * UART Fractional Baud Rate Register
+ * UART Interrupt FIFO Level Select Register
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_uaax_fbrd_s
+    struct bdk_uaax_ifls_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_6_31         : 26;
-        uint32_t baud_divfrac          : 6;  /**< [  5:  0](R/W) Fractional part of baud rate divisor. The output baud rate is equal to the coprocessor-
-                                                                 clock frequency divided by sixteen times the value of the baud-rate divisor, as follows:
-                                                                 baud rate = coprocessor-clock frequency / (16 * divisor).
-                                                                 Note that once both divisor-latch registers are set, at least eight coprocessor-clock
-                                                                 cycles should be allowed to pass before transmitting or receiving data. */
+        uint32_t rxiflsel              : 3;  /**< [  5:  3](R/W) Receive interrupt FIFO level select.
+                                                                 0x0 = Receive FIFO becomes >= 1/8 full.
+                                                                 0x1 = Receive FIFO becomes >= 1/4 full.
+                                                                 0x2 = Receive FIFO becomes >= 1/2 full.
+                                                                 0x3 = Receive FIFO becomes >= 3/4 full.
+                                                                 0x4 = Receive FIFO becomes >= 7/8 full.
+                                                                 0x5-0x7 = Reserved. */
+        uint32_t txiflsel              : 3;  /**< [  2:  0](R/W) Transmit interrupt FIFO level select.
+                                                                 0x0 = Transmit FIFO becomes <= 1/8 full.
+                                                                 0x1 = Transmit FIFO becomes <= 1/4 full.
+                                                                 0x2 = Transmit FIFO becomes <= 1/2 full.
+                                                                 0x3 = Transmit FIFO becomes <= 3/4 full.
+                                                                 0x4 = Transmit FIFO becomes <= 7/8 full.
+                                                                 0x5-0x7 = Reserved. */
 #else /* Word 0 - Little Endian */
-        uint32_t baud_divfrac          : 6;  /**< [  5:  0](R/W) Fractional part of baud rate divisor. The output baud rate is equal to the coprocessor-
-                                                                 clock frequency divided by sixteen times the value of the baud-rate divisor, as follows:
-                                                                 baud rate = coprocessor-clock frequency / (16 * divisor).
-                                                                 Note that once both divisor-latch registers are set, at least eight coprocessor-clock
-                                                                 cycles should be allowed to pass before transmitting or receiving data. */
+        uint32_t txiflsel              : 3;  /**< [  2:  0](R/W) Transmit interrupt FIFO level select.
+                                                                 0x0 = Transmit FIFO becomes <= 1/8 full.
+                                                                 0x1 = Transmit FIFO becomes <= 1/4 full.
+                                                                 0x2 = Transmit FIFO becomes <= 1/2 full.
+                                                                 0x3 = Transmit FIFO becomes <= 3/4 full.
+                                                                 0x4 = Transmit FIFO becomes <= 7/8 full.
+                                                                 0x5-0x7 = Reserved. */
+        uint32_t rxiflsel              : 3;  /**< [  5:  3](R/W) Receive interrupt FIFO level select.
+                                                                 0x0 = Receive FIFO becomes >= 1/8 full.
+                                                                 0x1 = Receive FIFO becomes >= 1/4 full.
+                                                                 0x2 = Receive FIFO becomes >= 1/2 full.
+                                                                 0x3 = Receive FIFO becomes >= 3/4 full.
+                                                                 0x4 = Receive FIFO becomes >= 7/8 full.
+                                                                 0x5-0x7 = Reserved. */
         uint32_t reserved_6_31         : 26;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_uaax_fbrd_s cn; */
-} bdk_uaax_fbrd_t;
+    /* struct bdk_uaax_ifls_s cn; */
+} bdk_uaax_ifls_t;
 
-static inline uint64_t BDK_UAAX_FBRD(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_FBRD(unsigned long a)
+static inline uint64_t BDK_UAAX_IFLS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_IFLS(unsigned long a)
 {
     if (a<=1)
-        return 0x87e024000028ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_FBRD", 1, a, 0, 0, 0);
+        return 0x87e024000034ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_IFLS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_UAAX_FBRD(a) bdk_uaax_fbrd_t
-#define bustype_BDK_UAAX_FBRD(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_FBRD(a) "UAAX_FBRD"
-#define busnum_BDK_UAAX_FBRD(a) (a)
-#define arguments_BDK_UAAX_FBRD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) uaa#_msix_pba#
- *
- * UART MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table, the bit number is indexed by the UAA_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_uaax_msix_pbax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for each interrupt, enumerated by UAA_INT_VEC_E. Bits that have no
-                                                                 associated UAA_INT_VEC_E are zero. */
-#else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for each interrupt, enumerated by UAA_INT_VEC_E. Bits that have no
-                                                                 associated UAA_INT_VEC_E are zero. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_uaax_msix_pbax_s cn; */
-} bdk_uaax_msix_pbax_t;
-
-static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long a, unsigned long b)
-{
-    if ((a<=1) && (b==0))
-        return 0x87e024ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
-    __bdk_csr_fatal("UAAX_MSIX_PBAX", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_UAAX_MSIX_PBAX(a,b) bdk_uaax_msix_pbax_t
-#define bustype_BDK_UAAX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_UAAX_MSIX_PBAX(a,b) "UAAX_MSIX_PBAX"
-#define busnum_BDK_UAAX_MSIX_PBAX(a,b) (a)
-#define arguments_BDK_UAAX_MSIX_PBAX(a,b) (a),(b),-1,-1
+#define typedef_BDK_UAAX_IFLS(a) bdk_uaax_ifls_t
+#define bustype_BDK_UAAX_IFLS(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_IFLS(a) "UAAX_IFLS"
+#define busnum_BDK_UAAX_IFLS(a) (a)
+#define arguments_BDK_UAAX_IFLS(a) (a),-1,-1,-1
 
 /**
  * Register (RSL32b) uaa#_imsc
@@ -491,6 +665,255 @@ static inline uint64_t BDK_UAAX_IMSC(unsigned long a)
 #define basename_BDK_UAAX_IMSC(a) "UAAX_IMSC"
 #define busnum_BDK_UAAX_IMSC(a) (a)
 #define arguments_BDK_UAAX_IMSC(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) uaa#_lcr_h
+ *
+ * UART Line Control Register
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_uaax_lcr_h_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_8_31         : 24;
+        uint32_t sps                   : 1;  /**< [  7:  7](R/W) Stick parity select. If set, and PEN is set, forces the parity bit to the opposite of EPS. */
+        uint32_t wlen                  : 2;  /**< [  6:  5](R/W) Word length:
+                                                                 0x0 = 5 bits.
+                                                                 0x1 = 6 bits.
+                                                                 0x2 = 7 bits.
+                                                                 0x3 = 8 bits. */
+        uint32_t fen                   : 1;  /**< [  4:  4](R/W) Enable FIFOs.
+                                                                 0 = FIFOs disabled, FIFOs are single character deep.
+                                                                 1 = FIFO enabled. */
+        uint32_t stp2                  : 1;  /**< [  3:  3](R/W) Two stop bits select. */
+        uint32_t eps                   : 1;  /**< [  2:  2](R/W) Even parity select. */
+        uint32_t pen                   : 1;  /**< [  1:  1](R/W) Parity enable. */
+        uint32_t brk                   : 1;  /**< [  0:  0](R/W) Send break. A low level is continually transmitted after completion of the current character. */
+#else /* Word 0 - Little Endian */
+        uint32_t brk                   : 1;  /**< [  0:  0](R/W) Send break. A low level is continually transmitted after completion of the current character. */
+        uint32_t pen                   : 1;  /**< [  1:  1](R/W) Parity enable. */
+        uint32_t eps                   : 1;  /**< [  2:  2](R/W) Even parity select. */
+        uint32_t stp2                  : 1;  /**< [  3:  3](R/W) Two stop bits select. */
+        uint32_t fen                   : 1;  /**< [  4:  4](R/W) Enable FIFOs.
+                                                                 0 = FIFOs disabled, FIFOs are single character deep.
+                                                                 1 = FIFO enabled. */
+        uint32_t wlen                  : 2;  /**< [  6:  5](R/W) Word length:
+                                                                 0x0 = 5 bits.
+                                                                 0x1 = 6 bits.
+                                                                 0x2 = 7 bits.
+                                                                 0x3 = 8 bits. */
+        uint32_t sps                   : 1;  /**< [  7:  7](R/W) Stick parity select. If set, and PEN is set, forces the parity bit to the opposite of EPS. */
+        uint32_t reserved_8_31         : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_uaax_lcr_h_s cn; */
+} bdk_uaax_lcr_h_t;
+
+static inline uint64_t BDK_UAAX_LCR_H(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_LCR_H(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e02400002cll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_LCR_H", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_UAAX_LCR_H(a) bdk_uaax_lcr_h_t
+#define bustype_BDK_UAAX_LCR_H(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_LCR_H(a) "UAAX_LCR_H"
+#define busnum_BDK_UAAX_LCR_H(a) (a)
+#define arguments_BDK_UAAX_LCR_H(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL32b) uaa#_mis
+ *
+ * UART Masked Interrupt Status Register
+ * Indicates state of interrupts after masking.
+ * INTERNAL: Note this register was not present in SBSA 2.3, but is referenced
+ * by the Linux driver, so has been defined here.
+ */
+typedef union
+{
+    uint32_t u;
+    struct bdk_uaax_mis_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_11_31        : 21;
+        uint32_t oemis                 : 1;  /**< [ 10: 10](RO/H) Overrun-error interrupt status. */
+        uint32_t bemis                 : 1;  /**< [  9:  9](RO/H) Break-error interrupt status. */
+        uint32_t pemis                 : 1;  /**< [  8:  8](RO/H) Parity-error interrupt status. */
+        uint32_t femis                 : 1;  /**< [  7:  7](RO/H) Framing-error interrupt status. */
+        uint32_t rtmis                 : 1;  /**< [  6:  6](RO/H) Receive-timeout interrupt status. */
+        uint32_t txmis                 : 1;  /**< [  5:  5](RO/H) Transmit-interrupt status. */
+        uint32_t rxmis                 : 1;  /**< [  4:  4](RO/H) Receive-interrupt status. */
+        uint32_t dsrmmis               : 1;  /**< [  3:  3](RO/H) DSR modem interrupt status. */
+        uint32_t dcdmmis               : 1;  /**< [  2:  2](RO/H) DCD modem interrupt status. */
+        uint32_t ctsmmis               : 1;  /**< [  1:  1](RO/H) CTS modem interrupt status. */
+        uint32_t rimmis                : 1;  /**< [  0:  0](RO/H) Ring-indicator interrupt status. Not implemented. */
+#else /* Word 0 - Little Endian */
+        uint32_t rimmis                : 1;  /**< [  0:  0](RO/H) Ring-indicator interrupt status. Not implemented. */
+        uint32_t ctsmmis               : 1;  /**< [  1:  1](RO/H) CTS modem interrupt status. */
+        uint32_t dcdmmis               : 1;  /**< [  2:  2](RO/H) DCD modem interrupt status. */
+        uint32_t dsrmmis               : 1;  /**< [  3:  3](RO/H) DSR modem interrupt status. */
+        uint32_t rxmis                 : 1;  /**< [  4:  4](RO/H) Receive-interrupt status. */
+        uint32_t txmis                 : 1;  /**< [  5:  5](RO/H) Transmit-interrupt status. */
+        uint32_t rtmis                 : 1;  /**< [  6:  6](RO/H) Receive-timeout interrupt status. */
+        uint32_t femis                 : 1;  /**< [  7:  7](RO/H) Framing-error interrupt status. */
+        uint32_t pemis                 : 1;  /**< [  8:  8](RO/H) Parity-error interrupt status. */
+        uint32_t bemis                 : 1;  /**< [  9:  9](RO/H) Break-error interrupt status. */
+        uint32_t oemis                 : 1;  /**< [ 10: 10](RO/H) Overrun-error interrupt status. */
+        uint32_t reserved_11_31        : 21;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_uaax_mis_s cn; */
+} bdk_uaax_mis_t;
+
+static inline uint64_t BDK_UAAX_MIS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_MIS(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e024000040ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_MIS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_UAAX_MIS(a) bdk_uaax_mis_t
+#define bustype_BDK_UAAX_MIS(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_MIS(a) "UAAX_MIS"
+#define busnum_BDK_UAAX_MIS(a) (a)
+#define arguments_BDK_UAAX_MIS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) uaa#_msix_pba#
+ *
+ * UART MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table, the bit number is indexed by the UAA_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_uaax_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for each interrupt, enumerated by UAA_INT_VEC_E. Bits that have no
+                                                                 associated UAA_INT_VEC_E are zero. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for each interrupt, enumerated by UAA_INT_VEC_E. Bits that have no
+                                                                 associated UAA_INT_VEC_E are zero. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_uaax_msix_pbax_s cn; */
+} bdk_uaax_msix_pbax_t;
+
+static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_MSIX_PBAX(unsigned long a, unsigned long b)
+{
+    if ((a<=1) && (b==0))
+        return 0x87e024ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("UAAX_MSIX_PBAX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_UAAX_MSIX_PBAX(a,b) bdk_uaax_msix_pbax_t
+#define bustype_BDK_UAAX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_UAAX_MSIX_PBAX(a,b) "UAAX_MSIX_PBAX"
+#define busnum_BDK_UAAX_MSIX_PBAX(a,b) (a)
+#define arguments_BDK_UAAX_MSIX_PBAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) uaa#_msix_vec#_addr
+ *
+ * UART MSI-X Vector Table Address Registers
+ * This register is the MSI-X vector table, indexed by the UAA_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_uaax_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's UAA()_MSIX_VEC()_ADDR, UAA()_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_UAA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
+                                                                 was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's UAA()_MSIX_VEC()_ADDR, UAA()_MSIX_VEC()_CTL, and
+                                                                 corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_UAA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
+                                                                 was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_uaax_msix_vecx_addr_s cn; */
+} bdk_uaax_msix_vecx_addr_t;
+
+static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x87e024f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("UAAX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_UAAX_MSIX_VECX_ADDR(a,b) bdk_uaax_msix_vecx_addr_t
+#define bustype_BDK_UAAX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_UAAX_MSIX_VECX_ADDR(a,b) "UAAX_MSIX_VECX_ADDR"
+#define busnum_BDK_UAAX_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_BDK_UAAX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) uaa#_msix_vec#_ctl
+ *
+ * UART MSI-X Vector Table Control and Data Registers
+ * This register is the MSI-X vector table, indexed by the UAA_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_uaax_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts will be sent to this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts will be sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_uaax_msix_vecx_ctl_s cn; */
+} bdk_uaax_msix_vecx_ctl_t;
+
+static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
+{
+    if ((a<=1) && (b<=1))
+        return 0x87e024f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("UAAX_MSIX_VECX_CTL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_UAAX_MSIX_VECX_CTL(a,b) bdk_uaax_msix_vecx_ctl_t
+#define bustype_BDK_UAAX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_UAAX_MSIX_VECX_CTL(a,b) "UAAX_MSIX_VECX_CTL"
+#define busnum_BDK_UAAX_MSIX_VECX_CTL(a,b) (a)
+#define arguments_BDK_UAAX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
  * Register (RSL32b) uaa#_pidr0
@@ -711,39 +1134,6 @@ static inline uint64_t BDK_UAAX_PIDR5(unsigned long a)
 #define arguments_BDK_UAAX_PIDR5(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) uaa#_pidr7
- *
- * UART Peripheral Identification Register 7
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_uaax_pidr7_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0_31         : 32;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_uaax_pidr7_s cn; */
-} bdk_uaax_pidr7_t;
-
-static inline uint64_t BDK_UAAX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_PIDR7(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e024000fdcll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_PIDR7", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_UAAX_PIDR7(a) bdk_uaax_pidr7_t
-#define bustype_BDK_UAAX_PIDR7(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_PIDR7(a) "UAAX_PIDR7"
-#define busnum_BDK_UAAX_PIDR7(a) (a)
-#define arguments_BDK_UAAX_PIDR7(a) (a),-1,-1,-1
-
-/**
  * Register (RSL32b) uaa#_pidr6
  *
  * UART Peripheral Identification Register 6
@@ -777,140 +1167,37 @@ static inline uint64_t BDK_UAAX_PIDR6(unsigned long a)
 #define arguments_BDK_UAAX_PIDR6(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) uaa#_rsr_ecr
+ * Register (RSL32b) uaa#_pidr7
  *
- * UART Receive Status Register/Error Clear Register
+ * UART Peripheral Identification Register 7
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_uaax_rsr_ecr_s
+    struct bdk_uaax_pidr7_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_4_31         : 28;
-        uint32_t oe                    : 1;  /**< [  3:  3](R/W1/H) Overrun error. Write of any value clears. */
-        uint32_t be                    : 1;  /**< [  2:  2](R/W1/H) Break error. Associated with the character at the top of the FIFO; only one 0 character is
-                                                                 loaded. The next character is only enabled after the receive data goes to 1. Write of any
-                                                                 value clears. */
-        uint32_t pe                    : 1;  /**< [  1:  1](R/W1/H) Parity error. Associated with character at top of the FIFO. Write of any value clears. */
-        uint32_t fe                    : 1;  /**< [  0:  0](R/W1/H) Framing error. Associated with character at top of the FIFO. Write of any value clears. */
+        uint32_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
-        uint32_t fe                    : 1;  /**< [  0:  0](R/W1/H) Framing error. Associated with character at top of the FIFO. Write of any value clears. */
-        uint32_t pe                    : 1;  /**< [  1:  1](R/W1/H) Parity error. Associated with character at top of the FIFO. Write of any value clears. */
-        uint32_t be                    : 1;  /**< [  2:  2](R/W1/H) Break error. Associated with the character at the top of the FIFO; only one 0 character is
-                                                                 loaded. The next character is only enabled after the receive data goes to 1. Write of any
-                                                                 value clears. */
-        uint32_t oe                    : 1;  /**< [  3:  3](R/W1/H) Overrun error. Write of any value clears. */
-        uint32_t reserved_4_31         : 28;
+        uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_uaax_rsr_ecr_s cn; */
-} bdk_uaax_rsr_ecr_t;
+    /* struct bdk_uaax_pidr7_s cn; */
+} bdk_uaax_pidr7_t;
 
-static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long a)
+static inline uint64_t BDK_UAAX_PIDR7(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_PIDR7(unsigned long a)
 {
     if (a<=1)
-        return 0x87e024000004ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_RSR_ECR", 1, a, 0, 0, 0);
+        return 0x87e024000fdcll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_PIDR7", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_UAAX_RSR_ECR(a) bdk_uaax_rsr_ecr_t
-#define bustype_BDK_UAAX_RSR_ECR(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_RSR_ECR(a) "UAAX_RSR_ECR"
-#define busnum_BDK_UAAX_RSR_ECR(a) (a)
-#define arguments_BDK_UAAX_RSR_ECR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) uaa#_ibrd
- *
- * UART Integer Baud Rate Register
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_uaax_ibrd_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..1)_FBRD. */
-#else /* Word 0 - Little Endian */
-        uint32_t baud_divint           : 16; /**< [ 15:  0](R/W) Integer part of baud-rate divisor. See UAA(0..1)_FBRD. */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_uaax_ibrd_s cn; */
-} bdk_uaax_ibrd_t;
-
-static inline uint64_t BDK_UAAX_IBRD(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_IBRD(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e024000024ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_IBRD", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_UAAX_IBRD(a) bdk_uaax_ibrd_t
-#define bustype_BDK_UAAX_IBRD(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_IBRD(a) "UAAX_IBRD"
-#define busnum_BDK_UAAX_IBRD(a) (a)
-#define arguments_BDK_UAAX_IBRD(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) uaa#_msix_vec#_addr
- *
- * UART MSI-X Vector Table Address Registers
- * This register is the MSI-X vector table, indexed by the UAA_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_uaax_msix_vecx_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's UAA()_MSIX_VEC()_ADDR, UAA()_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_UAA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
-                                                                 was set. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's UAA()_MSIX_VEC()_ADDR, UAA()_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of UAA()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_UAA(0..1)_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
-                                                                 was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_uaax_msix_vecx_addr_s cn; */
-} bdk_uaax_msix_vecx_addr_t;
-
-static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
-{
-    if ((a<=1) && (b<=1))
-        return 0x87e024f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
-    __bdk_csr_fatal("UAAX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_UAAX_MSIX_VECX_ADDR(a,b) bdk_uaax_msix_vecx_addr_t
-#define bustype_BDK_UAAX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_UAAX_MSIX_VECX_ADDR(a,b) "UAAX_MSIX_VECX_ADDR"
-#define busnum_BDK_UAAX_MSIX_VECX_ADDR(a,b) (a)
-#define arguments_BDK_UAAX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+#define typedef_BDK_UAAX_PIDR7(a) bdk_uaax_pidr7_t
+#define bustype_BDK_UAAX_PIDR7(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_PIDR7(a) "UAAX_PIDR7"
+#define busnum_BDK_UAAX_PIDR7(a) (a)
+#define arguments_BDK_UAAX_PIDR7(a) (a),-1,-1,-1
 
 /**
  * Register (RSL32b) uaa#_ris
@@ -969,201 +1256,49 @@ static inline uint64_t BDK_UAAX_RIS(unsigned long a)
 #define arguments_BDK_UAAX_RIS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL32b) uaa#_fr
+ * Register (RSL32b) uaa#_rsr_ecr
  *
- * UART Flag Register
+ * UART Receive Status Register/Error Clear Register
  */
 typedef union
 {
     uint32_t u;
-    struct bdk_uaax_fr_s
+    struct bdk_uaax_rsr_ecr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_9_31         : 23;
-        uint32_t ri                    : 1;  /**< [  8:  8](RO/H) Complement of Ring indicator. not supported. */
-        uint32_t txfe                  : 1;  /**< [  7:  7](RO/H) Transmit FIFO empty. */
-        uint32_t rxff                  : 1;  /**< [  6:  6](RO/H) Receive FIFO full. */
-        uint32_t txff                  : 1;  /**< [  5:  5](RO/H) Transmit FIFO full. */
-        uint32_t rxfe                  : 1;  /**< [  4:  4](RO/H) Receive FIFO empty. */
-        uint32_t busy                  : 1;  /**< [  3:  3](RO/H) UART busy transmitting data. */
-        uint32_t dcd                   : 1;  /**< [  2:  2](RO/H) Data carrier detect. */
-        uint32_t dsr                   : 1;  /**< [  1:  1](RO/H) Data set ready. */
-        uint32_t cts                   : 1;  /**< [  0:  0](RO/H) Clear to send. Complement of the UART#_CTS_L modem status input pin. */
+        uint32_t reserved_4_31         : 28;
+        uint32_t oe                    : 1;  /**< [  3:  3](R/W1/H) Overrun error. Write of any value clears. */
+        uint32_t be                    : 1;  /**< [  2:  2](R/W1/H) Break error. Associated with the character at the top of the FIFO; only one 0 character is
+                                                                 loaded. The next character is only enabled after the receive data goes to 1. Write of any
+                                                                 value clears. */
+        uint32_t pe                    : 1;  /**< [  1:  1](R/W1/H) Parity error. Associated with character at top of the FIFO. Write of any value clears. */
+        uint32_t fe                    : 1;  /**< [  0:  0](R/W1/H) Framing error. Associated with character at top of the FIFO. Write of any value clears. */
 #else /* Word 0 - Little Endian */
-        uint32_t cts                   : 1;  /**< [  0:  0](RO/H) Clear to send. Complement of the UART#_CTS_L modem status input pin. */
-        uint32_t dsr                   : 1;  /**< [  1:  1](RO/H) Data set ready. */
-        uint32_t dcd                   : 1;  /**< [  2:  2](RO/H) Data carrier detect. */
-        uint32_t busy                  : 1;  /**< [  3:  3](RO/H) UART busy transmitting data. */
-        uint32_t rxfe                  : 1;  /**< [  4:  4](RO/H) Receive FIFO empty. */
-        uint32_t txff                  : 1;  /**< [  5:  5](RO/H) Transmit FIFO full. */
-        uint32_t rxff                  : 1;  /**< [  6:  6](RO/H) Receive FIFO full. */
-        uint32_t txfe                  : 1;  /**< [  7:  7](RO/H) Transmit FIFO empty. */
-        uint32_t ri                    : 1;  /**< [  8:  8](RO/H) Complement of Ring indicator. not supported. */
-        uint32_t reserved_9_31         : 23;
+        uint32_t fe                    : 1;  /**< [  0:  0](R/W1/H) Framing error. Associated with character at top of the FIFO. Write of any value clears. */
+        uint32_t pe                    : 1;  /**< [  1:  1](R/W1/H) Parity error. Associated with character at top of the FIFO. Write of any value clears. */
+        uint32_t be                    : 1;  /**< [  2:  2](R/W1/H) Break error. Associated with the character at the top of the FIFO; only one 0 character is
+                                                                 loaded. The next character is only enabled after the receive data goes to 1. Write of any
+                                                                 value clears. */
+        uint32_t oe                    : 1;  /**< [  3:  3](R/W1/H) Overrun error. Write of any value clears. */
+        uint32_t reserved_4_31         : 28;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_uaax_fr_s cn; */
-} bdk_uaax_fr_t;
+    /* struct bdk_uaax_rsr_ecr_s cn; */
+} bdk_uaax_rsr_ecr_t;
 
-static inline uint64_t BDK_UAAX_FR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_FR(unsigned long a)
+static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_RSR_ECR(unsigned long a)
 {
     if (a<=1)
-        return 0x87e024000018ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_FR", 1, a, 0, 0, 0);
+        return 0x87e024000004ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_RSR_ECR", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_UAAX_FR(a) bdk_uaax_fr_t
-#define bustype_BDK_UAAX_FR(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_FR(a) "UAAX_FR"
-#define busnum_BDK_UAAX_FR(a) (a)
-#define arguments_BDK_UAAX_FR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) uaa#_msix_vec#_ctl
- *
- * UART MSI-X Vector Table Control and Data Registers
- * This register is the MSI-X vector table, indexed by the UAA_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_uaax_msix_vecx_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts will be sent to this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts will be sent to this vector. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_uaax_msix_vecx_ctl_s cn; */
-} bdk_uaax_msix_vecx_ctl_t;
-
-static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
-{
-    if ((a<=1) && (b<=1))
-        return 0x87e024f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x1);
-    __bdk_csr_fatal("UAAX_MSIX_VECX_CTL", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_UAAX_MSIX_VECX_CTL(a,b) bdk_uaax_msix_vecx_ctl_t
-#define bustype_BDK_UAAX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_UAAX_MSIX_VECX_CTL(a,b) "UAAX_MSIX_VECX_CTL"
-#define busnum_BDK_UAAX_MSIX_VECX_CTL(a,b) (a)
-#define arguments_BDK_UAAX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL32b) uaa#_dr
- *
- * UART Data Register
- * Writing to this register pushes data to the FIFO for transmission. Reading it retrieves
- * received data from the receive FIFO.
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_uaax_dr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_12_31        : 20;
-        uint32_t oe                    : 1;  /**< [ 11: 11](RO/H) Overrun error. Set if data is received and FIFO was full. Cleared once a new character is
-                                                                 written to the FIFO. */
-        uint32_t be                    : 1;  /**< [ 10: 10](RO/H) Break error. Indicates received data input was held low for longer than a full-transmission time. */
-        uint32_t pe                    : 1;  /**< [  9:  9](RO/H) Parity error. Indicates the parity did not match that expected. */
-        uint32_t fe                    : 1;  /**< [  8:  8](RO/H) Framing error. Indicates that the received character did not have a stop bit. */
-        uint32_t data                  : 8;  /**< [  7:  0](R/W/H) On write operations, data to transmit. On read operations, received data. */
-#else /* Word 0 - Little Endian */
-        uint32_t data                  : 8;  /**< [  7:  0](R/W/H) On write operations, data to transmit. On read operations, received data. */
-        uint32_t fe                    : 1;  /**< [  8:  8](RO/H) Framing error. Indicates that the received character did not have a stop bit. */
-        uint32_t pe                    : 1;  /**< [  9:  9](RO/H) Parity error. Indicates the parity did not match that expected. */
-        uint32_t be                    : 1;  /**< [ 10: 10](RO/H) Break error. Indicates received data input was held low for longer than a full-transmission time. */
-        uint32_t oe                    : 1;  /**< [ 11: 11](RO/H) Overrun error. Set if data is received and FIFO was full. Cleared once a new character is
-                                                                 written to the FIFO. */
-        uint32_t reserved_12_31        : 20;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_uaax_dr_s cn; */
-} bdk_uaax_dr_t;
-
-static inline uint64_t BDK_UAAX_DR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_DR(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e024000000ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_DR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_UAAX_DR(a) bdk_uaax_dr_t
-#define bustype_BDK_UAAX_DR(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_DR(a) "UAAX_DR"
-#define busnum_BDK_UAAX_DR(a) (a)
-#define arguments_BDK_UAAX_DR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) uaa#_lcr_h
- *
- * UART Line Control Register
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_uaax_lcr_h_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_8_31         : 24;
-        uint32_t sps                   : 1;  /**< [  7:  7](R/W) Stick parity select. If set, and PEN is set, forces the parity bit to the opposite of EPS. */
-        uint32_t wlen                  : 2;  /**< [  6:  5](R/W) Word length:
-                                                                 0x0 = 5 bits.
-                                                                 0x1 = 6 bits.
-                                                                 0x2 = 7 bits.
-                                                                 0x3 = 8 bits. */
-        uint32_t fen                   : 1;  /**< [  4:  4](R/W) Enable FIFOs.
-                                                                 0 = FIFOs disabled, FIFOs are single character deep.
-                                                                 1 = FIFO enabled. */
-        uint32_t stp2                  : 1;  /**< [  3:  3](R/W) Two stop bits select. */
-        uint32_t eps                   : 1;  /**< [  2:  2](R/W) Even parity select. */
-        uint32_t pen                   : 1;  /**< [  1:  1](R/W) Parity enable. */
-        uint32_t brk                   : 1;  /**< [  0:  0](R/W) Send break. A low level is continually transmitted after completion of the current character. */
-#else /* Word 0 - Little Endian */
-        uint32_t brk                   : 1;  /**< [  0:  0](R/W) Send break. A low level is continually transmitted after completion of the current character. */
-        uint32_t pen                   : 1;  /**< [  1:  1](R/W) Parity enable. */
-        uint32_t eps                   : 1;  /**< [  2:  2](R/W) Even parity select. */
-        uint32_t stp2                  : 1;  /**< [  3:  3](R/W) Two stop bits select. */
-        uint32_t fen                   : 1;  /**< [  4:  4](R/W) Enable FIFOs.
-                                                                 0 = FIFOs disabled, FIFOs are single character deep.
-                                                                 1 = FIFO enabled. */
-        uint32_t wlen                  : 2;  /**< [  6:  5](R/W) Word length:
-                                                                 0x0 = 5 bits.
-                                                                 0x1 = 6 bits.
-                                                                 0x2 = 7 bits.
-                                                                 0x3 = 8 bits. */
-        uint32_t sps                   : 1;  /**< [  7:  7](R/W) Stick parity select. If set, and PEN is set, forces the parity bit to the opposite of EPS. */
-        uint32_t reserved_8_31         : 24;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_uaax_lcr_h_s cn; */
-} bdk_uaax_lcr_h_t;
-
-static inline uint64_t BDK_UAAX_LCR_H(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_LCR_H(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e02400002cll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_LCR_H", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_UAAX_LCR_H(a) bdk_uaax_lcr_h_t
-#define bustype_BDK_UAAX_LCR_H(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_LCR_H(a) "UAAX_LCR_H"
-#define busnum_BDK_UAAX_LCR_H(a) (a)
-#define arguments_BDK_UAAX_LCR_H(a) (a),-1,-1,-1
+#define typedef_BDK_UAAX_RSR_ECR(a) bdk_uaax_rsr_ecr_t
+#define bustype_BDK_UAAX_RSR_ECR(a) BDK_CSR_TYPE_RSL32b
+#define basename_BDK_UAAX_RSR_ECR(a) "UAAX_RSR_ECR"
+#define busnum_BDK_UAAX_RSR_ECR(a) (a)
+#define arguments_BDK_UAAX_RSR_ECR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) uaa#_uctl_ctl
@@ -1287,6 +1422,40 @@ static inline uint64_t BDK_UAAX_UCTL_CTL(unsigned long a)
 #define arguments_BDK_UAAX_UCTL_CTL(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) uaa#_uctl_spare0
+ *
+ * UART UCTL Spare Register 0
+ * This register is a spare register. This register can be reset by NCB reset.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_uaax_uctl_spare0_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Spare. */
+#else /* Word 0 - Little Endian */
+        uint64_t spare                 : 64; /**< [ 63:  0](R/W) Spare. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_uaax_uctl_spare0_s cn; */
+} bdk_uaax_uctl_spare0_t;
+
+static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_UAAX_UCTL_SPARE0(unsigned long a)
+{
+    if (a<=1)
+        return 0x87e024001010ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("UAAX_UCTL_SPARE0", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_UAAX_UCTL_SPARE0(a) bdk_uaax_uctl_spare0_t
+#define bustype_BDK_UAAX_UCTL_SPARE0(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_UAAX_UCTL_SPARE0(a) "UAAX_UCTL_SPARE0"
+#define busnum_BDK_UAAX_UCTL_SPARE0(a) (a)
+#define arguments_BDK_UAAX_UCTL_SPARE0(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) uaa#_uctl_spare1
  *
  * UART UCTL Spare Register 1
@@ -1319,174 +1488,5 @@ static inline uint64_t BDK_UAAX_UCTL_SPARE1(unsigned long a)
 #define basename_BDK_UAAX_UCTL_SPARE1(a) "UAAX_UCTL_SPARE1"
 #define busnum_BDK_UAAX_UCTL_SPARE1(a) (a)
 #define arguments_BDK_UAAX_UCTL_SPARE1(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) uaa#_ifls
- *
- * UART Interrupt FIFO Level Select Register
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_uaax_ifls_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_6_31         : 26;
-        uint32_t rxiflsel              : 3;  /**< [  5:  3](R/W) Receive interrupt FIFO level select.
-                                                                 0x0 = Receive FIFO becomes >= 1/8 full.
-                                                                 0x1 = Receive FIFO becomes >= 1/4 full.
-                                                                 0x2 = Receive FIFO becomes >= 1/2 full.
-                                                                 0x3 = Receive FIFO becomes >= 3/4 full.
-                                                                 0x4 = Receive FIFO becomes >= 7/8 full.
-                                                                 0x5-0x7 = Reserved. */
-        uint32_t txiflsel              : 3;  /**< [  2:  0](R/W) Transmit interrupt FIFO level select.
-                                                                 0x0 = Transmit FIFO becomes <= 1/8 full.
-                                                                 0x1 = Transmit FIFO becomes <= 1/4 full.
-                                                                 0x2 = Transmit FIFO becomes <= 1/2 full.
-                                                                 0x3 = Transmit FIFO becomes <= 3/4 full.
-                                                                 0x4 = Transmit FIFO becomes <= 7/8 full.
-                                                                 0x5-0x7 = Reserved. */
-#else /* Word 0 - Little Endian */
-        uint32_t txiflsel              : 3;  /**< [  2:  0](R/W) Transmit interrupt FIFO level select.
-                                                                 0x0 = Transmit FIFO becomes <= 1/8 full.
-                                                                 0x1 = Transmit FIFO becomes <= 1/4 full.
-                                                                 0x2 = Transmit FIFO becomes <= 1/2 full.
-                                                                 0x3 = Transmit FIFO becomes <= 3/4 full.
-                                                                 0x4 = Transmit FIFO becomes <= 7/8 full.
-                                                                 0x5-0x7 = Reserved. */
-        uint32_t rxiflsel              : 3;  /**< [  5:  3](R/W) Receive interrupt FIFO level select.
-                                                                 0x0 = Receive FIFO becomes >= 1/8 full.
-                                                                 0x1 = Receive FIFO becomes >= 1/4 full.
-                                                                 0x2 = Receive FIFO becomes >= 1/2 full.
-                                                                 0x3 = Receive FIFO becomes >= 3/4 full.
-                                                                 0x4 = Receive FIFO becomes >= 7/8 full.
-                                                                 0x5-0x7 = Reserved. */
-        uint32_t reserved_6_31         : 26;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_uaax_ifls_s cn; */
-} bdk_uaax_ifls_t;
-
-static inline uint64_t BDK_UAAX_IFLS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_IFLS(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e024000034ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_IFLS", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_UAAX_IFLS(a) bdk_uaax_ifls_t
-#define bustype_BDK_UAAX_IFLS(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_IFLS(a) "UAAX_IFLS"
-#define busnum_BDK_UAAX_IFLS(a) (a)
-#define arguments_BDK_UAAX_IFLS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL32b) uaa#_cr
- *
- * UART Control Register
- */
-typedef union
-{
-    uint32_t u;
-    struct bdk_uaax_cr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t ctsen                 : 1;  /**< [ 15: 15](R/W) "CTS hardware flow control enable. If set, data is only transmitted when UART#_CTS_L is
-                                                                 asserted (low)." */
-        uint32_t rtsen                 : 1;  /**< [ 14: 14](R/W) RTS hardware flow control enable. If set, data is only requested when space in the receive FIFO. */
-        uint32_t out2                  : 1;  /**< [ 13: 13](R/W) Unused. */
-        uint32_t out1                  : 1;  /**< [ 12: 12](R/W) Data carrier detect. If set, drive UART#_DCD_L asserted (low). */
-        uint32_t rts                   : 1;  /**< [ 11: 11](R/W) Request to send. If set, assert UART#_RTS_L. */
-        uint32_t dtr                   : 1;  /**< [ 10: 10](R/W) Data terminal ready. If set, assert UART#_DTR_N. */
-        uint32_t rxe                   : 1;  /**< [  9:  9](R/W) Receive enable. If set, receive section is enabled. */
-        uint32_t txe                   : 1;  /**< [  8:  8](R/W) Transmit enable. */
-        uint32_t lbe                   : 1;  /**< [  7:  7](R/W) "Loopback enable. If set the serial output is looped into the serial input as if UART#_SIN
-                                                                 was physically attached to UART#_SOUT." */
-        uint32_t reserved_1_6          : 6;
-        uint32_t uarten                : 1;  /**< [  0:  0](R/W) UART enable.
-                                                                 0 = UART is disabled. If the UART is disabled in the middle of transmission or reception,
-                                                                 it completes the current character.
-                                                                 1 = UART enabled. */
-#else /* Word 0 - Little Endian */
-        uint32_t uarten                : 1;  /**< [  0:  0](R/W) UART enable.
-                                                                 0 = UART is disabled. If the UART is disabled in the middle of transmission or reception,
-                                                                 it completes the current character.
-                                                                 1 = UART enabled. */
-        uint32_t reserved_1_6          : 6;
-        uint32_t lbe                   : 1;  /**< [  7:  7](R/W) "Loopback enable. If set the serial output is looped into the serial input as if UART#_SIN
-                                                                 was physically attached to UART#_SOUT." */
-        uint32_t txe                   : 1;  /**< [  8:  8](R/W) Transmit enable. */
-        uint32_t rxe                   : 1;  /**< [  9:  9](R/W) Receive enable. If set, receive section is enabled. */
-        uint32_t dtr                   : 1;  /**< [ 10: 10](R/W) Data terminal ready. If set, assert UART#_DTR_N. */
-        uint32_t rts                   : 1;  /**< [ 11: 11](R/W) Request to send. If set, assert UART#_RTS_L. */
-        uint32_t out1                  : 1;  /**< [ 12: 12](R/W) Data carrier detect. If set, drive UART#_DCD_L asserted (low). */
-        uint32_t out2                  : 1;  /**< [ 13: 13](R/W) Unused. */
-        uint32_t rtsen                 : 1;  /**< [ 14: 14](R/W) RTS hardware flow control enable. If set, data is only requested when space in the receive FIFO. */
-        uint32_t ctsen                 : 1;  /**< [ 15: 15](R/W) "CTS hardware flow control enable. If set, data is only transmitted when UART#_CTS_L is
-                                                                 asserted (low)." */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } s;
-    struct bdk_uaax_cr_cn
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_16_31        : 16;
-        uint32_t ctsen                 : 1;  /**< [ 15: 15](R/W) "CTS hardware flow control enable. If set, data is only transmitted when UART#_CTS_L is
-                                                                 asserted (low)." */
-        uint32_t rtsen                 : 1;  /**< [ 14: 14](R/W) RTS hardware flow control enable. If set, data is only requested when space in the receive FIFO. */
-        uint32_t out2                  : 1;  /**< [ 13: 13](R/W) Unused. */
-        uint32_t out1                  : 1;  /**< [ 12: 12](R/W) Data carrier detect. If set, drive UART#_DCD_L asserted (low). */
-        uint32_t rts                   : 1;  /**< [ 11: 11](R/W) Request to send. If set, assert UART#_RTS_L. */
-        uint32_t dtr                   : 1;  /**< [ 10: 10](R/W) Data terminal ready. If set, assert UART#_DTR_N. */
-        uint32_t rxe                   : 1;  /**< [  9:  9](R/W) Receive enable. If set, receive section is enabled. */
-        uint32_t txe                   : 1;  /**< [  8:  8](R/W) Transmit enable. */
-        uint32_t lbe                   : 1;  /**< [  7:  7](R/W) "Loopback enable. If set the serial output is looped into the serial input as if UART#_SIN
-                                                                 was physically attached to UART#_SOUT." */
-        uint32_t reserved_3_6          : 4;
-        uint32_t reserved_2            : 1;
-        uint32_t reserved_1            : 1;
-        uint32_t uarten                : 1;  /**< [  0:  0](R/W) UART enable.
-                                                                 0 = UART is disabled. If the UART is disabled in the middle of transmission or reception,
-                                                                 it completes the current character.
-                                                                 1 = UART enabled. */
-#else /* Word 0 - Little Endian */
-        uint32_t uarten                : 1;  /**< [  0:  0](R/W) UART enable.
-                                                                 0 = UART is disabled. If the UART is disabled in the middle of transmission or reception,
-                                                                 it completes the current character.
-                                                                 1 = UART enabled. */
-        uint32_t reserved_1            : 1;
-        uint32_t reserved_2            : 1;
-        uint32_t reserved_3_6          : 4;
-        uint32_t lbe                   : 1;  /**< [  7:  7](R/W) "Loopback enable. If set the serial output is looped into the serial input as if UART#_SIN
-                                                                 was physically attached to UART#_SOUT." */
-        uint32_t txe                   : 1;  /**< [  8:  8](R/W) Transmit enable. */
-        uint32_t rxe                   : 1;  /**< [  9:  9](R/W) Receive enable. If set, receive section is enabled. */
-        uint32_t dtr                   : 1;  /**< [ 10: 10](R/W) Data terminal ready. If set, assert UART#_DTR_N. */
-        uint32_t rts                   : 1;  /**< [ 11: 11](R/W) Request to send. If set, assert UART#_RTS_L. */
-        uint32_t out1                  : 1;  /**< [ 12: 12](R/W) Data carrier detect. If set, drive UART#_DCD_L asserted (low). */
-        uint32_t out2                  : 1;  /**< [ 13: 13](R/W) Unused. */
-        uint32_t rtsen                 : 1;  /**< [ 14: 14](R/W) RTS hardware flow control enable. If set, data is only requested when space in the receive FIFO. */
-        uint32_t ctsen                 : 1;  /**< [ 15: 15](R/W) "CTS hardware flow control enable. If set, data is only transmitted when UART#_CTS_L is
-                                                                 asserted (low)." */
-        uint32_t reserved_16_31        : 16;
-#endif /* Word 0 - End */
-    } cn;
-} bdk_uaax_cr_t;
-
-static inline uint64_t BDK_UAAX_CR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_UAAX_CR(unsigned long a)
-{
-    if (a<=1)
-        return 0x87e024000030ll + 0x1000000ll * ((a) & 0x1);
-    __bdk_csr_fatal("UAAX_CR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_UAAX_CR(a) bdk_uaax_cr_t
-#define bustype_BDK_UAAX_CR(a) BDK_CSR_TYPE_RSL32b
-#define basename_BDK_UAAX_CR(a) "UAAX_CR"
-#define busnum_BDK_UAAX_CR(a) (a)
-#define arguments_BDK_UAAX_CR(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_UAA_H__ */

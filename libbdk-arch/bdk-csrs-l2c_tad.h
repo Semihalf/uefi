@@ -79,569 +79,454 @@
                                        and enable sets L2C_TAD(0..3)_INT_ENA_W1S. */
 
 /**
- * Register (RSL) l2c_tad#_msix_vec#_addr
+ * Register (RSL) l2c_tad#_int_ena_w1c
  *
- * L2C_TAD MSI-X Vector-Table Address Register
- * This register is the MSI-X vector table, indexed by the L2C_TAD_INT_VEC_E enumeration.
+ * Level 2 Cache TAD Interrupt Enable Clear Registers
+ * This register clears interrupt enable bits.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_l2c_tadx_msix_vecx_addr_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's L2C_TAD()_MSIX_VEC()_ADDR, L2C_TAD()_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of L2C_TAD()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_L2C_TAD_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
-                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's L2C_TAD()_MSIX_VEC()_ADDR, L2C_TAD()_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of L2C_TAD()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_L2C_TAD_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
-                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_tadx_msix_vecx_addr_s cn; */
-} bdk_l2c_tadx_msix_vecx_addr_t;
-
-static inline uint64_t BDK_L2C_TADX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
-        return 0x87e050f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b==0)))
-        return 0x87e050f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
-    __bdk_csr_fatal("L2C_TADX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) bdk_l2c_tadx_msix_vecx_addr_t
-#define bustype_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) "L2C_TADX_MSIX_VECX_ADDR"
-#define busnum_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) (a)
-#define arguments_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) l2c_tad#_tqd_err
- *
- * Level 2 Cache TAD Quad Error Information Registers
- * This register records error information for all L2D/SBF/FBF errors.
- * An error locks the L2DIDX, and SYN fields and set the bit corresponding to the error received.
- * DBE errors take priority and overwrite an earlier logged SBE error. Only one of SBE/DBE is set
- * at any given time and serves to document which error the L2DIDX/SYN is associated with.
- * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_tqd_err_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t l2ddbe                : 1;  /**< [ 63: 63](RO/H) L2DIDX/SYN corresponds to a double-bit L2D ECC error. */
-        uint64_t sbfdbe                : 1;  /**< [ 62: 62](RO/H) L2DIDX/SYN corresponds to a double-bit SBF ECC error. */
-        uint64_t fbfdbe                : 1;  /**< [ 61: 61](RO/H) L2DIDX/SYN corresponds to a double-bit FBF ECC error. */
-        uint64_t l2dsbe                : 1;  /**< [ 60: 60](RO/H) L2DIDX/SYN corresponds to a single-bit L2D ECC error. */
-        uint64_t sbfsbe                : 1;  /**< [ 59: 59](RO/H) L2DIDX/SYN corresponds to a single-bit SBF ECC error. */
-        uint64_t fbfsbe                : 1;  /**< [ 58: 58](RO/H) L2DIDX/SYN corresponds to a single-bit FBF ECC error. */
-        uint64_t reserved_40_57        : 18;
-        uint64_t syn                   : 8;  /**< [ 39: 32](RO/H) Error syndrome. */
-        uint64_t reserved_18_31        : 14;
-        uint64_t qdnum                 : 3;  /**< [ 17: 15](RO/H) Quad containing the error. */
-        uint64_t qdhlf                 : 1;  /**< [ 14: 14](RO/H) Quad half of the containing the error. */
-        uint64_t l2didx                : 14; /**< [ 13:  0](RO/H) For L2D errors, index within the quad-half containing the error. For SBF and FBF errors
-                                                                 [13:5] is 0x0 and [4:0] is the index of the error ([4:1] is lfbnum[3:0], [0] is addr[5]). */
-#else /* Word 0 - Little Endian */
-        uint64_t l2didx                : 14; /**< [ 13:  0](RO/H) For L2D errors, index within the quad-half containing the error. For SBF and FBF errors
-                                                                 [13:5] is 0x0 and [4:0] is the index of the error ([4:1] is lfbnum[3:0], [0] is addr[5]). */
-        uint64_t qdhlf                 : 1;  /**< [ 14: 14](RO/H) Quad half of the containing the error. */
-        uint64_t qdnum                 : 3;  /**< [ 17: 15](RO/H) Quad containing the error. */
-        uint64_t reserved_18_31        : 14;
-        uint64_t syn                   : 8;  /**< [ 39: 32](RO/H) Error syndrome. */
-        uint64_t reserved_40_57        : 18;
-        uint64_t fbfsbe                : 1;  /**< [ 58: 58](RO/H) L2DIDX/SYN corresponds to a single-bit FBF ECC error. */
-        uint64_t sbfsbe                : 1;  /**< [ 59: 59](RO/H) L2DIDX/SYN corresponds to a single-bit SBF ECC error. */
-        uint64_t l2dsbe                : 1;  /**< [ 60: 60](RO/H) L2DIDX/SYN corresponds to a single-bit L2D ECC error. */
-        uint64_t fbfdbe                : 1;  /**< [ 61: 61](RO/H) L2DIDX/SYN corresponds to a double-bit FBF ECC error. */
-        uint64_t sbfdbe                : 1;  /**< [ 62: 62](RO/H) L2DIDX/SYN corresponds to a double-bit SBF ECC error. */
-        uint64_t l2ddbe                : 1;  /**< [ 63: 63](RO/H) L2DIDX/SYN corresponds to a double-bit L2D ECC error. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_tadx_tqd_err_s cn; */
-} bdk_l2c_tadx_tqd_err_t;
-
-static inline uint64_t BDK_L2C_TADX_TQD_ERR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_TQD_ERR(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050060100ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050060100ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_TQD_ERR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_TQD_ERR(a) bdk_l2c_tadx_tqd_err_t
-#define bustype_BDK_L2C_TADX_TQD_ERR(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_TQD_ERR(a) "L2C_TADX_TQD_ERR"
-#define busnum_BDK_L2C_TADX_TQD_ERR(a) (a)
-#define arguments_BDK_L2C_TADX_TQD_ERR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_tad#_msix_pba#
- *
- * L2C_TAD MSI-X Pending Bit Array Registers
- * This register is the MSI-X PBA table; the bit number is indexed by the L2C_TAD_INT_VEC_E
- * enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_msix_pbax_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated L2C_TAD()_MSIX_VEC()_CTL, enumerated by
-                                                                 L2C_TAD_INT_VEC_E. Bits
-                                                                 that have no associated L2C_TAD_INT_VEC_E are 0. */
-#else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated L2C_TAD()_MSIX_VEC()_CTL, enumerated by
-                                                                 L2C_TAD_INT_VEC_E. Bits
-                                                                 that have no associated L2C_TAD_INT_VEC_E are 0. */
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_tadx_msix_pbax_s cn; */
-} bdk_l2c_tadx_msix_pbax_t;
-
-static inline uint64_t BDK_L2C_TADX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_MSIX_PBAX(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
-        return 0x87e050ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b==0)))
-        return 0x87e050ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
-    __bdk_csr_fatal("L2C_TADX_MSIX_PBAX", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_MSIX_PBAX(a,b) bdk_l2c_tadx_msix_pbax_t
-#define bustype_BDK_L2C_TADX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_MSIX_PBAX(a,b) "L2C_TADX_MSIX_PBAX"
-#define busnum_BDK_L2C_TADX_MSIX_PBAX(a,b) (a)
-#define arguments_BDK_L2C_TADX_MSIX_PBAX(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) l2c_tad#_msix_vec#_ctl
- *
- * L2C_TAD MSI-X Vector-Table Control and Data Register
- * This register is the MSI-X vector table, indexed by the L2C_TAD_INT_VEC_E enumeration.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_msix_vecx_ctl_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_33_63        : 31;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-#else /* Word 0 - Little Endian */
-        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
-        uint64_t reserved_20_31        : 12;
-        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
-        uint64_t reserved_33_63        : 31;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_tadx_msix_vecx_ctl_s cn; */
-} bdk_l2c_tadx_msix_vecx_ctl_t;
-
-static inline uint64_t BDK_L2C_TADX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
-        return 0x87e050f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b==0)))
-        return 0x87e050f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
-    __bdk_csr_fatal("L2C_TADX_MSIX_VECX_CTL", 2, a, b, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) bdk_l2c_tadx_msix_vecx_ctl_t
-#define bustype_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) "L2C_TADX_MSIX_VECX_CTL"
-#define busnum_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) (a)
-#define arguments_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
-
-/**
- * Register (RSL) l2c_tad#_tdt_bist_status
- *
- * Level 2 Cache TAD Data BIST Status Registers
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_tdt_bist_status_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t l2dfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-#else /* Word 0 - Little Endian */
-        uint64_t l2dfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t reserved_16_63        : 48;
-#endif /* Word 0 - End */
-    } s;
-    /* struct bdk_l2c_tadx_tdt_bist_status_s cn; */
-} bdk_l2c_tadx_tdt_bist_status_t;
-
-static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050070100ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050070100ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_TDT_BIST_STATUS", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_TDT_BIST_STATUS(a) bdk_l2c_tadx_tdt_bist_status_t
-#define bustype_BDK_L2C_TADX_TDT_BIST_STATUS(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_TDT_BIST_STATUS(a) "L2C_TADX_TDT_BIST_STATUS"
-#define busnum_BDK_L2C_TADX_TDT_BIST_STATUS(a) (a)
-#define arguments_BDK_L2C_TADX_TDT_BIST_STATUS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_tad#_ttg_err
- *
- * Level 2 Cache TAD Tag Error Information Registers
- * This register records error information for all TAG SBE/DBE/NOWAY errors.
- * The priority of errors (lowest to highest) is NOWAY, SBE, DBE. An error locks the SYN, WAY,
- * and L2IDX fields for equal or lower priority errors until cleared by software.
- * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
- * A NOWAY error does not change the value of the SYN field, and leaves WAY unpredictable.
- * L2IDX[19:7] is the L2 block index associated with the command which had no way to allocate.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_ttg_err_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
-        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
-        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
-        uint64_t reserved_39_60        : 22;
-        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
-        uint64_t reserved_0_31         : 32;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_31         : 32;
-        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
-        uint64_t reserved_39_60        : 22;
-        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
-        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
-        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
-#endif /* Word 0 - End */
-    } s;
-    struct bdk_l2c_tadx_ttg_err_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
-        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
-        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
-        uint64_t reserved_39_60        : 22;
-        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
-        uint64_t reserved_24_31        : 8;
-        uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error */
-        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error */
-        uint64_t reserved_0_6          : 7;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_6          : 7;
-        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error */
-        uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error */
-        uint64_t reserved_24_31        : 8;
-        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
-        uint64_t reserved_39_60        : 22;
-        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
-        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
-        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
-#endif /* Word 0 - End */
-    } cn88xx;
-    struct bdk_l2c_tadx_ttg_err_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
-        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
-        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
-        uint64_t reserved_39_60        : 22;
-        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
-        uint64_t reserved_23_31        : 9;
-        uint64_t way                   : 4;  /**< [ 22: 19](RO/H) Way of the L2 block containing the error */
-        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error */
-        uint64_t reserved_0_6          : 7;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_6          : 7;
-        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error */
-        uint64_t way                   : 4;  /**< [ 22: 19](RO/H) Way of the L2 block containing the error */
-        uint64_t reserved_23_31        : 9;
-        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
-        uint64_t reserved_39_60        : 22;
-        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
-        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
-        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
-#endif /* Word 0 - End */
-    } cn83xx;
-} bdk_l2c_tadx_ttg_err_t;
-
-static inline uint64_t BDK_L2C_TADX_TTG_ERR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_TTG_ERR(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050060200ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050060200ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_TTG_ERR", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_TTG_ERR(a) bdk_l2c_tadx_ttg_err_t
-#define bustype_BDK_L2C_TADX_TTG_ERR(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_TTG_ERR(a) "L2C_TADX_TTG_ERR"
-#define busnum_BDK_L2C_TADX_TTG_ERR(a) (a)
-#define arguments_BDK_L2C_TADX_TTG_ERR(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_tad#_int_w1s
- *
- * Level 2 Cache TAD Interrupt Set Registers
- * This register sets interrupt bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_int_w1s_s
+    struct bdk_l2c_tadx_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
         uint64_t reserved_18_33        : 16;
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
         uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
         uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
         uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
         uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
         uint64_t reserved_18_33        : 16;
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_l2c_tadx_int_w1s_cn83xx
+    struct bdk_l2c_tadx_int_ena_w1c_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
         uint64_t reserved_19_33        : 15;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
         uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
         uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
         uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
         uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
         uint64_t reserved_19_33        : 15;
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } cn83xx;
-    struct bdk_l2c_tadx_int_w1s_cn88xxp2
+    struct bdk_l2c_tadx_int_ena_w1c_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
         uint64_t reserved_19_31        : 13;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
         uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
         uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
         uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
         uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
         uint64_t reserved_19_31        : 13;
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_l2c_tadx_int_w1s_cn88xxp1
+    struct bdk_l2c_tadx_int_ena_w1c_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
         uint64_t reserved_19_31        : 13;
         uint64_t reserved_18           : 1;
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
         uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
         uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
         uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
         uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
         uint64_t reserved_18           : 1;
         uint64_t reserved_19_31        : 13;
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } cn88xxp1;
-} bdk_l2c_tadx_int_w1s_t;
+} bdk_l2c_tadx_int_ena_w1c_t;
 
-static inline uint64_t BDK_L2C_TADX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_INT_W1S(unsigned long a)
+static inline uint64_t BDK_L2C_TADX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_INT_ENA_W1C(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050040008ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e050040020ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050040008ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_INT_W1S", 1, a, 0, 0, 0);
+        return 0x87e050040020ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_INT_ENA_W1C", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_L2C_TADX_INT_W1S(a) bdk_l2c_tadx_int_w1s_t
-#define bustype_BDK_L2C_TADX_INT_W1S(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_INT_W1S(a) "L2C_TADX_INT_W1S"
-#define busnum_BDK_L2C_TADX_INT_W1S(a) (a)
-#define arguments_BDK_L2C_TADX_INT_W1S(a) (a),-1,-1,-1
+#define typedef_BDK_L2C_TADX_INT_ENA_W1C(a) bdk_l2c_tadx_int_ena_w1c_t
+#define bustype_BDK_L2C_TADX_INT_ENA_W1C(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_INT_ENA_W1C(a) "L2C_TADX_INT_ENA_W1C"
+#define busnum_BDK_L2C_TADX_INT_ENA_W1C(a) (a)
+#define arguments_BDK_L2C_TADX_INT_ENA_W1C(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_int_ena_w1s
+ *
+ * Level 2 Cache TAD Interrupt Enable Set Registers
+ * This register sets interrupt enable bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_int_ena_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t reserved_18_33        : 16;
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t reserved_18_33        : 16;
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_l2c_tadx_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t reserved_19_33        : 15;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t reserved_19_33        : 15;
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_l2c_tadx_int_ena_w1s_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn88xxp2;
+    struct bdk_l2c_tadx_int_ena_w1s_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t reserved_18           : 1;
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t reserved_18           : 1;
+        uint64_t reserved_19_31        : 13;
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+} bdk_l2c_tadx_int_ena_w1s_t;
+
+static inline uint64_t BDK_L2C_TADX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_INT_ENA_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e050040028ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
+        return 0x87e050040028ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_INT_ENA_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_INT_ENA_W1S(a) bdk_l2c_tadx_int_ena_w1s_t
+#define bustype_BDK_L2C_TADX_INT_ENA_W1S(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_INT_ENA_W1S(a) "L2C_TADX_INT_ENA_W1S"
+#define busnum_BDK_L2C_TADX_INT_ENA_W1S(a) (a)
+#define arguments_BDK_L2C_TADX_INT_ENA_W1S(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) l2c_tad#_int_w1c
@@ -1101,6 +986,372 @@ static inline uint64_t BDK_L2C_TADX_INT_W1C(unsigned long a)
 #define arguments_BDK_L2C_TADX_INT_W1C(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) l2c_tad#_int_w1s
+ *
+ * Level 2 Cache TAD Interrupt Set Registers
+ * This register sets interrupt bits.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_int_w1s_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t reserved_18_33        : 16;
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t reserved_18_33        : 16;
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_l2c_tadx_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t reserved_19_33        : 15;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[NOWAY]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[LFBTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t reserved_19_33        : 15;
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_l2c_tadx_int_w1s_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn88xxp2;
+    struct bdk_l2c_tadx_int_w1s_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t reserved_19_31        : 13;
+        uint64_t reserved_18           : 1;
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+#else /* Word 0 - Little Endian */
+        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
+        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
+        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
+        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
+        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
+        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
+        uint64_t reserved_6_7          : 2;
+        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
+        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
+        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[NOWAY]. */
+        uint64_t reserved_11_12        : 2;
+        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRNXM]. */
+        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDNXM]. */
+        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
+        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
+        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[LFBTO]. */
+        uint64_t reserved_18           : 1;
+        uint64_t reserved_19_31        : 13;
+        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
+        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
+        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
+        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+} bdk_l2c_tadx_int_w1s_t;
+
+static inline uint64_t BDK_L2C_TADX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_INT_W1S(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e050040008ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
+        return 0x87e050040008ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_INT_W1S", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_INT_W1S(a) bdk_l2c_tadx_int_w1s_t
+#define bustype_BDK_L2C_TADX_INT_W1S(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_INT_W1S(a) "L2C_TADX_INT_W1S"
+#define busnum_BDK_L2C_TADX_INT_W1S(a) (a)
+#define arguments_BDK_L2C_TADX_INT_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_msix_pba#
+ *
+ * L2C_TAD MSI-X Pending Bit Array Registers
+ * This register is the MSI-X PBA table; the bit number is indexed by the L2C_TAD_INT_VEC_E
+ * enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_msix_pbax_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated L2C_TAD()_MSIX_VEC()_CTL, enumerated by
+                                                                 L2C_TAD_INT_VEC_E. Bits
+                                                                 that have no associated L2C_TAD_INT_VEC_E are 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 64; /**< [ 63:  0](RO) Pending message for the associated L2C_TAD()_MSIX_VEC()_CTL, enumerated by
+                                                                 L2C_TAD_INT_VEC_E. Bits
+                                                                 that have no associated L2C_TAD_INT_VEC_E are 0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_tadx_msix_pbax_s cn; */
+} bdk_l2c_tadx_msix_pbax_t;
+
+static inline uint64_t BDK_L2C_TADX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_MSIX_PBAX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
+        return 0x87e050ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b==0)))
+        return 0x87e050ff0000ll + 0x1000000ll * ((a) & 0x7) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("L2C_TADX_MSIX_PBAX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_MSIX_PBAX(a,b) bdk_l2c_tadx_msix_pbax_t
+#define bustype_BDK_L2C_TADX_MSIX_PBAX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_MSIX_PBAX(a,b) "L2C_TADX_MSIX_PBAX"
+#define busnum_BDK_L2C_TADX_MSIX_PBAX(a,b) (a)
+#define arguments_BDK_L2C_TADX_MSIX_PBAX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_msix_vec#_addr
+ *
+ * L2C_TAD MSI-X Vector-Table Address Register
+ * This register is the MSI-X vector table, indexed by the L2C_TAD_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_msix_vecx_addr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_1            : 1;
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's L2C_TAD()_MSIX_VEC()_ADDR, L2C_TAD()_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of L2C_TAD()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_L2C_TAD_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+#else /* Word 0 - Little Endian */
+        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
+                                                                 0 = This vector may be read or written by either secure or non-secure states.
+                                                                 1 = This vector's L2C_TAD()_MSIX_VEC()_ADDR, L2C_TAD()_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of L2C_TAD()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 by the non-secure world.
+
+                                                                 If PCCPF_L2C_TAD_VSEC_SCTL[MSIX_SEC] (for documentation, see
+                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
+        uint64_t reserved_1            : 1;
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_tadx_msix_vecx_addr_s cn; */
+} bdk_l2c_tadx_msix_vecx_addr_t;
+
+static inline uint64_t BDK_L2C_TADX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
+        return 0x87e050f00000ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b==0)))
+        return 0x87e050f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("L2C_TADX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) bdk_l2c_tadx_msix_vecx_addr_t
+#define bustype_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) "L2C_TADX_MSIX_VECX_ADDR"
+#define busnum_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_BDK_L2C_TADX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_msix_vec#_ctl
+ *
+ * L2C_TAD MSI-X Vector-Table Control and Data Register
+ * This register is the MSI-X vector table, indexed by the L2C_TAD_INT_VEC_E enumeration.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_msix_vecx_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_33_63        : 31;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 20; /**< [ 19:  0](R/W) Data to use for MSI-X delivery of this vector. */
+        uint64_t reserved_20_31        : 12;
+        uint64_t mask                  : 1;  /**< [ 32: 32](R/W) When set, no MSI-X interrupts are sent to this vector. */
+        uint64_t reserved_33_63        : 31;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_tadx_msix_vecx_ctl_s cn; */
+} bdk_l2c_tadx_msix_vecx_ctl_t;
+
+static inline uint64_t BDK_L2C_TADX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
+        return 0x87e050f00008ll + 0x1000000ll * ((a) & 0x3) + 0x10ll * ((b) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b==0)))
+        return 0x87e050f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0x0);
+    __bdk_csr_fatal("L2C_TADX_MSIX_VECX_CTL", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) bdk_l2c_tadx_msix_vecx_ctl_t
+#define bustype_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) "L2C_TADX_MSIX_VECX_CTL"
+#define busnum_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) (a)
+#define arguments_BDK_L2C_TADX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) l2c_tad#_rtg_err
  *
  * Level 2 Cache TAD RTG Error Information Registers
@@ -1152,6 +1403,148 @@ static inline uint64_t BDK_L2C_TADX_RTG_ERR(unsigned long a)
 #define basename_BDK_L2C_TADX_RTG_ERR(a) "L2C_TADX_RTG_ERR"
 #define busnum_BDK_L2C_TADX_RTG_ERR(a) (a)
 #define arguments_BDK_L2C_TADX_RTG_ERR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_tbf_bist_status
+ *
+ * Level 2 Cache TAD Quad Buffer BIST Status Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_tbf_bist_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t vbffl                 : 16; /**< [ 63: 48](RO/H) BIST failure status for VBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t sbffl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for SBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t fbfrspfl              : 16; /**< [ 31: 16](RO/H) BIST failure status for FBF RSP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t fbfwrpfl              : 16; /**< [ 15:  0](RO/H) BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+#else /* Word 0 - Little Endian */
+        uint64_t fbfwrpfl              : 16; /**< [ 15:  0](RO/H) BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t fbfrspfl              : 16; /**< [ 31: 16](RO/H) BIST failure status for FBF RSP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t sbffl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for SBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t vbffl                 : 16; /**< [ 63: 48](RO/H) BIST failure status for VBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_tadx_tbf_bist_status_s cn; */
+} bdk_l2c_tadx_tbf_bist_status_t;
+
+static inline uint64_t BDK_L2C_TADX_TBF_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_TBF_BIST_STATUS(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e050070000ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
+        return 0x87e050070000ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_TBF_BIST_STATUS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_TBF_BIST_STATUS(a) bdk_l2c_tadx_tbf_bist_status_t
+#define bustype_BDK_L2C_TADX_TBF_BIST_STATUS(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_TBF_BIST_STATUS(a) "L2C_TADX_TBF_BIST_STATUS"
+#define busnum_BDK_L2C_TADX_TBF_BIST_STATUS(a) (a)
+#define arguments_BDK_L2C_TADX_TBF_BIST_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_tdt_bist_status
+ *
+ * Level 2 Cache TAD Data BIST Status Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_tdt_bist_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t l2dfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+#else /* Word 0 - Little Endian */
+        uint64_t l2dfl                 : 16; /**< [ 15:  0](RO/H) BIST failure status for L2D ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_tadx_tdt_bist_status_s cn; */
+} bdk_l2c_tadx_tdt_bist_status_t;
+
+static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_TDT_BIST_STATUS(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e050070100ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
+        return 0x87e050070100ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_TDT_BIST_STATUS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_TDT_BIST_STATUS(a) bdk_l2c_tadx_tdt_bist_status_t
+#define bustype_BDK_L2C_TADX_TDT_BIST_STATUS(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_TDT_BIST_STATUS(a) "L2C_TADX_TDT_BIST_STATUS"
+#define busnum_BDK_L2C_TADX_TDT_BIST_STATUS(a) (a)
+#define arguments_BDK_L2C_TADX_TDT_BIST_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) l2c_tad#_tqd_err
+ *
+ * Level 2 Cache TAD Quad Error Information Registers
+ * This register records error information for all L2D/SBF/FBF errors.
+ * An error locks the L2DIDX, and SYN fields and set the bit corresponding to the error received.
+ * DBE errors take priority and overwrite an earlier logged SBE error. Only one of SBE/DBE is set
+ * at any given time and serves to document which error the L2DIDX/SYN is associated with.
+ * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_l2c_tadx_tqd_err_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t l2ddbe                : 1;  /**< [ 63: 63](RO/H) L2DIDX/SYN corresponds to a double-bit L2D ECC error. */
+        uint64_t sbfdbe                : 1;  /**< [ 62: 62](RO/H) L2DIDX/SYN corresponds to a double-bit SBF ECC error. */
+        uint64_t fbfdbe                : 1;  /**< [ 61: 61](RO/H) L2DIDX/SYN corresponds to a double-bit FBF ECC error. */
+        uint64_t l2dsbe                : 1;  /**< [ 60: 60](RO/H) L2DIDX/SYN corresponds to a single-bit L2D ECC error. */
+        uint64_t sbfsbe                : 1;  /**< [ 59: 59](RO/H) L2DIDX/SYN corresponds to a single-bit SBF ECC error. */
+        uint64_t fbfsbe                : 1;  /**< [ 58: 58](RO/H) L2DIDX/SYN corresponds to a single-bit FBF ECC error. */
+        uint64_t reserved_40_57        : 18;
+        uint64_t syn                   : 8;  /**< [ 39: 32](RO/H) Error syndrome. */
+        uint64_t reserved_18_31        : 14;
+        uint64_t qdnum                 : 3;  /**< [ 17: 15](RO/H) Quad containing the error. */
+        uint64_t qdhlf                 : 1;  /**< [ 14: 14](RO/H) Quad half of the containing the error. */
+        uint64_t l2didx                : 14; /**< [ 13:  0](RO/H) For L2D errors, index within the quad-half containing the error. For SBF and FBF errors
+                                                                 [13:5] is 0x0 and [4:0] is the index of the error ([4:1] is lfbnum[3:0], [0] is addr[5]). */
+#else /* Word 0 - Little Endian */
+        uint64_t l2didx                : 14; /**< [ 13:  0](RO/H) For L2D errors, index within the quad-half containing the error. For SBF and FBF errors
+                                                                 [13:5] is 0x0 and [4:0] is the index of the error ([4:1] is lfbnum[3:0], [0] is addr[5]). */
+        uint64_t qdhlf                 : 1;  /**< [ 14: 14](RO/H) Quad half of the containing the error. */
+        uint64_t qdnum                 : 3;  /**< [ 17: 15](RO/H) Quad containing the error. */
+        uint64_t reserved_18_31        : 14;
+        uint64_t syn                   : 8;  /**< [ 39: 32](RO/H) Error syndrome. */
+        uint64_t reserved_40_57        : 18;
+        uint64_t fbfsbe                : 1;  /**< [ 58: 58](RO/H) L2DIDX/SYN corresponds to a single-bit FBF ECC error. */
+        uint64_t sbfsbe                : 1;  /**< [ 59: 59](RO/H) L2DIDX/SYN corresponds to a single-bit SBF ECC error. */
+        uint64_t l2dsbe                : 1;  /**< [ 60: 60](RO/H) L2DIDX/SYN corresponds to a single-bit L2D ECC error. */
+        uint64_t fbfdbe                : 1;  /**< [ 61: 61](RO/H) L2DIDX/SYN corresponds to a double-bit FBF ECC error. */
+        uint64_t sbfdbe                : 1;  /**< [ 62: 62](RO/H) L2DIDX/SYN corresponds to a double-bit SBF ECC error. */
+        uint64_t l2ddbe                : 1;  /**< [ 63: 63](RO/H) L2DIDX/SYN corresponds to a double-bit L2D ECC error. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_l2c_tadx_tqd_err_s cn; */
+} bdk_l2c_tadx_tqd_err_t;
+
+static inline uint64_t BDK_L2C_TADX_TQD_ERR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_TQD_ERR(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e050060100ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
+        return 0x87e050060100ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_TQD_ERR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_L2C_TADX_TQD_ERR(a) bdk_l2c_tadx_tqd_err_t
+#define bustype_BDK_L2C_TADX_TQD_ERR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_TQD_ERR(a) "L2C_TADX_TQD_ERR"
+#define busnum_BDK_L2C_TADX_TQD_ERR(a) (a)
+#define arguments_BDK_L2C_TADX_TQD_ERR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) l2c_tad#_ttg_bist_status
@@ -1219,494 +1612,101 @@ static inline uint64_t BDK_L2C_TADX_TTG_BIST_STATUS(unsigned long a)
 #define arguments_BDK_L2C_TADX_TTG_BIST_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (RSL) l2c_tad#_tbf_bist_status
+ * Register (RSL) l2c_tad#_ttg_err
  *
- * Level 2 Cache TAD Quad Buffer BIST Status Registers
+ * Level 2 Cache TAD Tag Error Information Registers
+ * This register records error information for all TAG SBE/DBE/NOWAY errors.
+ * The priority of errors (lowest to highest) is NOWAY, SBE, DBE. An error locks the SYN, WAY,
+ * and L2IDX fields for equal or lower priority errors until cleared by software.
+ * The syndrome is recorded for DBE errors, though the utility of the value is not clear.
+ * A NOWAY error does not change the value of the SYN field, and leaves WAY unpredictable.
+ * L2IDX[19:7] is the L2 block index associated with the command which had no way to allocate.
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_l2c_tadx_tbf_bist_status_s
+    struct bdk_l2c_tadx_ttg_err_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t vbffl                 : 16; /**< [ 63: 48](RO/H) BIST failure status for VBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t sbffl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for SBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t fbfrspfl              : 16; /**< [ 31: 16](RO/H) BIST failure status for FBF RSP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t fbfwrpfl              : 16; /**< [ 15:  0](RO/H) BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
+        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
+        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
+        uint64_t reserved_39_60        : 22;
+        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
+        uint64_t reserved_0_31         : 32;
 #else /* Word 0 - Little Endian */
-        uint64_t fbfwrpfl              : 16; /**< [ 15:  0](RO/H) BIST failure status for FBF WRP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t fbfrspfl              : 16; /**< [ 31: 16](RO/H) BIST failure status for FBF RSP port ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t sbffl                 : 16; /**< [ 47: 32](RO/H) BIST failure status for SBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
-        uint64_t vbffl                 : 16; /**< [ 63: 48](RO/H) BIST failure status for VBF ({QD7H1,QD7H0, ... , QD0H1, QD0H0}) */
+        uint64_t reserved_0_31         : 32;
+        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
+        uint64_t reserved_39_60        : 22;
+        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
+        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
+        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_tadx_tbf_bist_status_s cn; */
-} bdk_l2c_tadx_tbf_bist_status_t;
-
-static inline uint64_t BDK_L2C_TADX_TBF_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_TBF_BIST_STATUS(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050070000ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050070000ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_TBF_BIST_STATUS", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_TBF_BIST_STATUS(a) bdk_l2c_tadx_tbf_bist_status_t
-#define bustype_BDK_L2C_TADX_TBF_BIST_STATUS(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_TBF_BIST_STATUS(a) "L2C_TADX_TBF_BIST_STATUS"
-#define busnum_BDK_L2C_TADX_TBF_BIST_STATUS(a) (a)
-#define arguments_BDK_L2C_TADX_TBF_BIST_STATUS(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_tad#_int_ena_w1c
- *
- * Level 2 Cache TAD Interrupt Enable Clear Registers
- * This register clears interrupt enable bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_int_ena_w1c_s
+    struct bdk_l2c_tadx_ttg_err_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
-        uint64_t reserved_18_33        : 16;
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
+        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
+        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
+        uint64_t reserved_39_60        : 22;
+        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error */
+        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error */
+        uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t reserved_18_33        : 16;
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
-        uint64_t reserved_36_63        : 28;
+        uint64_t reserved_0_6          : 7;
+        uint64_t l2idx                 : 13; /**< [ 19:  7](RO/H) Index of the L2 block containing the error */
+        uint64_t way                   : 4;  /**< [ 23: 20](RO/H) Way of the L2 block containing the error */
+        uint64_t reserved_24_31        : 8;
+        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
+        uint64_t reserved_39_60        : 22;
+        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
+        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
+        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
 #endif /* Word 0 - End */
-    } s;
-    struct bdk_l2c_tadx_int_ena_w1c_cn83xx
+    } cn88xx;
+    struct bdk_l2c_tadx_ttg_err_cn83xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
-        uint64_t reserved_19_33        : 15;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
+        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
+        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
+        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
+        uint64_t reserved_39_60        : 22;
+        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
+        uint64_t reserved_23_31        : 9;
+        uint64_t way                   : 4;  /**< [ 22: 19](RO/H) Way of the L2 block containing the error */
+        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error */
+        uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
-        uint64_t reserved_19_33        : 15;
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
-        uint64_t reserved_36_63        : 28;
+        uint64_t reserved_0_6          : 7;
+        uint64_t l2idx                 : 12; /**< [ 18:  7](RO/H) Index of the L2 block containing the error */
+        uint64_t way                   : 4;  /**< [ 22: 19](RO/H) Way of the L2 block containing the error */
+        uint64_t reserved_23_31        : 9;
+        uint64_t syn                   : 7;  /**< [ 38: 32](RO/H) Syndrome for the single-bit error. */
+        uint64_t reserved_39_60        : 22;
+        uint64_t noway                 : 1;  /**< [ 61: 61](RO/H) Information refers to a NOWAY error. */
+        uint64_t tagsbe                : 1;  /**< [ 62: 62](RO/H) Information refers to a single-bit TAG ECC error. */
+        uint64_t tagdbe                : 1;  /**< [ 63: 63](RO/H) Information refers to a double-bit TAG ECC error. */
 #endif /* Word 0 - End */
     } cn83xx;
-    struct bdk_l2c_tadx_int_ena_w1c_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
-        uint64_t reserved_19_31        : 13;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
-        uint64_t reserved_19_31        : 13;
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } cn88xxp2;
-    struct bdk_l2c_tadx_int_ena_w1c_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
-        uint64_t reserved_19_31        : 13;
-        uint64_t reserved_18           : 1;
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t reserved_18           : 1;
-        uint64_t reserved_19_31        : 13;
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } cn88xxp1;
-} bdk_l2c_tadx_int_ena_w1c_t;
+} bdk_l2c_tadx_ttg_err_t;
 
-static inline uint64_t BDK_L2C_TADX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_INT_ENA_W1C(unsigned long a)
+static inline uint64_t BDK_L2C_TADX_TTG_ERR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_L2C_TADX_TTG_ERR(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050040020ll + 0x1000000ll * ((a) & 0x3);
+        return 0x87e050060200ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050040020ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_INT_ENA_W1C", 1, a, 0, 0, 0);
+        return 0x87e050060200ll + 0x1000000ll * ((a) & 0x7);
+    __bdk_csr_fatal("L2C_TADX_TTG_ERR", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_L2C_TADX_INT_ENA_W1C(a) bdk_l2c_tadx_int_ena_w1c_t
-#define bustype_BDK_L2C_TADX_INT_ENA_W1C(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_INT_ENA_W1C(a) "L2C_TADX_INT_ENA_W1C"
-#define busnum_BDK_L2C_TADX_INT_ENA_W1C(a) (a)
-#define arguments_BDK_L2C_TADX_INT_ENA_W1C(a) (a),-1,-1,-1
-
-/**
- * Register (RSL) l2c_tad#_int_ena_w1s
- *
- * Level 2 Cache TAD Interrupt Enable Set Registers
- * This register sets interrupt enable bits.
- */
-typedef union
-{
-    uint64_t u;
-    struct bdk_l2c_tadx_int_ena_w1s_s
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
-        uint64_t reserved_18_33        : 16;
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t reserved_18_33        : 16;
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } s;
-    struct bdk_l2c_tadx_int_ena_w1s_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
-        uint64_t reserved_19_33        : 15;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[FBFDBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[NOWAY]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
-        uint64_t reserved_19_33        : 15;
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } cn83xx;
-    struct bdk_l2c_tadx_int_ena_w1s_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
-        uint64_t reserved_19_31        : 13;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..7)_INT_W1C[GSYNCTO]. */
-        uint64_t reserved_19_31        : 13;
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } cn88xxp2;
-    struct bdk_l2c_tadx_int_ena_w1s_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
-        uint64_t reserved_19_31        : 13;
-        uint64_t reserved_18           : 1;
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
-#else /* Word 0 - Little Endian */
-        uint64_t l2dsbe                : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DSBE]. */
-        uint64_t l2ddbe                : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[L2DDBE]. */
-        uint64_t sbfsbe                : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFSBE]. */
-        uint64_t sbfdbe                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[SBFDBE]. */
-        uint64_t fbfsbe                : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFSBE]. */
-        uint64_t fbfdbe                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[FBFDBE]. */
-        uint64_t reserved_6_7          : 2;
-        uint64_t tagsbe                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGSBE]. */
-        uint64_t tagdbe                : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[TAGDBE]. */
-        uint64_t noway                 : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[NOWAY]. */
-        uint64_t reserved_11_12        : 2;
-        uint64_t wrnxm                 : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRNXM]. */
-        uint64_t rdnxm                 : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDNXM]. */
-        uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISLMC]. */
-        uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISLMC]. */
-        uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[LFBTO]. */
-        uint64_t reserved_18           : 1;
-        uint64_t reserved_19_31        : 13;
-        uint64_t rtgsbe                : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGSBE]. */
-        uint64_t rtgdbe                : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RTGDBE]. */
-        uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[RDDISOCI]. */
-        uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..7)_INT_W1C[WRDISOCI]. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } cn88xxp1;
-} bdk_l2c_tadx_int_ena_w1s_t;
-
-static inline uint64_t BDK_L2C_TADX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_L2C_TADX_INT_ENA_W1S(unsigned long a)
-{
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
-        return 0x87e050040028ll + 0x1000000ll * ((a) & 0x3);
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
-        return 0x87e050040028ll + 0x1000000ll * ((a) & 0x7);
-    __bdk_csr_fatal("L2C_TADX_INT_ENA_W1S", 1, a, 0, 0, 0);
-}
-
-#define typedef_BDK_L2C_TADX_INT_ENA_W1S(a) bdk_l2c_tadx_int_ena_w1s_t
-#define bustype_BDK_L2C_TADX_INT_ENA_W1S(a) BDK_CSR_TYPE_RSL
-#define basename_BDK_L2C_TADX_INT_ENA_W1S(a) "L2C_TADX_INT_ENA_W1S"
-#define busnum_BDK_L2C_TADX_INT_ENA_W1S(a) (a)
-#define arguments_BDK_L2C_TADX_INT_ENA_W1S(a) (a),-1,-1,-1
+#define typedef_BDK_L2C_TADX_TTG_ERR(a) bdk_l2c_tadx_ttg_err_t
+#define bustype_BDK_L2C_TADX_TTG_ERR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_L2C_TADX_TTG_ERR(a) "L2C_TADX_TTG_ERR"
+#define busnum_BDK_L2C_TADX_TTG_ERR(a) (a)
+#define arguments_BDK_L2C_TADX_TTG_ERR(a) (a),-1,-1,-1
 
 #endif /* __BDK_CSRS_L2C_TAD_H__ */
