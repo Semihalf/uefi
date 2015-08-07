@@ -256,6 +256,8 @@ int bdk_sata_get_controllers(bdk_node_t node)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 16; /* 16 controllers on QLMs 2,3, 6-7 */
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 6; /* 6 controllers on DLMs 4-6 */
     else
         return 0;
 }

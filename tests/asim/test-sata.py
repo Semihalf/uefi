@@ -70,7 +70,6 @@ wait_for("BDK version:")
 wait_for("===============")
 wait_for("BDK Stage1 Boot")
 wait_for("===============")
-wait_for("Node:  0")
 wait_for("Chip:  0xa")
 wait_for("RCLK:  2500 Mhz")
 wait_for("SCLK:  800 Mhz")
@@ -103,7 +102,7 @@ wait_for("THUNDERX Bringup and Diagnostic Kit")
 wait_for("Copyright (C) 2010-2015 Cavium Inc.")
 wait_for("Version")
 
-wait_for("Configuring for the EBB8800")
+wait_for("Configuring for the EBB")
 wait_for("Configuring QLMs for a sample setup")
 
 wait_for("=================================")
@@ -130,7 +129,10 @@ wait_for("12) Run automated pattern test")
 wait_for("13) Main menu")
 wait_for("(INS)Menu choice []:")
 serial = 1
-for sata in [8,15]:
+sata_port = [0,1]
+if "CN88XX" in os.environ["ASIM_CHIP"]:
+    sata_port = [8,15]
+for sata in sata_port:
     assert(os.system("dd if=/dev/zero of=test_disk bs=1M count=1") == 0)
     assert sim.command("control n0.ahci%d connect ide 0 test_disk" % sata)
     send("port %d" % sata)
