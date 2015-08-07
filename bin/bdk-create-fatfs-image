@@ -1,0 +1,112 @@
+#!/bin/bash
+
+FATFS_TMP=fatfs.tmp
+
+
+function usage() {
+echo "$0:"
+echo "    -o <output file>       (Example: normal-ebb8800.bin)"
+echo "    -0 <stage 0 boot file> (Example: chainloader.bin)"
+echo "    -1 <stage 1 boot file> (Example: bootstub.bin)"
+echo "    -2 <stage 2 boot file> (Example: diagnostics.bin)"
+echo "    -l <lua files>         (Example: \"lua/*.lua\")"
+echo "    -c <config files>      (Example: default.cfg)"
+exit 2
+}
+
+OUT_FILE=
+STAGE0=
+STAGE1=
+STAGE2=
+LUA_FILES=
+CONFIG_FILES=
+while getopts o:0:1:2:l:c: arg
+do
+    case ${arg} in
+    o) OUT_FILE="$OPTARG";;
+    0) STAGE0="$OPTARG";;
+    1) STAGE1="$OPTARG";;
+    2) STAGE2="$OPTARG";;
+    l) LUA_FILES="$OPTARG";;
+    c) CONFIG_FILES="$OPTARG";;
+    ?) usage;;
+    esac
+done
+
+if [ "${OUT_FILE}" == "" ]; then usage; fi
+if [ "${STAGE0}" == "" ]; then usage; fi
+if [ "${STAGE1}" == "" ]; then usage; fi
+if [ "${STAGE2}" == "" ]; then usage; fi
+if [ "${LUA_FILES}" == "" ]; then usage; fi
+if [ "${CONFIG_FILES}" == "" ]; then usage; fi
+
+#
+# Create the FatFS area
+#
+
+# Create a 3.5MB file filled with 0xff. We use 0xff to be more friendly toward
+# the flash devices the image gets stored in. This avoids needless bit flips
+# in unused areas.
+dd if=/dev/zero bs=512K count=7 2> /dev/null | tr "\000" "\377" > ${FATFS_TMP}
+
+# Create FAT filesystem in image file
+${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} mkfs
+
+# Copy stage 1 image into FAT filesystem
+${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${STAGE1} /
+
+# Copy stage 2 image into FAT filesystem
+${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${STAGE2} /
+
+# Add all the Lua files to the FAT fs
+${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} mkdir /lua
+${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${LUA_FILES} /lua
+
+# Add the config files to the FAT fs
+${BDK_ROOT}/bin/fatfs-tool -q -i ${FATFS_TMP} cp ${CONFIG_FILES} /
+
+#
+# Combine all the images
+#
+dd if=/dev/zero bs=1M count=4 2> /dev/null | tr "\000" "\377" > ${OUT_FILE}
+
+# 1) 0x000000: 64KB unused by Thunder, partition table
+# See fdisk below
+# 2) 0x010000: 64KB of CVM_CLIB header
+echo -n CVM_CLIB | dd bs=64K seek=1 of=${OUT_FILE} conv=notrunc 2> /dev/null
+# 3) 0x020000: 192KB of chainloader image (non-trusted)
+dd bs=64K seek=2 if=${STAGE0} of=${OUT_FILE} conv=notrunc 2> /dev/null
+# 4) 0x050000: 192KB of chainloader image (trusted)
+dd bs=64K seek=5 if=${STAGE0} of=${OUT_FILE} conv=notrunc 2> /dev/null
+# 5) 0x080000: 3.5MB FAT filesystem
+dd bs=64K seek=8 if=${FATFS_TMP} of=${OUT_FILE} conv=notrunc 2> /dev/null
+
+# Create a partition table in the file
+# Note that FatFS currnetly only looks at the first partition
+# Partition 1: FAT12 covering 512KB to 4MB
+#    n          New partition
+#    p          Primary
+#    1          Primary 1
+#    1024       Start at sector 1024, 512KB
+#    8191       End at sector 8191, 4MB
+#    t          Change type
+#    1          FAT12
+#    w          Write changes
+fdisk ${OUT_FILE} >/dev/null <<EOF
+n
+p
+1
+1024
+8191
+t
+1
+w
+EOF
+
+# Clean up
+rm ${FATFS_TMP}
+
+# Display the final partition layout
+#fdisk -l ${OUT_FILE}
+exit 0
+
