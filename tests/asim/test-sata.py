@@ -133,8 +133,9 @@ sata_port = [0,1]
 if "CN88XX" in os.environ["ASIM_CHIP"]:
     sata_port = [8,15]
 for sata in sata_port:
-    assert(os.system("dd if=/dev/zero of=test_disk bs=1M count=1") == 0)
-    assert sim.command("control n0.ahci%d connect ide 0 test_disk" % sata)
+    sata_file = "test_disk-%d.tmp" % os.getpid()
+    assert(os.system("dd if=/dev/zero of=%s bs=1M count=1" % sata_file) == 0)
+    assert sim.command("control n0.ahci%d connect ide 0 %s" % (sata, sata_file))
     send("port %d" % sata)
     wait_for("=================================")
     wait_for("SATA Menu")
@@ -158,6 +159,7 @@ for sata in sata_port:
     wait_for("=================================")
     wait_for("(INS)Menu choice []:")
     assert sim.command("control n0.ahci%d disconnect 0" % sata)
+    assert(os.system("rm %s" % sata_file) == 0)
 
 assert sim.command("stop")
 assert sim.command("statistics")
