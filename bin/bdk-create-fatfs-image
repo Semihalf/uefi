@@ -41,6 +41,24 @@ if [ "${LUA_FILES}" == "" ]; then usage; fi
 if [ "${CONFIG_FILES}" == "" ]; then usage; fi
 
 #
+# Determine where fdisk is
+#
+FDISK=`which fdisk`
+if [ "${FDISK}" == "" ]
+then
+    if [ -e /sbin/fdisk ]
+    then
+        FDISK=/sbin/fdisk
+    elif [ -e /usr/sbin/fdisk ]
+    then
+        FDISK=/usr/sbin/fdisk
+    else
+        echo "Unable to find 'fdisk'. Please add it to your PATH"
+        exit 1
+    fi
+fi
+
+#
 # Create the FatFS area
 #
 
@@ -92,7 +110,7 @@ dd bs=64K seek=8 if=${FATFS_TMP} of=${OUT_FILE} conv=notrunc 2> /dev/null
 #    t          Change type
 #    1          FAT12
 #    w          Write changes
-fdisk -c=nondos -u=sectors -C 1 ${OUT_FILE} &>/dev/null <<EOF
+${FDISK} -c=nondos -u=sectors -C 1 ${OUT_FILE} &>/dev/null <<EOF
 n
 p
 1
@@ -107,6 +125,6 @@ EOF
 rm ${FATFS_TMP}
 
 # Display the final partition layout
-#fdisk -l ${OUT_FILE}
+#${FDISK} -l ${OUT_FILE}
 exit 0
 
