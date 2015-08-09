@@ -96,9 +96,7 @@ static int validate_spd_checksum(bdk_node_t node, int twsi_addr, int silent)
 
     debug_print("Validating DIMM at address 0x%x\n", twsi_addr);
 
-#ifdef DDR3_ENHANCE_PRINT
     if (!twsi_addr) return 1; /* return OK if we are not doing real DIMMs */
-#endif
 
     /* Look up module type to determine if DDR3 or DDR4 */
     rv = bdk_twsix_read_ia(node, twsi_addr >> 12, twsi_addr & 0x7f, 2, 1, 1);
@@ -121,18 +119,9 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
     dimm_index = !!dimm_index;  /* Normalize to 0/1 */
     spd_addr = dimm_config->spd_addrs[dimm_index];
 
-#ifdef DDR3_ENHANCE_PRINT
     debug_print("Validating dimm %d, spd addr: 0x%02x spd ptr: %x\n",
 		dimm_index, spd_addr, dimm_config->spd_ptrs[dimm_index]);
-#else
-    debug_print("Validating dimm %d, spd ptr: %p\n", dimm_index,
-	       dimm_config->spd_ptrs[dimm_index]);
-#endif
 
-#ifndef DDR3_ENHANCE_PRINT
-    /* Only validate 'real' dimms, assume compiled in values are OK */
-    if (!dimm_config->spd_ptrs[dimm_index])
-#endif
     {
         int val0, val1;
         int ddr_type = get_ddr_type(node, dimm_config, dimm_index);
@@ -142,11 +131,7 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
             case DDR3_DRAM:              /* DDR3 */
 	    case DDR4_DRAM:              /* DDR4 */
 
-#ifdef DDR3_ENHANCE_PRINT
 		debug_print("Validating DDR%d DIMM %d\n", ((dimm_type >> 2) & 3) + 1, dimm_index);
-#else
-                debug_print("Validating DIMM %d\n", dimm_index);
-#endif
 
 #define DENSITY_BANKS DDR4_SPD_DENSITY_BANKS           // same for DDR3 and DDR4
 #define ROW_COL_BITS  DDR4_SPD_ADDRESSING_ROW_COL_BITS // same for DDR3 and DDR4
@@ -167,15 +152,9 @@ int validate_dimm(bdk_node_t node, const dimm_config_t *dimm_config, int dimm_in
 		break;
 
             default:
-#ifdef DDR3_ENHANCE_PRINT
 		debug_print("Unknown DIMM type 0x%x for DIMM %d @ 0x%x\n",
 			     dimm_type, dimm_index,
 			     dimm_config->spd_addrs[dimm_index]);
-#else
-		debug_print("Unknown DIMM type 0x%x for DIMM %d @ 0x%x\n",
-			    dimm_type, dimm_index,
-			    dimm_config->spd_addrs[dimm_index]);
-#endif
                 return 0;      /* Failed to read dimm */
         }
     }
