@@ -331,7 +331,7 @@ int test_dram_byte(uint64_t p, uint64_t bitmask)
 		 *             p1, d1, p2, d2);
 		 */
 
-		xor = ((d1 | d2) ^ v) & datamask; // union of error bits
+		xor = ((d1 ^ v) | (d2 ^ v)) & datamask; // union of error bits only in active byte lanes
 
 		int bybit = 1;
 		uint64_t bymsk = 0xffUl; // start in byte lane 0
