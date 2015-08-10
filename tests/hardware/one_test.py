@@ -6,8 +6,13 @@ import getopt
 
 import boards
 import connection
-import test_boot
-import test_dram
+
+####################################
+# board-related settings
+DEFAULT_BOARD = "ebb8804"
+TIMER_MIN = 150   # long enough for 88xx
+MEM_TEST_LEN = 5 * 256 * 1024 * 1024 # 5 blocks of 256MB
+####################################
 
 def maybe_image_number(cnx):
     try:
@@ -18,115 +23,28 @@ def maybe_image_number(cnx):
 def wait_for_bdkstub_messages(cnx):
     #cnx.powerCycle()
     cnx.waitfor("Cavium THUNDERX", timeout=20)
-    cnx.match("PASS: CRC32 verification")
-    cnx.matchRE("BDK version: 201[5-9].[0-2][0-9]-r")
-    cnx.waitfor("===============")
-    cnx.match("BDK Stage1 Boot")
-    cnx.match("===============")
-    cnx.match("Node:  0")
-    try:
-        cnx.match("(Fixed)")
-    except:
-        pass
-    cnx.matchRE("Chip:  0xa1 Pass [1-2]\\.[0-1]")
-    cnx.match("L2:    16384 KB")
-    cnx.matchRE("RCLK:  [0-9]+ Mhz")
-    cnx.matchRE("SCLK:  [0-9]+ Mhz")
-    cnx.match("Boot:  SPI24(5)")
-    cnx.matchRE("VRM:   (En|Dis)abled")
-    cnx.match("Trust: Disabled")
-#
-#Boot Menu
-#=========
-    cnx.match("Boot Menu")
-    cnx.match("=========")
-# 1) Change baud rate and flow control
-# 2) Load image from MMC, eMMC, or SD
-# 3) Load image from SPI
-# 4) Write image to MMC, eMMC, or SD using Xmodem
-# 5) Write image to SPI EEPROM or NOR using Xmodem
-# 6) Soft reset chip
-    cnx.match("1) Change baud rate and flow control")
-    cnx.match("2) Load image from MMC, eMMC, or SD")
-    cnx.match("3) Load image from SPI")
-    cnx.match("4) Write image to MMC, eMMC, or SD using Xmodem")
-    cnx.match("5) Write image to SPI EEPROM or NOR using Xmodem")
-    cnx.match("6) Soft reset chip")
-
-#(INS)Menu choice:    
-    # Extra output allowed here
+    cnx.waitfor("BDK Stage1 Boot")
+    cnx.waitfor("Boot Menu")
     cnx.waitfor("(INS)Menu choice:")
     cnx.sendEcho("3")
 
 # this is needed for a BDK that asks for an image number
     maybe_image_number(cnx)
 #
-    #cnx.waitfor("Loading image at 0x80000")
-    #cnx.waitfor("Verifying image")
-    #cnx.match("Putting all cores except this one in reset")
-    #cnx.match("Jumping to image at 0x2a180")
-    #cnx.match("---")
     cnx.waitfor("Cavium THUNDERX")
-    #cnx.match("PASS: CRC32 verification")
-    #cnx.match("Lua 5.2.0  Copyright (C) 1994-2011 Lua.org, PUC-Rio")
-    #cnx.match("THUNDERX Bringup and Diagnostic Kit")
-    #cnx.matchRE("Copyright \\(C\\) 2010-201[4-9] Cavium Inc.")
-    #cnx.matchRE("Version 201[5-9].[0-2][0-9]-r[0-9]+(M|), Branch: [A-Za-z0-9.-]+, Built: [A-Za-z]+ [A-Za-z]+ [0-9]+ [0-9]+:[0-9]+:[0-9]+ UTC [0-9]+")
-    #cnx.waitforRE("Configuring for the [A-Za-z0-9-]+")
-    #cnx.waitfor("=================================")
     cnx.waitfor("Main Menu")
-    #cnx.match("=================================")
-    #cnx.match("1) SERDES configuration")
-    #cnx.match("2) Software configuration")
-    #cnx.match("3) File options")
-    #cnx.match("4) DDR options")
-    #cnx.match("5) PCIe options")
-    #cnx.match("6) TWSI options")
-    #cnx.match("7) SMI/MDIO options")
-    #cnx.match("8) SPI/MPI options")
-    #cnx.match("9) eMMC/SD options")
-    #cnx.match("10) SATA options")
-    #cnx.match("11) GPIO options")
-    #cnx.match("12) USB options")
-    #cnx.match("13) Interactive Lua prompt")
-    #cnx.match("14) Traffic Generator")
-    #cnx.match("15) Burn power")
-    #cnx.match("16) Set power throttle level")
-    #cnx.match("16) Reboot")
-    # Extra output allowed here
     cnx.waitfor("(INS)Menu choice []:")
     cnx.sendEcho("keys")
     cnx.match("Invalid choice. Choose a number from 1 to")
     cnx.waitfor("(INS)Menu choice []:")
 
 def wait_for_test_menu(cnx):
-    #cnx.match("=================================")
-    cnx.waitforRE("DRAM Test Menu - [ ]*[0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM")
-    #cnx.match("=================================")
-    #cnx.matchRE("cores\\) Bringup Cores for multi-core testing \\([0-9]+\\)")
-    #cnx.matchRE("repeat\\) Number of times to repeat the test \\([0-9]+\\)")
-    #cnx.matchRE("start\\) Starting address \\(0x[0-9a-fA-F]*\\)")
-    #cnx.matchRE("length\\) Length of the range to check \\([^)]*\\)")
-    #cnx.match("64MB) Set test range from 64MB to 128MB")
-    #cnx.match("all) Run all DRAM tests")
-    #cnx.match("test0) Data Bus")
-    #cnx.match("test1) Address Bus")
-    #cnx.match("test2) Marching Rows")
-    #cnx.match("test3) Random Data")
-    #cnx.match("test4) Random XOR (32 Burst)")
-    #cnx.match("test5) Self Address")
-    #cnx.match("test6) March C- Solid Bits")
-    #cnx.match("test7) March C- Checkerboard")
-    #cnx.match("test8) Walking Ones Left")
-    #cnx.match("test9) Walking Ones Right")
-    #cnx.match("test10) Walking Zeros Left")
-    #cnx.match("test11) Walking Zeros Right")
-    #cnx.match("test12) Random XOR (224 Burst)")
-    #cnx.match("test13) Fast Scan")
-    #cnx.match("spec) Run special DRAM tests")
-    #cnx.matchRE("abort\\) Abort on Errors \\(Currently (ON|OFF)\\)")
-    #cnx.matchRE("batch\\) Batch mode \\(Currently (ON|OFF)\\)")
-    #cnx.match("quit) Main menu")
+    #cnx.waitforRE("DRAM Test Menu - [ ]*[0-9]+ MB, [0-9]+ MHz, DDR[34] [UR]DIMM")
+    cnx.waitfor("DRAM Test Menu")
+    cnx.waitfor("(INS)Menu choice []:")
+
+def wait_for_dram_menu(cnx):
+    cnx.waitfor("DRAM Menu")
     cnx.waitfor("(INS)Menu choice []:")
 
 def dram_set_envvar(cnx, name, value):
@@ -135,15 +53,15 @@ def dram_set_envvar(cnx, name, value):
     cnx.sendEcho(name)
     cnx.match("(INS)Value []:")
     cnx.sendEcho(value)
-    test_dram.wait_for_main_menu(cnx)
+    wait_for_dram_menu(cnx)
 
 def send_main_cmd(cnx, cmd):
     cnx.sendEcho(cmd)
-    test_boot.wait_for_main_menu(cnx)
+    wait_for_dram_menu(cnx)
 
 def send_dram_cmd(cnx, cmd):
     cnx.sendEcho(cmd)
-    test_dram.wait_for_main_menu(cnx)
+    wait_for_dram_menu(cnx)
 
 def send_test_cmd(cnx, cmd):
     cnx.sendEcho(cmd)
@@ -151,10 +69,9 @@ def send_test_cmd(cnx, cmd):
 
 def dram_init(cnx, speed):
     global memsize
-    if ddr4 == True:
-        cnx.sendEcho("ebb8804")
-    else:
-        cnx.sendEcho("ebb8800")
+    global board
+
+    cnx.sendEcho(board)
     cnx.waitforRE("\(INS\)DRAM clock Hertz, return for default \[[1-9][0-9]+\]:")
     cnx.sendEcho(speed)
 #
@@ -167,13 +84,14 @@ def dram_init(cnx, speed):
     megs = cnx.waitforRE(" [0-9]* ")
     try:
         memsize = int(megs) * 1024 * 1024
-        cnx.log("FOUND: megs='%s' memsize=0x%x" % (megs, memsize))
+        #cnx.log("FOUND: megs='%s' memsize=0x%x" % (megs, memsize))
     except:
         cnx.log("ERROR: megs='%s', using memsize of 8GB" % megs)
         memsize = 8 * 1024 * 1024 * 1024
             
-    cnx.matchRE("MB, [0-9]+ MHz, DDR[34] [RU]DIMM", timeout=10)
-    test_dram.wait_for_main_menu(cnx)
+    #cnx.matchRE("MB, [0-9]+ MHz, DDR[34] [RU]DIMM", timeout=10)
+    cnx.matchRE("MB, [0-9]+ MHz", timeout=10)
+    wait_for_dram_menu(cnx)
     return True
 
 def set_repeat_count(cnx, repeats):
@@ -203,48 +121,13 @@ def setup_dram_test(cnx):
     
 def start_special_dram_test(cnx):
     cnx.sendEcho("spec")
-    #cnx.sendEcho("test2")
     cnx.matchRE("Pass 1 of [0-9]+")
-
-#
-# Wait for special DRAM tests
-#
-def wait_for_special_dram_test(cnx):
-    tests = []
-    tests.append("Marching Rows")
-    tests.append("Random Data")
-    tests.append("Random XOR (32 Burst)")
-    tests.append("Random XOR (224 Burst)")
-    for t in tests:
-        test_dram.wait_for_dram_test(cnx, t)
-        # make sure it is not an RE itself
-        trt = t.replace("(","\\(")
-        trt = trt.replace(")","\\)")
-        #print "TRT: \"%s\"" % trt
-        try:
-            cnx.matchRE("Test \"%s\": ECC errors, [0-9]+/[0-9]+/[0-9]+/[0-9]+ corrected, [0-9]+/[0-9]+/[0-9]+/[0-9]+ uncorrected" % trt, timeout=1)
-            cnx.matchRE("Test \"%s\": FAIL: [0-9]+ single, [0-9]+ double, [0-9]+ compare errors" % trt, timeout=1)
-        except:
-            continue
-
-    # now try to match the closing message for a group of tests...
-
-    # if all goes without error, we see:
-    #All tests passed (time 0:0:23)
-    #cnx.waitforRE("All tests passed \\(time [0-9]+:[0-9]+:[0-9]+\\)")
-
-    # BUT we could have these if errors happened:
-    #Test "Marching Rows": ECC errors, 0/0/1/0 corrected, 0/0/0/0 uncorrected
-    #Test "Marching Rows": FAIL: 1 single, 0 double, 0 compare errors
-    #Tests reported 1 errors
-    #cnx.waitforRE("Tests reported [0-9]+ errors")
-    cnx.waitforRE("(All tests passed \\(time [0-9]+:[0-9]+:[0-9]+\\)|Tests reported [0-9]+ errors)")
 
 def wait_for_end_special_dram_test(cnx):
     if fullmem == True:
         timer = 14400 # 4-hour long timeout
     else:
-        timer = 150 # 2.5 minutes, hopefully enough
+        timer = TIMER_MIN
     try:
         cnx.waitforRE("(All tests passed |Tests reported [0-9]+ errors)", timeout=timer)
         return True
@@ -255,7 +138,7 @@ def boot_bdk_to_dram(cnx):
     wait_for_bdkstub_messages(cnx)
     # transition to the DRAM Menu
     cnx.sendEcho("ddr")
-    test_dram.wait_for_main_menu(cnx)
+    wait_for_dram_menu(cnx)
 
 def parse3Args(args):
     try:
@@ -274,7 +157,7 @@ def parse3Args(args):
             mcu = args[1]
             logname = args[2]
         else:
-            # Using telnet with a hostname. Assume it is the name of a MCU
+            # Using telnet with a hostname. Assume it is the name of an MCU
             # and the ports are 9761 and 9760
             console = args[0] + ":9761"
             mcu = args[0] + ":9760"
@@ -297,12 +180,13 @@ def do_help():
     print """Performs a DRAM init and memory test via connections to console and MCU.
 Mandatory arguments to long options are mandatory for short options too.
   -a, --abort      set BDK abort_on_error to false
+  -b, --board=     name of the board to use for DRAM config
   -c, --cycles=    number of power cycles
-      --ddr3       use DDR3 (8800) configuration
-      --ddr4       use DDR4 (8804) configuration (default)
-  -d, --dic=       DIC override
+  -d, --daily      log to the daily directory (~/LOGS/<date>)
+      --dic=       DIC override
   -f, --full       test full memory
   -h, -?, --help   display this help and exit
+  -l, --logdir     set the log directory
   -n, --nom=       RTTNOM override
   -p, --park=      RTTPARK override
       --range3     test 3 small memory ranges
@@ -345,11 +229,14 @@ def log_a_set():
     logstr += time.strftime("-%Y%m%d-%H%M%S")
     logstr += "-log.txt"
 
-#
     print "Log file: %s" % logstr
     print
 
-    log = connection.Log(logstr)
+    logfile = "%s/%s" % (logdir, logstr)
+    print "Logging to: %s" % logfile
+ 
+    # open the log and make the connection
+    log = connection.Log(logfile)
     cnx = boards.Board_EVB(console=console, mcu=mcu, mcu2=None, logObject=log)
 
     # now loop for the cycle_count
@@ -394,9 +281,9 @@ def log_a_set():
             if do_100mhz == True:
                 dram_set_envvar(cnx, name="ddr_100mhz_refclk", value="1")
 
-            # new WLEV code
-            if do_wlev == True:
-                dram_set_envvar(cnx, name="ddr_wlev_64", value="1")
+            # run with ECC disabled
+            if do_noecc == True:
+                dram_set_envvar(cnx, name="ddr_use_ecc", value="0")
 
             # make any DLLRO adjustments for DIMMs
             if dllro_list != None:
@@ -420,15 +307,13 @@ def log_a_set():
 
             if fullmem == False:
                 # calculate test addresses and ranges
-                start_addr = ((memsize * (i + 1)) / (num_test_ranges + 1)) - (640 * 1024 * 1024)
-                test_len = 2 * 640 * 1024 * 1024
-                cnx.log("CALC: start=0x%x len=0x%x" % (start_addr, test_len))
+                start_addr = ((memsize * (i + 1)) / (num_test_ranges + 1)) - (MEM_TEST_LEN / 2)
+                #cnx.log("CALC: start=0x%x len=0x%x" % (start_addr, test_len))
                 set_start_address(cnx, start=("0x%x" % start_addr))
                 set_test_length(cnx, length=("0x%x" % test_len))
 
             # run the special tests
             start_special_dram_test(cnx)
-            #wait_for_special_dram_test(cnx)    # wait for each one
             ret = wait_for_end_special_dram_test(cnx) # wait for the end 
             if ret == False:
                 break
@@ -450,7 +335,8 @@ def do_dllro_setup(cnx):
             dram_set_envvar(cnx, name=namestr, value=str(value))
 
 # DIMM 122 adjustments
-L0_122_list=[(2,10),(3,15),(4,10),(5,10)]
+# mod L0 from [2,10]
+L0_122_list=[(2,05),(3,15),(4,10),(5,10)]
 L1_122_list=[(2,-5)]
 L2_122_list=[(1,20),(2,10),(4,-10),(5,10),(8,-20)]
 L3_122_list=[(3,15),(7,5)]
@@ -467,9 +353,12 @@ Lx_122_list=[L0_122_list,L1_122_list,L2_122_list,L3_122_list]
 #dram_set_envvar(cnx, name="ddr3_dll_read_offset_byte7", value="5")
 
 # DIMM 124 adjustments
-L0_124_list=[(0,15), (7, 10)]
-L1_124_list=[(1,10), (4,-10), (8,12)]
-L2_124_list=[]
+# Orig LMC0 (0,15)
+# Orig LMC1 (0,0)
+# Orig LMC2 (0,0)
+L0_124_list=[(0,20), (7,10)]
+L1_124_list=[(0,15), (1,10), (4,-10), (8,12)]
+L2_124_list=[(0,15)]
 L3_124_list=[]
 Lx_124_list=[L0_124_list, L1_124_list, L2_124_list, L3_124_list]
 
@@ -509,16 +398,18 @@ cycle_count = 100
 verbose = True
 fullmem = False
 errabort = True
-ddr4 = True
 do_100mhz = False
-do_wlev = False
 dllro_list = None
 num_test_ranges = 1
+board = DEFAULT_BOARD
+do_daily = False
+logdir = None
+do_noecc = False
 
 ####################################
 # mainline
-short_opts = "?ac:d:fhn:p:r:s:qvw:"
-long_opts = ["abort", "cycles=", "ddr3", "ddr4", "dic=", "full", "help", "nom=", "park=", "range3", "rodt=", "speed=", "quiet", "verbose", "wr=", "100mhz", "wlev", "122", "124" ]
+short_opts = "?ab:c:defhl:n:p:r:s:qvw:"
+long_opts = ["abort", "board=", "cycles=", "daily", "dic=", "full", "help", "logdir=", "noecc", "nom=", "park=", "range3", "rodt=", "speed=", "quiet", "verbose", "wr=", "100mhz", "122", "124" ]
 try:
     opts, args = getopt.gnu_getopt(sys.argv[1:], short_opts, long_opts)
 except getopt.GetoptError, err:
@@ -528,25 +419,33 @@ except getopt.GetoptError, err:
     sys.exit(2)
 
 for option, argument in opts:
-    if option in ("-c", "--cycles"):
-        cycle_count = int(argument)
-    elif option in ("-a", "--abort"):
+    if option in ("-a", "--abort"):
         errabort = False
-    elif option in ("-d", "--dic"):
+    elif option in ("-b", "--board"):
+        board = argument
+    elif option in ("-c", "--cycles"):
+        cycle_count = int(argument)
+    elif option in ("--dic",):
         dic = argument
-    elif option in ("--ddr3",):
-        ddr4 = False
-    elif option in ("--ddr4",):
-        ddr4 = True
+    elif option in ("-d", "--daily"):
+        logdir = None
+        do_daily = True
+    elif option in ("-e", "--noecc"):
+        do_noecc = True
     elif option in ("-f", "--full"):
         fullmem = True
         num_test_ranges = 1
     elif option in ("-?", "-h", "--help"):
         do_help()
+    elif option in ("-l", "--logdir"):
+        do_daily = False
+        logdir = argument
     elif option in ("-n", "--nom"):
         rttnom_list.append(argument)
     elif option in ("-p", "--park"):
         rttpark_list.append(argument)
+    elif option in ("-q", "--quiet"):
+        verbose = False
     elif option in ("-r", "--rodt"):
         rodtctl_list.append(argument)
     elif option in ("--range3",):
@@ -554,16 +453,12 @@ for option, argument in opts:
         num_test_ranges = 3
     elif option in ("-s", "--speed"):
         speed = argument
-    elif option in ("-q", "--quiet"):
-        verbose = False
     elif option in ("-v", "--verbose"):
         verbose = True
     elif option in ("-w", "--wr"):
         rttwr_list.append(argument)
     elif option in ("--100mhz",):
         do_100mhz = True
-    elif option in ("--wlev",):
-        do_wlev = True
     elif option in ("--122",):
         dllro_list = Lx_122_list
     elif option in ("--124",):
@@ -575,13 +470,34 @@ for option, argument in opts:
 # of the remainder we must have 3 left: console MCU logname
 console, mcu, logname = parse3Args(args)
 
+# now handle a log directory specification
+if do_daily == True:
+    # make sure daily directory exists, and make it if not
+    daystr = time.strftime("%Y%m%d")
+    logdir = "%s/LOGS/%s" % (os.path.expanduser("~"), daystr)
+    if os.path.isdir(logdir) != True:
+        # make the directory
+        print "INFO: Log directory '%s' does not exist - creating..." % logdir
+        os.mkdir(logdir)
+    else:
+        print "INFO: Log directory '%s' exists..." % logdir
+
+elif logdir != None:
+    # make sure directory exists, but do NOT make it if not
+    if os.path.isdir(logdir) != True:
+        print "ERROR: Log directory '%s' does not exist - exiting" % logdir
+        sys.exit(3)
+    else:
+        print "INFO: Log directory '%s' exists..." % logdir
+else:
+    logdir = "./"
+
+# add the board name to the logname
+logname += "-%s" % board
+
 # if running at 100 MHz, add to log name
 if do_100mhz == True:
     logname += "-100mhz"
-
-# if use new WLEV code
-if do_wlev == True:
-    logname += "-WLEV"
 
 # if speed passed as arg, add it to the log name
 # but just the MHz value
