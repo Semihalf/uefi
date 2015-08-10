@@ -10,7 +10,8 @@ local debug = require("debug")
 
 -- Start the main menu.
 while true do
-    local status, result = xpcall(dofile, debug.traceback, "/fatfs/lua/main.lua")
+    local main_name = assert(package.searchpath("main", package.path))
+    local status, result = xpcall(dofile, debug.traceback, main_name)
     if not status then
         print("ERROR:", result)
     end

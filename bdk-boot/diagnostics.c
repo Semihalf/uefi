@@ -45,6 +45,6 @@ void __bdk_require_depends(void)
  */
 int main(void)
 {
-    /* Start Lua. It will execute /fatfs/lua/init.lua */
+    /* Start Lua. It will execute init.lua */
     return bdk_lua_start();
 }

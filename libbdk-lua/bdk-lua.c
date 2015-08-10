@@ -1,6 +1,7 @@
 #ifndef BDK_BUILD_HOST
 #include <bdk.h>
 #include <unistd.h>
+#include <fcntl.h>
 #else
 #include <libbdk-lua/bdk-lua.h>
 #include <stdint.h>
@@ -102,10 +103,16 @@ int main(int argc, const char **argv)
  */
 int bdk_lua_start(void)
 {
+    static const char *init_paths[] = {
+        "/ram/init.lua",
+        "/fatfs/lua/init.lua",
+        "/rom/init.lua",
+        NULL
+    };
     static const char *argv[] = {
         "lua",
         "-i",
-        "/fatfs/lua/init.lua",
+        NULL,
         NULL,
     };
 
@@ -114,7 +121,20 @@ int bdk_lua_start(void)
         bdk_warn("Could not read environment variables from config file. "
                  "Will continue with defaults...\n");
 
-    return __bdk_lua_main(3, argv);
+    int init_file = 0;
+    while (init_paths[init_file])
+    {
+        int handle = open(init_paths[init_file], O_RDONLY);
+        if (handle >= 0)
+        {
+            close(handle);
+            argv[2] = init_paths[init_file];
+            return __bdk_lua_main(3, argv);
+        }
+        init_file++;
+    }
+    bdk_error("Unable to find init.lua\n");
+    return -1;
 }
 
 #endif
