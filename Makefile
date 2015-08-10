@@ -96,8 +96,8 @@ ifeq ($(shell test -d .git;echo $$?),0)
       BUILD_BRANCH := $(lastword $(BUILD_BRANCH))
     else
       # Using raw git
-      BUILD_REV := $(shell git show | grep "^commit")
-      BUILD_REV := "$(word 2, $(BUILD_REV))"
+      BUILD_REV := $(shell git rev-parse HEAD 2>/dev/null | cut -b -8)
+      BUILD_REV := "g$(BUILD_REV)"
       BUILD_DATE=$(shell date "+%Y %m %d")
       BUILD_BRANCH := $(shell git status | grep "On branch")
       BUILD_BRANCH := $(word 3, $(BUILD_BRANCH))
