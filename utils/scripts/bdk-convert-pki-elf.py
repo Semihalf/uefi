@@ -20,8 +20,8 @@ def write_microcode(input_file, output_file):
     outf = open(output_file, "w")
     outf.write("#include <stdint.h>\n")
     outf.write("/* This file is autgenerated from %s */\n" % input_file)
-    outf.write("const int __BDK_PKI_MICROCODE_CN78XX_LENGTH = %d;\n" % (data_len/8))
-    outf.write("const uint64_t __BDK_PKI_MICROCODE_CN78XX[] = {\n")
+    outf.write("const int __BDK_PKI_MICROCODE_CN8XXX_LENGTH = %d;\n" % (data_len/8))
+    outf.write("const uint64_t __BDK_PKI_MICROCODE_CN8XXX[] = {\n")
     outf.write("    0x")
     for count in range(data_len):
         # Swap endinness
