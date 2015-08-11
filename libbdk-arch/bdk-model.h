@@ -46,27 +46,20 @@ static inline uint64_t cavium_get_model()
 static inline int CAVIUM_IS_MODEL(uint32_t arg_model) __attribute__ ((pure, always_inline));
 static inline int CAVIUM_IS_MODEL(uint32_t arg_model)
 {
-    bdk_sys_midr_el1_t arg_midr_el1;
-    bdk_sys_midr_el1_t midr_el1;
+    const uint32_t PARTNUM = 0xfff0;    /* Bits 15:4 */
+    const uint32_t VARIANT = 0xf00000;  /* Bits 23:20 */
+    const uint32_t REVISION = 0xf;      /* Bits 3:0 */
 
-    arg_midr_el1.u = arg_model;
-    midr_el1.u = cavium_get_model();
+    uint32_t my_model = cavium_get_model();
+    uint32_t mask;
 
     if (arg_model & __OM_IGNORE_REVISION)
-    {
-        return (arg_midr_el1.s.partnum == midr_el1.s.partnum);
-    }
+        mask = PARTNUM;
     else if (arg_model & __OM_IGNORE_MINOR_REVISION)
-    {
-        return ((arg_midr_el1.s.partnum == midr_el1.s.partnum) &&
-                (arg_midr_el1.s.variant == midr_el1.s.variant));
-    }
+        mask = PARTNUM | VARIANT;
     else
-    {
-        return ((arg_midr_el1.s.partnum == midr_el1.s.partnum) &&
-                (arg_midr_el1.s.variant == midr_el1.s.variant) &&
-                (arg_midr_el1.s.revision == midr_el1.s.revision));
-    }
+        mask = PARTNUM | VARIANT | REVISION;
+    return ((arg_model & mask) == (my_model & mask));
 }
 
 /** @} */

@@ -32,9 +32,11 @@ uint64_t __bdk_csr_read_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, i
         case BDK_CSR_TYPE_PCCPF:
         case BDK_CSR_TYPE_PCCVF:
         case BDK_CSR_TYPE_PEXP:
-        case BDK_CSR_TYPE_SYSREG:
             bdk_error("%s: Register not supported\n", __FUNCTION__);
             break;
+
+        case BDK_CSR_TYPE_SYSREG:
+            return bdk_sysreg_read(node, bdk_get_core_num(), address);
 
         case BDK_CSR_TYPE_PCICONFIGRC:
         case BDK_CSR_TYPE_PCICONFIGEP:
@@ -99,8 +101,11 @@ void __bdk_csr_write_slow(bdk_node_t node, bdk_csr_type_t type, int busnum, int 
         case BDK_CSR_TYPE_PCCPF:
         case BDK_CSR_TYPE_PCCVF:
         case BDK_CSR_TYPE_PEXP:
-        case BDK_CSR_TYPE_SYSREG:
             bdk_error("%s: Register not supported\n", __FUNCTION__);
+            break;
+
+        case BDK_CSR_TYPE_SYSREG:
+            bdk_sysreg_write(node, bdk_get_core_num(), address, value);
             break;
 
         case BDK_CSR_TYPE_PCICONFIGRC:
@@ -165,7 +170,7 @@ void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, unsigne
  *
  * @return Register value
  */
-uint64_t bdk_sysreg_read(int node, int core, int regnum)
+uint64_t bdk_sysreg_read(int node, int core, uint64_t regnum)
 {
     BDK_CSR_INIT(pp_reset, node, BDK_RST_PP_RESET);
     if (pp_reset.u & (1ull<<core))
@@ -174,11 +179,27 @@ uint64_t bdk_sysreg_read(int node, int core, int regnum)
         return -1;
     }
 
+    /* Addresses indicate selects as follows:
+        select 3,4,14,2,3
+     == 0x03040e020300
+           | | | | |^--- 1 if is E2H duplicated register
+           | | | |^^-- fifth select
+           | | |^^-- fourth select
+           | |^^-- third select
+           |^^-- second select
+          ^^-- first select */
+    uint64_t first = (regnum >> 40) & 0xff;
+    uint64_t second = (regnum >> 32) & 0xff;
+    uint64_t third = (regnum >> 24) & 0xff;
+    uint64_t fourth = (regnum >> 16) & 0xff;
+    uint64_t fifth = (regnum >> 8) & 0xff;
+    uint64_t regid = ((first & 1) << 14) | (second << 11) | (third << 7) | (fourth << 3) | fifth;
+
     /* Note this requires DAP_IMP_DAR[caben] = 1 */
     uint64_t address = 1ull<<47;
     address |= 0x7Bull << 36;
     address |= core << 19;
-    address |= (regnum & 0x7fff) << 3;
+    address |= regid << 3;
     address = bdk_numa_get_address(node, address);
     return bdk_read64_uint64(address);
 }
@@ -191,7 +212,7 @@ uint64_t bdk_sysreg_read(int node, int core, int regnum)
  * @param regnum Register to write in MSR encoding
  * @param value  Value to write
  */
-void bdk_sysreg_write(int node, int core, int regnum, uint64_t value)
+void bdk_sysreg_write(int node, int core, uint64_t regnum, uint64_t value)
 {
     BDK_CSR_INIT(pp_reset, node, BDK_RST_PP_RESET);
     if (pp_reset.u & (1ull<<core))
@@ -200,11 +221,27 @@ void bdk_sysreg_write(int node, int core, int regnum, uint64_t value)
         return;
     }
 
+    /* Addresses indicate selects as follows:
+        select 3,4,14,2,3
+     == 0x03040e020300
+           | | | | |^--- 1 if is E2H duplicated register
+           | | | |^^-- fifth select
+           | | |^^-- fourth select
+           | |^^-- third select
+           |^^-- second select
+          ^^-- first select */
+    uint64_t first = (regnum >> 40) & 0xff;
+    uint64_t second = (regnum >> 32) & 0xff;
+    uint64_t third = (regnum >> 24) & 0xff;
+    uint64_t fourth = (regnum >> 16) & 0xff;
+    uint64_t fifth = (regnum >> 8) & 0xff;
+    uint64_t regid = ((first & 1) << 14) | (second << 11) | (third << 7) | (fourth << 3) | fifth;
+
     /* Note this requires DAP_IMP_DAR[caben] = 1 */
     uint64_t address = 1ull<<47;
     address |= 0x7Bull << 36;
     address |= core << 19;
-    address |= (regnum & 0x7fff) << 3;
+    address |= regid << 3;
     address = bdk_numa_get_address(node, address);
     bdk_write64_uint64(address, value);
 }

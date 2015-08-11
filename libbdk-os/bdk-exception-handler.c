@@ -88,9 +88,9 @@ void __bdk_exception_handler(except_regs_t *exc)
     const char *BANNER = "**********************************************************************************\r\n";
     uint64_t pc;
     BDK_MRS(ELR_EL3, pc);
-    bdk_sys_esr_elx_t esr;
+    bdk_ap_esr_elx_t esr;
     BDK_MRS(ESR_EL3, esr.u);
-    bdk_sys_far_elx_t far;
+    bdk_ap_far_elx_t far;
     BDK_MRS(FAR_EL3, far.u);
     uint64_t thread_id;
     BDK_MRS(TPIDR_EL3, thread_id);

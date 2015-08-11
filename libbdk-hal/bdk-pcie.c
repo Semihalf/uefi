@@ -191,7 +191,7 @@ static void pcie_internal_init_dev(bdk_node_t node, int ecam, int bus, int dev, 
 {
     /* Get the current chip ID and pass. We'll need this to fill in version
        information for the device */
-    bdk_sys_midr_el1_t midr_el1;
+    bdk_ap_midr_el1_t midr_el1;
     BDK_MRS(MIDR_EL1, midr_el1.u);
 
     /* PCCPF_XXX_VSEC_SCTL[RID] with the revision of the chip,

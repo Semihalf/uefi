@@ -41,11 +41,11 @@ void bdk_power_throttle(bdk_node_t node, int throttle)
     {
         if (running & (1ull << core))
         {
-            bdk_sys_cvm_power_el1_t power;
-            power.u = bdk_sysreg_read(node, core, BDK_SYS_CVM_POWER_EL1);
+            BDK_CSR_DEFINE(power, BDK_AP_CVM_POWER_EL1);
+            power.u = bdk_sysreg_read(node, core, BDK_AP_CVM_POWER_EL1);
             power.s.max_setting = throttle;
             power.s.secret_override = 1;
-            bdk_sysreg_write(node, core, BDK_SYS_CVM_POWER_EL1, power.u);
+            bdk_sysreg_write(node, core, BDK_AP_CVM_POWER_EL1, power.u);
         }
     }
 }

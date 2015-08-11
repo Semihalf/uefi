@@ -9,7 +9,7 @@ static void __bdk_init_sysreg(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
     {
-        bdk_sys_cvmctl_el1_t cvmctl_el1;
+        bdk_ap_cvmctl_el1_t cvmctl_el1;
         BDK_MRS(s3_0_c11_c0_0, cvmctl_el1.u);
 
         /* Errara (AP-22934) CIM module has incorrect conditional clock */
@@ -29,7 +29,7 @@ static void __bdk_init_sysreg(void)
     }
 
     /* The defaults for write buffer timeouts are poor */
-    bdk_sys_cvmmemctl0_el1_t cvmmemctl0_el1;
+    bdk_ap_cvmmemctl0_el1_t cvmmemctl0_el1;
     BDK_MRS(s3_0_c11_c0_4, cvmmemctl0_el1.u);
     cvmmemctl0_el1.s.wbftonshena = 1; /* NSH has 2^18 timeout. All BDK mem is NSH */
     cvmmemctl0_el1.s.wbftomrgclrena = 1; /* Reset timer on merge. Hardware default is brain dead */

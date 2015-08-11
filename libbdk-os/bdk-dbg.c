@@ -76,7 +76,7 @@ void bdk_dbg_dump_pc(bdk_node_t node)
         bdk_dbg_uart_char(core % 10 + '0');
         for (int sample=0; sample < 4; sample++)
         {
-            uint64_t pc = bdk_sysreg_read(node, core, BDK_SYS_CVM_DEBUG3_EL3);
+            uint64_t pc = bdk_sysreg_read(node, core, BDK_AP_CVM_DEBUG3_EL3);
             bdk_dbg_uart_char(' ');
             bdk_dbg_uart_hex(pc);
         }

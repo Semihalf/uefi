@@ -61,8 +61,8 @@ extern int __bdk_csr_lookup_index(const char *name, int params[]);
 extern int bdk_csr_get_name(const char *last_name, char *buffer);
 struct bdk_readline_tab;
 extern struct bdk_readline_tab *__bdk_csr_get_tab_complete() BDK_WEAK;
-extern uint64_t bdk_sysreg_read(int node, int core, int regnum);
-extern void bdk_sysreg_write(int node, int core, int regnum, uint64_t value);
+extern uint64_t bdk_sysreg_read(int node, int core, uint64_t regnum);
+extern void bdk_sysreg_write(int node, int core, uint64_t regnum, uint64_t value);
 
 #ifndef BDK_BUILD_HOST
 

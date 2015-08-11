@@ -109,21 +109,21 @@ void __bdk_init(uint32_t image_crc)
     /* Use Cavium specific function to change memory to normal instead of
        device attributes. DCVA47=1 makes unmapped addresses behave as
        non-shared memory (not inner or outer shared in ARM speak) */
-    bdk_sys_cvmmemctl0_el1_t cvmmemctl0_el1;
+    bdk_ap_cvmmemctl0_el1_t cvmmemctl0_el1;
     BDK_MRS(s3_0_c11_c0_4, cvmmemctl0_el1.u);
     cvmmemctl0_el1.s.dcva47 = 1;
     BDK_MSR(s3_0_c11_c0_4, cvmmemctl0_el1.u);
 
 
     /* Setup running with no mmu */
-    bdk_sys_sctlr_elx_t sctlr_el3;
+    bdk_ap_sctlr_el3_t sctlr_el3;
     BDK_MRS(SCTLR_EL3, sctlr_el3.u);
     sctlr_el3.s.ee = 0; /* Little endian */
     sctlr_el3.s.wxn = 0; /* No write perm changes */
     sctlr_el3.s.i = 1;  /* Enable Icache */
     sctlr_el3.s.sa = 1; /* Enable stack alignment checking */
-    sctlr_el3.s.c = 1; /* Enable Dcache */
-    sctlr_el3.s.a = 0; /* Allow unaligned accesses */
+    sctlr_el3.s.cc = 1; /* Enable Dcache */
+    sctlr_el3.s.aa = 0; /* Allow unaligned accesses */
     sctlr_el3.s.m = 0; /* Disable MMU */
     BDK_MSR(SCTLR_EL3, sctlr_el3.u);
 
@@ -228,7 +228,7 @@ void __bdk_init(uint32_t image_crc)
 
     /* Enable the core timer */
     BDK_MSR(CNTFRQ_EL0, BDK_GTI_RATE); /* Needed for Asim */
-    bdk_sys_cntps_ctl_el1_t cntps_ctl_el1;
+    bdk_ap_cntps_ctl_el1_t cntps_ctl_el1;
     cntps_ctl_el1.u = 0;
     cntps_ctl_el1.s.imask = 1;
     cntps_ctl_el1.s.enable = 1;

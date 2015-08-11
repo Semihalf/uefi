@@ -391,7 +391,7 @@ int main(void)
 {
     bdk_node_t node = bdk_numa_local();
 
-    bdk_sys_midr_el1_t midr_el1;
+    bdk_ap_midr_el1_t midr_el1;
     midr_el1.u = cavium_get_model();
     BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
     int boot_method;
