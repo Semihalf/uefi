@@ -52,6 +52,18 @@ bdk-functions.c: ./create_function_table.py $(objs)
 	./create_function_table.py $@ $(objs)
 
 #
+# PKI needs microcode to function. The file bdk-microcode-cn8xxx.c is generated
+# from an ELF file maintained by the hardware team that contains this microcode.
+#
+ifeq (,$(findstring bdk-microcode-cn8xxx,$(src)))
+    # The wildcard will find it if the link is already there, otherwise
+    # we must add it
+    src += $(BDK_ROOT)/libbdk-hal/if/bdk-microcode-cn8xxx.c
+endif
+$(BDK_ROOT)/libbdk-hal/if/bdk-microcode-cn8xxx.c: $(BDK_ROOT)/target-bin/ipemainc.elf
+	$(BDK_ROOT)/bin/bdk-convert-pki-elf $^ $@
+
+#
 # These are needed to make bdk.pch
 # The -M creates the dependencies to stdout
 # The -MP creates fake target for .h files so make won't complain on include changes
