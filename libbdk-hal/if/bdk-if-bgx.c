@@ -37,12 +37,9 @@ typedef struct BDK_CACHE_LINE_ALIGNED
 typedef struct
 {
     /* BGX related config */
-    int         channel;        /* Which logical channel this handle coresponds to (0-15 for higig, zero otherwise) */
-    int         num_channels;   /* Total number of channels on this physical port. Only greater than 1 for higig */
     bgx_mode_t  mode;           /* BGX mode */
     int         port;           /* Which physical port this handle connects to */
     int         num_port;       /* Number of physical ports on this interface */
-    int         higig;          /* True if this port is in higig mode */
     int         use_training;   /* True if this port is in 10G or 40G and uses training */
 
     /* VNIC related config */
@@ -199,9 +196,7 @@ static void create_priv(bdk_node_t node, int interface, int index, bgx_priv_t *p
         }
     }
 
-    priv->port = (priv->higig) ? (index>>4) : index;
-    priv->num_channels = (priv->higig) ? 16 : 1;
-    priv->channel = (priv->higig) ? (index&0xf) : 0;
+    priv->port = index;
 }
 
 static int if_num_interfaces(bdk_node_t node)
@@ -218,7 +213,7 @@ static int if_num_ports(bdk_node_t node, int interface)
 {
     bgx_priv_t priv;
     create_priv(node, interface, 0, &priv);
-    return priv.num_port * priv.num_channels;
+    return priv.num_port;
 }
 
 /**
@@ -329,7 +324,7 @@ static int bgx_setup_one_time(bdk_if_handle_t handle)
        the upper channels are used for anything. That's why this code only uses
        16 channels per interface */
     BDK_CSR_MODIFY(c, handle->node, BDK_BGXX_CMR_CHAN_MSK_AND(handle->interface),
-        c.s.msk_and |= ((1ull <<priv->num_channels) - 1ull) << (handle->index * 16));
+        c.s.msk_and |= ((1ull <<1/*num_channels*/) - 1ull) << (handle->index * 16));
 
     /* Disable all MAC filtering */
     for (int i = 0; i < 32; i++)
@@ -384,9 +379,9 @@ static int if_probe(bdk_if_handle_t handle)
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     create_priv(handle->node, handle->interface, handle->index, priv);
     priv->vnic = next_free_vnic++;
-    /* Share CQ/RBDR for ports/channels on the same interface unless DRAM is
+    /* Share CQ/RBDR for ports on the same interface unless DRAM is
        setup. Sharing saves lots of memory at the cost of performance */
-    priv->shares_cq = (handle->index > 0) || (priv->channel > 0);
+    priv->shares_cq = handle->index > 0;
     if (__bdk_is_dram_enabled(handle->node))
         priv->shares_cq = 0;
 
@@ -402,21 +397,21 @@ static int if_probe(bdk_if_handle_t handle)
             break;
         case BGX_MODE_XAUI:
             if (bdk_numa_is_only_one())
-                name_format = (priv->higig) ? "HIGIG%d.%d.%d" : "XAUI%d";
+                name_format = "XAUI%d";
             else
-                name_format = (priv->higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.XAUI%d";
+                name_format = "N%d.XAUI%d";
             break;
         case BGX_MODE_DXAUI:
             if (bdk_numa_is_only_one())
-                name_format = (priv->higig) ? "HIGIG%d.%d.%d" : "DXAUI%d";
+                name_format = "DXAUI%d";
             else
-                name_format = (priv->higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.DXAUI%d";
+                name_format = "N%d.DXAUI%d";
             break;
         case BGX_MODE_RXAUI:
             if (bdk_numa_is_only_one())
-                name_format = (priv->higig) ? "HIGIG%d.%d.%d" : "RXAUI%d.%d";
+                name_format = "RXAUI%d.%d";
             else
-                name_format = (priv->higig) ? "N%d.HIGIG%d.%d.%d" : "N%d.RXAUI%d.%d";
+                name_format = "N%d.RXAUI%d.%d";
             break;
         case BGX_MODE_XFI:
             if (bdk_numa_is_only_one())
@@ -444,9 +439,9 @@ static int if_probe(bdk_if_handle_t handle)
             break;
     }
     if (bdk_numa_is_only_one())
-        snprintf(handle->name, sizeof(handle->name), name_format, handle->interface, priv->port, priv->channel);
+        snprintf(handle->name, sizeof(handle->name), name_format, handle->interface, priv->port);
     else
-        snprintf(handle->name, sizeof(handle->name), name_format, handle->node, handle->interface, priv->port, priv->channel);
+        snprintf(handle->name, sizeof(handle->name), name_format, handle->node, handle->interface, priv->port);
     handle->name[sizeof(handle->name)-1] = 0;
 
     handle->flags |= BDK_IF_FLAGS_HAS_FCS;
@@ -1259,7 +1254,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
         c.s.tl3a = tl2_index);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CFG(tl3_index),
         c.s.rr_quantum = (MAX_MTU+4) / 4);
-    int tl_channel = BDK_NIC_CHAN_E_BGXX_PORTX_CHX(handle->interface, priv->port, priv->channel);
+    int tl_channel = BDK_NIC_CHAN_E_BGXX_PORTX_CHX(handle->interface, priv->port, 0/*channel*/);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CHAN(tl3_index),
         c.s.chan = tl_channel);
 
@@ -1370,7 +1365,7 @@ static int vnic_setup(bdk_if_handle_t handle)
        bit 3:0: BGX channel on a port (0-15) */
     int flow = (handle->interface) ? 0x80 : 0x00;
     flow += priv->port * 16;
-    flow += priv->channel;
+    flow += 0; /* channel */
     int cpi = next_free_cpi++;  /* Allocate a new Channel Parse Index (CPI) */
     int rssi = next_free_rssi++;/* Allocate a new Receive-Side Scaling Index (RSSI) */
     /* NIC_CHAN_E hard mapped to "flow". Flow chooses the CPI */
@@ -1388,7 +1383,7 @@ static int vnic_setup(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CPIX_CFG(cpi),
         c.s.vnic = priv->vnic; /* TX and RX use the same VNIC */
         c.s.rss_size = 0; /* RSS hash is disabled */
-        c.s.padd = priv->channel; /* Used if we have multiple channels per port */
+        c.s.padd = 0; /* Used if we have multiple channels per port */
         c.s.rssi_base = rssi); /* Base RSSI */
     if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
     {
