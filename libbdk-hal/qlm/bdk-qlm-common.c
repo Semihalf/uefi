@@ -989,7 +989,7 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
                 use_ref = REF_156MHZ;
                 break;
             case 0x4000: /* SATA */
-                qlm_mode = BDK_QLM_MODE_SATA_2X1;
+                qlm_mode = (width == 2) ? BDK_QLM_MODE_SATA_2X1 : BDK_QLM_MODE_SATA_4X1;
                 use_ref = REF_100MHZ;
                 break;
             case 0x5001: /* XFI */
