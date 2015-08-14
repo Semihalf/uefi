@@ -50,28 +50,28 @@ bl1_exceptions:
 	 */
 SynchronousExceptionSP0:
 	mov	x0, #SYNC_EXCEPTION_SP_EL0
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	SynchronousExceptionSP0
 	check_vector_size SynchronousExceptionSP0
 
 	.align	7
 IrqSP0:
 	mov	x0, #IRQ_SP_EL0
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	IrqSP0
 	check_vector_size IrqSP0
 
 	.align	7
 FiqSP0:
 	mov	x0, #FIQ_SP_EL0
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	FiqSP0
 	check_vector_size FiqSP0
 
 	.align	7
 SErrorSP0:
 	mov	x0, #SERROR_SP_EL0
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	SErrorSP0
 	check_vector_size SErrorSP0
 
@@ -82,28 +82,28 @@ SErrorSP0:
 	.align	7
 SynchronousExceptionSPx:
 	mov	x0, #SYNC_EXCEPTION_SP_ELX
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	SynchronousExceptionSPx
 	check_vector_size SynchronousExceptionSPx
 
 	.align	7
 IrqSPx:
 	mov	x0, #IRQ_SP_ELX
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	IrqSPx
 	check_vector_size IrqSPx
 
 	.align	7
 FiqSPx:
 	mov	x0, #FIQ_SP_ELX
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	FiqSPx
 	check_vector_size FiqSPx
 
 	.align	7
 SErrorSPx:
 	mov	x0, #SERROR_SP_ELX
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	SErrorSPx
 	check_vector_size SErrorSPx
 
@@ -130,21 +130,21 @@ SynchronousExceptionA64:
 	.align	7
 IrqA64:
 	mov	x0, #IRQ_AARCH64
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	IrqA64
 	check_vector_size IrqA64
 
 	.align	7
 FiqA64:
 	mov	x0, #FIQ_AARCH64
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	FiqA64
 	check_vector_size FiqA64
 
 	.align	7
 SErrorA64:
 	mov	x0, #SERROR_AARCH64
-	bl	plat_report_exception
+	b	plat_report_exception
 	b   	SErrorA64
 	check_vector_size SErrorA64
 
@@ -155,28 +155,28 @@ SErrorA64:
 	.align	7
 SynchronousExceptionA32:
 	mov	x0, #SYNC_EXCEPTION_AARCH32
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	SynchronousExceptionA32
 	check_vector_size SynchronousExceptionA32
 
 	.align	7
 IrqA32:
 	mov	x0, #IRQ_AARCH32
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	IrqA32
 	check_vector_size IrqA32
 
 	.align	7
 FiqA32:
 	mov	x0, #FIQ_AARCH32
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	FiqA32
 	check_vector_size FiqA32
 
 	.align	7
 SErrorA32:
 	mov	x0, #SERROR_AARCH32
-	bl	plat_report_exception
+	b	plat_report_exception
 	b	SErrorA32
 	check_vector_size SErrorA32
 
@@ -247,7 +247,7 @@ endfunc smc_handler64
 
 unexpected_sync_exception:
 	mov	x0, #SYNC_EXCEPTION_AARCH64
-	bl	plat_report_exception
+	b	plat_report_exception
 	wfi
 	b	unexpected_sync_exception
 

@@ -62,7 +62,7 @@
 	 * -----------------------------------------------------
 	 */
 
-	bl	report_unhandled_exception
+	b	report_unhandled_exception
 	.endm
 
 
@@ -173,7 +173,7 @@ sync_exception_sp_el0:
 	 * We don't expect any synchronous exceptions from EL3
 	 * -----------------------------------------------------
 	 */
-	bl	report_unhandled_exception
+	b	report_unhandled_exception
 	check_vector_size sync_exception_sp_el0
 
 	.align	7
@@ -183,17 +183,17 @@ sync_exception_sp_el0:
 	 * -----------------------------------------------------
 	 */
 irq_sp_el0:
-	bl	report_unhandled_interrupt
+	b	report_unhandled_interrupt
 	check_vector_size irq_sp_el0
 
 	.align	7
 fiq_sp_el0:
-	bl	report_unhandled_interrupt
+	b	report_unhandled_interrupt
 	check_vector_size fiq_sp_el0
 
 	.align	7
 serror_sp_el0:
-	bl	report_unhandled_exception
+	b	report_unhandled_exception
 	check_vector_size serror_sp_el0
 
 	/* -----------------------------------------------------
@@ -209,22 +209,22 @@ sync_exception_sp_elx:
 	 * There is a high probability that SP_EL3 is corrupted.
 	 * -----------------------------------------------------
 	 */
-	bl	report_unhandled_exception
+	b	report_unhandled_exception
 	check_vector_size sync_exception_sp_elx
 
 	.align	7
 irq_sp_elx:
-	bl	report_unhandled_interrupt
+	b	report_unhandled_interrupt
 	check_vector_size irq_sp_elx
 
 	.align	7
 fiq_sp_elx:
-	bl	report_unhandled_interrupt
+	b	report_unhandled_interrupt
 	check_vector_size fiq_sp_elx
 
 	.align	7
 serror_sp_elx:
-	bl	report_unhandled_exception
+	b	report_unhandled_exception
 	check_vector_size serror_sp_elx
 
 	/* -----------------------------------------------------
@@ -261,7 +261,7 @@ fiq_aarch64:
 
 	.align	7
 serror_aarch64:
-	bl	report_unhandled_exception
+	b	report_unhandled_exception
 	check_vector_size serror_aarch64
 
 	/* -----------------------------------------------------
@@ -298,7 +298,7 @@ fiq_aarch32:
 
 	.align	7
 serror_aarch32:
-	bl	report_unhandled_exception
+	b	report_unhandled_exception
 	check_vector_size serror_aarch32
 
 	.align	7
@@ -445,5 +445,5 @@ smc_prohibited:
 
 rt_svc_fw_critical_error:
 	msr	spsel, #1 /* Switch to SP_ELx */
-	bl	report_unhandled_exception
+	b	report_unhandled_exception
 endfunc smc_handler
