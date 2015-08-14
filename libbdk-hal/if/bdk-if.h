@@ -48,6 +48,7 @@ typedef enum
     BDK_IF_BGX,
     BDK_IF_PCIE,
     BDK_IF_FAKE,
+    BDK_IF_LOOP,
     __BDK_IF_LAST
 } bdk_if_t;
 
@@ -90,9 +91,13 @@ typedef struct __bdk_if_port
     bdk_if_t    iftype      : 8;
     bdk_node_t  node        : 8;
     int         interface   : 8;
-    int         index       : 8;    /* ILK can have 256 channels on CN78XX */
+    int         index       : 8;
     bdk_if_flags_t flags    : 8;
-    int         pknd        : 8;
+    int         pknd        : 8;    /* NIC/PKI packet kind */
+    int16_t     pki_channel;        /* PKI/SSO channel number */
+    int16_t     pki_dstat;          /* PKI DSTAT ID used for receive stats */
+    int16_t     pko_queue;          /* PKO DQ number */
+    int16_t     aura;               /* FPA aura number */
     void *      receiver;           /* This is a bdk_if_packet_receiver_t */
     void *      receiver_arg;
     bdk_if_stats_t stats;

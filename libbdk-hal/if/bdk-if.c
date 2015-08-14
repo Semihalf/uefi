@@ -45,13 +45,30 @@ static bdk_if_handle_t bdk_if_init_port(bdk_node_t node, bdk_if_t iftype, int in
     handle->node = node;
     handle->interface = interface;
     handle->index = index;
-    handle->next = NULL;
     handle->flags = 0;
+    handle->pknd = 0;
+    handle->pki_channel = -1;
+    handle->pki_dstat = -1;
+    handle->pko_queue = -1;
+    handle->aura = -1;
+    handle->next = NULL;
     snprintf(handle->name, sizeof(handle->name), "P%d.%d", interface, index);
     handle->name[sizeof(handle->name)-1] = 0;
 
     if (__bdk_if_ops[iftype]->if_probe(handle))
         goto fail;
+
+    if (handle->pko_queue != -1)
+    {
+        if (bdk_pko_port_init(handle))
+            goto fail;
+    }
+
+    if (handle->pki_channel != -1)
+    {
+        if (bdk_pki_port_init(handle))
+            goto fail;
+    }
 
     if (__bdk_if_ops[iftype]->if_init(handle))
     {
@@ -85,6 +102,16 @@ static int __bdk_if_init_node(bdk_node_t node)
 {
     int result = 0;
 
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && !bdk_is_platform(BDK_PLATFORM_ASIM))
+    {
+        if (bdk_pki_global_init(node))
+            return -1;
+        if (bdk_pko_global_init(node))
+            return -1;
+        if (bdk_sso_init(node))
+            return -1;
+    }
+
     /* Loop through all types */
     for (bdk_if_t iftype=BDK_IF_BGX; iftype<__BDK_IF_LAST; iftype++)
     {
@@ -102,6 +129,15 @@ static int __bdk_if_init_node(bdk_node_t node)
             }
         }
     }
+
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && !bdk_is_platform(BDK_PLATFORM_ASIM))
+    {
+        if (bdk_pko_enable(node))
+            return -1;
+        if (bdk_pki_enable(node))
+            return -1;
+    }
+
     return result;
 }
 

@@ -35,6 +35,9 @@ extern void bdk_warn(const char *format, ...) __attribute__ ((format(printf, 1, 
 #define BDK_TRACE_ENABLE_MPI        0   /* MPI related debug */
 #define BDK_TRACE_ENABLE_ENV        0   /* Environment variables related debug */
 #define BDK_TRACE_ENABLE_FPA        0   /* Free Pool Allocator */
+#define BDK_TRACE_ENABLE_PKI        0   /* Packet Input */
+#define BDK_TRACE_ENABLE_PKO        0   /* Packet Output */
+#define BDK_TRACE_ENABLE_SSO        0   /* SSO */
 
 /**
  * Macro for low level tracing of BDK functions. When enabled,
