@@ -32,6 +32,7 @@
 #include "bdk-model.h"
 #include "bdk-numa.h"
 #include "bdk-csr.h"
+#include "bdk-lmt.h"
 #include "bdk-warn.h"
 #include "bdk-csrs.h"
 #include "bdk-version.h"
