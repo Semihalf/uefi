@@ -288,22 +288,18 @@
 #define BDK_PKI_OPCODE_E_RE_DMAPKT (0xf) /**< DMA packet error: The packet experienced one or more errors during the DMA read operation.
                                        Applicable only to the DPI interface. */
 #define BDK_PKI_OPCODE_E_RE_FCS (7) /**< FCS error: the packet was received with an error. If the packet arrived via a BGX
-                                       interface, the packet had an FCS error. If the packet arrived via an ILK interface, the
-                                       following ILK errors can cause packets to terminate with this error code:
-                                       SERDES_LOCK_LOSS, BDRY_SYNC_LOSS, SCRM_SYNC_LOSS, LANE_ALIGN_FAIL, DESKEW_FIFO_OVFL,
-                                       CRC24_ERR, UKWN_CNTL_WORD, and BAD_64B67B. Not applicable when the packet arrived via the
-                                       DPI interface nor LBK interface. */
+                                       interface, the packet had an FCS error. Not applicable when the packet arrived via the
+                                       DPI interface. */
 #define BDK_PKI_OPCODE_E_RE_FCS_RCV (8) /**< FCS receive error: the packet was received with an error. If the packet arrived via a BGX
                                        interface operating at data rates of >= 10 Gb/s, the packet had both an FCS and data
-                                       reception error. Not applicable when the packet arrived via the ILK, DPI interface, nor
-                                       LBK interface. */
-#define BDK_PKI_OPCODE_E_RE_JABBER (2) /**< Jabber error: the packet was too large and is truncated. Applicable only to BGX and ILK
+                                       reception error. Not applicable when the packet arrived via the DPI interface. */
+#define BDK_PKI_OPCODE_E_RE_JABBER (2) /**< Jabber error: the packet was too large and is truncated. Applicable only to BGX
                                        interfaces. */
 #define BDK_PKI_OPCODE_E_RE_MEMOUT (0x15) /**< PKI ran out of FPA buffers while receiving the packet. */
 #define BDK_PKI_OPCODE_E_RE_NONE (0) /**< No error. */
-#define BDK_PKI_OPCODE_E_RE_PARTIAL (1) /**< Partial error: the packet was partially received. If the packet arrived via a BGX or ILK
+#define BDK_PKI_OPCODE_E_RE_PARTIAL (1) /**< Partial error: the packet was partially received. If the packet arrived via a BGX
                                        interface, internal buffering/bandwidth was not adequate to receive the entire packet. Not
-                                       applicable when the packet arrived via the DPI interface nor LBK interface. */
+                                       applicable when the packet arrived via the DPI interface. */
 #define BDK_PKI_OPCODE_E_RE_PKIPAR (0x13) /**< PKI parity error: Uncorrected PKI-internal parity error was detected during the reassembly
                                        or processing of this packet. PKI_CL()_ECC_INT[DMEM_PERR] or [RF_PERR] will indicate
                                        the RAM with the parity error. This error has highest priority over any other errors. */
@@ -321,15 +317,13 @@
 #define BDK_PKI_OPCODE_E_RE_RX_CTL (0xb) /**< BGX RX error: the packet had one or more data reception errors in which a control byte was
                                        detected in the frame. Applicable only to BGX interface ports. */
 #define BDK_PKI_OPCODE_E_RE_SKIP (0xc) /**< Skip error: packet was not large enough to accommodate MAC skip data. For BGX interfaces,
-                                       the BGX()_SMU()_RX_UDD_SKP[LEN] exceeded the received packet byte count.  For ILK
-                                       interfaces, ILK received a packet with an 'Error and end of packet' indication. Not
-                                       applicable when the packet arrived via the DPI interface nor LBK interface. */
+                                       the BGX()_SMU()_RX_UDD_SKP[LEN] exceeded the received packet byte count.  Not
+                                       applicable when the packet arrived via the DPI interface. */
 #define BDK_PKI_OPCODE_E_RE_TERMINATE (9) /**< Terminate error: the packet was terminated incorrectly. For BGX interfaces operating at
                                        data rates of >= 10 Gb/s, the packet was terminated with an idle cycle instead of a
                                        terminate control cycle. For BGX interfaces operating at data rates of <= 1 Gb/s, the
-                                       packet had a CarrierExtendError before the slot time expired. For ILK interfaces, an SOP-
-                                       SOP ILK error can cause packets to terminate with this error code. Not applicable when the
-                                       packet arrived via the DPI interface nor LBK interface. */
+                                       packet had a CarrierExtendError before the slot time expired. Not applicable when the
+                                       packet arrived via the DPI interface. */
 #define BDK_PKI_OPCODE_E_TCP_FLAG (0x65) /**< The packet is TCP and has bad flags. Indicates any of the following conditions:
                                        
                                        <pre>
@@ -563,7 +557,8 @@ union bdk_pki_bewq_s
     struct bdk_pki_bewq_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
+        uint64_t node                  : 2;  /**< [ 63: 62] BE pass-through. */
+        uint64_t reserved_60_61        : 2;
         uint64_t aura                  : 12; /**< [ 59: 48] BE optionally recomputes. */
         uint64_t reserved_47           : 1;
         uint64_t apad                  : 3;  /**< [ 46: 44] BE pass-through; used for data generation. */
@@ -583,7 +578,8 @@ union bdk_pki_bewq_s
         uint64_t apad                  : 3;  /**< [ 46: 44] BE pass-through; used for data generation. */
         uint64_t reserved_47           : 1;
         uint64_t aura                  : 12; /**< [ 59: 48] BE optionally recomputes. */
-        uint64_t reserved_60_63        : 4;
+        uint64_t reserved_60_61        : 2;
+        uint64_t node                  : 2;  /**< [ 63: 62] BE pass-through. */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t len                   : 16; /**< [127:112] BE replaces with complete packet length. */
@@ -1108,7 +1104,10 @@ union bdk_pki_wqe_s
     struct bdk_pki_wqe_s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_60_63        : 4;
+        uint64_t node                  : 2;  /**< [ 63: 62] Refer to PKI Hardware Work-Queue Entry, word0<63:62>. Contains the node number on which
+                                                                 the packet arrived.
+                                                                 ... */
+        uint64_t reserved_60_61        : 2;
         uint64_t aura                  : 12; /**< [ 59: 48] Refer to PKI Hardware Work-Queue Entry, word0<59:48>. Contains the aura including the FPA
                                                                  node computed for the packet. See Auras for an overview on auras and QPG for the aura
                                                                  calculation. Note the high two bits (WQE[AURA]<11:10>) correspond to an CCPI node number,
@@ -1170,7 +1169,10 @@ union bdk_pki_wqe_s
                                                                  from PKI_QPG_TBL(0..2047)[AURA_NODE], and indicate the node on which the packet was
                                                                  received by PKI.
                                                                  ... */
-        uint64_t reserved_60_63        : 4;
+        uint64_t reserved_60_61        : 2;
+        uint64_t node                  : 2;  /**< [ 63: 62] Refer to PKI Hardware Work-Queue Entry, word0<63:62>. Contains the node number on which
+                                                                 the packet arrived.
+                                                                 ... */
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t len                   : 16; /**< [127:112] Refer to PKI Hardware Work-Queue Entry, word1<63:48>. The total number of bytes of packet
@@ -3826,6 +3828,86 @@ static inline uint64_t BDK_PKI_CLKEN_FUNC(void)
 #define arguments_BDK_PKI_CLKEN -1,-1,-1,-1
 
 /**
+ * Register (NCB) pki_const
+ *
+ * PKI Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t pknds                 : 16; /**< [ 47: 32](RO) Number of PKINDs implemented. */
+        uint64_t bpid                  : 16; /**< [ 31: 16](RO) Number of BPIDs implemented. */
+        uint64_t auras                 : 16; /**< [ 15:  0](RO) Number of auras implemented. */
+#else /* Word 0 - Little Endian */
+        uint64_t auras                 : 16; /**< [ 15:  0](RO) Number of auras implemented. */
+        uint64_t bpid                  : 16; /**< [ 31: 16](RO) Number of BPIDs implemented. */
+        uint64_t pknds                 : 16; /**< [ 47: 32](RO) Number of PKINDs implemented. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_const_s cn; */
+} bdk_pki_const_t;
+
+#define BDK_PKI_CONST BDK_PKI_CONST_FUNC()
+static inline uint64_t BDK_PKI_CONST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_CONST_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000000000ll;
+    __bdk_csr_fatal("PKI_CONST", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_CONST bdk_pki_const_t
+#define bustype_BDK_PKI_CONST BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_CONST "PKI_CONST"
+#define busnum_BDK_PKI_CONST 0
+#define arguments_BDK_PKI_CONST -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_const1
+ *
+ * PKI Constants Register 1
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_const1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t ipes                  : 8;  /**< [ 15:  8](RO) Number of IPEs per clusters implemented. */
+        uint64_t cls                   : 8;  /**< [  7:  0](RO) Number of clusters implemented. */
+#else /* Word 0 - Little Endian */
+        uint64_t cls                   : 8;  /**< [  7:  0](RO) Number of clusters implemented. */
+        uint64_t ipes                  : 8;  /**< [ 15:  8](RO) Number of IPEs per clusters implemented. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_const1_s cn; */
+} bdk_pki_const1_t;
+
+#define BDK_PKI_CONST1 BDK_PKI_CONST1_FUNC()
+static inline uint64_t BDK_PKI_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_CONST1_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000000008ll;
+    __bdk_csr_fatal("PKI_CONST1", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_CONST1 bdk_pki_const1_t
+#define bustype_BDK_PKI_CONST1 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_CONST1 "PKI_CONST1"
+#define busnum_BDK_PKI_CONST1 0
+#define arguments_BDK_PKI_CONST1 -1,-1,-1,-1
+
+/**
  * Register (RSL) pki_dstat#_stat0
  *
  * PKI Packets Deep Statistic Registers
@@ -5429,10 +5511,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_53_63        : 11;
-        uint64_t maxipe_use            : 5;  /**< [ 52: 48](R/W) Maximum number of IPEs to use in each cluster for this ICG. For diagnostic use only.
-                                                                 INTERNAL: Allows reducing the number of IPEs available for debug, characterization,
-                                                                 repair, etc. Must be 1-20. Normally, PKI will have all 20 IPEs available in a cluster for
-                                                                 packet processing, other values will decrease performance. */
+        uint64_t maxipe_use            : 5;  /**< [ 52: 48](R/W) Maximum number of IPEs to use in each cluster for this ICG. For diagnostic use
+                                                                 only. INTERNAL: Allows reducing the number of IPEs available for debug,
+                                                                 characterization, repair, etc. Must be between 1 and PKI_CONST1[IPES]
+                                                                 (20). Normally, PKI will have all 20 IPEs available in a cluster for packet
+                                                                 processing, other values will decrease performance. */
         uint64_t reserved_36_47        : 12;
         uint64_t clusters              : 4;  /**< [ 35: 32](R/W) Bit-mask of clusters in this cluster group. A given cluster can only be enabled
                                                                  in a single cluster group. Behavior is undefined for an ICG which receives
@@ -5498,10 +5581,11 @@ typedef union
                                                                  traffic with a [CLUSTERS] of 0x0. ICG(0)'s entry resets to 0x3, all other
                                                                  entries to 0x0. Valid values of CLUSTERS is: 0..3 */
         uint64_t reserved_36_47        : 12;
-        uint64_t maxipe_use            : 5;  /**< [ 52: 48](R/W) Maximum number of IPEs to use in each cluster for this ICG. For diagnostic use only.
-                                                                 INTERNAL: Allows reducing the number of IPEs available for debug, characterization,
-                                                                 repair, etc. Must be 1-20. Normally, PKI will have all 20 IPEs available in a cluster for
-                                                                 packet processing, other values will decrease performance. */
+        uint64_t maxipe_use            : 5;  /**< [ 52: 48](R/W) Maximum number of IPEs to use in each cluster for this ICG. For diagnostic use
+                                                                 only. INTERNAL: Allows reducing the number of IPEs available for debug,
+                                                                 characterization, repair, etc. Must be between 1 and PKI_CONST1[IPES]
+                                                                 (20). Normally, PKI will have all 20 IPEs available in a cluster for packet
+                                                                 processing, other values will decrease performance. */
         uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
     } s;
@@ -5758,7 +5842,7 @@ static inline uint64_t BDK_PKI_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_PKI_PF_MSIX_PBAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x86c0010f0008ll + 0ll * ((a) & 0x0);
+        return 0x86c0010f0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("PKI_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
@@ -6257,16 +6341,16 @@ typedef union
         uint64_t avail                 : 8;  /**< [  7:  0](R/W) Number of ptags available for use. Decreasing the number of ptags will reduce
                                                                  the number of packets waiting for parsing, which will lead to sooner
                                                                  backpressure/packet drop, but will decrease the small-packet latency of PKI by
-                                                                 reducing buffer-bloat.
-
-                                                                 This may only be written when PKI_BUF_CTL[PKI_EN] is clear. */
+                                                                 reducing buffer-bloat. AVAIL must be at least as great as the number of
+                                                                 reassembly-IDs used by the system intends to use or the PTAGS can be exhausted
+                                                                 and PKI will hang. */
 #else /* Word 0 - Little Endian */
         uint64_t avail                 : 8;  /**< [  7:  0](R/W) Number of ptags available for use. Decreasing the number of ptags will reduce
                                                                  the number of packets waiting for parsing, which will lead to sooner
                                                                  backpressure/packet drop, but will decrease the small-packet latency of PKI by
-                                                                 reducing buffer-bloat.
-
-                                                                 This may only be written when PKI_BUF_CTL[PKI_EN] is clear. */
+                                                                 reducing buffer-bloat. AVAIL must be at least as great as the number of
+                                                                 reassembly-IDs used by the system intends to use or the PTAGS can be exhausted
+                                                                 and PKI will hang. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;

@@ -154,11 +154,15 @@
                                        invocations
                                        for the file plus the number of input bytes for this invocation, times 8 (8 bits per
                                        byte). */
-#define BDK_ZIP_COMP_E_TIMEOUT (0xc) /**< The compress or decompress operation timed out. All bytes in the output stream
+#define BDK_ZIP_COMP_E_TIMEOUT_CN88XX (0xc) /**< The compress or decompress operation timed out. All bytes in the output stream
                                        and ZIP_ZRES_S fields excluding ZIP_ZRES_S[COMPCODE] and ZIP_ZRES_S[DONEINT]
                                        from the ZIP coprocessor are unpredictable and must not be used by the
                                        software.
                                        Added in pass 2. */
+#define BDK_ZIP_COMP_E_TIMEOUT_CN83XX (0xc) /**< The compress or decompress operation timed out. All bytes in the output stream
+                                       and ZIP_ZRES_S fields excluding ZIP_ZRES_S[COMPCODE] and ZIP_ZRES_S[DONEINT]
+                                       from the ZIP coprocessor are unpredictable and must not be used by the
+                                       software. */
 #define BDK_ZIP_COMP_E_ZERO_LEN (9) /**< Compress found a zero-length input. */
 
 /**
@@ -4361,9 +4365,17 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t iqb_ldwb              : 1;  /**< [  3:  3](R/W) When set, reading a ZIP instruction full cache line will use NCB LDWB read-and-invalidate
-                                                                 to improve performance. If clear, use NCB LDI for debugability. Partial cache line reads
-                                                                 always use LDI. */
+        uint64_t iqb_ldwb              : 1;  /**< [  3:  3](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
         uint64_t cbw_sty               : 1;  /**< [  2:  2](R/W) When set, a context cache block write will use STY. When clear, a context write will use STF. */
         uint64_t l2ld_cmd              : 2;  /**< [  1:  0](R/W) Which NCB load command to use for reading gather pointers, context, history and input
                                                                  data.
@@ -4379,9 +4391,17 @@ typedef union
                                                                  0x2 = LDE.
                                                                  0x3 = LDY. */
         uint64_t cbw_sty               : 1;  /**< [  2:  2](R/W) When set, a context cache block write will use STY. When clear, a context write will use STF. */
-        uint64_t iqb_ldwb              : 1;  /**< [  3:  3](R/W) When set, reading a ZIP instruction full cache line will use NCB LDWB read-and-invalidate
-                                                                 to improve performance. If clear, use NCB LDI for debugability. Partial cache line reads
-                                                                 always use LDI. */
+        uint64_t iqb_ldwb              : 1;  /**< [  3:  3](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;

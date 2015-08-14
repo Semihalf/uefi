@@ -3481,15 +3481,18 @@ typedef union
         uint32_t reserved_9_14         : 6;
         uint32_t l1_susp_thrld_en_for_host : 1;/**< [  8:  8](R/W) The controller puts the PHY into deep low-power mode in L1 when both of the
                                                                  following are true:
-                                                                 - The HIRD/BESL value used is greater than or equal to the
+
+                                                                 * The HIRD/BESL value used is greater than or equal to the
                                                                    value in L1_SUSP_THRLD_FOR_HOST field.
-                                                                 - The L1_SUSP_THRLD_EN_FOR_HOST bit is set to 1'b1.
+                                                                 * The L1_SUSP_THRLD_EN_FOR_HOST bit is set.
+
                                                                  The controller the UTMI PHY transitions to shallow low-power
                                                                  mode in L1 by powering down necessary blocks when one of the
                                                                  following is true:
-                                                                 - The HIRD/BESL value used is less than the value in
+
+                                                                 * The HIRD/BESL value used is less than the value in
                                                                    L1_SUSP_THRLD_FOR_HOST field.
-                                                                 - The L1_SUSP_THRLD_EN_FOR_HOST bit is set to 1'b0. */
+                                                                 * The L1_SUSP_THRLD_EN_FOR_HOST bit is clear. */
         uint32_t l1_susp_thrld_for_host : 4; /**< [  7:  4](R/W) This field is effective only when the L1_SUSP_THRLD_EN_FOR_HOST is set t0 1. */
         uint32_t helden                : 1;  /**< [  3:  3](R/W) When this bit is set to 1, it enables the Exit Latency Delta (ELD)
                                                                  support defined in the xHCI 1.0 Errata. */
@@ -3523,15 +3526,18 @@ typedef union
         uint32_t l1_susp_thrld_for_host : 4; /**< [  7:  4](R/W) This field is effective only when the L1_SUSP_THRLD_EN_FOR_HOST is set t0 1. */
         uint32_t l1_susp_thrld_en_for_host : 1;/**< [  8:  8](R/W) The controller puts the PHY into deep low-power mode in L1 when both of the
                                                                  following are true:
-                                                                 - The HIRD/BESL value used is greater than or equal to the
+
+                                                                 * The HIRD/BESL value used is greater than or equal to the
                                                                    value in L1_SUSP_THRLD_FOR_HOST field.
-                                                                 - The L1_SUSP_THRLD_EN_FOR_HOST bit is set to 1'b1.
+                                                                 * The L1_SUSP_THRLD_EN_FOR_HOST bit is set.
+
                                                                  The controller the UTMI PHY transitions to shallow low-power
                                                                  mode in L1 by powering down necessary blocks when one of the
                                                                  following is true:
-                                                                 - The HIRD/BESL value used is less than the value in
+
+                                                                 * The HIRD/BESL value used is less than the value in
                                                                    L1_SUSP_THRLD_FOR_HOST field.
-                                                                 - The L1_SUSP_THRLD_EN_FOR_HOST bit is set to 1'b0. */
+                                                                 * The L1_SUSP_THRLD_EN_FOR_HOST bit is clear. */
         uint32_t reserved_9_14         : 6;
         uint32_t parkmode_disable_fsls : 1;  /**< [ 15: 15](R/W) When this bit is set to 1 all FS/LS bus instances park mode are
                                                                  disabled. */
@@ -3722,13 +3728,13 @@ typedef union
 
                                                                  The number of bit times added per PHY clock are:
                                                                  * High-speed operation:
-                                                                 - one 30-MHz PHY clock = 16 bit times.
-                                                                 - one 60-MHz PHY clock = 8 bit times.
+                                                                 _ one 30-MHz PHY clock = 16 bit times.
+                                                                 _ one 60-MHz PHY clock = 8 bit times.
 
                                                                  * Full-speed operation:
-                                                                 - one 30-MHz PHY clock = 0.4 bit times.
-                                                                 - one 60-MHz PHY clock = 0.2 bit times.
-                                                                 - one 48-MHz PHY clock = 0.25 bit times. */
+                                                                 _ one 30-MHz PHY clock = 0.4 bit times.
+                                                                 _ one 60-MHz PHY clock = 0.2 bit times.
+                                                                 _ one 48-MHz PHY clock = 0.25 bit times. */
 #else /* Word 0 - Little Endian */
         uint32_t toutcal               : 3;  /**< [  2:  0](R/W) High-speed/full-speed timeout calibration.
                                                                  The number of PHY clock cycles, as indicated by the application in this field, is
@@ -3743,13 +3749,13 @@ typedef union
 
                                                                  The number of bit times added per PHY clock are:
                                                                  * High-speed operation:
-                                                                 - one 30-MHz PHY clock = 16 bit times.
-                                                                 - one 60-MHz PHY clock = 8 bit times.
+                                                                 _ one 30-MHz PHY clock = 16 bit times.
+                                                                 _ one 60-MHz PHY clock = 8 bit times.
 
                                                                  * Full-speed operation:
-                                                                 - one 30-MHz PHY clock = 0.4 bit times.
-                                                                 - one 60-MHz PHY clock = 0.2 bit times.
-                                                                 - one 48-MHz PHY clock = 0.25 bit times. */
+                                                                 _ one 30-MHz PHY clock = 0.4 bit times.
+                                                                 _ one 60-MHz PHY clock = 0.2 bit times.
+                                                                 _ one 48-MHz PHY clock = 0.25 bit times. */
         uint32_t phyif                 : 1;  /**< [  3:  3](R/W) PHY interface width: 1 = 16-bit, 0 = 8-bit.
                                                                  All the enabled 2.0 ports should have the same clock frequency as Port0 clock frequency
                                                                  (utmi_clk[0]).
@@ -3863,13 +3869,13 @@ typedef union
 
                                                                  The number of bit times added per PHY clock are:
                                                                  * High-speed operation:
-                                                                 - one 30-MHz PHY clock = 16 bit times.
-                                                                 - one 60-MHz PHY clock = 8 bit times.
+                                                                 _ one 30-MHz PHY clock = 16 bit times.
+                                                                 _ one 60-MHz PHY clock = 8 bit times.
 
                                                                  * Full-speed operation:
-                                                                 - one 30-MHz PHY clock = 0.4 bit times.
-                                                                 - one 60-MHz PHY clock = 0.2 bit times.
-                                                                 - one 48-MHz PHY clock = 0.25 bit times. */
+                                                                 _ one 30-MHz PHY clock = 0.4 bit times.
+                                                                 _ one 60-MHz PHY clock = 0.2 bit times.
+                                                                 _ one 48-MHz PHY clock = 0.25 bit times. */
 #else /* Word 0 - Little Endian */
         uint32_t toutcal               : 3;  /**< [  2:  0](R/W) High-speed/full-speed timeout calibration.
                                                                  The number of PHY clock cycles, as indicated by the application in this field, is
@@ -3884,13 +3890,13 @@ typedef union
 
                                                                  The number of bit times added per PHY clock are:
                                                                  * High-speed operation:
-                                                                 - one 30-MHz PHY clock = 16 bit times.
-                                                                 - one 60-MHz PHY clock = 8 bit times.
+                                                                 _ one 30-MHz PHY clock = 16 bit times.
+                                                                 _ one 60-MHz PHY clock = 8 bit times.
 
                                                                  * Full-speed operation:
-                                                                 - one 30-MHz PHY clock = 0.4 bit times.
-                                                                 - one 60-MHz PHY clock = 0.2 bit times.
-                                                                 - one 48-MHz PHY clock = 0.25 bit times. */
+                                                                 _ one 30-MHz PHY clock = 0.4 bit times.
+                                                                 _ one 60-MHz PHY clock = 0.2 bit times.
+                                                                 _ one 48-MHz PHY clock = 0.25 bit times. */
         uint32_t phyif                 : 1;  /**< [  3:  3](R/W) PHY interface width: 1 = 16-bit, 0 = 8-bit.
                                                                  All the enabled 2.0 ports should have the same clock frequency as Port0 clock frequency
                                                                  (utmi_clk[0]).

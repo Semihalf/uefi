@@ -304,14 +304,22 @@ typedef union
     struct bdk_key_memx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations. */
+#else /* Word 0 - Little Endian */
+        uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_key_memx_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations.
                                                                  INTERNAL: This was accessible only on NCB in pass 1 but both NCB and RSL in pass 2 */
 #else /* Word 0 - Little Endian */
         uint64_t kmem                  : 64; /**< [ 63:  0](SR/W) Key memory. KMEM is accessible using 8-, 16-, 32-, or 64-bit load or store operations.
                                                                  INTERNAL: This was accessible only on NCB in pass 1 but both NCB and RSL in pass 2 */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_key_memx_s cn; */
+    } cn88xx;
+    /* struct bdk_key_memx_s cn83xx; */
 } bdk_key_memx_t;
 
 static inline uint64_t BDK_KEY_MEMX(unsigned long a) __attribute__ ((pure, always_inline));

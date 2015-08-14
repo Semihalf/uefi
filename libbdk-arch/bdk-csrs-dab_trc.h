@@ -1142,6 +1142,20 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
+        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. */
+        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node */
+        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16 */
+#else /* Word 0 - Little Endian */
+        uint32_t aff0                  : 8;  /**< [  7:  0](RO/H) AFF0, this is the core within a group of 16 */
+        uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node */
+        uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_trcx_trcdevaff0_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
         uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
         uint32_t aff1                  : 8;  /**< [ 15:  8](RO/H) AFF1, this is the group of 16 cores within a node
                                                                  Added in pass 2. */
@@ -1155,8 +1169,7 @@ typedef union
         uint32_t aff2                  : 8;  /**< [ 23: 16](RO/H) AFF2, this is node id. Added in pass 2. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_trcx_trcdevaff0_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_trcx_trcdevaff0_s cn88xxp1; */
 } bdk_trcx_trcdevaff0_t;
 
@@ -1230,28 +1243,24 @@ typedef union
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
                                                                      by ARM this is the minor revision.
                                                                  For TRC, the revision defined by v8-A is 0x0.
-                                                                 All other values are reserved.
-                                                                 Changed in pass 2. */
+                                                                 All other values are reserved. */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
                                                                  For TRC:
                                                                   Bits [15:12] are the architecture version, 0x1.
                                                                   Bits [11:0] are the architecture part number, 0xA14.
-                                                                 This corresponds to TRC architecture version TRCv2.
-                                                                 Changed in pass 2. */
+                                                                 This corresponds to TRC architecture version TRCv2. */
 #else /* Word 0 - Little Endian */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
                                                                  For TRC:
                                                                   Bits [15:12] are the architecture version, 0x1.
                                                                   Bits [11:0] are the architecture part number, 0xA14.
-                                                                 This corresponds to TRC architecture version TRCv2.
-                                                                 Changed in pass 2. */
+                                                                 This corresponds to TRC architecture version TRCv2. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
                                                                      by ARM this is the minor revision.
                                                                  For TRC, the revision defined by v8-A is 0x0.
-                                                                 All other values are reserved.
-                                                                 Changed in pass 2. */
+                                                                 All other values are reserved. */
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
                                                                  This field is 1 in v8-A. */
         uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is ARM Limited.
@@ -1262,8 +1271,7 @@ typedef union
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_trcx_trcdevarch_s cn83xx; */
-    /* struct bdk_trcx_trcdevarch_s cn88xxp2; */
-    struct bdk_trcx_trcdevarch_cn88xxp1
+    struct bdk_trcx_trcdevarch_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is ARM Limited.
@@ -1276,24 +1284,28 @@ typedef union
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
                                                                      by ARM this is the minor revision.
                                                                  For TRC, the revision defined by v8-A is 0x0.
-                                                                 All other values are reserved. */
+                                                                 All other values are reserved.
+                                                                 Changed in pass 2. */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
                                                                  For TRC:
                                                                   Bits [15:12] are the architecture version, 0x1.
                                                                   Bits [11:0] are the architecture part number, 0xA14.
-                                                                 This corresponds to TRC architecture version TRCv2. */
+                                                                 This corresponds to TRC architecture version TRCv2.
+                                                                 Changed in pass 2. */
 #else /* Word 0 - Little Endian */
         uint32_t archid                : 16; /**< [ 15:  0](RO) Defines this part to be a v8-A debug component. For
                                                                      architectures defined by ARM this is further subdivided.
                                                                  For TRC:
                                                                   Bits [15:12] are the architecture version, 0x1.
                                                                   Bits [11:0] are the architecture part number, 0xA14.
-                                                                 This corresponds to TRC architecture version TRCv2. */
+                                                                 This corresponds to TRC architecture version TRCv2.
+                                                                 Changed in pass 2. */
         uint32_t revision              : 4;  /**< [ 19: 16](RO) Defines the architecture revision. For architectures defined
                                                                      by ARM this is the minor revision.
                                                                  For TRC, the revision defined by v8-A is 0x0.
-                                                                 All other values are reserved. */
+                                                                 All other values are reserved.
+                                                                 Changed in pass 2. */
         uint32_t present               : 1;  /**< [ 20: 20](RO) When set to 1, indicates that the DEVARCH is present.
                                                                  This field is 1 in v8-A. */
         uint32_t architect             : 11; /**< [ 31: 21](RO) Defines the architecture of the component. This is ARM Limited.
@@ -1302,7 +1314,8 @@ typedef union
 
                                                                  Bits [27:21] are the JEP 106 ID code, 0x3B. */
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn88xxp2;
+    /* struct bdk_trcx_trcdevarch_s cn88xxp1; */
 } bdk_trcx_trcdevarch_t;
 
 static inline uint64_t BDK_TRCX_TRCDEVARCH(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2239,6 +2252,84 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_31           : 1;
+        uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Read as one. */
+        uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
+                                                                 cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
+
+                                                                 For CNXXXX, 0x0 as does not implement a counter. */
+        uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes.
+                                                                   0x0 = Data value tracing is not supported. Therefore, an implementation must set
+                                                                   TRCIDR0[TRCDATA]=0x0.
+                                                                   0x4 = Maximum of 32-bit data value size.
+                                                                   0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
+                                                                   ARMv6 and ARMv7 PEs. */
+        uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data address size in bytes.
+                                                                 0x0 = Data address tracing is not supported. Therefore, an implementation must
+                                                                 also set TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                 0x4 = Maximum of 32-bit data address size.
+                                                                 0x8 = Maximum of 64-bit data address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs.
+
+                                                                 For CNXXXX, not supported. */
+        uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
+                                                                 size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
+                                                                 TRC()_TRCCONFIGR[VMID] is supported.
+                                                                 For CNXXXX, 16-bit. */
+        uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the Context ID size. The permitted values are:
+                                                                   0x0 = Context ID tracing is not supported.
+                                                                   0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
+                                                                 supported.  32 bit contextID supported.
+
+                                                                 For CNXXXX, 32-bit. */
+        uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
+                                                                 0x4 = Maximum of 32-bit address size.
+                                                                 0x8 = Maximum of 64-bit address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs.
+
+                                                                 For CNXXXX, 64-bit. */
+#else /* Word 0 - Little Endian */
+        uint32_t iasize                : 5;  /**< [  4:  0](RO) Indicates the instruction address size.
+                                                                 0x4 = Maximum of 32-bit address size.
+                                                                 0x8 = Maximum of 64-bit address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs.
+
+                                                                 For CNXXXX, 64-bit. */
+        uint32_t cidsize               : 5;  /**< [  9:  5](RO) Indicates the Context ID size. The permitted values are:
+                                                                   0x0 = Context ID tracing is not supported.
+                                                                   0x4 = Maximum of 32-bit Context ID size, so TRC()_TRCCONFIGR[CID] is
+                                                                 supported.  32 bit contextID supported.
+
+                                                                 For CNXXXX, 32-bit. */
+        uint32_t vmidsize              : 5;  /**< [ 14: 10](RO) Indicates the VMID size. 0x0 = VMID tracing is not supported. 0x1 = Maximum of 8-bit VMID
+                                                                 size, so TRC()_TRCCONFIGR[VMID] is supported. 0x4 = Maximum of 16-bit VMID size, so
+                                                                 TRC()_TRCCONFIGR[VMID] is supported.
+                                                                 For CNXXXX, 16-bit. */
+        uint32_t dasize                : 5;  /**< [ 19: 15](RO) Indicates the data address size in bytes.
+                                                                 0x0 = Data address tracing is not supported. Therefore, an implementation must
+                                                                 also set TRC()_TRCIDR0[TRCDATA]=0x0.
+                                                                 0x4 = Maximum of 32-bit data address size.
+                                                                 0x8 = Maximum of 64-bit data address size. This value is not permitted when
+                                                                 tracing ARMv6 and ARMv7 PEs.
+
+                                                                 For CNXXXX, not supported. */
+        uint32_t dvsize                : 5;  /**< [ 24: 20](RO) Indicates the data value size in bytes.
+                                                                   0x0 = Data value tracing is not supported. Therefore, an implementation must set
+                                                                   TRCIDR0[TRCDATA]=0x0.
+                                                                   0x4 = Maximum of 32-bit data value size.
+                                                                   0x8 = Maximum of 64-bit data value size. This value is not permitted when tracing
+                                                                   ARMv6 and ARMv7 PEs. */
+        uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
+                                                                 cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
+
+                                                                 For CNXXXX, 0x0 as does not implement a counter. */
+        uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Read as one. */
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_trcx_trcidr2_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
         uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Read as one. Added in pass 2. */
         uint32_t ccsize                : 4;  /**< [ 28: 25](RO) Indicates the size of the cycle counter in bits minus 12. This field is 0x0 if
                                                                  cycle counting is not implemented, as indicated by TRC()_TRCIDR0[TRCCCI].
@@ -2312,8 +2403,7 @@ typedef union
         uint32_t vmidopt               : 2;  /**< [ 30: 29](RO) Read as one. Added in pass 2. */
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_trcx_trcidr2_cn83xx cn88xxp2; */
+    } cn88xxp2;
     struct bdk_trcx_trcidr2_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

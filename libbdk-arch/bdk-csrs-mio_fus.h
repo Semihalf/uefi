@@ -276,6 +276,100 @@ typedef union
                                                                  0x4-0x7 = reserved. */
         uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
                                                                  N/128 power reduction. Small values have less throttling and higher
+                                                                 performance. 0x0 disables throttling. */
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+                                                                 INTERNAL: fuse[99]. */
+        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
+        uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
+        uint64_t fus318                : 1;  /**< [ 33: 33](RO) Reserved.
+                                                                 INTERNAL: Tied to 0. */
+        uint64_t raid_en               : 1;  /**< [ 32: 32](RO) Fuse information - RAID enabled. */
+        uint64_t reserved_29_31        : 3;
+        uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
+        uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
+
+                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
+
+                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 indicating this behavior.
+
+                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
+
+                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
+        uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
+        uint64_t reserved_24           : 1;
+        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
+        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
+        uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX(1..0) disable, BGX0 is bit<13> and BGX1 is bit<14>. */
+        uint64_t sata_dis              : 4;  /**< [ 12:  9](RO) Fuse information - SATA(3..0) disable, SATA0 is bit<9> ... SATA3 is bit<12>. */
+        uint64_t pem_dis               : 3;  /**< [  8:  6](RO) Fuse information - PEM(2..0) disable, PEM0 is bit<6> ... PEM2 is bit<8>. */
+        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC uses two channels rather than four. */
+        uint64_t reserved_0_4          : 5;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_4          : 5;
+        uint64_t lmc_half              : 1;  /**< [  5:  5](RO) Fuse information - LMC uses two channels rather than four. */
+        uint64_t pem_dis               : 3;  /**< [  8:  6](RO) Fuse information - PEM(2..0) disable, PEM0 is bit<6> ... PEM2 is bit<8>. */
+        uint64_t sata_dis              : 4;  /**< [ 12:  9](RO) Fuse information - SATA(3..0) disable, SATA0 is bit<9> ... SATA3 is bit<12>. */
+        uint64_t bgx_dis               : 2;  /**< [ 14: 13](RO) Fuse information - BGX(1..0) disable, BGX0 is bit<13> and BGX1 is bit<14>. */
+        uint64_t ocx_dis               : 1;  /**< [ 15: 15](RO) Fuse information - OCX disable. */
+        uint64_t chip_id               : 8;  /**< [ 23: 16](RO) Fuse information - chip ID. */
+        uint64_t reserved_24           : 1;
+        uint64_t trustzone_en          : 1;  /**< [ 25: 25](RO) Fuse information - TrustZone enable. */
+        uint64_t nocrypto              : 1;  /**< [ 26: 26](RO) Fuse information - DORM_CRYPTO and NOCRYPTO together select the crypto mode:
+
+                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 0: AES/SHA/PMULL enabled.
+
+                                                                 _ DORM_CRYPTO = 0, NOCRYPTO = 1: The AES, SHA, and PMULL 1D/2D instructions will
+                                                                 cause undefined exceptions, and ID_AA64ISAR0_EL1[AES, SHA1, SHA2] are zero
+                                                                 indicating this behavior.
+
+                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 0: Dormant encryption enable.  AES/SHA/PMULL are
+                                                                 disabled (as if NOCRYPTO = 1) until the appropriate key is written to
+                                                                 RNM_EER_KEY, then they are enabled (as if NOCRYPTO = 1).
+
+                                                                 _ DORM_CRYPTO = 1, NOCRYPTO = 1: Reserved. */
+        uint64_t nomul                 : 1;  /**< [ 27: 27](RO) Fuse information - VMUL disable. */
+        uint64_t nodfa_cp2             : 1;  /**< [ 28: 28](RO) Fuse information - HFA disable (CP2). */
+        uint64_t reserved_29_31        : 3;
+        uint64_t raid_en               : 1;  /**< [ 32: 32](RO) Fuse information - RAID enabled. */
+        uint64_t fus318                : 1;  /**< [ 33: 33](RO) Reserved.
+                                                                 INTERNAL: Tied to 0. */
+        uint64_t dorm_crypto           : 1;  /**< [ 34: 34](RO) Fuse information - Dormant encryption enable. See NOCRYPTO. */
+        uint64_t power_limit           : 2;  /**< [ 36: 35](RO) Fuse information - Power limit. */
+        uint64_t rom_info              : 10; /**< [ 46: 37](RO) Fuse information - ROM info. */
+        uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
+                                                                 INTERNAL: fuse[99]. */
+        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
+                                                                 N/128 power reduction. Small values have less throttling and higher
+                                                                 performance. 0x0 disables throttling. */
+        uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.
+                                                                 Provides software a means of determining the platform at run time.
+                                                                 0x0 = Hardware.
+                                                                 0x1 = Emulator.
+                                                                 0x2 = RTL simulator.
+                                                                 0x3 = ASIM.
+                                                                 0x4-0x7 = reserved. */
+        uint64_t reserved_59_63        : 5;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_mio_fus_dat2_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_59_63        : 5;
+        uint64_t run_platform          : 3;  /**< [ 58: 56](RO) Fuses to indicate the run platform. Not to be blown in actual hardware.
+                                                                 Provides software a means of determining the platform at run time.
+                                                                 0x0 = Hardware.
+                                                                 0x1 = Emulator.
+                                                                 0x2 = RTL simulator.
+                                                                 0x3 = ASIM.
+                                                                 0x4-0x7 = reserved. */
+        uint64_t gbl_pwr_throttle      : 8;  /**< [ 55: 48](RO) Controls global power throttling. MSB is a spare, and lower 7 bits indicate
+                                                                 N/128 power reduction. Small values have less throttling and higher
                                                                  performance. 0x0 disables throttling.
                                                                  Added in pass 2. */
         uint64_t fus118                : 1;  /**< [ 47: 47](RO) Fuse information - Ignore trusted-mode disable.
@@ -358,8 +452,7 @@ typedef union
                                                                  0x4-0x7 = reserved. */
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_mio_fus_dat2_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_mio_fus_dat2_s cn88xxp1; */
 } bdk_mio_fus_dat2_t;
 

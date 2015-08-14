@@ -234,8 +234,11 @@ typedef union
 
                                                                  Bit3 of BUS_ENA is reserved.
 
-                                                                 Setting any bit of BUS_ENA causes EMMC_CLK to become the eMMC clock for both bus0 and
-                                                                 bus1. */
+                                                                 Clearing all bits of this field will reset the other MIO_EMM_* registers.  It might be
+                                                                 necessary
+                                                                 to set and and clear the bits several times to insure the MIO_EMM_* registers have been
+                                                                 reset properly.
+                                                                 Setting one or more bits will enable EMMC_CLK operation. */
 #else /* Word 0 - Little Endian */
         uint64_t bus_ena               : 4;  /**< [  3:  0](R/W) eMMC bus enable mask.
 
@@ -250,8 +253,11 @@ typedef union
 
                                                                  Bit3 of BUS_ENA is reserved.
 
-                                                                 Setting any bit of BUS_ENA causes EMMC_CLK to become the eMMC clock for both bus0 and
-                                                                 bus1. */
+                                                                 Clearing all bits of this field will reset the other MIO_EMM_* registers.  It might be
+                                                                 necessary
+                                                                 to set and and clear the bits several times to insure the MIO_EMM_* registers have been
+                                                                 reset properly.
+                                                                 Setting one or more bits will enable EMMC_CLK operation. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
@@ -683,6 +689,50 @@ typedef union
                                                                  FIFO in the case of a write to the eMMC device because the MIO_EMM_INT[DMA_DONE]
                                                                  interrupt would signify the end of the operation.  It could be cleared on the last
                                                                  dma command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
+                                                                 occur when the read data from the eMMC device was available in local memory. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
+        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
+                                                                 example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
+        uint64_t reserved_0_35         : 36;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_35         : 36;
+        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
+                                                                 example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
+        uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable.  When set, the dma command being summitted will
+                                                                 not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes.  When cleared
+                                                                 the command will generate the interrupt.
+
+                                                                 For example, this field can be set for all the DMA commands submitted to the DMA
+                                                                 FIFO in the case of a write to the eMMC device because the MIO_EMM_INT[DMA_DONE]
+                                                                 interrupt would signify the end of the operation.  It could be cleared on the last
+                                                                 dma command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
+                                                                 occur when the read data from the eMMC device was available in local memory. */
+        uint64_t reserved_61           : 1;
+        uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_mio_emm_dma_fifo_cmd_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
+        uint64_t reserved_61           : 1;
+        uint64_t intdis                : 1;  /**< [ 60: 60](R/W) DMA command interrupt disable.  When set, the dma command being summitted will
+                                                                 not generate a MIO_EMM_DMA_INT[DONE] interrupt when it completes.  When cleared
+                                                                 the command will generate the interrupt.
+
+                                                                 For example, this field can be set for all the DMA commands submitted to the DMA
+                                                                 FIFO in the case of a write to the eMMC device because the MIO_EMM_INT[DMA_DONE]
+                                                                 interrupt would signify the end of the operation.  It could be cleared on the last
+                                                                 dma command being submitted to the DMA FIFO and the MIO_EMM_DMA_INT[DONE] would
                                                                  occur when the read data from the eMMC device was available in local memory.
 
                                                                  Added in pass 2.0. */
@@ -716,8 +766,7 @@ typedef union
         uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_mio_emm_dma_fifo_cmd_cn83xx cn88xxp2; */
+    } cn88xxp2;
     struct bdk_mio_emm_dma_fifo_cmd_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

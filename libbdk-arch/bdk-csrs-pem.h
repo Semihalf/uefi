@@ -75,8 +75,10 @@
 #define BDK_PEM_INT_VEC_E_ERROR_AERI_CLEAR (1) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_ERROR_PMEI (2) /**< See PCIERC()_CFG036. */
 #define BDK_PEM_INT_VEC_E_ERROR_PMEI_CLEAR (3) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_HP_INT (0xe) /**< PCI hot-plug interrupt set vector. Added in pass 2. */
-#define BDK_PEM_INT_VEC_E_HP_INT_CLEAR (0xf) /**< Level sensitive interrupt clear vector. Added in pass 2. */
+#define BDK_PEM_INT_VEC_E_HP_INT_CN88XX (0xe) /**< PCI hot-plug interrupt set vector. Added in pass 2. */
+#define BDK_PEM_INT_VEC_E_HP_INT_CN83XX (0xe) /**< PCI hot-plug interrupt set vector. */
+#define BDK_PEM_INT_VEC_E_HP_INT_CLEAR_CN88XX (0xf) /**< Level sensitive interrupt clear vector. Added in pass 2. */
+#define BDK_PEM_INT_VEC_E_HP_INT_CLEAR_CN83XX (0xf) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_INTA (4) /**< PCI INTA legacy interrupt set vector. */
 #define BDK_PEM_INT_VEC_E_INTA_CLEAR (5) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_INTB (6) /**< PCI INTB legacy interrupt set vector. */
@@ -628,12 +630,15 @@ typedef union
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t reserved_32_33        : 2;
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 coprocessor-clocks, during which retry completions to
-                                                                 configuration
-                                                                 reads will result in PCIE retries, but after which they shall result in a response error
-                                                                 to the SLI and no retries. A value of 0 disables retries and treats a CPL Retry as a CPL
-                                                                 UR.
-                                                                 When non-zero, only one CFG RD may be issued until either successful completion or CPL UR. */
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t reserved_6_10         : 5;
@@ -655,12 +660,15 @@ typedef union
         uint64_t reserved_6_10         : 5;
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 coprocessor-clocks, during which retry completions to
-                                                                 configuration
-                                                                 reads will result in PCIE retries, but after which they shall result in a response error
-                                                                 to the SLI and no retries. A value of 0 disables retries and treats a CPL Retry as a CPL
-                                                                 UR.
-                                                                 When non-zero, only one CFG RD may be issued until either successful completion or CPL UR. */
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
         uint64_t reserved_32_33        : 2;
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
@@ -675,7 +683,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_55_63        : 9;
-        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM. Added in pass 2 to improve
+        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM.to improve
                                                                  small TLP performance. */
         uint64_t reserved_51           : 1;
         uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
@@ -685,12 +693,15 @@ typedef union
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t reserved_32_33        : 2;
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 coprocessor-clocks, during which retry completions to
-                                                                 configuration
-                                                                 reads will result in PCIE retries, but after which they shall result in a response error
-                                                                 to the SLI and no retries. A value of 0 disables retries and treats a CPL Retry as a CPL
-                                                                 UR.
-                                                                 When non-zero, only one CFG RD may be issued until either successful completion or CPL UR. */
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t reserved_6_10         : 5;
@@ -712,12 +723,81 @@ typedef union
         uint64_t reserved_6_10         : 5;
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 coprocessor-clocks, during which retry completions to
-                                                                 configuration
-                                                                 reads will result in PCIE retries, but after which they shall result in a response error
-                                                                 to the SLI and no retries. A value of 0 disables retries and treats a CPL Retry as a CPL
-                                                                 UR.
-                                                                 When non-zero, only one CFG RD may be issued until either successful completion or CPL UR. */
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
+        uint64_t reserved_32_33        : 2;
+        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
+        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
+        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
+        uint64_t reserved_48_49        : 2;
+        uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
+                                                                 block to force a parity error when it is later read. */
+        uint64_t reserved_51           : 1;
+        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM.to improve
+                                                                 small TLP performance. */
+        uint64_t reserved_55_63        : 9;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_pemx_ctl_status_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_55_63        : 9;
+        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM. Added in pass 2 to improve
+                                                                 small TLP performance. */
+        uint64_t reserved_51           : 1;
+        uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
+                                                                 block to force a parity error when it is later read. */
+        uint64_t reserved_48_49        : 2;
+        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
+        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
+        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
+        uint64_t reserved_32_33        : 2;
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
+        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
+        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
+        uint64_t reserved_6_10         : 5;
+        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
+        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
+                                                                 active when in RC mode. */
+        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
+        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
+        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
+        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
+#else /* Word 0 - Little Endian */
+        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
+        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
+        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
+        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
+        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
+                                                                 active when in RC mode. */
+        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
+        uint64_t reserved_6_10         : 5;
+        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
+        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
         uint64_t reserved_32_33        : 2;
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
@@ -730,8 +810,7 @@ typedef union
                                                                  small TLP performance. */
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_pemx_ctl_status_cn83xx cn88xxp2; */
+    } cn88xxp2;
     struct bdk_pemx_ctl_status_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -755,12 +834,15 @@ typedef union
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t reserved_32_33        : 2;
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 coprocessor-clocks, during which retry completions to
-                                                                 configuration
-                                                                 reads will result in PCIE retries, but after which they shall result in a response error
-                                                                 to the SLI and no retries. A value of 0 disables retries and treats a CPL Retry as a CPL
-                                                                 UR.
-                                                                 When non-zero, only one CFG RD may be issued until either successful completion or CPL UR. */
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t reserved_6_10         : 5;
@@ -782,12 +864,15 @@ typedef union
         uint64_t reserved_6_10         : 5;
         uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
         uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time in units of 0x10000 coprocessor-clocks, during which retry completions to
-                                                                 configuration
-                                                                 reads will result in PCIE retries, but after which they shall result in a response error
-                                                                 to the SLI and no retries. A value of 0 disables retries and treats a CPL Retry as a CPL
-                                                                 UR.
-                                                                 When non-zero, only one CFG RD may be issued until either successful completion or CPL UR. */
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
         uint64_t reserved_32_33        : 2;
         uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
         uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
@@ -1007,6 +1092,130 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
+        uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
+        uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
+        uint64_t qhdr_b0_sbe           : 1;  /**< [ 53: 53](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B0_SBE]. */
+        uint64_t rtry_dbe              : 1;  /**< [ 52: 52](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTRY_DBE]. */
+        uint64_t rtry_sbe              : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTRY_SBE]. */
+        uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_C_DBE]. */
+        uint64_t c_c_sbe               : 1;  /**< [ 49: 49](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_C_SBE]. */
+        uint64_t c_d1_dbe              : 1;  /**< [ 48: 48](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_D1_DBE]. */
+        uint64_t c_d1_sbe              : 1;  /**< [ 47: 47](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_D1_SBE]. */
+        uint64_t c_d0_dbe              : 1;  /**< [ 46: 46](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_D0_DBE]. */
+        uint64_t c_d0_sbe              : 1;  /**< [ 45: 45](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_D0_SBE]. */
+        uint64_t n_c_dbe               : 1;  /**< [ 44: 44](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_C_DBE]. */
+        uint64_t n_c_sbe               : 1;  /**< [ 43: 43](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_C_SBE]. */
+        uint64_t n_d1_dbe              : 1;  /**< [ 42: 42](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_D1_DBE]. */
+        uint64_t n_d1_sbe              : 1;  /**< [ 41: 41](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_D1_SBE]. */
+        uint64_t n_d0_dbe              : 1;  /**< [ 40: 40](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_D0_DBE]. */
+        uint64_t n_d0_sbe              : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_D0_SBE]. */
+        uint64_t p_c_dbe               : 1;  /**< [ 38: 38](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_C_DBE]. */
+        uint64_t p_c_sbe               : 1;  /**< [ 37: 37](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_C_SBE]. */
+        uint64_t p_d1_dbe              : 1;  /**< [ 36: 36](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_D1_DBE]. */
+        uint64_t p_d1_sbe              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_D1_SBE]. */
+        uint64_t p_d0_dbe              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_D0_DBE]. */
+        uint64_t p_d0_sbe              : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_D0_SBE]. */
+        uint64_t datq_pe               : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[DATQ_PE]. */
+        uint64_t lofp                  : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[LOFP]. */
+        uint64_t ecrc_e                : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[ECRC_E]. */
+        uint64_t rawwpp                : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RAWWPP]. */
+        uint64_t racpp                 : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RACPP]. */
+        uint64_t ramtlp                : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RAMTLP]. */
+        uint64_t rarwdns               : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RARWDNS]. */
+        uint64_t caar                  : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[CAAR]. */
+        uint64_t racca                 : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RACCA]. */
+        uint64_t racur                 : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RACUR]. */
+        uint64_t rauc                  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RAUC]. */
+        uint64_t rqo                   : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RQO]. */
+        uint64_t fcuv                  : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[FCUV]. */
+        uint64_t rpe                   : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RPE]. */
+        uint64_t fcpvwt                : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[FCPVWT]. */
+        uint64_t dpeoosd               : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[DPEOOSD]. */
+        uint64_t rtwdle                : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTWDLE]. */
+        uint64_t rdwdle                : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RDWDLE]. */
+        uint64_t mre                   : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[MRE]. */
+        uint64_t rte                   : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTE]. */
+        uint64_t acto                  : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[ACTO]. */
+        uint64_t rvdm                  : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RVDM]. */
+        uint64_t reserved_10           : 1;
+        uint64_t rptamrc               : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RPTAMRC]. */
+        uint64_t rpmerc                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RPMERC]. */
+        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RFEMRC]. */
+        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RNFEMRC]. */
+        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RCEMRC]. */
+        uint64_t rpoison               : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RPOISON]. */
+        uint64_t recrce                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RECRCE]. */
+        uint64_t rtlplle               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTLPLLE]. */
+        uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTLPMAL]. */
+        uint64_t spoison               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[SPOISON]. */
+#else /* Word 0 - Little Endian */
+        uint64_t spoison               : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[SPOISON]. */
+        uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTLPMAL]. */
+        uint64_t rtlplle               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTLPLLE]. */
+        uint64_t recrce                : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RECRCE]. */
+        uint64_t rpoison               : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RPOISON]. */
+        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RCEMRC]. */
+        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RNFEMRC]. */
+        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RFEMRC]. */
+        uint64_t rpmerc                : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RPMERC]. */
+        uint64_t rptamrc               : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RPTAMRC]. */
+        uint64_t reserved_10           : 1;
+        uint64_t rvdm                  : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RVDM]. */
+        uint64_t acto                  : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[ACTO]. */
+        uint64_t rte                   : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTE]. */
+        uint64_t mre                   : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[MRE]. */
+        uint64_t rdwdle                : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RDWDLE]. */
+        uint64_t rtwdle                : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTWDLE]. */
+        uint64_t dpeoosd               : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[DPEOOSD]. */
+        uint64_t fcpvwt                : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[FCPVWT]. */
+        uint64_t rpe                   : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RPE]. */
+        uint64_t fcuv                  : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[FCUV]. */
+        uint64_t rqo                   : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RQO]. */
+        uint64_t rauc                  : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RAUC]. */
+        uint64_t racur                 : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RACUR]. */
+        uint64_t racca                 : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RACCA]. */
+        uint64_t caar                  : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[CAAR]. */
+        uint64_t rarwdns               : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RARWDNS]. */
+        uint64_t ramtlp                : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RAMTLP]. */
+        uint64_t racpp                 : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RACPP]. */
+        uint64_t rawwpp                : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RAWWPP]. */
+        uint64_t ecrc_e                : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[ECRC_E]. */
+        uint64_t lofp                  : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[LOFP]. */
+        uint64_t datq_pe               : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[DATQ_PE]. */
+        uint64_t p_d0_sbe              : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_D0_SBE]. */
+        uint64_t p_d0_dbe              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_D0_DBE]. */
+        uint64_t p_d1_sbe              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_D1_SBE]. */
+        uint64_t p_d1_dbe              : 1;  /**< [ 36: 36](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_D1_DBE]. */
+        uint64_t p_c_sbe               : 1;  /**< [ 37: 37](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_C_SBE]. */
+        uint64_t p_c_dbe               : 1;  /**< [ 38: 38](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[P_C_DBE]. */
+        uint64_t n_d0_sbe              : 1;  /**< [ 39: 39](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_D0_SBE]. */
+        uint64_t n_d0_dbe              : 1;  /**< [ 40: 40](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_D0_DBE]. */
+        uint64_t n_d1_sbe              : 1;  /**< [ 41: 41](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_D1_SBE]. */
+        uint64_t n_d1_dbe              : 1;  /**< [ 42: 42](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_D1_DBE]. */
+        uint64_t n_c_sbe               : 1;  /**< [ 43: 43](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_C_SBE]. */
+        uint64_t n_c_dbe               : 1;  /**< [ 44: 44](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[N_C_DBE]. */
+        uint64_t c_d0_sbe              : 1;  /**< [ 45: 45](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_D0_SBE]. */
+        uint64_t c_d0_dbe              : 1;  /**< [ 46: 46](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_D0_DBE]. */
+        uint64_t c_d1_sbe              : 1;  /**< [ 47: 47](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_D1_SBE]. */
+        uint64_t c_d1_dbe              : 1;  /**< [ 48: 48](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_D1_DBE]. */
+        uint64_t c_c_sbe               : 1;  /**< [ 49: 49](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_C_SBE]. */
+        uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[C_C_DBE]. */
+        uint64_t rtry_sbe              : 1;  /**< [ 51: 51](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTRY_SBE]. */
+        uint64_t rtry_dbe              : 1;  /**< [ 52: 52](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[RTRY_DBE]. */
+        uint64_t qhdr_b0_sbe           : 1;  /**< [ 53: 53](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B0_SBE]. */
+        uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
+        uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
+        uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t reserved_58_63        : 6;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_pemx_dbg_ena_w1c_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_58_63        : 6;
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Added in pass 2.0. Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
@@ -1126,8 +1335,7 @@ typedef union
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Added in pass 2.0. Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_pemx_dbg_ena_w1c_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_pemx_dbg_ena_w1c_s cn88xxp1; */
 } bdk_pemx_dbg_ena_w1c_t;
 
@@ -1280,6 +1488,130 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
+        uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
+        uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
+        uint64_t qhdr_b0_sbe           : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B0_SBE]. */
+        uint64_t rtry_dbe              : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTRY_DBE]. */
+        uint64_t rtry_sbe              : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTRY_SBE]. */
+        uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_C_DBE]. */
+        uint64_t c_c_sbe               : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_C_SBE]. */
+        uint64_t c_d1_dbe              : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_D1_DBE]. */
+        uint64_t c_d1_sbe              : 1;  /**< [ 47: 47](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_D1_SBE]. */
+        uint64_t c_d0_dbe              : 1;  /**< [ 46: 46](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_D0_DBE]. */
+        uint64_t c_d0_sbe              : 1;  /**< [ 45: 45](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_D0_SBE]. */
+        uint64_t n_c_dbe               : 1;  /**< [ 44: 44](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_C_DBE]. */
+        uint64_t n_c_sbe               : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_C_SBE]. */
+        uint64_t n_d1_dbe              : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_D1_DBE]. */
+        uint64_t n_d1_sbe              : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_D1_SBE]. */
+        uint64_t n_d0_dbe              : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_D0_DBE]. */
+        uint64_t n_d0_sbe              : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_D0_SBE]. */
+        uint64_t p_c_dbe               : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_C_DBE]. */
+        uint64_t p_c_sbe               : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_C_SBE]. */
+        uint64_t p_d1_dbe              : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_D1_DBE]. */
+        uint64_t p_d1_sbe              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_D1_SBE]. */
+        uint64_t p_d0_dbe              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_D0_DBE]. */
+        uint64_t p_d0_sbe              : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_D0_SBE]. */
+        uint64_t datq_pe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[DATQ_PE]. */
+        uint64_t lofp                  : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[LOFP]. */
+        uint64_t ecrc_e                : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[ECRC_E]. */
+        uint64_t rawwpp                : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RAWWPP]. */
+        uint64_t racpp                 : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RACPP]. */
+        uint64_t ramtlp                : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RAMTLP]. */
+        uint64_t rarwdns               : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RARWDNS]. */
+        uint64_t caar                  : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[CAAR]. */
+        uint64_t racca                 : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RACCA]. */
+        uint64_t racur                 : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RACUR]. */
+        uint64_t rauc                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RAUC]. */
+        uint64_t rqo                   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RQO]. */
+        uint64_t fcuv                  : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[FCUV]. */
+        uint64_t rpe                   : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RPE]. */
+        uint64_t fcpvwt                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[FCPVWT]. */
+        uint64_t dpeoosd               : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[DPEOOSD]. */
+        uint64_t rtwdle                : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTWDLE]. */
+        uint64_t rdwdle                : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RDWDLE]. */
+        uint64_t mre                   : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[MRE]. */
+        uint64_t rte                   : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTE]. */
+        uint64_t acto                  : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[ACTO]. */
+        uint64_t rvdm                  : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RVDM]. */
+        uint64_t reserved_10           : 1;
+        uint64_t rptamrc               : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RPTAMRC]. */
+        uint64_t rpmerc                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RPMERC]. */
+        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RFEMRC]. */
+        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RNFEMRC]. */
+        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RCEMRC]. */
+        uint64_t rpoison               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RPOISON]. */
+        uint64_t recrce                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RECRCE]. */
+        uint64_t rtlplle               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTLPLLE]. */
+        uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTLPMAL]. */
+        uint64_t spoison               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[SPOISON]. */
+#else /* Word 0 - Little Endian */
+        uint64_t spoison               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[SPOISON]. */
+        uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTLPMAL]. */
+        uint64_t rtlplle               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTLPLLE]. */
+        uint64_t recrce                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RECRCE]. */
+        uint64_t rpoison               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RPOISON]. */
+        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RCEMRC]. */
+        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RNFEMRC]. */
+        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RFEMRC]. */
+        uint64_t rpmerc                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RPMERC]. */
+        uint64_t rptamrc               : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RPTAMRC]. */
+        uint64_t reserved_10           : 1;
+        uint64_t rvdm                  : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RVDM]. */
+        uint64_t acto                  : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[ACTO]. */
+        uint64_t rte                   : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTE]. */
+        uint64_t mre                   : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[MRE]. */
+        uint64_t rdwdle                : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RDWDLE]. */
+        uint64_t rtwdle                : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTWDLE]. */
+        uint64_t dpeoosd               : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[DPEOOSD]. */
+        uint64_t fcpvwt                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[FCPVWT]. */
+        uint64_t rpe                   : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RPE]. */
+        uint64_t fcuv                  : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[FCUV]. */
+        uint64_t rqo                   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RQO]. */
+        uint64_t rauc                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RAUC]. */
+        uint64_t racur                 : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RACUR]. */
+        uint64_t racca                 : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RACCA]. */
+        uint64_t caar                  : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[CAAR]. */
+        uint64_t rarwdns               : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RARWDNS]. */
+        uint64_t ramtlp                : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RAMTLP]. */
+        uint64_t racpp                 : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RACPP]. */
+        uint64_t rawwpp                : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RAWWPP]. */
+        uint64_t ecrc_e                : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[ECRC_E]. */
+        uint64_t lofp                  : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[LOFP]. */
+        uint64_t datq_pe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[DATQ_PE]. */
+        uint64_t p_d0_sbe              : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_D0_SBE]. */
+        uint64_t p_d0_dbe              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_D0_DBE]. */
+        uint64_t p_d1_sbe              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_D1_SBE]. */
+        uint64_t p_d1_dbe              : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_D1_DBE]. */
+        uint64_t p_c_sbe               : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_C_SBE]. */
+        uint64_t p_c_dbe               : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[P_C_DBE]. */
+        uint64_t n_d0_sbe              : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_D0_SBE]. */
+        uint64_t n_d0_dbe              : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_D0_DBE]. */
+        uint64_t n_d1_sbe              : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_D1_SBE]. */
+        uint64_t n_d1_dbe              : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_D1_DBE]. */
+        uint64_t n_c_sbe               : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_C_SBE]. */
+        uint64_t n_c_dbe               : 1;  /**< [ 44: 44](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[N_C_DBE]. */
+        uint64_t c_d0_sbe              : 1;  /**< [ 45: 45](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_D0_SBE]. */
+        uint64_t c_d0_dbe              : 1;  /**< [ 46: 46](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_D0_DBE]. */
+        uint64_t c_d1_sbe              : 1;  /**< [ 47: 47](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_D1_SBE]. */
+        uint64_t c_d1_dbe              : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_D1_DBE]. */
+        uint64_t c_c_sbe               : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_C_SBE]. */
+        uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[C_C_DBE]. */
+        uint64_t rtry_sbe              : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTRY_SBE]. */
+        uint64_t rtry_dbe              : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[RTRY_DBE]. */
+        uint64_t qhdr_b0_sbe           : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B0_SBE]. */
+        uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
+        uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
+        uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t reserved_58_63        : 6;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_pemx_dbg_ena_w1s_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_58_63        : 6;
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
@@ -1399,8 +1731,7 @@ typedef union
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_pemx_dbg_ena_w1s_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_pemx_dbg_ena_w1s_s cn88xxp1; */
 } bdk_pemx_dbg_ena_w1s_t;
 
@@ -1573,6 +1904,150 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Detected a M2S FIFO parity error. */
+        uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Detected a core header queue bank1 double bit error. */
+        uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Detected a core header queue bank1 single bit error. */
+        uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Detected a core header queue bank0 double bit error. */
+        uint64_t qhdr_b0_sbe           : 1;  /**< [ 53: 53](R/W1C/H) Detected a core header queue bank0 single bit error. */
+        uint64_t rtry_dbe              : 1;  /**< [ 52: 52](R/W1C/H) Detected a core retry RAM double bit error. */
+        uint64_t rtry_sbe              : 1;  /**< [ 51: 51](R/W1C/H) Detected a core retry RAM single bit error. */
+        uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1C/H) Detected a TLP CPL FIFO control double bit error. */
+        uint64_t c_c_sbe               : 1;  /**< [ 49: 49](R/W1C/H) Detected a TLP CPL FIFO control single bit error. */
+        uint64_t c_d1_dbe              : 1;  /**< [ 48: 48](R/W1C/H) Detected a TLP CPL FIFO data1 double bit error. */
+        uint64_t c_d1_sbe              : 1;  /**< [ 47: 47](R/W1C/H) Detected a TLP CPL FIFO data1 single bit error. */
+        uint64_t c_d0_dbe              : 1;  /**< [ 46: 46](R/W1C/H) Detected a TLP CPL FIFO data0 double bit error. */
+        uint64_t c_d0_sbe              : 1;  /**< [ 45: 45](R/W1C/H) Detected a TLP CPL FIFO data0 single bit error. */
+        uint64_t n_c_dbe               : 1;  /**< [ 44: 44](R/W1C/H) Detected a TLP NP FIFO control double bit error. */
+        uint64_t n_c_sbe               : 1;  /**< [ 43: 43](R/W1C/H) Detected a TLP NP FIFO control single bit error. */
+        uint64_t n_d1_dbe              : 1;  /**< [ 42: 42](R/W1C/H) Detected a TLP NP FIFO data1 double bit error. */
+        uint64_t n_d1_sbe              : 1;  /**< [ 41: 41](R/W1C/H) Detected a TLP NP FIFO data1 single bit error. */
+        uint64_t n_d0_dbe              : 1;  /**< [ 40: 40](R/W1C/H) Detected a TLP NP FIFO data0 double bit error. */
+        uint64_t n_d0_sbe              : 1;  /**< [ 39: 39](R/W1C/H) Detected a TLP NP FIFO data0 single bit error. */
+        uint64_t p_c_dbe               : 1;  /**< [ 38: 38](R/W1C/H) Detected a TLP posted FIFO control double bit error. */
+        uint64_t p_c_sbe               : 1;  /**< [ 37: 37](R/W1C/H) Detected a TLP posted FIFO control single bit error. */
+        uint64_t p_d1_dbe              : 1;  /**< [ 36: 36](R/W1C/H) Detected a TLP posted FIFO data1 double bit error. */
+        uint64_t p_d1_sbe              : 1;  /**< [ 35: 35](R/W1C/H) Detected a TLP posted FIFO data1 single bit error. */
+        uint64_t p_d0_dbe              : 1;  /**< [ 34: 34](R/W1C/H) Detected a TLP posted FIFO data0 double bit error. */
+        uint64_t p_d0_sbe              : 1;  /**< [ 33: 33](R/W1C/H) Detected a TLP posted FIFO data0 single bit error. */
+        uint64_t datq_pe               : 1;  /**< [ 32: 32](R/W1C/H) Detected a data queue RAM parity error. */
+        uint64_t lofp                  : 1;  /**< [ 31: 31](R/W1C/H) Lack of forward progress at TLP FIFOs timeout occurred. */
+        uint64_t ecrc_e                : 1;  /**< [ 30: 30](R/W1C/H) Received an ECRC error. */
+        uint64_t rawwpp                : 1;  /**< [ 29: 29](R/W1C/H) Received a write with poisoned payload. INTERNAL: radm_rcvd_wreq_poisoned. */
+        uint64_t racpp                 : 1;  /**< [ 28: 28](R/W1C/H) Received a completion with poisoned payload. INTERNAL: radm_rcvd_cpl_poisoned. */
+        uint64_t ramtlp                : 1;  /**< [ 27: 27](R/W1C/H) Received a malformed TLP. INTERNAL: radm_mlf_tlp_err. */
+        uint64_t rarwdns               : 1;  /**< [ 26: 26](R/W1C/H) Received a request which device does not support. INTERNAL: radm_rcvd_ur_req. */
+        uint64_t caar                  : 1;  /**< [ 25: 25](R/W1C/H) Completer aborted a request. This bit is never set because CNXXXX does not generate
+                                                                 completer aborts. */
+        uint64_t racca                 : 1;  /**< [ 24: 24](R/W1C/H) Received a completion with CA status. INTERNAL: radm_rcvd_cpl_ca. */
+        uint64_t racur                 : 1;  /**< [ 23: 23](R/W1C/H) Received a completion with UR status. INTERNAL: radm_rcvd_cpl_ur. */
+        uint64_t rauc                  : 1;  /**< [ 22: 22](R/W1C/H) Received an unexpected completion. INTERNAL: radm_unexp_cpl_err. */
+        uint64_t rqo                   : 1;  /**< [ 21: 21](R/W1C/H) Receive queue overflow. Normally happens only when flow control advertisements are
+                                                                 ignored. INTERNAL: radm_qoverflow. */
+        uint64_t fcuv                  : 1;  /**< [ 20: 20](R/W1C/H) Flow control update violation. INTERNAL: (opt. checks) int_xadm_fc_prot_err. */
+        uint64_t rpe                   : 1;  /**< [ 19: 19](R/W1C/H) PHY reported an 8B/10B decode error (RxStatus = 0x4) or disparity error (RxStatus =
+                                                                 0x7). INTERNAL: rmlh_rcvd_err. */
+        uint64_t fcpvwt                : 1;  /**< [ 18: 18](R/W1C/H) Flow control protocol violation (watchdog timer). INTERNAL: rtlh_fc_prot_err. */
+        uint64_t dpeoosd               : 1;  /**< [ 17: 17](R/W1C/H) DLLP protocol error (out of sequence DLLP). INTERNAL: rdlh_prot_err. */
+        uint64_t rtwdle                : 1;  /**< [ 16: 16](R/W1C/H) Received TLP with datalink layer error. INTERNAL: rdlh_bad_tlp_err. */
+        uint64_t rdwdle                : 1;  /**< [ 15: 15](R/W1C/H) Received DLLP with datalink layer error. INTERNAL: rdlh_bad_dllp_err. */
+        uint64_t mre                   : 1;  /**< [ 14: 14](R/W1C/H) Maximum number of retries exceeded. INTERNAL: xdlh_replay_num_rlover_err. */
+        uint64_t rte                   : 1;  /**< [ 13: 13](R/W1C/H) Replay timer expired. This bit is set when the REPLAY_TIMER expires in the PCIe core. The
+                                                                 probability of this bit being set increases with the traffic load.
+                                                                 INTERNAL: xdlh_replay_timeout_err. */
+        uint64_t acto                  : 1;  /**< [ 12: 12](R/W1C/H) A completion timeout occurred. INTERNAL: pedc_radm_cpl_timeout. */
+        uint64_t rvdm                  : 1;  /**< [ 11: 11](R/W1C/H) Received vendor-defined message. INTERNAL: pedc_radm_vendor_msg. */
+        uint64_t reserved_10           : 1;
+        uint64_t rptamrc               : 1;  /**< [  9:  9](R/W1C/H) Received PME turnoff acknowledge message (RC mode only). INTERNAL: pedc_radm_pm_to_ack. */
+        uint64_t rpmerc                : 1;  /**< [  8:  8](R/W1C/H) Received PME message (RC mode only). INTERNAL: pedc_radm_pm_pme. */
+        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1C/H) Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
+                                                                 is set. INTERNAL: pedc_radm_fatal_err. */
+        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1C/H) Received nonfatal error message (RC mode only). INTERNAL: pedc_radm_nonfatal_err. */
+        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1C/H) Received correctable error message (RC mode only). INTERNAL: pedc_radm_correctable_err. */
+        uint64_t rpoison               : 1;  /**< [  4:  4](R/W1C/H) Received poisoned TLP. INTERNAL: pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv. */
+        uint64_t recrce                : 1;  /**< [  3:  3](R/W1C/H) Received ECRC error. INTERNAL: pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot. */
+        uint64_t rtlplle               : 1;  /**< [  2:  2](R/W1C/H) Received TLP has link layer error. INTERNAL: pedc_radm_trgt1_dllp_abort &
+                                                                 pedc__radm_trgt1_eot. */
+        uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
+                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 INTERNAL: pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
+        uint64_t spoison               : 1;  /**< [  0:  0](R/W1C/H) Poisoned TLP sent. INTERNAL: peai__client0_tlp_ep & peai__client0_tlp_hv or
+                                                                 peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
+#else /* Word 0 - Little Endian */
+        uint64_t spoison               : 1;  /**< [  0:  0](R/W1C/H) Poisoned TLP sent. INTERNAL: peai__client0_tlp_ep & peai__client0_tlp_hv or
+                                                                 peai__client1_tlp_ep & peai__client1_tlp_hv (atomic_op). */
+        uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1C/H) Received TLP is malformed or a message. If the core receives a MSG (or Vendor Message) or
+                                                                 if a received AtomicOp viloates address/length rules, this bit is set as well.
+                                                                 INTERNAL: pedc_radm_trgt1_tlp_abort & pedc__radm_trgt1_eot. */
+        uint64_t rtlplle               : 1;  /**< [  2:  2](R/W1C/H) Received TLP has link layer error. INTERNAL: pedc_radm_trgt1_dllp_abort &
+                                                                 pedc__radm_trgt1_eot. */
+        uint64_t recrce                : 1;  /**< [  3:  3](R/W1C/H) Received ECRC error. INTERNAL: pedc_radm_trgt1_ecrc_err & pedc__radm_trgt1_eot. */
+        uint64_t rpoison               : 1;  /**< [  4:  4](R/W1C/H) Received poisoned TLP. INTERNAL: pedc__radm_trgt1_poisoned & pedc__radm_trgt1_hv. */
+        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1C/H) Received correctable error message (RC mode only). INTERNAL: pedc_radm_correctable_err. */
+        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1C/H) Received nonfatal error message (RC mode only). INTERNAL: pedc_radm_nonfatal_err. */
+        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1C/H) Received fatal-error message (RC mode only). This bit is set when a message with ERR_FATAL
+                                                                 is set. INTERNAL: pedc_radm_fatal_err. */
+        uint64_t rpmerc                : 1;  /**< [  8:  8](R/W1C/H) Received PME message (RC mode only). INTERNAL: pedc_radm_pm_pme. */
+        uint64_t rptamrc               : 1;  /**< [  9:  9](R/W1C/H) Received PME turnoff acknowledge message (RC mode only). INTERNAL: pedc_radm_pm_to_ack. */
+        uint64_t reserved_10           : 1;
+        uint64_t rvdm                  : 1;  /**< [ 11: 11](R/W1C/H) Received vendor-defined message. INTERNAL: pedc_radm_vendor_msg. */
+        uint64_t acto                  : 1;  /**< [ 12: 12](R/W1C/H) A completion timeout occurred. INTERNAL: pedc_radm_cpl_timeout. */
+        uint64_t rte                   : 1;  /**< [ 13: 13](R/W1C/H) Replay timer expired. This bit is set when the REPLAY_TIMER expires in the PCIe core. The
+                                                                 probability of this bit being set increases with the traffic load.
+                                                                 INTERNAL: xdlh_replay_timeout_err. */
+        uint64_t mre                   : 1;  /**< [ 14: 14](R/W1C/H) Maximum number of retries exceeded. INTERNAL: xdlh_replay_num_rlover_err. */
+        uint64_t rdwdle                : 1;  /**< [ 15: 15](R/W1C/H) Received DLLP with datalink layer error. INTERNAL: rdlh_bad_dllp_err. */
+        uint64_t rtwdle                : 1;  /**< [ 16: 16](R/W1C/H) Received TLP with datalink layer error. INTERNAL: rdlh_bad_tlp_err. */
+        uint64_t dpeoosd               : 1;  /**< [ 17: 17](R/W1C/H) DLLP protocol error (out of sequence DLLP). INTERNAL: rdlh_prot_err. */
+        uint64_t fcpvwt                : 1;  /**< [ 18: 18](R/W1C/H) Flow control protocol violation (watchdog timer). INTERNAL: rtlh_fc_prot_err. */
+        uint64_t rpe                   : 1;  /**< [ 19: 19](R/W1C/H) PHY reported an 8B/10B decode error (RxStatus = 0x4) or disparity error (RxStatus =
+                                                                 0x7). INTERNAL: rmlh_rcvd_err. */
+        uint64_t fcuv                  : 1;  /**< [ 20: 20](R/W1C/H) Flow control update violation. INTERNAL: (opt. checks) int_xadm_fc_prot_err. */
+        uint64_t rqo                   : 1;  /**< [ 21: 21](R/W1C/H) Receive queue overflow. Normally happens only when flow control advertisements are
+                                                                 ignored. INTERNAL: radm_qoverflow. */
+        uint64_t rauc                  : 1;  /**< [ 22: 22](R/W1C/H) Received an unexpected completion. INTERNAL: radm_unexp_cpl_err. */
+        uint64_t racur                 : 1;  /**< [ 23: 23](R/W1C/H) Received a completion with UR status. INTERNAL: radm_rcvd_cpl_ur. */
+        uint64_t racca                 : 1;  /**< [ 24: 24](R/W1C/H) Received a completion with CA status. INTERNAL: radm_rcvd_cpl_ca. */
+        uint64_t caar                  : 1;  /**< [ 25: 25](R/W1C/H) Completer aborted a request. This bit is never set because CNXXXX does not generate
+                                                                 completer aborts. */
+        uint64_t rarwdns               : 1;  /**< [ 26: 26](R/W1C/H) Received a request which device does not support. INTERNAL: radm_rcvd_ur_req. */
+        uint64_t ramtlp                : 1;  /**< [ 27: 27](R/W1C/H) Received a malformed TLP. INTERNAL: radm_mlf_tlp_err. */
+        uint64_t racpp                 : 1;  /**< [ 28: 28](R/W1C/H) Received a completion with poisoned payload. INTERNAL: radm_rcvd_cpl_poisoned. */
+        uint64_t rawwpp                : 1;  /**< [ 29: 29](R/W1C/H) Received a write with poisoned payload. INTERNAL: radm_rcvd_wreq_poisoned. */
+        uint64_t ecrc_e                : 1;  /**< [ 30: 30](R/W1C/H) Received an ECRC error. */
+        uint64_t lofp                  : 1;  /**< [ 31: 31](R/W1C/H) Lack of forward progress at TLP FIFOs timeout occurred. */
+        uint64_t datq_pe               : 1;  /**< [ 32: 32](R/W1C/H) Detected a data queue RAM parity error. */
+        uint64_t p_d0_sbe              : 1;  /**< [ 33: 33](R/W1C/H) Detected a TLP posted FIFO data0 single bit error. */
+        uint64_t p_d0_dbe              : 1;  /**< [ 34: 34](R/W1C/H) Detected a TLP posted FIFO data0 double bit error. */
+        uint64_t p_d1_sbe              : 1;  /**< [ 35: 35](R/W1C/H) Detected a TLP posted FIFO data1 single bit error. */
+        uint64_t p_d1_dbe              : 1;  /**< [ 36: 36](R/W1C/H) Detected a TLP posted FIFO data1 double bit error. */
+        uint64_t p_c_sbe               : 1;  /**< [ 37: 37](R/W1C/H) Detected a TLP posted FIFO control single bit error. */
+        uint64_t p_c_dbe               : 1;  /**< [ 38: 38](R/W1C/H) Detected a TLP posted FIFO control double bit error. */
+        uint64_t n_d0_sbe              : 1;  /**< [ 39: 39](R/W1C/H) Detected a TLP NP FIFO data0 single bit error. */
+        uint64_t n_d0_dbe              : 1;  /**< [ 40: 40](R/W1C/H) Detected a TLP NP FIFO data0 double bit error. */
+        uint64_t n_d1_sbe              : 1;  /**< [ 41: 41](R/W1C/H) Detected a TLP NP FIFO data1 single bit error. */
+        uint64_t n_d1_dbe              : 1;  /**< [ 42: 42](R/W1C/H) Detected a TLP NP FIFO data1 double bit error. */
+        uint64_t n_c_sbe               : 1;  /**< [ 43: 43](R/W1C/H) Detected a TLP NP FIFO control single bit error. */
+        uint64_t n_c_dbe               : 1;  /**< [ 44: 44](R/W1C/H) Detected a TLP NP FIFO control double bit error. */
+        uint64_t c_d0_sbe              : 1;  /**< [ 45: 45](R/W1C/H) Detected a TLP CPL FIFO data0 single bit error. */
+        uint64_t c_d0_dbe              : 1;  /**< [ 46: 46](R/W1C/H) Detected a TLP CPL FIFO data0 double bit error. */
+        uint64_t c_d1_sbe              : 1;  /**< [ 47: 47](R/W1C/H) Detected a TLP CPL FIFO data1 single bit error. */
+        uint64_t c_d1_dbe              : 1;  /**< [ 48: 48](R/W1C/H) Detected a TLP CPL FIFO data1 double bit error. */
+        uint64_t c_c_sbe               : 1;  /**< [ 49: 49](R/W1C/H) Detected a TLP CPL FIFO control single bit error. */
+        uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1C/H) Detected a TLP CPL FIFO control double bit error. */
+        uint64_t rtry_sbe              : 1;  /**< [ 51: 51](R/W1C/H) Detected a core retry RAM single bit error. */
+        uint64_t rtry_dbe              : 1;  /**< [ 52: 52](R/W1C/H) Detected a core retry RAM double bit error. */
+        uint64_t qhdr_b0_sbe           : 1;  /**< [ 53: 53](R/W1C/H) Detected a core header queue bank0 single bit error. */
+        uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1C/H) Detected a core header queue bank0 double bit error. */
+        uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Detected a core header queue bank1 single bit error. */
+        uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Detected a core header queue bank1 double bit error. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Detected a M2S FIFO parity error. */
+        uint64_t reserved_58_63        : 6;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_pemx_dbg_info_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_58_63        : 6;
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Detected a M2S FIFO parity error. Added in pass 2. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1C/H) Detected a core header queue bank1 double bit error. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1C/H) Detected a core header queue bank1 single bit error. */
@@ -1712,8 +2187,7 @@ typedef union
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Detected a M2S FIFO parity error. Added in pass 2. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_pemx_dbg_info_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_pemx_dbg_info_s cn88xxp1; */
 } bdk_pemx_dbg_info_t;
 
@@ -1866,6 +2340,130 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
+        uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
+        uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
+        uint64_t qhdr_b0_sbe           : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B0_SBE]. */
+        uint64_t rtry_dbe              : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTRY_DBE]. */
+        uint64_t rtry_sbe              : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTRY_SBE]. */
+        uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_C_DBE]. */
+        uint64_t c_c_sbe               : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_C_SBE]. */
+        uint64_t c_d1_dbe              : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_D1_DBE]. */
+        uint64_t c_d1_sbe              : 1;  /**< [ 47: 47](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_D1_SBE]. */
+        uint64_t c_d0_dbe              : 1;  /**< [ 46: 46](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_D0_DBE]. */
+        uint64_t c_d0_sbe              : 1;  /**< [ 45: 45](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_D0_SBE]. */
+        uint64_t n_c_dbe               : 1;  /**< [ 44: 44](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_C_DBE]. */
+        uint64_t n_c_sbe               : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_C_SBE]. */
+        uint64_t n_d1_dbe              : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_D1_DBE]. */
+        uint64_t n_d1_sbe              : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_D1_SBE]. */
+        uint64_t n_d0_dbe              : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_D0_DBE]. */
+        uint64_t n_d0_sbe              : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_D0_SBE]. */
+        uint64_t p_c_dbe               : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_C_DBE]. */
+        uint64_t p_c_sbe               : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_C_SBE]. */
+        uint64_t p_d1_dbe              : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_D1_DBE]. */
+        uint64_t p_d1_sbe              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_D1_SBE]. */
+        uint64_t p_d0_dbe              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_D0_DBE]. */
+        uint64_t p_d0_sbe              : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_D0_SBE]. */
+        uint64_t datq_pe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[DATQ_PE]. */
+        uint64_t lofp                  : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[LOFP]. */
+        uint64_t ecrc_e                : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[ECRC_E]. */
+        uint64_t rawwpp                : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RAWWPP]. */
+        uint64_t racpp                 : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RACPP]. */
+        uint64_t ramtlp                : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RAMTLP]. */
+        uint64_t rarwdns               : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RARWDNS]. */
+        uint64_t caar                  : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[CAAR]. */
+        uint64_t racca                 : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RACCA]. */
+        uint64_t racur                 : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RACUR]. */
+        uint64_t rauc                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RAUC]. */
+        uint64_t rqo                   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RQO]. */
+        uint64_t fcuv                  : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[FCUV]. */
+        uint64_t rpe                   : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RPE]. */
+        uint64_t fcpvwt                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[FCPVWT]. */
+        uint64_t dpeoosd               : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[DPEOOSD]. */
+        uint64_t rtwdle                : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTWDLE]. */
+        uint64_t rdwdle                : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RDWDLE]. */
+        uint64_t mre                   : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[MRE]. */
+        uint64_t rte                   : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTE]. */
+        uint64_t acto                  : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[ACTO]. */
+        uint64_t rvdm                  : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RVDM]. */
+        uint64_t reserved_10           : 1;
+        uint64_t rptamrc               : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RPTAMRC]. */
+        uint64_t rpmerc                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RPMERC]. */
+        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RFEMRC]. */
+        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RNFEMRC]. */
+        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RCEMRC]. */
+        uint64_t rpoison               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RPOISON]. */
+        uint64_t recrce                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RECRCE]. */
+        uint64_t rtlplle               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTLPLLE]. */
+        uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTLPMAL]. */
+        uint64_t spoison               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[SPOISON]. */
+#else /* Word 0 - Little Endian */
+        uint64_t spoison               : 1;  /**< [  0:  0](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[SPOISON]. */
+        uint64_t rtlpmal               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTLPMAL]. */
+        uint64_t rtlplle               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTLPLLE]. */
+        uint64_t recrce                : 1;  /**< [  3:  3](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RECRCE]. */
+        uint64_t rpoison               : 1;  /**< [  4:  4](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RPOISON]. */
+        uint64_t rcemrc                : 1;  /**< [  5:  5](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RCEMRC]. */
+        uint64_t rnfemrc               : 1;  /**< [  6:  6](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RNFEMRC]. */
+        uint64_t rfemrc                : 1;  /**< [  7:  7](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RFEMRC]. */
+        uint64_t rpmerc                : 1;  /**< [  8:  8](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RPMERC]. */
+        uint64_t rptamrc               : 1;  /**< [  9:  9](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RPTAMRC]. */
+        uint64_t reserved_10           : 1;
+        uint64_t rvdm                  : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RVDM]. */
+        uint64_t acto                  : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[ACTO]. */
+        uint64_t rte                   : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTE]. */
+        uint64_t mre                   : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[MRE]. */
+        uint64_t rdwdle                : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RDWDLE]. */
+        uint64_t rtwdle                : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTWDLE]. */
+        uint64_t dpeoosd               : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[DPEOOSD]. */
+        uint64_t fcpvwt                : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[FCPVWT]. */
+        uint64_t rpe                   : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RPE]. */
+        uint64_t fcuv                  : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[FCUV]. */
+        uint64_t rqo                   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RQO]. */
+        uint64_t rauc                  : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RAUC]. */
+        uint64_t racur                 : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RACUR]. */
+        uint64_t racca                 : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RACCA]. */
+        uint64_t caar                  : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[CAAR]. */
+        uint64_t rarwdns               : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RARWDNS]. */
+        uint64_t ramtlp                : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RAMTLP]. */
+        uint64_t racpp                 : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RACPP]. */
+        uint64_t rawwpp                : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RAWWPP]. */
+        uint64_t ecrc_e                : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[ECRC_E]. */
+        uint64_t lofp                  : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[LOFP]. */
+        uint64_t datq_pe               : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[DATQ_PE]. */
+        uint64_t p_d0_sbe              : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_D0_SBE]. */
+        uint64_t p_d0_dbe              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_D0_DBE]. */
+        uint64_t p_d1_sbe              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_D1_SBE]. */
+        uint64_t p_d1_dbe              : 1;  /**< [ 36: 36](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_D1_DBE]. */
+        uint64_t p_c_sbe               : 1;  /**< [ 37: 37](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_C_SBE]. */
+        uint64_t p_c_dbe               : 1;  /**< [ 38: 38](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[P_C_DBE]. */
+        uint64_t n_d0_sbe              : 1;  /**< [ 39: 39](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_D0_SBE]. */
+        uint64_t n_d0_dbe              : 1;  /**< [ 40: 40](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_D0_DBE]. */
+        uint64_t n_d1_sbe              : 1;  /**< [ 41: 41](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_D1_SBE]. */
+        uint64_t n_d1_dbe              : 1;  /**< [ 42: 42](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_D1_DBE]. */
+        uint64_t n_c_sbe               : 1;  /**< [ 43: 43](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_C_SBE]. */
+        uint64_t n_c_dbe               : 1;  /**< [ 44: 44](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[N_C_DBE]. */
+        uint64_t c_d0_sbe              : 1;  /**< [ 45: 45](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_D0_SBE]. */
+        uint64_t c_d0_dbe              : 1;  /**< [ 46: 46](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_D0_DBE]. */
+        uint64_t c_d1_sbe              : 1;  /**< [ 47: 47](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_D1_SBE]. */
+        uint64_t c_d1_dbe              : 1;  /**< [ 48: 48](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_D1_DBE]. */
+        uint64_t c_c_sbe               : 1;  /**< [ 49: 49](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_C_SBE]. */
+        uint64_t c_c_dbe               : 1;  /**< [ 50: 50](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[C_C_DBE]. */
+        uint64_t rtry_sbe              : 1;  /**< [ 51: 51](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTRY_SBE]. */
+        uint64_t rtry_dbe              : 1;  /**< [ 52: 52](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[RTRY_DBE]. */
+        uint64_t qhdr_b0_sbe           : 1;  /**< [ 53: 53](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B0_SBE]. */
+        uint64_t qhdr_b0_dbe           : 1;  /**< [ 54: 54](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B0_DBE]. */
+        uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
+        uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
+        uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
+        uint64_t reserved_58_63        : 6;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_pemx_dbg_info_w1s_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_58_63        : 6;
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t qhdr_b1_dbe           : 1;  /**< [ 56: 56](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_DBE]. */
         uint64_t qhdr_b1_sbe           : 1;  /**< [ 55: 55](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[QHDR_B1_SBE]. */
@@ -1985,8 +2583,7 @@ typedef union
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Added in pass 2.0. Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_pemx_dbg_info_w1s_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_pemx_dbg_info_w1s_s cn88xxp1; */
 } bdk_pemx_dbg_info_w1s_t;
 
@@ -2028,6 +2625,20 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
         uint64_t inv_m2s_par           : 1;  /**< [  7:  7](R/W) Invert the generated parity to be written into the M2S FIFO
+                                                                 to force a parity error when it is later read. */
+        uint64_t intval                : 7;  /**< [  6:  0](RO/H) Status of INTX, PMEI, and AERI interrupts. */
+#else /* Word 0 - Little Endian */
+        uint64_t intval                : 7;  /**< [  6:  0](RO/H) Status of INTX, PMEI, and AERI interrupts. */
+        uint64_t inv_m2s_par           : 1;  /**< [  7:  7](R/W) Invert the generated parity to be written into the M2S FIFO
+                                                                 to force a parity error when it is later read. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_pemx_debug_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t inv_m2s_par           : 1;  /**< [  7:  7](R/W) Invert the generated parity to be written into the M2S FIFO
                                                                  to force a parity error when it is later read. Added in pass 2. */
         uint64_t intval                : 7;  /**< [  6:  0](RO/H) Status of INTX, PMEI, and AERI interrupts. */
 #else /* Word 0 - Little Endian */
@@ -2036,8 +2647,7 @@ typedef union
                                                                  to force a parity error when it is later read. Added in pass 2. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_pemx_debug_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_pemx_debug_s cn88xxp1; */
 } bdk_pemx_debug_t;
 
@@ -2245,14 +2855,25 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
         uint64_t num                   : 7;  /**< [  6:  0](R/W) The number of reads that may be in flight from the PCIe core to the SLI. Minimum number is
+                                                                 6; maximum number is 64. */
+#else /* Word 0 - Little Endian */
+        uint64_t num                   : 7;  /**< [  6:  0](R/W) The number of reads that may be in flight from the PCIe core to the SLI. Minimum number is
+                                                                 6; maximum number is 64. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_pemx_inb_read_credits_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t num                   : 7;  /**< [  6:  0](R/W) The number of reads that may be in flight from the PCIe core to the SLI. Minimum number is
                                                                  6 (changed for pass 2); maximum number is 64. */
 #else /* Word 0 - Little Endian */
         uint64_t num                   : 7;  /**< [  6:  0](R/W) The number of reads that may be in flight from the PCIe core to the SLI. Minimum number is
                                                                  6 (changed for pass 2); maximum number is 64. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_pemx_inb_read_credits_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_pemx_inb_read_credits_s cn88xxp1; */
 } bdk_pemx_inb_read_credits_t;
 
@@ -2851,6 +3472,32 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
         uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x20
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+#else /* Word 0 - Little Endian */
+        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x20
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_pemx_tlp_credits_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0xff
                                                                  (changed for pass 2) and this value is not dependent of the number of PEMS wire-OR'd
                                                                  together. Software should reprogram this register for performance reasons. */
         uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x20
@@ -2871,8 +3518,7 @@ typedef union
                                                                  together. Software should reprogram this register for performance reasons. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_pemx_tlp_credits_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_pemx_tlp_credits_s cn88xxp1; */
 } bdk_pemx_tlp_credits_t;
 

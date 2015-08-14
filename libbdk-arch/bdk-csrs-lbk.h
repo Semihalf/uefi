@@ -426,7 +426,7 @@ static inline uint64_t BDK_LBKX_MSIX_PBAX(unsigned long a, unsigned long b) __at
 static inline uint64_t BDK_LBKX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b==0)))
-        return 0x87e018ff0008ll + 0x1000000ll * ((a) & 0x3) + 0ll * ((b) & 0x0);
+        return 0x87e018ff0000ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("LBKX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 

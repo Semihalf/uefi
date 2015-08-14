@@ -75,13 +75,14 @@
 /**
  * Structure dfa_cq_s
  *
- * HFA Completion Queue Structure
+ * INTERNAL: HFA Completion Queue Structure
+ *
  * This structure specifies the HFA completion queue.
  * The CQ contains the RPTRs of the instructions that HFA has completed processing.
  * Software would generally wait for an interrupt caused by
  * DFA_INT_DONE[INST_DONE], then read this buffer and process result buffers
  * which have their RPTR listed in this queue.
- * INTERNAL: Not functional until CN88XX pass 2.
+ * INTERNAL: Defeatured.
  */
 union bdk_dfa_cq_s
 {
@@ -673,7 +674,9 @@ static inline uint64_t BDK_DFA_CONTROL_FUNC(void)
 /**
  * Register (NCB) dfa_cq_cfg
  *
- * HFA Completion Queue Configuration Register
+ * INTERNAL: HFA Completion Queue Configuration Register
+ *
+ * Defeatured.
  */
 typedef union
 {
@@ -971,12 +974,17 @@ typedef union
         uint64_t reserved_26_63        : 38;
         uint64_t msegbase              : 6;  /**< [ 25: 20](R/W) Reserved. */
         uint64_t reserved_13_19        : 7;
-        uint64_t ldwb                  : 1;  /**< [ 12: 12](R/W) Load don't write back. When set, the hardware issues LDWB command towards the cache when
-                                                                 fetching the last word of instructions; as a result the line will not be written back when
-                                                                 replaced.
+        uint64_t ldwb                  : 1;  /**< [ 12: 12](R/W) Load don't write back.
 
-                                                                 When clear, the hardware issues regular load towards the cache, which will cause the line
-                                                                 to be written back before being replaced. */
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
         uint64_t reserved_9_11         : 3;
         uint64_t size                  : 9;  /**< [  8:  0](R/W) Represents the number of 64-byte instructions contained within each HFA instruction chunk.
                                                                  At power-on, software seeds the SIZE register with a fixed chunk-size (must be at least
@@ -1002,12 +1010,17 @@ typedef union
                                                                  b) determine when a HFA instruction chunk can be returned to the free page list maintained
                                                                  by the FPA hardware. */
         uint64_t reserved_9_11         : 3;
-        uint64_t ldwb                  : 1;  /**< [ 12: 12](R/W) Load don't write back. When set, the hardware issues LDWB command towards the cache when
-                                                                 fetching the last word of instructions; as a result the line will not be written back when
-                                                                 replaced.
+        uint64_t ldwb                  : 1;  /**< [ 12: 12](R/W) Load don't write back.
 
-                                                                 When clear, the hardware issues regular load towards the cache, which will cause the line
-                                                                 to be written back before being replaced. */
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
         uint64_t reserved_13_19        : 7;
         uint64_t msegbase              : 6;  /**< [ 25: 20](R/W) Reserved. */
         uint64_t reserved_26_63        : 38;

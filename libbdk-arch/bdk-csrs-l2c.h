@@ -144,37 +144,67 @@
 #define BDK_L2C_TAD_PRF_SEL_E_L2_RTG_VIC (0x44) /**< L2 RTG victim. */
 #define BDK_L2C_TAD_PRF_SEL_E_L2_VIC (4) /**< L2 dirty victim. (deprecated) */
 #define BDK_L2C_TAD_PRF_SEL_E_LFB_OCC (7) /**< LFB occupancy (each cycle adds number of LFBs valid). */
-#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR (0x4e) /**< LMC writes sent (all kinds). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_SBLKDTY (0x4f) /**< LMC write cumulative sblkdty bits set. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP (0x40) /**< Total TAG/RTG successful lookups (all sources, NOT including retried for
+#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_CN88XX (0x4e) /**< LMC writes sent (all kinds). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_CN83XX (0x4e) /**< LMC writes sent (all kinds). */
+#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_SBLKDTY_CN88XX (0x4f) /**< LMC write cumulative sblkdty bits set. Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_SBLKDTY_CN83XX (0x4f) /**< LMC write cumulative sblkdty bits set. */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_CN88XX (0x40) /**< Total TAG/RTG successful lookups (all sources, NOT including retried for
                                        conflicts). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_ALL (0x44) /**< Total TAG/RTG lookups (all sources, including retried for conflicts). Changed in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_MIB (0x43) /**< Total TAG/RTG successful lookups from MIB. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_LCL (0x41) /**< Total TAG/RTG successful lookups from XMC/local address. Changed in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_RMT (0x42) /**< Total TAG/RTG successful lookups from XMC/remote address. Changed in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_CN83XX (0x40) /**< Total TAG/RTG successful lookups (all sources, NOT including retried for
+                                       conflicts). */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_ALL_CN88XX (0x44) /**< Total TAG/RTG lookups (all sources, including retried for conflicts). Changed in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_ALL_CN83XX (0x44) /**< Total TAG/RTG lookups (all sources, including retried for conflicts). */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_MIB_CN88XX (0x43) /**< Total TAG/RTG successful lookups from MIB. Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_MIB_CN83XX (0x43) /**< Total TAG/RTG successful lookups from MIB. */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_LCL_CN88XX (0x41) /**< Total TAG/RTG successful lookups from XMC/local address. Changed in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_LCL_CN83XX (0x41) /**< Total TAG/RTG successful lookups from XMC/local address. */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_RMT_CN88XX (0x42) /**< Total TAG/RTG successful lookups from XMC/remote address. Changed in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_RMT_CN83XX (0x42) /**< Total TAG/RTG successful lookups from XMC/remote address. */
 #define BDK_L2C_TAD_PRF_SEL_E_NONE (0) /**< Nothing (disabled). */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_DAT (0x6d) /**< FLDRS/FLDX that hit TAG E with dmask!=0 (these 2 to measure if worth optimizing
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_DAT_CN88XX (0x6d) /**< FLDRS/FLDX that hit TAG E with dmask!=0 (these 2 to measure if worth optimizing
                                        the HAKD no data case). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_NODAT (0x6c) /**< FLDRS/FLDX that hit TAG E with dmask=0. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_CYC_HIT (0x69) /**< OCI forwards which hit CCPI open cycle. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_RACE (0x6a) /**< OCI received HAKI/HAKS/HAKV (forward race case). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_HAKS (0x6b) /**< OCI received HAKS (forward race case transition to shared). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD (0x6e) /**< OCI RLDD requests received. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_PEMD (0x6f) /**< OCI RLDD requests received that are sent a PEMD response (to gauge the RLDD to
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_DAT_CN83XX (0x6d) /**< FLDRS/FLDX that hit TAG E with dmask!=0 (these 2 to measure if worth optimizing
+                                       the HAKD no data case). */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_NODAT_CN88XX (0x6c) /**< FLDRS/FLDX that hit TAG E with dmask=0. Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_NODAT_CN83XX (0x6c) /**< FLDRS/FLDX that hit TAG E with dmask=0. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_CYC_HIT_CN88XX (0x69) /**< OCI forwards which hit CCPI open cycle. Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_CYC_HIT_CN83XX (0x69) /**< OCI forwards which hit CCPI open cycle. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_RACE_CN88XX (0x6a) /**< OCI received HAKI/HAKS/HAKV (forward race case). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_RACE_CN83XX (0x6a) /**< OCI received HAKI/HAKS/HAKV (forward race case). */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_HAKS_CN88XX (0x6b) /**< OCI received HAKS (forward race case transition to shared). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_HAKS_CN83XX (0x6b) /**< OCI received HAKS (forward race case transition to shared). */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_CN88XX (0x6e) /**< OCI RLDD requests received. Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_CN83XX (0x6e) /**< OCI RLDD requests received. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_PEMD_CN88XX (0x6f) /**< OCI RLDD requests received that are sent a PEMD response (to gauge the RLDD to
                                        S/E flag). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_CNT (0x70) /**< OCI RRQ w/data received count. Note that MREQ byte type requests are
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_PEMD_CN83XX (0x6f) /**< OCI RLDD requests received that are sent a PEMD response (to gauge the RLDD to
+                                       S/E flag). */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_CNT_CN88XX (0x70) /**< OCI RRQ w/data received count. Note that MREQ byte type requests are
                                        excluded. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_DMASK (0x71) /**< OCI RRQ w/data received cumulative dmask bits set. Note that MREQ byte type
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_CNT_CN83XX (0x70) /**< OCI RRQ w/data received count. Note that MREQ byte type requests are
+                                       excluded. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_DMASK_CN88XX (0x71) /**< OCI RRQ w/data received cumulative dmask bits set. Note that MREQ byte type
                                        requests are excluded. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_CNT (0x72) /**< OCI RSP w/data received count (HAKD/Pxxx/VICD/VICDHI with dmask!=0). Note that
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_DMASK_CN83XX (0x71) /**< OCI RRQ w/data received cumulative dmask bits set. Note that MREQ byte type
+                                       requests are excluded. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_CNT_CN88XX (0x72) /**< OCI RSP w/data received count (HAKD/Pxxx/VICD/VICDHI with dmask!=0). Note that
                                        PATM is excluded from the count. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_DMASK (0x73) /**< OCI RSP (HAKD/Pxxx/VICD/VICDHI) received cumulative dmask bits set. Note that
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_CNT_CN83XX (0x72) /**< OCI RSP w/data received count (HAKD/Pxxx/VICD/VICDHI with dmask!=0). Note that
+                                       PATM is excluded from the count. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_DMASK_CN88XX (0x73) /**< OCI RSP (HAKD/Pxxx/VICD/VICDHI) received cumulative dmask bits set. Note that
                                        PATM is excluded from the count. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_CNT (0x74) /**< OCI RSP VICD/VICDHI with dmask!=0 received count. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_DMASK (0x75) /**< OCI RSP VICD/VICDHI received cumulative dmask bits set. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OCI_RTG_WAIT (0x68) /**< OCI must wait for VICx (RTG state does not match request). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_OPEN_CCPI (0xa) /**< LFB open CCPI cycle (each cycle adds number of LFBs with an open CCPI
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_DMASK_CN83XX (0x73) /**< OCI RSP (HAKD/Pxxx/VICD/VICDHI) received cumulative dmask bits set. Note that
+                                       PATM is excluded from the count. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_CNT_CN88XX (0x74) /**< OCI RSP VICD/VICDHI with dmask!=0 received count. Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_CNT_CN83XX (0x74) /**< OCI RSP VICD/VICDHI with dmask!=0 received count. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_DMASK_CN88XX (0x75) /**< OCI RSP VICD/VICDHI received cumulative dmask bits set. Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_DMASK_CN83XX (0x75) /**< OCI RSP VICD/VICDHI received cumulative dmask bits set. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RTG_WAIT_CN88XX (0x68) /**< OCI must wait for VICx (RTG state does not match request). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RTG_WAIT_CN83XX (0x68) /**< OCI must wait for VICx (RTG state does not match request). */
+#define BDK_L2C_TAD_PRF_SEL_E_OPEN_CCPI_CN88XX (0xa) /**< LFB open CCPI cycle (each cycle adds number of LFBs with an open CCPI
                                        cycle). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_OPEN_CCPI_CN83XX (0xa) /**< LFB open CCPI cycle (each cycle adds number of LFBs with an open CCPI
+                                       cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN88XX(a) (0x82 + 0x10 * (a)) /**< (0..7)Quad(0..7) number of banks in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN83XX(a) (0x82 + 0x10 * (a)) /**< (0..7)Quad(0..3) number of banks in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN88XX(a) (0x80 + 0x10 * (a)) /**< (0..7)Quad(0..7) index bus in use. */
@@ -183,47 +213,82 @@
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN83XX(a) (0x81 + 0x10 * (a)) /**< (0..7)Quad(0..3) read data bus in use. */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN88XX(a) (0x83 + 0x10 * (a)) /**< (0..7)Quad(0..7) write data flops in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN83XX(a) (0x83 + 0x10 * (a)) /**< (0..7)Quad(0..3) write data flops in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC (0x5d) /**< Total (allocates RTG - MIB). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_EVICT (0x76) /**< RTG evict (shared evict). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HIT (0x5e) /**< TAG hits (allocates RTG - MIB). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HITWB (0x5f) /**< TAG hits with writeback to LMC (allocates RTG - MIB). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_VIC (0x77) /**< RTG victim (exclusive evict). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_CN88XX (0x5d) /**< Total (allocates RTG - MIB). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_CN83XX (0x5d) /**< Total (allocates RTG - MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_EVICT_CN88XX (0x76) /**< RTG evict (shared evict). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_EVICT_CN83XX (0x76) /**< RTG evict (shared evict). */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HIT_CN88XX (0x5e) /**< TAG hits (allocates RTG - MIB). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HIT_CN83XX (0x5e) /**< TAG hits (allocates RTG - MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HITWB_CN88XX (0x5f) /**< TAG hits with writeback to LMC (allocates RTG - MIB). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HITWB_CN83XX (0x5f) /**< TAG hits with writeback to LMC (allocates RTG - MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_VIC_CN88XX (0x77) /**< RTG victim (exclusive evict). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_VIC_CN83XX (0x77) /**< RTG victim (exclusive evict). */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_HIT (0x41) /**< L2 RTG hit. */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_MISS (0x42) /**< L2 RTG miss. */
 #define BDK_L2C_TAD_PRF_SEL_E_SC_FAIL (5) /**< Store-conditional fail. (deprecated) */
 #define BDK_L2C_TAD_PRF_SEL_E_SC_PASS (6) /**< Store-conditional pass. (deprecated) */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL (0x64) /**< STC/CAS handled on local node count. All local address STC/CAS are handled on
+#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_CN88XX (0x64) /**< STC/CAS handled on local node count. All local address STC/CAS are handled on
                                        the local node as are STC/CAS to remote addresses in lock local mode (see
                                        L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]). In addition, STC/CAS to remote address
                                        which TAG hit E are also handled on the local node. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_FAIL (0x65) /**< STC/CAS handled on local node fail. See STC_LCL for definition of which STC/CAS
+#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_CN83XX (0x64) /**< STC/CAS handled on local node count. All local address STC/CAS are handled on
+                                       the local node as are STC/CAS to remote addresses in lock local mode (see
+                                       L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]). In addition, STC/CAS to remote address
+                                       which TAG hit E are also handled on the local node. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_FAIL_CN88XX (0x65) /**< STC/CAS handled on local node fail. See STC_LCL for definition of which STC/CAS
                                        are handled on the local node. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT (0x62) /**< STC/CAS handled off node count. STC/CAS to remote addresses in lock remote mode
+#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_FAIL_CN83XX (0x65) /**< STC/CAS handled on local node fail. See STC_LCL for definition of which STC/CAS
+                                       are handled on the local node. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_CN88XX (0x62) /**< STC/CAS handled off node count. STC/CAS to remote addresses in lock remote mode
                                        (see L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]) which TAG miss or TAG hit S are handled
                                        on the remote (home) node. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_FAIL (0x63) /**< CCPI P2DF responses received. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL (0x60) /**< STC/CAS total count. Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_FAIL (0x61) /**< STC/CAS total fail (does not include off node CAS failures). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_HIT (0x48) /**< TAG hit (normally allocates TAG on miss - XMC & MIB). Changed in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_CLNVIC (0x59) /**< TAG victim, local address (Exclusive clean victim). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_DTYVIC (0x5a) /**< TAG victim, local address (Exclusive dirty victim). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_EVICT (0x58) /**< TAG evict, local address (any kind). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_MISS (0x49) /**< TAG miss (normally allocates TAG on miss - XMC & MIB). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_NALC (0x4a) /**< TAG noalloc (normally allocates TAG on miss - XMC & MIB). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_EVICT (0x5b) /**< TAG evict, remote address (any kind). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_VIC (0x5c) /**< TAG evict, remote address (Exclusive). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HIT (0x50) /**< RTG hit S/E (allocates TAG on miss - XMC local address). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITE (0x51) /**< RTG hit E (allocates TAG on miss - XMC local address). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITS (0x52) /**< RTG hit S forward sent (allocates TAG on miss - XMC local address). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_MISS (0x53) /**< RTG miss (allocates TAG on miss - XMC local address). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_HIT (0x4b) /**< TAG hit (does not allocate TAG or RTG on miss - XMC & MIB). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_MISS (0x4c) /**< TAG miss (does not allocate TAG or RTG on miss - XMC & MIB). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_CN83XX (0x62) /**< STC/CAS handled off node count. STC/CAS to remote addresses in lock remote mode
+                                       (see L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]) which TAG miss or TAG hit S are handled
+                                       on the remote (home) node. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_FAIL_CN88XX (0x63) /**< CCPI P2DF responses received. Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_FAIL_CN83XX (0x63) /**< CCPI P2DF responses received. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_CN88XX (0x60) /**< STC/CAS total count. Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_CN83XX (0x60) /**< STC/CAS total count. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_FAIL_CN88XX (0x61) /**< STC/CAS total fail (does not include off node CAS failures). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_FAIL_CN83XX (0x61) /**< STC/CAS total fail (does not include off node CAS failures). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_HIT_CN88XX (0x48) /**< TAG hit (normally allocates TAG on miss - XMC & MIB). Changed in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_HIT_CN83XX (0x48) /**< TAG hit (normally allocates TAG on miss - XMC & MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_CLNVIC_CN88XX (0x59) /**< TAG victim, local address (Exclusive clean victim). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_CLNVIC_CN83XX (0x59) /**< TAG victim, local address (Exclusive clean victim). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_DTYVIC_CN88XX (0x5a) /**< TAG victim, local address (Exclusive dirty victim). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_DTYVIC_CN83XX (0x5a) /**< TAG victim, local address (Exclusive dirty victim). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_EVICT_CN88XX (0x58) /**< TAG evict, local address (any kind). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_EVICT_CN83XX (0x58) /**< TAG evict, local address (any kind). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_MISS_CN88XX (0x49) /**< TAG miss (normally allocates TAG on miss - XMC & MIB). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_MISS_CN83XX (0x49) /**< TAG miss (normally allocates TAG on miss - XMC & MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_NALC_CN88XX (0x4a) /**< TAG noalloc (normally allocates TAG on miss - XMC & MIB). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_NALC_CN83XX (0x4a) /**< TAG noalloc (normally allocates TAG on miss - XMC & MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_EVICT_CN88XX (0x5b) /**< TAG evict, remote address (any kind). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_EVICT_CN83XX (0x5b) /**< TAG evict, remote address (any kind). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_VIC_CN88XX (0x5c) /**< TAG evict, remote address (Exclusive). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_VIC_CN83XX (0x5c) /**< TAG evict, remote address (Exclusive). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HIT_CN88XX (0x50) /**< RTG hit S/E (allocates TAG on miss - XMC local address). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HIT_CN83XX (0x50) /**< RTG hit S/E (allocates TAG on miss - XMC local address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITE_CN88XX (0x51) /**< RTG hit E (allocates TAG on miss - XMC local address). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITE_CN83XX (0x51) /**< RTG hit E (allocates TAG on miss - XMC local address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITS_CN88XX (0x52) /**< RTG hit S forward sent (allocates TAG on miss - XMC local address). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITS_CN83XX (0x52) /**< RTG hit S forward sent (allocates TAG on miss - XMC local address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_MISS_CN88XX (0x53) /**< RTG miss (allocates TAG on miss - XMC local address). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_MISS_CN83XX (0x53) /**< RTG miss (allocates TAG on miss - XMC local address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_HIT_CN88XX (0x4b) /**< TAG hit (does not allocate TAG or RTG on miss - XMC & MIB). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_HIT_CN83XX (0x4b) /**< TAG hit (does not allocate TAG or RTG on miss - XMC & MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_MISS_CN88XX (0x4c) /**< TAG miss (does not allocate TAG or RTG on miss - XMC & MIB). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_MISS_CN83XX (0x4c) /**< TAG miss (does not allocate TAG or RTG on miss - XMC & MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HIT (0x54) /**< RTG hit S/E (does not allocate TAG on miss - XMC local address). Added in pass
                                        2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITE (0x56) /**< RTG hit E (does not allocate TAG on miss - XMC local address). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITS (0x57) /**< RTG hit S forward sent (does not allocate TAG on miss - XMC local
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITE_CN88XX (0x56) /**< RTG hit E (does not allocate TAG on miss - XMC local address). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITE_CN83XX (0x56) /**< RTG hit E (does not allocate TAG on miss - XMC local address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITS_CN88XX (0x57) /**< RTG hit S forward sent (does not allocate TAG on miss - XMC local
                                        address). Added in pass 2. */
-#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_MISS (0x55) /**< RTG miss (does not allocate TAG on miss - XMC local address). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITS_CN83XX (0x57) /**< RTG hit S forward sent (does not allocate TAG on miss - XMC local
+                                       address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_MISS_CN88XX (0x55) /**< RTG miss (does not allocate TAG on miss - XMC local address). Added in pass 2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_MISS_CN83XX (0x55) /**< RTG miss (does not allocate TAG on miss - XMC local address). */
 #define BDK_L2C_TAD_PRF_SEL_E_WAIT_LFB (8) /**< LFB wait LFB (each cycle adds number of LFBs waiting for other LFBs). */
 #define BDK_L2C_TAD_PRF_SEL_E_WAIT_VAB (9) /**< LFB wait VAB (each cycle adds number of LFBs waiting for VAB). */
 
@@ -951,6 +1016,62 @@ typedef union
                                                                  10 * (DDR-clock period/core-clock period) - 1.
                                                                  To disable set to 0. All other values are reserved. */
         uint64_t reserved_5            : 1;
+        uint64_t disgsyncto            : 1;  /**< [  4:  4](R/W) Disable global sync timeout. */
+        uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
+        uint64_t dissblkdty            : 1;  /**< [  2:  2](R/W) Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
+                                                                 sub-blocks when possible. In an CCPI system all nodes must use the same setting of
+                                                                 DISSBLKDTY or operation is undefined. */
+        uint64_t disecc                : 1;  /**< [  1:  1](R/W) Tag and data ECC disable. */
+        uint64_t disidxalias           : 1;  /**< [  0:  0](R/W) Index alias disable. */
+#else /* Word 0 - Little Endian */
+        uint64_t disidxalias           : 1;  /**< [  0:  0](R/W) Index alias disable. */
+        uint64_t disecc                : 1;  /**< [  1:  1](R/W) Tag and data ECC disable. */
+        uint64_t dissblkdty            : 1;  /**< [  2:  2](R/W) Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
+                                                                 sub-blocks when possible. In an CCPI system all nodes must use the same setting of
+                                                                 DISSBLKDTY or operation is undefined. */
+        uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
+        uint64_t disgsyncto            : 1;  /**< [  4:  4](R/W) Disable global sync timeout. */
+        uint64_t reserved_5            : 1;
+        uint64_t rdf_cnt               : 8;  /**< [ 13:  6](R/W) Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
+                                                                 For optimal performance set to
+                                                                 10 * (DDR-clock period/core-clock period) - 1.
+                                                                 To disable set to 0. All other values are reserved. */
+        uint64_t xmc_arb_mode          : 1;  /**< [ 14: 14](R/W) Arbitration mode for ADD bus QOS queues. 0 = fully determined through QOS, 1 = QOS0
+                                                                 highest priority; QOS 1-7 use normal mode. */
+        uint64_t rsp_arb_mode          : 1;  /**< [ 15: 15](R/W) Arbitration mode for RSC/RSD bus. 0 = round-robin; 1 = static priority.
+                                                                 1. IOR data.
+                                                                 2. STIN/FILLs.
+                                                                 3. STDN/SCDN/SCFL. */
+        uint64_t reserved_16_23        : 8;
+        uint64_t discclk               : 1;  /**< [ 24: 24](R/W) Disable conditional clocking in L2C PNR blocks. */
+        uint64_t reserved_25_26        : 2;
+        uint64_t disstgl2i             : 1;  /**< [ 27: 27](R/W) Disable STGL2Is from changing the tags. */
+        uint64_t reserved_28           : 1;
+        uint64_t ocla_qos              : 3;  /**< [ 31: 29](R/W) QOS level for the transactions from OCLA to L2C. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_l2c_ctl_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ocla_qos              : 3;  /**< [ 31: 29](R/W) QOS level for the transactions from OCLA to L2C. */
+        uint64_t reserved_28           : 1;
+        uint64_t disstgl2i             : 1;  /**< [ 27: 27](R/W) Disable STGL2Is from changing the tags. */
+        uint64_t reserved_25_26        : 2;
+        uint64_t discclk               : 1;  /**< [ 24: 24](R/W) Disable conditional clocking in L2C PNR blocks. */
+        uint64_t reserved_16_23        : 8;
+        uint64_t rsp_arb_mode          : 1;  /**< [ 15: 15](R/W) Arbitration mode for RSC/RSD bus. 0 = round-robin; 1 = static priority.
+                                                                 1. IOR data.
+                                                                 2. STIN/FILLs.
+                                                                 3. STDN/SCDN/SCFL. */
+        uint64_t xmc_arb_mode          : 1;  /**< [ 14: 14](R/W) Arbitration mode for ADD bus QOS queues. 0 = fully determined through QOS, 1 = QOS0
+                                                                 highest priority; QOS 1-7 use normal mode. */
+        uint64_t rdf_cnt               : 8;  /**< [ 13:  6](R/W) Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
+                                                                 For optimal performance set to
+                                                                 10 * (DDR-clock period/core-clock period) - 1.
+                                                                 To disable set to 0. All other values are reserved. */
+        uint64_t reserved_5            : 1;
         uint64_t disgsyncto            : 1;  /**< [  4:  4](R/W) Disable global sync timeout.
                                                                  Added in pass 2. */
         uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
@@ -987,8 +1108,7 @@ typedef union
         uint64_t ocla_qos              : 3;  /**< [ 31: 29](R/W) QOS level for the transactions from OCLA to L2C. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_l2c_ctl_cn83xx cn88xxp2; */
+    } cn88xxp2;
     struct bdk_l2c_ctl_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1377,7 +1497,7 @@ typedef union
         uint64_t reserved_31_63        : 33;
         uint64_t ncpend                : 1;  /**< [ 30: 30](RO/H) An indication that a node change is pending.  Hardware sets this bit when
                                                                  OCX_COM_NODE[ID] is changed and clears the bit when the node change has taken
-                                                                 effect.  Added in pass 2. */
+                                                                 effect. */
         uint64_t lock_local_cas        : 1;  /**< [ 29: 29](RO) Reserved. */
         uint64_t lock_local_stc        : 1;  /**< [ 28: 28](RO) Reserved. */
         uint64_t lock_local_pp         : 1;  /**< [ 27: 27](RO) Reserved. */
@@ -1413,7 +1533,7 @@ typedef union
         uint64_t lock_local_cas        : 1;  /**< [ 29: 29](RO) Reserved. */
         uint64_t ncpend                : 1;  /**< [ 30: 30](RO/H) An indication that a node change is pending.  Hardware sets this bit when
                                                                  OCX_COM_NODE[ID] is changed and clears the bit when the node change has taken
-                                                                 effect.  Added in pass 2. */
+                                                                 effect. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } cn83xx;

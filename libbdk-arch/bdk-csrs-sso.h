@@ -905,7 +905,7 @@ static inline uint64_t BDK_SSO_BP_TEST2_FUNC(void)
  * Register (NCB) sso_const
  *
  * SSO Constants Register
- * This register contains constant information about this SSO.
+ * This register contains constants for software discovery.
  */
 typedef union
 {
@@ -915,13 +915,13 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_56_63        : 8;
         uint64_t hws                   : 8;  /**< [ 55: 48](RO) Number of hardware work slots. */
-        uint64_t taq                   : 16; /**< [ 47: 32](RO) Number of in-unit entries. */
+        uint64_t taq                   : 16; /**< [ 47: 32](RO) Number of TAQ entries. */
         uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries. */
         uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of groups. */
 #else /* Word 0 - Little Endian */
         uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of groups. */
         uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries. */
-        uint64_t taq                   : 16; /**< [ 47: 32](RO) Number of in-unit entries. */
+        uint64_t taq                   : 16; /**< [ 47: 32](RO) Number of TAQ entries. */
         uint64_t hws                   : 8;  /**< [ 55: 48](RO) Number of hardware work slots. */
         uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
@@ -943,6 +943,45 @@ static inline uint64_t BDK_SSO_CONST_FUNC(void)
 #define basename_BDK_SSO_CONST "SSO_CONST"
 #define busnum_BDK_SSO_CONST 0
 #define arguments_BDK_SSO_CONST -1,-1,-1,-1
+
+/**
+ * Register (NCB) sso_const1
+ *
+ * SSO Constants Register 1
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_sso_const1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t xae_waes              : 16; /**< [ 31: 16](RO) Number of WAEs (work entries) in a XAQ buffer. */
+        uint64_t xaq_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a XAQ buffer. */
+#else /* Word 0 - Little Endian */
+        uint64_t xaq_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a XAQ buffer. */
+        uint64_t xae_waes              : 16; /**< [ 31: 16](RO) Number of WAEs (work entries) in a XAQ buffer. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_sso_const1_s cn; */
+} bdk_sso_const1_t;
+
+#define BDK_SSO_CONST1 BDK_SSO_CONST1_FUNC()
+static inline uint64_t BDK_SSO_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SSO_CONST1_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x860000001008ll;
+    __bdk_csr_fatal("SSO_CONST1", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_SSO_CONST1 bdk_sso_const1_t
+#define bustype_BDK_SSO_CONST1 BDK_CSR_TYPE_NCB
+#define basename_BDK_SSO_CONST1 "SSO_CONST1"
+#define busnum_BDK_SSO_CONST1 0
+#define arguments_BDK_SSO_CONST1 -1,-1,-1,-1
 
 /**
  * Register (NCB) sso_ecc_ctl0

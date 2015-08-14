@@ -655,7 +655,8 @@ typedef union
     struct bdk_fpa_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
+        uint64_t reserved_56_63        : 8;
+        uint64_t stk_ln_ptrs           : 8;  /**< [ 55: 48](RO) Number of pointers stored within each 128-byte line of the FPA stack. */
         uint64_t fpfs                  : 16; /**< [ 47: 32](RO) Number of FPF entries across all pools. See also FPA_GEN_CFG[POOLS]. */
         uint64_t auras                 : 16; /**< [ 31: 16](RO) Maximum number of auras supported. */
         uint64_t pools                 : 16; /**< [ 15:  0](RO) Maximum number of pools supported. See also FPA_GEN_CFG[POOLS]. */
@@ -663,7 +664,8 @@ typedef union
         uint64_t pools                 : 16; /**< [ 15:  0](RO) Maximum number of pools supported. See also FPA_GEN_CFG[POOLS]. */
         uint64_t auras                 : 16; /**< [ 31: 16](RO) Maximum number of auras supported. */
         uint64_t fpfs                  : 16; /**< [ 47: 32](RO) Number of FPF entries across all pools. See also FPA_GEN_CFG[POOLS]. */
-        uint64_t reserved_48_63        : 16;
+        uint64_t stk_ln_ptrs           : 8;  /**< [ 55: 48](RO) Number of pointers stored within each 128-byte line of the FPA stack. */
+        uint64_t reserved_56_63        : 8;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_const_s cn; */
@@ -683,6 +685,41 @@ static inline uint64_t BDK_FPA_CONST_FUNC(void)
 #define basename_BDK_FPA_CONST "FPA_CONST"
 #define busnum_BDK_FPA_CONST 0
 #define arguments_BDK_FPA_CONST -1,-1,-1,-1
+
+/**
+ * Register (NCB) fpa_const1
+ *
+ * FPA Constants Register 1
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_fpa_const1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_fpa_const1_s cn; */
+} bdk_fpa_const1_t;
+
+#define BDK_FPA_CONST1 BDK_FPA_CONST1_FUNC()
+static inline uint64_t BDK_FPA_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_FPA_CONST1_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x828000000018ll;
+    __bdk_csr_fatal("FPA_CONST1", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_FPA_CONST1 bdk_fpa_const1_t
+#define bustype_BDK_FPA_CONST1 BDK_CSR_TYPE_NCB
+#define basename_BDK_FPA_CONST1 "FPA_CONST1"
+#define busnum_BDK_FPA_CONST1 0
+#define arguments_BDK_FPA_CONST1 -1,-1,-1,-1
 
 /**
  * Register (NCB) fpa_ecc_ctl
@@ -1289,7 +1326,7 @@ static inline uint64_t BDK_FPA_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_FPA_PF_MSIX_PBAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x8283000f0008ll + 0ll * ((a) & 0x0);
+        return 0x8283000f0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("FPA_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
@@ -2236,7 +2273,7 @@ static inline uint64_t BDK_FPA_VFX_MSIX_PBAX(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_FPA_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
-        return 0x8287000f0008ll + 0x400000ll * ((a) & 0x1f) + 0ll * ((b) & 0x0);
+        return 0x8287000f0000ll + 0x400000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("FPA_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 

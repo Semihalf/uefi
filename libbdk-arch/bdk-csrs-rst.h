@@ -1680,11 +1680,11 @@ typedef union
     struct bdk_rst_ref_cntr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W) Count. The counter is initialized to 0x0 during a cold reset and is otherwise continuously
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Count. The counter is initialized to 0x0 during a cold reset and is otherwise continuously
                                                                  running.
                                                                  CNT is incremented every reference-clock cycle (i.e. at 50 MHz). */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt                   : 64; /**< [ 63:  0](R/W) Count. The counter is initialized to 0x0 during a cold reset and is otherwise continuously
+        uint64_t cnt                   : 64; /**< [ 63:  0](R/W/H) Count. The counter is initialized to 0x0 during a cold reset and is otherwise continuously
                                                                  running.
                                                                  CNT is incremented every reference-clock cycle (i.e. at 50 MHz). */
 #endif /* Word 0 - End */

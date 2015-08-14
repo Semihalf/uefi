@@ -680,6 +680,24 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
+        uint64_t trig                  : 1;  /**< [ 15: 15](R/W) AND plane control for trigger FSM input. */
+        uint64_t mcd                   : 3;  /**< [ 14: 12](R/W) AND plane control for multichip debug (MCD) 0..2 FSM inputs. */
+        uint64_t match                 : 4;  /**< [ 11:  8](R/W) AND plane control for matcher 0..3 FSM inputs. */
+        uint64_t fsm1_state            : 4;  /**< [  7:  4](R/W) AND plane control for FSM 1 last state input. */
+        uint64_t fsm0_state            : 4;  /**< [  3:  0](R/W) AND plane control for FSM 0 last state input. */
+#else /* Word 0 - Little Endian */
+        uint64_t fsm0_state            : 4;  /**< [  3:  0](R/W) AND plane control for FSM 0 last state input. */
+        uint64_t fsm1_state            : 4;  /**< [  7:  4](R/W) AND plane control for FSM 1 last state input. */
+        uint64_t match                 : 4;  /**< [ 11:  8](R/W) AND plane control for matcher 0..3 FSM inputs. */
+        uint64_t mcd                   : 3;  /**< [ 14: 12](R/W) AND plane control for multichip debug (MCD) 0..2 FSM inputs. */
+        uint64_t trig                  : 1;  /**< [ 15: 15](R/W) AND plane control for trigger FSM input. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_oclax_fsmx_andx_ix_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
         uint64_t trig                  : 1;  /**< [ 15: 15](R/W) AND plane control for trigger FSM input. Added in pass 2. */
         uint64_t mcd                   : 3;  /**< [ 14: 12](R/W) AND plane control for multichip debug (MCD) 0..2 FSM inputs. */
         uint64_t match                 : 4;  /**< [ 11:  8](R/W) AND plane control for matcher 0..3 FSM inputs. */
@@ -693,8 +711,7 @@ typedef union
         uint64_t trig                  : 1;  /**< [ 15: 15](R/W) AND plane control for trigger FSM input. Added in pass 2. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_oclax_fsmx_andx_ix_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_oclax_fsmx_andx_ix_s cn88xxp1; */
 } bdk_oclax_fsmx_andx_ix_t;
 
@@ -854,6 +871,44 @@ typedef union
         uint64_t mcdtrig               : 3;  /**< [  6:  4](R/W) Enable MCD triggering. For each bit corresponding to the three MCDs:
                                                                  0 = MCD does not cause trigger.
                                                                  1 = When the corresponding MCD is received it will cause
+                                                                 triggerring and set OCLA()_STATE_SET[TRIG]. */
+        uint64_t exten                 : 1;  /**< [  3:  3](R/W) Enable external triggering.
+                                                                 0 = External triggering ignored.
+                                                                 1 = When the external trigger pin selected with GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER
+                                                                 is high it will cause
+                                                                 triggerring and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
+                                                                 signal (it is not edge sensitive.) */
+        uint64_t den                   : 1;  /**< [  2:  2](R/W) Enable data bus and counter clocking. When set, the OCLA inbound data bus may be used and
+                                                                 counters may increment. When clear, the bus is always zero and internal flops may be clock
+                                                                 gated off to save power. Must be set for normal operation. */
+        uint64_t stt                   : 1;  /**< [  1:  1](R/W) Store to DDR directly, bypassing L2 cache. */
+        uint64_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0            : 1;
+        uint64_t stt                   : 1;  /**< [  1:  1](R/W) Store to DDR directly, bypassing L2 cache. */
+        uint64_t den                   : 1;  /**< [  2:  2](R/W) Enable data bus and counter clocking. When set, the OCLA inbound data bus may be used and
+                                                                 counters may increment. When clear, the bus is always zero and internal flops may be clock
+                                                                 gated off to save power. Must be set for normal operation. */
+        uint64_t exten                 : 1;  /**< [  3:  3](R/W) Enable external triggering.
+                                                                 0 = External triggering ignored.
+                                                                 1 = When the external trigger pin selected with GPIO_PIN_SEL_E::OCLA_EXT_TRIGGER
+                                                                 is high it will cause
+                                                                 triggerring and set OCLA()_STATE_SET[TRIG]. The external device must de-assert the
+                                                                 signal (it is not edge sensitive.) */
+        uint64_t mcdtrig               : 3;  /**< [  6:  4](R/W) Enable MCD triggering. For each bit corresponding to the three MCDs:
+                                                                 0 = MCD does not cause trigger.
+                                                                 1 = When the corresponding MCD is received it will cause
+                                                                 triggerring and set OCLA()_STATE_SET[TRIG]. */
+        uint64_t reserved_7_63         : 57;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_oclax_gen_ctl_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_7_63         : 57;
+        uint64_t mcdtrig               : 3;  /**< [  6:  4](R/W) Enable MCD triggering. For each bit corresponding to the three MCDs:
+                                                                 0 = MCD does not cause trigger.
+                                                                 1 = When the corresponding MCD is received it will cause
                                                                  triggerring and set OCLA()_STATE_SET[TRIG].
 
                                                                  Added in pass 2. */
@@ -888,8 +943,7 @@ typedef union
                                                                  Added in pass 2. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_oclax_gen_ctl_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_oclax_gen_ctl_s cn88xxp1; */
 } bdk_oclax_gen_ctl_t;
 
@@ -1023,7 +1077,33 @@ typedef union
         uint64_t reserved_36_63        : 28;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_oclax_matx_maskx_s cn; */
+    /* struct bdk_oclax_matx_maskx_s cn88xx; */
+    struct bdk_oclax_matx_maskx_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t mask                  : 36; /**< [ 35:  0](R/W) Bitmask of which bits in OCLA()_MAT()_VALUE() are to be compared.
+
+                                                                 Each bit of OCLA()_MAT()_VALUE() and OCLA()_MAT()_MASK() are combined as
+                                                                 follows:
+
+                                                                 _ If MASK = 1 and VALUE = 0, matches when data = "0".
+                                                                 _ If MASK = 1 and VALUE = 1, matches when data = "1".
+                                                                 _ If MASK = 0 and VALUE = 0, matches any data.
+                                                                 _ If MASK = 0 and VALUE = 1, matches any data. */
+#else /* Word 0 - Little Endian */
+        uint64_t mask                  : 36; /**< [ 35:  0](R/W) Bitmask of which bits in OCLA()_MAT()_VALUE() are to be compared.
+
+                                                                 Each bit of OCLA()_MAT()_VALUE() and OCLA()_MAT()_MASK() are combined as
+                                                                 follows:
+
+                                                                 _ If MASK = 1 and VALUE = 0, matches when data = "0".
+                                                                 _ If MASK = 1 and VALUE = 1, matches when data = "1".
+                                                                 _ If MASK = 0 and VALUE = 0, matches any data.
+                                                                 _ If MASK = 0 and VALUE = 1, matches any data. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_oclax_matx_maskx_t;
 
 static inline uint64_t BDK_OCLAX_MATX_MASKX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
@@ -1881,6 +1961,16 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t cycle                 : 64; /**< [ 63:  0](R/W/H) Current time as free running counter. Loaded into captured control packets.
+                                                                 Unconditionally clocked, independent of OCLA()_SFT_RST. */
+#else /* Word 0 - Little Endian */
+        uint64_t cycle                 : 64; /**< [ 63:  0](R/W/H) Current time as free running counter. Loaded into captured control packets.
+                                                                 Unconditionally clocked, independent of OCLA()_SFT_RST. */
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_oclax_time_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t cycle                 : 64; /**< [ 63:  0](R/W/H) Current time as free running counter. Loaded into captured control packets.
                                                                  Unconditionally clocked, independent of OCLA()_SFT_RST.
                                                                  Changed width to 64 bits in pass 2. */
 #else /* Word 0 - Little Endian */
@@ -1888,8 +1978,7 @@ typedef union
                                                                  Unconditionally clocked, independent of OCLA()_SFT_RST.
                                                                  Changed width to 64 bits in pass 2. */
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_oclax_time_cn83xx cn88xxp2; */
+    } cn88xxp2;
     struct bdk_oclax_time_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

@@ -432,7 +432,8 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_vrmx_trip_cn83xx
+    /* struct bdk_vrmx_trip_s cn83xx; */
+    struct bdk_vrmx_trip_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
@@ -445,8 +446,7 @@ typedef union
                                                                  and the THERMAL_TRIP_L pin asserts. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_vrmx_trip_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_vrmx_trip_s cn88xxp1; */
 } bdk_vrmx_trip_t;
 

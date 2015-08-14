@@ -1284,7 +1284,17 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_60_63        : 4;
         uint64_t aura                  : 12; /**< [ 59: 48](RAZ) Reserved. */
-        uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */
+        uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
         uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved. For forward compatibility, software should always write as one.  INTERNAL: In
                                                                  Octeon, if set, disables aura frees, which is the required mode without an FPA. */
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64 words per command buffer segment. */
@@ -1294,7 +1304,17 @@ typedef union
         uint64_t size                  : 13; /**< [ 45: 33](R/W) Number of uint64 words per command buffer segment. */
         uint64_t dfb                   : 1;  /**< [ 46: 46](RO) Reserved. For forward compatibility, software should always write as one.  INTERNAL: In
                                                                  Octeon, if set, disables aura frees, which is the required mode without an FPA. */
-        uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */
+        uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
         uint64_t aura                  : 12; /**< [ 59: 48](RAZ) Reserved. */
         uint64_t reserved_60_63        : 4;
 #endif /* Word 0 - End */
@@ -1306,7 +1326,17 @@ typedef union
         uint64_t reserved_60_63        : 4;
         uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
                                                                  Only used when [DFB] is clear. */
-        uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */
+        uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
         uint64_t dfb                   : 1;  /**< [ 46: 46](R/W) Don't free instruction buffers.
                                                                  0 = When CPT reaches the end of an instruction chunk, that chunk will be freed
                                                                  to the FPA.
@@ -1320,7 +1350,17 @@ typedef union
                                                                  0 = When CPT reaches the end of an instruction chunk, that chunk will be freed
                                                                  to the FPA.
                                                                  1 = Instruction chunks are not freed to FPA. */
-        uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) When reading commands that end on cache line boundaries, use load-and-don't write back commands. */
+        uint64_t ldwb                  : 1;  /**< [ 47: 47](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
         uint64_t aura                  : 12; /**< [ 59: 48](R/W) Guest-aura for returning this queue's instruction-chunk buffers to FPA.
                                                                  Only used when [DFB] is clear. */
         uint64_t reserved_60_63        : 4;
@@ -1949,9 +1989,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
-        uint64_t coeffs                : 8;  /**< [  7:  0](R/W) Coefficients of GF(2^8) irreducible polynomial */
+        uint64_t coeffs                : 8;  /**< [  7:  0](R/W) Coefficients of GF(2^8) irreducible polynomial.
+                                                                 Must be 0x1D, 0x2B, 0x2D, 0x4D, 0x5F, 0x63, 0x65, 0x69, 0x71, 0x87, 0x8D, 0xA9, 0xC3,
+                                                                 0xCF, 0xE7, or 0xF5. */
 #else /* Word 0 - Little Endian */
-        uint64_t coeffs                : 8;  /**< [  7:  0](R/W) Coefficients of GF(2^8) irreducible polynomial */
+        uint64_t coeffs                : 8;  /**< [  7:  0](R/W) Coefficients of GF(2^8) irreducible polynomial.
+                                                                 Must be 0x1D, 0x2B, 0x2D, 0x4D, 0x5F, 0x63, 0x65, 0x69, 0x71, 0x87, 0x8D, 0xA9, 0xC3,
+                                                                 0xCF, 0xE7, or 0xF5. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;

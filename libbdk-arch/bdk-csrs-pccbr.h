@@ -336,6 +336,23 @@ typedef union
         uint32_t reserved_24_31        : 8;
         uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. Points to PCCBR_XXX_EA_CAP_HDR. */
+        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. Points to PCCBR_XXX_EA_CAP_HDR. */
+        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
+        uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccbr_xxx_e_cap_hdr_s cn83xx; */
+    struct bdk_pccbr_xxx_e_cap_hdr_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
+        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. Points to PCCBR_XXX_EA_CAP_HDR.
                                                                  Changed in pass 2. */
         uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
@@ -347,9 +364,7 @@ typedef union
         uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pccbr_xxx_e_cap_hdr_s cn83xx; */
-    /* struct bdk_pccbr_xxx_e_cap_hdr_s cn88xxp2; */
+    } cn88xxp2;
     struct bdk_pccbr_xxx_e_cap_hdr_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

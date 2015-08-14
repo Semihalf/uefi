@@ -107,8 +107,9 @@
 /**
  * Enumeration bgx_opcode_e
  *
- * BGX Error Opcode Enumeration
- * Enumerates the error opcodes created by BGX and presented into MIX frames.
+ * INTERNAL: BGX Error Opcode Enumeration
+ *
+ * Enumerates the error opcodes created by BGX and presented to PKI and MIX.
  */
 #define BDK_BGX_OPCODE_E_RE_FCS (7) /**< FCS error: The packet was received with an FCS error. */
 #define BDK_BGX_OPCODE_E_RE_FCS_RCV (8) /**< FCS and receive error: The packet was received with an FCS error and included one or more
@@ -609,7 +610,169 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmrx_config_s cn; */
+    /* struct bdk_bgxx_cmrx_config_s cn88xx; */
+    struct bdk_bgxx_cmrx_config_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t interface_select      : 1;  /**< [ 16: 16](R/W) Selects interior side interface over which the lmac will communicate:
+                                                                 <pre>
+                                                                   INTERFACE_SELECT  Name           Connected block
+                                                                   ----------------------------------------------------------
+                                                                   0                 X2P0/P2X0      NIC
+                                                                   1                 X2P1/P2X1      PKI/PKO
+                                                                 </pre> */
+        uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
+                                                                 dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
+                                                                 and LMAC access to shared BGX resources (SMU/SPU data path, SerDes lanes) is disabled.
+
+                                                                 When set, LMAC operation is enabled, including link bring-up, synchronization, and
+                                                                 transmit/receive of idles and fault sequences. Note that configuration registers for an
+                                                                 LMAC are not reset when this bit is clear, allowing software to program them before
+                                                                 setting this bit to enable the LMAC. This bit together with LMAC_TYPE is also used to
+                                                                 enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
+                                                                 is enabled when any of the paths are enabled. */
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When ENABLE = 1 and DATA_PKT_RX_EN = 1, the reception of data
+                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and DATA_PKT_RX_EN = 0, the MAC layer
+                                                                 drops received data and flow-control packets. */
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When ENABLE = 1 and DATA_PKT_TX_EN = 1, the transmission of
+                                                                 data
+                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and DATA_PKT_TX_EN = 0, the MAC layer
+                                                                 suppresses the transmission of new data and packets for the LMAC. */
+        uint64_t int_beat_gen          : 1;  /**< [ 12: 12](R/W) Internal beat generation. This bit is used for debug/test purposes and should be clear
+                                                                 during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
+                                                                 TXREADY/TXCREDIT from the associated SerDes lanes, internally generates fake (idle)
+                                                                 RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes. */
+        uint64_t mix_en                : 1;  /**< [ 11: 11](R/W) Must be 0. */
+        uint64_t lmac_type             : 3;  /**< [ 10:  8](R/W) Logical MAC/PCS/prt type:
+
+                                                                 <pre>
+                                                                   LMAC_TYPE  Name       Description            NUM_PCS_LANES
+                                                                   ----------------------------------------------------------
+                                                                   0x0        SGMII      SGMII/1000BASE-X             1
+                                                                   0x1        XAUI       10GBASE-X/XAUI or DXAUI      4
+                                                                   0x2        RXAUI      Reduced XAUI                 2
+                                                                   0x3        10G_R      10GBASE-R                    1
+                                                                   0x4        40G_R      40GBASE-R                    4
+                                                                   Other      --         Reserved                     -
+                                                                 </pre>
+
+                                                                 NUM_PCS_LANES specifies the number of PCS lanes that are valid for
+                                                                 each type. Each valid PCS lane is mapped to a physical SerDes lane
+                                                                 based on the programming of [LANE_TO_SDS].
+
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
+                                                                 be changed when [ENABLE] = 1. */
+        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes Mapping.
+                                                                 This is an array of 2-bit values that map each logical PCS Lane to a
+                                                                 physical SerDes lane, as follows:
+
+                                                                 <pre>
+                                                                   Bits    Description            Reset value
+                                                                   ------------------------------------------
+                                                                   <7:6>   PCS Lane 3 SerDes ID       0x3
+                                                                   <5:4>   PCS Lane 2 SerDes ID       0x2
+                                                                   <3:2>   PCS Lane 1 SerDes ID       0x1
+                                                                   <1:0>   PCS Lane 0 SerDes ID       0x0
+                                                                 </pre>
+
+                                                                 PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
+                                                                 logical MAC/PCS type. (See definition of LMAC_TYPE.) For example, when LMAC_TYPE = SGMII,
+                                                                 then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
+                                                                 are selected by bits <1:0>.
+
+                                                                 For 40GBASE-R (LMAC_TYPE = 40G_R), all four PCS lanes are valid, and the PCS lane IDs
+                                                                 determine the block distribution order and associated alignment markers on the transmit
+                                                                 side. This is not necessarily the order in which PCS lanes receive data because 802.3
+                                                                 allows multilane BASE-R receive lanes to be reordered. When a lane (called service
+                                                                 interface in 802.3ba-2010) has achieved alignment marker lock on the receive side (i.e.
+                                                                 the associated BGX()_SPU()_BR_ALGN_STATUS[MARKER_LOCK] = 1), then the actual
+                                                                 detected RX PCS lane number is recorded in the corresponding
+                                                                 BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
+
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
+                                                                 be changed when [ENABLE] = 1. */
+#else /* Word 0 - Little Endian */
+        uint64_t lane_to_sds           : 8;  /**< [  7:  0](R/W) PCS lane-to-SerDes Mapping.
+                                                                 This is an array of 2-bit values that map each logical PCS Lane to a
+                                                                 physical SerDes lane, as follows:
+
+                                                                 <pre>
+                                                                   Bits    Description            Reset value
+                                                                   ------------------------------------------
+                                                                   <7:6>   PCS Lane 3 SerDes ID       0x3
+                                                                   <5:4>   PCS Lane 2 SerDes ID       0x2
+                                                                   <3:2>   PCS Lane 1 SerDes ID       0x1
+                                                                   <1:0>   PCS Lane 0 SerDes ID       0x0
+                                                                 </pre>
+
+                                                                 PCS lanes 0 through NUM_PCS_LANES-1 are valid, where NUM_PCS_LANES is a function of the
+                                                                 logical MAC/PCS type. (See definition of LMAC_TYPE.) For example, when LMAC_TYPE = SGMII,
+                                                                 then NUM_PCS_LANES = 1, PCS lane 0 is valid and the associated physical SerDes lanes
+                                                                 are selected by bits <1:0>.
+
+                                                                 For 40GBASE-R (LMAC_TYPE = 40G_R), all four PCS lanes are valid, and the PCS lane IDs
+                                                                 determine the block distribution order and associated alignment markers on the transmit
+                                                                 side. This is not necessarily the order in which PCS lanes receive data because 802.3
+                                                                 allows multilane BASE-R receive lanes to be reordered. When a lane (called service
+                                                                 interface in 802.3ba-2010) has achieved alignment marker lock on the receive side (i.e.
+                                                                 the associated BGX()_SPU()_BR_ALGN_STATUS[MARKER_LOCK] = 1), then the actual
+                                                                 detected RX PCS lane number is recorded in the corresponding
+                                                                 BGX()_SPU()_BR_LANE_MAP[LNx_MAPPING].
+
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
+                                                                 be changed when [ENABLE] = 1. */
+        uint64_t lmac_type             : 3;  /**< [ 10:  8](R/W) Logical MAC/PCS/prt type:
+
+                                                                 <pre>
+                                                                   LMAC_TYPE  Name       Description            NUM_PCS_LANES
+                                                                   ----------------------------------------------------------
+                                                                   0x0        SGMII      SGMII/1000BASE-X             1
+                                                                   0x1        XAUI       10GBASE-X/XAUI or DXAUI      4
+                                                                   0x2        RXAUI      Reduced XAUI                 2
+                                                                   0x3        10G_R      10GBASE-R                    1
+                                                                   0x4        40G_R      40GBASE-R                    4
+                                                                   Other      --         Reserved                     -
+                                                                 </pre>
+
+                                                                 NUM_PCS_LANES specifies the number of PCS lanes that are valid for
+                                                                 each type. Each valid PCS lane is mapped to a physical SerDes lane
+                                                                 based on the programming of [LANE_TO_SDS].
+
+                                                                 This field must be programmed to its final value before [ENABLE] is set, and must not
+                                                                 be changed when [ENABLE] = 1. */
+        uint64_t mix_en                : 1;  /**< [ 11: 11](R/W) Must be 0. */
+        uint64_t int_beat_gen          : 1;  /**< [ 12: 12](R/W) Internal beat generation. This bit is used for debug/test purposes and should be clear
+                                                                 during normal operation. When set, the LMAC's PCS layer ignores RXVALID and
+                                                                 TXREADY/TXCREDIT from the associated SerDes lanes, internally generates fake (idle)
+                                                                 RXVALID and TXCREDIT pulses, and suppresses transmission to the SerDes. */
+        uint64_t data_pkt_tx_en        : 1;  /**< [ 13: 13](R/W) Data packet transmit enable. When ENABLE = 1 and DATA_PKT_TX_EN = 1, the transmission of
+                                                                 data
+                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and DATA_PKT_TX_EN = 0, the MAC layer
+                                                                 suppresses the transmission of new data and packets for the LMAC. */
+        uint64_t data_pkt_rx_en        : 1;  /**< [ 14: 14](R/W) Data packet receive enable. When ENABLE = 1 and DATA_PKT_RX_EN = 1, the reception of data
+                                                                 packets is enabled in the MAC layer. When ENABLE = 1 and DATA_PKT_RX_EN = 0, the MAC layer
+                                                                 drops received data and flow-control packets. */
+        uint64_t enable                : 1;  /**< [ 15: 15](R/W) Logical MAC/PCS enable. This is the master enable for the LMAC. When clear, all the
+                                                                 dedicated BGX context state for the LMAC (state machines, FIFOs, counters, etc.) is reset,
+                                                                 and LMAC access to shared BGX resources (SMU/SPU data path, SerDes lanes) is disabled.
+
+                                                                 When set, LMAC operation is enabled, including link bring-up, synchronization, and
+                                                                 transmit/receive of idles and fault sequences. Note that configuration registers for an
+                                                                 LMAC are not reset when this bit is clear, allowing software to program them before
+                                                                 setting this bit to enable the LMAC. This bit together with LMAC_TYPE is also used to
+                                                                 enable the clocking to the GMP and/or blocks of the Super path (SMU and SPU). CMR clocking
+                                                                 is enabled when any of the paths are enabled. */
+        uint64_t interface_select      : 1;  /**< [ 16: 16](R/W) Selects interior side interface over which the lmac will communicate:
+                                                                 <pre>
+                                                                   INTERFACE_SELECT  Name           Connected block
+                                                                   ----------------------------------------------------------
+                                                                   0                 X2P0/P2X0      NIC
+                                                                   1                 X2P1/P2X1      PKI/PKO
+                                                                 </pre> */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_config_t;
 
 static inline uint64_t BDK_BGXX_CMRX_CONFIG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -650,7 +813,27 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmrx_int_s cn; */
+    /* struct bdk_bgxx_cmrx_int_s cn88xx; */
+    struct bdk_bgxx_cmrx_int_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. Assigned to the LMAC ID based on the lower 2
+                                                                 bits of the offending channel. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface. Assigned to the LMAC ID based on the lower 2
+                                                                 bits of the offending channel. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) RX PAUSE packet was dropped due to full RXB FIFO or during partner reset. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) RX overflow. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) TX channel out-of-range from PKO interface. Assigned to the LMAC ID based on the lower 2
+                                                                 bits of the offending channel. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) TX channel out-of-range from NIC interface. Assigned to the LMAC ID based on the lower 2
+                                                                 bits of the offending channel. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_int_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -690,7 +873,23 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmrx_int_ena_w1c_s cn; */
+    /* struct bdk_bgxx_cmrx_int_ena_w1c_s cn88xx; */
+    struct bdk_bgxx_cmrx_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -730,7 +929,23 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmrx_int_ena_w1s_s cn; */
+    /* struct bdk_bgxx_cmrx_int_ena_w1s_s cn88xx; */
+    struct bdk_bgxx_cmrx_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -770,7 +985,23 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmrx_int_w1s_s cn; */
+    /* struct bdk_bgxx_cmrx_int_w1s_s cn88xx; */
+    struct bdk_bgxx_cmrx_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+#else /* Word 0 - Little Endian */
+        uint64_t pause_drp             : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[PAUSE_DRP]. */
+        uint64_t overflw               : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[OVERFLW]. */
+        uint64_t pko_nxc               : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[PKO_NXC]. */
+        uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -2741,7 +2972,9 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_BAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_BAD(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_BAD", 1, a, 0, 0, 0);
 }
@@ -2812,7 +3045,69 @@ typedef union
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmr_bist_status_s cn; */
+    /* struct bdk_bgxx_cmr_bist_status_s cn88xx; */
+    struct bdk_bgxx_cmr_bist_status_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_25_63        : 39;
+        uint64_t status                : 25; /**< [ 24:  0](RO/H) "BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
+                                                                 run. INTERNAL:
+                                                                 <0> = bgx#.rxb.infif_gmp
+                                                                 <1> = bgx#.rxb.infif_smu
+                                                                 <2> = bgx#.rxb.fif_bnk00
+                                                                 <3> = bgx#.rxb.fif_bnk01
+                                                                 <4> = bgx#.rxb.fif_bnk10
+                                                                 <5> = bgx#.rxb.fif_bnk11
+                                                                 <6> = bgx#.rxb.pki_skd_fif
+                                                                 <7> = bgx#.rxb.nic_skd_fif
+                                                                 <8> = bgx#.rxb_mix0_fif
+                                                                 <9> = bgx#.rxb_mix1_fif
+                                                                 <10> = RAZ
+                                                                 <11> = bgx#.txb_fif_bnk0
+                                                                 <12> = bgx#.txb_fif_bnk1
+                                                                 <13> = bgx#.txb_skd_m0_pko_fif
+                                                                 <14> = bgx#.txb_skd_m1_pko_fif
+                                                                 <15> = bgx#.txb_skd_m2_pko_fif
+                                                                 <16> = bgx#.txb_skd_m3_pko_fif
+                                                                 <17> = bgx#.txb_skd_m0_nic_fif
+                                                                 <18> = bgx#.txb_skd_m1_nic_fif
+                                                                 <19> = bgx#.txb_skd_m2_nic_fif
+                                                                 <20> = bgx#.txb_skd_m3_nic_fif
+                                                                 <21> = bgx#.txb_mix0_fif
+                                                                 <22> = bgx#.txb_mix1_fif
+                                                                 <23> = bgx#.txb_ncsi_fif
+                                                                 <24> = RAZ" */
+#else /* Word 0 - Little Endian */
+        uint64_t status                : 25; /**< [ 24:  0](RO/H) "BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
+                                                                 run. INTERNAL:
+                                                                 <0> = bgx#.rxb.infif_gmp
+                                                                 <1> = bgx#.rxb.infif_smu
+                                                                 <2> = bgx#.rxb.fif_bnk00
+                                                                 <3> = bgx#.rxb.fif_bnk01
+                                                                 <4> = bgx#.rxb.fif_bnk10
+                                                                 <5> = bgx#.rxb.fif_bnk11
+                                                                 <6> = bgx#.rxb.pki_skd_fif
+                                                                 <7> = bgx#.rxb.nic_skd_fif
+                                                                 <8> = bgx#.rxb_mix0_fif
+                                                                 <9> = bgx#.rxb_mix1_fif
+                                                                 <10> = RAZ
+                                                                 <11> = bgx#.txb_fif_bnk0
+                                                                 <12> = bgx#.txb_fif_bnk1
+                                                                 <13> = bgx#.txb_skd_m0_pko_fif
+                                                                 <14> = bgx#.txb_skd_m1_pko_fif
+                                                                 <15> = bgx#.txb_skd_m2_pko_fif
+                                                                 <16> = bgx#.txb_skd_m3_pko_fif
+                                                                 <17> = bgx#.txb_skd_m0_nic_fif
+                                                                 <18> = bgx#.txb_skd_m1_nic_fif
+                                                                 <19> = bgx#.txb_skd_m2_nic_fif
+                                                                 <20> = bgx#.txb_skd_m3_nic_fif
+                                                                 <21> = bgx#.txb_mix0_fif
+                                                                 <22> = bgx#.txb_mix1_fif
+                                                                 <23> = bgx#.txb_ncsi_fif
+                                                                 <24> = RAZ" */
+        uint64_t reserved_25_63        : 39;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_bist_status_t;
 
 static inline uint64_t BDK_BGXX_CMR_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2966,7 +3261,7 @@ static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long a) __attribute__ ((pure, a
 static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
+        return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
         return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_ECO", 1, a, 0, 0, 0);
@@ -3281,6 +3576,30 @@ typedef union
     struct bdk_bgxx_cmr_mem_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) RXB main FIFO bank1 srf1 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) RXB main FIFO bank1 srf1 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) RXB main FIFO bank1 srf0 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) RXB main FIFO bank1 srf0 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) RXB main FIFO bank0 srf1 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) RXB main FIFO bank0 srf1 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) RXB main FIFO bank0 srf0 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) RXB main FIFO bank0 srf0 double-bit error. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) RXB main FIFO bank0 srf0 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) RXB main FIFO bank0 srf0 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) RXB main FIFO bank0 srf1 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) RXB main FIFO bank0 srf1 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) RXB main FIFO bank1 srf0 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) RXB main FIFO bank1 srf0 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) RXB main FIFO bank1 srf1 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) RXB main FIFO bank1 srf1 single-bit error. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_bgxx_cmr_mem_int_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
         uint64_t txb_ncsi_sbe          : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID FIFO single-bit error */
         uint64_t txb_ncsi_dbe          : 1;  /**< [ 24: 24](R/W1C/H) TXB SKID FIFO double-bit error */
@@ -3337,8 +3656,87 @@ typedef union
         uint64_t txb_ncsi_sbe          : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID FIFO single-bit error */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmr_mem_int_s cn; */
+    } cn88xx;
+    struct bdk_bgxx_cmr_mem_int_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) TXB SKID NCSI FIFO single-bit error */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) TXB SKID NCSI FIFO double-bit error */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) RX SMU INFIFO overflow. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Bank0 double-bit error. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) RXB NIC SKID FIFO single-bit error. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) RXB NIC SKID FIFO double-bit error. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) RXB PKI SKID FIFO single-bit error. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) RXB PKI SKID FIFO double-bit error. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) RXB main FIFO bank1 srf1 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) RXB main FIFO bank1 srf1 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) RXB main FIFO bank1 srf0 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) RXB main FIFO bank1 srf0 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) RXB main FIFO bank0 srf1 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) RXB main FIFO bank0 srf1 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) RXB main FIFO bank0 srf0 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) RXB main FIFO bank0 srf0 double-bit error. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) RXB main FIFO bank0 srf0 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) RXB main FIFO bank0 srf0 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) RXB main FIFO bank0 srf1 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) RXB main FIFO bank0 srf1 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) RXB main FIFO bank1 srf0 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) RXB main FIFO bank1 srf0 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) RXB main FIFO bank1 srf1 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) RXB main FIFO bank1 srf1 single-bit error. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) RXB PKI SKID FIFO double-bit error. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) RXB PKI SKID FIFO single-bit error. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) RXB NIC SKID FIFO double-bit error. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) RXB NIC SKID FIFO single-bit error. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Bank0 double-bit error. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) RX SMU INFIFO overflow. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) TXB SKID NCSI FIFO double-bit error */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) TXB SKID NCSI FIFO single-bit error */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_mem_int_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3367,6 +3765,30 @@ typedef union
     struct bdk_bgxx_cmr_mem_int_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_bgxx_cmr_mem_int_ena_w1c_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
         uint64_t txb_ncsi_sbe          : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
         uint64_t txb_ncsi_dbe          : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
@@ -3423,8 +3845,87 @@ typedef union
         uint64_t txb_ncsi_sbe          : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmr_mem_int_ena_w1c_s cn; */
+    } cn88xx;
+    struct bdk_bgxx_cmr_mem_int_ena_w1c_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_mem_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3453,6 +3954,30 @@ typedef union
     struct bdk_bgxx_cmr_mem_int_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_bgxx_cmr_mem_int_ena_w1s_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
         uint64_t txb_ncsi_sbe          : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
         uint64_t txb_ncsi_dbe          : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
@@ -3509,8 +4034,87 @@ typedef union
         uint64_t txb_ncsi_sbe          : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmr_mem_int_ena_w1s_s cn; */
+    } cn88xx;
+    struct bdk_bgxx_cmr_mem_int_ena_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_mem_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3539,6 +4143,30 @@ typedef union
     struct bdk_bgxx_cmr_mem_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_bgxx_cmr_mem_int_w1s_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
         uint64_t txb_ncsi_sbe          : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
         uint64_t txb_ncsi_dbe          : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
@@ -3595,8 +4223,87 @@ typedef union
         uint64_t txb_ncsi_sbe          : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_bgxx_cmr_mem_int_w1s_s cn; */
+    } cn88xx;
+    struct bdk_bgxx_cmr_mem_int_w1s_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_mem_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3612,6 +4319,43 @@ static inline uint64_t BDK_BGXX_CMR_MEM_INT_W1S(unsigned long a)
 #define basename_BDK_BGXX_CMR_MEM_INT_W1S(a) "BGXX_CMR_MEM_INT_W1S"
 #define busnum_BDK_BGXX_CMR_MEM_INT_W1S(a) (a)
 #define arguments_BDK_BGXX_CMR_MEM_INT_W1S(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) bgx#_cmr_nic_nxc_adr
+ *
+ * BGX CMR NIC NXC Exception Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_cmr_nic_nxc_adr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID associated with NXC exceptions associated with NIC. */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIC. */
+#else /* Word 0 - Little Endian */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with NIC. */
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID associated with NXC exceptions associated with NIC. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_cmr_nic_nxc_adr_s cn; */
+} bdk_bgxx_cmr_nic_nxc_adr_t;
+
+static inline uint64_t BDK_BGXX_CMR_NIC_NXC_ADR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_CMR_NIC_NXC_ADR(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_NIC_NXC_ADR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_BGXX_CMR_NIC_NXC_ADR(a) bdk_bgxx_cmr_nic_nxc_adr_t
+#define bustype_BDK_BGXX_CMR_NIC_NXC_ADR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_CMR_NIC_NXC_ADR(a) "BGXX_CMR_NIC_NXC_ADR"
+#define busnum_BDK_BGXX_CMR_NIC_NXC_ADR(a) (a)
+#define arguments_BDK_BGXX_CMR_NIC_NXC_ADR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) bgx#_cmr_nxc_adr
@@ -3639,7 +4383,7 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_NXC_ADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_NXC_ADR(unsigned long a)
 {
-    if (a<=1)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
         return 0x87e0e0001018ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_NXC_ADR", 1, a, 0, 0, 0);
 }
@@ -3649,6 +4393,43 @@ static inline uint64_t BDK_BGXX_CMR_NXC_ADR(unsigned long a)
 #define basename_BDK_BGXX_CMR_NXC_ADR(a) "BGXX_CMR_NXC_ADR"
 #define busnum_BDK_BGXX_CMR_NXC_ADR(a) (a)
 #define arguments_BDK_BGXX_CMR_NXC_ADR(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) bgx#_cmr_pko_nxc_adr
+ *
+ * BGX CMR PKO NXC Exception Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_cmr_pko_nxc_adr_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID associated with NXC exceptions associated with PKO. */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with PKO. */
+#else /* Word 0 - Little Endian */
+        uint64_t channel               : 12; /**< [ 11:  0](RO/H) Logged channel for NXC exceptions associated with PKO. */
+        uint64_t lmac_id               : 4;  /**< [ 15: 12](RO/H) Logged LMAC ID associated with NXC exceptions associated with PKO. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_cmr_pko_nxc_adr_s cn; */
+} bdk_bgxx_cmr_pko_nxc_adr_t;
+
+static inline uint64_t BDK_BGXX_CMR_PKO_NXC_ADR(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_CMR_PKO_NXC_ADR(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x87e0e0001018ll + 0x1000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("BGXX_CMR_PKO_NXC_ADR", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_BGXX_CMR_PKO_NXC_ADR(a) bdk_bgxx_cmr_pko_nxc_adr_t
+#define bustype_BDK_BGXX_CMR_PKO_NXC_ADR(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_CMR_PKO_NXC_ADR(a) "BGXX_CMR_PKO_NXC_ADR"
+#define busnum_BDK_BGXX_CMR_PKO_NXC_ADR(a) (a)
+#define arguments_BDK_BGXX_CMR_PKO_NXC_ADR(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) bgx#_cmr_rx_dmac#_cam
@@ -4263,18 +5044,19 @@ static inline uint64_t BDK_BGXX_GMP_GMI_PRTX_CFG(unsigned long a, unsigned long 
  * optional UDD skip data (BGX()_GMP_GMI_RX()_UDD_SKP[LEN]).
  * When BGX()_GMP_GMI_RX()_FRM_CTL[PRE_CHK] is clear, PREAMBLE+SFD are prepended to the
  * packet and would require UDD skip length to account for them.
- * Port Mode
- * - Full Duplex
- *     L2 Size <  BGX_RX_DECISION - Accept packet. No filtering is applied
- *     L2 Size >= BGX_RX_DECISION - Apply filter. Accept packet based on PAUSE packet filter
- * - Half Duplex
- *     L2 Size <  BGX_RX_DECISION - Drop packet. Packet is unconditionally dropped.
- *     L2 Size >= BGX_RX_DECISION - Accept packet.
+ *
+ * Full Duplex:
+ * _   L2 Size <  BGX_RX_DECISION - Accept packet. No filtering is applied.
+ * _   L2 Size >= BGX_RX_DECISION - Apply filter. Accept packet based on PAUSE packet filter.
+ *
+ * Half Duplex:
+ * _   L2 Size <  BGX_RX_DECISION - Drop packet. Packet is unconditionally dropped.
+ * _   L2 Size >= BGX_RX_DECISION - Accept packet.
  *
  * where L2_size = MAX(0, total_packet_size - BGX()_GMP_GMI_RX()_UDD_SKP[LEN] -
  *                        ((BGX()_GMP_GMI_RX()_FRM_CTL[PRE_CHK]==1)*8))
  *
- * BGX()_GMP_GMI_RX()_DECISION = The byte count to decide when to accept or filter a packet
+ * BGX()_GMP_GMI_RX()_DECISION = The byte count to decide when to accept or filter a packet.
  */
 typedef union
 {
@@ -8563,6 +9345,94 @@ typedef union
                                                                  3 = Link drain. RS layer drops full packets to allow BGX and PKO to drain their FIFOs. */
         uint64_t reserved_3            : 1;
         uint64_t x4a_dis               : 1;  /**< [  2:  2](R/W) Disable 4-byte SOP align (effectively force 8-byte SOP align) for all 10G variants
+                                                                 (XAUI, RXAUI, 10G). */
+        uint64_t uni_en                : 1;  /**< [  1:  1](R/W) Enable unidirectional mode (IEEE Clause 66). */
+        uint64_t dic_en                : 1;  /**< [  0:  0](R/W) Enable the deficit idle counter for IFG averaging. */
+#else /* Word 0 - Little Endian */
+        uint64_t dic_en                : 1;  /**< [  0:  0](R/W) Enable the deficit idle counter for IFG averaging. */
+        uint64_t uni_en                : 1;  /**< [  1:  1](R/W) Enable unidirectional mode (IEEE Clause 66). */
+        uint64_t x4a_dis               : 1;  /**< [  2:  2](R/W) Disable 4-byte SOP align (effectively force 8-byte SOP align) for all 10G variants
+                                                                 (XAUI, RXAUI, 10G). */
+        uint64_t reserved_3            : 1;
+        uint64_t ls                    : 2;  /**< [  5:  4](R/W) Link status.
+                                                                 0 = Link OK; link runs normally. RS passes MAC data to PCS.
+                                                                 1 = Local fault. RS layer sends continuous remote fault sequences.
+                                                                 2 = Remote fault. RS layer sends continuous idle sequences.
+                                                                 3 = Link drain. RS layer drops full packets to allow BGX and PKO to drain their FIFOs. */
+        uint64_t ls_byp                : 1;  /**< [  6:  6](R/W) Bypass the link status, as determined by the XGMII receiver, and set the link status of
+                                                                 the transmitter to LS. */
+        uint64_t l2p_bp_conv           : 1;  /**< [  7:  7](R/W) If set, causes TX to generate 802.3 pause packets when CMR applies logical backpressure
+                                                                 (XOFF), if and only if BGX()_SMU()_CBFC_CTL[TX_EN] is clear and
+                                                                 BGX()_SMU()_HG2_CONTROL[HG2TX_EN] is clear. */
+        uint64_t hg_en                 : 1;  /**< [  8:  8](R/W) Enable HiGig mode.
+                                                                 When this field is set and BGX()_SMU()_RX_UDD_SKP[LEN] = 12, the interface is in
+                                                                 HiGig/HiGig+ mode and the following must be set:
+                                                                 * BGX()_SMU()_RX_FRM_CTL[PRE_CHK] = 0.
+                                                                 * BGX()_SMU()_RX_UDD_SKP[FCSSEL] = 0.
+                                                                 * BGX()_SMU()_RX_UDD_SKP[LEN] = 12.
+                                                                 * BGX()_SMU()_TX_APPEND[PREAMBLE] = 0.
+
+                                                                 When this field is set and BGX()_SMU()_RX_UDD_SKP[LEN] = 16, the interface is in
+                                                                 HiGig2 mode and the following must be set:
+                                                                 * BGX()_SMU()_RX_FRM_CTL[PRE_CHK] = 0.
+                                                                 * BGX()_SMU()_RX_UDD_SKP[FCSSEL] = 0.
+                                                                 * BGX()_SMU()_RX_UDD_SKP[LEN] = 16.
+                                                                 * BGX()_SMU()_TX_APPEND[PREAMBLE] = 0.
+                                                                 * BGX()_SMU()_CBFC_CTL[RX_EN] = 0.
+                                                                 * BGX()_SMU()_CBFC_CTL[TX_EN] = 0. */
+        uint64_t hg_pause_hgi          : 2;  /**< [ 10:  9](R/W) HGI field for hardware-generated HiGig PAUSE packets. */
+        uint64_t spu_mrk_cnt           : 20; /**< [ 30: 11](R/W) 40GBASE-R transmit marker interval count. Specifies the interval (number of 66-bit BASE-R
+                                                                 blocks) at which the LMAC transmit logic inserts 40GBASE-R alignment markers. An internal
+                                                                 counter in SMU is initialized to this value, counts down for each BASE-R block transmitted
+                                                                 by the LMAC, and wraps back to the initial value from 0. The LMAC transmit logic inserts
+                                                                 alignment markers for lanes 0, 1, 2 and 3, respectively, in the last four BASE-R blocks
+                                                                 before the counter wraps (3, 2, 1, 0). The default value corresponds to an alignment
+                                                                 marker period of 16363 blocks (exclusive) per lane, as specified in 802.3ba-2010. The
+                                                                 default value should always be used for normal operation. */
+        uint64_t reserved_31_63        : 33;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_bgxx_smux_tx_ctl_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t spu_mrk_cnt           : 20; /**< [ 30: 11](R/W) 40GBASE-R transmit marker interval count. Specifies the interval (number of 66-bit BASE-R
+                                                                 blocks) at which the LMAC transmit logic inserts 40GBASE-R alignment markers. An internal
+                                                                 counter in SMU is initialized to this value, counts down for each BASE-R block transmitted
+                                                                 by the LMAC, and wraps back to the initial value from 0. The LMAC transmit logic inserts
+                                                                 alignment markers for lanes 0, 1, 2 and 3, respectively, in the last four BASE-R blocks
+                                                                 before the counter wraps (3, 2, 1, 0). The default value corresponds to an alignment
+                                                                 marker period of 16363 blocks (exclusive) per lane, as specified in 802.3ba-2010. The
+                                                                 default value should always be used for normal operation. */
+        uint64_t hg_pause_hgi          : 2;  /**< [ 10:  9](R/W) HGI field for hardware-generated HiGig PAUSE packets. */
+        uint64_t hg_en                 : 1;  /**< [  8:  8](R/W) Enable HiGig mode.
+                                                                 When this field is set and BGX()_SMU()_RX_UDD_SKP[LEN] = 12, the interface is in
+                                                                 HiGig/HiGig+ mode and the following must be set:
+                                                                 * BGX()_SMU()_RX_FRM_CTL[PRE_CHK] = 0.
+                                                                 * BGX()_SMU()_RX_UDD_SKP[FCSSEL] = 0.
+                                                                 * BGX()_SMU()_RX_UDD_SKP[LEN] = 12.
+                                                                 * BGX()_SMU()_TX_APPEND[PREAMBLE] = 0.
+
+                                                                 When this field is set and BGX()_SMU()_RX_UDD_SKP[LEN] = 16, the interface is in
+                                                                 HiGig2 mode and the following must be set:
+                                                                 * BGX()_SMU()_RX_FRM_CTL[PRE_CHK] = 0.
+                                                                 * BGX()_SMU()_RX_UDD_SKP[FCSSEL] = 0.
+                                                                 * BGX()_SMU()_RX_UDD_SKP[LEN] = 16.
+                                                                 * BGX()_SMU()_TX_APPEND[PREAMBLE] = 0.
+                                                                 * BGX()_SMU()_CBFC_CTL[RX_EN] = 0.
+                                                                 * BGX()_SMU()_CBFC_CTL[TX_EN] = 0. */
+        uint64_t l2p_bp_conv           : 1;  /**< [  7:  7](R/W) If set, causes TX to generate 802.3 pause packets when CMR applies logical backpressure
+                                                                 (XOFF), if and only if BGX()_SMU()_CBFC_CTL[TX_EN] is clear and
+                                                                 BGX()_SMU()_HG2_CONTROL[HG2TX_EN] is clear. */
+        uint64_t ls_byp                : 1;  /**< [  6:  6](R/W) Bypass the link status, as determined by the XGMII receiver, and set the link status of
+                                                                 the transmitter to LS. */
+        uint64_t ls                    : 2;  /**< [  5:  4](R/W) Link status.
+                                                                 0 = Link OK; link runs normally. RS passes MAC data to PCS.
+                                                                 1 = Local fault. RS layer sends continuous remote fault sequences.
+                                                                 2 = Remote fault. RS layer sends continuous idle sequences.
+                                                                 3 = Link drain. RS layer drops full packets to allow BGX and PKO to drain their FIFOs. */
+        uint64_t reserved_3            : 1;
+        uint64_t x4a_dis               : 1;  /**< [  2:  2](R/W) Disable 4-byte SOP align (effectively force 8-byte SOP align) for all 10G variants
                                                                  (XAUI, RXAUI, 10G). Added in pass 2. */
         uint64_t uni_en                : 1;  /**< [  1:  1](R/W) Enable unidirectional mode (IEEE Clause 66). */
         uint64_t dic_en                : 1;  /**< [  0:  0](R/W) Enable the deficit idle counter for IFG averaging. */
@@ -8609,8 +9479,7 @@ typedef union
                                                                  default value should always be used for normal operation. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_bgxx_smux_tx_ctl_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_bgxx_smux_tx_ctl_s cn88xxp1; */
 } bdk_bgxx_smux_tx_ctl_t;
 

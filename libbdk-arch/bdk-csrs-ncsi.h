@@ -159,6 +159,22 @@ typedef union
                                                                  to the CPU. CPU SW and BMC firmware must agree on the messaging definition which
                                                                  is beyond the scope of this register definition.
 
+                                                                 When this register is written, NCSI_INT[BMC2CPU] is set. */
+#else /* Word 0 - Little Endian */
+        uint64_t msg                   : 64; /**< [ 63:  0](R/W) Data to communicate between BMC and CPU. Provides a mechanism for BMC to signal
+                                                                 to the CPU. CPU SW and BMC firmware must agree on the messaging definition which
+                                                                 is beyond the scope of this register definition.
+
+                                                                 When this register is written, NCSI_INT[BMC2CPU] is set. */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_ncsi_bmc2cpu_msg_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t msg                   : 64; /**< [ 63:  0](R/W) Data to communicate between BMC and CPU. Provides a mechanism for BMC to signal
+                                                                 to the CPU. CPU SW and BMC firmware must agree on the messaging definition which
+                                                                 is beyond the scope of this register definition.
+
                                                                  When this register is written, NCSI_INT[BMC2CPU] is set.
                                                                  INTERNAL: Interrupt is CN88XX pass 2 only, bug21942. */
 #else /* Word 0 - Little Endian */
@@ -169,8 +185,8 @@ typedef union
                                                                  When this register is written, NCSI_INT[BMC2CPU] is set.
                                                                  INTERNAL: Interrupt is CN88XX pass 2 only, bug21942. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_bmc2cpu_msg_s cn; */
+    } cn88xx;
+    /* struct bdk_ncsi_bmc2cpu_msg_s cn83xx; */
 } bdk_ncsi_bmc2cpu_msg_t;
 
 #define BDK_NCSI_BMC2CPU_MSG BDK_NCSI_BMC2CPU_MSG_FUNC()
@@ -195,6 +211,37 @@ typedef union
 {
     uint64_t u;
     struct bdk_ncsi_config_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t pkg_id                : 3;  /**< [  4:  2](R/W/H) Override the NCSI package id
+                                                                 which defaults to the global node ID.  MSB must be set to 0
+                                                                 for NCSI V1.0 compliance. */
+        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
+                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
+                                                                 BGX.
+                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to BGX. */
+        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
+                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
+                                                                 0 = Reject the packet on SMAC CAM address match.
+                                                                 1 = Accept the packet on SMAC CAM address match. */
+#else /* Word 0 - Little Endian */
+        uint64_t cam_accept            : 1;  /**< [  0:  0](R/W) Allow or deny SMAC address filter.  Applies to both SMAC filters in the CAM.
+                                                                 See NCSI_TX_FRM_SMAC()_CAM for additional details.
+                                                                 0 = Reject the packet on SMAC CAM address match.
+                                                                 1 = Accept the packet on SMAC CAM address match. */
+        uint64_t pkg_desel_tx_ch_dis   : 1;  /**< [  1:  1](R/W) This bit controls whether the NCSI will disable the TX_CH upon pkg deselect command.
+                                                                 0 = On pkg deselect command, keep TX channel enabled, enabling pass through traffic to
+                                                                 BGX.
+                                                                 1 = On pkg deselect command, disable TX channel preventing pass through traffic to BGX. */
+        uint64_t pkg_id                : 3;  /**< [  4:  2](R/W/H) Override the NCSI package id
+                                                                 which defaults to the global node ID.  MSB must be set to 0
+                                                                 for NCSI V1.0 compliance. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_config_s cn83xx; */
+    struct bdk_ncsi_config_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_5_63         : 59;
@@ -225,9 +272,7 @@ typedef union
                                                                  Added in pass 2. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_config_s cn83xx; */
-    /* struct bdk_ncsi_config_s cn88xxp2; */
+    } cn88xxp2;
     struct bdk_ncsi_config_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -317,6 +362,55 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
+                                                                 FCSERR indication takes precedence over JABBER error. */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
+                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
+                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
+                                                                 bytes. */
+#else /* Word 0 - Little Endian */
+        uint64_t jabber                : 1;  /**< [  0:  0](R/W1C/H) System-length error. Frame was received with length > sys_length. A jabber error
+                                                                 indicates that a packet was received from RMII interface which is longer than the maximum
+                                                                 allowed packet as defined by the system. NCSI truncates the packet at the JABBER count+1
+                                                                 bytes. */
+        uint64_t pmac_fcserr           : 1;  /**< [  1:  1](R/W1C/H) Pass through received FCS/CRC error. Frame was received with FCS/CRC error.
+                                                                 FCSERR indication takes precedence over JABBER error. */
+        uint64_t ncp_fcserr            : 1;  /**< [  2:  2](R/W1C/H) NCSI command received with FCS/CRC error. Frame was received with FCS/CRC error. */
+        uint64_t pcterr                : 1;  /**< [  3:  3](R/W1C/H) Bad preamble/protocol error. Checks that the frame begins with a valid PREAMBLE sequence. */
+        uint64_t ifgerr                : 1;  /**< [  4:  4](R/W1C/H) Interframe gap violation. Does not necessarily indicate a failure. */
+        uint64_t runterr               : 1;  /**< [  5:  5](R/W1C/H) Frame received without a proper L2 header needed for NCSI command detection. */
+        uint64_t tx_mix_dbe            : 1;  /**< [  6:  6](R/W1C/H) TX MIX FIFO double-bit error. */
+        uint64_t tx_mix_sbe            : 1;  /**< [  7:  7](R/W1C/H) TX MIX FIFO single-bit error. */
+        uint64_t tx_mix_overfl         : 1;  /**< [  8:  8](R/W1C/H) TX MIX FIFO overflow. */
+        uint64_t rx_pmac_dbe           : 1;  /**< [  9:  9](R/W1C/H) RX PMAC FIFO double-bit error. */
+        uint64_t rx_pmac_sbe           : 1;  /**< [ 10: 10](R/W1C/H) RX PMAC FIFO single-bit error. */
+        uint64_t rx_pmac_underfl       : 1;  /**< [ 11: 11](R/W1C/H) Underflow through RX PMAC path.  Fifo drained on a non-packet boundary */
+        uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) RX RSP FIFO double-bit error. */
+        uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
+        uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_int_s cn83xx; */
+    struct bdk_ncsi_int_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. Added in pass 2. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) RX RSP FIFO overflow. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) RX RSP FIFO single-bit error. */
@@ -360,9 +454,7 @@ typedef union
         uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Messaging interrupt set whenever NCSI_BMC2CPU_MSG is written by the BMC. Added in pass 2. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_int_s cn83xx; */
-    /* struct bdk_ncsi_int_s cn88xxp2; */
+    } cn88xxp2;
     struct bdk_ncsi_int_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -439,7 +531,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Added in pass 2.0. Reads or clears enable for NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NCSI_INT[BMC2CPU]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_OVERFL]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_DBE]. */
@@ -471,17 +563,16 @@ typedef union
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_DBE]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Added in pass 2.0. Reads or clears enable for NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_int_ena_w1c_s cn83xx; */
-    /* struct bdk_ncsi_int_ena_w1c_s cn88xxp2; */
-    struct bdk_ncsi_int_ena_w1c_cn88xxp1
+    struct bdk_ncsi_int_ena_w1c_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Added in pass 2.0. Reads or clears enable for NCSI_INT[BMC2CPU]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_OVERFL]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_DBE]. */
@@ -513,10 +604,11 @@ typedef union
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_DBE]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1C/H) Added in pass 2.0. Reads or clears enable for NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn88xxp2;
+    /* struct bdk_ncsi_int_ena_w1c_s cn88xxp1; */
 } bdk_ncsi_int_ena_w1c_t;
 
 #define BDK_NCSI_INT_ENA_W1C BDK_NCSI_INT_ENA_W1C_FUNC()
@@ -545,7 +637,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets enable for NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NCSI_INT[BMC2CPU]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_OVERFL]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_DBE]. */
@@ -577,17 +669,16 @@ typedef union
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_DBE]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets enable for NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_int_ena_w1s_s cn83xx; */
-    /* struct bdk_ncsi_int_ena_w1s_s cn88xxp2; */
-    struct bdk_ncsi_int_ena_w1s_cn88xxp1
+    struct bdk_ncsi_int_ena_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets enable for NCSI_INT[BMC2CPU]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_OVERFL]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_DBE]. */
@@ -619,10 +710,11 @@ typedef union
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_DBE]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets enable for NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn88xxp2;
+    /* struct bdk_ncsi_int_ena_w1s_s cn88xxp1; */
 } bdk_ncsi_int_ena_w1s_t;
 
 #define BDK_NCSI_INT_ENA_W1S BDK_NCSI_INT_ENA_W1S_FUNC()
@@ -651,7 +743,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
@@ -683,17 +775,16 @@ typedef union
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_ncsi_int_w1s_s cn83xx; */
-    /* struct bdk_ncsi_int_w1s_s cn88xxp2; */
-    struct bdk_ncsi_int_w1s_cn88xxp1
+    struct bdk_ncsi_int_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets NCSI_INT[BMC2CPU]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
@@ -725,10 +816,11 @@ typedef union
         uint64_t rx_rsp_dbe            : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_DBE]. */
         uint64_t rx_rsp_sbe            : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_SBE]. */
         uint64_t rx_rsp_overfl         : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets NCSI_INT[RX_RSP_OVERFL]. */
-        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets NCSI_INT[BMC2CPU]. */
+        uint64_t bmc2cpu               : 1;  /**< [ 15: 15](R/W1S/H) Added in pass 2.0. Reads or sets NCSI_INT[BMC2CPU]. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn88xxp2;
+    /* struct bdk_ncsi_int_w1s_s cn88xxp1; */
 } bdk_ncsi_int_w1s_t;
 
 #define BDK_NCSI_INT_W1S BDK_NCSI_INT_W1S_FUNC()
@@ -1278,6 +1370,55 @@ typedef union
         uint64_t reserved_5_63         : 59;
         uint64_t fcs_strp              : 1;  /**< [  4:  4](R/W) Strip off the FCS for pass through packets.
                                                                  0 = FCS is not removed from the pass through packets.
+                                                                 1 = FCS is removed from the pass through packets. */
+        uint64_t pre_strp              : 1;  /**< [  3:  3](R/W) Strip off the PREAMBLE and SFD:
+                                                                 0 = PREAMBLE + SFD is sent to core as part of frame.
+                                                                 1 = PREAMBLE + SFD is dropped.
+
+                                                                 PRE_STRP determines if the PREAMBLE+SFD bytes are thrown away or sent to the core as part
+                                                                 of the packet. With either setting, the PREAMBLE+SFD bytes are not counted toward the
+                                                                 packet size when checking against the MIN and MAX bounds. Furthermore, the bytes are
+                                                                 skipped when locating the start of the L2 header for DMAC recognition. */
+        uint64_t pre_chk_len           : 3;  /**< [  2:  0](R/W) Check that a correct preamble of a given length is present.
+
+                                                                 With a setting of > 0, NCSI checks that a valid PREAMBLE is received and of the
+                                                                 corresponding length in bytes.
+                                                                 If a problem does occur within the PREAMBLE sequence, the frame is marked as bad and not
+                                                                 sent into the core. The NCSI_INT[PCTERR] interrupt is also raised.
+
+                                                                 With a setting of 0, NCSI checks the first byte is an valid SFD symbol and not a PREAMBLE
+                                                                 symbol. */
+#else /* Word 0 - Little Endian */
+        uint64_t pre_chk_len           : 3;  /**< [  2:  0](R/W) Check that a correct preamble of a given length is present.
+
+                                                                 With a setting of > 0, NCSI checks that a valid PREAMBLE is received and of the
+                                                                 corresponding length in bytes.
+                                                                 If a problem does occur within the PREAMBLE sequence, the frame is marked as bad and not
+                                                                 sent into the core. The NCSI_INT[PCTERR] interrupt is also raised.
+
+                                                                 With a setting of 0, NCSI checks the first byte is an valid SFD symbol and not a PREAMBLE
+                                                                 symbol. */
+        uint64_t pre_strp              : 1;  /**< [  3:  3](R/W) Strip off the PREAMBLE and SFD:
+                                                                 0 = PREAMBLE + SFD is sent to core as part of frame.
+                                                                 1 = PREAMBLE + SFD is dropped.
+
+                                                                 PRE_STRP determines if the PREAMBLE+SFD bytes are thrown away or sent to the core as part
+                                                                 of the packet. With either setting, the PREAMBLE+SFD bytes are not counted toward the
+                                                                 packet size when checking against the MIN and MAX bounds. Furthermore, the bytes are
+                                                                 skipped when locating the start of the L2 header for DMAC recognition. */
+        uint64_t fcs_strp              : 1;  /**< [  4:  4](R/W) Strip off the FCS for pass through packets.
+                                                                 0 = FCS is not removed from the pass through packets.
+                                                                 1 = FCS is removed from the pass through packets. */
+        uint64_t reserved_5_63         : 59;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ncsi_tx_frm_ctl_s cn83xx; */
+    struct bdk_ncsi_tx_frm_ctl_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_5_63         : 59;
+        uint64_t fcs_strp              : 1;  /**< [  4:  4](R/W) Strip off the FCS for pass through packets.
+                                                                 0 = FCS is not removed from the pass through packets.
                                                                  1 = FCS is removed from the pass through packets.
 
                                                                  Added in pass 2. */
@@ -1323,9 +1464,7 @@ typedef union
                                                                  Added in pass 2. */
         uint64_t reserved_5_63         : 59;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_ncsi_tx_frm_ctl_s cn83xx; */
-    /* struct bdk_ncsi_tx_frm_ctl_s cn88xxp2; */
+    } cn88xxp2;
     struct bdk_ncsi_tx_frm_ctl_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */

@@ -97,6 +97,7 @@ extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, 
 #include "bdk-csrs-nic.h"
 #include "bdk-csrs-ocla.h"
 #include "bdk-csrs-ocx.h"
+#include "bdk-csrs-pbus.h"
 #include "bdk-csrs-pccbr.h"
 #include "bdk-csrs-pccpf.h"
 #include "bdk-csrs-pccvf.h"

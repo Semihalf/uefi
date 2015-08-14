@@ -1412,9 +1412,17 @@ typedef union
                                                                  chunk, that chunk will be freed to the FPA. */
         uint64_t inst_be               : 1;  /**< [ 21: 21](R/W) Instruction big endian control. When set, instructions are storaged in big
                                                                  endian format in memory. */
-        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a CDE instruction full cache lines will use NCB LDWB
-                                                                 read-and-invalidate to improve performance. If clear, use NCB LDI for
-                                                                 debugability. Partial cache line reads always use LDI. */
+        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
         uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) When set, a context cache block write will use STY. When clear, a context write
                                                                  will use STF. */
         uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) Which NCB load command to use for reading gather pointers, context, history and input
@@ -1444,9 +1452,17 @@ typedef union
                                                                  0x3 = LDY. */
         uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) When set, a context cache block write will use STY. When clear, a context write
                                                                  will use STF. */
-        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a CDE instruction full cache lines will use NCB LDWB
-                                                                 read-and-invalidate to improve performance. If clear, use NCB LDI for
-                                                                 debugability. Partial cache line reads always use LDI. */
+        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) Load don't write back.
+
+                                                                 0 = The hardware issues NCB regular load towards the cache, which will cause the
+                                                                 line to be written back before being replaced.
+
+                                                                 1 = The hardware issues NCB LDWB read-and-invalidate command towards the cache
+                                                                 when fetching the last word of instructions; as a result the line will not be
+                                                                 written back when replaced.  This improves performance, but software must not
+                                                                 read the instructions after they are posted to the hardware.
+
+                                                                 Partial cache line reads always use LDI. */
         uint64_t inst_be               : 1;  /**< [ 21: 21](R/W) Instruction big endian control. When set, instructions are storaged in big
                                                                  endian format in memory. */
         uint64_t inst_free             : 1;  /**< [ 22: 22](R/W) Instruction FPA free. When set, when CDE reaches the end of an instruction

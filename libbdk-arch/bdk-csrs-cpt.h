@@ -1518,12 +1518,15 @@ typedef union
                                                                  chunk, that chunk will be freed to the FPA. */
         uint64_t inst_be               : 1;  /**< [ 21: 21](R/W) Instruction big endian control. When set, instructions are storaged in big
                                                                  endian format in memory. */
-        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a CPT instruction full cache lines will use NCB LDWB
+        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a CDE instruction full cache lines will use NCB LDWB
                                                                  read-and-invalidate to improve performance. If clear, use NCB LDI for
                                                                  debugability. Partial cache line reads always use LDI. */
-        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) When set, a context cache block write will use STY. When clear, a context write
+        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) INTERNAL: TBD - THIS FIELD WILL BE GOING AWAY
+                                                                 When set, a context cache block write will use STY. When clear, a context write
                                                                  will use STF. */
-        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) Which NCB load command to use for reading gather pointers, context, history and input
+        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) INTERNAL: TBD - THIS FIELD WILL BE GOING AWAY
+                                                                 New CSR Bit when set will replace LDWBs from CDEI-Units to a LDI.
+                                                                 Which NCB load command to use for reading gather pointers, context, history and input
                                                                  data.
                                                                  0x0 = LDD.
                                                                  0x1 = LDI.
@@ -1542,15 +1545,18 @@ typedef union
         uint64_t ena                   : 1;  /**< [ 16: 16](R/W) Enables the logical instruction queue.
                                                                  1 = Queue is enabled.
                                                                  0 = Queue is disabled. */
-        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) Which NCB load command to use for reading gather pointers, context, history and input
+        uint64_t l2ld_cmd              : 2;  /**< [ 18: 17](R/W) INTERNAL: TBD - THIS FIELD WILL BE GOING AWAY
+                                                                 New CSR Bit when set will replace LDWBs from CDEI-Units to a LDI.
+                                                                 Which NCB load command to use for reading gather pointers, context, history and input
                                                                  data.
                                                                  0x0 = LDD.
                                                                  0x1 = LDI.
                                                                  0x2 = LDE.
                                                                  0x3 = LDY. */
-        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) When set, a context cache block write will use STY. When clear, a context write
+        uint64_t cbw_sty               : 1;  /**< [ 19: 19](R/W) INTERNAL: TBD - THIS FIELD WILL BE GOING AWAY
+                                                                 When set, a context cache block write will use STY. When clear, a context write
                                                                  will use STF. */
-        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a CPT instruction full cache lines will use NCB LDWB
+        uint64_t iqb_ldwb              : 1;  /**< [ 20: 20](R/W) When set, reading a CDE instruction full cache lines will use NCB LDWB
                                                                  read-and-invalidate to improve performance. If clear, use NCB LDI for
                                                                  debugability. Partial cache line reads always use LDI. */
         uint64_t inst_be               : 1;  /**< [ 21: 21](R/W) Instruction big endian control. When set, instructions are storaged in big

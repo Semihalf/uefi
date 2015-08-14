@@ -308,6 +308,44 @@ typedef union
                                                                      this sets the corresponding bit in CTIAPPTRIG to 1 and
                                                                      generates a channel event.
 
+                                                                 In CNXXXX always 0x0 as it doesn't support multicycle channel events. */
+#else /* Word 0 - Little Endian */
+        uint32_t trig                  : 3;  /**< [  2:  0](R/W1S/H) Application trigger <x> enable.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 If the ECT does not support multicycle channel events, use of
+                                                                     CTIAPPSET is deprecated and the debugger must only use
+                                                                     CTIAPPPULSE.
+                                                                 0 = Reading this means the application trigger is inactive.
+                                                                     Writing this has no effect.
+                                                                 1 = Reading this means the application trigger is active. Writing
+                                                                     this sets the corresponding bit in CTIAPPTRIG to 1 and
+                                                                     generates a channel event.
+
+                                                                 In CNXXXX always 0x0 as it doesn't support multicycle channel events. */
+        uint32_t reserved_3_31         : 29;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_ctix_ctiappset_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_3_31         : 29;
+        uint32_t trig                  : 3;  /**< [  2:  0](R/W1S/H) Application trigger <x> enable.
+                                                                 N is the number of ECT channels implemented as defined by
+                                                                     CTI()_CTIDEVID[NUMCHAN].
+                                                                 Bits [31:N] are RAZ/WI.
+
+                                                                 If the ECT does not support multicycle channel events, use of
+                                                                     CTIAPPSET is deprecated and the debugger must only use
+                                                                     CTIAPPPULSE.
+                                                                 0 = Reading this means the application trigger is inactive.
+                                                                     Writing this has no effect.
+                                                                 1 = Reading this means the application trigger is active. Writing
+                                                                     this sets the corresponding bit in CTIAPPTRIG to 1 and
+                                                                     generates a channel event.
+
                                                                  In CNXXXX always 0x0 as it doesn't support multicycle channel events.
 
                                                                  For pass 1 is RO, for pass 2 changed to R/W.
@@ -333,8 +371,7 @@ typedef union
                                                                  Added in pass 2. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_ctix_ctiappset_cn83xx cn88xxp2; */
+    } cn88xxp2;
     /* struct bdk_ctix_ctiappset_s cn88xxp1; */
 } bdk_ctix_ctiappset_t;
 

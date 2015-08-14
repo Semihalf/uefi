@@ -140,7 +140,7 @@ typedef union
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
         uint64_t reserved_19_33        : 15;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
@@ -174,7 +174,7 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Added in pass 2.0. Reads or clears enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
         uint64_t reserved_19_33        : 15;
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
@@ -365,7 +365,7 @@ typedef union
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
         uint64_t reserved_19_33        : 15;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
@@ -399,7 +399,7 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
         uint64_t reserved_19_33        : 15;
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
@@ -652,7 +652,7 @@ typedef union
                                                                  to nonexistent memory locations. Therefore, RDDISOCI is for informational purposes only.
                                                                  See L2C_TAD()_ERR for logged information. */
         uint64_t reserved_19_33        : 15;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. Added in pass 2. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1C/H) An LFB entry (or more) has encountered a timeout condition When LFBTO timeout condition
                                                                  occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
                                                                  first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
@@ -736,7 +736,7 @@ typedef union
                                                                  occurs L2C_TAD()_TIMEOUT is loaded. L2C_TAD()_TIMEOUT is loaded with info from the
                                                                  first LFB that timed out. if multiple LFB timed out simultaneously, then the it will
                                                                  capture info from the lowest LFB number that timed out. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. Added in pass 2. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1C/H) Global sync OCI timeout. */
         uint64_t reserved_19_33        : 15;
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1C/H) Illegal read operation to a remote node with L2C_OCI_CTL[ENAOCI][node] clear. Note
                                                                  RDDISOCI interrupts can occur during normal operation as the cores are allowed to prefetch
@@ -1047,7 +1047,7 @@ typedef union
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
         uint64_t reserved_19_33        : 15;
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[LFBTO]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
@@ -1081,7 +1081,7 @@ typedef union
         uint64_t rddislmc              : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISLMC]. */
         uint64_t wrdislmc              : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISLMC]. */
         uint64_t lfbto                 : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[LFBTO]. */
-        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Added in pass 2.0. Reads or sets L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
+        uint64_t gsyncto               : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[GSYNCTO]. */
         uint64_t reserved_19_33        : 15;
         uint64_t rddisoci              : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[RDDISOCI]. */
         uint64_t wrdisoci              : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets L2C_TAD(0..3)_INT_W1C[WRDISOCI]. */

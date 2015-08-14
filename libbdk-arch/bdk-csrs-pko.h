@@ -2174,6 +2174,78 @@ static inline uint64_t BDK_PKO_CHANNEL_LEVEL_FUNC(void)
 #define arguments_BDK_PKO_CHANNEL_LEVEL -1,-1,-1,-1
 
 /**
+ * Register (NCB) pko_const
+ *
+ * PKO Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t pdm_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a DQ buffer. */
+#else /* Word 0 - Little Endian */
+        uint64_t pdm_buf_size          : 16; /**< [ 15:  0](RO) Number of bytes in a DQ buffer. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_const_s cn; */
+} bdk_pko_const_t;
+
+#define BDK_PKO_CONST BDK_PKO_CONST_FUNC()
+static inline uint64_t BDK_PKO_CONST_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_CONST_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000d00040ll;
+    __bdk_csr_fatal("PKO_CONST", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_CONST bdk_pko_const_t
+#define bustype_BDK_PKO_CONST BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_CONST "PKO_CONST"
+#define busnum_BDK_PKO_CONST 0
+#define arguments_BDK_PKO_CONST -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_const1
+ *
+ * PKO Constants Register 1
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_const1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_const1_s cn; */
+} bdk_pko_const1_t;
+
+#define BDK_PKO_CONST1 BDK_PKO_CONST1_FUNC()
+static inline uint64_t BDK_PKO_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_CONST1_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000d00048ll;
+    __bdk_csr_fatal("PKO_CONST1", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_CONST1 bdk_pko_const1_t
+#define bustype_BDK_PKO_CONST1 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_CONST1 "PKO_CONST1"
+#define busnum_BDK_PKO_CONST1 0
+#define arguments_BDK_PKO_CONST1 -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_dpfi_ena
  *
  * PKO Descriptor Manager FPA Interface Enable Register
@@ -2273,11 +2345,11 @@ typedef union
                                                                  Node number of current chip, to ensure that the aura is on the local node. */
         uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA local-node aura to use for PKO command buffering allocations and frees. The
                                                                  FPA aura selected by LAURA must correspond to a pool where the buffers (after
-                                                                 any FPA_POOL()_CFG[BUF_OFFSET]) are at least 4 KB. */
+                                                                 any FPA_POOL()_CFG[BUF_OFFSET]) are at least of size PKO_CONST[PDM_BUF_SIZE] (4KB). */
 #else /* Word 0 - Little Endian */
         uint64_t laura                 : 10; /**< [  9:  0](R/W) FPA local-node aura to use for PKO command buffering allocations and frees. The
                                                                  FPA aura selected by LAURA must correspond to a pool where the buffers (after
-                                                                 any FPA_POOL()_CFG[BUF_OFFSET]) are at least 4 KB. */
+                                                                 any FPA_POOL()_CFG[BUF_OFFSET]) are at least of size PKO_CONST[PDM_BUF_SIZE] (4KB). */
         uint64_t node                  : 2;  /**< [ 11: 10](RO) Reserved. INTERNAL:
                                                                  Node number of current chip, to ensure that the aura is on the local node. */
         uint64_t reserved_12_63        : 52;
@@ -2489,6 +2561,8 @@ typedef union
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -2503,15 +2577,21 @@ typedef union
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
                                                                    (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
                                                                  RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -2857,6 +2937,8 @@ typedef union
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -2871,15 +2953,21 @@ typedef union
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
                                                                    (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
                                                                  RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -3657,6 +3745,8 @@ typedef union
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -3671,15 +3761,21 @@ typedef union
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
                                                                    (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
                                                                  RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -4828,6 +4924,8 @@ typedef union
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -4842,15 +4940,21 @@ typedef union
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
                                                                    (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
                                                                  RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -5106,6 +5210,8 @@ typedef union
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -5120,15 +5226,21 @@ typedef union
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
                                                                    (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
                                                                  RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -5888,6 +6000,8 @@ typedef union
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -5902,15 +6016,21 @@ typedef union
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
                                                                    (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
                                                                  RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -6156,6 +6276,8 @@ typedef union
         uint64_t reserved_17_28        : 12;
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -6170,15 +6292,21 @@ typedef union
                                                                  For L[5:2]_SQ: RATE (bytes/second) =
                                                                    (SCLK_FREQUENCY / 768) * ((1.RATE_MANTISSA) << RATE_EXPONENT) / (1 <<
                                                                  RATE_DIVIDER_EXPONENT) */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
 #else /* Word 0 - Little Endian */
         uint64_t enable                : 1;  /**< [  0:  0](R/W) Enable. Enables CIR shaping. */
         uint64_t rate_mantissa         : 8;  /**< [  8:  1](R/W) Rate mantissa. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
-        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT. */
+        uint64_t rate_exponent         : 4;  /**< [ 12:  9](R/W) Rate exponent. The rate is specified as 1.RATE_MANTISSA << RATE_EXPONENT.
+                                                                 RATE_EXPONENT should be used to specify data rates higher than ~10 Kbps and
+                                                                 RATE_DIVIDER_EXPONENT should be set to zero whenever it is non-zero. */
         uint64_t rate_divider_exponent : 4;  /**< [ 16: 13](R/W) Rate divider exponent. This 4-bit base-2 exponent is used to divide the credit rate by
                                                                  specifying the number of time-wheel turns required before the accumulator is increased.
+                                                                 RATE_DIVIDER_EXPONENT should be used to specify data rates lower than ~10 Kbps and
+                                                                 RATE_EXPONENT should be set to zero whenever it is used.
 
                                                                  The rate count = (1 << RATE_DIVIDER_EXPONENT). The supported range for
                                                                  RATE_DIVIDER_EXPONENT is 0 to 12. Programmed values greater than 12 are treated as 12.
@@ -11121,7 +11249,7 @@ static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pur
 static inline uint64_t BDK_PKO_PF_MSIX_PBAX(unsigned long a)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x8543000f0008ll + 0ll * ((a) & 0x0);
+        return 0x8543000f0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("PKO_PF_MSIX_PBAX", 1, a, 0, 0, 0);
 }
 
@@ -14407,7 +14535,7 @@ static inline uint64_t BDK_PKO_VFX_MSIX_PBAX(unsigned long a, unsigned long b) _
 static inline uint64_t BDK_PKO_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=63) && (b==0)))
-        return 0x8547000f0008ll + 0x100000ll * ((a) & 0x3f) + 0ll * ((b) & 0x0);
+        return 0x8547000f0000ll + 0x100000ll * ((a) & 0x3f) + 8ll * ((b) & 0x0);
     __bdk_csr_fatal("PKO_VFX_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
