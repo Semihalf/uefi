@@ -172,6 +172,7 @@ def writeReg(out, chip, reg):
     if bar == None:
         bar = ""
     out.write("<tr>" + TH("Bar") + TD(bar) + "</tr>\n")
+    out.write("<tr>" + TH("Reset") + TD("0x%x" % csr_utils.getResetValue(chip, reg)) + "</tr>\n")
     out.write("</table>\n")
     out.write("<br><br>\n")
     out.write("<table>\n")

@@ -357,5 +357,18 @@ def createSubset(arch, struct_reg):
     assert subset_size == bit_size, "%s subset %d, original %d" % (struct_reg["name"], subset_size, bit_size)
     return subset
 
+#
+# Get the reset value for a Register
+#
+def getResetValue(chip, reg):
+    reset = 0
+    for name in reg["fields"]:
+        f = reg["fields"][name]
+        if chip in f["reset"]:
+            r = f["reset"][chip]
+            if r != "--":
+                r <<= f["bits"][chip][0]
+                reset |= r
+    return reset
 
 
