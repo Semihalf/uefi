@@ -3839,7 +3839,7 @@ typedef union
     struct bdk_pki_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
+        uint64_t fstyles               : 16; /**< [ 63: 48](RO) Number of final styles implemented. E.g. depth of PKI_STYLE()_WQ2. */
         uint64_t pknds                 : 16; /**< [ 47: 32](RO) Number of PKINDs implemented. */
         uint64_t bpid                  : 16; /**< [ 31: 16](RO) Number of BPIDs implemented. */
         uint64_t auras                 : 16; /**< [ 15:  0](RO) Number of auras implemented. */
@@ -3847,7 +3847,7 @@ typedef union
         uint64_t auras                 : 16; /**< [ 15:  0](RO) Number of auras implemented. */
         uint64_t bpid                  : 16; /**< [ 31: 16](RO) Number of BPIDs implemented. */
         uint64_t pknds                 : 16; /**< [ 47: 32](RO) Number of PKINDs implemented. */
-        uint64_t reserved_48_63        : 16;
+        uint64_t fstyles               : 16; /**< [ 63: 48](RO) Number of final styles implemented. E.g. depth of PKI_STYLE()_WQ2. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_const_s cn; */
@@ -3880,13 +3880,15 @@ typedef union
     struct bdk_pki_const1_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_16_63        : 48;
-        uint64_t ipes                  : 8;  /**< [ 15:  8](RO) Number of IPEs per clusters implemented. */
-        uint64_t cls                   : 8;  /**< [  7:  0](RO) Number of clusters implemented. */
+        uint64_t reserved_24_63        : 40;
+        uint64_t pcams                 : 8;  /**< [ 23: 16](RO) Number of PCAMs per clusters. */
+        uint64_t ipes                  : 8;  /**< [ 15:  8](RO) Number of IPEs per clusters. */
+        uint64_t cls                   : 8;  /**< [  7:  0](RO) Number of clusters. */
 #else /* Word 0 - Little Endian */
-        uint64_t cls                   : 8;  /**< [  7:  0](RO) Number of clusters implemented. */
-        uint64_t ipes                  : 8;  /**< [ 15:  8](RO) Number of IPEs per clusters implemented. */
-        uint64_t reserved_16_63        : 48;
+        uint64_t cls                   : 8;  /**< [  7:  0](RO) Number of clusters. */
+        uint64_t ipes                  : 8;  /**< [ 15:  8](RO) Number of IPEs per clusters. */
+        uint64_t pcams                 : 8;  /**< [ 23: 16](RO) Number of PCAMs per clusters. */
+        uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_pki_const1_s cn; */
@@ -3906,6 +3908,82 @@ static inline uint64_t BDK_PKI_CONST1_FUNC(void)
 #define basename_BDK_PKI_CONST1 "PKI_CONST1"
 #define busnum_BDK_PKI_CONST1 0
 #define arguments_BDK_PKI_CONST1 -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_const2
+ *
+ * PKI Constants Register 2
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_const2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t stats                 : 16; /**< [ 63: 48](RO) Number of wide statistics. E.g. depth of PKI_STAT()_HIST0. */
+        uint64_t dstats                : 16; /**< [ 47: 32](RO) Number of deep statistics. E.g. depth of PKI_DSTAT()_STAT0. */
+        uint64_t qpgs                  : 16; /**< [ 31: 16](RO) Number of QPGs. E.g. depth of PKI_QPG_TBL(). */
+        uint64_t pcam_ents             : 16; /**< [ 15:  0](RO) Number of PCAM entries per PCAM. E.g. depth of final index of PKI_CL()_PCAM()_MATCH(). */
+#else /* Word 0 - Little Endian */
+        uint64_t pcam_ents             : 16; /**< [ 15:  0](RO) Number of PCAM entries per PCAM. E.g. depth of final index of PKI_CL()_PCAM()_MATCH(). */
+        uint64_t qpgs                  : 16; /**< [ 31: 16](RO) Number of QPGs. E.g. depth of PKI_QPG_TBL(). */
+        uint64_t dstats                : 16; /**< [ 47: 32](RO) Number of deep statistics. E.g. depth of PKI_DSTAT()_STAT0. */
+        uint64_t stats                 : 16; /**< [ 63: 48](RO) Number of wide statistics. E.g. depth of PKI_STAT()_HIST0. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_const2_s cn; */
+} bdk_pki_const2_t;
+
+#define BDK_PKI_CONST2 BDK_PKI_CONST2_FUNC()
+static inline uint64_t BDK_PKI_CONST2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_CONST2_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000000010ll;
+    __bdk_csr_fatal("PKI_CONST2", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_CONST2 bdk_pki_const2_t
+#define bustype_BDK_PKI_CONST2 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_CONST2 "PKI_CONST2"
+#define busnum_BDK_PKI_CONST2 0
+#define arguments_BDK_PKI_CONST2 -1,-1,-1,-1
+
+/**
+ * Register (NCB) pki_const3
+ *
+ * PKI Constants Register 3
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pki_const3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pki_const3_s cn; */
+} bdk_pki_const3_t;
+
+#define BDK_PKI_CONST3 BDK_PKI_CONST3_FUNC()
+static inline uint64_t BDK_PKI_CONST3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKI_CONST3_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x86c000000018ll;
+    __bdk_csr_fatal("PKI_CONST3", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKI_CONST3 bdk_pki_const3_t
+#define bustype_BDK_PKI_CONST3 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKI_CONST3 "PKI_CONST3"
+#define busnum_BDK_PKI_CONST3 0
+#define arguments_BDK_PKI_CONST3 -1,-1,-1,-1
 
 /**
  * Register (RSL) pki_dstat#_stat0
@@ -6636,7 +6714,7 @@ static inline uint64_t BDK_PKI_SFT_RST_FUNC(void) __attribute__ ((pure, always_i
 static inline uint64_t BDK_PKI_SFT_RST_FUNC(void)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x86c000000010ll;
+        return 0x86c000000020ll;
     __bdk_csr_fatal("PKI_SFT_RST", 0, 0, 0, 0, 0);
 }
 

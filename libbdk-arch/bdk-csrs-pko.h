@@ -2246,6 +2246,76 @@ static inline uint64_t BDK_PKO_CONST1_FUNC(void)
 #define arguments_BDK_PKO_CONST1 -1,-1,-1,-1
 
 /**
+ * Register (NCB) pko_const2
+ *
+ * PKO Constants Register 2
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_const2_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_const2_s cn; */
+} bdk_pko_const2_t;
+
+#define BDK_PKO_CONST2 BDK_PKO_CONST2_FUNC()
+static inline uint64_t BDK_PKO_CONST2_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_CONST2_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000d00050ll;
+    __bdk_csr_fatal("PKO_CONST2", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_CONST2 bdk_pko_const2_t
+#define bustype_BDK_PKO_CONST2 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_CONST2 "PKO_CONST2"
+#define busnum_BDK_PKO_CONST2 0
+#define arguments_BDK_PKO_CONST2 -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_const3
+ *
+ * PKO Constants Register 3
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_const3_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_const3_s cn; */
+} bdk_pko_const3_t;
+
+#define BDK_PKO_CONST3 BDK_PKO_CONST3_FUNC()
+static inline uint64_t BDK_PKO_CONST3_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_CONST3_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000d00058ll;
+    __bdk_csr_fatal("PKO_CONST3", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_CONST3 bdk_pko_const3_t
+#define bustype_BDK_PKO_CONST3 BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_CONST3 "PKO_CONST3"
+#define busnum_BDK_PKO_CONST3 0
+#define arguments_BDK_PKO_CONST3 -1,-1,-1,-1
+
+/**
  * Register (NCB) pko_dpfi_ena
  *
  * PKO Descriptor Manager FPA Interface Enable Register
