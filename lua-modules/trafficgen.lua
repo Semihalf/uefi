@@ -49,9 +49,9 @@ function TrafficGen.new()
     local l2_stats_table = {}
     local show_l2_stats = false
     local ccpi_stats = {{0,0,0}, {0,0,0}, {0,0,0}}
-    local status, tns_map = pcall(require, "tns")
-    if not cavium.c.bdk_tns_profile_passthru then
-       tns_map = nil
+    local tns_map = nil
+    if cavium.is_model(cavium.CN88XX) and cavium.c.bdk_tns_profile_passthru then
+        _, tns_map = pcall(require, "tns")
     end
 
     -- should get this from c later
