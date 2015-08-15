@@ -51,7 +51,8 @@ function TrafficGen.new()
     local ccpi_stats = {{0,0,0}, {0,0,0}, {0,0,0}}
     local tns_map = nil
     if cavium.is_model(cavium.CN88XX) and cavium.c.bdk_tns_profile_passthru then
-        _, tns_map = pcall(require, "tns")
+        local status
+        status, tns_map = pcall(require, "tns")
     end
 
     -- should get this from c later
