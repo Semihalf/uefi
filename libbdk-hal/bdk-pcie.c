@@ -931,12 +931,8 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
 
             /* Valid ECAM access, build the address */
             union bdk_ecam_cfg_addr_s address;
-            address.u = 0;
-            address.s.io = 1;
+            address.u = BDK_ECAM_BAR_E_ECAMX_PF_BAR2(ecam);
             address.s.node = node;
-            address.s.did = 0x48 + ecam;
-            address.s.setup = 0;
-            address.s.bcst = 0;
             address.s.bus = bus;
             address.s.func = dev << 3 | fn;
             address.s.addr = reg;
