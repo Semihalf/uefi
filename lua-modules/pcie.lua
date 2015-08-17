@@ -504,7 +504,25 @@ local function create_device(root, bus, deviceid, func)
                     printf("%s        ARI\n", indent)
                 end
                 if cap_id == 0xb then
-                    printf("%s        Vendor Specific\n", indent)
+                    local vsec_id = self:read32(cap_loc+4)
+                    local vsec_id_id = bit64.bextract(vsec_id, 0, 15)
+                    local vsec_id_rev = bit64.bextract(vsec_id, 16, 19)
+                    local vsec_id_len = bit64.bextract(vsec_id, 20, 31)
+                    printf("%s        Vendor ID: %04x Rev: %x Size %03x\n", indent, vsec_id_id, vsec_id_rev, vsec_id_len);
+                    -- Check for Cavium extension. Low bits change per model
+                    if bit64.band(vsec_id_id, 0xf0) == 0xa0 then
+                        if vsec_id_rev == 1 then
+                            local vsec_ctl = self:read32(cap_loc+8)
+                            local vsec_ctl_inst_num = bit64.bextract(vsec_ctl, 0, 7)
+                            local vsec_ctl_subnum = bit64.bextract(vsec_ctl, 8, 15)
+                            printf("%s        Instance: %02x Static Bus: %02x\n", indent, vsec_ctl_inst_num, vsec_ctl_subnum);
+                            local vsec_sctl = self:read32(cap_loc+12)
+                            local vsec_sctl_rid = bit64.bextract(vsec_ctl, 16, 23)
+                            printf("%s        Revision ID: %02x\n", indent, vsec_sctl_rid);
+                        else
+                            printf("%s        Unknown extension revision\n", indent);
+                        end
+                    end
                 end
                 cap_loc = cap_next
             end
