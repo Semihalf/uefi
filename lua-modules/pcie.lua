@@ -501,7 +501,18 @@ local function create_device(root, bus, deviceid, func)
                 printf("%s    PCIe Capability %03x ID:%04x Version:%x Next:%03x\n",
                        indent, cap_loc, cap_id, cap_ver, cap_next)
                 if cap_id == 0xe then
-                    printf("%s        ARI\n", indent)
+                    local ari_cap_reg = self:read16(cap_loc+4)
+                    local ari_cap_m = bit64.bextract(ari_cap_reg, 0, 0)
+                    local ari_cap_a = bit64.bextract(ari_cap_reg, 1, 1)
+                    local ari_cap_next = bit64.bextract(ari_cap_reg, 8, 15)
+                    local next_dev = bit64.bextract(ari_cap_next, 3, 7)
+                    local next_fun = bit64.bextract(ari_cap_next, 0, 2)
+                    printf("%s        ARI MFVC: %x ACS: %x Next: %02x (%d.%d)\n", indent, ari_cap_m, ari_cap_a, ari_cap_next, next_dev, next_fun)
+                    local ari_ctl_reg = self:read16(cap_loc+6)
+                    local ari_ctl_m = bit64.bextract(ari_ctl_reg, 0, 0)
+                    local ari_ctl_a = bit64.bextract(ari_ctl_reg, 1, 1)
+                    local ari_ctl_grp = bit64.bextract(ari_ctl_reg, 4, 6)
+                    printf("%s        MFVC Enable: %x ACS Enable: %x Group: %x\n", indent, ari_ctl_m, ari_ctl_a, ari_ctl_grp)
                 end
                 if cap_id == 0xb then
                     local vsec_id = self:read32(cap_loc+4)
