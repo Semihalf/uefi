@@ -310,7 +310,9 @@ static void pcie_walk_internal_bus(bdk_node_t node, int ecam, int bus)
         {
             /* Internal bus numbers are hard coded. Read the bus ID */
             uint8_t sub_bus = bdk_pcie_config_read8(node, 100 + ecam, bus, dev, 0, 0x19);
-            pcie_walk_internal_bus(node, ecam, sub_bus);
+            /* Asim has the bus wrong on some device, skip zero busses */
+            if (sub_bus)
+                pcie_walk_internal_bus(node, ecam, sub_bus);
         }
     }
 }
