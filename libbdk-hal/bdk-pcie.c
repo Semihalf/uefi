@@ -332,6 +332,13 @@ int bdk_pcie_global_initialize(bdk_node_t node)
     if (bdk_is_platform(BDK_PLATFORM_EMULATOR))
         return 0;
 
+    /* This is time consuming. If the ARI chain on the MRML bus is already
+       non-zero, assume a previous boot stage already executed this function */
+    BDK_CSR_DEFINE(ctl, BDK_PCCPF_XXX_VSEC_CTL);
+    ctl.u = bdk_pcie_config_read32(node, 100 + 0, 1, 0, 0, BDK_PCCPF_XXX_VSEC_CTL);
+    if (ctl.s.nxtfn_ns)
+        goto already_done;
+
     /* Go through all the internal devices and set them up */
     for (int ecam = 0; ecam < 4; ecam++)
     {
@@ -358,7 +365,6 @@ int bdk_pcie_global_initialize(bdk_node_t node)
         if (last_ari != -1)
         {
             BDK_TRACE(INIT_ECAM, "    Found ARI %d, connect to %d\n", ari, last_ari);
-            BDK_CSR_DEFINE(ctl, BDK_PCCPF_XXX_VSEC_CTL);
             ctl.u = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_CTL);
             ctl.s.nxtfn_ns = ari;
             bdk_pcie_config_write32(node, 100 + ecam, mrml_bus, last_ari >> 3, last_ari & 7, BDK_PCCPF_XXX_VSEC_CTL, ctl.u);
@@ -373,6 +379,7 @@ int bdk_pcie_global_initialize(bdk_node_t node)
         last_ari = ari;
     }
     BDK_TRACE(INIT_ECAM, "PCIe global init complete\n");
+already_done:
     pcie_global_init_done[node] = 1;
     return 0;
 }
