@@ -306,7 +306,7 @@ int bdk_pcie_global_initialize(bdk_node_t node)
     for (int ari = 0; ari < 256; ari++)
     {
         /* Only visit existing device */
-        if (is_any_internal(ecam, mrml_bus, ari >> 3, ari & 7))
+        if (!is_any_internal(ecam, mrml_bus, ari >> 3, ari & 7))
             continue;
         if (last_ari != -1)
         {
