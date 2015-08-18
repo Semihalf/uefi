@@ -44,14 +44,19 @@ int main(void)
         BDK_CSR_WRITE(node, BDK_GSERX_SCRATCH(0), boot_count);
     }
 
+    /* Get the address of the version field in our header */
+    uint64_t version_offset = offsetof(bdk_image_header_t, version);
+    uint64_t version_pa = bdk_numa_get_address(node, version_offset);
+    const char *version = bdk_phys_to_ptr(version_pa);
+
     printf(
         "===========================\n"
         "Cavium THUNDERX Chainloader\n"
         "===========================\n"
-        "Chainloader version: %s\n"
+        "Version: %s\n"
         "Boot Attempt: %lu\n"
         "\n",
-        bdk_version_string(), boot_count);
+        version, boot_count);
     print_node_strapping(bdk_numa_master());
 
     /* Load and transfer control to next image */
