@@ -8,9 +8,11 @@ BDK_REQUIRE_DEFINE(PCIE);
    needs to only block certain addresses after init */
 static int pcie_global_init_done[BDK_NUMA_MAX_NODES] = {0,};
 
-/* The ECAM has a bug where accessing a non-existent device causes an
-   exception. This is a list of all valid devices */
-static const uint32_t INTERNAL_DEVICES[] = {
+/* Errata (ECAM-22630) ECAM function accesses can fault
+    CN88XXP1.0: The ECAM has a bug where accessing a non-existent
+    device causes an exception. This is a list of all valid devices
+    for CN88XX pass 1.0 */
+static const uint32_t INTERNAL_DEVICES_CN88XXP1_0[] = {
     BDK_PCC_DEV_CON_E_BGXX(0),
     BDK_PCC_DEV_CON_E_BGXX(1),
     BDK_PCC_DEV_CON_E_DAP,
@@ -163,12 +165,12 @@ static int is_internal(int ecam, int bus, int dev, int fn, int dev_con)
  *
  * @return Non zero if the device matches
  */
-static int is_any_internal(int ecam, int bus, int dev, int fn)
+static int is_any_internal_cn88xxp1_0(int ecam, int bus, int dev, int fn)
 {
     int loc = 0;
-    while (INTERNAL_DEVICES[loc])
+    while (INTERNAL_DEVICES_CN88XXP1_0[loc])
     {
-        if (is_internal(ecam, bus, dev, fn, INTERNAL_DEVICES[loc]))
+        if (is_internal(ecam, bus, dev, fn, INTERNAL_DEVICES_CN88XXP1_0[loc]))
             return 1;
         loc++;
     }
@@ -285,9 +287,9 @@ int bdk_pcie_global_initialize(bdk_node_t node)
     /* Go through all the internal devices and set them up */
     int loc = 0;
     BDK_TRACE(INIT_ECAM, "Enabling internal devices\n");
-    while (INTERNAL_DEVICES[loc])
+    while (INTERNAL_DEVICES_CN88XXP1_0[loc])
     {
-        union bdk_pcc_dev_con_s dev = { .u = INTERNAL_DEVICES[loc] };
+        union bdk_pcc_dev_con_s dev = { .u = INTERNAL_DEVICES_CN88XXP1_0[loc] };
         BDK_TRACE(INIT_ECAM, "    Enabling ECAM %d Bus %d Device %d Func %d\n",
             dev.s.ecam, dev.s.bus, dev.s.func >> 3, dev.s.func & 7);
         pcie_internal_init_dev(node, dev.s.ecam, dev.s.bus, dev.s.func >> 3, dev.s.func & 7);
@@ -306,8 +308,10 @@ int bdk_pcie_global_initialize(bdk_node_t node)
     for (int ari = 0; ari < 256; ari++)
     {
         /* Only visit existing device */
-        if (!is_any_internal(ecam, mrml_bus, ari >> 3, ari & 7))
+        uint32_t device_id = bdk_pcie_config_read32(node, 100 + ecam, mrml_bus, ari >> 3, ari & 7, BDK_PCCPF_XXX_ID);
+        if (device_id == (uint32_t)-1)
             continue;
+
         if (last_ari != -1)
         {
             BDK_TRACE(INIT_ECAM, "    Found ARI %d, connect to %d\n", ari, last_ari);
@@ -860,16 +864,7 @@ static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int
             {
                 /* Errata (ECAM-22630) ECAM function accesses can fault */
                 /* Skip internal devices that don't exists */
-                int loc = 0;
-                int found = 0;
-                while (INTERNAL_DEVICES[loc])
-                {
-                    found = is_internal(ecam, bus, dev, fn, INTERNAL_DEVICES[loc]);
-                    if (found)
-                        break;
-                    loc++;
-                }
-                if (!found)
+                if (!is_any_internal_cn88xxp1_0(ecam, bus, dev, fn))
                     return 0;
 
                 /* Errata (ECAM-23020) PCIERC transactions fault unless PEM is
