@@ -893,96 +893,94 @@ skip_idle_wait:
  */
 static uint64_t __bdk_pcie_build_config_addr(bdk_node_t node, int pcie_port, int bus, int dev, int fn, int reg)
 {
-    switch (pcie_port)
+    int num_pems = bdk_pcie_get_num_ports(node);
+    if (pcie_port < num_pems)
     {
-        case 0 ... 5:
-        {
-            /* Errata (SLI-22555) ECAM to off-chip PCI misroutes address. Use
-               the SLI regions instead of ECAMs for config space access */
-            uint64_t address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_CONFIG);
-            address += (uint64_t)bus << 24;   /* Bus is bits 31:24 */
-            address += dev << 19;   /* device+func is bits 23:16 */
-            address += fn << 16;
-            address += reg;         /* Offset is bits 11:0 */
-            return address;
-        }
-        case 100 ... 103: /* Use fake ports 100+ to directly access the internal ECAMs */
-        {
-            int ecam = pcie_port - 100;
+        /* Errata (SLI-22555) ECAM to off-chip PCI misroutes address. Use
+           the SLI regions instead of ECAMs for config space access */
+        uint64_t address = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_CONFIG);
+        address += (uint64_t)bus << 24;   /* Bus is bits 31:24 */
+        address += dev << 19;   /* device+func is bits 23:16 */
+        address += fn << 16;
+        address += reg;         /* Offset is bits 11:0 */
+        return address;
+    }
+    else if (pcie_port >= 100)
+    {
+        int ecam = pcie_port - 100;
 
-            if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
+        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_0))
+        {
+            /* Errata (ECAM-22630) ECAM function accesses can fault */
+            /* Skip internal devices that don't exists */
+            if (!is_any_internal_cn88xxp1_0(ecam, bus, dev, fn))
+                return 0;
+
+            /* Errata (ECAM-23020) PCIERC transactions fault unless PEM is
+               out of reset. The PCIe ports don't work until the PEM is
+               turned on. Check for one of the PCIe ports */
+            int pem = -1;
+            if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC0))
+                pem = 0;
+            if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC1))
+                pem = 1;
+            if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC2))
+                pem = 2;
+            if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC3))
+                pem = 3;
+            if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC4))
+                pem = 4;
+            if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC5))
+                pem = 5;
+            if (pem != -1)
             {
-                /* Errata (ECAM-22630) ECAM function accesses can fault */
-                /* Skip internal devices that don't exists */
-                if (!is_any_internal_cn88xxp1_0(ecam, bus, dev, fn))
+                BDK_CSR_INIT(pem_on, node, BDK_PEMX_ON(pem));
+                if (!pem_on.s.pemon || !pem_on.s.pemoor)
                     return 0;
-
-                /* Errata (ECAM-23020) PCIERC transactions fault unless PEM is
-                   out of reset. The PCIe ports don't work until the PEM is
-                   turned on. Check for one of the PCIe ports */
-                int pem = -1;
-                if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC0))
-                    pem = 0;
-                if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC1))
-                    pem = 1;
-                if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC2))
-                    pem = 2;
-                if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC3))
-                    pem = 3;
-                if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC4))
-                    pem = 4;
-                if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_PCIERC5))
-                    pem = 5;
-                if (pem != -1)
-                {
-                    BDK_CSR_INIT(pem_on, node, BDK_PEMX_ON(pem));
-                    if (!pem_on.s.pemon || !pem_on.s.pemoor)
-                        return 0;
-                }
-
-                /* Don't check SATA ports during one time init */
-                if (pcie_global_init_done[node])
-                {
-                    /* SATA ports should be hidden if they aren't configured at the QLM */
-                    int qlm = -1;
-                    if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA0) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA1) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA2) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA3))
-                        qlm = 2;
-                    if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA4) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA5) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA6) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA7))
-                        qlm = 3;
-                    if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA8) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA9) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA10) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA11))
-                        qlm = 6;
-                    if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA12) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA13) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA14) ||
-                        is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA15))
-                        qlm = 7;
-                    if (qlm != -1)
-                    {
-                        BDK_CSR_INIT(cfg, node, BDK_GSERX_CFG(qlm));
-                        if (!cfg.s.sata)
-                            return 0;
-                    }
-                }
             }
 
-            /* Valid ECAM access, build the address */
-            union bdk_ecam_cfg_addr_s address;
-            address.u = BDK_ECAM_BAR_E_ECAMX_PF_BAR2(ecam);
-            address.s.node = node;
-            address.s.bus = bus;
-            address.s.func = dev << 3 | fn;
-            address.s.addr = reg;
-            return address.u;
+            /* Don't check SATA ports during one time init */
+            if (pcie_global_init_done[node])
+            {
+                /* SATA ports should be hidden if they aren't configured at the QLM */
+                int qlm = -1;
+                if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA0) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA1) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA2) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA3))
+                    qlm = 2;
+                if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA4) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA5) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA6) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA7))
+                    qlm = 3;
+                if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA8) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA9) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA10) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA11))
+                    qlm = 6;
+                if (is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA12) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA13) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA14) ||
+                    is_internal_cn88xxp1_0(ecam, bus, dev, fn, BDK_PCC_DEV_CON_E_SATA15))
+                    qlm = 7;
+                if (qlm != -1)
+                {
+                    BDK_CSR_INIT(cfg, node, BDK_GSERX_CFG(qlm));
+                    if (!cfg.s.sata)
+                        return 0;
+                }
+            }
         }
+
+        /* Valid ECAM access, build the address */
+        union bdk_ecam_cfg_addr_s address;
+        address.u = BDK_ECAM_BAR_E_ECAMX_PF_BAR2(ecam);
+        address.s.node = node;
+        address.s.bus = bus;
+        address.s.func = dev << 3 | fn;
+        address.s.addr = reg;
+        return address.u;
     }
     return 0;
 }
