@@ -78,17 +78,17 @@
  * NIC CPI Algorithm Enumeration
  * Enumerates the values of NIC_PF_CHAN()_RX_CFG[CPI_ALG].
  */
-#define BDK_NIC_CPI_ALG_E_DIFF (3) /**< If Diffsrv is parsed, add its 6 bits into the QPG calculation.
+#define BDK_NIC_CPI_ALG_E_DIFF (3) /**< If Diffsrv is parsed, add its 6 bits into the CPI calculation.
                                        
                                        Note this method is typically only used for BGX interfaces; TNS should be
                                        programmed to determine the channel number directly. */
-#define BDK_NIC_CPI_ALG_E_NONE (0) /**< No QoS field added in QPG calculation. */
-#define BDK_NIC_CPI_ALG_E_VLAN (1) /**< If VLAN is parsed, add the first VLAN's 3-bit priority into the QPG calculation.
+#define BDK_NIC_CPI_ALG_E_NONE (0) /**< No QoS field added in CPI calculation. */
+#define BDK_NIC_CPI_ALG_E_VLAN (1) /**< If VLAN is parsed, add the first VLAN's 3-bit priority into the CPI calculation.
                                        
                                        Note this method is typically only used for BGX interfaces; TNS should be
                                        programmed to determine the channel number directly. */
 #define BDK_NIC_CPI_ALG_E_VLAN16 (2) /**< If VLAN is parsed, add 4 bits, where the first VLAN's CFI is bit <3> of the
-                                       addend and first VLAN's priority is <2:0> of the addend, into the QPG
+                                       addend and first VLAN's priority is <2:0> of the addend, into the CPI
                                        calculation.
                                        
                                        Note this method is typically only used for BGX interfaces; TNS should be
@@ -2483,7 +2483,7 @@ typedef union
     struct bdk_nic_pf_chanx_rx_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cpi_alg               : 2;  /**< [ 63: 62](R/W) Algorithm used in QPG calculation. Enumerated by NIC_CPI_ALG_E. */
+        uint64_t cpi_alg               : 2;  /**< [ 63: 62](R/W) Algorithm used in CPI calculation. Enumerated by NIC_CPI_ALG_E. */
         uint64_t reserved_59_61        : 3;
         uint64_t cpi_base              : 11; /**< [ 58: 48](R/W) Base index into NIC_PF_CPI()_CFG. */
         uint64_t reserved_0_47         : 48;
@@ -2491,7 +2491,7 @@ typedef union
         uint64_t reserved_0_47         : 48;
         uint64_t cpi_base              : 11; /**< [ 58: 48](R/W) Base index into NIC_PF_CPI()_CFG. */
         uint64_t reserved_59_61        : 3;
-        uint64_t cpi_alg               : 2;  /**< [ 63: 62](R/W) Algorithm used in QPG calculation. Enumerated by NIC_CPI_ALG_E. */
+        uint64_t cpi_alg               : 2;  /**< [ 63: 62](R/W) Algorithm used in CPI calculation. Enumerated by NIC_CPI_ALG_E. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_nic_pf_chanx_rx_cfg_s cn; */
@@ -2661,15 +2661,17 @@ typedef union
                                                                  NIC_VNIC()_RSS_CFG. */
         uint64_t rss_size              : 4;  /**< [ 23: 20](R/W) Bits of RSS hash to add in RSSI calculation.
                                                                  0x0 = RSS is disabled.
-                                                                 0x1 = RSS_TAG<0> included in RSSI.
-                                                                 0x2 = RSS_TAG<1:0> included in RSSI.
-                                                                 0x3 = RSS_TAG<2:0> included in RSSI.
-                                                                 0x4 = RSS_TAG<3:0> included in RSSI.
-                                                                 0x5 = RSS_TAG<4:0> included in RSSI.
-                                                                 0x6 = RSS_TAG<5:0> included in RSSI.
-                                                                 0x7 = RSS_TAG<6:0> included in RSSI.
-                                                                 0x8 = RSS_TAG<7:0> included in RSSI.
-                                                                 0x9-0xF = Reserved. */
+                                                                 0x1 = RSSI_ADDER<0> included in RSSI.
+                                                                 0x2 = RSSI_ADDER<1:0> included in RSSI.
+                                                                 0x3 = RSSI_ADDER<2:0> included in RSSI.
+                                                                 0x4 = RSSI_ADDER<3:0> included in RSSI.
+                                                                 0x5 = RSSI_ADDER<4:0> included in RSSI.
+                                                                 0x6 = RSSI_ADDER<5:0> included in RSSI.
+                                                                 0x7 = RSSI_ADDER<6:0> included in RSSI.
+                                                                 0x8 = RSSI_ADDER<7:0> included in RSSI.
+                                                                 0x9-0xF = Reserved.
+
+                                                                 RSSI_ADDER<7:0> = RSS_TAG<7:0> ^ RSS_TAG<15:8> ^ RSS_TAG<23:16> ^ RSS_TAG<31:24>. */
         uint64_t padd                  : 4;  /**< [ 19: 16](R/W) Port to channel adder for calculating NIC_CQE_RX_S[CHAN]. For NIC channels should be zero. */
         uint64_t reserved_12_15        : 4;
         uint64_t rssi_base             : 12; /**< [ 11:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
@@ -2679,15 +2681,17 @@ typedef union
         uint64_t padd                  : 4;  /**< [ 19: 16](R/W) Port to channel adder for calculating NIC_CQE_RX_S[CHAN]. For NIC channels should be zero. */
         uint64_t rss_size              : 4;  /**< [ 23: 20](R/W) Bits of RSS hash to add in RSSI calculation.
                                                                  0x0 = RSS is disabled.
-                                                                 0x1 = RSS_TAG<0> included in RSSI.
-                                                                 0x2 = RSS_TAG<1:0> included in RSSI.
-                                                                 0x3 = RSS_TAG<2:0> included in RSSI.
-                                                                 0x4 = RSS_TAG<3:0> included in RSSI.
-                                                                 0x5 = RSS_TAG<4:0> included in RSSI.
-                                                                 0x6 = RSS_TAG<5:0> included in RSSI.
-                                                                 0x7 = RSS_TAG<6:0> included in RSSI.
-                                                                 0x8 = RSS_TAG<7:0> included in RSSI.
-                                                                 0x9-0xF = Reserved. */
+                                                                 0x1 = RSSI_ADDER<0> included in RSSI.
+                                                                 0x2 = RSSI_ADDER<1:0> included in RSSI.
+                                                                 0x3 = RSSI_ADDER<2:0> included in RSSI.
+                                                                 0x4 = RSSI_ADDER<3:0> included in RSSI.
+                                                                 0x5 = RSSI_ADDER<4:0> included in RSSI.
+                                                                 0x6 = RSSI_ADDER<5:0> included in RSSI.
+                                                                 0x7 = RSSI_ADDER<6:0> included in RSSI.
+                                                                 0x8 = RSSI_ADDER<7:0> included in RSSI.
+                                                                 0x9-0xF = Reserved.
+
+                                                                 RSSI_ADDER<7:0> = RSS_TAG<7:0> ^ RSS_TAG<15:8> ^ RSS_TAG<23:16> ^ RSS_TAG<31:24>. */
         uint64_t vnic                  : 7;  /**< [ 30: 24](R/W) VNIC receiving this channel, and determines which RSS algorithms are enabled using
                                                                  NIC_VNIC()_RSS_CFG. */
         uint64_t reserved_31_62        : 32;
@@ -7802,15 +7806,17 @@ typedef union
                                                                  NIC_VNIC()_RSS_CFG. */
         uint64_t rss_size              : 4;  /**< [ 23: 20](R/W) Bits of RSS hash to add in RSSI calculation.
                                                                  0x0 = RSS is disabled.
-                                                                 0x1 = RSS_TAG<0> included in RSSI.
-                                                                 0x2 = RSS_TAG<1:0> included in RSSI.
-                                                                 0x3 = RSS_TAG<2:0> included in RSSI.
-                                                                 0x4 = RSS_TAG<3:0> included in RSSI.
-                                                                 0x5 = RSS_TAG<4:0> included in RSSI.
-                                                                 0x6 = RSS_TAG<5:0> included in RSSI.
-                                                                 0x7 = RSS_TAG<6:0> included in RSSI.
-                                                                 0x8 = RSS_TAG<7:0> included in RSSI.
-                                                                 0x9-0xF = Reserved. */
+                                                                 0x1 = RSSI_ADDER<0> included in RSSI.
+                                                                 0x2 = RSSI_ADDER<1:0> included in RSSI.
+                                                                 0x3 = RSSI_ADDER<2:0> included in RSSI.
+                                                                 0x4 = RSSI_ADDER<3:0> included in RSSI.
+                                                                 0x5 = RSSI_ADDER<4:0> included in RSSI.
+                                                                 0x6 = RSSI_ADDER<5:0> included in RSSI.
+                                                                 0x7 = RSSI_ADDER<6:0> included in RSSI.
+                                                                 0x8 = RSSI_ADDER<7:0> included in RSSI.
+                                                                 0x9-0xF = Reserved.
+
+                                                                 RSSI_ADDER<7:0> = RSS_TAG<7:0> ^ RSS_TAG<15:8> ^ RSS_TAG<23:16> ^ RSS_TAG<31:24>. */
         uint64_t reserved_12_19        : 8;
         uint64_t rssi_base             : 12; /**< [ 11:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
 #else /* Word 0 - Little Endian */
@@ -7818,15 +7824,17 @@ typedef union
         uint64_t reserved_12_19        : 8;
         uint64_t rss_size              : 4;  /**< [ 23: 20](R/W) Bits of RSS hash to add in RSSI calculation.
                                                                  0x0 = RSS is disabled.
-                                                                 0x1 = RSS_TAG<0> included in RSSI.
-                                                                 0x2 = RSS_TAG<1:0> included in RSSI.
-                                                                 0x3 = RSS_TAG<2:0> included in RSSI.
-                                                                 0x4 = RSS_TAG<3:0> included in RSSI.
-                                                                 0x5 = RSS_TAG<4:0> included in RSSI.
-                                                                 0x6 = RSS_TAG<5:0> included in RSSI.
-                                                                 0x7 = RSS_TAG<6:0> included in RSSI.
-                                                                 0x8 = RSS_TAG<7:0> included in RSSI.
-                                                                 0x9-0xF = Reserved. */
+                                                                 0x1 = RSSI_ADDER<0> included in RSSI.
+                                                                 0x2 = RSSI_ADDER<1:0> included in RSSI.
+                                                                 0x3 = RSSI_ADDER<2:0> included in RSSI.
+                                                                 0x4 = RSSI_ADDER<3:0> included in RSSI.
+                                                                 0x5 = RSSI_ADDER<4:0> included in RSSI.
+                                                                 0x6 = RSSI_ADDER<5:0> included in RSSI.
+                                                                 0x7 = RSSI_ADDER<6:0> included in RSSI.
+                                                                 0x8 = RSSI_ADDER<7:0> included in RSSI.
+                                                                 0x9-0xF = Reserved.
+
+                                                                 RSSI_ADDER<7:0> = RSS_TAG<7:0> ^ RSS_TAG<15:8> ^ RSS_TAG<23:16> ^ RSS_TAG<31:24>. */
         uint64_t vnic                  : 7;  /**< [ 30: 24](R/W) VNIC receiving this channel, and determines which RSS algorithms are enabled using
                                                                  NIC_VNIC()_RSS_CFG. */
         uint64_t reserved_31_63        : 33;
@@ -7840,15 +7848,17 @@ typedef union
                                                                  NIC_VNIC()_RSS_CFG. */
         uint64_t rss_size              : 4;  /**< [ 23: 20](R/W) Bits of RSS hash to add in RSSI calculation.
                                                                  0x0 = RSS is disabled.
-                                                                 0x1 = RSS_TAG<0> included in RSSI.
-                                                                 0x2 = RSS_TAG<1:0> included in RSSI.
-                                                                 0x3 = RSS_TAG<2:0> included in RSSI.
-                                                                 0x4 = RSS_TAG<3:0> included in RSSI.
-                                                                 0x5 = RSS_TAG<4:0> included in RSSI.
-                                                                 0x6 = RSS_TAG<5:0> included in RSSI.
-                                                                 0x7 = RSS_TAG<6:0> included in RSSI.
-                                                                 0x8 = RSS_TAG<7:0> included in RSSI.
-                                                                 0x9-0xF = Reserved. */
+                                                                 0x1 = RSSI_ADDER<0> included in RSSI.
+                                                                 0x2 = RSSI_ADDER<1:0> included in RSSI.
+                                                                 0x3 = RSSI_ADDER<2:0> included in RSSI.
+                                                                 0x4 = RSSI_ADDER<3:0> included in RSSI.
+                                                                 0x5 = RSSI_ADDER<4:0> included in RSSI.
+                                                                 0x6 = RSSI_ADDER<5:0> included in RSSI.
+                                                                 0x7 = RSSI_ADDER<6:0> included in RSSI.
+                                                                 0x8 = RSSI_ADDER<7:0> included in RSSI.
+                                                                 0x9-0xF = Reserved.
+
+                                                                 RSSI_ADDER<7:0> = RSS_TAG<7:0> ^ RSS_TAG<15:8> ^ RSS_TAG<23:16> ^ RSS_TAG<31:24>. */
         uint64_t reserved_16_19        : 4;
         uint64_t reserved_12_15        : 4;
         uint64_t rssi_base             : 12; /**< [ 11:  0](R/W) Base index into NIC_PF_RSSI()_RQ. */
@@ -7858,15 +7868,17 @@ typedef union
         uint64_t reserved_16_19        : 4;
         uint64_t rss_size              : 4;  /**< [ 23: 20](R/W) Bits of RSS hash to add in RSSI calculation.
                                                                  0x0 = RSS is disabled.
-                                                                 0x1 = RSS_TAG<0> included in RSSI.
-                                                                 0x2 = RSS_TAG<1:0> included in RSSI.
-                                                                 0x3 = RSS_TAG<2:0> included in RSSI.
-                                                                 0x4 = RSS_TAG<3:0> included in RSSI.
-                                                                 0x5 = RSS_TAG<4:0> included in RSSI.
-                                                                 0x6 = RSS_TAG<5:0> included in RSSI.
-                                                                 0x7 = RSS_TAG<6:0> included in RSSI.
-                                                                 0x8 = RSS_TAG<7:0> included in RSSI.
-                                                                 0x9-0xF = Reserved. */
+                                                                 0x1 = RSSI_ADDER<0> included in RSSI.
+                                                                 0x2 = RSSI_ADDER<1:0> included in RSSI.
+                                                                 0x3 = RSSI_ADDER<2:0> included in RSSI.
+                                                                 0x4 = RSSI_ADDER<3:0> included in RSSI.
+                                                                 0x5 = RSSI_ADDER<4:0> included in RSSI.
+                                                                 0x6 = RSSI_ADDER<5:0> included in RSSI.
+                                                                 0x7 = RSSI_ADDER<6:0> included in RSSI.
+                                                                 0x8 = RSSI_ADDER<7:0> included in RSSI.
+                                                                 0x9-0xF = Reserved.
+
+                                                                 RSSI_ADDER<7:0> = RSS_TAG<7:0> ^ RSS_TAG<15:8> ^ RSS_TAG<23:16> ^ RSS_TAG<31:24>. */
         uint64_t vnic                  : 7;  /**< [ 30: 24](R/W) VNIC receiving this channel, and determines which RSS algorithms are enabled using
                                                                  NIC_VNIC()_RSS_CFG. */
         uint64_t reserved_31_63        : 33;

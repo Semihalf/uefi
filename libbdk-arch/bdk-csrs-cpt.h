@@ -370,16 +370,16 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t ae                    : 8;  /**< [ 23: 16](RAZ) Number of AEs. In CNXXXX, for CPT0 returns 0x0, for CPT1 returns 0x30, or less
+        uint64_t ae                    : 8;  /**< [ 23: 16](RO) Number of AEs. In CNXXXX, for CPT0 returns 0x0, for CPT1 returns 0x30, or less
                                                                  if there are fuse-disables. */
-        uint64_t se                    : 8;  /**< [ 15:  8](RAZ) Number of AEs. In CNXXXX, for CPT0 returns 0x8, or less if there are
+        uint64_t se                    : 8;  /**< [ 15:  8](RO) Number of SEs. In CNXXXX, for CPT0 returns 0x30, or less if there are
                                                                  fuse-disables, for CPT1 returns 0x0. */
         uint64_t vq                    : 8;  /**< [  7:  0](RO) Number of VQs. */
 #else /* Word 0 - Little Endian */
         uint64_t vq                    : 8;  /**< [  7:  0](RO) Number of VQs. */
-        uint64_t se                    : 8;  /**< [ 15:  8](RAZ) Number of AEs. In CNXXXX, for CPT0 returns 0x8, or less if there are
+        uint64_t se                    : 8;  /**< [ 15:  8](RO) Number of SEs. In CNXXXX, for CPT0 returns 0x30, or less if there are
                                                                  fuse-disables, for CPT1 returns 0x0. */
-        uint64_t ae                    : 8;  /**< [ 23: 16](RAZ) Number of AEs. In CNXXXX, for CPT0 returns 0x0, for CPT1 returns 0x30, or less
+        uint64_t ae                    : 8;  /**< [ 23: 16](RO) Number of AEs. In CNXXXX, for CPT0 returns 0x0, for CPT1 returns 0x30, or less
                                                                  if there are fuse-disables. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */

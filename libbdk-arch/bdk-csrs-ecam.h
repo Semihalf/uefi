@@ -201,6 +201,42 @@ static inline uint64_t BDK_ECAMX_BUSX_SDIS(unsigned long a, unsigned long b)
 #define arguments_BDK_ECAMX_BUSX_SDIS(a,b) (a),(b),-1,-1
 
 /**
+ * Register (RSL) ecam#_const
+ *
+ * ECAM Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_ecamx_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t ecams                 : 8;  /**< [  7:  0](RO) Number of ECAM units. */
+#else /* Word 0 - Little Endian */
+        uint64_t ecams                 : 8;  /**< [  7:  0](RO) Number of ECAM units. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_ecamx_const_s cn; */
+} bdk_ecamx_const_t;
+
+static inline uint64_t BDK_ECAMX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_ECAMX_CONST(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e048000200ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("ECAMX_CONST", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_ECAMX_CONST(a) bdk_ecamx_const_t
+#define bustype_BDK_ECAMX_CONST(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_ECAMX_CONST(a) "ECAMX_CONST"
+#define busnum_BDK_ECAMX_CONST(a) (a)
+#define arguments_BDK_ECAMX_CONST(a) (a),-1,-1,-1
+
+/**
  * Register (RSL) ecam#_dev#_nsdis
  *
  * ECAM Device Non-secure Disable Registers

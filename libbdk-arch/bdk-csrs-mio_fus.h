@@ -480,7 +480,7 @@ typedef union
     struct bdk_mio_fus_dat3_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t ema0                  : 6;  /**< [ 63: 58](RO) Fuse information - EMA0. INTERNAL: dflt value is 0x02. Soft or hard blow of these fuses
+        uint64_t ema0                  : 6;  /**< [ 63: 58](RO) Fuse information - EMA0. INTERNAL: dflt value is 0x11. Soft or hard blow of these fuses
                                                                  will XOR with this value. */
         uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
         uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
@@ -507,22 +507,30 @@ typedef union
         uint64_t efus_ign              : 1;  /**< [ 26: 26](RO) Fuse information - efuse ignore. */
         uint64_t nozip                 : 1;  /**< [ 25: 25](RO) Fuse information - ZIP disable. */
         uint64_t nodfa_dte             : 1;  /**< [ 24: 24](RO) Fuse information - HFA disable (HTE). */
-        uint64_t ema1                  : 6;  /**< [ 23: 18](RO) Fuse information - EMA1. INTERNAL: Default value is 0x11. Soft or hard blow of these fuses
+        uint64_t ema1                  : 6;  /**< [ 23: 18](RO) Fuse information - EMA1. INTERNAL: Default value is 0x02. Soft or hard blow of these fuses
                                                                  will XOR with this value. */
         uint64_t nohna_dte             : 1;  /**< [ 17: 17](RO) Fuse information - HNA disable (DTE). */
         uint64_t hna_info_dte          : 3;  /**< [ 16: 14](RO) Fuse information - HNA information (DTE). */
         uint64_t hna_info_clm          : 4;  /**< [ 13: 10](RO) Fuse information - HNA information (cluster mask). */
         uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) When set to 1, TNS switching functionality is permanently disabled. */
-        uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier. */
-        uint64_t pnr_pll_mul           : 4;  /**< [  3:  0](RO) Coprocessor-clock PLL multiplier. */
+        uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier hardware limit. Indicates maximum
+                                                                 value for PLL_MUL[5:1] straps.  Any strap setting above this
+                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
+        uint64_t pnr_pll_mul           : 4;  /**< [  3:  0](RO) Coprocessor-clock PLL multiplier hardware limit.  Indicates maximum
+                                                                 value for PNR_MUL[5:1] straps.  Any strap setting above this
+                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
 #else /* Word 0 - Little Endian */
-        uint64_t pnr_pll_mul           : 4;  /**< [  3:  0](RO) Coprocessor-clock PLL multiplier. */
-        uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier. */
+        uint64_t pnr_pll_mul           : 4;  /**< [  3:  0](RO) Coprocessor-clock PLL multiplier hardware limit.  Indicates maximum
+                                                                 value for PNR_MUL[5:1] straps.  Any strap setting above this
+                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
+        uint64_t core_pll_mul          : 5;  /**< [  8:  4](RO) Core-clock PLL multiplier hardware limit. Indicates maximum
+                                                                 value for PLL_MUL[5:1] straps.  Any strap setting above this
+                                                                 value will be ignored.  A value of 0 indicates no hardware limit. */
         uint64_t tns_cripple           : 1;  /**< [  9:  9](RO) When set to 1, TNS switching functionality is permanently disabled. */
         uint64_t hna_info_clm          : 4;  /**< [ 13: 10](RO) Fuse information - HNA information (cluster mask). */
         uint64_t hna_info_dte          : 3;  /**< [ 16: 14](RO) Fuse information - HNA information (DTE). */
         uint64_t nohna_dte             : 1;  /**< [ 17: 17](RO) Fuse information - HNA disable (DTE). */
-        uint64_t ema1                  : 6;  /**< [ 23: 18](RO) Fuse information - EMA1. INTERNAL: Default value is 0x11. Soft or hard blow of these fuses
+        uint64_t ema1                  : 6;  /**< [ 23: 18](RO) Fuse information - EMA1. INTERNAL: Default value is 0x02. Soft or hard blow of these fuses
                                                                  will XOR with this value. */
         uint64_t nodfa_dte             : 1;  /**< [ 24: 24](RO) Fuse information - HFA disable (HTE). */
         uint64_t nozip                 : 1;  /**< [ 25: 25](RO) Fuse information - ZIP disable. */
@@ -549,7 +557,7 @@ typedef union
         uint64_t dfa_info_clm          : 4;  /**< [ 44: 41](RO) Fuse information - HFA information (cluster mask). */
         uint64_t dfa_info_dte          : 3;  /**< [ 47: 45](RO) Fuse information - HFA information (HTE). */
         uint64_t pll_ctl               : 10; /**< [ 57: 48](RO) Reserved. */
-        uint64_t ema0                  : 6;  /**< [ 63: 58](RO) Fuse information - EMA0. INTERNAL: dflt value is 0x02. Soft or hard blow of these fuses
+        uint64_t ema0                  : 6;  /**< [ 63: 58](RO) Fuse information - EMA0. INTERNAL: dflt value is 0x11. Soft or hard blow of these fuses
                                                                  will XOR with this value. */
 #endif /* Word 0 - End */
     } s;
