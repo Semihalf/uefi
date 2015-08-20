@@ -401,7 +401,8 @@ static void bdk_tns_init_pluts(bdk_node_t node)
  */
 int bdk_tns_initialize(bdk_node_t node)
 {
-    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    /* TNS is only allowed on CN88XX with the normal package (not CN86XX) */
+    if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX) || cavium_is_altpkg(CAVIUM_CN88XX))
         return -1;
     int i;
 
