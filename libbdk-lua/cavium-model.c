@@ -16,6 +16,20 @@ static int is_model(lua_State* L)
 }
 
 /**
+ * Lua wrapper for cavium_is_altpkg
+ *
+ * @param L
+ *
+ * @return
+ */
+static int is_altpkg(lua_State* L)
+{
+    uint32_t m = luaL_checkinteger(L, 1);
+    lua_pushboolean(L, cavium_is_altpkg(m));
+    return 1;
+}
+
+/**
  * Called to register the chip model module
  *
  * @param L
@@ -26,6 +40,8 @@ void register_cavium_model(lua_State* L)
 {
     lua_pushcfunction(L, is_model);
     lua_setfield(L, -2, "is_model");
+    lua_pushcfunction(L, is_altpkg);
+    lua_setfield(L, -2, "is_altpkg");
 
     /* Add constants for the different models that can be used with
         cavium.is_model() */

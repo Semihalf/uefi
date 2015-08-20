@@ -43,6 +43,13 @@ static inline uint64_t cavium_get_model()
 #endif
 }
 
+/**
+ * Return non-zero if the chip matech the passed model.
+ *
+ * @param arg_model One of the CAVIUM_* constants for chip models and passes
+ *
+ * @return Non-zero if match
+ */
 static inline int CAVIUM_IS_MODEL(uint32_t arg_model) __attribute__ ((pure, always_inline));
 static inline int CAVIUM_IS_MODEL(uint32_t arg_model)
 {
@@ -61,5 +68,17 @@ static inline int CAVIUM_IS_MODEL(uint32_t arg_model)
         mask = PARTNUM | VARIANT | REVISION;
     return ((arg_model & mask) == (my_model & mask));
 }
+
+/**
+ * Return non-zero if the die is in an alternate package. The
+ * normal is_model() checks will treat alternate package parts
+ * as all the same, where this function can be used to detect
+ * them.
+ *
+ * @param arg_model One of the CAVIUM_* constants for chip models and passes
+ *
+ * @return Non-zero if match
+ */
+extern int cavium_is_altpkg(uint32_t arg_model);
 
 /** @} */
