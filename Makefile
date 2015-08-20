@@ -17,6 +17,7 @@ all: version
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-2s
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804
+	$(MAKE) -C normal-boot BOARD_TYPE=ebb8604
 	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 # REMOVE-RELEASE
 
 #
@@ -35,6 +36,7 @@ clean:
 	$(MAKE) -C normal-boot BOARD_TYPE=crb-2s clean
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800 clean
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804 clean
+	$(MAKE) -C normal-boot BOARD_TYPE=ebb8604 clean
 	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 clean # REMOVE-RELEASE
 	$(MAKE) -C docs clean
 	rm -f target-bin/*.bin
