@@ -1580,6 +1580,8 @@ typedef union
 static inline uint64_t BDK_PKI_ACTIVE0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ACTIVE0_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000220ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000220ll;
     __bdk_csr_fatal("PKI_ACTIVE0", 0, 0, 0, 0, 0);
@@ -1622,6 +1624,8 @@ typedef union
 static inline uint64_t BDK_PKI_ACTIVE1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ACTIVE1_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000230ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000230ll;
     __bdk_csr_fatal("PKI_ACTIVE1", 0, 0, 0, 0, 0);
@@ -1658,6 +1662,8 @@ typedef union
 static inline uint64_t BDK_PKI_ACTIVE2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ACTIVE2_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000240ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000240ll;
     __bdk_csr_fatal("PKI_ACTIVE2", 0, 0, 0, 0, 0);
@@ -1722,6 +1728,8 @@ typedef union
 static inline uint64_t BDK_PKI_AURAX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_AURAX_CFG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=511))
+        return 0x86c000900000ll + 8ll * ((a) & 0x1ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
         return 0x86c000900000ll + 8ll * ((a) & 0x1ff);
     __bdk_csr_fatal("PKI_AURAX_CFG", 1, a, 0, 0, 0);
@@ -1787,6 +1795,8 @@ typedef union
 static inline uint64_t BDK_PKI_BIST_STATUS0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_BIST_STATUS0_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000080ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000080ll;
     __bdk_csr_fatal("PKI_BIST_STATUS0", 0, 0, 0, 0, 0);
@@ -1872,6 +1882,8 @@ typedef union
 static inline uint64_t BDK_PKI_BIST_STATUS1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_BIST_STATUS1_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000088ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000088ll;
     __bdk_csr_fatal("PKI_BIST_STATUS1", 0, 0, 0, 0, 0);
@@ -1939,6 +1951,8 @@ typedef union
 static inline uint64_t BDK_PKI_BIST_STATUS2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_BIST_STATUS2_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000090ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000090ll;
     __bdk_csr_fatal("PKI_BIST_STATUS2", 0, 0, 0, 0, 0);
@@ -2007,6 +2021,8 @@ typedef union
 static inline uint64_t BDK_PKI_BP_TEST0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_BP_TEST0_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000250ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000250ll;
     __bdk_csr_fatal("PKI_BP_TEST0", 0, 0, 0, 0, 0);
@@ -2075,6 +2091,8 @@ typedef union
 static inline uint64_t BDK_PKI_BP_TEST1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_BP_TEST1_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000260ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000260ll;
     __bdk_csr_fatal("PKI_BP_TEST1", 0, 0, 0, 0, 0);
@@ -2143,6 +2161,8 @@ typedef union
 static inline uint64_t BDK_PKI_BP_TEST2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_BP_TEST2_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000270ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000270ll;
     __bdk_csr_fatal("PKI_BP_TEST2", 0, 0, 0, 0, 0);
@@ -2179,6 +2199,8 @@ typedef union
 static inline uint64_t BDK_PKI_BPIDX_STATE(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_BPIDX_STATE(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=511))
+        return 0x86c000b00000ll + 8ll * ((a) & 0x1ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=511))
         return 0x86c000b00000ll + 8ll * ((a) & 0x1ff);
     __bdk_csr_fatal("PKI_BPIDX_STATE", 1, a, 0, 0, 0);
@@ -2253,6 +2275,8 @@ typedef union
 static inline uint64_t BDK_PKI_BUF_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_BUF_CTL_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000100ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000100ll;
     __bdk_csr_fatal("PKI_BUF_CTL", 0, 0, 0, 0, 0);
@@ -2305,6 +2329,8 @@ typedef union
 static inline uint64_t BDK_PKI_CHANX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CHANX_CFG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=4095))
+        return 0x86c000a00000ll + 8ll * ((a) & 0xfff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=4095))
         return 0x86c000a00000ll + 8ll * ((a) & 0xfff);
     __bdk_csr_fatal("PKI_CHANX_CFG", 1, a, 0, 0, 0);
@@ -2370,6 +2396,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_ECC_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c00000c320ll + 0x10000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c320ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_ECC_CTL", 1, a, 0, 0, 0);
@@ -2423,6 +2451,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_ECC_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c00000c200ll + 0x10000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c200ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_ECC_INT", 1, a, 0, 0, 0);
@@ -2473,6 +2503,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1C(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c00000c220ll + 0x10000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c220ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_ECC_INT_ENA_W1C", 1, a, 0, 0, 0);
@@ -2523,6 +2555,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT_ENA_W1S(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c00000c230ll + 0x10000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c230ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_ECC_INT_ENA_W1S", 1, a, 0, 0, 0);
@@ -2573,6 +2607,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_ECC_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_ECC_INT_W1S(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c00000c210ll + 0x10000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c210ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_ECC_INT_W1S", 1, a, 0, 0, 0);
@@ -2626,6 +2662,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c00000c100ll + 0x10000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c100ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_INT", 1, a, 0, 0, 0);
@@ -2666,6 +2704,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1C(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c00000c120ll + 0x10000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c120ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_INT_ENA_W1C", 1, a, 0, 0, 0);
@@ -2706,6 +2746,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT_ENA_W1S(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c00000c130ll + 0x10000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c130ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_INT_ENA_W1S", 1, a, 0, 0, 0);
@@ -2746,6 +2788,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_INT_W1S(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c00000c110ll + 0x10000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c110ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_INT_W1S", 1, a, 0, 0, 0);
@@ -2883,6 +2927,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PCAMX_ACTIONX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PCAMX_ACTIONX(unsigned long a, unsigned long b, unsigned long c)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=191)))
+        return 0x86c000708000ll + 0x10000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=191)))
         return 0x86c000708000ll + 0x10000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xff);
     __bdk_csr_fatal("PKI_CLX_PCAMX_ACTIONX", 3, a, b, c, 0);
@@ -2934,6 +2980,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PCAMX_MATCHX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PCAMX_MATCHX(unsigned long a, unsigned long b, unsigned long c)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=191)))
+        return 0x86c000704000ll + 0x10000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=191)))
         return 0x86c000704000ll + 0x10000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xff);
     __bdk_csr_fatal("PKI_CLX_PCAMX_MATCHX", 3, a, b, c, 0);
@@ -3009,6 +3057,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PCAMX_TERMX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PCAMX_TERMX(unsigned long a, unsigned long b, unsigned long c)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1) && (c<=191)))
+        return 0x86c000700000ll + 0x10000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1) && (c<=191)))
         return 0x86c000700000ll + 0x10000ll * ((a) & 0x1) + 0x1000ll * ((b) & 0x1) + 8ll * ((c) & 0xff);
     __bdk_csr_fatal("PKI_CLX_PCAMX_TERMX", 3, a, b, c, 0);
@@ -3106,6 +3156,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_CFG(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
+        return 0x86c000300040ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000300040ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_PKINDX_CFG", 2, a, b, 0, 0);
@@ -3163,6 +3215,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_KMEMX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_KMEMX(unsigned long a, unsigned long b, unsigned long c)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63) && (c<=15)))
+        return 0x86c000200000ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f) + 8ll * ((c) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63) && (c<=15)))
         return 0x86c000200000ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f) + 8ll * ((c) & 0xf);
     __bdk_csr_fatal("PKI_CLX_PKINDX_KMEMX", 3, a, b, c, 0);
@@ -3214,6 +3268,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_L2_CUSTOM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_L2_CUSTOM(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
+        return 0x86c000300058ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000300058ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_PKINDX_L2_CUSTOM", 2, a, b, 0, 0);
@@ -3253,6 +3309,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_LG_CUSTOM(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_LG_CUSTOM(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
+        return 0x86c000300060ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000300060ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_PKINDX_LG_CUSTOM", 2, a, b, 0, 0);
@@ -3302,6 +3360,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_SKIP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_SKIP(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
+        return 0x86c000300050ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000300050ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_PKINDX_SKIP", 2, a, b, 0, 0);
@@ -3379,6 +3439,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_PKINDX_STYLE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_PKINDX_STYLE(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
+        return 0x86c000300048ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000300048ll + 0x10000ll * ((a) & 0x1) + 0x100ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_PKINDX_STYLE", 2, a, b, 0, 0);
@@ -3431,6 +3493,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_SMEMX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_SMEMX(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=2047)))
+        return 0x86c000400000ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x7ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=2047)))
         return 0x86c000400000ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x7ff);
     __bdk_csr_fatal("PKI_CLX_SMEMX", 2, a, b, 0, 0);
@@ -3466,6 +3530,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_START(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_START(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c00000c330ll + 0x10000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c00000c330ll + 0x10000ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_CLX_START", 1, a, 0, 0, 0);
@@ -3557,6 +3623,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_STYLEX_ALG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_STYLEX_ALG(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
+        return 0x86c000501000ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000501000ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_STYLEX_ALG", 2, a, b, 0, 0);
@@ -3676,6 +3744,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
+        return 0x86c000500000ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000500000ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_STYLEX_CFG", 2, a, b, 0, 0);
@@ -3776,6 +3846,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG2(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLX_STYLEX_CFG2(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=63)))
+        return 0x86c000500800ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=63)))
         return 0x86c000500800ll + 0x10000ll * ((a) & 0x1) + 8ll * ((b) & 0x3f);
     __bdk_csr_fatal("PKI_CLX_STYLEX_CFG2", 2, a, b, 0, 0);
@@ -3816,6 +3888,8 @@ typedef union
 static inline uint64_t BDK_PKI_CLKEN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CLKEN_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000410ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000410ll;
     __bdk_csr_fatal("PKI_CLKEN", 0, 0, 0, 0, 0);
@@ -3857,6 +3931,8 @@ typedef union
 static inline uint64_t BDK_PKI_CONST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CONST_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000000ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000000ll;
     __bdk_csr_fatal("PKI_CONST", 0, 0, 0, 0, 0);
@@ -3898,6 +3974,8 @@ typedef union
 static inline uint64_t BDK_PKI_CONST1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CONST1_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000008ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000008ll;
     __bdk_csr_fatal("PKI_CONST1", 0, 0, 0, 0, 0);
@@ -3939,6 +4017,8 @@ typedef union
 static inline uint64_t BDK_PKI_CONST2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CONST2_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000010ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000010ll;
     __bdk_csr_fatal("PKI_CONST2", 0, 0, 0, 0, 0);
@@ -3974,6 +4054,8 @@ typedef union
 static inline uint64_t BDK_PKI_CONST3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_CONST3_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000018ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000018ll;
     __bdk_csr_fatal("PKI_CONST3", 0, 0, 0, 0, 0);
@@ -4012,6 +4094,8 @@ typedef union
 static inline uint64_t BDK_PKI_DSTATX_STAT0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1023))
+        return 0x86c000c00000ll + 0x40ll * ((a) & 0x3ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x86c000c00000ll + 0x40ll * ((a) & 0x3ff);
     __bdk_csr_fatal("PKI_DSTATX_STAT0", 1, a, 0, 0, 0);
@@ -4050,6 +4134,8 @@ typedef union
 static inline uint64_t BDK_PKI_DSTATX_STAT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1023))
+        return 0x86c000c00008ll + 0x40ll * ((a) & 0x3ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x86c000c00008ll + 0x40ll * ((a) & 0x3ff);
     __bdk_csr_fatal("PKI_DSTATX_STAT1", 1, a, 0, 0, 0);
@@ -4094,6 +4180,8 @@ typedef union
 static inline uint64_t BDK_PKI_DSTATX_STAT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1023))
+        return 0x86c000c00010ll + 0x40ll * ((a) & 0x3ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x86c000c00010ll + 0x40ll * ((a) & 0x3ff);
     __bdk_csr_fatal("PKI_DSTATX_STAT2", 1, a, 0, 0, 0);
@@ -4132,6 +4220,8 @@ typedef union
 static inline uint64_t BDK_PKI_DSTATX_STAT3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT3(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1023))
+        return 0x86c000c00018ll + 0x40ll * ((a) & 0x3ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x86c000c00018ll + 0x40ll * ((a) & 0x3ff);
     __bdk_csr_fatal("PKI_DSTATX_STAT3", 1, a, 0, 0, 0);
@@ -4170,6 +4260,8 @@ typedef union
 static inline uint64_t BDK_PKI_DSTATX_STAT4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_DSTATX_STAT4(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1023))
+        return 0x86c000c00020ll + 0x40ll * ((a) & 0x3ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1023))
         return 0x86c000c00020ll + 0x40ll * ((a) & 0x3ff);
     __bdk_csr_fatal("PKI_DSTATX_STAT4", 1, a, 0, 0, 0);
@@ -4253,6 +4345,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_CTL0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_CTL0_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000060ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000060ll;
     __bdk_csr_fatal("PKI_ECC_CTL0", 0, 0, 0, 0, 0);
@@ -4344,6 +4438,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_CTL1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_CTL1_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000068ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000068ll;
     __bdk_csr_fatal("PKI_ECC_CTL1", 0, 0, 0, 0, 0);
@@ -4385,6 +4481,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_CTL2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_CTL2_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000070ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000070ll;
     __bdk_csr_fatal("PKI_ECC_CTL2", 0, 0, 0, 0, 0);
@@ -4455,6 +4553,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT0_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000840ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000840ll;
     __bdk_csr_fatal("PKI_ECC_INT0", 0, 0, 0, 0, 0);
@@ -4522,6 +4622,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1C_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000860ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000860ll;
     __bdk_csr_fatal("PKI_ECC_INT0_ENA_W1C", 0, 0, 0, 0, 0);
@@ -4589,6 +4691,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT0_ENA_W1S_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000870ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000870ll;
     __bdk_csr_fatal("PKI_ECC_INT0_ENA_W1S", 0, 0, 0, 0, 0);
@@ -4656,6 +4760,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT0_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT0_W1S_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000850ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000850ll;
     __bdk_csr_fatal("PKI_ECC_INT0_W1S", 0, 0, 0, 0, 0);
@@ -4742,6 +4848,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT1_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000880ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000880ll;
     __bdk_csr_fatal("PKI_ECC_INT1", 0, 0, 0, 0, 0);
@@ -4829,6 +4937,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1C_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c0000008a0ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008a0ll;
     __bdk_csr_fatal("PKI_ECC_INT1_ENA_W1C", 0, 0, 0, 0, 0);
@@ -4916,6 +5026,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT1_ENA_W1S_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c0000008b0ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008b0ll;
     __bdk_csr_fatal("PKI_ECC_INT1_ENA_W1S", 0, 0, 0, 0, 0);
@@ -5003,6 +5115,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT1_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT1_W1S_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000890ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000890ll;
     __bdk_csr_fatal("PKI_ECC_INT1_W1S", 0, 0, 0, 0, 0);
@@ -5045,6 +5159,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT2_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c0000008c0ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008c0ll;
     __bdk_csr_fatal("PKI_ECC_INT2", 0, 0, 0, 0, 0);
@@ -5084,6 +5200,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1C_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c0000008e0ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008e0ll;
     __bdk_csr_fatal("PKI_ECC_INT2_ENA_W1C", 0, 0, 0, 0, 0);
@@ -5123,6 +5241,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT2_ENA_W1S_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c0000008f0ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008f0ll;
     __bdk_csr_fatal("PKI_ECC_INT2_ENA_W1S", 0, 0, 0, 0, 0);
@@ -5162,6 +5282,8 @@ typedef union
 static inline uint64_t BDK_PKI_ECC_INT2_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ECC_INT2_W1S_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c0000008d0ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c0000008d0ll;
     __bdk_csr_fatal("PKI_ECC_INT2_W1S", 0, 0, 0, 0, 0);
@@ -5201,6 +5323,8 @@ typedef union
 static inline uint64_t BDK_PKI_FRM_LEN_CHKX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_FRM_LEN_CHKX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c000004000ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c000004000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_FRM_LEN_CHKX", 1, a, 0, 0, 0);
@@ -5325,6 +5449,8 @@ typedef union
 static inline uint64_t BDK_PKI_GBL_PEN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_GBL_PEN_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000200ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000200ll;
     __bdk_csr_fatal("PKI_GBL_PEN", 0, 0, 0, 0, 0);
@@ -5399,6 +5525,8 @@ typedef union
 static inline uint64_t BDK_PKI_GEN_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_GEN_INT_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000800ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000800ll;
     __bdk_csr_fatal("PKI_GEN_INT", 0, 0, 0, 0, 0);
@@ -5454,6 +5582,8 @@ typedef union
 static inline uint64_t BDK_PKI_GEN_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_GEN_INT_ENA_W1C_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000820ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000820ll;
     __bdk_csr_fatal("PKI_GEN_INT_ENA_W1C", 0, 0, 0, 0, 0);
@@ -5509,6 +5639,8 @@ typedef union
 static inline uint64_t BDK_PKI_GEN_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_GEN_INT_ENA_W1S_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000830ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000830ll;
     __bdk_csr_fatal("PKI_GEN_INT_ENA_W1S", 0, 0, 0, 0, 0);
@@ -5564,6 +5696,8 @@ typedef union
 static inline uint64_t BDK_PKI_GEN_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_GEN_INT_W1S_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000810ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000810ll;
     __bdk_csr_fatal("PKI_GEN_INT_W1S", 0, 0, 0, 0, 0);
@@ -5673,6 +5807,8 @@ typedef union
 static inline uint64_t BDK_PKI_ICGX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_ICGX_CFG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x86c00000a000ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x86c00000a000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("PKI_ICGX_CFG", 1, a, 0, 0, 0);
@@ -5708,6 +5844,8 @@ typedef union
 static inline uint64_t BDK_PKI_IMEMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_IMEMX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2047))
+        return 0x86c000100000ll + 8ll * ((a) & 0x7ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2047))
         return 0x86c000100000ll + 8ll * ((a) & 0x7ff);
     __bdk_csr_fatal("PKI_IMEMX", 1, a, 0, 0, 0);
@@ -5747,6 +5885,8 @@ typedef union
 static inline uint64_t BDK_PKI_LTYPEX_MAP(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_LTYPEX_MAP(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=31))
+        return 0x86c000005000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x86c000005000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKI_LTYPEX_MAP", 1, a, 0, 0, 0);
@@ -5783,6 +5923,8 @@ typedef union
 static inline uint64_t BDK_PKI_PBE_ECO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PBE_ECO_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000710ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000710ll;
     __bdk_csr_fatal("PKI_PBE_ECO", 0, 0, 0, 0, 0);
@@ -5831,6 +5973,8 @@ typedef union
 static inline uint64_t BDK_PKI_PCAM_LOOKUP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PCAM_LOOKUP_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000500ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000500ll;
     __bdk_csr_fatal("PKI_PCAM_LOOKUP", 0, 0, 0, 0, 0);
@@ -5882,6 +6026,8 @@ typedef union
 static inline uint64_t BDK_PKI_PCAM_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PCAM_RESULT_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000510ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000510ll;
     __bdk_csr_fatal("PKI_PCAM_RESULT", 0, 0, 0, 0, 0);
@@ -5919,6 +6065,8 @@ typedef union
 static inline uint64_t BDK_PKI_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PF_MSIX_PBAX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x86c0010f0000ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x86c0010f0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("PKI_PF_MSIX_PBAX", 1, a, 0, 0, 0);
@@ -5975,6 +6123,8 @@ typedef union
 static inline uint64_t BDK_PKI_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PF_MSIX_VECX_ADDR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=7))
+        return 0x86c001000000ll + 0x10ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x86c001000000ll + 0x10ll * ((a) & 0x7);
     __bdk_csr_fatal("PKI_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
@@ -6015,6 +6165,8 @@ typedef union
 static inline uint64_t BDK_PKI_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PF_MSIX_VECX_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=7))
+        return 0x86c001000008ll + 0x10ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x86c001000008ll + 0x10ll * ((a) & 0x7);
     __bdk_csr_fatal("PKI_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
@@ -6051,6 +6203,8 @@ typedef union
 static inline uint64_t BDK_PKI_PFE_DIAG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PFE_DIAG_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000560ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000560ll;
     __bdk_csr_fatal("PKI_PFE_DIAG", 0, 0, 0, 0, 0);
@@ -6087,6 +6241,8 @@ typedef union
 static inline uint64_t BDK_PKI_PFE_ECO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PFE_ECO_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000720ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000720ll;
     __bdk_csr_fatal("PKI_PFE_ECO", 0, 0, 0, 0, 0);
@@ -6127,6 +6283,8 @@ typedef union
 static inline uint64_t BDK_PKI_PIX_CLKEN_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PIX_CLKEN_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000600ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000600ll;
     __bdk_csr_fatal("PKI_PIX_CLKEN", 0, 0, 0, 0, 0);
@@ -6163,6 +6321,8 @@ typedef union
 static inline uint64_t BDK_PKI_PIX_DIAG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PIX_DIAG_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000580ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000580ll;
     __bdk_csr_fatal("PKI_PIX_DIAG", 0, 0, 0, 0, 0);
@@ -6199,6 +6359,8 @@ typedef union
 static inline uint64_t BDK_PKI_PIX_ECO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PIX_ECO_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000700ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000700ll;
     __bdk_csr_fatal("PKI_PIX_ECO", 0, 0, 0, 0, 0);
@@ -6238,6 +6400,8 @@ typedef union
 static inline uint64_t BDK_PKI_PKINDX_ICGSEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKINDX_ICGSEL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000010000ll + 8ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000010000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_PKINDX_ICGSEL", 1, a, 0, 0, 0);
@@ -6274,6 +6438,8 @@ typedef union
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000f00000ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000f00000ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_PKNDX_INB_STAT0", 1, a, 0, 0, 0);
@@ -6310,6 +6476,8 @@ typedef union
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000f00008ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000f00008ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_PKNDX_INB_STAT1", 1, a, 0, 0, 0);
@@ -6346,6 +6514,8 @@ typedef union
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKNDX_INB_STAT2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000f00010ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000f00010ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_PKNDX_INB_STAT2", 1, a, 0, 0, 0);
@@ -6384,6 +6554,8 @@ typedef union
 static inline uint64_t BDK_PKI_PKT_ERR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PKT_ERR_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000030ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000030ll;
     __bdk_csr_fatal("PKI_PKT_ERR", 0, 0, 0, 0, 0);
@@ -6439,6 +6611,8 @@ typedef union
 static inline uint64_t BDK_PKI_PTAG_AVAIL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_PTAG_AVAIL_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000130ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000130ll;
     __bdk_csr_fatal("PKI_PTAG_AVAIL", 0, 0, 0, 0, 0);
@@ -6500,6 +6674,8 @@ typedef union
 static inline uint64_t BDK_PKI_QPG_TBLX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_QPG_TBLX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2047))
+        return 0x86c000800000ll + 8ll * ((a) & 0x7ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2047))
         return 0x86c000800000ll + 8ll * ((a) & 0x7ff);
     __bdk_csr_fatal("PKI_QPG_TBLX", 1, a, 0, 0, 0);
@@ -6558,6 +6734,8 @@ typedef union
 static inline uint64_t BDK_PKI_QPG_TBLBX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_QPG_TBLBX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2047))
+        return 0x86c000820000ll + 8ll * ((a) & 0x7ff);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2047))
         return 0x86c000820000ll + 8ll * ((a) & 0x7ff);
     __bdk_csr_fatal("PKI_QPG_TBLBX", 1, a, 0, 0, 0);
@@ -6601,6 +6779,8 @@ typedef union
 static inline uint64_t BDK_PKI_REASM_SOPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_REASM_SOPX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x86c000006000ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x86c000006000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PKI_REASM_SOPX", 1, a, 0, 0, 0);
@@ -6654,6 +6834,8 @@ typedef union
 static inline uint64_t BDK_PKI_REQ_WGT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_REQ_WGT_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000120ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000120ll;
     __bdk_csr_fatal("PKI_REQ_WGT", 0, 0, 0, 0, 0);
@@ -6713,6 +6895,8 @@ typedef union
 static inline uint64_t BDK_PKI_SFT_RST_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_SFT_RST_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000020ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000020ll;
     __bdk_csr_fatal("PKI_SFT_RST", 0, 0, 0, 0, 0);
@@ -6750,6 +6934,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00000ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00000ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST0", 1, a, 0, 0, 0);
@@ -6785,6 +6971,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00008ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00008ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST1", 1, a, 0, 0, 0);
@@ -6820,6 +7008,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00010ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00010ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST2", 1, a, 0, 0, 0);
@@ -6855,6 +7045,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST3(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00018ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00018ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST3", 1, a, 0, 0, 0);
@@ -6890,6 +7082,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST4(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00020ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00020ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST4", 1, a, 0, 0, 0);
@@ -6925,6 +7119,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST5(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00028ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00028ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST5", 1, a, 0, 0, 0);
@@ -6960,6 +7156,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_HIST6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_HIST6(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00030ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00030ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_HIST6", 1, a, 0, 0, 0);
@@ -6995,6 +7193,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00038ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00038ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT0", 1, a, 0, 0, 0);
@@ -7030,6 +7230,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00040ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00040ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT1", 1, a, 0, 0, 0);
@@ -7065,6 +7267,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT10(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT10(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00088ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00088ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT10", 1, a, 0, 0, 0);
@@ -7100,6 +7304,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT11(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT11(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00090ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00090ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT11", 1, a, 0, 0, 0);
@@ -7137,6 +7343,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT12(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT12(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00098ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00098ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT12", 1, a, 0, 0, 0);
@@ -7176,6 +7384,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT13(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT13(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e000a0ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000a0ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT13", 1, a, 0, 0, 0);
@@ -7213,6 +7423,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT14(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT14(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e000a8ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000a8ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT14", 1, a, 0, 0, 0);
@@ -7250,6 +7462,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT15(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT15(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e000b0ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000b0ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT15", 1, a, 0, 0, 0);
@@ -7287,6 +7501,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT16(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT16(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e000b8ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000b8ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT16", 1, a, 0, 0, 0);
@@ -7324,6 +7540,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT17(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT17(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e000c0ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000c0ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT17", 1, a, 0, 0, 0);
@@ -7361,6 +7579,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT18(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT18(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e000c8ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e000c8ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT18", 1, a, 0, 0, 0);
@@ -7396,6 +7616,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00048ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00048ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT2", 1, a, 0, 0, 0);
@@ -7431,6 +7653,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT3(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00050ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00050ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT3", 1, a, 0, 0, 0);
@@ -7466,6 +7690,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT4(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00058ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00058ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT4", 1, a, 0, 0, 0);
@@ -7503,6 +7729,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT5(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT5(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00060ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00060ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT5", 1, a, 0, 0, 0);
@@ -7540,6 +7768,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT6(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT6(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00068ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00068ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT6", 1, a, 0, 0, 0);
@@ -7575,6 +7805,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT7(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT7(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00070ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00070ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT7", 1, a, 0, 0, 0);
@@ -7610,6 +7842,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT8(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT8(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00078ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00078ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT8", 1, a, 0, 0, 0);
@@ -7645,6 +7879,8 @@ typedef union
 static inline uint64_t BDK_PKI_STATX_STAT9(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STATX_STAT9(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000e00080ll + 0x100ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000e00080ll + 0x100ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STATX_STAT9", 1, a, 0, 0, 0);
@@ -7700,6 +7936,8 @@ typedef union
 static inline uint64_t BDK_PKI_STAT_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STAT_CTL_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000110ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000110ll;
     __bdk_csr_fatal("PKI_STAT_CTL", 0, 0, 0, 0, 0);
@@ -7865,6 +8103,8 @@ typedef union
 static inline uint64_t BDK_PKI_STYLEX_BUF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_BUF(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000024000ll + 8ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000024000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STYLEX_BUF", 1, a, 0, 0, 0);
@@ -7906,6 +8146,8 @@ typedef union
 static inline uint64_t BDK_PKI_STYLEX_TAG_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_TAG_MASK(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000021000ll + 8ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000021000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STYLEX_TAG_MASK", 1, a, 0, 0, 0);
@@ -7957,6 +8199,8 @@ typedef union
 static inline uint64_t BDK_PKI_STYLEX_TAG_SEL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_TAG_SEL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000020000ll + 8ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000020000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STYLEX_TAG_SEL", 1, a, 0, 0, 0);
@@ -7996,6 +8240,8 @@ typedef union
 static inline uint64_t BDK_PKI_STYLEX_WQ2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_WQ2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000022000ll + 8ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000022000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STYLEX_WQ2", 1, a, 0, 0, 0);
@@ -8035,6 +8281,8 @@ typedef union
 static inline uint64_t BDK_PKI_STYLEX_WQ4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_STYLEX_WQ4(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=63))
+        return 0x86c000023000ll + 8ll * ((a) & 0x3f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=63))
         return 0x86c000023000ll + 8ll * ((a) & 0x3f);
     __bdk_csr_fatal("PKI_STYLEX_WQ4", 1, a, 0, 0, 0);
@@ -8112,6 +8360,8 @@ typedef union
 static inline uint64_t BDK_PKI_TAG_INCX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_TAG_INCX_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=31))
+        return 0x86c000007000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x86c000007000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKI_TAG_INCX_CTL", 1, a, 0, 0, 0);
@@ -8147,6 +8397,8 @@ typedef union
 static inline uint64_t BDK_PKI_TAG_INCX_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_TAG_INCX_MASK(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=31))
+        return 0x86c000008000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
         return 0x86c000008000ll + 8ll * ((a) & 0x1f);
     __bdk_csr_fatal("PKI_TAG_INCX_MASK", 1, a, 0, 0, 0);
@@ -8197,6 +8449,8 @@ typedef union
 static inline uint64_t BDK_PKI_TAG_SECRET_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_TAG_SECRET_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000430ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000430ll;
     __bdk_csr_fatal("PKI_TAG_SECRET", 0, 0, 0, 0, 0);
@@ -8235,6 +8489,8 @@ typedef union
 static inline uint64_t BDK_PKI_X2P_REQ_OFL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PKI_X2P_REQ_OFL_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x86c000000038ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x86c000000038ll;
     __bdk_csr_fatal("PKI_X2P_REQ_OFL", 0, 0, 0, 0, 0);

@@ -263,7 +263,8 @@ typedef union
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_mio_fus_dat2_cn83xx
+    /* struct bdk_mio_fus_dat2_s cn88xxp1; */
+    struct bdk_mio_fus_dat2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_59_63        : 5;
@@ -356,7 +357,8 @@ typedef union
                                                                  0x4-0x7 = reserved. */
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_mio_fus_dat2_cn81xx cn83xx; */
     struct bdk_mio_fus_dat2_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -453,7 +455,6 @@ typedef union
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_mio_fus_dat2_s cn88xxp1; */
 } bdk_mio_fus_dat2_t;
 
 #define BDK_MIO_FUS_DAT2 BDK_MIO_FUS_DAT2_FUNC()
@@ -829,6 +830,8 @@ typedef union
 static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_MIO_FUS_PNAMEX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e003001440ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e003001440ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))

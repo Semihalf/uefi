@@ -144,89 +144,132 @@
 #define BDK_L2C_TAD_PRF_SEL_E_L2_RTG_VIC (0x44) /**< L2 RTG victim. */
 #define BDK_L2C_TAD_PRF_SEL_E_L2_VIC (4) /**< L2 dirty victim. (deprecated) */
 #define BDK_L2C_TAD_PRF_SEL_E_LFB_OCC (7) /**< LFB occupancy (each cycle adds number of LFBs valid). */
+#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_CN81XX (0x4e) /**< LMC writes sent (all kinds). */
 #define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_CN88XX (0x4e) /**< LMC writes sent (all kinds). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_CN83XX (0x4e) /**< LMC writes sent (all kinds). */
+#define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_SBLKDTY_CN81XX (0x4f) /**< LMC write cumulative sblkdty bits set. */
 #define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_SBLKDTY_CN88XX (0x4f) /**< LMC write cumulative sblkdty bits set. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_LMC_WR_SBLKDTY_CN83XX (0x4f) /**< LMC write cumulative sblkdty bits set. */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_CN81XX (0x40) /**< Total TAG/RTG successful lookups (all sources, NOT including retried for
+                                       conflicts). */
 #define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_CN88XX (0x40) /**< Total TAG/RTG successful lookups (all sources, NOT including retried for
                                        conflicts). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_CN83XX (0x40) /**< Total TAG/RTG successful lookups (all sources, NOT including retried for
                                        conflicts). */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_ALL_CN81XX (0x44) /**< Total TAG/RTG lookups (all sources, including retried for conflicts). */
 #define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_ALL_CN88XX (0x44) /**< Total TAG/RTG lookups (all sources, including retried for conflicts). Changed in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_ALL_CN83XX (0x44) /**< Total TAG/RTG lookups (all sources, including retried for conflicts). */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_MIB_CN81XX (0x43) /**< Total TAG/RTG successful lookups from MIB. */
 #define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_MIB_CN88XX (0x43) /**< Total TAG/RTG successful lookups from MIB. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_MIB_CN83XX (0x43) /**< Total TAG/RTG successful lookups from MIB. */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_LCL_CN81XX (0x41) /**< Total TAG/RTG successful lookups from XMC/local address. */
 #define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_LCL_CN88XX (0x41) /**< Total TAG/RTG successful lookups from XMC/local address. Changed in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_LCL_CN83XX (0x41) /**< Total TAG/RTG successful lookups from XMC/local address. */
+#define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_RMT_CN81XX (0x42) /**< Total TAG/RTG successful lookups from XMC/remote address. */
 #define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_RMT_CN88XX (0x42) /**< Total TAG/RTG successful lookups from XMC/remote address. Changed in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_LOOKUP_XMC_RMT_CN83XX (0x42) /**< Total TAG/RTG successful lookups from XMC/remote address. */
 #define BDK_L2C_TAD_PRF_SEL_E_NONE (0) /**< Nothing (disabled). */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_DAT_CN81XX (0x6d) /**< FLDRS/FLDX that hit TAG E with dmask!=0 (these 2 to measure if worth optimizing
+                                       the HAKD no data case). */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_DAT_CN88XX (0x6d) /**< FLDRS/FLDX that hit TAG E with dmask!=0 (these 2 to measure if worth optimizing
                                        the HAKD no data case). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_DAT_CN83XX (0x6d) /**< FLDRS/FLDX that hit TAG E with dmask!=0 (these 2 to measure if worth optimizing
                                        the HAKD no data case). */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_NODAT_CN81XX (0x6c) /**< FLDRS/FLDX that hit TAG E with dmask=0. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_NODAT_CN88XX (0x6c) /**< FLDRS/FLDX that hit TAG E with dmask=0. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_FLDX_TAG_E_NODAT_CN83XX (0x6c) /**< FLDRS/FLDX that hit TAG E with dmask=0. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_CYC_HIT_CN81XX (0x69) /**< OCI forwards which hit CCPI open cycle. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_CYC_HIT_CN88XX (0x69) /**< OCI forwards which hit CCPI open cycle. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_CYC_HIT_CN83XX (0x69) /**< OCI forwards which hit CCPI open cycle. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_RACE_CN81XX (0x6a) /**< OCI received HAKI/HAKS/HAKV (forward race case). */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_RACE_CN88XX (0x6a) /**< OCI received HAKI/HAKS/HAKV (forward race case). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_FWD_RACE_CN83XX (0x6a) /**< OCI received HAKI/HAKS/HAKV (forward race case). */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_HAKS_CN81XX (0x6b) /**< OCI received HAKS (forward race case transition to shared). */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_HAKS_CN88XX (0x6b) /**< OCI received HAKS (forward race case transition to shared). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_HAKS_CN83XX (0x6b) /**< OCI received HAKS (forward race case transition to shared). */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_CN81XX (0x6e) /**< OCI RLDD requests received. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_CN88XX (0x6e) /**< OCI RLDD requests received. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_CN83XX (0x6e) /**< OCI RLDD requests received. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_PEMD_CN81XX (0x6f) /**< OCI RLDD requests received that are sent a PEMD response (to gauge the RLDD to
+                                       S/E flag). */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_PEMD_CN88XX (0x6f) /**< OCI RLDD requests received that are sent a PEMD response (to gauge the RLDD to
                                        S/E flag). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RLDD_PEMD_CN83XX (0x6f) /**< OCI RLDD requests received that are sent a PEMD response (to gauge the RLDD to
                                        S/E flag). */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_CNT_CN81XX (0x70) /**< OCI RRQ w/data received count. Note that MREQ byte type requests are
+                                       excluded. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_CNT_CN88XX (0x70) /**< OCI RRQ w/data received count. Note that MREQ byte type requests are
                                        excluded. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_CNT_CN83XX (0x70) /**< OCI RRQ w/data received count. Note that MREQ byte type requests are
                                        excluded. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_DMASK_CN81XX (0x71) /**< OCI RRQ w/data received cumulative dmask bits set. Note that MREQ byte type
+                                       requests are excluded. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_DMASK_CN88XX (0x71) /**< OCI RRQ w/data received cumulative dmask bits set. Note that MREQ byte type
                                        requests are excluded. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RRQ_DAT_DMASK_CN83XX (0x71) /**< OCI RRQ w/data received cumulative dmask bits set. Note that MREQ byte type
                                        requests are excluded. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_CNT_CN81XX (0x72) /**< OCI RSP w/data received count (HAKD/Pxxx/VICD/VICDHI with dmask!=0). Note that
+                                       PATM is excluded from the count. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_CNT_CN88XX (0x72) /**< OCI RSP w/data received count (HAKD/Pxxx/VICD/VICDHI with dmask!=0). Note that
                                        PATM is excluded from the count. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_CNT_CN83XX (0x72) /**< OCI RSP w/data received count (HAKD/Pxxx/VICD/VICDHI with dmask!=0). Note that
+                                       PATM is excluded from the count. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_DMASK_CN81XX (0x73) /**< OCI RSP (HAKD/Pxxx/VICD/VICDHI) received cumulative dmask bits set. Note that
                                        PATM is excluded from the count. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_DMASK_CN88XX (0x73) /**< OCI RSP (HAKD/Pxxx/VICD/VICDHI) received cumulative dmask bits set. Note that
                                        PATM is excluded from the count. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_DMASK_CN83XX (0x73) /**< OCI RSP (HAKD/Pxxx/VICD/VICDHI) received cumulative dmask bits set. Note that
                                        PATM is excluded from the count. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_CNT_CN81XX (0x74) /**< OCI RSP VICD/VICDHI with dmask!=0 received count. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_CNT_CN88XX (0x74) /**< OCI RSP VICD/VICDHI with dmask!=0 received count. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_CNT_CN83XX (0x74) /**< OCI RSP VICD/VICDHI with dmask!=0 received count. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_DMASK_CN81XX (0x75) /**< OCI RSP VICD/VICDHI received cumulative dmask bits set. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_DMASK_CN88XX (0x75) /**< OCI RSP VICD/VICDHI received cumulative dmask bits set. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RSP_DAT_VICD_DMASK_CN83XX (0x75) /**< OCI RSP VICD/VICDHI received cumulative dmask bits set. */
+#define BDK_L2C_TAD_PRF_SEL_E_OCI_RTG_WAIT_CN81XX (0x68) /**< OCI must wait for VICx (RTG state does not match request). */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RTG_WAIT_CN88XX (0x68) /**< OCI must wait for VICx (RTG state does not match request). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OCI_RTG_WAIT_CN83XX (0x68) /**< OCI must wait for VICx (RTG state does not match request). */
+#define BDK_L2C_TAD_PRF_SEL_E_OPEN_CCPI_CN81XX (0xa) /**< LFB open CCPI cycle (each cycle adds number of LFBs with an open CCPI
+                                       cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_OPEN_CCPI_CN88XX (0xa) /**< LFB open CCPI cycle (each cycle adds number of LFBs with an open CCPI
                                        cycle). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OPEN_CCPI_CN83XX (0xa) /**< LFB open CCPI cycle (each cycle adds number of LFBs with an open CCPI
                                        cycle). */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN81XX(a) (0x82 + 0x10 * (a)) /**< (0..7)Quad(0..3) number of banks in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN88XX(a) (0x82 + 0x10 * (a)) /**< (0..7)Quad(0..7) number of banks in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN83XX(a) (0x82 + 0x10 * (a)) /**< (0..7)Quad(0..3) number of banks in use (0-4/cycle). */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN81XX(a) (0x80 + 0x10 * (a)) /**< (0..7)Quad(0..3) index bus in use. */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN88XX(a) (0x80 + 0x10 * (a)) /**< (0..7)Quad(0..7) index bus in use. */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN83XX(a) (0x80 + 0x10 * (a)) /**< (0..7)Quad(0..3) index bus in use. */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN81XX(a) (0x81 + 0x10 * (a)) /**< (0..7)Quad(0..3) read data bus in use. */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN88XX(a) (0x81 + 0x10 * (a)) /**< (0..7)Quad(0..7) read data bus in use. */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN83XX(a) (0x81 + 0x10 * (a)) /**< (0..7)Quad(0..3) read data bus in use. */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN81XX(a) (0x83 + 0x10 * (a)) /**< (0..7)Quad(0..3) write data flops in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN88XX(a) (0x83 + 0x10 * (a)) /**< (0..7)Quad(0..7) write data flops in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN83XX(a) (0x83 + 0x10 * (a)) /**< (0..7)Quad(0..3) write data flops in use (0-4/cycle). */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_CN81XX (0x5d) /**< Total (allocates RTG - MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_CN88XX (0x5d) /**< Total (allocates RTG - MIB). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_CN83XX (0x5d) /**< Total (allocates RTG - MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_EVICT_CN81XX (0x76) /**< RTG evict (shared evict). */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_EVICT_CN88XX (0x76) /**< RTG evict (shared evict). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_EVICT_CN83XX (0x76) /**< RTG evict (shared evict). */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HIT_CN81XX (0x5e) /**< TAG hits (allocates RTG - MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HIT_CN88XX (0x5e) /**< TAG hits (allocates RTG - MIB). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HIT_CN83XX (0x5e) /**< TAG hits (allocates RTG - MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HITWB_CN81XX (0x5f) /**< TAG hits with writeback to LMC (allocates RTG - MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HITWB_CN88XX (0x5f) /**< TAG hits with writeback to LMC (allocates RTG - MIB). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_HITWB_CN83XX (0x5f) /**< TAG hits with writeback to LMC (allocates RTG - MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_VIC_CN81XX (0x77) /**< RTG victim (exclusive evict). */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_VIC_CN88XX (0x77) /**< RTG victim (exclusive evict). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_VIC_CN83XX (0x77) /**< RTG victim (exclusive evict). */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_HIT (0x41) /**< L2 RTG hit. */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_MISS (0x42) /**< L2 RTG miss. */
 #define BDK_L2C_TAD_PRF_SEL_E_SC_FAIL (5) /**< Store-conditional fail. (deprecated) */
 #define BDK_L2C_TAD_PRF_SEL_E_SC_PASS (6) /**< Store-conditional pass. (deprecated) */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_CN81XX (0x64) /**< STC/CAS handled on local node count. All local address STC/CAS are handled on
+                                       the local node as are STC/CAS to remote addresses in lock local mode (see
+                                       L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]). In addition, STC/CAS to remote address
+                                       which TAG hit E are also handled on the local node. */
 #define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_CN88XX (0x64) /**< STC/CAS handled on local node count. All local address STC/CAS are handled on
                                        the local node as are STC/CAS to remote addresses in lock local mode (see
                                        L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]). In addition, STC/CAS to remote address
@@ -235,58 +278,84 @@
                                        the local node as are STC/CAS to remote addresses in lock local mode (see
                                        L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]). In addition, STC/CAS to remote address
                                        which TAG hit E are also handled on the local node. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_FAIL_CN81XX (0x65) /**< STC/CAS handled on local node fail. See STC_LCL for definition of which STC/CAS
+                                       are handled on the local node. */
 #define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_FAIL_CN88XX (0x65) /**< STC/CAS handled on local node fail. See STC_LCL for definition of which STC/CAS
                                        are handled on the local node. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_STC_LCL_FAIL_CN83XX (0x65) /**< STC/CAS handled on local node fail. See STC_LCL for definition of which STC/CAS
                                        are handled on the local node. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_CN81XX (0x62) /**< STC/CAS handled off node count. STC/CAS to remote addresses in lock remote mode
+                                       (see L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]) which TAG miss or TAG hit S are handled
+                                       on the remote (home) node. */
 #define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_CN88XX (0x62) /**< STC/CAS handled off node count. STC/CAS to remote addresses in lock remote mode
                                        (see L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]) which TAG miss or TAG hit S are handled
                                        on the remote (home) node. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_CN83XX (0x62) /**< STC/CAS handled off node count. STC/CAS to remote addresses in lock remote mode
                                        (see L2C_OCI_CTL[LOCK_LOCAL_CAS/STC/PP]) which TAG miss or TAG hit S are handled
                                        on the remote (home) node. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_FAIL_CN81XX (0x63) /**< CCPI P2DF responses received. */
 #define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_FAIL_CN88XX (0x63) /**< CCPI P2DF responses received. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_STC_RMT_FAIL_CN83XX (0x63) /**< CCPI P2DF responses received. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_CN81XX (0x60) /**< STC/CAS total count. */
 #define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_CN88XX (0x60) /**< STC/CAS total count. Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_CN83XX (0x60) /**< STC/CAS total count. */
+#define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_FAIL_CN81XX (0x61) /**< STC/CAS total fail (does not include off node CAS failures). */
 #define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_FAIL_CN88XX (0x61) /**< STC/CAS total fail (does not include off node CAS failures). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_STC_TOTAL_FAIL_CN83XX (0x61) /**< STC/CAS total fail (does not include off node CAS failures). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_HIT_CN81XX (0x48) /**< TAG hit (normally allocates TAG on miss - XMC & MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_HIT_CN88XX (0x48) /**< TAG hit (normally allocates TAG on miss - XMC & MIB). Changed in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_HIT_CN83XX (0x48) /**< TAG hit (normally allocates TAG on miss - XMC & MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_CLNVIC_CN81XX (0x59) /**< TAG victim, local address (Exclusive clean victim). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_CLNVIC_CN88XX (0x59) /**< TAG victim, local address (Exclusive clean victim). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_CLNVIC_CN83XX (0x59) /**< TAG victim, local address (Exclusive clean victim). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_DTYVIC_CN81XX (0x5a) /**< TAG victim, local address (Exclusive dirty victim). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_DTYVIC_CN88XX (0x5a) /**< TAG victim, local address (Exclusive dirty victim). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_DTYVIC_CN83XX (0x5a) /**< TAG victim, local address (Exclusive dirty victim). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_EVICT_CN81XX (0x58) /**< TAG evict, local address (any kind). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_EVICT_CN88XX (0x58) /**< TAG evict, local address (any kind). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_LCL_EVICT_CN83XX (0x58) /**< TAG evict, local address (any kind). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_MISS_CN81XX (0x49) /**< TAG miss (normally allocates TAG on miss - XMC & MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_MISS_CN88XX (0x49) /**< TAG miss (normally allocates TAG on miss - XMC & MIB). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_MISS_CN83XX (0x49) /**< TAG miss (normally allocates TAG on miss - XMC & MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_NALC_CN81XX (0x4a) /**< TAG noalloc (normally allocates TAG on miss - XMC & MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_NALC_CN88XX (0x4a) /**< TAG noalloc (normally allocates TAG on miss - XMC & MIB). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_NALC_CN83XX (0x4a) /**< TAG noalloc (normally allocates TAG on miss - XMC & MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_EVICT_CN81XX (0x5b) /**< TAG evict, remote address (any kind). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_EVICT_CN88XX (0x5b) /**< TAG evict, remote address (any kind). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_EVICT_CN83XX (0x5b) /**< TAG evict, remote address (any kind). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_VIC_CN81XX (0x5c) /**< TAG evict, remote address (Exclusive). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_VIC_CN88XX (0x5c) /**< TAG evict, remote address (Exclusive). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RMT_VIC_CN83XX (0x5c) /**< TAG evict, remote address (Exclusive). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HIT_CN81XX (0x50) /**< RTG hit S/E (allocates TAG on miss - XMC local address). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HIT_CN88XX (0x50) /**< RTG hit S/E (allocates TAG on miss - XMC local address). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HIT_CN83XX (0x50) /**< RTG hit S/E (allocates TAG on miss - XMC local address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITE_CN81XX (0x51) /**< RTG hit E (allocates TAG on miss - XMC local address). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITE_CN88XX (0x51) /**< RTG hit E (allocates TAG on miss - XMC local address). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITE_CN83XX (0x51) /**< RTG hit E (allocates TAG on miss - XMC local address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITS_CN81XX (0x52) /**< RTG hit S forward sent (allocates TAG on miss - XMC local address). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITS_CN88XX (0x52) /**< RTG hit S forward sent (allocates TAG on miss - XMC local address). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_HITS_CN83XX (0x52) /**< RTG hit S forward sent (allocates TAG on miss - XMC local address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_MISS_CN81XX (0x53) /**< RTG miss (allocates TAG on miss - XMC local address). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_MISS_CN88XX (0x53) /**< RTG miss (allocates TAG on miss - XMC local address). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_ALC_RTG_MISS_CN83XX (0x53) /**< RTG miss (allocates TAG on miss - XMC local address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_HIT_CN81XX (0x4b) /**< TAG hit (does not allocate TAG or RTG on miss - XMC & MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_HIT_CN88XX (0x4b) /**< TAG hit (does not allocate TAG or RTG on miss - XMC & MIB). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_HIT_CN83XX (0x4b) /**< TAG hit (does not allocate TAG or RTG on miss - XMC & MIB). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_MISS_CN81XX (0x4c) /**< TAG miss (does not allocate TAG or RTG on miss - XMC & MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_MISS_CN88XX (0x4c) /**< TAG miss (does not allocate TAG or RTG on miss - XMC & MIB). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_MISS_CN83XX (0x4c) /**< TAG miss (does not allocate TAG or RTG on miss - XMC & MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HIT (0x54) /**< RTG hit S/E (does not allocate TAG on miss - XMC local address). Added in pass
                                        2. */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITE_CN81XX (0x56) /**< RTG hit E (does not allocate TAG on miss - XMC local address). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITE_CN88XX (0x56) /**< RTG hit E (does not allocate TAG on miss - XMC local address). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITE_CN83XX (0x56) /**< RTG hit E (does not allocate TAG on miss - XMC local address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITS_CN81XX (0x57) /**< RTG hit S forward sent (does not allocate TAG on miss - XMC local
+                                       address). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITS_CN88XX (0x57) /**< RTG hit S forward sent (does not allocate TAG on miss - XMC local
                                        address). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_HITS_CN83XX (0x57) /**< RTG hit S forward sent (does not allocate TAG on miss - XMC local
                                        address). */
+#define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_MISS_CN81XX (0x55) /**< RTG miss (does not allocate TAG on miss - XMC local address). */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_MISS_CN88XX (0x55) /**< RTG miss (does not allocate TAG on miss - XMC local address). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_TAG_NALC_RTG_MISS_CN83XX (0x55) /**< RTG miss (does not allocate TAG on miss - XMC local address). */
 #define BDK_L2C_TAD_PRF_SEL_E_WAIT_LFB (8) /**< LFB wait LFB (each cycle adds number of LFBs waiting for other LFBs). */
@@ -667,6 +736,8 @@ typedef union
 static inline uint64_t BDK_L2C_CBCX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_BIST_STATUS(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0580a0000ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0580a0000ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -723,6 +794,8 @@ typedef union
 static inline uint64_t BDK_L2C_CBCX_DLL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_DLL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e058040000ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e058040000ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -759,6 +832,8 @@ typedef union
 static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_IOCERR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e058080010ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e058080010ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -809,6 +884,8 @@ typedef union
 static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_IODISOCIERR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e058080008ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e058080008ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -865,6 +942,8 @@ typedef union
 static inline uint64_t BDK_L2C_CBCX_MIBERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_MIBERR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e058080020ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e058080020ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -920,6 +999,8 @@ typedef union
 static inline uint64_t BDK_L2C_CBCX_RSDERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_CBCX_RSDERR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e058080018ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e058080018ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -995,7 +1076,63 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_l2c_ctl_cn83xx
+    struct bdk_l2c_ctl_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t ocla_qos              : 3;  /**< [ 31: 29](R/W) QOS level for the transactions from OCLA to L2C. */
+        uint64_t reserved_28           : 1;
+        uint64_t disstgl2i             : 1;  /**< [ 27: 27](R/W) Disable STGL2Is from changing the tags. */
+        uint64_t reserved_25_26        : 2;
+        uint64_t discclk               : 1;  /**< [ 24: 24](R/W) Disable conditional clocking in L2C PNR blocks. */
+        uint64_t reserved_16_23        : 8;
+        uint64_t rsp_arb_mode          : 1;  /**< [ 15: 15](R/W) Arbitration mode for RSC/RSD bus. 0 = round-robin; 1 = static priority.
+                                                                 1. IOR data.
+                                                                 2. STIN/FILLs.
+                                                                 3. STDN/SCDN/SCFL. */
+        uint64_t xmc_arb_mode          : 1;  /**< [ 14: 14](R/W) Arbitration mode for ADD bus QOS queues. 0 = fully determined through QOS, 1 = QOS0
+                                                                 highest priority; QOS 1-7 use normal mode. */
+        uint64_t rdf_cnt               : 8;  /**< [ 13:  6](R/W) Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
+                                                                 For optimal performance set to
+                                                                 10 * (DDR-clock period/core-clock period) - 1.
+                                                                 To disable set to 0. All other values are reserved. */
+        uint64_t reserved_5            : 1;
+        uint64_t reserved_4            : 1;
+        uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
+        uint64_t dissblkdty            : 1;  /**< [  2:  2](R/W) Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
+                                                                 sub-blocks when possible. In an CCPI system all nodes must use the same setting of
+                                                                 DISSBLKDTY or operation is undefined. */
+        uint64_t disecc                : 1;  /**< [  1:  1](R/W) Tag and data ECC disable. */
+        uint64_t disidxalias           : 1;  /**< [  0:  0](R/W) Index alias disable. */
+#else /* Word 0 - Little Endian */
+        uint64_t disidxalias           : 1;  /**< [  0:  0](R/W) Index alias disable. */
+        uint64_t disecc                : 1;  /**< [  1:  1](R/W) Tag and data ECC disable. */
+        uint64_t dissblkdty            : 1;  /**< [  2:  2](R/W) Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
+                                                                 sub-blocks when possible. In an CCPI system all nodes must use the same setting of
+                                                                 DISSBLKDTY or operation is undefined. */
+        uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
+        uint64_t reserved_4            : 1;
+        uint64_t reserved_5            : 1;
+        uint64_t rdf_cnt               : 8;  /**< [ 13:  6](R/W) Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
+                                                                 For optimal performance set to
+                                                                 10 * (DDR-clock period/core-clock period) - 1.
+                                                                 To disable set to 0. All other values are reserved. */
+        uint64_t xmc_arb_mode          : 1;  /**< [ 14: 14](R/W) Arbitration mode for ADD bus QOS queues. 0 = fully determined through QOS, 1 = QOS0
+                                                                 highest priority; QOS 1-7 use normal mode. */
+        uint64_t rsp_arb_mode          : 1;  /**< [ 15: 15](R/W) Arbitration mode for RSC/RSD bus. 0 = round-robin; 1 = static priority.
+                                                                 1. IOR data.
+                                                                 2. STIN/FILLs.
+                                                                 3. STDN/SCDN/SCFL. */
+        uint64_t reserved_16_23        : 8;
+        uint64_t discclk               : 1;  /**< [ 24: 24](R/W) Disable conditional clocking in L2C PNR blocks. */
+        uint64_t reserved_25_26        : 2;
+        uint64_t disstgl2i             : 1;  /**< [ 27: 27](R/W) Disable STGL2Is from changing the tags. */
+        uint64_t reserved_28           : 1;
+        uint64_t ocla_qos              : 3;  /**< [ 31: 29](R/W) QOS level for the transactions from OCLA to L2C. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+    struct bdk_l2c_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -1050,7 +1187,8 @@ typedef union
         uint64_t ocla_qos              : 3;  /**< [ 31: 29](R/W) QOS level for the transactions from OCLA to L2C. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_l2c_ctl_cn81xx cn83xx; */
     struct bdk_l2c_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1109,62 +1247,6 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_l2c_ctl_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t ocla_qos              : 3;  /**< [ 31: 29](R/W) QOS level for the transactions from OCLA to L2C. */
-        uint64_t reserved_28           : 1;
-        uint64_t disstgl2i             : 1;  /**< [ 27: 27](R/W) Disable STGL2Is from changing the tags. */
-        uint64_t reserved_25_26        : 2;
-        uint64_t discclk               : 1;  /**< [ 24: 24](R/W) Disable conditional clocking in L2C PNR blocks. */
-        uint64_t reserved_16_23        : 8;
-        uint64_t rsp_arb_mode          : 1;  /**< [ 15: 15](R/W) Arbitration mode for RSC/RSD bus. 0 = round-robin; 1 = static priority.
-                                                                 1. IOR data.
-                                                                 2. STIN/FILLs.
-                                                                 3. STDN/SCDN/SCFL. */
-        uint64_t xmc_arb_mode          : 1;  /**< [ 14: 14](R/W) Arbitration mode for ADD bus QOS queues. 0 = fully determined through QOS, 1 = QOS0
-                                                                 highest priority; QOS 1-7 use normal mode. */
-        uint64_t rdf_cnt               : 8;  /**< [ 13:  6](R/W) Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
-                                                                 For optimal performance set to
-                                                                 10 * (DDR-clock period/core-clock period) - 1.
-                                                                 To disable set to 0. All other values are reserved. */
-        uint64_t reserved_5            : 1;
-        uint64_t reserved_4            : 1;
-        uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
-        uint64_t dissblkdty            : 1;  /**< [  2:  2](R/W) Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
-                                                                 sub-blocks when possible. In an CCPI system all nodes must use the same setting of
-                                                                 DISSBLKDTY or operation is undefined. */
-        uint64_t disecc                : 1;  /**< [  1:  1](R/W) Tag and data ECC disable. */
-        uint64_t disidxalias           : 1;  /**< [  0:  0](R/W) Index alias disable. */
-#else /* Word 0 - Little Endian */
-        uint64_t disidxalias           : 1;  /**< [  0:  0](R/W) Index alias disable. */
-        uint64_t disecc                : 1;  /**< [  1:  1](R/W) Tag and data ECC disable. */
-        uint64_t dissblkdty            : 1;  /**< [  2:  2](R/W) Disable bandwidth optimization between L2 and LMC and MOB which only transfers modified
-                                                                 sub-blocks when possible. In an CCPI system all nodes must use the same setting of
-                                                                 DISSBLKDTY or operation is undefined. */
-        uint64_t disldwb               : 1;  /**< [  3:  3](R/W) Suppresses the DWB functionality of any received LDWB, effectively turning them into LDTs. */
-        uint64_t reserved_4            : 1;
-        uint64_t reserved_5            : 1;
-        uint64_t rdf_cnt               : 8;  /**< [ 13:  6](R/W) Defines the sample point of the LMC response data in the DDR-clock/core-clock crossing.
-                                                                 For optimal performance set to
-                                                                 10 * (DDR-clock period/core-clock period) - 1.
-                                                                 To disable set to 0. All other values are reserved. */
-        uint64_t xmc_arb_mode          : 1;  /**< [ 14: 14](R/W) Arbitration mode for ADD bus QOS queues. 0 = fully determined through QOS, 1 = QOS0
-                                                                 highest priority; QOS 1-7 use normal mode. */
-        uint64_t rsp_arb_mode          : 1;  /**< [ 15: 15](R/W) Arbitration mode for RSC/RSD bus. 0 = round-robin; 1 = static priority.
-                                                                 1. IOR data.
-                                                                 2. STIN/FILLs.
-                                                                 3. STDN/SCDN/SCFL. */
-        uint64_t reserved_16_23        : 8;
-        uint64_t discclk               : 1;  /**< [ 24: 24](R/W) Disable conditional clocking in L2C PNR blocks. */
-        uint64_t reserved_25_26        : 2;
-        uint64_t disstgl2i             : 1;  /**< [ 27: 27](R/W) Disable STGL2Is from changing the tags. */
-        uint64_t reserved_28           : 1;
-        uint64_t ocla_qos              : 3;  /**< [ 31: 29](R/W) QOS level for the transactions from OCLA to L2C. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_l2c_ctl_t;
 
 #define BDK_L2C_CTL BDK_L2C_CTL_FUNC()
@@ -1275,6 +1357,8 @@ typedef union
 static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_BIST_STATUS(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x87e05c020000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x87e05c020000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -1340,6 +1424,8 @@ typedef union
 static inline uint64_t BDK_L2C_MCIX_ERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_MCIX_ERR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=2))
+        return 0x87e05c010000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=2))
         return 0x87e05c010000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -1365,6 +1451,47 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_30_63        : 34;
+        uint64_t lock_local_cas        : 1;  /**< [ 29: 29](RO) Reserved. */
+        uint64_t lock_local_stc        : 1;  /**< [ 28: 28](RO) Reserved. */
+        uint64_t lock_local_pp         : 1;  /**< [ 27: 27](RO) Reserved. */
+        uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Reserved.
+                                                                 INTERNAL: This only controls the GSYNC timeout in the L2C_CBCs in non-OCI chips. */
+        uint64_t shtolen               : 5;  /**< [ 21: 17](RO) Reserved. */
+        uint64_t shtoioen              : 1;  /**< [ 16: 16](RO) Reserved. */
+        uint64_t shtoen                : 3;  /**< [ 15: 13](RO) Reserved. */
+        uint64_t shto                  : 1;  /**< [ 12: 12](RO) Reserved. */
+        uint64_t inv_mode              : 2;  /**< [ 11: 10](RO) Reserved. */
+        uint64_t cas_fdx               : 1;  /**< [  9:  9](RO) Reserved. */
+        uint64_t rldd_psha             : 1;  /**< [  8:  8](RO) Reserved. */
+        uint64_t lock_local_iob        : 1;  /**< [  7:  7](RO) Reserved. */
+        uint64_t iofrcl                : 1;  /**< [  6:  6](RO) Reserved. */
+        uint64_t reserved_4_5          : 2;
+        uint64_t enaoci                : 4;  /**< [  3:  0](RO) CCPI is not present. Any attempt to enable it will be ignored. */
+#else /* Word 0 - Little Endian */
+        uint64_t enaoci                : 4;  /**< [  3:  0](RO) CCPI is not present. Any attempt to enable it will be ignored. */
+        uint64_t reserved_4_5          : 2;
+        uint64_t iofrcl                : 1;  /**< [  6:  6](RO) Reserved. */
+        uint64_t lock_local_iob        : 1;  /**< [  7:  7](RO) Reserved. */
+        uint64_t rldd_psha             : 1;  /**< [  8:  8](RO) Reserved. */
+        uint64_t cas_fdx               : 1;  /**< [  9:  9](RO) Reserved. */
+        uint64_t inv_mode              : 2;  /**< [ 11: 10](RO) Reserved. */
+        uint64_t shto                  : 1;  /**< [ 12: 12](RO) Reserved. */
+        uint64_t shtoen                : 3;  /**< [ 15: 13](RO) Reserved. */
+        uint64_t shtoioen              : 1;  /**< [ 16: 16](RO) Reserved. */
+        uint64_t shtolen               : 5;  /**< [ 21: 17](RO) Reserved. */
+        uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Reserved.
+                                                                 INTERNAL: This only controls the GSYNC timeout in the L2C_CBCs in non-OCI chips. */
+        uint64_t lock_local_pp         : 1;  /**< [ 27: 27](RO) Reserved. */
+        uint64_t lock_local_stc        : 1;  /**< [ 28: 28](RO) Reserved. */
+        uint64_t lock_local_cas        : 1;  /**< [ 29: 29](RO) Reserved. */
+        uint64_t reserved_30_63        : 34;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_l2c_oci_ctl_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_31_63        : 33;
+        uint64_t reserved_30           : 1;
         uint64_t lock_local_cas        : 1;  /**< [ 29: 29](R/W) When set, L2 CAS operations to remote addresses which miss at the requester will be
                                                                  performed locally (if possible) on the requesting node. Default operation will instead
                                                                  send the CAS request to be performed on the home node. For STC ops LOCK_LOCAL_STC. */
@@ -1488,10 +1615,11 @@ typedef union
         uint64_t lock_local_cas        : 1;  /**< [ 29: 29](R/W) When set, L2 CAS operations to remote addresses which miss at the requester will be
                                                                  performed locally (if possible) on the requesting node. Default operation will instead
                                                                  send the CAS request to be performed on the home node. For STC ops LOCK_LOCAL_STC. */
-        uint64_t reserved_30_63        : 34;
+        uint64_t reserved_30           : 1;
+        uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
-    } s;
-    struct bdk_l2c_oci_ctl_cn83xx
+    } cn88xxp1;
+    struct bdk_l2c_oci_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
@@ -1536,7 +1664,8 @@ typedef union
                                                                  effect. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_l2c_oci_ctl_cn81xx cn83xx; */
     struct bdk_l2c_oci_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1673,138 +1802,6 @@ typedef union
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_l2c_oci_ctl_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_31_63        : 33;
-        uint64_t reserved_30           : 1;
-        uint64_t lock_local_cas        : 1;  /**< [ 29: 29](R/W) When set, L2 CAS operations to remote addresses which miss at the requester will be
-                                                                 performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the CAS request to be performed on the home node. For STC ops LOCK_LOCAL_STC. */
-        uint64_t lock_local_stc        : 1;  /**< [ 28: 28](R/W) When set, L2 STC operations to remote addresses which miss at the requester will be
-                                                                 performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the STC request to be performed on the home node. For CAS ops LOCK_LOCAL_CAS. */
-        uint64_t lock_local_pp         : 1;  /**< [ 27: 27](R/W) When clear, L2 atomic operations (excluding CAS/STC) core initiated requests to remote
-                                                                 addresses which miss at the requester will send the atomic request to be performed on the
-                                                                 home node. Default operation will instead  be performed locally on the requesting node.
-                                                                 For request initiated by IOB & for STC & CAS ops, see
-                                                                 LOCK_LOCAL_IOB/LOCK_LOCAL_STC/LOCK_LOCAL_CAS. */
-        uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Selects the bit in the counter for the long timeout value (timeout used when [SHTO] is
-                                                                 clear). Values supported are between 11 and 29 (for a timeout values between 2^11 and
-                                                                 2^29). Actual timeout is between 1x and 2x this interval. For example if LNGTOLEN = 28
-                                                                 (the reset value), the timeout is between 256M and 512M core clocks. Note: a value of 0
-                                                                 disables this timer. */
-        uint64_t shtolen               : 5;  /**< [ 21: 17](R/W) Selects the bit in the counter for the short timeout value (timeout used when [SHTO] is
-                                                                 set). Values supported are between 9 and 29 (for a timeout values between 2^9 and 2^29).
-                                                                 Actual timeout is between 1x and 2x this interval. For example if SHTOLEN = 14 (the reset
-                                                                 value), the timeout is between 16K and 32K core clocks. Note: a value of 0 disables this
-                                                                 timer. */
-        uint64_t shtoioen              : 1;  /**< [ 16: 16](R/W) When set, any core issues any of an IO load, atomic, acking store, acking IOBADDR, or
-                                                                 acking LMTST to a node that doesn't exist (existence defined by the ENAOCI bits), then the
-                                                                 hardware sets [SHTO]. */
-        uint64_t shtoen                : 3;  /**< [ 15: 13](R/W) When set, if the corresponding CCPI link is down, the hardware sets [SHTO].
-                                                                 See OCX_COM_LINK(0..2)_CTL for a description of what events can contribute to the
-                                                                 link_down condition. */
-        uint64_t shto                  : 1;  /**< [ 12: 12](R/W/H) Use short timeout intervals. When set, core uses SDIDTTO for both DID and commit counter
-                                                                 timeouts, rather than DIDTTO/DIDTTO2. Similarly, L2C will use short instead of long
-                                                                 timeout. */
-        uint64_t inv_mode              : 2;  /**< [ 11: 10](R/W) Describes how aggressive to be when waiting for local invalidates before sending CCPI
-                                                                 responses which act like commits at the remote.
-                                                                 0x0 = Conservative mode, waits until all local invalidates have been sent by their
-                                                                 respective CBCs to the cores.
-                                                                 0x1 = Moderate mode, waits until all local invalidates have been sent to their respective
-                                                                 CBCs, but not necessarily actually sent to the cores themselves.
-                                                                 0x2 = Aggressive mode, does not wait for local invalidates to begin their processing. */
-        uint64_t cas_fdx               : 1;  /**< [  9:  9](R/W) When set, L2 STC/CAS operations performed at the home will immediately bring the block
-                                                                 exclusive into the home. Default operation is to first request the block shared and only
-                                                                 invalidate the remote if the compare succeeds. */
-        uint64_t rldd_psha             : 1;  /**< [  8:  8](R/W) When set, RLDD is assumed to return a shared response (PSHA). Default operation assumes an
-                                                                 exclusive response (PEMD). Note that an incorrect assumption only causes an extra tag
-                                                                 write to be done upon receiving the response. */
-        uint64_t lock_local_iob        : 1;  /**< [  7:  7](R/W) When set, L2 atomic operations (excluding CAS/STC) initiated by IOB to remote addresses
-                                                                 which miss at the requester are performed locally on the requesting node. When clear the
-                                                                 operation instead sends the atomic request to be performed on the home node. For request
-                                                                 initiated by core for STC and CAS ops; see LOCK_LOCAL_PP/LOCK_LOCAL_STC/LOCK_LOCAL_CAS.
-                                                                 Default is set to 1 (local locks). */
-        uint64_t iofrcl                : 1;  /**< [  6:  6](R/W) When set, L2C services all I/O read and write operations on the local node, regardless of
-                                                                 the value of the node ID bits in the physical address. During normal operation this bit is
-                                                                 expected to be 0. Will only transition from 1 to 0, never from 0 to 1. */
-        uint64_t reserved_4_5          : 2;
-        uint64_t enaoci                : 4;  /**< [  3:  0](R/W) Enable CCPI processing (one bit per node_id). When set, perform CCPI
-                                                                 processing. When clear, CCPI memory writes are blocked and CCPI memory reads
-                                                                 return unpredictable data. When clear,
-                                                                 CCPI I/O requests and MOC references are processed and sent to OCX where they are
-                                                                 ultimately discarded. RDDISOCI/WRDISOCI/IORDDISOCI/IOWRDISOCI interrupts occur if and only
-                                                                 if the corresponding ENAOCI<node> bit is clear. References to the local node (configured
-                                                                 via OCX_COM_NODE[ID]) ignore the value of ENAOCI<node> because no CCPI processing is
-                                                                 required. Similarly, all I/O references ignore the value of ENAOCI when
-                                                                 L2C_OCI_CTL[IOFRCL] is set. */
-#else /* Word 0 - Little Endian */
-        uint64_t enaoci                : 4;  /**< [  3:  0](R/W) Enable CCPI processing (one bit per node_id). When set, perform CCPI
-                                                                 processing. When clear, CCPI memory writes are blocked and CCPI memory reads
-                                                                 return unpredictable data. When clear,
-                                                                 CCPI I/O requests and MOC references are processed and sent to OCX where they are
-                                                                 ultimately discarded. RDDISOCI/WRDISOCI/IORDDISOCI/IOWRDISOCI interrupts occur if and only
-                                                                 if the corresponding ENAOCI<node> bit is clear. References to the local node (configured
-                                                                 via OCX_COM_NODE[ID]) ignore the value of ENAOCI<node> because no CCPI processing is
-                                                                 required. Similarly, all I/O references ignore the value of ENAOCI when
-                                                                 L2C_OCI_CTL[IOFRCL] is set. */
-        uint64_t reserved_4_5          : 2;
-        uint64_t iofrcl                : 1;  /**< [  6:  6](R/W) When set, L2C services all I/O read and write operations on the local node, regardless of
-                                                                 the value of the node ID bits in the physical address. During normal operation this bit is
-                                                                 expected to be 0. Will only transition from 1 to 0, never from 0 to 1. */
-        uint64_t lock_local_iob        : 1;  /**< [  7:  7](R/W) When set, L2 atomic operations (excluding CAS/STC) initiated by IOB to remote addresses
-                                                                 which miss at the requester are performed locally on the requesting node. When clear the
-                                                                 operation instead sends the atomic request to be performed on the home node. For request
-                                                                 initiated by core for STC and CAS ops; see LOCK_LOCAL_PP/LOCK_LOCAL_STC/LOCK_LOCAL_CAS.
-                                                                 Default is set to 1 (local locks). */
-        uint64_t rldd_psha             : 1;  /**< [  8:  8](R/W) When set, RLDD is assumed to return a shared response (PSHA). Default operation assumes an
-                                                                 exclusive response (PEMD). Note that an incorrect assumption only causes an extra tag
-                                                                 write to be done upon receiving the response. */
-        uint64_t cas_fdx               : 1;  /**< [  9:  9](R/W) When set, L2 STC/CAS operations performed at the home will immediately bring the block
-                                                                 exclusive into the home. Default operation is to first request the block shared and only
-                                                                 invalidate the remote if the compare succeeds. */
-        uint64_t inv_mode              : 2;  /**< [ 11: 10](R/W) Describes how aggressive to be when waiting for local invalidates before sending CCPI
-                                                                 responses which act like commits at the remote.
-                                                                 0x0 = Conservative mode, waits until all local invalidates have been sent by their
-                                                                 respective CBCs to the cores.
-                                                                 0x1 = Moderate mode, waits until all local invalidates have been sent to their respective
-                                                                 CBCs, but not necessarily actually sent to the cores themselves.
-                                                                 0x2 = Aggressive mode, does not wait for local invalidates to begin their processing. */
-        uint64_t shto                  : 1;  /**< [ 12: 12](R/W/H) Use short timeout intervals. When set, core uses SDIDTTO for both DID and commit counter
-                                                                 timeouts, rather than DIDTTO/DIDTTO2. Similarly, L2C will use short instead of long
-                                                                 timeout. */
-        uint64_t shtoen                : 3;  /**< [ 15: 13](R/W) When set, if the corresponding CCPI link is down, the hardware sets [SHTO].
-                                                                 See OCX_COM_LINK(0..2)_CTL for a description of what events can contribute to the
-                                                                 link_down condition. */
-        uint64_t shtoioen              : 1;  /**< [ 16: 16](R/W) When set, any core issues any of an IO load, atomic, acking store, acking IOBADDR, or
-                                                                 acking LMTST to a node that doesn't exist (existence defined by the ENAOCI bits), then the
-                                                                 hardware sets [SHTO]. */
-        uint64_t shtolen               : 5;  /**< [ 21: 17](R/W) Selects the bit in the counter for the short timeout value (timeout used when [SHTO] is
-                                                                 set). Values supported are between 9 and 29 (for a timeout values between 2^9 and 2^29).
-                                                                 Actual timeout is between 1x and 2x this interval. For example if SHTOLEN = 14 (the reset
-                                                                 value), the timeout is between 16K and 32K core clocks. Note: a value of 0 disables this
-                                                                 timer. */
-        uint64_t lngtolen              : 5;  /**< [ 26: 22](R/W) Selects the bit in the counter for the long timeout value (timeout used when [SHTO] is
-                                                                 clear). Values supported are between 11 and 29 (for a timeout values between 2^11 and
-                                                                 2^29). Actual timeout is between 1x and 2x this interval. For example if LNGTOLEN = 28
-                                                                 (the reset value), the timeout is between 256M and 512M core clocks. Note: a value of 0
-                                                                 disables this timer. */
-        uint64_t lock_local_pp         : 1;  /**< [ 27: 27](R/W) When clear, L2 atomic operations (excluding CAS/STC) core initiated requests to remote
-                                                                 addresses which miss at the requester will send the atomic request to be performed on the
-                                                                 home node. Default operation will instead  be performed locally on the requesting node.
-                                                                 For request initiated by IOB & for STC & CAS ops, see
-                                                                 LOCK_LOCAL_IOB/LOCK_LOCAL_STC/LOCK_LOCAL_CAS. */
-        uint64_t lock_local_stc        : 1;  /**< [ 28: 28](R/W) When set, L2 STC operations to remote addresses which miss at the requester will be
-                                                                 performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the STC request to be performed on the home node. For CAS ops LOCK_LOCAL_CAS. */
-        uint64_t lock_local_cas        : 1;  /**< [ 29: 29](R/W) When set, L2 CAS operations to remote addresses which miss at the requester will be
-                                                                 performed locally (if possible) on the requesting node. Default operation will instead
-                                                                 send the CAS request to be performed on the home node. For STC ops LOCK_LOCAL_STC. */
-        uint64_t reserved_30           : 1;
-        uint64_t reserved_31_63        : 33;
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_l2c_oci_ctl_t;
 
 #define BDK_L2C_OCI_CTL BDK_L2C_OCI_CTL_FUNC()
@@ -1844,6 +1841,8 @@ typedef union
 static inline uint64_t BDK_L2C_QOS_PPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_QOS_PPX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=23))
+        return 0x87e080880000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=23))
         return 0x87e080880000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))
@@ -1946,6 +1945,8 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_DLL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_DLL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e050030000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050030000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
@@ -2020,6 +2021,8 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_ERR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_ERR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e050060000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050060000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
@@ -2055,6 +2058,8 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_PFCX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_PFCX(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=3) && (b<=3)))
+        return 0x87e050010100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=3) && (b<=3)))
         return 0x87e050010100ll + 0x1000000ll * ((a) & 0x3) + 8ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=7) && (b<=3)))
@@ -2081,40 +2086,43 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..7)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..7)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..7)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..7)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..7)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..7)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..7)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..7)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_tadx_prf_s cn88xx; */
-    struct bdk_l2c_tadx_prf_cn83xx
+    /* struct bdk_l2c_tadx_prf_s cn81xx; */
+    struct bdk_l2c_tadx_prf_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..7)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..7)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..7)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..7)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
 #else /* Word 0 - Little Endian */
-        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..3)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..3)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..3)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
-        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..3)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt0sel               : 8;  /**< [  7:  0](R/W) Selects event to count for L2C_TAD(0..7)_PFC(0). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt1sel               : 8;  /**< [ 15:  8](R/W) Selects event to count for L2C_TAD(0..7)_PFC(1). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt2sel               : 8;  /**< [ 23: 16](R/W) Selects event to count for L2C_TAD(0..7)_PFC(2). Enumerated by L2C_TAD_PRF_SEL_E. */
+        uint64_t cnt3sel               : 8;  /**< [ 31: 24](R/W) Selects event to count for L2C_TAD(0..7)_PFC(3). Enumerated by L2C_TAD_PRF_SEL_E. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_l2c_tadx_prf_s cn83xx; */
 } bdk_l2c_tadx_prf_t;
 
 static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_PRF(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e050010000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050010000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
@@ -2157,6 +2165,8 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_STAT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_STAT(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e050020008ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050020008ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
@@ -2189,7 +2199,7 @@ typedef union
         uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
         uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
         uint64_t reserved_6_41         : 36;
-        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
+        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
         uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
                                                                  0x0 = Invalid.
                                                                  0x1 = Shared.
@@ -2213,7 +2223,7 @@ typedef union
 
                                                                  Note that a local address will never have the value of exclusive as that state is encoded
                                                                  as shared in the TAG and invalid in the RTG. */
-        uint64_t node                  : 2;  /**< [  5:  4](R/W/H) The node ID for the remote node which holds this block. Ignored/loaded with 0 for TAG accesses. */
+        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
         uint64_t reserved_6_41         : 36;
         uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
         uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
@@ -2223,6 +2233,56 @@ typedef union
                                                                  must be 0 or operation is undefined. */
 #endif /* Word 0 - End */
     } s;
+    struct bdk_l2c_tadx_tag_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
+                                                                 must be 0 or operation is undefined. */
+        uint64_t reserved_59           : 1;
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
+        uint64_t reserved_40_41        : 2;
+        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
+                                                                 address. */
+        uint64_t reserved_6_17         : 12;
+        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
+        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
+                                                                 0x0 = Invalid.
+                                                                 0x1 = Shared.
+                                                                 0x2 = Exclusive.
+
+                                                                 Note that a local address will never have the value of exclusive as that state is encoded
+                                                                 as shared in the TAG and invalid in the RTG. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
+                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
+                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+#else /* Word 0 - Little Endian */
+        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
+                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
+                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
+        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
+                                                                 0x0 = Invalid.
+                                                                 0x1 = Shared.
+                                                                 0x2 = Exclusive.
+
+                                                                 Note that a local address will never have the value of exclusive as that state is encoded
+                                                                 as shared in the TAG and invalid in the RTG. */
+        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
+        uint64_t reserved_6_17         : 12;
+        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
+                                                                 address. */
+        uint64_t reserved_40_41        : 2;
+        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
+        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
+        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
+        uint64_t reserved_59           : 1;
+        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
+                                                                 must be 0 or operation is undefined. */
+#endif /* Word 0 - End */
+    } cn81xx;
     struct bdk_l2c_tadx_tag_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2273,61 +2333,14 @@ typedef union
                                                                  must be 0 or operation is undefined. */
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_l2c_tadx_tag_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
-        uint64_t reserved_59           : 1;
-        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
-        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-        uint64_t reserved_40_41        : 2;
-        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
-                                                                 address. */
-        uint64_t reserved_6_17         : 12;
-        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
-        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
-                                                                 0x0 = Invalid.
-                                                                 0x1 = Shared.
-                                                                 0x2 = Exclusive.
-
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-#else /* Word 0 - Little Endian */
-        uint64_t lock                  : 1;  /**< [  0:  0](R/W/H) The lock bit. If setting the LOCK bit, the USE bit should also be set or the operation is
-                                                                 undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t used                  : 1;  /**< [  1:  1](R/W/H) The LRU use bit. If setting the LOCK bit, the USE bit should also be set or the operation
-                                                                 is undefined.  Ignored/loaded with 0 for RTG accesses. */
-        uint64_t ts                    : 2;  /**< [  3:  2](R/W/H) The tag state.
-                                                                 0x0 = Invalid.
-                                                                 0x1 = Shared.
-                                                                 0x2 = Exclusive.
-
-                                                                 Note that a local address will never have the value of exclusive as that state is encoded
-                                                                 as shared in the TAG and invalid in the RTG. */
-        uint64_t node                  : 2;  /**< [  5:  4](RAZ) Reserved. */
-        uint64_t reserved_6_17         : 12;
-        uint64_t tag                   : 22; /**< [ 39: 18](R/W/H) The tag. TAG<39:18> is the corresponding bits from the L2C+LMC internal L2/DRAM byte
-                                                                 address. */
-        uint64_t reserved_40_41        : 2;
-        uint64_t ecc                   : 7;  /**< [ 48: 42](R/W/H) The tag ECC. This field is undefined if L2C_CTL[DISECC] is not 1 when the LTGL2I reads the tags. */
-        uint64_t businfo               : 9;  /**< [ 57: 49](R/W/H) The bus information bits. Ignored/loaded with 0 for RTG accesses. */
-        uint64_t nonsec                : 1;  /**< [ 58: 58](R/W/H) Nonsecure bit. */
-        uint64_t reserved_59           : 1;
-        uint64_t sblkdty               : 4;  /**< [ 63: 60](R/W/H) Sub-block dirty bits. Ignored/loaded with 0 for RTG accesses. If TS is Invalid (0) SBLKDTY
-                                                                 must be 0 or operation is undefined. */
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_l2c_tadx_tag_cn81xx cn83xx; */
 } bdk_l2c_tadx_tag_t;
 
 static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TAG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e050020000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050020000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
@@ -2406,6 +2419,8 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_TIMEOUT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TIMEOUT(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e050050100ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050050100ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
@@ -2462,6 +2477,8 @@ typedef union
 static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_TADX_TIMETWO(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e050050000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e050050000ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=7))
@@ -2490,18 +2507,14 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
         uint64_t frcnalc               : 1;  /**< [ 32: 32](R/W) When set, all cache accesses are forced to not allocate in the local L2. */
-        uint64_t disrstp               : 1;  /**< [ 31: 31](R/W) When set, if the L2 receives an RSTP XMC command, it treats it as a STP. */
+        uint64_t disrstp               : 1;  /**< [ 31: 31](RO) Reserved. */
         uint64_t wtlmcwrdn             : 1;  /**< [ 30: 30](R/W) Be more conservative with LFB done relative to LMC writes. */
         uint64_t wtinvdn               : 1;  /**< [ 29: 29](R/W) Be more conservative with LFB done relative to invalidates. */
         uint64_t wtfilldn              : 1;  /**< [ 28: 28](R/W) Be more conservative with LFB done relative to fills. */
-        uint64_t exlrq                 : 4;  /**< [ 27: 24](R/W) Extra LFBs to reserve for locally generated XMC commands. None are reserved for functional
-                                                                 correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
-        uint64_t exrrq                 : 4;  /**< [ 23: 20](R/W) Extra LFBs to reserve for Rxxx CCPI commands beyond the 1 required for CCPI protocol
-                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
-        uint64_t exfwd                 : 4;  /**< [ 19: 16](R/W) Extra LFBs to reserve for Fxxx/SINV CCPI commands beyond the 1 required for CCPI protocol
-                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
-        uint64_t exvic                 : 4;  /**< [ 15: 12](R/W) Extra LFBs to reserve for VICx CCPI commands beyond the 1 required for CCPI protocol
-                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
+        uint64_t exlrq                 : 4;  /**< [ 27: 24](RO) Reserved. */
+        uint64_t exrrq                 : 4;  /**< [ 23: 20](RO) Reserved. */
+        uint64_t exfwd                 : 4;  /**< [ 19: 16](RO) Reserved. */
+        uint64_t exvic                 : 4;  /**< [ 15: 12](RO) Reserved. */
         uint64_t vbf_thresh            : 4;  /**< [ 11:  8](R/W) VBF threshold. When the number of in-use VBFs exceeds this number the L2C TAD increases
                                                                  the priority of all its write operations in the LMC. */
         uint64_t maxvbf                : 4;  /**< [  7:  4](R/W) Maximum VBFs in use at once (0 means 16, 1-15 as expected). */
@@ -2511,36 +2524,36 @@ typedef union
         uint64_t maxvbf                : 4;  /**< [  7:  4](R/W) Maximum VBFs in use at once (0 means 16, 1-15 as expected). */
         uint64_t vbf_thresh            : 4;  /**< [ 11:  8](R/W) VBF threshold. When the number of in-use VBFs exceeds this number the L2C TAD increases
                                                                  the priority of all its write operations in the LMC. */
-        uint64_t exvic                 : 4;  /**< [ 15: 12](R/W) Extra LFBs to reserve for VICx CCPI commands beyond the 1 required for CCPI protocol
-                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
-        uint64_t exfwd                 : 4;  /**< [ 19: 16](R/W) Extra LFBs to reserve for Fxxx/SINV CCPI commands beyond the 1 required for CCPI protocol
-                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
-        uint64_t exrrq                 : 4;  /**< [ 23: 20](R/W) Extra LFBs to reserve for Rxxx CCPI commands beyond the 1 required for CCPI protocol
-                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
-        uint64_t exlrq                 : 4;  /**< [ 27: 24](R/W) Extra LFBs to reserve for locally generated XMC commands. None are reserved for functional
-                                                                 correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
+        uint64_t exvic                 : 4;  /**< [ 15: 12](RO) Reserved. */
+        uint64_t exfwd                 : 4;  /**< [ 19: 16](RO) Reserved. */
+        uint64_t exrrq                 : 4;  /**< [ 23: 20](RO) Reserved. */
+        uint64_t exlrq                 : 4;  /**< [ 27: 24](RO) Reserved. */
         uint64_t wtfilldn              : 1;  /**< [ 28: 28](R/W) Be more conservative with LFB done relative to fills. */
         uint64_t wtinvdn               : 1;  /**< [ 29: 29](R/W) Be more conservative with LFB done relative to invalidates. */
         uint64_t wtlmcwrdn             : 1;  /**< [ 30: 30](R/W) Be more conservative with LFB done relative to LMC writes. */
-        uint64_t disrstp               : 1;  /**< [ 31: 31](R/W) When set, if the L2 receives an RSTP XMC command, it treats it as a STP. */
+        uint64_t disrstp               : 1;  /**< [ 31: 31](RO) Reserved. */
         uint64_t frcnalc               : 1;  /**< [ 32: 32](R/W) When set, all cache accesses are forced to not allocate in the local L2. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_l2c_tad_ctl_s cn88xx; */
-    struct bdk_l2c_tad_ctl_cn83xx
+    /* struct bdk_l2c_tad_ctl_s cn81xx; */
+    struct bdk_l2c_tad_ctl_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
         uint64_t frcnalc               : 1;  /**< [ 32: 32](R/W) When set, all cache accesses are forced to not allocate in the local L2. */
-        uint64_t disrstp               : 1;  /**< [ 31: 31](RO) Reserved. */
+        uint64_t disrstp               : 1;  /**< [ 31: 31](R/W) When set, if the L2 receives an RSTP XMC command, it treats it as a STP. */
         uint64_t wtlmcwrdn             : 1;  /**< [ 30: 30](R/W) Be more conservative with LFB done relative to LMC writes. */
         uint64_t wtinvdn               : 1;  /**< [ 29: 29](R/W) Be more conservative with LFB done relative to invalidates. */
         uint64_t wtfilldn              : 1;  /**< [ 28: 28](R/W) Be more conservative with LFB done relative to fills. */
-        uint64_t exlrq                 : 4;  /**< [ 27: 24](RO) Reserved. */
-        uint64_t exrrq                 : 4;  /**< [ 23: 20](RO) Reserved. */
-        uint64_t exfwd                 : 4;  /**< [ 19: 16](RO) Reserved. */
-        uint64_t exvic                 : 4;  /**< [ 15: 12](RO) Reserved. */
+        uint64_t exlrq                 : 4;  /**< [ 27: 24](R/W) Extra LFBs to reserve for locally generated XMC commands. None are reserved for functional
+                                                                 correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
+        uint64_t exrrq                 : 4;  /**< [ 23: 20](R/W) Extra LFBs to reserve for Rxxx CCPI commands beyond the 1 required for CCPI protocol
+                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
+        uint64_t exfwd                 : 4;  /**< [ 19: 16](R/W) Extra LFBs to reserve for Fxxx/SINV CCPI commands beyond the 1 required for CCPI protocol
+                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
+        uint64_t exvic                 : 4;  /**< [ 15: 12](R/W) Extra LFBs to reserve for VICx CCPI commands beyond the 1 required for CCPI protocol
+                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
         uint64_t vbf_thresh            : 4;  /**< [ 11:  8](R/W) VBF threshold. When the number of in-use VBFs exceeds this number the L2C TAD increases
                                                                  the priority of all its write operations in the LMC. */
         uint64_t maxvbf                : 4;  /**< [  7:  4](R/W) Maximum VBFs in use at once (0 means 16, 1-15 as expected). */
@@ -2550,18 +2563,23 @@ typedef union
         uint64_t maxvbf                : 4;  /**< [  7:  4](R/W) Maximum VBFs in use at once (0 means 16, 1-15 as expected). */
         uint64_t vbf_thresh            : 4;  /**< [ 11:  8](R/W) VBF threshold. When the number of in-use VBFs exceeds this number the L2C TAD increases
                                                                  the priority of all its write operations in the LMC. */
-        uint64_t exvic                 : 4;  /**< [ 15: 12](RO) Reserved. */
-        uint64_t exfwd                 : 4;  /**< [ 19: 16](RO) Reserved. */
-        uint64_t exrrq                 : 4;  /**< [ 23: 20](RO) Reserved. */
-        uint64_t exlrq                 : 4;  /**< [ 27: 24](RO) Reserved. */
+        uint64_t exvic                 : 4;  /**< [ 15: 12](R/W) Extra LFBs to reserve for VICx CCPI commands beyond the 1 required for CCPI protocol
+                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
+        uint64_t exfwd                 : 4;  /**< [ 19: 16](R/W) Extra LFBs to reserve for Fxxx/SINV CCPI commands beyond the 1 required for CCPI protocol
+                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
+        uint64_t exrrq                 : 4;  /**< [ 23: 20](R/W) Extra LFBs to reserve for Rxxx CCPI commands beyond the 1 required for CCPI protocol
+                                                                 functional correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
+        uint64_t exlrq                 : 4;  /**< [ 27: 24](R/W) Extra LFBs to reserve for locally generated XMC commands. None are reserved for functional
+                                                                 correctness. Ignored if L2C_OCI_CTL[ENAOCI] is 0. */
         uint64_t wtfilldn              : 1;  /**< [ 28: 28](R/W) Be more conservative with LFB done relative to fills. */
         uint64_t wtinvdn               : 1;  /**< [ 29: 29](R/W) Be more conservative with LFB done relative to invalidates. */
         uint64_t wtlmcwrdn             : 1;  /**< [ 30: 30](R/W) Be more conservative with LFB done relative to LMC writes. */
-        uint64_t disrstp               : 1;  /**< [ 31: 31](RO) Reserved. */
+        uint64_t disrstp               : 1;  /**< [ 31: 31](R/W) When set, if the L2 receives an RSTP XMC command, it treats it as a STP. */
         uint64_t frcnalc               : 1;  /**< [ 32: 32](R/W) When set, all cache accesses are forced to not allocate in the local L2. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_l2c_tad_ctl_s cn83xx; */
 } bdk_l2c_tad_ctl_t;
 
 #define BDK_L2C_TAD_CTL BDK_L2C_TAD_CTL_FUNC()
@@ -2640,6 +2658,8 @@ typedef union
 static inline uint64_t BDK_L2C_WPAR_PPX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_L2C_WPAR_PPX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=23))
+        return 0x87e080840000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=23))
         return 0x87e080840000ll + 8ll * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=47))

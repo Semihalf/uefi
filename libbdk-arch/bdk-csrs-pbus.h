@@ -121,6 +121,8 @@ typedef union
 static inline uint64_t BDK_PBUS_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_BIST_STATUS_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e0010000f8ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0010000f8ll;
     __bdk_csr_fatal("PBUS_BIST_STATUS", 0, 0, 0, 0, 0);
@@ -178,6 +180,8 @@ typedef union
 static inline uint64_t BDK_PBUS_COMP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_COMP_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e0010000b8ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0010000b8ll;
     __bdk_csr_fatal("PBUS_COMP", 0, 0, 0, 0, 0);
@@ -216,6 +220,8 @@ typedef union
 static inline uint64_t BDK_PBUS_DMA_ADRX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_DMA_ADRX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e001000110ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e001000110ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_DMA_ADRX", 1, a, 0, 0, 0);
@@ -289,6 +295,8 @@ typedef union
 static inline uint64_t BDK_PBUS_DMA_CFGX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_DMA_CFGX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e001000100ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e001000100ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_DMA_CFGX", 1, a, 0, 0, 0);
@@ -327,6 +335,8 @@ typedef union
 static inline uint64_t BDK_PBUS_DMA_INTX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_DMA_INTX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e001000200ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e001000200ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_DMA_INTX", 1, a, 0, 0, 0);
@@ -363,6 +373,8 @@ typedef union
 static inline uint64_t BDK_PBUS_DMA_INT_ENA_W1CX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_DMA_INT_ENA_W1CX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0010002c0ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0010002c0ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_DMA_INT_ENA_W1CX", 1, a, 0, 0, 0);
@@ -399,6 +411,8 @@ typedef union
 static inline uint64_t BDK_PBUS_DMA_INT_ENA_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_DMA_INT_ENA_W1SX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e001000280ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e001000280ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_DMA_INT_ENA_W1SX", 1, a, 0, 0, 0);
@@ -435,6 +449,8 @@ typedef union
 static inline uint64_t BDK_PBUS_DMA_INT_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_DMA_INT_W1SX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e001000240ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e001000240ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_DMA_INT_W1SX", 1, a, 0, 0, 0);
@@ -533,6 +549,8 @@ typedef union
 static inline uint64_t BDK_PBUS_DMA_TIMX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_DMA_TIMX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e001000120ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e001000120ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_DMA_TIMX", 1, a, 0, 0, 0);
@@ -569,6 +587,8 @@ typedef union
 static inline uint64_t BDK_PBUS_ECO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_ECO_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e0010001f8ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0010001f8ll;
     __bdk_csr_fatal("PBUS_ECO", 0, 0, 0, 0, 0);
@@ -612,6 +632,8 @@ typedef union
 static inline uint64_t BDK_PBUS_ERR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_ERR_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e001000300ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e001000300ll;
     __bdk_csr_fatal("PBUS_ERR", 0, 0, 0, 0, 0);
@@ -651,6 +673,8 @@ typedef union
 static inline uint64_t BDK_PBUS_ERR_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_ERR_ENA_W1C_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e001000318ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e001000318ll;
     __bdk_csr_fatal("PBUS_ERR_ENA_W1C", 0, 0, 0, 0, 0);
@@ -690,6 +714,8 @@ typedef union
 static inline uint64_t BDK_PBUS_ERR_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_ERR_ENA_W1S_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e001000310ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e001000310ll;
     __bdk_csr_fatal("PBUS_ERR_ENA_W1S", 0, 0, 0, 0, 0);
@@ -729,6 +755,8 @@ typedef union
 static inline uint64_t BDK_PBUS_ERR_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_ERR_W1S_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e001000308ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e001000308ll;
     __bdk_csr_fatal("PBUS_ERR_W1S", 0, 0, 0, 0, 0);
@@ -768,6 +796,8 @@ typedef union
 static inline uint64_t BDK_PBUS_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_MSIX_PBAX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a==0))
+        return 0x87e001ff0000ll + 8ll * ((a) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
         return 0x87e001ff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("PBUS_MSIX_PBAX", 1, a, 0, 0, 0);
@@ -824,6 +854,8 @@ typedef union
 static inline uint64_t BDK_PBUS_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_MSIX_VECX_ADDR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e001f00000ll + 0x10ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e001f00000ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
@@ -864,6 +896,8 @@ typedef union
 static inline uint64_t BDK_PBUS_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_MSIX_VECX_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e001f00008ll + 0x10ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e001f00008ll + 0x10ll * ((a) & 0x1);
     __bdk_csr_fatal("PBUS_MSIX_VECX_CTL", 1, a, 0, 0, 0);
@@ -983,6 +1017,8 @@ typedef union
 static inline uint64_t BDK_PBUS_REGX_CFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_REGX_CFG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=7))
+        return 0x87e001000000ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87e001000000ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("PBUS_REGX_CFG", 1, a, 0, 0, 0);
@@ -1050,6 +1086,8 @@ typedef union
 static inline uint64_t BDK_PBUS_REGX_TIM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PBUS_REGX_TIM(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=7))
+        return 0x87e001000040ll + 8ll * ((a) & 0x7);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=7))
         return 0x87e001000040ll + 8ll * ((a) & 0x7);
     __bdk_csr_fatal("PBUS_REGX_TIM", 1, a, 0, 0, 0);

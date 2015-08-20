@@ -610,8 +610,7 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmrx_config_s cn88xx; */
-    struct bdk_bgxx_cmrx_config_cn83xx
+    struct bdk_bgxx_cmrx_config_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
@@ -772,7 +771,9 @@ typedef union
                                                                  </pre> */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_bgxx_cmrx_config_s cn88xx; */
+    /* struct bdk_bgxx_cmrx_config_cn81xx cn83xx; */
 } bdk_bgxx_cmrx_config_t;
 
 static inline uint64_t BDK_BGXX_CMRX_CONFIG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -813,8 +814,7 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmrx_int_s cn88xx; */
-    struct bdk_bgxx_cmrx_int_cn83xx
+    struct bdk_bgxx_cmrx_int_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -833,7 +833,9 @@ typedef union
                                                                  bits of the offending channel. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_bgxx_cmrx_int_s cn88xx; */
+    /* struct bdk_bgxx_cmrx_int_cn81xx cn83xx; */
 } bdk_bgxx_cmrx_int_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -873,8 +875,7 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmrx_int_ena_w1c_s cn88xx; */
-    struct bdk_bgxx_cmrx_int_ena_w1c_cn83xx
+    struct bdk_bgxx_cmrx_int_ena_w1c_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -889,7 +890,9 @@ typedef union
         uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_bgxx_cmrx_int_ena_w1c_s cn88xx; */
+    /* struct bdk_bgxx_cmrx_int_ena_w1c_cn81xx cn83xx; */
 } bdk_bgxx_cmrx_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -929,8 +932,7 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmrx_int_ena_w1s_s cn88xx; */
-    struct bdk_bgxx_cmrx_int_ena_w1s_cn83xx
+    struct bdk_bgxx_cmrx_int_ena_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -945,7 +947,9 @@ typedef union
         uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_bgxx_cmrx_int_ena_w1s_s cn88xx; */
+    /* struct bdk_bgxx_cmrx_int_ena_w1s_cn81xx cn83xx; */
 } bdk_bgxx_cmrx_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -985,8 +989,7 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmrx_int_w1s_s cn88xx; */
-    struct bdk_bgxx_cmrx_int_w1s_cn83xx
+    struct bdk_bgxx_cmrx_int_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -1001,7 +1004,9 @@ typedef union
         uint64_t nic_nxc               : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR(0..3)_INT[NIC_NXC]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_bgxx_cmrx_int_w1s_s cn88xx; */
+    /* struct bdk_bgxx_cmrx_int_w1s_cn81xx cn83xx; */
 } bdk_bgxx_cmrx_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMRX_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -2972,6 +2977,8 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_BAD(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_BAD(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0e0001028ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=1))
@@ -3005,20 +3012,25 @@ typedef union
                                                                  <3> = bgx#.rxb.fif_bnk01
                                                                  <4> = bgx#.rxb.fif_bnk10
                                                                  <5> = bgx#.rxb.fif_bnk11
-                                                                 <6> = bgx#.rxb.skd_fif
-                                                                 <7> = bgx#.rxb_mix0_fif
-                                                                 <8> = bgx#.rxb_mix1_fif
-                                                                 <9> = RAZ
-                                                                 <10> = bgx#.txb_fif_bnk0
-                                                                 <11> = bgx#.txb_fif_bnk1
-                                                                 <12> = bgx#.txb_skd_m0_fif
-                                                                 <13> = bgx#.txb_skd_m1_fif
-                                                                 <14> = bgx#.txb_skd_m2_fif
-                                                                 <15> = bgx#.txb_skd_m3_fif
-                                                                 <16> = bgx#.txb_mix0_fif
-                                                                 <17> = bgx#.txb_mix1_fif
-                                                                 <18> = bgx#.txb_ncsi_fif
-                                                                 <24:19> = RAZ" */
+                                                                 <6> = bgx#.rxb.pki_skd_fif
+                                                                 <7> = bgx#.rxb.nic_skd_fif
+                                                                 <8> = bgx#.rxb_mix0_fif
+                                                                 <9> = bgx#.rxb_mix1_fif
+                                                                 <10> = RAZ
+                                                                 <11> = bgx#.txb_fif_bnk0
+                                                                 <12> = bgx#.txb_fif_bnk1
+                                                                 <13> = bgx#.txb_skd_m0_pko_fif
+                                                                 <14> = bgx#.txb_skd_m1_pko_fif
+                                                                 <15> = bgx#.txb_skd_m2_pko_fif
+                                                                 <16> = bgx#.txb_skd_m3_pko_fif
+                                                                 <17> = bgx#.txb_skd_m0_nic_fif
+                                                                 <18> = bgx#.txb_skd_m1_nic_fif
+                                                                 <19> = bgx#.txb_skd_m2_nic_fif
+                                                                 <20> = bgx#.txb_skd_m3_nic_fif
+                                                                 <21> = bgx#.txb_mix0_fif
+                                                                 <22> = bgx#.txb_mix1_fif
+                                                                 <23> = bgx#.txb_ncsi_fif
+                                                                 <24> = RAZ" */
 #else /* Word 0 - Little Endian */
         uint64_t status                : 25; /**< [ 24:  0](RO/H) "BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
                                                                  run. INTERNAL:
@@ -3028,25 +3040,30 @@ typedef union
                                                                  <3> = bgx#.rxb.fif_bnk01
                                                                  <4> = bgx#.rxb.fif_bnk10
                                                                  <5> = bgx#.rxb.fif_bnk11
-                                                                 <6> = bgx#.rxb.skd_fif
-                                                                 <7> = bgx#.rxb_mix0_fif
-                                                                 <8> = bgx#.rxb_mix1_fif
-                                                                 <9> = RAZ
-                                                                 <10> = bgx#.txb_fif_bnk0
-                                                                 <11> = bgx#.txb_fif_bnk1
-                                                                 <12> = bgx#.txb_skd_m0_fif
-                                                                 <13> = bgx#.txb_skd_m1_fif
-                                                                 <14> = bgx#.txb_skd_m2_fif
-                                                                 <15> = bgx#.txb_skd_m3_fif
-                                                                 <16> = bgx#.txb_mix0_fif
-                                                                 <17> = bgx#.txb_mix1_fif
-                                                                 <18> = bgx#.txb_ncsi_fif
-                                                                 <24:19> = RAZ" */
+                                                                 <6> = bgx#.rxb.pki_skd_fif
+                                                                 <7> = bgx#.rxb.nic_skd_fif
+                                                                 <8> = bgx#.rxb_mix0_fif
+                                                                 <9> = bgx#.rxb_mix1_fif
+                                                                 <10> = RAZ
+                                                                 <11> = bgx#.txb_fif_bnk0
+                                                                 <12> = bgx#.txb_fif_bnk1
+                                                                 <13> = bgx#.txb_skd_m0_pko_fif
+                                                                 <14> = bgx#.txb_skd_m1_pko_fif
+                                                                 <15> = bgx#.txb_skd_m2_pko_fif
+                                                                 <16> = bgx#.txb_skd_m3_pko_fif
+                                                                 <17> = bgx#.txb_skd_m0_nic_fif
+                                                                 <18> = bgx#.txb_skd_m1_nic_fif
+                                                                 <19> = bgx#.txb_skd_m2_nic_fif
+                                                                 <20> = bgx#.txb_skd_m3_nic_fif
+                                                                 <21> = bgx#.txb_mix0_fif
+                                                                 <22> = bgx#.txb_mix1_fif
+                                                                 <23> = bgx#.txb_ncsi_fif
+                                                                 <24> = RAZ" */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmr_bist_status_s cn88xx; */
-    struct bdk_bgxx_cmr_bist_status_cn83xx
+    /* struct bdk_bgxx_cmr_bist_status_s cn81xx; */
+    struct bdk_bgxx_cmr_bist_status_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_25_63        : 39;
@@ -3058,25 +3075,20 @@ typedef union
                                                                  <3> = bgx#.rxb.fif_bnk01
                                                                  <4> = bgx#.rxb.fif_bnk10
                                                                  <5> = bgx#.rxb.fif_bnk11
-                                                                 <6> = bgx#.rxb.pki_skd_fif
-                                                                 <7> = bgx#.rxb.nic_skd_fif
-                                                                 <8> = bgx#.rxb_mix0_fif
-                                                                 <9> = bgx#.rxb_mix1_fif
-                                                                 <10> = RAZ
-                                                                 <11> = bgx#.txb_fif_bnk0
-                                                                 <12> = bgx#.txb_fif_bnk1
-                                                                 <13> = bgx#.txb_skd_m0_pko_fif
-                                                                 <14> = bgx#.txb_skd_m1_pko_fif
-                                                                 <15> = bgx#.txb_skd_m2_pko_fif
-                                                                 <16> = bgx#.txb_skd_m3_pko_fif
-                                                                 <17> = bgx#.txb_skd_m0_nic_fif
-                                                                 <18> = bgx#.txb_skd_m1_nic_fif
-                                                                 <19> = bgx#.txb_skd_m2_nic_fif
-                                                                 <20> = bgx#.txb_skd_m3_nic_fif
-                                                                 <21> = bgx#.txb_mix0_fif
-                                                                 <22> = bgx#.txb_mix1_fif
-                                                                 <23> = bgx#.txb_ncsi_fif
-                                                                 <24> = RAZ" */
+                                                                 <6> = bgx#.rxb.skd_fif
+                                                                 <7> = bgx#.rxb_mix0_fif
+                                                                 <8> = bgx#.rxb_mix1_fif
+                                                                 <9> = RAZ
+                                                                 <10> = bgx#.txb_fif_bnk0
+                                                                 <11> = bgx#.txb_fif_bnk1
+                                                                 <12> = bgx#.txb_skd_m0_fif
+                                                                 <13> = bgx#.txb_skd_m1_fif
+                                                                 <14> = bgx#.txb_skd_m2_fif
+                                                                 <15> = bgx#.txb_skd_m3_fif
+                                                                 <16> = bgx#.txb_mix0_fif
+                                                                 <17> = bgx#.txb_mix1_fif
+                                                                 <18> = bgx#.txb_ncsi_fif
+                                                                 <24:19> = RAZ" */
 #else /* Word 0 - Little Endian */
         uint64_t status                : 25; /**< [ 24:  0](RO/H) "BIST results. Hardware sets a bit to 1 for memory that fails; 0 indicates pass or never
                                                                  run. INTERNAL:
@@ -3086,28 +3098,24 @@ typedef union
                                                                  <3> = bgx#.rxb.fif_bnk01
                                                                  <4> = bgx#.rxb.fif_bnk10
                                                                  <5> = bgx#.rxb.fif_bnk11
-                                                                 <6> = bgx#.rxb.pki_skd_fif
-                                                                 <7> = bgx#.rxb.nic_skd_fif
-                                                                 <8> = bgx#.rxb_mix0_fif
-                                                                 <9> = bgx#.rxb_mix1_fif
-                                                                 <10> = RAZ
-                                                                 <11> = bgx#.txb_fif_bnk0
-                                                                 <12> = bgx#.txb_fif_bnk1
-                                                                 <13> = bgx#.txb_skd_m0_pko_fif
-                                                                 <14> = bgx#.txb_skd_m1_pko_fif
-                                                                 <15> = bgx#.txb_skd_m2_pko_fif
-                                                                 <16> = bgx#.txb_skd_m3_pko_fif
-                                                                 <17> = bgx#.txb_skd_m0_nic_fif
-                                                                 <18> = bgx#.txb_skd_m1_nic_fif
-                                                                 <19> = bgx#.txb_skd_m2_nic_fif
-                                                                 <20> = bgx#.txb_skd_m3_nic_fif
-                                                                 <21> = bgx#.txb_mix0_fif
-                                                                 <22> = bgx#.txb_mix1_fif
-                                                                 <23> = bgx#.txb_ncsi_fif
-                                                                 <24> = RAZ" */
+                                                                 <6> = bgx#.rxb.skd_fif
+                                                                 <7> = bgx#.rxb_mix0_fif
+                                                                 <8> = bgx#.rxb_mix1_fif
+                                                                 <9> = RAZ
+                                                                 <10> = bgx#.txb_fif_bnk0
+                                                                 <11> = bgx#.txb_fif_bnk1
+                                                                 <12> = bgx#.txb_skd_m0_fif
+                                                                 <13> = bgx#.txb_skd_m1_fif
+                                                                 <14> = bgx#.txb_skd_m2_fif
+                                                                 <15> = bgx#.txb_skd_m3_fif
+                                                                 <16> = bgx#.txb_mix0_fif
+                                                                 <17> = bgx#.txb_mix1_fif
+                                                                 <18> = bgx#.txb_ncsi_fif
+                                                                 <24:19> = RAZ" */
         uint64_t reserved_25_63        : 39;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_bgxx_cmr_bist_status_s cn83xx; */
 } bdk_bgxx_cmr_bist_status_t;
 
 static inline uint64_t BDK_BGXX_CMR_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3260,6 +3268,8 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_ECO(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0e0001030ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
@@ -3307,11 +3317,7 @@ typedef union
         uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
                                                                  bytes, the packet will be removed.
                                                                  A setting of 0 means the BGX will not modify or remove the FCS bytes. */
-        uint64_t interleave_mode       : 1;  /**< [  5:  5](R/W) A setting of 0 means the BGX will operate in non-interleaved mode where there is 1 packet
-                                                                 from a given lmac in flight on the X2P interface to TNS/NIC.  A setting of 1 means the BGX
-                                                                 will operate in interleaved mode where each valid consecutive cycle on the X2P interface
-                                                                 may contain words from different lmacs.  In other words there will be multiple packets in
-                                                                 flight from different lmacs at the same time. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
         uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or TNS block is reset, software also needs to reset the X2P interface in the
@@ -3349,11 +3355,7 @@ typedef union
                                                                  After NIC/TNS comes out of reset, software should clear CMR_X2P_RESET. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
-        uint64_t interleave_mode       : 1;  /**< [  5:  5](R/W) A setting of 0 means the BGX will operate in non-interleaved mode where there is 1 packet
-                                                                 from a given lmac in flight on the X2P interface to TNS/NIC.  A setting of 1 means the BGX
-                                                                 will operate in interleaved mode where each valid consecutive cycle on the X2P interface
-                                                                 may contain words from different lmacs.  In other words there will be multiple packets in
-                                                                 flight from different lmacs at the same time. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
                                                                  bytes, the packet will be removed.
                                                                  A setting of 0 means the BGX will not modify or remove the FCS bytes. */
@@ -3378,7 +3380,7 @@ typedef union
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_bgxx_cmr_global_config_cn83xx
+    struct bdk_bgxx_cmr_global_config_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_11_63        : 53;
@@ -3403,7 +3405,11 @@ typedef union
         uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
                                                                  bytes, the packet will be removed.
                                                                  A setting of 0 means the BGX will not modify or remove the FCS bytes. */
-        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](R/W) A setting of 0 means the BGX will operate in non-interleaved mode where there is 1 packet
+                                                                 from a given lmac in flight on the X2P interface to TNS/NIC.  A setting of 1 means the BGX
+                                                                 will operate in interleaved mode where each valid consecutive cycle on the X2P interface
+                                                                 may contain words from different lmacs.  In other words there will be multiple packets in
+                                                                 flight from different lmacs at the same time. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
         uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or TNS block is reset, software also needs to reset the X2P interface in the
@@ -3441,7 +3447,11 @@ typedef union
                                                                  After NIC/TNS comes out of reset, software should clear CMR_X2P_RESET. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
-        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](R/W) A setting of 0 means the BGX will operate in non-interleaved mode where there is 1 packet
+                                                                 from a given lmac in flight on the X2P interface to TNS/NIC.  A setting of 1 means the BGX
+                                                                 will operate in interleaved mode where each valid consecutive cycle on the X2P interface
+                                                                 may contain words from different lmacs.  In other words there will be multiple packets in
+                                                                 flight from different lmacs at the same time. */
         uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
                                                                  bytes, the packet will be removed.
                                                                  A setting of 0 means the BGX will not modify or remove the FCS bytes. */
@@ -3465,9 +3475,10 @@ typedef union
                                                                  should traffic be flowing.  This bit will not reset the main RXB fifos. */
         uint64_t reserved_11_63        : 53;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_bgxx_cmr_global_config_cn83xx cn88xxp2; */
-    /* struct bdk_bgxx_cmr_global_config_s cn88xxp1; */
+    } cn88xxp1;
+    /* struct bdk_bgxx_cmr_global_config_s cn81xx; */
+    /* struct bdk_bgxx_cmr_global_config_s cn83xx; */
+    /* struct bdk_bgxx_cmr_global_config_s cn88xxp2; */
 } bdk_bgxx_cmr_global_config_t;
 
 static inline uint64_t BDK_BGXX_CMR_GLOBAL_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3597,6 +3608,86 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
+    struct bdk_bgxx_cmr_mem_int_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) TXB SKID NCSI FIFO single-bit error */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) TXB SKID NCSI FIFO double-bit error */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) RX SMU INFIFO overflow. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Bank0 double-bit error. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) RXB NIC SKID FIFO single-bit error. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) RXB NIC SKID FIFO double-bit error. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) RXB PKI SKID FIFO single-bit error. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) RXB PKI SKID FIFO double-bit error. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) RXB main FIFO bank1 srf1 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) RXB main FIFO bank1 srf1 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) RXB main FIFO bank1 srf0 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) RXB main FIFO bank1 srf0 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) RXB main FIFO bank0 srf1 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) RXB main FIFO bank0 srf1 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) RXB main FIFO bank0 srf0 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) RXB main FIFO bank0 srf0 double-bit error. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) RXB main FIFO bank0 srf0 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) RXB main FIFO bank0 srf0 single-bit error. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) RXB main FIFO bank0 srf1 double-bit error. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) RXB main FIFO bank0 srf1 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) RXB main FIFO bank1 srf0 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) RXB main FIFO bank1 srf0 single-bit error. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) RXB main FIFO bank1 srf1 double-bit error. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) RXB main FIFO bank1 srf1 single-bit error. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) RXB PKI SKID FIFO double-bit error. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) RXB PKI SKID FIFO single-bit error. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) RXB NIC SKID FIFO double-bit error. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) RXB NIC SKID FIFO single-bit error. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Bank0 double-bit error. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) RX SMU INFIFO overflow. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) TXB SKID PKO FIFO double-bit error */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID PKO FIFO single-bit error */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) TXB SKID NCSI FIFO double-bit error */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) TXB SKID NCSI FIFO single-bit error */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn81xx;
     struct bdk_bgxx_cmr_mem_int_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3657,86 +3748,7 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_cmr_mem_int_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) TXB SKID NIC FIFO double-bit error */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) TXB SKID NIC FIFO single-bit error */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) TXB SKID NIC FIFO double-bit error */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) TXB SKID NIC FIFO double-bit error */
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) TXB SKID NIC FIFO double-bit error */
-        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) TXB SKID NCSI FIFO single-bit error */
-        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) TXB SKID NCSI FIFO double-bit error */
-        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) TXB SKID PKO FIFO double-bit error */
-        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) TXB SKID PKO FIFO double-bit error */
-        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) TXB SKID PKO FIFO double-bit error */
-        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) RX SMU INFIFO overflow. */
-        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
-        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
-        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
-        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
-        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
-        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
-        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Bank0 double-bit error. */
-        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) RXB NIC SKID FIFO single-bit error. */
-        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) RXB NIC SKID FIFO double-bit error. */
-        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) RXB PKI SKID FIFO single-bit error. */
-        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) RXB PKI SKID FIFO double-bit error. */
-        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) RXB main FIFO bank1 srf1 single-bit error. */
-        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) RXB main FIFO bank1 srf1 double-bit error. */
-        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) RXB main FIFO bank1 srf0 single-bit error. */
-        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) RXB main FIFO bank1 srf0 double-bit error. */
-        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) RXB main FIFO bank0 srf1 single-bit error. */
-        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) RXB main FIFO bank0 srf1 double-bit error. */
-        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) RXB main FIFO bank0 srf0 single-bit error. */
-        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) RXB main FIFO bank0 srf0 double-bit error. */
-#else /* Word 0 - Little Endian */
-        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) RXB main FIFO bank0 srf0 double-bit error. */
-        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) RXB main FIFO bank0 srf0 single-bit error. */
-        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) RXB main FIFO bank0 srf1 double-bit error. */
-        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) RXB main FIFO bank0 srf1 single-bit error. */
-        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) RXB main FIFO bank1 srf0 double-bit error. */
-        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) RXB main FIFO bank1 srf0 single-bit error. */
-        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) RXB main FIFO bank1 srf1 double-bit error. */
-        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) RXB main FIFO bank1 srf1 single-bit error. */
-        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) RXB PKI SKID FIFO double-bit error. */
-        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) RXB PKI SKID FIFO single-bit error. */
-        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) RXB NIC SKID FIFO double-bit error. */
-        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) RXB NIC SKID FIFO single-bit error. */
-        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) TXB Main FIFO Bank0 double-bit error. */
-        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) TXB Main FIFO Bank0 single-bit error. */
-        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) TXB Main FIFO Bank1 double-bit error. */
-        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) TXB Main FIFO Bank1 single-bit error. */
-        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) TXB SKID PKO FIFO double-bit error. */
-        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) TXB SKID PKO FIFO single-bit error. */
-        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) RX GMP INFIFO overflow. */
-        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) RX SMU INFIFO overflow. */
-        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) TXB SKID PKO FIFO double-bit error */
-        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) TXB SKID PKO FIFO double-bit error */
-        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) TXB SKID PKO FIFO double-bit error */
-        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) TXB SKID PKO FIFO single-bit error */
-        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) TXB SKID NCSI FIFO double-bit error */
-        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) TXB SKID NCSI FIFO single-bit error */
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) TXB SKID NIC FIFO double-bit error */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) TXB SKID NIC FIFO double-bit error */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) TXB SKID NIC FIFO double-bit error */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) TXB SKID NIC FIFO single-bit error */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) TXB SKID NIC FIFO double-bit error */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) TXB SKID FIFO single-bit error */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) TXB SKID NIC FIFO double-bit error */
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) TXB SKID NIC FIFO single-bit error */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_cmr_mem_int_cn81xx cn83xx; */
 } bdk_bgxx_cmr_mem_int_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3786,6 +3798,86 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
+    struct bdk_bgxx_cmr_mem_int_ena_w1c_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn81xx;
     struct bdk_bgxx_cmr_mem_int_ena_w1c_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3846,86 +3938,7 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_cmr_mem_int_ena_w1c_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
-        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
-        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
-        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
-        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
-        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
-        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
-        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
-        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
-        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
-        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
-        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
-        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
-        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
-        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
-        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
-        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
-        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
-        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
-        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
-        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
-        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
-        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
-        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
-        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
-        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
-        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
-        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
-        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
-        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
-        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
-        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
-        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
-        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
-        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
-        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
-        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
-        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
-        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
-        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
-        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
-        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
-        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
-        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
-        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
-        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
-        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
-        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
-        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
-        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
-        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
-        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
-        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
-        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
-        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
-        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1C/H) Reads or clears enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_cmr_mem_int_ena_w1c_cn81xx cn83xx; */
 } bdk_bgxx_cmr_mem_int_ena_w1c_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3975,6 +3988,86 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
+    struct bdk_bgxx_cmr_mem_int_ena_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn81xx;
     struct bdk_bgxx_cmr_mem_int_ena_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4035,86 +4128,7 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_cmr_mem_int_ena_w1s_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
-        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
-        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
-        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
-        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
-        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
-        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
-        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
-        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
-        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
-        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
-        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
-        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
-        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
-        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
-        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
-        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
-        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
-        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
-        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
-        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
-        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
-        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
-        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
-        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
-        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
-        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
-        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
-        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
-        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
-        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
-        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
-        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
-        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
-        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
-        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
-        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
-        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
-        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
-        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
-        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
-        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
-        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
-        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
-        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
-        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
-        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
-        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
-        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
-        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
-        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
-        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
-        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
-        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
-        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
-        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets enable for BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_cmr_mem_int_ena_w1s_cn81xx cn83xx; */
 } bdk_bgxx_cmr_mem_int_ena_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4164,6 +4178,86 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
+    struct bdk_bgxx_cmr_mem_int_w1s_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_36_63        : 28;
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
+        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
+        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
+        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
+        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
+        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
+        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
+        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
+        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
+        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
+        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
+        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
+        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
+        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
+        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
+        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
+        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
+        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
+        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
+        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
+        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
+        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
+        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
+        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
+        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
+        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
+        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
+        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
+        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
+        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
+        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
+        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
+        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
+        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
+        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
+        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
+        uint64_t reserved_36_63        : 28;
+#endif /* Word 0 - End */
+    } cn81xx;
     struct bdk_bgxx_cmr_mem_int_w1s_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -4224,86 +4318,7 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_cmr_mem_int_w1s_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_36_63        : 28;
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
-        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
-        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
-        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
-        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
-        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
-        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
-        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
-        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
-        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
-        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
-        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
-        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
-        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
-        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
-        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
-        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
-        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
-        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
-        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
-        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
-        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
-        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
-        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
-        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
-        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
-        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
-        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
-        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
-#else /* Word 0 - Little Endian */
-        uint64_t rxb_fif_bk0_dbe0      : 1;  /**< [  0:  0](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE0]. */
-        uint64_t rxb_fif_bk0_sbe0      : 1;  /**< [  1:  1](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE0]. */
-        uint64_t rxb_fif_bk0_dbe1      : 1;  /**< [  2:  2](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_DBE1]. */
-        uint64_t rxb_fif_bk0_sbe1      : 1;  /**< [  3:  3](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK0_SBE1]. */
-        uint64_t rxb_fif_bk1_dbe0      : 1;  /**< [  4:  4](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE0]. */
-        uint64_t rxb_fif_bk1_sbe0      : 1;  /**< [  5:  5](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE0]. */
-        uint64_t rxb_fif_bk1_dbe1      : 1;  /**< [  6:  6](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_DBE1]. */
-        uint64_t rxb_fif_bk1_sbe1      : 1;  /**< [  7:  7](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_FIF_BK1_SBE1]. */
-        uint64_t rxb_pki_skid_dbe      : 1;  /**< [  8:  8](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_DBE]. */
-        uint64_t rxb_pki_skid_sbe      : 1;  /**< [  9:  9](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_PKI_SKID_SBE]. */
-        uint64_t rxb_nic_skid_dbe      : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_DBE]. */
-        uint64_t rxb_nic_skid_sbe      : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[RXB_NIC_SKID_SBE]. */
-        uint64_t txb_fif_bk0_dbe       : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_DBE]. */
-        uint64_t txb_fif_bk0_sbe       : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK0_SBE]. */
-        uint64_t txb_fif_bk1_dbe       : 1;  /**< [ 14: 14](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_DBE]. */
-        uint64_t txb_fif_bk1_sbe       : 1;  /**< [ 15: 15](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_FIF_BK1_SBE]. */
-        uint64_t txb_skid_m0_pko_dbe   : 1;  /**< [ 16: 16](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_DBE]. */
-        uint64_t txb_skid_m0_pko_sbe   : 1;  /**< [ 17: 17](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_PKO_SBE]. */
-        uint64_t gmp_in_overfl         : 1;  /**< [ 18: 18](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[GMP_IN_OVERFL]. */
-        uint64_t smu_in_overfl         : 1;  /**< [ 19: 19](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[SMU_IN_OVERFL]. */
-        uint64_t txb_skid_m1_pko_dbe   : 1;  /**< [ 20: 20](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_DBE]. */
-        uint64_t txb_skid_m1_pko_sbe   : 1;  /**< [ 21: 21](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_PKO_SBE]. */
-        uint64_t txb_skid_m2_pko_dbe   : 1;  /**< [ 22: 22](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_DBE]. */
-        uint64_t txb_skid_m2_pko_sbe   : 1;  /**< [ 23: 23](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_PKO_SBE]. */
-        uint64_t txb_skid_m3_pko_dbe   : 1;  /**< [ 24: 24](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_DBE]. */
-        uint64_t txb_skid_m3_pko_sbe   : 1;  /**< [ 25: 25](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_PKO_SBE]. */
-        uint64_t txb_ncsi_dbe          : 1;  /**< [ 26: 26](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_DBE]. */
-        uint64_t txb_ncsi_sbe          : 1;  /**< [ 27: 27](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_NCSI_SBE]. */
-        uint64_t txb_skid_m0_nic_dbe   : 1;  /**< [ 28: 28](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_DBE]. */
-        uint64_t txb_skid_m0_nic_sbe   : 1;  /**< [ 29: 29](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M0_NIC_SBE]. */
-        uint64_t txb_skid_m1_nic_dbe   : 1;  /**< [ 30: 30](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_DBE]. */
-        uint64_t txb_skid_m1_nic_sbe   : 1;  /**< [ 31: 31](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M1_NIC_SBE]. */
-        uint64_t txb_skid_m2_nic_dbe   : 1;  /**< [ 32: 32](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_DBE]. */
-        uint64_t txb_skid_m2_nic_sbe   : 1;  /**< [ 33: 33](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M2_NIC_SBE]. */
-        uint64_t txb_skid_m3_nic_dbe   : 1;  /**< [ 34: 34](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_DBE]. */
-        uint64_t txb_skid_m3_nic_sbe   : 1;  /**< [ 35: 35](R/W1S/H) Reads or sets BGX(0..1)_CMR_MEM_INT[TXB_SKID_M3_NIC_SBE]. */
-        uint64_t reserved_36_63        : 28;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_cmr_mem_int_w1s_cn81xx cn83xx; */
 } bdk_bgxx_cmr_mem_int_w1s_t;
 
 static inline uint64_t BDK_BGXX_CMR_MEM_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4346,6 +4361,8 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_NIC_NXC_ADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_NIC_NXC_ADR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0e0001020ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_NIC_NXC_ADR", 1, a, 0, 0, 0);
@@ -4420,6 +4437,8 @@ typedef union
 static inline uint64_t BDK_BGXX_CMR_PKO_NXC_ADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_CMR_PKO_NXC_ADR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0e0001018ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0e0001018ll + 0x1000000ll * ((a) & 0x1);
     __bdk_csr_fatal("BGXX_CMR_PKO_NXC_ADR", 1, a, 0, 0, 0);
@@ -9258,13 +9277,15 @@ typedef union
                                                                  2 = Remote fault. RS layer sends continuous idle sequences.
                                                                  3 = Link drain. RS layer drops full packets to allow BGX and PKO to drain their FIFOs. */
         uint64_t reserved_3            : 1;
-        uint64_t x4a_dis               : 1;  /**< [  2:  2](RAZ) Reserved. */
+        uint64_t x4a_dis               : 1;  /**< [  2:  2](R/W) Disable 4-byte SOP align (effectively force 8-byte SOP align) for all 10G variants
+                                                                 (XAUI, RXAUI, 10G). */
         uint64_t uni_en                : 1;  /**< [  1:  1](R/W) Enable unidirectional mode (IEEE Clause 66). */
         uint64_t dic_en                : 1;  /**< [  0:  0](R/W) Enable the deficit idle counter for IFG averaging. */
 #else /* Word 0 - Little Endian */
         uint64_t dic_en                : 1;  /**< [  0:  0](R/W) Enable the deficit idle counter for IFG averaging. */
         uint64_t uni_en                : 1;  /**< [  1:  1](R/W) Enable unidirectional mode (IEEE Clause 66). */
-        uint64_t x4a_dis               : 1;  /**< [  2:  2](RAZ) Reserved. */
+        uint64_t x4a_dis               : 1;  /**< [  2:  2](R/W) Disable 4-byte SOP align (effectively force 8-byte SOP align) for all 10G variants
+                                                                 (XAUI, RXAUI, 10G). */
         uint64_t reserved_3            : 1;
         uint64_t ls                    : 2;  /**< [  5:  4](R/W) Link status.
                                                                  0 = Link OK; link runs normally. RS passes MAC data to PCS.
@@ -9304,7 +9325,7 @@ typedef union
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_bgxx_smux_tx_ctl_cn83xx
+    struct bdk_bgxx_smux_tx_ctl_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_31_63        : 33;
@@ -9344,15 +9365,13 @@ typedef union
                                                                  2 = Remote fault. RS layer sends continuous idle sequences.
                                                                  3 = Link drain. RS layer drops full packets to allow BGX and PKO to drain their FIFOs. */
         uint64_t reserved_3            : 1;
-        uint64_t x4a_dis               : 1;  /**< [  2:  2](R/W) Disable 4-byte SOP align (effectively force 8-byte SOP align) for all 10G variants
-                                                                 (XAUI, RXAUI, 10G). */
+        uint64_t x4a_dis               : 1;  /**< [  2:  2](RAZ) Reserved. */
         uint64_t uni_en                : 1;  /**< [  1:  1](R/W) Enable unidirectional mode (IEEE Clause 66). */
         uint64_t dic_en                : 1;  /**< [  0:  0](R/W) Enable the deficit idle counter for IFG averaging. */
 #else /* Word 0 - Little Endian */
         uint64_t dic_en                : 1;  /**< [  0:  0](R/W) Enable the deficit idle counter for IFG averaging. */
         uint64_t uni_en                : 1;  /**< [  1:  1](R/W) Enable unidirectional mode (IEEE Clause 66). */
-        uint64_t x4a_dis               : 1;  /**< [  2:  2](R/W) Disable 4-byte SOP align (effectively force 8-byte SOP align) for all 10G variants
-                                                                 (XAUI, RXAUI, 10G). */
+        uint64_t x4a_dis               : 1;  /**< [  2:  2](RAZ) Reserved. */
         uint64_t reserved_3            : 1;
         uint64_t ls                    : 2;  /**< [  5:  4](R/W) Link status.
                                                                  0 = Link OK; link runs normally. RS passes MAC data to PCS.
@@ -9391,7 +9410,9 @@ typedef union
                                                                  default value should always be used for normal operation. */
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_bgxx_smux_tx_ctl_s cn81xx; */
+    /* struct bdk_bgxx_smux_tx_ctl_s cn83xx; */
     struct bdk_bgxx_smux_tx_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -9480,7 +9501,6 @@ typedef union
         uint64_t reserved_31_63        : 33;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_bgxx_smux_tx_ctl_s cn88xxp1; */
 } bdk_bgxx_smux_tx_ctl_t;
 
 static inline uint64_t BDK_BGXX_SMUX_TX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

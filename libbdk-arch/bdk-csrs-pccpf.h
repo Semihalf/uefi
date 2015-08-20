@@ -81,8 +81,10 @@
 #define BDK_PCC_DEV_CON_E_L2C_MCIX(a) (0x13c + (a)) /**< (0..3)Level 2 cache MCI. */
 #define BDK_PCC_DEV_CON_E_L2C_TADX(a) (0x130 + (a)) /**< (0..7)Level 2 cache TAD. */
 #define BDK_PCC_DEV_CON_E_LBKX(a) (0x168 + (a)) /**< (0..2)Loopback */
+#define BDK_PCC_DEV_CON_E_LMCX_CN81XX(a) (0x150 + (a)) /**< (0..1)LMC interface. */
 #define BDK_PCC_DEV_CON_E_LMCX_CN88XX(a) (0x150 + (a)) /**< (0..3)LMC interface. */
 #define BDK_PCC_DEV_CON_E_LMCX_CN83XX(a) (0x150 + (a)) /**< (0..1)LMC interface. */
+#define BDK_PCC_DEV_CON_E_MIO_BOOT_CN81XX (0x10e) /**< Boot registers. */
 #define BDK_PCC_DEV_CON_E_MIO_BOOT_CN88XX (0x10e) /**< Boot-bus. */
 #define BDK_PCC_DEV_CON_E_MIO_BOOT_CN83XX (0x10e) /**< Boot registers. */
 #define BDK_PCC_DEV_CON_E_MIO_EMM (0x10c) /**< eMMC. */
@@ -169,8 +171,10 @@
 #define BDK_PCC_DEV_IDL_E_BCH_VF (0x44) /**< BCH. */
 #define BDK_PCC_DEV_IDL_E_BGX (0x26) /**< Ethernet interface. */
 #define BDK_PCC_DEV_IDL_E_CHIP (0) /**< Reserved. */
+#define BDK_PCC_DEV_IDL_E_CPT_CN81XX (0x40) /**< Cryptographic accelerator. */
 #define BDK_PCC_DEV_IDL_E_CPT_CN88XX (0x40) /**< INTERNAL: Reserved. 83xx crypto. */
 #define BDK_PCC_DEV_IDL_E_CPT_CN83XX (0x40) /**< Cryptographic accelerator. */
+#define BDK_PCC_DEV_IDL_E_CPT_VF_CN81XX (0x41) /**< Cryptographic accelerator SR-IOV virtual function. */
 #define BDK_PCC_DEV_IDL_E_CPT_VF_CN88XX (0x41) /**< INTERNAL: Reserved. 83xx crypto. */
 #define BDK_PCC_DEV_IDL_E_CPT_VF_CN83XX (0x41) /**< Cryptographic accelerator SR-IOV virtual function. */
 #define BDK_PCC_DEV_IDL_E_DAP (0x2c) /**< Debug access point. */
@@ -497,6 +501,33 @@ typedef union
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar0_rbsz and tie__pfbar0_offset. */
         uint32_t reserved_4_15         : 12;
         uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+#else /* Word 0 - Little Endian */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 0 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar0_rbsz and tie__pfbar0_offset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccpf_xxx_bar0l_s cn88xxp1; */
+    struct bdk_pccpf_xxx_bar0l_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 0 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar0_rbsz and tie__pfbar0_offset. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR. */
@@ -515,8 +546,8 @@ typedef union
         uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 0 base address. See additional BAR related notes in
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar0_rbsz and tie__pfbar0_offset. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pccpf_xxx_bar0l_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_pccpf_xxx_bar0l_cn81xx cn83xx; */
     struct bdk_pccpf_xxx_bar0l_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -545,32 +576,6 @@ typedef union
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar0_rbsz and tie__pfbar0_offset. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_pccpf_xxx_bar0l_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 0 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar0_rbsz and tie__pfbar0_offset. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-#else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 0 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar0_rbsz and tie__pfbar0_offset. */
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_pccpf_xxx_bar0l_t;
 
 #define BDK_PCCPF_XXX_BAR0L BDK_PCCPF_XXX_BAR0L_FUNC()
@@ -648,6 +653,33 @@ typedef union
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar2_rbsz and tie__pfbar2_offset. */
         uint32_t reserved_4_15         : 12;
         uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+#else /* Word 0 - Little Endian */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 2 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar2_rbsz and tie__pfbar2_offset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccpf_xxx_bar2l_s cn88xxp1; */
+    struct bdk_pccpf_xxx_bar2l_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 2 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar2_rbsz and tie__pfbar2_offset. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR. */
@@ -666,8 +698,8 @@ typedef union
         uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 2 base address. See additional BAR related notes in
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar2_rbsz and tie__pfbar2_offset. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pccpf_xxx_bar2l_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_pccpf_xxx_bar2l_cn81xx cn83xx; */
     struct bdk_pccpf_xxx_bar2l_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -696,32 +728,6 @@ typedef union
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar2_rbsz and tie__pfbar2_offset. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_pccpf_xxx_bar2l_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 2 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar2_rbsz and tie__pfbar2_offset. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-#else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 2 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar2_rbsz and tie__pfbar2_offset. */
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_pccpf_xxx_bar2l_t;
 
 #define BDK_PCCPF_XXX_BAR2L BDK_PCCPF_XXX_BAR2L_FUNC()
@@ -788,6 +794,33 @@ typedef union
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar4_rbsz and tie__pfbar4_offset. */
         uint32_t reserved_4_15         : 12;
         uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+#else /* Word 0 - Little Endian */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 4 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar4_rbsz and tie__pfbar4_offset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccpf_xxx_bar4l_s cn88xxp1; */
+    struct bdk_pccpf_xxx_bar4l_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 4 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar4_rbsz and tie__pfbar4_offset. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR. */
@@ -806,8 +839,8 @@ typedef union
         uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 4 base address. See additional BAR related notes in
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar4_rbsz and tie__pfbar4_offset. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pccpf_xxx_bar4l_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_pccpf_xxx_bar4l_cn81xx cn83xx; */
     struct bdk_pccpf_xxx_bar4l_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -836,32 +869,6 @@ typedef union
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar4_rbsz and tie__pfbar4_offset. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_pccpf_xxx_bar4l_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 4 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar4_rbsz and tie__pfbar4_offset. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-#else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory space indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the BAR 4 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__pfbar4_rbsz and tie__pfbar4_offset. */
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_pccpf_xxx_bar4l_t;
 
 #define BDK_PCCPF_XXX_BAR4L BDK_PCCPF_XXX_BAR4L_FUNC()
@@ -930,6 +937,8 @@ typedef union
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pccpf_xxx_cap_ptr_s cn88xxp1; */
+    /* struct bdk_pccpf_xxx_cap_ptr_s cn81xx; */
     /* struct bdk_pccpf_xxx_cap_ptr_s cn83xx; */
     struct bdk_pccpf_xxx_cap_ptr_cn88xxp2
     {
@@ -941,7 +950,6 @@ typedef union
         uint32_t reserved_8_31         : 24;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_pccpf_xxx_cap_ptr_s cn88xxp1; */
 } bdk_pccpf_xxx_cap_ptr_t;
 
 #define BDK_PCCPF_XXX_CAP_PTR BDK_PCCPF_XXX_CAP_PTR_FUNC()
@@ -1053,43 +1061,46 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If MSI-X is supported, points to
-                                                                 PCCPF_XXX_MSIX_CAP_HDR, else if PCCPF_XXX_VSEC_SCTL[EA] is set points to
-                                                                 PCCPF_XXX_EA_CAP_HDR, else 0x0. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. If MSI-X is supported, points to
+                                                                 PCCPF_XXX_MSIX_CAP_HDR, else 0x0. */
         uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
 #else /* Word 0 - Little Endian */
         uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If MSI-X is supported, points to
-                                                                 PCCPF_XXX_MSIX_CAP_HDR, else if PCCPF_XXX_VSEC_SCTL[EA] is set points to
-                                                                 PCCPF_XXX_EA_CAP_HDR, else 0x0. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. If MSI-X is supported, points to
+                                                                 PCCPF_XXX_MSIX_CAP_HDR, else 0x0. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
         uint32_t reserved_20_31        : 12;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pccpf_xxx_e_cap_hdr_s cn83xx; */
-    /* struct bdk_pccpf_xxx_e_cap_hdr_s cn88xxp2; */
-    struct bdk_pccpf_xxx_e_cap_hdr_cn88xxp1
+    /* struct bdk_pccpf_xxx_e_cap_hdr_s cn88xxp1; */
+    struct bdk_pccpf_xxx_e_cap_hdr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_20_31        : 12;
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. If MSI-X is supported, points to
-                                                                 PCCPF_XXX_MSIX_CAP_HDR, else 0x0. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If MSI-X is supported, points to
+                                                                 PCCPF_XXX_MSIX_CAP_HDR, else if PCCPF_XXX_VSEC_SCTL[EA] is set points to
+                                                                 PCCPF_XXX_EA_CAP_HDR, else 0x0. */
         uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
 #else /* Word 0 - Little Endian */
         uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. If MSI-X is supported, points to
-                                                                 PCCPF_XXX_MSIX_CAP_HDR, else 0x0. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If MSI-X is supported, points to
+                                                                 PCCPF_XXX_MSIX_CAP_HDR, else if PCCPF_XXX_VSEC_SCTL[EA] is set points to
+                                                                 PCCPF_XXX_EA_CAP_HDR, else 0x0. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
         uint32_t reserved_20_31        : 12;
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn81xx;
+    /* struct bdk_pccpf_xxx_e_cap_hdr_cn81xx cn83xx; */
+    /* struct bdk_pccpf_xxx_e_cap_hdr_cn81xx cn88xxp2; */
 } bdk_pccpf_xxx_e_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_E_CAP_HDR BDK_PCCPF_XXX_E_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_E_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_E_CAP_HDR_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x40;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x40;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
@@ -1152,6 +1163,8 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_EA_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_EA_CAP_HDR_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x98;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x98;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
@@ -1191,6 +1204,8 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_EA_ENTRYX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_EA_ENTRYX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=19))
+        return 0x9c + 4 * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=19))
         return 0x9c + 4 * ((a) & 0x1f);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=19))
@@ -1266,13 +1281,11 @@ typedef union
                                                                  Setting or clearing FUNM has no effect on the state of the per-vector mask bits. */
         uint32_t reserved_27_29        : 3;
         uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1). INTERNAL: From PCC's MSIX_PF_VECS parameter. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If PCCPF_XXX_VSEC_SCTL[EA] is set points to
-                                                                 PCCPF_XXX_EA_CAP_HDR, else 0x0. */
-        uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X Capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
+        uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X capability ID. */
 #else /* Word 0 - Little Endian */
-        uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X Capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If PCCPF_XXX_VSEC_SCTL[EA] is set points to
-                                                                 PCCPF_XXX_EA_CAP_HDR, else 0x0. */
+        uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
         uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1). INTERNAL: From PCC's MSIX_PF_VECS parameter. */
         uint32_t reserved_27_29        : 3;
         uint32_t funm                  : 1;  /**< [ 30: 30](R/W) Function mask.
@@ -1287,9 +1300,8 @@ typedef union
                                                                  1 = Normal PBA and MSI-X delivery. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_pccpf_xxx_msix_cap_hdr_s cn83xx; */
-    /* struct bdk_pccpf_xxx_msix_cap_hdr_s cn88xxp2; */
-    struct bdk_pccpf_xxx_msix_cap_hdr_cn88xxp1
+    /* struct bdk_pccpf_xxx_msix_cap_hdr_s cn88xxp1; */
+    struct bdk_pccpf_xxx_msix_cap_hdr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t msixen                : 1;  /**< [ 31: 31](R/W) MSI-X enable.
@@ -1304,11 +1316,13 @@ typedef union
                                                                  Setting or clearing FUNM has no effect on the state of the per-vector mask bits. */
         uint32_t reserved_27_29        : 3;
         uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1). INTERNAL: From PCC's MSIX_PF_VECS parameter. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
-        uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If PCCPF_XXX_VSEC_SCTL[EA] is set points to
+                                                                 PCCPF_XXX_EA_CAP_HDR, else 0x0. */
+        uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X Capability ID. */
 #else /* Word 0 - Little Endian */
-        uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. */
+        uint32_t msixcid               : 8;  /**< [  7:  0](RO) MSI-X Capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO/H) Next capability pointer. If PCCPF_XXX_VSEC_SCTL[EA] is set points to
+                                                                 PCCPF_XXX_EA_CAP_HDR, else 0x0. */
         uint32_t msixts                : 11; /**< [ 26: 16](RO) MSI-X table size encoded as (table size - 1). INTERNAL: From PCC's MSIX_PF_VECS parameter. */
         uint32_t reserved_27_29        : 3;
         uint32_t funm                  : 1;  /**< [ 30: 30](R/W) Function mask.
@@ -1322,13 +1336,17 @@ typedef union
                                                                  will not be issued.
                                                                  1 = Normal PBA and MSI-X delivery. */
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn81xx;
+    /* struct bdk_pccpf_xxx_msix_cap_hdr_cn81xx cn83xx; */
+    /* struct bdk_pccpf_xxx_msix_cap_hdr_cn81xx cn88xxp2; */
 } bdk_pccpf_xxx_msix_cap_hdr_t;
 
 #define BDK_PCCPF_XXX_MSIX_CAP_HDR BDK_PCCPF_XXX_MSIX_CAP_HDR_FUNC()
 static inline uint64_t BDK_PCCPF_XXX_MSIX_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_MSIX_CAP_HDR_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x80;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x80;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
@@ -1374,6 +1392,8 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_MSIX_PBA_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_MSIX_PBA_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x88;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x88;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
@@ -1419,6 +1439,8 @@ typedef union
 static inline uint64_t BDK_PCCPF_XXX_MSIX_TABLE_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCPF_XXX_MSIX_TABLE_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x84;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x84;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
@@ -1530,6 +1552,35 @@ typedef union
                                                                  tie__vfbar0_offset. */
         uint32_t reserved_4_15         : 12;
         uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+#else /* Word 0 - Little Endian */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 0 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar0_rbsz and
+                                                                 tie__vfbar0_offset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccpf_xxx_sriov_bar0l_s cn88xxp1; */
+    struct bdk_pccpf_xxx_sriov_bar0l_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 0 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar0_rbsz and
+                                                                 tie__vfbar0_offset. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR. */
@@ -1549,8 +1600,8 @@ typedef union
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar0_rbsz and
                                                                  tie__vfbar0_offset. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pccpf_xxx_sriov_bar0l_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_pccpf_xxx_sriov_bar0l_cn81xx cn83xx; */
     struct bdk_pccpf_xxx_sriov_bar0l_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1581,34 +1632,6 @@ typedef union
                                                                  tie__vfbar0_offset. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_pccpf_xxx_sriov_bar0l_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 0 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar0_rbsz and
-                                                                 tie__vfbar0_offset. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-#else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 0 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar0_rbsz and
-                                                                 tie__vfbar0_offset. */
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_pccpf_xxx_sriov_bar0l_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR0L BDK_PCCPF_XXX_SRIOV_BAR0L_FUNC()
@@ -1673,6 +1696,33 @@ typedef union
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar2_rbsz and tie__vfbar2_offset. */
         uint32_t reserved_4_15         : 12;
         uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+#else /* Word 0 - Little Endian */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 2 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar2_rbsz and tie__vfbar2_offset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccpf_xxx_sriov_bar2l_s cn88xxp1; */
+    struct bdk_pccpf_xxx_sriov_bar2l_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 2 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar2_rbsz and tie__vfbar2_offset. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR. */
@@ -1691,8 +1741,8 @@ typedef union
         uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 2 base address. See additional BAR related notes in
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar2_rbsz and tie__vfbar2_offset. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pccpf_xxx_sriov_bar2l_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_pccpf_xxx_sriov_bar2l_cn81xx cn83xx; */
     struct bdk_pccpf_xxx_sriov_bar2l_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1721,32 +1771,6 @@ typedef union
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar2_rbsz and tie__vfbar2_offset. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_pccpf_xxx_sriov_bar2l_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 2 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar2_rbsz and tie__vfbar2_offset. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-#else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 2 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar2_rbsz and tie__vfbar2_offset. */
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_pccpf_xxx_sriov_bar2l_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR2L BDK_PCCPF_XXX_SRIOV_BAR2L_FUNC()
@@ -1811,6 +1835,33 @@ typedef union
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar4_rbsz and tie__vfbar4_offset. */
         uint32_t reserved_4_15         : 12;
         uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+#else /* Word 0 - Little Endian */
+        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
+                                                                 0 = BAR is a memory BAR.
+                                                                 1 = BAR is an I/O BAR. */
+        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
+                                                                 0x0 = 32-bit BAR, or BAR not present.
+                                                                 0x2 = 64-bit BAR. */
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 4 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar4_rbsz and tie__vfbar4_offset. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccpf_xxx_sriov_bar4l_s cn88xxp1; */
+    struct bdk_pccpf_xxx_sriov_bar4l_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 4 base address. See additional BAR related notes in
+                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar4_rbsz and tie__vfbar4_offset. */
+        uint32_t reserved_4_15         : 12;
+        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
         uint32_t typ                   : 2;  /**< [  2:  1](RO/H) BAR type. 0x0 if not implemented or PCCPF_XXX_VSEC_SCTL[EA] is set, else 0x2:
                                                                  0x0 = 32-bit BAR, or BAR not present.
                                                                  0x2 = 64-bit BAR. */
@@ -1829,8 +1880,8 @@ typedef union
         uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 4 base address. See additional BAR related notes in
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar4_rbsz and tie__vfbar4_offset. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pccpf_xxx_sriov_bar4l_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_pccpf_xxx_sriov_bar4l_cn81xx cn83xx; */
     struct bdk_pccpf_xxx_sriov_bar4l_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1859,32 +1910,6 @@ typedef union
                                                                  PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar4_rbsz and tie__vfbar4_offset. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_pccpf_xxx_sriov_bar4l_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 4 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar4_rbsz and tie__vfbar4_offset. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-#else /* Word 0 - Little Endian */
-        uint32_t mspc                  : 1;  /**< [  0:  0](RO) Memory Space Indicator.
-                                                                 0 = BAR is a memory BAR.
-                                                                 1 = BAR is an I/O BAR. */
-        uint32_t typ                   : 2;  /**< [  2:  1](RO) BAR type. 0x0 if not implemented, else 0x2:
-                                                                 0x0 = 32-bit BAR, or BAR not present.
-                                                                 0x2 = 64-bit BAR. */
-        uint32_t pf                    : 1;  /**< [  3:  3](RO) Prefetchable. */
-        uint32_t reserved_4_15         : 12;
-        uint32_t lbab                  : 16; /**< [ 31: 16](R/W/H) Lower bits of the VF BAR 4 base address. See additional BAR related notes in
-                                                                 PCCPF_XXX_BAR0U[UBAB]. INTERNAL: From PCC's tie__vfbar4_rbsz and tie__vfbar4_offset. */
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_pccpf_xxx_sriov_bar4l_t;
 
 #define BDK_PCCPF_XXX_SRIOV_BAR4L BDK_PCCPF_XXX_SRIOV_BAR4L_FUNC()
@@ -2641,6 +2666,45 @@ typedef union
                                                                  devices. */
         uint32_t rid                   : 8;  /**< [ 23: 16](SR/W) Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
         uint32_t reserved_6_15         : 10;
+        uint32_t node                  : 2;  /**< [  5:  4](SRO) Reserved. */
+        uint32_t ea                    : 1;  /**< [  3:  3](SRO) Reserved. */
+        uint32_t bcst_rsp              : 1;  /**< [  2:  2](SR/W) Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
+                                                                 instance as the responder to PCC broadcast reads/writes. */
+        uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
+                                                                 (e.g. GTI_MSIX_VEC(0..105)_ADDR[SECVEC]) for all vectors in the block. */
+        uint32_t msix_phys             : 1;  /**< [  0:  0](SR/W) MSI-X interrupts are physical.
+                                                                 0 = MSI-X interrupt vector addresses are standard virtual addresses and subject to SMMU
+                                                                 address translation.
+                                                                 1 = MSI-X interrupt vector addresses are considered physical addresses and PCC MSI-X
+                                                                 interrupt delivery will bypass the SMMU. */
+#else /* Word 0 - Little Endian */
+        uint32_t msix_phys             : 1;  /**< [  0:  0](SR/W) MSI-X interrupts are physical.
+                                                                 0 = MSI-X interrupt vector addresses are standard virtual addresses and subject to SMMU
+                                                                 address translation.
+                                                                 1 = MSI-X interrupt vector addresses are considered physical addresses and PCC MSI-X
+                                                                 interrupt delivery will bypass the SMMU. */
+        uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
+                                                                 (e.g. GTI_MSIX_VEC(0..105)_ADDR[SECVEC]) for all vectors in the block. */
+        uint32_t bcst_rsp              : 1;  /**< [  2:  2](SR/W) Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
+                                                                 instance as the responder to PCC broadcast reads/writes. */
+        uint32_t ea                    : 1;  /**< [  3:  3](SRO) Reserved. */
+        uint32_t node                  : 2;  /**< [  5:  4](SRO) Reserved. */
+        uint32_t reserved_6_15         : 10;
+        uint32_t rid                   : 8;  /**< [ 23: 16](SR/W) Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
+        uint32_t nxtfn_s               : 8;  /**< [ 31: 24](SR/W) For secure accesses, the value to be presented in PCCPF_XXX_(S)ARI_NXT[NXTFN] indicating
+                                                                 the next valid function number for this device. Must be 0x0 for non-MRML PCC
+                                                                 devices. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccpf_xxx_vsec_sctl_s cn88xxp1; */
+    struct bdk_pccpf_xxx_vsec_sctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t nxtfn_s               : 8;  /**< [ 31: 24](SR/W) For secure accesses, the value to be presented in PCCPF_XXX_(S)ARI_NXT[NXTFN] indicating
+                                                                 the next valid function number for this device. Must be 0x0 for non-MRML PCC
+                                                                 devices. */
+        uint32_t rid                   : 8;  /**< [ 23: 16](SR/W) Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
+        uint32_t reserved_6_15         : 10;
         uint32_t node                  : 2;  /**< [  5:  4](SR/W/H) Node number.
                                                                  INTERNAL: RAZ/WI for devices that have pcc_nodeless_bar attribute. */
         uint32_t ea                    : 1;  /**< [  3:  3](SR/W) Enable PCI enhanced allocation.
@@ -2694,8 +2758,8 @@ typedef union
                                                                  the next valid function number for this device. Must be 0x0 for non-MRML PCC
                                                                  devices. */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pccpf_xxx_vsec_sctl_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_pccpf_xxx_vsec_sctl_cn81xx cn83xx; */
     struct bdk_pccpf_xxx_vsec_sctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2762,44 +2826,6 @@ typedef union
                                                                  devices. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_pccpf_xxx_vsec_sctl_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t nxtfn_s               : 8;  /**< [ 31: 24](SR/W) For secure accesses, the value to be presented in PCCPF_XXX_(S)ARI_NXT[NXTFN] indicating
-                                                                 the next valid function number for this device. Must be 0x0 for non-MRML PCC
-                                                                 devices. */
-        uint32_t rid                   : 8;  /**< [ 23: 16](SR/W) Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
-        uint32_t reserved_6_15         : 10;
-        uint32_t node                  : 2;  /**< [  5:  4](SRO) Reserved. */
-        uint32_t ea                    : 1;  /**< [  3:  3](SRO) Reserved. */
-        uint32_t bcst_rsp              : 1;  /**< [  2:  2](SR/W) Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
-                                                                 instance as the responder to PCC broadcast reads/writes. */
-        uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
-                                                                 (e.g. GTI_MSIX_VEC(0..105)_ADDR[SECVEC]) for all vectors in the block. */
-        uint32_t msix_phys             : 1;  /**< [  0:  0](SR/W) MSI-X interrupts are physical.
-                                                                 0 = MSI-X interrupt vector addresses are standard virtual addresses and subject to SMMU
-                                                                 address translation.
-                                                                 1 = MSI-X interrupt vector addresses are considered physical addresses and PCC MSI-X
-                                                                 interrupt delivery will bypass the SMMU. */
-#else /* Word 0 - Little Endian */
-        uint32_t msix_phys             : 1;  /**< [  0:  0](SR/W) MSI-X interrupts are physical.
-                                                                 0 = MSI-X interrupt vector addresses are standard virtual addresses and subject to SMMU
-                                                                 address translation.
-                                                                 1 = MSI-X interrupt vector addresses are considered physical addresses and PCC MSI-X
-                                                                 interrupt delivery will bypass the SMMU. */
-        uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
-                                                                 (e.g. GTI_MSIX_VEC(0..105)_ADDR[SECVEC]) for all vectors in the block. */
-        uint32_t bcst_rsp              : 1;  /**< [  2:  2](SR/W) Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
-                                                                 instance as the responder to PCC broadcast reads/writes. */
-        uint32_t ea                    : 1;  /**< [  3:  3](SRO) Reserved. */
-        uint32_t node                  : 2;  /**< [  5:  4](SRO) Reserved. */
-        uint32_t reserved_6_15         : 10;
-        uint32_t rid                   : 8;  /**< [ 23: 16](SR/W) Revision ID. R/W version of the value to be presented in PCCPF_XXX_REV[RID]. */
-        uint32_t nxtfn_s               : 8;  /**< [ 31: 24](SR/W) For secure accesses, the value to be presented in PCCPF_XXX_(S)ARI_NXT[NXTFN] indicating
-                                                                 the next valid function number for this device. Must be 0x0 for non-MRML PCC
-                                                                 devices. */
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_pccpf_xxx_vsec_sctl_t;
 
 #define BDK_PCCPF_XXX_VSEC_SCTL BDK_PCCPF_XXX_VSEC_SCTL_FUNC()

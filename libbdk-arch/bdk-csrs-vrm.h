@@ -221,6 +221,8 @@ typedef union
 static inline uint64_t BDK_VRMX_ECO(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_VRMX_ECO(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0210000c8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0210000c8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
@@ -432,6 +434,8 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_vrmx_trip_s cn88xxp1; */
+    /* struct bdk_vrmx_trip_s cn81xx; */
     /* struct bdk_vrmx_trip_s cn83xx; */
     struct bdk_vrmx_trip_cn88xxp2
     {
@@ -447,7 +451,6 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_vrmx_trip_s cn88xxp1; */
 } bdk_vrmx_trip_t;
 
 static inline uint64_t BDK_VRMX_TRIP(unsigned long a) __attribute__ ((pure, always_inline));

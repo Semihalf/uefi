@@ -75,8 +75,10 @@
 #define BDK_PEM_INT_VEC_E_ERROR_AERI_CLEAR (1) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_ERROR_PMEI (2) /**< See PCIERC()_CFG036. */
 #define BDK_PEM_INT_VEC_E_ERROR_PMEI_CLEAR (3) /**< Level sensitive interrupt clear vector. */
+#define BDK_PEM_INT_VEC_E_HP_INT_CN81XX (0xe) /**< PCI hot-plug interrupt set vector. */
 #define BDK_PEM_INT_VEC_E_HP_INT_CN88XX (0xe) /**< PCI hot-plug interrupt set vector. Added in pass 2. */
 #define BDK_PEM_INT_VEC_E_HP_INT_CN83XX (0xe) /**< PCI hot-plug interrupt set vector. */
+#define BDK_PEM_INT_VEC_E_HP_INT_CLEAR_CN81XX (0xf) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_HP_INT_CLEAR_CN88XX (0xf) /**< Level sensitive interrupt clear vector. Added in pass 2. */
 #define BDK_PEM_INT_VEC_E_HP_INT_CLEAR_CN83XX (0xf) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_INTA (4) /**< PCI INTA legacy interrupt set vector. */
@@ -254,16 +256,16 @@ typedef union
         uint64_t rqhdrb1               : 1;  /**< [ 22: 22](RO) Rx queue header memory buffer 1. */
         uint64_t rqdatab0              : 1;  /**< [ 21: 21](RO) Rx queue data buffer 0. */
         uint64_t rqdatab1              : 1;  /**< [ 20: 20](RO) Rx queue data buffer 1. */
-        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) BIST Status for the tlp_n_afifo_data0. */
-        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) BIST Status for the tlp_n_afifo_data1. */
-        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) BIST Status for the tlp_n_afifo_ctl. */
-        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) BIST Status for the tlp_p_afifo_data0. */
-        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) BIST Status for the tlp_p_afifo_data1. */
-        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) BIST Status for the tlp_p_afifo_ctl. */
-        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) BIST Status for the tlp_c_afifo_data0. */
-        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) BIST Status for the tlp_c_afifo_data1. */
-        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) BIST Status for the tlp_c_afifo_ctl. */
-        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) BIST Status for the peai__pesc_fifo. */
+        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) Reserved. */
+        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) Reserved. */
+        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) Reserved. */
+        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) Reserved. */
+        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) Reserved. */
+        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) Reserved. */
+        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) Reserved. */
+        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) Reserved. */
+        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) Reserved. */
+        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) Reserved. */
         uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
         uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
         uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
@@ -285,16 +287,16 @@ typedef union
         uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
         uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
         uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
-        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) BIST Status for the peai__pesc_fifo. */
-        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) BIST Status for the tlp_c_afifo_ctl. */
-        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) BIST Status for the tlp_c_afifo_data1. */
-        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) BIST Status for the tlp_c_afifo_data0. */
-        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) BIST Status for the tlp_p_afifo_ctl. */
-        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) BIST Status for the tlp_p_afifo_data1. */
-        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) BIST Status for the tlp_p_afifo_data0. */
-        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) BIST Status for the tlp_n_afifo_ctl. */
-        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) BIST Status for the tlp_n_afifo_data1. */
-        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) BIST Status for the tlp_n_afifo_data0. */
+        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) Reserved. */
+        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) Reserved. */
+        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) Reserved. */
+        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) Reserved. */
+        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) Reserved. */
+        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) Reserved. */
+        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) Reserved. */
+        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) Reserved. */
+        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) Reserved. */
+        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) Reserved. */
         uint64_t rqdatab1              : 1;  /**< [ 20: 20](RO) Rx queue data buffer 1. */
         uint64_t rqdatab0              : 1;  /**< [ 21: 21](RO) Rx queue data buffer 0. */
         uint64_t rqhdrb1               : 1;  /**< [ 22: 22](RO) Rx queue header memory buffer 1. */
@@ -304,7 +306,7 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_bist_status_cn83xx
+    struct bdk_pemx_bist_status_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
@@ -314,16 +316,16 @@ typedef union
         uint64_t rqhdrb1               : 1;  /**< [ 22: 22](RO) Rx queue header memory buffer 1. */
         uint64_t rqdatab0              : 1;  /**< [ 21: 21](RO) Rx queue data buffer 0. */
         uint64_t rqdatab1              : 1;  /**< [ 20: 20](RO) Rx queue data buffer 1. */
-        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) Reserved. */
-        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) Reserved. */
-        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) Reserved. */
-        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) Reserved. */
-        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) Reserved. */
-        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) Reserved. */
-        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) Reserved. */
-        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) Reserved. */
-        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) Reserved. */
-        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) Reserved. */
+        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) BIST Status for the tlp_n_afifo_data0. */
+        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) BIST Status for the tlp_n_afifo_data1. */
+        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) BIST Status for the tlp_n_afifo_ctl. */
+        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) BIST Status for the tlp_p_afifo_data0. */
+        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) BIST Status for the tlp_p_afifo_data1. */
+        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) BIST Status for the tlp_p_afifo_ctl. */
+        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) BIST Status for the tlp_c_afifo_data0. */
+        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) BIST Status for the tlp_c_afifo_data1. */
+        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) BIST Status for the tlp_c_afifo_ctl. */
+        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) BIST Status for the peai__pesc_fifo. */
         uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
         uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
         uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
@@ -345,16 +347,16 @@ typedef union
         uint64_t tlpn_ctl              : 1;  /**< [  7:  7](RO) BIST status for tlp_n_fifo_ctl. */
         uint64_t tlpn_d1               : 1;  /**< [  8:  8](RO) BIST status for tlp_n_fifo_data1. */
         uint64_t tlpn_d0               : 1;  /**< [  9:  9](RO) BIST status for tlp_n_fifo_data0. */
-        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) Reserved. */
-        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) Reserved. */
-        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) Reserved. */
-        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) Reserved. */
-        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) Reserved. */
-        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) Reserved. */
-        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) Reserved. */
-        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) Reserved. */
-        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) Reserved. */
-        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) Reserved. */
+        uint64_t peai_p2e              : 1;  /**< [ 10: 10](RO) BIST Status for the peai__pesc_fifo. */
+        uint64_t tlpac_ctl             : 1;  /**< [ 11: 11](RO) BIST Status for the tlp_c_afifo_ctl. */
+        uint64_t tlpac_d1              : 1;  /**< [ 12: 12](RO) BIST Status for the tlp_c_afifo_data1. */
+        uint64_t tlpac_d0              : 1;  /**< [ 13: 13](RO) BIST Status for the tlp_c_afifo_data0. */
+        uint64_t tlpap_ctl             : 1;  /**< [ 14: 14](RO) BIST Status for the tlp_p_afifo_ctl. */
+        uint64_t tlpap_d1              : 1;  /**< [ 15: 15](RO) BIST Status for the tlp_p_afifo_data1. */
+        uint64_t tlpap_d0              : 1;  /**< [ 16: 16](RO) BIST Status for the tlp_p_afifo_data0. */
+        uint64_t tlpan_ctl             : 1;  /**< [ 17: 17](RO) BIST Status for the tlp_n_afifo_ctl. */
+        uint64_t tlpan_d1              : 1;  /**< [ 18: 18](RO) BIST Status for the tlp_n_afifo_data1. */
+        uint64_t tlpan_d0              : 1;  /**< [ 19: 19](RO) BIST Status for the tlp_n_afifo_data0. */
         uint64_t rqdatab1              : 1;  /**< [ 20: 20](RO) Rx queue data buffer 1. */
         uint64_t rqdatab0              : 1;  /**< [ 21: 21](RO) Rx queue data buffer 0. */
         uint64_t rqhdrb1               : 1;  /**< [ 22: 22](RO) Rx queue header memory buffer 1. */
@@ -363,9 +365,10 @@ typedef union
         uint64_t retryc                : 1;  /**< [ 25: 25](RO) Retry buffer memory C. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_pemx_bist_status_cn83xx cn88xxp2; */
-    /* struct bdk_pemx_bist_status_s cn88xxp1; */
+    } cn88xxp1;
+    /* struct bdk_pemx_bist_status_s cn81xx; */
+    /* struct bdk_pemx_bist_status_s cn83xx; */
+    /* struct bdk_pemx_bist_status_s cn88xxp2; */
 } bdk_pemx_bist_status_t;
 
 static inline uint64_t BDK_PEMX_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -679,138 +682,6 @@ typedef union
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_ctl_status_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_55_63        : 9;
-        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM.to improve
-                                                                 small TLP performance. */
-        uint64_t reserved_51           : 1;
-        uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
-                                                                 block to force a parity error when it is later read. */
-        uint64_t reserved_48_49        : 2;
-        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
-        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
-        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
-        uint64_t reserved_32_33        : 2;
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
-
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
-        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
-        uint64_t reserved_6_10         : 5;
-        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
-        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
-                                                                 active when in RC mode. */
-        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
-        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
-        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
-        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
-#else /* Word 0 - Little Endian */
-        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
-        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
-        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
-        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
-        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
-                                                                 active when in RC mode. */
-        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
-        uint64_t reserved_6_10         : 5;
-        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
-        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
-
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
-        uint64_t reserved_32_33        : 2;
-        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
-        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
-        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
-        uint64_t reserved_48_49        : 2;
-        uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
-                                                                 block to force a parity error when it is later read. */
-        uint64_t reserved_51           : 1;
-        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM.to improve
-                                                                 small TLP performance. */
-        uint64_t reserved_55_63        : 9;
-#endif /* Word 0 - End */
-    } cn83xx;
-    struct bdk_pemx_ctl_status_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_55_63        : 9;
-        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM. Added in pass 2 to improve
-                                                                 small TLP performance. */
-        uint64_t reserved_51           : 1;
-        uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
-                                                                 block to force a parity error when it is later read. */
-        uint64_t reserved_48_49        : 2;
-        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
-        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
-        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
-        uint64_t reserved_32_33        : 2;
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
-
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
-        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
-        uint64_t reserved_6_10         : 5;
-        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
-        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
-                                                                 active when in RC mode. */
-        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
-        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
-        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
-        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
-#else /* Word 0 - Little Endian */
-        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
-        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
-        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
-        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
-        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
-                                                                 active when in RC mode. */
-        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
-        uint64_t reserved_6_10         : 5;
-        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
-        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
-        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
-                                                                 read that does not carry a retry status. Until such time that the timeout occurs
-                                                                 and retry status is received for a configuration read, the read will be
-                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
-
-                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
-                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
-                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
-                                                                 completion or CPL UR. */
-        uint64_t reserved_32_33        : 2;
-        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
-        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
-        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
-        uint64_t reserved_48_49        : 2;
-        uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
-                                                                 block to force a parity error when it is later read. */
-        uint64_t reserved_51           : 1;
-        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM. Added in pass 2 to improve
-                                                                 small TLP performance. */
-        uint64_t reserved_55_63        : 9;
-#endif /* Word 0 - End */
-    } cn88xxp2;
     struct bdk_pemx_ctl_status_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -895,6 +766,139 @@ typedef union
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    struct bdk_pemx_ctl_status_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_55_63        : 9;
+        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM.to improve
+                                                                 small TLP performance. */
+        uint64_t reserved_51           : 1;
+        uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
+                                                                 block to force a parity error when it is later read. */
+        uint64_t reserved_48_49        : 2;
+        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
+        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
+        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
+        uint64_t reserved_32_33        : 2;
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
+        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
+        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
+        uint64_t reserved_6_10         : 5;
+        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
+        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
+                                                                 active when in RC mode. */
+        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
+        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
+        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
+        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
+#else /* Word 0 - Little Endian */
+        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
+        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
+        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
+        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
+        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
+                                                                 active when in RC mode. */
+        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
+        uint64_t reserved_6_10         : 5;
+        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
+        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
+        uint64_t reserved_32_33        : 2;
+        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
+        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
+        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
+        uint64_t reserved_48_49        : 2;
+        uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
+                                                                 block to force a parity error when it is later read. */
+        uint64_t reserved_51           : 1;
+        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM.to improve
+                                                                 small TLP performance. */
+        uint64_t reserved_55_63        : 9;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_pemx_ctl_status_cn81xx cn83xx; */
+    struct bdk_pemx_ctl_status_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_55_63        : 9;
+        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM. Added in pass 2 to improve
+                                                                 small TLP performance. */
+        uint64_t reserved_51           : 1;
+        uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
+                                                                 block to force a parity error when it is later read. */
+        uint64_t reserved_48_49        : 2;
+        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
+        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
+        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
+        uint64_t reserved_32_33        : 2;
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
+        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
+        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
+        uint64_t reserved_6_10         : 5;
+        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
+        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
+                                                                 active when in RC mode. */
+        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
+        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
+        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
+        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
+#else /* Word 0 - Little Endian */
+        uint64_t inv_lcrc              : 1;  /**< [  0:  0](R/W) When set, causes the LSB of the LCRC to be inverted. */
+        uint64_t inv_ecrc              : 1;  /**< [  1:  1](R/W) When set, causes the LSB of the ECRC to be inverted. */
+        uint64_t fast_lm               : 1;  /**< [  2:  2](R/W) When set, forces fast link mode. */
+        uint64_t ro_ctlp               : 1;  /**< [  3:  3](R/W) When set, C-TLPs that have the RO bit set will not wait for P-TLPs that are normally sent first. */
+        uint64_t lnk_enb               : 1;  /**< [  4:  4](R/W) When set, the link is enabled; when clear (0) the link is disabled. This bit only is
+                                                                 active when in RC mode. */
+        uint64_t dly_one               : 1;  /**< [  5:  5](R/W/H) When set the output client state machines will wait one cycle before starting a new TLP out. */
+        uint64_t reserved_6_10         : 5;
+        uint64_t pm_xtoff              : 1;  /**< [ 11: 11](R/W/H) When written with one, a single cycle pulse is sent to the PCIe core pm_xmt_turnoff port. RC mode. */
+        uint64_t spares                : 4;  /**< [ 15: 12](R/W) Spare flops. */
+        uint64_t cfg_rtry              : 16; /**< [ 31: 16](R/W) The time times 0x10000 coprocessor-clocks to wait for a CPL to a configuration
+                                                                 read that does not carry a retry status. Until such time that the timeout occurs
+                                                                 and retry status is received for a configuration read, the read will be
+                                                                 resent. A value of 0 disables retries and treats a CPL Retry as a CPL UR.
+
+                                                                 To use, it is recommended CFG_RTRY be set value corresponding to 200ms or less, although
+                                                                 the PCI Express Base Specification allows up to 900ms for a device to send a successful
+                                                                 completion.  When enabled, only one CFG RD may be issued until either successful
+                                                                 completion or CPL UR. */
+        uint64_t reserved_32_33        : 2;
+        uint64_t pbus                  : 8;  /**< [ 41: 34](RO/H) Primary bus number. */
+        uint64_t dnum                  : 5;  /**< [ 46: 42](RO/H) Primary bus device number. */
+        uint64_t auto_sd               : 1;  /**< [ 47: 47](RO/H) Link hardware autonomous speed disable. */
+        uint64_t reserved_48_49        : 2;
+        uint64_t inv_dpar              : 1;  /**< [ 50: 50](R/W) Invert the generated parity to be written into the most significant data queue buffer RAM
+                                                                 block to force a parity error when it is later read. */
+        uint64_t reserved_51           : 1;
+        uint64_t inb_grant_limit       : 3;  /**< [ 54: 52](R/W) The number of inbound TLPs allowed in flight in PEM. Added in pass 2 to improve
+                                                                 small TLP performance. */
+        uint64_t reserved_55_63        : 9;
+#endif /* Word 0 - End */
+    } cn88xxp2;
 } bdk_pemx_ctl_status_t;
 
 static inline uint64_t BDK_PEMX_CTL_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1088,7 +1092,8 @@ typedef union
         uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_dbg_ena_w1c_cn83xx
+    /* struct bdk_pemx_dbg_ena_w1c_s cn88xxp1; */
+    struct bdk_pemx_dbg_ena_w1c_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
@@ -1211,7 +1216,8 @@ typedef union
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Reads or clears enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pemx_dbg_ena_w1c_cn81xx cn83xx; */
     struct bdk_pemx_dbg_ena_w1c_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1336,7 +1342,6 @@ typedef union
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_pemx_dbg_ena_w1c_s cn88xxp1; */
 } bdk_pemx_dbg_ena_w1c_t;
 
 static inline uint64_t BDK_PEMX_DBG_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1484,7 +1489,8 @@ typedef union
         uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_dbg_ena_w1s_cn83xx
+    /* struct bdk_pemx_dbg_ena_w1s_s cn88xxp1; */
+    struct bdk_pemx_dbg_ena_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
@@ -1607,7 +1613,8 @@ typedef union
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets enable for PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pemx_dbg_ena_w1s_cn81xx cn83xx; */
     struct bdk_pemx_dbg_ena_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1732,7 +1739,6 @@ typedef union
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_pemx_dbg_ena_w1s_s cn88xxp1; */
 } bdk_pemx_dbg_ena_w1s_t;
 
 static inline uint64_t BDK_PEMX_DBG_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1900,7 +1906,8 @@ typedef union
         uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_dbg_info_cn83xx
+    /* struct bdk_pemx_dbg_info_s cn88xxp1; */
+    struct bdk_pemx_dbg_info_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
@@ -2043,7 +2050,8 @@ typedef union
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1C/H) Detected a M2S FIFO parity error. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pemx_dbg_info_cn81xx cn83xx; */
     struct bdk_pemx_dbg_info_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2188,7 +2196,6 @@ typedef union
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_pemx_dbg_info_s cn88xxp1; */
 } bdk_pemx_dbg_info_t;
 
 static inline uint64_t BDK_PEMX_DBG_INFO(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2336,7 +2343,8 @@ typedef union
         uint64_t reserved_57_63        : 7;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_dbg_info_w1s_cn83xx
+    /* struct bdk_pemx_dbg_info_w1s_s cn88xxp1; */
+    struct bdk_pemx_dbg_info_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_58_63        : 6;
@@ -2459,7 +2467,8 @@ typedef union
         uint64_t m2s_pe                : 1;  /**< [ 57: 57](R/W1S/H) Reads or sets PEM(0..5)_DBG_INFO[M2S_PE]. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pemx_dbg_info_w1s_cn81xx cn83xx; */
     struct bdk_pemx_dbg_info_w1s_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2584,7 +2593,6 @@ typedef union
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_pemx_dbg_info_w1s_s cn88xxp1; */
 } bdk_pemx_dbg_info_w1s_t;
 
 static inline uint64_t BDK_PEMX_DBG_INFO_W1S(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2620,7 +2628,8 @@ typedef union
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_debug_cn83xx
+    /* struct bdk_pemx_debug_s cn88xxp1; */
+    struct bdk_pemx_debug_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
@@ -2633,7 +2642,8 @@ typedef union
                                                                  to force a parity error when it is later read. */
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pemx_debug_cn81xx cn83xx; */
     struct bdk_pemx_debug_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2648,7 +2658,6 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_pemx_debug_s cn88xxp1; */
 } bdk_pemx_debug_t;
 
 static inline uint64_t BDK_PEMX_DEBUG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2843,25 +2852,27 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
         uint64_t num                   : 7;  /**< [  6:  0](R/W) The number of reads that may be in flight from the PCIe core to the SLI. Minimum number is
-                                                                 2; maximum number is 64. */
+                                                                 6; maximum number is 64. */
 #else /* Word 0 - Little Endian */
         uint64_t num                   : 7;  /**< [  6:  0](R/W) The number of reads that may be in flight from the PCIe core to the SLI. Minimum number is
-                                                                 2; maximum number is 64. */
+                                                                 6; maximum number is 64. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_inb_read_credits_cn83xx
+    struct bdk_pemx_inb_read_credits_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_7_63         : 57;
         uint64_t num                   : 7;  /**< [  6:  0](R/W) The number of reads that may be in flight from the PCIe core to the SLI. Minimum number is
-                                                                 6; maximum number is 64. */
+                                                                 2; maximum number is 64. */
 #else /* Word 0 - Little Endian */
         uint64_t num                   : 7;  /**< [  6:  0](R/W) The number of reads that may be in flight from the PCIe core to the SLI. Minimum number is
-                                                                 6; maximum number is 64. */
+                                                                 2; maximum number is 64. */
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_pemx_inb_read_credits_s cn81xx; */
+    /* struct bdk_pemx_inb_read_credits_s cn83xx; */
     struct bdk_pemx_inb_read_credits_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2874,7 +2885,6 @@ typedef union
         uint64_t reserved_7_63         : 57;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_pemx_inb_read_credits_s cn88xxp1; */
 } bdk_pemx_inb_read_credits_t;
 
 static inline uint64_t BDK_PEMX_INB_READ_CREDITS(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3213,6 +3223,8 @@ typedef union
 static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=5) && (b<=15)))
+        return 0x87e0c0f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=5) && (b<=15)))
         return 0x87e0c0f00000ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((a<=5) && (b<=13)))
@@ -3258,6 +3270,8 @@ typedef union
 static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PEMX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=5) && (b<=15)))
+        return 0x87e0c0f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=5) && (b<=15)))
         return 0x87e0c0f00008ll + 0x1000000ll * ((a) & 0x7) + 0x10ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((a<=5) && (b<=13)))
@@ -3445,54 +3459,56 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0x80 and this
-                                                                 value is not dependent of the number of PEMS wire-OR'd together. Software should
-                                                                 reprogram this register for performance reasons. */
-        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x10 and this
-                                                                 value is not dependent of the number of PEMS wire-OR'd together. Software should
-                                                                 reprogram this register for performance reasons. */
-        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Posted TLPs in the SLI. Legal values are 0x24 to 0x80 and this value
-                                                                 is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
-                                                                 register for performance reasons. */
+        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x20
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
 #else /* Word 0 - Little Endian */
-        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Posted TLPs in the SLI. Legal values are 0x24 to 0x80 and this value
-                                                                 is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
-                                                                 register for performance reasons. */
-        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x10 and this
-                                                                 value is not dependent of the number of PEMS wire-OR'd together. Software should
-                                                                 reprogram this register for performance reasons. */
-        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0x80 and this
-                                                                 value is not dependent of the number of PEMS wire-OR'd together. Software should
-                                                                 reprogram this register for performance reasons. */
+        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x20
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0xff
+                                                                 and this value is not dependent of the number of PEMS wire-OR'd
+                                                                 together. Software should reprogram this register for performance reasons. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pemx_tlp_credits_cn83xx
+    struct bdk_pemx_tlp_credits_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
-        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0xff
-                                                                 and this value is not dependent of the number of PEMS wire-OR'd
-                                                                 together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x20
-                                                                 and this value is not dependent of the number of PEMS wire-OR'd
-                                                                 together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0xff
-                                                                 and this value is not dependent of the number of PEMS wire-OR'd
-                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0x80 and this
+                                                                 value is not dependent of the number of PEMS wire-OR'd together. Software should
+                                                                 reprogram this register for performance reasons. */
+        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x10 and this
+                                                                 value is not dependent of the number of PEMS wire-OR'd together. Software should
+                                                                 reprogram this register for performance reasons. */
+        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Posted TLPs in the SLI. Legal values are 0x24 to 0x80 and this value
+                                                                 is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
+                                                                 register for performance reasons. */
 #else /* Word 0 - Little Endian */
-        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x24 to 0xff
-                                                                 and this value is not dependent of the number of PEMS wire-OR'd
-                                                                 together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x20
-                                                                 and this value is not dependent of the number of PEMS wire-OR'd
-                                                                 together. Software should reprogram this register for performance reasons. */
-        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0xff
-                                                                 and this value is not dependent of the number of PEMS wire-OR'd
-                                                                 together. Software should reprogram this register for performance reasons. */
+        uint64_t sli_p                 : 8;  /**< [  7:  0](R/W) TLP 16B credits for Posted TLPs in the SLI. Legal values are 0x24 to 0x80 and this value
+                                                                 is not dependent of the number of PEMS wire-OR'd together. Software should reprogram this
+                                                                 register for performance reasons. */
+        uint64_t sli_np                : 8;  /**< [ 15:  8](R/W) TLP 16B credits for Non-Posted TLPs in the SLI. Legal values are 0x4 to 0x10 and this
+                                                                 value is not dependent of the number of PEMS wire-OR'd together. Software should
+                                                                 reprogram this register for performance reasons. */
+        uint64_t sli_cpl               : 8;  /**< [ 23: 16](R/W) TLP 16B credits for Completion TLPs in the SLI. Legal values are 0x24 to 0x80 and this
+                                                                 value is not dependent of the number of PEMS wire-OR'd together. Software should
+                                                                 reprogram this register for performance reasons. */
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_pemx_tlp_credits_s cn81xx; */
+    /* struct bdk_pemx_tlp_credits_s cn83xx; */
     struct bdk_pemx_tlp_credits_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3519,7 +3535,6 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_pemx_tlp_credits_s cn88xxp1; */
 } bdk_pemx_tlp_credits_t;
 
 static inline uint64_t BDK_PEMX_TLP_CREDITS(unsigned long a) __attribute__ ((pure, always_inline));

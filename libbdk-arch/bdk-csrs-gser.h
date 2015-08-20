@@ -163,64 +163,66 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the QLM0 register
-                                                                 is tied to the analog test block, for non-CCPI links. Note that the QLM8 register is tied
-                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_SEL registers are unused.
-                                                                 For diagnostic use only. */
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the
+                                                                 GSER(0)_ANA_SEL.ANA_SEL register is tied to the analog test block, for non-CCPI links.
+                                                                 Note that the GSER(8)_ANA_SEL.ANA_SEL register is tied to the analog test block, for
+                                                                 CCPI links. The other GSER()_ANA_SEL registers are unused.
+                                                                 For diagnostic use only.
+
+                                                                 For non-CCPI links used to power down the common clock input receiver to reduce power
+                                                                 consumption if the common clock input is not used.
+                                                                 If the common clock QLMC_REFCLK1_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
+                                                                 field to 0x1fd.
+                                                                 If the common clock QLMC_REFCLK0_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
+                                                                 field to 0x1fe.
+                                                                 If both common clock QLMC_REFCLK0_P/N and QLMC_REFCLK1_P/N inputs are unused program the
+                                                                 GSER(0)_ANA_SEL.ANA_SEL field to 0x1fc.
+
+                                                                 For CCPI links used to power down the common clock input receiver to reduce power
+                                                                 consumption if the common clock input is not used.
+                                                                 If the common clock OCIC_REF_CLK_P/N input is unused program the GSER(8)_ANA_SEL.ANA_SEL
+                                                                 field to 0x1fc. */
 #else /* Word 0 - Little Endian */
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the QLM0 register
-                                                                 is tied to the analog test block, for non-CCPI links. Note that the QLM8 register is tied
-                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_SEL registers are unused.
-                                                                 For diagnostic use only. */
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the
+                                                                 GSER(0)_ANA_SEL.ANA_SEL register is tied to the analog test block, for non-CCPI links.
+                                                                 Note that the GSER(8)_ANA_SEL.ANA_SEL register is tied to the analog test block, for
+                                                                 CCPI links. The other GSER()_ANA_SEL registers are unused.
+                                                                 For diagnostic use only.
+
+                                                                 For non-CCPI links used to power down the common clock input receiver to reduce power
+                                                                 consumption if the common clock input is not used.
+                                                                 If the common clock QLMC_REFCLK1_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
+                                                                 field to 0x1fd.
+                                                                 If the common clock QLMC_REFCLK0_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
+                                                                 field to 0x1fe.
+                                                                 If both common clock QLMC_REFCLK0_P/N and QLMC_REFCLK1_P/N inputs are unused program the
+                                                                 GSER(0)_ANA_SEL.ANA_SEL field to 0x1fc.
+
+                                                                 For CCPI links used to power down the common clock input receiver to reduce power
+                                                                 consumption if the common clock input is not used.
+                                                                 If the common clock OCIC_REF_CLK_P/N input is unused program the GSER(8)_ANA_SEL.ANA_SEL
+                                                                 field to 0x1fc. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gserx_ana_sel_cn83xx
+    struct bdk_gserx_ana_sel_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the
-                                                                 GSER(0)_ANA_SEL.ANA_SEL register is tied to the analog test block, for non-CCPI links.
-                                                                 Note that the GSER(8)_ANA_SEL.ANA_SEL register is tied to the analog test block, for
-                                                                 CCPI links. The other GSER()_ANA_SEL registers are unused.
-                                                                 For diagnostic use only.
-
-                                                                 For non-CCPI links used to power down the common clock input receiver to reduce power
-                                                                 consumption if the common clock input is not used.
-                                                                 If the common clock QLMC_REFCLK1_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fd.
-                                                                 If the common clock QLMC_REFCLK0_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fe.
-                                                                 If both common clock QLMC_REFCLK0_P/N and QLMC_REFCLK1_P/N inputs are unused program the
-                                                                 GSER(0)_ANA_SEL.ANA_SEL field to 0x1fc.
-
-                                                                 For CCPI links used to power down the common clock input receiver to reduce power
-                                                                 consumption if the common clock input is not used.
-                                                                 If the common clock OCIC_REF_CLK_P/N input is unused program the GSER(8)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fc. */
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the QLM0 register
+                                                                 is tied to the analog test block, for non-CCPI links. Note that the QLM8 register is tied
+                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_SEL registers are unused.
+                                                                 For diagnostic use only. */
 #else /* Word 0 - Little Endian */
-        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the
-                                                                 GSER(0)_ANA_SEL.ANA_SEL register is tied to the analog test block, for non-CCPI links.
-                                                                 Note that the GSER(8)_ANA_SEL.ANA_SEL register is tied to the analog test block, for
-                                                                 CCPI links. The other GSER()_ANA_SEL registers are unused.
-                                                                 For diagnostic use only.
-
-                                                                 For non-CCPI links used to power down the common clock input receiver to reduce power
-                                                                 consumption if the common clock input is not used.
-                                                                 If the common clock QLMC_REFCLK1_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fd.
-                                                                 If the common clock QLMC_REFCLK0_P/N input is unused program the GSER(0)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fe.
-                                                                 If both common clock QLMC_REFCLK0_P/N and QLMC_REFCLK1_P/N inputs are unused program the
-                                                                 GSER(0)_ANA_SEL.ANA_SEL field to 0x1fc.
-
-                                                                 For CCPI links used to power down the common clock input receiver to reduce power
-                                                                 consumption if the common clock input is not used.
-                                                                 If the common clock OCIC_REF_CLK_P/N input is unused program the GSER(8)_ANA_SEL.ANA_SEL
-                                                                 field to 0x1fc. */
+        uint64_t ana_sel               : 9;  /**< [  8:  0](R/W) Used to control the adr_global input to the analog test block. Note that the QLM0 register
+                                                                 is tied to the analog test block, for non-CCPI links. Note that the QLM8 register is tied
+                                                                 to the analog test block, for CCPI links. The other GSER()_ANA_SEL registers are unused.
+                                                                 For diagnostic use only. */
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_gserx_ana_sel_s cn81xx; */
+    /* struct bdk_gserx_ana_sel_s cn83xx; */
     struct bdk_gserx_ana_sel_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -267,7 +269,6 @@ typedef union
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_gserx_ana_sel_s cn88xxp1; */
 } bdk_gserx_ana_sel_t;
 
 static inline uint64_t BDK_GSERX_ANA_SEL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -336,7 +337,53 @@ typedef union
         uint64_t reserved_3_63         : 61;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gserx_br_rxx_ctl_cn83xx
+    struct bdk_gserx_br_rxx_ctl_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_4_63         : 60;
+        uint64_t reserved_3            : 1;
+        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
+
+                                                                 See GSER()_BR_RX()_EER[EXT_EER]. */
+        uint64_t rxt_preset            : 1;  /**< [  1:  1](R/W) For all link training, this bit determines how to configure the preset bit in the
+                                                                 coefficient update message that is sent to the far end transmitter. When set, a one time
+                                                                 request is made that the coefficients be set to a state where equalization is turned off.
+
+                                                                 To perform a preset, set this bit prior to link training. Link training needs to be
+                                                                 disabled to complete the request and get the rxtrain state machine back to idle. Note that
+                                                                 it is illegal to set both the preset and initialize bits at the same time. For diagnostic
+                                                                 use only. */
+        uint64_t rxt_initialize        : 1;  /**< [  0:  0](R/W) For all link training, this bit determines how to configure the initialize bit in the
+                                                                 coefficient update message that is sent to the far end transmitter of RX training. When
+                                                                 set, a request is made that the coefficients be set to its INITIALIZE state. To perform an
+                                                                 initialize prior to link training, set this bit prior to performing link training. Note
+                                                                 that it is illegal to set both the preset and initialize bits at the same time. Since the
+                                                                 far end transmitter is required to be initialized prior to starting link training, it is
+                                                                 not expected that software will need to set this bit. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t rxt_initialize        : 1;  /**< [  0:  0](R/W) For all link training, this bit determines how to configure the initialize bit in the
+                                                                 coefficient update message that is sent to the far end transmitter of RX training. When
+                                                                 set, a request is made that the coefficients be set to its INITIALIZE state. To perform an
+                                                                 initialize prior to link training, set this bit prior to performing link training. Note
+                                                                 that it is illegal to set both the preset and initialize bits at the same time. Since the
+                                                                 far end transmitter is required to be initialized prior to starting link training, it is
+                                                                 not expected that software will need to set this bit. For diagnostic use only. */
+        uint64_t rxt_preset            : 1;  /**< [  1:  1](R/W) For all link training, this bit determines how to configure the preset bit in the
+                                                                 coefficient update message that is sent to the far end transmitter. When set, a one time
+                                                                 request is made that the coefficients be set to a state where equalization is turned off.
+
+                                                                 To perform a preset, set this bit prior to link training. Link training needs to be
+                                                                 disabled to complete the request and get the rxtrain state machine back to idle. Note that
+                                                                 it is illegal to set both the preset and initialize bits at the same time. For diagnostic
+                                                                 use only. */
+        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
+
+                                                                 See GSER()_BR_RX()_EER[EXT_EER]. */
+        uint64_t reserved_3            : 1;
+        uint64_t reserved_4_63         : 60;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+    struct bdk_gserx_br_rxx_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -397,7 +444,8 @@ typedef union
                                                                  timer during Base-R link training under hardware control.  For diagnostic use only. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_gserx_br_rxx_ctl_cn81xx cn83xx; */
     struct bdk_gserx_br_rxx_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -462,52 +510,6 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_gserx_br_rxx_ctl_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_4_63         : 60;
-        uint64_t reserved_3            : 1;
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
-
-                                                                 See GSER()_BR_RX()_EER[EXT_EER]. */
-        uint64_t rxt_preset            : 1;  /**< [  1:  1](R/W) For all link training, this bit determines how to configure the preset bit in the
-                                                                 coefficient update message that is sent to the far end transmitter. When set, a one time
-                                                                 request is made that the coefficients be set to a state where equalization is turned off.
-
-                                                                 To perform a preset, set this bit prior to link training. Link training needs to be
-                                                                 disabled to complete the request and get the rxtrain state machine back to idle. Note that
-                                                                 it is illegal to set both the preset and initialize bits at the same time. For diagnostic
-                                                                 use only. */
-        uint64_t rxt_initialize        : 1;  /**< [  0:  0](R/W) For all link training, this bit determines how to configure the initialize bit in the
-                                                                 coefficient update message that is sent to the far end transmitter of RX training. When
-                                                                 set, a request is made that the coefficients be set to its INITIALIZE state. To perform an
-                                                                 initialize prior to link training, set this bit prior to performing link training. Note
-                                                                 that it is illegal to set both the preset and initialize bits at the same time. Since the
-                                                                 far end transmitter is required to be initialized prior to starting link training, it is
-                                                                 not expected that software will need to set this bit. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t rxt_initialize        : 1;  /**< [  0:  0](R/W) For all link training, this bit determines how to configure the initialize bit in the
-                                                                 coefficient update message that is sent to the far end transmitter of RX training. When
-                                                                 set, a request is made that the coefficients be set to its INITIALIZE state. To perform an
-                                                                 initialize prior to link training, set this bit prior to performing link training. Note
-                                                                 that it is illegal to set both the preset and initialize bits at the same time. Since the
-                                                                 far end transmitter is required to be initialized prior to starting link training, it is
-                                                                 not expected that software will need to set this bit. For diagnostic use only. */
-        uint64_t rxt_preset            : 1;  /**< [  1:  1](R/W) For all link training, this bit determines how to configure the preset bit in the
-                                                                 coefficient update message that is sent to the far end transmitter. When set, a one time
-                                                                 request is made that the coefficients be set to a state where equalization is turned off.
-
-                                                                 To perform a preset, set this bit prior to link training. Link training needs to be
-                                                                 disabled to complete the request and get the rxtrain state machine back to idle. Note that
-                                                                 it is illegal to set both the preset and initialize bits at the same time. For diagnostic
-                                                                 use only. */
-        uint64_t rxt_swm               : 1;  /**< [  2:  2](R/W) Set when RX Base-R Link Training is to be performed under software control.
-
-                                                                 See GSER()_BR_RX()_EER[EXT_EER]. */
-        uint64_t reserved_3            : 1;
-        uint64_t reserved_4_63         : 60;
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_gserx_br_rxx_ctl_t;
 
 static inline uint64_t BDK_GSERX_BR_RXX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -989,6 +991,8 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_gserx_glbl_misc_config_1_s cn88xxp1; */
+    /* struct bdk_gserx_glbl_misc_config_1_s cn81xx; */
     /* struct bdk_gserx_glbl_misc_config_1_s cn83xx; */
     struct bdk_gserx_glbl_misc_config_1_cn88xxp2
     {
@@ -1022,7 +1026,6 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_gserx_glbl_misc_config_1_s cn88xxp1; */
 } bdk_gserx_glbl_misc_config_1_t;
 
 static inline uint64_t BDK_GSERX_GLBL_MISC_CONFIG_1(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1310,6 +1313,8 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_gserx_glbl_pll_cfg_3_s cn88xxp1; */
+    /* struct bdk_gserx_glbl_pll_cfg_3_s cn81xx; */
     /* struct bdk_gserx_glbl_pll_cfg_3_s cn83xx; */
     struct bdk_gserx_glbl_pll_cfg_3_cn88xxp2
     {
@@ -1357,7 +1362,6 @@ typedef union
         uint64_t reserved_10_63        : 54;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_gserx_glbl_pll_cfg_3_s cn88xxp1; */
 } bdk_gserx_glbl_pll_cfg_3_t;
 
 static inline uint64_t BDK_GSERX_GLBL_PLL_CFG_3(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3283,6 +3287,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_gserx_lanex_rx_cfg_4_s cn88xxp1; */
+    /* struct bdk_gserx_lanex_rx_cfg_4_s cn81xx; */
     /* struct bdk_gserx_lanex_rx_cfg_4_s cn83xx; */
     struct bdk_gserx_lanex_rx_cfg_4_cn88xxp2
     {
@@ -3336,7 +3342,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_gserx_lanex_rx_cfg_4_s cn88xxp1; */
 } bdk_gserx_lanex_rx_cfg_4_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_CFG_4(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -3526,6 +3531,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_gserx_lanex_rx_ctle_ctrl_s cn88xxp1; */
+    /* struct bdk_gserx_lanex_rx_ctle_ctrl_s cn81xx; */
     /* struct bdk_gserx_lanex_rx_ctle_ctrl_s cn83xx; */
     struct bdk_gserx_lanex_rx_ctle_ctrl_cn88xxp2
     {
@@ -3603,7 +3610,6 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_gserx_lanex_rx_ctle_ctrl_s cn88xxp1; */
 } bdk_gserx_lanex_rx_ctle_ctrl_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_CTLE_CTRL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -3771,7 +3777,8 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gserx_lanex_rx_misc_ovrrd_cn83xx
+    /* struct bdk_gserx_lanex_rx_misc_ovrrd_s cn88xxp1; */
+    struct bdk_gserx_lanex_rx_misc_ovrrd_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
@@ -3822,7 +3829,8 @@ typedef union
         uint64_t cfg_rx_oob_clk_en_ovrrd_val : 1;/**< [ 13: 13](R/W) Override value for RX OOB Clock Enable. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_gserx_lanex_rx_misc_ovrrd_cn81xx cn83xx; */
     struct bdk_gserx_lanex_rx_misc_ovrrd_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3877,7 +3885,6 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_gserx_lanex_rx_misc_ovrrd_s cn88xxp1; */
 } bdk_gserx_lanex_rx_misc_ovrrd_t;
 
 static inline uint64_t BDK_GSERX_LANEX_RX_MISC_OVRRD(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -7910,17 +7917,17 @@ typedef union
 
                                                                  <pre>
                                                                  SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     1.25 Gb     R_125G_REFCLK15625_KX
+                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
                                                                  0x2:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  125 MHz     1.25 Gb     R_125G_REFCLK15625_KX
-                                                                 0x5:  125 MHz     2.5 Gb      R_25G_REFCLK125
+                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
+                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
                                                                  0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0x7:  125 MHz     5 Gb        R_5G_REFCLK125
                                                                  0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
                                                                  0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  2.5 Gb      R_25G_REFCLK100
+                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
                                                                  0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
                                                                  0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
@@ -7952,17 +7959,17 @@ typedef union
 
                                                                  <pre>
                                                                  SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     1.25 Gb     R_125G_REFCLK15625_KX
+                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
                                                                  0x2:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  125 MHz     1.25 Gb     R_125G_REFCLK15625_KX
-                                                                 0x5:  125 MHz     2.5 Gb      R_25G_REFCLK125
+                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
+                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
                                                                  0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0x7:  125 MHz     5 Gb        R_5G_REFCLK125
                                                                  0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
                                                                  0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  2.5 Gb      R_25G_REFCLK100
+                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
                                                                  0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
                                                                  0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
@@ -7989,7 +7996,7 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gserx_spd_cn83xx
+    struct bdk_gserx_spd_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -8000,17 +8007,17 @@ typedef union
 
                                                                  <pre>
                                                                  SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
+                                                                 0x0:  100 MHz     1.25 Gb     R_125G_REFCLK15625_KX
                                                                  0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
                                                                  0x2:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
+                                                                 0x4:  125 MHz     1.25 Gb     R_125G_REFCLK15625_KX
+                                                                 0x5:  125 MHz     2.5 Gb      R_25G_REFCLK125
                                                                  0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0x7:  125 MHz     5 Gb        R_5G_REFCLK125
                                                                  0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
                                                                  0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
+                                                                 0xA:  156.25 MHz  2.5 Gb      R_25G_REFCLK100
                                                                  0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
                                                                  0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
@@ -8042,17 +8049,17 @@ typedef union
 
                                                                  <pre>
                                                                  SPD   REFCLK      Link rate   LMODE
-                                                                 0x0:  100 MHz     5 Gb        R_5G_REFCLK100
+                                                                 0x0:  100 MHz     1.25 Gb     R_125G_REFCLK15625_KX
                                                                  0x1:  100 MHz     2.5 Gb      R_25G_REFCLK100
                                                                  0x2:  100 MHz     5 Gb        R_5G_REFCLK100
                                                                  0x3:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x4:  100 MHz     8 Gb        R_8G_REFCLK100
-                                                                 0x5:  100 MHz     8 Gb        R_8G_REFCLK100
+                                                                 0x4:  125 MHz     1.25 Gb     R_125G_REFCLK15625_KX
+                                                                 0x5:  125 MHz     2.5 Gb      R_25G_REFCLK125
                                                                  0x6:  125 MHz     3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0x7:  125 MHz     5 Gb        R_5G_REFCLK125
                                                                  0x8:  125 MHz     6.25 Gb     R_625G_REFCLK15625_RXAUI
                                                                  0x9:  125 MHz     8 Gb        R_8G_REFCLK125
-                                                                 0xA:  156.25 MHz  10.3125 Gb  R_103125G_REFCLK15625_KR
+                                                                 0xA:  156.25 MHz  2.5 Gb      R_25G_REFCLK100
                                                                  0xB:  156.25 MHz  3.125 Gb    R_3125G_REFCLK15625_XAUI
                                                                  0xC:  156.25 MHz  5 Gb        R_5G_REFCLK125
                                                                  0xD:  156.25 MHz  6.25 Gb     R_625G_REFCLK15625_RXAUI
@@ -8078,7 +8085,9 @@ typedef union
                                                                   where in "GSER(x)", x is 8..13, and in "P(z)", z equals LMODE. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_gserx_spd_s cn81xx; */
+    /* struct bdk_gserx_spd_s cn83xx; */
     struct bdk_gserx_spd_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -8171,7 +8180,6 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_gserx_spd_s cn88xxp1; */
 } bdk_gserx_spd_t;
 
 static inline uint64_t BDK_GSERX_SPD(unsigned long a) __attribute__ ((pure, always_inline));

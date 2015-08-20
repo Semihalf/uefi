@@ -1100,7 +1100,10 @@ typedef union
 
                                                                  When changing PMHE from one to zero, software must write CIM()_ICC_PMR_EL1
                                                                  to 0xff prior to writing PMHE to zero. */
-        uint64_t rm                    : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t rm                    : 1;  /**< [  5:  5](R/W) Routing modifier.
+                                                                 Legacy bit from GICv2.
+                                                                 In CNXXXX, this bit is always 0 because the secure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is one. */
         uint64_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W/H) EOI mode for interrupts handled at nonsecure EL1/2 (i.e. the accesses to EOIR
                                                                  and DIR are performed at nonsecure EL1/2). */
         uint64_t eoimode_el1s          : 1;  /**< [  3:  3](R/W/H) EOI mode for interrupts handled at secure EL1 (i.e. the accesses to EOIR and DIR
@@ -1132,7 +1135,10 @@ typedef union
                                                                  are performed at nonsecure EL1). */
         uint64_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W/H) EOI mode for interrupts handled at nonsecure EL1/2 (i.e. the accesses to EOIR
                                                                  and DIR are performed at nonsecure EL1/2). */
-        uint64_t rm                    : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t rm                    : 1;  /**< [  5:  5](R/W) Routing modifier.
+                                                                 Legacy bit from GICv2.
+                                                                 In CNXXXX, this bit is always 0 because the secure copy of CIM()_ICC_SRE_EL1[SRE]
+                                                                 is one. */
         uint64_t pmhe                  : 1;  /**< [  6:  6](R/W/H) Priority mask hint enable. When set, enables use of the PMR as a hint for interrupt
                                                                  distribution.
 
@@ -1153,9 +1159,8 @@ typedef union
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cimx_icc_ctlr_el3_s cn83xx; */
-    /* struct bdk_cimx_icc_ctlr_el3_s cn88xxp2; */
-    struct bdk_cimx_icc_ctlr_el3_cn88xxp1
+    /* struct bdk_cimx_icc_ctlr_el3_s cn88xxp1; */
+    struct bdk_cimx_icc_ctlr_el3_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
@@ -1176,10 +1181,7 @@ typedef union
 
                                                                  When changing PMHE from one to zero, software must write CIM()_ICC_PMR_EL1
                                                                  to 0xff prior to writing PMHE to zero. */
-        uint64_t rm                    : 1;  /**< [  5:  5](R/W) Routing modifier.
-                                                                 Legacy bit from GICv2.
-                                                                 In CNXXXX, this bit is always 0 because the secure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is one. */
+        uint64_t rm                    : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W/H) EOI mode for interrupts handled at nonsecure EL1/2 (i.e. the accesses to EOIR
                                                                  and DIR are performed at nonsecure EL1/2). */
         uint64_t eoimode_el1s          : 1;  /**< [  3:  3](R/W/H) EOI mode for interrupts handled at secure EL1 (i.e. the accesses to EOIR and DIR
@@ -1211,10 +1213,7 @@ typedef union
                                                                  are performed at nonsecure EL1). */
         uint64_t eoimode_el1ns         : 1;  /**< [  4:  4](R/W/H) EOI mode for interrupts handled at nonsecure EL1/2 (i.e. the accesses to EOIR
                                                                  and DIR are performed at nonsecure EL1/2). */
-        uint64_t rm                    : 1;  /**< [  5:  5](R/W) Routing modifier.
-                                                                 Legacy bit from GICv2.
-                                                                 In CNXXXX, this bit is always 0 because the secure copy of CIM()_ICC_SRE_EL1[SRE]
-                                                                 is one. */
+        uint64_t rm                    : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t pmhe                  : 1;  /**< [  6:  6](R/W/H) Priority mask hint enable. When set, enables use of the PMR as a hint for interrupt
                                                                  distribution.
 
@@ -1234,7 +1233,9 @@ typedef union
                                                                  In CNXXXX, this bit is always 0, as affinity 3 is not implemented. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn81xx;
+    /* struct bdk_cimx_icc_ctlr_el3_cn81xx cn83xx; */
+    /* struct bdk_cimx_icc_ctlr_el3_cn81xx cn88xxp2; */
 } bdk_cimx_icc_ctlr_el3_t;
 
 static inline uint64_t BDK_CIMX_ICC_CTLR_EL3(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2901,6 +2902,235 @@ typedef union
                                                                  This allows software to manage more active interrupts than there are implemented list
                                                                  registers. */
         uint64_t reserved_15_26        : 12;
+        uint64_t tdir                  : 1;  /**< [ 14: 14](RAZ) Reserved. */
+        uint64_t tsei                  : 1;  /**< [ 13: 13](R/W) Trap all locally generated SEIs.
+                                                                 This bit allows the hypervisor to intercept locally generated SEIs that would
+                                                                 otherwise be taken by a guest operating system at non-secure EL1.
+                                                                 0 = Locally generated SEIs do not cause a trap to EL2.
+                                                                 1 = Locally generated SEIs trap to EL2.
+
+                                                                 Virtual SEIs caused by writes to CIM()_ICH_VSEIR_EL2 are unaffected
+                                                                 by this bit.
+
+                                                                 This bit is reserved when CIM()_ICH_VTR_EL2[SEIS] is zero.
+
+                                                                 Changed in pass2. */
+        uint64_t tall1                 : 1;  /**< [ 12: 12](R/W) Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 1
+                                                                 interrupts.
+                                                                 0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts proceed
+                                                                 as normal.
+                                                                 1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts trap
+                                                                 to EL2. */
+        uint64_t tall0                 : 1;  /**< [ 11: 11](R/W) Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 0
+                                                                 interrupts.
+                                                                 0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts proceed
+                                                                 as normal.
+                                                                 1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts trap
+                                                                 to EL2. */
+        uint64_t tc                    : 1;  /**< [ 10: 10](R/W) Trap all nonsecure EL1 accesses to system register common to group 0 and group 1.
+                                                                 0 = Nonsecure EL1 accesses to common registers proceed as normal.
+                                                                 1 = Any nonsecure EL1 access to common registers trap to EL2.
+
+                                                                 Affects accesses to CIM()_ICC_SGI0R_EL1, CIM()_ICC_SGI1R_EL1,
+                                                                 CIM()_ICC_ASGI1R_EL1,
+                                                                 CIM()_ICC_CTLR_EL1, CIM()_ICC_DIR_EL1, CIM()_ICC_PMR_EL1 and
+                                                                 CIM()_ICC_RPR_EL1. */
+        uint64_t vare                  : 1;  /**< [  9:  9](R/W) Virtual ARE.
+                                                                 0 = The guest operating system does not use affinity routing and expects a source CPU ID
+                                                                 for SGIs. The guest operating system does not support LPIs and software
+                                                                 must ensure that no LPIs are presented to the guest using either the list registers or
+                                                                 from the distributor.
+                                                                 1 = The guest operating system uses affinity routing.
+
+                                                                 This bit has no hardware effect. */
+        uint64_t reserved_8            : 1;
+        uint64_t vgrp1die              : 1;  /**< [  7:  7](R/W) VM disable group 1 interrupt enable.
+                                                                 Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
+                                                                 from
+                                                                 the virtual CPU interface to the connected virtual machine is disabled:
+                                                                 0 = Maintenance interrupt disabled.
+                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==0. */
+        uint64_t vgrp1eie              : 1;  /**< [  6:  6](R/W) VM enable group 1 interrupt enable.
+                                                                 Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
+                                                                 from
+                                                                 the virtual CPU interface to the connected virtual machine is enabled:
+                                                                 0 = Maintenance interrupt disabled.
+                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==1. */
+        uint64_t vgrp0die              : 1;  /**< [  5:  5](R/W) VM disable group 0 interrupt enable.
+                                                                 Enables the signaling of a maintenance interrupt while signaling of group 0 interrupts
+                                                                 from
+                                                                 the virtual CPU interface to the connected virtual machine is disabled:
+                                                                 0 = Maintenance interrupt disabled.
+                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG0]==0. */
+        uint64_t vgrp0eie              : 1;  /**< [  4:  4](R/W) VM enable group 0 interrupt enable.
+                                                                 Enables the signaling of a maintenance interrupt while signaling of group 0 interrupts
+                                                                 from
+                                                                 the virtual CPU interface to the connected virtual machine is enabled:
+                                                                 0 = Maintenance interrupt disabled.
+                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG0]==1. */
+        uint64_t npie                  : 1;  /**< [  3:  3](R/W) No pending interrupt enable. Enables the signaling of a maintenance interrupt while
+                                                                 no pending interrupts are present in the list registers:
+                                                                 0 = Maintenance interrupt disabled.
+                                                                 1 = Maintenance interrupt signaled while the list registers contain no interrupts
+                                                                 in the pending state. */
+        uint64_t lrenpie               : 1;  /**< [  2:  2](R/W) List register entry not present interrupt enable. Enables the signaling of a maintenance
+                                                                 interrupt while the virtual CPU interface does not have a corresponding valid list
+                                                                 register
+                                                                 entry for an EOI request:
+                                                                   0 = Maintenance interrupt disabled.
+                                                                   1 = A maintenance interrupt is asserted while the EOICount field is not 0.
+
+                                                                 Unlike in GICv2, no maintenance interrupt is generated for an EOI that specifies an ID
+                                                                 corresponding to the highest priority virtual LPI sent from the distributor. */
+        uint64_t uie                   : 1;  /**< [  1:  1](R/W) Underflow interrupt enable. Enables the signaling of a maintenance interrupt when the
+                                                                 list registers are empty, or hold only one valid entry:
+                                                                   0 = Maintenance interrupt disabled.
+                                                                   1 = A maintenance interrupt is asserted if none, or only one, of the list register
+                                                                   entries is marked as a valid interrupt. */
+        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable. Global enable bit for the virtual CPU interface:
+                                                                   0 = Virtual CPU interface operation disabled.
+                                                                   1 = Virtual CPU interface operation enabled.
+
+                                                                 When this field is set to 0:
+
+                                                                   1. The virtual CPU interface does not signal any maintenance interrupts.
+
+                                                                   2. The virtual CPU interface does not signal any virtual interrupts (including virtual
+                                                                 system errors).
+
+                                                                   3. Virtual access to an interrupt acknowledge register returns a spurious interrupt ID. */
+#else /* Word 0 - Little Endian */
+        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable. Global enable bit for the virtual CPU interface:
+                                                                   0 = Virtual CPU interface operation disabled.
+                                                                   1 = Virtual CPU interface operation enabled.
+
+                                                                 When this field is set to 0:
+
+                                                                   1. The virtual CPU interface does not signal any maintenance interrupts.
+
+                                                                   2. The virtual CPU interface does not signal any virtual interrupts (including virtual
+                                                                 system errors).
+
+                                                                   3. Virtual access to an interrupt acknowledge register returns a spurious interrupt ID. */
+        uint64_t uie                   : 1;  /**< [  1:  1](R/W) Underflow interrupt enable. Enables the signaling of a maintenance interrupt when the
+                                                                 list registers are empty, or hold only one valid entry:
+                                                                   0 = Maintenance interrupt disabled.
+                                                                   1 = A maintenance interrupt is asserted if none, or only one, of the list register
+                                                                   entries is marked as a valid interrupt. */
+        uint64_t lrenpie               : 1;  /**< [  2:  2](R/W) List register entry not present interrupt enable. Enables the signaling of a maintenance
+                                                                 interrupt while the virtual CPU interface does not have a corresponding valid list
+                                                                 register
+                                                                 entry for an EOI request:
+                                                                   0 = Maintenance interrupt disabled.
+                                                                   1 = A maintenance interrupt is asserted while the EOICount field is not 0.
+
+                                                                 Unlike in GICv2, no maintenance interrupt is generated for an EOI that specifies an ID
+                                                                 corresponding to the highest priority virtual LPI sent from the distributor. */
+        uint64_t npie                  : 1;  /**< [  3:  3](R/W) No pending interrupt enable. Enables the signaling of a maintenance interrupt while
+                                                                 no pending interrupts are present in the list registers:
+                                                                 0 = Maintenance interrupt disabled.
+                                                                 1 = Maintenance interrupt signaled while the list registers contain no interrupts
+                                                                 in the pending state. */
+        uint64_t vgrp0eie              : 1;  /**< [  4:  4](R/W) VM enable group 0 interrupt enable.
+                                                                 Enables the signaling of a maintenance interrupt while signaling of group 0 interrupts
+                                                                 from
+                                                                 the virtual CPU interface to the connected virtual machine is enabled:
+                                                                 0 = Maintenance interrupt disabled.
+                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG0]==1. */
+        uint64_t vgrp0die              : 1;  /**< [  5:  5](R/W) VM disable group 0 interrupt enable.
+                                                                 Enables the signaling of a maintenance interrupt while signaling of group 0 interrupts
+                                                                 from
+                                                                 the virtual CPU interface to the connected virtual machine is disabled:
+                                                                 0 = Maintenance interrupt disabled.
+                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG0]==0. */
+        uint64_t vgrp1eie              : 1;  /**< [  6:  6](R/W) VM enable group 1 interrupt enable.
+                                                                 Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
+                                                                 from
+                                                                 the virtual CPU interface to the connected virtual machine is enabled:
+                                                                 0 = Maintenance interrupt disabled.
+                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==1. */
+        uint64_t vgrp1die              : 1;  /**< [  7:  7](R/W) VM disable group 1 interrupt enable.
+                                                                 Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
+                                                                 from
+                                                                 the virtual CPU interface to the connected virtual machine is disabled:
+                                                                 0 = Maintenance interrupt disabled.
+                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==0. */
+        uint64_t reserved_8            : 1;
+        uint64_t vare                  : 1;  /**< [  9:  9](R/W) Virtual ARE.
+                                                                 0 = The guest operating system does not use affinity routing and expects a source CPU ID
+                                                                 for SGIs. The guest operating system does not support LPIs and software
+                                                                 must ensure that no LPIs are presented to the guest using either the list registers or
+                                                                 from the distributor.
+                                                                 1 = The guest operating system uses affinity routing.
+
+                                                                 This bit has no hardware effect. */
+        uint64_t tc                    : 1;  /**< [ 10: 10](R/W) Trap all nonsecure EL1 accesses to system register common to group 0 and group 1.
+                                                                 0 = Nonsecure EL1 accesses to common registers proceed as normal.
+                                                                 1 = Any nonsecure EL1 access to common registers trap to EL2.
+
+                                                                 Affects accesses to CIM()_ICC_SGI0R_EL1, CIM()_ICC_SGI1R_EL1,
+                                                                 CIM()_ICC_ASGI1R_EL1,
+                                                                 CIM()_ICC_CTLR_EL1, CIM()_ICC_DIR_EL1, CIM()_ICC_PMR_EL1 and
+                                                                 CIM()_ICC_RPR_EL1. */
+        uint64_t tall0                 : 1;  /**< [ 11: 11](R/W) Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 0
+                                                                 interrupts.
+                                                                 0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts proceed
+                                                                 as normal.
+                                                                 1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts trap
+                                                                 to EL2. */
+        uint64_t tall1                 : 1;  /**< [ 12: 12](R/W) Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 1
+                                                                 interrupts.
+                                                                 0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts proceed
+                                                                 as normal.
+                                                                 1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts trap
+                                                                 to EL2. */
+        uint64_t tsei                  : 1;  /**< [ 13: 13](R/W) Trap all locally generated SEIs.
+                                                                 This bit allows the hypervisor to intercept locally generated SEIs that would
+                                                                 otherwise be taken by a guest operating system at non-secure EL1.
+                                                                 0 = Locally generated SEIs do not cause a trap to EL2.
+                                                                 1 = Locally generated SEIs trap to EL2.
+
+                                                                 Virtual SEIs caused by writes to CIM()_ICH_VSEIR_EL2 are unaffected
+                                                                 by this bit.
+
+                                                                 This bit is reserved when CIM()_ICH_VTR_EL2[SEIS] is zero.
+
+                                                                 Changed in pass2. */
+        uint64_t tdir                  : 1;  /**< [ 14: 14](RAZ) Reserved. */
+        uint64_t reserved_15_26        : 12;
+        uint64_t eoicount              : 5;  /**< [ 31: 27](R/W/H) This field is incremented whenever a successful write to a virtual EOIR or DIR register
+                                                                 would have resulted in a virtual interrupt deactivation. That is:
+
+                                                                 * A virtual write to EOIR with a valid interrupt identifier that is not in the LPI range
+                                                                 (i.e. < 8192) when EOI mode is zero and no list register was found.
+
+                                                                 * Or, a virtual write to DIR with a valid interrupt identifier that is not in the LPI
+                                                                 range
+                                                                 (i.e. < 8192) when EOI mode is one and no list register was found.
+
+                                                                 This allows software to manage more active interrupts than there are implemented list
+                                                                 registers. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cimx_ich_hcr_el2_s cn88xxp1; */
+    struct bdk_cimx_ich_hcr_el2_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t eoicount              : 5;  /**< [ 31: 27](R/W/H) This field is incremented whenever a successful write to a virtual EOIR or DIR register
+                                                                 would have resulted in a virtual interrupt deactivation. That is:
+
+                                                                 * A virtual write to EOIR with a valid interrupt identifier that is not in the LPI range
+                                                                 (i.e. < 8192) when EOI mode is zero and no list register was found.
+
+                                                                 * Or, a virtual write to DIR with a valid interrupt identifier that is not in the LPI
+                                                                 range
+                                                                 (i.e. < 8192) when EOI mode is one and no list register was found.
+
+                                                                 This allows software to manage more active interrupts than there are implemented list
+                                                                 registers. */
+        uint64_t reserved_15_26        : 12;
         uint64_t tdir                  : 1;  /**< [ 14: 14](R/W) Trap nonsecure EL1 writes to ICC_DIR_EL1.
                                                                  0 = Non-secure EL1 writes of ICC_DIR_EL1 do not cause a trap to EL2,
                                                                  unless trapped by other mechanisms.
@@ -3081,8 +3311,8 @@ typedef union
                                                                  registers. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_cimx_ich_hcr_el2_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_cimx_ich_hcr_el2_cn81xx cn83xx; */
     struct bdk_cimx_ich_hcr_el2_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3285,234 +3515,6 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_cimx_ich_hcr_el2_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_32_63        : 32;
-        uint64_t eoicount              : 5;  /**< [ 31: 27](R/W/H) This field is incremented whenever a successful write to a virtual EOIR or DIR register
-                                                                 would have resulted in a virtual interrupt deactivation. That is:
-
-                                                                 * A virtual write to EOIR with a valid interrupt identifier that is not in the LPI range
-                                                                 (i.e. < 8192) when EOI mode is zero and no list register was found.
-
-                                                                 * Or, a virtual write to DIR with a valid interrupt identifier that is not in the LPI
-                                                                 range
-                                                                 (i.e. < 8192) when EOI mode is one and no list register was found.
-
-                                                                 This allows software to manage more active interrupts than there are implemented list
-                                                                 registers. */
-        uint64_t reserved_15_26        : 12;
-        uint64_t tdir                  : 1;  /**< [ 14: 14](RAZ) Reserved. */
-        uint64_t tsei                  : 1;  /**< [ 13: 13](R/W) Trap all locally generated SEIs.
-                                                                 This bit allows the hypervisor to intercept locally generated SEIs that would
-                                                                 otherwise be taken by a guest operating system at non-secure EL1.
-                                                                 0 = Locally generated SEIs do not cause a trap to EL2.
-                                                                 1 = Locally generated SEIs trap to EL2.
-
-                                                                 Virtual SEIs caused by writes to CIM()_ICH_VSEIR_EL2 are unaffected
-                                                                 by this bit.
-
-                                                                 This bit is reserved when CIM()_ICH_VTR_EL2[SEIS] is zero.
-
-                                                                 Changed in pass2. */
-        uint64_t tall1                 : 1;  /**< [ 12: 12](R/W) Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 1
-                                                                 interrupts.
-                                                                 0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts proceed
-                                                                 as normal.
-                                                                 1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts trap
-                                                                 to EL2. */
-        uint64_t tall0                 : 1;  /**< [ 11: 11](R/W) Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 0
-                                                                 interrupts.
-                                                                 0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts proceed
-                                                                 as normal.
-                                                                 1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts trap
-                                                                 to EL2. */
-        uint64_t tc                    : 1;  /**< [ 10: 10](R/W) Trap all nonsecure EL1 accesses to system register common to group 0 and group 1.
-                                                                 0 = Nonsecure EL1 accesses to common registers proceed as normal.
-                                                                 1 = Any nonsecure EL1 access to common registers trap to EL2.
-
-                                                                 Affects accesses to CIM()_ICC_SGI0R_EL1, CIM()_ICC_SGI1R_EL1,
-                                                                 CIM()_ICC_ASGI1R_EL1,
-                                                                 CIM()_ICC_CTLR_EL1, CIM()_ICC_DIR_EL1, CIM()_ICC_PMR_EL1 and
-                                                                 CIM()_ICC_RPR_EL1. */
-        uint64_t vare                  : 1;  /**< [  9:  9](R/W) Virtual ARE.
-                                                                 0 = The guest operating system does not use affinity routing and expects a source CPU ID
-                                                                 for SGIs. The guest operating system does not support LPIs and software
-                                                                 must ensure that no LPIs are presented to the guest using either the list registers or
-                                                                 from the distributor.
-                                                                 1 = The guest operating system uses affinity routing.
-
-                                                                 This bit has no hardware effect. */
-        uint64_t reserved_8            : 1;
-        uint64_t vgrp1die              : 1;  /**< [  7:  7](R/W) VM disable group 1 interrupt enable.
-                                                                 Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
-                                                                 from
-                                                                 the virtual CPU interface to the connected virtual machine is disabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==0. */
-        uint64_t vgrp1eie              : 1;  /**< [  6:  6](R/W) VM enable group 1 interrupt enable.
-                                                                 Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
-                                                                 from
-                                                                 the virtual CPU interface to the connected virtual machine is enabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==1. */
-        uint64_t vgrp0die              : 1;  /**< [  5:  5](R/W) VM disable group 0 interrupt enable.
-                                                                 Enables the signaling of a maintenance interrupt while signaling of group 0 interrupts
-                                                                 from
-                                                                 the virtual CPU interface to the connected virtual machine is disabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG0]==0. */
-        uint64_t vgrp0eie              : 1;  /**< [  4:  4](R/W) VM enable group 0 interrupt enable.
-                                                                 Enables the signaling of a maintenance interrupt while signaling of group 0 interrupts
-                                                                 from
-                                                                 the virtual CPU interface to the connected virtual machine is enabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG0]==1. */
-        uint64_t npie                  : 1;  /**< [  3:  3](R/W) No pending interrupt enable. Enables the signaling of a maintenance interrupt while
-                                                                 no pending interrupts are present in the list registers:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while the list registers contain no interrupts
-                                                                 in the pending state. */
-        uint64_t lrenpie               : 1;  /**< [  2:  2](R/W) List register entry not present interrupt enable. Enables the signaling of a maintenance
-                                                                 interrupt while the virtual CPU interface does not have a corresponding valid list
-                                                                 register
-                                                                 entry for an EOI request:
-                                                                   0 = Maintenance interrupt disabled.
-                                                                   1 = A maintenance interrupt is asserted while the EOICount field is not 0.
-
-                                                                 Unlike in GICv2, no maintenance interrupt is generated for an EOI that specifies an ID
-                                                                 corresponding to the highest priority virtual LPI sent from the distributor. */
-        uint64_t uie                   : 1;  /**< [  1:  1](R/W) Underflow interrupt enable. Enables the signaling of a maintenance interrupt when the
-                                                                 list registers are empty, or hold only one valid entry:
-                                                                   0 = Maintenance interrupt disabled.
-                                                                   1 = A maintenance interrupt is asserted if none, or only one, of the list register
-                                                                   entries is marked as a valid interrupt. */
-        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable. Global enable bit for the virtual CPU interface:
-                                                                   0 = Virtual CPU interface operation disabled.
-                                                                   1 = Virtual CPU interface operation enabled.
-
-                                                                 When this field is set to 0:
-
-                                                                   1. The virtual CPU interface does not signal any maintenance interrupts.
-
-                                                                   2. The virtual CPU interface does not signal any virtual interrupts (including virtual
-                                                                 system errors).
-
-                                                                   3. Virtual access to an interrupt acknowledge register returns a spurious interrupt ID. */
-#else /* Word 0 - Little Endian */
-        uint64_t en                    : 1;  /**< [  0:  0](R/W) Enable. Global enable bit for the virtual CPU interface:
-                                                                   0 = Virtual CPU interface operation disabled.
-                                                                   1 = Virtual CPU interface operation enabled.
-
-                                                                 When this field is set to 0:
-
-                                                                   1. The virtual CPU interface does not signal any maintenance interrupts.
-
-                                                                   2. The virtual CPU interface does not signal any virtual interrupts (including virtual
-                                                                 system errors).
-
-                                                                   3. Virtual access to an interrupt acknowledge register returns a spurious interrupt ID. */
-        uint64_t uie                   : 1;  /**< [  1:  1](R/W) Underflow interrupt enable. Enables the signaling of a maintenance interrupt when the
-                                                                 list registers are empty, or hold only one valid entry:
-                                                                   0 = Maintenance interrupt disabled.
-                                                                   1 = A maintenance interrupt is asserted if none, or only one, of the list register
-                                                                   entries is marked as a valid interrupt. */
-        uint64_t lrenpie               : 1;  /**< [  2:  2](R/W) List register entry not present interrupt enable. Enables the signaling of a maintenance
-                                                                 interrupt while the virtual CPU interface does not have a corresponding valid list
-                                                                 register
-                                                                 entry for an EOI request:
-                                                                   0 = Maintenance interrupt disabled.
-                                                                   1 = A maintenance interrupt is asserted while the EOICount field is not 0.
-
-                                                                 Unlike in GICv2, no maintenance interrupt is generated for an EOI that specifies an ID
-                                                                 corresponding to the highest priority virtual LPI sent from the distributor. */
-        uint64_t npie                  : 1;  /**< [  3:  3](R/W) No pending interrupt enable. Enables the signaling of a maintenance interrupt while
-                                                                 no pending interrupts are present in the list registers:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while the list registers contain no interrupts
-                                                                 in the pending state. */
-        uint64_t vgrp0eie              : 1;  /**< [  4:  4](R/W) VM enable group 0 interrupt enable.
-                                                                 Enables the signaling of a maintenance interrupt while signaling of group 0 interrupts
-                                                                 from
-                                                                 the virtual CPU interface to the connected virtual machine is enabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG0]==1. */
-        uint64_t vgrp0die              : 1;  /**< [  5:  5](R/W) VM disable group 0 interrupt enable.
-                                                                 Enables the signaling of a maintenance interrupt while signaling of group 0 interrupts
-                                                                 from
-                                                                 the virtual CPU interface to the connected virtual machine is disabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG0]==0. */
-        uint64_t vgrp1eie              : 1;  /**< [  6:  6](R/W) VM enable group 1 interrupt enable.
-                                                                 Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
-                                                                 from
-                                                                 the virtual CPU interface to the connected virtual machine is enabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==1. */
-        uint64_t vgrp1die              : 1;  /**< [  7:  7](R/W) VM disable group 1 interrupt enable.
-                                                                 Enables the signaling of a maintenance interrupt while signaling of group 1 interrupts
-                                                                 from
-                                                                 the virtual CPU interface to the connected virtual machine is disabled:
-                                                                 0 = Maintenance interrupt disabled.
-                                                                 1 = Maintenance interrupt signaled while CIM()_ICH_VMCR_EL2[VENG1]==0. */
-        uint64_t reserved_8            : 1;
-        uint64_t vare                  : 1;  /**< [  9:  9](R/W) Virtual ARE.
-                                                                 0 = The guest operating system does not use affinity routing and expects a source CPU ID
-                                                                 for SGIs. The guest operating system does not support LPIs and software
-                                                                 must ensure that no LPIs are presented to the guest using either the list registers or
-                                                                 from the distributor.
-                                                                 1 = The guest operating system uses affinity routing.
-
-                                                                 This bit has no hardware effect. */
-        uint64_t tc                    : 1;  /**< [ 10: 10](R/W) Trap all nonsecure EL1 accesses to system register common to group 0 and group 1.
-                                                                 0 = Nonsecure EL1 accesses to common registers proceed as normal.
-                                                                 1 = Any nonsecure EL1 access to common registers trap to EL2.
-
-                                                                 Affects accesses to CIM()_ICC_SGI0R_EL1, CIM()_ICC_SGI1R_EL1,
-                                                                 CIM()_ICC_ASGI1R_EL1,
-                                                                 CIM()_ICC_CTLR_EL1, CIM()_ICC_DIR_EL1, CIM()_ICC_PMR_EL1 and
-                                                                 CIM()_ICC_RPR_EL1. */
-        uint64_t tall0                 : 1;  /**< [ 11: 11](R/W) Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 0
-                                                                 interrupts.
-                                                                 0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts proceed
-                                                                 as normal.
-                                                                 1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 0 interrupts trap
-                                                                 to EL2. */
-        uint64_t tall1                 : 1;  /**< [ 12: 12](R/W) Trap all nonsecure EL1 accesses to CIM()_ICC_* system registers for group 1
-                                                                 interrupts.
-                                                                 0 = Nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts proceed
-                                                                 as normal.
-                                                                 1 = Any nonsecure EL1 accesses to CIM()_ICC_* registers for group 1 interrupts trap
-                                                                 to EL2. */
-        uint64_t tsei                  : 1;  /**< [ 13: 13](R/W) Trap all locally generated SEIs.
-                                                                 This bit allows the hypervisor to intercept locally generated SEIs that would
-                                                                 otherwise be taken by a guest operating system at non-secure EL1.
-                                                                 0 = Locally generated SEIs do not cause a trap to EL2.
-                                                                 1 = Locally generated SEIs trap to EL2.
-
-                                                                 Virtual SEIs caused by writes to CIM()_ICH_VSEIR_EL2 are unaffected
-                                                                 by this bit.
-
-                                                                 This bit is reserved when CIM()_ICH_VTR_EL2[SEIS] is zero.
-
-                                                                 Changed in pass2. */
-        uint64_t tdir                  : 1;  /**< [ 14: 14](RAZ) Reserved. */
-        uint64_t reserved_15_26        : 12;
-        uint64_t eoicount              : 5;  /**< [ 31: 27](R/W/H) This field is incremented whenever a successful write to a virtual EOIR or DIR register
-                                                                 would have resulted in a virtual interrupt deactivation. That is:
-
-                                                                 * A virtual write to EOIR with a valid interrupt identifier that is not in the LPI range
-                                                                 (i.e. < 8192) when EOI mode is zero and no list register was found.
-
-                                                                 * Or, a virtual write to DIR with a valid interrupt identifier that is not in the LPI
-                                                                 range
-                                                                 (i.e. < 8192) when EOI mode is one and no list register was found.
-
-                                                                 This allows software to manage more active interrupts than there are implemented list
-                                                                 registers. */
-        uint64_t reserved_32_63        : 32;
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_cimx_ich_hcr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_HCR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3846,7 +3848,16 @@ typedef union
         uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
                                                                  INTERNAL: An implementation might choose to make this field RAO/WI. */
         uint64_t reserved_6_8          : 3;
-        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
+                                                                 0 = Virtual SEIs will not be reported to non-secure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+                                                                 1 = Virtual SEIs will be reported to non-secure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+
+                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
+                                                                 generated by the CPU interface logic.
+
+                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
         uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
                                                                  0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
                                                                  CIM()_ICH_VMCR_EL2[VBPR1].
@@ -3884,7 +3895,16 @@ typedef union
                                                                  saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
 
                                                                  This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
-        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
+                                                                 0 = Virtual SEIs will not be reported to non-secure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+                                                                 1 = Virtual SEIs will be reported to non-secure EL1 including any valid SEI in
+                                                                 CIM()_ICH_VSEIR_EL2.
+
+                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
+                                                                 generated by the CPU interface logic.
+
+                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
         uint64_t reserved_6_8          : 3;
         uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
                                                                  INTERNAL: An implementation might choose to make this field RAO/WI. */
@@ -3897,9 +3917,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cimx_ich_vmcr_el2_s cn83xx; */
-    /* struct bdk_cimx_ich_vmcr_el2_s cn88xxp2; */
-    struct bdk_cimx_ich_vmcr_el2_cn88xxp1
+    /* struct bdk_cimx_ich_vmcr_el2_s cn88xxp1; */
+    struct bdk_cimx_ich_vmcr_el2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -3912,16 +3931,7 @@ typedef union
         uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
                                                                  INTERNAL: An implementation might choose to make this field RAO/WI. */
         uint64_t reserved_6_8          : 3;
-        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
-                                                                 0 = Virtual SEIs will not be reported to non-secure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-                                                                 1 = Virtual SEIs will be reported to non-secure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-
-                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
-                                                                 generated by the CPU interface logic.
-
-                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
+        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t vcbpr                 : 1;  /**< [  4:  4](R/W/H) Visible to the guest as CIM()_ICC_CTLR_EL1[CBPR].
                                                                  0 = Virtual reads and writes to CIM()_ICC_BPR1_EL1 access
                                                                  CIM()_ICH_VMCR_EL2[VBPR1].
@@ -3959,16 +3969,7 @@ typedef union
                                                                  saturated to 0x7) and virtual writes to CIM()_ICC_BPR1_EL1 are ignored.
 
                                                                  This bit has no effect on accesses to GICV_ABPR but does affect preemption. */
-        uint64_t vensei                : 1;  /**< [  5:  5](RO/H) Virtual SEI enable. Visible to the guest as CIM()_ICC_SEIEN_EL1[EN].
-                                                                 0 = Virtual SEIs will not be reported to non-secure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-                                                                 1 = Virtual SEIs will be reported to non-secure EL1 including any valid SEI in
-                                                                 CIM()_ICH_VSEIR_EL2.
-
-                                                                 If CIM()_ICH_VTR_EL2[SEIS] is one, this bit also covers reporting of SEIs locally
-                                                                 generated by the CPU interface logic.
-
-                                                                 In CNXXXX, this bit is always 0 as SEIs are not implemented. */
+        uint64_t vensei                : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t reserved_6_8          : 3;
         uint64_t veoim                 : 1;  /**< [  9:  9](R/W/H) Virtual EOI mode. Visible to the guest as CIM()_ICC_CTLR_EL1[EOIMODE]
                                                                  INTERNAL: An implementation might choose to make this field RAO/WI. */
@@ -3980,7 +3981,9 @@ typedef union
         uint64_t vpmr                  : 8;  /**< [ 31: 24](R/W) Virtual priority mask. Visible to the guest as CIM()_ICC_PMR_EL1 */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn81xx;
+    /* struct bdk_cimx_ich_vmcr_el2_cn81xx cn83xx; */
+    /* struct bdk_cimx_ich_vmcr_el2_cn81xx cn88xxp2; */
 } bdk_cimx_ich_vmcr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_VMCR_EL2(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4040,11 +4043,7 @@ typedef union
 
                                                                  In CNXXXX, this bit is always 0 as affinity3 is always 0. */
         uint64_t reserved_20           : 1;
-        uint64_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of non-secure EL1 writes supported.
-                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
-                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR].
-
-                                                                 Added in pass2. */
+        uint64_t tds                   : 1;  /**< [ 19: 19](RAZ) Reserved. */
         uint64_t reserved_5_18         : 14;
         uint64_t listregs              : 5;  /**< [  4:  0](RO/H) The number of implemented list registers, minus one.
                                                                  For example, a value of 0xF indicates that the maximum of 16 list registers are
@@ -4056,11 +4055,7 @@ typedef union
                                                                  implemented.
                                                                  In CNXXXX, this field is always 0xF as 16 list registers are implemented. */
         uint64_t reserved_5_18         : 14;
-        uint64_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of non-secure EL1 writes supported.
-                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
-                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR].
-
-                                                                 Added in pass2. */
+        uint64_t tds                   : 1;  /**< [ 19: 19](RAZ) Reserved. */
         uint64_t reserved_20           : 1;
         uint64_t a3v                   : 1;  /**< [ 21: 21](RO/H) Affinity 3 support:
                                                                  0 = The CPU interface logic does not support nonzero values of affinity 3 in SGI
@@ -4094,9 +4089,8 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_cimx_ich_vtr_el2_s cn83xx; */
-    /* struct bdk_cimx_ich_vtr_el2_s cn88xxp2; */
-    struct bdk_cimx_ich_vtr_el2_cn88xxp1
+    /* struct bdk_cimx_ich_vtr_el2_s cn88xxp1; */
+    struct bdk_cimx_ich_vtr_el2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -4130,7 +4124,11 @@ typedef union
 
                                                                  In CNXXXX, this bit is always 0 as affinity3 is always 0. */
         uint64_t reserved_20           : 1;
-        uint64_t tds                   : 1;  /**< [ 19: 19](RAZ) Reserved. */
+        uint64_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of non-secure EL1 writes supported.
+                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
+                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR].
+
+                                                                 Added in pass2. */
         uint64_t reserved_5_18         : 14;
         uint64_t listregs              : 5;  /**< [  4:  0](RO/H) The number of implemented list registers, minus one.
                                                                  For example, a value of 0xF indicates that the maximum of 16 list registers are
@@ -4142,7 +4140,11 @@ typedef union
                                                                  implemented.
                                                                  In CNXXXX, this field is always 0xF as 16 list registers are implemented. */
         uint64_t reserved_5_18         : 14;
-        uint64_t tds                   : 1;  /**< [ 19: 19](RAZ) Reserved. */
+        uint64_t tds                   : 1;  /**< [ 19: 19](RO) Separate trapping of non-secure EL1 writes supported.
+                                                                 0 = Implementation does not support CIM()_ICH_HCR_EL2[TDIR].
+                                                                 1 = Implementation supports CIM()_ICH_HCR_EL2[TDIR].
+
+                                                                 Added in pass2. */
         uint64_t reserved_20           : 1;
         uint64_t a3v                   : 1;  /**< [ 21: 21](RO/H) Affinity 3 support:
                                                                  0 = The CPU interface logic does not support nonzero values of affinity 3 in SGI
@@ -4175,7 +4177,9 @@ typedef union
                                                                  In CNXXXX, this field is always 4 as only 32 priorities are implemented. */
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn81xx;
+    /* struct bdk_cimx_ich_vtr_el2_cn81xx cn83xx; */
+    /* struct bdk_cimx_ich_vtr_el2_cn81xx cn88xxp2; */
 } bdk_cimx_ich_vtr_el2_t;
 
 static inline uint64_t BDK_CIMX_ICH_VTR_EL2(unsigned long a) __attribute__ ((pure, always_inline));

@@ -357,7 +357,8 @@ typedef union
         uint64_t reserved_19_63        : 45;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_slix_m2s_macx_ctl_cn83xx
+    /* struct bdk_slix_m2s_macx_ctl_s cn88xxp1; */
+    struct bdk_slix_m2s_macx_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
@@ -440,7 +441,8 @@ typedef union
                                                                  For diagnostic use only. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_slix_m2s_macx_ctl_cn81xx cn83xx; */
     struct bdk_slix_m2s_macx_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -527,7 +529,6 @@ typedef union
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_slix_m2s_macx_ctl_s cn88xxp1; */
 } bdk_slix_m2s_macx_ctl_t;
 
 static inline uint64_t BDK_SLIX_M2S_MACX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -1168,7 +1169,8 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_slix_s2m_ctl_cn83xx
+    /* struct bdk_slix_s2m_ctl_s cn88xxp1; */
+    struct bdk_slix_s2m_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_15_63        : 49;
@@ -1209,7 +1211,8 @@ typedef union
                                                                  regardless of this bit. */
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_slix_s2m_ctl_cn81xx cn83xx; */
     struct bdk_slix_s2m_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1256,7 +1259,6 @@ typedef union
         uint64_t reserved_15_63        : 49;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_slix_s2m_ctl_s cn88xxp1; */
 } bdk_slix_s2m_ctl_t;
 
 static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1512,6 +1514,8 @@ typedef union
 static inline uint64_t BDK_SLIX_SCTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SLIX_SCTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x874001002010ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x874001002010ll + 0x1000000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=1))
@@ -1556,7 +1560,8 @@ typedef union
         uint64_t reserved_51_63        : 13;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_slix_win_rd_addr_cn83xx
+    /* struct bdk_slix_win_rd_addr_s cn88xxp1; */
+    struct bdk_slix_win_rd_addr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
@@ -1587,7 +1592,8 @@ typedef union
                                                                  If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
                                                                  onto the NCB, though the SMMU may later promote them to secure. */
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_slix_win_rd_addr_cn81xx cn83xx; */
     struct bdk_slix_win_rd_addr_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1624,7 +1630,6 @@ typedef union
                                                                  Added in pass 2. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_slix_win_rd_addr_s cn88xxp1; */
 } bdk_slix_win_rd_addr_t;
 
 static inline uint64_t BDK_SLIX_WIN_RD_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1698,7 +1703,8 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_slix_win_wr_addr_cn83xx
+    /* struct bdk_slix_win_wr_addr_s cn88xxp1; */
+    struct bdk_slix_win_wr_addr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
@@ -1721,7 +1727,8 @@ typedef union
                                                                  If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
                                                                  onto the NCB, though the SMMU may later promote them to secure. */
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_slix_win_wr_addr_cn81xx cn83xx; */
     struct bdk_slix_win_wr_addr_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1750,7 +1757,6 @@ typedef union
                                                                  Added in pass 2. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_slix_win_wr_addr_s cn88xxp1; */
 } bdk_slix_win_wr_addr_t;
 
 static inline uint64_t BDK_SLIX_WIN_WR_ADDR(unsigned long a) __attribute__ ((pure, always_inline));

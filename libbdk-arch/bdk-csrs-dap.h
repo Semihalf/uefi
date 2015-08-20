@@ -90,6 +90,8 @@ typedef union
 static inline uint64_t BDK_DAP_ECO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DAP_ECO_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e002000120ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e002000120ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
@@ -127,42 +129,6 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_dap_hwpoll_cnt_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. */
-#endif /* Word 0 - End */
-    } cn83xx;
-    struct bdk_dap_hwpoll_cnt_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. Added in pass 2. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
-                                                                 With the approximate transaction delay of 256 cycles, the default
-                                                                 results in a poll approximately every 2048 cycles.
-                                                                 Must not be zero. For diagnostic use only. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. Added in pass 2. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
     struct bdk_dap_hwpoll_cnt_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -181,6 +147,43 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    struct bdk_dap_hwpoll_cnt_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
+                                                                 With the approximate transaction delay of 256 cycles, the default
+                                                                 results in a poll approximately every 2048 cycles.
+                                                                 Must not be zero. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
+                                                                 With the approximate transaction delay of 256 cycles, the default
+                                                                 results in a poll approximately every 2048 cycles.
+                                                                 Must not be zero. For diagnostic use only. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_dap_hwpoll_cnt_cn81xx cn83xx; */
+    struct bdk_dap_hwpoll_cnt_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. Added in pass 2. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
+                                                                 With the approximate transaction delay of 256 cycles, the default
+                                                                 results in a poll approximately every 2048 cycles.
+                                                                 Must not be zero. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint32_t count                 : 16; /**< [ 15:  0](R/W) Number of coprocessor-clocks between DAP bus poll intervals.
+                                                                 With the approximate transaction delay of 256 cycles, the default
+                                                                 results in a poll approximately every 2048 cycles.
+                                                                 Must not be zero. For diagnostic use only. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t poll_dis              : 1;  /**< [ 31: 31](R/W) Disable hardware polling. For diagnostic use only. Added in pass 2. */
+#endif /* Word 0 - End */
+    } cn88xxp2;
 } bdk_dap_hwpoll_cnt_t;
 
 #define BDK_DAP_HWPOLL_CNT BDK_DAP_HWPOLL_CNT_FUNC()
@@ -268,7 +271,8 @@ typedef union
         uint32_t reserved_11_31        : 21;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_dap_imp_dar_cn83xx
+    /* struct bdk_dap_imp_dar_s cn88xxp1; */
+    struct bdk_dap_imp_dar_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_30_31        : 2;
@@ -345,7 +349,8 @@ typedef union
                                                                  1 = Future trace feature disabled. */
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_dap_imp_dar_cn81xx cn83xx; */
     struct bdk_dap_imp_dar_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -428,7 +433,6 @@ typedef union
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_dap_imp_dar_s cn88xxp1; */
 } bdk_dap_imp_dar_t;
 
 #define BDK_DAP_IMP_DAR BDK_DAP_IMP_DAR_FUNC()
@@ -465,34 +469,6 @@ typedef union
         uint32_t reserved_16_31        : 16;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_dap_owb_to_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
-                                                                 of coprocessor-clock cycles, it will timeout. */
-#else /* Word 0 - Little Endian */
-        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
-                                                                 of coprocessor-clock cycles, it will timeout. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. */
-#endif /* Word 0 - End */
-    } cn83xx;
-    struct bdk_dap_owb_to_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. Added in pass 2. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
-                                                                 of coprocessor-clock cycles, it will timeout. */
-#else /* Word 0 - Little Endian */
-        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
-                                                                 of coprocessor-clock cycles, it will timeout. */
-        uint32_t reserved_16_30        : 15;
-        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. Added in pass 2. */
-#endif /* Word 0 - End */
-    } cn88xxp2;
     struct bdk_dap_owb_to_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -507,6 +483,35 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    struct bdk_dap_owb_to_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
+                                                                 of coprocessor-clock cycles, it will timeout. */
+#else /* Word 0 - Little Endian */
+        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
+                                                                 of coprocessor-clock cycles, it will timeout. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_dap_owb_to_cn81xx cn83xx; */
+    struct bdk_dap_owb_to_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. Added in pass 2. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
+                                                                 of coprocessor-clock cycles, it will timeout. */
+#else /* Word 0 - Little Endian */
+        uint32_t tovalue               : 16; /**< [ 15:  0](R/W) Timeout value. If an OWB transaction is longer than this number
+                                                                 of coprocessor-clock cycles, it will timeout. */
+        uint32_t reserved_16_30        : 15;
+        uint32_t to_dis                : 1;  /**< [ 31: 31](R/W) Disable timeout mechanism. Added in pass 2. */
+#endif /* Word 0 - End */
+    } cn88xxp2;
 } bdk_dap_owb_to_t;
 
 #define BDK_DAP_OWB_TO BDK_DAP_OWB_TO_FUNC()
@@ -554,6 +559,8 @@ typedef union
 static inline uint64_t BDK_DAP_RST_ON_WARM_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DAP_RST_ON_WARM_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e002000128ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e002000128ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
@@ -592,6 +599,8 @@ typedef union
 static inline uint64_t BDK_DAP_SCRATCH_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DAP_SCRATCH_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e002000118ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e002000118ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
@@ -631,7 +640,7 @@ typedef union
 
                                                                  If [CABDABSEL]=0, then [REGNUM] is the register offset. */
         uint32_t reserved_2_4          : 3;
-        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Rurrently reserved. */
+        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Currently reserved. */
         uint32_t busy                  : 1;  /**< [  0:  0](RO/H) Busy indicator if the broadcast write or polling still in progress.
                                                                  0 = Idle.
                                                                  1 = Broadcast write or polling still in progress. */
@@ -639,7 +648,7 @@ typedef union
         uint32_t busy                  : 1;  /**< [  0:  0](RO/H) Busy indicator if the broadcast write or polling still in progress.
                                                                  0 = Idle.
                                                                  1 = Broadcast write or polling still in progress. */
-        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Rurrently reserved. */
+        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Currently reserved. */
         uint32_t reserved_2_4          : 3;
         uint32_t regnum                : 16; /**< [ 20:  5](R/W) If [CABDABSEL]=1, then <19:5> is the register number with these bit definitions:
                                                                  <19>: Op0[0].
@@ -656,9 +665,8 @@ typedef union
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dap_sraaddr_s cn83xx; */
-    /* struct bdk_dap_sraaddr_s cn88xxp2; */
-    struct bdk_dap_sraaddr_cn88xxp1
+    /* struct bdk_dap_sraaddr_s cn88xxp1; */
+    struct bdk_dap_sraaddr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_29_31        : 3;
@@ -675,7 +683,7 @@ typedef union
 
                                                                  If [CABDABSEL]=0, then [REGNUM] is the register offset. */
         uint32_t reserved_2_4          : 3;
-        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Currently reserved. */
+        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Rurrently reserved. */
         uint32_t busy                  : 1;  /**< [  0:  0](RO/H) Busy indicator if the broadcast write or polling still in progress.
                                                                  0 = Idle.
                                                                  1 = Broadcast write or polling still in progress. */
@@ -683,7 +691,7 @@ typedef union
         uint32_t busy                  : 1;  /**< [  0:  0](RO/H) Busy indicator if the broadcast write or polling still in progress.
                                                                  0 = Idle.
                                                                  1 = Broadcast write or polling still in progress. */
-        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Currently reserved. */
+        uint32_t errstatus             : 1;  /**< [  1:  1](RAZ) Rurrently reserved. */
         uint32_t reserved_2_4          : 3;
         uint32_t regnum                : 16; /**< [ 20:  5](R/W) If [CABDABSEL]=1, then <19:5> is the register number with these bit definitions:
                                                                  <19>: Op0[0].
@@ -699,7 +707,9 @@ typedef union
                                                                  1 = Polling/broadcast write is for CAB bus, bits <19:5> is the register number. */
         uint32_t reserved_29_31        : 3;
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn81xx;
+    /* struct bdk_dap_sraaddr_cn81xx cn83xx; */
+    /* struct bdk_dap_sraaddr_cn81xx cn88xxp2; */
 } bdk_dap_sraaddr_t;
 
 #define BDK_DAP_SRAADDR BDK_DAP_SRAADDR_FUNC()

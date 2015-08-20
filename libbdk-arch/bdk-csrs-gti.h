@@ -3836,7 +3836,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
@@ -3853,14 +3853,14 @@ typedef union
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_wcx_w_iidr_cn88xx
+    struct bdk_gti_wcx_w_iidr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
@@ -3877,10 +3877,11 @@ typedef union
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_gti_wcx_w_iidr_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_gti_wcx_w_iidr_s cn88xx; */
+    /* struct bdk_gti_wcx_w_iidr_cn81xx cn83xx; */
 } bdk_gti_wcx_w_iidr_t;
 
 static inline uint64_t BDK_GTI_WCX_W_IIDR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4450,7 +4451,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
@@ -4467,14 +4468,14 @@ typedef union
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_gti_wrx_w_iidr_cn88xx
+    struct bdk_gti_wrx_w_iidr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
         uint32_t variant               : 4;  /**< [ 23: 20](RO) Variant field.
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
@@ -4491,10 +4492,11 @@ typedef union
                                                                  Note in the SBSA this is defined as part of the product identification.
                                                                  In CNXXXX, the major pass number. */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN83XX. */
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_gti_wrx_w_iidr_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_gti_wrx_w_iidr_s cn88xx; */
+    /* struct bdk_gti_wrx_w_iidr_cn81xx cn83xx; */
 } bdk_gti_wrx_w_iidr_t;
 
 static inline uint64_t BDK_GTI_WRX_W_IIDR(unsigned long a) __attribute__ ((pure, always_inline));

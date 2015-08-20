@@ -75,13 +75,16 @@
                                        SATA()_UAHC_P0_IS[SDBS] and
                                        SATA()_UAHC_P0_SNTF[PMN]. */
 #define BDK_SATA_INT_VEC_E_UAHC_PME_REQ_IP_CLEAR (3) /**< Level sensitive interrupt clear vector. */
+#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN88XXP1 (4) /**< See interrupt clears SATA(0..15)_UCTL_INTSTAT, interrupt sets
+                                       SATA(0..15)_UCTL_INTSTAT_W1S, enable clears
+                                       SATA(0..15)_UCTL_INTENA_W1C, and enable sets SATA(0..15)_UCTL_INTENA_W1S. */
+#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN81XX (1) /**< See interrupt clears SATA(0..15)_UCTL_INTSTAT, interrupt sets
+                                       SATA(0..15)_UCTL_INTSTAT_W1S, enable clears
+                                       SATA(0..15)_UCTL_INTENA_W1C, and enable sets SATA(0..15)_UCTL_INTENA_W1S. */
 #define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN83XX (1) /**< See interrupt clears SATA(0..15)_UCTL_INTSTAT, interrupt sets
                                        SATA(0..15)_UCTL_INTSTAT_W1S, enable clears
                                        SATA(0..15)_UCTL_INTENA_W1C, and enable sets SATA(0..15)_UCTL_INTENA_W1S. */
 #define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN88XXP2 (1) /**< See interrupt clears SATA(0..15)_UCTL_INTSTAT, interrupt sets
-                                       SATA(0..15)_UCTL_INTSTAT_W1S, enable clears
-                                       SATA(0..15)_UCTL_INTENA_W1C, and enable sets SATA(0..15)_UCTL_INTENA_W1S. */
-#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN88XXP1 (4) /**< See interrupt clears SATA(0..15)_UCTL_INTSTAT, interrupt sets
                                        SATA(0..15)_UCTL_INTSTAT_W1S, enable clears
                                        SATA(0..15)_UCTL_INTENA_W1C, and enable sets SATA(0..15)_UCTL_INTENA_W1S. */
 
@@ -220,6 +223,8 @@ typedef union
 static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=15) && (b<=3)))
+        return 0x810000200000ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=15) && (b<=3)))
         return 0x810000200000ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((a<=15) && (b<=4)))
@@ -265,6 +270,8 @@ typedef union
 static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SATAX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=15) && (b<=3)))
+        return 0x810000200008ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=15) && (b<=3)))
         return 0x810000200008ll + 0x1000000000ll * ((a) & 0xf) + 0x10ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X) && ((a<=15) && (b<=4)))
@@ -2164,7 +2171,8 @@ typedef union
                                                                  0x7 = divide by 24. */
         uint64_t reserved_5_23         : 19;
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the SATA UCTL interface clock (coprocessor clock). This enables access to UAHC
-                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030. */
+                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030.
+                                                                 Changed in pass 2. */
         uint64_t reserved_2_3          : 2;
         uint64_t sata_uahc_rst         : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
                                                                  INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
@@ -2195,7 +2203,8 @@ typedef union
                                                                  or NCB protocols. */
         uint64_t reserved_2_3          : 2;
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the SATA UCTL interface clock (coprocessor clock). This enables access to UAHC
-                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030. */
+                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030.
+                                                                 Changed in pass 2. */
         uint64_t reserved_5_23         : 19;
         uint64_t a_clkdiv_sel          : 3;  /**< [ 26: 24](R/W) The host-controller clock frequency is the coprocessor-clock frequency divided by
                                                                  A_CLKDIV_SEL. The host-controller clock frequency must be at or below 333MHz.
@@ -2246,7 +2255,7 @@ typedef union
                                                                  RAM. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_satax_uctl_ctl_cn88xx
+    struct bdk_satax_uctl_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t clear_bist            : 1;  /**< [ 63: 63](R/W) BIST fast-clear mode select. There are two major modes of BIST: FULL and CLEAR.
@@ -2298,8 +2307,7 @@ typedef union
                                                                  0x7 = divide by 24. */
         uint64_t reserved_5_23         : 19;
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the SATA UCTL interface clock (coprocessor clock). This enables access to UAHC
-                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030.
-                                                                 Changed in pass 2. */
+                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030. */
         uint64_t reserved_2_3          : 2;
         uint64_t sata_uahc_rst         : 1;  /**< [  1:  1](R/W) Software reset; resets UAHC; active-high.
                                                                  INTERNAL: Note that soft-resetting the UAHC while it is active may cause violations of RSL
@@ -2330,8 +2338,7 @@ typedef union
                                                                  or NCB protocols. */
         uint64_t reserved_2_3          : 2;
         uint64_t csclk_en              : 1;  /**< [  4:  4](R/W) Turns on the SATA UCTL interface clock (coprocessor clock). This enables access to UAHC
-                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030.
-                                                                 Changed in pass 2. */
+                                                                 registers via the NCB, as well as UCTL registers starting from 0x10_0030. */
         uint64_t reserved_5_23         : 19;
         uint64_t a_clkdiv_sel          : 3;  /**< [ 26: 24](R/W) The host-controller clock frequency is the coprocessor-clock frequency divided by
                                                                  A_CLKDIV_SEL. The host-controller clock frequency must be at or below 333MHz.
@@ -2381,8 +2388,9 @@ typedef union
                                                                  A BIST clear operation takes almost 2,000 host-controller clock cycles for the largest
                                                                  RAM. */
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_satax_uctl_ctl_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_satax_uctl_ctl_s cn88xx; */
+    /* struct bdk_satax_uctl_ctl_cn81xx cn83xx; */
 } bdk_satax_uctl_ctl_t;
 
 static inline uint64_t BDK_SATAX_UCTL_CTL(unsigned long a) __attribute__ ((pure, always_inline));

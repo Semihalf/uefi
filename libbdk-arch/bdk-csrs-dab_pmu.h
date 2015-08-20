@@ -464,6 +464,7 @@
 #define BDK_PMU_PERF_E_TLBI_IPAS2E1IS (0x1cf) /**< Number of TLBI with IPAS2E1IS. */
 #define BDK_PMU_PERF_E_TLBI_IPAS2LE1 (0x1d0) /**< Number of TLBI with IPAS2LE1 (local). */
 #define BDK_PMU_PERF_E_TLBI_IPAS2LE1IS (0x1d1) /**< Number of TLBI with IPAS2LE1IS. */
+#define BDK_PMU_PERF_E_TLBI_NOPS_CN81XX (0x1ef) /**< Number of TLBI broadcasts that are suppressed. */
 #define BDK_PMU_PERF_E_TLBI_NOPS_CN88XX (0x1ef) /**< Number of TLBI broadcasts that are suppressed.
                                        Added in pass 2. */
 #define BDK_PMU_PERF_E_TLBI_NOPS_CN83XX (0x1ef) /**< Number of TLBI broadcasts that are suppressed. */
@@ -1926,7 +1927,81 @@ typedef union
                                                                  1 = Do not count events in EL1. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pmux_pmevtyperx_el0_cn83xx
+    struct bdk_pmux_pmevtyperx_el0_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
+                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     controlled by the NSK bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count events in EL1.
+                                                                 1 = Do not count events in EL1. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
+                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     controlled by the NSU bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count events in EL0.
+                                                                 1 = Do not count events in EL0. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
+                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, events in
+                                                                     Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
+                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of U, events in
+                                                                     Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
+                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                 0 = Do not count events in EL2.
+                                                                 1 = Count events in EL2. */
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
+                                                                     bit and set the value to zero. If EL3 is not implemented, this
+                                                                     bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, events in
+                                                                     Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted. */
+        uint32_t reserved_10_25        : 16;
+        uint32_t evtcount              : 10; /**< [  9:  0](R/W) Event to count. */
+#else /* Word 0 - Little Endian */
+        uint32_t evtcount              : 10; /**< [  9:  0](R/W) Event to count. */
+        uint32_t reserved_10_25        : 16;
+        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
+                                                                     bit and set the value to zero. If EL3 is not implemented, this
+                                                                     bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, events in
+                                                                     Secure EL3 are counted.
+                                                                 Otherwise, events in Secure EL3 are not counted. */
+        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
+                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
+                                                                 0 = Do not count events in EL2.
+                                                                 1 = Count events in EL2. */
+        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
+                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of U, events in
+                                                                     Non-secure EL0 are counted.
+                                                                 Otherwise, events in Non-secure EL0 are not counted. */
+        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
+                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
+                                                                 If the value of this bit is equal to the value of P, events in
+                                                                     Non-secure EL1 are counted.
+                                                                 Otherwise, events in Non-secure EL1 are not counted. */
+        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
+                                                                     implemented, then counting in Non-secure EL0 is further
+                                                                     controlled by the NSU bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count events in EL0.
+                                                                 1 = Do not count events in EL0. */
+        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
+                                                                     implemented, then counting in Non-secure EL1 is further
+                                                                     controlled by the NSK bit. The possible values of this bit
+                                                                     are:
+                                                                 0 = Count events in EL1.
+                                                                 1 = Do not count events in EL1. */
+#endif /* Word 0 - End */
+    } cn88xxp1;
+    struct bdk_pmux_pmevtyperx_el0_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
@@ -2041,7 +2116,8 @@ typedef union
                                                                  0 = Count events in EL1.
                                                                  1 = Do not count events in EL1. */
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pmux_pmevtyperx_el0_cn81xx cn83xx; */
     struct bdk_pmux_pmevtyperx_el0_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2160,80 +2236,6 @@ typedef union
                                                                  1 = Do not count events in EL1. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_pmux_pmevtyperx_el0_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
-                                                                     controlled by the NSK bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count events in EL1.
-                                                                 1 = Do not count events in EL1. */
-        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
-                                                                     controlled by the NSU bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count events in EL0.
-                                                                 1 = Do not count events in EL0. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, events in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, events in Non-secure EL1 are not counted. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of U, events in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, events in Non-secure EL0 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
-                                                                 0 = Do not count events in EL2.
-                                                                 1 = Count events in EL2. */
-        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
-                                                                     bit and set the value to zero. If EL3 is not implemented, this
-                                                                     bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, events in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, events in Secure EL3 are not counted. */
-        uint32_t reserved_10_25        : 16;
-        uint32_t evtcount              : 10; /**< [  9:  0](R/W) Event to count. */
-#else /* Word 0 - Little Endian */
-        uint32_t evtcount              : 10; /**< [  9:  0](R/W) Event to count. */
-        uint32_t reserved_10_25        : 16;
-        uint32_t m                     : 1;  /**< [ 26: 26](R/W) Secure EL3 filtering bit. Most applications can ignore this
-                                                                     bit and set the value to zero. If EL3 is not implemented, this
-                                                                     bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, events in
-                                                                     Secure EL3 are counted.
-                                                                 Otherwise, events in Secure EL3 are not counted. */
-        uint32_t nsh                   : 1;  /**< [ 27: 27](R/W) Non-secure Hyp modes filtering bit. Controls counting in Non-
-                                                                     secure EL2. If EL2 is not implemented, this bit is RES0.
-                                                                 0 = Do not count events in EL2.
-                                                                 1 = Count events in EL2. */
-        uint32_t nsu                   : 1;  /**< [ 28: 28](R/W) Non-secure user modes filtering bit. Controls counting in Non-
-                                                                     secure EL0. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of U, events in
-                                                                     Non-secure EL0 are counted.
-                                                                 Otherwise, events in Non-secure EL0 are not counted. */
-        uint32_t nsk                   : 1;  /**< [ 29: 29](R/W) Non-secure kernel modes filtering bit. Controls counting in
-                                                                     Non-secure EL1. If EL3 is not implemented, this bit is RES0.
-                                                                 If the value of this bit is equal to the value of P, events in
-                                                                     Non-secure EL1 are counted.
-                                                                 Otherwise, events in Non-secure EL1 are not counted. */
-        uint32_t u                     : 1;  /**< [ 30: 30](R/W) EL0 filtering bit. Controls counting in EL0. If EL3 is
-                                                                     implemented, then counting in Non-secure EL0 is further
-                                                                     controlled by the NSU bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count events in EL0.
-                                                                 1 = Do not count events in EL0. */
-        uint32_t p                     : 1;  /**< [ 31: 31](R/W) EL1 modes filtering bit. Controls counting in EL1. If EL3 is
-                                                                     implemented, then counting in Non-secure EL1 is further
-                                                                     controlled by the NSK bit. The possible values of this bit
-                                                                     are:
-                                                                 0 = Count events in EL1.
-                                                                 1 = Do not count events in EL1. */
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_pmux_pmevtyperx_el0_t;
 
 static inline uint64_t BDK_PMUX_PMEVTYPERX_EL0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));

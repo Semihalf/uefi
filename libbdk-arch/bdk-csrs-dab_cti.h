@@ -290,7 +290,8 @@ typedef union
         uint32_t reserved_0_31         : 32;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_ctix_ctiappset_cn83xx
+    /* struct bdk_ctix_ctiappset_s cn88xxp1; */
+    struct bdk_ctix_ctiappset_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_3_31         : 29;
@@ -327,7 +328,8 @@ typedef union
                                                                  In CNXXXX always 0x0 as it doesn't support multicycle channel events. */
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_ctix_ctiappset_cn81xx cn83xx; */
     struct bdk_ctix_ctiappset_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -372,7 +374,6 @@ typedef union
         uint32_t reserved_3_31         : 29;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_ctix_ctiappset_s cn88xxp1; */
 } bdk_ctix_ctiappset_t;
 
 static inline uint64_t BDK_CTIX_CTIAPPSET(unsigned long a) __attribute__ ((pure, always_inline));

@@ -2370,43 +2370,43 @@ typedef union
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 0 = The processor has not restarted since EDPRSR was last read.
-                                                                 1 = The processor has restarted since EDPRSR was last read. */
+                                                                 <0> The processor has not restarted since EDPRSR was last read.
+                                                                 <1> The processor has restarted since EDPRSR was last read. */
         uint32_t spmad                 : 1;  /**< [ 10: 10](RO) Sticky EPMAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalPMUAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 0 = No accesses to the external performance monitors registers
+                                                                 <0> No accesses to the external performance monitors registers
                                                                      have failed since EDPRSR was last read.
-                                                                 1 = At least one access to the external performance monitors
+                                                                 <1> At least one access to the external performance monitors
                                                                      registers has failed since EDPRSR was last read. */
         uint32_t epmad                 : 1;  /**< [  9:  9](RO) External performance monitors access disable status.
                                                                  If external performance monitors access is not implemented,
                                                                      EPMAD is RAO. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1, or EDPRSR.PU is zero.
-                                                                 0 = External performance monitors access enabled.
-                                                                 1 = External performance monitors access disabled. */
+                                                                 <0> External performance monitors access enabled.
+                                                                 <1> External performance monitors access disabled. */
         uint32_t sdad                  : 1;  /**< [  8:  8](RO) Sticky EDAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalDebugAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 following a read of EDPRSR.
-                                                                 0 = No accesses to the external debug registers have failed since
+                                                                 <0> No accesses to the external debug registers have failed since
                                                                      EDPRSR was last read.
-                                                                 1 = At least one access to the external debug registers has failed
+                                                                 <1> At least one access to the external debug registers has failed
                                                                      since EDPRSR was last read. */
         uint32_t edad                  : 1;  /**< [  7:  7](RO) External debug access disable status.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
-                                                                 0 = External debug access enabled.
-                                                                 1 = External debug access disabled. */
+                                                                 <0> External debug access enabled.
+                                                                 <1> External debug access disabled. */
         uint32_t dlk                   : 1;  /**< [  6:  6](RO) OS double-lock status bit.
                                                                  This bit is UNKNOWN on reads if EDPRSR.PU is zero.
-                                                                 0 = OSDLR_EL1.DLK = 0 or EDPRCR.CORENPDRQ = 1 or the processor
-                                                                     is in debug state.
-                                                                 1 = OSDLR_EL1.DLK = 1 and EDPRCR.CORENPDRQ = 0 and the processor
-                                                                     is in non-debug state. */
+                                                                 <0> OSDLR_EL1.DLK == 0 or EDPRCR.CORENPDRQ == 1 or the processor
+                                                                     is in Debug state.
+                                                                 <1> OSDLR_EL1.DLK == 1 and EDPRCR.CORENPDRQ == 0 and the processor
+                                                                     is in Non-debug state. */
         uint32_t oslk                  : 1;  /**< [  5:  5](RO) OS lock status bit. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1 or EDPRSR.PU is zero. Otherwise, a read
                                                                      returns the value of OSLSR_EL1.OSLK. */
@@ -2417,15 +2417,15 @@ typedef union
                                                                      values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the non-
                                                                      debug logic of the processor is not in reset state.
-                                                                 0 = The non-debug logic of the processor is not in reset state and
+                                                                 <0> The non-debug logic of the processor is not in reset state and
                                                                      has not been reset since the last time EDPRSR was read.
-                                                                 1 = The non-debug logic of the processor is in reset state or has
+                                                                 <1> The non-debug logic of the processor is in reset state or has
                                                                      been reset since the last time EDPRSR was read. */
         uint32_t r                     : 1;  /**< [  2:  2](RO) Core reset status bit. This bit is UNKNOWN on reads if either
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
-                                                                 0 = The non-debug logic of the processor is not in reset state.
-                                                                 1 = The non-debug logic of the processor is in reset state. */
+                                                                 <0> The non-debug logic of the processor is not in reset state.
+                                                                 <1> The non-debug logic of the processor is in reset state. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
                                                                  This bit is set to 1 on Cold reset to indicate the state of
@@ -2437,33 +2437,31 @@ typedef union
                                                                      processor is not in the powered down state.
                                                                  There are two logical power off states for the Core power
                                                                      domain:
-                                                                 * Retention: The states of the debug registers, including
+                                                                 - Retention: The states of the debug registers, including
                                                                      EDPRSR.SPD, in the Core power domain is preserved, and
                                                                      restored on leaving retention state.
-                                                                 * Power-down: The states of the debug registers in the Core
+                                                                 - Power-down: The states of the debug registers in the Core
                                                                      power domain is lost, and a Cold reset is asserted on leaving
                                                                      power-down state.
-
                                                                   If EDPRSR.PU is zero,
-                                                                  0 = It is now known whether the state of the degug regsiters in the Core power domain is
+                                                                  <0> It is now known whether the state of the degug regsiters in the Core power domain is
                                                                  lost.
-                                                                  1 = The state fo the debug registers int he Core power domain is lost
-
+                                                                  <1> The state fo the debug registers int he Core power domain is lost
                                                                   If EDPRSR.PU is one,
-                                                                  0 = The state of the debug registers in the Core power domain has not been lost.
-                                                                  1 = The state of the debug registers in the Core power domain has been lost. */
+                                                                  <0> The state of the debug registers in the Core power domain has not been lost.
+                                                                  <1> The state of the debug registers in the Core power domain has been lost. */
         uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the Core power
                                                                      domain debug registers can be accessed:
-                                                                 0 = Core is in a low-power or power-down state where the debug
+                                                                 <0> Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
-                                                                 1 = Core is in a power-up state where the debug registers can be
+                                                                 <1> Core is in a power-up state where the debug registers can be
                                                                      accessed. */
 #else /* Word 0 - Little Endian */
         uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the Core power
                                                                      domain debug registers can be accessed:
-                                                                 0 = Core is in a low-power or power-down state where the debug
+                                                                 <0> Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
-                                                                 1 = Core is in a power-up state where the debug registers can be
+                                                                 <1> Core is in a power-up state where the debug registers can be
                                                                      accessed. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
@@ -2476,34 +2474,32 @@ typedef union
                                                                      processor is not in the powered down state.
                                                                  There are two logical power off states for the Core power
                                                                      domain:
-                                                                 * Retention: The states of the debug registers, including
+                                                                 - Retention: The states of the debug registers, including
                                                                      EDPRSR.SPD, in the Core power domain is preserved, and
                                                                      restored on leaving retention state.
-                                                                 * Power-down: The states of the debug registers in the Core
+                                                                 - Power-down: The states of the debug registers in the Core
                                                                      power domain is lost, and a Cold reset is asserted on leaving
                                                                      power-down state.
-
                                                                   If EDPRSR.PU is zero,
-                                                                  0 = It is now known whether the state of the degug regsiters in the Core power domain is
+                                                                  <0> It is now known whether the state of the degug regsiters in the Core power domain is
                                                                  lost.
-                                                                  1 = The state fo the debug registers int he Core power domain is lost
-
+                                                                  <1> The state fo the debug registers int he Core power domain is lost
                                                                   If EDPRSR.PU is one,
-                                                                  0 = The state of the debug registers in the Core power domain has not been lost.
-                                                                  1 = The state of the debug registers in the Core power domain has been lost. */
+                                                                  <0> The state of the debug registers in the Core power domain has not been lost.
+                                                                  <1> The state of the debug registers in the Core power domain has been lost. */
         uint32_t r                     : 1;  /**< [  2:  2](RO) Core reset status bit. This bit is UNKNOWN on reads if either
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
-                                                                 0 = The non-debug logic of the processor is not in reset state.
-                                                                 1 = The non-debug logic of the processor is in reset state. */
+                                                                 <0> The non-debug logic of the processor is not in reset state.
+                                                                 <1> The non-debug logic of the processor is in reset state. */
         uint32_t sr                    : 1;  /**< [  3:  3](RO) Sticky core reset status bit. This bit is UNKNOWN on reads if
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the non-
                                                                      debug logic of the processor is not in reset state.
-                                                                 0 = The non-debug logic of the processor is not in reset state and
+                                                                 <0> The non-debug logic of the processor is not in reset state and
                                                                      has not been reset since the last time EDPRSR was read.
-                                                                 1 = The non-debug logic of the processor is in reset state or has
+                                                                 <1> The non-debug logic of the processor is in reset state or has
                                                                      been reset since the last time EDPRSR was read. */
         uint32_t halted                : 1;  /**< [  4:  4](RO) Halted status bit. This bit is UNKNOWN on reads if EDPRSR.PU
                                                                      is zero, 0 if EDSCR.STATUS == 0x2, 1 if EDSCR.STATUS != 0x2. */
@@ -2512,52 +2508,51 @@ typedef union
                                                                      returns the value of OSLSR_EL1.OSLK. */
         uint32_t dlk                   : 1;  /**< [  6:  6](RO) OS double-lock status bit.
                                                                  This bit is UNKNOWN on reads if EDPRSR.PU is zero.
-                                                                 0 = OSDLR_EL1.DLK = 0 or EDPRCR.CORENPDRQ = 1 or the processor
-                                                                     is in debug state.
-                                                                 1 = OSDLR_EL1.DLK = 1 and EDPRCR.CORENPDRQ = 0 and the processor
-                                                                     is in non-debug state. */
+                                                                 <0> OSDLR_EL1.DLK == 0 or EDPRCR.CORENPDRQ == 1 or the processor
+                                                                     is in Debug state.
+                                                                 <1> OSDLR_EL1.DLK == 1 and EDPRCR.CORENPDRQ == 0 and the processor
+                                                                     is in Non-debug state. */
         uint32_t edad                  : 1;  /**< [  7:  7](RO) External debug access disable status.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
-                                                                 0 = External debug access enabled.
-                                                                 1 = External debug access disabled. */
+                                                                 <0> External debug access enabled.
+                                                                 <1> External debug access disabled. */
         uint32_t sdad                  : 1;  /**< [  8:  8](RO) Sticky EDAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalDebugAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 following a read of EDPRSR.
-                                                                 0 = No accesses to the external debug registers have failed since
+                                                                 <0> No accesses to the external debug registers have failed since
                                                                      EDPRSR was last read.
-                                                                 1 = At least one access to the external debug registers has failed
+                                                                 <1> At least one access to the external debug registers has failed
                                                                      since EDPRSR was last read. */
         uint32_t epmad                 : 1;  /**< [  9:  9](RO) External performance monitors access disable status.
                                                                  If external performance monitors access is not implemented,
                                                                      EPMAD is RAO. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1, or EDPRSR.PU is zero.
-                                                                 0 = External performance monitors access enabled.
-                                                                 1 = External performance monitors access disabled. */
+                                                                 <0> External performance monitors access enabled.
+                                                                 <1> External performance monitors access disabled. */
         uint32_t spmad                 : 1;  /**< [ 10: 10](RO) Sticky EPMAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalPMUAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 0 = No accesses to the external performance monitors registers
+                                                                 <0> No accesses to the external performance monitors registers
                                                                      have failed since EDPRSR was last read.
-                                                                 1 = At least one access to the external performance monitors
+                                                                 <1> At least one access to the external performance monitors
                                                                      registers has failed since EDPRSR was last read. */
         uint32_t sdr                   : 1;  /**< [ 11: 11](RO) Sticky debug restart. Set to 1 when the processor exits Debug
                                                                      state and cleared to 0 following reads of EDPRSR.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 0 = The processor has not restarted since EDPRSR was last read.
-                                                                 1 = The processor has restarted since EDPRSR was last read. */
+                                                                 <0> The processor has not restarted since EDPRSR was last read.
+                                                                 <1> The processor has restarted since EDPRSR was last read. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_dbgx_edprsr_s cn83xx; */
-    /* struct bdk_dbgx_edprsr_s cn88xxp2; */
-    struct bdk_dbgx_edprsr_cn88xxp1
+    /* struct bdk_dbgx_edprsr_s cn88xxp1; */
+    struct bdk_dbgx_edprsr_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_12_31        : 20;
@@ -2566,43 +2561,43 @@ typedef union
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 <0> The processor has not restarted since EDPRSR was last read.
-                                                                 <1> The processor has restarted since EDPRSR was last read. */
+                                                                 0 = The processor has not restarted since EDPRSR was last read.
+                                                                 1 = The processor has restarted since EDPRSR was last read. */
         uint32_t spmad                 : 1;  /**< [ 10: 10](RO) Sticky EPMAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalPMUAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 <0> No accesses to the external performance monitors registers
+                                                                 0 = No accesses to the external performance monitors registers
                                                                      have failed since EDPRSR was last read.
-                                                                 <1> At least one access to the external performance monitors
+                                                                 1 = At least one access to the external performance monitors
                                                                      registers has failed since EDPRSR was last read. */
         uint32_t epmad                 : 1;  /**< [  9:  9](RO) External performance monitors access disable status.
                                                                  If external performance monitors access is not implemented,
                                                                      EPMAD is RAO. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1, or EDPRSR.PU is zero.
-                                                                 <0> External performance monitors access enabled.
-                                                                 <1> External performance monitors access disabled. */
+                                                                 0 = External performance monitors access enabled.
+                                                                 1 = External performance monitors access disabled. */
         uint32_t sdad                  : 1;  /**< [  8:  8](RO) Sticky EDAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalDebugAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 following a read of EDPRSR.
-                                                                 <0> No accesses to the external debug registers have failed since
+                                                                 0 = No accesses to the external debug registers have failed since
                                                                      EDPRSR was last read.
-                                                                 <1> At least one access to the external debug registers has failed
+                                                                 1 = At least one access to the external debug registers has failed
                                                                      since EDPRSR was last read. */
         uint32_t edad                  : 1;  /**< [  7:  7](RO) External debug access disable status.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
-                                                                 <0> External debug access enabled.
-                                                                 <1> External debug access disabled. */
+                                                                 0 = External debug access enabled.
+                                                                 1 = External debug access disabled. */
         uint32_t dlk                   : 1;  /**< [  6:  6](RO) OS double-lock status bit.
                                                                  This bit is UNKNOWN on reads if EDPRSR.PU is zero.
-                                                                 <0> OSDLR_EL1.DLK == 0 or EDPRCR.CORENPDRQ == 1 or the processor
-                                                                     is in Debug state.
-                                                                 <1> OSDLR_EL1.DLK == 1 and EDPRCR.CORENPDRQ == 0 and the processor
-                                                                     is in Non-debug state. */
+                                                                 0 = OSDLR_EL1.DLK = 0 or EDPRCR.CORENPDRQ = 1 or the processor
+                                                                     is in debug state.
+                                                                 1 = OSDLR_EL1.DLK = 1 and EDPRCR.CORENPDRQ = 0 and the processor
+                                                                     is in non-debug state. */
         uint32_t oslk                  : 1;  /**< [  5:  5](RO) OS lock status bit. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1 or EDPRSR.PU is zero. Otherwise, a read
                                                                      returns the value of OSLSR_EL1.OSLK. */
@@ -2613,15 +2608,15 @@ typedef union
                                                                      values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the non-
                                                                      debug logic of the processor is not in reset state.
-                                                                 <0> The non-debug logic of the processor is not in reset state and
+                                                                 0 = The non-debug logic of the processor is not in reset state and
                                                                      has not been reset since the last time EDPRSR was read.
-                                                                 <1> The non-debug logic of the processor is in reset state or has
+                                                                 1 = The non-debug logic of the processor is in reset state or has
                                                                      been reset since the last time EDPRSR was read. */
         uint32_t r                     : 1;  /**< [  2:  2](RO) Core reset status bit. This bit is UNKNOWN on reads if either
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
-                                                                 <0> The non-debug logic of the processor is not in reset state.
-                                                                 <1> The non-debug logic of the processor is in reset state. */
+                                                                 0 = The non-debug logic of the processor is not in reset state.
+                                                                 1 = The non-debug logic of the processor is in reset state. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
                                                                  This bit is set to 1 on Cold reset to indicate the state of
@@ -2633,31 +2628,33 @@ typedef union
                                                                      processor is not in the powered down state.
                                                                  There are two logical power off states for the Core power
                                                                      domain:
-                                                                 - Retention: The states of the debug registers, including
+                                                                 * Retention: The states of the debug registers, including
                                                                      EDPRSR.SPD, in the Core power domain is preserved, and
                                                                      restored on leaving retention state.
-                                                                 - Power-down: The states of the debug registers in the Core
+                                                                 * Power-down: The states of the debug registers in the Core
                                                                      power domain is lost, and a Cold reset is asserted on leaving
                                                                      power-down state.
+
                                                                   If EDPRSR.PU is zero,
-                                                                  <0> It is now known whether the state of the degug regsiters in the Core power domain is
+                                                                  0 = It is now known whether the state of the degug regsiters in the Core power domain is
                                                                  lost.
-                                                                  <1> The state fo the debug registers int he Core power domain is lost
+                                                                  1 = The state fo the debug registers int he Core power domain is lost
+
                                                                   If EDPRSR.PU is one,
-                                                                  <0> The state of the debug registers in the Core power domain has not been lost.
-                                                                  <1> The state of the debug registers in the Core power domain has been lost. */
+                                                                  0 = The state of the debug registers in the Core power domain has not been lost.
+                                                                  1 = The state of the debug registers in the Core power domain has been lost. */
         uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the Core power
                                                                      domain debug registers can be accessed:
-                                                                 <0> Core is in a low-power or power-down state where the debug
+                                                                 0 = Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
-                                                                 <1> Core is in a power-up state where the debug registers can be
+                                                                 1 = Core is in a power-up state where the debug registers can be
                                                                      accessed. */
 #else /* Word 0 - Little Endian */
         uint32_t pu                    : 1;  /**< [  0:  0](RO) Core power-up status bit. Indicates whether the Core power
                                                                      domain debug registers can be accessed:
-                                                                 <0> Core is in a low-power or power-down state where the debug
+                                                                 0 = Core is in a low-power or power-down state where the debug
                                                                      registers cannot be accessed.
-                                                                 <1> Core is in a power-up state where the debug registers can be
+                                                                 1 = Core is in a power-up state where the debug registers can be
                                                                      accessed. */
         uint32_t spd                   : 1;  /**< [  1:  1](RO) Sticky core power-down status bit. This bit is UNKNOWN on
                                                                      reads if both EDPRSR.DLK and EDPRSR.PU are 1.
@@ -2670,32 +2667,34 @@ typedef union
                                                                      processor is not in the powered down state.
                                                                  There are two logical power off states for the Core power
                                                                      domain:
-                                                                 - Retention: The states of the debug registers, including
+                                                                 * Retention: The states of the debug registers, including
                                                                      EDPRSR.SPD, in the Core power domain is preserved, and
                                                                      restored on leaving retention state.
-                                                                 - Power-down: The states of the debug registers in the Core
+                                                                 * Power-down: The states of the debug registers in the Core
                                                                      power domain is lost, and a Cold reset is asserted on leaving
                                                                      power-down state.
+
                                                                   If EDPRSR.PU is zero,
-                                                                  <0> It is now known whether the state of the degug regsiters in the Core power domain is
+                                                                  0 = It is now known whether the state of the degug regsiters in the Core power domain is
                                                                  lost.
-                                                                  <1> The state fo the debug registers int he Core power domain is lost
+                                                                  1 = The state fo the debug registers int he Core power domain is lost
+
                                                                   If EDPRSR.PU is one,
-                                                                  <0> The state of the debug registers in the Core power domain has not been lost.
-                                                                  <1> The state of the debug registers in the Core power domain has been lost. */
+                                                                  0 = The state of the debug registers in the Core power domain has not been lost.
+                                                                  1 = The state of the debug registers in the Core power domain has been lost. */
         uint32_t r                     : 1;  /**< [  2:  2](RO) Core reset status bit. This bit is UNKNOWN on reads if either
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
-                                                                 <0> The non-debug logic of the processor is not in reset state.
-                                                                 <1> The non-debug logic of the processor is in reset state. */
+                                                                 0 = The non-debug logic of the processor is not in reset state.
+                                                                 1 = The non-debug logic of the processor is in reset state. */
         uint32_t sr                    : 1;  /**< [  3:  3](RO) Sticky core reset status bit. This bit is UNKNOWN on reads if
                                                                      EDPRSR.DLK is 1 or EDPRSR.PU is zero. Otherwise its possible
                                                                      values are:
                                                                  This bit clears to 0 following a read of EDPRSR if the non-
                                                                      debug logic of the processor is not in reset state.
-                                                                 <0> The non-debug logic of the processor is not in reset state and
+                                                                 0 = The non-debug logic of the processor is not in reset state and
                                                                      has not been reset since the last time EDPRSR was read.
-                                                                 <1> The non-debug logic of the processor is in reset state or has
+                                                                 1 = The non-debug logic of the processor is in reset state or has
                                                                      been reset since the last time EDPRSR was read. */
         uint32_t halted                : 1;  /**< [  4:  4](RO) Halted status bit. This bit is UNKNOWN on reads if EDPRSR.PU
                                                                      is zero, 0 if EDSCR.STATUS == 0x2, 1 if EDSCR.STATUS != 0x2. */
@@ -2704,49 +2703,51 @@ typedef union
                                                                      returns the value of OSLSR_EL1.OSLK. */
         uint32_t dlk                   : 1;  /**< [  6:  6](RO) OS double-lock status bit.
                                                                  This bit is UNKNOWN on reads if EDPRSR.PU is zero.
-                                                                 <0> OSDLR_EL1.DLK == 0 or EDPRCR.CORENPDRQ == 1 or the processor
-                                                                     is in Debug state.
-                                                                 <1> OSDLR_EL1.DLK == 1 and EDPRCR.CORENPDRQ == 0 and the processor
-                                                                     is in Non-debug state. */
+                                                                 0 = OSDLR_EL1.DLK = 0 or EDPRCR.CORENPDRQ = 1 or the processor
+                                                                     is in debug state.
+                                                                 1 = OSDLR_EL1.DLK = 1 and EDPRCR.CORENPDRQ = 0 and the processor
+                                                                     is in non-debug state. */
         uint32_t edad                  : 1;  /**< [  7:  7](RO) External debug access disable status.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
-                                                                 <0> External debug access enabled.
-                                                                 <1> External debug access disabled. */
+                                                                 0 = External debug access enabled.
+                                                                 1 = External debug access disabled. */
         uint32_t sdad                  : 1;  /**< [  8:  8](RO) Sticky EDAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalDebugAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 following a read of EDPRSR.
-                                                                 <0> No accesses to the external debug registers have failed since
+                                                                 0 = No accesses to the external debug registers have failed since
                                                                      EDPRSR was last read.
-                                                                 <1> At least one access to the external debug registers has failed
+                                                                 1 = At least one access to the external debug registers has failed
                                                                      since EDPRSR was last read. */
         uint32_t epmad                 : 1;  /**< [  9:  9](RO) External performance monitors access disable status.
                                                                  If external performance monitors access is not implemented,
                                                                      EPMAD is RAO. This bit is UNKNOWN on reads if either of
                                                                      EDPRSR.{DLK, R} is 1, or EDPRSR.PU is zero.
-                                                                 <0> External performance monitors access enabled.
-                                                                 <1> External performance monitors access disabled. */
+                                                                 0 = External performance monitors access enabled.
+                                                                 1 = External performance monitors access disabled. */
         uint32_t spmad                 : 1;  /**< [ 10: 10](RO) Sticky EPMAD error. Set to 1 if an access returns an error
                                                                      because AllowExternalPMUAccess() == FALSE.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 <0> No accesses to the external performance monitors registers
+                                                                 0 = No accesses to the external performance monitors registers
                                                                      have failed since EDPRSR was last read.
-                                                                 <1> At least one access to the external performance monitors
+                                                                 1 = At least one access to the external performance monitors
                                                                      registers has failed since EDPRSR was last read. */
         uint32_t sdr                   : 1;  /**< [ 11: 11](RO) Sticky debug restart. Set to 1 when the processor exits Debug
                                                                      state and cleared to 0 following reads of EDPRSR.
                                                                  This bit is UNKNOWN on reads if either of EDPRSR.{DLK, R} is
                                                                      1, or EDPRSR.PU is zero.
                                                                  This bit clears to 0 when following a read of EDPRSR.
-                                                                 <0> The processor has not restarted since EDPRSR was last read.
-                                                                 <1> The processor has restarted since EDPRSR was last read. */
+                                                                 0 = The processor has not restarted since EDPRSR was last read.
+                                                                 1 = The processor has restarted since EDPRSR was last read. */
         uint32_t reserved_12_31        : 20;
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn81xx;
+    /* struct bdk_dbgx_edprsr_cn81xx cn83xx; */
+    /* struct bdk_dbgx_edprsr_cn81xx cn88xxp2; */
 } bdk_dbgx_edprsr_t;
 
 static inline uint64_t BDK_DBGX_EDPRSR(unsigned long a) __attribute__ ((pure, always_inline));

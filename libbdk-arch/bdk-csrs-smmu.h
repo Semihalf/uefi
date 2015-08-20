@@ -1986,45 +1986,6 @@ typedef union
                                                                  by zeroing the upper 8 bits. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_smmux_cba2rx_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t vmid16                : 16; /**< [ 31: 16](R/W/H) Virtual machine identifier.
-
-                                                                 This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
-                                                                 SMMU()_IDR2[VMID16S] is clear.
-
-                                                                 INTERNAL: In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
-                                                                 by zeroing the upper 8 bits. */
-        uint32_t reserved_3_15         : 13;
-        uint32_t reserved_2            : 1;
-        uint32_t monc                  : 1;  /**< [  1:  1](R/W) Designates a secure monitor context bank (EL3):
-                                                                   0 = Non-monitor context. Use VMID or ASID for TLB tagging.
-                                                                   1 = Monitor context. Do not use VMID or ASID for TLB tagging.
-
-                                                                 Ignored if the bank is non-secure, or SMMU()_CBAR()[CTYPE] != 0x1. */
-        uint32_t va64                  : 1;  /**< [  0:  0](RO) Descriptor format. If set, only AArch64 translations are permitted.
-                                                                 For CNXXXX always set; ARM defines this as R/W to allow for 32-bit V7 format. */
-#else /* Word 0 - Little Endian */
-        uint32_t va64                  : 1;  /**< [  0:  0](RO) Descriptor format. If set, only AArch64 translations are permitted.
-                                                                 For CNXXXX always set; ARM defines this as R/W to allow for 32-bit V7 format. */
-        uint32_t monc                  : 1;  /**< [  1:  1](R/W) Designates a secure monitor context bank (EL3):
-                                                                   0 = Non-monitor context. Use VMID or ASID for TLB tagging.
-                                                                   1 = Monitor context. Do not use VMID or ASID for TLB tagging.
-
-                                                                 Ignored if the bank is non-secure, or SMMU()_CBAR()[CTYPE] != 0x1. */
-        uint32_t reserved_2            : 1;
-        uint32_t reserved_3_15         : 13;
-        uint32_t vmid16                : 16; /**< [ 31: 16](R/W/H) Virtual machine identifier.
-
-                                                                 This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
-                                                                 SMMU()_IDR2[VMID16S] is clear.
-
-                                                                 INTERNAL: In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
-                                                                 by zeroing the upper 8 bits. */
-#endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_smmux_cba2rx_cn83xx cn88xxp2; */
     struct bdk_smmux_cba2rx_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2063,6 +2024,46 @@ typedef union
                                                                  by zeroing the upper 8 bits. */
 #endif /* Word 0 - End */
     } cn88xxp1;
+    struct bdk_smmux_cba2rx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t vmid16                : 16; /**< [ 31: 16](R/W/H) Virtual machine identifier.
+
+                                                                 This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
+                                                                 SMMU()_IDR2[VMID16S] is clear.
+
+                                                                 INTERNAL: In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
+                                                                 by zeroing the upper 8 bits. */
+        uint32_t reserved_3_15         : 13;
+        uint32_t reserved_2            : 1;
+        uint32_t monc                  : 1;  /**< [  1:  1](R/W) Designates a secure monitor context bank (EL3):
+                                                                   0 = Non-monitor context. Use VMID or ASID for TLB tagging.
+                                                                   1 = Monitor context. Do not use VMID or ASID for TLB tagging.
+
+                                                                 Ignored if the bank is non-secure, or SMMU()_CBAR()[CTYPE] != 0x1. */
+        uint32_t va64                  : 1;  /**< [  0:  0](RO) Descriptor format. If set, only AArch64 translations are permitted.
+                                                                 For CNXXXX always set; ARM defines this as R/W to allow for 32-bit V7 format. */
+#else /* Word 0 - Little Endian */
+        uint32_t va64                  : 1;  /**< [  0:  0](RO) Descriptor format. If set, only AArch64 translations are permitted.
+                                                                 For CNXXXX always set; ARM defines this as R/W to allow for 32-bit V7 format. */
+        uint32_t monc                  : 1;  /**< [  1:  1](R/W) Designates a secure monitor context bank (EL3):
+                                                                   0 = Non-monitor context. Use VMID or ASID for TLB tagging.
+                                                                   1 = Monitor context. Do not use VMID or ASID for TLB tagging.
+
+                                                                 Ignored if the bank is non-secure, or SMMU()_CBAR()[CTYPE] != 0x1. */
+        uint32_t reserved_2            : 1;
+        uint32_t reserved_3_15         : 13;
+        uint32_t vmid16                : 16; /**< [ 31: 16](R/W/H) Virtual machine identifier.
+
+                                                                 This field is RAZ when SMMU()_(S)CR0[VMID16EN] is clear, or when
+                                                                 SMMU()_IDR2[VMID16S] is clear.
+
+                                                                 INTERNAL: In 88xx pass 1, writes to SMMU()_CBAR()[VMID] also update this field
+                                                                 by zeroing the upper 8 bits. */
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_smmux_cba2rx_cn81xx cn83xx; */
+    /* struct bdk_smmux_cba2rx_cn81xx cn88xxp2; */
 } bdk_smmux_cba2rx_t;
 
 static inline uint64_t BDK_SMMUX_CBA2RX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -2460,6 +2461,8 @@ typedef union
 static inline uint64_t BDK_SMMUX_DEBUG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_SMMUX_DEBUG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x830000021070ll + 0x1000000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x830000021070ll + 0x1000000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=3))
@@ -2482,6 +2485,59 @@ typedef union
 {
     uint64_t u;
     struct bdk_smmux_diag_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_17_63        : 47;
+        uint64_t pg_cmb                : 2;  /**< [ 16: 15](SRO) Reserved. */
+        uint64_t force_clks_active     : 1;  /**< [ 14: 14](SR/W) Forces the conditional clocks to be always on. For diagnostic use only. */
+        uint64_t walkers               : 6;  /**< [ 13:  8](SR/W) Number of walkers. The number of page table walkers that may
+                                                                 simultaneously be executing, minus one.
+                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's.
+                                                                 For diagnostic use only. */
+        uint64_t reserved_7            : 1;
+        uint64_t throttle              : 1;  /**< [  6:  6](SR/W) Throttle throughput. For diagnostic use only. If set, limit translations to one every four
+                                                                 cycles, to insure OCLA debug FIFOs will not overrun.
+                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's. */
+        uint64_t dis_bcstr             : 1;  /**< [  5:  5](SR/W) Reserved. */
+        uint64_t dis_wcs1              : 2;  /**< [  4:  3](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
+                                                                 0x0 = Normal operation. Allow hits at all levels.
+                                                                 0x1 = Never hit.
+                                                                 0x2 = Allow hits on table levels 0 and 1.
+                                                                 0x3 = Reserved. */
+        uint64_t dis_wcs2              : 2;  /**< [  2:  1](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
+                                                                 0x0 = Normal operation. Allow hits at all levels.
+                                                                 0x1 = Never hit.
+                                                                 0x2 = Allow hits on table levels 0 and 1.
+                                                                 0x3 = Reserved. */
+        uint64_t dis_tlb               : 1;  /**< [  0:  0](SR/W) Disables hitting in the TLB. For diagnostic use only. */
+#else /* Word 0 - Little Endian */
+        uint64_t dis_tlb               : 1;  /**< [  0:  0](SR/W) Disables hitting in the TLB. For diagnostic use only. */
+        uint64_t dis_wcs2              : 2;  /**< [  2:  1](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
+                                                                 0x0 = Normal operation. Allow hits at all levels.
+                                                                 0x1 = Never hit.
+                                                                 0x2 = Allow hits on table levels 0 and 1.
+                                                                 0x3 = Reserved. */
+        uint64_t dis_wcs1              : 2;  /**< [  4:  3](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
+                                                                 0x0 = Normal operation. Allow hits at all levels.
+                                                                 0x1 = Never hit.
+                                                                 0x2 = Allow hits on table levels 0 and 1.
+                                                                 0x3 = Reserved. */
+        uint64_t dis_bcstr             : 1;  /**< [  5:  5](SR/W) Reserved. */
+        uint64_t throttle              : 1;  /**< [  6:  6](SR/W) Throttle throughput. For diagnostic use only. If set, limit translations to one every four
+                                                                 cycles, to insure OCLA debug FIFOs will not overrun.
+                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's. */
+        uint64_t reserved_7            : 1;
+        uint64_t walkers               : 6;  /**< [ 13:  8](SR/W) Number of walkers. The number of page table walkers that may
+                                                                 simultaneously be executing, minus one.
+                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's.
+                                                                 For diagnostic use only. */
+        uint64_t force_clks_active     : 1;  /**< [ 14: 14](SR/W) Forces the conditional clocks to be always on. For diagnostic use only. */
+        uint64_t pg_cmb                : 2;  /**< [ 16: 15](SRO) Reserved. */
+        uint64_t reserved_17_63        : 47;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_smmux_diag_ctl_s cn88xxp1; */
+    struct bdk_smmux_diag_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_17_63        : 47;
@@ -2550,8 +2606,8 @@ typedef union
                                                                  0x3 = Reserved. */
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_smmux_diag_ctl_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_smmux_diag_ctl_cn81xx cn83xx; */
     struct bdk_smmux_diag_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2626,58 +2682,6 @@ typedef union
         uint64_t reserved_17_63        : 47;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_smmux_diag_ctl_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_17_63        : 47;
-        uint64_t pg_cmb                : 2;  /**< [ 16: 15](SRO) Reserved. */
-        uint64_t force_clks_active     : 1;  /**< [ 14: 14](SR/W) Forces the conditional clocks to be always on. For diagnostic use only. */
-        uint64_t walkers               : 6;  /**< [ 13:  8](SR/W) Number of walkers. The number of page table walkers that may
-                                                                 simultaneously be executing, minus one.
-                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's.
-                                                                 For diagnostic use only. */
-        uint64_t reserved_7            : 1;
-        uint64_t throttle              : 1;  /**< [  6:  6](SR/W) Throttle throughput. For diagnostic use only. If set, limit translations to one every four
-                                                                 cycles, to insure OCLA debug FIFOs will not overrun.
-                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's. */
-        uint64_t dis_bcstr             : 1;  /**< [  5:  5](SR/W) Reserved. */
-        uint64_t dis_wcs1              : 2;  /**< [  4:  3](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
-        uint64_t dis_wcs2              : 2;  /**< [  2:  1](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
-        uint64_t dis_tlb               : 1;  /**< [  0:  0](SR/W) Disables hitting in the TLB. For diagnostic use only. */
-#else /* Word 0 - Little Endian */
-        uint64_t dis_tlb               : 1;  /**< [  0:  0](SR/W) Disables hitting in the TLB. For diagnostic use only. */
-        uint64_t dis_wcs2              : 2;  /**< [  2:  1](SR/W) Disables hitting in the walk cache for stage 2 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
-        uint64_t dis_wcs1              : 2;  /**< [  4:  3](SR/W) Disables hitting in the walk cache for stage 1 translations. For diagnostic use only.
-                                                                 0x0 = Normal operation. Allow hits at all levels.
-                                                                 0x1 = Never hit.
-                                                                 0x2 = Allow hits on table levels 0 and 1.
-                                                                 0x3 = Reserved. */
-        uint64_t dis_bcstr             : 1;  /**< [  5:  5](SR/W) Reserved. */
-        uint64_t throttle              : 1;  /**< [  6:  6](SR/W) Throttle throughput. For diagnostic use only. If set, limit translations to one every four
-                                                                 cycles, to insure OCLA debug FIFOs will not overrun.
-                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's. */
-        uint64_t reserved_7            : 1;
-        uint64_t walkers               : 6;  /**< [ 13:  8](SR/W) Number of walkers. The number of page table walkers that may
-                                                                 simultaneously be executing, minus one.
-                                                                 SMMU1 uses SMMU0's register value; SMMU3 uses SMMU2's.
-                                                                 For diagnostic use only. */
-        uint64_t force_clks_active     : 1;  /**< [ 14: 14](SR/W) Forces the conditional clocks to be always on. For diagnostic use only. */
-        uint64_t pg_cmb                : 2;  /**< [ 16: 15](SRO) Reserved. */
-        uint64_t reserved_17_63        : 47;
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_smmux_diag_ctl_t;
 
 static inline uint64_t BDK_SMMUX_DIAG_CTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5783,161 +5787,6 @@ typedef union
         uint32_t reserved_30_31        : 2;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_smmux_scr1_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_31           : 1;
-        uint32_t reserved_30           : 1;
-        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Non-secure compressed index disable.
-                                                                 In CNXXXX stream compressed indexing is not implemented. */
-        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Non-secure configuration access fault report override.
-                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by non-secure accesses
-                                                                 to secure-only registers.
-                                                                 1 = SMMU_GFSR reports all such faults.
-
-                                                                 In CNXXXX always zero, as does not support generation of configuration faults. */
-        uint32_t spmen                 : 1;  /**< [ 27: 27](SR/W) Secure performance monitor enable.
-                                                                 0 = Any event caused by secure transaction processing does not contribute towards
-                                                                 performance monitor counting.
-                                                                 1 = Any event caused by secure transaction processing is permitted to contribute towards
-                                                                 performance monitor counting.
-
-                                                                 Ignored in CNXXXX, no ARM architected performance monitoring, counters are separate
-                                                                 between secure and non-secure. */
-        uint32_t sif                   : 1;  /**< [ 26: 26](SR/W) Secure instruction fetch.
-                                                                 0 = Secure instruction fetches are permitted to non-secure memory locations.
-                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a non-secure
-                                                                 memory location.
-
-                                                                 Ignored in CNXXXX, no instruction fetches from IO devices. */
-        uint32_t gefro                 : 1;  /**< [ 25: 25](SR/W) Global external fault report override.
-
-                                                                 0 = Permit SMMU_GFSR to report external faults.
-                                                                 1 = SMMU_SGFSR reports all external faults.
-
-                                                                 If SMMU()_SCR1[GEFRO]==1, all external aborts that would have been recorded in
-                                                                 SMMU_GFSR are instead recorded in SMMU_SGFSR. */
-        uint32_t gasrae                : 1;  /**< [ 24: 24](SR/W) Global address space restricted access enable.
-                                                                 0 = Global address space is accessible using either secure or non-secure configuration
-                                                                 memory accesses.
-                                                                 1 = Global address space is only accessible by secure configuration memory accesses. Stage
-                                                                 2 format context banks (as determined by SMMU()_CBAR()[CTYPE]) are only
-                                                                 accessible by secure configuration accesses.
-
-                                                                 The following additional constraints apply:
-
-                                                                 If 0, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
-                                                                 configuring a secure stage 1 translation context bank.
-
-                                                                 If 1, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
-                                                                 configuring a non-secure stage 1 translation context bank.
-
-                                                                 In CNXXXX, implementation defined register accesses are also controlled by this bit. */
-        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Non-secure number of interrupts override. Always 1 in ARMv8. */
-        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to non-secure accesses. The
-                                                                 number of stream mapping register groups reported in SMMU()_IDR0 is reduced to the
-                                                                 number indicated by NSNUMSMRGO.
-
-                                                                 In CNXXXX if the value in NSNUMSMRGO exceeds the number of implemented stream match
-                                                                 register groups then non-secure software might attempt to access an unimplemented stream
-                                                                 match register group and such access are ignored.
-
-                                                                 In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
-                                                                 SMMU()_S2CR()[EXIDVALID] == 0 and SMMU()_SMR()[EXMASK[15]/VALID] == 0
-                                                                 for at minimum any contexts being moved into/out of the appropriate security world,
-                                                                 otherwise the effect is unpredictable. In particular, note that the reset values of
-                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
-                                                                 initialized before use.
-
-                                                                 These bits reset to the implemented number of stream mapping register groups. */
-        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Non-secure number of context banks override. adjusts the number of translation context
-                                                                 banks visible to non-secure accesses. The number of translation context banks reported in
-                                                                 SMMU()_IDR1[NUMCB] is reduced to the number indicated by SMMU()_SCR1[NSNUMCBO].
-
-                                                                 In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
-                                                                 SMMU()_S2CR()[EXIDVALID] == 0 and SMMU()_SMR()[EXMASK[15]/VALID] == 0
-                                                                 for at minimum any contexts being moved into/out of the appropriate security world,
-                                                                 otherwise the effect is unpredictable. In particular, note that the reset values of
-                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
-                                                                 initialized first. */
-#else /* Word 0 - Little Endian */
-        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Non-secure number of context banks override. adjusts the number of translation context
-                                                                 banks visible to non-secure accesses. The number of translation context banks reported in
-                                                                 SMMU()_IDR1[NUMCB] is reduced to the number indicated by SMMU()_SCR1[NSNUMCBO].
-
-                                                                 In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
-                                                                 SMMU()_S2CR()[EXIDVALID] == 0 and SMMU()_SMR()[EXMASK[15]/VALID] == 0
-                                                                 for at minimum any contexts being moved into/out of the appropriate security world,
-                                                                 otherwise the effect is unpredictable. In particular, note that the reset values of
-                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
-                                                                 initialized first. */
-        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to non-secure accesses. The
-                                                                 number of stream mapping register groups reported in SMMU()_IDR0 is reduced to the
-                                                                 number indicated by NSNUMSMRGO.
-
-                                                                 In CNXXXX if the value in NSNUMSMRGO exceeds the number of implemented stream match
-                                                                 register groups then non-secure software might attempt to access an unimplemented stream
-                                                                 match register group and such access are ignored.
-
-                                                                 In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
-                                                                 SMMU()_S2CR()[EXIDVALID] == 0 and SMMU()_SMR()[EXMASK[15]/VALID] == 0
-                                                                 for at minimum any contexts being moved into/out of the appropriate security world,
-                                                                 otherwise the effect is unpredictable. In particular, note that the reset values of
-                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
-                                                                 initialized before use.
-
-                                                                 These bits reset to the implemented number of stream mapping register groups. */
-        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Non-secure number of interrupts override. Always 1 in ARMv8. */
-        uint32_t gasrae                : 1;  /**< [ 24: 24](SR/W) Global address space restricted access enable.
-                                                                 0 = Global address space is accessible using either secure or non-secure configuration
-                                                                 memory accesses.
-                                                                 1 = Global address space is only accessible by secure configuration memory accesses. Stage
-                                                                 2 format context banks (as determined by SMMU()_CBAR()[CTYPE]) are only
-                                                                 accessible by secure configuration accesses.
-
-                                                                 The following additional constraints apply:
-
-                                                                 If 0, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
-                                                                 configuring a secure stage 1 translation context bank.
-
-                                                                 If 1, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
-                                                                 configuring a non-secure stage 1 translation context bank.
-
-                                                                 In CNXXXX, implementation defined register accesses are also controlled by this bit. */
-        uint32_t gefro                 : 1;  /**< [ 25: 25](SR/W) Global external fault report override.
-
-                                                                 0 = Permit SMMU_GFSR to report external faults.
-                                                                 1 = SMMU_SGFSR reports all external faults.
-
-                                                                 If SMMU()_SCR1[GEFRO]==1, all external aborts that would have been recorded in
-                                                                 SMMU_GFSR are instead recorded in SMMU_SGFSR. */
-        uint32_t sif                   : 1;  /**< [ 26: 26](SR/W) Secure instruction fetch.
-                                                                 0 = Secure instruction fetches are permitted to non-secure memory locations.
-                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a non-secure
-                                                                 memory location.
-
-                                                                 Ignored in CNXXXX, no instruction fetches from IO devices. */
-        uint32_t spmen                 : 1;  /**< [ 27: 27](SR/W) Secure performance monitor enable.
-                                                                 0 = Any event caused by secure transaction processing does not contribute towards
-                                                                 performance monitor counting.
-                                                                 1 = Any event caused by secure transaction processing is permitted to contribute towards
-                                                                 performance monitor counting.
-
-                                                                 Ignored in CNXXXX, no ARM architected performance monitoring, counters are separate
-                                                                 between secure and non-secure. */
-        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Non-secure configuration access fault report override.
-                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by non-secure accesses
-                                                                 to secure-only registers.
-                                                                 1 = SMMU_GFSR reports all such faults.
-
-                                                                 In CNXXXX always zero, as does not support generation of configuration faults. */
-        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Non-secure compressed index disable.
-                                                                 In CNXXXX stream compressed indexing is not implemented. */
-        uint32_t reserved_30           : 1;
-        uint32_t reserved_31           : 1;
-#endif /* Word 0 - End */
-    } cn83xx;
-    /* struct bdk_smmux_scr1_cn83xx cn88xxp2; */
     struct bdk_smmux_scr1_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -6092,6 +5941,162 @@ typedef union
         uint32_t reserved_31           : 1;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    struct bdk_smmux_scr1_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_31           : 1;
+        uint32_t reserved_30           : 1;
+        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Non-secure compressed index disable.
+                                                                 In CNXXXX stream compressed indexing is not implemented. */
+        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Non-secure configuration access fault report override.
+                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by non-secure accesses
+                                                                 to secure-only registers.
+                                                                 1 = SMMU_GFSR reports all such faults.
+
+                                                                 In CNXXXX always zero, as does not support generation of configuration faults. */
+        uint32_t spmen                 : 1;  /**< [ 27: 27](SR/W) Secure performance monitor enable.
+                                                                 0 = Any event caused by secure transaction processing does not contribute towards
+                                                                 performance monitor counting.
+                                                                 1 = Any event caused by secure transaction processing is permitted to contribute towards
+                                                                 performance monitor counting.
+
+                                                                 Ignored in CNXXXX, no ARM architected performance monitoring, counters are separate
+                                                                 between secure and non-secure. */
+        uint32_t sif                   : 1;  /**< [ 26: 26](SR/W) Secure instruction fetch.
+                                                                 0 = Secure instruction fetches are permitted to non-secure memory locations.
+                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a non-secure
+                                                                 memory location.
+
+                                                                 Ignored in CNXXXX, no instruction fetches from IO devices. */
+        uint32_t gefro                 : 1;  /**< [ 25: 25](SR/W) Global external fault report override.
+
+                                                                 0 = Permit SMMU_GFSR to report external faults.
+                                                                 1 = SMMU_SGFSR reports all external faults.
+
+                                                                 If SMMU()_SCR1[GEFRO]==1, all external aborts that would have been recorded in
+                                                                 SMMU_GFSR are instead recorded in SMMU_SGFSR. */
+        uint32_t gasrae                : 1;  /**< [ 24: 24](SR/W) Global address space restricted access enable.
+                                                                 0 = Global address space is accessible using either secure or non-secure configuration
+                                                                 memory accesses.
+                                                                 1 = Global address space is only accessible by secure configuration memory accesses. Stage
+                                                                 2 format context banks (as determined by SMMU()_CBAR()[CTYPE]) are only
+                                                                 accessible by secure configuration accesses.
+
+                                                                 The following additional constraints apply:
+
+                                                                 If 0, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
+                                                                 configuring a secure stage 1 translation context bank.
+
+                                                                 If 1, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
+                                                                 configuring a non-secure stage 1 translation context bank.
+
+                                                                 In CNXXXX, implementation defined register accesses are also controlled by this bit. */
+        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Non-secure number of interrupts override. Always 1 in ARMv8. */
+        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to non-secure accesses. The
+                                                                 number of stream mapping register groups reported in SMMU()_IDR0 is reduced to the
+                                                                 number indicated by NSNUMSMRGO.
+
+                                                                 In CNXXXX if the value in NSNUMSMRGO exceeds the number of implemented stream match
+                                                                 register groups then non-secure software might attempt to access an unimplemented stream
+                                                                 match register group and such access are ignored.
+
+                                                                 In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
+                                                                 SMMU()_S2CR()[EXIDVALID] == 0 and SMMU()_SMR()[EXMASK[15]/VALID] == 0
+                                                                 for at minimum any contexts being moved into/out of the appropriate security world,
+                                                                 otherwise the effect is unpredictable. In particular, note that the reset values of
+                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
+                                                                 initialized before use.
+
+                                                                 These bits reset to the implemented number of stream mapping register groups. */
+        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Non-secure number of context banks override. adjusts the number of translation context
+                                                                 banks visible to non-secure accesses. The number of translation context banks reported in
+                                                                 SMMU()_IDR1[NUMCB] is reduced to the number indicated by SMMU()_SCR1[NSNUMCBO].
+
+                                                                 In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
+                                                                 SMMU()_S2CR()[EXIDVALID] == 0 and SMMU()_SMR()[EXMASK[15]/VALID] == 0
+                                                                 for at minimum any contexts being moved into/out of the appropriate security world,
+                                                                 otherwise the effect is unpredictable. In particular, note that the reset values of
+                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
+                                                                 initialized first. */
+#else /* Word 0 - Little Endian */
+        uint32_t nsnumcbo              : 8;  /**< [  7:  0](SR/W) Non-secure number of context banks override. adjusts the number of translation context
+                                                                 banks visible to non-secure accesses. The number of translation context banks reported in
+                                                                 SMMU()_IDR1[NUMCB] is reduced to the number indicated by SMMU()_SCR1[NSNUMCBO].
+
+                                                                 In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
+                                                                 SMMU()_S2CR()[EXIDVALID] == 0 and SMMU()_SMR()[EXMASK[15]/VALID] == 0
+                                                                 for at minimum any contexts being moved into/out of the appropriate security world,
+                                                                 otherwise the effect is unpredictable. In particular, note that the reset values of
+                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
+                                                                 initialized first. */
+        uint32_t nsnumsmrgo            : 8;  /**< [ 15:  8](SR/W) Adjusts the number of stream mapping register groups visible to non-secure accesses. The
+                                                                 number of stream mapping register groups reported in SMMU()_IDR0 is reduced to the
+                                                                 number indicated by NSNUMSMRGO.
+
+                                                                 In CNXXXX if the value in NSNUMSMRGO exceeds the number of implemented stream match
+                                                                 register groups then non-secure software might attempt to access an unimplemented stream
+                                                                 match register group and such access are ignored.
+
+                                                                 In CNXXXX, software should only change [NSNUMSMRGO]/[NSNUMCBO] when
+                                                                 SMMU()_S2CR()[EXIDVALID] == 0 and SMMU()_SMR()[EXMASK[15]/VALID] == 0
+                                                                 for at minimum any contexts being moved into/out of the appropriate security world,
+                                                                 otherwise the effect is unpredictable. In particular, note that the reset values of
+                                                                 SMMU()_S2CR() and SMMU()_SMR() are unknown and so need to be
+                                                                 initialized before use.
+
+                                                                 These bits reset to the implemented number of stream mapping register groups. */
+        uint32_t nsnumirpto            : 8;  /**< [ 23: 16](SRO) Non-secure number of interrupts override. Always 1 in ARMv8. */
+        uint32_t gasrae                : 1;  /**< [ 24: 24](SR/W) Global address space restricted access enable.
+                                                                 0 = Global address space is accessible using either secure or non-secure configuration
+                                                                 memory accesses.
+                                                                 1 = Global address space is only accessible by secure configuration memory accesses. Stage
+                                                                 2 format context banks (as determined by SMMU()_CBAR()[CTYPE]) are only
+                                                                 accessible by secure configuration accesses.
+
+                                                                 The following additional constraints apply:
+
+                                                                 If 0, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
+                                                                 configuring a secure stage 1 translation context bank.
+
+                                                                 If 1, secure software must avoid setting SMMU()_CBAR()[HYPC] to 1 when
+                                                                 configuring a non-secure stage 1 translation context bank.
+
+                                                                 In CNXXXX, implementation defined register accesses are also controlled by this bit. */
+        uint32_t gefro                 : 1;  /**< [ 25: 25](SR/W) Global external fault report override.
+
+                                                                 0 = Permit SMMU_GFSR to report external faults.
+                                                                 1 = SMMU_SGFSR reports all external faults.
+
+                                                                 If SMMU()_SCR1[GEFRO]==1, all external aborts that would have been recorded in
+                                                                 SMMU_GFSR are instead recorded in SMMU_SGFSR. */
+        uint32_t sif                   : 1;  /**< [ 26: 26](SR/W) Secure instruction fetch.
+                                                                 0 = Secure instruction fetches are permitted to non-secure memory locations.
+                                                                 1 = Raise a permission fault if a secure domain instruction fetch accesses a non-secure
+                                                                 memory location.
+
+                                                                 Ignored in CNXXXX, no instruction fetches from IO devices. */
+        uint32_t spmen                 : 1;  /**< [ 27: 27](SR/W) Secure performance monitor enable.
+                                                                 0 = Any event caused by secure transaction processing does not contribute towards
+                                                                 performance monitor counting.
+                                                                 1 = Any event caused by secure transaction processing is permitted to contribute towards
+                                                                 performance monitor counting.
+
+                                                                 Ignored in CNXXXX, no ARM architected performance monitoring, counters are separate
+                                                                 between secure and non-secure. */
+        uint32_t nscafro               : 1;  /**< [ 28: 28](SRO) Non-secure configuration access fault report override.
+                                                                 0 = Permit SMMU_SGFSR to report configuration access faults caused by non-secure accesses
+                                                                 to secure-only registers.
+                                                                 1 = SMMU_GFSR reports all such faults.
+
+                                                                 In CNXXXX always zero, as does not support generation of configuration faults. */
+        uint32_t nscompindexdisable    : 1;  /**< [ 29: 29](SRO) Non-secure compressed index disable.
+                                                                 In CNXXXX stream compressed indexing is not implemented. */
+        uint32_t reserved_30           : 1;
+        uint32_t reserved_31           : 1;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_smmux_scr1_cn81xx cn83xx; */
+    /* struct bdk_smmux_scr1_cn81xx cn88xxp2; */
 } bdk_smmux_scr1_t;
 
 static inline uint64_t BDK_SMMUX_SCR1(unsigned long a) __attribute__ ((pure, always_inline));

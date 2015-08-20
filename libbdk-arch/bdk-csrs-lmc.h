@@ -58,8 +58,10 @@
  * LMC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
+#define BDK_LMC_BAR_E_LMCX_PF_BAR0_CN81XX(a) (0x87e088000000ll + 0x1000000ll * (a)) /**< (0..1)Base address for standard registers. */
 #define BDK_LMC_BAR_E_LMCX_PF_BAR0_CN88XX(a) (0x87e088000000ll + 0x1000000ll * (a)) /**< (0..3)Base address for standard registers. */
 #define BDK_LMC_BAR_E_LMCX_PF_BAR0_CN83XX(a) (0x87e088000000ll + 0x1000000ll * (a)) /**< (0..1)Base address for standard registers. */
+#define BDK_LMC_BAR_E_LMCX_PF_BAR4_CN81XX(a) (0x87e088f00000ll + 0x1000000ll * (a)) /**< (0..1)Base address for MSI-X registers. */
 #define BDK_LMC_BAR_E_LMCX_PF_BAR4_CN88XX(a) (0x87e088f00000ll + 0x1000000ll * (a)) /**< (0..3)Base address for MSI-X registers. */
 #define BDK_LMC_BAR_E_LMCX_PF_BAR4_CN83XX(a) (0x87e088f00000ll + 0x1000000ll * (a)) /**< (0..1)Base address for MSI-X registers. */
 
@@ -69,6 +71,10 @@
  * LMC MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
+#define BDK_LMC_INT_VEC_E_INTS_CN81XX (0) /**< See interrupt clears LMC(0..1)_INT,
+                                       interrupt sets LMC(0..1)_INT_W1S,
+                                       enable clears LMC(0..1)_INT_ENA_W1C,
+                                       and enable sets LMC(0..1)_INT_ENA_W1S. */
 #define BDK_LMC_INT_VEC_E_INTS_CN88XX (0) /**< See interrupt clears LMC(0..3)_INT,
                                        interrupt sets LMC(0..3)_INT_W1S,
                                        enable clears LMC(0..3)_INT_ENA_W1C,
@@ -106,6 +112,8 @@ typedef union
 static inline uint64_t BDK_LMCX_BANK_CONFLICT1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_BANK_CONFLICT1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000360ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000360ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=3))
@@ -147,6 +155,8 @@ typedef union
 static inline uint64_t BDK_LMCX_BANK_CONFLICT2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_BANK_CONFLICT2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000368ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000368ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=3))
@@ -197,6 +207,8 @@ typedef union
 static inline uint64_t BDK_LMCX_BIST_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_BIST_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000100ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000100ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -225,7 +237,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
-        uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](RO) Reserved. */
+        uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](R/W) When set, LMC perform loopback pattern check on a byte. The selection of the byte is
+                                                                 controlled by the LMC()_CHAR_CTL[CSR DQ_CHAR_BYTE_SEL]. */
         uint64_t dq_char_check_lock    : 1;  /**< [ 52: 52](RO/H) Indicates if a lock has been achieved. Is set to 1 only if a lock is achieved during the
                                                                  LFSR priming period after DQ_CHAR_CHECK_ENABLE is set to 1, and is forced back to 0 when
                                                                  DQ_CHAR_CHECK_ENABLE is set to 0. */
@@ -253,16 +266,16 @@ typedef union
         uint64_t dq_char_check_lock    : 1;  /**< [ 52: 52](RO/H) Indicates if a lock has been achieved. Is set to 1 only if a lock is achieved during the
                                                                  LFSR priming period after DQ_CHAR_CHECK_ENABLE is set to 1, and is forced back to 0 when
                                                                  DQ_CHAR_CHECK_ENABLE is set to 0. */
-        uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](RO) Reserved. */
+        uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](R/W) When set, LMC perform loopback pattern check on a byte. The selection of the byte is
+                                                                 controlled by the LMC()_CHAR_CTL[CSR DQ_CHAR_BYTE_SEL]. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_char_ctl_cn83xx
+    struct bdk_lmcx_char_ctl_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
-        uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](R/W) When set, LMC perform loopback pattern check on a byte. The selection of the byte is
-                                                                 controlled by the LMC()_CHAR_CTL[CSR DQ_CHAR_BYTE_SEL]. */
+        uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](RO) Reserved. */
         uint64_t dq_char_check_lock    : 1;  /**< [ 52: 52](RO/H) Indicates if a lock has been achieved. Is set to 1 only if a lock is achieved during the
                                                                  LFSR priming period after DQ_CHAR_CHECK_ENABLE is set to 1, and is forced back to 0 when
                                                                  DQ_CHAR_CHECK_ENABLE is set to 0. */
@@ -290,11 +303,12 @@ typedef union
         uint64_t dq_char_check_lock    : 1;  /**< [ 52: 52](RO/H) Indicates if a lock has been achieved. Is set to 1 only if a lock is achieved during the
                                                                  LFSR priming period after DQ_CHAR_CHECK_ENABLE is set to 1, and is forced back to 0 when
                                                                  DQ_CHAR_CHECK_ENABLE is set to 0. */
-        uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](R/W) When set, LMC perform loopback pattern check on a byte. The selection of the byte is
-                                                                 controlled by the LMC()_CHAR_CTL[CSR DQ_CHAR_BYTE_SEL]. */
+        uint64_t dq_char_byte_check    : 1;  /**< [ 53: 53](RO) Reserved. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_lmcx_char_ctl_s cn81xx; */
+    /* struct bdk_lmcx_char_ctl_s cn83xx; */
     struct bdk_lmcx_char_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -337,12 +351,13 @@ typedef union
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_char_ctl_s cn88xxp1; */
 } bdk_lmcx_char_ctl_t;
 
 static inline uint64_t BDK_LMCX_CHAR_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000220ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000220ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -382,6 +397,8 @@ typedef union
 static inline uint64_t BDK_LMCX_CHAR_DQ_ERR_COUNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_DQ_ERR_COUNT(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000040ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000040ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -420,6 +437,8 @@ typedef union
 static inline uint64_t BDK_LMCX_CHAR_MASK0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_MASK0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000228ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000228ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -460,6 +479,8 @@ typedef union
 static inline uint64_t BDK_LMCX_CHAR_MASK1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_MASK1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000230ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000230ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -498,6 +519,8 @@ typedef union
 static inline uint64_t BDK_LMCX_CHAR_MASK2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_MASK2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000238ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000238ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -538,6 +561,8 @@ typedef union
 static inline uint64_t BDK_LMCX_CHAR_MASK3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_MASK3(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000240ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000240ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -625,6 +650,8 @@ typedef union
 static inline uint64_t BDK_LMCX_CHAR_MASK4(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CHAR_MASK4(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000318ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000318ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -872,6 +899,8 @@ typedef union
 static inline uint64_t BDK_LMCX_COMP_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_COMP_CTL2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880001b8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880001b8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -1309,6 +1338,8 @@ typedef union
 static inline uint64_t BDK_LMCX_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CONFIG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000188ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000188ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -1364,9 +1395,8 @@ typedef union
                                                                  every LMC()_CONFIG [REF_ZQCS_INT] CK cycles. */
         uint64_t auto_dclkdis          : 1;  /**< [ 17: 17](R/W) When 1, LMC automatically shuts off its internal clock to conserve power when there is no
                                                                  traffic. Note that this has no effect on the DDR3/DDR4 PHY and pads clocks. */
-        uint64_t xor_bank              : 1;  /**< [ 16: 16](R/W) XOR the bank bits.
-                                                                 0: bank<2:0> = address<9:7>.
-                                                                 1: bank<2:0> = address<9:7> ^ address<14:12>. */
+        uint64_t xor_bank              : 1;  /**< [ 16: 16](R/W) Enable signal to XOR the bank bits. See LMC()_EXT_CONFIG2 on how LMC selects the L2C-LMC
+                                                                 address bits. */
         uint64_t max_write_batch       : 4;  /**< [ 15: 12](R/W) Maximum number of consecutive write operations to service before forcing read operations
                                                                  to interrupt. */
         uint64_t nxm_write_en          : 1;  /**< [ 11: 11](R/W) NXM write mode. When clear, LMC discards write operations to addresses that don't exist in
@@ -1424,9 +1454,8 @@ typedef union
                                                                  operations to addresses that don't exist in the DRAM at an aliased address. */
         uint64_t max_write_batch       : 4;  /**< [ 15: 12](R/W) Maximum number of consecutive write operations to service before forcing read operations
                                                                  to interrupt. */
-        uint64_t xor_bank              : 1;  /**< [ 16: 16](R/W) XOR the bank bits.
-                                                                 0: bank<2:0> = address<9:7>.
-                                                                 1: bank<2:0> = address<9:7> ^ address<14:12>. */
+        uint64_t xor_bank              : 1;  /**< [ 16: 16](R/W) Enable signal to XOR the bank bits. See LMC()_EXT_CONFIG2 on how LMC selects the L2C-LMC
+                                                                 address bits. */
         uint64_t auto_dclkdis          : 1;  /**< [ 17: 17](R/W) When 1, LMC automatically shuts off its internal clock to conserve power when there is no
                                                                  traffic. Note that this has no effect on the DDR3/DDR4 PHY and pads clocks. */
         uint64_t int_zqcs_dis          : 1;  /**< [ 18: 18](R/W) Disable (internal) auto-ZQCS calibration. When clear, LMC runs internal ZQ calibration
@@ -1460,7 +1489,7 @@ typedef union
         uint64_t scramble_ena          : 1;  /**< [ 63: 63](R/W) When set, will enable the scramble/descramble logic. */
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_control_cn83xx
+    struct bdk_lmcx_control_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t scramble_ena          : 1;  /**< [ 63: 63](R/W) When set, will enable the scramble/descramble logic. */
@@ -1494,8 +1523,9 @@ typedef union
                                                                  every LMC()_CONFIG [REF_ZQCS_INT] CK cycles. */
         uint64_t auto_dclkdis          : 1;  /**< [ 17: 17](R/W) When 1, LMC automatically shuts off its internal clock to conserve power when there is no
                                                                  traffic. Note that this has no effect on the DDR3/DDR4 PHY and pads clocks. */
-        uint64_t xor_bank              : 1;  /**< [ 16: 16](R/W) Enable signal to XOR the bank bits. See LMC()_EXT_CONFIG2 on how LMC selects the L2C-LMC
-                                                                 address bits. */
+        uint64_t xor_bank              : 1;  /**< [ 16: 16](R/W) XOR the bank bits.
+                                                                 0: bank<2:0> = address<9:7>.
+                                                                 1: bank<2:0> = address<9:7> ^ address<14:12>. */
         uint64_t max_write_batch       : 4;  /**< [ 15: 12](R/W) Maximum number of consecutive write operations to service before forcing read operations
                                                                  to interrupt. */
         uint64_t nxm_write_en          : 1;  /**< [ 11: 11](R/W) NXM write mode. When clear, LMC discards write operations to addresses that don't exist in
@@ -1553,8 +1583,9 @@ typedef union
                                                                  operations to addresses that don't exist in the DRAM at an aliased address. */
         uint64_t max_write_batch       : 4;  /**< [ 15: 12](R/W) Maximum number of consecutive write operations to service before forcing read operations
                                                                  to interrupt. */
-        uint64_t xor_bank              : 1;  /**< [ 16: 16](R/W) Enable signal to XOR the bank bits. See LMC()_EXT_CONFIG2 on how LMC selects the L2C-LMC
-                                                                 address bits. */
+        uint64_t xor_bank              : 1;  /**< [ 16: 16](R/W) XOR the bank bits.
+                                                                 0: bank<2:0> = address<9:7>.
+                                                                 1: bank<2:0> = address<9:7> ^ address<14:12>. */
         uint64_t auto_dclkdis          : 1;  /**< [ 17: 17](R/W) When 1, LMC automatically shuts off its internal clock to conserve power when there is no
                                                                  traffic. Note that this has no effect on the DDR3/DDR4 PHY and pads clocks. */
         uint64_t int_zqcs_dis          : 1;  /**< [ 18: 18](R/W) Disable (internal) auto-ZQCS calibration. When clear, LMC runs internal ZQ calibration
@@ -1587,7 +1618,9 @@ typedef union
         uint64_t thrcnt                : 12; /**< [ 62: 51](RO/H) Fine count. */
         uint64_t scramble_ena          : 1;  /**< [ 63: 63](R/W) When set, will enable the scramble/descramble logic. */
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_lmcx_control_s cn81xx; */
+    /* struct bdk_lmcx_control_s cn83xx; */
     struct bdk_lmcx_control_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -1720,12 +1753,13 @@ typedef union
         uint64_t scramble_ena          : 1;  /**< [ 63: 63](R/W) When set, will enable the scramble/descramble logic. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_control_s cn88xxp1; */
 } bdk_lmcx_control_t;
 
 static inline uint64_t BDK_LMCX_CONTROL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_CONTROL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000190ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000190ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -1875,7 +1909,8 @@ typedef union
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_dbtrain_ctl_cn83xx
+    /* struct bdk_lmcx_dbtrain_ctl_s cn88xxp1; */
+    struct bdk_lmcx_dbtrain_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_62_63        : 2;
@@ -1998,7 +2033,8 @@ typedef union
                                                                  up to 128 read and write commmands. */
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_lmcx_dbtrain_ctl_cn81xx cn83xx; */
     struct bdk_lmcx_dbtrain_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2127,12 +2163,13 @@ typedef union
         uint64_t reserved_62_63        : 2;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_dbtrain_ctl_s cn88xxp1; */
 } bdk_lmcx_dbtrain_ctl_t;
 
 static inline uint64_t BDK_LMCX_DBTRAIN_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DBTRAIN_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880003f8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880003f8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -2168,6 +2205,8 @@ typedef union
 static inline uint64_t BDK_LMCX_DCLK_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DCLK_CNT(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880001e0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880001e0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -2265,6 +2304,8 @@ typedef union
 static inline uint64_t BDK_LMCX_DDR4_DIMM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DDR4_DIMM_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880003f0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880003f0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -2402,6 +2443,8 @@ typedef union
 static inline uint64_t BDK_LMCX_DDR_PLL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DDR_PLL_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000258ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000258ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -2453,6 +2496,8 @@ typedef union
 static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS0(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS0(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e0880000d0ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e0880000d0ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
@@ -2496,6 +2541,8 @@ typedef union
 static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS1(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DIMMX_DDR4_PARAMS1(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e088000140ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e088000140ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
@@ -2568,6 +2615,8 @@ typedef union
 static inline uint64_t BDK_LMCX_DIMMX_PARAMS(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DIMMX_PARAMS(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x87e088000270ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
         return 0x87e088000270ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=1)))
@@ -2634,6 +2683,8 @@ typedef union
 static inline uint64_t BDK_LMCX_DIMM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DIMM_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000310ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000310ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -2737,6 +2788,8 @@ typedef union
 static inline uint64_t BDK_LMCX_DLL_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DLL_CTL2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880001c8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880001c8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -2767,12 +2820,14 @@ typedef union
                                                                  the designated byte DLL_CTL3[BYTE_SEL] and bit DLL_CTL3[BIT_SELECT]
                                                                  for write bit deskew. This is a oneshot and clears itself each time
                                                                  it is set. */
-        uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit0-bit8 for write deskew setting assignment.
+        uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit 0 - bit 8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
                                                                  0x9 = No-Op
                                                                  0xA = Reuse deskew setting on.
                                                                  0xB = Reuse deskew setting off.
-                                                                 0xC-0xE = Reserved
+                                                                 0xC = Vref bypass setting load.
+                                                                 0xD = Vref bypass on.
+                                                                 0xE = Vref bypass off.
                                                                  0xF = Bit select reset. Clear write deskew settings to default value 0x40 in each DQ bit.
                                                                  Also sets Vref bypass to off and deskew reuse setting to off. */
         uint64_t dclk90_fwd            : 1;  /**< [ 43: 43](WO) When set to one, clock-delay information is forwarded to the neighboring LMC. See LMC CK
@@ -2834,12 +2889,14 @@ typedef union
                                                                  Locak Initialization step for the LMC bring-up sequence.
                                                                  INTERNAL: Generate a one cycle pulse to forward setting. This is a oneshot and clears
                                                                  itself each time it is set. */
-        uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit0-bit8 for write deskew setting assignment.
+        uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit 0 - bit 8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
                                                                  0x9 = No-Op
                                                                  0xA = Reuse deskew setting on.
                                                                  0xB = Reuse deskew setting off.
-                                                                 0xC-0xE = Reserved
+                                                                 0xC = Vref bypass setting load.
+                                                                 0xD = Vref bypass on.
+                                                                 0xE = Vref bypass off.
                                                                  0xF = Bit select reset. Clear write deskew settings to default value 0x40 in each DQ bit.
                                                                  Also sets Vref bypass to off and deskew reuse setting to off. */
         uint64_t wr_deskew_ld          : 1;  /**< [ 48: 48](WO) When set, the bit deskew settings in DLL_CTL3[OFFSET] gets loaded to
@@ -2850,7 +2907,7 @@ typedef union
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_dll_ctl3_cn83xx
+    struct bdk_lmcx_dll_ctl3_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
@@ -2859,14 +2916,12 @@ typedef union
                                                                  the designated byte DLL_CTL3[BYTE_SEL] and bit DLL_CTL3[BIT_SELECT]
                                                                  for write bit deskew. This is a oneshot and clears itself each time
                                                                  it is set. */
-        uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit 0 - bit 8 for write deskew setting assignment.
+        uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit0-bit8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
                                                                  0x9 = No-Op
                                                                  0xA = Reuse deskew setting on.
                                                                  0xB = Reuse deskew setting off.
-                                                                 0xC = Vref bypass setting load.
-                                                                 0xD = Vref bypass on.
-                                                                 0xE = Vref bypass off.
+                                                                 0xC-0xE = Reserved
                                                                  0xF = Bit select reset. Clear write deskew settings to default value 0x40 in each DQ bit.
                                                                  Also sets Vref bypass to off and deskew reuse setting to off. */
         uint64_t dclk90_fwd            : 1;  /**< [ 43: 43](WO) When set to one, clock-delay information is forwarded to the neighboring LMC. See LMC CK
@@ -2928,14 +2983,12 @@ typedef union
                                                                  Locak Initialization step for the LMC bring-up sequence.
                                                                  INTERNAL: Generate a one cycle pulse to forward setting. This is a oneshot and clears
                                                                  itself each time it is set. */
-        uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit 0 - bit 8 for write deskew setting assignment.
+        uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit0-bit8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
                                                                  0x9 = No-Op
                                                                  0xA = Reuse deskew setting on.
                                                                  0xB = Reuse deskew setting off.
-                                                                 0xC = Vref bypass setting load.
-                                                                 0xD = Vref bypass on.
-                                                                 0xE = Vref bypass off.
+                                                                 0xC-0xE = Reserved
                                                                  0xF = Bit select reset. Clear write deskew settings to default value 0x40 in each DQ bit.
                                                                  Also sets Vref bypass to off and deskew reuse setting to off. */
         uint64_t wr_deskew_ld          : 1;  /**< [ 48: 48](WO) When set, the bit deskew settings in DLL_CTL3[OFFSET] gets loaded to
@@ -2945,7 +2998,9 @@ typedef union
         uint64_t wr_deskew_ena         : 1;  /**< [ 49: 49](R/W) When set, it enables the write bit deskew feature. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_lmcx_dll_ctl3_s cn81xx; */
+    /* struct bdk_lmcx_dll_ctl3_s cn83xx; */
     struct bdk_lmcx_dll_ctl3_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3046,12 +3101,13 @@ typedef union
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_dll_ctl3_s cn88xxp1; */
 } bdk_lmcx_dll_ctl3_t;
 
 static inline uint64_t BDK_LMCX_DLL_CTL3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DLL_CTL3(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000218ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000218ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -3117,6 +3173,8 @@ typedef union
 static inline uint64_t BDK_LMCX_DUAL_MEMCFG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_DUAL_MEMCFG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000098ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000098ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -3171,6 +3229,8 @@ typedef union
 static inline uint64_t BDK_LMCX_ECC_PARITY_TEST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_ECC_PARITY_TEST(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000108ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000108ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -3222,6 +3282,8 @@ typedef union
 static inline uint64_t BDK_LMCX_ECC_SYND(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_ECC_SYND(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000038ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000038ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -3500,6 +3562,8 @@ typedef union
 static inline uint64_t BDK_LMCX_EXT_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_EXT_CONFIG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000030ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000030ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -3594,7 +3658,8 @@ typedef union
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_ext_config2_cn83xx
+    /* struct bdk_lmcx_ext_config2_s cn88xxp1; */
+    struct bdk_lmcx_ext_config2_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
@@ -3709,7 +3774,8 @@ typedef union
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R1]. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_lmcx_ext_config2_cn81xx cn83xx; */
     struct bdk_lmcx_ext_config2_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3850,12 +3916,13 @@ typedef union
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_ext_config2_s cn88xxp1; */
 } bdk_lmcx_ext_config2_t;
 
 static inline uint64_t BDK_LMCX_EXT_CONFIG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_EXT_CONFIG2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000090ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000090ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -3933,6 +4000,8 @@ typedef union
 static inline uint64_t BDK_LMCX_FADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_FADR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000020ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000020ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -3968,6 +4037,8 @@ typedef union
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000340ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000340ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -4003,6 +4074,8 @@ typedef union
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000348ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000348ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -4040,6 +4113,8 @@ typedef union
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_GENERAL_PURPOSE2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000350ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000350ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -4077,6 +4152,8 @@ typedef union
 static inline uint64_t BDK_LMCX_IFB_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_IFB_CNT(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880001d0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880001d0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -4177,6 +4254,8 @@ typedef union
 static inline uint64_t BDK_LMCX_INT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_INT(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880001f0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880001f0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -4231,6 +4310,8 @@ typedef union
 static inline uint64_t BDK_LMCX_INT_EN(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_INT_EN(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880001e8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880001e8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -4257,56 +4338,59 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[MACRAM_DED_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[MACRAM_SEC_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DDR_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DLCRAM_DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DED_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[SEC_ERR]. */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[NXM_WR_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[MACRAM_DED_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[MACRAM_SEC_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DDR_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DLCRAM_DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DED_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[SEC_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[NXM_WR_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[NXM_WR_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DLCRAM_DED_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DDR_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[MACRAM_SEC_ERR]. */
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[MACRAM_DED_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[NXM_WR_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DLCRAM_DED_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DDR_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[MACRAM_SEC_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[MACRAM_DED_ERR]. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_int_ena_w1c_cn88xx
+    struct bdk_lmcx_int_ena_w1c_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[MACRAM_DED_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[MACRAM_SEC_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DDR_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DLCRAM_DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DED_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[SEC_ERR]. */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[NXM_WR_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[MACRAM_DED_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[MACRAM_SEC_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DDR_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DLCRAM_DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DED_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[SEC_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[NXM_WR_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[NXM_WR_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DLCRAM_DED_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[DDR_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[MACRAM_SEC_ERR]. */
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for LMC(0..3)_INT[MACRAM_DED_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[NXM_WR_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DLCRAM_DED_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[DDR_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[MACRAM_SEC_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1C/H) Reads or clears enable for LMC(0..1)_INT[MACRAM_DED_ERR]. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_lmcx_int_ena_w1c_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_lmcx_int_ena_w1c_s cn88xx; */
+    /* struct bdk_lmcx_int_ena_w1c_cn81xx cn83xx; */
 } bdk_lmcx_int_ena_w1c_t;
 
 static inline uint64_t BDK_LMCX_INT_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_INT_ENA_W1C(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000158ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000158ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -4333,56 +4417,59 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[MACRAM_DED_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[MACRAM_SEC_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DDR_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DLCRAM_DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DED_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[SEC_ERR]. */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[NXM_WR_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[MACRAM_DED_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[MACRAM_SEC_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DDR_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DLCRAM_DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DED_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[SEC_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[NXM_WR_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[NXM_WR_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DLCRAM_DED_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DDR_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[MACRAM_SEC_ERR]. */
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[MACRAM_DED_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[NXM_WR_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DLCRAM_DED_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DDR_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[MACRAM_SEC_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[MACRAM_DED_ERR]. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_int_ena_w1s_cn88xx
+    struct bdk_lmcx_int_ena_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[MACRAM_DED_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[MACRAM_SEC_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DDR_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DLCRAM_DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DED_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[SEC_ERR]. */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[NXM_WR_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[MACRAM_DED_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[MACRAM_SEC_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DDR_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DLCRAM_DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DED_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[SEC_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[NXM_WR_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[NXM_WR_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DLCRAM_DED_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[DDR_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[MACRAM_SEC_ERR]. */
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for LMC(0..3)_INT[MACRAM_DED_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[NXM_WR_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DLCRAM_DED_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[DDR_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[MACRAM_SEC_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets enable for LMC(0..1)_INT[MACRAM_DED_ERR]. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_lmcx_int_ena_w1s_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_lmcx_int_ena_w1s_s cn88xx; */
+    /* struct bdk_lmcx_int_ena_w1s_cn81xx cn83xx; */
 } bdk_lmcx_int_ena_w1s_t;
 
 static inline uint64_t BDK_LMCX_INT_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_INT_ENA_W1S(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000160ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000160ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -4409,56 +4496,59 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets LMC(0..1)_INT[MACRAM_DED_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets LMC(0..1)_INT[MACRAM_SEC_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets LMC(0..1)_INT[DDR_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets LMC(0..1)_INT[DLCRAM_DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets LMC(0..1)_INT[DED_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets LMC(0..1)_INT[SEC_ERR]. */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets LMC(0..1)_INT[NXM_WR_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets LMC(0..3)_INT[MACRAM_DED_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets LMC(0..3)_INT[MACRAM_SEC_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets LMC(0..3)_INT[DDR_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets LMC(0..3)_INT[DLCRAM_DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets LMC(0..3)_INT[DED_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets LMC(0..3)_INT[SEC_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets LMC(0..3)_INT[NXM_WR_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets LMC(0..1)_INT[NXM_WR_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets LMC(0..1)_INT[SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets LMC(0..1)_INT[DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets LMC(0..1)_INT[DLCRAM_DED_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets LMC(0..1)_INT[DDR_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets LMC(0..1)_INT[MACRAM_SEC_ERR]. */
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets LMC(0..1)_INT[MACRAM_DED_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets LMC(0..3)_INT[NXM_WR_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets LMC(0..3)_INT[SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets LMC(0..3)_INT[DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets LMC(0..3)_INT[DLCRAM_DED_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets LMC(0..3)_INT[DDR_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets LMC(0..3)_INT[MACRAM_SEC_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets LMC(0..3)_INT[MACRAM_DED_ERR]. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_int_w1s_cn88xx
+    struct bdk_lmcx_int_w1s_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_14_63        : 50;
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets LMC(0..3)_INT[MACRAM_DED_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets LMC(0..3)_INT[MACRAM_SEC_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets LMC(0..3)_INT[DDR_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets LMC(0..3)_INT[DLCRAM_DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets LMC(0..3)_INT[DED_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets LMC(0..3)_INT[SEC_ERR]. */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets LMC(0..3)_INT[NXM_WR_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets LMC(0..1)_INT[MACRAM_DED_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets LMC(0..1)_INT[MACRAM_SEC_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets LMC(0..1)_INT[DDR_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets LMC(0..1)_INT[DLCRAM_DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets LMC(0..1)_INT[DED_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets LMC(0..1)_INT[SEC_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets LMC(0..1)_INT[NXM_WR_ERR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets LMC(0..3)_INT[NXM_WR_ERR]. */
-        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets LMC(0..3)_INT[SEC_ERR]. */
-        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets LMC(0..3)_INT[DED_ERR]. */
-        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets LMC(0..3)_INT[DLCRAM_SEC_ERR]. */
-        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets LMC(0..3)_INT[DLCRAM_DED_ERR]. */
-        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets LMC(0..3)_INT[DDR_ERR]. */
-        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets LMC(0..3)_INT[MACRAM_SEC_ERR]. */
-        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets LMC(0..3)_INT[MACRAM_DED_ERR]. */
+        uint64_t nxm_wr_err            : 1;  /**< [  0:  0](R/W1S/H) Reads or sets LMC(0..1)_INT[NXM_WR_ERR]. */
+        uint64_t sec_err               : 4;  /**< [  4:  1](R/W1S/H) Reads or sets LMC(0..1)_INT[SEC_ERR]. */
+        uint64_t ded_err               : 4;  /**< [  8:  5](R/W1S/H) Reads or sets LMC(0..1)_INT[DED_ERR]. */
+        uint64_t dlcram_sec_err        : 1;  /**< [  9:  9](R/W1S/H) Reads or sets LMC(0..1)_INT[DLCRAM_SEC_ERR]. */
+        uint64_t dlcram_ded_err        : 1;  /**< [ 10: 10](R/W1S/H) Reads or sets LMC(0..1)_INT[DLCRAM_DED_ERR]. */
+        uint64_t ddr_err               : 1;  /**< [ 11: 11](R/W1S/H) Reads or sets LMC(0..1)_INT[DDR_ERR]. */
+        uint64_t macram_sec_err        : 1;  /**< [ 12: 12](R/W1S/H) Reads or sets LMC(0..1)_INT[MACRAM_SEC_ERR]. */
+        uint64_t macram_ded_err        : 1;  /**< [ 13: 13](R/W1S/H) Reads or sets LMC(0..1)_INT[MACRAM_DED_ERR]. */
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_lmcx_int_w1s_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_lmcx_int_w1s_s cn88xx; */
+    /* struct bdk_lmcx_int_w1s_cn81xx cn83xx; */
 } bdk_lmcx_int_w1s_t;
 
 static inline uint64_t BDK_LMCX_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_INT_W1S(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000150ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000150ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -4529,6 +4619,8 @@ typedef union
 static inline uint64_t BDK_LMCX_LANEX_CRC_SWIZ(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_LANEX_CRC_SWIZ(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=8)))
+        return 0x87e088000380ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=8)))
         return 0x87e088000380ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=8)))
@@ -4555,7 +4647,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
-        uint64_t wrp_ext               : 1;  /**< [ 27: 27](RO) Reserved. */
+        uint64_t wrp_ext               : 1;  /**< [ 27: 27](R/W) A 1-bit extension to the WRP register. */
         uint64_t cl_ext                : 1;  /**< [ 26: 26](R/W) Reserved; must be zero.
                                                                  INTERNAL: The extended bit for the proposed CAS Latency spec change. The new
                                                                  CAS Latency in DDR4 DRAM is defined in MR0(A12,A6,A5,A4,A2). This bit sets
@@ -4945,15 +5037,15 @@ typedef union
                                                                  the A12 bit.
 
                                                                  See LMC()_MODEREG_PARAMS0[CL]. */
-        uint64_t wrp_ext               : 1;  /**< [ 27: 27](RO) Reserved. */
+        uint64_t wrp_ext               : 1;  /**< [ 27: 27](R/W) A 1-bit extension to the WRP register. */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_modereg_params0_cn83xx
+    struct bdk_lmcx_modereg_params0_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_28_63        : 36;
-        uint64_t wrp_ext               : 1;  /**< [ 27: 27](R/W) A 1-bit extension to the WRP register. */
+        uint64_t wrp_ext               : 1;  /**< [ 27: 27](RO) Reserved. */
         uint64_t cl_ext                : 1;  /**< [ 26: 26](R/W) Reserved; must be zero.
                                                                  INTERNAL: The extended bit for the proposed CAS Latency spec change. The new
                                                                  CAS Latency in DDR4 DRAM is defined in MR0(A12,A6,A5,A4,A2). This bit sets
@@ -5343,10 +5435,12 @@ typedef union
                                                                  the A12 bit.
 
                                                                  See LMC()_MODEREG_PARAMS0[CL]. */
-        uint64_t wrp_ext               : 1;  /**< [ 27: 27](R/W) A 1-bit extension to the WRP register. */
+        uint64_t wrp_ext               : 1;  /**< [ 27: 27](RO) Reserved. */
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_lmcx_modereg_params0_s cn81xx; */
+    /* struct bdk_lmcx_modereg_params0_s cn83xx; */
     struct bdk_lmcx_modereg_params0_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5749,12 +5843,13 @@ typedef union
         uint64_t reserved_28_63        : 36;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_modereg_params0_s cn88xxp1; */
 } bdk_lmcx_modereg_params0_t;
 
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880001a8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880001a8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -5781,10 +5876,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_55_63        : 9;
-        uint64_t rtt_wr_11_ext         : 1;  /**< [ 54: 54](RO) Reserved. */
-        uint64_t rtt_wr_10_ext         : 1;  /**< [ 53: 53](RO) Reserved. */
-        uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](RO) Reserved. */
-        uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](RO) Reserved. */
+        uint64_t rtt_wr_11_ext         : 1;  /**< [ 54: 54](R/W) RTT_WR rank 3 extension bit for DDR4. */
+        uint64_t rtt_wr_10_ext         : 1;  /**< [ 53: 53](R/W) RTT_WR rank 2 extension bit for DDR4. */
+        uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](R/W) RTT_WR rank 1 extension bit for DDR4. */
+        uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](R/W) RTT_WR rank 0 extension bit for DDR4. */
         uint64_t db_output_impedance   : 3;  /**< [ 50: 48](R/W) Reserved.
                                                                  INTERNAL:
                                                                  Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
@@ -6068,21 +6163,21 @@ typedef union
                                                                  0x1 = RZQ/7 (34 ohm).
                                                                  0x2 = RZQ/5 (48 ohm).
                                                                  0x3-0x7 = Reserved. */
-        uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](RO) Reserved. */
-        uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](RO) Reserved. */
-        uint64_t rtt_wr_10_ext         : 1;  /**< [ 53: 53](RO) Reserved. */
-        uint64_t rtt_wr_11_ext         : 1;  /**< [ 54: 54](RO) Reserved. */
+        uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](R/W) RTT_WR rank 0 extension bit for DDR4. */
+        uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](R/W) RTT_WR rank 1 extension bit for DDR4. */
+        uint64_t rtt_wr_10_ext         : 1;  /**< [ 53: 53](R/W) RTT_WR rank 2 extension bit for DDR4. */
+        uint64_t rtt_wr_11_ext         : 1;  /**< [ 54: 54](R/W) RTT_WR rank 3 extension bit for DDR4. */
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_modereg_params1_cn83xx
+    struct bdk_lmcx_modereg_params1_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_55_63        : 9;
-        uint64_t rtt_wr_11_ext         : 1;  /**< [ 54: 54](R/W) RTT_WR rank 3 extension bit for DDR4. */
-        uint64_t rtt_wr_10_ext         : 1;  /**< [ 53: 53](R/W) RTT_WR rank 2 extension bit for DDR4. */
-        uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](R/W) RTT_WR rank 1 extension bit for DDR4. */
-        uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](R/W) RTT_WR rank 0 extension bit for DDR4. */
+        uint64_t rtt_wr_11_ext         : 1;  /**< [ 54: 54](RO) Reserved. */
+        uint64_t rtt_wr_10_ext         : 1;  /**< [ 53: 53](RO) Reserved. */
+        uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](RO) Reserved. */
+        uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](RO) Reserved. */
         uint64_t db_output_impedance   : 3;  /**< [ 50: 48](R/W) Reserved.
                                                                  INTERNAL:
                                                                  Host Interface DQ/DQS Output Driver Impedance control for DIMM0's Data Buffer.
@@ -6366,13 +6461,15 @@ typedef union
                                                                  0x1 = RZQ/7 (34 ohm).
                                                                  0x2 = RZQ/5 (48 ohm).
                                                                  0x3-0x7 = Reserved. */
-        uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](R/W) RTT_WR rank 0 extension bit for DDR4. */
-        uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](R/W) RTT_WR rank 1 extension bit for DDR4. */
-        uint64_t rtt_wr_10_ext         : 1;  /**< [ 53: 53](R/W) RTT_WR rank 2 extension bit for DDR4. */
-        uint64_t rtt_wr_11_ext         : 1;  /**< [ 54: 54](R/W) RTT_WR rank 3 extension bit for DDR4. */
+        uint64_t rtt_wr_00_ext         : 1;  /**< [ 51: 51](RO) Reserved. */
+        uint64_t rtt_wr_01_ext         : 1;  /**< [ 52: 52](RO) Reserved. */
+        uint64_t rtt_wr_10_ext         : 1;  /**< [ 53: 53](RO) Reserved. */
+        uint64_t rtt_wr_11_ext         : 1;  /**< [ 54: 54](RO) Reserved. */
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_lmcx_modereg_params1_s cn81xx; */
+    /* struct bdk_lmcx_modereg_params1_s cn83xx; */
     struct bdk_lmcx_modereg_params1_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -6687,12 +6784,13 @@ typedef union
         uint64_t reserved_55_63        : 9;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_modereg_params1_s cn88xxp1; */
 } bdk_lmcx_modereg_params1_t;
 
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000260ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000260ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -6755,6 +6853,8 @@ typedef union
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000050ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000050ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -6863,6 +6963,8 @@ typedef union
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MODEREG_PARAMS3(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000058ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000058ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -6917,6 +7019,8 @@ typedef union
 static inline uint64_t BDK_LMCX_MPR_DATA0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MPR_DATA0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000070ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000070ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -6973,6 +7077,8 @@ typedef union
 static inline uint64_t BDK_LMCX_MPR_DATA1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MPR_DATA1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000078ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000078ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -7027,6 +7133,8 @@ typedef union
 static inline uint64_t BDK_LMCX_MPR_DATA2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MPR_DATA2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000080ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000080ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -7149,6 +7257,8 @@ typedef union
 static inline uint64_t BDK_LMCX_MR_MPR_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MR_MPR_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000068ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000068ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -7187,6 +7297,8 @@ typedef union
 static inline uint64_t BDK_LMCX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MSIX_PBAX(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
+        return 0x87e088ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x87e088ff0000ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b==0)))
@@ -7237,6 +7349,8 @@ typedef union
 static inline uint64_t BDK_LMCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
+        return 0x87e088f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x87e088f00000ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b==0)))
@@ -7279,6 +7393,8 @@ typedef union
 static inline uint64_t BDK_LMCX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b==0)))
+        return 0x87e088f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b==0)))
         return 0x87e088f00008ll + 0x1000000ll * ((a) & 0x1) + 0x10ll * ((b) & 0x0);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b==0)))
@@ -7331,7 +7447,8 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_ns_ctl_cn83xx
+    /* struct bdk_lmcx_ns_ctl_s cn88xxp1; */
+    struct bdk_lmcx_ns_ctl_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_26_63        : 38;
@@ -7362,7 +7479,8 @@ typedef union
                                                                  non-secure mode. */
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_lmcx_ns_ctl_cn81xx cn83xx; */
     struct bdk_lmcx_ns_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -7397,12 +7515,13 @@ typedef union
         uint64_t reserved_26_63        : 38;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_ns_ctl_s cn88xxp1; */
 } bdk_lmcx_ns_ctl_t;
 
 static inline uint64_t BDK_LMCX_NS_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_NS_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000178ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000178ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -7503,6 +7622,8 @@ typedef union
 static inline uint64_t BDK_LMCX_NXM(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_NXM(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880000c8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880000c8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -7559,6 +7680,8 @@ typedef union
 static inline uint64_t BDK_LMCX_NXM_FADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_NXM_FADR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000028ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000028ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -7598,6 +7721,8 @@ typedef union
 static inline uint64_t BDK_LMCX_OPS_CNT(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_OPS_CNT(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880001d8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880001d8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -7623,12 +7748,36 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
-        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](RO) Reserved. */
-        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](RO) Reserved. */
-        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](RO) Reserved. */
-        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](RO) Reserved. */
-        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](RO) Reserved. */
-        uint64_t dm_disable            : 1;  /**< [ 55: 55](RO) Reserved. */
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
+                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
+                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
+                                                                 whether or not to load the shift register with PHY's internal settings before
+                                                                 the shifting process. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
+                                                                 when configuring the read deskew settings. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
+                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
+                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
+                                                                 ECC,3,2,1,0.
+                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
+                                                                 DQ has 10-bits deskew setting. */
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
+                                                                 backed out through odd DQ at the same rate.
+                                                                 When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
+                                                                 DQ against each DQS edge seperately. This is done at the clock rate. */
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
+                                                                 without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
+                                                                 LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
+        uint64_t dm_disable            : 1;  /**< [ 55: 55](R/W) Write to 1 to disable the DRAM Data Mask feature by having LMC driving a constant value on
+                                                                 the
+                                                                 DDRX_DQS<17:9>_P pins of the chip during write operations. LMC drives a constant 0 in DDR3
+                                                                 and drives a constant 1 in DDR4.
+                                                                 Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
+                                                                 on
+                                                                 (MODEREG_PARAMS3[WR_DBI]=1). */
         uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
                                                                  INTERNAL:
                                                                  0x0 = C1 is not routed to any output pin.
@@ -7661,8 +7810,9 @@ typedef union
         uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
         uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
-                                                                 0 = 8 bits per byte lane, no DBI.
-                                                                 1 = 9 bits per byte lane, including DBI. */
+                                                                 0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
+                                                                 1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
+                                                                 have to be set to 1. */
         uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
         uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
@@ -7670,11 +7820,12 @@ typedef union
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
                                                                  0x3 = DQ3.
-                                                                 0x4 = DBI.
-                                                                 0x5 = DQ4.
-                                                                 0x6 = DQ5.
-                                                                 0x7 = DQ6.
-                                                                 0x8 = DQ7. */
+                                                                 0x4 = DAC.
+                                                                 0x5 = DBI.
+                                                                 0x6 = DQ4.
+                                                                 0x7 = DQ5.
+                                                                 0x8 = DQ6.
+                                                                 0x9 = DQ7. */
         uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
         uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
         uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
@@ -7753,16 +7904,18 @@ typedef union
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
                                                                  0x3 = DQ3.
-                                                                 0x4 = DBI.
-                                                                 0x5 = DQ4.
-                                                                 0x6 = DQ5.
-                                                                 0x7 = DQ6.
-                                                                 0x8 = DQ7. */
+                                                                 0x4 = DAC.
+                                                                 0x5 = DBI.
+                                                                 0x6 = DQ4.
+                                                                 0x7 = DQ5.
+                                                                 0x8 = DQ6.
+                                                                 0x9 = DQ7. */
         uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
         uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
-                                                                 0 = 8 bits per byte lane, no DBI.
-                                                                 1 = 9 bits per byte lane, including DBI. */
+                                                                 0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
+                                                                 1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
+                                                                 have to be set to 1. */
         uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
         uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
@@ -7794,49 +7947,49 @@ typedef union
                                                                  0x3 = C1 is not routed to any output pin.
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
-        uint64_t dm_disable            : 1;  /**< [ 55: 55](RO) Reserved. */
-        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](RO) Reserved. */
-        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](RO) Reserved. */
-        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](RO) Reserved. */
-        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](RO) Reserved. */
-        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](RO) Reserved. */
+        uint64_t dm_disable            : 1;  /**< [ 55: 55](R/W) Write to 1 to disable the DRAM Data Mask feature by having LMC driving a constant value on
+                                                                 the
+                                                                 DDRX_DQS<17:9>_P pins of the chip during write operations. LMC drives a constant 0 in DDR3
+                                                                 and drives a constant 1 in DDR4.
+                                                                 Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
+                                                                 on
+                                                                 (MODEREG_PARAMS3[WR_DBI]=1). */
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
+                                                                 without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
+                                                                 LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+                                                                 When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
+                                                                 backed out through odd DQ at the same rate.
+                                                                 When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
+                                                                 DQ against each DQS edge seperately. This is done at the clock rate. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
+                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
+                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
+                                                                 ECC,3,2,1,0.
+                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
+                                                                 DQ has 10-bits deskew setting. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
+                                                                 when configuring the read deskew settings. */
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
+                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
+                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
+                                                                 whether or not to load the shift register with PHY's internal settings before
+                                                                 the shifting process. */
         uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_phy_ctl_cn83xx
+    struct bdk_lmcx_phy_ctl_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
-        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
-                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
-                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
-                                                                 whether or not to load the shift register with PHY's internal settings before
-                                                                 the shifting process. */
-        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
-                                                                 when configuring the read deskew settings. */
-        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
-                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
-                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
-                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
-                                                                 ECC,3,2,1,0.
-                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
-                                                                 DQ has 10-bits deskew setting. */
-        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
-                                                                 When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
-                                                                 backed out through odd DQ at the same rate.
-                                                                 When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
-                                                                 DQ against each DQS edge seperately. This is done at the clock rate. */
-        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
-                                                                 When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
-                                                                 without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
-                                                                 LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
-        uint64_t dm_disable            : 1;  /**< [ 55: 55](R/W) Write to 1 to disable the DRAM Data Mask feature by having LMC driving a constant value on
-                                                                 the
-                                                                 DDRX_DQS<17:9>_P pins of the chip during write operations. LMC drives a constant 0 in DDR3
-                                                                 and drives a constant 1 in DDR4.
-                                                                 Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
-                                                                 on
-                                                                 (MODEREG_PARAMS3[WR_DBI]=1). */
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](RO) Reserved. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](RO) Reserved. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](RO) Reserved. */
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](RO) Reserved. */
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](RO) Reserved. */
+        uint64_t dm_disable            : 1;  /**< [ 55: 55](RO) Reserved. */
         uint64_t c1_sel                : 2;  /**< [ 54: 53](R/W) Reserved.
                                                                  INTERNAL:
                                                                  0x0 = C1 is not routed to any output pin.
@@ -7869,9 +8022,8 @@ typedef union
         uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
         uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
-                                                                 0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
-                                                                 1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
-                                                                 have to be set to 1. */
+                                                                 0 = 8 bits per byte lane, no DBI.
+                                                                 1 = 9 bits per byte lane, including DBI. */
         uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
         uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
@@ -7879,12 +8031,11 @@ typedef union
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
                                                                  0x3 = DQ3.
-                                                                 0x4 = DAC.
-                                                                 0x5 = DBI.
-                                                                 0x6 = DQ4.
-                                                                 0x7 = DQ5.
-                                                                 0x8 = DQ6.
-                                                                 0x9 = DQ7. */
+                                                                 0x4 = DBI.
+                                                                 0x5 = DQ4.
+                                                                 0x6 = DQ5.
+                                                                 0x7 = DQ6.
+                                                                 0x8 = DQ7. */
         uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
         uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
         uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
@@ -7963,18 +8114,16 @@ typedef union
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
                                                                  0x3 = DQ3.
-                                                                 0x4 = DAC.
-                                                                 0x5 = DBI.
-                                                                 0x6 = DQ4.
-                                                                 0x7 = DQ5.
-                                                                 0x8 = DQ6.
-                                                                 0x9 = DQ7. */
+                                                                 0x4 = DBI.
+                                                                 0x5 = DQ4.
+                                                                 0x6 = DQ5.
+                                                                 0x7 = DQ6.
+                                                                 0x8 = DQ7. */
         uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
         uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
-                                                                 0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
-                                                                 1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
-                                                                 have to be set to 1. */
+                                                                 0 = 8 bits per byte lane, no DBI.
+                                                                 1 = 9 bits per byte lane, including DBI. */
         uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
         uint64_t dsk_dbg_clk_scaler    : 2;  /**< [ 37: 36](R/W) Reserved. INTERNAL: Adjust clock toggle rate for reading deskew debug information:
@@ -8006,39 +8155,17 @@ typedef union
                                                                  0x3 = C1 is not routed to any output pin.
 
                                                                  Set to 0x0 if not interfacing with 3DS DRAM. */
-        uint64_t dm_disable            : 1;  /**< [ 55: 55](R/W) Write to 1 to disable the DRAM Data Mask feature by having LMC driving a constant value on
-                                                                 the
-                                                                 DDRX_DQS<17:9>_P pins of the chip during write operations. LMC drives a constant 0 in DDR3
-                                                                 and drives a constant 1 in DDR4.
-                                                                 Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
-                                                                 on
-                                                                 (MODEREG_PARAMS3[WR_DBI]=1). */
-        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
-                                                                 When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
-                                                                 without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
-                                                                 LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
-        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
-                                                                 When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
-                                                                 backed out through odd DQ at the same rate.
-                                                                 When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
-                                                                 DQ against each DQS edge seperately. This is done at the clock rate. */
-        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
-                                                                 Overwrite sequence to shift out a 10-bits setting for a single DQ.
-                                                                 Note that there are a total of 9 bytes and the chain structure are split into two
-                                                                 halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
-                                                                 ECC,3,2,1,0.
-                                                                 Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
-                                                                 DQ has 10-bits deskew setting. */
-        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
-                                                                 when configuring the read deskew settings. */
-        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
-                                                                 registers with its internal settings. When Read Deskew sequence is kicked off
-                                                                 by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
-                                                                 whether or not to load the shift register with PHY's internal settings before
-                                                                 the shifting process. */
+        uint64_t dm_disable            : 1;  /**< [ 55: 55](RO) Reserved. */
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](RO) Reserved. */
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](RO) Reserved. */
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](RO) Reserved. */
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](RO) Reserved. */
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](RO) Reserved. */
         uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_lmcx_phy_ctl_s cn81xx; */
+    /* struct bdk_lmcx_phy_ctl_s cn83xx; */
     struct bdk_lmcx_phy_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -8303,12 +8430,13 @@ typedef union
         uint64_t reserved_61_63        : 3;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_phy_ctl_s cn88xxp1; */
 } bdk_lmcx_phy_ctl_t;
 
 static inline uint64_t BDK_LMCX_PHY_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_PHY_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000210ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000210ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -8362,6 +8490,8 @@ typedef union
 static inline uint64_t BDK_LMCX_PHY_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_PHY_CTL2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000250ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000250ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X) && (a<=3))
@@ -8466,6 +8596,8 @@ typedef union
 static inline uint64_t BDK_LMCX_PPR_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_PPR_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880003e0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880003e0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -8508,6 +8640,8 @@ typedef union
 static inline uint64_t BDK_LMCX_REF_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_REF_STATUS(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880000a0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880000a0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -8659,6 +8793,8 @@ typedef union
 static inline uint64_t BDK_LMCX_RESET_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RESET_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000180ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000180ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -8727,6 +8863,8 @@ typedef union
 static inline uint64_t BDK_LMCX_RETRY_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RETRY_CONFIG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000110ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000110ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -8805,6 +8943,8 @@ typedef union
 static inline uint64_t BDK_LMCX_RETRY_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RETRY_STATUS(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000118ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000118ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -8830,7 +8970,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t tccd_sel              : 1;  /**< [ 32: 32](RO) Reserved. */
+        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) When set, the read leveling sequence uses MODEREG_PARAMS3[TCCD_L] to
+                                                                 space out back-to-back read commands. Otherwise the back-to-back
+                                                                 reads commands are spaced out by a default 4 cycles. */
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
         uint64_t reserved_22_23        : 2;
         uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
@@ -8880,17 +9022,17 @@ typedef union
                                                                  normally be set, particularly at higher speeds. */
         uint64_t reserved_22_23        : 2;
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
-        uint64_t tccd_sel              : 1;  /**< [ 32: 32](RO) Reserved. */
+        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) When set, the read leveling sequence uses MODEREG_PARAMS3[TCCD_L] to
+                                                                 space out back-to-back read commands. Otherwise the back-to-back
+                                                                 reads commands are spaced out by a default 4 cycles. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_rlevel_ctl_cn83xx
+    struct bdk_lmcx_rlevel_ctl_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) When set, the read leveling sequence uses MODEREG_PARAMS3[TCCD_L] to
-                                                                 space out back-to-back read commands. Otherwise the back-to-back
-                                                                 reads commands are spaced out by a default 4 cycles. */
+        uint64_t tccd_sel              : 1;  /**< [ 32: 32](RO) Reserved. */
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
         uint64_t reserved_22_23        : 2;
         uint64_t delay_unload_3        : 1;  /**< [ 21: 21](R/W) Reserved, must be set.  INTERNAL: When set, unload the PHY silo one cycle later during
@@ -8940,12 +9082,12 @@ typedef union
                                                                  normally be set, particularly at higher speeds. */
         uint64_t reserved_22_23        : 2;
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
-        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) When set, the read leveling sequence uses MODEREG_PARAMS3[TCCD_L] to
-                                                                 space out back-to-back read commands. Otherwise the back-to-back
-                                                                 reads commands are spaced out by a default 4 cycles. */
+        uint64_t tccd_sel              : 1;  /**< [ 32: 32](RO) Reserved. */
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_lmcx_rlevel_ctl_s cn81xx; */
+    /* struct bdk_lmcx_rlevel_ctl_s cn83xx; */
     struct bdk_lmcx_rlevel_ctl_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -9012,12 +9154,13 @@ typedef union
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_rlevel_ctl_s cn88xxp1; */
 } bdk_lmcx_rlevel_ctl_t;
 
 static inline uint64_t BDK_LMCX_RLEVEL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RLEVEL_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880002a0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880002a0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -9062,6 +9205,8 @@ typedef union
 static inline uint64_t BDK_LMCX_RLEVEL_DBG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RLEVEL_DBG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880002a8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880002a8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -9155,6 +9300,8 @@ typedef union
 static inline uint64_t BDK_LMCX_RLEVEL_RANKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RLEVEL_RANKX(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e088000280ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x87e088000280ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=3)))
@@ -9229,6 +9376,8 @@ typedef union
 static inline uint64_t BDK_LMCX_RODT_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_RODT_MASK(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000268ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000268ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -9266,6 +9415,8 @@ typedef union
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000320ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000320ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -9304,6 +9455,8 @@ typedef union
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000328ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000328ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -9339,6 +9492,8 @@ typedef union
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SCRAMBLE_CFG2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000338ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000338ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -9419,6 +9574,8 @@ typedef union
 static inline uint64_t BDK_LMCX_SCRAMBLED_FADR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SCRAMBLED_FADR(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000330ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000330ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -9617,6 +9774,8 @@ typedef union
 static inline uint64_t BDK_LMCX_SEQ_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SEQ_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000048ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000048ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -9660,8 +9819,8 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](RO) Reserved. */
-        uint64_t w2r_init_ext          : 1;  /**< [ 48: 48](RO) Reserved. */
+        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](R/W/H) A 1-bit extenstion to the W2R_L_INIT register. */
+        uint64_t w2r_init_ext          : 1;  /**< [ 48: 48](R/W/H) A 1-bit extension to the W2R_INIT register. */
         uint64_t w2w_l_init            : 6;  /**< [ 47: 42](R/W/H) Write-to-write spacing control for back-to-back write followed by write cache block
                                                                  accesses to the same rank and DIMM, and same BG for DDR4. */
         uint64_t w2r_l_init            : 6;  /**< [ 41: 36](R/W/H) Write-to-read spacing control for back-to-back write followed by read cache block accesses
@@ -9695,17 +9854,17 @@ typedef union
                                                                  to the same rank and DIMM, and same BG for DDR4. */
         uint64_t w2w_l_init            : 6;  /**< [ 47: 42](R/W/H) Write-to-write spacing control for back-to-back write followed by write cache block
                                                                  accesses to the same rank and DIMM, and same BG for DDR4. */
-        uint64_t w2r_init_ext          : 1;  /**< [ 48: 48](RO) Reserved. */
-        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](RO) Reserved. */
+        uint64_t w2r_init_ext          : 1;  /**< [ 48: 48](R/W/H) A 1-bit extension to the W2R_INIT register. */
+        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](R/W/H) A 1-bit extenstion to the W2R_L_INIT register. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_slot_ctl0_cn83xx
+    struct bdk_lmcx_slot_ctl0_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
-        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](R/W/H) A 1-bit extenstion to the W2R_L_INIT register. */
-        uint64_t w2r_init_ext          : 1;  /**< [ 48: 48](R/W/H) A 1-bit extension to the W2R_INIT register. */
+        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](RO) Reserved. */
+        uint64_t w2r_init_ext          : 1;  /**< [ 48: 48](RO) Reserved. */
         uint64_t w2w_l_init            : 6;  /**< [ 47: 42](R/W/H) Write-to-write spacing control for back-to-back write followed by write cache block
                                                                  accesses to the same rank and DIMM, and same BG for DDR4. */
         uint64_t w2r_l_init            : 6;  /**< [ 41: 36](R/W/H) Write-to-read spacing control for back-to-back write followed by read cache block accesses
@@ -9739,11 +9898,13 @@ typedef union
                                                                  to the same rank and DIMM, and same BG for DDR4. */
         uint64_t w2w_l_init            : 6;  /**< [ 47: 42](R/W/H) Write-to-write spacing control for back-to-back write followed by write cache block
                                                                  accesses to the same rank and DIMM, and same BG for DDR4. */
-        uint64_t w2r_init_ext          : 1;  /**< [ 48: 48](R/W/H) A 1-bit extension to the W2R_INIT register. */
-        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](R/W/H) A 1-bit extenstion to the W2R_L_INIT register. */
+        uint64_t w2r_init_ext          : 1;  /**< [ 48: 48](RO) Reserved. */
+        uint64_t w2r_l_init_ext        : 1;  /**< [ 49: 49](RO) Reserved. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_lmcx_slot_ctl0_s cn81xx; */
+    /* struct bdk_lmcx_slot_ctl0_s cn83xx; */
     struct bdk_lmcx_slot_ctl0_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -9796,12 +9957,13 @@ typedef union
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_slot_ctl0_s cn88xxp1; */
 } bdk_lmcx_slot_ctl0_t;
 
 static inline uint64_t BDK_LMCX_SLOT_CTL0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SLOT_CTL0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880001f8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880001f8ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -9871,6 +10033,8 @@ typedef union
 static inline uint64_t BDK_LMCX_SLOT_CTL1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SLOT_CTL1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000200ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000200ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -9939,6 +10103,8 @@ typedef union
 static inline uint64_t BDK_LMCX_SLOT_CTL2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SLOT_CTL2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000208ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000208ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -10021,7 +10187,8 @@ typedef union
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_slot_ctl3_cn83xx
+    /* struct bdk_lmcx_slot_ctl3_s cn88xxp1; */
+    struct bdk_lmcx_slot_ctl3_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_50_63        : 14;
@@ -10064,7 +10231,8 @@ typedef union
         uint64_t w2r_l_xrank_init_ext  : 1;  /**< [ 49: 49](R/W/H) A 1-bit extension to the W2R_L_XRANK_INIT register. */
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_lmcx_slot_ctl3_cn81xx cn83xx; */
     struct bdk_lmcx_slot_ctl3_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -10117,12 +10285,13 @@ typedef union
         uint64_t reserved_50_63        : 14;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_slot_ctl3_s cn88xxp1; */
 } bdk_lmcx_slot_ctl3_t;
 
 static inline uint64_t BDK_LMCX_SLOT_CTL3(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_SLOT_CTL3(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000248ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000248ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -10181,6 +10350,183 @@ typedef union
                                                                  where TDLLK is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
                                                                  frequency (not data rate).
 
+                                                                 TYP = 3 (equivalent to 768).
+
+                                                                 This parameter is used in self-refresh exit and assumed to be greater than TRFC. */
+        uint64_t tmod                  : 5;  /**< [ 30: 26](R/W) Indicates tMOD constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TMOD(ns) / TCYC(ns)] - 1
+
+                                                                 where TMOD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(24nCK, 15 ns). */
+        uint64_t tmrd                  : 4;  /**< [ 25: 22](R/W) Indicates TMRD constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TMRD(ns) / TCYC(ns)] - 1
+
+                                                                 where TMRD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = 8nCK. */
+        uint64_t txpr                  : 6;  /**< [ 21: 16](R/W) Indicates TXPR constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TXPR(ns) / (16 * TCYC(ns))]
+
+                                                                 where TXPR is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(5nCK, TRFC+10 ns). */
+        uint64_t tcke                  : 4;  /**< [ 15: 12](R/W) Indicates TCKE constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TCKE(ns) / TCYC(ns)] - 1
+
+                                                                 where TCKE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(3nCK, 7.5/5.625/5.625/5 ns).
+
+                                                                 Because a DDR4 register can shorten the pulse width of CKE (it delays the falling edge
+                                                                 but does not delay the rising edge), care must be taken to set this parameter larger
+                                                                 to account for this effective reduction in the pulse width. */
+        uint64_t tzqcs                 : 4;  /**< [ 11:  8](R/W) Indicates TZQCS constraints. This field is set as follows:
+
+                                                                 _ RNDUP[(2 * TZQCS(ns)) / (16 * TCYC(ns))]
+
+                                                                 where TZQCS is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP >= 8 (greater-than-or-equal-to 128), to allow for dclk90 calibration. */
+        uint64_t reserved_0_7          : 8;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_7          : 8;
+        uint64_t tzqcs                 : 4;  /**< [ 11:  8](R/W) Indicates TZQCS constraints. This field is set as follows:
+
+                                                                 _ RNDUP[(2 * TZQCS(ns)) / (16 * TCYC(ns))]
+
+                                                                 where TZQCS is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP >= 8 (greater-than-or-equal-to 128), to allow for dclk90 calibration. */
+        uint64_t tcke                  : 4;  /**< [ 15: 12](R/W) Indicates TCKE constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TCKE(ns) / TCYC(ns)] - 1
+
+                                                                 where TCKE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(3nCK, 7.5/5.625/5.625/5 ns).
+
+                                                                 Because a DDR4 register can shorten the pulse width of CKE (it delays the falling edge
+                                                                 but does not delay the rising edge), care must be taken to set this parameter larger
+                                                                 to account for this effective reduction in the pulse width. */
+        uint64_t txpr                  : 6;  /**< [ 21: 16](R/W) Indicates TXPR constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TXPR(ns) / (16 * TCYC(ns))]
+
+                                                                 where TXPR is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(5nCK, TRFC+10 ns). */
+        uint64_t tmrd                  : 4;  /**< [ 25: 22](R/W) Indicates TMRD constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TMRD(ns) / TCYC(ns)] - 1
+
+                                                                 where TMRD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = 8nCK. */
+        uint64_t tmod                  : 5;  /**< [ 30: 26](R/W) Indicates tMOD constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TMOD(ns) / TCYC(ns)] - 1
+
+                                                                 where TMOD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(24nCK, 15 ns). */
+        uint64_t tdllk                 : 4;  /**< [ 34: 31](R/W) Indicates TDLLK constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TDLLK(ns) / (256 * TCYC(ns))]
+
+                                                                 where TDLLK is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = 3 (equivalent to 768).
+
+                                                                 This parameter is used in self-refresh exit and assumed to be greater than TRFC. */
+        uint64_t tzqinit               : 4;  /**< [ 38: 35](R/W) Indicates TZQINIT constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TZQINIT(ns) / (256 * TCYC(ns))]
+
+                                                                 where TZQINIT is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = 2 (equivalent to 512). */
+        uint64_t trp                   : 5;  /**< [ 43: 39](R/W) Indicates TRP constraints. Set TRP as follows:
+
+                                                                 _ RNDUP[TRP(ns) / TCYC(ns)] - 1
+
+                                                                 where TRP and TRTP are from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency
+                                                                 (not data rate).
+
+                                                                 TYP TRP = 10-15ns.
+
+                                                                 TYP TRTP = max(4nCK, 7.5 ns). */
+        uint64_t tcksre                : 4;  /**< [ 47: 44](R/W) Indicates TCKSRE constraints. Set this field as follows:
+                                                                 _ RNDUP[TCKSRE(ns) / TCYC(ns)] - 1
+
+                                                                 where TCKSRE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(5nCK, 10 ns). */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_lmcx_timing_params0_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_53_63        : 11;
+        uint64_t tbcw                  : 5;  /**< [ 52: 48](R/W) Indicates tBCW constraints. Set this field as follows:
+                                                                 _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
+
+                                                                 where TBCW is from the JEDEC DDR4DB spec, and TCYC(ns) is the DDR clock frequency (not
+                                                                 data rate).
+
+                                                                 TYP = 16. */
+        uint64_t tcksre                : 4;  /**< [ 47: 44](R/W) Indicates TCKSRE constraints. Set this field as follows:
+                                                                 _ RNDUP[TCKSRE(ns) / TCYC(ns)] - 1
+
+                                                                 where TCKSRE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = max(5nCK, 10 ns). */
+        uint64_t trp                   : 5;  /**< [ 43: 39](R/W) Indicates TRP constraints. Set TRP as follows:
+
+                                                                 _ RNDUP[TRP(ns) / TCYC(ns)] - 1
+
+                                                                 where TRP and TRTP are from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency
+                                                                 (not data rate).
+
+                                                                 TYP TRP = 10-15ns.
+
+                                                                 TYP TRTP = max(4nCK, 7.5 ns). */
+        uint64_t tzqinit               : 4;  /**< [ 38: 35](R/W) Indicates TZQINIT constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TZQINIT(ns) / (256 * TCYC(ns))]
+
+                                                                 where TZQINIT is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
+                                                                 TYP = 2 (equivalent to 512). */
+        uint64_t tdllk                 : 4;  /**< [ 34: 31](R/W) Indicates TDLLK constraints. Set this field as follows:
+
+                                                                 _ RNDUP[TDLLK(ns) / (256 * TCYC(ns))]
+
+                                                                 where TDLLK is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
+                                                                 frequency (not data rate).
+
                                                                  TYP = 2 (equivalent to 512).
 
                                                                  This parameter is used in self-refresh exit and assumed to be greater than TRFC. */
@@ -10311,10 +10657,17 @@ typedef union
                                                                  frequency (not data rate).
 
                                                                  TYP = max(5nCK, 10 ns). */
-        uint64_t reserved_48_63        : 16;
+        uint64_t tbcw                  : 5;  /**< [ 52: 48](R/W) Indicates tBCW constraints. Set this field as follows:
+                                                                 _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
+
+                                                                 where TBCW is from the JEDEC DDR4DB spec, and TCYC(ns) is the DDR clock frequency (not
+                                                                 data rate).
+
+                                                                 TYP = 16. */
+        uint64_t reserved_53_63        : 11;
 #endif /* Word 0 - End */
-    } s;
-    struct bdk_lmcx_timing_params0_cn83xx
+    } cn88xxp1;
+    struct bdk_lmcx_timing_params0_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_54_63        : 10;
@@ -10497,7 +10850,8 @@ typedef union
                                                                  TYP = 16. */
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_lmcx_timing_params0_cn81xx cn83xx; */
     struct bdk_lmcx_timing_params0_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -10698,195 +11052,13 @@ typedef union
         uint64_t reserved_54_63        : 10;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_lmcx_timing_params0_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_53_63        : 11;
-        uint64_t tbcw                  : 5;  /**< [ 52: 48](R/W) Indicates tBCW constraints. Set this field as follows:
-                                                                 _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
-
-                                                                 where TBCW is from the JEDEC DDR4DB spec, and TCYC(ns) is the DDR clock frequency (not
-                                                                 data rate).
-
-                                                                 TYP = 16. */
-        uint64_t tcksre                : 4;  /**< [ 47: 44](R/W) Indicates TCKSRE constraints. Set this field as follows:
-                                                                 _ RNDUP[TCKSRE(ns) / TCYC(ns)] - 1
-
-                                                                 where TCKSRE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(5nCK, 10 ns). */
-        uint64_t trp                   : 5;  /**< [ 43: 39](R/W) Indicates TRP constraints. Set TRP as follows:
-
-                                                                 _ RNDUP[TRP(ns) / TCYC(ns)] - 1
-
-                                                                 where TRP and TRTP are from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency
-                                                                 (not data rate).
-
-                                                                 TYP TRP = 10-15ns.
-
-                                                                 TYP TRTP = max(4nCK, 7.5 ns). */
-        uint64_t tzqinit               : 4;  /**< [ 38: 35](R/W) Indicates TZQINIT constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TZQINIT(ns) / (256 * TCYC(ns))]
-
-                                                                 where TZQINIT is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 2 (equivalent to 512). */
-        uint64_t tdllk                 : 4;  /**< [ 34: 31](R/W) Indicates TDLLK constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TDLLK(ns) / (256 * TCYC(ns))]
-
-                                                                 where TDLLK is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 2 (equivalent to 512).
-
-                                                                 This parameter is used in self-refresh exit and assumed to be greater than TRFC. */
-        uint64_t tmod                  : 5;  /**< [ 30: 26](R/W) Indicates tMOD constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TMOD(ns) / TCYC(ns)] - 1
-
-                                                                 where TMOD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(12nCK, 15 ns). */
-        uint64_t tmrd                  : 4;  /**< [ 25: 22](R/W) Indicates TMRD constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TMRD(ns) / TCYC(ns)] - 1
-
-                                                                 where TMRD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 4nCK. */
-        uint64_t txpr                  : 6;  /**< [ 21: 16](R/W) Indicates TXPR constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TXPR(ns) / (16 * TCYC(ns))]
-
-                                                                 where TXPR is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(5nCK, TRFC+10 ns). */
-        uint64_t tcke                  : 4;  /**< [ 15: 12](R/W) Indicates TCKE constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TCKE(ns) / TCYC(ns)] - 1
-
-                                                                 where TCKE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(3nCK, 7.5/5.625/5.625/5 ns).
-
-                                                                 Because a DDR4 register can shorten the pulse width of CKE (it delays the falling edge
-                                                                 but does not delay the rising edge), care must be taken to set this parameter larger
-                                                                 to account for this effective reduction in the pulse width. */
-        uint64_t tzqcs                 : 4;  /**< [ 11:  8](R/W) Indicates TZQCS constraints. This field is set as follows:
-
-                                                                 _ RNDUP[(2 * TZQCS(ns)) / (16 * TCYC(ns))]
-
-                                                                 where TZQCS is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP >= 8 (greater-than-or-equal-to 128), to allow for dclk90 calibration. */
-        uint64_t reserved_0_7          : 8;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_7          : 8;
-        uint64_t tzqcs                 : 4;  /**< [ 11:  8](R/W) Indicates TZQCS constraints. This field is set as follows:
-
-                                                                 _ RNDUP[(2 * TZQCS(ns)) / (16 * TCYC(ns))]
-
-                                                                 where TZQCS is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP >= 8 (greater-than-or-equal-to 128), to allow for dclk90 calibration. */
-        uint64_t tcke                  : 4;  /**< [ 15: 12](R/W) Indicates TCKE constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TCKE(ns) / TCYC(ns)] - 1
-
-                                                                 where TCKE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(3nCK, 7.5/5.625/5.625/5 ns).
-
-                                                                 Because a DDR4 register can shorten the pulse width of CKE (it delays the falling edge
-                                                                 but does not delay the rising edge), care must be taken to set this parameter larger
-                                                                 to account for this effective reduction in the pulse width. */
-        uint64_t txpr                  : 6;  /**< [ 21: 16](R/W) Indicates TXPR constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TXPR(ns) / (16 * TCYC(ns))]
-
-                                                                 where TXPR is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(5nCK, TRFC+10 ns). */
-        uint64_t tmrd                  : 4;  /**< [ 25: 22](R/W) Indicates TMRD constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TMRD(ns) / TCYC(ns)] - 1
-
-                                                                 where TMRD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 4nCK. */
-        uint64_t tmod                  : 5;  /**< [ 30: 26](R/W) Indicates tMOD constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TMOD(ns) / TCYC(ns)] - 1
-
-                                                                 where TMOD is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(12nCK, 15 ns). */
-        uint64_t tdllk                 : 4;  /**< [ 34: 31](R/W) Indicates TDLLK constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TDLLK(ns) / (256 * TCYC(ns))]
-
-                                                                 where TDLLK is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 2 (equivalent to 512).
-
-                                                                 This parameter is used in self-refresh exit and assumed to be greater than TRFC. */
-        uint64_t tzqinit               : 4;  /**< [ 38: 35](R/W) Indicates TZQINIT constraints. Set this field as follows:
-
-                                                                 _ RNDUP[TZQINIT(ns) / (256 * TCYC(ns))]
-
-                                                                 where TZQINIT is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = 2 (equivalent to 512). */
-        uint64_t trp                   : 5;  /**< [ 43: 39](R/W) Indicates TRP constraints. Set TRP as follows:
-
-                                                                 _ RNDUP[TRP(ns) / TCYC(ns)] - 1
-
-                                                                 where TRP and TRTP are from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency
-                                                                 (not data rate).
-
-                                                                 TYP TRP = 10-15ns.
-
-                                                                 TYP TRTP = max(4nCK, 7.5 ns). */
-        uint64_t tcksre                : 4;  /**< [ 47: 44](R/W) Indicates TCKSRE constraints. Set this field as follows:
-                                                                 _ RNDUP[TCKSRE(ns) / TCYC(ns)] - 1
-
-                                                                 where TCKSRE is from the JEDEC DDR3/DDR4 spec, and TCYC(ns) is the DDR clock
-                                                                 frequency (not data rate).
-
-                                                                 TYP = max(5nCK, 10 ns). */
-        uint64_t tbcw                  : 5;  /**< [ 52: 48](R/W) Indicates tBCW constraints. Set this field as follows:
-                                                                 _ RNDUP[TBCW(ns) / TCYC(ns)] - 1
-
-                                                                 where TBCW is from the JEDEC DDR4DB spec, and TCYC(ns) is the DDR clock frequency (not
-                                                                 data rate).
-
-                                                                 TYP = 16. */
-        uint64_t reserved_53_63        : 11;
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_lmcx_timing_params0_t;
 
 static inline uint64_t BDK_LMCX_TIMING_PARAMS0(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_TIMING_PARAMS0(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000198ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000198ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -10912,8 +11084,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_59_63        : 5;
-        uint64_t txp_ext               : 1;  /**< [ 58: 58](RO) Reserved. */
-        uint64_t trcd_ext              : 1;  /**< [ 57: 57](RO) Reserved. */
+        uint64_t txp_ext               : 1;  /**< [ 58: 58](R/W) A 1-bit extension to the TXP register.
+                                                                 above. */
+        uint64_t trcd_ext              : 1;  /**< [ 57: 57](R/W) A 1-bit extension to the TRCD register. */
         uint64_t tpdm_full_cycle_ena   : 1;  /**< [ 56: 56](R/W) When set, this field enables the addition of one-cycle delay to the
                                                                  Write/Read latency calculation. This is to compensate the case when
                                                                  tPDM delay in the RCD of an RDIMM is greater than one-cycle.
@@ -11229,18 +11402,18 @@ typedef union
                                                                  Write/Read latency calculation. This is to compensate the case when
                                                                  tPDM delay in the RCD of an RDIMM is greater than one-cycle.
                                                                  Only valid in RDIMM  (LMC()_CTL[RDIMM_ENA]=1). */
-        uint64_t trcd_ext              : 1;  /**< [ 57: 57](RO) Reserved. */
-        uint64_t txp_ext               : 1;  /**< [ 58: 58](RO) Reserved. */
+        uint64_t trcd_ext              : 1;  /**< [ 57: 57](R/W) A 1-bit extension to the TRCD register. */
+        uint64_t txp_ext               : 1;  /**< [ 58: 58](R/W) A 1-bit extension to the TXP register.
+                                                                 above. */
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_lmcx_timing_params1_cn83xx
+    struct bdk_lmcx_timing_params1_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_59_63        : 5;
-        uint64_t txp_ext               : 1;  /**< [ 58: 58](R/W) A 1-bit extension to the TXP register.
-                                                                 above. */
-        uint64_t trcd_ext              : 1;  /**< [ 57: 57](R/W) A 1-bit extension to the TRCD register. */
+        uint64_t txp_ext               : 1;  /**< [ 58: 58](RO) Reserved. */
+        uint64_t trcd_ext              : 1;  /**< [ 57: 57](RO) Reserved. */
         uint64_t tpdm_full_cycle_ena   : 1;  /**< [ 56: 56](R/W) When set, this field enables the addition of one-cycle delay to the
                                                                  Write/Read latency calculation. This is to compensate the case when
                                                                  tPDM delay in the RCD of an RDIMM is greater than one-cycle.
@@ -11556,12 +11729,13 @@ typedef union
                                                                  Write/Read latency calculation. This is to compensate the case when
                                                                  tPDM delay in the RCD of an RDIMM is greater than one-cycle.
                                                                  Only valid in RDIMM  (LMC()_CTL[RDIMM_ENA]=1). */
-        uint64_t trcd_ext              : 1;  /**< [ 57: 57](R/W) A 1-bit extension to the TRCD register. */
-        uint64_t txp_ext               : 1;  /**< [ 58: 58](R/W) A 1-bit extension to the TXP register.
-                                                                 above. */
+        uint64_t trcd_ext              : 1;  /**< [ 57: 57](RO) Reserved. */
+        uint64_t txp_ext               : 1;  /**< [ 58: 58](RO) Reserved. */
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_lmcx_timing_params1_s cn81xx; */
+    /* struct bdk_lmcx_timing_params1_s cn83xx; */
     struct bdk_lmcx_timing_params1_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -11898,12 +12072,13 @@ typedef union
         uint64_t reserved_59_63        : 5;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_lmcx_timing_params1_s cn88xxp1; */
 } bdk_lmcx_timing_params1_t;
 
 static inline uint64_t BDK_LMCX_TIMING_PARAMS1(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_TIMING_PARAMS1(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880001a0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880001a0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -12022,6 +12197,8 @@ typedef union
 static inline uint64_t BDK_LMCX_TIMING_PARAMS2(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_TIMING_PARAMS2(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000060ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000060ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -12119,6 +12296,8 @@ typedef union
 static inline uint64_t BDK_LMCX_WLEVEL_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_WLEVEL_CTL(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000300ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000300ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -12179,6 +12358,8 @@ typedef union
 static inline uint64_t BDK_LMCX_WLEVEL_DBG(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_WLEVEL_DBG(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e088000308ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e088000308ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))
@@ -12282,6 +12463,8 @@ typedef union
 static inline uint64_t BDK_LMCX_WLEVEL_RANKX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_WLEVEL_RANKX(unsigned long a, unsigned long b)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0880002c0ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
         return 0x87e0880002c0ll + 0x1000000ll * ((a) & 0x1) + 8ll * ((b) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=3) && (b<=3)))
@@ -12349,6 +12532,8 @@ typedef union
 static inline uint64_t BDK_LMCX_WODT_MASK(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_LMCX_WODT_MASK(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0880001b0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0880001b0ll + 0x1000000ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a<=3))

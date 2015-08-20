@@ -1710,6 +1710,8 @@ typedef union
                                                                  change this field. */
 #endif /* Word 0 - End */
     } s;
+    /* struct bdk_pciercx_cfg033_s cn88xxp1; */
+    /* struct bdk_pciercx_cfg033_s cn81xx; */
     /* struct bdk_pciercx_cfg033_s cn83xx; */
     struct bdk_pciercx_cfg033_cn88xxp2
     {
@@ -1761,7 +1763,6 @@ typedef union
                                                                  change this field. */
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_pciercx_cfg033_s cn88xxp1; */
 } bdk_pciercx_cfg033_t;
 
 static inline uint64_t BDK_PCIERCX_CFG033(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1961,14 +1962,15 @@ typedef union
                                                                  0x3 = 3.
                                                                  0x0 = 4. */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
+                                                                 the application must not change this field. */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
         uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
         uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
@@ -1982,14 +1984,15 @@ typedef union
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
         uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
         uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
+                                                                 the application must not change this field. */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
         uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
                                                                  0x1 = 1.
@@ -1999,7 +2002,7 @@ typedef union
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pciercx_cfg037_cn83xx
+    struct bdk_pciercx_cfg037_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_24_31        : 8;
@@ -2009,15 +2012,14 @@ typedef union
                                                                  0x3 = 3.
                                                                  0x0 = 4. */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
-                                                                 the application must not change this field. */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
         uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
         uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
@@ -2031,15 +2033,14 @@ typedef union
         uint32_t atom_ops              : 1;  /**< [  6:  6](RO) AtomicOp routing supported. */
         uint32_t atom32s               : 1;  /**< [  7:  7](RO) 32-bit AtomicOp supported. */
         uint32_t atom64s               : 1;  /**< [  8:  8](RO) 64-bit AtomicOp supported. */
-        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported. */
+        uint32_t atom128s              : 1;  /**< [  9:  9](RO) 128-bit AtomicOp supported (not supported). */
         uint32_t noroprpr              : 1;  /**< [ 10: 10](RO/H) No RO-enabled PR-PR passing. When set, the routing element never carries out the passing
                                                                  permitted in the relaxed ordering model. */
         uint32_t ltrs                  : 1;  /**< [ 11: 11](RO) Latency tolerance reporting (LTR) mechanism supported (not supported). */
         uint32_t tph                   : 2;  /**< [ 13: 12](RO) TPH completer supported (not supported). */
         uint32_t reserved_14_17        : 4;
         uint32_t obffs                 : 2;  /**< [ 19: 18](RO) Optimized buffer flush fill (OBFF) supported (not supported). */
-        uint32_t effs                  : 1;  /**< [ 20: 20](RO/WRSL) Extended fmt field supported.  Writable through PEM()_CFG_WR.  However,
-                                                                 the application must not change this field. */
+        uint32_t effs                  : 1;  /**< [ 20: 20](RO) Extended fmt field supported (not supported). */
         uint32_t eetps                 : 1;  /**< [ 21: 21](RO) End-end TLP prefix supported (not supported). */
         uint32_t meetp                 : 2;  /**< [ 23: 22](RO) Max end-end TLP prefixes.
                                                                  0x1 = 1.
@@ -2048,7 +2049,9 @@ typedef union
                                                                  0x0 = 4. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xxp1;
+    /* struct bdk_pciercx_cfg037_s cn81xx; */
+    /* struct bdk_pciercx_cfg037_s cn83xx; */
     struct bdk_pciercx_cfg037_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2099,7 +2102,6 @@ typedef union
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    /* struct bdk_pciercx_cfg037_s cn88xxp1; */
 } bdk_pciercx_cfg037_t;
 
 static inline uint64_t BDK_PCIERCX_CFG037(unsigned long a) __attribute__ ((pure, always_inline));
@@ -2821,7 +2823,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
         uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
-        uint32_t uatombm               : 1;  /**< [ 24: 24](RO/H) Unsupported AtomicOp egress blocked status. */
+        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. */
         uint32_t reserved_23           : 1;
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
         uint32_t reserved_21           : 1;
@@ -2855,103 +2857,11 @@ typedef union
         uint32_t reserved_21           : 1;
         uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
         uint32_t reserved_23           : 1;
-        uint32_t uatombm               : 1;  /**< [ 24: 24](RO/H) Unsupported AtomicOp egress blocked status. */
+        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. */
         uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pciercx_cfg066_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
-        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. */
-        uint32_t reserved_23           : 1;
-        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
-        uint32_t reserved_21           : 1;
-        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
-        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
-        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
-        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
-        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
-        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
-        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
-        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
-        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
-        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
-        uint32_t reserved_1_3          : 3;
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t reserved_1_3          : 3;
-        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
-        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
-        uint32_t reserved_6_11         : 6;
-        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
-        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
-        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
-        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
-        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
-        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
-        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
-        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
-        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
-        uint32_t reserved_21           : 1;
-        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
-        uint32_t reserved_23           : 1;
-        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. */
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } cn83xx;
-    struct bdk_pciercx_cfg066_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
-        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. Changed in pass 2. */
-        uint32_t reserved_23           : 1;
-        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
-        uint32_t reserved_21           : 1;
-        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
-        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
-        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
-        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
-        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
-        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
-        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
-        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
-        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
-        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
-        uint32_t reserved_1_3          : 3;
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t reserved_1_3          : 3;
-        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
-        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
-        uint32_t reserved_6_11         : 6;
-        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
-        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
-        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
-        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
-        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
-        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
-        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
-        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
-        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
-        uint32_t reserved_21           : 1;
-        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
-        uint32_t reserved_23           : 1;
-        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. Changed in pass 2. */
-        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } cn88xxp2;
     struct bdk_pciercx_cfg066_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -2998,6 +2908,99 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    struct bdk_pciercx_cfg066_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
+        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. */
+        uint32_t reserved_23           : 1;
+        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
+        uint32_t reserved_21           : 1;
+        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
+        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
+        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
+        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
+        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
+        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
+        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
+        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
+        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
+        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_3          : 3;
+        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
+        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
+        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
+        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
+        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
+        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
+        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
+        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
+        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
+        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
+        uint32_t reserved_21           : 1;
+        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. */
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_pciercx_cfg066_cn81xx cn83xx; */
+    struct bdk_pciercx_cfg066_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
+        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. Changed in pass 2. */
+        uint32_t reserved_23           : 1;
+        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
+        uint32_t reserved_21           : 1;
+        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
+        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
+        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
+        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
+        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
+        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
+        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
+        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
+        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
+        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_3          : 3;
+        uint32_t dlpem                 : 1;  /**< [  4:  4](R/W) Data link protocol error mask. */
+        uint32_t sdem                  : 1;  /**< [  5:  5](RO) Surprise down error mask (not supported). */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlpm                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP mask. */
+        uint32_t fcpem                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error mask. */
+        uint32_t ctm                   : 1;  /**< [ 14: 14](R/W) Completion timeout mask. */
+        uint32_t cam                   : 1;  /**< [ 15: 15](R/W) Completer abort mask. */
+        uint32_t ucm                   : 1;  /**< [ 16: 16](R/W) Unexpected completion mask. */
+        uint32_t rom                   : 1;  /**< [ 17: 17](R/W) Receiver overflow mask. */
+        uint32_t mtlpm                 : 1;  /**< [ 18: 18](R/W) Malformed TLP mask. */
+        uint32_t ecrcem                : 1;  /**< [ 19: 19](R/W) ECRC error mask. */
+        uint32_t urem                  : 1;  /**< [ 20: 20](R/W) Unsupported request error mask. */
+        uint32_t reserved_21           : 1;
+        uint32_t uciem                 : 1;  /**< [ 22: 22](R/W) Uncorrectable internal error mask. */
+        uint32_t reserved_23           : 1;
+        uint32_t uatombm               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked status. Changed in pass 2. */
+        uint32_t tpbem                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error mask. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn88xxp2;
 } bdk_pciercx_cfg066_t;
 
 static inline uint64_t BDK_PCIERCX_CFG066(unsigned long a) __attribute__ ((pure, always_inline));
@@ -3028,7 +3031,7 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO/H) Unsupported AtomicOp egress blocked severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
         uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
         uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
         uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
@@ -3058,95 +3061,11 @@ typedef union
         uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
         uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
         uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](RO/H) Unsupported AtomicOp egress blocked severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
         uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_pciercx_cfg067_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
-        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
-        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
-        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
-        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
-        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
-        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
-        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
-        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
-        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
-        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
-        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
-        uint32_t reserved_1_3          : 3;
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t reserved_1_3          : 3;
-        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
-        uint32_t reserved_6_11         : 6;
-        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
-        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
-        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
-        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
-        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
-        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
-        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
-        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
-        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
-        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } cn83xx;
-    struct bdk_pciercx_cfg067_cn88xxp2
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. Changed in pass 2. */
-        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
-        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
-        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
-        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
-        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
-        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
-        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
-        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
-        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
-        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
-        uint32_t reserved_6_11         : 6;
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
-        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
-        uint32_t reserved_1_3          : 3;
-        uint32_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint32_t reserved_0            : 1;
-        uint32_t reserved_1_3          : 3;
-        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
-        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
-        uint32_t reserved_6_11         : 6;
-        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
-        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
-        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
-        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
-        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
-        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
-        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
-        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
-        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
-        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
-        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. Changed in pass 2. */
-        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } cn88xxp2;
     struct bdk_pciercx_cfg067_cn88xxp1
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -3189,6 +3108,91 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn88xxp1;
+    struct bdk_pciercx_cfg067_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_3          : 3;
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
+        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_pciercx_cfg067_cn81xx cn83xx; */
+    struct bdk_pciercx_cfg067_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. Changed in pass 2. */
+        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
+        uint32_t reserved_6_11         : 6;
+        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
+        uint32_t reserved_1_3          : 3;
+        uint32_t reserved_0            : 1;
+#else /* Word 0 - Little Endian */
+        uint32_t reserved_0            : 1;
+        uint32_t reserved_1_3          : 3;
+        uint32_t dlpes                 : 1;  /**< [  4:  4](R/W) Data link protocol error severity. */
+        uint32_t sdes                  : 1;  /**< [  5:  5](RO) Surprise down error severity (not supported). */
+        uint32_t reserved_6_11         : 6;
+        uint32_t ptlps                 : 1;  /**< [ 12: 12](R/W) Poisoned TLP severity. */
+        uint32_t fcpes                 : 1;  /**< [ 13: 13](R/W) Flow control protocol error severity. */
+        uint32_t cts                   : 1;  /**< [ 14: 14](R/W) Completion timeout severity. */
+        uint32_t cas                   : 1;  /**< [ 15: 15](R/W) Completer abort severity. */
+        uint32_t ucs                   : 1;  /**< [ 16: 16](R/W) Unexpected completion severity. */
+        uint32_t ros                   : 1;  /**< [ 17: 17](R/W) Receiver overflow severity. */
+        uint32_t mtlps                 : 1;  /**< [ 18: 18](R/W) Malformed TLP severity. */
+        uint32_t ecrces                : 1;  /**< [ 19: 19](R/W) ECRC error severity. */
+        uint32_t ures                  : 1;  /**< [ 20: 20](R/W) Unsupported request error severity. */
+        uint32_t unsuperr              : 3;  /**< [ 23: 21](RO/H) Reserved. */
+        uint32_t uatombs               : 1;  /**< [ 24: 24](R/W) Unsupported AtomicOp egress blocked severity. Changed in pass 2. */
+        uint32_t tpbes                 : 1;  /**< [ 25: 25](RO) Unsupported TLP prefix blocked error severity. */
+        uint32_t reserved_26_31        : 6;
+#endif /* Word 0 - End */
+    } cn88xxp2;
 } bdk_pciercx_cfg067_t;
 
 static inline uint64_t BDK_PCIERCX_CFG067(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5595,6 +5599,133 @@ typedef union
         uint32_t reserved_25_31        : 7;
         uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
                                                                  performed in the EQ Master, when finding the highest FOM among all preset evaluations. */
+        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part
+                                                                 of the EQ master
+                                                                 phase. Encoding scheme as follows:
+
+                                                                 Bit [15:0] = 0x0: No preset is requested and evaluated in the EQ master phase.
+
+                                                                 Bit [i] = 1: Preset=i is requested and evaluated in the EQ master phase.
+
+                                                                 _ 0000000000000000: No preset req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxxxxxxx1: Preset 0 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxxxxxx1x: Preset 1 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxxxxx1xx: Preset 2 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxxxx1xxx: Preset 3 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxxx1xxxx: Preset 4 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxx1xxxxx: Preset 5 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxx1xxxxxx: Preset 6 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxx1xxxxxxx: Preset 7 req/evaluated in EQ master phase
+
+                                                                 _ 00000xx1xxxxxxxx: Preset 8 req/evaluated in EQ master phase
+
+                                                                 _ 00000x1xxxxxxxxx: Preset 9 req/evaluated in EQ master phase
+
+                                                                 _ 000001xxxxxxxxxx: Preset 10 req/evaluated in EQ master phase
+
+                                                                 _ All other encodings: Reserved */
+        uint32_t reserved_6_7          : 2;
+        uint32_t p23td                 : 1;  /**< [  5:  5](R/W) Phase2_3 2 ms timeout disable. Determine behavior in Phase2 for USP (Phase3 if DSP) when
+                                                                 the PHY does not respond within 2 ms to the assertion of RxEqEval:
+                                                                 0 = Abort the current evaluation; stop any attempt to modify the remote transmitter
+                                                                 settings. Phase2 will be terminated by the 24 ms timeout.
+                                                                 1 = Ignore the 2 ms timeout and continue as normal. This is used to support PHYs that
+                                                                 require more than 2 ms to respond to the assertion of RxEqEval. */
+        uint32_t bt                    : 1;  /**< [  4:  4](R/W) Behavior after 24 ms timeout (when optimal settings are not found).
+
+                                                                 For a USP: determine the next LTSSM state from Phase2:
+                                                                 0 = Recovery.Speed.
+                                                                 1 = Recovry.Equalization.Phase3.
+
+                                                                 For a DSP: determine the next LTSSM state from Phase3:
+                                                                 0 = Recovery.Speed.
+                                                                 1 = Recovry.Equalization.RcrLock.
+
+                                                                 When optimal settings are not found:
+                                                                 * Equalization phase 3 successful status bit is not set in the Link Status Register
+                                                                 * Equalization phase 3 complete status bit is set in the Link Status Register */
+        uint32_t fm                    : 4;  /**< [  3:  0](R/W) Feedback mode.
+                                                                 0 = Direction of change (not supported).
+                                                                 1 = Figure of merit.
+                                                                 2-15 = Reserved. */
+#else /* Word 0 - Little Endian */
+        uint32_t fm                    : 4;  /**< [  3:  0](R/W) Feedback mode.
+                                                                 0 = Direction of change (not supported).
+                                                                 1 = Figure of merit.
+                                                                 2-15 = Reserved. */
+        uint32_t bt                    : 1;  /**< [  4:  4](R/W) Behavior after 24 ms timeout (when optimal settings are not found).
+
+                                                                 For a USP: determine the next LTSSM state from Phase2:
+                                                                 0 = Recovery.Speed.
+                                                                 1 = Recovry.Equalization.Phase3.
+
+                                                                 For a DSP: determine the next LTSSM state from Phase3:
+                                                                 0 = Recovery.Speed.
+                                                                 1 = Recovry.Equalization.RcrLock.
+
+                                                                 When optimal settings are not found:
+                                                                 * Equalization phase 3 successful status bit is not set in the Link Status Register
+                                                                 * Equalization phase 3 complete status bit is set in the Link Status Register */
+        uint32_t p23td                 : 1;  /**< [  5:  5](R/W) Phase2_3 2 ms timeout disable. Determine behavior in Phase2 for USP (Phase3 if DSP) when
+                                                                 the PHY does not respond within 2 ms to the assertion of RxEqEval:
+                                                                 0 = Abort the current evaluation; stop any attempt to modify the remote transmitter
+                                                                 settings. Phase2 will be terminated by the 24 ms timeout.
+                                                                 1 = Ignore the 2 ms timeout and continue as normal. This is used to support PHYs that
+                                                                 require more than 2 ms to respond to the assertion of RxEqEval. */
+        uint32_t reserved_6_7          : 2;
+        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part
+                                                                 of the EQ master
+                                                                 phase. Encoding scheme as follows:
+
+                                                                 Bit [15:0] = 0x0: No preset is requested and evaluated in the EQ master phase.
+
+                                                                 Bit [i] = 1: Preset=i is requested and evaluated in the EQ master phase.
+
+                                                                 _ 0000000000000000: No preset req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxxxxxxx1: Preset 0 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxxxxxx1x: Preset 1 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxxxxx1xx: Preset 2 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxxxx1xxx: Preset 3 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxxx1xxxx: Preset 4 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxxx1xxxxx: Preset 5 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxxx1xxxxxx: Preset 6 req/evaluated in EQ master phase
+
+                                                                 _ 00000xxx1xxxxxxx: Preset 7 req/evaluated in EQ master phase
+
+                                                                 _ 00000xx1xxxxxxxx: Preset 8 req/evaluated in EQ master phase
+
+                                                                 _ 00000x1xxxxxxxxx: Preset 9 req/evaluated in EQ master phase
+
+                                                                 _ 000001xxxxxxxxxx: Preset 10 req/evaluated in EQ master phase
+
+                                                                 _ All other encodings: Reserved */
+        uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
+                                                                 performed in the EQ Master, when finding the highest FOM among all preset evaluations. */
+        uint32_t reserved_25_31        : 7;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_pciercx_cfg554_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_26_31        : 6;
+        uint32_t reserved_25           : 1;
+        uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
+                                                                 performed in the EQ Master, when finding the highest FOM among all preset evaluations. */
         uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part of the EQ master
                                                                  phase. Encoding scheme as follows:
 
@@ -5710,10 +5841,11 @@ typedef union
                                                                  _ All other encodings: Reserved */
         uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
                                                                  performed in the EQ Master, when finding the highest FOM among all preset evaluations. */
-        uint32_t reserved_25_31        : 7;
+        uint32_t reserved_25           : 1;
+        uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
-    } s;
-    struct bdk_pciercx_cfg554_cn83xx
+    } cn88xxp1;
+    struct bdk_pciercx_cfg554_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_26_31        : 6;
@@ -5840,7 +5972,8 @@ typedef union
         uint32_t reserved_25           : 1;
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_pciercx_cfg554_cn81xx cn83xx; */
     struct bdk_pciercx_cfg554_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -5971,132 +6104,6 @@ typedef union
         uint32_t reserved_26_31        : 6;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_pciercx_cfg554_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_26_31        : 6;
-        uint32_t reserved_25           : 1;
-        uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
-                                                                 performed in the EQ Master, when finding the highest FOM among all preset evaluations. */
-        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part of the EQ master
-                                                                 phase. Encoding scheme as follows:
-
-                                                                 Bit [15:0] = 0x0: No preset is requested and evaluated in the EQ master phase.
-
-                                                                 Bit [i] = 1: Preset=i is requested and evaluated in the EQ master phase.
-
-                                                                 _ 0000000000000000: No preset req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxxxxxxx1: Preset 0 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxxxxxx1x: Preset 1 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxxxxx1xx: Preset 2 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxxxx1xxx: Preset 3 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxxx1xxxx: Preset 4 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxx1xxxxx: Preset 5 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxx1xxxxxx: Preset 6 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxx1xxxxxxx: Preset 7 req/evaluated in EQ master phase
-
-                                                                 _ 00000xx1xxxxxxxx: Preset 8 req/evaluated in EQ master phase
-
-                                                                 _ 00000x1xxxxxxxxx: Preset 9 req/evaluated in EQ master phase
-
-                                                                 _ 000001xxxxxxxxxx: Preset 10 req/evaluated in EQ master phase
-
-                                                                 _ All other encodings: Reserved */
-        uint32_t reserved_6_7          : 2;
-        uint32_t p23td                 : 1;  /**< [  5:  5](R/W) Phase2_3 2 ms timeout disable. Determine behavior in Phase2 for USP (Phase3 if DSP) when
-                                                                 the PHY does not respond within 2 ms to the assertion of RxEqEval:
-                                                                 0 = Abort the current evaluation; stop any attempt to modify the remote transmitter
-                                                                 settings. Phase2 will be terminated by the 24 ms timeout.
-                                                                 1 = Ignore the 2 ms timeout and continue as normal. This is used to support PHYs that
-                                                                 require more than 2 ms to respond to the assertion of RxEqEval. */
-        uint32_t bt                    : 1;  /**< [  4:  4](R/W) Behavior after 24 ms timeout (when optimal settings are not found).
-
-                                                                 For a USP: determine the next LTSSM state from Phase2:
-                                                                 0 = Recovery.Speed.
-                                                                 1 = Recovry.Equalization.Phase3.
-
-                                                                 For a DSP: determine the next LTSSM state from Phase3:
-                                                                 0 = Recovery.Speed.
-                                                                 1 = Recovry.Equalization.RcrLock.
-
-                                                                 When optimal settings are not found:
-                                                                 * Equalization phase 3 successful status bit is not set in the Link Status Register
-                                                                 * Equalization phase 3 complete status bit is set in the Link Status Register */
-        uint32_t fm                    : 4;  /**< [  3:  0](R/W) Feedback mode.
-                                                                 0 = Direction of change (not supported).
-                                                                 1 = Figure of merit.
-                                                                 2-15 = Reserved. */
-#else /* Word 0 - Little Endian */
-        uint32_t fm                    : 4;  /**< [  3:  0](R/W) Feedback mode.
-                                                                 0 = Direction of change (not supported).
-                                                                 1 = Figure of merit.
-                                                                 2-15 = Reserved. */
-        uint32_t bt                    : 1;  /**< [  4:  4](R/W) Behavior after 24 ms timeout (when optimal settings are not found).
-
-                                                                 For a USP: determine the next LTSSM state from Phase2:
-                                                                 0 = Recovery.Speed.
-                                                                 1 = Recovry.Equalization.Phase3.
-
-                                                                 For a DSP: determine the next LTSSM state from Phase3:
-                                                                 0 = Recovery.Speed.
-                                                                 1 = Recovry.Equalization.RcrLock.
-
-                                                                 When optimal settings are not found:
-                                                                 * Equalization phase 3 successful status bit is not set in the Link Status Register
-                                                                 * Equalization phase 3 complete status bit is set in the Link Status Register */
-        uint32_t p23td                 : 1;  /**< [  5:  5](R/W) Phase2_3 2 ms timeout disable. Determine behavior in Phase2 for USP (Phase3 if DSP) when
-                                                                 the PHY does not respond within 2 ms to the assertion of RxEqEval:
-                                                                 0 = Abort the current evaluation; stop any attempt to modify the remote transmitter
-                                                                 settings. Phase2 will be terminated by the 24 ms timeout.
-                                                                 1 = Ignore the 2 ms timeout and continue as normal. This is used to support PHYs that
-                                                                 require more than 2 ms to respond to the assertion of RxEqEval. */
-        uint32_t reserved_6_7          : 2;
-        uint32_t prv                   : 16; /**< [ 23:  8](R/W) Preset request vector. Requesting of presets during the initial part of the EQ master
-                                                                 phase. Encoding scheme as follows:
-
-                                                                 Bit [15:0] = 0x0: No preset is requested and evaluated in the EQ master phase.
-
-                                                                 Bit [i] = 1: Preset=i is requested and evaluated in the EQ master phase.
-
-                                                                 _ 0000000000000000: No preset req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxxxxxxx1: Preset 0 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxxxxxx1x: Preset 1 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxxxxx1xx: Preset 2 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxxxx1xxx: Preset 3 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxxx1xxxx: Preset 4 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxxx1xxxxx: Preset 5 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxxx1xxxxxx: Preset 6 req/evaluated in EQ master phase
-
-                                                                 _ 00000xxx1xxxxxxx: Preset 7 req/evaluated in EQ master phase
-
-                                                                 _ 00000xx1xxxxxxxx: Preset 8 req/evaluated in EQ master phase
-
-                                                                 _ 00000x1xxxxxxxxx: Preset 9 req/evaluated in EQ master phase
-
-                                                                 _ 000001xxxxxxxxxx: Preset 10 req/evaluated in EQ master phase
-
-                                                                 _ All other encodings: Reserved */
-        uint32_t iif                   : 1;  /**< [ 24: 24](R/W) Include initial FOM. Include, or not, the FOM feedback from the initial preset evaluation
-                                                                 performed in the EQ Master, when finding the highest FOM among all preset evaluations. */
-        uint32_t reserved_25           : 1;
-        uint32_t reserved_26_31        : 6;
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_pciercx_cfg554_t;
 
 static inline uint64_t BDK_PCIERCX_CFG554(unsigned long a) __attribute__ ((pure, always_inline));

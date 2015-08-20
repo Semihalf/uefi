@@ -675,7 +675,35 @@ typedef union
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_mio_emm_dma_fifo_cmd_cn83xx
+    struct bdk_mio_emm_dma_fifo_cmd_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_63           : 1;
+        uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
+        uint64_t reserved_61           : 1;
+        uint64_t reserved_60           : 1;
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
+        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
+                                                                 example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
+        uint64_t reserved_0_35         : 36;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_35         : 36;
+        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
+                                                                 example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
+        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
+        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
+        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
+        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
+        uint64_t reserved_60           : 1;
+        uint64_t reserved_61           : 1;
+        uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
+        uint64_t reserved_63           : 1;
+#endif /* Word 0 - End */
+    } cn88xxp1;
+    struct bdk_mio_emm_dma_fifo_cmd_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_63           : 1;
@@ -718,7 +746,8 @@ typedef union
         uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn81xx;
+    /* struct bdk_mio_emm_dma_fifo_cmd_cn81xx cn83xx; */
     struct bdk_mio_emm_dma_fifo_cmd_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -767,34 +796,6 @@ typedef union
         uint64_t reserved_63           : 1;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_mio_emm_dma_fifo_cmd_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_63           : 1;
-        uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
-        uint64_t reserved_61           : 1;
-        uint64_t reserved_60           : 1;
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
-        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
-        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
-                                                                 example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
-        uint64_t reserved_0_35         : 36;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0_35         : 36;
-        uint64_t size                  : 20; /**< [ 55: 36](R/W/H) DMA engine size. Specified in the number of 64-bit transfers (encoded in -1 notation). For
-                                                                 example, to transfer 512 bytes, SIZE = 64 - 1 = 63. */
-        uint64_t endian                : 1;  /**< [ 56: 56](R/W) DMA engine endian mode: 0 = big-endian, 1 = little-endian. */
-        uint64_t swap8                 : 1;  /**< [ 57: 57](R/W) DMA engine enable 8-bit swap. */
-        uint64_t swap16                : 1;  /**< [ 58: 58](R/W) DMA engine enable 16-bit swap. */
-        uint64_t swap32                : 1;  /**< [ 59: 59](R/W) DMA engine 32-bit swap. */
-        uint64_t reserved_60           : 1;
-        uint64_t reserved_61           : 1;
-        uint64_t rw                    : 1;  /**< [ 62: 62](R/W) DMA engine R/W bit: 0 = read, 1 = write. */
-        uint64_t reserved_63           : 1;
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_mio_emm_dma_fifo_cmd_t;
 
 #define BDK_MIO_EMM_DMA_FIFO_CMD BDK_MIO_EMM_DMA_FIFO_CMD_FUNC()

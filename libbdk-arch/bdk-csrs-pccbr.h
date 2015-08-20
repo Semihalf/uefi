@@ -336,6 +336,23 @@ typedef union
         uint32_t reserved_24_31        : 8;
         uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
         uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. No additional PCI capabilities. */
+        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
+#else /* Word 0 - Little Endian */
+        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
+        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. No additional PCI capabilities. */
+        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
+        uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
+        uint32_t reserved_24_31        : 8;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pccbr_xxx_e_cap_hdr_s cn88xxp1; */
+    struct bdk_pccbr_xxx_e_cap_hdr_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_24_31        : 8;
+        uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
+        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
         uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. Points to PCCBR_XXX_EA_CAP_HDR. */
         uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
 #else /* Word 0 - Little Endian */
@@ -345,8 +362,8 @@ typedef union
         uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_pccbr_xxx_e_cap_hdr_s cn83xx; */
+    } cn81xx;
+    /* struct bdk_pccbr_xxx_e_cap_hdr_cn81xx cn83xx; */
     struct bdk_pccbr_xxx_e_cap_hdr_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
@@ -365,22 +382,6 @@ typedef union
         uint32_t reserved_24_31        : 8;
 #endif /* Word 0 - End */
     } cn88xxp2;
-    struct bdk_pccbr_xxx_e_cap_hdr_cn88xxp1
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint32_t reserved_24_31        : 8;
-        uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
-        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. No additional PCI capabilities. */
-        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
-#else /* Word 0 - Little Endian */
-        uint32_t pcieid                : 8;  /**< [  7:  0](RO) PCIe capability ID. */
-        uint32_t ncp                   : 8;  /**< [ 15:  8](RO) Next capability pointer. No additional PCI capabilities. */
-        uint32_t pciecv                : 4;  /**< [ 19: 16](RO) PCIe capability version. */
-        uint32_t porttype              : 4;  /**< [ 23: 20](RO) Indicates a root port of a PCIe root complex. */
-        uint32_t reserved_24_31        : 8;
-#endif /* Word 0 - End */
-    } cn88xxp1;
 } bdk_pccbr_xxx_e_cap_hdr_t;
 
 #define BDK_PCCBR_XXX_E_CAP_HDR BDK_PCCBR_XXX_E_CAP_HDR_FUNC()
@@ -428,6 +429,8 @@ typedef union
 static inline uint64_t BDK_PCCBR_XXX_EA_BR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCBR_XXX_EA_BR_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0xb4;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0xb4;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
@@ -473,6 +476,8 @@ typedef union
 static inline uint64_t BDK_PCCBR_XXX_EA_CAP_HDR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_PCCBR_XXX_EA_CAP_HDR_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0xb0;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0xb0;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))

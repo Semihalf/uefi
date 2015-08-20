@@ -94,17 +94,24 @@
  * RST Boot-strap Method Enumeration
  * Enumerates GPIO_STRAP<3:0>, which determines the method used to boot the cores.
  */
+#define BDK_RST_BOOT_METHOD_E_CCPI0_CN81XX (9) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
+                                       CCPI link 0. */
 #define BDK_RST_BOOT_METHOD_E_CCPI0_CN88XX (9) /**< Load an image that is slaved from another CNXXXX attached to CCPI link 0. */
 #define BDK_RST_BOOT_METHOD_E_CCPI0_CN83XX (9) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
                                        CCPI link 0. */
+#define BDK_RST_BOOT_METHOD_E_CCPI1_CN81XX (0xa) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
+                                       CCPI link 1. */
 #define BDK_RST_BOOT_METHOD_E_CCPI1_CN88XX (0xa) /**< Load an image that is slaved from another CNXXXX attached to CCPI link 1. */
 #define BDK_RST_BOOT_METHOD_E_CCPI1_CN83XX (0xa) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
                                        CCPI link 1. */
+#define BDK_RST_BOOT_METHOD_E_CCPI2_CN81XX (0xb) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
+                                       CCPI link 2. */
 #define BDK_RST_BOOT_METHOD_E_CCPI2_CN88XX (0xb) /**< Load an image that is slaved from another CNXXXX attached to CCPI link 2. */
 #define BDK_RST_BOOT_METHOD_E_CCPI2_CN83XX (0xb) /**< Reserved. INTERNAL: Load an image that is slaved from another CNXXXX attached to
                                        CCPI link 2. */
 #define BDK_RST_BOOT_METHOD_E_EMMC_LS (3) /**< Load image from eMMC/SD. On failure, eMMC reset before retry. */
 #define BDK_RST_BOOT_METHOD_E_EMMC_SS (2) /**< Load image from eMMC/SD. On failure, no eMMC reset before retry. */
+#define BDK_RST_BOOT_METHOD_E_PCIE0_CN81XX (0xc) /**< Load image from PCIe 0. */
 #define BDK_RST_BOOT_METHOD_E_PCIE0_CN88XX (0xc) /**< Reserved. INTERNAL: For PCIe 0 boot. Trusted boot will be allowed in a CCPI-similar way. */
 #define BDK_RST_BOOT_METHOD_E_PCIE0_CN83XX (0xc) /**< Load image from PCIe 0. */
 #define BDK_RST_BOOT_METHOD_E_PCIE2 (0xd) /**< Load image from PCIe 2. */
@@ -243,7 +250,8 @@ typedef union
                                                                  INTERNAL:  PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
                                                                  fuses[122:119].  If the fuse value is > 0, it is compared with the pi_pnr_pll_mul[4:1]
                                                                  pins and the smaller value is used. */
-        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Last boot cause mask for CCPI; resets only with PLL_DC_OK.
+        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved. INTERNAL:
+                                                                 Last boot cause mask for CCPI; resets only with PLL_DC_OK.
                                                                  <32> = Warm reset due to CCPI link 2 going down.
                                                                  <31> = Warm reset due to CCPI link 1 going down.
                                                                  <30> = Warm reset due to CCPI link 0 going down. */
@@ -310,7 +318,8 @@ typedef union
                                                                  <19> = Warm reset due to PERST5_L pin.
                                                                  <18> = Warm reset due to PERST4_L pin. */
         uint64_t reserved_24_29        : 6;
-        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Last boot cause mask for CCPI; resets only with PLL_DC_OK.
+        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved. INTERNAL:
+                                                                 Last boot cause mask for CCPI; resets only with PLL_DC_OK.
                                                                  <32> = Warm reset due to CCPI link 2 going down.
                                                                  <31> = Warm reset due to CCPI link 1 going down.
                                                                  <30> = Warm reset due to CCPI link 0 going down. */
@@ -352,8 +361,8 @@ typedef union
                                                                  RST_CKILL[TIMER].  This feature is effectively a delayed warm reset. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_rst_boot_s cn88xx; */
-    struct bdk_rst_boot_cn83xx
+    /* struct bdk_rst_boot_s cn81xx; */
+    struct bdk_rst_boot_cn88xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t chipkill              : 1;  /**< [ 63: 63](R/W1S) A 0-to-1 transition of CHIPKILL starts the CHIPKILL timer. When CHIPKILL=1 and the timer
@@ -392,8 +401,7 @@ typedef union
                                                                  INTERNAL:  PNR_MUL is set from the pi_pnr_pll_mul pins plus 6 and is limited by a set of
                                                                  fuses[122:119].  If the fuse value is > 0, it is compared with the pi_pnr_pll_mul[4:1]
                                                                  pins and the smaller value is used. */
-        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved. INTERNAL:
-                                                                 Last boot cause mask for CCPI; resets only with PLL_DC_OK.
+        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Last boot cause mask for CCPI; resets only with PLL_DC_OK.
                                                                  <32> = Warm reset due to CCPI link 2 going down.
                                                                  <31> = Warm reset due to CCPI link 1 going down.
                                                                  <30> = Warm reset due to CCPI link 0 going down. */
@@ -460,8 +468,7 @@ typedef union
                                                                  <19> = Warm reset due to PERST5_L pin.
                                                                  <18> = Warm reset due to PERST4_L pin. */
         uint64_t reserved_24_29        : 6;
-        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Reserved. INTERNAL:
-                                                                 Last boot cause mask for CCPI; resets only with PLL_DC_OK.
+        uint64_t lboot_oci             : 3;  /**< [ 32: 30](R/W1C/H) Last boot cause mask for CCPI; resets only with PLL_DC_OK.
                                                                  <32> = Warm reset due to CCPI link 2 going down.
                                                                  <31> = Warm reset due to CCPI link 1 going down.
                                                                  <30> = Warm reset due to CCPI link 0 going down. */
@@ -502,7 +509,8 @@ typedef union
                                                                  a reset (cold, warm, soft). The length of the CHIPKILL timer is specified by
                                                                  RST_CKILL[TIMER].  This feature is effectively a delayed warm reset. */
 #endif /* Word 0 - End */
-    } cn83xx;
+    } cn88xx;
+    /* struct bdk_rst_boot_s cn83xx; */
 } bdk_rst_boot_t;
 
 #define BDK_RST_BOOT BDK_RST_BOOT_FUNC()
@@ -794,34 +802,35 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t rst                   : 48; /**< [ 47:  0](R/W) Reserved. */
+        uint64_t rst                   : 48; /**< [ 47:  0](R/W) Debug logic reset for each core:
+                                                                   0 = Debug logic operates normally.
+                                                                   1 = Holds the debug logic in its reset state.
+
+                                                                 The register is reset to 0 only during cold reset, the value is unaffected by
+                                                                 warm and soft reset. */
 #else /* Word 0 - Little Endian */
-        uint64_t rst                   : 48; /**< [ 47:  0](R/W) Reserved. */
+        uint64_t rst                   : 48; /**< [ 47:  0](R/W) Debug logic reset for each core:
+                                                                   0 = Debug logic operates normally.
+                                                                   1 = Holds the debug logic in its reset state.
+
+                                                                 The register is reset to 0 only during cold reset, the value is unaffected by
+                                                                 warm and soft reset. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_rst_dbg_reset_s cn83xx; */
-    /* struct bdk_rst_dbg_reset_s cn88xxp2; */
-    struct bdk_rst_dbg_reset_cn88xxp1
+    /* struct bdk_rst_dbg_reset_s cn88xxp1; */
+    struct bdk_rst_dbg_reset_cn81xx
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t rst                   : 48; /**< [ 47:  0](R/W) Debug logic reset for each core:
-                                                                   0 = Debug logic operates normally.
-                                                                   1 = Holds the debug logic in its reset state.
-
-                                                                 The register is reset to 0 only during cold reset, the value is unaffected by
-                                                                 warm and soft reset. */
+        uint64_t rst                   : 48; /**< [ 47:  0](R/W) Reserved. */
 #else /* Word 0 - Little Endian */
-        uint64_t rst                   : 48; /**< [ 47:  0](R/W) Debug logic reset for each core:
-                                                                   0 = Debug logic operates normally.
-                                                                   1 = Holds the debug logic in its reset state.
-
-                                                                 The register is reset to 0 only during cold reset, the value is unaffected by
-                                                                 warm and soft reset. */
+        uint64_t rst                   : 48; /**< [ 47:  0](R/W) Reserved. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } cn88xxp1;
+    } cn81xx;
+    /* struct bdk_rst_dbg_reset_cn81xx cn83xx; */
+    /* struct bdk_rst_dbg_reset_cn81xx cn88xxp2; */
 } bdk_rst_dbg_reset_t;
 
 #define BDK_RST_DBG_RESET BDK_RST_DBG_RESET_FUNC()
@@ -862,6 +871,8 @@ typedef union
 static inline uint64_t BDK_RST_DEBUG_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_DEBUG_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e0060017b0ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0060017b0ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
@@ -948,6 +959,8 @@ typedef union
 static inline uint64_t BDK_RST_ECO_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_ECO_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e0060017b8ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0060017b8ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
@@ -1318,6 +1331,8 @@ typedef union
 static inline uint64_t BDK_RST_OSC_CNTR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_OSC_CNTR_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e006001778ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e006001778ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))
@@ -1656,6 +1671,8 @@ typedef union
 static inline uint64_t BDK_RST_REF_CHECK_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RST_REF_CHECK_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e006001770ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e006001770ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS2_X))

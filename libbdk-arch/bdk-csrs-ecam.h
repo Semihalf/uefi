@@ -225,6 +225,8 @@ typedef union
 static inline uint64_t BDK_ECAMX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_ECAMX_CONST(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e048000200ll + 0x1000000ll * ((a) & 0x3);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
         return 0x87e048000200ll + 0x1000000ll * ((a) & 0x3);
     __bdk_csr_fatal("ECAMX_CONST", 1, a, 0, 0, 0);

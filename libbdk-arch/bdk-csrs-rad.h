@@ -629,7 +629,11 @@ typedef union
 static inline uint64_t BDK_RAD_DONE_ACK_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_DONE_ACK_FUNC(void)
 {
-    return 0x870000000040ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000040ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000040ll;
+    __bdk_csr_fatal("RAD_DONE_ACK", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_DONE_ACK bdk_rad_done_ack_t
@@ -707,7 +711,11 @@ typedef union
 static inline uint64_t BDK_RAD_DONE_CNT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_DONE_CNT_FUNC(void)
 {
-    return 0x870000000038ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000038ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000038ll;
+    __bdk_csr_fatal("RAD_DONE_CNT", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_DONE_CNT bdk_rad_done_cnt_t
@@ -752,7 +760,11 @@ typedef union
 static inline uint64_t BDK_RAD_DONE_WAIT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_DONE_WAIT_FUNC(void)
 {
-    return 0x870000000058ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000058ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000058ll;
+    __bdk_csr_fatal("RAD_DONE_WAIT", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_DONE_WAIT bdk_rad_done_wait_t
@@ -788,7 +800,11 @@ typedef union
 static inline uint64_t BDK_RAD_DOORBELL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_DOORBELL_FUNC(void)
 {
-    return 0x870000100000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000100000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000100000ll;
+    __bdk_csr_fatal("RAD_DOORBELL", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_DOORBELL bdk_rad_doorbell_t
@@ -866,7 +882,11 @@ typedef union
 static inline uint64_t BDK_RAD_INT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_INT_FUNC(void)
 {
-    return 0x870000000028ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000028ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000028ll;
+    __bdk_csr_fatal("RAD_INT", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_INT bdk_rad_int_t
@@ -903,7 +923,11 @@ typedef union
 static inline uint64_t BDK_RAD_INT_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_INT_ENA_W1C_FUNC(void)
 {
-    return 0x870000000048ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000048ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000048ll;
+    __bdk_csr_fatal("RAD_INT_ENA_W1C", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_INT_ENA_W1C bdk_rad_int_ena_w1c_t
@@ -940,7 +964,11 @@ typedef union
 static inline uint64_t BDK_RAD_INT_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_INT_ENA_W1S_FUNC(void)
 {
-    return 0x870000000050ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000050ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000050ll;
+    __bdk_csr_fatal("RAD_INT_ENA_W1S", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_INT_ENA_W1S bdk_rad_int_ena_w1s_t
@@ -976,7 +1004,11 @@ typedef union
 static inline uint64_t BDK_RAD_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_INT_W1S_FUNC(void)
 {
-    return 0x870000000030ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000030ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000030ll;
+    __bdk_csr_fatal("RAD_INT_W1S", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_INT_W1S bdk_rad_int_w1s_t
@@ -1012,7 +1044,11 @@ typedef union
 static inline uint64_t BDK_RAD_MEM_DEBUG0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MEM_DEBUG0_FUNC(void)
 {
-    return 0x870000001000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000001000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000001000ll;
+    __bdk_csr_fatal("RAD_MEM_DEBUG0", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_MEM_DEBUG0 bdk_rad_mem_debug0_t
@@ -1048,7 +1084,11 @@ typedef union
 static inline uint64_t BDK_RAD_MEM_DEBUG1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MEM_DEBUG1_FUNC(void)
 {
-    return 0x870000001008ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000001008ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000001008ll;
+    __bdk_csr_fatal("RAD_MEM_DEBUG1", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_MEM_DEBUG1 bdk_rad_mem_debug1_t
@@ -1084,7 +1124,11 @@ typedef union
 static inline uint64_t BDK_RAD_MEM_DEBUG2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MEM_DEBUG2_FUNC(void)
 {
-    return 0x870000001010ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000001010ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000001010ll;
+    __bdk_csr_fatal("RAD_MEM_DEBUG2", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_MEM_DEBUG2 bdk_rad_mem_debug2_t
@@ -1119,7 +1163,9 @@ typedef union
 static inline uint64_t BDK_RAD_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MSIX_PBAX(unsigned long a)
 {
-    if (a==0)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870000ff0000ll + 8ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
         return 0x870000ff0000ll + 8ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_MSIX_PBAX", 1, a, 0, 0, 0);
 }
@@ -1173,7 +1219,9 @@ typedef union
 static inline uint64_t BDK_RAD_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MSIX_VECX_ADDR(unsigned long a)
 {
-    if (a==0)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870000f00000ll + 0x10ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
         return 0x870000f00000ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
 }
@@ -1213,7 +1261,9 @@ typedef union
 static inline uint64_t BDK_RAD_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_MSIX_VECX_CTL(unsigned long a)
 {
-    if (a==0)
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x870000f00008ll + 0x10ll * ((a) & 0x0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && (a==0))
         return 0x870000f00008ll + 0x10ll * ((a) & 0x0);
     __bdk_csr_fatal("RAD_MSIX_VECX_CTL", 1, a, 0, 0, 0);
 }
@@ -1261,7 +1311,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_BIST_RESULT_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_BIST_RESULT_FUNC(void)
 {
-    return 0x870000000080ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000080ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000080ll;
+    __bdk_csr_fatal("RAD_REG_BIST_RESULT", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_BIST_RESULT bdk_rad_reg_bist_result_t
@@ -1372,7 +1426,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_CMD_BUF_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_CMD_BUF_FUNC(void)
 {
-    return 0x870000000008ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000008ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000008ll;
+    __bdk_csr_fatal("RAD_REG_CMD_BUF", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_CMD_BUF bdk_rad_reg_cmd_buf_t
@@ -1411,7 +1469,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_CMD_PTR_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_CMD_PTR_FUNC(void)
 {
-    return 0x870000000020ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000020ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000020ll;
+    __bdk_csr_fatal("RAD_REG_CMD_PTR", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_CMD_PTR bdk_rad_reg_cmd_ptr_t
@@ -1459,7 +1521,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_CTL_FUNC(void)
 {
-    return 0x870000000000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000000ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000000ll;
+    __bdk_csr_fatal("RAD_REG_CTL", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_CTL bdk_rad_reg_ctl_t
@@ -1509,7 +1575,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG0_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG0_FUNC(void)
 {
-    return 0x870000000100ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000100ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000100ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG0", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG0 bdk_rad_reg_debug0_t
@@ -1541,7 +1611,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG1_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG1_FUNC(void)
 {
-    return 0x870000000108ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000108ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000108ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG1", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG1 bdk_rad_reg_debug1_t
@@ -1577,7 +1651,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG10_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG10_FUNC(void)
 {
-    return 0x870000000150ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000150ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000150ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG10", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG10 bdk_rad_reg_debug10_t
@@ -1621,7 +1699,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG11_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG11_FUNC(void)
 {
-    return 0x870000000158ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000158ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000158ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG11", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG11 bdk_rad_reg_debug11_t
@@ -1655,7 +1737,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG12_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG12_FUNC(void)
 {
-    return 0x870000000160ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000160ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000160ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG12", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG12 bdk_rad_reg_debug12_t
@@ -1687,7 +1773,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG2_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG2_FUNC(void)
 {
-    return 0x870000000110ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000110ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000110ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG2", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG2 bdk_rad_reg_debug2_t
@@ -1719,7 +1809,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG3_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG3_FUNC(void)
 {
-    return 0x870000000118ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000118ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000118ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG3", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG3 bdk_rad_reg_debug3_t
@@ -1751,7 +1845,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG4_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG4_FUNC(void)
 {
-    return 0x870000000120ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000120ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000120ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG4", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG4 bdk_rad_reg_debug4_t
@@ -1817,7 +1915,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG5_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG5_FUNC(void)
 {
-    return 0x870000000128ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000128ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000128ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG5", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG5 bdk_rad_reg_debug5_t
@@ -1853,7 +1955,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG6_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG6_FUNC(void)
 {
-    return 0x870000000130ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000130ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000130ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG6", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG6 bdk_rad_reg_debug6_t
@@ -1887,7 +1993,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG7_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG7_FUNC(void)
 {
-    return 0x870000000138ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000138ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000138ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG7", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG7 bdk_rad_reg_debug7_t
@@ -1923,7 +2033,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG8_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG8_FUNC(void)
 {
-    return 0x870000000140ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000140ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000140ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG8", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG8 bdk_rad_reg_debug8_t
@@ -1967,7 +2081,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_DEBUG9_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_DEBUG9_FUNC(void)
 {
-    return 0x870000000148ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000148ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000148ll;
+    __bdk_csr_fatal("RAD_REG_DEBUG9", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_DEBUG9 bdk_rad_reg_debug9_t
@@ -2006,7 +2124,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_POLYNOMIAL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_POLYNOMIAL_FUNC(void)
 {
-    return 0x870000000010ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000010ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000010ll;
+    __bdk_csr_fatal("RAD_REG_POLYNOMIAL", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_POLYNOMIAL bdk_rad_reg_polynomial_t
@@ -2049,7 +2171,11 @@ typedef union
 static inline uint64_t BDK_RAD_REG_READ_IDX_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_RAD_REG_READ_IDX_FUNC(void)
 {
-    return 0x870000000018ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x870000000018ll;
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 0x870000000018ll;
+    __bdk_csr_fatal("RAD_REG_READ_IDX", 0, 0, 0, 0, 0);
 }
 
 #define typedef_BDK_RAD_REG_READ_IDX bdk_rad_reg_read_idx_t
