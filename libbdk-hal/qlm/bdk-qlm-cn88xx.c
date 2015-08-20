@@ -998,6 +998,9 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             case 2:
             case 4:
             case 6:
+                /* Use the same reference clock for the second QLM */
+                BDK_CSR_WRITE(node, BDK_GSERX_REFCLK_SEL(qlm + 1),
+                    BDK_CSR_READ(node, BDK_GSERX_REFCLK_SEL(qlm)));
                 return bdk_qlm_set_mode(node, qlm + 1, mode, baud_mhz, flags);
         }
     }
