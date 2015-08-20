@@ -100,9 +100,20 @@ void print_node_strapping(bdk_node_t node)
             break;
     }
 
+    /* Read the Pass information for fuses so we can read a different node.
+       Note that pass info in MIO_FUS_DAT2[CHIP_ID] is encoded as
+            bit[7] = Unused, zero
+            bit[6] = Alternate package
+            bit[5..3] = Major pass
+            bit[2..0] = Minor pass */
+    int alt_pkg = (mio_fus_dat2.s.chip_id >> 6) & 1;
+    int major_pass = ((mio_fus_dat2.s.chip_id >> 3) & 7) + 1;
+    int minor_pass = mio_fus_dat2.s.chip_id & 7;
+    const char *package_str = (alt_pkg) ? " (alt pkg)" : "";
+
     printf(
         "Node:  %d%s\n"
-        "Chip:  0x%x Pass %d.%d\n"
+        "Chip:  0x%x Pass %d.%d%s\n"
         "L2:    %d KB\n"
         "RCLK:  %lu Mhz\n"
         "SCLK:  %lu Mhz\n"
@@ -110,7 +121,7 @@ void print_node_strapping(bdk_node_t node)
         "VRM:   %s\n"
         "Trust: %s\n",
         node, (ocx_com_node.s.fixed_pin) ? " (Fixed)" : "",
-        gicd_iidr.s.productid, (mio_fus_dat2.s.chip_id >> 3) + 1, mio_fus_dat2.s.chip_id & 7,
+        gicd_iidr.s.productid, major_pass, minor_pass, package_str,
         bdk_l2c_get_cache_size_bytes(node) >> 10,
         bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000,
         bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000,
