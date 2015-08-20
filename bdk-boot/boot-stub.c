@@ -394,6 +394,7 @@ int main(void)
     bdk_ap_midr_el1_t midr_el1;
     midr_el1.u = cavium_get_model();
     BDK_CSR_INIT(gpio_strap, node, BDK_GPIO_STRAP);
+    BDK_CSR_INIT(mio_fus_dat2, node, BDK_MIO_FUS_DAT2);
     int boot_method;
     int vrm_disable;
     int trust_mode;
@@ -440,6 +441,17 @@ int main(void)
             break;
     }
 
+    /* Read the Pass information for fuses so we can read a different node.
+       Note that pass info in MIO_FUS_DAT2[CHIP_ID] is encoded as
+            bit[7] = Unused, zero
+            bit[6] = Alternate package
+            bit[5..3] = Major pass
+            bit[2..0] = Minor pass */
+    int alt_pkg = (mio_fus_dat2.s.chip_id >> 6) & 1;
+    int major_pass = ((mio_fus_dat2.s.chip_id >> 3) & 7) + 1;
+    int minor_pass = mio_fus_dat2.s.chip_id & 7;
+    const char *package_str = (alt_pkg) ? " (alt pkg)" : "";
+
     printf(
         "BDK version: %s\n"
         "\n"
@@ -450,14 +462,14 @@ int main(void)
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         printf("Node:  %d%s\n", node, (ocx_com_node.s.fixed_pin) ? " (Fixed)" : "");
     printf(
-        "Chip:  0x%x Pass %d.%d\n"
+        "Chip:  0x%x Pass %d.%d%s\n"
         "L2:    %d KB\n"
         "RCLK:  %lu Mhz\n"
         "SCLK:  %lu Mhz\n"
         "Boot:  %s(%d)\n"
         "VRM:   %s\n"
         "Trust: %s\n",
-        midr_el1.s.partnum, midr_el1.s.variant + 1, midr_el1.s.revision,
+        midr_el1.s.partnum, major_pass, minor_pass, package_str,
         bdk_l2c_get_cache_size_bytes(node) >> 10,
         bdk_clock_get_rate(node, BDK_CLOCK_RCLK) / 1000000,
         bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / 1000000,
