@@ -831,7 +831,9 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
     int lanes = mcu_read(node, MCU_TWSI_BUS, MCU_TWSI_ADDRESS, 0x16, 1, 1);
     BDK_TRACE(QLM, "MCU says board has %d lanes\n", lanes);
     int correct_lanes = 0;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    if (cavium_is_altpkg(CAVIUM_CN88XX))
+        correct_lanes = 22;
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         correct_lanes = 32;
     else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         correct_lanes = 22;
@@ -953,25 +955,58 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
         lane += width;
         do
         {
+            int internal_qlm = qlm;
+            /* Alternate package parts have different QLM numbers for internal
+               versus external. The MCU uses the external numbers */
+            if (cavium_is_altpkg(CAVIUM_CN88XX))
+            {
+                switch (qlm)
+                {
+                    case 0: /* QLM0 -> QLM4 */
+                        internal_qlm = 4;
+                        break;
+                    case 1: /* QLM1 -> QLM5 */
+                        internal_qlm = 5;
+                        break;
+                    case 2: /* QLM2 -> QLM0 */
+                        internal_qlm = 0;
+                        break;
+                    case 3: /* QLM3 -> QLM1 */
+                        internal_qlm = 1;
+                        break;
+                    case 4: /* DLM4 -> QLM2 */
+                        internal_qlm = 2;
+                        break;
+                    case 5: /* DLM5 -> QLM6 */
+                        internal_qlm = 6;
+                        break;
+                    case 6: /* DLM6 -> QLM7 */
+                        internal_qlm = 7;
+                        break;
+                    default:
+                        bdk_error("Invalid external QLM%d from MCU\n", qlm);
+                        return -1;
+                }
+            }
             const char *qlm_mode_str = bdk_qlm_mode_tostring(qlm_mode);
             if (qlm_flags & BDK_QLM_MODE_FLAG_ENDPOINT)
             {
                 BDK_TRACE(QLM, "Skipping N%d.QLM%d mode %s(%d), speed %d, flags 0x%x (EP should already be setup)\n",
-                    node, qlm, qlm_mode_str, qlm_mode, qlm_speed, qlm_flags);
+                    node, internal_qlm, qlm_mode_str, qlm_mode, qlm_speed, qlm_flags);
             }
             else
             {
                 BDK_TRACE(QLM, "Setting N%d.QLM%d mode %s(%d), speed %d, flags 0x%x\n",
-                    node, qlm, qlm_mode_str, qlm_mode, qlm_speed, qlm_flags);
+                    node, internal_qlm, qlm_mode_str, qlm_mode, qlm_speed, qlm_flags);
                 /* Set the reference clock for this QLM */
-                __bdk_qlm_set_reference(node, qlm, use_ref);
-                /* Set the reference clock for the next QLM for x8 mode */
-                if (qlm_mode == BDK_QLM_MODE_PCIE_1X8)
-                    __bdk_qlm_set_reference(node, qlm+1, use_ref);
-                if (bdk_qlm_set_mode(node, qlm, qlm_mode, qlm_speed, qlm_flags))
+                __bdk_qlm_set_reference(node, internal_qlm, use_ref);
+                if (bdk_qlm_set_mode(node, internal_qlm, qlm_mode, qlm_speed, qlm_flags))
                     return -1;
             }
-            int num_lanes = bdk_qlm_get_lanes(node, qlm);
+            int num_lanes = bdk_qlm_get_lanes(node, internal_qlm);
+            /* CN86XX looks like two lanes each for DLM4-7 */
+            if (cavium_is_altpkg(CAVIUM_CN88XX) && (qlm >= 4))
+                num_lanes = 2;
             if (qlm_mode == BDK_QLM_MODE_PCIE_1X8)
             {
                 /* PCIe x8 is a special case as the QLM config function

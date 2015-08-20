@@ -193,7 +193,7 @@ static bdk_qlm_modes_t qlm_get_mode(bdk_node_t node, int qlm)
             int sata = (qlm >= 6) ? 8 + (qlm-6) * 4 : (qlm-2) * 4;
             BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(sata));
             if (uctl_ctl.s.a_clk_en && !uctl_ctl.s.a_clkdiv_rst)
-                return BDK_QLM_MODE_SATA_4X1;
+                return cavium_is_altpkg(CAVIUM_CN88XX) ? BDK_QLM_MODE_SATA_2X1 : BDK_QLM_MODE_SATA_4X1;
             else
                 return BDK_QLM_MODE_DISABLED;
         }
@@ -813,6 +813,7 @@ static int qlm_set_mode(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             if (lane_mode == -1)
                 return -1;
             break;
+        case BDK_QLM_MODE_SATA_2X1: /* Used by CN86XX MCU */
         case BDK_QLM_MODE_SATA_4X1:
             BDK_CSR_MODIFY(c, node, BDK_GSERX_LANE_MODE(qlm), c.s.lmode = BDK_GSER_LMODE_E_R_8G_REFCLK100);
             /* SATA initialization is different than BGX. Call its init function
