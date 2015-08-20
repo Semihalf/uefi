@@ -461,28 +461,7 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     }
 
     /* 7. Modify the PLL and lane-protocol-mode registers to configure the
-       PHY for SATA:
-        Set GSER(0..13)_PLL_P0_MODE_0[PLL_ICP] = 0x1
-        Set GSER(0..13)_PLL_P0_MODE_0[PLL_RLOOP] = 0x3
-        Set GSER(0..13)_PLL_P0_MODE_0[PLL_PCS_DIV] = 0x5
-        Set GSER(0..13)_PLL_P1_MODE_0[PLL_ICP] = 0x1
-        Set GSER(0..13)_PLL_P1_MODE_0[PLL_RLOOP] = 0x3
-        Set GSER(0..13)_PLL_P1_MODE_0[PLL_PCS_DIV] = 0x5
-        Set GSER(0..13)_PLL_P2_MODE_0[PLL_ICP] = 0x1
-        Set GSER(0..13)_PLL_P2_MODE_0[PLL_RLOOP] = 0x3
-        Set GSER(0..13)_PLL_P2_MODE_0[PLL_PCS_DIV] = 0x5
-        Set GSER(0..13)_PLL_P0_MODE_1[PLL_OPR] = 0x0
-        Set GSER(0..13)_PLL_P0_MODE_1[PLL_DIV] = 0x18
-        Set GSER(0..13)_PLL_P1_MODE_1[PLL_OPR] = 0x0
-        Set GSER(0..13)_PLL_P1_MODE_1[PLL_DIV] = 0x18
-        Set GSER(0..13)_PLL_P2_MODE_1[PLL_OPR] = 0x0
-        Set GSER(0..13)_PLL_P2_MODE_1[PLL_DIV] = 0x18
-        Set GSER(0..13)_LANE_P0_MODE_0[TX_LDIV] = 0x0
-        Set GSER(0..13)_LANE_P0_MODE_0[RX_LDIV] = 0x2
-        Set GSER(0..13)_LANE_P1_MODE_0[TX_LDIV] = 0x0
-        Set GSER(0..13)_LANE_P1_MODE_0[RX_LDIV] = 0x1
-        Set GSER(0..13)_LANE_P2_MODE_0[TX_LDIV] = 0x0
-        Set GSER(0..13)_LANE_P2_MODE_0[RX_LDIV] = 0x1 */
+       PHY for SATA */
     /* Errata (GSER-26724) SATA never indicates GSER QLM_STAT[RST_RDY]
        We program PLL_PX_MODE_0 last due to this errata */
     for (int p=0; p<3; p++)
