@@ -110,7 +110,8 @@ for pcie_port=0,max_ports-1 do
     m:item("p" .. pcie_port, "PCIe port " .. pcie_port, do_port_menu, pcie_port)
 end
 -- Add entries for accessing the internal ECAMs
-for ecam=0,3 do
+local num_ecams = cavium.c.bdk_pcie_get_num_ecams(menu.node);
+for ecam=0,num_ecams-1 do
     m:item("e" .. ecam, "Internal ECAM" .. ecam, do_port_menu, ecam + 100)
 end
 

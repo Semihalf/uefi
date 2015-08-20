@@ -340,7 +340,8 @@ int bdk_pcie_global_initialize(bdk_node_t node)
         goto already_done;
 
     /* Go through all the internal devices and set them up */
-    for (int ecam = 0; ecam < 4; ecam++)
+    int num_ecams = bdk_pcie_get_num_ecams(node);
+    for (int ecam = 0; ecam < num_ecams; ecam++)
     {
         BDK_TRACE(INIT_ECAM, "Enabling internal devices on ECAM%d\n", ecam);
         pcie_walk_internal_bus(node, ecam, 0);
@@ -388,7 +389,6 @@ already_done:
  * Return the number of possible PCIe ports on a node. The actual number
  * of configured ports may be less and may also be disjoint.
  *
- * @author creese (8/7/2014)
  * @param node   Node to query
  *
  * @return Number of PCIe ports that are possible
@@ -399,6 +399,27 @@ int bdk_pcie_get_num_ports(bdk_node_t node)
         return 6;
     else
         return 0;
+}
+
+/**
+ * Return the number of internal ECAMS on a node. This is
+ * independent of the number of PCIe ports as a single ECAM may
+ * contain multiple PCIe ports.
+ *
+ * @param node   Node to query
+ *
+ * @return Number of PCIe ports that are possible
+ */
+int bdk_pcie_get_num_ecams(bdk_node_t node)
+{
+    /* CN88XX lacks the ECAM_CONST for finding the number of ECAMs */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        return 4;
+    else
+    {
+        BDK_CSR_INIT(ecam_const, node, BDK_ECAMX_CONST(0));
+        return ecam_const.s.ecams;
+    }
 }
 
 /**
