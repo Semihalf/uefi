@@ -25,13 +25,17 @@ help:
 	echo ""
 
 .PHONY: generate
-generate: t83 t88 o70 o73 o75 o78
+generate: t81 t83 t88 o70 o73 o75 o78
 
 #
 # Initial checkout
 #
 .PHONY: checkout
 checkout:
+	# t81
+	svn co -q svn+ssh://masvn/svn/t81/trunk/hwcode/regs/gen t81
+	svn co -q svn+ssh://masvn/svn/t81/trunk/dvconf t81/dvconf
+	svn co -q svn+ssh://masvn/svn/t81/trunk/Project_Root t81/Project_Root
 	# t83
 	svn co -q svn+ssh://masvn/svn/t83/trunk/hwcode/regs/gen t83
 	svn co -q svn+ssh://masvn/svn/t83/trunk/dvconf t83/dvconf
@@ -62,7 +66,7 @@ checkout:
 #
 .PHONY: update
 update:
-	svn update t83 t88 o70 o73 o75 o78 */dvconf
+	svn update t81 t83 t88 o70 o73 o75 o78 */dvconf
 
 #
 # Clean
@@ -99,6 +103,15 @@ t83: t83_pass_1.0.yaml
 
 t83_pass_1.0.yaml: t83/*.csr
 	cd t83 && $(CSR3) t83@1.0 > ../$@
+
+#
+# t81
+#
+.PHONY: t81
+t81: t81_pass_1.0.yaml
+
+t81_pass_1.0.yaml: t81/*.csr
+	cd t81 && $(CSR3) t81@1.0 > ../$@
 
 #
 # o70
