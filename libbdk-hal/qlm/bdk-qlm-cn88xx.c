@@ -483,12 +483,10 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         Set GSER(0..13)_LANE_P1_MODE_0[RX_LDIV] = 0x1
         Set GSER(0..13)_LANE_P2_MODE_0[TX_LDIV] = 0x0
         Set GSER(0..13)_LANE_P2_MODE_0[RX_LDIV] = 0x1 */
+    /* Errata (GSER-26724) SATA never indicates GSER QLM_STAT[RST_RDY]
+       We program PLL_PX_MODE_0 last due to this errata */
     for (int p=0; p<3; p++)
     {
-        BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, p),
-            c.s.pll_icp = 0x1;
-            c.s.pll_rloop = 0x3;
-            c.s.pll_pcs_div = 0x5);
         BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_1(qlm, p),
             c.s.pll_16p5en = 0x0;
             c.s.pll_cpadj = 0x2;
@@ -508,6 +506,13 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
             c.s.vma_mm = 1;
             c.s.cdr_fgain = 0xf; /* This values are to help with SSC */
             c.s.ph_acc_adj = 0x12); /* This values are to help with SSC */
+    }
+    for (int p=0; p<3; p++)
+    {
+        BDK_CSR_MODIFY(c, node, BDK_GSERX_PLL_PX_MODE_0(qlm, p),
+            c.s.pll_icp = 0x1;
+            c.s.pll_rloop = 0x3;
+            c.s.pll_pcs_div = 0x5);
     }
 
     for (int s=0; s<2; s++)
