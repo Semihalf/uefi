@@ -99,11 +99,6 @@ int bdk_dram_config(int node, const char *config_name, int ddr_clock_override)
         return -1;
     }
 
-    int ddr_clock_hertz = (ddr_clock_override) ? ddr_clock_override : config->ddr_clock_hertz;
-    printf("BDK DRAM: %d MB, %d MHz, %s %s\n", mbytes, ((ddr_clock_hertz + 500000) /1000000),
-	   (__bdk_dram_is_ddr4(node, 0)) ? "DDR4" : "DDR3",
-	   (__bdk_dram_is_rdimm(node, 0)) ? "RDIMM" : "UDIMM");
-
     return mbytes;
 }
 

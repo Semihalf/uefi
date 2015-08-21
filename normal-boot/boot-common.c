@@ -376,7 +376,7 @@ void boot_init_dram(bdk_node_t node)
             if (MULTI_NODE)
                 printf("Node %d: DRAM: %d MB, %u MHz\n", bdk_numa_master(), mbytes, freq);
             else
-                printf("DRAM:  %d MB, %u MHz\n", mbytes, freq);
+                printf("DRAM: %d MB, %u MHz\n", mbytes, freq);
         }
         else
         {
