@@ -1,9 +1,6 @@
 #include <bdk.h>
 #include "dram-internal.h"
 
-// initially 10 msec as passed to bdk_wait_usec()
-#define FIXME_DEBUG_DELAY bdk_wait_usec(10000)
-
 #define RLEXTRAS_PATCH     1 // write to unused RL rank entries
 #define ADD_48_OHM_SKIP    1
 #define NOSKIP_40_48_OHM   1
@@ -72,8 +69,6 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
     counts->nibsat_errs  = 0;
     counts->nibunl_errs  = 0;
 
-    FIXME_DEBUG_DELAY;
-
     BDK_CSR_MODIFY(phy_ctl, node, BDK_LMCX_PHY_CTL(ddr_interface_num),
                    phy_ctl.s.dsk_dbg_clk_scaler = 3);
 
@@ -86,6 +81,10 @@ static void Validate_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_int
 	}
         ddr_print("\n");
     }
+
+    /* Allow deskew results to stabilize before evaluating them. */
+    bdk_wait_usec(10000);
+
     for (byte_lane = 0; byte_lane < 8+lmc_config.s.ecc_ena; byte_lane++) {
         if (print_enable)
             ddr_print("N%d.LMC%d: Bit Deskew Byte %d                        :",
@@ -204,8 +203,6 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
         DRAM_CSR_MODIFY(ext_config, node, BDK_LMCX_EXT_CONFIG(ddr_interface_num),
 			ext_config.s.vrefint_seq_deskew = 1); /* Set Deskew sequence */
 
-	FIXME_DEBUG_DELAY;
-
         /*
          * 2. Write LMC(0)_SEQ_CTL[SEQ_SEL] = 0x0A and
          *    LMC(0)_SEQ_CTL[INIT_START] = 1.
@@ -282,11 +279,11 @@ static int perform_LMC_Deskew_Training(bdk_node_t node, int rank_mask, int ddr_i
               (sat_retries >= DEFAULT_SAT_RETRY_LIMIT) ? "Timed Out" : "Completed", sat_retries-1);
 
 #ifndef EARLY_NIBBLE_ERR_RETURN
-	if ((dsk_counts.nibsat_errs != 0) || (dsk_counts.nibunl_errs != 0)) {
-	    ddr_print("N%d.LMC%d: NIBBLE ERROR(S) found, returning FAULT finally\n",
-		      node, ddr_interface_num);
-	    return -1; // we did retry locally, they did not help
-	}
+    if ((dsk_counts.nibsat_errs != 0) || (dsk_counts.nibunl_errs != 0)) {
+	ddr_print("N%d.LMC%d: NIBBLE ERROR(S) found, returning FAULT finally\n",
+		  node, ddr_interface_num);
+	return -1; // we did retry locally, they did not help
+    }
 #endif
 
     // NOTE: we (currently) always print one last training validation before starting Read Leveling... 
@@ -2264,6 +2261,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     int ddr4_tCCD_Lmin;
     impedence_values_t *imp_values;
     int default_rodt_ctl;
+    int ddr_disable_deskew_fail_reset = 1; // default to disabled (ie, no chip reset)
 
     /* Initialize these to shut up the compiler. They are configured
        and used only for DDR4  */
@@ -2276,6 +2274,10 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
     if (dimm_config_table[0].spd_addrs[0] == 0 && !dimm_config_table[0].spd_ptrs[0]) {
         error_print("ERROR: No dimms specified in the dimm_config_table.\n");
         return (-1);
+    }
+
+    if ((s = lookup_env_parameter("ddr_disable_deskew_fail_reset")) != NULL) {
+        ddr_disable_deskew_fail_reset = !!strtoul(s, NULL, 0);
     }
 
 #if 0 // FIXME: do we really need this anymore?
@@ -4186,8 +4188,6 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
     //} /* while (--offset_vref_training_loops) */
 
-    FIXME_DEBUG_DELAY;
-
     deskew_training_errors = perform_LMC_Deskew_Training(node, rank_mask, ddr_interface_num, spd_rawcard_AorB);
 
     // All the Deskew lock and saturation retries (may) have been done,
@@ -4202,11 +4202,17 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 	} else {
 	    ddr_print("Deskew training has serious errors - retries exhausted (%d)\n",
 		      internal_retries);
-	    // if we cannot get past here, reset the node
-	    error_print("INFO: Deskew training results poor, need retry on N%d.LMC%d. Resetting node...\n",
-			node, ddr_interface_num);
-	    bdk_wait_usec(500000);
-	    bdk_reset_chip(node);
+	    // bypass chip reset when deskew retries fail because of nibble errors
+	    if (!ddr_disable_deskew_fail_reset) {
+		// if we cannot get past here, reset the node
+		error_print("INFO: Deskew training results poor, need retry on N%d.LMC%d. Resetting node...\n",
+			    node, ddr_interface_num);
+		bdk_wait_usec(500000);
+		bdk_reset_chip(node);
+	    } else {
+		// should this only print out when VERBOSE?
+		ddr_print("NOTICE: Deskew training results poor on N%d.LMC%d, but continuing...\n", node, ddr_interface_num);
+	    }
 	}
     }
 
@@ -6406,6 +6412,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
                         /* Print the final Vref value first. */
 			/* If we are going to use the computed, print it */
 			if (computed_final_vref_value >= 0) {
+			    best_vref_values_count = 1;
 			    final_vref_value = computed_final_vref_value;
 
 			    ddr_print("N%d.LMC%d.R%d: Vref Computed Summary                 :"
@@ -6450,7 +6457,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 
                 lmc_wlevel_rank.u = lmc_wlevel_rank_hw_results.u; /* Restore the saved value */
 
-		for (byte = 0; byte < 8; ++byte)
+		for (byte = 0; byte < 9; ++byte)
 		    byte_test_status[byte] = WL_ESTIMATED;
 
                 if (wlevel_bitmask_errors == 0) {
@@ -6512,7 +6519,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				    byte_test_status[byte] = WL_HARDWARE; // change status
 				}
 				// no error, or error with max delay come here; error with more to do bypasses this
-				bytemask &= ~(0xffUL << (8*byte)); // test no longer, remove from byte mask
+				bytemask &= ~(0xffULL << (8*byte)); // test no longer, remove from byte mask
 				bytes_todo &= ~(1 << byte); // and bytes to do
 			    } /* for (byte = 0; byte < 8; ++byte) */
 			} /* while (bytemask != 0) */
@@ -6680,7 +6687,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 					} else if (wl_offset == 0) {
 					    byte_test_status[byte] = WL_SOFTWARE1;
 					}
-					bytemask &= ~(0xffUL << (8*byte)); // test no longer, remove from byte mask this pass
+					bytemask &= ~(0xffULL << (8*byte)); // test no longer, remove from byte mask this pass
 					bytes_todo &= ~(1 << byte); // remove completely from concern
 					continue; // on to the next byte, bypass delay updating!!
 				    } else {
@@ -6697,7 +6704,7 @@ int init_octeon3_ddr3_interface(bdk_node_t node,
 				} else {
 				    // reached max delay, done with this byte
 				    debug_print("        byte %d delay %2d Exhausted\n", byte, delay);
-				    bytemask &= ~(0xffUL << (8*byte)); // test no longer, remove from byte mask this pass
+				    bytemask &= ~(0xffULL << (8*byte)); // test no longer, remove from byte mask this pass
 				}
 			    } /* for (byte = 0; byte < 8; ++byte) */
 			    debug_print("End of for-loop: bytemask 0x%lx\n", bytemask);
