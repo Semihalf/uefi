@@ -9,7 +9,6 @@ def run_test(cnx):
     if USE_WATCHDOG:
         cnx.powerCycle()
         cnx.waitfor("Verifying image", timeout=300)
-        cnx.match("Putting all cores except this one in reset")
         cnx.match("Jumping to image at")
         cnx.waitfor("---")
         test_boot.wait_for_bdk_boot(cnx)

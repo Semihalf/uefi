@@ -268,7 +268,7 @@ void boot_image(const char *filename, uint64_t loc)
         goto out;
     }
 
-    printf("    Putting all cores except this one in reset\n");
+    BDK_TRACE(BOOT_STUB, "Putting all cores except this one in reset\n");
     bdk_reset_cores(bdk_numa_local(), -2);
 
     printf("    Jumping to image at %p\n---\n", image);
@@ -469,12 +469,12 @@ void boot_init_ccpi_link()
         }
         else /* fail case for 'auto' setting */
         {
-            printf("Auto configured 1 node.\n");
+            BDK_TRACE(BOOT_STUB, "Auto configured 1 node.\n");
             MULTI_NODE = 0;
         }
     }
     else if (2 == MULTI_NODE) /* success case for 'auto' setting */
-        printf("Auto configured 2 nodes.\n");
+        BDK_TRACE(BOOT_STUB, "Auto configured 2 nodes.\n");
 
     watchdog_poke();
 }

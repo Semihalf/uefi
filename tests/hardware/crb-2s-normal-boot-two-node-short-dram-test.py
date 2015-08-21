@@ -11,7 +11,6 @@ def run_test(cnx):
         cnx.waitfor("Trying diagnostics", timeout=300)
         cnx.match("Loading image file '/fatfs/stage2.bin'")
         cnx.match("Verifying image")
-        cnx.match("Putting all cores except this one in reset")
         cnx.match("Jumping to image at")
         cnx.waitfor("---")
         test_boot.wait_for_bdk_boot(cnx)

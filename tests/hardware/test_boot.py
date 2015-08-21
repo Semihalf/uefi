@@ -28,7 +28,6 @@ def wait_for_bootstub_messages(cnx):
     cnx.match("Trust: Disabled")
     cnx.match("Loading image file '/fatfs/stage1.bin'")
     cnx.match("Verifying image")
-    cnx.match("Putting all cores except this one in reset")
     cnx.match("Jumping to image at")
     cnx.waitfor("---")
 
@@ -63,7 +62,6 @@ def wait_for_bootstub_messages(cnx):
     cnx.write("D")
     cnx.match("Loading image file '/fatfs/stage2.bin'")
     cnx.match("Verifying image")
-    cnx.match("Putting all cores except this one in reset")
     cnx.match("Jumping to image at")
     cnx.waitfor("---")
 

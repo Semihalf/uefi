@@ -256,7 +256,7 @@ static void boot_image(const char *path)
         goto out;
     }
 
-    printf("    Putting all cores except this one in reset\n");
+    BDK_TRACE(INIT, "Putting all cores except this one in reset\n");
     bdk_reset_cores(bdk_numa_local(), -2);
 
     printf("    Jumping to image at %p\n---\n", image);
