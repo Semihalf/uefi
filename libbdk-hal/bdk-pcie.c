@@ -397,6 +397,10 @@ int bdk_pcie_get_num_ports(bdk_node_t node)
 {
     if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         return 6;
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 4;
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 3;
     else
         return 0;
 }
@@ -423,6 +427,38 @@ int bdk_pcie_get_num_ecams(bdk_node_t node)
 }
 
 /**
+ * Given a PCIe port, determine which SLI controls its memory regions
+ *
+ * @param node      Node for the PCIe port
+ * @param pcie_port The PCIe port
+ * @param sli       The SLI index is written to this integer pointer
+ * @param sli_group The index of the PCIe port on the SLI is returned here. This is a sequencial
+ *                  number for each PCIe on an SLI. Use this to index SLI regions.
+ */
+static void __bdk_pcie_get_sli(bdk_node_t node, int pcie_port, int *sli, int *sli_group)
+{
+    /* This mapping should be determined by find the SLI number on the
+       same ECAM bus as the PCIERC bridge. That is fairly complex, so it is
+       hardcoded for now */
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+    {
+        /* Ports 0-2 goto SLI0, ports 3-5 goto SLI1 */
+        *sli = (pcie_port >= 3) ? 1 : 0;
+        *sli_group = pcie_port - *sli * 3;
+        return;
+    }
+    else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) || CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+    {
+        /* Only one SLI */
+        *sli = 0;
+        *sli_group = pcie_port;
+        return;
+    }
+    else
+        bdk_fatal("Unable to determine SLI for PCIe port. Update __bdk_pcie_get_sli()\n");
+}
+
+/**
  * Return the Core physical base address for PCIe MEM access. Memory is
  * read/written as an offset from this address.
  *
@@ -435,9 +471,9 @@ int bdk_pcie_get_num_ecams(bdk_node_t node)
 uint64_t bdk_pcie_get_base_address(bdk_node_t node, int pcie_port, bdk_pcie_mem_t mem_type)
 {
     /* See __bdk_pcie_sli_initialize() for a description about how SLI regions work */
-    /* Ports 0-2 goto SLI0, ports 3-5 goto SLI1 */
-    int sli = (pcie_port >= 3) ? 1 : 0;
-    int sli_group = pcie_port - sli * 3;
+    int sli;
+    int sli_group;
+    __bdk_pcie_get_sli(node, pcie_port, &sli, &sli_group);
     int region = (sli_group << 6) | (mem_type << 4);
     union bdk_sli_s2m_op_s s2m_op;
     s2m_op.u = 0;
@@ -471,6 +507,10 @@ uint64_t bdk_pcie_get_base_size(bdk_node_t node, int pcie_port, bdk_pcie_mem_t m
  */
 static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port)
 {
+    int sli;
+    int sli_group;
+    __bdk_pcie_get_sli(node, pcie_port, &sli, &sli_group);
+
     /* The reset default for config retries is too short. Set it to 48ms, which
        is what the Octeon SDK team is using. There is no documentation about
        where they got the 48ms number */
@@ -524,16 +564,18 @@ static void __bdk_pcie_rc_initialize_config_space(bdk_node_t node, int pcie_port
     /* Link Width Mode (PCIERCn_CFG452[LME]) - Set during bdk_pcie_rc_initialize_link() */
     /* Primary Bus Number (PCIERCn_CFG006[PBNUM]) */
     /* Use bus numbers as follows:
-        64-127: Port 0 on SLI
-        128-191: Port 1 on SLI
-        192-255: Port 2 on SLI */
-    int bus = (pcie_port >= 3) ? pcie_port - 3 : pcie_port;
-    bus *= 64;
-    bus += 64;
+        0 - 31: Reserved for internal ECAM
+        32 - 87: First PCIe on SLI
+        88 - 143: Second PCIe on SLI
+        144 - 199: Third PCIe on SLI
+        200 - 255: Fourth PCIe on SLI
+        Start bus = 32 + pcie * 56 */
+    const int BUSSES_PER_PCIE = 56;
+    int bus = 32 + sli_group * BUSSES_PER_PCIE;
     BDK_CSR_MODIFY(c, node, BDK_PCIERCX_CFG006(pcie_port),
         c.s.pbnum = 0;
         c.s.sbnum = bus;
-        c.s.subbnum = bus + 63);
+        c.s.subbnum = bus + BUSSES_PER_PCIE - 1);
 
     /* Memory-mapped I/O BAR (PCIERCn_CFG008) */
     uint64_t mem_base = bdk_pcie_get_base_address(node, pcie_port, BDK_PCIE_MEM_NORMAL);
@@ -674,7 +716,9 @@ static int __bdk_pcie_rc_initialize_link(bdk_node_t node, int pcie_port)
  */
 static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
 {
-    int sli = (pcie_port >= 3) ? 1 : 0;
+    int sli;
+    int sli_group;
+    __bdk_pcie_get_sli(node, pcie_port, &sli, &sli_group);
 
     /* Setup store merge timer */
     BDK_CSR_MODIFY(c, node, BDK_SLIX_S2M_CTL(sli),
@@ -685,11 +729,10 @@ static void __bdk_pcie_sli_initialize(bdk_node_t node, int pcie_port)
        support config, IO, normal, and prefetchable regions. The 256 regions
        are shared across PCIe, so we need three groups of these (one group
        for each PCIe). The setup is:
-       SLI bit[7:6]: PCIe port, relative to SLI (SLI0 is PCIe 0-2, SLI1 is PCIe 3-5)
+       SLI bit[7:6]: PCIe port, relative to SLI (max of 4)
        SLI bit[5:4]: Region. See bdk_pcie_mem_t enumeration
        SLI bit[3:0]: Address extension from 32 bits to 36 bits
        */
-    int sli_group = pcie_port - 3 * sli;
     for (bdk_pcie_mem_t mem_region = BDK_PCIE_MEM_CONFIG; mem_region <= BDK_PCIE_MEM_IO; mem_region++)
     {
         /* Use top two bits for PCIe port, next two bits for memory region */
