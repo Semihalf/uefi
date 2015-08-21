@@ -55,5 +55,9 @@ void register_cavium_model(lua_State* L)
     lua_setfield(L, -2, "CN83XX");
     lua_pushnumber(L, CAVIUM_CN83XX_PASS1_X);
     lua_setfield(L, -2, "CN83XXP1");
+    lua_pushnumber(L, CAVIUM_CN81XX);
+    lua_setfield(L, -2, "CN81XX");
+    lua_pushnumber(L, CAVIUM_CN81XX_PASS1_X);
+    lua_setfield(L, -2, "CN81XXP1");
 }
 
