@@ -9,7 +9,7 @@ def wait_for_bootstub_messages(cnx):
     cnx.match("===========================")
     cnx.match("Cavium THUNDERX Chainloader")
     cnx.match("===========================")
-    cnx.matchRE("Chainloader version: 201[5-9].[0-2][0-9]-")
+    cnx.matchRE("Version: 201[5-9].[0-2][0-9]-")
     cnx.waitfor("Boot Attempt: 1")
     cnx.match("Node:  0")
     try:
