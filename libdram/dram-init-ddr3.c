@@ -646,12 +646,9 @@ static int validate_ddr3_rlevel_bitmask(const uint64_t bitmask, uint8_t *mstartp
 	}
 
 	/* Detect invalid bits at the trailing end of the range. */
-	if (tbubble == 0) {
-	    for (i = mstart + range; i <= lastbit; ++i) {
-		if ((bitmask >> i) & 1)
-		    trailing +=
-			RLEVEL_BITMASK_TRAILING_BITS_ERROR;
-	    }
+	for (i = mstart + range; i <= lastbit; ++i) {
+	    if ((bitmask >> i) & 1)
+		trailing += RLEVEL_BITMASK_TRAILING_BITS_ERROR;
 	}
     }
 
