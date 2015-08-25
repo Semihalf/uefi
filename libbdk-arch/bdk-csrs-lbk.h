@@ -62,6 +62,16 @@
 #define BDK_LBK_BAR_E_LBKX_PF_BAR4(a) (0x87e018f00000ll + 0x1000000ll * (a)) /**< (0..3)Base address for MSI-X registers. */
 
 /**
+ * Enumeration lbk_connect_e
+ *
+ * LBK Source Connection Enumeration
+ * Enumerates LBK()_CONST[SRC] and LBK()_CONST[DEST].
+ */
+#define BDK_LBK_CONNECT_E_NICX(a) (0 + (a)) /**< (0)This LBK receives traffic from NIC, or transmitts to NIC. */
+#define BDK_LBK_CONNECT_E_PKIX(a) (4 + (a)) /**< (0)This LBK transmits traffic to PKI. */
+#define BDK_LBK_CONNECT_E_PKOX(a) (8 + (a)) /**< (0)This LBK receives traffic from PKO. */
+
+/**
  * Enumeration lbk_int_vec_e
  *
  * LBK MSI-X Vector Enumeration
@@ -183,6 +193,130 @@ static inline uint64_t BDK_LBKX_CLK_GATE_CTL(unsigned long a)
 #define basename_BDK_LBKX_CLK_GATE_CTL(a) "LBKX_CLK_GATE_CTL"
 #define busnum_BDK_LBKX_CLK_GATE_CTL(a) (a)
 #define arguments_BDK_LBKX_CLK_GATE_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) lbk#_const
+ *
+ * Loopback Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_lbkx_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t chan                  : 16; /**< [ 47: 32](RO) Number of channels supported. */
+        uint64_t dest                  : 4;  /**< [ 31: 28](RO) What blocks this LBK connects. Enumerated by LBK_CONNECT_E.
+                                                                 For LBK0, indicates LBK_CONNECT_E::PKI(0).
+                                                                 For LBK1, indicates LBK_CONNECT_E::PKI(0).
+                                                                 For LBK2, indicates LBK_CONNECT_E::NIC(0).
+                                                                 For LBK3, indicates LBK_CONNECT_E::NIC(0).
+                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+        uint64_t src                   : 4;  /**< [ 27: 24](RO) What blocks this LBK connects. Enumerated by LBK_CONNECT_E.
+                                                                 For LBK0, indicates LBK_CONNECT_E::PKO(0).
+                                                                 For LBK1, indicates LBK_CONNECT_E::NIC(0).
+                                                                 For LBK2, indicates LBK_CONNECT_E::PKO(0).
+                                                                 For LBK3, indicates LBK_CONNECT_E::NIC(0).
+                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
+#else /* Word 0 - Little Endian */
+        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
+        uint64_t src                   : 4;  /**< [ 27: 24](RO) What blocks this LBK connects. Enumerated by LBK_CONNECT_E.
+                                                                 For LBK0, indicates LBK_CONNECT_E::PKO(0).
+                                                                 For LBK1, indicates LBK_CONNECT_E::NIC(0).
+                                                                 For LBK2, indicates LBK_CONNECT_E::PKO(0).
+                                                                 For LBK3, indicates LBK_CONNECT_E::NIC(0).
+                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+        uint64_t dest                  : 4;  /**< [ 31: 28](RO) What blocks this LBK connects. Enumerated by LBK_CONNECT_E.
+                                                                 For LBK0, indicates LBK_CONNECT_E::PKI(0).
+                                                                 For LBK1, indicates LBK_CONNECT_E::PKI(0).
+                                                                 For LBK2, indicates LBK_CONNECT_E::NIC(0).
+                                                                 For LBK3, indicates LBK_CONNECT_E::NIC(0).
+                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+        uint64_t chan                  : 16; /**< [ 47: 32](RO) Number of channels supported. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_lbkx_const_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_48_63        : 16;
+        uint64_t chan                  : 16; /**< [ 47: 32](RO) Number of channels supported. */
+        uint64_t dest                  : 4;  /**< [ 31: 28](RO) What blocks this LBK transmits traffic to. Enumerated by LBK_CONNECT_E.
+                                                                 For LBK0, indicates LBK_CONNECT_E::NIC(0).
+                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+        uint64_t src                   : 4;  /**< [ 27: 24](RO) What blocks this LBK receives traffic from. Enumerated by LBK_CONNECT_E.
+                                                                 For LBK0, indicates LBK_CONNECT_E::NIC(0).
+                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
+#else /* Word 0 - Little Endian */
+        uint64_t buf_size              : 24; /**< [ 23:  0](RO) Number of bytes in loopback data FIFO. */
+        uint64_t src                   : 4;  /**< [ 27: 24](RO) What blocks this LBK receives traffic from. Enumerated by LBK_CONNECT_E.
+                                                                 For LBK0, indicates LBK_CONNECT_E::NIC(0).
+                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+        uint64_t dest                  : 4;  /**< [ 31: 28](RO) What blocks this LBK transmits traffic to. Enumerated by LBK_CONNECT_E.
+                                                                 For LBK0, indicates LBK_CONNECT_E::NIC(0).
+                                                                 INTERNAL: lbk.v takes this from input straps set by the instantiation. */
+        uint64_t chan                  : 16; /**< [ 47: 32](RO) Number of channels supported. */
+        uint64_t reserved_48_63        : 16;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_lbkx_const_s cn83xx; */
+} bdk_lbkx_const_t;
+
+static inline uint64_t BDK_LBKX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LBKX_CONST(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e018000010ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e018000010ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("LBKX_CONST", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_LBKX_CONST(a) bdk_lbkx_const_t
+#define bustype_BDK_LBKX_CONST(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_LBKX_CONST(a) "LBKX_CONST"
+#define busnum_BDK_LBKX_CONST(a) (a)
+#define arguments_BDK_LBKX_CONST(a) (a),-1,-1,-1
+
+/**
+ * Register (RSL) lbk#_const1
+ *
+ * Loopback Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_lbkx_const1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_lbkx_const1_s cn; */
+} bdk_lbkx_const1_t;
+
+static inline uint64_t BDK_LBKX_CONST1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_LBKX_CONST1(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=3))
+        return 0x87e018000018ll + 0x1000000ll * ((a) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=3))
+        return 0x87e018000018ll + 0x1000000ll * ((a) & 0x3);
+    __bdk_csr_fatal("LBKX_CONST1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_LBKX_CONST1(a) bdk_lbkx_const1_t
+#define bustype_BDK_LBKX_CONST1(a) BDK_CSR_TYPE_RSL
+#define basename_BDK_LBKX_CONST1(a) "LBKX_CONST1"
+#define busnum_BDK_LBKX_CONST1(a) (a)
+#define arguments_BDK_LBKX_CONST1(a) (a),-1,-1,-1
 
 /**
  * Register (RSL) lbk#_ecc_cfg

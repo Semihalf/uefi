@@ -49,8 +49,8 @@ static int is_any_internal_cn88xxp1_0(int ecam, int bus, int dev, int fn)
         device causes an exception. This is a list of all valid devices
         for CN88XX pass 1.0 */
     static const uint32_t INTERNAL_DEVICES_CN88XXP1_0[] = {
-        BDK_PCC_DEV_CON_E_BGXX(0),
-        BDK_PCC_DEV_CON_E_BGXX(1),
+        BDK_PCC_DEV_CON_E_BGXX_CN88XX(0),
+        BDK_PCC_DEV_CON_E_BGXX_CN88XX(1),
         BDK_PCC_DEV_CON_E_DAP,
         BDK_PCC_DEV_CON_E_DFA,
         BDK_PCC_DEV_CON_E_FUSF,

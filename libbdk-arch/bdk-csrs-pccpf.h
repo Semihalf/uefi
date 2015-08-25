@@ -62,7 +62,9 @@
  * PCC_DEV_CON_S.
  */
 #define BDK_PCC_DEV_CON_E_BCH (0x50) /**< BCH. */
-#define BDK_PCC_DEV_CON_E_BGXX(a) (0x180 + (a)) /**< (0..1)Ethernet interface. */
+#define BDK_PCC_DEV_CON_E_BGXX_CN81XX(a) (0x180 + (a)) /**< (0..1)Ethernet interface. */
+#define BDK_PCC_DEV_CON_E_BGXX_CN88XX(a) (0x180 + (a)) /**< (0..1)Ethernet interface. */
+#define BDK_PCC_DEV_CON_E_BGXX_CN83XX(a) (0x180 + (a)) /**< (0..3)Ethernet interface. */
 #define BDK_PCC_DEV_CON_E_CPT0 (0x500) /**< CPT 0. */
 #define BDK_PCC_DEV_CON_E_CPT1 (0x600) /**< CPT 1. */
 #define BDK_PCC_DEV_CON_E_DAP (0x102) /**< Debug access point. */
@@ -125,6 +127,7 @@
 #define BDK_PCC_DEV_CON_E_PKI (0x800) /**< PKI. */
 #define BDK_PCC_DEV_CON_E_PKO (0x900) /**< PKO. */
 #define BDK_PCC_DEV_CON_E_RAD (0x200) /**< RAID unit. */
+#define BDK_PCC_DEV_CON_E_RGXX(a) (0x190 + (a)) /**< (0..3)Ethernet interface. */
 #define BDK_PCC_DEV_CON_E_RNM (0x48) /**< Random number generator. */
 #define BDK_PCC_DEV_CON_E_RST (0x101) /**< Reset. */
 #define BDK_PCC_DEV_CON_E_SATA0 (0x10020) /**< SATA 0. */
@@ -220,6 +223,7 @@
 #define BDK_PCC_DEV_IDL_E_PKO (0x48) /**< Packet output. */
 #define BDK_PCC_DEV_IDL_E_PKO_VF (0x49) /**< Packet output. */
 #define BDK_PCC_DEV_IDL_E_RAD (0x1d) /**< RAID unit. */
+#define BDK_PCC_DEV_IDL_E_RGX (0x54) /**< RGMII Ethernet interface. */
 #define BDK_PCC_DEV_IDL_E_RNM (0x18) /**< Random number generator. */
 #define BDK_PCC_DEV_IDL_E_RNM_VF (0x33) /**< Random number generator SR-IOV virtual function. */
 #define BDK_PCC_DEV_IDL_E_RST (0xe) /**< Reset. */

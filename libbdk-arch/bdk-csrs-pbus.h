@@ -59,6 +59,7 @@
  * Enumerates the base address registers.
  */
 #define BDK_PBUS_BAR_E_PBUS_PF_BAR0 (0x87e001000000ll) /**< Base address for standard registers. */
+#define BDK_PBUS_BAR_E_PBUS_PF_BAR2 (0x800000000000ll) /**< Base address for pbus devices. */
 #define BDK_PBUS_BAR_E_PBUS_PF_BAR4 (0x87e001f00000ll) /**< Base address for MSI-X registers. */
 
 /**

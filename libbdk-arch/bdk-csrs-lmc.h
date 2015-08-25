@@ -85,6 +85,68 @@
                                        and enable sets LMC(0..1)_INT_ENA_W1S. */
 
 /**
+ * Enumeration lmc_seq_sel_e
+ *
+ * LMC Sequence Select Enumeration
+ * Enumerates the diferent values of LMC()_SEQ_CTL[SEQ_SEL].
+ */
+#define BDK_LMC_SEQ_SEL_E_INIT (0) /**< Power-up/initialization sequence.
+                                       LMC()_CONFIG[RANKMASK] selects participating ranks (should be all ranks with attached
+                                       DRAM). DDR*_DIMM*_CKE* signals are activated (if not already active).
+                                       The DRAM registers MR0-MR6 are written in the selected ranks.
+                                       
+                                       If there are two consecutive power-up/init's without
+                                       a DRESET assertion between them, LMC asserts DDR_CKE* as part of
+                                       the first power-up/init, and continues to assert DDR_CKE*
+                                       through the remainder of the first and the second power-up/init.
+                                       
+                                       If DDR_CKE* deactivation and reactivation is needed for
+                                       a second power-up/init, a DRESET assertion is required
+                                       between the first and the second. */
+#define BDK_LMC_SEQ_SEL_E_MPR_RW (9) /**< DRAM's MPR register read or write sequence. */
+#define BDK_LMC_SEQ_SEL_E_MRW (8) /**< Manual Mode register write sequence. */
+#define BDK_LMC_SEQ_SEL_E_OFFSET_TRAINING (0xb) /**< Offset training sequence. */
+#define BDK_LMC_SEQ_SEL_E_PPR (0xf) /**< DDR4 Post Package Repair sequence. See LMC()_PPR_CTL for more detail. */
+#define BDK_LMC_SEQ_SEL_E_RCD_INIT (7) /**< RCD initialization sequence.
+                                       LMC()_CONFIG[RANKMASK] selects participating ranks (should be all ranks with attached
+                                       DRAM). In DDR3 mode, RDIMM register control words 0-15 are written to
+                                       LMC()_CONFIG[RANKMASK]-selected RDIMMs when LMC()_CONTROL[RDIMM_ENA] = 1 and
+                                       corresponding LMC()_DIMM_CTL[DIMM*_WMASK] bits are set. (Refer to
+                                       LMC()_DIMM(0..1)_PARAMS and LMC()_DIMM_CTL descriptions for more details.) */
+#define BDK_LMC_SEQ_SEL_E_READ_LEVEL (1) /**< Read-leveling sequence.
+                                       LMC()_CONFIG[RANKMASK] selects the rank to be read-leveled. MR3 written in the
+                                       selected rank. */
+#define BDK_LMC_SEQ_SEL_E_RW_TRAINING (0xe) /**< General read and/or write training sequence.
+                                       INTERNAL:
+                                       Configurable to run different modes of Data Buffer training on DDR4 LRDIMM.
+                                       See LMC()_DBTRAIN_CTL for more detail. */
+#define BDK_LMC_SEQ_SEL_E_SREF_ENTRY (2) /**< Self-refresh entry sequence.
+                                       LMC()_CONFIG[INIT_STATUS] selects the participating ranks (should be all ranks with
+                                       attached DRAM). MR1 and MR2 are written in the selected ranks if
+                                       LMC()_CONFIG[SREF_WITH_DLL] = 1. DDR*_DIMM*_CKE* signals de-activated.
+                                       
+                                       Self-refresh entry may also be automatically entered by hardware upon a chip warm or
+                                       soft reset when LMC*_RESET_CTL[DDR3PWARM,DDR3PSOFT] are set. */
+#define BDK_LMC_SEQ_SEL_E_SREF_EXIT (3) /**< Self-refresh exit sequence.
+                                       LMC()_CONFIG[RANKMASK] must be set to indicate participating ranks (should be all
+                                       ranks with attached DRAM). DDR*_DIMM*_CKE* signals activated. MR0, MR1, MR2, and MR3 are
+                                       written in the participating ranks if LMC()_CONFIG[SREF_WITH_DLL] = 1.
+                                       LMC()_CONFIG[INIT_STATUS] is updated for ranks that are selected. */
+#define BDK_LMC_SEQ_SEL_E_VREF_INT_CN81XX (0xa) /**< Internal VREF training sequence.
+                                       This sequence is also used as as deskew training sequence when
+                                       LMC()_EXT_CONFIG[VREFINT_SEQ_DESKEW] is set high. */
+#define BDK_LMC_SEQ_SEL_E_VREF_INT_CN88XX (0xa) /**< Internal VREF training sequence.
+                                       This sequence is also used as a deskew training sequence when
+                                       LMC()_EXT_CONFIG[VREFINT_SEQ_DESKEW] is set high. */
+#define BDK_LMC_SEQ_SEL_E_VREF_INT_CN83XX (0xa) /**< Internal VREF training sequence.
+                                       This sequence is also used as a deskew training sequence when
+                                       LMC()_EXT_CONFIG[VREFINT_SEQ_DESKEW] is set high. */
+#define BDK_LMC_SEQ_SEL_E_WRITE_LEVEL (6) /**< Write-leveling sequence.
+                                       LMC()_CONFIG[RANKMASK] selects the rank to be write-leveled.
+                                       LMC()_CONFIG[INIT_STATUS] must indicate all ranks with attached DRAM. MR1 and MR2
+                                       written in the LMC()_CONFIG[INIT_STATUS]-selected ranks. */
+
+/**
  * Register (RSL) lmc#_bank_conflict1
  *
  * LMC Bank Conflict1 Counter Register
@@ -9604,82 +9666,14 @@ typedef union
         uint64_t reserved_6_63         : 58;
         uint64_t seq_complete          : 1;  /**< [  5:  5](RO/H) Sequence complete. This bit is cleared when INIT_START is set to a 1 and then is set to 1
                                                                  when the sequence is completed. */
-        uint64_t seq_sel               : 4;  /**< [  4:  1](R/W) Selects the sequence that LMC runs after a 0->1 transition on INIT_START.
-                                                                 0x0 = Power-up/initialization:
+        uint64_t seq_sel               : 4;  /**< [  4:  1](R/W) Selects the sequence that LMC runs after a 0->1 transition on INIT_START, as
+                                                                 enumerated by LMC_SEQ_SEL_E.
 
-                                                                 LMC()_CONFIG[RANKMASK] selects participating ranks (should be all ranks with attached
-                                                                 DRAM). DDR*_DIMM*_CKE* signals are activated (if not already active). RDIMM register
-                                                                 control words 0-15 are written to LMC()_CONFIG[RANKMASK]-selected RDIMMs when
-
-                                                                 LMC()_CONTROL[RDIMM_ENA] = 1 and corresponding LMC()_DIMM_CTL[DIMM*_WMASK] bits
-                                                                 are set. (Refer to LMC()_DIMM(0..1)_PARAMS and LMC()_DIMM_CTL descriptions for
-                                                                 more details.)
-
-                                                                 The DRAM registers MR0-MR6 are written in the selected ranks.
-
-                                                                 0x1 = Read-leveling:
-                                                                 LMC()_CONFIG[RANKMASK] selects the rank to be read-leveled. MR3 written in the
-                                                                 selected rank.
-
-                                                                 0x2 = Self-refresh entry:
-                                                                 LMC()_CONFIG[INIT_STATUS] selects the participating ranks (should be all ranks with
-                                                                 attached DRAM). MR1 and MR2 are written in the selected ranks if
-                                                                 LMC()_CONFIG[SREF_WITH_DLL] = 1. DDR*_DIMM*_CKE* signals de-activated.
-
-                                                                 0x3 = Self-refresh exit:
-                                                                 LMC()_CONFIG[RANKMASK] must be set to indicate participating ranks (should be all
-                                                                 ranks with attached DRAM). DDR*_DIMM*_CKE* signals activated. MR0, MR1, MR2, and MR3 are
-                                                                 written in the participating ranks if LMC()_CONFIG[SREF_WITH_DLL] = 1.
-                                                                 LMC()_CONFIG[INIT_STATUS] is updated for ranks that are selected.
-
-                                                                 0x6 = Write-leveling:
-                                                                 LMC()_CONFIG[RANKMASK] selects the rank to be write-leveled.
-                                                                 LMC()_CONFIG[INIT_STATUS] must indicate all ranks with attached DRAM. MR1 and MR2
-                                                                 written in the LMC()_CONFIG[INIT_STATUS]-selected ranks.
-
-                                                                 0x7 = Initialize RCW:
-                                                                 LMC()_CONFIG[RANKMASK] selects participating ranks (should be all ranks with attached
-                                                                 DRAM). In DDR3 mode, RDIMM register control words 0-15 are written to
-                                                                 LMC()_CONFIG[RANKMASK]-selected RDIMMs when LMC()_CONTROL[RDIMM_ENA] = 1 and
-                                                                 corresponding LMC()_DIMM_CTL[DIMM*_WMASK] bits are set. (Refer to
-                                                                 LMC()_DIMM(0..1)_PARAMS and LMC()_DIMM_CTL descriptions for more details.)
-
-                                                                 0x8 = MRW
-                                                                 Mode Register Write sequence.
-
-                                                                 0x9 = MPR
-                                                                 MPR register read or write sequence.
-
-                                                                 0xa = VREFINT
-                                                                 Vref internal training sequence, also used as deskew training sequence when
-                                                                 LMC(0..0)_EXT_CONFIG[VREFINT_SEQ_DESKEW] is set.
-
-                                                                 0xb = Offset Training
-                                                                 Offset training sequence.
-
-                                                                 0xe = General R/W Training.
-
-                                                                 0xf = DDR4 Post Package Repair sequence. See LMC()_PPR_CTL for more detail.
-
-                                                                 Self-refresh entry SEQ_SEL's may also be automatically
-                                                                 generated by hardware upon a chip warm or soft reset
-                                                                 sequence when LMC*_RESET_CTL[DDR3PWARM,DDR3PSOFT] are set.
-
-                                                                 LMC writes the LMC*_MODEREG_PARAMS0 and LMC*_MODEREG_PARAMS1 CSR field values
-                                                                 to the Mode registers in the DRAM parts (i.e. MR0, MR1, MR2, and MR3) as part of some of
+                                                                 LMC writes the LMC()_MODEREG_PARAMS0 and LMC()_MODEREG_PARAMS1 CSR field values
+                                                                 to the Mode registers in the DRAM parts (i.e. MR0-MR6) as part of some of
                                                                  these sequences.
-                                                                 Refer to the LMC*_MODEREG_PARAMS0 and LMC*_MODEREG_PARAMS1 descriptions for more details.
-                                                                 If there are two consecutive power-up/init's without
-                                                                 a DRESET assertion between them, LMC asserts DDR_CKE* as part of
-                                                                 the first power-up/init, and continues to assert DDR_CKE*
-                                                                 through the remainder of the first and the second power-up/init.
-                                                                 If DDR_CKE* deactivation and reactivation is needed for
-                                                                 a second power-up/init, a DRESET assertion is required
-                                                                 between the first and the second."
-
-                                                                 INTERNAL:
-                                                                 0xe = Data Buffer Training. Configurable to run different modes of Data Buffer
-                                                                 training on DDR4 LRDIMM. See LMC()_DBTRAIN_CTL for more detail. */
+                                                                 Refer to the LMC()_MODEREG_PARAMS0 and LMC()_MODEREG_PARAMS1 descriptions for more
+                                                                 details. */
         uint64_t init_start            : 1;  /**< [  0:  0](WO) A 0->1 transition starts the DDR memory sequence that is selected by
                                                                  LMC()_SEQ_CTL[SEQ_SEL].
                                                                  This register is a one-shot and clears itself each time it is set. */
@@ -9687,82 +9681,14 @@ typedef union
         uint64_t init_start            : 1;  /**< [  0:  0](WO) A 0->1 transition starts the DDR memory sequence that is selected by
                                                                  LMC()_SEQ_CTL[SEQ_SEL].
                                                                  This register is a one-shot and clears itself each time it is set. */
-        uint64_t seq_sel               : 4;  /**< [  4:  1](R/W) Selects the sequence that LMC runs after a 0->1 transition on INIT_START.
-                                                                 0x0 = Power-up/initialization:
+        uint64_t seq_sel               : 4;  /**< [  4:  1](R/W) Selects the sequence that LMC runs after a 0->1 transition on INIT_START, as
+                                                                 enumerated by LMC_SEQ_SEL_E.
 
-                                                                 LMC()_CONFIG[RANKMASK] selects participating ranks (should be all ranks with attached
-                                                                 DRAM). DDR*_DIMM*_CKE* signals are activated (if not already active). RDIMM register
-                                                                 control words 0-15 are written to LMC()_CONFIG[RANKMASK]-selected RDIMMs when
-
-                                                                 LMC()_CONTROL[RDIMM_ENA] = 1 and corresponding LMC()_DIMM_CTL[DIMM*_WMASK] bits
-                                                                 are set. (Refer to LMC()_DIMM(0..1)_PARAMS and LMC()_DIMM_CTL descriptions for
-                                                                 more details.)
-
-                                                                 The DRAM registers MR0-MR6 are written in the selected ranks.
-
-                                                                 0x1 = Read-leveling:
-                                                                 LMC()_CONFIG[RANKMASK] selects the rank to be read-leveled. MR3 written in the
-                                                                 selected rank.
-
-                                                                 0x2 = Self-refresh entry:
-                                                                 LMC()_CONFIG[INIT_STATUS] selects the participating ranks (should be all ranks with
-                                                                 attached DRAM). MR1 and MR2 are written in the selected ranks if
-                                                                 LMC()_CONFIG[SREF_WITH_DLL] = 1. DDR*_DIMM*_CKE* signals de-activated.
-
-                                                                 0x3 = Self-refresh exit:
-                                                                 LMC()_CONFIG[RANKMASK] must be set to indicate participating ranks (should be all
-                                                                 ranks with attached DRAM). DDR*_DIMM*_CKE* signals activated. MR0, MR1, MR2, and MR3 are
-                                                                 written in the participating ranks if LMC()_CONFIG[SREF_WITH_DLL] = 1.
-                                                                 LMC()_CONFIG[INIT_STATUS] is updated for ranks that are selected.
-
-                                                                 0x6 = Write-leveling:
-                                                                 LMC()_CONFIG[RANKMASK] selects the rank to be write-leveled.
-                                                                 LMC()_CONFIG[INIT_STATUS] must indicate all ranks with attached DRAM. MR1 and MR2
-                                                                 written in the LMC()_CONFIG[INIT_STATUS]-selected ranks.
-
-                                                                 0x7 = Initialize RCW:
-                                                                 LMC()_CONFIG[RANKMASK] selects participating ranks (should be all ranks with attached
-                                                                 DRAM). In DDR3 mode, RDIMM register control words 0-15 are written to
-                                                                 LMC()_CONFIG[RANKMASK]-selected RDIMMs when LMC()_CONTROL[RDIMM_ENA] = 1 and
-                                                                 corresponding LMC()_DIMM_CTL[DIMM*_WMASK] bits are set. (Refer to
-                                                                 LMC()_DIMM(0..1)_PARAMS and LMC()_DIMM_CTL descriptions for more details.)
-
-                                                                 0x8 = MRW
-                                                                 Mode Register Write sequence.
-
-                                                                 0x9 = MPR
-                                                                 MPR register read or write sequence.
-
-                                                                 0xa = VREFINT
-                                                                 Vref internal training sequence, also used as deskew training sequence when
-                                                                 LMC(0..0)_EXT_CONFIG[VREFINT_SEQ_DESKEW] is set.
-
-                                                                 0xb = Offset Training
-                                                                 Offset training sequence.
-
-                                                                 0xe = General R/W Training.
-
-                                                                 0xf = DDR4 Post Package Repair sequence. See LMC()_PPR_CTL for more detail.
-
-                                                                 Self-refresh entry SEQ_SEL's may also be automatically
-                                                                 generated by hardware upon a chip warm or soft reset
-                                                                 sequence when LMC*_RESET_CTL[DDR3PWARM,DDR3PSOFT] are set.
-
-                                                                 LMC writes the LMC*_MODEREG_PARAMS0 and LMC*_MODEREG_PARAMS1 CSR field values
-                                                                 to the Mode registers in the DRAM parts (i.e. MR0, MR1, MR2, and MR3) as part of some of
+                                                                 LMC writes the LMC()_MODEREG_PARAMS0 and LMC()_MODEREG_PARAMS1 CSR field values
+                                                                 to the Mode registers in the DRAM parts (i.e. MR0-MR6) as part of some of
                                                                  these sequences.
-                                                                 Refer to the LMC*_MODEREG_PARAMS0 and LMC*_MODEREG_PARAMS1 descriptions for more details.
-                                                                 If there are two consecutive power-up/init's without
-                                                                 a DRESET assertion between them, LMC asserts DDR_CKE* as part of
-                                                                 the first power-up/init, and continues to assert DDR_CKE*
-                                                                 through the remainder of the first and the second power-up/init.
-                                                                 If DDR_CKE* deactivation and reactivation is needed for
-                                                                 a second power-up/init, a DRESET assertion is required
-                                                                 between the first and the second."
-
-                                                                 INTERNAL:
-                                                                 0xe = Data Buffer Training. Configurable to run different modes of Data Buffer
-                                                                 training on DDR4 LRDIMM. See LMC()_DBTRAIN_CTL for more detail. */
+                                                                 Refer to the LMC()_MODEREG_PARAMS0 and LMC()_MODEREG_PARAMS1 descriptions for more
+                                                                 details. */
         uint64_t seq_complete          : 1;  /**< [  5:  5](RO/H) Sequence complete. This bit is cleared when INIT_START is set to a 1 and then is set to 1
                                                                  when the sequence is completed. */
         uint64_t reserved_6_63         : 58;

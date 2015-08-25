@@ -913,17 +913,17 @@ typedef union
     struct bdk_sso_const_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_56_63        : 8;
-        uint64_t hws                   : 8;  /**< [ 55: 48](RO) Number of hardware work slots. */
-        uint64_t taq                   : 16; /**< [ 47: 32](RO) Number of TAQ entries. */
+        uint64_t hws                   : 8;  /**< [ 63: 56](RO) Number of hardware work slots. */
+        uint64_t taq_b                 : 8;  /**< [ 55: 48](RAZ) Number of TAQ entry lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
+        uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ entries per line.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
         uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries. */
         uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of groups. */
 #else /* Word 0 - Little Endian */
         uint64_t grp                   : 16; /**< [ 15:  0](RO) Number of groups. */
         uint64_t iue                   : 16; /**< [ 31: 16](RO) Number of in-unit entries. */
-        uint64_t taq                   : 16; /**< [ 47: 32](RO) Number of TAQ entries. */
-        uint64_t hws                   : 8;  /**< [ 55: 48](RO) Number of hardware work slots. */
-        uint64_t reserved_56_63        : 8;
+        uint64_t taq_a                 : 16; /**< [ 47: 32](RO) Number of TAQ entries per line.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
+        uint64_t taq_b                 : 8;  /**< [ 55: 48](RAZ) Number of TAQ entry lines.  Multiply [TAQ_A] times [TAQ_B] to find total entries. */
+        uint64_t hws                   : 8;  /**< [ 63: 56](RO) Number of hardware work slots. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_const_s cn; */
