@@ -357,20 +357,37 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
     /* This screwy if logic is from the description of
        SATAX_UCTL_CTL[a_clkdiv_sel] in the CSR */
     if (divisor <= 4)
+    {
         a_clkdiv = divisor - 1;
+        /* Divisor matches calculated value */
+    }
     else if (divisor <= 6)
+    {
         a_clkdiv = 4;
+        divisor = 6;
+    }
     else if (divisor <= 8)
+    {
         a_clkdiv = 5;
+        divisor = 8;
+    }
     else if (divisor <= 16)
+    {
         a_clkdiv = 6;
+        divisor = 16;
+    }
     else if (divisor <= 24)
+    {
         a_clkdiv = 7;
+        divisor = 24;
+    }
     else
     {
         bdk_error("Unable to determine SATA clock divisor\n");
         return -1;
     }
+    /* Calculate the final clock rate */
+    int a_clk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK) / divisor;
 
     for (int p = sata_port; p < sata_port_end; p++)
     {
@@ -551,6 +568,11 @@ static int qlm_set_sata(bdk_node_t node, int qlm, bdk_qlm_modes_t mode, int baud
         spd = 3;
     for (int p = sata_port; p < sata_port_end; p++)
     {
+        /* From the synopsis data book, SATAX_UAHC_GBL_TIMER1MS is the
+           AMBA clock in MHz * 1000, which is a_clk(Hz) / 1000 */
+        BDK_TRACE(QLM, "QLM%d: SATA%d set to %d Hz\n", qlm, p, a_clk);
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_TIMER1MS(p),
+            c.s.timv = a_clk / 1000);
         BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_CAP(p),
             c.s.sss = 1;
             c.s.smps = 1);
