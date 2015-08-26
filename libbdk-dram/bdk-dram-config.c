@@ -4,8 +4,8 @@ BDK_REQUIRE_DEFINE(DRAM_CONFIG);
 
 /* DRAM is configured by matching it against a string name. The BDK supports
    loading up to four different DRAM configs by using the defines
-   BDK_DRAM_CONFIG, BDK_DRAM_CONFIG2, BDK_DRAM_CONFIG3, and
-   BDK_DRAM_CONFIG4. More can be easily added if necessary */
+   BDK_DRAM_CONFIG, BDK_DRAM_CONFIG2, BDK_DRAM_CONFIG3, BDK_DRAM_CONFIG4, and
+   BDK_DRAM_CONFIG5. More can be easily added if necessary */
 
 #define _CONFIG_FUNC_NAME(n) dram_get_config_ ## n
 #define CONFIG_FUNC_NAME(n) _CONFIG_FUNC_NAME(n)
@@ -32,6 +32,9 @@ extern const dram_config_t *CONFIG_FUNC_NAME(BDK_DRAM_CONFIG3)();
 #ifdef BDK_DRAM_CONFIG4
 extern const dram_config_t *CONFIG_FUNC_NAME(BDK_DRAM_CONFIG4)();
 #endif
+#ifdef BDK_DRAM_CONFIG5
+extern const dram_config_t *CONFIG_FUNC_NAME(BDK_DRAM_CONFIG5)();
+#endif
 
 /* This table is the list of supported DRAM configs */
 static const config_func_t dram_table[] =
@@ -47,6 +50,9 @@ static const config_func_t dram_table[] =
 #endif
 #ifdef BDK_DRAM_CONFIG4
     CONFIG_FUNC_NAME(BDK_DRAM_CONFIG4),
+#endif
+#ifdef BDK_DRAM_CONFIG5
+    CONFIG_FUNC_NAME(BDK_DRAM_CONFIG5),
 #endif
     NULL /* Table must end in NULL */
 };
