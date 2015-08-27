@@ -168,38 +168,48 @@ typedef struct __attribute__ ((__packed__))
         uint32_t resvd;     /**< Reserved */
 } fis_dma_setup_t;
 
+typedef struct __attribute__ ((__packed__))
+{
+    uint8_t fis_type;   /**< FIS_TYPE_BIST */
+    uint8_t pmport:4;   /**< Port multiplier */
+    uint8_t rsv0:4;     /**< Reserved */
+    uint8_t v:1;        /**< Vendor Specific */
+    uint8_t r:1;        /**< Reserved */
+    uint8_t p:1;        /**< Primitive bit */
+    uint8_t f:1;        /**< Far end analog loopback */
+    uint8_t l:1;        /**< Far end retimed loopback */
+    uint8_t s:1;        /**< Scrambling bypass */
+    uint8_t a:1;        /**< Align bypass */
+    uint8_t t:1;        /**< Far end transmit only */
+    uint8_t rsv1;       /**< Reserved */
+    uint32_t data1;     /**< Only valid when "t" is set */
+    uint32_t data2;     /**< Only valid when "t" is set */
+} fis_bist_t;
+
 /**
- * There are four kinds of FIS which may be sent to the host by
- * the device as indicated in the following structure
- * declaration. When an FIS has been copied into the host
- * specified memory, an according bit will be set in the Port
- * Interrupt Status register (HBA_PORT.is).
- * Data FIS - Device to Host is not copied to this structure.
- * Data payload is sent and received through PRDT (Physical
- * Region Descriptor Table) in Command List, as will be
- * introduced later.
+ * Received FIS Structure - AHCI rev 1.3 page 35
  */
 typedef struct
 {
         // 0x00
         fis_dma_setup_t dsfis;      /**< DMA Setup FIS */
-        uint8_t         pad0[4];
+        uint8_t         pad0[4];    /* Filler 0x1c - 0x1f */
         // 0x20
         fis_pio_setup_t psfis;      /**< PIO Setup FIS */
-        uint8_t         pad1[12];
+        uint8_t         pad1[12];   /* Filler 0x34 - 0x3f */
         // 0x40
-        fis_reg_d2h_t   rfis;       /**< Register ? Device to Host FIS */
-        uint8_t         pad2[4];
+        fis_reg_d2h_t   rfis;       /**< Device to Host (D2H) Register FIS */
+        uint8_t         pad2[4];    /* Filler 0x54 - 0x57 */
         // 0x58
-        uint8_t         sdbfis[8];  /**< Set Device Bit FIS (fis_dev_bits_t) */
+        uint8_t         sdbfis[8];  /**< Set Device Bit FIS */
         // 0x60
-        uint8_t         ufis[64];
+        uint8_t         ufis[64];   /**< Unknown FIS (up to 64 bytes) */
         // 0xA0
-        uint8_t         rsv[0x100-0xA0];
+        uint8_t         rsv[0x100-0xA0]; /* Reserved */
 } hba_fis_t;
 
 /**
- * Command header
+ * Command header - AHCI rev 1.3 page 36
  */
 typedef struct
 {
@@ -217,25 +227,25 @@ typedef struct
         // DW1
         uint32_t prdbc;     /**< Physical region descriptor byte count transferred */
         // DW2, 3
-        uint64_t ctba;      /**< Command table descriptor base address */
+        uint64_t ctba;      /**< Command table descriptor base address. Must be 128 byte aligned */
         // DW4 - 7
         uint32_t rsv1[4];   /**< Reserved */
 } hba_cmd_header_t;
 
 /**
- * Physical Region Descriptor Table Entry
+ * Physical Region Descriptor Table Entry - AHCI rev 1.3 page 39
  */
 typedef struct
 {
-	uint64_t dba;       /**< Data base address */
+	uint64_t dba;       /**< Data base address. Must be 2 byte aligned */
 	uint32_t rsv0;      /**< Reserved */
-	uint32_t dbc:22;    /**< Byte count, 4M max */
+	uint32_t dbc:22;    /**< Byte count - 1, 4M max. Must be even number of bytes to transfer */
 	uint32_t rsv1:9;    /**< Reserved */
 	uint32_t i:1;       /**< Interrupt on completion */
 } hba_prdt_entry_t;
 
 /**
- * Command Table
+ * Command Table - AHCI rev 1.3 page 39
  */
 typedef struct
 {
@@ -287,6 +297,7 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     static_assert(sizeof(fis_data_t) == 2 * 4);
     static_assert(sizeof(fis_pio_setup_t) == 5 * 4);
     static_assert(sizeof(fis_dma_setup_t) == 7 * 4);
+    static_assert(sizeof(fis_bist_t) == 3 * 4);
     static_assert(sizeof(hba_fis_t) == 256);
     static_assert(sizeof(hba_cmd_header_t) == 8 * 4);
     static_assert(sizeof(hba_prdt_entry_t) == 4 * 4);
