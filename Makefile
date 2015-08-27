@@ -19,6 +19,7 @@ all: version
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8604
 	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 # REMOVE-RELEASE
+	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8804 # REMOVE-RELEASE
 
 #
 # Split docs out from all to allow build to reach tftp when docs fails.
@@ -38,6 +39,7 @@ clean:
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804 clean
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8604 clean
 	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 clean # REMOVE-RELEASE
+	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8804 clean # REMOVE-RELEASE
 	$(MAKE) -C docs clean
 	rm -f target-bin/*.bin
 
