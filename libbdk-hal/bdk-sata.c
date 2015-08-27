@@ -436,7 +436,7 @@ static int issue_command(bdk_node_t node, int controller, int command, int is_wr
     memset(&cmd_table, 0, sizeof(hba_cmd_tbl_t));
     /* Where the data is */
     cmd_table.prdt_entry[0].dba = bdk_ptr_to_phys(buffer);
-    cmd_table.prdt_entry[0].dbc = size;
+    cmd_table.prdt_entry[0].dbc = size - 1;
 
     /* The actual command */
     fis_reg_h2d_t *cmd_fis = (fis_reg_h2d_t *)cmd_table.cfis;
