@@ -2,6 +2,10 @@
 #include <stdio.h>
 #include <unistd.h>
 
+#ifndef MFG_SYSTEM_LEVEL_TEST
+#define MFG_SYSTEM_LEVEL_TEST 0
+#endif
+
 static int64_t __bdk_alive_coremask[BDK_NUMA_MAX_NODES];
 
 /**
@@ -142,8 +146,7 @@ void __bdk_init(uint32_t image_crc)
     {
         /* Initialize the platform */
         __bdk_platform_init();
-
-        if (!bdk_is_platform(BDK_PLATFORM_EMULATOR) && CAVIUM_IS_MODEL(CAVIUM_CN88XX))
+        if ((!MFG_SYSTEM_LEVEL_TEST) && !bdk_is_platform(BDK_PLATFORM_EMULATOR) && CAVIUM_IS_MODEL(CAVIUM_CN88XX))
         {
             /* If L2C_OCI_CTL[ENAOCI] shows we didn't bring up the CCPI link,
                make sure it is down. We can't change the QLM tuning with it up */
@@ -159,6 +162,15 @@ void __bdk_init(uint32_t image_crc)
                 }
             }
         }
+
+        if (MFG_SYSTEM_LEVEL_TEST && !bdk_is_platform(BDK_PLATFORM_EMULATOR))
+        {
+            /* Don't reset if CCPI links change state. We aren't using CCPI yet */
+            BDK_CSR_WRITE(node, BDK_RST_OCX, 0);
+
+        }
+
+
 
         /* AP-23192: The DAP in pass 1.0 has an issue where its state isn't cleared for
            cores in reset. Put the DAPs in reset as their associated cores are
