@@ -303,8 +303,10 @@ sub parse_hwtrace
    }
 }
 
-$ver = '$Id: tns-conv.pl,v 1.7 2015/02/06 05:29:42 tap Exp tap $';
-print("// Converted by '$0 @ARGV' RCS: $ver.\n");
+$compat_ver = '1.7';  # Now that we are in svn, update manually if the format
+                      #   changes in a way that software needs to know about.
+                      # This gets written to the header in playback mode.
+print("// Converted by '$0 @ARGV' compat_ver: $compat_ver.\n");
 
 while ($#ARGV >= 0) {
   if ($ARGV[0] eq "-z") {
@@ -342,7 +344,7 @@ if ($format_needed ne "none") {
 }
 
 if ($to_format eq "playback") { # create header with magic number and BCD major and minor versions
-   $ver =~ /.*,v (\d+)\.(\d+)/;
+   $compat_ver =~ /(\d+)\.(\d+)/;
    printf("0x0000abac0000%02d%02d,   // playback v%d.%d header\n", $1, $2, $1, $2);
 }
 
