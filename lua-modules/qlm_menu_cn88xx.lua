@@ -132,10 +132,18 @@ else
         {"dis",      "Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
     }
     qlm_external_name[6] = "DLM5(Internal QLM6)"
-    qlm_modes[6] = qlm_modes[2]
+    qlm_modes[6] = {
+        {"rc-x2-g1", "PCIe x2 - GEN 1", cavium.QLM_MODE_PCIE_1X4, 2500, 0},
+        {"rc-x2-g2", "PCIe x2 - GEN 2", cavium.QLM_MODE_PCIE_1X4, 5000, 0},
+        {"rc-x2-g3", "PCIe x2 - GEN 3", cavium.QLM_MODE_PCIE_1X4, 8000, 0},
+        {"sata1",    "SATA    @ 1.500 Gbps", cavium.QLM_MODE_SATA_4X1, 1500, 0},
+        {"sata2",    "SATA    @ 3.000 Gbps", cavium.QLM_MODE_SATA_4X1, 3000, 0},
+        {"sata3",    "SATA    @ 6.000 Gbps", cavium.QLM_MODE_SATA_4X1, 6000, 0},
+        {"dis",      "Disabled", cavium.QLM_MODE_DISABLED, 0, 0}
+    }
 
     qlm_external_name[7] = "DLM6(Internal QLM7)"
-    qlm_modes[7] = qlm_modes[2]
+    qlm_modes[7] = qlm_modes[6]
 end
 
 --
