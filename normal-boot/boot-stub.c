@@ -175,7 +175,7 @@ static void usb_bist(int node, int cnt, int clear_bist)
     BDK_CSR_INIT(bist_status, node, BDK_USBHX_UCTL_BIST_STATUS(cnt));
     if (bist_status.u)
     {
-        printf("BIST FAILURE in USB%d clear_bist = %d\n", cnt, clear_bist);
+        printf("BIST FAILURE in USB%d clear_bist = %d\n BIST_STATUS %llx\n", cnt, clear_bist, bist_status.u);
     }
     else
     {
@@ -223,6 +223,7 @@ static void slt_boot_image(bdk_node_t node)
             usb_bist(0,0,1);
             usb_bist(0,1,0);
             usb_bist(0,1,1);
+            printf("\nUSB BIST CHECK COMPLETE\n");
             break;
     }
 }
