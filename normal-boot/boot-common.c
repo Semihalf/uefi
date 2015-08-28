@@ -3,6 +3,11 @@
 
 #include "boot-common.h"
 
+#ifndef MFG_SYSTEM_LEVEL_TEST
+#define MFG_SYSTEM_LEVEL_TEST 0
+#endif
+
+
 /*
  * Configuration variables read from the board config file.
  */
@@ -360,6 +365,7 @@ void boot_init_dram(bdk_node_t node)
 
     if (DRAM_NODE0 && (node == BDK_NODE_0))
     {
+        int ddrmhz=0;
         /* Initialize DRAM on the master node */
         if (DRAM_VERBOSE)
         {
@@ -368,7 +374,13 @@ void boot_init_dram(bdk_node_t node)
             setenv("ddr_verbose", buf, 1);
         }
         BDK_TRACE(BOOT_STUB, "Initializing DRAM on this node\n");
-        int mbytes = bdk_dram_config(bdk_numa_master(), DRAM_NODE0, 0);
+        if (MFG_SYSTEM_LEVEL_TEST)
+        {
+            const char *input;
+            input = bdk_readline("DDR Clock in MHz:", NULL, 0);
+            ddrmhz = atoi(input);
+        }
+        int mbytes = bdk_dram_config(bdk_numa_master(), DRAM_NODE0, ddrmhz*1000000);
         if (mbytes > 0)
         {
             uint32_t freq = libdram_get_freq(bdk_numa_master());
