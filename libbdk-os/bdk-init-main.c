@@ -1,6 +1,11 @@
 #include <bdk.h>
 #include <stdio.h>
 
+#ifndef MFG_SYSTEM_LEVEL_TEST
+#define MFG_SYSTEM_LEVEL_TEST 0
+#endif
+
+
 
 /**
  * Do per core initialization of system registers
@@ -70,7 +75,7 @@ void __bdk_init_node(bdk_node_t node)
     /* Shut off cores in reset to save power. It is optional, but probably
         good practice */
     BDK_TRACE(INIT, "N%d: Enable power gating on cores\n", node);
-    if (!bdk_is_platform(BDK_PLATFORM_EMULATOR))
+    if ((!MFG_SYSTEM_LEVEL_TEST) && (!bdk_is_platform(BDK_PLATFORM_EMULATOR)))
     {
         uint64_t in_reset = BDK_CSR_READ(node, BDK_RST_PP_RESET);
         BDK_CSR_WRITE(node, BDK_RST_PP_POWER, in_reset);
