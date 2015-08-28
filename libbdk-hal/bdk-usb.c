@@ -116,8 +116,30 @@ int bdk_usb_intialize(bdk_node_t node, int usb_port, bdk_usb_clock_t clock_type)
         c. You will have to wait 10 controller-clock cycles before accessing
             any controller-clock-only registers. */
     BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
-        c.s.uctl_rst = 0;
-        c.s.uahc_rst = 0);
+        c.s.uctl_rst = 0
+        );
+    bdk_wait_usec(1);
+
+    bdk_wait_usec(100000);
+    BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(4+usb_port), c.s.tx_oe=1);
+    bdk_wait_usec(100000);
+    BDK_CSR_MODIFY(c, node, BDK_GPIO_BIT_CFGX(4+usb_port),
+        c.s.pin_sel = 0x74+usb_port
+        );
+    bdk_wait_usec(100000);
+    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_HOST_CFG(usb_port),
+        c.s.ppc_en = 1;
+        c.s.ppc_active_high_en = 1
+        );
+
+    bdk_wait_usec(100000);
+
+    BDK_CSR_MODIFY(c, node, BDK_USBHX_UCTL_CTL(usb_port),
+            c.s.uahc_rst = 0
+            );
+
+
+    bdk_wait_usec(100000);
     bdk_wait_usec(1);
 
     /* 10. Enable conditional coprocessor clock of UCTL by writing USB-
