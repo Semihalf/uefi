@@ -123,10 +123,10 @@ union bdk_bch_iword_s
         uint64_t nc                    : 1;  /**< [ 56: 56] When set, indicates that BCH should not allocate L2 cache space for the input
                                                                  data on L2 cache misses. */
         uint64_t reserved_49_55        : 7;
-        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting address of input data in L2/DRAM. PTR must be naturally
+        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting IOVA of input data in L2/DRAM. PTR must be naturally
                                                                  aligned on an eight-byte boundary (i.e. <2:0> must be 0s). */
 #else /* Word 0 - Little Endian */
-        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting address of input data in L2/DRAM. PTR must be naturally
+        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting IOVA of input data in L2/DRAM. PTR must be naturally
                                                                  aligned on an eight-byte boundary (i.e. <2:0> must be 0s). */
         uint64_t reserved_49_55        : 7;
         uint64_t nc                    : 1;  /**< [ 56: 56] When set, indicates that BCH should not allocate L2 cache space for the input
@@ -158,11 +158,11 @@ union bdk_bch_oword_s
         uint64_t nc                    : 1;  /**< [ 56: 56] When set, indicates that BCH should not allocate L2 cache space for the parity/
                                                                  correction data on L2 cache misses. */
         uint64_t reserved_49_55        : 7;
-        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting address of the L2/DRAM buffer that will receive the
+        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting IOVA of the L2/DRAM buffer that will receive the
                                                                  parity/correction data. PTR must be naturally-aligned on an eight-byte boundary
                                                                  (i.e. <2:0> must be 0s). */
 #else /* Word 0 - Little Endian */
-        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting address of the L2/DRAM buffer that will receive the
+        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting IOVA of the L2/DRAM buffer that will receive the
                                                                  parity/correction data. PTR must be naturally-aligned on an eight-byte boundary
                                                                  (i.e. <2:0> must be 0s). */
         uint64_t reserved_49_55        : 7;
@@ -221,11 +221,11 @@ union bdk_bch_rword_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting address of the L2/DRAM buffer that will receive the
+        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting IOVA of the L2/DRAM buffer that will receive the
                                                                  2-byte BCH_RES_S. PTR must be naturally-aligned on an two boundary
                                                                  (i.e. <0> must be 0s). */
 #else /* Word 0 - Little Endian */
-        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting address of the L2/DRAM buffer that will receive the
+        uint64_t ptr                   : 49; /**< [ 48:  0] Indicates the starting IOVA of the L2/DRAM buffer that will receive the
                                                                  2-byte BCH_RES_S. PTR must be naturally-aligned on an two boundary
                                                                  (i.e. <0> must be 0s). */
         uint64_t reserved_49_63        : 15;
@@ -690,7 +690,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -712,7 +712,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -882,12 +882,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Initial command-buffer pointer bits <41:7> (128-byte aligned). Overwritten each time the
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Initial command-buffer IOVA <41:7> (128-byte aligned). Overwritten each time the
                                                                  command-buffer segment is exhausted. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Initial command-buffer pointer bits <41:7> (128-byte aligned). Overwritten each time the
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Initial command-buffer IOVA <41:7> (128-byte aligned). Overwritten each time the
                                                                  command-buffer segment is exhausted. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */

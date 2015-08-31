@@ -1346,11 +1346,11 @@ union bdk_nic_rbdr_entry_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 42; /**< [ 48:  7] Starting address of receive data buffer. */
+        uint64_t addr                  : 42; /**< [ 48:  7] Starting IOVA of receive data buffer. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t addr                  : 42; /**< [ 48:  7] Starting address of receive data buffer. */
+        uint64_t addr                  : 42; /**< [ 48:  7] Starting IOVA of receive data buffer. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1509,11 +1509,9 @@ union bdk_nic_send_gather_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_113_127      : 15;
-        uint64_t addr                  : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) of the first byte of packet data
-                                                                 in the buffer. */
+        uint64_t addr                  : 49; /**< [112: 64] Address. IOVA of the first byte of packet data in the buffer. */
 #else /* Word 1 - Little Endian */
-        uint64_t addr                  : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) of the first byte of packet data
-                                                                 in the buffer. */
+        uint64_t addr                  : 49; /**< [112: 64] Address. IOVA of the first byte of packet data in the buffer. */
         uint64_t reserved_113_127      : 15;
 #endif /* Word 1 - End */
     } s;
@@ -2117,11 +2115,9 @@ union bdk_nic_send_mem_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_113_127      : 15;
-        uint64_t addr                  : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) to be modified. ADDR must be
-                                                                 naturally aligned to the size specified in DSZ. */
+        uint64_t addr                  : 49; /**< [112: 64] Address. IOVA to be modified. ADDR must be naturally aligned to the size specified in DSZ. */
 #else /* Word 1 - Little Endian */
-        uint64_t addr                  : 49; /**< [112: 64] Address. VA, IPA or PA (depending on SMMU configuration) to be modified. ADDR must be
-                                                                 naturally aligned to the size specified in DSZ. */
+        uint64_t addr                  : 49; /**< [112: 64] Address. IOVA to be modified. ADDR must be naturally aligned to the size specified in DSZ. */
         uint64_t reserved_113_127      : 15;
 #endif /* Word 1 - End */
     } s;
@@ -7976,7 +7972,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -7996,7 +7992,7 @@ typedef union
                                                                  If PCCPF_NIC_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -10894,13 +10890,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t base_addr             : 40; /**< [ 48:  9](R/W) Base byte address <48:9> of CQ ring in DRAM (VA, IPA or PA depending on SMMU
+        uint64_t base_addr             : 40; /**< [ 48:  9](R/W) Base IOVA <48:9> of CQ ring in DRAM (VA, IPA or PA depending on SMMU
                                                                  configuration). Address bits <8:0> are always 0. Writes are ignored when the CQ ring is
                                                                  enabled, i.e. NIC_QS()_CQ()_CFG[ENA]==1. */
         uint64_t reserved_0_8          : 9;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_8          : 9;
-        uint64_t base_addr             : 40; /**< [ 48:  9](R/W) Base byte address <48:9> of CQ ring in DRAM (VA, IPA or PA depending on SMMU
+        uint64_t base_addr             : 40; /**< [ 48:  9](R/W) Base IOVA <48:9> of CQ ring in DRAM (VA, IPA or PA depending on SMMU
                                                                  configuration). Address bits <8:0> are always 0. Writes are ignored when the CQ ring is
                                                                  enabled, i.e. NIC_QS()_CQ()_CFG[ENA]==1. */
         uint64_t reserved_49_63        : 15;
@@ -11564,7 +11560,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t base_addr             : 42; /**< [ 48:  7](R/W) Base byte address <48:7> of RBDR in DRAM (VA, IPA or PA depending on VNIC
+        uint64_t base_addr             : 42; /**< [ 48:  7](R/W) Base IOVA<48:7> of RBDR in DRAM (VA, IPA or PA depending on VNIC
                                                                  configuration). Address bits <6:0> are always 0. Writes are ignored when the RBDR is
                                                                  active, i.e.:
                                                                  _ NIC_QS()_RBDR()_CFG[ENA]==1, or
@@ -11572,7 +11568,7 @@ typedef union
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t base_addr             : 42; /**< [ 48:  7](R/W) Base byte address <48:7> of RBDR in DRAM (VA, IPA or PA depending on VNIC
+        uint64_t base_addr             : 42; /**< [ 48:  7](R/W) Base IOVA<48:7> of RBDR in DRAM (VA, IPA or PA depending on VNIC
                                                                  configuration). Address bits <6:0> are always 0. Writes are ignored when the RBDR is
                                                                  active, i.e.:
                                                                  _ NIC_QS()_RBDR()_CFG[ENA]==1, or
@@ -12446,13 +12442,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t base_addr             : 42; /**< [ 48:  7](R/W/H) Base byte address<48:7> of SQ ring in DRAM (VA, IPA or PA depending on VNIC
+        uint64_t base_addr             : 42; /**< [ 48:  7](R/W/H) Base IOVA<48:7> of SQ ring in DRAM (VA, IPA or PA depending on VNIC
                                                                  configuration). Address bits <6:0> are always 0. Writes are ignored when the SQ ring is
                                                                  not empty, i.e. NIC_QS()_SQ()_HEAD[HEAD_PTR]!=NIC_QS()_SQ()_TAIL[TAIL_PTR]. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t base_addr             : 42; /**< [ 48:  7](R/W/H) Base byte address<48:7> of SQ ring in DRAM (VA, IPA or PA depending on VNIC
+        uint64_t base_addr             : 42; /**< [ 48:  7](R/W/H) Base IOVA<48:7> of SQ ring in DRAM (VA, IPA or PA depending on VNIC
                                                                  configuration). Address bits <6:0> are always 0. Writes are ignored when the SQ ring is
                                                                  not empty, i.e. NIC_QS()_SQ()_HEAD[HEAD_PTR]!=NIC_QS()_SQ()_TAIL[TAIL_PTR]. */
         uint64_t reserved_49_63        : 15;
@@ -13654,7 +13650,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
                                                                  PCCPF_NIC_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
@@ -13664,7 +13660,7 @@ typedef union
                                                                  PCCPF_NIC_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;

@@ -322,13 +322,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t faddr                 : 37; /**< [ 48: 12](R/W/H) Fault address, the input address of the faulting access. This register might be updated as
+        uint64_t faddr                 : 37; /**< [ 48: 12](R/W/H) Fault address, the input IOVA of the faulting access. This register might be updated as
                                                                  the result of a translation fault for an upstream client device. For CNXXXX <11:0> are
                                                                  always zero. */
         uint64_t reserved_0_11         : 12;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_11         : 12;
-        uint64_t faddr                 : 37; /**< [ 48: 12](R/W/H) Fault address, the input address of the faulting access. This register might be updated as
+        uint64_t faddr                 : 37; /**< [ 48: 12](R/W/H) Fault address, the input IOVA of the faulting access. This register might be updated as
                                                                  the result of a translation fault for an upstream client device. For CNXXXX <11:0> are
                                                                  always zero. */
         uint64_t reserved_49_63        : 15;
@@ -657,13 +657,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t faddr                 : 37; /**< [ 48: 12](R/W/H) Fault address, the input address of the faulting access. This register might be updated as
+        uint64_t faddr                 : 37; /**< [ 48: 12](R/W/H) Fault address, the input IOVA of the faulting access. This register might be updated as
                                                                  the result of a translation fault for an upstream client device. The least significant 12
                                                                  bits of this register are shared with SMMU()_CB()_FAR. */
         uint64_t reserved_0_11         : 12;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_11         : 12;
-        uint64_t faddr                 : 37; /**< [ 48: 12](R/W/H) Fault address, the input address of the faulting access. This register might be updated as
+        uint64_t faddr                 : 37; /**< [ 48: 12](R/W/H) Fault address, the input IOVA of the faulting access. This register might be updated as
                                                                  the result of a translation fault for an upstream client device. The least significant 12
                                                                  bits of this register are shared with SMMU()_CB()_FAR. */
         uint64_t reserved_49_63        : 15;
@@ -3682,7 +3682,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -3704,7 +3704,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -4221,7 +4221,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t faddr                 : 49; /**< [ 48:  0](R/W/H) Fault address, the input address of the faulty access. For configuration access faults,
+        uint64_t faddr                 : 49; /**< [ 48:  0](R/W/H) Fault address, the input IOVA of the faulty access. For configuration access faults,
                                                                  this is the physical address resulting in the fault. For other fault classes it is the
                                                                  input address of the faulting access, which the system can interpret in a number of ways.
                                                                  This register is updated before a valid context has been determined. Hence, no sign
@@ -4229,7 +4229,7 @@ typedef union
 
                                                                  For CNXXXX <11:0> are always zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t faddr                 : 49; /**< [ 48:  0](R/W/H) Fault address, the input address of the faulty access. For configuration access faults,
+        uint64_t faddr                 : 49; /**< [ 48:  0](R/W/H) Fault address, the input IOVA of the faulty access. For configuration access faults,
                                                                  this is the physical address resulting in the fault. For other fault classes it is the
                                                                  input address of the faulting access, which the system can interpret in a number of ways.
                                                                  This register is updated before a valid context has been determined. Hence, no sign
@@ -6184,7 +6184,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t faddr                 : 49; /**< [ 48:  0](R/W/H) Fault address, the input address of the faulty access. For configuration access faults,
+        uint64_t faddr                 : 49; /**< [ 48:  0](R/W/H) Fault address, the input IOVA of the faulty access. For configuration access faults,
                                                                  this is the physical address resulting in the fault. For other fault classes it is the
                                                                  input address of the faulting access, which the system can interpret in a number of ways.
                                                                  This register is updated before a valid context has been determined. Hence, no sign
@@ -6192,7 +6192,7 @@ typedef union
 
                                                                  For CNXXXX <11:0> are always zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t faddr                 : 49; /**< [ 48:  0](R/W/H) Fault address, the input address of the faulty access. For configuration access faults,
+        uint64_t faddr                 : 49; /**< [ 48:  0](R/W/H) Fault address, the input IOVA of the faulty access. For configuration access faults,
                                                                  this is the physical address resulting in the fault. For other fault classes it is the
                                                                  input address of the faulting access, which the system can interpret in a number of ways.
                                                                  This register is updated before a valid context has been determined. Hence, no sign

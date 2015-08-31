@@ -3325,7 +3325,7 @@ typedef union
                                                                  <1111>      Defined by CPUID scheme */
         uint32_t partnum               : 12; /**< [ 15:  4](RO) Part number field.
                                                                  An implementation defined primary part number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
         uint32_t revision              : 4;  /**< [  3:  0](RO) Revision field.
                                                                  An implementation defined revision number for the device.
                                                                  In CNXXXX, the minor pass number. */
@@ -3335,7 +3335,7 @@ typedef union
                                                                  In CNXXXX, the minor pass number. */
         uint32_t partnum               : 12; /**< [ 15:  4](RO) Part number field.
                                                                  An implementation defined primary part number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
         uint32_t architecture          : 4;  /**< [ 19: 16](RO) Architecure field.
                                                                  The permitted values of this field are:
                                                                  All other values are reserved.

@@ -164,9 +164,9 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t pool                  : 8;  /**< [ 63: 56](RO/H) Pool that address was sent to. */
         uint64_t reserved_49_55        : 7;
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Failing address. */
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Failing IOVA. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Failing address. */
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Failing IOVA. */
         uint64_t reserved_49_55        : 7;
         uint64_t pool                  : 8;  /**< [ 63: 56](RO/H) Pool that address was sent to. */
 #endif /* Word 0 - End */
@@ -1349,7 +1349,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -1371,7 +1371,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1698,12 +1698,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 42; /**< [ 48:  7](R/W/H) Next address. The address of the next stack write. Must be initialized to
+        uint64_t addr                  : 42; /**< [ 48:  7](R/W/H) Next address. The IOVA of the next stack write. Must be initialized to
                                                                  FPA_POOL()_STACK_BASE[ADDR] when stack is created. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t addr                  : 42; /**< [ 48:  7](R/W/H) Next address. The address of the next stack write. Must be initialized to
+        uint64_t addr                  : 42; /**< [ 48:  7](R/W/H) Next address. The IOVA of the next stack write. Must be initialized to
                                                                  FPA_POOL()_STACK_BASE[ADDR] when stack is created. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
@@ -1737,11 +1737,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Base address. The lowest address used by the pool's stack. */
+        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Base IOVA. The lowest address used by the pool's stack. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Base address. The lowest address used by the pool's stack. */
+        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Base IOVA. The lowest address used by the pool's stack. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1774,12 +1774,12 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Stack ending address plus one line; hardware will never write this address. If
+        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Stack ending IOVA plus one line; hardware will never write this address. If
                                                                  FPA_POOL()_STACK_ADDR is equal to this value, the stack is full. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Stack ending address plus one line; hardware will never write this address. If
+        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Stack ending IOVA plus one line; hardware will never write this address. If
                                                                  FPA_POOL()_STACK_ADDR is equal to this value, the stack is full. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
@@ -2035,7 +2035,9 @@ typedef union
                                                                  _ FPA_VF(0)_INT[THRESH]<15> is vaura 15.
                                                                  _ FPA_VF(1)_INT[THRESH]<0> is vaura 16.
                                                                  _ FPA_VF(1)_INT[THRESH]<15> is vaura 31. */
-        uint64_t reserved_6_31         : 26;
+        uint64_t reserved_7_31         : 25;
+        uint64_t p_fault               : 1;  /**< [  6:  6](R/W1C/H) Set when a stack read or write returned a fault, e.g. the address the FPA stack
+                                                                 was trying to access does not have a page mapped in the SMMU. */
         uint64_t as_hw_wrap            : 1;  /**< [  5:  5](R/W1C/H) Set when hardware does an add or subtract to FPA_VHAURA()_CNT for any aura in
                                                                  this aura-set caused the counter to wrap. */
         uint64_t as_sw_wrap            : 1;  /**< [  4:  4](R/W1C/H) Set when a write to FPA_VHAURA()_CNT_ADD for any aura in this aura-set does an
@@ -2065,7 +2067,9 @@ typedef union
                                                                  count was zeroed. */
         uint64_t as_hw_wrap            : 1;  /**< [  5:  5](R/W1C/H) Set when hardware does an add or subtract to FPA_VHAURA()_CNT for any aura in
                                                                  this aura-set caused the counter to wrap. */
-        uint64_t reserved_6_31         : 26;
+        uint64_t p_fault               : 1;  /**< [  6:  6](R/W1C/H) Set when a stack read or write returned a fault, e.g. the address the FPA stack
+                                                                 was trying to access does not have a page mapped in the SMMU. */
+        uint64_t reserved_7_31         : 25;
         uint64_t a_thresh              : 16; /**< [ 47: 32](R/W1C/H) Watermark interrupt pending. Set when FPA_VHAURA()_CNT, after being modified, is
                                                                  equal to or crosses FPA_VHAURA()_CNT_THRESHOLD (i.e. value was greater than, then
                                                                  becomes less then, or value was less than, and becomes greater than). Each index
@@ -2109,7 +2113,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t a_thresh              : 16; /**< [ 47: 32](R/W1C/H) Reads or clears enable for FPA_VF(0..31)_INT[A_THRESH]. */
-        uint64_t reserved_6_31         : 26;
+        uint64_t reserved_7_31         : 25;
+        uint64_t p_fault               : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for FPA_VF(0..31)_INT[P_FAULT]. */
         uint64_t as_hw_wrap            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for FPA_VF(0..31)_INT[AS_HW_WRAP]. */
         uint64_t as_sw_wrap            : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for FPA_VF(0..31)_INT[AS_SW_WRAP]. */
         uint64_t p_thresh              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_VF(0..31)_INT[P_THRESH]. */
@@ -2123,7 +2128,8 @@ typedef union
         uint64_t p_thresh              : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for FPA_VF(0..31)_INT[P_THRESH]. */
         uint64_t as_sw_wrap            : 1;  /**< [  4:  4](R/W1C/H) Reads or clears enable for FPA_VF(0..31)_INT[AS_SW_WRAP]. */
         uint64_t as_hw_wrap            : 1;  /**< [  5:  5](R/W1C/H) Reads or clears enable for FPA_VF(0..31)_INT[AS_HW_WRAP]. */
-        uint64_t reserved_6_31         : 26;
+        uint64_t p_fault               : 1;  /**< [  6:  6](R/W1C/H) Reads or clears enable for FPA_VF(0..31)_INT[P_FAULT]. */
+        uint64_t reserved_7_31         : 25;
         uint64_t a_thresh              : 16; /**< [ 47: 32](R/W1C/H) Reads or clears enable for FPA_VF(0..31)_INT[A_THRESH]. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -2159,7 +2165,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t a_thresh              : 16; /**< [ 47: 32](R/W1S/H) Reads or sets enable for FPA_VF(0..31)_INT[A_THRESH]. */
-        uint64_t reserved_6_31         : 26;
+        uint64_t reserved_7_31         : 25;
+        uint64_t p_fault               : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for FPA_VF(0..31)_INT[P_FAULT]. */
         uint64_t as_hw_wrap            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for FPA_VF(0..31)_INT[AS_HW_WRAP]. */
         uint64_t as_sw_wrap            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for FPA_VF(0..31)_INT[AS_SW_WRAP]. */
         uint64_t p_thresh              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_VF(0..31)_INT[P_THRESH]. */
@@ -2173,7 +2180,8 @@ typedef union
         uint64_t p_thresh              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for FPA_VF(0..31)_INT[P_THRESH]. */
         uint64_t as_sw_wrap            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets enable for FPA_VF(0..31)_INT[AS_SW_WRAP]. */
         uint64_t as_hw_wrap            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets enable for FPA_VF(0..31)_INT[AS_HW_WRAP]. */
-        uint64_t reserved_6_31         : 26;
+        uint64_t p_fault               : 1;  /**< [  6:  6](R/W1S/H) Reads or sets enable for FPA_VF(0..31)_INT[P_FAULT]. */
+        uint64_t reserved_7_31         : 25;
         uint64_t a_thresh              : 16; /**< [ 47: 32](R/W1S/H) Reads or sets enable for FPA_VF(0..31)_INT[A_THRESH]. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -2209,7 +2217,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t a_thresh              : 16; /**< [ 47: 32](R/W1S/H) Reads or sets FPA_VF(0..31)_INT[A_THRESH]. */
-        uint64_t reserved_6_31         : 26;
+        uint64_t reserved_7_31         : 25;
+        uint64_t p_fault               : 1;  /**< [  6:  6](R/W1S/H) Reads or sets FPA_VF(0..31)_INT[P_FAULT]. */
         uint64_t as_hw_wrap            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets FPA_VF(0..31)_INT[AS_HW_WRAP]. */
         uint64_t as_sw_wrap            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets FPA_VF(0..31)_INT[AS_SW_WRAP]. */
         uint64_t p_thresh              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_VF(0..31)_INT[P_THRESH]. */
@@ -2223,7 +2232,8 @@ typedef union
         uint64_t p_thresh              : 1;  /**< [  3:  3](R/W1S/H) Reads or sets FPA_VF(0..31)_INT[P_THRESH]. */
         uint64_t as_sw_wrap            : 1;  /**< [  4:  4](R/W1S/H) Reads or sets FPA_VF(0..31)_INT[AS_SW_WRAP]. */
         uint64_t as_hw_wrap            : 1;  /**< [  5:  5](R/W1S/H) Reads or sets FPA_VF(0..31)_INT[AS_HW_WRAP]. */
-        uint64_t reserved_6_31         : 26;
+        uint64_t p_fault               : 1;  /**< [  6:  6](R/W1S/H) Reads or sets FPA_VF(0..31)_INT[P_FAULT]. */
+        uint64_t reserved_7_31         : 25;
         uint64_t a_thresh              : 16; /**< [ 47: 32](R/W1S/H) Reads or sets FPA_VF(0..31)_INT[A_THRESH]. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
@@ -2296,7 +2306,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
                                                                  PCCPF_FPA_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
@@ -2306,7 +2316,7 @@ typedef union
                                                                  PCCPF_FPA_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -2549,10 +2559,10 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address newly allocated by hardware. Bits <6:0> are always zero. If all zeros, the
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) IOVA newly allocated by hardware. Bits <6:0> are always zero. If all zeros, the
                                                                  selected pool is empty, aura limit has been hit, or RED/DROP was applied. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) Address newly allocated by hardware. Bits <6:0> are always zero. If all zeros, the
+        uint64_t addr                  : 49; /**< [ 48:  0](RO/H) IOVA newly allocated by hardware. Bits <6:0> are always zero. If all zeros, the
                                                                  selected pool is empty, aura limit has been hit, or RED/DROP was applied. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
@@ -2594,9 +2604,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0](WO) Address to return to pool. Bits <6:0> are ignored as buffers must be 128 byte aligned. */
+        uint64_t addr                  : 49; /**< [ 48:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte aligned. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](WO) Address to return to pool. Bits <6:0> are ignored as buffers must be 128 byte aligned. */
+        uint64_t addr                  : 49; /**< [ 48:  0](WO) IOVA to return to pool. Bits <6:0> are ignored as buffers must be 128 byte aligned. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -2667,11 +2677,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Address. */
+        uint64_t addr                  : 42; /**< [ 48:  7](R/W) End IOVA. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Address. */
+        uint64_t addr                  : 42; /**< [ 48:  7](R/W) End IOVA. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -2705,11 +2715,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Address. Defaults to 1 so that a NULL pointer free will cause an exception. */
+        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Start IOVA. Defaults to 1 so that a NULL pointer free will cause an exception. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Address. Defaults to 1 so that a NULL pointer free will cause an exception. */
+        uint64_t addr                  : 42; /**< [ 48:  7](R/W) Start IOVA. Defaults to 1 so that a NULL pointer free will cause an exception. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;

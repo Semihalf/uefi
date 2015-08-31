@@ -1661,7 +1661,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
         uint32_t reserved_20_23        : 4;
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
                                                                  In CNXXXX, the major pass number. */
@@ -1678,7 +1678,7 @@ typedef union
                                                                  In CNXXXX, the major pass number. */
         uint32_t reserved_20_23        : 4;
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicd_iidr_s cn; */
@@ -3136,7 +3136,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
         uint32_t reserved_20_23        : 4;
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
                                                                  In CNXXXX, the major pass number. */
@@ -3153,7 +3153,7 @@ typedef union
                                                                  In CNXXXX, the major pass number. */
         uint32_t reserved_20_23        : 4;
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gicrx_iidr_s cn; */
@@ -5926,7 +5926,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
         uint32_t reserved_20_23        : 4;
         uint32_t variant               : 4;  /**< [ 19: 16](RO) Indicates the major revision or variant of the product.
                                                                  In CNXXXX, the major pass number. */
@@ -5943,7 +5943,7 @@ typedef union
                                                                  In CNXXXX, the major pass number. */
         uint32_t reserved_20_23        : 4;
         uint32_t productid             : 8;  /**< [ 31: 24](RO) An implementation defined product number for the device.
-                                                                 In CNXXXX, enumerated by PCC_PROD_E::CN88XX. */
+                                                                 In CNXXXX, enumerated by PCC_PROD_E. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_gits_iidr_s cn; */

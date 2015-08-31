@@ -1007,11 +1007,11 @@ union bdk_zip_inst_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 13 - Big Endian */
         uint64_t reserved_881_895      : 15;
         uint64_t wq_ptr                : 49; /**< [880:832] Reserved. For CN83XX: If WQ_PTR is non-zero, it is a pointer to a work-queue
-                                                                 entry that ZIP submits work to SSO after all context, output data, and result
+                                                                 entry IOVA that ZIP submits work to SSO after all context, output data, and result
                                                                  write operations are visible to other CNXXXX units and the cores. */
 #else /* Word 13 - Little Endian */
         uint64_t wq_ptr                : 49; /**< [880:832] Reserved. For CN83XX: If WQ_PTR is non-zero, it is a pointer to a work-queue
-                                                                 entry that ZIP submits work to SSO after all context, output data, and result
+                                                                 entry IOVA that ZIP submits work to SSO after all context, output data, and result
                                                                  write operations are visible to other CNXXXX units and the cores. */
         uint64_t reserved_881_895      : 15;
 #endif /* Word 13 - End */
@@ -1457,10 +1457,12 @@ union bdk_zip_nptr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0] ZIP_ZPTR_S[ADDR]<6:0> must be zero. All the ZIP instruction buffers must be aligned on an
+        uint64_t addr                  : 49; /**< [ 48:  0] Pointer to next instruction's IOVA.
+                                                                 ZIP_ZPTR_S[ADDR]<6:0> must be zero. All the ZIP instruction buffers must be aligned on an
                                                                  128 byte boundary. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0] ZIP_ZPTR_S[ADDR]<6:0> must be zero. All the ZIP instruction buffers must be aligned on an
+        uint64_t addr                  : 49; /**< [ 48:  0] Pointer to next instruction's IOVA.
+                                                                 ZIP_ZPTR_S[ADDR]<6:0> must be zero. All the ZIP instruction buffers must be aligned on an
                                                                  128 byte boundary. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
@@ -1482,24 +1484,30 @@ union bdk_zip_zptr_s
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 49; /**< [ 48:  0] When a ZIP_ZPTR_S is in an instruction word, [ADDR] is either:
-                                                                 A direct byte pointer into L2C/DDR attached memory, or
-                                                                 A pointer to a gather/scatter list in memory.
+                                                                 * (a) A direct IOVA byte pointer into L2C/DDR attached memory, or
+                                                                 * (b) An IOVA pointer to a gather/scatter list in memory.
+
                                                                  When a ZIP_ZPTR_S is in a gather/scatter list, [ADDR] is:
-                                                                 A direct byte pointer into the attached memory.
-                                                                 In case (b) above, and for context and result pointers, [ADDR]<3:0> must be zero. (All
-                                                                 these cases must be aligned on an 16 byte boundary.)
-                                                                 In cases (a) or (c) above, [ADDR] may be any byte alignment (except for context and result
-                                                                 pointers). */
+                                                                 * (c) An IOVA direct byte pointer into the attached memory.
+
+                                                                 In case (b) above, and for context and result pointers, [ADDR]<3:0> must be
+                                                                 zero. (All these cases must be aligned on an 16 byte boundary.)
+
+                                                                 In cases (a) or (c) above, [ADDR] may be any byte alignment (except for context
+                                                                 and result pointers). */
 #else /* Word 0 - Little Endian */
         uint64_t addr                  : 49; /**< [ 48:  0] When a ZIP_ZPTR_S is in an instruction word, [ADDR] is either:
-                                                                 A direct byte pointer into L2C/DDR attached memory, or
-                                                                 A pointer to a gather/scatter list in memory.
+                                                                 * (a) A direct IOVA byte pointer into L2C/DDR attached memory, or
+                                                                 * (b) An IOVA pointer to a gather/scatter list in memory.
+
                                                                  When a ZIP_ZPTR_S is in a gather/scatter list, [ADDR] is:
-                                                                 A direct byte pointer into the attached memory.
-                                                                 In case (b) above, and for context and result pointers, [ADDR]<3:0> must be zero. (All
-                                                                 these cases must be aligned on an 16 byte boundary.)
-                                                                 In cases (a) or (c) above, [ADDR] may be any byte alignment (except for context and result
-                                                                 pointers). */
+                                                                 * (c) An IOVA direct byte pointer into the attached memory.
+
+                                                                 In case (b) above, and for context and result pointers, [ADDR]<3:0> must be
+                                                                 zero. (All these cases must be aligned on an 16 byte boundary.)
+
+                                                                 In cases (a) or (c) above, [ADDR] may be any byte alignment (except for context
+                                                                 and result pointers). */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
@@ -3479,7 +3487,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -3499,7 +3507,7 @@ typedef union
                                                                  If PCCPF_ZIP_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -4596,7 +4604,8 @@ typedef union
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Instruction buffer pointer bits <41:7> (128-byte aligned). When written, it is the initial
-                                                                 buffer starting address; when read, it is the next read pointer to be requested from L2C.
+                                                                 buffer starting IOVA; when read, it is the next read pointer IOVA to be requested from
+                                                                 L2C.
                                                                  The PTR field is overwritten with the next pointer each time that the command buffer
                                                                  segment is exhausted. New commands will then be read from the newly specified command
                                                                  buffer pointer. */
@@ -4606,7 +4615,8 @@ typedef union
         uint64_t off                   : 7;  /**< [  6:  0](RO/H) When write, the value is ignored. When read, the returned value is the offset of the next
                                                                  read pointer. */
         uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Instruction buffer pointer bits <41:7> (128-byte aligned). When written, it is the initial
-                                                                 buffer starting address; when read, it is the next read pointer to be requested from L2C.
+                                                                 buffer starting IOVA; when read, it is the next read pointer IOVA to be requested from
+                                                                 L2C.
                                                                  The PTR field is overwritten with the next pointer each time that the command buffer
                                                                  segment is exhausted. New commands will then be read from the newly specified command
                                                                  buffer pointer. */

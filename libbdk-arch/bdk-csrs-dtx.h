@@ -2330,6 +2330,8 @@ typedef union
 static inline uint64_t BDK_DTX_LBK_BCST_RSP_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LBK_BCST_RSP_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e0fe090080ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0fe090080ll;
     __bdk_csr_fatal("DTX_LBK_BCST_RSP", 0, 0, 0, 0, 0);
@@ -2376,6 +2378,8 @@ typedef union
 static inline uint64_t BDK_DTX_LBK_CTL_FUNC(void) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LBK_CTL_FUNC(void)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        return 0x87e0fe090060ll;
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
         return 0x87e0fe090060ll;
     __bdk_csr_fatal("DTX_LBK_CTL", 0, 0, 0, 0, 0);
@@ -2413,6 +2417,8 @@ typedef union
 static inline uint64_t BDK_DTX_LBK_DATX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LBK_DATX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0fe090040ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0fe090040ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_LBK_DATX", 1, a, 0, 0, 0);
@@ -2450,6 +2456,8 @@ typedef union
 static inline uint64_t BDK_DTX_LBK_ENAX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LBK_ENAX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0fe090020ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0fe090020ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_LBK_ENAX", 1, a, 0, 0, 0);
@@ -2485,6 +2493,8 @@ typedef union
 static inline uint64_t BDK_DTX_LBK_SELX(unsigned long a) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_DTX_LBK_SELX(unsigned long a)
 {
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x87e0fe090000ll + 8ll * ((a) & 0x1);
     if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
         return 0x87e0fe090000ll + 8ll * ((a) & 0x1);
     __bdk_csr_fatal("DTX_LBK_SELX", 1, a, 0, 0, 0);

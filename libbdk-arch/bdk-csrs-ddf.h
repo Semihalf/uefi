@@ -243,14 +243,14 @@ union bdk_ddf_inst_find_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_113_127      : 15;
-        uint64_t res_addr              : 49; /**< [112: 64] Result address.
+        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_FIND_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
                                                                  If [RR] is set, address must be 128-byte aligned. */
 #else /* Word 1 - Little Endian */
-        uint64_t res_addr              : 49; /**< [112: 64] Result address.
+        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_FIND_S.
                                                                  If zero, no result structure will be written.
 
@@ -414,7 +414,7 @@ union bdk_ddf_inst_find_s
 #endif /* Word 5 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 6 - Big Endian */
         uint64_t reserved_433_447      : 15;
-        uint64_t hdr_addr              : 49; /**< [432:384] Header address. Must be non-zero when [VICTEN] is set, otherwise
+        uint64_t hdr_addr              : 49; /**< [432:384] Header IOVA. Must be non-zero when [VICTEN] is set, otherwise
                                                                  reserved.
 
                                                                  If [RANK_ABS]=0, points to rank 0 way 0's header. Hardware accesses the way 0
@@ -423,7 +423,7 @@ union bdk_ddf_inst_find_s
                                                                  If [RANK_ABS]=1, points to the desired rank's way 0 header. Hardware accesses
                                                                  the way 0 header at address [HDR_ADDR]. */
 #else /* Word 6 - Little Endian */
-        uint64_t hdr_addr              : 49; /**< [432:384] Header address. Must be non-zero when [VICTEN] is set, otherwise
+        uint64_t hdr_addr              : 49; /**< [432:384] Header IOVA. Must be non-zero when [VICTEN] is set, otherwise
                                                                  reserved.
 
                                                                  If [RANK_ABS]=0, points to rank 0 way 0's header. Hardware accesses the way 0
@@ -437,15 +437,15 @@ union bdk_ddf_inst_find_s
         uint64_t reserved_497_511      : 15;
         uint64_t rank_addr             : 49; /**< [496:448] Must be non-zero.
 
-                                                                 If [RANK_ABS]=0, points to rank 0, bucket 0, way 0, nest 0.
+                                                                 If [RANK_ABS]=0, IOVA for rank 0, bucket 0, way 0, nest 0.
 
-                                                                 If [RANK_ABS]=1, points to precise rank, bucket 0, way 0, nest 0. */
+                                                                 If [RANK_ABS]=1, IOVA for precise rank, bucket 0, way 0, nest 0. */
 #else /* Word 7 - Little Endian */
         uint64_t rank_addr             : 49; /**< [496:448] Must be non-zero.
 
-                                                                 If [RANK_ABS]=0, points to rank 0, bucket 0, way 0, nest 0.
+                                                                 If [RANK_ABS]=0, IOVA for rank 0, bucket 0, way 0, nest 0.
 
-                                                                 If [RANK_ABS]=1, points to precise rank, bucket 0, way 0, nest 0. */
+                                                                 If [RANK_ABS]=1, IOVA for precise rank, bucket 0, way 0, nest 0. */
         uint64_t reserved_497_511      : 15;
 #endif /* Word 7 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 8 - Big Endian */
@@ -554,14 +554,14 @@ union bdk_ddf_inst_match_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_113_127      : 15;
-        uint64_t res_addr              : 49; /**< [112: 64] Result address.
+        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
                                                                  If [RR] is set, address must be 128-byte aligned. */
 #else /* Word 1 - Little Endian */
-        uint64_t res_addr              : 49; /**< [112: 64] Result address.
+        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
@@ -589,12 +589,12 @@ union bdk_ddf_inst_match_s
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t reserved_305_319      : 15;
-        uint64_t rb_addr               : 49; /**< [304:256] Record block pointer.
+        uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
                                                                  For RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
                                                                  If 0x0, this way is not used, and will never match. */
 #else /* Word 4 - Little Endian */
-        uint64_t rb_addr               : 49; /**< [304:256] Record block pointer.
+        uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
                                                                  For RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
                                                                  If 0x0, this way is not used, and will never match. */
@@ -721,14 +721,14 @@ union bdk_ddf_inst_match_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_113_127      : 15;
-        uint64_t res_addr              : 49; /**< [112: 64] Result address.
+        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
                                                                  If [RR] is clear, address must be 16-byte aligned.
                                                                  If [RR] is set, address must be 128-byte aligned. */
 #else /* Word 1 - Little Endian */
-        uint64_t res_addr              : 49; /**< [112: 64] Result address.
+        uint64_t res_addr              : 49; /**< [112: 64] Result IOVA.
                                                                  If non-zero, specifies where to write DDF_RES_MATCH_S.
                                                                  If zero, no result structure will be written.
 
@@ -756,12 +756,12 @@ union bdk_ddf_inst_match_s
 #endif /* Word 3 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 4 - Big Endian */
         uint64_t reserved_305_319      : 15;
-        uint64_t rb_addr               : 49; /**< [304:256] Record block pointer.
+        uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
                                                                  For RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
                                                                  If 0x0, this way is not used, and will never match. */
 #else /* Word 4 - Little Endian */
-        uint64_t rb_addr               : 49; /**< [304:256] Record block pointer.
+        uint64_t rb_addr               : 49; /**< [304:256] Record block IOVA.
                                                                  For RABS_SET instruction, pointer to data to change.
                                                                  Must be aligned to DDF_INST_MATCH_S[RECSZM1]+1 bytes.
                                                                  If 0x0, this way is not used, and will never match. */
@@ -1843,7 +1843,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -1863,7 +1863,7 @@ typedef union
                                                                  If PCCPF_DDF_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -2220,7 +2220,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
                                                                  PCCPF_DDF_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
@@ -2230,7 +2230,7 @@ typedef union
                                                                  PCCPF_DDF_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -2979,7 +2979,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 43; /**< [ 48:  6](R/W/H) Instruction buffer pointer bits <48:7> (128-byte aligned). When written, it is the initial
+        uint64_t ptr                   : 43; /**< [ 48:  6](R/W/H) Instruction buffer IOVA <48:7> (128-byte aligned). When written, it is the initial
                                                                  buffer starting address; when read, it is the next read pointer to be requested from L2C.
                                                                  The PTR field is overwritten with the next pointer each time that the command buffer
                                                                  segment is exhausted. New commands will then be read from the newly specified command
@@ -2989,7 +2989,7 @@ typedef union
         uint64_t off                   : 6;  /**< [  5:  0](RAZ) Reserved. */
 #else /* Word 0 - Little Endian */
         uint64_t off                   : 6;  /**< [  5:  0](RAZ) Reserved. */
-        uint64_t ptr                   : 43; /**< [ 48:  6](R/W/H) Instruction buffer pointer bits <48:7> (128-byte aligned). When written, it is the initial
+        uint64_t ptr                   : 43; /**< [ 48:  6](R/W/H) Instruction buffer IOVA <48:7> (128-byte aligned). When written, it is the initial
                                                                  buffer starting address; when read, it is the next read pointer to be requested from L2C.
                                                                  The PTR field is overwritten with the next pointer each time that the command buffer
                                                                  segment is exhausted. New commands will then be read from the newly specified command

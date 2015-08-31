@@ -2932,9 +2932,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue pointer held in the SSO entry. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue IOVA held in the SSO entry. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue pointer held in the SSO entry. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue IOVA held in the SSO entry. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -3361,7 +3361,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -3383,7 +3383,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -3576,9 +3576,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue pointer held in the TAQ entry. Bits <2:0> are always zero. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue IOVA held in the TAQ entry. Bits <2:0> are always zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue pointer held in the TAQ entry. Bits <2:0> are always zero. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Work queue IOVA held in the TAQ entry. Bits <2:0> are always zero. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -3899,7 +3899,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
                                                                  PCCPF_SSO_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
@@ -3909,7 +3909,7 @@ typedef union
                                                                  PCCPF_SSO_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -4464,9 +4464,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) Address of the work-queue entry. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) Address of the work-queue entry. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -4655,13 +4655,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Pointer, divided by 128 bytes.
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) IOVA pointer, divided by 128 bytes.
                                                                  INTERNAL:
                                                                  For peak performance, all XAQ buffers should reside on the local node's memory. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Pointer, divided by 128 bytes.
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) IOVA pointer, divided by 128 bytes.
                                                                  INTERNAL:
                                                                  For peak performance, all XAQ buffers should reside on the local node's memory. */
         uint64_t reserved_49_63        : 15;
@@ -4700,7 +4700,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Pointer, divided by 128 bytes.
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) IOVA pointer, divided by 128 bytes.
                                                                  INTERNAL:
                                                                  For peak performance, all XAQ buffers should reside on the local node's memory. */
         uint64_t reserved_5_6          : 2;
@@ -4708,7 +4708,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t cl                    : 5;  /**< [  4:  0](R/W/H) Cache line number in buffer. Cache line zero contains the next pointer. */
         uint64_t reserved_5_6          : 2;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Pointer, divided by 128 bytes.
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) IOVA pointer, divided by 128 bytes.
                                                                  INTERNAL:
                                                                  For peak performance, all XAQ buffers should reside on the local node's memory. */
         uint64_t reserved_49_63        : 15;
@@ -4782,13 +4782,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Pointer, divided by 128 bytes.
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) IOVA pointer, divided by 128 bytes.
                                                                  INTERNAL:
                                                                  For peak performance, all XAQ buffers should reside on the local node's memory. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Pointer, divided by 128 bytes.
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) IOVA pointer, divided by 128 bytes.
                                                                  INTERNAL:
                                                                  For peak performance, all XAQ buffers should reside on the local node's memory. */
         uint64_t reserved_49_63        : 15;
@@ -4828,7 +4828,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Pointer, divided by 128 bytes.
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) IOVA pointer, divided by 128 bytes.
                                                                  INTERNAL:
                                                                  For peak performance, all XAQ buffers should reside on the local node's memory. */
         uint64_t reserved_5_6          : 2;
@@ -4836,7 +4836,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t cl                    : 5;  /**< [  4:  0](R/W/H) Cache line number in buffer. Cache line zero contains the next pointer. */
         uint64_t reserved_5_6          : 2;
-        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Pointer, divided by 128 bytes.
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) IOVA pointer, divided by 128 bytes.
                                                                  INTERNAL:
                                                                  For peak performance, all XAQ buffers should reside on the local node's memory. */
         uint64_t reserved_49_63        : 15;

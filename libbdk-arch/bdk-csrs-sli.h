@@ -1058,7 +1058,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -1078,7 +1078,7 @@ typedef union
                                                                  If PCCPF_SLI_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1176,7 +1176,7 @@ typedef union
         uint64_t reserved_15_63        : 49;
         uint64_t rd_flt                : 1;  /**< [ 14: 14](R/W) Read Fault.
                                                                  0 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
-                                                                 to the NCB/cores all-ones and non-fault.  This is compatible with CN88XX pass 1.0.
+                                                                 to the NCB/cores all-ones and non-fault.
 
                                                                  1 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
                                                                  to the NCB/cores all-zeros and fault.  In the case of a read by a core, this fault will
@@ -1200,7 +1200,7 @@ typedef union
                                                                  as 16. */
         uint64_t rd_flt                : 1;  /**< [ 14: 14](R/W) Read Fault.
                                                                  0 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
-                                                                 to the NCB/cores all-ones and non-fault.  This is compatible with CN88XX pass 1.0.
+                                                                 to the NCB/cores all-ones and non-fault.
 
                                                                  1 = A PCIe non-config read which is terminated by PCIe with an error (UR, etc) will return
                                                                  to the NCB/cores all-zeros and fault.  In the case of a read by a core, this fault will
@@ -1549,9 +1549,9 @@ typedef union
                                                                  0x2 = Load 4 bytes.
                                                                  0x1 = Load 2 bytes.
                                                                  0x0 = Load 1 bytes. */
-        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The address sent to the NCB for this load request. */
+        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The IOVA sent to the NCB for this load request. */
 #else /* Word 0 - Little Endian */
-        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The address sent to the NCB for this load request. */
+        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The IOVA sent to the NCB for this load request. */
         uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command size.
                                                                  0x3 = Load 8 bytes.
                                                                  0x2 = Load 4 bytes.
@@ -1576,9 +1576,9 @@ typedef union
                                                                  0x2 = Load 4 bytes.
                                                                  0x1 = Load 2 bytes.
                                                                  0x0 = Load 1 bytes. */
-        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The address sent to the NCB for this load request. */
+        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The IOVA sent to the NCB for this load request. */
 #else /* Word 0 - Little Endian */
-        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The address sent to the NCB for this load request. */
+        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The IOVA sent to the NCB for this load request. */
         uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command size.
                                                                  0x3 = Load 8 bytes.
                                                                  0x2 = Load 4 bytes.
@@ -1611,9 +1611,9 @@ typedef union
                                                                  0x2 = Load 4 bytes.
                                                                  0x1 = Load 2 bytes.
                                                                  0x0 = Load 1 bytes. */
-        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The address sent to the NCB for this load request. */
+        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The IOVA sent to the NCB for this load request. */
 #else /* Word 0 - Little Endian */
-        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The address sent to the NCB for this load request. */
+        uint64_t rd_addr               : 49; /**< [ 48:  0](R/W) The IOVA sent to the NCB for this load request. */
         uint64_t ld_cmd                : 2;  /**< [ 50: 49](R/W) The load command size.
                                                                  0x3 = Load 8 bytes.
                                                                  0x2 = Load 4 bytes.
@@ -1695,11 +1695,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The address sent to the NCB for this store request. */
+        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
         uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_2          : 3;
-        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The address sent to the NCB for this store request. */
+        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1714,11 +1714,11 @@ typedef union
                                                                  If SLI()_SCTL[SECEN] = 0, this bit is ignored and transactions are always non-secure
                                                                  onto the NCB, though the SMMU may later promote them to secure. */
         uint64_t reserved_49_62        : 14;
-        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The address sent to the NCB for this store request. */
+        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
         uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_2          : 3;
-        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The address sent to the NCB for this store request. */
+        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
         uint64_t reserved_49_62        : 14;
         uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
                                                                  transactions during early boot when the SMMU is in bypass mode; after SMMU
@@ -1741,11 +1741,11 @@ typedef union
 
                                                                  Added in pass 2. */
         uint64_t reserved_49_62        : 14;
-        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The address sent to the NCB for this store request. */
+        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
         uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_2          : 3;
-        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The address sent to the NCB for this store request. */
+        uint64_t wr_addr               : 46; /**< [ 48:  3](R/W) The IOVA sent to the NCB for this store request. */
         uint64_t reserved_49_62        : 14;
         uint64_t secen                 : 1;  /**< [ 63: 63](R/W) This request is a secure-world transaction. This is intended to be set only for
                                                                  transactions during early boot when the SMMU is in bypass mode; after SMMU

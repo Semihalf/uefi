@@ -1249,7 +1249,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -1271,7 +1271,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if [SECVEC]
                                                                  was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1416,7 +1416,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
                                                                  CCPI system.
-                                                                 This may be a virtual or physical address; see [PA]. */
+                                                                 This may be an IOVA or physical address; see [PA]. */
         uint64_t reserved_2_6          : 5;
         uint64_t sec                   : 1;  /**< [  1:  1](SR/W) If set, and physical addressing is used as described under [PA], the physical address
                                                                  is in the secure world. */
@@ -1436,7 +1436,7 @@ typedef union
         uint64_t reserved_2_6          : 5;
         uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
                                                                  CCPI system.
-                                                                 This may be a virtual or physical address; see [PA]. */
+                                                                 This may be an IOVA or physical address; see [PA]. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1447,7 +1447,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
                                                                  CCPI system.
-                                                                 This may be a virtual or physical address; see [PA]. */
+                                                                 This may be an IOVA or physical address; see [PA]. */
         uint64_t reserved_2_6          : 5;
         uint64_t sec                   : 1;  /**< [  1:  1](SR/W) If set, and physical addressing is used as described under [PA], the physical address
                                                                  is in the secure world. */
@@ -1467,7 +1467,7 @@ typedef union
         uint64_t reserved_2_6          : 5;
         uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for base of overflow stack. This address must be on the local node in a
                                                                  CCPI system.
-                                                                 This may be a virtual or physical address; see [PA]. */
+                                                                 This may be an IOVA or physical address; see [PA]. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } cn88xx;
@@ -1503,14 +1503,14 @@ typedef union
         uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Next address to write for overflow stack. This address must be on the local node in a
                                                                  CCPI system. During initialization this must be between OCLA()_STACK_BASE and
                                                                  OCLA()_STACK_TOP.
-                                                                 This may be a virtual or physical address; see OCLA()_STACK_BASE[PA]. */
+                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
         uint64_t ptr                   : 42; /**< [ 48:  7](R/W/H) Next address to write for overflow stack. This address must be on the local node in a
                                                                  CCPI system. During initialization this must be between OCLA()_STACK_BASE and
                                                                  OCLA()_STACK_TOP.
-                                                                 This may be a virtual or physical address; see OCLA()_STACK_BASE[PA]. */
+                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1580,13 +1580,13 @@ typedef union
         uint64_t reserved_49_63        : 15;
         uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for top of overflow stack plus one. This address must be on the local node
                                                                  in a CCPI system.
-                                                                 This may be a virtual or physical address; see OCLA()_STACK_BASE[PA]. */
+                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
         uint64_t reserved_0_6          : 7;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_6          : 7;
         uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Memory address for top of overflow stack plus one. This address must be on the local node
                                                                  in a CCPI system.
-                                                                 This may be a virtual or physical address; see OCLA()_STACK_BASE[PA]. */
+                                                                 This may be an IOVA or physical address; see OCLA()_STACK_BASE[PA]. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;

@@ -4108,9 +4108,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. Added in CN88XX pass 2. */
-        uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. Added in CN88XX pass 2. */
-        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W) Global sync timeout. Added in CN88XX pass 2. */
+        uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. Added in pass 2. */
+        uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. Added in pass 2. */
+        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W) Global sync timeout. Added in pass 2. */
         uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
         uint64_t wcumult               : 1;  /**< [ 43: 43](R/W) WCU multiple match error. */
         uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
@@ -4190,9 +4190,9 @@ typedef union
         uint64_t mtlbmultdis           : 1;  /**< [ 42: 42](R/W) MTLB multiple match error disable. */
         uint64_t wcumult               : 1;  /**< [ 43: 43](R/W) WCU multiple match error. */
         uint64_t wcumultdis            : 1;  /**< [ 44: 44](R/W) WCU multiple match error disable. */
-        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W) Global sync timeout. Added in CN88XX pass 2. */
-        uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. Added in CN88XX pass 2. */
-        uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. Added in CN88XX pass 2. */
+        uint64_t gsyncto               : 1;  /**< [ 45: 45](R/W) Global sync timeout. Added in pass 2. */
+        uint64_t gsynctodis            : 1;  /**< [ 46: 46](R/W) Global sync timeout disable. Added in pass 2. */
+        uint64_t gsynctonosw           : 1;  /**< [ 47: 47](R/W) Global sync timeout, no report to software. Added in pass 2. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;

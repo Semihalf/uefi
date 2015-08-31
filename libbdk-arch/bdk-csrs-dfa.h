@@ -91,9 +91,9 @@ union bdk_dfa_cq_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t rptr                  : 49; /**< [ 48:  0] RPTR from the completed instruction. */
+        uint64_t rptr                  : 49; /**< [ 48:  0] RPTR IOVA from the completed instruction. */
 #else /* Word 0 - Little Endian */
-        uint64_t rptr                  : 49; /**< [ 48:  0] RPTR from the completed instruction. */
+        uint64_t rptr                  : 49; /**< [ 48:  0] RPTR IOVA from the completed instruction. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -684,10 +684,11 @@ typedef union
     struct bdk_dfa_cq_cfg_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t cq_ena                : 1;  /**< [ 63: 63](R/W) Enables the completion queue.
-                                                                 INTERNAL: Not functional until CN88XX pass 2. */
+        uint64_t cq_ena                : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 INTERNAL: Deprecated. Enables the completion queue. */
         uint64_t reserved_60_62        : 3;
-        uint64_t cq_size               : 4;  /**< [ 59: 56](R/W) Specifies completion queue buffer size in entries:
+        uint64_t cq_size               : 4;  /**< [ 59: 56](R/W) INTERNAL: Deprecated.
+                                                                 Specifies completion queue buffer size in entries:
                                                                  0x0 = 256 entries.
                                                                  0x1 = 512 entries.
                                                                  0x2 = 1K entries.
@@ -710,16 +711,16 @@ typedef union
                                                                  S/W maintains tail (read) pointer while H/W maintains head (write) pointer.
                                                                  S/W guarantees that HW will not overwrites an entry that was never processed by S/W.
                                                                  Number of entries currently outstanding for SW to process defined by
-                                                                 DFA_INT_STATUS[DONE_CNT].
-                                                                 INTERNAL: Not functional until CN88XX pass 2. */
+                                                                 DFA_INT_STATUS[DONE_CNT]. */
         uint64_t reserved_39_55        : 17;
-        uint64_t cq_base_ptr           : 39; /**< [ 38:  0](R/W) Global completion queue base address, divided by 1KB. Address is 1KB aligned.
-                                                                 INTERNAL: Not functional until CN88XX pass 2. */
+        uint64_t cq_base_ptr           : 39; /**< [ 38:  0](R/W) INTERNAL: Deprecated.
+                                                                 Global completion queue base address, divided by 1KB. Address is 1KB aligned. */
 #else /* Word 0 - Little Endian */
-        uint64_t cq_base_ptr           : 39; /**< [ 38:  0](R/W) Global completion queue base address, divided by 1KB. Address is 1KB aligned.
-                                                                 INTERNAL: Not functional until CN88XX pass 2. */
+        uint64_t cq_base_ptr           : 39; /**< [ 38:  0](R/W) INTERNAL: Deprecated.
+                                                                 Global completion queue base address, divided by 1KB. Address is 1KB aligned. */
         uint64_t reserved_39_55        : 17;
-        uint64_t cq_size               : 4;  /**< [ 59: 56](R/W) Specifies completion queue buffer size in entries:
+        uint64_t cq_size               : 4;  /**< [ 59: 56](R/W) INTERNAL: Deprecated.
+                                                                 Specifies completion queue buffer size in entries:
                                                                  0x0 = 256 entries.
                                                                  0x1 = 512 entries.
                                                                  0x2 = 1K entries.
@@ -742,11 +743,10 @@ typedef union
                                                                  S/W maintains tail (read) pointer while H/W maintains head (write) pointer.
                                                                  S/W guarantees that HW will not overwrites an entry that was never processed by S/W.
                                                                  Number of entries currently outstanding for SW to process defined by
-                                                                 DFA_INT_STATUS[DONE_CNT].
-                                                                 INTERNAL: Not functional until CN88XX pass 2. */
+                                                                 DFA_INT_STATUS[DONE_CNT]. */
         uint64_t reserved_60_62        : 3;
-        uint64_t cq_ena                : 1;  /**< [ 63: 63](R/W) Enables the completion queue.
-                                                                 INTERNAL: Not functional until CN88XX pass 2. */
+        uint64_t cq_ena                : 1;  /**< [ 63: 63](R/W) Reserved.
+                                                                 INTERNAL: Deprecated. Enables the completion queue. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_dfa_cq_cfg_s cn; */
@@ -1062,7 +1062,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t rdptr                 : 43; /**< [ 48:  6](R/W/H) Represents the 64-byte-aligned address of the current instruction in the HFA Instruction
+        uint64_t rdptr                 : 43; /**< [ 48:  6](R/W/H) Represents the 64-byte-aligned IOVA of the current instruction in the HFA instruction
                                                                  FIFO in main memory. The RDPTR must be seeded by software at boot time, and is then
                                                                  maintained thereafter by HFA hardware. During the seed write operation (by software),
                                                                  RDPTR<6:5> = 0, since HFA instruction chunks must be 128-byte-aligned. During a read
@@ -1075,7 +1075,7 @@ typedef union
         uint64_t reserved_0_5          : 6;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_5          : 6;
-        uint64_t rdptr                 : 43; /**< [ 48:  6](R/W/H) Represents the 64-byte-aligned address of the current instruction in the HFA Instruction
+        uint64_t rdptr                 : 43; /**< [ 48:  6](R/W/H) Represents the 64-byte-aligned IOVA of the current instruction in the HFA instruction
                                                                  FIFO in main memory. The RDPTR must be seeded by software at boot time, and is then
                                                                  maintained thereafter by HFA hardware. During the seed write operation (by software),
                                                                  RDPTR<6:5> = 0, since HFA instruction chunks must be 128-byte-aligned. During a read
@@ -1872,7 +1872,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -1892,7 +1892,7 @@ typedef union
                                                                  If PCCPF_DFA_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;

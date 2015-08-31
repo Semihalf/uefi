@@ -358,7 +358,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -378,7 +378,7 @@ typedef union
                                                                  If PCCPF_PCM_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -753,9 +753,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 49; /**< [ 48:  0](R/W/H) Address of the next write to the receive memory region. */
+        uint64_t addr                  : 49; /**< [ 48:  0](R/W/H) IOVA of the next write to the receive memory region. */
 #else /* Word 0 - Little Endian */
-        uint64_t addr                  : 49; /**< [ 48:  0](R/W/H) Address of the next write to the receive memory region. */
+        uint64_t addr                  : 49; /**< [ 48:  0](R/W/H) IOVA of the next write to the receive memory region. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -880,11 +880,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting address for the receive memory region. */
+        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting IOVA for the receive memory region. */
         uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_2          : 3;
-        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting address for the receive memory region. */
+        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting IOVA for the receive memory region. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1017,13 +1017,13 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 46; /**< [ 48:  3](R/W/H) Address of the next read from the transmit memory region. */
+        uint64_t addr                  : 46; /**< [ 48:  3](R/W/H) IOVA of the next read from the transmit memory region. */
         uint64_t fram                  : 3;  /**< [  2:  0](R/W/H) Frame offset. Used to extract the correct byte from each 64-bit word read from
                                                                  the transmit memory region. */
 #else /* Word 0 - Little Endian */
         uint64_t fram                  : 3;  /**< [  2:  0](R/W/H) Frame offset. Used to extract the correct byte from each 64-bit word read from
                                                                  the transmit memory region. */
-        uint64_t addr                  : 46; /**< [ 48:  3](R/W/H) Address of the next read from the transmit memory region. */
+        uint64_t addr                  : 46; /**< [ 48:  3](R/W/H) IOVA of the next read from the transmit memory region. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1148,11 +1148,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting address for the transmit memory region. */
+        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting IOVA for the transmit memory region. */
         uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_2          : 3;
-        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting address for the transmit memory region. */
+        uint64_t addr                  : 46; /**< [ 48:  3](R/W) Starting IOVA for the transmit memory region. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;

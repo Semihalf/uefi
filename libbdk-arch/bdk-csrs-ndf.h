@@ -196,11 +196,11 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t adr                   : 46; /**< [ 48:  3](R/W/H) DMA engine address. 64-bit aligned. */
+        uint64_t adr                   : 46; /**< [ 48:  3](R/W/H) DMA engine IOVA. 64-bit aligned. */
         uint64_t reserved_0_2          : 3;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_2          : 3;
-        uint64_t adr                   : 46; /**< [ 48:  3](R/W/H) DMA engine address. 64-bit aligned. */
+        uint64_t adr                   : 46; /**< [ 48:  3](R/W/H) DMA engine IOVA. 64-bit aligned. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -809,7 +809,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](R/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -831,7 +831,7 @@ typedef union
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is set, all vectors are secure and function as if
                                                                  [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;

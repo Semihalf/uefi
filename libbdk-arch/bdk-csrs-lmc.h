@@ -3842,23 +3842,31 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_21_63        : 43;
-        uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Added in Pass 2.0.
+        uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Reserved, MBZ.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R1]. */
-        uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](R/W) Added in Pass 2.0.
+        uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](R/W) Reserved, MBZ.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R0]. */
-        uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](R/W) Added in Pass 2.0.
+        uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](R/W) Reserved, MBZ.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D0_R1]. */
-        uint64_t delay_unload_r0       : 1;  /**< [ 17: 17](R/W) Added in Pass 2.0.
+        uint64_t delay_unload_r0       : 1;  /**< [ 17: 17](R/W) Reserved, MBZ.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D0_R0]. */
-        uint64_t early_dqx2            : 1;  /**< [ 16: 16](R/W) Added in Pass 2.0.
+        uint64_t early_dqx2            : 1;  /**< [ 16: 16](R/W) Added in pass 2.0.
 
                                                                  Similar to LMC()_CONFIG[EARLY_DQX]. This field provides an additional setting to send DQx
                                                                  signals one more CK cycle earlier on top of LMC()_CONFIG[EARLY_DQX]. */
@@ -3955,25 +3963,33 @@ typedef union
                                                                  0xD: bank<3:0> = address<10:7> ^ address<35:32>.
                                                                  0xE: bank<3:0> = address<10:7> ^ address<36:33>.
                                                                  0xF: Reserved. */
-        uint64_t early_dqx2            : 1;  /**< [ 16: 16](R/W) Added in Pass 2.0.
+        uint64_t early_dqx2            : 1;  /**< [ 16: 16](R/W) Added in pass 2.0.
 
                                                                  Similar to LMC()_CONFIG[EARLY_DQX]. This field provides an additional setting to send DQx
                                                                  signals one more CK cycle earlier on top of LMC()_CONFIG[EARLY_DQX]. */
-        uint64_t delay_unload_r0       : 1;  /**< [ 17: 17](R/W) Added in Pass 2.0.
+        uint64_t delay_unload_r0       : 1;  /**< [ 17: 17](R/W) Reserved, MBZ.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D0_R0]. */
-        uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](R/W) Added in Pass 2.0.
+        uint64_t delay_unload_r1       : 1;  /**< [ 18: 18](R/W) Reserved, MBZ.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D0_R1]. */
-        uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](R/W) Added in Pass 2.0.
+        uint64_t delay_unload_r2       : 1;  /**< [ 19: 19](R/W) Reserved, MBZ.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R0]. */
-        uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Added in Pass 2.0.
+        uint64_t delay_unload_r3       : 1;  /**< [ 20: 20](R/W) Reserved, MBZ.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved, MBZ.  INTERNAL:  When set, unload the PHY silo one cycle later for Rank 0 reads.
+                                                                 When set, unload the PHY silo one cycle later for Rank 0 reads.
                                                                  Setting this field has priority over LMC()_CONFIG[EARLY_UNLOAD_D1_R1]. */
         uint64_t reserved_21_63        : 43;
 #endif /* Word 0 - End */
@@ -7387,7 +7403,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -7401,7 +7417,7 @@ typedef union
                                                                  bit of LMC()_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -7551,9 +7567,10 @@ typedef union
                                                                  When data scrambling is enabled by setting CONTROL[SCRAMBLE_ENA] to 1, this
                                                                  field needs to be cleared to 0 in order to enable data scrambling on
                                                                  non-secure mode. */
-        uint64_t ns_dynamic_dis        : 1;  /**< [ 24: 24](R/W) Disable optimization that dynamically reduces read latency when there are no
-                                                                 longer any secure operations in flight.  For diagnostic use only.
-                                                                 Added in pass 2. */
+        uint64_t ns_dynamic_dis        : 1;  /**< [ 24: 24](R/W) Added in pass 2.0.
+
+                                                                 Disable optimization that dynamically reduces read latency when there are no
+                                                                 longer any secure operations in flight.  For diagnostic use only. */
         uint64_t reserved_18_23        : 6;
         uint64_t adr_offset            : 18; /**< [ 17:  0](R/W) Sets the offset to the non-secure region of the DRAM/L2 address space.
 
@@ -7567,9 +7584,10 @@ typedef union
 
                                                                  In 2 LMC mode, this specifies the address offset <38:21> for non-secure transaction. */
         uint64_t reserved_18_23        : 6;
-        uint64_t ns_dynamic_dis        : 1;  /**< [ 24: 24](R/W) Disable optimization that dynamically reduces read latency when there are no
-                                                                 longer any secure operations in flight.  For diagnostic use only.
-                                                                 Added in pass 2. */
+        uint64_t ns_dynamic_dis        : 1;  /**< [ 24: 24](R/W) Added in pass 2.0.
+
+                                                                 Disable optimization that dynamically reduces read latency when there are no
+                                                                 longer any secure operations in flight.  For diagnostic use only. */
         uint64_t ns_scramble_dis       : 1;  /**< [ 25: 25](R/W) When set, this field disables data scrambling on non-secure accesses only.
                                                                  When data scrambling is enabled by setting CONTROL[SCRAMBLE_ENA] to 1, this
                                                                  field needs to be cleared to 0 in order to enable data scrambling on
@@ -8232,36 +8250,46 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_61_63        : 3;
-        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Added in Pass 2.0.
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
+                                                                 When set, LMC prevents PHY from loading the deskew shift
                                                                  registers with its internal settings. When Read Deskew sequence is kicked off
                                                                  by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
                                                                  whether or not to load the shift register with PHY's internal settings before
                                                                  the shifting process. */
-        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Added in Pass 2.0.
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
+                                                                 When set high, PHY selects all of the preloaded data
                                                                  when configuring the read deskew settings. */
-        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Added in Pass 2.0.
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+                                                                 When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
                                                                  Overwrite sequence to shift out a 10-bits setting for a single DQ.
                                                                  Note that there are a total of 9 bytes and the chain structure are split into two
                                                                  halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
                                                                  ECC,3,2,1,0.
                                                                  Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
                                                                  DQ has 10-bits deskew setting. */
-        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Added in pass 2.0.
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+                                                                 DQ data rate loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
                                                                  backed out through odd DQ at the same rate.
                                                                  When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
                                                                  DQ against each DQS edge seperately. This is done at the clock rate. */
-        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Added in pass 2.0.
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+                                                                 DQ shallow loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
                                                                  without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
                                                                  LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
@@ -8305,15 +8333,21 @@ typedef union
                                                                  0x3 = Deskew read clock toggles every 16 DCLKs. */
         uint64_t dsk_dbg_offset        : 2;  /**< [ 35: 34](R/W) Reserved. INTERNAL: Offset to change delay of deskew debug data return time to LMC from
                                                                  DDR PHY. */
-        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Changed in pass 2.0.
-                                                                 Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Changed in pass 2.0.
+
+                                                                 Deskew debug, select number of bits per byte lane.
                                                                  0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
                                                                  1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
                                                                  have to be set to 1. */
         uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
-        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Changed in pass 2.0.
-                                                                 Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Changed in pass 2.0.
+
+                                                                 Deskew debug bit select for dsk read operation.
                                                                  0x0 = DQ0.
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
@@ -8397,8 +8431,11 @@ typedef union
         uint64_t ref_pin_on            : 1;  /**< [ 22: 22](R/W) Reserved. INTERNAL: Voltage reference pin enabled. */
         uint64_t ddr_error_n_ena       : 1;  /**< [ 23: 23](R/W) Enable error_alert_n signal for PHY. */
         uint64_t dbi_mode_ena          : 1;  /**< [ 24: 24](R/W) Enable DBI mode for PHY. */
-        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Changed in pass 2.0.
-                                                                 Reserved. INTERNAL: Deskew debug bit select for dsk read operation.
+        uint64_t dsk_dbg_bit_sel       : 4;  /**< [ 28: 25](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Changed in pass 2.0.
+
+                                                                 Deskew debug bit select for dsk read operation.
                                                                  0x0 = DQ0.
                                                                  0x1 = DQ1.
                                                                  0x2 = DQ2.
@@ -8411,8 +8448,11 @@ typedef union
                                                                  0x9 = DQ7. */
         uint64_t dsk_dbg_byte_sel      : 4;  /**< [ 32: 29](R/W) Reserved. INTERNAL: Deskew debug byte select for read operation. Values 0-3 correspond to
                                                                  byte lanes 0-3, 4 is for ECC, 5-8 are byte lanes 4-7. */
-        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Changed in pass 2.0.
-                                                                 Reserved. INTERNAL: Deskew debug, select number of bits per byte lane.
+        uint64_t dsk_dbg_num_bits_sel  : 1;  /**< [ 33: 33](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Changed in pass 2.0.
+
+                                                                 Deskew debug, select number of bits per byte lane.
                                                                  0 = 8 bits per byte lane, no DBI, no DAC debug. CN70XX has to be set to this value.
                                                                  1 = 10 bits per byte lane, including DBI and DAC. CN78XX, CN88XX and CN73XX
                                                                  have to be set to 1. */
@@ -8456,35 +8496,45 @@ typedef union
                                                                  Note that setting this field high is NOT allowed when LMC has the write DBI feature turned
                                                                  on
                                                                  (MODEREG_PARAMS3[WR_DBI]=1). */
-        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Added in pass 2.0.
+        uint64_t dq_shallow_loopback   : 1;  /**< [ 56: 56](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved. INTERNAL: DQ shallow loopback, working in conjunction with LOOPBACK assertion.
+                                                                 DQ shallow loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, even DQ inputs can be loop-backed out through its adjacent odd DQ outputs
                                                                  without being flop'd by DQS. Need to make sure LMC()_PHY_CTL[PHY_DSK_BYP] is set and
                                                                  LMC()_PHY_CTL[INT_PHY_LOOPBACK_ENA] is unset. */
-        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Added in pass 2.0.
+        uint64_t data_rate_loopback    : 1;  /**< [ 57: 57](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved. INTERNAL: DQ data rate loopback, working in conjunction with LOOPBACK assertion.
+                                                                 DQ data rate loopback, working in conjunction with LOOPBACK assertion.
                                                                  When asserted, incoming PRBS at even DQ can be set at data rate, and the data is loop
                                                                  backed out through odd DQ at the same rate.
                                                                  When de-asserted, LOOPBACK assertion is working along with LOOPBACK_POS to check on even
                                                                  DQ against each DQS edge seperately. This is done at the clock rate. */
-        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Added in Pass 2.0.
+        uint64_t dsk_dbg_wr_mode       : 1;  /**< [ 58: 58](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved. INTERNAL: When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
+                                                                 When set high along with DSK_DBG_RD_START, LMC kicks off Deskew
                                                                  Overwrite sequence to shift out a 10-bits setting for a single DQ.
                                                                  Note that there are a total of 9 bytes and the chain structure are split into two
                                                                  halves such that the top chain covers byte 7,6,5,4 and bottom chain cover byte
                                                                  ECC,3,2,1,0.
                                                                  Each byte has 10 DQs (DQ7,DQ6,DQ5,DQ4,DBI,DAC,DQ3,DQ2,DQ1,DQ0) and that each
                                                                  DQ has 10-bits deskew setting. */
-        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Added in Pass 2.0.
+        uint64_t dsk_dbg_overwrt_ena   : 1;  /**< [ 59: 59](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved. INTERNAL:  When set high, PHY selects all of the preloaded data
+                                                                 When set high, PHY selects all of the preloaded data
                                                                  when configuring the read deskew settings. */
-        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Added in Pass 2.0.
+        uint64_t dsk_dbg_load_dis      : 1;  /**< [ 60: 60](R/W) Reserved.
+                                                                 INTERNAL:
+                                                                 Added in pass 2.0.
 
-                                                                 Reserved. INTERNAL: When set, LMC prevents PHY from loading the deskew shift
+                                                                 When set, LMC prevents PHY from loading the deskew shift
                                                                  registers with its internal settings. When Read Deskew sequence is kicked off
                                                                  by setting DSK_DBG_RD_START = 1 and DSK_DBG_WR_MODE = 0, this field determines
                                                                  whether or not to load the shift register with PHY's internal settings before
@@ -9154,7 +9204,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
-        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) Added in Pass 2.0.
+        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) Added in pass 2.0.
 
                                                                  When set, the read leveling sequence uses MODEREG_PARAMS3[TCCD_L] to
                                                                  space out back-to-back read commands. Otherwise the back-to-back
@@ -9208,7 +9258,7 @@ typedef union
                                                                  normally be set, particularly at higher speeds. */
         uint64_t reserved_22_23        : 2;
         uint64_t pattern               : 8;  /**< [ 31: 24](R/W) Sets the data pattern used to match in read-leveling operations. */
-        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) Added in Pass 2.0.
+        uint64_t tccd_sel              : 1;  /**< [ 32: 32](R/W) Added in pass 2.0.
 
                                                                  When set, the read leveling sequence uses MODEREG_PARAMS3[TCCD_L] to
                                                                  space out back-to-back read commands. Otherwise the back-to-back

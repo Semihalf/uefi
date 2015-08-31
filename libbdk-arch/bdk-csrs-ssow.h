@@ -319,9 +319,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) Address of the work-queue entry to CLR_NSCHED on. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to CLR_NSCHED on. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) Address of the work-queue entry to CLR_NSCHED on. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to CLR_NSCHED on. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -483,11 +483,9 @@ typedef union
                                                                  SWTAG_FULL, or SWTAG_DESCHED to ORDERED or ATOMIC. Always clear otherwise. (The DESCHED
                                                                  portion of a SWTAG_DESCHED cannot still be pending.) */
         uint64_t reserved_49_61        : 13;
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Address of the work-queue entry. Unpredictable when
-                                                                 [NO_WORK] = 1. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) IOVA of the work-queue entry. Unpredictable when [NO_WORK] = 1. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) Address of the work-queue entry. Unpredictable when
-                                                                 [NO_WORK] = 1. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](RO/H) IOVA of the work-queue entry. Unpredictable when [NO_WORK] = 1. */
         uint64_t reserved_49_61        : 13;
         uint64_t pend_switch           : 1;  /**< [ 62: 62](RO/H) Pending Switch. Set in the result of an indexed GET_WORK when there is a pending SWTAG,
                                                                  SWTAG_FULL, or SWTAG_DESCHED to ORDERED or ATOMIC. Always clear otherwise. (The DESCHED
@@ -611,9 +609,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) Address of the work-queue entry to switch to. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to switch to. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) Address of the work-queue entry to switch to. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to switch to. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -871,9 +869,9 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) Address of the work-queue entry to switch to. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to switch to. */
 #else /* Word 0 - Little Endian */
-        uint64_t wqp                   : 49; /**< [ 48:  0](WO) Address of the work-queue entry to switch to. */
+        uint64_t wqp                   : 49; /**< [ 48:  0](WO) IOVA of the work-queue entry to switch to. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;

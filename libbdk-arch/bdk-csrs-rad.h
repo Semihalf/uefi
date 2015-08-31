@@ -361,11 +361,11 @@ union bdk_rad_iword_s
                                                                  [PEN] must not be set when RAD_CWORD_S[POUT] is not set.
                                                                  If RAD_CWORD_S[POUT] is set, [PEN] must be set for at least one RAD_IWORD_S. */
         uint64_t reserved_49_52        : 4;
-        uint64_t ptr                   : 49; /**< [ 48:  0] The starting address of the input buffer in L2/DRAM. Must be naturally aligned on an
+        uint64_t ptr                   : 49; /**< [ 48:  0] The starting IOVA of the input buffer in L2/DRAM. Must be naturally aligned on an
                                                                  eight-byte boundary (i.e. <2:0> must be zero). The SMMU stream used may be overridden with
                                                                  RAD_CWORD_S[ISTR]. */
 #else /* Word 0 - Little Endian */
-        uint64_t ptr                   : 49; /**< [ 48:  0] The starting address of the input buffer in L2/DRAM. Must be naturally aligned on an
+        uint64_t ptr                   : 49; /**< [ 48:  0] The starting IOVA of the input buffer in L2/DRAM. Must be naturally aligned on an
                                                                  eight-byte boundary (i.e. <2:0> must be zero). The SMMU stream used may be overridden with
                                                                  RAD_CWORD_S[ISTR]. */
         uint64_t reserved_49_52        : 4;
@@ -440,6 +440,60 @@ union bdk_rad_oword_s
                                                                  RAD_OWORD_S[NC] must not be set when RAD_CWORD_S[Q_CMP] is set, and the P RAD_OWORD_S[NC]
                                                                  must not be set when RAD_CWORD_S[P_CMP] is set. */
         uint64_t reserved_49_55        : 7;
+        uint64_t p_ptr                 : 49; /**< [ 48:  0] When RAD_CWORD_S[P_CMP,Q_CMP]=0, [PTR] indicates the starting IOVA of the L2/DRAM
+                                                                 buffer that will receive the P/Q data.  The SMMU stream used may be overridden with
+                                                                 RAD_CWORD_S[OSTR].
+
+                                                                 In the non-compare mode, the output buffer receives
+                                                                 all of the output buffer bytes.
+
+                                                                 When RAD_CWORD_S[P_CMP,Q_CMP]=1, the corresponding P/Q pipe is in compare mode, and the
+                                                                 only output of the pipe is the non-zero detect result. In this case, [PTR] indicates the
+                                                                 8-byte location of the non-zero detect result, which is written with RAD_NZDIST_S.
+
+                                                                 [P_PTR] must be naturally-aligned on an 8-byte boundary (i.e. <2:0> must be zero). */
+#else /* Word 0 - Little Endian */
+        uint64_t p_ptr                 : 49; /**< [ 48:  0] When RAD_CWORD_S[P_CMP,Q_CMP]=0, [PTR] indicates the starting IOVA of the L2/DRAM
+                                                                 buffer that will receive the P/Q data.  The SMMU stream used may be overridden with
+                                                                 RAD_CWORD_S[OSTR].
+
+                                                                 In the non-compare mode, the output buffer receives
+                                                                 all of the output buffer bytes.
+
+                                                                 When RAD_CWORD_S[P_CMP,Q_CMP]=1, the corresponding P/Q pipe is in compare mode, and the
+                                                                 only output of the pipe is the non-zero detect result. In this case, [PTR] indicates the
+                                                                 8-byte location of the non-zero detect result, which is written with RAD_NZDIST_S.
+
+                                                                 [P_PTR] must be naturally-aligned on an 8-byte boundary (i.e. <2:0> must be zero). */
+        uint64_t reserved_49_55        : 7;
+        uint64_t nc                    : 1;  /**< [ 56: 56] When set, indicates that RAD should not allocate L2 cache space for the P/Q data on L2
+                                                                 cache misses. [NC] should typically be clear, though setting [NC] can improve performance
+                                                                 in some circumstances, as the L2 cache will not be polluted by P/Q data. The Q
+                                                                 RAD_OWORD_S[NC] must not be set when RAD_CWORD_S[Q_CMP] is set, and the P RAD_OWORD_S[NC]
+                                                                 must not be set when RAD_CWORD_S[P_CMP] is set. */
+        uint64_t fw                    : 1;  /**< [ 57: 57] When set, indicates that RAD can modify any byte in any (128B) cache line touched by
+                                                                 L2/DRAM addresses [PTR] through [PTR]+RAD_CWORD_S[SIZE]. Setting [FW] can improve hardware
+                                                                 performance, as some DRAM loads can be avoided on L2 cache misses. The Q [FW] must not be
+                                                                 set when RAD_CWORD_S[Q_CMP] is set, and the P [FW] must not be set when RAD_CWORD_S[P_CMP]
+                                                                 is set. */
+        uint64_t reserved_58_63        : 6;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_rad_oword_s_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_58_63        : 6;
+        uint64_t fw                    : 1;  /**< [ 57: 57] When set, indicates that RAD can modify any byte in any (128B) cache line touched by
+                                                                 L2/DRAM addresses [PTR] through [PTR]+RAD_CWORD_S[SIZE]. Setting [FW] can improve hardware
+                                                                 performance, as some DRAM loads can be avoided on L2 cache misses. The Q [FW] must not be
+                                                                 set when RAD_CWORD_S[Q_CMP] is set, and the P [FW] must not be set when RAD_CWORD_S[P_CMP]
+                                                                 is set. */
+        uint64_t nc                    : 1;  /**< [ 56: 56] When set, indicates that RAD should not allocate L2 cache space for the P/Q data on L2
+                                                                 cache misses. [NC] should typically be clear, though setting [NC] can improve performance
+                                                                 in some circumstances, as the L2 cache will not be polluted by P/Q data. The Q
+                                                                 RAD_OWORD_S[NC] must not be set when RAD_CWORD_S[Q_CMP] is set, and the P RAD_OWORD_S[NC]
+                                                                 must not be set when RAD_CWORD_S[P_CMP] is set. */
+        uint64_t reserved_49_55        : 7;
         uint64_t p_ptr                 : 49; /**< [ 48:  0] When RAD_CWORD_S[P_CMP,Q_CMP]=0, [PTR] indicates the starting address of the L2/DRAM
                                                                  buffer that will receive the P/Q data.  The SMMU stream used may be overridden with
                                                                  RAD_CWORD_S[OSTR].
@@ -478,8 +532,8 @@ union bdk_rad_oword_s
                                                                  is set. */
         uint64_t reserved_58_63        : 6;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rad_oword_s_s cn; */
+    } cn88xx;
+    /* struct bdk_rad_oword_s_s cn83xx; */
 };
 
 /**
@@ -504,7 +558,7 @@ union bdk_rad_resp_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_113_127      : 15;
-        uint64_t ptr                   : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM byte
+        uint64_t ptr                   : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM IOVA byte
                                                                  indicated by [PTR] to zero after completing the
                                                                  instruction. RAD_REG_CTL[STORE_BE] indicates the endianness of [PTR]. The SMMU
                                                                  stream used may be overridden with [STR].
@@ -513,7 +567,7 @@ union bdk_rad_resp_s
                                                                  entry that RAD submits work to SSO after completing the instruction. [PTR] must
                                                                  be naturally-aligned on an 8B boundary (i.e. <2:0> must be zero). */
 #else /* Word 1 - Little Endian */
-        uint64_t ptr                   : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM byte
+        uint64_t ptr                   : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM IOVA byte
                                                                  indicated by [PTR] to zero after completing the
                                                                  instruction. RAD_REG_CTL[STORE_BE] indicates the endianness of [PTR]. The SMMU
                                                                  stream used may be overridden with [STR].
@@ -574,7 +628,7 @@ union bdk_rad_resp_s
 #endif /* Word 0 - End */
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 1 - Big Endian */
         uint64_t reserved_113_127      : 15;
-        uint64_t ptr                   : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM byte
+        uint64_t ptr                   : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM IOVA byte
                                                                  indicated by [PTR] to zero after completing the
                                                                  instruction. RAD_REG_CTL[STORE_BE] indicates the endianness of [PTR]. The SMMU
                                                                  stream used may be overridden with [STR].
@@ -583,7 +637,7 @@ union bdk_rad_resp_s
                                                                  entry that RAD submits work to SSO after completing the instruction. [PTR] must
                                                                  be naturally-aligned on an 8B boundary (i.e. <2:0> must be zero). */
 #else /* Word 1 - Little Endian */
-        uint64_t ptr                   : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM byte
+        uint64_t ptr                   : 49; /**< [112: 64] When RAD_CWORD_S[WQE] is clear and [PTR] != 0, RAD writes the L2/DRAM IOVA byte
                                                                  indicated by [PTR] to zero after completing the
                                                                  instruction. RAD_REG_CTL[STORE_BE] indicates the endianness of [PTR]. The SMMU
                                                                  stream used may be overridden with [STR].
@@ -1189,7 +1243,7 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
@@ -1209,7 +1263,7 @@ typedef union
                                                                  If PCCPF_RAD_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
+        uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
@@ -1462,7 +1516,21 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_rad_reg_cmd_ptr_s cn; */
+    /* struct bdk_rad_reg_cmd_ptr_s cn88xx; */
+    struct bdk_rad_reg_cmd_ptr_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_49_63        : 15;
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Initial command-buffer IOVA (128-byte aligned). Overwritten each time the
+                                                                 command-buffer segment is exhausted. */
+        uint64_t reserved_0_6          : 7;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_6          : 7;
+        uint64_t ptr                   : 42; /**< [ 48:  7](R/W) Initial command-buffer IOVA (128-byte aligned). Overwritten each time the
+                                                                 command-buffer segment is exhausted. */
+        uint64_t reserved_49_63        : 15;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_rad_reg_cmd_ptr_t;
 
 #define BDK_RAD_REG_CMD_PTR BDK_RAD_REG_CMD_PTR_FUNC()
