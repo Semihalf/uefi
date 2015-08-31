@@ -6,6 +6,9 @@
 #ifndef BDK_MMC_CLOCK_HZ
 #define BDK_MMC_CLOCK_HZ 10000000
 #endif
+/* Some large devices (32GB Samsung EVO) have shown timeouts with a watchdog of
+   500ms. The 750ms values is to give a 50% margin */
+#define BDK_MMC_WATCHDOG 750 /* In milliseconds */
 
 // Basic Commands
 #define MMC_CMD_GO_IDLE_STATE		0
@@ -419,11 +422,11 @@ static bdk_mio_emm_rsp_sts_t mmc_cmd(bdk_node_t node, uint64_t cmd, uint64_t arg
     BDK_CSR_READ(node, BDK_MIO_EMM_CMD);
     BDK_CSR_INIT(sts_reg, node, BDK_MIO_EMM_RSP_STS);
 
-    /* We use loops ever 1ms here instead of a wall time based timeout so
+    /* We use loops every 1ms here instead of a wall time based timeout so
         code isn't needed to keep track of accurate time on both host and
         target */
     BDK_TRACE(EMMC, "Waiting for command completion\n");
-    int wait_loops = bdk_is_platform(BDK_PLATFORM_EMULATOR) ? 100000 : 100;
+    int wait_loops = bdk_is_platform(BDK_PLATFORM_EMULATOR) ? 100000 : BDK_MMC_WATCHDOG;
     while (sts_reg.s.cmd_done != 1)
     {
         if (--wait_loops <= 0)
@@ -616,14 +619,14 @@ static void print_csd_reg(int chip_sel, uint64_t reg_hi, uint64_t reg_lo)
 
 
 /**
- * Setup the eMMC controller watchdog to 100ms
+ * Setup the eMMC controller watchdog to BDK_MMC_WATCHDOG(ms)
  */
 static void wdog_default(bdk_node_t node)
 {
-    BDK_CSR_INIT(rst_boot, node, BDK_RST_BOOT);
     BDK_CSR_INIT(mode_reg, node, BDK_MIO_EMM_MODEX(0));
-    uint64_t sclk = 50000000ull * rst_boot.s.pnr_mul;
-    uint64_t wdog_value = sclk / 10 / (mode_reg.s.clk_hi + mode_reg.s.clk_lo);
+    uint64_t sclk = bdk_clock_get_rate(node, BDK_CLOCK_SCLK);
+    uint64_t wdog_value = sclk * BDK_MMC_WATCHDOG / 1000;
+    wdog_value /= mode_reg.s.clk_hi + mode_reg.s.clk_lo;
     BDK_CSR_WRITE(node, BDK_MIO_EMM_WDOG, wdog_value);
 }
 
