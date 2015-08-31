@@ -18,8 +18,13 @@ all: version
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8604
+
+.PHONY: mfg-screen
+mfg-screen: all
 	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 # REMOVE-RELEASE
 	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8804 # REMOVE-RELEASE
+	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8604 # REMOVE-RELEASE
+
 
 #
 # Split docs out from all to allow build to reach tftp when docs fails.
@@ -38,10 +43,14 @@ clean:
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8800 clean
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8804 clean
 	$(MAKE) -C normal-boot BOARD_TYPE=ebb8604 clean
-	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 clean # REMOVE-RELEASE
-	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8804 clean # REMOVE-RELEASE
 	$(MAKE) -C docs clean
 	rm -f target-bin/*.bin
+
+.PHONY: mfg-screen-clean
+mfg-screen-clean: clean
+	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8800 clean # REMOVE-RELEASE
+	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8804 clean # REMOVE-RELEASE
+	$(MAKE) -C normal-boot BOARD_TYPE=screen-ebb8604 clean # REMOVE-RELEASE
 
 .PHONY: distclean
 distclean: clean
@@ -69,14 +78,6 @@ ifndef ASIM
 	echo ERROR: Define ASIM in the environment, the directory of asim && false
 endif
 	ASIM_CHIP=$(ASIM_CHIP) UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
-
-.PHONY: run-screen
-run-screen:
-ifndef ASIM
-	echo ERROR: Define ASIM in the environment, the directory of asim && false
-endif
-	ASIM_CHIP=$(ASIM_CHIP) UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-screen-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/screen-ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
-
 
 #
 # Determine the BDK version based on the last change in the version
@@ -158,7 +159,7 @@ release: all docs
 	$(MAKE) -C libc clean
 	cp -a lib* $(RELEASE_DIR)/
 	cp -a utils $(RELEASE_DIR)/
-	grep -v "REMOVE-RELEASE" Makefile > $(RELEASE_DIR)/Makefile
+	grep -E -v "REMOVE-RELEASE|mfg-screen" Makefile > $(RELEASE_DIR)/Makefile
 	# Copy boot stubs
 	cp -a bdk-boot $(RELEASE_DIR)/
 	cp -a normal-boot $(RELEASE_DIR)/
