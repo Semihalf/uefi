@@ -373,9 +373,10 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
 
     /* Start the port controller */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_CMD(controller),
-        c.s.fre = 1;
-        c.s.sud = 1;
-        c.s.st = 1);
+        c.s.fre = 1; /* FIS receive enable */
+        c.s.pod = 1; /* Power on the device */
+        c.s.sud = 1; /* Spin up device */
+        c.s.st = 1); /* Start the controller */
     return 0;
 }
 
