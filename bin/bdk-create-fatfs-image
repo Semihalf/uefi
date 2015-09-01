@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/bin/bash -xv
 
 FATFS_TMP=fatfs.tmp
 
@@ -110,7 +110,7 @@ dd bs=64K seek=8 if=${FATFS_TMP} of=${OUT_FILE} conv=notrunc 2> /dev/null || exi
 #    t          Change type
 #    1          FAT12
 #    w          Write changes
-${FDISK} -c -u -C 1 ${OUT_FILE} &>/dev/null <<EOF || exit 1
+${FDISK} -u -C 1 ${OUT_FILE} &>/dev/null <<EOF
 n
 p
 1
