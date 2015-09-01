@@ -377,6 +377,9 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
         c.s.pod = 1; /* Power on the device */
         c.s.sud = 1; /* Spin up device */
         c.s.st = 1); /* Start the controller */
+    /* Wait 100ms after starting the controller before proceeding. This seems
+       to be needed for an Intel 80G SSD */
+    bdk_wait_usec(100000);
     return 0;
 }
 
@@ -532,14 +535,14 @@ uint64_t bdk_sata_identify(bdk_node_t node, int controller, int port)
     if (!__bdk_sata_is_initialized(node, controller))
     {
         if (bdk_sata_initialize(node, controller))
-            return -1;
+            return 0;
     }
 
     const int TIMEOUT = 1000000; /* 1 seconds */
     if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SATAX_UAHC_P0_SSTS(controller), ipm, !=, 0, TIMEOUT))
     {
         bdk_error("N%d.SATA%d: Response timeout\n", node, controller);
-        return -1;
+        return 0;
     }
 
     /* Read the Serial ATA Status */
