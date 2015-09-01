@@ -86,6 +86,13 @@ void register_cavium_constants(lua_State* L)
     push_bdk_enum(BDK_PCIE_MEM_PREFETCH);
     push_bdk_enum(BDK_PCIE_MEM_IO);
 
+    /* SATA test constants */
+    push_bdk_enum(BDK_SATA_BIST_FIS_RETIMED);
+    push_bdk_enum(BDK_SATA_BIST_FIS_ANALOG);
+    push_bdk_enum(BDK_SATA_BIST_FIS_TX_ONLY);
+    push_bdk_enum(BDK_SATA_BIST_SW_RETIMED);
+    push_bdk_enum(BDK_SATA_BIST_SW_TX_ONLY);
+
     lua_pushnumber(L, bdk_numa_master());
     lua_setfield(L, -2, "MASTER_NODE");
 #endif

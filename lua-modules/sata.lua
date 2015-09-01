@@ -119,6 +119,26 @@ while (option ~= "quit") do
         local size = cavium.c.bdk_sata_identify(menu.node, sata, 0)
     end)
 
+    m:item("fis-retimed", "Issue BIST FIS - Far-end Retimed Loopback", function()
+        local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_FIS_RETIMED)
+    end)
+
+    m:item("fis-analog", "Issue BIST FIS - Far-end Analog Loopback", function()
+        local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.BIST_FIS_ANALOG)
+    end)
+
+    m:item("fis-tx", "Issue BIST FIS - Far-end Transmit Only", function()
+        local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_FIS_TX_ONLY)
+    end)
+
+    m:item("sw-retimed", "Enter Local-end Retimed Loopback", function()
+        local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_SW_RETIMED)
+    end)
+
+    m:item("sw-tx", "Enter Local-end Transmit Only", function()
+        local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_SW_TX_ONLY)
+    end)
+
     m:item("hex", "Hex display", function()
         local offset = menu.prompt_number("Starting sector")
         local length = menu.prompt_number("Number of sectors", 1)

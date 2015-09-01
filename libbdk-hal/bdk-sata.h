@@ -10,6 +10,20 @@
  */
 
 /**
+ * SATA pattern generation and loopback supports a number of
+ * modes. This enumeration describes the modes used by
+ * bdk_sata_bist_fir().
+ */
+typedef enum
+{
+    BDK_SATA_BIST_FIS_RETIMED, /* Send FIS to tell device to enter Retimed loopback */
+    BDK_SATA_BIST_FIS_ANALOG,  /* Send FIS to tell device to enter Analog loopback */
+    BDK_SATA_BIST_FIS_TX_ONLY, /* Send FIS to tell device to transit only */
+    BDK_SATA_BIST_SW_RETIMED,  /* No FIS, just enter local retimed loopback */
+    BDK_SATA_BIST_SW_TX_ONLY,  /* No FIS, just enter local transit only */
+} bdk_sata_bist_fis_t;
+
+/**
  * Return the number of SATA controllers on the chip
  *
  * @param node   Node to query
@@ -86,5 +100,17 @@ int bdk_sata_read(bdk_node_t node, int controller, int port, uint64_t lba, int s
  * @return Zero on success, negative on failure
  */
 int bdk_sata_write(bdk_node_t node, int controller, int port, uint64_t lba, int sectors, const void *buffer);
+
+/**
+ * Enter one of the SATA pattern generation / loop testing modes
+ *
+ * @param node       Node to access
+ * @param controller SATA controller to access
+ * @param port       Which port on the controller
+ * @param mode       Test mode to enter
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_sata_bist_fis(bdk_node_t node, int controller, int port, bdk_sata_bist_fis_t mode);
 
 /** @} */

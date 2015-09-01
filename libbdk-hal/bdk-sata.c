@@ -683,3 +683,141 @@ int bdk_sata_write(bdk_node_t node, int controller, int port, uint64_t lba, int 
     return 0;
 }
 
+/**
+ * Enter one of the SATA pattern generation / loop testing modes
+ *
+ * @param node       Node to access
+ * @param controller SATA controller to access
+ * @param port       Which port on the controller
+ * @param mode       Test mode to enter
+ *
+ * @return Zero on success, negative on failure
+ */
+int bdk_sata_bist_fis(bdk_node_t node, int controller, int port, bdk_sata_bist_fis_t mode)
+{
+    if (!__bdk_sata_is_initialized(node, controller))
+    {
+        if (bdk_sata_initialize(node, controller))
+            return -1;
+    }
+
+    /* Select the port we're doing BIST loopback on */
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_TESTR(controller),
+        c.s.psel = port);
+    /* Select the pattern - High transition density pattern (HTDP) */
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_BISTCR(controller),
+        c.s.pattern = 1);
+
+    /*
+        Note from the Synopsys SATA bist training video on pattern generation
+        without using BIST FIS.
+
+        1) Far-end Re-timed Loopback Responder Mode (Software Initiated)
+
+        In this mode the host controller receives the pattern and transmits
+        it back out. The setup of the mode is done by software, so no BIST FIS
+        frames are needed. After software sets it up, any pattern generator
+        should be able to send a pattern and get it back.
+
+        Setup:
+        1) Write SATAX_UAHC_GBL_BISTCR.ferlib = 1
+        2) Connect pattern generator
+        3) Pattern generator msut send ALIGNs for PHY sync up
+        4) Pattern should be looped back out
+
+        2) Far-end Transmit Only Responder Mode (Software Initiated)
+
+        In this mode the host controller sends a transmit pattern and ignores
+        all input. This is useful for checking the TX eye diagram without an
+        external pattern generator.
+
+        Setup:
+        1) Write SATAX_UAHC_GBL_BISTCR.pattern to select the pattern.
+        2) Write SATAX_UAHC_GBL_BISTCR.txo = 1.
+        3) Host starts sending the requested BIST pattern.
+
+        BIST FIS Modes:
+        1) Far-end Analog Loopback (F=1)
+            Far end loops the received pattern back to transmit without retiming
+            the symbols. This is optional in the SATA 3.0 spec.
+        2) Far-end Retimed Loopback (L=1)
+            Far end loops the received pattern back to transmit after retiming
+            the symbols. This is mandatory in the SATA 3.0 spec.
+        3) Far-end Transmit Only (T=1, with other bits)
+            Far end transits a pattern and ignores its input. This is optional
+            in the SATA 3.0 spec.
+    */
+    if (mode == BDK_SATA_BIST_SW_RETIMED)
+    {
+        /* No FIS, just enter local retimed loopback */
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_BISTCR(controller),
+            c.s.ferlib = 1);
+        BDK_TRACE(SATA, "N%d.SATA%d: Started Retimed loopback\n", node, controller);
+        return 0;
+    }
+    else if (mode == BDK_SATA_BIST_SW_TX_ONLY)
+    {
+        /* No FIS, just enter local transit only */
+        BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_BISTCR(controller),
+            c.s.txo = 1);
+        BDK_TRACE(SATA, "N%d.SATA%d: Started tranmsit only\n", node, controller);
+        return 0;
+    }
+
+    /* Issue a BIST FIS command */
+
+    /* Pick a command slot to use */
+    int slot = 0;
+    hba_cmd_header_t *cmd_header = bdk_phys_to_ptr(BDK_CSR_READ(node, BDK_SATAX_UAHC_P0_CLB(controller)));
+    cmd_header += slot;
+
+    /* Build a command table with the command to execute */
+    hba_cmd_tbl_t cmd_table BDK_CACHE_LINE_ALIGNED;
+    memset(&cmd_table, 0, sizeof(hba_cmd_tbl_t));
+
+    /* The actual BIST FIS command */
+    fis_bist_t *bist_fis = (fis_bist_t *)cmd_table.cfis;
+    bist_fis->fis_type = FIS_TYPE_BIST;
+    switch (mode)
+    {
+        case BDK_SATA_BIST_FIS_RETIMED: /* Send FIS to tell device to enter Retimed loopback */
+            bist_fis->l = 1;
+            break;
+        case BDK_SATA_BIST_FIS_ANALOG:  /* Send FIS to tell device to enter Analog loopback */
+            bist_fis->f = 1;
+            break;
+        case BDK_SATA_BIST_FIS_TX_ONLY: /* Send FIS to tell device to transit only */
+            bist_fis->t = 1;
+            break;
+        default:
+            bdk_error("Invalid SATA BIST FIS mode %d\n", mode);
+            return -1;
+    }
+
+    /* Setup the command header */
+    memset(cmd_header, 0, sizeof(hba_cmd_header_t));
+    cmd_header->cfl = sizeof(fis_bist_t) / 4;
+    cmd_header->b = 1;
+    cmd_header->ctba = bdk_ptr_to_phys(&cmd_table);
+
+    BDK_WMB;
+
+    /* Check that the slot is idle */
+    BDK_CSR_INIT(ci, node, BDK_SATAX_UAHC_P0_CI(controller));
+    if (ci.u & (1<<slot))
+    {
+        bdk_error("N%d.SATA%d: Command slot busy before submit\n", node, controller);
+        return -1;
+    }
+
+    /* Clear all status bits */
+    BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_IS(controller), -1);
+    BDK_CSR_READ(node, BDK_SATAX_UAHC_P0_IS(controller));
+
+    /* Issue command */
+    BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_CI(controller), 1 << slot);
+    BDK_TRACE(SATA, "N%d.SATA%d: Sent BIST FIS\n", node, controller);
+
+    return 0;
+}
+
