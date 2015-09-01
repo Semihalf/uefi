@@ -278,8 +278,10 @@ static int __bdk_sata_is_initialized(bdk_node_t node, int controller)
     BDK_CSR_INIT(uctl_ctl, node, BDK_SATAX_UCTL_CTL(controller));
     if (!uctl_ctl.s.a_clk_en || uctl_ctl.s.a_clkdiv_rst)
         return 0;
-    BDK_CSR_INIT(fb, node, BDK_SATAX_UAHC_P0_FB(controller));
-    return fb.u != 0;
+
+    /* See if the controller is started */
+    BDK_CSR_INIT(cmd, node, BDK_SATAX_UAHC_P0_CMD(controller));
+    return cmd.s.st;
 }
 
 /**
@@ -312,26 +314,34 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
     }
 
     /* Allocate area for commands */
-    void *clb = memalign(1024, sizeof(hba_cmd_header_t) * 32);
-    if (clb == NULL)
+    uint64_t clb_pa = BDK_CSR_READ(node, BDK_SATAX_UAHC_P0_CLB(controller));
+    if (clb_pa == 0)
     {
-        bdk_error("N%d.SATA%d: Failed to allocate command list\n", node, controller);
-        return -1;
+        void *clb = memalign(1024, sizeof(hba_cmd_header_t) * 32);
+        if (clb == NULL)
+        {
+            bdk_error("N%d.SATA%d: Failed to allocate command list\n", node, controller);
+            return -1;
+        }
+        memset(clb, 0, sizeof(hba_cmd_header_t) * 32);
+        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_CLB(controller),
+            bdk_ptr_to_phys(clb));
     }
-    memset(clb, 0, sizeof(hba_cmd_header_t) * 32);
-    BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_CLB(controller),
-        bdk_ptr_to_phys(clb));
 
     /* Allocate area for FIS DMAs */
-    hba_fis_t *fb = memalign(256, sizeof(hba_fis_t));
-    if (fb == NULL)
+    uint64_t fb_pa = BDK_CSR_READ(node, BDK_SATAX_UAHC_P0_FB(controller));
+    if (fb_pa == 0)
     {
-        bdk_error("N%d.SATA%d: Failed to allocate FIS\n", node, controller);
-        return -1;
+        hba_fis_t *fb = memalign(256, sizeof(hba_fis_t));
+        if (fb == NULL)
+        {
+            bdk_error("N%d.SATA%d: Failed to allocate FIS\n", node, controller);
+            return -1;
+        }
+        memset(fb, 0, sizeof(hba_fis_t));
+        BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_FB(controller),
+            bdk_ptr_to_phys(fb));
     }
-    memset(fb, 0, sizeof(hba_fis_t));
-    BDK_CSR_WRITE(node, BDK_SATAX_UAHC_P0_FB(controller),
-        bdk_ptr_to_phys(fb));
 
     /* Enable AHCI command queuing */
     BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_CCC_CTL(controller),
@@ -379,8 +389,15 @@ int bdk_sata_initialize(bdk_node_t node, int controller)
  */
 int bdk_sata_shutdown(bdk_node_t node, int controller)
 {
-    /* Disable the FIS */
-    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_P0_FBS(controller), c.s.en = 0);
+    /* Perform a HBA reset */
+    BDK_CSR_MODIFY(c, node, BDK_SATAX_UAHC_GBL_GHC(controller),
+        c.s.hr = 1);
+    /* Wait for the reset to complete */
+    if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_SATAX_UAHC_GBL_GHC(controller), hr, ==, 0, 100000))
+    {
+        bdk_error("N%d.SATA%d: Timeout waiting for HBA reset to complete\n", node, controller);
+        return -1;
+    }
     return 0;
 }
 

@@ -139,6 +139,10 @@ while (option ~= "quit") do
         local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_SW_TX_ONLY)
     end)
 
+    m:item("reset", "Reset the controller", function()
+        local status = cavium.c.bdk_sata_shutdown(menu.node, sata)
+    end)
+
     m:item("hex", "Hex display", function()
         local offset = menu.prompt_number("Starting sector")
         local length = menu.prompt_number("Number of sectors", 1)
