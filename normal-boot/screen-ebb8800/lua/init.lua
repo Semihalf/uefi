@@ -1,3 +1,4 @@
+require("pcie")
 require("strict")
 require("menu")
 require("utils")
@@ -179,9 +180,23 @@ print("BDK version ".. require("bdk-version"))
 print("THUNDERX Chip Screen")
 print("Copyright (C) 2010-2015 Cavium Inc.")
 
+if utils.isglobal("BOARD_SETUP_DONE") then
+    -- Board setup is already complete, don't do it again
+elseif package.searchpath("board-setup", package.path) then
+    menu.dofile("board-setup")
+elseif cavium.is_model(cavium.CN88XX) then
+    menu.dofile("board-ebb8800")
+elseif cavium.is_model(cavium.CN83XX) then
+    menu.dofile("board-ebb830x")
+end
+BOARD_SETUP_DONE = true
+
+local board_name = menu.prompt_string("Board type: ", "ebb8800")
 local coremask = menu.prompt_number("Coremask: ", 0xffffffffffff)
 local config_num = menu.prompt_number("Config Number: ", 0)
 local use_tns = 0
+
+
 if (config_num == 4) then
 -- config_num = 4 means the regular chip-testing (config=0) with TNS
     use_tns = 1
@@ -227,11 +242,13 @@ if (config_num == 0) then
 
     -- OCI test - confirm all QLMs are up and valid.
 
-    if (check_ccpi(0) and check_ccpi(1) and check_ccpi(2)) then
-        print ("OCI Test: PASS")
-    else
-        all_pass = false
-        print ("OCI Test: FAIL")
+    if (string.match(board_name, "ebb88")) then
+        if (check_ccpi(0) and check_ccpi(1) and check_ccpi(2)) then
+            print ("OCI Test: PASS")
+        else
+            all_pass = false
+            print ("OCI Test: FAIL")
+        end
     end
 
 
@@ -241,10 +258,13 @@ if (config_num == 0) then
     all_pass = all_pass and mmc_pass
 
     -- PCIe tests.  All QLMs x8 RC
-
-    pcie_rc(0)
+    if (string.match(board_name, "ebb88")) then
+        pcie_rc(0)
+    end
     pcie_rc(2)
-    pcie_rc(4)
+    if (string.match(board_name, "ebb88")) then
+        pcie_rc(4)
+    end
 end
 
 --
