@@ -103,6 +103,27 @@ local function run_auto()
     handle:close()
 end
 
+local function display_bist_errors()
+    local start_time = os.time()
+    local next_print = start_time + 2
+    printf("Displaying BIST FIS error counters. Hit 'x' to exit\n")
+    repeat
+        local key = readline.getkey()
+        local t = os.time()
+        -- Periodically show the counters.
+        if t >= next_print then
+            next_print = next_print + 2
+            printf("N%d.SATA%d: FIS count: %d, DWORD errors: %d, Frame errors: %d, Burst errors: %d\n",
+                   menu.node, sata,
+                   cavium.csr.SATAX_UAHC_GBL_BISTFCTR(sata).count,
+                   cavium.csr.SATAX_UAHC_GBL_BISTDECR(sata).dwerr,
+                   cavium.csr.SATAX_UAHC_GBL_BISTSR(sata).framerr,
+                   cavium.csr.SATAX_UAHC_GBL_BISTSR(sata).brsterr)
+        end
+    until (key == 'x') or (key == 'X')
+    printf("\n\nPort still in BIST FIS mode. Reset the SATA port and power cycle the disk to exit\n")
+end
+
 --
 -- Put the menu on the screen
 --
@@ -121,14 +142,17 @@ while (option ~= "quit") do
 
     m:item("fis-retimed", "Issue BIST FIS - Far-end Retimed Loopback", function()
         local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_FIS_RETIMED)
+        display_bist_errors()
     end)
 
     m:item("fis-analog", "Issue BIST FIS - Far-end Analog Loopback", function()
         local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.BIST_FIS_ANALOG)
+        display_bist_errors()
     end)
 
     m:item("fis-tx", "Issue BIST FIS - Far-end Transmit Only", function()
         local status = cavium.c.bdk_sata_bist_fis(menu.node, sata, 0, cavium.SATA_BIST_FIS_TX_ONLY)
+        display_bist_errors()
     end)
 
     m:item("sw-retimed", "Enter Local-end Retimed Loopback", function()
