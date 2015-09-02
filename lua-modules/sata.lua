@@ -113,12 +113,12 @@ local function display_bist_errors()
         -- Periodically show the counters.
         if t >= next_print then
             next_print = next_print + 2
-            printf("N%d.SATA%d: FIS count: %d, DWORD errors: %d, Frame errors: %d, Burst errors: %d\n",
+            -- Our SATA controller is configured for BIST_MODE=FIS which
+            -- only supports the following counters
+            printf("N%d.SATA%d: FIS count: %d, Frame errors: %d\n",
                    menu.node, sata,
                    cavium.csr.SATAX_UAHC_GBL_BISTFCTR(sata).count,
-                   cavium.csr.SATAX_UAHC_GBL_BISTDECR(sata).dwerr,
-                   cavium.csr.SATAX_UAHC_GBL_BISTSR(sata).framerr,
-                   cavium.csr.SATAX_UAHC_GBL_BISTSR(sata).brsterr)
+                   cavium.csr.SATAX_UAHC_GBL_BISTSR(sata).framerr)
         end
     until (key == 'x') or (key == 'X')
     printf("\n\nPort still in BIST FIS mode. Reset the SATA port and power cycle the disk to exit\n")
