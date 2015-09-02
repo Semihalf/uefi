@@ -124,12 +124,6 @@ int bdk_l2c_get_cache_size_bytes(bdk_node_t node);
 int bdk_l2c_get_num_sets(bdk_node_t node);
 
 /**
- * Return log base 2 of the number of sets in the L2 cache
- * @return
- */
-int bdk_l2c_get_set_bits(bdk_node_t node);
-
-/**
  * Return the number of associations in the L2 Cache
  *
  * @return

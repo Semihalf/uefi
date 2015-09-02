@@ -2,7 +2,7 @@
 
 typedef struct
 {
-    int set_bits;
+    int sets;
     int ways;
 } l2_node_state_t;
 
@@ -122,65 +122,56 @@ int bdk_l2c_get_cache_size_bytes(bdk_node_t node)
     return bdk_l2c_get_num_sets(node) * bdk_l2c_get_num_assoc(node) * BDK_CACHE_LINE_SIZE;
 }
 
-
-/**
- * Return log base 2 of the number of sets in the L2 cache
- * @return
- */
-int bdk_l2c_get_set_bits(bdk_node_t node)
-{
-    if (bdk_unlikely(l2_node_state[node].set_bits == 0))
-    {
-        int l2_set_bits;
-        if (CAVIUM_IS_MODEL(CAVIUM_CN88XX))
-            l2_set_bits =  13; /* 8192 sets */
-        else if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-            l2_set_bits =  12; /* 4096 sets */
-        else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
-            l2_set_bits =  10; /* 1024 sets */
-        else
-        {
-            bdk_error("Unsupported Cavium Model in %s\n", __FUNCTION__);
-            l2_set_bits =  11; /* 2048 sets */
-        }
-        l2_node_state[node].set_bits = l2_set_bits;
-    }
-    return l2_node_state[node].set_bits;
-}
-
 /* Return the number of sets in the L2 Cache */
 int bdk_l2c_get_num_sets(bdk_node_t node)
 {
-    return 1 << bdk_l2c_get_set_bits(node);
+    if (bdk_unlikely(l2_node_state[node].sets == 0))
+    {
+        /* Select the L2 cache */
+        bdk_ap_csselr_el1_t csselr_el1;
+        csselr_el1.u = 0;
+        csselr_el1.s.ind = 0;
+        csselr_el1.s.level = 1;
+        BDK_MSR(CSSELR_EL1, csselr_el1.u);
+        /* Read its size */
+        bdk_ap_ccsidr_el1_t ccsidr_el1;
+        BDK_MRS(CCSIDR_EL1, ccsidr_el1.u);
+        /* Store it for use later */
+        l2_node_state[node].sets = ccsidr_el1.s.numsets + 1;
+        l2_node_state[node].ways = ccsidr_el1.s.associativity + 1;
+
+        /* Early chips didn't update the number of ways based on fusing */
+        if (l2_node_state[node].ways == 16)
+        {
+            /* The l2 can be reduced in 25% increments */
+            BDK_CSR_INIT(mio_fus_dat3, node, BDK_MIO_FUS_DAT3);
+            switch (mio_fus_dat3.s.l2c_crip)
+            {
+                case 3: /* 1/4 size */
+                    l2_node_state[node].ways *= 1;
+                    break;
+                case 2: /* 1/2 size */
+                    l2_node_state[node].ways *= 2;
+                    break;
+                case 1: /* 3/4 size */
+                    l2_node_state[node].ways *= 3;
+                    break;
+                default: /* Full size */
+                    l2_node_state[node].ways *= 4;
+                    break;
+            }
+            l2_node_state[node].ways /= 4;
+        }
+    }
+    return l2_node_state[node].sets;
 }
 
 /* Return the number of associations in the L2 Cache */
 int bdk_l2c_get_num_assoc(bdk_node_t node)
 {
+    /* Get the number of sets if the global sets/ways is not setup */
     if (bdk_unlikely(l2_node_state[node].ways == 0))
-    {
-        int l2_assoc;
-        /* Get the starting number of associations */
-        l2_assoc = 16;
-        /* The l2 can be reduced in 25% increments */
-        BDK_CSR_INIT(mio_fus_dat3, node, BDK_MIO_FUS_DAT3);
-        switch (mio_fus_dat3.s.l2c_crip)
-        {
-            case 3: /* 1/4 size */
-                l2_assoc *= 1;
-                break;
-            case 2: /* 1/2 size */
-                l2_assoc *= 2;
-                break;
-            case 1: /* 3/4 size */
-                l2_assoc *= 3;
-                break;
-            default: /* Full size */
-                l2_assoc *= 4;
-                break;
-        }
-        l2_node_state[node].ways = l2_assoc/4;
-    }
+        bdk_l2c_get_num_sets(node);
     return l2_node_state[node].ways;
 }
 
