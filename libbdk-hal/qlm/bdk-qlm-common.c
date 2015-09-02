@@ -740,7 +740,7 @@ static int64_t mcu_read(bdk_node_t node, int twsi_id, uint8_t dev_addr, uint16_t
 static void __bdk_qlm_set_reference(bdk_node_t node, int qlm, int ref_clk)
 {
     int use_clock;
-    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) || CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) || CAVIUM_IS_MODEL(CAVIUM_CN83XX) || CAVIUM_IS_MODEL(CAVIUM_CN81XX))
     {
         switch (ref_clk)
         {
@@ -807,6 +807,13 @@ int bdk_qlm_mcu_auto_config(bdk_node_t node)
             // FIXME: 83xx CSRs not updated dor 4 BGX yet
             //bdk_qlm_set_mode(node, 5, BDK_QLM_MODE_RXAUI_1X2, 6250, 0);
             //bdk_qlm_set_mode(node, 6, BDK_QLM_MODE_XFI_2X1, 10312, 0);
+        }
+        else if (CAVIUM_IS_MODEL(CAVIUM_CN81XX))
+        {
+            bdk_qlm_set_mode(node, 0, BDK_QLM_MODE_RXAUI_1X2, 6250, 0);
+            bdk_qlm_set_mode(node, 1, BDK_QLM_MODE_XFI_2X1, 10312, 0);
+            bdk_qlm_set_mode(node, 2, BDK_QLM_MODE_PCIE_1X2, 8000, 0);
+            bdk_qlm_set_mode(node, 3, BDK_QLM_MODE_SATA_2X1, 6000, 0);
         }
         return 0;
     }
