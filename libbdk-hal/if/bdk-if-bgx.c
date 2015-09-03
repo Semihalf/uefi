@@ -1251,12 +1251,12 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     /* TL3 feeds Tl2. We only need one entry */
     int tl3_index = tl2_index * 4;
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3AX_CFG(tl3_index / 4),
-        c.s.tl3a = tl2_index);
+        c.cn88xx.tl3a = tl2_index);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CFG(tl3_index),
         c.s.rr_quantum = (MAX_MTU+4) / 4);
     int tl_channel = BDK_NIC_CHAN_E_BGXX_PORTX_CHX(handle->interface, priv->port, 0/*channel*/);
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL3X_CHAN(tl3_index),
-        c.s.chan = tl_channel);
+        c.cn88xx.chan = tl_channel);
 
     /* TL4 feeds TL3. We only need one entry */
     int tl4_index = tl3_index * 4;
@@ -1265,7 +1265,7 @@ static int vnic_setup_tx_shaping(bdk_if_handle_t handle)
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_TL4X_CFG(tl4_index),
         c.s.sq_qs = priv->vnic;
         c.s.sq_idx = priv->qos;
-        c.s.rr_quantum = (MAX_MTU+4) / 4);
+        c.cn88xx.rr_quantum = (MAX_MTU+4) / 4);
 
     /* SQ feeds TL4 */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_QSX_SQX_CFG2(priv->vnic, priv->qos),
@@ -1381,10 +1381,10 @@ static int vnic_setup(bdk_if_handle_t handle)
     /* CPI is the output of the above alogrithm, this is used to lookup the
        VNIC for receive and RSSI */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_CPIX_CFG(cpi),
-        c.s.vnic = priv->vnic; /* TX and RX use the same VNIC */
-        c.s.rss_size = 0; /* RSS hash is disabled */
+        c.cn88xxp1.vnic = priv->vnic; /* TX and RX use the same VNIC */
+        c.cn88xxp1.rss_size = 0; /* RSS hash is disabled */
         c.s.padd = 0; /* Used if we have multiple channels per port */
-        c.s.rssi_base = rssi); /* Base RSSI */
+        c.cn88xxp1.rssi_base = rssi); /* Base RSSI */
     if (!CAVIUM_IS_MODEL(CAVIUM_CN88XX_PASS1_X))
     {
         /* CN88XX pass 2 moved some fields to a different CSR */
@@ -1406,7 +1406,7 @@ static int vnic_setup(bdk_if_handle_t handle)
 
     /* Bypass the TNS */
     BDK_CSR_MODIFY(c, handle->node, BDK_NIC_PF_INTFX_SEND_CFG(handle->interface),
-       c.s.tns_nonbypass = 0;
+       c.cn88xx.tns_nonbypass = 0;
        c.s.block = 0x8 + handle->interface);
 
     /* Errata (NIC-21858) If NIC_PF_QS()_CFG ENA is set after RRM enabled...RRM breaks */

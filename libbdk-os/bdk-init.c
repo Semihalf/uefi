@@ -297,7 +297,7 @@ int bdk_init_cores(bdk_node_t node, uint64_t coremask)
         BDK_CSR_WRITE(node, BDK_RST_PP_RESET, reset & ~need_reset_off);
         /* Wait for cores to finish coming out of reset */
         bdk_wait_usec(1);
-        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_RST_PP_PENDING, pend, ==, 0, 100000))
+        if (BDK_CSR_WAIT_FOR_FIELD(node, BDK_RST_PP_PENDING, reserved_0_63, ==, 0, 100000))
             bdk_error("Timeout wating for reset pending to clear");
         /* AP-23192: The DAP in pass 1.0 has an issue where its state isn't cleared for
            cores in reset. Put the DAPs in reset as their associated cores are
