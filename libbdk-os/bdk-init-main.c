@@ -108,7 +108,8 @@ void __bdk_init_node(bdk_node_t node)
     }
 
     /* Allow all IO units to access secure memory */
-    for (int smmu = 0; smmu < 4; smmu++)
+    int num_smmu = CAVIUM_IS_MODEL(CAVIUM_CN81XX) ? 1 : 4;
+    for (int smmu = 0; smmu < num_smmu; smmu++)
     {
         BDK_TRACE(INIT, "N%d: Initialize SMMU%d\n", node, smmu);
         for (int id = 0; id < 2048; id++)
