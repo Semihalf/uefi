@@ -58,8 +58,8 @@
  * LBK Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_LBK_BAR_E_LBKX_PF_BAR0(a) (0x87e018000000ll + 0x1000000ll * (a)) /**< (0..3)Base address for standard registers. */
-#define BDK_LBK_BAR_E_LBKX_PF_BAR4(a) (0x87e018f00000ll + 0x1000000ll * (a)) /**< (0..3)Base address for MSI-X registers. */
+#define BDK_LBK_BAR_E_LBKX_PF_BAR0(a) (0x87e018000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_LBK_BAR_E_LBKX_PF_BAR4(a) (0x87e018f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration lbk_connect_e
@@ -67,9 +67,9 @@
  * LBK Source Connection Enumeration
  * Enumerates LBK()_CONST[SRC] and LBK()_CONST[DEST].
  */
-#define BDK_LBK_CONNECT_E_NICX(a) (0 + (a)) /**< (0)This LBK receives traffic from NIC, or transmitts to NIC. */
-#define BDK_LBK_CONNECT_E_PKIX(a) (4 + (a)) /**< (0)This LBK transmits traffic to PKI. */
-#define BDK_LBK_CONNECT_E_PKOX(a) (8 + (a)) /**< (0)This LBK receives traffic from PKO. */
+#define BDK_LBK_CONNECT_E_NICX(a) (0 + (a)) /**< This LBK receives traffic from NIC, or transmitts to NIC. */
+#define BDK_LBK_CONNECT_E_PKIX(a) (4 + (a)) /**< This LBK transmits traffic to PKI. */
+#define BDK_LBK_CONNECT_E_PKOX(a) (8 + (a)) /**< This LBK receives traffic from PKO. */
 
 /**
  * Enumeration lbk_int_vec_e

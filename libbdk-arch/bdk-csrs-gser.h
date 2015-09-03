@@ -58,7 +58,7 @@
  * GSER Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_GSER_BAR_E_GSERX_PF_BAR0(a) (0x87e090000000ll + 0x1000000ll * (a)) /**< (0..13)Base address for standard registers. */
+#define BDK_GSER_BAR_E_GSERX_PF_BAR0(a) (0x87e090000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
 
 /**
  * Enumeration gser_lmode_e

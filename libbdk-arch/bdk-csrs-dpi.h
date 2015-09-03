@@ -160,10 +160,10 @@
  * DPI Interrupt Source Enumeration
  * Enumerates the different DPI-generated interrupts.
  */
-#define BDK_DPI_INTSN_E_DPI_DMA_PPX_INT(a) (0xdf040 + (a)) /**< (0..15)See DPI(0)_DMA_PP_INT[COMPLETE<{a}>]. */
-#define BDK_DPI_INTSN_E_DPI_ERR_RAM_DBEX(a) (0xdf080 + (a)) /**< (0..14)See DPI(0)_ECC_INT[RAM_DBE<{a}>]. */
-#define BDK_DPI_INTSN_E_DPI_ERR_RAM_SBEX(a) (0xdf0a0 + (a)) /**< (0..14)See DPI(0)_ECC_INT[RAM_SBE<{a}>]. */
-#define BDK_DPI_INTSN_E_DPI_INT_DMADBOX(a) (0xdf008 + (a)) /**< (0..7)See DPI(0)_INT_REG[DMADBO<{a}>]. */
+#define BDK_DPI_INTSN_E_DPI_DMA_PPX_INT(a) (0xdf040 + (a)) /**< See DPI(0)_DMA_PP_INT[COMPLETE<{a}>]. */
+#define BDK_DPI_INTSN_E_DPI_ERR_RAM_DBEX(a) (0xdf080 + (a)) /**< See DPI(0)_ECC_INT[RAM_DBE<{a}>]. */
+#define BDK_DPI_INTSN_E_DPI_ERR_RAM_SBEX(a) (0xdf0a0 + (a)) /**< See DPI(0)_ECC_INT[RAM_SBE<{a}>]. */
+#define BDK_DPI_INTSN_E_DPI_INT_DMADBOX(a) (0xdf008 + (a)) /**< See DPI(0)_INT_REG[DMADBO<{a}>]. */
 #define BDK_DPI_INTSN_E_DPI_INT_NDERR (0xdf000) /**< See DPI(0)_INT_REG[NDERR]. */
 #define BDK_DPI_INTSN_E_DPI_INT_NFOVR (0xdf001) /**< See DPI(0)_INT_REG[NFOVR]. */
 #define BDK_DPI_INTSN_E_DPI_INT_REQ_ANULL (0xdf014) /**< See DPI(0)_INT_REG[REQ_ANULL]. */

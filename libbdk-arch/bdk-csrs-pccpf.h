@@ -62,9 +62,7 @@
  * PCC_DEV_CON_S.
  */
 #define BDK_PCC_DEV_CON_E_BCH (0x50) /**< BCH. */
-#define BDK_PCC_DEV_CON_E_BGXX_CN81XX(a) (0x180 + (a)) /**< (0..1)Ethernet interface. */
-#define BDK_PCC_DEV_CON_E_BGXX_CN88XX(a) (0x180 + (a)) /**< (0..1)Ethernet interface. */
-#define BDK_PCC_DEV_CON_E_BGXX_CN83XX(a) (0x180 + (a)) /**< (0..3)Ethernet interface. */
+#define BDK_PCC_DEV_CON_E_BGXX(a) (0x180 + (a)) /**< Ethernet interface. */
 #define BDK_PCC_DEV_CON_E_CPT0 (0x500) /**< CPT 0. */
 #define BDK_PCC_DEV_CON_E_CPT1 (0x600) /**< CPT 1. */
 #define BDK_PCC_DEV_CON_E_DAP (0x102) /**< Debug access point. */
@@ -74,31 +72,29 @@
 #define BDK_PCC_DEV_CON_E_FUSF (0x104) /**< Field Fuses. */
 #define BDK_PCC_DEV_CON_E_GIC (0x18) /**< GIC interrupt unit. */
 #define BDK_PCC_DEV_CON_E_GPIO (0x30) /**< GPIO. */
-#define BDK_PCC_DEV_CON_E_GSERX(a) (0x1e0 + (a)) /**< (0..13)SerDes. */
+#define BDK_PCC_DEV_CON_E_GSERX(a) (0x1e0 + (a)) /**< SerDes. */
 #define BDK_PCC_DEV_CON_E_GTI (0x20) /**< Timer. */
-#define BDK_PCC_DEV_CON_E_IOBNX(a) (0x158 + (a)) /**< (0..1)I/O bridge. */
+#define BDK_PCC_DEV_CON_E_IOBNX(a) (0x158 + (a)) /**< I/O bridge. */
 #define BDK_PCC_DEV_CON_E_KEY (0x10d) /**< KEY. */
 #define BDK_PCC_DEV_CON_E_L2C (0x109) /**< Level 2 cache. */
-#define BDK_PCC_DEV_CON_E_L2C_CBCX(a) (0x138 + (a)) /**< (0..3)Level 2 cache CBC. */
-#define BDK_PCC_DEV_CON_E_L2C_MCIX(a) (0x13c + (a)) /**< (0..3)Level 2 cache MCI. */
-#define BDK_PCC_DEV_CON_E_L2C_TADX(a) (0x130 + (a)) /**< (0..7)Level 2 cache TAD. */
-#define BDK_PCC_DEV_CON_E_LBKX(a) (0x168 + (a)) /**< (0..2)Loopback */
-#define BDK_PCC_DEV_CON_E_LMCX_CN81XX(a) (0x150 + (a)) /**< (0..1)LMC interface. */
-#define BDK_PCC_DEV_CON_E_LMCX_CN88XX(a) (0x150 + (a)) /**< (0..3)LMC interface. */
-#define BDK_PCC_DEV_CON_E_LMCX_CN83XX(a) (0x150 + (a)) /**< (0..1)LMC interface. */
+#define BDK_PCC_DEV_CON_E_L2C_CBCX(a) (0x138 + (a)) /**< Level 2 cache CBC. */
+#define BDK_PCC_DEV_CON_E_L2C_MCIX(a) (0x13c + (a)) /**< Level 2 cache MCI. */
+#define BDK_PCC_DEV_CON_E_L2C_TADX(a) (0x130 + (a)) /**< Level 2 cache TAD. */
+#define BDK_PCC_DEV_CON_E_LBKX(a) (0x168 + (a)) /**< Loopback */
+#define BDK_PCC_DEV_CON_E_LMCX(a) (0x150 + (a)) /**< LMC interface. */
 #define BDK_PCC_DEV_CON_E_MIO_BOOT_CN81XX (0x10e) /**< Boot registers. */
 #define BDK_PCC_DEV_CON_E_MIO_BOOT_CN88XX (0x10e) /**< Boot-bus. */
 #define BDK_PCC_DEV_CON_E_MIO_BOOT_CN83XX (0x10e) /**< Boot registers. */
 #define BDK_PCC_DEV_CON_E_MIO_EMM (0x10c) /**< eMMC. */
 #define BDK_PCC_DEV_CON_E_MIO_FUS (0x103) /**< Fuses. */
 #define BDK_PCC_DEV_CON_E_MIO_PTP (0x40) /**< Precision time-stamping. */
-#define BDK_PCC_DEV_CON_E_MIO_TWSX(a) (0x148 + (a)) /**< (0..5)TWSI. */
+#define BDK_PCC_DEV_CON_E_MIO_TWSX(a) (0x148 + (a)) /**< TWSI. */
 #define BDK_PCC_DEV_CON_E_MPI (0x38) /**< MPI. */
 #define BDK_PCC_DEV_CON_E_MRML (0x100) /**< Master RSL bus bridge. */
 #define BDK_PCC_DEV_CON_E_NCSI (0x108) /**< NC-SI interface. */
 #define BDK_PCC_DEV_CON_E_NDF (0x58) /**< NAND flash. */
 #define BDK_PCC_DEV_CON_E_NIC (0x20100) /**< Network interface controller.  Contains 1 PF + 128 VFs. */
-#define BDK_PCC_DEV_CON_E_OCLAX(a) (0x160 + (a)) /**< (0..4)OCLA. */
+#define BDK_PCC_DEV_CON_E_OCLAX(a) (0x160 + (a)) /**< OCLA. */
 #define BDK_PCC_DEV_CON_E_OCX (0x105) /**< OCX. */
 #define BDK_PCC_DEV_CON_E_PBUS (0x10f) /**< Parallel bus. */
 #define BDK_PCC_DEV_CON_E_PCCBR_CPT0 (0x60) /**< Bridge for CPT 0, creating ECAM 0's bus 5. */
@@ -123,11 +119,11 @@
 #define BDK_PCC_DEV_CON_E_PCIERC4 (0x30090) /**< PCIe endpoint 4. */
 #define BDK_PCC_DEV_CON_E_PCIERC5 (0x300a0) /**< PCIe endpoint 5. */
 #define BDK_PCC_DEV_CON_E_PCM (0xc00) /**< PCM. */
-#define BDK_PCC_DEV_CON_E_PEMX(a) (0x170 + (a)) /**< (0..5)PCI controller. */
+#define BDK_PCC_DEV_CON_E_PEMX(a) (0x170 + (a)) /**< PCI controller. */
 #define BDK_PCC_DEV_CON_E_PKI (0x800) /**< PKI. */
 #define BDK_PCC_DEV_CON_E_PKO (0x900) /**< PKO. */
 #define BDK_PCC_DEV_CON_E_RAD (0x200) /**< RAID unit. */
-#define BDK_PCC_DEV_CON_E_RGXX(a) (0x190 + (a)) /**< (0..3)Ethernet interface. */
+#define BDK_PCC_DEV_CON_E_RGXX(a) (0x190 + (a)) /**< Ethernet interface. */
 #define BDK_PCC_DEV_CON_E_RNM (0x48) /**< Random number generator. */
 #define BDK_PCC_DEV_CON_E_RST (0x101) /**< Reset. */
 #define BDK_PCC_DEV_CON_E_SATA0 (0x10020) /**< SATA 0. */
@@ -158,9 +154,9 @@
 #define BDK_PCC_DEV_CON_E_SSOW (0xb00) /**< SSO work slots. */
 #define BDK_PCC_DEV_CON_E_TIM (0xe00) /**< TIM. */
 #define BDK_PCC_DEV_CON_E_TNS (0x20018) /**< Network switch. */
-#define BDK_PCC_DEV_CON_E_UAAX(a) (0x140 + (a)) /**< (0..1)UART. */
-#define BDK_PCC_DEV_CON_E_USBHX(a) (0x80 + 8 * (a)) /**< (0..1)USB interface. */
-#define BDK_PCC_DEV_CON_E_VRMX(a) (0x144 + (a)) /**< (0..1)Voltage regulator. */
+#define BDK_PCC_DEV_CON_E_UAAX(a) (0x140 + (a)) /**< UART. */
+#define BDK_PCC_DEV_CON_E_USBHX(a) (0x80 + 8 * (a)) /**< USB interface. */
+#define BDK_PCC_DEV_CON_E_VRMX(a) (0x144 + (a)) /**< Voltage regulator. */
 #define BDK_PCC_DEV_CON_E_ZIP (0x300) /**< ZIP. */
 
 /**

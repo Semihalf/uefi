@@ -71,7 +71,7 @@
                                        interrupt sets OCX_COM_INT_W1S,
                                        enable clears OCX_COM_INT_ENA_W1C,
                                        and enable sets OCX_COM_INT_ENA_W1S. */
-#define BDK_OCX_INT_VEC_E_LNK_INTSX(a) (0 + (a)) /**< (0..2)See interrupt clears OCX_COM_LINK(0..2)_INT,
+#define BDK_OCX_INT_VEC_E_LNK_INTSX(a) (0 + (a)) /**< See interrupt clears OCX_COM_LINK(0..2)_INT,
                                        interrupt sets OCX_COM_LINK(0..2)_INT_W1S,
                                        enable clears OCX_COM_LINK(0..2)_INT_ENA_W1C,
                                        and enable sets OCX_COM_LINK(0..2)_INT_ENA_W1S. */

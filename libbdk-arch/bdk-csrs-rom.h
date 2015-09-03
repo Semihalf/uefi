@@ -84,7 +84,7 @@
 #define BDK_ROM_XFER_MSG_E_BOOT_ERROR (0x2001) /**< Client is indicating boot process has an error and no additional messages will be sent by
                                        the client ROM code.
                                        Server must repond with SERVER_ACK or SERVER_ERROR. */
-#define BDK_ROM_XFER_MSG_E_BOOT_READX(a) (0x3000 + (a)) /**< (0..255)Client is requesting boot data block number {a} from the server.
+#define BDK_ROM_XFER_MSG_E_BOOT_READX(a) (0x3000 + (a)) /**< Client is requesting boot data block number {a} from the server.
                                        Server must respond with SERVER_ERROR, or:
                                        * Read a 8 KB block corresponding to the specified offset from the flash (or other image).
                                          If the requested block number exceeds the image or flash size, pad with zeros.
@@ -95,10 +95,10 @@
                                        * Respond with SERVER_ACK. */
 #define BDK_ROM_XFER_MSG_E_BOOT_START (0x2000) /**< Client is requesting boot sequence to start.
                                        Server must repond with SERVER_ACK or SERVER_ERROR. */
-#define BDK_ROM_XFER_MSG_E_FAILX_CN81XX(a) (0x4000 + (a)) /**< (0..15)Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E. */
-#define BDK_ROM_XFER_MSG_E_FAILX_CN88XX(a) (0x4000 + (a)) /**< (0..15)Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E.
+#define BDK_ROM_XFER_MSG_E_FAILX_CN81XX(a) (0x4000 + (a)) /**< Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E. */
+#define BDK_ROM_XFER_MSG_E_FAILX_CN88XX(a) (0x4000 + (a)) /**< Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E.
                                        Added in pass 2. */
-#define BDK_ROM_XFER_MSG_E_FAILX_CN83XX(a) (0x4000 + (a)) /**< (0..15)Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E. */
+#define BDK_ROM_XFER_MSG_E_FAILX_CN83XX(a) (0x4000 + (a)) /**< Client has failed to boot.  The fail code corresponds to RST_BOOT_FAIL_E. */
 #define BDK_ROM_XFER_MSG_E_NONE (0) /**< No message. */
 #define BDK_ROM_XFER_MSG_E_SERVER_ACK (0x1000) /**< Server response indicating the client's request has been performed successfully. */
 #define BDK_ROM_XFER_MSG_E_SERVER_ERROR (0x1001) /**< Server response indicating the client's request had an error and the transfer is aborted.

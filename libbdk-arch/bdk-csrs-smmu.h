@@ -58,12 +58,8 @@
  * SMMU Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_SMMU_BAR_E_SMMUX_PF_BAR0_CN81XX(a) (0x830000000000ll + 0x1000000000ll * (a)) /**< (0)Base address for standard registers. */
-#define BDK_SMMU_BAR_E_SMMUX_PF_BAR0_CN88XX(a) (0x830000000000ll + 0x1000000000ll * (a)) /**< (0..3)Base address for standard registers. */
-#define BDK_SMMU_BAR_E_SMMUX_PF_BAR0_CN83XX(a) (0x830000000000ll + 0x1000000000ll * (a)) /**< (0..3)Base address for standard registers. */
-#define BDK_SMMU_BAR_E_SMMUX_PF_BAR4_CN81XX(a) (0x83000f000000ll + 0x1000000000ll * (a)) /**< (0)Base address for MSI-X registers. */
-#define BDK_SMMU_BAR_E_SMMUX_PF_BAR4_CN88XX(a) (0x83000f000000ll + 0x1000000000ll * (a)) /**< (0..3)Base address for MSI-X registers. */
-#define BDK_SMMU_BAR_E_SMMUX_PF_BAR4_CN83XX(a) (0x83000f000000ll + 0x1000000000ll * (a)) /**< (0..3)Base address for MSI-X registers. */
+#define BDK_SMMU_BAR_E_SMMUX_PF_BAR0(a) (0x830000000000ll + 0x1000000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_SMMU_BAR_E_SMMUX_PF_BAR4(a) (0x83000f000000ll + 0x1000000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration smmu_ctype_e
@@ -82,21 +78,19 @@
  * SMMU MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_SMMU_INT_VEC_E_CBX_FSR_CN81XX(a) (0 + 2 * (a)) /**< (0..63)See interrupt clears SMMU(0)_CB(0..63)_FSR[MULTI, ASF, TMBMCF, EF, PF, AFF, TF], sets
+#define BDK_SMMU_INT_VEC_E_CBX_FSR_CN81XX(a) (0 + 2 * (a)) /**< See interrupt clears SMMU(0)_CB(0..63)_FSR[MULTI, ASF, TMBMCF, EF, PF, AFF, TF], sets
                                        SMMU(0)_CB(0..63)_FSRRESTORE[MULTI, ASF, TMBMCF, EF, PF, AFF, TF], and enables
                                        SMMU(0)_CB(0..63)_SCTLR[CFIE, CFIE, CFIE, CFIE, CFIE, CFIE, CFIE]. (CFIE is a common
                                        enable.) */
-#define BDK_SMMU_INT_VEC_E_CBX_FSR_CN88XX(a) (0 + 2 * (a)) /**< (0..127)See interrupt clears SMMU(0..3)_CB(0..127)_FSR[MULTI, ASF, TMBMCF, EF, PF, AFF, TF], sets
+#define BDK_SMMU_INT_VEC_E_CBX_FSR_CN88XX(a) (0 + 2 * (a)) /**< See interrupt clears SMMU(0..3)_CB(0..127)_FSR[MULTI, ASF, TMBMCF, EF, PF, AFF, TF], sets
                                        SMMU(0..3)_CB(0..127)_FSRRESTORE[MULTI, ASF, TMBMCF, EF, PF, AFF, TF], and enables
                                        SMMU(0..3)_CB(0..127)_SCTLR[CFIE, CFIE, CFIE, CFIE, CFIE, CFIE, CFIE]. (CFIE is a common
                                        enable.) */
-#define BDK_SMMU_INT_VEC_E_CBX_FSR_CN83XX(a) (0 + 2 * (a)) /**< (0..127)See interrupt clears SMMU(0..3)_CB(0..127)_FSR[MULTI, ASF, TMBMCF, EF, PF, AFF, TF], sets
+#define BDK_SMMU_INT_VEC_E_CBX_FSR_CN83XX(a) (0 + 2 * (a)) /**< See interrupt clears SMMU(0..3)_CB(0..127)_FSR[MULTI, ASF, TMBMCF, EF, PF, AFF, TF], sets
                                        SMMU(0..3)_CB(0..127)_FSRRESTORE[MULTI, ASF, TMBMCF, EF, PF, AFF, TF], and enables
                                        SMMU(0..3)_CB(0..127)_SCTLR[CFIE, CFIE, CFIE, CFIE, CFIE, CFIE, CFIE]. (CFIE is a common
                                        enable.) */
-#define BDK_SMMU_INT_VEC_E_CBX_FSR_CLEAR_CN81XX(a) (1 + 2 * (a)) /**< (0..63)Level sensitive interrupt clear vector. */
-#define BDK_SMMU_INT_VEC_E_CBX_FSR_CLEAR_CN88XX(a) (1 + 2 * (a)) /**< (0..127)Level sensitive interrupt clear vector. */
-#define BDK_SMMU_INT_VEC_E_CBX_FSR_CLEAR_CN83XX(a) (1 + 2 * (a)) /**< (0..127)Level sensitive interrupt clear vector. */
+#define BDK_SMMU_INT_VEC_E_CBX_FSR_CLEAR(a) (1 + 2 * (a)) /**< Level sensitive interrupt clear vector. */
 #define BDK_SMMU_INT_VEC_E_ERRFLG_CN81XX (0x84) /**< See interrupt clears SMMU(0)_ERR_INT, interrupt sets SMMU(0)_ERR_INT_W1S, enable
                                        clears SMMU(0)_ERR_ENA_W1C, and enable sets SMMU(0)_ERR_ENA_W1S. */
 #define BDK_SMMU_INT_VEC_E_ERRFLG_CN88XX (0x104) /**< See interrupt clears SMMU(0..3)_ERR_INT, interrupt sets SMMU(0..3)_ERR_INT_W1S, enable

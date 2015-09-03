@@ -58,7 +58,7 @@
  * VRM Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_VRM_BAR_E_VRMX_PF_BAR0(a) (0x87e021000000ll + 0x1000000ll * (a)) /**< (0..1)Base address for standard registers.  Note the address is not naturally aligned by the
+#define BDK_VRM_BAR_E_VRMX_PF_BAR0(a) (0x87e021000000ll + 0x1000000ll * (a)) /**< Base address for standard registers.  Note the address is not naturally aligned by the
                                        block number. */
 
 /**

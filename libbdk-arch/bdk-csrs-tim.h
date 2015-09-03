@@ -60,7 +60,7 @@
  */
 #define BDK_TIM_BAR_E_TIM_PF_BAR0 (0x858000000000ll) /**< Base address for standard registers. */
 #define BDK_TIM_BAR_E_TIM_PF_BAR4 (0x858000f00000ll) /**< Base address for MSI-X registers. */
-#define BDK_TIM_BAR_E_TIM_VFX_BAR0(a) (0x858010000000ll + 0x100000ll * (a)) /**< (0..63)Base address for standard registers. */
+#define BDK_TIM_BAR_E_TIM_VFX_BAR0(a) (0x858010000000ll + 0x100000ll * (a)) /**< Base address for standard registers. */
 
 /**
  * Enumeration tim_clk_srcs_e

@@ -58,12 +58,8 @@
  * L2C_CBC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR0_CN81XX(a) (0x87e058000000ll + 0x1000000ll * (a)) /**< (0..1)Base address for standard registers. */
-#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR0_CN88XX(a) (0x87e058000000ll + 0x1000000ll * (a)) /**< (0..3)Base address for standard registers. */
-#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR0_CN83XX(a) (0x87e058000000ll + 0x1000000ll * (a)) /**< (0..1)Base address for standard registers. */
-#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR4_CN81XX(a) (0x87e058f00000ll + 0x1000000ll * (a)) /**< (0..1)Base address for MSI-X registers. */
-#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR4_CN88XX(a) (0x87e058f00000ll + 0x1000000ll * (a)) /**< (0..3)Base address for MSI-X registers. */
-#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR4_CN83XX(a) (0x87e058f00000ll + 0x1000000ll * (a)) /**< (0..1)Base address for MSI-X registers. */
+#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR0(a) (0x87e058000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_L2C_CBC_BAR_E_L2C_CBCX_PF_BAR4(a) (0x87e058f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration l2c_cbc_int_vec_e

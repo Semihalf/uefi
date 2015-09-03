@@ -67,8 +67,8 @@
  * PTP External Sources Select Enumeration
  * Enumerates the different external signal sources for PTP.
  */
-#define BDK_MIO_PTP_EXT_SEL_E_GPIOX(a) (0 + (a)) /**< (0..50)Normal GPIO inputs. */
-#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX(a) (0x38 + (a)) /**< (0..7)QLM0-QLM7 reference clock. */
+#define BDK_MIO_PTP_EXT_SEL_E_GPIOX(a) (0 + (a)) /**< Normal GPIO inputs. */
+#define BDK_MIO_PTP_EXT_SEL_E_QLM_REFX(a) (0x38 + (a)) /**< QLM0-QLM7 reference clock. */
 
 /**
  * Enumeration mio_ptp_int_vec_e

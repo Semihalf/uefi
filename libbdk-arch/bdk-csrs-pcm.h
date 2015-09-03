@@ -67,7 +67,7 @@
  * PCM MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_PCM_INT_VEC_E_TEX(a) (0 + (a)) /**< (0..3)See interrupt clears PCM_TE(0..3)_INT_SUM,
+#define BDK_PCM_INT_VEC_E_TEX(a) (0 + (a)) /**< See interrupt clears PCM_TE(0..3)_INT_SUM,
                                        interrupt sets PCM_TE(0..3)_INT_SUM_W1S,
                                        enable clears PCM_TE(0..3)_INT_ENA_W1C,
                                        and enable sets PCM_TE(0..3)_INT_ENA_W1S, */

@@ -58,8 +58,8 @@
  * UART Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_UAA_BAR_E_UAAX_PF_BAR0(a) (0x87e024000000ll + 0x1000000ll * (a)) /**< (0..1)Base address for standard registers. */
-#define BDK_UAA_BAR_E_UAAX_PF_BAR4(a) (0x87e024f00000ll + 0x1000000ll * (a)) /**< (0..1)Base address for MSI-X registers. */
+#define BDK_UAA_BAR_E_UAAX_PF_BAR0(a) (0x87e024000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_UAA_BAR_E_UAAX_PF_BAR4(a) (0x87e024f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration uaa_int_vec_e

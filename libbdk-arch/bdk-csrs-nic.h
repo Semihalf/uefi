@@ -60,12 +60,8 @@
  */
 #define BDK_NIC_BAR_E_NIC_PF_BAR0 (0x843000000000ll) /**< Base address for standard registers. */
 #define BDK_NIC_BAR_E_NIC_PF_BAR4 (0x843060000000ll) /**< Base address for MSI-X registers. */
-#define BDK_NIC_BAR_E_NIC_VFX_BAR0_CN81XX(a) (0x8430a0000000ll + 0x200000ll * (a)) /**< (0..7)Base address for standard registers. */
-#define BDK_NIC_BAR_E_NIC_VFX_BAR0_CN88XX(a) (0x8430a0000000ll + 0x200000ll * (a)) /**< (0..127)Base address for standard registers. */
-#define BDK_NIC_BAR_E_NIC_VFX_BAR0_CN83XX(a) (0x8430a0000000ll + 0x200000ll * (a)) /**< (0..127)Base address for standard registers. */
-#define BDK_NIC_BAR_E_NIC_VFX_BAR4_CN81XX(a) (0x8430e0000000ll + 0x200000ll * (a)) /**< (0..7)Base address for MSI-X registers. */
-#define BDK_NIC_BAR_E_NIC_VFX_BAR4_CN88XX(a) (0x8430e0000000ll + 0x200000ll * (a)) /**< (0..127)Base address for MSI-X registers. */
-#define BDK_NIC_BAR_E_NIC_VFX_BAR4_CN83XX(a) (0x8430e0000000ll + 0x200000ll * (a)) /**< (0..127)Base address for MSI-X registers. */
+#define BDK_NIC_BAR_E_NIC_VFX_BAR0(a) (0x8430a0000000ll + 0x200000ll * (a)) /**< Base address for standard registers. */
+#define BDK_NIC_BAR_E_NIC_VFX_BAR4(a) (0x8430e0000000ll + 0x200000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration nic_chan_e
@@ -73,14 +69,14 @@
  * NIC Channel Number Enumeration
  * Enumerates the values of NIC_CQE_RX_S[CHAN].
  */
-#define BDK_NIC_CHAN_E_BGXX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< (0..7)(0..3)(0..7)BGX/RGX {a} LMAC {b} channel {c}.
+#define BDK_NIC_CHAN_E_BGXX_LMACX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX/RGX {a} LMAC {b} channel {c}.
                                        INTERNAL: Used for BGX and RGX. */
-#define BDK_NIC_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< (0..1)(0..3)(0..15)BGX {a} port {b} channel {c}. */
-#define BDK_NIC_CHAN_E_DPI_CHX(a) (0x400 + (a)) /**< (0..63)Loopback {a} channel {b}. */
-#define BDK_NIC_CHAN_E_LBKX_CHX(a,b) (0 + 0x100 * (a) + (b)) /**< (0..3)(0..63)Loopback {a} channel {b}. */
+#define BDK_NIC_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX {a} port {b} channel {c}. */
+#define BDK_NIC_CHAN_E_DPI_CHX(a) (0x400 + (a)) /**< Loopback {a} channel {b}. */
+#define BDK_NIC_CHAN_E_LBKX_CHX(a,b) (0 + 0x100 * (a) + (b)) /**< Loopback {a} channel {b}. */
 #define BDK_NIC_CHAN_E_PKO_NULL (0xfff) /**< PKO NULL channel. */
-#define BDK_NIC_CHAN_E_RX(a) (0 + 0x100 * (a)) /**< (5..7)Reserved. INTERNAL: R(5) is reserved for NVME. */
-#define BDK_NIC_CHAN_E_TNS_PORTX_CHX(a,b) (0x600 + 0x100 * (a) + (b)) /**< (0..1)(0..127)TNS port {a} channel {b}. */
+#define BDK_NIC_CHAN_E_RX(a) (0 + 0x100 * (a)) /**< Reserved. INTERNAL: R(5) is reserved for NVME. */
+#define BDK_NIC_CHAN_E_TNS_PORTX_CHX(a,b) (0x600 + 0x100 * (a) + (b)) /**< TNS port {a} channel {b}. */
 
 /**
  * Enumeration nic_chan_idx_e
@@ -89,9 +85,9 @@
  * Enumerates the index of NIC_PF_CHAN()_TX_CFG, NIC_PF_CHAN()_RX_CFG, NIC_PF_CHAN()_SW_XOFF and
  * NIC_PF_CHAN()_CREDIT.
  */
-#define BDK_NIC_CHAN_IDX_E_BGXX_LMACX_CHX(a,b,c) (0 + 0x20 * (a) + 8 * (b) + (c)) /**< (0)(0..3)(0..7)BGX {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_LMAC({b})_CH({c}). */
-#define BDK_NIC_CHAN_IDX_E_LBKX_CHX(a,b) (0x28 + 0x40 * (a) + (b)) /**< (0)(0..23)Loopback {a} channel {b}. Corresponds to NIC_CHAN_E::LBK({a})_CH({b}). */
-#define BDK_NIC_CHAN_IDX_E_RGXX_LMACX_CHX(a,b,c) (0 + 0x20 * (a) + 8 * (b) + (c)) /**< (1)(0)(0..7)RGX {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_LMAC({b})_CH({c}). */
+#define BDK_NIC_CHAN_IDX_E_BGXX_LMACX_CHX(a,b,c) (0 + 0x20 * (a) + 8 * (b) + (c)) /**< BGX {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_LMAC({b})_CH({c}). */
+#define BDK_NIC_CHAN_IDX_E_LBKX_CHX(a,b) (0x28 + 0x40 * (a) + (b)) /**< Loopback {a} channel {b}. Corresponds to NIC_CHAN_E::LBK({a})_CH({b}). */
+#define BDK_NIC_CHAN_IDX_E_RGXX_LMACX_CHX(a,b,c) (0 + 0x20 * (a) + 8 * (b) + (c)) /**< RGX {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_LMAC({b})_CH({c}). */
 
 /**
  * Enumeration nic_cpi_alg_e
@@ -475,12 +471,12 @@
  * NIC Interface Block ID Enumeration
  * Enumerates the values of NIC_PF_INTF()_SEND_CFG[BLOCK] and NIC_PF_INTF()_BP_CFG[BP_ID].
  */
-#define BDK_NIC_INTF_BLOCK_E_BGXX(a) (8 + (a)) /**< (0)BGX{a}. */
-#define BDK_NIC_INTF_BLOCK_E_BGXX_BLOCK(a) (8 + (a)) /**< (0..1)BGX{a} block ID. */
-#define BDK_NIC_INTF_BLOCK_E_LBKX(a) (0 + (a)) /**< (0)Loopback {a}.
+#define BDK_NIC_INTF_BLOCK_E_BGXX(a) (8 + (a)) /**< BGX{a}. */
+#define BDK_NIC_INTF_BLOCK_E_BGXX_BLOCK(a) (8 + (a)) /**< BGX{a} block ID. */
+#define BDK_NIC_INTF_BLOCK_E_LBKX(a) (0 + (a)) /**< Loopback {a}.
                                        INTERNAL: Value TBD; using 0x6 for now. */
-#define BDK_NIC_INTF_BLOCK_E_RGXX(a) (8 + (a)) /**< (1)RGX{a}. */
-#define BDK_NIC_INTF_BLOCK_E_TNS_PORTX_BLOCK(a) (6 + (a)) /**< (0..1)TNS port {a} block ID. */
+#define BDK_NIC_INTF_BLOCK_E_RGXX(a) (8 + (a)) /**< RGX{a}. */
+#define BDK_NIC_INTF_BLOCK_E_TNS_PORTX_BLOCK(a) (6 + (a)) /**< TNS port {a} block ID. */
 
 /**
  * Enumeration nic_intf_e
@@ -488,9 +484,9 @@
  * NIC Interface Enumeration
  * Enumerates index of NIC_PF_INTF()_SEND_CFG and NIC_PF_INTF()_BP_CFG.
  */
-#define BDK_NIC_INTF_E_BGXX(a) (0 + (a)) /**< (0)BGX{a}. */
-#define BDK_NIC_INTF_E_LBKX(a) (2 + (a)) /**< (0)Loopback {a}. */
-#define BDK_NIC_INTF_E_RGXX(a) (0 + (a)) /**< (1)RGX{a}. */
+#define BDK_NIC_INTF_E_BGXX(a) (0 + (a)) /**< BGX{a}. */
+#define BDK_NIC_INTF_E_LBKX(a) (2 + (a)) /**< Loopback {a}. */
+#define BDK_NIC_INTF_E_RGXX(a) (0 + (a)) /**< RGX{a}. */
 
 /**
  * Enumeration nic_ipproto_e
@@ -596,9 +592,9 @@
  * Enumerates the index of NIC_PF_LMAC()_CFG, NIC_PF_LMAC()_CFG2, NIC_PF_LMAC()_SW_XOFF,
  * NIC_PF_LMAC()_CREDIT, NIC_PF_SW_SYNC_PIPE()_CQ_CNTS and NIC_PF_SW_SYNC_PIPE()_PKT_CNTS.
  */
-#define BDK_NIC_LMAC_E_BGXX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< (0)(0..3)BGX {a} LMAC {b}. */
-#define BDK_NIC_LMAC_E_LBKX(a) (5 + (a)) /**< (0)Loopback {a}. */
-#define BDK_NIC_LMAC_E_RGXX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< (1)(0)RGX {a} LMAC {b}. */
+#define BDK_NIC_LMAC_E_BGXX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< BGX {a} LMAC {b}. */
+#define BDK_NIC_LMAC_E_LBKX(a) (5 + (a)) /**< Loopback {a}. */
+#define BDK_NIC_LMAC_E_RGXX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< RGX {a} LMAC {b}. */
 
 /**
  * Enumeration nic_pf_int_vec_e
@@ -622,11 +618,11 @@
                                        enable clears NIC_PF_ECC3_DBE_ENA_W1C, and enable sets NIC_PF_ECC3_DBE_ENA_W1S. */
 #define BDK_NIC_PF_INT_VEC_E_ECC3_SBE (6) /**< See interrupt clears NIC_PF_ECC3_SBE_INT, interrupt sets NIC_PF_ECC3_SBE_INT_W1S,
                                        enable clears NIC_PF_ECC3_SBE_ENA_W1C, and enable sets NIC_PF_ECC3_SBE_ENA_W1S. */
-#define BDK_NIC_PF_INT_VEC_E_MBOXX_CN81XX(a) (8 + (a)) /**< (0)See interrupt clears NIC_PF_MBOX_INT(0), interrupt sets NIC_PF_MBOX_INT_W1S(0),
+#define BDK_NIC_PF_INT_VEC_E_MBOXX_CN81XX(a) (8 + (a)) /**< See interrupt clears NIC_PF_MBOX_INT(0), interrupt sets NIC_PF_MBOX_INT_W1S(0),
                                        enable clears NIC_PF_MBOX_ENA_W1C(0), and enable sets NIC_PF_MBOX_ENA_W1S(0). */
-#define BDK_NIC_PF_INT_VEC_E_MBOXX_CN88XX(a) (8 + (a)) /**< (0..1)See interrupt clears NIC_PF_MBOX_INT(0..1), interrupt sets NIC_PF_MBOX_INT_W1S(0..1),
+#define BDK_NIC_PF_INT_VEC_E_MBOXX_CN88XX(a) (8 + (a)) /**< See interrupt clears NIC_PF_MBOX_INT(0..1), interrupt sets NIC_PF_MBOX_INT_W1S(0..1),
                                        enable clears NIC_PF_MBOX_ENA_W1C(0..1), and enable sets NIC_PF_MBOX_ENA_W1S(0..1). */
-#define BDK_NIC_PF_INT_VEC_E_MBOXX_CN83XX(a) (8 + (a)) /**< (0..1)See interrupt clears NIC_PF_MBOX_INT(0..1), interrupt sets NIC_PF_MBOX_INT_W1S(0..1),
+#define BDK_NIC_PF_INT_VEC_E_MBOXX_CN83XX(a) (8 + (a)) /**< See interrupt clears NIC_PF_MBOX_INT(0..1), interrupt sets NIC_PF_MBOX_INT_W1S(0..1),
                                        enable clears NIC_PF_MBOX_ENA_W1C(0..1), and enable sets NIC_PF_MBOX_ENA_W1S(0..1). */
 
 /**
@@ -1041,7 +1037,7 @@
  * when TNS is bypassed. Also enumerates NIC_PF_TL3()_CHAN[CHAN] values.
  * Added in pass 2.
  */
-#define BDK_NIC_TX_CHAN_BYPASS_E_INTFX_LMACX_CHX(a,b,c) (0 + 0x80 * (a) + 0x10 * (b) + (c)) /**< (0..1)(0..3)(0..15)Interface {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_PORT({b})_CH({c}). */
+#define BDK_NIC_TX_CHAN_BYPASS_E_INTFX_LMACX_CHX(a,b,c) (0 + 0x80 * (a) + 0x10 * (b) + (c)) /**< Interface {a} LMAC {b} channel {c}. Corresponds to NIC_CHAN_E::BGX({a})_PORT({b})_CH({c}). */
 
 /**
  * Enumeration nic_tx_chan_nonbypass_e
@@ -1051,7 +1047,7 @@
  * when TNS is not bypassed. Also enumerates NIC_PF_TL3()_CHAN[CHAN] values.
  * Added in pass 2.
  */
-#define BDK_NIC_TX_CHAN_NONBYPASS_E_INTFX_LMACX_CHX(a,b,c) (0 + 0x80 * (a) + 0x20 * (b) + (c)) /**< (0..1)(0..3)(0..31)Interface {a} LMAC {b} channel {c}. Corresponds to
+#define BDK_NIC_TX_CHAN_NONBYPASS_E_INTFX_LMACX_CHX(a,b,c) (0 + 0x80 * (a) + 0x20 * (b) + (c)) /**< Interface {a} LMAC {b} channel {c}. Corresponds to
                                        NIC_CHAN_E::TNS_PORT({a})_CH({b}<<5|{c}). */
 
 /**
@@ -1062,7 +1058,7 @@
  * NIC_PF_LMAC()_CREDIT.
  * Added in pass 2.
  */
-#define BDK_NIC_TX_LMAC_E_INTFX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< (0..1)(0..3)Interface {a} LMAC {b}. */
+#define BDK_NIC_TX_LMAC_E_INTFX_LMACX(a,b) (0 + 4 * (a) + (b)) /**< Interface {a} LMAC {b}. */
 
 /**
  * Enumeration nic_vf_int_vec_e
@@ -1070,15 +1066,15 @@
  * NIC VF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_NIC_VF_INT_VEC_E_CQX_CN81XX(a) (0 + (a)) /**< (0..7)See interrupt clears NIC_VF(0..7)_INT[CQ<{a}>],
+#define BDK_NIC_VF_INT_VEC_E_CQX_CN81XX(a) (0 + (a)) /**< See interrupt clears NIC_VF(0..7)_INT[CQ<{a}>],
                                        interrupt sets NIC_VF(0..7)_INT_W1S[CQ<{a}>],
                                        enable clears NIC_VF(0..7)_ENA_W1C[CQ<{a}>]
                                        and enable sets NIC_VF(0..7)_ENA_W1S[CQ<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_CQX_CN88XX(a) (0 + (a)) /**< (0..7)See interrupt clears NIC_VF(0..127)_INT[CQ<{a}>],
+#define BDK_NIC_VF_INT_VEC_E_CQX_CN88XX(a) (0 + (a)) /**< See interrupt clears NIC_VF(0..127)_INT[CQ<{a}>],
                                        interrupt sets NIC_VF(0..127)_INT_W1S[CQ<{a}>],
                                        enable clears NIC_VF(0..127)_ENA_W1C[CQ<{a}>]
                                        and enable sets NIC_VF(0..127)_ENA_W1S[CQ<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_CQX_CN83XX(a) (0 + (a)) /**< (0..7)See interrupt clears NIC_VF(0..127)_INT[CQ<{a}>],
+#define BDK_NIC_VF_INT_VEC_E_CQX_CN83XX(a) (0 + (a)) /**< See interrupt clears NIC_VF(0..127)_INT[CQ<{a}>],
                                        interrupt sets NIC_VF(0..127)_INT_W1S[CQ<{a}>],
                                        enable clears NIC_VF(0..127)_ENA_W1C[CQ<{a}>]
                                        and enable sets NIC_VF(0..127)_ENA_W1S[CQ<{a}>]. */
@@ -1109,27 +1105,27 @@
 #define BDK_NIC_VF_INT_VEC_E_QS_ERR_CN83XX (0x13) /**< See interrupt clears NIC_VF(0..127)_INT[QS_ERR], interrupt sets
                                        NIC_VF(0..127)_INT_W1S[QS_ERR], enable clears NIC_VF(0..127)_ENA_W1C[QS_ERR] and enable
                                        sets NIC_VF(0..127)_ENA_W1S[QS_ERR]. */
-#define BDK_NIC_VF_INT_VEC_E_RBDRX_CN81XX(a) (0x10 + (a)) /**< (0..1)See interrupt clears NIC_VF(0..7)_INT[RBDR<{a}>],
+#define BDK_NIC_VF_INT_VEC_E_RBDRX_CN81XX(a) (0x10 + (a)) /**< See interrupt clears NIC_VF(0..7)_INT[RBDR<{a}>],
                                        interrupt sets NIC_VF(0..7)_INT_W1S[RBDR<{a}>],
                                        enable clears NIC_VF(0..7)_ENA_W1C[RBDR<{a}>]
                                        and enable sets NIC_VF(0..7)_ENA_W1S[RBDR<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_RBDRX_CN88XX(a) (0x10 + (a)) /**< (0..1)See interrupt clears NIC_VF(0..127)_INT[RBDR<{a}>],
+#define BDK_NIC_VF_INT_VEC_E_RBDRX_CN88XX(a) (0x10 + (a)) /**< See interrupt clears NIC_VF(0..127)_INT[RBDR<{a}>],
                                        interrupt sets NIC_VF(0..127)_INT_W1S[RBDR<{a}>],
                                        enable clears NIC_VF(0..127)_ENA_W1C[RBDR<{a}>]
                                        and enable sets NIC_VF(0..127)_ENA_W1S[RBDR<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_RBDRX_CN83XX(a) (0x10 + (a)) /**< (0..1)See interrupt clears NIC_VF(0..127)_INT[RBDR<{a}>],
+#define BDK_NIC_VF_INT_VEC_E_RBDRX_CN83XX(a) (0x10 + (a)) /**< See interrupt clears NIC_VF(0..127)_INT[RBDR<{a}>],
                                        interrupt sets NIC_VF(0..127)_INT_W1S[RBDR<{a}>],
                                        enable clears NIC_VF(0..127)_ENA_W1C[RBDR<{a}>]
                                        and enable sets NIC_VF(0..127)_ENA_W1S[RBDR<{a}>]. */
-#define BDK_NIC_VF_INT_VEC_E_SQX_CN81XX(a) (8 + (a)) /**< (0..7)See interrupt clears NIC_VF(0..7)_INT[SQ<{a}>],
+#define BDK_NIC_VF_INT_VEC_E_SQX_CN81XX(a) (8 + (a)) /**< See interrupt clears NIC_VF(0..7)_INT[SQ<{a}>],
                                        interrupt sets NIC_VF(0..7)_INT_W1S[SQ<{a}>],
                                        enable clears NIC_VF(0..7)_ENA_W1C[SQ<{a}>]
                                        and enable sets NIC_VF(0..7)_ENA_W1S[SQ<a>]. */
-#define BDK_NIC_VF_INT_VEC_E_SQX_CN88XX(a) (8 + (a)) /**< (0..7)See interrupt clears NIC_VF(0..127)_INT[SQ<{a}>],
+#define BDK_NIC_VF_INT_VEC_E_SQX_CN88XX(a) (8 + (a)) /**< See interrupt clears NIC_VF(0..127)_INT[SQ<{a}>],
                                        interrupt sets NIC_VF(0..127)_INT_W1S[SQ<{a}>],
                                        enable clears NIC_VF(0..127)_ENA_W1C[SQ<{a}>]
                                        and enable sets NIC_VF(0..127)_ENA_W1S[SQ<a>]. */
-#define BDK_NIC_VF_INT_VEC_E_SQX_CN83XX(a) (8 + (a)) /**< (0..7)See interrupt clears NIC_VF(0..127)_INT[SQ<{a}>],
+#define BDK_NIC_VF_INT_VEC_E_SQX_CN83XX(a) (8 + (a)) /**< See interrupt clears NIC_VF(0..127)_INT[SQ<{a}>],
                                        interrupt sets NIC_VF(0..127)_INT_W1S[SQ<{a}>],
                                        enable clears NIC_VF(0..127)_ENA_W1C[SQ<{a}>]
                                        and enable sets NIC_VF(0..127)_ENA_W1S[SQ<a>]. */

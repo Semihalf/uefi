@@ -198,11 +198,11 @@
                                        ZIP_ECCE_ENA_W1C, and enable sets ZIP_ECCE_ENA_W1S. */
 #define BDK_ZIP_INT_VEC_E_FIFE (0x11) /**< See interrupt clears ZIP_FIFE_INT, interrupt sets ZIP_FIFE_INT_W1S, enable clears
                                        ZIP_FIFE_ENA_W1C, and enable sets ZIP_FIFE_ENA_W1S. */
-#define BDK_ZIP_INT_VEC_E_QUEX_DONE(a) (0 + (a)) /**< (0..7)See interrupt clears ZIP_QUE(0..7)_DONE_ACK, interrupt sets ZIP_QUE(0..7)_DONE and
+#define BDK_ZIP_INT_VEC_E_QUEX_DONE(a) (0 + (a)) /**< See interrupt clears ZIP_QUE(0..7)_DONE_ACK, interrupt sets ZIP_QUE(0..7)_DONE and
                                        interrupt coalescing
                                        waits ZIP_QUE(0..7)_DONE_WAIT, enable clears ZIP_QUE(0..7)_DONE_ENA_W1C, and enable sets
                                        ZIP_QUE(0..7)_DONE_ENA_W1S. */
-#define BDK_ZIP_INT_VEC_E_QUEX_ERR(a) (8 + (a)) /**< (0..7)See interrupt clears ZIP_QUE(0..7)_ERR_INT, interrupt sets ZIP_QUE(0..7)_ERR_INT_W1S,
+#define BDK_ZIP_INT_VEC_E_QUEX_ERR(a) (8 + (a)) /**< See interrupt clears ZIP_QUE(0..7)_ERR_INT, interrupt sets ZIP_QUE(0..7)_ERR_INT_W1S,
                                        enable clears
                                        ZIP_QUE(0..7)_ERR_ENA_W1C, and enable sets ZIP_QUE(0..7)_ERR_ENA_W1S. */
 

@@ -58,10 +58,10 @@
  * CPT Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_CPT_BAR_E_CPTX_PF_BAR0(a) (0x872000000000ll + 0x1000000000ll * (a)) /**< (0..1)Base address for physical function standard registers. */
-#define BDK_CPT_BAR_E_CPTX_PF_BAR4(a) (0x872010000000ll + 0x1000000000ll * (a)) /**< (0..1)Base address for physical function MSI-X registers. */
-#define BDK_CPT_BAR_E_CPTX_VFX_BAR0(a,b) (0x872020000000ll + 0x1000000000ll * (a) + 0x100000ll * (b)) /**< (0..1)(0..63)Base address for virtual function standard registers. */
-#define BDK_CPT_BAR_E_CPTX_VFX_BAR4(a,b) (0x872030000000ll + 0x1000000000ll * (a) + 0x100000ll * (b)) /**< (0..1)(0..63)Base address for virtual function MSI-X registers. */
+#define BDK_CPT_BAR_E_CPTX_PF_BAR0(a) (0x872000000000ll + 0x1000000000ll * (a)) /**< Base address for physical function standard registers. */
+#define BDK_CPT_BAR_E_CPTX_PF_BAR4(a) (0x872010000000ll + 0x1000000000ll * (a)) /**< Base address for physical function MSI-X registers. */
+#define BDK_CPT_BAR_E_CPTX_VFX_BAR0(a,b) (0x872020000000ll + 0x1000000000ll * (a) + 0x100000ll * (b)) /**< Base address for virtual function standard registers. */
+#define BDK_CPT_BAR_E_CPTX_VFX_BAR4(a,b) (0x872030000000ll + 0x1000000000ll * (a) + 0x100000ll * (b)) /**< Base address for virtual function MSI-X registers. */
 
 /**
  * Enumeration cpt_comp_e
@@ -87,7 +87,7 @@
                                        interrupt sets CPT(0..1)_PF_ECC0_INT_W1S,
                                        enable clears CPT(0..1)_PF_ECC0_ENA_W1C,
                                        and enable sets CPT(0..1)_PF_ECC0_ENA_W1S. */
-#define BDK_CPT_PF_INT_VEC_E_MBOXX(a) (1 + (a)) /**< (0)See interrupt clears CPT(0..1)_PF_MBOX_INT(0),
+#define BDK_CPT_PF_INT_VEC_E_MBOXX(a) (1 + (a)) /**< See interrupt clears CPT(0..1)_PF_MBOX_INT(0),
                                        interrupt sets CPT(0..1)_PF_MBOX_INT_W1S(0),
                                        enable clears CPT(0..1)_PF_MBOX_ENA_W1C(0),
                                        and enable sets CPT(0..1)_PF_MBOX_ENA_W1S(0). */

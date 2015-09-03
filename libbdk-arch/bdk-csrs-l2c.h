@@ -235,18 +235,18 @@
                                        cycle). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_OPEN_CCPI_CN83XX (0xa) /**< LFB open CCPI cycle (each cycle adds number of LFBs with an open CCPI
                                        cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN81XX(a) (0x82 + 0x10 * (a)) /**< (0..7)Quad(0..3) number of banks in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN88XX(a) (0x82 + 0x10 * (a)) /**< (0..7)Quad(0..7) number of banks in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN83XX(a) (0x82 + 0x10 * (a)) /**< (0..7)Quad(0..3) number of banks in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN81XX(a) (0x80 + 0x10 * (a)) /**< (0..7)Quad(0..3) index bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN88XX(a) (0x80 + 0x10 * (a)) /**< (0..7)Quad(0..7) index bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN83XX(a) (0x80 + 0x10 * (a)) /**< (0..7)Quad(0..3) index bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN81XX(a) (0x81 + 0x10 * (a)) /**< (0..7)Quad(0..3) read data bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN88XX(a) (0x81 + 0x10 * (a)) /**< (0..7)Quad(0..7) read data bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN83XX(a) (0x81 + 0x10 * (a)) /**< (0..7)Quad(0..3) read data bus in use. */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN81XX(a) (0x83 + 0x10 * (a)) /**< (0..7)Quad(0..3) write data flops in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN88XX(a) (0x83 + 0x10 * (a)) /**< (0..7)Quad(0..7) write data flops in use (0-4/cycle). */
-#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN83XX(a) (0x83 + 0x10 * (a)) /**< (0..7)Quad(0..3) write data flops in use (0-4/cycle). */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN81XX(a) (0x82 + 0x10 * (a)) /**< Quad(0..3) number of banks in use (0-4/cycle). */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN88XX(a) (0x82 + 0x10 * (a)) /**< Quad(0..7) number of banks in use (0-4/cycle). */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_BNKS_CN83XX(a) (0x82 + 0x10 * (a)) /**< Quad(0..3) number of banks in use (0-4/cycle). */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN81XX(a) (0x80 + 0x10 * (a)) /**< Quad(0..3) index bus in use. */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN88XX(a) (0x80 + 0x10 * (a)) /**< Quad(0..7) index bus in use. */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_IDX_CN83XX(a) (0x80 + 0x10 * (a)) /**< Quad(0..3) index bus in use. */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN81XX(a) (0x81 + 0x10 * (a)) /**< Quad(0..3) read data bus in use. */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN88XX(a) (0x81 + 0x10 * (a)) /**< Quad(0..7) read data bus in use. */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_RDAT_CN83XX(a) (0x81 + 0x10 * (a)) /**< Quad(0..3) read data bus in use. */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN81XX(a) (0x83 + 0x10 * (a)) /**< Quad(0..3) write data flops in use (0-4/cycle). */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN88XX(a) (0x83 + 0x10 * (a)) /**< Quad(0..7) write data flops in use (0-4/cycle). */
+#define BDK_L2C_TAD_PRF_SEL_E_QDX_WDAT_CN83XX(a) (0x83 + 0x10 * (a)) /**< Quad(0..3) write data flops in use (0-4/cycle). */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_CN81XX (0x5d) /**< Total (allocates RTG - MIB). */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_CN88XX (0x5d) /**< Total (allocates RTG - MIB). Added in pass 2. */
 #define BDK_L2C_TAD_PRF_SEL_E_RTG_ALC_CN83XX (0x5d) /**< Total (allocates RTG - MIB). */

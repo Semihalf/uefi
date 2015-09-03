@@ -58,8 +58,8 @@
  * BGX Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_BGX_BAR_E_BGXX_PF_BAR0(a) (0x87e0e0000000ll + 0x1000000ll * (a)) /**< (0..1)Base address for standard registers */
-#define BDK_BGX_BAR_E_BGXX_PF_BAR4(a) (0x87e0e0400000ll + 0x1000000ll * (a)) /**< (0..1)Base address for MSI-X registers. */
+#define BDK_BGX_BAR_E_BGXX_PF_BAR0(a) (0x87e0e0000000ll + 0x1000000ll * (a)) /**< Base address for standard registers */
+#define BDK_BGX_BAR_E_BGXX_PF_BAR4(a) (0x87e0e0400000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration bgx_int_vec_e
@@ -67,7 +67,7 @@
  * BGX MSI-X Vector Enumeration
  * Enumeration the MSI-X interrupt vectors.
  */
-#define BDK_BGX_INT_VEC_E_CMRX_INT(a) (0 + 7 * (a)) /**< (0..3)See interrupt clears BGX(0..1)_CMR(0..3)_INT,
+#define BDK_BGX_INT_VEC_E_CMRX_INT(a) (0 + 7 * (a)) /**< See interrupt clears BGX(0..1)_CMR(0..3)_INT,
                                        interrupt sets BGX(0..1)_CMR(0..3)_INT_W1S,
                                        enable clears BGX(0..1)_CMR(0..3)_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_CMR(0..3)_INT_ENA_W1S. */
@@ -75,27 +75,27 @@
                                        interrupt sets BGX(0..1)_CMR_MEM_INT_W1S,
                                        enable clears BGX(0..1)_CMR_MEM_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_CMR_MEM_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_GMPX_GMI_RX_INT(a) (5 + 7 * (a)) /**< (0..3)See interrupt clears BGX(0..1)_GMP_GMI_RX(0..3)_INT,
+#define BDK_BGX_INT_VEC_E_GMPX_GMI_RX_INT(a) (5 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_GMI_RX(0..3)_INT,
                                        interrupt sets BGX(0..1)_GMP_GMI_RX(0..3)_INT_W1S,
                                        enable clears BGX(0..1)_GMP_GMI_RX(0..3)_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_GMP_GMI_RX(0..3)_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_GMPX_GMI_TX_INT(a) (6 + 7 * (a)) /**< (0..3)See interrupt clears BGX(0..1)_GMP_GMI_TX(0..3)_INT,
+#define BDK_BGX_INT_VEC_E_GMPX_GMI_TX_INT(a) (6 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_GMI_TX(0..3)_INT,
                                        interrupt sets BGX(0..1)_GMP_GMI_TX(0..3)_INT_W1S,
                                        enable clears BGX(0..1)_GMP_GMI_TX(0..3)_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_GMP_GMI_TX(0..3)_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_GMPX_PCS_INT(a) (4 + 7 * (a)) /**< (0..3)See interrupt clears BGX(0..1)_GMP_PCS_INT(0..3),
+#define BDK_BGX_INT_VEC_E_GMPX_PCS_INT(a) (4 + 7 * (a)) /**< See interrupt clears BGX(0..1)_GMP_PCS_INT(0..3),
                                        interrupt sets BGX(0..1)_GMP_PCS_INT(0..3)_W1S,
                                        enable clears BGX(0..1)_GMP_PCS_INT(0..3)_ENA_W1C,
                                        and enable sets BGX(0..1)_GMP_PCS_INT(0..3)_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_SMUX_RX_INT(a) (2 + 7 * (a)) /**< (0..3)See interrupt clears BGX(0..1)_SMU(0..3)_RX_INT,
+#define BDK_BGX_INT_VEC_E_SMUX_RX_INT(a) (2 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SMU(0..3)_RX_INT,
                                        interrupt sets BGX(0..1)_SMU(0..3)_RX_INT_W1S,
                                        enable clears BGX(0..1)_SMU(0..3)_RX_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_SMU(0..3)_RX_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_SMUX_TX_INT(a) (3 + 7 * (a)) /**< (0..3)See interrupt clears BGX(0..1)_SMU(0..3)_TX_INT,
+#define BDK_BGX_INT_VEC_E_SMUX_TX_INT(a) (3 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SMU(0..3)_TX_INT,
                                        interrupt sets BGX(0..1)_SMU(0..3)_TX_INT_W1S,
                                        enable clears BGX(0..1)_SMU(0..3)_TX_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_SMU(0..3)_TX_INT_ENA_W1S. */
-#define BDK_BGX_INT_VEC_E_SPUX_INT(a) (1 + 7 * (a)) /**< (0..3)See interrupt clears BGX(0..1)_SPU(0..3)_INT,
+#define BDK_BGX_INT_VEC_E_SPUX_INT(a) (1 + 7 * (a)) /**< See interrupt clears BGX(0..1)_SPU(0..3)_INT,
                                        interrupt sets BGX(0..1)_SPU(0..3)_INT_W1S,
                                        enable clears BGX(0..1)_SPU(0..3)_INT_ENA_W1C,
                                        and enable sets BGX(0..1)_SPU(0..3)_INT_ENA_W1S. */

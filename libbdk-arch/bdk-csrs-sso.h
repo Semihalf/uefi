@@ -60,8 +60,8 @@
  */
 #define BDK_SSO_BAR_E_SSO_PF_BAR0 (0x860000000000ll) /**< Base address for standard PF registers. */
 #define BDK_SSO_BAR_E_SSO_PF_BAR4 (0x860700000000ll) /**< Base address for MSI-X PF registers. */
-#define BDK_SSO_BAR_E_SSO_VFX_BAR0(a) (0x860800000000ll + 0x100000ll * (a)) /**< (0..63)Base address for standard PF registers. */
-#define BDK_SSO_BAR_E_SSO_VFX_BAR4(a) (0x860c00000000ll + 0x100000ll * (a)) /**< (0..63)Base address for MSI-X VF registers. */
+#define BDK_SSO_BAR_E_SSO_VFX_BAR0(a) (0x860800000000ll + 0x100000ll * (a)) /**< Base address for standard PF registers. */
+#define BDK_SSO_BAR_E_SSO_VFX_BAR4(a) (0x860c00000000ll + 0x100000ll * (a)) /**< Base address for MSI-X VF registers. */
 
 /**
  * Enumeration sso_pf_int_vec_e

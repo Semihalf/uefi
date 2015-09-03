@@ -82,15 +82,15 @@
  * PKI Channel Enumeration
  * Enumerates the values of WQE[CHAN].
  */
-#define BDK_PKI_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< (0..5)(0..3)(0..15)BGX {a} port {b} channel {c}. The channel is always 0 when used as a port
+#define BDK_PKI_CHAN_E_BGXX_PORTX_CHX(a,b,c) (0x800 + 0x100 * (a) + 0x10 * (b) + (c)) /**< BGX {a} port {b} channel {c}. The channel is always 0 when used as a port
                                        number, then made non-zero as part of the conversion to a channel number. */
-#define BDK_PKI_CHAN_E_DPI_CHX(a) (0x100 + (a)) /**< (0..127)DPI ring {a}. */
-#define BDK_PKI_CHAN_E_ILKX_CHX(a,b) (0x400 + 0x100 * (a) + (b)) /**< (0..1)(0..255)Reserved. INTERNAL: Interlaken RX/TX {a} channel {b}. */
-#define BDK_PKI_CHAN_E_LOOPBACK_CHX(a) (0 + (a)) /**< (0..63)Loopback pipe {a}. The channel number comes from the PKO pipe field. */
+#define BDK_PKI_CHAN_E_DPI_CHX(a) (0x100 + (a)) /**< DPI ring {a}. */
+#define BDK_PKI_CHAN_E_ILKX_CHX(a,b) (0x400 + 0x100 * (a) + (b)) /**< Reserved. INTERNAL: Interlaken RX/TX {a} channel {b}. */
+#define BDK_PKI_CHAN_E_LOOPBACK_CHX(a) (0 + (a)) /**< Loopback pipe {a}. The channel number comes from the PKO pipe field. */
 #define BDK_PKI_CHAN_E_NQM_CH (0x200) /**< NQM traffic.  NQM traffic does not pass through PKI, however NQM places this
                                        value into NQM_WQE_S[CHAN] field so that software may distinguish between
                                        PKI_WQE_S and NQM_WQE_S formatted structures. */
-#define BDK_PKI_CHAN_E_SRIOX_CHX(a,b) (0x240 + 2 * (a) + (b)) /**< (0..1)(0..1)Reserved. INTERNAL: SRIO message unit mac {a} channel {b}. */
+#define BDK_PKI_CHAN_E_SRIOX_CHX(a,b) (0x240 + 2 * (a) + (b)) /**< Reserved. INTERNAL: SRIO message unit mac {a} channel {b}. */
 
 /**
  * Enumeration pki_errlev_e
@@ -502,9 +502,9 @@
  * PKI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_PKI_PF_INT_VEC_E_CL_ECCX(a) (6 + (a)) /**< (0..1)See interrupt clears PKI_CL(0..1)_ECC_INT, interrupt sets PKI_CL(0..1)_ECC_INT_W1S,
+#define BDK_PKI_PF_INT_VEC_E_CL_ECCX(a) (6 + (a)) /**< See interrupt clears PKI_CL(0..1)_ECC_INT, interrupt sets PKI_CL(0..1)_ECC_INT_W1S,
                                        enable clears PKI_CL(0..1)_ECC_INT_ENA_W1C, and enable sets PKI_CL(0..1)_ECC_INT_ENA_W1S. */
-#define BDK_PKI_PF_INT_VEC_E_CL_INTX(a) (4 + (a)) /**< (0..1)See interrupt clears PKI_CL(0..1)_INT, interrupt sets PKI_CL(0..1)_INT_W1S,
+#define BDK_PKI_PF_INT_VEC_E_CL_INTX(a) (4 + (a)) /**< See interrupt clears PKI_CL(0..1)_INT, interrupt sets PKI_CL(0..1)_INT_W1S,
                                        enable clears PKI_CL(0..1)_INT_ENA_W1C, and enable sets PKI_CL(0..1)_INT_ENA_W1S. */
 #define BDK_PKI_PF_INT_VEC_E_ECC0 (1) /**< See interrupt clears PKI_ECC_INT0, interrupt sets PKI_ECC_INT0_W1S,
                                        enable clears PKI_ECC_INT0_ENA_W1C, and enable sets PKI_ECC_INT0_ENA_W1S. */
@@ -538,7 +538,7 @@
 #define BDK_PKI_REASM_E_DPI_REASM (2) /**< DPI reassembly-ID. */
 #define BDK_PKI_REASM_E_LOOPBACK0_REASM (0) /**< Loopback reassembly-ID. */
 #define BDK_PKI_REASM_E_LOOPBACK1_REASM (1) /**< Loopback reassembly-ID. */
-#define BDK_PKI_REASM_E_MAC_REASMX(a) (0 + (a)) /**< (3..13)Remaining reassembly-ID's shared by the packet interfaces. The following
+#define BDK_PKI_REASM_E_MAC_REASMX(a) (0 + (a)) /**< Remaining reassembly-ID's shared by the packet interfaces. The following
                                        registers control the range for the various packet interfaces:
                                        BGX()_CMR()_RX_ID_MAP[RID]. */
 #define BDK_PKI_REASM_E_NUM_REASM (0xe) /**< Total number of reassembly-IDs used in the system. */

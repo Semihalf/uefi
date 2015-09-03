@@ -58,8 +58,8 @@
  * OCLA Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR0(a) (0x87e0a8000000ll + 0x1000000ll * (a)) /**< (0..4)Base address for standard registers. */
-#define BDK_OCLA_BAR_E_OCLAX_PF_BAR4(a) (0x87e0a8f00000ll + 0x1000000ll * (a)) /**< (0..4)Base address for MSI-X registers. */
+#define BDK_OCLA_BAR_E_OCLAX_PF_BAR0(a) (0x87e0a8000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_OCLA_BAR_E_OCLAX_PF_BAR4(a) (0x87e0a8f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration ocla_int_vec_e

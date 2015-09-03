@@ -68,7 +68,7 @@
  * PBUS PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_PBUS_INT_VEC_E_DMAX(a) (1 + (a)) /**< (0..1)See interrupt clears PBUS_DMA_INT(0..1),
+#define BDK_PBUS_INT_VEC_E_DMAX(a) (1 + (a)) /**< See interrupt clears PBUS_DMA_INT(0..1),
                                        interrupt sets PBUS_DMA_INT_W1S(0..1),
                                        enable clears PBUS_DMA_INT_ENA_W1C(0..1),
                                        and enable sets PBUS_DMA_INT_ENA_W1S(0..1). */

@@ -58,8 +58,8 @@
  * SLI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_SLI_BAR_E_SLIX_PF_BAR0(a) (0x874000000000ll + 0x1000000000ll * (a)) /**< (0..1)Base address for standard registers. */
-#define BDK_SLI_BAR_E_SLIX_PF_BAR4(a) (0x874010000000ll + 0x1000000000ll * (a)) /**< (0..1)Base address for MSI-X registers. */
+#define BDK_SLI_BAR_E_SLIX_PF_BAR0(a) (0x874000000000ll + 0x1000000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_SLI_BAR_E_SLIX_PF_BAR4(a) (0x874010000000ll + 0x1000000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration sli_int_vec_e
@@ -67,7 +67,7 @@
  * SLI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_SLI_INT_VEC_E_MACX(a) (1 + (a)) /**< (0..2)See interrupt clears SLI(0..1)_MAC(0..2)_INT_SUM,
+#define BDK_SLI_INT_VEC_E_MACX(a) (1 + (a)) /**< See interrupt clears SLI(0..1)_MAC(0..2)_INT_SUM,
                                        interrupt sets SLI(0..1)_MAC(0..2)_INT_SUM_W1S,
                                        enable clears SLI(0..1)_MAC(0..2)_INT_ENA_W1C,
                                        and enable sets SLI(0..1)_MAC(0..2)_INT_ENA_W1S. */

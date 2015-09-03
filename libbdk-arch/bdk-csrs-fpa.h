@@ -60,8 +60,8 @@
  */
 #define BDK_FPA_BAR_E_FPA_PF_BAR0 (0x828000000000ll) /**< Base address for standard registers. */
 #define BDK_FPA_BAR_E_FPA_PF_BAR4 (0x828300000000ll) /**< Base address for MSI-X registers. */
-#define BDK_FPA_BAR_E_FPA_VFX_BAR0(a) (0x828400000000ll + 0x400000ll * (a)) /**< (0..31)Base address for virtual function standard registers. */
-#define BDK_FPA_BAR_E_FPA_VFX_BAR4(a) (0x828700000000ll + 0x400000ll * (a)) /**< (0..31)Base address for virtual function MSI-X registers. */
+#define BDK_FPA_BAR_E_FPA_VFX_BAR0(a) (0x828400000000ll + 0x400000ll * (a)) /**< Base address for virtual function standard registers. */
+#define BDK_FPA_BAR_E_FPA_VFX_BAR4(a) (0x828700000000ll + 0x400000ll * (a)) /**< Base address for virtual function MSI-X registers. */
 
 /**
  * Enumeration fpa_pf_int_vec_e

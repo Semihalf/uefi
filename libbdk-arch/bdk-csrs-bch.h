@@ -60,7 +60,7 @@
  */
 #define BDK_BCH_BAR_E_BCH_PF_BAR0 (0x871000000000ll) /**< Base address for standard registers. */
 #define BDK_BCH_BAR_E_BCH_PF_BAR4 (0x871000f00000ll) /**< Base address for MSI-X registers. */
-#define BDK_BCH_BAR_E_BCH_VFX_BAR0(a) (0x871001000000ll + 0x100000ll * (a)) /**< (0)Base address for standard registers. */
+#define BDK_BCH_BAR_E_BCH_VFX_BAR0(a) (0x871001000000ll + 0x100000ll * (a)) /**< Base address for standard registers. */
 
 /**
  * Enumeration bch_int_vec_e

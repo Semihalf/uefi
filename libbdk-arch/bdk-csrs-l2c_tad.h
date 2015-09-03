@@ -58,12 +58,8 @@
  * L2C_TAD Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR0_CN81XX(a) (0x87e050000000ll + 0x1000000ll * (a)) /**< (0..3)Base address for standard registers. */
-#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR0_CN88XX(a) (0x87e050000000ll + 0x1000000ll * (a)) /**< (0..7)Base address for standard registers. */
-#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR0_CN83XX(a) (0x87e050000000ll + 0x1000000ll * (a)) /**< (0..3)Base address for standard registers. */
-#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR4_CN81XX(a) (0x87e050f00000ll + 0x1000000ll * (a)) /**< (0..3)Base address for MSI-X registers. */
-#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR4_CN88XX(a) (0x87e050f00000ll + 0x1000000ll * (a)) /**< (0..7)Base address for MSI-X registers. */
-#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR4_CN83XX(a) (0x87e050f00000ll + 0x1000000ll * (a)) /**< (0..3)Base address for MSI-X registers. */
+#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR0(a) (0x87e050000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_L2C_TAD_BAR_E_L2C_TADX_PF_BAR4(a) (0x87e050f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration l2c_tad_int_vec_e

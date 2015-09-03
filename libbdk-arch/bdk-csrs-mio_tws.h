@@ -58,8 +58,8 @@
  * TWSI Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR0(a) (0x87e0d0000000ll + 0x1000000ll * (a)) /**< (0..5)Base address for standard registers. */
-#define BDK_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4(a) (0x87e0d0f00000ll + 0x1000000ll * (a)) /**< (0..5)Base address for MSI-X registers. */
+#define BDK_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR0(a) (0x87e0d0000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_MIO_TWS_BAR_E_MIO_TWSX_PF_BAR4(a) (0x87e0d0f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration mio_tws_int_vec_e

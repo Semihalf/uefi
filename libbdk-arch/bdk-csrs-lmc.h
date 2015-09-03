@@ -58,12 +58,8 @@
  * LMC Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_LMC_BAR_E_LMCX_PF_BAR0_CN81XX(a) (0x87e088000000ll + 0x1000000ll * (a)) /**< (0..1)Base address for standard registers. */
-#define BDK_LMC_BAR_E_LMCX_PF_BAR0_CN88XX(a) (0x87e088000000ll + 0x1000000ll * (a)) /**< (0..3)Base address for standard registers. */
-#define BDK_LMC_BAR_E_LMCX_PF_BAR0_CN83XX(a) (0x87e088000000ll + 0x1000000ll * (a)) /**< (0..1)Base address for standard registers. */
-#define BDK_LMC_BAR_E_LMCX_PF_BAR4_CN81XX(a) (0x87e088f00000ll + 0x1000000ll * (a)) /**< (0..1)Base address for MSI-X registers. */
-#define BDK_LMC_BAR_E_LMCX_PF_BAR4_CN88XX(a) (0x87e088f00000ll + 0x1000000ll * (a)) /**< (0..3)Base address for MSI-X registers. */
-#define BDK_LMC_BAR_E_LMCX_PF_BAR4_CN83XX(a) (0x87e088f00000ll + 0x1000000ll * (a)) /**< (0..1)Base address for MSI-X registers. */
+#define BDK_LMC_BAR_E_LMCX_PF_BAR0(a) (0x87e088000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */
+#define BDK_LMC_BAR_E_LMCX_PF_BAR4(a) (0x87e088f00000ll + 0x1000000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration lmc_int_vec_e

@@ -80,8 +80,8 @@
  */
 #define BDK_PKO_BAR_E_PKO_PF_BAR0 (0x854000000000ll) /**< Base address for standard registers. */
 #define BDK_PKO_BAR_E_PKO_PF_BAR4 (0x854300000000ll) /**< Base address for MSI-X registers. */
-#define BDK_PKO_BAR_E_PKO_VFX_BAR0(a) (0x854400000000ll + 0x100000ll * (a)) /**< (0..63)Base address for standard registers. */
-#define BDK_PKO_BAR_E_PKO_VFX_BAR4(a) (0x854700000000ll + 0x100000ll * (a)) /**< (0..63)Base address for MSI-X registers. */
+#define BDK_PKO_BAR_E_PKO_VFX_BAR0(a) (0x854400000000ll + 0x100000ll * (a)) /**< Base address for standard registers. */
+#define BDK_PKO_BAR_E_PKO_VFX_BAR4(a) (0x854700000000ll + 0x100000ll * (a)) /**< Base address for MSI-X registers. */
 
 /**
  * Enumeration pko_ckl4alg_e
@@ -197,7 +197,7 @@
 #define BDK_PKO_INTSN_E_PKO_CP_SENDPKT_ERR_DROP (0x500fc) /**< See PKO_PDM_STS[CP_SENDPKT_ERR_DROP]. */
 #define BDK_PKO_INTSN_E_PKO_CP_SENDPKT_ERR_NO_DRP (0x500fd) /**< See PKO_PDM_STS[CP_SENDPKT_ERR_NO_DRP]. */
 #define BDK_PKO_INTSN_E_PKO_DESC_CRC_ERR (0x500ff) /**< See PKO_PDM_STS[DESC_CRC_ERR]. */
-#define BDK_PKO_INTSN_E_PKO_DQX_WM(a) (0x52000 + (a)) /**< (0..255)See PKO_DQ(0..255)_WM_BUF_CTL_W1C[INTR]. */
+#define BDK_PKO_INTSN_E_PKO_DQX_WM(a) (0x52000 + (a)) /**< See PKO_DQ(0..255)_WM_BUF_CTL_W1C[INTR]. */
 #define BDK_PKO_INTSN_E_PKO_DRPBUF_DATA_VAL_ERR (0x500f7) /**< See PKO_PDM_STS[DRPBUF_DATA_VAL_ERR]. */
 #define BDK_PKO_INTSN_E_PKO_DWPBUF_DATA_VAL_ERR (0x500f6) /**< See PKO_PDM_STS[DWPBUF_DATA_VAL_ERR]. */
 #define BDK_PKO_INTSN_E_PKO_FPA_NO_PTRS (0x500fa) /**< See PKO_PDM_STS[FPA_NO_PTRS]. */

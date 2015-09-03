@@ -148,12 +148,12 @@
 #define BDK_PMU_PERF_E_DC_IVAC (0x1c3) /**< Number of data cache invalidate by virtual address to point of coherency. */
 #define BDK_PMU_PERF_E_DDIDS (0xe3) /**< Number of DStream DIDs created. */
 #define BDK_PMU_PERF_E_DIDNA (0xe5) /**< Number of cycles that no DIDs were available. */
-#define BDK_PMU_PERF_E_DIDNT_DUAL_ISSUE_REASONX(a) (0x4e00 + (a)) /**< (0..255)INTERNAL:
+#define BDK_PMU_PERF_E_DIDNT_DUAL_ISSUE_REASONX(a) (0x4e00 + (a)) /**< INTERNAL:
                                        Event for every reason code why the second entry of the queue didn't issue(0 means we dual
                                        issued)
                                        Event for every reason code why the head of the queue didn't issue(0 means we issued)
                                        0 = issued */
-#define BDK_PMU_PERF_E_DIDNT_ISSUE_REASONX(a) (0x4d00 + (a)) /**< (0..255)INTERNAL:
+#define BDK_PMU_PERF_E_DIDNT_ISSUE_REASONX(a) (0x4d00 + (a)) /**< INTERNAL:
                                        Event for every reason code why the head of the queue didn't issue(0 means we issued)
                                        0 = issued */
 #define BDK_PMU_PERF_E_DISSUE (0xc4) /**< Cycles two instructions were issued. */
@@ -499,7 +499,7 @@
 #define BDK_PMU_PERF_E_TLB_REFILL_TTBR1_ELX (0x18d) /**< Number of stage 1 MTLB misses TRBR1. Can filter by EL level (EL1 and EL2 - ARMv8.1). */
 #define BDK_PMU_PERF_E_TLB_REFILL_VTTBR_EL2 (0x18e) /**< Number of stage 2 MTLB misses. Only makes sense for EL0 and EL1. */
 #define BDK_PMU_PERF_E_TRAP (0xcd) /**< Number of traps. These include mem replays and exceptions but not mispredicts or unaligned replays */
-#define BDK_PMU_PERF_E_TRAP_REASONX(a) (0x4f00 + (a)) /**< (0..255)INTERNAL:
+#define BDK_PMU_PERF_E_TRAP_REASONX(a) (0x4f00 + (a)) /**< INTERNAL:
                                        Event for every reason code why an exception or replay occured.
                                        Event for every reason code why the head of the queue didn't issue(0 means we issued)
                                        0 = issued */

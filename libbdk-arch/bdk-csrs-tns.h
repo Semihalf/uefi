@@ -72,14 +72,14 @@
 #define BDK_TNS_INT_VEC_E_DP_RDMA_NB (3) /**< DP RDMA NB interrupt detected. */
 #define BDK_TNS_INT_VEC_E_DP_TDMA (0) /**< DP TDMA interrupt detected. */
 #define BDK_TNS_INT_VEC_E_DP_TDMA_NB (2) /**< DP TDMA NB interrupt detected. */
-#define BDK_TNS_INT_VEC_E_SDE_HPX(a) (0xa + (a)) /**< (0..12)SDE high-priority interrupts detected. SDE_HP[0..12] = {PARSER, ISME, LDEA0, LDEB0, LDEA1,
+#define BDK_TNS_INT_VEC_E_SDE_HPX(a) (0xa + (a)) /**< SDE high-priority interrupts detected. SDE_HP[0..12] = {PARSER, ISME, LDEA0, LDEB0, LDEA1,
                                        LDEB1, URW1, URW2A, URW2B, URW3, MRE, CNT, HDBF}. */
-#define BDK_TNS_INT_VEC_E_SDE_LPX(a) (0x17 + (a)) /**< (0..12)SDE low-priority interrupts detected. SDE_LP[0..12] = {PARSER, ISME, LDEA0, LDEB0, LDEA1,
+#define BDK_TNS_INT_VEC_E_SDE_LPX(a) (0x17 + (a)) /**< SDE low-priority interrupts detected. SDE_LP[0..12] = {PARSER, ISME, LDEA0, LDEB0, LDEA1,
                                        LDEB1, URW1, URW2A, URW2B, URW3, MRE, CNT, HDBF} */
-#define BDK_TNS_INT_VEC_E_SE_HPX(a) (4 + (a)) /**< (0..2)Search high-priority interrupts detected. SE_HP[0..2] = {CTL, AGE, MEM} = {Control, AGE, Memory}. */
-#define BDK_TNS_INT_VEC_E_SE_LPX(a) (7 + (a)) /**< (0..2)Search low-priority interrupts detected. SE_LP[0..2] = {CTL, AGE, MEM} = {Control, AGE, Memory}. */
-#define BDK_TNS_INT_VEC_E_TXQ_HPX(a) (0x24 + (a)) /**< (0..5)TxQ high-priority interrupts detected. SE_HP[0..4] = {TBM, TBC, EQ, DQ, QMAP_AQM, CNT}. */
-#define BDK_TNS_INT_VEC_E_TXQ_LPX(a) (0x2a + (a)) /**< (0..5)TxQ low-priority interrupts detected. SE_LP[0..4] = {TBM, TBC, EQ, DQ, QMAP_AQM, CNT}. */
+#define BDK_TNS_INT_VEC_E_SE_HPX(a) (4 + (a)) /**< Search high-priority interrupts detected. SE_HP[0..2] = {CTL, AGE, MEM} = {Control, AGE, Memory}. */
+#define BDK_TNS_INT_VEC_E_SE_LPX(a) (7 + (a)) /**< Search low-priority interrupts detected. SE_LP[0..2] = {CTL, AGE, MEM} = {Control, AGE, Memory}. */
+#define BDK_TNS_INT_VEC_E_TXQ_HPX(a) (0x24 + (a)) /**< TxQ high-priority interrupts detected. SE_HP[0..4] = {TBM, TBC, EQ, DQ, QMAP_AQM, CNT}. */
+#define BDK_TNS_INT_VEC_E_TXQ_LPX(a) (0x2a + (a)) /**< TxQ low-priority interrupts detected. SE_LP[0..4] = {TBM, TBC, EQ, DQ, QMAP_AQM, CNT}. */
 
 /**
  * Enumeration tns_phys_port_e

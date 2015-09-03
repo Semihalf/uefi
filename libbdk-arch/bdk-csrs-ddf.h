@@ -58,10 +58,10 @@
  * DDF Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_DDF_BAR_E_DDFX_PF_BAR0(a) (0x809000000000ll + 0ll * (a)) /**< (0)Base address for physical function standard registers. */
-#define BDK_DDF_BAR_E_DDFX_PF_BAR4(a) (0x809010000000ll + 0ll * (a)) /**< (0)Base address for physical function MSI-X registers. */
-#define BDK_DDF_BAR_E_DDFX_VFX_BAR0(a,b) (0x809020000000ll + 0ll * (a) + 0x100000ll * (b)) /**< (0)(0..31)Base address for virtual function standard registers. */
-#define BDK_DDF_BAR_E_DDFX_VFX_BAR4(a,b) (0x809030000000ll + 0ll * (a) + 0x100000ll * (b)) /**< (0)(0..31)Base address for virtual function MSI-X registers. */
+#define BDK_DDF_BAR_E_DDFX_PF_BAR0(a) (0x809000000000ll + 0ll * (a)) /**< Base address for physical function standard registers. */
+#define BDK_DDF_BAR_E_DDFX_PF_BAR4(a) (0x809010000000ll + 0ll * (a)) /**< Base address for physical function MSI-X registers. */
+#define BDK_DDF_BAR_E_DDFX_VFX_BAR0(a,b) (0x809020000000ll + 0ll * (a) + 0x100000ll * (b)) /**< Base address for virtual function standard registers. */
+#define BDK_DDF_BAR_E_DDFX_VFX_BAR4(a,b) (0x809030000000ll + 0ll * (a) + 0x100000ll * (b)) /**< Base address for virtual function MSI-X registers. */
 
 /**
  * Enumeration ddf_comp_e
@@ -109,7 +109,7 @@
                                        interrupt sets DDF(0)_PF_ECC0_INT_W1S,
                                        enable clears DDF(0)_PF_ECC0_ENA_W1C,
                                        and enable sets DDF(0)_PF_ECC0_ENA_W1S. */
-#define BDK_DDF_PF_INT_VEC_E_MBOXX(a) (1 + (a)) /**< (0)See interrupt clears DDF(0)_PF_MBOX_INT(0),
+#define BDK_DDF_PF_INT_VEC_E_MBOXX(a) (1 + (a)) /**< See interrupt clears DDF(0)_PF_MBOX_INT(0),
                                        interrupt sets DDF(0)_PF_MBOX_INT_W1S(0),
                                        enable clears DDF(0)_PF_MBOX_ENA_W1C(0),
                                        and enable sets DDF(0)_PF_MBOX_ENA_W1S(0). */

@@ -67,12 +67,12 @@
  * GTI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_GTI_INT_VEC_E_CORE_WDOGX_DEL3T(a) (0xa + (a)) /**< (0..47)Note that GTI_CWD_WDOG(<a>) sets the DEL3T too.
+#define BDK_GTI_INT_VEC_E_CORE_WDOGX_DEL3T(a) (0xa + (a)) /**< Note that GTI_CWD_WDOG(<a>) sets the DEL3T too.
                                        See interrupt clears GTI_CWD_DEL3T[CORE<{a}>],
                                        interrupt sets GTI_CWD_DEL3T_SET[CORE<{a}>],
                                        enable clears GTI_CWD_DEL3T_ENA_CLR[CORE<{a}>],
                                        and enable sets GTI_CWD_DEL3T_ENA_SET[CORE<{a}>]. */
-#define BDK_GTI_INT_VEC_E_CORE_WDOGX_INT(a) (0x3a + (a)) /**< (0..47)Note that GTI_CWD_WDOG(<a>) sets the INT too.
+#define BDK_GTI_INT_VEC_E_CORE_WDOGX_INT(a) (0x3a + (a)) /**< Note that GTI_CWD_WDOG(<a>) sets the INT too.
                                        See interrupt clears GTI_CWD_INT[CORE<{a}>],
                                        interrupt sets GTI_CWD_INT_SET[CORE<{a}>],
                                        enable clears GTI_CWD_INT_ENA_CLR[CORE<{a}>],
