@@ -137,10 +137,9 @@ def writeEnum(out, arch, enum):
             # Range info is used for arguments and comments
             r = enumValue["ranges"][chip]
             args = createDefineArgs(r)
-            ranges = csr_utils.rangeToString(r)
             eq = csr_utils.addressToString(enumValue["value"][chip], None, addSuffix=True)
             descr = formatDescription(enumValue["description"][chip], 40)
-            output = "%s (%s) /**< %s%s */" % (args, eq, ranges, descr)
+            output = "%s (%s) /**< %s */" % (args, eq, descr)
             enum_lines[chip] = full_name, output
         # Consolidate all chips
         if enum_lines:
