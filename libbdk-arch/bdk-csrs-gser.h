@@ -1718,7 +1718,7 @@ typedef union
                                                                  0x6 = lfsr11 = X^11 + X^9 + 1.
                                                                  0x7 = lfsr7  = X^7 + X^6 + 1.
                                                                  0x8 = Fixed word (PAT0).
-                                                                 0x9 = DC-balanced word (PAT0, ~PAT0)
+                                                                 0x9 = DC-balanced word (PAT0, ~PAT0).
                                                                  0xA = Fixed Pattern (000, PAT0, 3ff, ~PAT0).
                                                                  0xB-F = Reserved. */
         uint64_t lbert_pm_en           : 1;  /**< [  6:  6](R/W) Enable LBERT pattern matcher. */
@@ -1773,7 +1773,7 @@ typedef union
                                                                  0x6 = lfsr11 = X^11 + X^9 + 1.
                                                                  0x7 = lfsr7  = X^7 + X^6 + 1.
                                                                  0x8 = Fixed word (PAT0).
-                                                                 0x9 = DC-balanced word (PAT0, ~PAT0)
+                                                                 0x9 = DC-balanced word (PAT0, ~PAT0).
                                                                  0xA = Fixed Pattern (000, PAT0, 3ff, ~PAT0).
                                                                  0xB-F = Reserved. */
         uint64_t lbert_pg_width        : 2;  /**< [ 12: 11](R/W) LBERT pattern generator data width:
@@ -3071,12 +3071,12 @@ typedef union
                                                                  <9:8>: Reserved.
 
                                                                  <7:4>: Pre-CTLE (continuous time linear equalizer) gain (steps of approximately 0.75dB):
-                                                                 _ 0x0 = -6dB
-                                                                 _ 0x1 = -5dB
+                                                                 _ 0x0 = -6dB.
+                                                                 _ 0x1 = -5dB.
                                                                  _ 0xF = +5dB.
 
                                                                  <3:0>: Post-CTLE gain (steps of 0.0875):
-                                                                 _ 0x0 = lowest
+                                                                 _ 0x0 = lowest.
                                                                  _ 0xF = lowest * 2.3125.
 
                                                                  Recommended settings:
@@ -3100,12 +3100,12 @@ typedef union
                                                                  <9:8>: Reserved.
 
                                                                  <7:4>: Pre-CTLE (continuous time linear equalizer) gain (steps of approximately 0.75dB):
-                                                                 _ 0x0 = -6dB
-                                                                 _ 0x1 = -5dB
+                                                                 _ 0x0 = -6dB.
+                                                                 _ 0x1 = -5dB.
                                                                  _ 0xF = +5dB.
 
                                                                  <3:0>: Post-CTLE gain (steps of 0.0875):
-                                                                 _ 0x0 = lowest
+                                                                 _ 0x0 = lowest.
                                                                  _ 0xF = lowest * 2.3125.
 
                                                                  Recommended settings:
@@ -5526,8 +5526,8 @@ typedef union
         uint64_t reserved_15_63        : 49;
         uint64_t ctle                  : 2;  /**< [ 14: 13](R/W/H) Continuous time linear equalizer pole configuration.
                                                                  0x0 = ~5dB of peaking at 4 GHz (Minimum bandwidth).
-                                                                 0x1 =~10dB of peaking at 5 GHz
-                                                                 0x2 = ~15dB of peaking at 5.5 GHz
+                                                                 0x1 =~10dB of peaking at 5 GHz.
+                                                                 0x2 = ~15dB of peaking at 5.5 GHz.
                                                                  0x3 = ~20dB of peaking at 6 GHz (Maximum bandwidth).
 
                                                                  Recommended settings:
@@ -5595,10 +5595,10 @@ typedef union
 
                                                                  For SATA, [TX_LDIV] should always be 0. */
         uint64_t rx_ldiv               : 2;  /**< [  9:  8](R/W/H) Configures clock divider used to determine the receive rate.
-                                                                 0x0 = full data rate
-                                                                 0x1 = 1/2 data rate
-                                                                 0x2 = 1/4 data rate
-                                                                 0x3 = 1/8 data rate
+                                                                 0x0 = full data rate.
+                                                                 0x1 = 1/2 data rate.
+                                                                 0x2 = 1/4 data rate.
+                                                                 0x3 = 1/8 data rate.
 
                                                                  Recommended settings:
 
@@ -5623,11 +5623,11 @@ typedef union
         uint64_t srate                 : 3;  /**< [  7:  5](R/W) Sample rate, used to generate strobe to effectively divide the clock down to a slower
                                                                  rate.
 
-                                                                 0x0 = Full rate
-                                                                 0x1 = 1/2 data rate
-                                                                 0x2 = 1/4 data rate
-                                                                 0x3 = 1/8 data rate
-                                                                 0x4 = 1/16 data rate
+                                                                 0x0 = Full rate.
+                                                                 0x1 = 1/2 data rate.
+                                                                 0x2 = 1/4 data rate.
+                                                                 0x3 = 1/8 data rate.
+                                                                 0x4 = 1/16 data rate.
                                                                  else = Reserved.
 
                                                                  This field should always be cleared to zero (i.e. full rate selected). */
@@ -5657,19 +5657,19 @@ typedef union
         uint64_t srate                 : 3;  /**< [  7:  5](R/W) Sample rate, used to generate strobe to effectively divide the clock down to a slower
                                                                  rate.
 
-                                                                 0x0 = Full rate
-                                                                 0x1 = 1/2 data rate
-                                                                 0x2 = 1/4 data rate
-                                                                 0x3 = 1/8 data rate
-                                                                 0x4 = 1/16 data rate
+                                                                 0x0 = Full rate.
+                                                                 0x1 = 1/2 data rate.
+                                                                 0x2 = 1/4 data rate.
+                                                                 0x3 = 1/8 data rate.
+                                                                 0x4 = 1/16 data rate.
                                                                  else = Reserved.
 
                                                                  This field should always be cleared to zero (i.e. full rate selected). */
         uint64_t rx_ldiv               : 2;  /**< [  9:  8](R/W/H) Configures clock divider used to determine the receive rate.
-                                                                 0x0 = full data rate
-                                                                 0x1 = 1/2 data rate
-                                                                 0x2 = 1/4 data rate
-                                                                 0x3 = 1/8 data rate
+                                                                 0x0 = full data rate.
+                                                                 0x1 = 1/2 data rate.
+                                                                 0x2 = 1/4 data rate.
+                                                                 0x3 = 1/8 data rate.
 
                                                                  Recommended settings:
 
@@ -5739,8 +5739,8 @@ typedef union
                                                                  For SATA, [PCIE] should always be 0. */
         uint64_t ctle                  : 2;  /**< [ 14: 13](R/W/H) Continuous time linear equalizer pole configuration.
                                                                  0x0 = ~5dB of peaking at 4 GHz (Minimum bandwidth).
-                                                                 0x1 =~10dB of peaking at 5 GHz
-                                                                 0x2 = ~15dB of peaking at 5.5 GHz
+                                                                 0x1 =~10dB of peaking at 5 GHz.
+                                                                 0x2 = ~15dB of peaking at 5.5 GHz.
                                                                  0x3 = ~20dB of peaking at 6 GHz (Maximum bandwidth).
 
                                                                  Recommended settings:

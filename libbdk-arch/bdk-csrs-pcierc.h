@@ -417,14 +417,14 @@ typedef union
         uint32_t lio_base              : 4;  /**< [  7:  4](R/W) I/O space base. */
         uint32_t reserved_1_3          : 3;
         uint32_t io32a                 : 1;  /**< [  0:  0](RO/WRSL) 32-bit I/O space.
-                                                                 0 = 16-bit I/O addressing
-                                                                 1 = 32-bit I/O addressing
+                                                                 0 = 16-bit I/O addressing.
+                                                                 1 = 32-bit I/O addressing.
                                                                  This bit is writable through PEM()_CFG_WR. When the application writes to this bit
                                                                  through PEM()_CFG_WR, the same value is written to bit 8 of this register. */
 #else /* Word 0 - Little Endian */
         uint32_t io32a                 : 1;  /**< [  0:  0](RO/WRSL) 32-bit I/O space.
-                                                                 0 = 16-bit I/O addressing
-                                                                 1 = 32-bit I/O addressing
+                                                                 0 = 16-bit I/O addressing.
+                                                                 1 = 32-bit I/O addressing.
                                                                  This bit is writable through PEM()_CFG_WR. When the application writes to this bit
                                                                  through PEM()_CFG_WR, the same value is written to bit 8 of this register. */
         uint32_t reserved_1_3          : 3;
@@ -5100,7 +5100,7 @@ typedef union
                                                                  used only in the segmented-buffer configuration, writable through
                                                                  PEM()_CFG_WR:
                                                                  0 = Strict ordering for received TLPs: Posted, then completion, then NonPosted.
-                                                                 1 = Ordering of received TLPs follows the rules in PCI Express Base Specification
+                                                                 1 = Ordering of received TLPs follows the rules in PCI Express Base Specification.
 
                                                                  The application must not change this field. */
         uint32_t reserved_24_29        : 6;
@@ -5144,7 +5144,7 @@ typedef union
                                                                  used only in the segmented-buffer configuration, writable through
                                                                  PEM()_CFG_WR:
                                                                  0 = Strict ordering for received TLPs: Posted, then completion, then NonPosted.
-                                                                 1 = Ordering of received TLPs follows the rules in PCI Express Base Specification
+                                                                 1 = Ordering of received TLPs follows the rules in PCI Express Base Specification.
 
                                                                  The application must not change this field. */
         uint32_t rx_queue_order        : 1;  /**< [ 31: 31](R/W) VC ordering for receive queues. Determines the VC ordering rule for the receive queues,

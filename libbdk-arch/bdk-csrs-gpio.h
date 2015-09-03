@@ -112,8 +112,8 @@
                                        BOOT_AD ...
                                        BOOT_AD<15>  = GPIO<31> or <47>
                                        </pre> */
-#define BDK_GPIO_PIN_SEL_E_GPIO_CLKX(a) (5 + (a)) /**< (0..3)GPIO clock generator output; see GPIO_CLK_GEN(0..3). */
-#define BDK_GPIO_PIN_SEL_E_GPIO_CLK_SYNCEX(a) (3 + (a)) /**< (0..1)CLK_SYNCE({a}) output; see GPIO_CLK_SYNCE(0..1). */
+#define BDK_GPIO_PIN_SEL_E_GPIO_CLKX(a) (5 + (a)) /**< (0..3)GPIO clock generator output; see GPIO_CLK_GEN(). */
+#define BDK_GPIO_PIN_SEL_E_GPIO_CLK_SYNCEX(a) (3 + (a)) /**< (0..1)CLK_SYNCE({a}) output; see GPIO_CLK_SYNCE(). */
 #define BDK_GPIO_PIN_SEL_E_GPIO_PTP_CKOUT (1) /**< PTP CKOUT output; see MIO_PTP_CLOCK_CFG. */
 #define BDK_GPIO_PIN_SEL_E_GPIO_PTP_PPS (2) /**< PTP PPS output; see MIO_PTP_CLOCK_CFG. */
 #define BDK_GPIO_PIN_SEL_E_GPIO_SW (0) /**< Normal software controlled GPIO output, controlled by GPIO_TX_SET, GPIO_TX_CLR. */
@@ -146,7 +146,7 @@
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
 #define BDK_GPIO_PIN_SEL_E_SATAX_ACT_LED(a) (0x60 + (a)) /**< (0..15)SATA activity LED output; see SATA chapter. */
 #define BDK_GPIO_PIN_SEL_E_SATAX_CP_DET(a) (0x90 + (a)) /**< (0..15)SATA cold presence detect input; detects addition (1) or removal (0) of the
-                                       powered-down device; see SATA(0..15)_UAHC_P0_CMD[CPS].
+                                       powered-down device; see SATA()_UAHC_P0_CMD[CPS].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
@@ -198,7 +198,7 @@
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or
                                        the input result is unpredictable.  (e.g. GPIO_BIT_CFG(1)[PIN_SEL] and
                                        GPIO_BIT_CFG(2)[PIN_SEL] cannot both be 0x80.) */
-#define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N(a) (9 + (a)) /**< (0..1)UART_DTR_N output; see UAA(0..1)_CR[DTR]. */
+#define BDK_GPIO_PIN_SEL_E_UARTX_DTR_N(a) (9 + (a)) /**< (0..1)UART_DTR_N output; see UAA()_CR[DTR]. */
 #define BDK_GPIO_PIN_SEL_E_UARTX_RI(a) (0x86 + (a)) /**< (0..1)UART_RI input; see UAA(0..1)_FR[RI].
                                        
                                        Multiple GPIO pins may not be configured to point to the same input encoding, or

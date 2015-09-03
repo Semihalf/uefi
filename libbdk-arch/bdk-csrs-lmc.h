@@ -112,7 +112,7 @@
                                        DRAM). In DDR3 mode, RDIMM register control words 0-15 are written to
                                        LMC()_CONFIG[RANKMASK]-selected RDIMMs when LMC()_CONTROL[RDIMM_ENA] = 1 and
                                        corresponding LMC()_DIMM_CTL[DIMM*_WMASK] bits are set. (Refer to
-                                       LMC()_DIMM(0..1)_PARAMS and LMC()_DIMM_CTL descriptions for more details.) */
+                                       LMC()_DIMM()_PARAMS and LMC()_DIMM_CTL descriptions for more details.) */
 #define BDK_LMC_SEQ_SEL_E_READ_LEVEL (1) /**< Read-leveling sequence.
                                        LMC()_CONFIG[RANKMASK] selects the rank to be read-leveled. MR3 written in the
                                        selected rank. */
@@ -2718,7 +2718,7 @@ typedef union
                                                                  TYP = 0x4E0 (equivalent to 15 us) when changing clock timing (RC2.DBA1, RC6.DA4, RC10.DA3,
                                                                  RC10.DA4, RC11.DA3, and RC11.DA4)
                                                                  TYP = 0x8, otherwise
-                                                                 0x0 = Reserved */
+                                                                 0x0 = Reserved. */
         uint64_t dimm1_wmask           : 16; /**< [ 31: 16](R/W) DIMM1 write mask. If (DIMM1_WMASK[n] = 1), write DIMM1.RCn. */
         uint64_t dimm0_wmask           : 16; /**< [ 15:  0](R/W) DIMM0 write mask. If (DIMM0_WMASK[n] = 1), write DIMM0.RCn. */
 #else /* Word 0 - Little Endian */
@@ -2731,7 +2731,7 @@ typedef union
                                                                  TYP = 0x4E0 (equivalent to 15 us) when changing clock timing (RC2.DBA1, RC6.DA4, RC10.DA3,
                                                                  RC10.DA4, RC11.DA3, and RC11.DA4)
                                                                  TYP = 0x8, otherwise
-                                                                 0x0 = Reserved */
+                                                                 0x0 = Reserved. */
         uint64_t parity                : 1;  /**< [ 45: 45](R/W) "Parity. The Par_In input of a registered DIMM should be tied off. LMC adjusts the value
                                                                  of the DDR_WE_L (DWE#) pin during DDR3 register part control word writes to ensure the
                                                                  parity is observed correctly by the receiving DDR3 SSTE32882 or DDR4 DDR4RCD01 register
@@ -2884,7 +2884,7 @@ typedef union
                                                                  it is set. */
         uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit 0 - bit 8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
-                                                                 0x9 = No-Op
+                                                                 0x9 = No-op.
                                                                  0xA = Reuse deskew setting on.
                                                                  0xB = Reuse deskew setting off.
                                                                  0xC = Vref bypass setting load.
@@ -2953,7 +2953,7 @@ typedef union
                                                                  itself each time it is set. */
         uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit 0 - bit 8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
-                                                                 0x9 = No-Op
+                                                                 0x9 = No-op.
                                                                  0xA = Reuse deskew setting on.
                                                                  0xB = Reuse deskew setting off.
                                                                  0xC = Vref bypass setting load.
@@ -2980,7 +2980,7 @@ typedef union
                                                                  it is set. */
         uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit0-bit8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
-                                                                 0x9 = No-Op
+                                                                 0x9 = No-op.
                                                                  0xA = Reuse deskew setting on.
                                                                  0xB = Reuse deskew setting off.
                                                                  0xC-0xE = Reserved
@@ -3047,7 +3047,7 @@ typedef union
                                                                  itself each time it is set. */
         uint64_t bit_select            : 4;  /**< [ 47: 44](R/W) 0x0-0x7 = Selects bit0-bit8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
-                                                                 0x9 = No-Op
+                                                                 0x9 = No-op.
                                                                  0xA = Reuse deskew setting on.
                                                                  0xB = Reuse deskew setting off.
                                                                  0xC-0xE = Reserved
@@ -3076,7 +3076,7 @@ typedef union
 
                                                                  0x0-0x7 = Selects bit 0 - bit 8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
-                                                                 0x9 = No-Op
+                                                                 0x9 = No-op.
                                                                  0xA = Reuse deskew setting on.
                                                                  0xB = Reuse deskew setting off.
                                                                  0xC = Vref bypass setting load.
@@ -3147,7 +3147,7 @@ typedef union
 
                                                                  0x0-0x7 = Selects bit 0 - bit 8 for write deskew setting assignment.
                                                                  0x8 = Selects dbi for write deskew setting assignment.
-                                                                 0x9 = No-Op
+                                                                 0x9 = No-op.
                                                                  0xA = Reuse deskew setting on.
                                                                  0xB = Reuse deskew setting off.
                                                                  0xC = Vref bypass setting load.
@@ -7736,9 +7736,9 @@ typedef union
         uint64_t reserved_40_63        : 24;
         uint64_t nxm_faddr_ext         : 1;  /**< [ 39: 39](RO/H) Extended bit for the Failing L2C-LMC address (bit 37). */
         uint64_t nxm_src               : 1;  /**< [ 38: 38](RO/H) Indicates the source of the operation that caused a NXM error:
-                                                                 0 = L2C, 1 = HFA */
+                                                                 0 = L2C, 1 = HFA. */
         uint64_t nxm_type              : 1;  /**< [ 37: 37](RO/H) Indicates the type of operation that caused NXM error:
-                                                                 0 = Read, 1 = Write */
+                                                                 0 = Read, 1 = Write. */
         uint64_t nxm_faddr             : 37; /**< [ 36:  0](RO/H) Failing L2C-LMC address. Bits<3:0> are always 0s for an HFA access, and bits<4:0> are
                                                                  always 0s for an L2C access. Bits<5:4> represent the fill order for an L2C read operation,
                                                                  and the start point within a cache line for a write operation. */
@@ -7747,9 +7747,9 @@ typedef union
                                                                  always 0s for an L2C access. Bits<5:4> represent the fill order for an L2C read operation,
                                                                  and the start point within a cache line for a write operation. */
         uint64_t nxm_type              : 1;  /**< [ 37: 37](RO/H) Indicates the type of operation that caused NXM error:
-                                                                 0 = Read, 1 = Write */
+                                                                 0 = Read, 1 = Write. */
         uint64_t nxm_src               : 1;  /**< [ 38: 38](RO/H) Indicates the source of the operation that caused a NXM error:
-                                                                 0 = L2C, 1 = HFA */
+                                                                 0 = L2C, 1 = HFA. */
         uint64_t nxm_faddr_ext         : 1;  /**< [ 39: 39](RO/H) Extended bit for the Failing L2C-LMC address (bit 37). */
         uint64_t reserved_40_63        : 24;
 #endif /* Word 0 - End */

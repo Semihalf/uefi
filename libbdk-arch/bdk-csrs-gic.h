@@ -4537,7 +4537,7 @@ typedef union
                                                                  zero,
                                                                      the ITS discards any writes to the interrupt translation page. */
         uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
-                                                                 0x0 = Noncacheable, nonbufferable
+                                                                 0x0 = Noncacheable, nonbufferable.
                                                                  0x1 = Noncacheable.
                                                                  0x2 = Read-allocate, writethrough.
                                                                  0x3 = Read-allocate, writeback.
@@ -4551,7 +4551,7 @@ typedef union
                                                                  associated table. The field may have the following values:
                                                                  0x0 = Unimplemented. This register does not correspond to an ITS table and requires no
                                                                  memory.
-                                                                 0x1 = Devices.This register corresponds to a table that scales according to the number of
+                                                                 0x1 = Devices. This register corresponds to a table that scales according to the number of
                                                                  devices serviced by the ITS and requires
                                                                        (Entry-size * number-of-devices) bytes of memory.
                                                                  0x2 = Virtual processors. This register corresponds to a table that scales according to
@@ -4624,7 +4624,7 @@ typedef union
                                                                  associated table. The field may have the following values:
                                                                  0x0 = Unimplemented. This register does not correspond to an ITS table and requires no
                                                                  memory.
-                                                                 0x1 = Devices.This register corresponds to a table that scales according to the number of
+                                                                 0x1 = Devices. This register corresponds to a table that scales according to the number of
                                                                  devices serviced by the ITS and requires
                                                                        (Entry-size * number-of-devices) bytes of memory.
                                                                  0x2 = Virtual processors. This register corresponds to a table that scales according to
@@ -4641,7 +4641,7 @@ typedef union
                                                                  Software must provision memory for "Virtual Processors" if virtual LPIs will be enabled
                                                                  (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
         uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
-                                                                 0x0 = Noncacheable, nonbufferable
+                                                                 0x0 = Noncacheable, nonbufferable.
                                                                  0x1 = Noncacheable.
                                                                  0x2 = Read-allocate, writethrough.
                                                                  0x3 = Read-allocate, writeback.
@@ -4713,7 +4713,7 @@ typedef union
                                                                  zero,
                                                                      the ITS discards any writes to the interrupt translation page. */
         uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
-                                                                 0x0 = Noncacheable, nonbufferable
+                                                                 0x0 = Noncacheable, nonbufferable.
                                                                  0x1 = Noncacheable.
                                                                  0x2 = Read-allocate, writethrough.
                                                                  0x3 = Read-allocate, writeback.
@@ -4727,7 +4727,7 @@ typedef union
                                                                  associated table. The field may have the following values:
                                                                  0x0 = Unimplemented. This register does not correspond to an ITS table and requires no
                                                                  memory.
-                                                                 0x1 = Devices.This register corresponds to a table that scales according to the number of
+                                                                 0x1 = Devices. This register corresponds to a table that scales according to the number of
                                                                  devices serviced by the ITS and requires
                                                                        (Entry-size * number-of-devices) bytes of memory.
                                                                  0x2 = Virtual processors. This register corresponds to a table that scales according to
@@ -4800,7 +4800,7 @@ typedef union
                                                                  associated table. The field may have the following values:
                                                                  0x0 = Unimplemented. This register does not correspond to an ITS table and requires no
                                                                  memory.
-                                                                 0x1 = Devices.This register corresponds to a table that scales according to the number of
+                                                                 0x1 = Devices. This register corresponds to a table that scales according to the number of
                                                                  devices serviced by the ITS and requires
                                                                        (Entry-size * number-of-devices) bytes of memory.
                                                                  0x2 = Virtual processors. This register corresponds to a table that scales according to
@@ -4817,7 +4817,7 @@ typedef union
                                                                  Software must provision memory for "Virtual Processors" if virtual LPIs will be enabled
                                                                  (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
         uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
-                                                                 0x0 = Noncacheable, nonbufferable
+                                                                 0x0 = Noncacheable, nonbufferable.
                                                                  0x1 = Noncacheable.
                                                                  0x2 = Read-allocate, writethrough.
                                                                  0x3 = Read-allocate, writeback.
@@ -4904,7 +4904,7 @@ typedef union
                                                                  associated table. The field may have the following values:
                                                                  0x0 = Unimplemented. This register does not correspond to an ITS table and requires no
                                                                  memory.
-                                                                 0x1 = Devices.This register corresponds to a table that scales according to the number of
+                                                                 0x1 = Devices. This register corresponds to a table that scales according to the number of
                                                                  devices serviced by the ITS and requires
                                                                        (Entry-size * number-of-devices) bytes of memory.
                                                                  0x2 = Virtual processors. This register corresponds to a table that scales according to
@@ -4922,8 +4922,8 @@ typedef union
                                                                  (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable
-                                                                 0x1 = Normal Outer Non-cacheable
+                                                                 as the inner cacheable.
+                                                                 0x1 = Normal Outer Non-cacheable.
                                                                  0x2 = Normal Outer Cacheable Read-allocate, Write-through.
                                                                  0x3 = Normal Outer Cacheable Read-allocate, Write-back.
                                                                  0x4 = Normal Outer Cacheable Write-allocate, Write-through.
@@ -4987,8 +4987,8 @@ typedef union
         uint64_t entry_size            : 5;  /**< [ 52: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. */
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable
-                                                                 0x1 = Normal Outer Non-cacheable
+                                                                 as the inner cacheable.
+                                                                 0x1 = Normal Outer Non-cacheable.
                                                                  0x2 = Normal Outer Cacheable Read-allocate, Write-through.
                                                                  0x3 = Normal Outer Cacheable Read-allocate, Write-back.
                                                                  0x4 = Normal Outer Cacheable Write-allocate, Write-through.
@@ -5001,7 +5001,7 @@ typedef union
                                                                  associated table. The field may have the following values:
                                                                  0x0 = Unimplemented. This register does not correspond to an ITS table and requires no
                                                                  memory.
-                                                                 0x1 = Devices.This register corresponds to a table that scales according to the number of
+                                                                 0x1 = Devices. This register corresponds to a table that scales according to the number of
                                                                  devices serviced by the ITS and requires
                                                                        (Entry-size * number-of-devices) bytes of memory.
                                                                  0x2 = Virtual processors. This register corresponds to a table that scales according to
@@ -5107,7 +5107,7 @@ typedef union
                                                                  associated table. The field may have the following values:
                                                                  0x0 = Unimplemented. This register does not correspond to an ITS table and requires no
                                                                  memory.
-                                                                 0x1 = Devices.This register corresponds to a table that scales according to the number of
+                                                                 0x1 = Devices. This register corresponds to a table that scales according to the number of
                                                                  devices serviced by the ITS and requires
                                                                        (Entry-size * number-of-devices) bytes of memory.
                                                                  0x2 = Virtual processors. This register corresponds to a table that scales according to
@@ -5125,8 +5125,8 @@ typedef union
                                                                  (i.e. GITS_CTLR[VIRTUALLPIENABLE] will be set to one). */
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable
-                                                                 0x1 = Normal Outer Non-cacheable
+                                                                 as the inner cacheable.
+                                                                 0x1 = Normal Outer Non-cacheable.
                                                                  0x2 = Normal Outer Cacheable Read-allocate, Write-through.
                                                                  0x3 = Normal Outer Cacheable Read-allocate, Write-back.
                                                                  0x4 = Normal Outer Cacheable Write-allocate, Write-through.
@@ -5190,8 +5190,8 @@ typedef union
         uint64_t entry_size            : 5;  /**< [ 52: 48](RO) This field is read-only and specifies the number of bytes per entry, minus one. Changed in pass 2. */
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable
-                                                                 0x1 = Normal Outer Non-cacheable
+                                                                 as the inner cacheable.
+                                                                 0x1 = Normal Outer Non-cacheable.
                                                                  0x2 = Normal Outer Cacheable Read-allocate, Write-through.
                                                                  0x3 = Normal Outer Cacheable Read-allocate, Write-back.
                                                                  0x4 = Normal Outer Cacheable Write-allocate, Write-through.
@@ -5204,7 +5204,7 @@ typedef union
                                                                  associated table. The field may have the following values:
                                                                  0x0 = Unimplemented. This register does not correspond to an ITS table and requires no
                                                                  memory.
-                                                                 0x1 = Devices.This register corresponds to a table that scales according to the number of
+                                                                 0x1 = Devices. This register corresponds to a table that scales according to the number of
                                                                  devices serviced by the ITS and requires
                                                                        (Entry-size * number-of-devices) bytes of memory.
                                                                  0x2 = Virtual processors. This register corresponds to a table that scales according to
@@ -5340,7 +5340,7 @@ typedef union
                                                                  any writes to the interrupt translation page. */
         uint64_t reserved_62           : 1;
         uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
-                                                                 0x0 = Noncacheable, nonbufferable
+                                                                 0x0 = Noncacheable, nonbufferable.
                                                                  0x1 = Noncacheable.
                                                                  0x2 = Read-allocate, writethrough.
                                                                  0x3 = Read-allocate, writeback.
@@ -5384,7 +5384,7 @@ typedef union
         uint64_t arsvd                 : 6;  /**< [ 47: 42](R/W) Reserved and must be zero. This field will be ignored if not zero. */
         uint64_t reserved_48_58        : 11;
         uint64_t cacheability          : 3;  /**< [ 61: 59](RO) Cacheability attribute:
-                                                                 0x0 = Noncacheable, nonbufferable
+                                                                 0x0 = Noncacheable, nonbufferable.
                                                                  0x1 = Noncacheable.
                                                                  0x2 = Read-allocate, writethrough.
                                                                  0x3 = Read-allocate, writeback.
@@ -5425,8 +5425,8 @@ typedef union
         uint64_t reserved_56_58        : 3;
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable
-                                                                 0x1 = Normal outer non-cacheable
+                                                                 as the inner cacheable.
+                                                                 0x1 = Normal outer non-cacheable.
                                                                  0x2 = Normal outer cacheable read-allocate, write-through.
                                                                  0x3 = Normal outer cacheable read-allocate, write-back.
                                                                  0x4 = Normal outer cacheable write-allocate, write-through.
@@ -5470,8 +5470,8 @@ typedef union
         uint64_t reserved_48_52        : 5;
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable
-                                                                 0x1 = Normal outer non-cacheable
+                                                                 as the inner cacheable.
+                                                                 0x1 = Normal outer non-cacheable.
                                                                  0x2 = Normal outer cacheable read-allocate, write-through.
                                                                  0x3 = Normal outer cacheable read-allocate, write-back.
                                                                  0x4 = Normal outer cacheable write-allocate, write-through.
@@ -5522,8 +5522,8 @@ typedef union
         uint64_t reserved_56_58        : 3;
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable
-                                                                 0x1 = Normal outer non-cacheable
+                                                                 as the inner cacheable.
+                                                                 0x1 = Normal outer non-cacheable.
                                                                  0x2 = Normal outer cacheable read-allocate, write-through.
                                                                  0x3 = Normal outer cacheable read-allocate, write-back.
                                                                  0x4 = Normal outer cacheable write-allocate, write-through.
@@ -5569,8 +5569,8 @@ typedef union
         uint64_t reserved_48_52        : 5;
         uint64_t outer_cacheability    : 3;  /**< [ 55: 53](R/W) Outer Cacheability. The cacheability attributes of accesses to the table.
                                                                  0x0 = Memory type defined in bits[61:59]; for normal memory outer cacheability is the same
-                                                                 as the inner cacheable
-                                                                 0x1 = Normal outer non-cacheable
+                                                                 as the inner cacheable.
+                                                                 0x1 = Normal outer non-cacheable.
                                                                  0x2 = Normal outer cacheable read-allocate, write-through.
                                                                  0x3 = Normal outer cacheable read-allocate, write-back.
                                                                  0x4 = Normal outer cacheable write-allocate, write-through.

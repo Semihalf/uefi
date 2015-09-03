@@ -1315,8 +1315,9 @@ typedef union
         uint64_t h_clk_en              : 1;  /**< [ 30: 30](R/W) UART controller clock enable. When set to 1, the UART controller clock is generated. This
                                                                  also enables access to UCTL registers 0x30-0xF8. */
         uint64_t h_clk_byp_sel         : 1;  /**< [ 29: 29](R/W) Select the bypass input to the UART controller clock divider.
-                                                                 0 = Use the divided coprocessor clock from the H_CLKDIV divider
-                                                                 1 = Use the bypass clock from the GPIO pins
+                                                                 0 = Use the divided coprocessor clock from the H_CLKDIV divider.
+                                                                 1 = Use the bypass clock from the GPIO pins.
+
                                                                  This signal is just a multiplexer-select signal; it does not enable the UART controller
                                                                  and APB
                                                                  clock. You must still set H_CLKDIV_EN separately. H_CLK_BYP_SEL select should not be
@@ -1390,8 +1391,9 @@ typedef union
                                                                  being reset.
                                                                  This also resets the suspend-clock divider. */
         uint64_t h_clk_byp_sel         : 1;  /**< [ 29: 29](R/W) Select the bypass input to the UART controller clock divider.
-                                                                 0 = Use the divided coprocessor clock from the H_CLKDIV divider
-                                                                 1 = Use the bypass clock from the GPIO pins
+                                                                 0 = Use the divided coprocessor clock from the H_CLKDIV divider.
+                                                                 1 = Use the bypass clock from the GPIO pins.
+
                                                                  This signal is just a multiplexer-select signal; it does not enable the UART controller
                                                                  and APB
                                                                  clock. You must still set H_CLKDIV_EN separately. H_CLK_BYP_SEL select should not be

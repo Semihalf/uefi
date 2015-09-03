@@ -801,6 +801,14 @@ typedef union
     struct bdk_rst_dbg_reset_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_rst_dbg_reset_cn88xxp1
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t rst                   : 48; /**< [ 47:  0](R/W) Debug logic reset for each core:
                                                                    0 = Debug logic operates normally.
@@ -817,9 +825,19 @@ typedef union
                                                                  warm and soft reset. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rst_dbg_reset_s cn88xxp1; */
+    } cn88xxp1;
     struct bdk_rst_dbg_reset_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t rst                   : 24; /**< [ 23:  0](R/W) Reserved. */
+#else /* Word 0 - Little Endian */
+        uint64_t rst                   : 24; /**< [ 23:  0](R/W) Reserved. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_rst_dbg_reset_cn81xx cn83xx; */
+    struct bdk_rst_dbg_reset_cn88xxp2
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
@@ -828,9 +846,7 @@ typedef union
         uint64_t rst                   : 48; /**< [ 47:  0](R/W) Reserved. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_rst_dbg_reset_cn81xx cn83xx; */
-    /* struct bdk_rst_dbg_reset_cn81xx cn88xxp2; */
+    } cn88xxp2;
 } bdk_rst_dbg_reset_t;
 
 #define BDK_RST_DBG_RESET BDK_RST_DBG_RESET_FUNC()
@@ -1209,38 +1225,7 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    struct bdk_rst_msix_vecx_addr_cn81xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_49_63        : 15;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_1            : 1;
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector can be read or written by either secure or non-secure states.
-                                                                 1 = This vector's RST_MSIX_VEC()_ADDR, RST_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of RST_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_RST_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
-                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
-#else /* Word 0 - Little Endian */
-        uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
-                                                                 0 = This vector can be read or written by either secure or non-secure states.
-                                                                 1 = This vector's RST_MSIX_VEC()_ADDR, RST_MSIX_VEC()_CTL, and
-                                                                 corresponding bit of RST_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
-                                                                 by the non-secure world.
-
-                                                                 If PCCPF_RST_VSEC_SCTL[MSIX_SEC] (for documentation, see
-                                                                 PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
-                                                                 set, all vectors are secure and function as if [SECVEC] was set. */
-        uint64_t reserved_1            : 1;
-        uint64_t addr                  : 47; /**< [ 48:  2](R/W) Address to use for MSI-X delivery of this vector. */
-        uint64_t reserved_49_63        : 15;
-#endif /* Word 0 - End */
-    } cn81xx;
-    /* struct bdk_rst_msix_vecx_addr_s cn88xx; */
-    /* struct bdk_rst_msix_vecx_addr_s cn83xx; */
+    /* struct bdk_rst_msix_vecx_addr_s cn; */
 } bdk_rst_msix_vecx_addr_t;
 
 static inline uint64_t BDK_RST_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1462,14 +1447,32 @@ typedef union
     struct bdk_rst_pp_available_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_rst_pp_available_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t present               : 24; /**< [ 23:  0](RO) Each bit set indicates a physical core is present. */
+#else /* Word 0 - Little Endian */
+        uint64_t present               : 24; /**< [ 23:  0](RO) Each bit set indicates a physical core is present. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_rst_pp_available_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t present               : 48; /**< [ 47:  0](RO) Each bit set indicates a physical core is present. */
 #else /* Word 0 - Little Endian */
         uint64_t present               : 48; /**< [ 47:  0](RO) Each bit set indicates a physical core is present. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rst_pp_available_s cn; */
+    } cn88xx;
+    /* struct bdk_rst_pp_available_cn81xx cn83xx; */
 } bdk_rst_pp_available_t;
 
 #define BDK_RST_PP_AVAILABLE BDK_RST_PP_AVAILABLE_FUNC()
@@ -1497,6 +1500,30 @@ typedef union
     struct bdk_rst_pp_pending_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_rst_pp_pending_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t pend                  : 24; /**< [ 23:  0](RO/H) Set if corresponding core is waiting to change its reset state. Normally a reset change
+                                                                 occurs immediately but if RST_PP_POWER[GATE] = 1 and the core is released from
+                                                                 reset a delay of 64K core-clock cycles between each core reset applies to satisfy power
+                                                                 management. */
+#else /* Word 0 - Little Endian */
+        uint64_t pend                  : 24; /**< [ 23:  0](RO/H) Set if corresponding core is waiting to change its reset state. Normally a reset change
+                                                                 occurs immediately but if RST_PP_POWER[GATE] = 1 and the core is released from
+                                                                 reset a delay of 64K core-clock cycles between each core reset applies to satisfy power
+                                                                 management. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_rst_pp_pending_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t pend                  : 48; /**< [ 47:  0](RO/H) Set if corresponding core is waiting to change its reset state. Normally a reset change
                                                                  occurs immediately but if RST_PP_POWER[GATE] = 1 and the core is released from
@@ -1509,8 +1536,8 @@ typedef union
                                                                  management. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rst_pp_pending_s cn; */
+    } cn88xx;
+    /* struct bdk_rst_pp_pending_cn81xx cn83xx; */
 } bdk_rst_pp_pending_t;
 
 #define BDK_RST_PP_PENDING BDK_RST_PP_PENDING_FUNC()
@@ -1537,6 +1564,32 @@ typedef union
     struct bdk_rst_pp_power_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_rst_pp_power_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t gate                  : 24; /**< [ 23:  0](R/W) Powerdown enable. When a bit in this field and the corresponding RST_PP_RESET bit are set,
+                                                                 the core
+                                                                 has voltage removed to save power. In typical operation these bits are set up during
+                                                                 initialization and core resets are controlled through RST_PP_RESET. These bits can only be
+                                                                 changed when the corresponding core is in reset. */
+#else /* Word 0 - Little Endian */
+        uint64_t gate                  : 24; /**< [ 23:  0](R/W) Powerdown enable. When a bit in this field and the corresponding RST_PP_RESET bit are set,
+                                                                 the core
+                                                                 has voltage removed to save power. In typical operation these bits are set up during
+                                                                 initialization and core resets are controlled through RST_PP_RESET. These bits can only be
+                                                                 changed when the corresponding core is in reset. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_rst_pp_power_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t gate                  : 48; /**< [ 47:  0](R/W) Powerdown enable. When a bit in this field and the corresponding RST_PP_RESET bit are set,
                                                                  the core
@@ -1551,8 +1604,8 @@ typedef union
                                                                  changed when the corresponding core is in reset. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rst_pp_power_s cn; */
+    } cn88xx;
+    /* struct bdk_rst_pp_power_cn81xx cn83xx; */
 } bdk_rst_pp_power_t;
 
 #define BDK_RST_PP_POWER BDK_RST_PP_POWER_FUNC()
@@ -1579,6 +1632,32 @@ typedef union
     struct bdk_rst_pp_power_stat_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_rst_pp_power_stat_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t down                  : 24; /**< [ 23:  0](RO/H) Reserved.
+                                                                 INTERNAL: Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
+                                                                 If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
+                                                                 core should be reset again by setting the RST_PP_RESET and then clearing it. */
+#else /* Word 0 - Little Endian */
+        uint64_t down                  : 24; /**< [ 23:  0](RO/H) Reserved.
+                                                                 INTERNAL: Core Powerdown.  When set each bit indicates the core is currently powered down.
+                                                                 Typically this occurs when the corresponding RST_PP_RESET and RST_PP_POWER bits are set.
+                                                                 If the core is powered down when RST_PP_PENDING and RST_PP_RESET are both clear then the
+                                                                 core should be reset again by setting the RST_PP_RESET and then clearing it. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_rst_pp_power_stat_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t down                  : 48; /**< [ 47:  0](RO/H) Reserved.
                                                                  INTERNAL: Core Powerdown.  When set each bit indicates the core is currently powered down.
@@ -1593,8 +1672,8 @@ typedef union
                                                                  core should be reset again by setting the RST_PP_RESET and then clearing it. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rst_pp_power_stat_s cn; */
+    } cn88xx;
+    /* struct bdk_rst_pp_power_stat_cn81xx cn83xx; */
 } bdk_rst_pp_power_stat_t;
 
 #define BDK_RST_PP_POWER_STAT BDK_RST_PP_POWER_STAT_FUNC()
@@ -1626,6 +1705,36 @@ typedef union
     struct bdk_rst_pp_reset_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_1_63         : 63;
+        uint64_t rst0                  : 1;  /**< [  0:  0](R/W/H) Core reset for core 0, depends on if GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE.
+                                                                 This bit may also be cleared by either DAP or CIC activity. */
+#else /* Word 0 - Little Endian */
+        uint64_t rst0                  : 1;  /**< [  0:  0](R/W/H) Core reset for core 0, depends on if GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE.
+                                                                 This bit may also be cleared by either DAP or CIC activity. */
+        uint64_t reserved_1_63         : 63;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_rst_pp_reset_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t rst                   : 23; /**< [ 23:  1](R/W/H) Core reset for cores 1 and above. Writing a 1 holds the corresponding core in reset,
+                                                                 writing a 0 releases from reset.  These bits may also be cleared by either DAP or CIC
+                                                                 activity. */
+        uint64_t rst0                  : 1;  /**< [  0:  0](R/W/H) Core reset for core 0, depends on if GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE.
+                                                                 This bit may also be cleared by either DAP or CIC activity. */
+#else /* Word 0 - Little Endian */
+        uint64_t rst0                  : 1;  /**< [  0:  0](R/W/H) Core reset for core 0, depends on if GPIO_STRAP<2:0> = RST_BOOT_METHOD_E::REMOTE.
+                                                                 This bit may also be cleared by either DAP or CIC activity. */
+        uint64_t rst                   : 23; /**< [ 23:  1](R/W/H) Core reset for cores 1 and above. Writing a 1 holds the corresponding core in reset,
+                                                                 writing a 0 releases from reset.  These bits may also be cleared by either DAP or CIC
+                                                                 activity. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } cn81xx;
+    struct bdk_rst_pp_reset_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
         uint64_t rst                   : 47; /**< [ 47:  1](R/W/H) Core reset for cores 1 and above. Writing a 1 holds the corresponding core in reset,
                                                                  writing a 0 releases from reset.  These bits may also be cleared by either DAP or CIC
@@ -1640,8 +1749,8 @@ typedef union
                                                                  activity. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_rst_pp_reset_s cn; */
+    } cn88xx;
+    /* struct bdk_rst_pp_reset_cn81xx cn83xx; */
 } bdk_rst_pp_reset_t;
 
 #define BDK_RST_PP_RESET BDK_RST_PP_RESET_FUNC()

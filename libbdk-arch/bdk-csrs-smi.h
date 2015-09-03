@@ -163,7 +163,7 @@ typedef union
         uint64_t reserved_18_63        : 46;
         uint64_t phy_op                : 2;  /**< [ 17: 16](R/W) PHY opcode, depending on SMI_()_CLK[MODE] setting.
                                                                  * If SMI_()_CLK[MODE] = 0 (<=1Gbs / Clause 22):
-                                                                 0 = write operation, encoded in the frame as 01
+                                                                 0 = write operation, encoded in the frame as 01.
                                                                  1 = read operation, encoded in the frame as 10.
 
                                                                  * If SMI_()_CLK[MODE] = 1 (>1Gbs / Clause 45):
@@ -182,7 +182,7 @@ typedef union
         uint64_t reserved_13_15        : 3;
         uint64_t phy_op                : 2;  /**< [ 17: 16](R/W) PHY opcode, depending on SMI_()_CLK[MODE] setting.
                                                                  * If SMI_()_CLK[MODE] = 0 (<=1Gbs / Clause 22):
-                                                                 0 = write operation, encoded in the frame as 01
+                                                                 0 = write operation, encoded in the frame as 01.
                                                                  1 = read operation, encoded in the frame as 10.
 
                                                                  * If SMI_()_CLK[MODE] = 1 (>1Gbs / Clause 45):

@@ -3271,7 +3271,9 @@ static inline uint64_t BDK_SSO_PAGE_CNT_FUNC(void)
  * Register (NCB) sso_pf_map#
  *
  * SSO PF VF Mapping Registers
- * These registers map GMIDs and guest groups to hardware groups.
+ * These registers map GMIDs and guest groups to hardware groups. Regardless of this
+ * mapping, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one mapping of
+ * GGRP into VHGRP.
  */
 typedef union
 {
@@ -3279,19 +3281,25 @@ typedef union
     struct bdk_sso_pf_mapx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t valid                 : 1;  /**< [ 63: 63](RAZ) This entry is valid for matching. */
-        uint64_t reserved_24_62        : 39;
-        uint64_t ggrp                  : 8;  /**< [ 23: 16](RAZ) Guest group. When [VALID], the guest's group to which this entry will be
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) This entry is valid for matching. */
+        uint64_t reserved_37_62        : 26;
+        uint64_t vhgrp                 : 5;  /**< [ 36: 32](R/W) When [VALID] is set and this entry matches, the VHGRP the request's add-work
+                                                                 will be added to. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t ggrp                  : 8;  /**< [ 23: 16](R/W) Guest group. When [VALID] is set, the guest's group to which this entry will be
                                                                  compared. */
-        uint64_t gmid                  : 16; /**< [ 15:  0](RAZ) Guest machine ID. When [VALID], the guest machine identifier to which [GGRP]
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine ID. When [VALID], the guest machine identifier to which [GGRP]
                                                                  belongs, and to which this entry will be compared. */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](RAZ) Guest machine ID. When [VALID], the guest machine identifier to which [GGRP]
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine ID. When [VALID], the guest machine identifier to which [GGRP]
                                                                  belongs, and to which this entry will be compared. */
-        uint64_t ggrp                  : 8;  /**< [ 23: 16](RAZ) Guest group. When [VALID], the guest's group to which this entry will be
+        uint64_t ggrp                  : 8;  /**< [ 23: 16](R/W) Guest group. When [VALID] is set, the guest's group to which this entry will be
                                                                  compared. */
-        uint64_t reserved_24_62        : 39;
-        uint64_t valid                 : 1;  /**< [ 63: 63](RAZ) This entry is valid for matching. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t vhgrp                 : 5;  /**< [ 36: 32](R/W) When [VALID] is set and this entry matches, the VHGRP the request's add-work
+                                                                 will be added to. */
+        uint64_t reserved_37_62        : 26;
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) This entry is valid for matching. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_sso_pf_mapx_s cn; */

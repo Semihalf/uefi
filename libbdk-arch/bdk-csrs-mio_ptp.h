@@ -268,11 +268,11 @@ typedef union
         uint64_t ckout_en              : 1;  /**< [ 24: 24](R/W) Enable PTP CKOUT. (For output pin selection see GPIO_BIT_CFG.) */
         uint64_t evcnt_in              : 6;  /**< [ 23: 18](R/W) Source for event counter input:
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
-        uint64_t evcnt_edge            : 1;  /**< [ 17: 17](R/W) Event counter input edge: 0 = falling edge, 1 = rising edge */
+        uint64_t evcnt_edge            : 1;  /**< [ 17: 17](R/W) Event counter input edge: 0 = falling edge, 1 = rising edge. */
         uint64_t evcnt_en              : 1;  /**< [ 16: 16](R/W) Enable event counter. */
         uint64_t tstmp_in              : 6;  /**< [ 15: 10](R/W) Source for timestamp input:
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
-        uint64_t tstmp_edge            : 1;  /**< [  9:  9](R/W) External timestamp input edge: 0 = falling edge, 1 = rising edge */
+        uint64_t tstmp_edge            : 1;  /**< [  9:  9](R/W) External timestamp input edge: 0 = falling edge, 1 = rising edge. */
         uint64_t tstmp_en              : 1;  /**< [  8:  8](R/W) Enable external timestamp. */
         uint64_t ext_clk_in            : 6;  /**< [  7:  2](R/W) Source for external clock when EXT_CLK_EN is set:
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
@@ -284,11 +284,11 @@ typedef union
         uint64_t ext_clk_in            : 6;  /**< [  7:  2](R/W) Source for external clock when EXT_CLK_EN is set:
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
         uint64_t tstmp_en              : 1;  /**< [  8:  8](R/W) Enable external timestamp. */
-        uint64_t tstmp_edge            : 1;  /**< [  9:  9](R/W) External timestamp input edge: 0 = falling edge, 1 = rising edge */
+        uint64_t tstmp_edge            : 1;  /**< [  9:  9](R/W) External timestamp input edge: 0 = falling edge, 1 = rising edge. */
         uint64_t tstmp_in              : 6;  /**< [ 15: 10](R/W) Source for timestamp input:
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
         uint64_t evcnt_en              : 1;  /**< [ 16: 16](R/W) Enable event counter. */
-        uint64_t evcnt_edge            : 1;  /**< [ 17: 17](R/W) Event counter input edge: 0 = falling edge, 1 = rising edge */
+        uint64_t evcnt_edge            : 1;  /**< [ 17: 17](R/W) Event counter input edge: 0 = falling edge, 1 = rising edge. */
         uint64_t evcnt_in              : 6;  /**< [ 23: 18](R/W) Source for event counter input:
                                                                  Enumerated by MIO_PTP_EXT_SEL_E. */
         uint64_t ckout_en              : 1;  /**< [ 24: 24](R/W) Enable PTP CKOUT. (For output pin selection see GPIO_BIT_CFG.) */

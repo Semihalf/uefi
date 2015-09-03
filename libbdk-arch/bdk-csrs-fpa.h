@@ -1258,8 +1258,10 @@ static inline uint64_t BDK_FPA_INP_CTL_FUNC(void)
 /**
  * Register (NCB) fpa_pf_map#
  *
- * SSO PF VF Mapping Registers
- * These registers map GMIDs and guest aura-sets to hardware aura-sets.
+ * FPA PF VF-Mapping Registers
+ * These registers map GMIDs and guest aura-sets to hardware aura-sets. Regardless of
+ * this mapping, GMID 0x0 is always invalid, and GMID 0x1 is always a one-to-one
+ * mapping of GAURASET into VHAURASET.
  */
 typedef union
 {
@@ -1267,19 +1269,25 @@ typedef union
     struct bdk_fpa_pf_mapx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t valid                 : 1;  /**< [ 63: 63](RAZ) This entry is valid for matching. */
-        uint64_t reserved_24_62        : 39;
-        uint64_t gauraset              : 8;  /**< [ 23: 16](RAZ) Guest aura-set. When [VALID], the guest's aura set to which this entry will be
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) This entry is valid for matching. */
+        uint64_t reserved_37_62        : 26;
+        uint64_t vhauraset             : 5;  /**< [ 36: 32](R/W) When [VALID] is set and this entry matches, the VHAURASET the request will be
+                                                                 performed to. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t gauraset              : 8;  /**< [ 23: 16](R/W) Guest aura-set. When [VALID], the guest's aura set to which this entry will be
                                                                  compared. */
-        uint64_t gmid                  : 16; /**< [ 15:  0](RAZ) Guest machine ID. When [VALID], the guest machine identifier to which [GAURASET]
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine ID. When [VALID], the guest machine identifier to which [GAURASET]
                                                                  belongs, and to which this entry will be compared. */
 #else /* Word 0 - Little Endian */
-        uint64_t gmid                  : 16; /**< [ 15:  0](RAZ) Guest machine ID. When [VALID], the guest machine identifier to which [GAURASET]
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine ID. When [VALID], the guest machine identifier to which [GAURASET]
                                                                  belongs, and to which this entry will be compared. */
-        uint64_t gauraset              : 8;  /**< [ 23: 16](RAZ) Guest aura-set. When [VALID], the guest's aura set to which this entry will be
+        uint64_t gauraset              : 8;  /**< [ 23: 16](R/W) Guest aura-set. When [VALID], the guest's aura set to which this entry will be
                                                                  compared. */
-        uint64_t reserved_24_62        : 39;
-        uint64_t valid                 : 1;  /**< [ 63: 63](RAZ) This entry is valid for matching. */
+        uint64_t reserved_24_31        : 8;
+        uint64_t vhauraset             : 5;  /**< [ 36: 32](R/W) When [VALID] is set and this entry matches, the VHAURASET the request will be
+                                                                 performed to. */
+        uint64_t reserved_37_62        : 26;
+        uint64_t valid                 : 1;  /**< [ 63: 63](R/W) This entry is valid for matching. */
 #endif /* Word 0 - End */
     } s;
     /* struct bdk_fpa_pf_mapx_s cn; */

@@ -1432,10 +1432,10 @@ static inline uint64_t BDK_TNS_RDMA_DBGB_SEL_FUNC(void)
  * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
  * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome<1:0> bits to generate 1-bit/2-bit error for testing.
- * * 0x0 = normal operation
- * * 0x1 = SBE on bit<0>
- * * 0x2 = SBE on bit<1>
- * * 0x3 = DBE on bits<1:0>
+ * * 0x0 = normal operation.
+ * * 0x1 = SBE on bit<0>.
+ * * 0x2 = SBE on bit<1>.
+ * * 0x3 = DBE on bits<1:0>.
  */
 typedef union
 {
@@ -2358,10 +2358,10 @@ static inline uint64_t BDK_TNS_RDMA_NB_DBGB_SEL_FUNC(void)
  * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
  * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome<1:0> bits to generate 1-bit/2-bit error for testing.
- * * 0x0 = normal operation
- * * 0x1 = SBE on bit<0>
- * * 0x2 = SBE on bit<1>
- * * 0x3 = DBE on bits<1:0>
+ * * 0x0 = normal operation.
+ * * 0x1 = SBE on bit<0>.
+ * * 0x2 = SBE on bit<1>.
+ * * 0x3 = DBE on bits<1:0>.
  */
 typedef union
 {
@@ -4587,10 +4587,10 @@ static inline uint64_t BDK_TNS_TDMA_DBG_NICIX_CONFIG(unsigned long a)
  * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
  * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome<1:0> bits to generate 1-bit/2-bit error for testing.
- * * 0x0 = normal operation
- * * 0x1 = SBE on bit<0>
- * * 0x2 = SBE on bit<1>
- * * 0x3 = DBE on bits<1:0>
+ * * 0x0 = normal operation.
+ * * 0x1 = SBE on bit<0>.
+ * * 0x2 = SBE on bit<1>.
+ * * 0x3 = DBE on bits<1:0>.
  */
 typedef union
 {
@@ -5270,18 +5270,18 @@ typedef union
         uint64_t sst_req_inc           : 1;  /**< [ 63: 63](R/W) Designated value of the INC field within a SST read or write request. */
         uint64_t reserved_62           : 1;
         uint64_t sst_endian            : 2;  /**< [ 61: 60](R/W) Byte swapping of CSR data when accessing the SST blocks.
-                                                                 0x0 = ABCDEFGH (no swap)
-                                                                 0x1 = EFGHABCD (swap 32-bit chunk within 64-bit word)
-                                                                 0x2 = DCBAHGFE (swap bytes within 32-bit chunk)
-                                                                 0x3 = HGFEDCBA (swap 32-bit chunks within 64-bit word and swap bytes within chunk) */
+                                                                 0x0 = ABCDEFGH (no swap).
+                                                                 0x1 = EFGHABCD (swap 32-bit chunk within 64-bit word).
+                                                                 0x2 = DCBAHGFE (swap bytes within 32-bit chunk).
+                                                                 0x3 = HGFEDCBA (swap 32-bit chunks within 64-bit word and swap bytes within chunk). */
         uint64_t reserved_0_59         : 60;
 #else /* Word 0 - Little Endian */
         uint64_t reserved_0_59         : 60;
         uint64_t sst_endian            : 2;  /**< [ 61: 60](R/W) Byte swapping of CSR data when accessing the SST blocks.
-                                                                 0x0 = ABCDEFGH (no swap)
-                                                                 0x1 = EFGHABCD (swap 32-bit chunk within 64-bit word)
-                                                                 0x2 = DCBAHGFE (swap bytes within 32-bit chunk)
-                                                                 0x3 = HGFEDCBA (swap 32-bit chunks within 64-bit word and swap bytes within chunk) */
+                                                                 0x0 = ABCDEFGH (no swap).
+                                                                 0x1 = EFGHABCD (swap 32-bit chunk within 64-bit word).
+                                                                 0x2 = DCBAHGFE (swap bytes within 32-bit chunk).
+                                                                 0x3 = HGFEDCBA (swap 32-bit chunks within 64-bit word and swap bytes within chunk). */
         uint64_t reserved_62           : 1;
         uint64_t sst_req_inc           : 1;  /**< [ 63: 63](R/W) Designated value of the INC field within a SST read or write request. */
 #endif /* Word 0 - End */
@@ -5905,10 +5905,10 @@ static inline uint64_t BDK_TNS_TDMA_NB_DBG_LMACX_CONFIG1(unsigned long a)
  * Fields *ECC_DIS disable SBE data correction. If ECC_DIS is 0x1, then no data correction is
  * performed but errors will still be reported.
  * Fields *ECC_FLIP_SYND flip the syndrome<1:0> bits to generate 1-bit/2-bit error for testing.
- * * 0x0 = normal operation
- * * 0x1 = SBE on bit<0>
- * * 0x2 = SBE on bit<1>
- * * 0x3 = DBE on bits<1:0>
+ * * 0x0 = normal operation.
+ * * 0x1 = SBE on bit<0>.
+ * * 0x2 = SBE on bit<1>.
+ * * 0x3 = DBE on bits<1:0>.
  */
 typedef union
 {

@@ -313,7 +313,7 @@ typedef union
                                                                  0x2 = SGP_SDATAIN(0) for drives 0-7, (1) for drives 8-15.
                                                                  0x3 = SGP_SDATAIN(0) for drives 0-3, (1) for drives 4-7, (2) for drives 8-11, (3) for
                                                                  drives 12-15.
-                                                                 0x4-0x7 = Reserved */
+                                                                 0x4-0x7 = Reserved. */
         uint32_t hold                  : 1;  /**< [  1:  1](R/W) Hold shift. When set, automatic shifts will not occur, and the SGP_TX_GP_CFG[COUNT] must
                                                                  be used to initiate a shift operation. */
         uint32_t busy                  : 1;  /**< [  0:  0](RO/H) Shift in progress. */
@@ -327,7 +327,7 @@ typedef union
                                                                  0x2 = SGP_SDATAIN(0) for drives 0-7, (1) for drives 8-15.
                                                                  0x3 = SGP_SDATAIN(0) for drives 0-3, (1) for drives 4-7, (2) for drives 8-11, (3) for
                                                                  drives 12-15.
-                                                                 0x4-0x7 = Reserved */
+                                                                 0x4-0x7 = Reserved. */
         uint32_t reserved_5_31         : 27;
 #endif /* Word 0 - End */
     } s;

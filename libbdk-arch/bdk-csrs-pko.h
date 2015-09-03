@@ -2497,7 +2497,7 @@ typedef union
         uint64_t ptr_rtn_pend          : 1;  /**< [  3:  3](RO/H) DPFI has pointer returns to FPA pending. */
         uint64_t fpa_empty             : 1;  /**< [  2:  2](RO/H) FPA empty status:
                                                                  0 = FPA is providing pointers when requested.
-                                                                 1 = FPA responded to pointer request with 'no pointers available.' */
+                                                                 1 = FPA responded to pointer request with 'no pointers available'. */
         uint64_t dpfi_empty            : 1;  /**< [  1:  1](RO/H) DPFI pointer cache is empty. */
         uint64_t cache_flushed         : 1;  /**< [  0:  0](RO/H) Cache flushed:
                                                                  0 = Cache flush not enabled or in-progress.
@@ -2511,7 +2511,7 @@ typedef union
         uint64_t dpfi_empty            : 1;  /**< [  1:  1](RO/H) DPFI pointer cache is empty. */
         uint64_t fpa_empty             : 1;  /**< [  2:  2](RO/H) FPA empty status:
                                                                  0 = FPA is providing pointers when requested.
-                                                                 1 = FPA responded to pointer request with 'no pointers available.' */
+                                                                 1 = FPA responded to pointer request with 'no pointers available'. */
         uint64_t ptr_rtn_pend          : 1;  /**< [  3:  3](RO/H) DPFI has pointer returns to FPA pending. */
         uint64_t ptr_req_pend          : 1;  /**< [  4:  4](RO/H) DPFI has pointer requests to FPA pending. */
         uint64_t isrm_ptr0_val         : 1;  /**< [  5:  5](RO/H) ISRM pointer register 0 contains a valid pointer. */
@@ -9349,10 +9349,10 @@ typedef union
                                                                  0xB = Fill response unit. */
         uint64_t has_cred              : 4;  /**< [ 10:  7](RO/H) Has credit signals indicate there is sufficient credit to commit. The order of the bits
                                                                  is:
-                                                                 0xA = Flush buffer has credit
-                                                                 0x9 = Fill buffer has credit
-                                                                 0x8 = DW command output FIFO has credit
-                                                                 0x7 = DR command output FIFO has credit */
+                                                                 0xA = Flush buffer has credit.
+                                                                 0x9 = Fill buffer has credit.
+                                                                 0x8 = DW command output FIFO has credit.
+                                                                 0x7 = DR command output FIFO has credit. */
         uint64_t val_exec              : 7;  /**< [  6:  0](RO/H) Valid bits for the execution units; means the unit can commit if it gets the grant of the
                                                                  commit arb and other conditions are met. The order of the bits is:
                                                                  0x6 = Fill response unit.
@@ -9374,10 +9374,10 @@ typedef union
                                                                  0x0 = PEB read unit. */
         uint64_t has_cred              : 4;  /**< [ 10:  7](RO/H) Has credit signals indicate there is sufficient credit to commit. The order of the bits
                                                                  is:
-                                                                 0xA = Flush buffer has credit
-                                                                 0x9 = Fill buffer has credit
-                                                                 0x8 = DW command output FIFO has credit
-                                                                 0x7 = DR command output FIFO has credit */
+                                                                 0xA = Flush buffer has credit.
+                                                                 0x9 = Fill buffer has credit.
+                                                                 0x8 = DW command output FIFO has credit.
+                                                                 0x7 = DR command output FIFO has credit. */
         uint64_t in_use                : 4;  /**< [ 14: 11](RO/H) In use signals indicate the execution units are in use. The order of the bits is:
                                                                  0xE = PEB fill unit.
                                                                  0xD = PEB read unit.

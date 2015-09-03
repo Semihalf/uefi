@@ -392,7 +392,7 @@ typedef union
         uint64_t thres                 : 6;  /**< [ 56: 51](R/W) Number of 8-byte blocks of data that must exist in the DBUF before starting the 512-byte
                                                                  block transfer. Zero indicates to wait for the entire block. */
         uint64_t rel_wr                : 1;  /**< [ 50: 50](R/W) Set the reliable write parameter when performing CMD23 (SET_BLOCK_COUNT) for a multiple block. */
-        uint64_t rw                    : 1;  /**< [ 49: 49](R/W) Read/write bit (0 = read, 1 = write) */
+        uint64_t rw                    : 1;  /**< [ 49: 49](R/W) Read/write bit (0 = read, 1 = write). */
         uint64_t multi                 : 1;  /**< [ 48: 48](R/W) Perform operation using a multiple block command instead of a series of single block commands. */
         uint64_t block_cnt             : 16; /**< [ 47: 32](R/W/H) Number of blocks to read/write. Hardware decrements the block count after each successful
                                                                  block transfer. */
@@ -406,7 +406,7 @@ typedef union
         uint64_t block_cnt             : 16; /**< [ 47: 32](R/W/H) Number of blocks to read/write. Hardware decrements the block count after each successful
                                                                  block transfer. */
         uint64_t multi                 : 1;  /**< [ 48: 48](R/W) Perform operation using a multiple block command instead of a series of single block commands. */
-        uint64_t rw                    : 1;  /**< [ 49: 49](R/W) Read/write bit (0 = read, 1 = write) */
+        uint64_t rw                    : 1;  /**< [ 49: 49](R/W) Read/write bit (0 = read, 1 = write). */
         uint64_t rel_wr                : 1;  /**< [ 50: 50](R/W) Set the reliable write parameter when performing CMD23 (SET_BLOCK_COUNT) for a multiple block. */
         uint64_t thres                 : 6;  /**< [ 56: 51](R/W) Number of 8-byte blocks of data that must exist in the DBUF before starting the 512-byte
                                                                  block transfer. Zero indicates to wait for the entire block. */

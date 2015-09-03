@@ -328,12 +328,12 @@
                                        
                                        <pre>
                                        {URG, ACK, PSH, RST, SYN, FIN}
-                                       6'b000001 = (FIN only)
-                                       6'b000000 = (0)
-                                       6'bxxx1x1 = (RST+FIN+*)
-                                       6'b1xxx1x = (URG+SYN+*)
-                                       6'bxxx11x = (RST+SYN+*)
-                                       6'bxxxx11 = (SYN+FIN+*)
+                                       6'b000001 = (FIN only).
+                                       6'b000000 = (0).
+                                       6'bxxx1x1 = (RST+FIN+*).
+                                       6'b1xxx1x = (URG+SYN+*).
+                                       6'bxxx11x = (RST+SYN+*).
+                                       6'bxxxx11 = (SYN+FIN+*).
                                        </pre> */
 
 /**
@@ -3048,7 +3048,7 @@ typedef union
         uint64_t inst_hdr              : 1;  /**< [  5:  5](R/W) INST header. When set, the eight-byte INST_HDR is present on all packets (except incoming
                                                                  packets on the DPI ports). */
         uint64_t lg_custom             : 1;  /**< [  4:  4](R/W) Layer G Custom Match Enable.
-                                                                 0 = Disable custom LG header extraction
+                                                                 0 = Disable custom LG header extraction.
                                                                  1 = Enable custom LG header extraction.
                                                                  PKI_GBL_PEN[CLG_PEN] must be set. */
         uint64_t fulc_en               : 1;  /**< [  3:  3](R/W) Enable Fulcrum tag parsing.
@@ -3083,7 +3083,7 @@ typedef union
                                                                  1 = Fulcrum header is parsed. PKI_GBL_PEN[FULC_PEN] must be set.
                                                                  At most one of FULC_EN, DSA_EN or HG_EN may be set. */
         uint64_t lg_custom             : 1;  /**< [  4:  4](R/W) Layer G Custom Match Enable.
-                                                                 0 = Disable custom LG header extraction
+                                                                 0 = Disable custom LG header extraction.
                                                                  1 = Enable custom LG header extraction.
                                                                  PKI_GBL_PEN[CLG_PEN] must be set. */
         uint64_t inst_hdr              : 1;  /**< [  5:  5](R/W) INST header. When set, the eight-byte INST_HDR is present on all packets (except incoming
@@ -7732,8 +7732,8 @@ typedef union
         uint64_t wqe_hsz               : 2;  /**< [ 31: 30](R/W) Work queue header size:
                                                                  0x0 = WORD0..4, standard WQE_S. Note FIRST_SKIP may be set to not include WORD4 in memory.
                                                                  0x1 = WORD0..5.
-                                                                 0x2 = Reserved
-                                                                 0x3 = Reserved
+                                                                 0x2 = Reserved.
+                                                                 0x3 = Reserved.
 
                                                                  INTERNAL: Selects which PIX words are transferred to the PKI BE. If a word is not
                                                                  transferred and the word will reach memory (FIRST_SKIP is greater than that word number),
@@ -7848,8 +7848,8 @@ typedef union
         uint64_t wqe_hsz               : 2;  /**< [ 31: 30](R/W) Work queue header size:
                                                                  0x0 = WORD0..4, standard WQE_S. Note FIRST_SKIP may be set to not include WORD4 in memory.
                                                                  0x1 = WORD0..5.
-                                                                 0x2 = Reserved
-                                                                 0x3 = Reserved
+                                                                 0x2 = Reserved.
+                                                                 0x3 = Reserved.
 
                                                                  INTERNAL: Selects which PIX words are transferred to the PKI BE. If a word is not
                                                                  transferred and the word will reach memory (FIRST_SKIP is greater than that word number),

@@ -42589,7 +42589,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_10G_REP_FIFX_WX(unsigned long a, unsign
  * Register (NCB32b) tns_txq_eq_mc_10g_spd_map
  *
  * TNS TxQ Enque Multip-cast 10G Speed Map Register
- * Ports that are 10G mode.  Bit 0 = port 0, bit 1 = port 1, etc
+ * Ports that are 10G mode.  Bit 0 = port 0, bit 1 = port 1, etc.
  */
 typedef union
 {
@@ -42664,7 +42664,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_40G_REP_FIFX_WX(unsigned long a, unsign
  * Register (NCB32b) tns_txq_eq_mc_40g_spd_map
  *
  * TNS TxQ Enque Multip-cast 40G Speed Map Register
- * Ports that are in 40G mode.  Bit 0 = port 0, bit 1 = port 1, etc
+ * Ports that are in 40G mode.  Bit 0 = port 0, bit 1 = port 1, etc.
  */
 typedef union
 {
@@ -42777,7 +42777,7 @@ static inline uint64_t BDK_TNS_TXQ_EQ_MC_MISC_REP_FIFX_WX(unsigned long a, unsig
  * Register (NCB32b) tns_txq_eq_mc_misc_spd_map
  *
  * TNS TxQ Enque Multip-cast MISC Speed Map Register
- * Ports that are 1G or less mode.  Bit 0 = port 0, bit 1 = port 1, etc
+ * Ports that are 1G or less mode.  Bit 0 = port 0, bit 1 = port 1, etc.
  */
 typedef union
 {

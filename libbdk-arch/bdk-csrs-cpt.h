@@ -735,6 +735,512 @@ static inline uint64_t BDK_CPTX_PF_ECO(unsigned long a)
 #define arguments_BDK_CPTX_PF_ECO(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) cpt#_pf_exe_bist_status
+ *
+ * CPT PF Engine Bist Status Register
+ * This register has the BIST status of each engine.  Each bit is the BIST result of an
+ * individual engine (per bit, 0 = pass and 1 = fail).
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_bist_status_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t bstatus               : 64; /**< [ 63:  0](RO/H) BIST status. One bit per engine. */
+#else /* Word 0 - Little Endian */
+        uint64_t bstatus               : 64; /**< [ 63:  0](RO/H) BIST status. One bit per engine. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_bist_status_s cn; */
+} bdk_cptx_pf_exe_bist_status_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_BIST_STATUS(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x872004000020ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872004000020ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_EXE_BIST_STATUS", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_BIST_STATUS(a) bdk_cptx_pf_exe_bist_status_t
+#define bustype_BDK_CPTX_PF_EXE_BIST_STATUS(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_BIST_STATUS(a) "CPTX_PF_EXE_BIST_STATUS"
+#define busnum_BDK_CPTX_PF_EXE_BIST_STATUS(a) (a)
+#define arguments_BDK_CPTX_PF_EXE_BIST_STATUS(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_exe_clk
+ *
+ * CPT PF Engine Clock Register
+ * This register forces engine clocks on.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_clk_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t forceclk              : 64; /**< [ 63:  0](R/W) Clock override, one bit per engine. When set, force clocks to always run. When
+                                                                 clear, allow automatic powerdown for idle engines. */
+#else /* Word 0 - Little Endian */
+        uint64_t forceclk              : 64; /**< [ 63:  0](R/W) Clock override, one bit per engine. When set, force clocks to always run. When
+                                                                 clear, allow automatic powerdown for idle engines. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_clk_s cn; */
+} bdk_cptx_pf_exe_clk_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_CLK(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_CLK(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x872004000008ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872004000008ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_EXE_CLK", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_CLK(a) bdk_cptx_pf_exe_clk_t
+#define bustype_BDK_CPTX_PF_EXE_CLK(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_CLK(a) "CPTX_PF_EXE_CLK"
+#define busnum_BDK_CPTX_PF_EXE_CLK(a) (a)
+#define arguments_BDK_CPTX_PF_EXE_CLK(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_exe_ctl
+ *
+ * CPT PF Engine Control Register
+ * This register enables the engines.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reset                 : 64; /**< [ 63:  0](R/W) Individual enables for each of the engines. */
+#else /* Word 0 - Little Endian */
+        uint64_t reset                 : 64; /**< [ 63:  0](R/W) Individual enables for each of the engines. */
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_ctl_s cn; */
+} bdk_cptx_pf_exe_ctl_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_CTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x872004000000ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872004000000ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_EXE_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_CTL(a) bdk_cptx_pf_exe_ctl_t
+#define bustype_BDK_CPTX_PF_EXE_CTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_CTL(a) "CPTX_PF_EXE_CTL"
+#define busnum_BDK_CPTX_PF_EXE_CTL(a) (a)
+#define arguments_BDK_CPTX_PF_EXE_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_exe_dbg_cnt#
+ *
+ * Debug Bus Counter Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_dbg_cntx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts events on the debug bus.
+                                                                 INTERNAL: FIXME make 48 bit R/W. */
+#else /* Word 0 - Little Endian */
+        uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts events on the debug bus.
+                                                                 INTERNAL: FIXME make 48 bit R/W. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_dbg_cntx_s cn; */
+} bdk_cptx_pf_exe_dbg_cntx_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_DBG_CNTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_DBG_CNTX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=15)))
+        return 0x872004001100ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=15)))
+        return 0x872004001100ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0xf);
+    __bdk_csr_fatal("CPTX_PF_EXE_DBG_CNTX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_DBG_CNTX(a,b) bdk_cptx_pf_exe_dbg_cntx_t
+#define bustype_BDK_CPTX_PF_EXE_DBG_CNTX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_DBG_CNTX(a,b) "CPTX_PF_EXE_DBG_CNTX"
+#define busnum_BDK_CPTX_PF_EXE_DBG_CNTX(a,b) (a)
+#define arguments_BDK_CPTX_PF_EXE_DBG_CNTX(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_exe_dbg_ctl
+ *
+ * CPT PF Engine Debug Control Register
+ * This register controls engine diagnostic features.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_dbg_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t eng_sel               : 8;  /**< [ 23: 16](R/W) Engine select. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t reg_sel               : 9;  /**< [  8:  0](R/W) Debug register select. Setting to all ones returns 0x0 on the debug bus. */
+#else /* Word 0 - Little Endian */
+        uint64_t reg_sel               : 9;  /**< [  8:  0](R/W) Debug register select. Setting to all ones returns 0x0 on the debug bus. */
+        uint64_t reserved_9_15         : 7;
+        uint64_t eng_sel               : 8;  /**< [ 23: 16](R/W) Engine select. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_dbg_ctl_s cn; */
+} bdk_cptx_pf_exe_dbg_ctl_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_DBG_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_DBG_CTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x872004000010ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872004000010ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_EXE_DBG_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_DBG_CTL(a) bdk_cptx_pf_exe_dbg_ctl_t
+#define bustype_BDK_CPTX_PF_EXE_DBG_CTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_DBG_CTL(a) "CPTX_PF_EXE_DBG_CTL"
+#define busnum_BDK_CPTX_PF_EXE_DBG_CTL(a) (a)
+#define arguments_BDK_CPTX_PF_EXE_DBG_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_exe_dbg_data
+ *
+ * Engine Debug Data Register
+ * This register returns engine debug data as selected by CPT()_PF_EXE_DBG_CTL.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_dbg_data_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t data                  : 16; /**< [ 15:  0](RO/H) Debug data. */
+#else /* Word 0 - Little Endian */
+        uint64_t data                  : 16; /**< [ 15:  0](RO/H) Debug data. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_dbg_data_s cn; */
+} bdk_cptx_pf_exe_dbg_data_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_DBG_DATA(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_DBG_DATA(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x872004000018ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872004000018ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_EXE_DBG_DATA", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_DBG_DATA(a) bdk_cptx_pf_exe_dbg_data_t
+#define bustype_BDK_CPTX_PF_EXE_DBG_DATA(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_DBG_DATA(a) "CPTX_PF_EXE_DBG_DATA"
+#define busnum_BDK_CPTX_PF_EXE_DBG_DATA(a) (a)
+#define arguments_BDK_CPTX_PF_EXE_DBG_DATA(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_exe_epci_inb#_cnt
+ *
+ * EPCI Inbound Counter Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_epci_inbx_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts the number of valid inbound cycles in EPCI bus.
+                                                                 INTERNAL: FIXME make 48 bit R/W. */
+#else /* Word 0 - Little Endian */
+        uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts the number of valid inbound cycles in EPCI bus.
+                                                                 INTERNAL: FIXME make 48 bit R/W. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_epci_inbx_cnt_s cn; */
+} bdk_cptx_pf_exe_epci_inbx_cnt_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_EPCI_INBX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_EPCI_INBX_CNT(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x872004001200ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
+        return 0x872004001200ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_EXE_EPCI_INBX_CNT", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_EPCI_INBX_CNT(a,b) bdk_cptx_pf_exe_epci_inbx_cnt_t
+#define bustype_BDK_CPTX_PF_EXE_EPCI_INBX_CNT(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_EPCI_INBX_CNT(a,b) "CPTX_PF_EXE_EPCI_INBX_CNT"
+#define busnum_BDK_CPTX_PF_EXE_EPCI_INBX_CNT(a,b) (a)
+#define arguments_BDK_CPTX_PF_EXE_EPCI_INBX_CNT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_exe_epci_outb#_cnt
+ *
+ * EPCI Outbound Counter Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_epci_outbx_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts the number of valid outbound cycles in EPCI bus.
+                                                                 INTERNAL: FIXME make 48 bit R/W. */
+#else /* Word 0 - Little Endian */
+        uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts the number of valid outbound cycles in EPCI bus.
+                                                                 INTERNAL: FIXME make 48 bit R/W. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_epci_outbx_cnt_s cn; */
+} bdk_cptx_pf_exe_epci_outbx_cnt_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=1)))
+        return 0x872004001240ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=1)))
+        return 0x872004001240ll + 0x1000000000ll * ((a) & 0x1) + 8ll * ((b) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_EXE_EPCI_OUTBX_CNT", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(a,b) bdk_cptx_pf_exe_epci_outbx_cnt_t
+#define bustype_BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(a,b) "CPTX_PF_EXE_EPCI_OUTBX_CNT"
+#define busnum_BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(a,b) (a)
+#define arguments_BDK_CPTX_PF_EXE_EPCI_OUTBX_CNT(a,b) (a),(b),-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_exe_mem_ctl
+ *
+ * CPT PF Engine ECC Control Register
+ * This register enables per-Engine ECC for each individual internal memory that requires ECC.
+ * For debug
+ * purposes, it can also flip one or two bits in the ECC data.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_mem_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t emu_sel               : 8;  /**< [ 23: 16](R/W) Engine select. */
+        uint64_t reserved_4_15         : 12;
+        uint64_t pflip                 : 1;  /**< [  3:  3](R/W) Flip the parity bit in the icache memories. */
+        uint64_t flip1                 : 1;  /**< [  2:  2](R/W) Flip syndrome bit 1 in register file memories. */
+        uint64_t flip0                 : 1;  /**< [  1:  1](R/W) Flip syndrome bit 0 in register file memories. */
+        uint64_t cdis                  : 1;  /**< [  0:  0](R/W) Disable correction for register file memories. */
+#else /* Word 0 - Little Endian */
+        uint64_t cdis                  : 1;  /**< [  0:  0](R/W) Disable correction for register file memories. */
+        uint64_t flip0                 : 1;  /**< [  1:  1](R/W) Flip syndrome bit 0 in register file memories. */
+        uint64_t flip1                 : 1;  /**< [  2:  2](R/W) Flip syndrome bit 1 in register file memories. */
+        uint64_t pflip                 : 1;  /**< [  3:  3](R/W) Flip the parity bit in the icache memories. */
+        uint64_t reserved_4_15         : 12;
+        uint64_t emu_sel               : 8;  /**< [ 23: 16](R/W) Engine select. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_mem_ctl_s cn; */
+} bdk_cptx_pf_exe_mem_ctl_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_MEM_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_MEM_CTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x872004000030ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872004000030ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_EXE_MEM_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_MEM_CTL(a) bdk_cptx_pf_exe_mem_ctl_t
+#define bustype_BDK_CPTX_PF_EXE_MEM_CTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_MEM_CTL(a) "CPTX_PF_EXE_MEM_CTL"
+#define busnum_BDK_CPTX_PF_EXE_MEM_CTL(a) (a)
+#define arguments_BDK_CPTX_PF_EXE_MEM_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_exe_perf_ctl
+ *
+ * CPT PF Engine Performance Control Register
+ * This register controls engine performance counters.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_perf_ctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_21_63        : 43;
+        uint64_t epci_inb_cnt_en       : 2;  /**< [ 20: 19](R/W) Enable EPCI inbound counters. */
+        uint64_t epci_outb_cnt_en      : 2;  /**< [ 18: 17](R/W) Enable EPCI outbound counters. */
+        uint64_t event_cnt_en          : 1;  /**< [ 16: 16](R/W) Enable single event counter. */
+        uint64_t dbg_cnt_en            : 16; /**< [ 15:  0](R/W) Enable counters on debug bus. */
+#else /* Word 0 - Little Endian */
+        uint64_t dbg_cnt_en            : 16; /**< [ 15:  0](R/W) Enable counters on debug bus. */
+        uint64_t event_cnt_en          : 1;  /**< [ 16: 16](R/W) Enable single event counter. */
+        uint64_t epci_outb_cnt_en      : 2;  /**< [ 18: 17](R/W) Enable EPCI outbound counters. */
+        uint64_t epci_inb_cnt_en       : 2;  /**< [ 20: 19](R/W) Enable EPCI inbound counters. */
+        uint64_t reserved_21_63        : 43;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_perf_ctl_s cn; */
+} bdk_cptx_pf_exe_perf_ctl_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_PERF_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_PERF_CTL(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x872004001000ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872004001000ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_EXE_PERF_CTL", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_PERF_CTL(a) bdk_cptx_pf_exe_perf_ctl_t
+#define bustype_BDK_CPTX_PF_EXE_PERF_CTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_PERF_CTL(a) "CPTX_PF_EXE_PERF_CTL"
+#define busnum_BDK_CPTX_PF_EXE_PERF_CTL(a) (a)
+#define arguments_BDK_CPTX_PF_EXE_PERF_CTL(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_exe_perf_event_cnt
+ *
+ * Symmetric and Asymmetric Engine Performance Event Counter Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_perf_event_cnt_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_40_63        : 24;
+        uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts the performance events in an engine. The event is selected by setting
+                                                                 the lower 3 bits of CPT()_PF_EXE_DBG_CTL[REG_SEL].
+                                                                 0x0 = Undefined.
+                                                                 0x1 = The number of cycles the exec is waiting for the exec is waiting for
+                                                                 inbound bus data.
+                                                                 0x2 = The number of cycles the execution queue is busy.
+                                                                 0x3 = The number of cycles the execution queue cannot issue instructions because
+                                                                 of a datapath stall.
+                                                                 INTERNAL: FIXME make 48 bit R/W. */
+#else /* Word 0 - Little Endian */
+        uint64_t counter               : 40; /**< [ 39:  0](R/W1C/H) Counts the performance events in an engine. The event is selected by setting
+                                                                 the lower 3 bits of CPT()_PF_EXE_DBG_CTL[REG_SEL].
+                                                                 0x0 = Undefined.
+                                                                 0x1 = The number of cycles the exec is waiting for the exec is waiting for
+                                                                 inbound bus data.
+                                                                 0x2 = The number of cycles the execution queue is busy.
+                                                                 0x3 = The number of cycles the execution queue cannot issue instructions because
+                                                                 of a datapath stall.
+                                                                 INTERNAL: FIXME make 48 bit R/W. */
+        uint64_t reserved_40_63        : 24;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_perf_event_cnt_s cn; */
+} bdk_cptx_pf_exe_perf_event_cnt_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_PERF_EVENT_CNT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_PERF_EVENT_CNT(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x872004001180ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872004001180ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_EXE_PERF_EVENT_CNT", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_PERF_EVENT_CNT(a) bdk_cptx_pf_exe_perf_event_cnt_t
+#define bustype_BDK_CPTX_PF_EXE_PERF_EVENT_CNT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_PERF_EVENT_CNT(a) "CPTX_PF_EXE_PERF_EVENT_CNT"
+#define busnum_BDK_CPTX_PF_EXE_PERF_EVENT_CNT(a) (a)
+#define arguments_BDK_CPTX_PF_EXE_PERF_EVENT_CNT(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) cpt#_pf_exe_req_timer
+ *
+ * CPT PF Engine Arbiter Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_cptx_pf_exe_req_timer_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_8_63         : 56;
+        uint64_t cnt                   : 8;  /**< [  7:  0](R/W) Interval to promote starving low priority requests to high priorty. After
+                                                                 between one and two times this interval a pending low priority request will be
+                                                                 elevated to high priority status.
+                                                                 0x0 = Disabled.
+                                                                 0x1 = Timeout between 256 and 511 cycles.
+                                                                 0x2 = Timeout between 512 and 1023 cycles.
+                                                                 0x3 = Timeout between 768 and 1535 cycles.
+                                                                 _ etc. */
+#else /* Word 0 - Little Endian */
+        uint64_t cnt                   : 8;  /**< [  7:  0](R/W) Interval to promote starving low priority requests to high priorty. After
+                                                                 between one and two times this interval a pending low priority request will be
+                                                                 elevated to high priority status.
+                                                                 0x0 = Disabled.
+                                                                 0x1 = Timeout between 256 and 511 cycles.
+                                                                 0x2 = Timeout between 512 and 1023 cycles.
+                                                                 0x3 = Timeout between 768 and 1535 cycles.
+                                                                 _ etc. */
+        uint64_t reserved_8_63         : 56;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_cptx_pf_exe_req_timer_s cn; */
+} bdk_cptx_pf_exe_req_timer_t;
+
+static inline uint64_t BDK_CPTX_PF_EXE_REQ_TIMER(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_CPTX_PF_EXE_REQ_TIMER(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x872004000028ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x872004000028ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("CPTX_PF_EXE_REQ_TIMER", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_CPTX_PF_EXE_REQ_TIMER(a) bdk_cptx_pf_exe_req_timer_t
+#define bustype_BDK_CPTX_PF_EXE_REQ_TIMER(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_CPTX_PF_EXE_REQ_TIMER(a) "CPTX_PF_EXE_REQ_TIMER"
+#define busnum_BDK_CPTX_PF_EXE_REQ_TIMER(a) (a)
+#define arguments_BDK_CPTX_PF_EXE_REQ_TIMER(a) (a),-1,-1,-1
+
+/**
  * Register (NCB) cpt#_pf_g#_en
  *
  * CPT PF Group Control Register

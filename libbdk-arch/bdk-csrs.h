@@ -69,6 +69,7 @@ extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, 
 #include "bdk-csrs-dap.h"
 #include "bdk-csrs-ddf.h"
 #include "bdk-csrs-dfa.h"
+#include "bdk-csrs-dpi.h"
 #include "bdk-csrs-dtx.h"
 #include "bdk-csrs-ecam.h"
 #include "bdk-csrs-fpa.h"

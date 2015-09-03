@@ -58,10 +58,10 @@
  * DDF Base Address Register Enumeration
  * Enumerates the base address registers.
  */
-#define BDK_DDF_BAR_E_DDF_PF_BAR0 (0x809000000000ll) /**< Base address for physical function standard registers. */
-#define BDK_DDF_BAR_E_DDF_PF_BAR4 (0x809010000000ll) /**< Base address for physical function MSI-X registers. */
-#define BDK_DDF_BAR_E_DDF_VFX_BAR0(a) (0x809020000000ll + 0x100000ll * (a)) /**< (0..31)Base address for virtual function standard registers. */
-#define BDK_DDF_BAR_E_DDF_VFX_BAR4(a) (0x809030000000ll + 0x100000ll * (a)) /**< (0..31)Base address for virtual function MSI-X registers. */
+#define BDK_DDF_BAR_E_DDFX_PF_BAR0(a) (0x809000000000ll + 0ll * (a)) /**< (0)Base address for physical function standard registers. */
+#define BDK_DDF_BAR_E_DDFX_PF_BAR4(a) (0x809010000000ll + 0ll * (a)) /**< (0)Base address for physical function MSI-X registers. */
+#define BDK_DDF_BAR_E_DDFX_VFX_BAR0(a,b) (0x809020000000ll + 0ll * (a) + 0x100000ll * (b)) /**< (0)(0..31)Base address for virtual function standard registers. */
+#define BDK_DDF_BAR_E_DDFX_VFX_BAR4(a,b) (0x809030000000ll + 0ll * (a) + 0x100000ll * (b)) /**< (0)(0..31)Base address for virtual function MSI-X registers. */
 
 /**
  * Enumeration ddf_comp_e
@@ -105,20 +105,20 @@
  * DDF PF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_DDF_PF_INT_VEC_E_ECC0 (0) /**< See interrupt clears DDF_PF_ECC0_INT,
-                                       interrupt sets DDF_PF_ECC0_INT_W1S,
-                                       enable clears DDF_PF_ECC0_ENA_W1C,
-                                       and enable sets DDF_PF_ECC0_ENA_W1S. */
-#define BDK_DDF_PF_INT_VEC_E_MBOXX(a) (1 + (a)) /**< (0)See interrupt clears DDF_PF_MBOX_INT(0),
-                                       interrupt sets DDF_PF_MBOX_INT_W1S(0),
-                                       enable clears DDF_PF_MBOX_ENA_W1C(0),
-                                       and enable sets DDF_PF_MBOX_ENA_W1S(0). */
+#define BDK_DDF_PF_INT_VEC_E_ECC0 (0) /**< See interrupt clears DDF(0)_PF_ECC0_INT,
+                                       interrupt sets DDF(0)_PF_ECC0_INT_W1S,
+                                       enable clears DDF(0)_PF_ECC0_ENA_W1C,
+                                       and enable sets DDF(0)_PF_ECC0_ENA_W1S. */
+#define BDK_DDF_PF_INT_VEC_E_MBOXX(a) (1 + (a)) /**< (0)See interrupt clears DDF(0)_PF_MBOX_INT(0),
+                                       interrupt sets DDF(0)_PF_MBOX_INT_W1S(0),
+                                       enable clears DDF(0)_PF_MBOX_ENA_W1C(0),
+                                       and enable sets DDF(0)_PF_MBOX_ENA_W1S(0). */
 
 /**
  * Enumeration ddf_rams_e
  *
  * DDF RAM Field Enumeration
- * Enumerates the relative bit positions within DDF_PF_ECC0_CTL[CDIS].
+ * Enumerates the relative bit positions within DDF()_PF_ECC0_CTL[CDIS].
  */
 #define BDK_DDF_RAMS_E_TBD (0) /**< Bit position for TBD. */
 
@@ -138,14 +138,14 @@
  * DDF VF MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_DDF_VF_INT_VEC_E_DONE (1) /**< See interrupt clears DDF_VQ(0..31)_DONE_INT_W1C,
-                                       interrupt sets DDF_VQ(0..31)_DONE_INT_W1S,
-                                       enable clears DDF_VQ(0..31)_DONE_ENA_W1C
-                                       and enable sets DDF_VQ(0..31)_DONE_ENA_W1S. */
-#define BDK_DDF_VF_INT_VEC_E_MISC (0) /**< See interrupt clears DDF_VQ(0..31)_MISC_INT,
-                                       interrupt sets DDF_VQ(0..31)_MISC_INT_W1S,
-                                       enable clears DDF_VQ(0..31)_MISC_ENA_W1C
-                                       and enable sets DDF_VQ(0..31)_MISC_ENA_W1S. */
+#define BDK_DDF_VF_INT_VEC_E_DONE (1) /**< See interrupt clears DDF(0)_VQ(0..31)_DONE_INT_W1C,
+                                       interrupt sets DDF(0)_VQ(0..31)_DONE_INT_W1S,
+                                       enable clears DDF(0)_VQ(0..31)_DONE_ENA_W1C
+                                       and enable sets DDF(0)_VQ(0..31)_DONE_ENA_W1S. */
+#define BDK_DDF_VF_INT_VEC_E_MISC (0) /**< See interrupt clears DDF(0)_VQ(0..31)_MISC_INT,
+                                       interrupt sets DDF(0)_VQ(0..31)_MISC_INT_W1S,
+                                       enable clears DDF(0)_VQ(0..31)_MISC_ENA_W1C
+                                       and enable sets DDF(0)_VQ(0..31)_MISC_ENA_W1S. */
 
 /**
  * Structure ddf_inst_find_s
@@ -191,7 +191,7 @@ union bdk_ddf_inst_find_s
                                                                  filter or match data need not be immediately written to memory, in the hope that
                                                                  the next instruction will access the same data. */
         uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When DONEINT is set and the instruction completes,
-                                                                 DDF_VQ()_DONE[DONE] will be incremented. */
+                                                                 DDF()_VQ()_DONE[DONE] will be incremented. */
         uint64_t qwords                : 8;  /**< [ 15:  8] Number of 16-byte quadwords in request. Must be 1-16. If less than the size of
                                                                  this structure then structure elements described here are not read from memory
                                                                  and behave as if zero.
@@ -208,7 +208,7 @@ union bdk_ddf_inst_find_s
                                                                  INTERNAL: In hardware, push/pop zeros for (QWORDS..15) into the
                                                                  instruction queue.  As VQs are virtualized, DDF must not hang on invalid instructions. */
         uint64_t doneint               : 1;  /**< [ 16: 16] Done interrupt. When DONEINT is set and the instruction completes,
-                                                                 DDF_VQ()_DONE[DONE] will be incremented. */
+                                                                 DDF()_VQ()_DONE[DONE] will be incremented. */
         uint64_t gang                  : 1;  /**< [ 17: 17] Gang with next instruction. If set, a hint to hardware that this instruction's
                                                                  filter or match data need not be immediately written to memory, in the hope that
                                                                  the next instruction will access the same data. */
@@ -1164,7 +1164,7 @@ union bdk_ddf_res_match_s
 };
 
 /**
- * Register (NCB) ddf_pf_bist_status
+ * Register (NCB) ddf#_pf_bist_status
  *
  * DDF PF Control Bist Status Register
  * This register has the BIST status of memories. Each bit is the BIST result of an
@@ -1173,7 +1173,7 @@ union bdk_ddf_res_match_s
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_bist_status_s
+    struct bdk_ddfx_pf_bist_status_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -1183,26 +1183,25 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_bist_status_s cn; */
-} bdk_ddf_pf_bist_status_t;
+    /* struct bdk_ddfx_pf_bist_status_s cn; */
+} bdk_ddfx_pf_bist_status_t;
 
-#define BDK_DDF_PF_BIST_STATUS BDK_DDF_PF_BIST_STATUS_FUNC()
-static inline uint64_t BDK_DDF_PF_BIST_STATUS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_BIST_STATUS_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_BIST_STATUS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_BIST_STATUS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000160ll;
-    __bdk_csr_fatal("DDF_PF_BIST_STATUS", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000160ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_BIST_STATUS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_BIST_STATUS bdk_ddf_pf_bist_status_t
-#define bustype_BDK_DDF_PF_BIST_STATUS BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_BIST_STATUS "DDF_PF_BIST_STATUS"
-#define busnum_BDK_DDF_PF_BIST_STATUS 0
-#define arguments_BDK_DDF_PF_BIST_STATUS -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_BIST_STATUS(a) bdk_ddfx_pf_bist_status_t
+#define bustype_BDK_DDFX_PF_BIST_STATUS(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_BIST_STATUS(a) "DDFX_PF_BIST_STATUS"
+#define busnum_BDK_DDFX_PF_BIST_STATUS(a) (a)
+#define arguments_BDK_DDFX_PF_BIST_STATUS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_constants
+ * Register (NCB) ddf#_pf_constants
  *
  * DDF PF Constants Register
  * This register contains implementation-related parameters of DDF in CNXXXX.
@@ -1210,7 +1209,7 @@ static inline uint64_t BDK_DDF_PF_BIST_STATUS_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_constants_s
+    struct bdk_ddfx_pf_constants_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_8_63         : 56;
@@ -1220,26 +1219,25 @@ typedef union
         uint64_t reserved_8_63         : 56;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_constants_s cn; */
-} bdk_ddf_pf_constants_t;
+    /* struct bdk_ddfx_pf_constants_s cn; */
+} bdk_ddfx_pf_constants_t;
 
-#define BDK_DDF_PF_CONSTANTS BDK_DDF_PF_CONSTANTS_FUNC()
-static inline uint64_t BDK_DDF_PF_CONSTANTS_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_CONSTANTS_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_CONSTANTS(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_CONSTANTS(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000000ll;
-    __bdk_csr_fatal("DDF_PF_CONSTANTS", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000000ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_CONSTANTS", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_CONSTANTS bdk_ddf_pf_constants_t
-#define bustype_BDK_DDF_PF_CONSTANTS BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_CONSTANTS "DDF_PF_CONSTANTS"
-#define busnum_BDK_DDF_PF_CONSTANTS 0
-#define arguments_BDK_DDF_PF_CONSTANTS -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_CONSTANTS(a) bdk_ddfx_pf_constants_t
+#define bustype_BDK_DDFX_PF_CONSTANTS(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_CONSTANTS(a) "DDFX_PF_CONSTANTS"
+#define busnum_BDK_DDFX_PF_CONSTANTS(a) (a)
+#define arguments_BDK_DDFX_PF_CONSTANTS(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_diag
+ * Register (NCB) ddf#_pf_diag
  *
  * DDF PF Diagnostic Control Register
  * This register controls diagnostic features.
@@ -1247,7 +1245,7 @@ static inline uint64_t BDK_DDF_PF_CONSTANTS_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_diag_s
+    struct bdk_ddfx_pf_diag_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_9_63         : 55;
@@ -1263,26 +1261,25 @@ typedef union
         uint64_t reserved_9_63         : 55;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_diag_s cn; */
-} bdk_ddf_pf_diag_t;
+    /* struct bdk_ddfx_pf_diag_s cn; */
+} bdk_ddfx_pf_diag_t;
 
-#define BDK_DDF_PF_DIAG BDK_DDF_PF_DIAG_FUNC()
-static inline uint64_t BDK_DDF_PF_DIAG_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_DIAG_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_DIAG(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_DIAG(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000120ll;
-    __bdk_csr_fatal("DDF_PF_DIAG", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000120ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_DIAG", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_DIAG bdk_ddf_pf_diag_t
-#define bustype_BDK_DDF_PF_DIAG BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_DIAG "DDF_PF_DIAG"
-#define busnum_BDK_DDF_PF_DIAG 0
-#define arguments_BDK_DDF_PF_DIAG -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_DIAG(a) bdk_ddfx_pf_diag_t
+#define bustype_BDK_DDFX_PF_DIAG(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_DIAG(a) "DDFX_PF_DIAG"
+#define busnum_BDK_DDFX_PF_DIAG(a) (a)
+#define arguments_BDK_DDFX_PF_DIAG(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_diag2
+ * Register (NCB) ddf#_pf_diag2
  *
  * DDF PF Diagnostic Control Register 2
  * This register controls diagnostic features.
@@ -1290,7 +1287,7 @@ static inline uint64_t BDK_DDF_PF_DIAG_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_diag2_s
+    struct bdk_ddfx_pf_diag2_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -1300,26 +1297,25 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_diag2_s cn; */
-} bdk_ddf_pf_diag2_t;
+    /* struct bdk_ddfx_pf_diag2_s cn; */
+} bdk_ddfx_pf_diag2_t;
 
-#define BDK_DDF_PF_DIAG2 BDK_DDF_PF_DIAG2_FUNC()
-static inline uint64_t BDK_DDF_PF_DIAG2_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_DIAG2_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_DIAG2(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_DIAG2(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000600ll;
-    __bdk_csr_fatal("DDF_PF_DIAG2", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000600ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_DIAG2", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_DIAG2 bdk_ddf_pf_diag2_t
-#define bustype_BDK_DDF_PF_DIAG2 BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_DIAG2 "DDF_PF_DIAG2"
-#define busnum_BDK_DDF_PF_DIAG2 0
-#define arguments_BDK_DDF_PF_DIAG2 -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_DIAG2(a) bdk_ddfx_pf_diag2_t
+#define bustype_BDK_DDFX_PF_DIAG2(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_DIAG2(a) "DDFX_PF_DIAG2"
+#define busnum_BDK_DDFX_PF_DIAG2(a) (a)
+#define arguments_BDK_DDFX_PF_DIAG2(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_ecc0_ctl
+ * Register (NCB) ddf#_pf_ecc0_ctl
  *
  * DDF PF ECC Control Register
  * This register enables ECC for each individual internal memory that requires ECC. For debug
@@ -1328,7 +1324,7 @@ static inline uint64_t BDK_DDF_PF_DIAG2_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_ecc0_ctl_s
+    struct bdk_ddfx_pf_ecc0_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -1338,26 +1334,25 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_ecc0_ctl_s cn; */
-} bdk_ddf_pf_ecc0_ctl_t;
+    /* struct bdk_ddfx_pf_ecc0_ctl_s cn; */
+} bdk_ddfx_pf_ecc0_ctl_t;
 
-#define BDK_DDF_PF_ECC0_CTL BDK_DDF_PF_ECC0_CTL_FUNC()
-static inline uint64_t BDK_DDF_PF_ECC0_CTL_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_ECC0_CTL_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_ECC0_CTL(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_ECC0_CTL(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000200ll;
-    __bdk_csr_fatal("DDF_PF_ECC0_CTL", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000200ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_ECC0_CTL", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_ECC0_CTL bdk_ddf_pf_ecc0_ctl_t
-#define bustype_BDK_DDF_PF_ECC0_CTL BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_ECC0_CTL "DDF_PF_ECC0_CTL"
-#define busnum_BDK_DDF_PF_ECC0_CTL 0
-#define arguments_BDK_DDF_PF_ECC0_CTL -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_ECC0_CTL(a) bdk_ddfx_pf_ecc0_ctl_t
+#define bustype_BDK_DDFX_PF_ECC0_CTL(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_ECC0_CTL(a) "DDFX_PF_ECC0_CTL"
+#define busnum_BDK_DDFX_PF_ECC0_CTL(a) (a)
+#define arguments_BDK_DDFX_PF_ECC0_CTL(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_ecc0_ena_w1c
+ * Register (NCB) ddf#_pf_ecc0_ena_w1c
  *
  * DDF ECC Enable Clear Register
  * This register clears interrupt enable bits.
@@ -1365,36 +1360,35 @@ static inline uint64_t BDK_DDF_PF_ECC0_CTL_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_ecc0_ena_w1c_s
+    struct bdk_ddfx_pf_ecc0_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1C/H) Reads or clears enable for DDF_PF_ECC0_INT[DBE]. */
-        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for DDF_PF_ECC0_INT[SBE]. */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1C/H) Reads or clears enable for DDF(0)_PF_ECC0_INT[DBE]. */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for DDF(0)_PF_ECC0_INT[SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for DDF_PF_ECC0_INT[SBE]. */
-        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1C/H) Reads or clears enable for DDF_PF_ECC0_INT[DBE]. */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1C/H) Reads or clears enable for DDF(0)_PF_ECC0_INT[SBE]. */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1C/H) Reads or clears enable for DDF(0)_PF_ECC0_INT[DBE]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_ecc0_ena_w1c_s cn; */
-} bdk_ddf_pf_ecc0_ena_w1c_t;
+    /* struct bdk_ddfx_pf_ecc0_ena_w1c_s cn; */
+} bdk_ddfx_pf_ecc0_ena_w1c_t;
 
-#define BDK_DDF_PF_ECC0_ENA_W1C BDK_DDF_PF_ECC0_ENA_W1C_FUNC()
-static inline uint64_t BDK_DDF_PF_ECC0_ENA_W1C_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_ECC0_ENA_W1C_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1C(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000250ll;
-    __bdk_csr_fatal("DDF_PF_ECC0_ENA_W1C", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000250ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_ECC0_ENA_W1C", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_ECC0_ENA_W1C bdk_ddf_pf_ecc0_ena_w1c_t
-#define bustype_BDK_DDF_PF_ECC0_ENA_W1C BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_ECC0_ENA_W1C "DDF_PF_ECC0_ENA_W1C"
-#define busnum_BDK_DDF_PF_ECC0_ENA_W1C 0
-#define arguments_BDK_DDF_PF_ECC0_ENA_W1C -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_ECC0_ENA_W1C(a) bdk_ddfx_pf_ecc0_ena_w1c_t
+#define bustype_BDK_DDFX_PF_ECC0_ENA_W1C(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_ECC0_ENA_W1C(a) "DDFX_PF_ECC0_ENA_W1C"
+#define busnum_BDK_DDFX_PF_ECC0_ENA_W1C(a) (a)
+#define arguments_BDK_DDFX_PF_ECC0_ENA_W1C(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_ecc0_ena_w1s
+ * Register (NCB) ddf#_pf_ecc0_ena_w1s
  *
  * DDF ECC Enable Set Register
  * This register sets interrupt enable bits.
@@ -1402,36 +1396,35 @@ static inline uint64_t BDK_DDF_PF_ECC0_ENA_W1C_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_ecc0_ena_w1s_s
+    struct bdk_ddfx_pf_ecc0_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets enable for DDF_PF_ECC0_INT[DBE]. */
-        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for DDF_PF_ECC0_INT[SBE]. */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets enable for DDF(0)_PF_ECC0_INT[DBE]. */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for DDF(0)_PF_ECC0_INT[SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for DDF_PF_ECC0_INT[SBE]. */
-        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets enable for DDF_PF_ECC0_INT[DBE]. */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets enable for DDF(0)_PF_ECC0_INT[SBE]. */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets enable for DDF(0)_PF_ECC0_INT[DBE]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_ecc0_ena_w1s_s cn; */
-} bdk_ddf_pf_ecc0_ena_w1s_t;
+    /* struct bdk_ddfx_pf_ecc0_ena_w1s_s cn; */
+} bdk_ddfx_pf_ecc0_ena_w1s_t;
 
-#define BDK_DDF_PF_ECC0_ENA_W1S BDK_DDF_PF_ECC0_ENA_W1S_FUNC()
-static inline uint64_t BDK_DDF_PF_ECC0_ENA_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_ECC0_ENA_W1S_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_ECC0_ENA_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000240ll;
-    __bdk_csr_fatal("DDF_PF_ECC0_ENA_W1S", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000240ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_ECC0_ENA_W1S", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_ECC0_ENA_W1S bdk_ddf_pf_ecc0_ena_w1s_t
-#define bustype_BDK_DDF_PF_ECC0_ENA_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_ECC0_ENA_W1S "DDF_PF_ECC0_ENA_W1S"
-#define busnum_BDK_DDF_PF_ECC0_ENA_W1S 0
-#define arguments_BDK_DDF_PF_ECC0_ENA_W1S -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_ECC0_ENA_W1S(a) bdk_ddfx_pf_ecc0_ena_w1s_t
+#define bustype_BDK_DDFX_PF_ECC0_ENA_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_ECC0_ENA_W1S(a) "DDFX_PF_ECC0_ENA_W1S"
+#define busnum_BDK_DDFX_PF_ECC0_ENA_W1S(a) (a)
+#define arguments_BDK_DDFX_PF_ECC0_ENA_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_ecc0_flip
+ * Register (NCB) ddf#_pf_ecc0_flip
  *
  * DDF PF ECC Flip Syndrome Register
  * This register enables ECC for each individual internal memory that requires ECC. For debug
@@ -1440,7 +1433,7 @@ static inline uint64_t BDK_DDF_PF_ECC0_ENA_W1S_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_ecc0_flip_s
+    struct bdk_ddfx_pf_ecc0_flip_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t flip1                 : 32; /**< [ 63: 32](R/W) Flips syndome bit 1 on writes.  Bit positions enumerated with DDF_RAMS_E. */
@@ -1450,26 +1443,25 @@ typedef union
         uint64_t flip1                 : 32; /**< [ 63: 32](R/W) Flips syndome bit 1 on writes.  Bit positions enumerated with DDF_RAMS_E. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_ecc0_flip_s cn; */
-} bdk_ddf_pf_ecc0_flip_t;
+    /* struct bdk_ddfx_pf_ecc0_flip_s cn; */
+} bdk_ddfx_pf_ecc0_flip_t;
 
-#define BDK_DDF_PF_ECC0_FLIP BDK_DDF_PF_ECC0_FLIP_FUNC()
-static inline uint64_t BDK_DDF_PF_ECC0_FLIP_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_ECC0_FLIP_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_ECC0_FLIP(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_ECC0_FLIP(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000210ll;
-    __bdk_csr_fatal("DDF_PF_ECC0_FLIP", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000210ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_ECC0_FLIP", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_ECC0_FLIP bdk_ddf_pf_ecc0_flip_t
-#define bustype_BDK_DDF_PF_ECC0_FLIP BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_ECC0_FLIP "DDF_PF_ECC0_FLIP"
-#define busnum_BDK_DDF_PF_ECC0_FLIP 0
-#define arguments_BDK_DDF_PF_ECC0_FLIP -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_ECC0_FLIP(a) bdk_ddfx_pf_ecc0_flip_t
+#define bustype_BDK_DDFX_PF_ECC0_FLIP(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_ECC0_FLIP(a) "DDFX_PF_ECC0_FLIP"
+#define busnum_BDK_DDFX_PF_ECC0_FLIP(a) (a)
+#define arguments_BDK_DDFX_PF_ECC0_FLIP(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_ecc0_int
+ * Register (NCB) ddf#_pf_ecc0_int
  *
  * DDF ECC Interrupt Status Register
  * This register contains the status of the ECC interrupt sources.
@@ -1477,7 +1469,7 @@ static inline uint64_t BDK_DDF_PF_ECC0_FLIP_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_ecc0_int_s
+    struct bdk_ddfx_pf_ecc0_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t dbe                   : 32; /**< [ 63: 32](R/W1C/H) Double-bit error detected in internal RAM. One bit per memory, enumerated by
@@ -1491,26 +1483,25 @@ typedef union
                                                                  DDF_RAMS_E. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_ecc0_int_s cn; */
-} bdk_ddf_pf_ecc0_int_t;
+    /* struct bdk_ddfx_pf_ecc0_int_s cn; */
+} bdk_ddfx_pf_ecc0_int_t;
 
-#define BDK_DDF_PF_ECC0_INT BDK_DDF_PF_ECC0_INT_FUNC()
-static inline uint64_t BDK_DDF_PF_ECC0_INT_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_ECC0_INT_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_ECC0_INT(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_ECC0_INT(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000220ll;
-    __bdk_csr_fatal("DDF_PF_ECC0_INT", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000220ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_ECC0_INT", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_ECC0_INT bdk_ddf_pf_ecc0_int_t
-#define bustype_BDK_DDF_PF_ECC0_INT BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_ECC0_INT "DDF_PF_ECC0_INT"
-#define busnum_BDK_DDF_PF_ECC0_INT 0
-#define arguments_BDK_DDF_PF_ECC0_INT -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_ECC0_INT(a) bdk_ddfx_pf_ecc0_int_t
+#define bustype_BDK_DDFX_PF_ECC0_INT(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_ECC0_INT(a) "DDFX_PF_ECC0_INT"
+#define busnum_BDK_DDFX_PF_ECC0_INT(a) (a)
+#define arguments_BDK_DDFX_PF_ECC0_INT(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_ecc0_int_w1s
+ * Register (NCB) ddf#_pf_ecc0_int_w1s
  *
  * DDF ECC Interrupt Set Register
  * This register sets interrupt bits.
@@ -1518,43 +1509,42 @@ static inline uint64_t BDK_DDF_PF_ECC0_INT_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_ecc0_int_w1s_s
+    struct bdk_ddfx_pf_ecc0_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets DDF_PF_ECC0_INT[DBE]. */
-        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets DDF_PF_ECC0_INT[SBE]. */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets DDF(0)_PF_ECC0_INT[DBE]. */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets DDF(0)_PF_ECC0_INT[SBE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets DDF_PF_ECC0_INT[SBE]. */
-        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets DDF_PF_ECC0_INT[DBE]. */
+        uint64_t sbe                   : 32; /**< [ 31:  0](R/W1S/H) Reads or sets DDF(0)_PF_ECC0_INT[SBE]. */
+        uint64_t dbe                   : 32; /**< [ 63: 32](R/W1S/H) Reads or sets DDF(0)_PF_ECC0_INT[DBE]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_ecc0_int_w1s_s cn; */
-} bdk_ddf_pf_ecc0_int_w1s_t;
+    /* struct bdk_ddfx_pf_ecc0_int_w1s_s cn; */
+} bdk_ddfx_pf_ecc0_int_w1s_t;
 
-#define BDK_DDF_PF_ECC0_INT_W1S BDK_DDF_PF_ECC0_INT_W1S_FUNC()
-static inline uint64_t BDK_DDF_PF_ECC0_INT_W1S_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_ECC0_INT_W1S_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_ECC0_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_ECC0_INT_W1S(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000230ll;
-    __bdk_csr_fatal("DDF_PF_ECC0_INT_W1S", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000230ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_ECC0_INT_W1S", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_ECC0_INT_W1S bdk_ddf_pf_ecc0_int_w1s_t
-#define bustype_BDK_DDF_PF_ECC0_INT_W1S BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_ECC0_INT_W1S "DDF_PF_ECC0_INT_W1S"
-#define busnum_BDK_DDF_PF_ECC0_INT_W1S 0
-#define arguments_BDK_DDF_PF_ECC0_INT_W1S -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_ECC0_INT_W1S(a) bdk_ddfx_pf_ecc0_int_w1s_t
+#define bustype_BDK_DDFX_PF_ECC0_INT_W1S(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_ECC0_INT_W1S(a) "DDFX_PF_ECC0_INT_W1S"
+#define busnum_BDK_DDFX_PF_ECC0_INT_W1S(a) (a)
+#define arguments_BDK_DDFX_PF_ECC0_INT_W1S(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_eco
+ * Register (NCB) ddf#_pf_eco
  *
  * INTERNAL: DDF PF ECO Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_eco_s
+    struct bdk_ddfx_pf_eco_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_32_63        : 32;
@@ -1564,73 +1554,71 @@ typedef union
         uint64_t reserved_32_63        : 32;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_eco_s cn; */
-} bdk_ddf_pf_eco_t;
+    /* struct bdk_ddfx_pf_eco_s cn; */
+} bdk_ddfx_pf_eco_t;
 
-#define BDK_DDF_PF_ECO BDK_DDF_PF_ECO_FUNC()
-static inline uint64_t BDK_DDF_PF_ECO_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_ECO_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_ECO(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_ECO(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000140ll;
-    __bdk_csr_fatal("DDF_PF_ECO", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000140ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_ECO", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_ECO bdk_ddf_pf_eco_t
-#define bustype_BDK_DDF_PF_ECO BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_ECO "DDF_PF_ECO"
-#define busnum_BDK_DDF_PF_ECO 0
-#define arguments_BDK_DDF_PF_ECO -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_ECO(a) bdk_ddfx_pf_eco_t
+#define bustype_BDK_DDFX_PF_ECO(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_ECO(a) "DDFX_PF_ECO"
+#define busnum_BDK_DDFX_PF_ECO(a) (a)
+#define arguments_BDK_DDFX_PF_ECO(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_inst_latency_pc
+ * Register (NCB) ddf#_pf_inst_latency_pc
  *
  * DDF PF Instruction Latency Counter Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_inst_latency_pc_s
+    struct bdk_ddfx_pf_inst_latency_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for an instruction to complete (have the store of
                                                                  DDF_RES_S reach the commit point). Incremented every coprocessor-clock by the
                                                                  number of instructions active in that cycle. This may be divided by
-                                                                 DDF_PF_RD_REQ_PC to determine the average hardware instruction latency. */
+                                                                 DDF()_PF_RD_REQ_PC to determine the average hardware instruction latency. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for an instruction to complete (have the store of
                                                                  DDF_RES_S reach the commit point). Incremented every coprocessor-clock by the
                                                                  number of instructions active in that cycle. This may be divided by
-                                                                 DDF_PF_RD_REQ_PC to determine the average hardware instruction latency. */
+                                                                 DDF()_PF_RD_REQ_PC to determine the average hardware instruction latency. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_inst_latency_pc_s cn; */
-} bdk_ddf_pf_inst_latency_pc_t;
+    /* struct bdk_ddfx_pf_inst_latency_pc_s cn; */
+} bdk_ddfx_pf_inst_latency_pc_t;
 
-#define BDK_DDF_PF_INST_LATENCY_PC BDK_DDF_PF_INST_LATENCY_PC_FUNC()
-static inline uint64_t BDK_DDF_PF_INST_LATENCY_PC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_INST_LATENCY_PC_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_INST_LATENCY_PC(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_INST_LATENCY_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000010020ll;
-    __bdk_csr_fatal("DDF_PF_INST_LATENCY_PC", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000010020ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_INST_LATENCY_PC", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_INST_LATENCY_PC bdk_ddf_pf_inst_latency_pc_t
-#define bustype_BDK_DDF_PF_INST_LATENCY_PC BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_INST_LATENCY_PC "DDF_PF_INST_LATENCY_PC"
-#define busnum_BDK_DDF_PF_INST_LATENCY_PC 0
-#define arguments_BDK_DDF_PF_INST_LATENCY_PC -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_INST_LATENCY_PC(a) bdk_ddfx_pf_inst_latency_pc_t
+#define bustype_BDK_DDFX_PF_INST_LATENCY_PC(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_INST_LATENCY_PC(a) "DDFX_PF_INST_LATENCY_PC"
+#define busnum_BDK_DDFX_PF_INST_LATENCY_PC(a) (a)
+#define arguments_BDK_DDFX_PF_INST_LATENCY_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_inst_req_pc
+ * Register (NCB) ddf#_pf_inst_req_pc
  *
  * DDF PF Instruction Request Performance Counter Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_inst_req_pc_s
+    struct bdk_ddfx_pf_inst_req_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of instructions that have started processing. */
@@ -1638,26 +1626,25 @@ typedef union
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of instructions that have started processing. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_inst_req_pc_s cn; */
-} bdk_ddf_pf_inst_req_pc_t;
+    /* struct bdk_ddfx_pf_inst_req_pc_s cn; */
+} bdk_ddfx_pf_inst_req_pc_t;
 
-#define BDK_DDF_PF_INST_REQ_PC BDK_DDF_PF_INST_REQ_PC_FUNC()
-static inline uint64_t BDK_DDF_PF_INST_REQ_PC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_INST_REQ_PC_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_INST_REQ_PC(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_INST_REQ_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000010000ll;
-    __bdk_csr_fatal("DDF_PF_INST_REQ_PC", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000010000ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_INST_REQ_PC", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_INST_REQ_PC bdk_ddf_pf_inst_req_pc_t
-#define bustype_BDK_DDF_PF_INST_REQ_PC BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_INST_REQ_PC "DDF_PF_INST_REQ_PC"
-#define busnum_BDK_DDF_PF_INST_REQ_PC 0
-#define arguments_BDK_DDF_PF_INST_REQ_PC -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_INST_REQ_PC(a) bdk_ddfx_pf_inst_req_pc_t
+#define bustype_BDK_DDFX_PF_INST_REQ_PC(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_INST_REQ_PC(a) "DDFX_PF_INST_REQ_PC"
+#define busnum_BDK_DDFX_PF_INST_REQ_PC(a) (a)
+#define arguments_BDK_DDFX_PF_INST_REQ_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_mbox_ena_w1c#
+ * Register (NCB) ddf#_pf_mbox_ena_w1c#
  *
  * DDF PF Mailbox Enable Clear Registers
  * This register clears interrupt enable bits.
@@ -1665,33 +1652,33 @@ static inline uint64_t BDK_DDF_PF_INST_REQ_PC_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_mbox_ena_w1cx_s
+    struct bdk_ddfx_pf_mbox_ena_w1cx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for DDF_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for DDF(0)_PF_MBOX_INT(0)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for DDF_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) Reads or clears enable for DDF(0)_PF_MBOX_INT(0)[MBOX]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_mbox_ena_w1cx_s cn; */
-} bdk_ddf_pf_mbox_ena_w1cx_t;
+    /* struct bdk_ddfx_pf_mbox_ena_w1cx_s cn; */
+} bdk_ddfx_pf_mbox_ena_w1cx_t;
 
-static inline uint64_t BDK_DDF_PF_MBOX_ENA_W1CX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_MBOX_ENA_W1CX(unsigned long a)
+static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1CX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000440ll + 8ll * ((a) & 0x0);
-    __bdk_csr_fatal("DDF_PF_MBOX_ENA_W1CX", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
+        return 0x809000000440ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_MBOX_ENA_W1CX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_MBOX_ENA_W1CX(a) bdk_ddf_pf_mbox_ena_w1cx_t
-#define bustype_BDK_DDF_PF_MBOX_ENA_W1CX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_MBOX_ENA_W1CX(a) "DDF_PF_MBOX_ENA_W1CX"
-#define busnum_BDK_DDF_PF_MBOX_ENA_W1CX(a) (a)
-#define arguments_BDK_DDF_PF_MBOX_ENA_W1CX(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_PF_MBOX_ENA_W1CX(a,b) bdk_ddfx_pf_mbox_ena_w1cx_t
+#define bustype_BDK_DDFX_PF_MBOX_ENA_W1CX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_MBOX_ENA_W1CX(a,b) "DDFX_PF_MBOX_ENA_W1CX"
+#define busnum_BDK_DDFX_PF_MBOX_ENA_W1CX(a,b) (a)
+#define arguments_BDK_DDFX_PF_MBOX_ENA_W1CX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_pf_mbox_ena_w1s#
+ * Register (NCB) ddf#_pf_mbox_ena_w1s#
  *
  * DDF PF Mailbox Enable Set Registers
  * This register sets interrupt enable bits.
@@ -1699,68 +1686,68 @@ static inline uint64_t BDK_DDF_PF_MBOX_ENA_W1CX(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_mbox_ena_w1sx_s
+    struct bdk_ddfx_pf_mbox_ena_w1sx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for DDF_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for DDF(0)_PF_MBOX_INT(0)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for DDF_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets enable for DDF(0)_PF_MBOX_INT(0)[MBOX]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_mbox_ena_w1sx_s cn; */
-} bdk_ddf_pf_mbox_ena_w1sx_t;
+    /* struct bdk_ddfx_pf_mbox_ena_w1sx_s cn; */
+} bdk_ddfx_pf_mbox_ena_w1sx_t;
 
-static inline uint64_t BDK_DDF_PF_MBOX_ENA_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_MBOX_ENA_W1SX(unsigned long a)
+static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_MBOX_ENA_W1SX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000460ll + 8ll * ((a) & 0x0);
-    __bdk_csr_fatal("DDF_PF_MBOX_ENA_W1SX", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
+        return 0x809000000460ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_MBOX_ENA_W1SX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_MBOX_ENA_W1SX(a) bdk_ddf_pf_mbox_ena_w1sx_t
-#define bustype_BDK_DDF_PF_MBOX_ENA_W1SX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_MBOX_ENA_W1SX(a) "DDF_PF_MBOX_ENA_W1SX"
-#define busnum_BDK_DDF_PF_MBOX_ENA_W1SX(a) (a)
-#define arguments_BDK_DDF_PF_MBOX_ENA_W1SX(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_PF_MBOX_ENA_W1SX(a,b) bdk_ddfx_pf_mbox_ena_w1sx_t
+#define bustype_BDK_DDFX_PF_MBOX_ENA_W1SX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_MBOX_ENA_W1SX(a,b) "DDFX_PF_MBOX_ENA_W1SX"
+#define busnum_BDK_DDFX_PF_MBOX_ENA_W1SX(a,b) (a)
+#define arguments_BDK_DDFX_PF_MBOX_ENA_W1SX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_pf_mbox_int#
+ * Register (NCB) ddf#_pf_mbox_int#
  *
  * DDF PF Mailbox Interrupt Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_mbox_intx_s
+    struct bdk_ddfx_pf_mbox_intx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 DDF_VF(0..31)_PF_MBOX(1) is written. */
+                                                                 DDF(0)_VF(0..31)_PF_MBOX(1) is written. */
 #else /* Word 0 - Little Endian */
         uint64_t mbox                  : 64; /**< [ 63:  0](R/W1C/H) One interrupt bit per VF. Each bit is set when the associated
-                                                                 DDF_VF(0..31)_PF_MBOX(1) is written. */
+                                                                 DDF(0)_VF(0..31)_PF_MBOX(1) is written. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_mbox_intx_s cn; */
-} bdk_ddf_pf_mbox_intx_t;
+    /* struct bdk_ddfx_pf_mbox_intx_s cn; */
+} bdk_ddfx_pf_mbox_intx_t;
 
-static inline uint64_t BDK_DDF_PF_MBOX_INTX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_MBOX_INTX(unsigned long a)
+static inline uint64_t BDK_DDFX_PF_MBOX_INTX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_MBOX_INTX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000400ll + 8ll * ((a) & 0x0);
-    __bdk_csr_fatal("DDF_PF_MBOX_INTX", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
+        return 0x809000000400ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_MBOX_INTX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_MBOX_INTX(a) bdk_ddf_pf_mbox_intx_t
-#define bustype_BDK_DDF_PF_MBOX_INTX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_MBOX_INTX(a) "DDF_PF_MBOX_INTX"
-#define busnum_BDK_DDF_PF_MBOX_INTX(a) (a)
-#define arguments_BDK_DDF_PF_MBOX_INTX(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_PF_MBOX_INTX(a,b) bdk_ddfx_pf_mbox_intx_t
+#define bustype_BDK_DDFX_PF_MBOX_INTX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_MBOX_INTX(a,b) "DDFX_PF_MBOX_INTX"
+#define busnum_BDK_DDFX_PF_MBOX_INTX(a,b) (a)
+#define arguments_BDK_DDFX_PF_MBOX_INTX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_pf_mbox_int_w1s#
+ * Register (NCB) ddf#_pf_mbox_int_w1s#
  *
  * DDF PF Mailbox Interrupt Set Registers
  * This register sets interrupt bits.
@@ -1768,33 +1755,33 @@ static inline uint64_t BDK_DDF_PF_MBOX_INTX(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_mbox_int_w1sx_s
+    struct bdk_ddfx_pf_mbox_int_w1sx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets DDF_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets DDF(0)_PF_MBOX_INT(0)[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets DDF_PF_MBOX_INT(0)[MBOX]. */
+        uint64_t mbox                  : 64; /**< [ 63:  0](R/W1S/H) Reads or sets DDF(0)_PF_MBOX_INT(0)[MBOX]. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_mbox_int_w1sx_s cn; */
-} bdk_ddf_pf_mbox_int_w1sx_t;
+    /* struct bdk_ddfx_pf_mbox_int_w1sx_s cn; */
+} bdk_ddfx_pf_mbox_int_w1sx_t;
 
-static inline uint64_t BDK_DDF_PF_MBOX_INT_W1SX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_MBOX_INT_W1SX(unsigned long a)
+static inline uint64_t BDK_DDFX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_MBOX_INT_W1SX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x809000000420ll + 8ll * ((a) & 0x0);
-    __bdk_csr_fatal("DDF_PF_MBOX_INT_W1SX", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
+        return 0x809000000420ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_MBOX_INT_W1SX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_MBOX_INT_W1SX(a) bdk_ddf_pf_mbox_int_w1sx_t
-#define bustype_BDK_DDF_PF_MBOX_INT_W1SX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_MBOX_INT_W1SX(a) "DDF_PF_MBOX_INT_W1SX"
-#define busnum_BDK_DDF_PF_MBOX_INT_W1SX(a) (a)
-#define arguments_BDK_DDF_PF_MBOX_INT_W1SX(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_PF_MBOX_INT_W1SX(a,b) bdk_ddfx_pf_mbox_int_w1sx_t
+#define bustype_BDK_DDFX_PF_MBOX_INT_W1SX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_MBOX_INT_W1SX(a,b) "DDFX_PF_MBOX_INT_W1SX"
+#define busnum_BDK_DDFX_PF_MBOX_INT_W1SX(a,b) (a)
+#define arguments_BDK_DDFX_PF_MBOX_INT_W1SX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_pf_msix_pba#
+ * Register (NCB) ddf#_pf_msix_pba#
  *
  * DDF PF MSI-X Pending-Bit-Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the
@@ -1803,35 +1790,35 @@ static inline uint64_t BDK_DDF_PF_MBOX_INT_W1SX(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_msix_pbax_s
+    struct bdk_ddfx_pf_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DDF_PF_MSIX_VEC()_CTL, enumerated by
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DDF()_PF_MSIX_VEC()_CTL, enumerated by
                                                                  DDF_PF_INT_VEC_E. Bits that have no associated DDF_PF_INT_VEC_E are zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DDF_PF_MSIX_VEC()_CTL, enumerated by
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DDF()_PF_MSIX_VEC()_CTL, enumerated by
                                                                  DDF_PF_INT_VEC_E. Bits that have no associated DDF_PF_INT_VEC_E are zero. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_msix_pbax_s cn; */
-} bdk_ddf_pf_msix_pbax_t;
+    /* struct bdk_ddfx_pf_msix_pbax_s cn; */
+} bdk_ddfx_pf_msix_pbax_t;
 
-static inline uint64_t BDK_DDF_PF_MSIX_PBAX(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_MSIX_PBAX(unsigned long a)
+static inline uint64_t BDK_DDFX_PF_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_MSIX_PBAX(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
-        return 0x8090100f0000ll + 8ll * ((a) & 0x0);
-    __bdk_csr_fatal("DDF_PF_MSIX_PBAX", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b==0)))
+        return 0x8090100f0000ll + 0ll * ((a) & 0x0) + 8ll * ((b) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_MSIX_PBAX", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_MSIX_PBAX(a) bdk_ddf_pf_msix_pbax_t
-#define bustype_BDK_DDF_PF_MSIX_PBAX(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_MSIX_PBAX(a) "DDF_PF_MSIX_PBAX"
-#define busnum_BDK_DDF_PF_MSIX_PBAX(a) (a)
-#define arguments_BDK_DDF_PF_MSIX_PBAX(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_PF_MSIX_PBAX(a,b) bdk_ddfx_pf_msix_pbax_t
+#define bustype_BDK_DDFX_PF_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_MSIX_PBAX(a,b) "DDFX_PF_MSIX_PBAX"
+#define busnum_BDK_DDFX_PF_MSIX_PBAX(a,b) (a)
+#define arguments_BDK_DDFX_PF_MSIX_PBAX(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_pf_msix_vec#_addr
+ * Register (NCB) ddf#_pf_msix_vec#_addr
  *
  * DDF PF MSI-X Vector-Table Address Registers
  * This register is the MSI-X vector table, indexed by the DDF_PF_INT_VEC_E enumeration.
@@ -1839,7 +1826,7 @@ static inline uint64_t BDK_DDF_PF_MSIX_PBAX(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_msix_vecx_addr_s
+    struct bdk_ddfx_pf_msix_vecx_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
@@ -1847,45 +1834,47 @@ typedef union
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's DDF_PF_MSIX_VEC()_ADDR, DDF_PF_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of DDF_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 1 = This vector's DDF(0)_PF_MSIX_VEC()_ADDR, DDF(0)_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of DDF(0)_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world.
 
-                                                                 If PCCPF_DDF_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 If PCCPF_DDF(0)_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
+                                                                 is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](SR/W) Secure vector.
                                                                  0 = This vector may be read or written by either secure or non-secure states.
-                                                                 1 = This vector's DDF_PF_MSIX_VEC()_ADDR, DDF_PF_MSIX_VEC()_CTL, and corresponding
-                                                                 bit of DDF_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
+                                                                 1 = This vector's DDF(0)_PF_MSIX_VEC()_ADDR, DDF(0)_PF_MSIX_VEC()_CTL, and corresponding
+                                                                 bit of DDF(0)_PF_MSIX_PBA() are RAZ/WI and does not cause a fault when accessed
                                                                  by the non-secure world.
 
-                                                                 If PCCPF_DDF_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC]) is
+                                                                 If PCCPF_DDF(0)_VSEC_SCTL[MSIX_SEC] (for documentation, see PCCPF_XXX_VSEC_SCTL[MSIX_SEC])
+                                                                 is
                                                                  set, all vectors are secure and function as if [SECVEC] was set. */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_msix_vecx_addr_s cn; */
-} bdk_ddf_pf_msix_vecx_addr_t;
+    /* struct bdk_ddfx_pf_msix_vecx_addr_s cn; */
+} bdk_ddfx_pf_msix_vecx_addr_t;
 
-static inline uint64_t BDK_DDF_PF_MSIX_VECX_ADDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_MSIX_VECX_ADDR(unsigned long a)
+static inline uint64_t BDK_DDFX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x809010000000ll + 0x10ll * ((a) & 0x1);
-    __bdk_csr_fatal("DDF_PF_MSIX_VECX_ADDR", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
+        return 0x809010000000ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("DDFX_PF_MSIX_VECX_ADDR", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_MSIX_VECX_ADDR(a) bdk_ddf_pf_msix_vecx_addr_t
-#define bustype_BDK_DDF_PF_MSIX_VECX_ADDR(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_MSIX_VECX_ADDR(a) "DDF_PF_MSIX_VECX_ADDR"
-#define busnum_BDK_DDF_PF_MSIX_VECX_ADDR(a) (a)
-#define arguments_BDK_DDF_PF_MSIX_VECX_ADDR(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_PF_MSIX_VECX_ADDR(a,b) bdk_ddfx_pf_msix_vecx_addr_t
+#define bustype_BDK_DDFX_PF_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_MSIX_VECX_ADDR(a,b) "DDFX_PF_MSIX_VECX_ADDR"
+#define busnum_BDK_DDFX_PF_MSIX_VECX_ADDR(a,b) (a)
+#define arguments_BDK_DDFX_PF_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_pf_msix_vec#_ctl
+ * Register (NCB) ddf#_pf_msix_vec#_ctl
  *
  * DDF PF MSI-X Vector-Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the DDF_PF_INT_VEC_E enumeration.
@@ -1893,7 +1882,7 @@ static inline uint64_t BDK_DDF_PF_MSIX_VECX_ADDR(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_msix_vecx_ctl_s
+    struct bdk_ddfx_pf_msix_vecx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
@@ -1907,25 +1896,25 @@ typedef union
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_msix_vecx_ctl_s cn; */
-} bdk_ddf_pf_msix_vecx_ctl_t;
+    /* struct bdk_ddfx_pf_msix_vecx_ctl_s cn; */
+} bdk_ddfx_pf_msix_vecx_ctl_t;
 
-static inline uint64_t BDK_DDF_PF_MSIX_VECX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_MSIX_VECX_CTL(unsigned long a)
+static inline uint64_t BDK_DDFX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_MSIX_VECX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
-        return 0x809010000008ll + 0x10ll * ((a) & 0x1);
-    __bdk_csr_fatal("DDF_PF_MSIX_VECX_CTL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=1)))
+        return 0x809010000008ll + 0ll * ((a) & 0x0) + 0x10ll * ((b) & 0x1);
+    __bdk_csr_fatal("DDFX_PF_MSIX_VECX_CTL", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_MSIX_VECX_CTL(a) bdk_ddf_pf_msix_vecx_ctl_t
-#define bustype_BDK_DDF_PF_MSIX_VECX_CTL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_MSIX_VECX_CTL(a) "DDF_PF_MSIX_VECX_CTL"
-#define busnum_BDK_DDF_PF_MSIX_VECX_CTL(a) (a)
-#define arguments_BDK_DDF_PF_MSIX_VECX_CTL(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_PF_MSIX_VECX_CTL(a,b) bdk_ddfx_pf_msix_vecx_ctl_t
+#define bustype_BDK_DDFX_PF_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_MSIX_VECX_CTL(a,b) "DDFX_PF_MSIX_VECX_CTL"
+#define busnum_BDK_DDFX_PF_MSIX_VECX_CTL(a,b) (a)
+#define arguments_BDK_DDFX_PF_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_pf_q#_ctl
+ * Register (NCB) ddf#_pf_q#_ctl
  *
  * DDF Queue Control Register
  * This register configures queues.
@@ -1933,7 +1922,7 @@ static inline uint64_t BDK_DDF_PF_MSIX_VECX_CTL(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_qx_ctl_s
+    struct bdk_ddfx_pf_qx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
@@ -1949,25 +1938,25 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_qx_ctl_s cn; */
-} bdk_ddf_pf_qx_ctl_t;
+    /* struct bdk_ddfx_pf_qx_ctl_s cn; */
+} bdk_ddfx_pf_qx_ctl_t;
 
-static inline uint64_t BDK_DDF_PF_QX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_QX_CTL(unsigned long a)
+static inline uint64_t BDK_DDFX_PF_QX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_QX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809008000000ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_PF_QX_CTL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809008000000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_PF_QX_CTL", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_QX_CTL(a) bdk_ddf_pf_qx_ctl_t
-#define bustype_BDK_DDF_PF_QX_CTL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_QX_CTL(a) "DDF_PF_QX_CTL"
-#define busnum_BDK_DDF_PF_QX_CTL(a) (a)
-#define arguments_BDK_DDF_PF_QX_CTL(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_PF_QX_CTL(a,b) bdk_ddfx_pf_qx_ctl_t
+#define bustype_BDK_DDFX_PF_QX_CTL(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_QX_CTL(a,b) "DDFX_PF_QX_CTL"
+#define busnum_BDK_DDFX_PF_QX_CTL(a,b) (a)
+#define arguments_BDK_DDFX_PF_QX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_pf_q#_gmctl
+ * Register (NCB) ddf#_pf_q#_gmctl
  *
  * DDF Queue Guest Machine Control Register
  * This register configures queues.
@@ -1975,7 +1964,7 @@ static inline uint64_t BDK_DDF_PF_QX_CTL(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_qx_gmctl_s
+    struct bdk_ddfx_pf_qx_gmctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_24_63        : 40;
@@ -1999,70 +1988,69 @@ typedef union
         uint64_t reserved_24_63        : 40;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_qx_gmctl_s cn; */
-} bdk_ddf_pf_qx_gmctl_t;
+    /* struct bdk_ddfx_pf_qx_gmctl_s cn; */
+} bdk_ddfx_pf_qx_gmctl_t;
 
-static inline uint64_t BDK_DDF_PF_QX_GMCTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_QX_GMCTL(unsigned long a)
+static inline uint64_t BDK_DDFX_PF_QX_GMCTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_QX_GMCTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809008000020ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_PF_QX_GMCTL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809008000020ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_PF_QX_GMCTL", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_QX_GMCTL(a) bdk_ddf_pf_qx_gmctl_t
-#define bustype_BDK_DDF_PF_QX_GMCTL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_QX_GMCTL(a) "DDF_PF_QX_GMCTL"
-#define busnum_BDK_DDF_PF_QX_GMCTL(a) (a)
-#define arguments_BDK_DDF_PF_QX_GMCTL(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_PF_QX_GMCTL(a,b) bdk_ddfx_pf_qx_gmctl_t
+#define bustype_BDK_DDFX_PF_QX_GMCTL(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_QX_GMCTL(a,b) "DDFX_PF_QX_GMCTL"
+#define busnum_BDK_DDFX_PF_QX_GMCTL(a,b) (a)
+#define arguments_BDK_DDFX_PF_QX_GMCTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_pf_rd_latency_pc
+ * Register (NCB) ddf#_pf_rd_latency_pc
  *
  * DDF PF Read Latency Counter Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_rd_latency_pc_s
+    struct bdk_ddfx_pf_rd_latency_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for L2C read returns. Incremented every
                                                                  coprocessor-clock by the number of transactions outstanding in that cycle. This
-                                                                 may be divided by DDF_PF_RD_REQ_PC to determine the average read latency. */
+                                                                 may be divided by DDF()_PF_RD_REQ_PC to determine the average read latency. */
 #else /* Word 0 - Little Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of cycles waiting for L2C read returns. Incremented every
                                                                  coprocessor-clock by the number of transactions outstanding in that cycle. This
-                                                                 may be divided by DDF_PF_RD_REQ_PC to determine the average read latency. */
+                                                                 may be divided by DDF()_PF_RD_REQ_PC to determine the average read latency. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_rd_latency_pc_s cn; */
-} bdk_ddf_pf_rd_latency_pc_t;
+    /* struct bdk_ddfx_pf_rd_latency_pc_s cn; */
+} bdk_ddfx_pf_rd_latency_pc_t;
 
-#define BDK_DDF_PF_RD_LATENCY_PC BDK_DDF_PF_RD_LATENCY_PC_FUNC()
-static inline uint64_t BDK_DDF_PF_RD_LATENCY_PC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_RD_LATENCY_PC_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_RD_LATENCY_PC(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_RD_LATENCY_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000010060ll;
-    __bdk_csr_fatal("DDF_PF_RD_LATENCY_PC", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000010060ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_RD_LATENCY_PC", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_RD_LATENCY_PC bdk_ddf_pf_rd_latency_pc_t
-#define bustype_BDK_DDF_PF_RD_LATENCY_PC BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_RD_LATENCY_PC "DDF_PF_RD_LATENCY_PC"
-#define busnum_BDK_DDF_PF_RD_LATENCY_PC 0
-#define arguments_BDK_DDF_PF_RD_LATENCY_PC -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_RD_LATENCY_PC(a) bdk_ddfx_pf_rd_latency_pc_t
+#define bustype_BDK_DDFX_PF_RD_LATENCY_PC(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_RD_LATENCY_PC(a) "DDFX_PF_RD_LATENCY_PC"
+#define busnum_BDK_DDFX_PF_RD_LATENCY_PC(a) (a)
+#define arguments_BDK_DDFX_PF_RD_LATENCY_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_rd_req_pc
+ * Register (NCB) ddf#_pf_rd_req_pc
  *
  * DDF PF Read Request Performance Counter Register
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_rd_req_pc_s
+    struct bdk_ddfx_pf_rd_req_pc_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of L2C read requests. */
@@ -2070,26 +2058,25 @@ typedef union
         uint64_t count                 : 64; /**< [ 63:  0](R/W/H) Number of L2C read requests. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_rd_req_pc_s cn; */
-} bdk_ddf_pf_rd_req_pc_t;
+    /* struct bdk_ddfx_pf_rd_req_pc_s cn; */
+} bdk_ddfx_pf_rd_req_pc_t;
 
-#define BDK_DDF_PF_RD_REQ_PC BDK_DDF_PF_RD_REQ_PC_FUNC()
-static inline uint64_t BDK_DDF_PF_RD_REQ_PC_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_RD_REQ_PC_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_RD_REQ_PC(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_RD_REQ_PC(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000010040ll;
-    __bdk_csr_fatal("DDF_PF_RD_REQ_PC", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000010040ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_RD_REQ_PC", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_RD_REQ_PC bdk_ddf_pf_rd_req_pc_t
-#define bustype_BDK_DDF_PF_RD_REQ_PC BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_RD_REQ_PC "DDF_PF_RD_REQ_PC"
-#define busnum_BDK_DDF_PF_RD_REQ_PC 0
-#define arguments_BDK_DDF_PF_RD_REQ_PC -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_RD_REQ_PC(a) bdk_ddfx_pf_rd_req_pc_t
+#define bustype_BDK_DDFX_PF_RD_REQ_PC(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_RD_REQ_PC(a) "DDFX_PF_RD_REQ_PC"
+#define busnum_BDK_DDFX_PF_RD_REQ_PC(a) (a)
+#define arguments_BDK_DDFX_PF_RD_REQ_PC(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_reset
+ * Register (NCB) ddf#_pf_reset
  *
  * DDF PF Reset Register
  * This register controls clock and reset.
@@ -2097,7 +2084,7 @@ static inline uint64_t BDK_DDF_PF_RD_REQ_PC_FUNC(void)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_reset_s
+    struct bdk_ddfx_pf_reset_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -2107,71 +2094,70 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_reset_s cn; */
-} bdk_ddf_pf_reset_t;
+    /* struct bdk_ddfx_pf_reset_s cn; */
+} bdk_ddfx_pf_reset_t;
 
-#define BDK_DDF_PF_RESET BDK_DDF_PF_RESET_FUNC()
-static inline uint64_t BDK_DDF_PF_RESET_FUNC(void) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_RESET_FUNC(void)
+static inline uint64_t BDK_DDFX_PF_RESET(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_RESET(unsigned long a)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
-        return 0x809000000100ll;
-    __bdk_csr_fatal("DDF_PF_RESET", 0, 0, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a==0))
+        return 0x809000000100ll + 0ll * ((a) & 0x0);
+    __bdk_csr_fatal("DDFX_PF_RESET", 1, a, 0, 0, 0);
 }
 
-#define typedef_BDK_DDF_PF_RESET bdk_ddf_pf_reset_t
-#define bustype_BDK_DDF_PF_RESET BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_RESET "DDF_PF_RESET"
-#define busnum_BDK_DDF_PF_RESET 0
-#define arguments_BDK_DDF_PF_RESET -1,-1,-1,-1
+#define typedef_BDK_DDFX_PF_RESET(a) bdk_ddfx_pf_reset_t
+#define bustype_BDK_DDFX_PF_RESET(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_RESET(a) "DDFX_PF_RESET"
+#define busnum_BDK_DDFX_PF_RESET(a) (a)
+#define arguments_BDK_DDFX_PF_RESET(a) (a),-1,-1,-1
 
 /**
- * Register (NCB) ddf_pf_vf#_mbox#
+ * Register (NCB) ddf#_pf_vf#_mbox#
  *
  * DDF PF/VF Mailbox Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_pf_vfx_mboxx_s
+    struct bdk_ddfx_pf_vfx_mboxx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
-                                                                 DDF_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing DDF_PF_VF(0..31)_MBOX(0) (but not
-                                                                 DDF_VF(0..31)_PF_MBOX(0)) will set the corresponding
-                                                                 DDF_VF()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
+                                                                 DDF()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
+                                                                 for VF to PF. Writing DDF(0)_PF_VF(0..31)_MBOX(0) (but not
+                                                                 DDF(0)_VF(0..31)_PF_MBOX(0)) will set the corresponding
+                                                                 DDF()_VF()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These PF registers access the 16-byte-per-VF VF/PF mailbox
                                                                  RAM. Each corresponding VF may access the same storage using
-                                                                 DDF_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
-                                                                 for VF to PF. Writing DDF_PF_VF(0..31)_MBOX(0) (but not
-                                                                 DDF_VF(0..31)_PF_MBOX(0)) will set the corresponding
-                                                                 DDF_VF()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
+                                                                 DDF()_VF()_PF_MBOX(). MBOX(0) is typically used for PF to VF signaling, MBOX(1)
+                                                                 for VF to PF. Writing DDF(0)_PF_VF(0..31)_MBOX(0) (but not
+                                                                 DDF(0)_VF(0..31)_PF_MBOX(0)) will set the corresponding
+                                                                 DDF()_VF()_MISC_INT[MBOX] which if appropriately enabled will send an interrupt
                                                                  to the VF. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_pf_vfx_mboxx_s cn; */
-} bdk_ddf_pf_vfx_mboxx_t;
+    /* struct bdk_ddfx_pf_vfx_mboxx_s cn; */
+} bdk_ddfx_pf_vfx_mboxx_t;
 
-static inline uint64_t BDK_DDF_PF_VFX_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_PF_VFX_MBOXX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_DDFX_PF_VFX_MBOXX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_PF_VFX_MBOXX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=1)))
-        return 0x809008001000ll + 0x100000ll * ((a) & 0x1f) + 0x100ll * ((b) & 0x1);
-    __bdk_csr_fatal("DDF_PF_VFX_MBOXX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31) && (c<=1)))
+        return 0x809008001000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f) + 0x100ll * ((c) & 0x1);
+    __bdk_csr_fatal("DDFX_PF_VFX_MBOXX", 3, a, b, c, 0);
 }
 
-#define typedef_BDK_DDF_PF_VFX_MBOXX(a,b) bdk_ddf_pf_vfx_mboxx_t
-#define bustype_BDK_DDF_PF_VFX_MBOXX(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_PF_VFX_MBOXX(a,b) "DDF_PF_VFX_MBOXX"
-#define busnum_BDK_DDF_PF_VFX_MBOXX(a,b) (a)
-#define arguments_BDK_DDF_PF_VFX_MBOXX(a,b) (a),(b),-1,-1
+#define typedef_BDK_DDFX_PF_VFX_MBOXX(a,b,c) bdk_ddfx_pf_vfx_mboxx_t
+#define bustype_BDK_DDFX_PF_VFX_MBOXX(a,b,c) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_PF_VFX_MBOXX(a,b,c) "DDFX_PF_VFX_MBOXX"
+#define busnum_BDK_DDFX_PF_VFX_MBOXX(a,b,c) (a)
+#define arguments_BDK_DDFX_PF_VFX_MBOXX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) ddf_vf#_msix_pba#
+ * Register (NCB) ddf#_vf#_msix_pba#
  *
  * DDF VF MSI-X Pending-Bit-Array Registers
  * This register is the MSI-X PBA table, the bit number is indexed by the DDF_VF_INT_VEC_E
@@ -2180,35 +2166,35 @@ static inline uint64_t BDK_DDF_PF_VFX_MBOXX(unsigned long a, unsigned long b)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vfx_msix_pbax_s
+    struct bdk_ddfx_vfx_msix_pbax_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DDF_PF_MSIX_VEC()_CTL, enumerated by
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DDF()_PF_MSIX_VEC()_CTL, enumerated by
                                                                  DDF_PF_INT_VEC_E. Bits that have no associated DDF_PF_INT_VEC_E are zero. */
 #else /* Word 0 - Little Endian */
-        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DDF_PF_MSIX_VEC()_CTL, enumerated by
+        uint64_t pend                  : 64; /**< [ 63:  0](RO/H) Pending message for the associated DDF()_PF_MSIX_VEC()_CTL, enumerated by
                                                                  DDF_PF_INT_VEC_E. Bits that have no associated DDF_PF_INT_VEC_E are zero. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vfx_msix_pbax_s cn; */
-} bdk_ddf_vfx_msix_pbax_t;
+    /* struct bdk_ddfx_vfx_msix_pbax_s cn; */
+} bdk_ddfx_vfx_msix_pbax_t;
 
-static inline uint64_t BDK_DDF_VFX_MSIX_PBAX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_DDFX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VFX_MSIX_PBAX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b==0)))
-        return 0x8090300f0000ll + 0x100000ll * ((a) & 0x1f) + 8ll * ((b) & 0x0);
-    __bdk_csr_fatal("DDF_VFX_MSIX_PBAX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31) && (c==0)))
+        return 0x8090300f0000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f) + 8ll * ((c) & 0x0);
+    __bdk_csr_fatal("DDFX_VFX_MSIX_PBAX", 3, a, b, c, 0);
 }
 
-#define typedef_BDK_DDF_VFX_MSIX_PBAX(a,b) bdk_ddf_vfx_msix_pbax_t
-#define bustype_BDK_DDF_VFX_MSIX_PBAX(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VFX_MSIX_PBAX(a,b) "DDF_VFX_MSIX_PBAX"
-#define busnum_BDK_DDF_VFX_MSIX_PBAX(a,b) (a)
-#define arguments_BDK_DDF_VFX_MSIX_PBAX(a,b) (a),(b),-1,-1
+#define typedef_BDK_DDFX_VFX_MSIX_PBAX(a,b,c) bdk_ddfx_vfx_msix_pbax_t
+#define bustype_BDK_DDFX_VFX_MSIX_PBAX(a,b,c) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VFX_MSIX_PBAX(a,b,c) "DDFX_VFX_MSIX_PBAX"
+#define busnum_BDK_DDFX_VFX_MSIX_PBAX(a,b,c) (a)
+#define arguments_BDK_DDFX_VFX_MSIX_PBAX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) ddf_vf#_msix_vec#_addr
+ * Register (NCB) ddf#_vf#_msix_vec#_addr
  *
  * DDF VF MSI-X Vector-Table Address Registers
  * This register is the MSI-X vector table, indexed by the DDF_VF_INT_VEC_E enumeration.
@@ -2216,43 +2202,43 @@ static inline uint64_t BDK_DDF_VFX_MSIX_PBAX(unsigned long a, unsigned long b)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vfx_msix_vecx_addr_s
+    struct bdk_ddfx_vfx_msix_vecx_addr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_1            : 1;
         uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
-                                                                 PCCPF_DDF_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
+                                                                 PCCPF_DDF(0)_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
 #else /* Word 0 - Little Endian */
         uint64_t secvec                : 1;  /**< [  0:  0](RAZ) Secure vector. Zero as not supported on a per-vector basis for VFs; use
-                                                                 PCCPF_DDF_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
+                                                                 PCCPF_DDF(0)_VSEC_SCTL[MSIX_SEC] instead (for documentation, see
                                                                  PCCPF_XXX_VSEC_SCTL[MSIX_SEC]). */
         uint64_t reserved_1            : 1;
         uint64_t addr                  : 47; /**< [ 48:  2](R/W) IOVA to use for MSI-X delivery of this vector. */
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vfx_msix_vecx_addr_s cn; */
-} bdk_ddf_vfx_msix_vecx_addr_t;
+    /* struct bdk_ddfx_vfx_msix_vecx_addr_s cn; */
+} bdk_ddfx_vfx_msix_vecx_addr_t;
 
-static inline uint64_t BDK_DDF_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b)
+static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=1)))
-        return 0x809030000000ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1);
-    __bdk_csr_fatal("DDF_VFX_MSIX_VECX_ADDR", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31) && (c<=1)))
+        return 0x809030000000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f) + 0x10ll * ((c) & 0x1);
+    __bdk_csr_fatal("DDFX_VFX_MSIX_VECX_ADDR", 3, a, b, c, 0);
 }
 
-#define typedef_BDK_DDF_VFX_MSIX_VECX_ADDR(a,b) bdk_ddf_vfx_msix_vecx_addr_t
-#define bustype_BDK_DDF_VFX_MSIX_VECX_ADDR(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VFX_MSIX_VECX_ADDR(a,b) "DDF_VFX_MSIX_VECX_ADDR"
-#define busnum_BDK_DDF_VFX_MSIX_VECX_ADDR(a,b) (a)
-#define arguments_BDK_DDF_VFX_MSIX_VECX_ADDR(a,b) (a),(b),-1,-1
+#define typedef_BDK_DDFX_VFX_MSIX_VECX_ADDR(a,b,c) bdk_ddfx_vfx_msix_vecx_addr_t
+#define bustype_BDK_DDFX_VFX_MSIX_VECX_ADDR(a,b,c) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VFX_MSIX_VECX_ADDR(a,b,c) "DDFX_VFX_MSIX_VECX_ADDR"
+#define busnum_BDK_DDFX_VFX_MSIX_VECX_ADDR(a,b,c) (a)
+#define arguments_BDK_DDFX_VFX_MSIX_VECX_ADDR(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) ddf_vf#_msix_vec#_ctl
+ * Register (NCB) ddf#_vf#_msix_vec#_ctl
  *
  * DDF VF MSI-X Vector-Table Control and Data Registers
  * This register is the MSI-X vector table, indexed by the DDF_VF_INT_VEC_E enumeration.
@@ -2260,7 +2246,7 @@ static inline uint64_t BDK_DDF_VFX_MSIX_VECX_ADDR(unsigned long a, unsigned long
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vfx_msix_vecx_ctl_s
+    struct bdk_ddfx_vfx_msix_vecx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_33_63        : 31;
@@ -2274,68 +2260,68 @@ typedef union
         uint64_t reserved_33_63        : 31;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vfx_msix_vecx_ctl_s cn; */
-} bdk_ddf_vfx_msix_vecx_ctl_t;
+    /* struct bdk_ddfx_vfx_msix_vecx_ctl_s cn; */
+} bdk_ddfx_vfx_msix_vecx_ctl_t;
 
-static inline uint64_t BDK_DDF_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b)
+static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VFX_MSIX_VECX_CTL(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=1)))
-        return 0x809030000008ll + 0x100000ll * ((a) & 0x1f) + 0x10ll * ((b) & 0x1);
-    __bdk_csr_fatal("DDF_VFX_MSIX_VECX_CTL", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31) && (c<=1)))
+        return 0x809030000008ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f) + 0x10ll * ((c) & 0x1);
+    __bdk_csr_fatal("DDFX_VFX_MSIX_VECX_CTL", 3, a, b, c, 0);
 }
 
-#define typedef_BDK_DDF_VFX_MSIX_VECX_CTL(a,b) bdk_ddf_vfx_msix_vecx_ctl_t
-#define bustype_BDK_DDF_VFX_MSIX_VECX_CTL(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VFX_MSIX_VECX_CTL(a,b) "DDF_VFX_MSIX_VECX_CTL"
-#define busnum_BDK_DDF_VFX_MSIX_VECX_CTL(a,b) (a)
-#define arguments_BDK_DDF_VFX_MSIX_VECX_CTL(a,b) (a),(b),-1,-1
+#define typedef_BDK_DDFX_VFX_MSIX_VECX_CTL(a,b,c) bdk_ddfx_vfx_msix_vecx_ctl_t
+#define bustype_BDK_DDFX_VFX_MSIX_VECX_CTL(a,b,c) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VFX_MSIX_VECX_CTL(a,b,c) "DDFX_VFX_MSIX_VECX_CTL"
+#define busnum_BDK_DDFX_VFX_MSIX_VECX_CTL(a,b,c) (a)
+#define arguments_BDK_DDFX_VFX_MSIX_VECX_CTL(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) ddf_vf#_pf_mbox#
+ * Register (NCB) ddf#_vf#_pf_mbox#
  *
  * DDF VF/PF Mailbox Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vfx_pf_mboxx_s
+    struct bdk_ddfx_vfx_pf_mboxx_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
-                                                                 RAM. The PF may access the same storage using DDF_PF_VF()_MBOX(). MBOX(0) is
+                                                                 RAM. The PF may access the same storage using DDF(0)_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 DDF_VF(0..31)_PF_MBOX(1) (but not DDF_PF_VF(0..31)_MBOX(1)) will set the
-                                                                 corresponding DDF_PF_MBOX_INT() bit, which if appropriately enabled will send an
+                                                                 DDF(0)_VF(0..31)_PF_MBOX(1) (but not DDF(0)_PF_VF(0..31)_MBOX(1)) will set the
+                                                                 corresponding DDF(0)_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #else /* Word 0 - Little Endian */
         uint64_t data                  : 64; /**< [ 63:  0](R/W/H) Mailbox data. These VF registers access the 16-byte-per-VF VF/PF mailbox
-                                                                 RAM. The PF may access the same storage using DDF_PF_VF()_MBOX(). MBOX(0) is
+                                                                 RAM. The PF may access the same storage using DDF(0)_PF_VF()_MBOX(). MBOX(0) is
                                                                  typically used for PF to VF signaling, MBOX(1) for VF to PF. Writing
-                                                                 DDF_VF(0..31)_PF_MBOX(1) (but not DDF_PF_VF(0..31)_MBOX(1)) will set the
-                                                                 corresponding DDF_PF_MBOX_INT() bit, which if appropriately enabled will send an
+                                                                 DDF(0)_VF(0..31)_PF_MBOX(1) (but not DDF(0)_PF_VF(0..31)_MBOX(1)) will set the
+                                                                 corresponding DDF(0)_PF_MBOX_INT() bit, which if appropriately enabled will send an
                                                                  interrupt to the PF. */
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vfx_pf_mboxx_s cn; */
-} bdk_ddf_vfx_pf_mboxx_t;
+    /* struct bdk_ddfx_vfx_pf_mboxx_s cn; */
+} bdk_ddfx_vfx_pf_mboxx_t;
 
-static inline uint64_t BDK_DDF_VFX_PF_MBOXX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VFX_PF_MBOXX(unsigned long a, unsigned long b)
+static inline uint64_t BDK_DDFX_VFX_PF_MBOXX(unsigned long a, unsigned long b, unsigned long c) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VFX_PF_MBOXX(unsigned long a, unsigned long b, unsigned long c)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=31) && (b<=1)))
-        return 0x809020001000ll + 0x100000ll * ((a) & 0x1f) + 8ll * ((b) & 0x1);
-    __bdk_csr_fatal("DDF_VFX_PF_MBOXX", 2, a, b, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31) && (c<=1)))
+        return 0x809020001000ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f) + 8ll * ((c) & 0x1);
+    __bdk_csr_fatal("DDFX_VFX_PF_MBOXX", 3, a, b, c, 0);
 }
 
-#define typedef_BDK_DDF_VFX_PF_MBOXX(a,b) bdk_ddf_vfx_pf_mboxx_t
-#define bustype_BDK_DDF_VFX_PF_MBOXX(a,b) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VFX_PF_MBOXX(a,b) "DDF_VFX_PF_MBOXX"
-#define busnum_BDK_DDF_VFX_PF_MBOXX(a,b) (a)
-#define arguments_BDK_DDF_VFX_PF_MBOXX(a,b) (a),(b),-1,-1
+#define typedef_BDK_DDFX_VFX_PF_MBOXX(a,b,c) bdk_ddfx_vfx_pf_mboxx_t
+#define bustype_BDK_DDFX_VFX_PF_MBOXX(a,b,c) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VFX_PF_MBOXX(a,b,c) "DDFX_VFX_PF_MBOXX"
+#define busnum_BDK_DDFX_VFX_PF_MBOXX(a,b,c) (a)
+#define arguments_BDK_DDFX_VFX_PF_MBOXX(a,b,c) (a),(b),(c),-1
 
 /**
- * Register (NCB) ddf_vq#_ctl
+ * Register (NCB) ddf#_vq#_ctl
  *
  * DDF VF Queue Control Registers
  * These registers set the buffer parameters for the instruction queues. When quiescent
@@ -2346,7 +2332,7 @@ static inline uint64_t BDK_DDF_VFX_PF_MBOXX(unsigned long a, unsigned long b)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_ctl_s
+    struct bdk_ddfx_vqx_ctl_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_45_63        : 19;
@@ -2402,25 +2388,25 @@ typedef union
         uint64_t reserved_45_63        : 19;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_ctl_s cn; */
-} bdk_ddf_vqx_ctl_t;
+    /* struct bdk_ddfx_vqx_ctl_s cn; */
+} bdk_ddfx_vqx_ctl_t;
 
-static inline uint64_t BDK_DDF_VQX_CTL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_CTL(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_CTL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_CTL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000100ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_CTL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000100ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_CTL", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_CTL(a) bdk_ddf_vqx_ctl_t
-#define bustype_BDK_DDF_VQX_CTL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_CTL(a) "DDF_VQX_CTL"
-#define busnum_BDK_DDF_VQX_CTL(a) (a)
-#define arguments_BDK_DDF_VQX_CTL(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_CTL(a,b) bdk_ddfx_vqx_ctl_t
+#define bustype_BDK_DDFX_VQX_CTL(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_CTL(a,b) "DDFX_VQX_CTL"
+#define busnum_BDK_DDFX_VQX_CTL(a,b) (a)
+#define arguments_BDK_DDFX_VQX_CTL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_done
+ * Register (NCB) ddf#_vq#_done
  *
  * DDF Queue Done Count Registers
  * These registers contain the per-queue instruction done count.
@@ -2428,33 +2414,33 @@ static inline uint64_t BDK_DDF_VQX_CTL(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_done_s
+    struct bdk_ddfx_vqx_done_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
         uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When DDF_INST_FIND_S/DDF_INST_MATCH_S[DONEINT] set and that
-                                                                 instruction completes, DDF_VQ()_DONE[DONE] is incremented when the instruction
+                                                                 instruction completes, DDF()_VQ()_DONE[DONE] is incremented when the instruction
                                                                  finishes. Write to this field are for diagnostic use only; instead software
-                                                                 writes DDF_VQ()_DONE_ACK with the number of decrements for this field.
+                                                                 writes DDF()_VQ()_DONE_ACK with the number of decrements for this field.
 
                                                                  Interrupts are sent as follows:
 
-                                                                 * When DDF_VQ()_DONE[DONE] = 0, then no results are pending, the interrupt
+                                                                 * When DDF()_VQ()_DONE[DONE] = 0, then no results are pending, the interrupt
                                                                  coalescing timer is held to zero, and an interrupt is not sent.
 
-                                                                 * When DDF_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
-                                                                 counts. If the counter is >= DDF_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
-                                                                 DDF_VQ()_DONE[DONE] >= DDF_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
+                                                                 * When DDF()_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
+                                                                 counts. If the counter is >= DDF()_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
+                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When DDF_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
+                                                                 * When DDF()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 DDF_VQ()_DONE[DONE] >= DDF_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
+                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
                                                                  the interrupt will be resent immediately.  (This covers the race case between
                                                                  software acknowledging an interrupt and a result returning.)
 
-                                                                 * When DDF_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
+                                                                 * When DDF()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
 
                                                                  Since DDF instructions complete out-of-order, if software is using completion
@@ -2464,28 +2450,28 @@ typedef union
                                                                  completion. */
 #else /* Word 0 - Little Endian */
         uint64_t done                  : 20; /**< [ 19:  0](R/W/H) Done count. When DDF_INST_FIND_S/DDF_INST_MATCH_S[DONEINT] set and that
-                                                                 instruction completes, DDF_VQ()_DONE[DONE] is incremented when the instruction
+                                                                 instruction completes, DDF()_VQ()_DONE[DONE] is incremented when the instruction
                                                                  finishes. Write to this field are for diagnostic use only; instead software
-                                                                 writes DDF_VQ()_DONE_ACK with the number of decrements for this field.
+                                                                 writes DDF()_VQ()_DONE_ACK with the number of decrements for this field.
 
                                                                  Interrupts are sent as follows:
 
-                                                                 * When DDF_VQ()_DONE[DONE] = 0, then no results are pending, the interrupt
+                                                                 * When DDF()_VQ()_DONE[DONE] = 0, then no results are pending, the interrupt
                                                                  coalescing timer is held to zero, and an interrupt is not sent.
 
-                                                                 * When DDF_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
-                                                                 counts. If the counter is >= DDF_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
-                                                                 DDF_VQ()_DONE[DONE] >= DDF_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
+                                                                 * When DDF()_VQ()_DONE[DONE] != 0, then the interrupt coalescing timer
+                                                                 counts. If the counter is >= DDF()_VQ()_DONE_WAIT[TIME_WAIT]*1024, or
+                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT], i.e.enough time has
                                                                  passed or enough results have arrived, then the interrupt is sent.  Otherwise,
                                                                  it is not sent due to coalescing.
 
-                                                                 * When DDF_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
+                                                                 * When DDF()_VQ()_DONE_ACK is written, the interrupt coalescing timer restarts.
                                                                  Note after decrementing this interrupt equation is recomputed, for example if
-                                                                 DDF_VQ()_DONE[DONE] >= DDF_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
+                                                                 DDF()_VQ()_DONE[DONE] >= DDF()_VQ()_DONE_WAIT[NUM_WAIT] and the timer is zero,
                                                                  the interrupt will be resent immediately.  (This covers the race case between
                                                                  software acknowledging an interrupt and a result returning.)
 
-                                                                 * When DDF_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
+                                                                 * When DDF()_VQ()_DONE_ENA_W1S[DONE] = 0, interrupts are not sent, but the
                                                                  counting described above still occurs.
 
                                                                  Since DDF instructions complete out-of-order, if software is using completion
@@ -2496,25 +2482,25 @@ typedef union
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_done_s cn; */
-} bdk_ddf_vqx_done_t;
+    /* struct bdk_ddfx_vqx_done_s cn; */
+} bdk_ddfx_vqx_done_t;
 
-static inline uint64_t BDK_DDF_VQX_DONE(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_DONE(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_DONE(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_DONE(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000420ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_DONE", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000420ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_DONE", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_DONE(a) bdk_ddf_vqx_done_t
-#define bustype_BDK_DDF_VQX_DONE(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_DONE(a) "DDF_VQX_DONE"
-#define busnum_BDK_DDF_VQX_DONE(a) (a)
-#define arguments_BDK_DDF_VQX_DONE(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_DONE(a,b) bdk_ddfx_vqx_done_t
+#define bustype_BDK_DDFX_VQX_DONE(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_DONE(a,b) "DDFX_VQX_DONE"
+#define busnum_BDK_DDFX_VQX_DONE(a,b) (a)
+#define arguments_BDK_DDFX_VQX_DONE(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_done_ack
+ * Register (NCB) ddf#_vq#_done_ack
  *
  * DDF Queue Done Count Ack Registers
  * This register is written by software to acknowledge interrupts.
@@ -2522,78 +2508,78 @@ static inline uint64_t BDK_DDF_VQX_DONE(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_done_ack_s
+    struct bdk_ddfx_vqx_done_ack_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
-        uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to DDF_VQ()_DONE[DONE]. Reads DDF_VQ()_DONE[DONE].
+        uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to DDF()_VQ()_DONE[DONE]. Reads DDF()_VQ()_DONE[DONE].
 
-                                                                 Written by software to acknowledge interrupts. If DDF_VQ()_DONE[DONE] is still
+                                                                 Written by software to acknowledge interrupts. If DDF()_VQ()_DONE[DONE] is still
                                                                  non-zero the interrupt will be re-sent if the conditions described in
-                                                                 DDF_VQ()_DONE[DONE] are satisfied. */
+                                                                 DDF()_VQ()_DONE[DONE] are satisfied. */
 #else /* Word 0 - Little Endian */
-        uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to DDF_VQ()_DONE[DONE]. Reads DDF_VQ()_DONE[DONE].
+        uint64_t done_ack              : 20; /**< [ 19:  0](R/W/H) Number of decrements to DDF()_VQ()_DONE[DONE]. Reads DDF()_VQ()_DONE[DONE].
 
-                                                                 Written by software to acknowledge interrupts. If DDF_VQ()_DONE[DONE] is still
+                                                                 Written by software to acknowledge interrupts. If DDF()_VQ()_DONE[DONE] is still
                                                                  non-zero the interrupt will be re-sent if the conditions described in
-                                                                 DDF_VQ()_DONE[DONE] are satisfied. */
+                                                                 DDF()_VQ()_DONE[DONE] are satisfied. */
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_done_ack_s cn; */
-} bdk_ddf_vqx_done_ack_t;
+    /* struct bdk_ddfx_vqx_done_ack_s cn; */
+} bdk_ddfx_vqx_done_ack_t;
 
-static inline uint64_t BDK_DDF_VQX_DONE_ACK(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_DONE_ACK(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_DONE_ACK(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_DONE_ACK(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000440ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_DONE_ACK", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000440ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_DONE_ACK", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_DONE_ACK(a) bdk_ddf_vqx_done_ack_t
-#define bustype_BDK_DDF_VQX_DONE_ACK(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_DONE_ACK(a) "DDF_VQX_DONE_ACK"
-#define busnum_BDK_DDF_VQX_DONE_ACK(a) (a)
-#define arguments_BDK_DDF_VQX_DONE_ACK(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_DONE_ACK(a,b) bdk_ddfx_vqx_done_ack_t
+#define bustype_BDK_DDFX_VQX_DONE_ACK(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_DONE_ACK(a,b) "DDFX_VQX_DONE_ACK"
+#define busnum_BDK_DDFX_VQX_DONE_ACK(a,b) (a)
+#define arguments_BDK_DDFX_VQX_DONE_ACK(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_done_ena_w1c
+ * Register (NCB) ddf#_vq#_done_ena_w1c
  *
  * DDF Queue Done Interrupt Enable Clear Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_done_ena_w1c_s
+    struct bdk_ddfx_vqx_done_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Read or clears DDF_VQ()_DONE_ENA_W1S[DONE]. */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Read or clears DDF()_VQ()_DONE_ENA_W1S[DONE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Read or clears DDF_VQ()_DONE_ENA_W1S[DONE]. */
+        uint64_t done                  : 1;  /**< [  0:  0](R/W1C/H) Read or clears DDF()_VQ()_DONE_ENA_W1S[DONE]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_done_ena_w1c_s cn; */
-} bdk_ddf_vqx_done_ena_w1c_t;
+    /* struct bdk_ddfx_vqx_done_ena_w1c_s cn; */
+} bdk_ddfx_vqx_done_ena_w1c_t;
 
-static inline uint64_t BDK_DDF_VQX_DONE_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_DONE_ENA_W1C(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000478ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_DONE_ENA_W1C", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000478ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_DONE_ENA_W1C", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_DONE_ENA_W1C(a) bdk_ddf_vqx_done_ena_w1c_t
-#define bustype_BDK_DDF_VQX_DONE_ENA_W1C(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_DONE_ENA_W1C(a) "DDF_VQX_DONE_ENA_W1C"
-#define busnum_BDK_DDF_VQX_DONE_ENA_W1C(a) (a)
-#define arguments_BDK_DDF_VQX_DONE_ENA_W1C(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_DONE_ENA_W1C(a,b) bdk_ddfx_vqx_done_ena_w1c_t
+#define bustype_BDK_DDFX_VQX_DONE_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_DONE_ENA_W1C(a,b) "DDFX_VQX_DONE_ENA_W1C"
+#define busnum_BDK_DDFX_VQX_DONE_ENA_W1C(a,b) (a)
+#define arguments_BDK_DDFX_VQX_DONE_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_done_ena_w1s
+ * Register (NCB) ddf#_vq#_done_ena_w1s
  *
  * DDF Queue Done Interrupt Enable Set Registers
  * Write 1 to these registers will enable the DONEINT interrupt for the queue.
@@ -2601,7 +2587,7 @@ static inline uint64_t BDK_DDF_VQX_DONE_ENA_W1C(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_done_ena_w1s_s
+    struct bdk_ddfx_vqx_done_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
@@ -2613,103 +2599,103 @@ typedef union
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_done_ena_w1s_s cn; */
-} bdk_ddf_vqx_done_ena_w1s_t;
+    /* struct bdk_ddfx_vqx_done_ena_w1s_s cn; */
+} bdk_ddfx_vqx_done_ena_w1s_t;
 
-static inline uint64_t BDK_DDF_VQX_DONE_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_DONE_ENA_W1S(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_DONE_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000470ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_DONE_ENA_W1S", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000470ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_DONE_ENA_W1S", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_DONE_ENA_W1S(a) bdk_ddf_vqx_done_ena_w1s_t
-#define bustype_BDK_DDF_VQX_DONE_ENA_W1S(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_DONE_ENA_W1S(a) "DDF_VQX_DONE_ENA_W1S"
-#define busnum_BDK_DDF_VQX_DONE_ENA_W1S(a) (a)
-#define arguments_BDK_DDF_VQX_DONE_ENA_W1S(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_DONE_ENA_W1S(a,b) bdk_ddfx_vqx_done_ena_w1s_t
+#define bustype_BDK_DDFX_VQX_DONE_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_DONE_ENA_W1S(a,b) "DDFX_VQX_DONE_ENA_W1S"
+#define busnum_BDK_DDFX_VQX_DONE_ENA_W1S(a,b) (a)
+#define arguments_BDK_DDFX_VQX_DONE_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_done_int_w1c
+ * Register (NCB) ddf#_vq#_done_int_w1c
  *
  * DDF Queue Done Interrupt Clear Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_done_int_w1c_s
+    struct bdk_ddfx_vqx_done_int_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use DDF_VQ()_DONE_ACK. To test interrupts, write non-zero to
-                                                                 DDF_VQ()_DONE[DONE]. */
+        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
+                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 DDF()_VQ()_DONE[DONE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use DDF_VQ()_DONE_ACK. To test interrupts, write non-zero to
-                                                                 DDF_VQ()_DONE[DONE]. */
+        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
+                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 DDF()_VQ()_DONE[DONE]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_done_int_w1c_s cn; */
-} bdk_ddf_vqx_done_int_w1c_t;
+    /* struct bdk_ddfx_vqx_done_int_w1c_s cn; */
+} bdk_ddfx_vqx_done_int_w1c_t;
 
-static inline uint64_t BDK_DDF_VQX_DONE_INT_W1C(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_DONE_INT_W1C(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1C(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000468ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_DONE_INT_W1C", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000468ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_DONE_INT_W1C", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_DONE_INT_W1C(a) bdk_ddf_vqx_done_int_w1c_t
-#define bustype_BDK_DDF_VQX_DONE_INT_W1C(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_DONE_INT_W1C(a) "DDF_VQX_DONE_INT_W1C"
-#define busnum_BDK_DDF_VQX_DONE_INT_W1C(a) (a)
-#define arguments_BDK_DDF_VQX_DONE_INT_W1C(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_DONE_INT_W1C(a,b) bdk_ddfx_vqx_done_int_w1c_t
+#define bustype_BDK_DDFX_VQX_DONE_INT_W1C(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_DONE_INT_W1C(a,b) "DDFX_VQX_DONE_INT_W1C"
+#define busnum_BDK_DDFX_VQX_DONE_INT_W1C(a,b) (a)
+#define arguments_BDK_DDFX_VQX_DONE_INT_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_done_int_w1s
+ * Register (NCB) ddf#_vq#_done_int_w1s
  *
  * DDF Queue Done Interrupt Set Registers
  */
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_done_int_w1s_s
+    struct bdk_ddfx_vqx_done_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_1_63         : 63;
-        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use DDF_VQ()_DONE_ACK. To test interrupts, write non-zero to
-                                                                 DDF_VQ()_DONE[DONE]. */
+        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
+                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 DDF()_VQ()_DONE[DONE]. */
 #else /* Word 0 - Little Endian */
-        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
-                                                                 interrupts use DDF_VQ()_DONE_ACK. To test interrupts, write non-zero to
-                                                                 DDF_VQ()_DONE[DONE]. */
+        uint64_t done                  : 1;  /**< [  0:  0](RO/H) Done interrupt. See DDF()_VQ()_DONE[DONE].  Note this bit is read-only, to acknowledge
+                                                                 interrupts use DDF()_VQ()_DONE_ACK. To test interrupts, write non-zero to
+                                                                 DDF()_VQ()_DONE[DONE]. */
         uint64_t reserved_1_63         : 63;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_done_int_w1s_s cn; */
-} bdk_ddf_vqx_done_int_w1s_t;
+    /* struct bdk_ddfx_vqx_done_int_w1s_s cn; */
+} bdk_ddfx_vqx_done_int_w1s_t;
 
-static inline uint64_t BDK_DDF_VQX_DONE_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_DONE_INT_W1S(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_DONE_INT_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000460ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_DONE_INT_W1S", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000460ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_DONE_INT_W1S", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_DONE_INT_W1S(a) bdk_ddf_vqx_done_int_w1s_t
-#define bustype_BDK_DDF_VQX_DONE_INT_W1S(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_DONE_INT_W1S(a) "DDF_VQX_DONE_INT_W1S"
-#define busnum_BDK_DDF_VQX_DONE_INT_W1S(a) (a)
-#define arguments_BDK_DDF_VQX_DONE_INT_W1S(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_DONE_INT_W1S(a,b) bdk_ddfx_vqx_done_int_w1s_t
+#define bustype_BDK_DDFX_VQX_DONE_INT_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_DONE_INT_W1S(a,b) "DDFX_VQX_DONE_INT_W1S"
+#define busnum_BDK_DDFX_VQX_DONE_INT_W1S(a,b) (a)
+#define arguments_BDK_DDFX_VQX_DONE_INT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_done_wait
+ * Register (NCB) ddf#_vq#_done_wait
  *
  * DDF Queue Done Interrupt Coalescing Wait Registers
  * Specifies the per queue interrupt coalescing settings.
@@ -2717,47 +2703,47 @@ static inline uint64_t BDK_DDF_VQX_DONE_INT_W1S(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_done_wait_s
+    struct bdk_ddfx_vqx_done_wait_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_48_63        : 16;
-        uint64_t time_wait             : 16; /**< [ 47: 32](R/W) Time hold-off. When DDF_VQ()_DONE[DONE] = 0, or DDF_VQ()_DONE_ACK is written
+        uint64_t time_wait             : 16; /**< [ 47: 32](R/W) Time hold-off. When DDF()_VQ()_DONE[DONE] = 0, or DDF()_VQ()_DONE_ACK is written
                                                                  a timer is cleared. When the timer reaches [TIME_WAIT]*1024 then interrupt
-                                                                 coalescing ends; see DDF_VQ()_DONE[DONE]. If 0x0, time coalescing is disabled. */
+                                                                 coalescing ends; see DDF()_VQ()_DONE[DONE]. If 0x0, time coalescing is disabled. */
         uint64_t reserved_20_31        : 12;
-        uint64_t num_wait              : 20; /**< [ 19:  0](R/W) Number of messages hold-off. When DDF_VQ()_DONE[DONE] >= [NUM_WAIT] then
-                                                                 interrupt coalescing ends; see DDF_VQ()_DONE[DONE]. If 0x0, same behavior as
+        uint64_t num_wait              : 20; /**< [ 19:  0](R/W) Number of messages hold-off. When DDF()_VQ()_DONE[DONE] >= [NUM_WAIT] then
+                                                                 interrupt coalescing ends; see DDF()_VQ()_DONE[DONE]. If 0x0, same behavior as
                                                                  0x1. */
 #else /* Word 0 - Little Endian */
-        uint64_t num_wait              : 20; /**< [ 19:  0](R/W) Number of messages hold-off. When DDF_VQ()_DONE[DONE] >= [NUM_WAIT] then
-                                                                 interrupt coalescing ends; see DDF_VQ()_DONE[DONE]. If 0x0, same behavior as
+        uint64_t num_wait              : 20; /**< [ 19:  0](R/W) Number of messages hold-off. When DDF()_VQ()_DONE[DONE] >= [NUM_WAIT] then
+                                                                 interrupt coalescing ends; see DDF()_VQ()_DONE[DONE]. If 0x0, same behavior as
                                                                  0x1. */
         uint64_t reserved_20_31        : 12;
-        uint64_t time_wait             : 16; /**< [ 47: 32](R/W) Time hold-off. When DDF_VQ()_DONE[DONE] = 0, or DDF_VQ()_DONE_ACK is written
+        uint64_t time_wait             : 16; /**< [ 47: 32](R/W) Time hold-off. When DDF()_VQ()_DONE[DONE] = 0, or DDF()_VQ()_DONE_ACK is written
                                                                  a timer is cleared. When the timer reaches [TIME_WAIT]*1024 then interrupt
-                                                                 coalescing ends; see DDF_VQ()_DONE[DONE]. If 0x0, time coalescing is disabled. */
+                                                                 coalescing ends; see DDF()_VQ()_DONE[DONE]. If 0x0, time coalescing is disabled. */
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_done_wait_s cn; */
-} bdk_ddf_vqx_done_wait_t;
+    /* struct bdk_ddfx_vqx_done_wait_s cn; */
+} bdk_ddfx_vqx_done_wait_t;
 
-static inline uint64_t BDK_DDF_VQX_DONE_WAIT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_DONE_WAIT(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_DONE_WAIT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_DONE_WAIT(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000400ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_DONE_WAIT", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000400ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_DONE_WAIT", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_DONE_WAIT(a) bdk_ddf_vqx_done_wait_t
-#define bustype_BDK_DDF_VQX_DONE_WAIT(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_DONE_WAIT(a) "DDF_VQX_DONE_WAIT"
-#define busnum_BDK_DDF_VQX_DONE_WAIT(a) (a)
-#define arguments_BDK_DDF_VQX_DONE_WAIT(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_DONE_WAIT(a,b) bdk_ddfx_vqx_done_wait_t
+#define bustype_BDK_DDFX_VQX_DONE_WAIT(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_DONE_WAIT(a,b) "DDFX_VQX_DONE_WAIT"
+#define busnum_BDK_DDFX_VQX_DONE_WAIT(a,b) (a)
+#define arguments_BDK_DDFX_VQX_DONE_WAIT(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_doorbell
+ * Register (NCB) ddf#_vq#_doorbell
  *
  * DDF Queue Doorbell Registers
  * Doorbells for the DDF instruction queues.
@@ -2765,7 +2751,7 @@ static inline uint64_t BDK_DDF_VQX_DONE_WAIT(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_doorbell_s
+    struct bdk_ddfx_vqx_doorbell_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_20_63        : 44;
@@ -2779,25 +2765,25 @@ typedef union
         uint64_t reserved_20_63        : 44;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_doorbell_s cn; */
-} bdk_ddf_vqx_doorbell_t;
+    /* struct bdk_ddfx_vqx_doorbell_s cn; */
+} bdk_ddfx_vqx_doorbell_t;
 
-static inline uint64_t BDK_DDF_VQX_DOORBELL(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_DOORBELL(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_DOORBELL(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_DOORBELL(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000600ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_DOORBELL", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000600ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_DOORBELL", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_DOORBELL(a) bdk_ddf_vqx_doorbell_t
-#define bustype_BDK_DDF_VQX_DOORBELL(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_DOORBELL(a) "DDF_VQX_DOORBELL"
-#define busnum_BDK_DDF_VQX_DOORBELL(a) (a)
-#define arguments_BDK_DDF_VQX_DOORBELL(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_DOORBELL(a,b) bdk_ddfx_vqx_doorbell_t
+#define bustype_BDK_DDFX_VQX_DOORBELL(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_DOORBELL(a,b) "DDFX_VQX_DOORBELL"
+#define busnum_BDK_DDFX_VQX_DOORBELL(a,b) (a)
+#define arguments_BDK_DDFX_VQX_DOORBELL(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_misc_ena_w1c
+ * Register (NCB) ddf#_vq#_misc_ena_w1c
  *
  * DDF Queue Misc Interrupt Enable Clear Register
  * This register clears interrupt enable bits.
@@ -2805,41 +2791,41 @@ static inline uint64_t BDK_DDF_VQX_DOORBELL(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_misc_ena_w1c_s
+    struct bdk_ddfx_vqx_misc_ena_w1c_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF_VQ(0..31)_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DDF_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DDF_VQ(0..31)_MISC_INT[MBOX]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DDF_VQ(0..31)_MISC_INT[MBOX]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DDF_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF_VQ(0..31)_MISC_INT[NWRP]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) Reads or clears enable for DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_misc_ena_w1c_s cn; */
-} bdk_ddf_vqx_misc_ena_w1c_t;
+    /* struct bdk_ddfx_vqx_misc_ena_w1c_s cn; */
+} bdk_ddfx_vqx_misc_ena_w1c_t;
 
-static inline uint64_t BDK_DDF_VQX_MISC_ENA_W1C(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_MISC_ENA_W1C(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1C(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000518ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_MISC_ENA_W1C", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000518ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_MISC_ENA_W1C", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_MISC_ENA_W1C(a) bdk_ddf_vqx_misc_ena_w1c_t
-#define bustype_BDK_DDF_VQX_MISC_ENA_W1C(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_MISC_ENA_W1C(a) "DDF_VQX_MISC_ENA_W1C"
-#define busnum_BDK_DDF_VQX_MISC_ENA_W1C(a) (a)
-#define arguments_BDK_DDF_VQX_MISC_ENA_W1C(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_MISC_ENA_W1C(a,b) bdk_ddfx_vqx_misc_ena_w1c_t
+#define bustype_BDK_DDFX_VQX_MISC_ENA_W1C(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_MISC_ENA_W1C(a,b) "DDFX_VQX_MISC_ENA_W1C"
+#define busnum_BDK_DDFX_VQX_MISC_ENA_W1C(a,b) (a)
+#define arguments_BDK_DDFX_VQX_MISC_ENA_W1C(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_misc_ena_w1s
+ * Register (NCB) ddf#_vq#_misc_ena_w1s
  *
  * DDF Queue Misc Interrupt Enable Set Register
  * This register sets interrupt enable bits.
@@ -2847,41 +2833,41 @@ static inline uint64_t BDK_DDF_VQX_MISC_ENA_W1C(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_misc_ena_w1s_s
+    struct bdk_ddfx_vqx_misc_ena_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF_VQ(0..31)_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DDF_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DDF_VQ(0..31)_MISC_INT[MBOX]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DDF_VQ(0..31)_MISC_INT[MBOX]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DDF_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF_VQ(0..31)_MISC_INT[NWRP]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets enable for DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_misc_ena_w1s_s cn; */
-} bdk_ddf_vqx_misc_ena_w1s_t;
+    /* struct bdk_ddfx_vqx_misc_ena_w1s_s cn; */
+} bdk_ddfx_vqx_misc_ena_w1s_t;
 
-static inline uint64_t BDK_DDF_VQX_MISC_ENA_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_MISC_ENA_W1S(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_MISC_ENA_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000510ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_MISC_ENA_W1S", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000510ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_MISC_ENA_W1S", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_MISC_ENA_W1S(a) bdk_ddf_vqx_misc_ena_w1s_t
-#define bustype_BDK_DDF_VQX_MISC_ENA_W1S(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_MISC_ENA_W1S(a) "DDF_VQX_MISC_ENA_W1S"
-#define busnum_BDK_DDF_VQX_MISC_ENA_W1S(a) (a)
-#define arguments_BDK_DDF_VQX_MISC_ENA_W1S(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_MISC_ENA_W1S(a,b) bdk_ddfx_vqx_misc_ena_w1s_t
+#define bustype_BDK_DDFX_VQX_MISC_ENA_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_MISC_ENA_W1S(a,b) "DDFX_VQX_MISC_ENA_W1S"
+#define busnum_BDK_DDFX_VQX_MISC_ENA_W1S(a,b) (a)
+#define arguments_BDK_DDFX_VQX_MISC_ENA_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_misc_int
+ * Register (NCB) ddf#_vq#_misc_int
  *
  * DDF Queue Misc Interrupt Register
  * These registers contain the per-queue miscellaneous interrupts.
@@ -2889,17 +2875,17 @@ static inline uint64_t BDK_DDF_VQX_MISC_ENA_W1S(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_misc_int_s
+    struct bdk_ddfx_vqx_misc_int_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
         uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1C/H) NCB result write response error. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DDF_VF(0..31)_MBOX(0)
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DDF(0)_VF(0..31)_MBOX(0)
                                                                  is written. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DDF_VF(0..31)_MBOX(0)
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1C/H) PF to VF mailbox interrupt. Set when DDF(0)_VF(0..31)_MBOX(0)
                                                                  is written. */
         uint64_t dovf                  : 1;  /**< [  1:  1](R/W1C/H) Doorbell overflow. */
         uint64_t irde                  : 1;  /**< [  2:  2](R/W1C/H) Instruction NCB read response error. */
@@ -2907,25 +2893,25 @@ typedef union
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_misc_int_s cn; */
-} bdk_ddf_vqx_misc_int_t;
+    /* struct bdk_ddfx_vqx_misc_int_s cn; */
+} bdk_ddfx_vqx_misc_int_t;
 
-static inline uint64_t BDK_DDF_VQX_MISC_INT(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_MISC_INT(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_MISC_INT(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_MISC_INT(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000500ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_MISC_INT", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000500ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_MISC_INT", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_MISC_INT(a) bdk_ddf_vqx_misc_int_t
-#define bustype_BDK_DDF_VQX_MISC_INT(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_MISC_INT(a) "DDF_VQX_MISC_INT"
-#define busnum_BDK_DDF_VQX_MISC_INT(a) (a)
-#define arguments_BDK_DDF_VQX_MISC_INT(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_MISC_INT(a,b) bdk_ddfx_vqx_misc_int_t
+#define bustype_BDK_DDFX_VQX_MISC_INT(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_MISC_INT(a,b) "DDFX_VQX_MISC_INT"
+#define busnum_BDK_DDFX_VQX_MISC_INT(a,b) (a)
+#define arguments_BDK_DDFX_VQX_MISC_INT(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_misc_int_w1s
+ * Register (NCB) ddf#_vq#_misc_int_w1s
  *
  * DDF Queue Misc Interrupt Set Register
  * This register sets interrupt bits.
@@ -2933,41 +2919,41 @@ static inline uint64_t BDK_DDF_VQX_MISC_INT(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_misc_int_w1s_s
+    struct bdk_ddfx_vqx_misc_int_w1s_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_4_63         : 60;
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF_VQ(0..31)_MISC_INT[NWRP]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DDF_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DDF_VQ(0..31)_MISC_INT[MBOX]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
 #else /* Word 0 - Little Endian */
-        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DDF_VQ(0..31)_MISC_INT[MBOX]. */
-        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DDF_VQ(0..31)_MISC_INT[DOVF]. */
-        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF_VQ(0..31)_MISC_INT[IRDE]. */
-        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF_VQ(0..31)_MISC_INT[NWRP]. */
+        uint64_t mbox                  : 1;  /**< [  0:  0](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[MBOX]. */
+        uint64_t dovf                  : 1;  /**< [  1:  1](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[DOVF]. */
+        uint64_t irde                  : 1;  /**< [  2:  2](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[IRDE]. */
+        uint64_t nwrp                  : 1;  /**< [  3:  3](R/W1S/H) Reads or sets DDF(0)_VQ(0..31)_MISC_INT[NWRP]. */
         uint64_t reserved_4_63         : 60;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_misc_int_w1s_s cn; */
-} bdk_ddf_vqx_misc_int_w1s_t;
+    /* struct bdk_ddfx_vqx_misc_int_w1s_s cn; */
+} bdk_ddfx_vqx_misc_int_w1s_t;
 
-static inline uint64_t BDK_DDF_VQX_MISC_INT_W1S(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_MISC_INT_W1S(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_MISC_INT_W1S(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000508ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_MISC_INT_W1S", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000508ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_MISC_INT_W1S", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_MISC_INT_W1S(a) bdk_ddf_vqx_misc_int_w1s_t
-#define bustype_BDK_DDF_VQX_MISC_INT_W1S(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_MISC_INT_W1S(a) "DDF_VQX_MISC_INT_W1S"
-#define busnum_BDK_DDF_VQX_MISC_INT_W1S(a) (a)
-#define arguments_BDK_DDF_VQX_MISC_INT_W1S(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_MISC_INT_W1S(a,b) bdk_ddfx_vqx_misc_int_w1s_t
+#define bustype_BDK_DDFX_VQX_MISC_INT_W1S(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_MISC_INT_W1S(a,b) "DDFX_VQX_MISC_INT_W1S"
+#define busnum_BDK_DDFX_VQX_MISC_INT_W1S(a,b) (a)
+#define arguments_BDK_DDFX_VQX_MISC_INT_W1S(a,b) (a),(b),-1,-1
 
 /**
- * Register (NCB) ddf_vq#_saddr
+ * Register (NCB) ddf#_vq#_saddr
  *
  * DDF Queue Starting Buffer Address Registers
  * These registers set the instruction buffer starting address.
@@ -2975,7 +2961,7 @@ static inline uint64_t BDK_DDF_VQX_MISC_INT_W1S(unsigned long a)
 typedef union
 {
     uint64_t u;
-    struct bdk_ddf_vqx_saddr_s
+    struct bdk_ddfx_vqx_saddr_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_49_63        : 15;
@@ -2999,21 +2985,21 @@ typedef union
         uint64_t reserved_49_63        : 15;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_ddf_vqx_saddr_s cn; */
-} bdk_ddf_vqx_saddr_t;
+    /* struct bdk_ddfx_vqx_saddr_s cn; */
+} bdk_ddfx_vqx_saddr_t;
 
-static inline uint64_t BDK_DDF_VQX_SADDR(unsigned long a) __attribute__ ((pure, always_inline));
-static inline uint64_t BDK_DDF_VQX_SADDR(unsigned long a)
+static inline uint64_t BDK_DDFX_VQX_SADDR(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_DDFX_VQX_SADDR(unsigned long a, unsigned long b)
 {
-    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=31))
-        return 0x809020000200ll + 0x100000ll * ((a) & 0x1f);
-    __bdk_csr_fatal("DDF_VQX_SADDR", 1, a, 0, 0, 0);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a==0) && (b<=31)))
+        return 0x809020000200ll + 0ll * ((a) & 0x0) + 0x100000ll * ((b) & 0x1f);
+    __bdk_csr_fatal("DDFX_VQX_SADDR", 2, a, b, 0, 0);
 }
 
-#define typedef_BDK_DDF_VQX_SADDR(a) bdk_ddf_vqx_saddr_t
-#define bustype_BDK_DDF_VQX_SADDR(a) BDK_CSR_TYPE_NCB
-#define basename_BDK_DDF_VQX_SADDR(a) "DDF_VQX_SADDR"
-#define busnum_BDK_DDF_VQX_SADDR(a) (a)
-#define arguments_BDK_DDF_VQX_SADDR(a) (a),-1,-1,-1
+#define typedef_BDK_DDFX_VQX_SADDR(a,b) bdk_ddfx_vqx_saddr_t
+#define bustype_BDK_DDFX_VQX_SADDR(a,b) BDK_CSR_TYPE_NCB
+#define basename_BDK_DDFX_VQX_SADDR(a,b) "DDFX_VQX_SADDR"
+#define busnum_BDK_DDFX_VQX_SADDR(a,b) (a)
+#define arguments_BDK_DDFX_VQX_SADDR(a,b) (a),(b),-1,-1
 
 #endif /* __BDK_CSRS_DDF_H__ */

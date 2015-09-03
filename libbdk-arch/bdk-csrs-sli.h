@@ -99,11 +99,11 @@ union bdk_sli_s2m_op_s
                                                                    0x9 = SLI1.
 
                                                                    else = Reserved. */
-        uint64_t region                : 8;  /**< [ 39: 32] SLI region.  Indexes into SLI(0..1)_S2M_REG(0..255)_ACC. */
+        uint64_t region                : 8;  /**< [ 39: 32] SLI region.  Indexes into SLI()_S2M_REG()_ACC. */
         uint64_t addr                  : 32; /**< [ 31:  0] Register address within the device. */
 #else /* Word 0 - Little Endian */
         uint64_t addr                  : 32; /**< [ 31:  0] Register address within the device. */
-        uint64_t region                : 8;  /**< [ 39: 32] SLI region.  Indexes into SLI(0..1)_S2M_REG(0..255)_ACC. */
+        uint64_t region                : 8;  /**< [ 39: 32] SLI region.  Indexes into SLI()_S2M_REG()_ACC. */
         uint64_t did_hi                : 4;  /**< [ 43: 40] SLI device ID high bits.  Specifies which SLI:
                                                                    0x8 = SLI0.
                                                                    0x9 = SLI1.
@@ -202,6 +202,92 @@ static inline uint64_t BDK_SLIX_BIST_STATUS(unsigned long a)
 #define arguments_BDK_SLIX_BIST_STATUS(a) (a),-1,-1,-1
 
 /**
+ * Register (NCB) sli#_const
+ *
+ * SLI Constants Register
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_slix_const_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_32_63        : 32;
+        uint64_t pems                  : 32; /**< [ 31:  0](RO) Bit mask of which PEMs are connected to this SLI.
+                                                                 If PEMs are fuse disabled they will still appear in this register.
+
+                                                                 E.g. for a single SLI connected to PEM0, PEM1 and PEM2 is 0x7. If PEM1 is fuse
+                                                                 disabled, still is 0x7, because software needs to continue to know that PEM2
+                                                                 remains MAC number 2 as far as the SLI registers, e.g. SLI()_S2M_MAC()_CTL, are
+                                                                 concerned. */
+#else /* Word 0 - Little Endian */
+        uint64_t pems                  : 32; /**< [ 31:  0](RO) Bit mask of which PEMs are connected to this SLI.
+                                                                 If PEMs are fuse disabled they will still appear in this register.
+
+                                                                 E.g. for a single SLI connected to PEM0, PEM1 and PEM2 is 0x7. If PEM1 is fuse
+                                                                 disabled, still is 0x7, because software needs to continue to know that PEM2
+                                                                 remains MAC number 2 as far as the SLI registers, e.g. SLI()_S2M_MAC()_CTL, are
+                                                                 concerned. */
+        uint64_t reserved_32_63        : 32;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_slix_const_s cn; */
+} bdk_slix_const_t;
+
+static inline uint64_t BDK_SLIX_CONST(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SLIX_CONST(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x874001002020ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874001002020ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_CONST", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SLIX_CONST(a) bdk_slix_const_t
+#define bustype_BDK_SLIX_CONST(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SLIX_CONST(a) "SLIX_CONST"
+#define busnum_BDK_SLIX_CONST(a) (a)
+#define arguments_BDK_SLIX_CONST(a) (a),-1,-1,-1
+
+/**
+ * Register (NCB) sli#_const1
+ *
+ * SLI Constants Register 1
+ * This register contains constants for software discovery.
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_slix_const1_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_0_63         : 64;
+#else /* Word 0 - Little Endian */
+        uint64_t reserved_0_63         : 64;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_slix_const1_s cn; */
+} bdk_slix_const1_t;
+
+static inline uint64_t BDK_SLIX_CONST1(unsigned long a) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_SLIX_CONST1(unsigned long a)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && (a<=1))
+        return 0x874001002030ll + 0x1000000000ll * ((a) & 0x1);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && (a<=1))
+        return 0x874001002030ll + 0x1000000000ll * ((a) & 0x1);
+    __bdk_csr_fatal("SLIX_CONST1", 1, a, 0, 0, 0);
+}
+
+#define typedef_BDK_SLIX_CONST1(a) bdk_slix_const1_t
+#define bustype_BDK_SLIX_CONST1(a) BDK_CSR_TYPE_NCB
+#define basename_BDK_SLIX_CONST1(a) "SLIX_CONST1"
+#define busnum_BDK_SLIX_CONST1(a) (a)
+#define arguments_BDK_SLIX_CONST1(a) (a),-1,-1,-1
+
+/**
  * Register (PEXP_NCB) sli#_data_out_cnt#
  *
  * SLI Data Out Count Register
@@ -282,7 +368,7 @@ static inline uint64_t BDK_SLIX_END_MERGE(unsigned long a)
  *
  * SLI Control Port Registers
  * This register controls the functionality of the SLI's M2S in regards to a MAC.
- * INTERNAL: In 78xx was SLI(0..1)_CTL_PORT(0..2) and SLI(0..1)_S2M_PORT(0..2)_CTL.
+ * INTERNAL: In 78xx was SLI()_CTL_PORT() and SLI()_S2M_PORT()_CTL.
  */
 typedef union
 {
@@ -1280,7 +1366,7 @@ static inline uint64_t BDK_SLIX_S2M_CTL(unsigned long a)
  *
  * SLI MAC Control Register
  * This register controls the functionality of the SLI's S2M in regards to a MAC.
- * INTERNAL: In 78xx was SLI(0..1)_CTL_STATUS and SLI(0..1)_MAC_CREDIT_CNT.
+ * INTERNAL: In 78xx was SLI()_CTL_STATUS and SLI()_MAC_CREDIT_CNT.
  */
 typedef union
 {
@@ -1685,7 +1771,7 @@ static inline uint64_t BDK_SLIX_WIN_RD_DATA(unsigned long a)
  *
  * SLI Window Write Address Register
  * Contains the address to be writen to when a write operation is started by writing
- * SLI(0..1)_WIN_WR_DATA.
+ * SLI()_WIN_WR_DATA.
  * This register should not be used to write SLI_* registers.
  */
 typedef union

@@ -893,6 +893,270 @@ typedef union
                                                                  * HNP/SRP
                                                                  * Suspend and resume
 
+                                                                 0x2 = N/A.
+                                                                 0x3 = Enables bits <0> and <1> scale-down timing values.
+
+                                                                 SuperSpeed mode:
+                                                                 0x0 = Disables all scale-downs. Actual timing values are used.
+                                                                 0x1 = Enables scaled down SuperSpeed timing and repeat values including:
+                                                                 * Number of TxEq training sequences reduce to eight
+                                                                 * LFPS polling burst time reduce to 100 ns
+                                                                 * LFPS warm reset receive reduce to 30 us.
+
+                                                                 INTERNAL: Refer to the rtl_vip_scaledown_mapping.xls file under <workspace>/sim/SoC_sim
+                                                                 directory for the complete list.
+                                                                 0x2 = No TxEq training sequences are sent. Overrides bit<4>.
+                                                                 0x3 = Enables bits<0> and <1> scale-down timing values. */
+        uint32_t disscramble           : 1;  /**< [  3:  3](R/W) Disable scrambling. Transmit request to link partner on next transition to recovery or polling. */
+        uint32_t u2exit_lfps           : 1;  /**< [  2:  2](R/W) LFPS U2 exit.
+                                                                 0 = The link treats 248ns LFPS as a valid U2 exit.
+                                                                 1 = The link waits for 8us of LFPS before it detects a valid U2 exit.
+
+                                                                 This bit is added to improve interoperability with a third party host controller. This
+                                                                 host controller in U2 state while performing receiver detection generates an LFPS glitch
+                                                                 of about 4s duration. This causes the device to exit from U2 state because the LFPS filter
+                                                                 value is 248ns. With the new functionality enabled, the device can stay in U2 while
+                                                                 ignoring this glitch from the host controller. */
+        uint32_t reserved_1            : 1;
+        uint32_t dsblclkgtng           : 1;  /**< [  0:  0](R/W) Disable clock gating. When set to 1 and the core is in low-power mode, internal clock
+                                                                 gating is disabled, which means the clocks are always running. This bit can be set to 1
+                                                                 after power-up reset. */
+#else /* Word 0 - Little Endian */
+        uint32_t dsblclkgtng           : 1;  /**< [  0:  0](R/W) Disable clock gating. When set to 1 and the core is in low-power mode, internal clock
+                                                                 gating is disabled, which means the clocks are always running. This bit can be set to 1
+                                                                 after power-up reset. */
+        uint32_t reserved_1            : 1;
+        uint32_t u2exit_lfps           : 1;  /**< [  2:  2](R/W) LFPS U2 exit.
+                                                                 0 = The link treats 248ns LFPS as a valid U2 exit.
+                                                                 1 = The link waits for 8us of LFPS before it detects a valid U2 exit.
+
+                                                                 This bit is added to improve interoperability with a third party host controller. This
+                                                                 host controller in U2 state while performing receiver detection generates an LFPS glitch
+                                                                 of about 4s duration. This causes the device to exit from U2 state because the LFPS filter
+                                                                 value is 248ns. With the new functionality enabled, the device can stay in U2 while
+                                                                 ignoring this glitch from the host controller. */
+        uint32_t disscramble           : 1;  /**< [  3:  3](R/W) Disable scrambling. Transmit request to link partner on next transition to recovery or polling. */
+        uint32_t scaledown             : 2;  /**< [  5:  4](R/W) Scale-down mode. When scale-down mode is enabled for simulation, the core uses scaled-down
+                                                                 timing values, resulting in faster simulations. When scale-down mode is disabled, actual
+                                                                 timing values are used. This is required for hardware operation.
+
+                                                                 High-speed/full-speed/low-speed modes:
+                                                                 0x0 = Disables all scale-downs. Actual timing values are used.
+                                                                 0x1 = Enables scale-down of all timing values. These include:
+                                                                 * Speed enumeration
+                                                                 * HNP/SRP
+                                                                 * Suspend and resume
+
+                                                                 0x2 = N/A.
+                                                                 0x3 = Enables bits <0> and <1> scale-down timing values.
+
+                                                                 SuperSpeed mode:
+                                                                 0x0 = Disables all scale-downs. Actual timing values are used.
+                                                                 0x1 = Enables scaled down SuperSpeed timing and repeat values including:
+                                                                 * Number of TxEq training sequences reduce to eight
+                                                                 * LFPS polling burst time reduce to 100 ns
+                                                                 * LFPS warm reset receive reduce to 30 us.
+
+                                                                 INTERNAL: Refer to the rtl_vip_scaledown_mapping.xls file under <workspace>/sim/SoC_sim
+                                                                 directory for the complete list.
+                                                                 0x2 = No TxEq training sequences are sent. Overrides bit<4>.
+                                                                 0x3 = Enables bits<0> and <1> scale-down timing values. */
+        uint32_t ramclksel             : 2;  /**< [  7:  6](R/W) RAM clock select. Always keep set to 0x0. */
+        uint32_t debugattach           : 1;  /**< [  8:  8](R/W) Debug attach. When this bit is set:
+                                                                 * SuperSpeed link proceeds directly to the polling-link state (USBH()_UAHC_DCTL[RS] = 1)
+                                                                 without checking remote termination.
+                                                                 * Link LFPS polling timeout is infinite
+                                                                 * Polling timeout during TS1 is infinite (in case link is waiting for TXEQ to finish). */
+        uint32_t u1u2timerscale        : 1;  /**< [  9:  9](R/W) Disable U1/U2 timer scaledown. If set to 1, along with SCALEDOWN = 0x1, disables the scale
+                                                                 down of U1/U2 inactive timer values.
+                                                                 This is for simulation mode only. */
+        uint32_t sofitpsync            : 1;  /**< [ 10: 10](R/W) Synchronize ITP to reference clock. In host mode, if this bit is set to:
+                                                                 0 = The core keeps the UTMI/ULPI PHY on the first port in non-suspended state whenever
+                                                                 there is a SuperSpeed port that is not in Rx.Detect, SS.Disable, and U3 state.
+                                                                 1 = The core keeps the UTMI/ULPI PHY on the first port in non-suspended state whenever the
+                                                                 other non-SuperSpeed ports are not in suspended state.
+
+                                                                 This feature is useful because it saves power by suspending UTMI/ULPI when SuperSpeed only
+                                                                 is active and it helps resolve when the PHY does not transmit a host resume unless it is
+                                                                 placed in suspend state.
+                                                                 USBH()_UAHC_GUSB2PHYCFG()[SUSPHY] eventually decides to put the UTMI/ULPI PHY in to
+                                                                 suspend
+                                                                 state. In addition, when this bit is set to 1, the core generates ITP off of the REF_CLK-
+                                                                 based counter. Otherwise, ITP and SOF are generated off of UTMI/ULPI_CLK[0] based counter.
+
+                                                                 To program the reference clock period inside the core, refer to
+                                                                 USBH()_UAHC_GUCTL[REFCLKPER].
+
+                                                                 If you do not plan to ever use this feature or the
+                                                                 USBH()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL]
+                                                                 feature, the minimum frequency for the ref_clk can be as low as 32KHz. You can connect the
+                                                                 SUSPEND_CLK (as low as 32 KHz) to REF_CLK.
+
+                                                                 If you plan to enable hardware-based LPM (PORTPMSC[HLE] = 1), this feature cannot be used.
+                                                                 Turn off this feature by setting this bit to zero and use the
+                                                                 USBH()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature.
+
+                                                                 If you set this bit to 1, the USBH()_UAHC_GUSB2PHYCFG() [U2_FREECLK_EXISTS] bit must be
+                                                                 set to
+                                                                 0. */
+        uint32_t coresoftreset         : 1;  /**< [ 11: 11](R/W) Core soft reset: 1 = soft reset to core, 0 = no soft reset.
+                                                                 Clears the interrupts and all the USBH()_UAHC_* CSRs except the
+                                                                 following registers: USBH()_UAHC_GCTL, USBH()_UAHC_GUCTL, USBH()_UAHC_GSTS,
+                                                                 USBH()_UAHC_GRLSID, USBH()_UAHC_GGPIO, USBH()_UAHC_GUID, USBH()_UAHC_GUSB2PHYCFG(),
+                                                                 USBH()_UAHC_GUSB3PIPECTL().
+
+                                                                 When you reset PHYs (using USBH()_UAHC_GUSB2PHYCFG() or USBH()_UAHC_GUSB3PIPECTL()), you
+                                                                 must keep the
+                                                                 core in reset state until PHY clocks are stable. This controls the bus, RAM, and MAC
+                                                                 domain resets.
+
+                                                                 INTERNAL: Refer to Reset Generation on Synopsys Databook page 250.
+                                                                 Under soft reset, accesses to USBH()_UAHC_* CSRs other than USBH()_UAHC_GCTL may fail
+                                                                 (timeout).
+                                                                 This bit is for debug purposes only. Use USBH()_UAHC_USBCMD[HCRST] for soft reset. */
+        uint32_t prtcapdir             : 2;  /**< [ 13: 12](R/W) Port capability direction. Always keep set to 0x1. */
+        uint32_t frmscldwn             : 2;  /**< [ 15: 14](R/W) Frame scale down. Scales down device view of a SOF/USOF/ITP duration.
+                                                                 For SuperSpeed/high-speed mode:
+                                                                 0x0 = Interval is 125 us.
+                                                                 0x1 = Interval is 62.5 us.
+                                                                 0x2 = Interval is 31.25 us.
+                                                                 0x3 = Interval is 15.625 us.
+
+                                                                 For full-speed mode, the scale-down value is multiplied by 8. */
+        uint32_t reserved_16_17        : 2;
+        uint32_t masterfiltbypass      : 1;  /**< [ 18: 18](R/W) Master filter bypass. Not relevant for Cavium's configuration. */
+        uint32_t pwrdnscale            : 13; /**< [ 31: 19](R/W) Power down scale. The USB3 suspend-clock input replaces pipe3_rx_pclk as a clock source to
+                                                                 a small part of the USB3 core that operates when the SuperSpeed PHY is in its lowest power
+                                                                 (P3) state, and therefore does not provide a clock. This field specifies how many suspend-
+                                                                 clock periods fit into a 16 kHz clock period. When performing the division, round up the
+                                                                 remainder.
+
+                                                                 For example, when using an 32-bit PHY and 25-MHz suspend clock, PWRDNSCALE = 25000 kHz/16
+                                                                 kHz = 1563 (rounded up).
+
+                                                                 The minimum suspend-clock frequency is 32 KHz, and maximum suspend-clock frequency is 125
+                                                                 MHz.
+
+                                                                 The LTSSM uses Suspend clock for 12-ms and 100-ms timers during suspend mode. According to
+                                                                 the USB 3.0 specification, the accuracy on these timers is 0% to +50%. 12 ms + 0~+50%
+                                                                 accuracy = 18 ms (Range is 12 ms - 18 ms)
+                                                                 100 ms + 0~+50% accuracy = 150 ms (Range is 100 ms - 150 ms).
+
+                                                                 The suspend clock accuracy requirement is:
+                                                                 _ (12,000/62.5) * (GCTL[31:19]) * actual suspend_clk_period should be between 12,000 and
+                                                                 18,000
+                                                                 _ (100,000/62.5) * (GCTL[31:19]) * actual suspend_clk_period should be between 100,000 and
+                                                                 150,000
+
+                                                                 For example, if your suspend_clk frequency varies from 7.5 MHz to 10.5MHz, then the value
+                                                                 needs to programmed is: Power Down Scale = 10500/16 = 657 (rounded up; and fastest
+                                                                 frequency used). */
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_usbhx_uahc_gctl_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t pwrdnscale            : 13; /**< [ 31: 19](R/W) Power down scale. The USB3 suspend-clock input replaces pipe3_rx_pclk as a clock source to
+                                                                 a small part of the USB3 core that operates when the SuperSpeed PHY is in its lowest power
+                                                                 (P3) state, and therefore does not provide a clock. This field specifies how many suspend-
+                                                                 clock periods fit into a 16 kHz clock period. When performing the division, round up the
+                                                                 remainder.
+
+                                                                 For example, when using an 32-bit PHY and 25-MHz suspend clock, PWRDNSCALE = 25000 kHz/16
+                                                                 kHz = 1563 (rounded up).
+
+                                                                 The minimum suspend-clock frequency is 32 KHz, and maximum suspend-clock frequency is 125
+                                                                 MHz.
+
+                                                                 The LTSSM uses Suspend clock for 12-ms and 100-ms timers during suspend mode. According to
+                                                                 the USB 3.0 specification, the accuracy on these timers is 0% to +50%. 12 ms + 0~+50%
+                                                                 accuracy = 18 ms (Range is 12 ms - 18 ms)
+                                                                 100 ms + 0~+50% accuracy = 150 ms (Range is 100 ms - 150 ms).
+
+                                                                 The suspend clock accuracy requirement is:
+                                                                 _ (12,000/62.5) * (GCTL[31:19]) * actual suspend_clk_period should be between 12,000 and
+                                                                 18,000
+                                                                 _ (100,000/62.5) * (GCTL[31:19]) * actual suspend_clk_period should be between 100,000 and
+                                                                 150,000
+
+                                                                 For example, if your suspend_clk frequency varies from 7.5 MHz to 10.5MHz, then the value
+                                                                 needs to programmed is: Power Down Scale = 10500/16 = 657 (rounded up; and fastest
+                                                                 frequency used). */
+        uint32_t masterfiltbypass      : 1;  /**< [ 18: 18](R/W) Master filter bypass. Not relevant for Cavium's configuration. */
+        uint32_t reserved_16_17        : 2;
+        uint32_t frmscldwn             : 2;  /**< [ 15: 14](R/W) Frame scale down. Scales down device view of a SOF/USOF/ITP duration.
+                                                                 For SuperSpeed/high-speed mode:
+                                                                 0x0 = Interval is 125 us.
+                                                                 0x1 = Interval is 62.5 us.
+                                                                 0x2 = Interval is 31.25 us.
+                                                                 0x3 = Interval is 15.625 us.
+
+                                                                 For full-speed mode, the scale-down value is multiplied by 8. */
+        uint32_t prtcapdir             : 2;  /**< [ 13: 12](R/W) Port capability direction. Always keep set to 0x1. */
+        uint32_t coresoftreset         : 1;  /**< [ 11: 11](R/W) Core soft reset: 1 = soft reset to core, 0 = no soft reset.
+                                                                 Clears the interrupts and all the USBH()_UAHC_* CSRs except the
+                                                                 following registers: USBH()_UAHC_GCTL, USBH()_UAHC_GUCTL, USBH()_UAHC_GSTS,
+                                                                 USBH()_UAHC_GRLSID, USBH()_UAHC_GGPIO, USBH()_UAHC_GUID, USBH()_UAHC_GUSB2PHYCFG(),
+                                                                 USBH()_UAHC_GUSB3PIPECTL().
+
+                                                                 When you reset PHYs (using USBH()_UAHC_GUSB2PHYCFG() or USBH()_UAHC_GUSB3PIPECTL()), you
+                                                                 must keep the
+                                                                 core in reset state until PHY clocks are stable. This controls the bus, RAM, and MAC
+                                                                 domain resets.
+
+                                                                 INTERNAL: Refer to Reset Generation on Synopsys Databook page 250.
+                                                                 Under soft reset, accesses to USBH()_UAHC_* CSRs other than USBH()_UAHC_GCTL may fail
+                                                                 (timeout).
+                                                                 This bit is for debug purposes only. Use USBH()_UAHC_USBCMD[HCRST] for soft reset. */
+        uint32_t sofitpsync            : 1;  /**< [ 10: 10](R/W) Synchronize ITP to reference clock. In host mode, if this bit is set to:
+                                                                 0 = The core keeps the UTMI/ULPI PHY on the first port in non-suspended state whenever
+                                                                 there is a SuperSpeed port that is not in Rx.Detect, SS.Disable, and U3 state.
+                                                                 1 = The core keeps the UTMI/ULPI PHY on the first port in non-suspended state whenever the
+                                                                 other non-SuperSpeed ports are not in suspended state.
+
+                                                                 This feature is useful because it saves power by suspending UTMI/ULPI when SuperSpeed only
+                                                                 is active and it helps resolve when the PHY does not transmit a host resume unless it is
+                                                                 placed in suspend state.
+                                                                 USBH()_UAHC_GUSB2PHYCFG()[SUSPHY] eventually decides to put the UTMI/ULPI PHY in to
+                                                                 suspend
+                                                                 state. In addition, when this bit is set to 1, the core generates ITP off of the REF_CLK-
+                                                                 based counter. Otherwise, ITP and SOF are generated off of UTMI/ULPI_CLK[0] based counter.
+
+                                                                 To program the reference clock period inside the core, refer to
+                                                                 USBH()_UAHC_GUCTL[REFCLKPER].
+
+                                                                 If you do not plan to ever use this feature or the
+                                                                 USBH()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL]
+                                                                 feature, the minimum frequency for the ref_clk can be as low as 32KHz. You can connect the
+                                                                 SUSPEND_CLK (as low as 32 KHz) to REF_CLK.
+
+                                                                 If you plan to enable hardware-based LPM (PORTPMSC[HLE] = 1), this feature cannot be used.
+                                                                 Turn off this feature by setting this bit to zero and use the
+                                                                 USBH()_UAHC_GFLADJ[GFLADJ_REFCLK_LPM_SEL] feature.
+
+                                                                 If you set this bit to 1, the USBH()_UAHC_GUSB2PHYCFG() [U2_FREECLK_EXISTS] bit must be
+                                                                 set to
+                                                                 0. */
+        uint32_t u1u2timerscale        : 1;  /**< [  9:  9](R/W) Disable U1/U2 timer scaledown. If set to 1, along with SCALEDOWN = 0x1, disables the scale
+                                                                 down of U1/U2 inactive timer values.
+                                                                 This is for simulation mode only. */
+        uint32_t debugattach           : 1;  /**< [  8:  8](R/W) Debug attach. When this bit is set:
+                                                                 * SuperSpeed link proceeds directly to the polling-link state (USBH()_UAHC_DCTL[RS] = 1)
+                                                                 without checking remote termination.
+                                                                 * Link LFPS polling timeout is infinite
+                                                                 * Polling timeout during TS1 is infinite (in case link is waiting for TXEQ to finish). */
+        uint32_t ramclksel             : 2;  /**< [  7:  6](R/W) RAM clock select. Always keep set to 0x0. */
+        uint32_t scaledown             : 2;  /**< [  5:  4](R/W) Scale-down mode. When scale-down mode is enabled for simulation, the core uses scaled-down
+                                                                 timing values, resulting in faster simulations. When scale-down mode is disabled, actual
+                                                                 timing values are used. This is required for hardware operation.
+
+                                                                 High-speed/full-speed/low-speed modes:
+                                                                 0x0 = Disables all scale-downs. Actual timing values are used.
+                                                                 0x1 = Enables scale-down of all timing values. These include:
+                                                                 * Speed enumeration
+                                                                 * HNP/SRP
+                                                                 * Suspend and resume
+
                                                                  0x2 = N/A
                                                                  0x3 = Enables bits <0> and <1> scale-down timing values.
 
@@ -1052,8 +1316,9 @@ typedef union
                                                                  needs to programmed is: Power Down Scale = 10500/16 = 657 (rounded up; and fastest
                                                                  frequency used). */
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_usbhx_uahc_gctl_s cn; */
+    } cn81xx;
+    /* struct bdk_usbhx_uahc_gctl_s cn88xx; */
+    /* struct bdk_usbhx_uahc_gctl_cn81xx cn83xx; */
 } bdk_usbhx_uahc_gctl_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GCTL(unsigned long a) __attribute__ ((pure, always_inline));
@@ -1389,6 +1654,74 @@ typedef union
                                                                  _ <15> RX polarity.
                                                                  _ <14> TX Detect RX/loopback.
                                                                  _ <13:11> LTSSM PHY command state.
+                                                                 _ 0x0 = PHY_IDLE (PHY command state is in IDLE. No PHY request is pending).
+                                                                 _ 0x1 = PHY_DET (Request to start receiver detection).
+                                                                 _ 0x2 = PHY_DET_3 (Wait for Phy_Status (receiver detection)).
+                                                                 _ 0x3 = PHY_PWR_DLY (delay Pipe3_PowerDown P0 -> P1/P2/P3 request).
+                                                                 _ 0x4 = PHY_PWR_A (delay for internal logic).
+                                                                 _ 0x5 = PHY_PWR_B (wait for Phy_Status(Power-state change request)).
+
+                                                                 _ <10:9> Power down.
+                                                                 _ <8> RxEq train.
+                                                                 _ <7:6> TX de-emphasis.
+                                                                 _ <5:3> LTSSM clock state.
+                                                                 _ 0x0 = CLK_NORM (PHY is in non-P3 state and PCLK is running).
+                                                                 _ 0x1 = CLK_TO_P3 (P3 entry request to PHY).
+                                                                 _ 0x2 = CLK_WAIT1 (wait for Phy_Status (P3 request)).
+                                                                 _ 0x3 = CLK_P3 (PHY is in P3 and PCLK is not running).
+                                                                 _ 0x4 = CLK_TO_P0 (P3 exit request to PHY).
+                                                                 _ 0x5 = CLK_WAIT2 (Wait for Phy_Status (P3 exit request)).
+
+                                                                 _ <2> TX swing.
+                                                                 _ <1> RX termination.
+                                                                 _ <0> TX 1s/0s. */
+#else /* Word 0 - Little Endian */
+        uint32_t debugpipestatus       : 18; /**< [ 17:  0](RO/H) Debug PIPE status.
+                                                                 _ <17> Elastic buffer mode.
+                                                                 _ <16> TX elec idle.
+                                                                 _ <15> RX polarity.
+                                                                 _ <14> TX Detect RX/loopback.
+                                                                 _ <13:11> LTSSM PHY command state.
+                                                                 _ 0x0 = PHY_IDLE (PHY command state is in IDLE. No PHY request is pending).
+                                                                 _ 0x1 = PHY_DET (Request to start receiver detection).
+                                                                 _ 0x2 = PHY_DET_3 (Wait for Phy_Status (receiver detection)).
+                                                                 _ 0x3 = PHY_PWR_DLY (delay Pipe3_PowerDown P0 -> P1/P2/P3 request).
+                                                                 _ 0x4 = PHY_PWR_A (delay for internal logic).
+                                                                 _ 0x5 = PHY_PWR_B (wait for Phy_Status(Power-state change request)).
+
+                                                                 _ <10:9> Power down.
+                                                                 _ <8> RxEq train.
+                                                                 _ <7:6> TX de-emphasis.
+                                                                 _ <5:3> LTSSM clock state.
+                                                                 _ 0x0 = CLK_NORM (PHY is in non-P3 state and PCLK is running).
+                                                                 _ 0x1 = CLK_TO_P3 (P3 entry request to PHY).
+                                                                 _ 0x2 = CLK_WAIT1 (wait for Phy_Status (P3 request)).
+                                                                 _ 0x3 = CLK_P3 (PHY is in P3 and PCLK is not running).
+                                                                 _ 0x4 = CLK_TO_P0 (P3 exit request to PHY).
+                                                                 _ 0x5 = CLK_WAIT2 (Wait for Phy_Status (P3 exit request)).
+
+                                                                 _ <2> TX swing.
+                                                                 _ <1> RX termination.
+                                                                 _ <0> TX 1s/0s. */
+        uint32_t ltdbsubstate          : 4;  /**< [ 21: 18](RO/H) LTDB substate. */
+        uint32_t ltdblinkstate         : 4;  /**< [ 25: 22](RO/H) LTDB link state. */
+        uint32_t ltdbtimeout           : 1;  /**< [ 26: 26](RO/H) LTDB timeout. */
+        uint32_t reserved_27_31        : 5;
+#endif /* Word 0 - End */
+    } s;
+    struct bdk_usbhx_uahc_gdbgltssm_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint32_t reserved_27_31        : 5;
+        uint32_t ltdbtimeout           : 1;  /**< [ 26: 26](RO/H) LTDB timeout. */
+        uint32_t ltdblinkstate         : 4;  /**< [ 25: 22](RO/H) LTDB link state. */
+        uint32_t ltdbsubstate          : 4;  /**< [ 21: 18](RO/H) LTDB substate. */
+        uint32_t debugpipestatus       : 18; /**< [ 17:  0](RO/H) Debug PIPE status.
+                                                                 _ <17> Elastic buffer mode.
+                                                                 _ <16> TX elec idle.
+                                                                 _ <15> RX polarity.
+                                                                 _ <14> TX Detect RX/loopback.
+                                                                 _ <13:11> LTSSM PHY command state.
                                                                  _ 0x0 = PHY_IDLE (PHY command state is in IDLE. No PHY request is pending.)
                                                                  _ 0x1 = PHY_DET (Request to start receiver detection).
                                                                  _ 0x2 = PHY_DET_3 (Wait for Phy_Status (receiver detection)).
@@ -1443,8 +1776,9 @@ typedef union
         uint32_t ltdbtimeout           : 1;  /**< [ 26: 26](RO/H) LTDB timeout. */
         uint32_t reserved_27_31        : 5;
 #endif /* Word 0 - End */
-    } s;
-    /* struct bdk_usbhx_uahc_gdbgltssm_s cn; */
+    } cn81xx;
+    /* struct bdk_usbhx_uahc_gdbgltssm_s cn88xx; */
+    /* struct bdk_usbhx_uahc_gdbgltssm_cn81xx cn83xx; */
 } bdk_usbhx_uahc_gdbgltssm_t;
 
 static inline uint64_t BDK_USBHX_UAHC_GDBGLTSSM(unsigned long a) __attribute__ ((pure, always_inline));
@@ -6618,8 +6952,8 @@ typedef union
                                                                  preemphasis duration is defined in terms of unit amounts. One unit of preemphasis duration
                                                                  is approximately 580 ps and is defined as 1* preemphasis duration. This signal is valid
                                                                  only if either TX_PREEMP_AMP_TUNE0[1] or TX_PREEMP_AMP_TUNE0[0] is set to 1.
-                                                                 0 = 2*, long preemphasis current duration (design default)
-                                                                 1 = 1*, short preemphasis current duration
+                                                                 0 = 2*, long preemphasis current duration (design default).
+                                                                 1 = 1*, short preemphasis current duration.
 
                                                                  If this signal is not used, set it to 0. */
         uint64_t tx_res_tune           : 2;  /**< [ 39: 38](R/W) USB source-impedance adjustment. Some applications require additional devices to be added
@@ -6702,8 +7036,8 @@ typedef union
                                                                  preemphasis duration is defined in terms of unit amounts. One unit of preemphasis duration
                                                                  is approximately 580 ps and is defined as 1* preemphasis duration. This signal is valid
                                                                  only if either TX_PREEMP_AMP_TUNE0[1] or TX_PREEMP_AMP_TUNE0[0] is set to 1.
-                                                                 0 = 2*, long preemphasis current duration (design default)
-                                                                 1 = 1*, short preemphasis current duration
+                                                                 0 = 2*, long preemphasis current duration (design default).
+                                                                 1 = 1*, short preemphasis current duration.
 
                                                                  If this signal is not used, set it to 0. */
         uint64_t reserved_41           : 1;
@@ -7189,7 +7523,7 @@ typedef union
                                                                  <56:51> = Core/NCB-device number. Note that for NCB devices, <56> is always 0.
                                                                  <50:48> = SubID. */
         uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from UAHC.
-                                                                 0 = read error log, 1 = write error log */
+                                                                 0 = read error log, 1 = write error log. */
         uint64_t reserved_44_46        : 3;
         uint64_t xm_bad_dma_type       : 4;  /**< [ 43: 40](RO/H) ErrType error log for bad DMA access from UAHC. Encodes the type of error encountered
                                                                  (error largest encoded value has priority). See UCTL_XM_BAD_DMA_TYPE_E. */
@@ -7208,7 +7542,7 @@ typedef union
                                                                  (error largest encoded value has priority). See UCTL_XM_BAD_DMA_TYPE_E. */
         uint64_t reserved_44_46        : 3;
         uint64_t xm_bad_dma_wrn        : 1;  /**< [ 47: 47](RO/H) Read/write error log for bad DMA access from UAHC.
-                                                                 0 = read error log, 1 = write error log */
+                                                                 0 = read error log, 1 = write error log. */
         uint64_t xs_ncb_oob_osrc       : 12; /**< [ 59: 48](RO/H) SRCID error log for out-of-bound UAHC register access. The NCB outbound SRCID for the OOB
                                                                  error.
                                                                  <59:58> = chipID.

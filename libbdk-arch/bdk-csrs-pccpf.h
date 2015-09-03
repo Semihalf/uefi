@@ -68,7 +68,7 @@
 #define BDK_PCC_DEV_CON_E_CPT0 (0x500) /**< CPT 0. */
 #define BDK_PCC_DEV_CON_E_CPT1 (0x600) /**< CPT 1. */
 #define BDK_PCC_DEV_CON_E_DAP (0x102) /**< Debug access point. */
-#define BDK_PCC_DEV_CON_E_DDF (0x700) /**< DDF. */
+#define BDK_PCC_DEV_CON_E_DDF0 (0x700) /**< DDF. */
 #define BDK_PCC_DEV_CON_E_DFA (0x400) /**< HFA. */
 #define BDK_PCC_DEV_CON_E_FPA (0xd00) /**< FPA. */
 #define BDK_PCC_DEV_CON_E_FUSF (0x104) /**< Field Fuses. */
@@ -103,7 +103,7 @@
 #define BDK_PCC_DEV_CON_E_PBUS (0x10f) /**< Parallel bus. */
 #define BDK_PCC_DEV_CON_E_PCCBR_CPT0 (0x60) /**< Bridge for CPT 0, creating ECAM 0's bus 5. */
 #define BDK_PCC_DEV_CON_E_PCCBR_CPT1 (0x68) /**< Bridge for CPT 1, creating ECAM 0's bus 6. */
-#define BDK_PCC_DEV_CON_E_PCCBR_DDF (0xb8) /**< Bridge for DDF, creating ECAM 0's bus 7. */
+#define BDK_PCC_DEV_CON_E_PCCBR_DDF0 (0xb8) /**< Bridge for DDF0, creating ECAM 0's bus 7. */
 #define BDK_PCC_DEV_CON_E_PCCBR_DFA (0xb0) /**< Bridge for DFA, creating ECAM 0's bus 4. */
 #define BDK_PCC_DEV_CON_E_PCCBR_FPA (0xe8) /**< Bridge for TIM, creating ECAM 0's bus 13. */
 #define BDK_PCC_DEV_CON_E_PCCBR_MRML (8) /**< Bridge for MRML, creating ECAM 0's bus 1. */
@@ -2675,7 +2675,7 @@ typedef union
         uint32_t bcst_rsp              : 1;  /**< [  2:  2](SR/W) Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
                                                                  instance as the responder to PCC broadcast reads/writes. */
         uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
-                                                                 (e.g. GTI_MSIX_VEC(0..105)_ADDR[SECVEC]) for all vectors in the block. */
+                                                                 (e.g. GTI_MSIX_VEC()_ADDR[SECVEC]) for all vectors in the block. */
         uint32_t msix_phys             : 1;  /**< [  0:  0](SR/W) MSI-X interrupts are physical.
                                                                  0 = MSI-X interrupt vector addresses are standard virtual addresses and subject to SMMU
                                                                  address translation.
@@ -2688,7 +2688,7 @@ typedef union
                                                                  1 = MSI-X interrupt vector addresses are considered physical addresses and PCC MSI-X
                                                                  interrupt delivery will bypass the SMMU. */
         uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
-                                                                 (e.g. GTI_MSIX_VEC(0..105)_ADDR[SECVEC]) for all vectors in the block. */
+                                                                 (e.g. GTI_MSIX_VEC()_ADDR[SECVEC]) for all vectors in the block. */
         uint32_t bcst_rsp              : 1;  /**< [  2:  2](SR/W) Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
                                                                  instance as the responder to PCC broadcast reads/writes. */
         uint32_t ea                    : 1;  /**< [  3:  3](SRO) Reserved. */
@@ -2726,7 +2726,7 @@ typedef union
         uint32_t bcst_rsp              : 1;  /**< [  2:  2](SR/W) Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
                                                                  instance as the responder to PCC broadcast reads/writes. */
         uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
-                                                                 (e.g. GTI_MSIX_VEC(0..105)_ADDR[SECVEC]) for all vectors in the block. */
+                                                                 (e.g. GTI_MSIX_VEC()_ADDR[SECVEC]) for all vectors in the block. */
         uint32_t msix_phys             : 1;  /**< [  0:  0](SR/W) MSI-X interrupts are physical.
                                                                  0 = MSI-X interrupt vector addresses are standard virtual addresses and subject to SMMU
                                                                  address translation.
@@ -2739,7 +2739,7 @@ typedef union
                                                                  1 = MSI-X interrupt vector addresses are considered physical addresses and PCC MSI-X
                                                                  interrupt delivery will bypass the SMMU. */
         uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
-                                                                 (e.g. GTI_MSIX_VEC(0..105)_ADDR[SECVEC]) for all vectors in the block. */
+                                                                 (e.g. GTI_MSIX_VEC()_ADDR[SECVEC]) for all vectors in the block. */
         uint32_t bcst_rsp              : 1;  /**< [  2:  2](SR/W) Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
                                                                  instance as the responder to PCC broadcast reads/writes. */
         uint32_t ea                    : 1;  /**< [  3:  3](SR/W) Enable PCI enhanced allocation.
@@ -2791,7 +2791,7 @@ typedef union
         uint32_t bcst_rsp              : 1;  /**< [  2:  2](SR/W) Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
                                                                  instance as the responder to PCC broadcast reads/writes. */
         uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
-                                                                 (e.g. GTI_MSIX_VEC(0..105)_ADDR[SECVEC]) for all vectors in the block. */
+                                                                 (e.g. GTI_MSIX_VEC()_ADDR[SECVEC]) for all vectors in the block. */
         uint32_t msix_phys             : 1;  /**< [  0:  0](SR/W) MSI-X interrupts are physical.
                                                                  0 = MSI-X interrupt vector addresses are standard virtual addresses and subject to SMMU
                                                                  address translation.
@@ -2804,7 +2804,7 @@ typedef union
                                                                  1 = MSI-X interrupt vector addresses are considered physical addresses and PCC MSI-X
                                                                  interrupt delivery will bypass the SMMU. */
         uint32_t msix_sec              : 1;  /**< [  1:  1](SR/W) All MSI-X interrupts are secure. This is equivelent to setting the per-vector secure bit
-                                                                 (e.g. GTI_MSIX_VEC(0..105)_ADDR[SECVEC]) for all vectors in the block. */
+                                                                 (e.g. GTI_MSIX_VEC()_ADDR[SECVEC]) for all vectors in the block. */
         uint32_t bcst_rsp              : 1;  /**< [  2:  2](SR/W) Reserved, must be 0. INTERNAL: Reserved for future use - Enable this PCC
                                                                  instance as the responder to PCC broadcast reads/writes. */
         uint32_t ea                    : 1;  /**< [  3:  3](SR/W) Enable PCI enhanced allocation.
