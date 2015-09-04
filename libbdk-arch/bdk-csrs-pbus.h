@@ -80,7 +80,7 @@
 /**
  * Register (RSL) pbus_bist_status
  *
- * MIO Boot BIST Status Register
+ * PBUS BIST Status Register
  * The boot BIST status register contains the BIST status for the MIO boot memories: 0 = pass, 1
  * = fail.
  */
@@ -138,7 +138,7 @@ static inline uint64_t BDK_PBUS_BIST_STATUS_FUNC(void)
 /**
  * Register (RSL) pbus_comp
  *
- * MIO Boot Compensation Register
+ * PBUS Compensation Register
  * This register sets the output impedance of boot-bus output pins.
  */
 typedef union
@@ -197,7 +197,7 @@ static inline uint64_t BDK_PBUS_COMP_FUNC(void)
 /**
  * Register (RSL) pbus_dma_adr#
  *
- * MIO Boot DMA Engine Address Registers
+ * PBUS DMA Engine Address Registers
  * This is the DMA engine n address register (one register for each of two engines).
  */
 typedef union
@@ -237,7 +237,7 @@ static inline uint64_t BDK_PBUS_DMA_ADRX(unsigned long a)
 /**
  * Register (RSL) pbus_dma_cfg#
  *
- * MIO Boot DMA Engine Configuration Registers
+ * PBUS DMA Engine Configuration Registers
  * This is the DMA engine n configuration register (one register for each of two engines).
  * Care must be taken to insure that the DMA duration not exceed the processor timeout of 2^29
  * core clocks or the RML timeout specified in SLI_WINDOW_CTL[TIME] coprocessor clocks if
@@ -312,7 +312,7 @@ static inline uint64_t BDK_PBUS_DMA_CFGX(unsigned long a)
 /**
  * Register (RSL) pbus_dma_int#
  *
- * MIO Boot DMA Engine Interrupt Registers
+ * PBUS DMA Engine Interrupt Registers
  * This is the DMA engine n interrupt register (one register for each of two engines).
  */
 typedef union
@@ -352,7 +352,7 @@ static inline uint64_t BDK_PBUS_DMA_INTX(unsigned long a)
 /**
  * Register (RSL) pbus_dma_int_ena_w1c#
  *
- * MIO Boot DMA Engine Interrupt Enable Clear Registers
+ * PBUS DMA Engine Interrupt Enable Clear Registers
  * This register sets interrupt bits.
  */
 typedef union
@@ -390,7 +390,7 @@ static inline uint64_t BDK_PBUS_DMA_INT_ENA_W1CX(unsigned long a)
 /**
  * Register (RSL) pbus_dma_int_ena_w1s#
  *
- * MIO Boot DMA Engine Interrupt Enable Set Registers
+ * PBUS DMA Engine Interrupt Enable Set Registers
  * This register sets interrupt bits.
  */
 typedef union
@@ -428,7 +428,7 @@ static inline uint64_t BDK_PBUS_DMA_INT_ENA_W1SX(unsigned long a)
 /**
  * Register (RSL) pbus_dma_int_w1s#
  *
- * MIO Boot DMA Engine Interrupt Set Registers
+ * PBUS DMA Engine Interrupt Set Registers
  * This register sets interrupt bits.
  */
 typedef union
@@ -466,7 +466,7 @@ static inline uint64_t BDK_PBUS_DMA_INT_W1SX(unsigned long a)
 /**
  * Register (RSL) pbus_dma_tim#
  *
- * MIO Boot DMA Engine Timing Registers
+ * PBUS DMA Engine Timing Registers
  * This is the DMA engine n timing register (one register for each of two engines).
  */
 typedef union
@@ -604,7 +604,7 @@ static inline uint64_t BDK_PBUS_ECO_FUNC(void)
 /**
  * Register (RSL) pbus_err
  *
- * MIO Boot Error Register
+ * PBUS Error Register
  * The boot-error register contains the address decode error and wait mode error bits.
  */
 typedef union
@@ -649,7 +649,7 @@ static inline uint64_t BDK_PBUS_ERR_FUNC(void)
 /**
  * Register (RSL) pbus_err_ena_w1c
  *
- * MIO Boot Error Enable Clear Register
+ * PBUS Error Enable Clear Register
  * This register clears interrupt enable bits.
  */
 typedef union
@@ -690,7 +690,7 @@ static inline uint64_t BDK_PBUS_ERR_ENA_W1C_FUNC(void)
 /**
  * Register (RSL) pbus_err_ena_w1s
  *
- * MIO Boot Error Enable Set Register
+ * PBUS Error Enable Set Register
  * This register sets interrupt enable bits.
  */
 typedef union
@@ -731,7 +731,7 @@ static inline uint64_t BDK_PBUS_ERR_ENA_W1S_FUNC(void)
 /**
  * Register (RSL) pbus_err_w1s
  *
- * MIO Boot Error Set Register
+ * PBUS Error Set Register
  * This register sets interrupt bits.
  */
 typedef union
@@ -913,7 +913,7 @@ static inline uint64_t BDK_PBUS_MSIX_VECX_CTL(unsigned long a)
 /**
  * Register (RSL) pbus_reg#_cfg
  *
- * MIO Boot Region Configuration Registers
+ * PBUS Region Configuration Registers
  * The region n configuration register (one register for each of seven regions) contains
  * configuration parameters for boot region n.
  */
@@ -962,14 +962,14 @@ typedef union
                                                                  for common memory and attribute memory. */
         uint64_t ale                   : 1;  /**< [ 29: 29](R/W) Region address-latch-enable mode. Enables the multiplexed address/data bus mode. */
         uint64_t width                 : 1;  /**< [ 28: 28](R/W) Region bus width: 0 = 8 bits, 1 = 16 bits. */
-        uint64_t size                  : 12; /**< [ 27: 16](R/W) Region ize. Region size is specified in 64K blocks and in 'block-1' notation (i.e.
+        uint64_t size                  : 12; /**< [ 27: 16](R/W) Region size. Region size is specified in 64K blocks and in 'block-1' notation (i.e.
                                                                  0x0 = one 64K block, 0x1 = two 64K blocks, etc.). */
         uint64_t base                  : 16; /**< [ 15:  0](R/W) Region base address. Specifies address bits [31:16] of the first 64K block of the
                                                                  region. */
 #else /* Word 0 - Little Endian */
         uint64_t base                  : 16; /**< [ 15:  0](R/W) Region base address. Specifies address bits [31:16] of the first 64K block of the
                                                                  region. */
-        uint64_t size                  : 12; /**< [ 27: 16](R/W) Region ize. Region size is specified in 64K blocks and in 'block-1' notation (i.e.
+        uint64_t size                  : 12; /**< [ 27: 16](R/W) Region size. Region size is specified in 64K blocks and in 'block-1' notation (i.e.
                                                                  0x0 = one 64K block, 0x1 = two 64K blocks, etc.). */
         uint64_t width                 : 1;  /**< [ 28: 28](R/W) Region bus width: 0 = 8 bits, 1 = 16 bits. */
         uint64_t ale                   : 1;  /**< [ 29: 29](R/W) Region address-latch-enable mode. Enables the multiplexed address/data bus mode. */
@@ -1034,7 +1034,7 @@ static inline uint64_t BDK_PBUS_REGX_CFG(unsigned long a)
 /**
  * Register (RSL) pbus_reg#_tim
  *
- * MIO Boot Regions Timing Registers
+ * PBUS Regions Timing Registers
  * The region n timing register (one register for each of seven regions) contains page-mode,
  * wait-mode, and timing parameters for region n.
  */

@@ -1114,9 +1114,7 @@ static inline uint64_t BDK_PCIEEPX_CFG015(unsigned long a)
 /**
  * Register (PCICONFIGEP) pcieep#_cfg016
  *
- * Power Management Capability ID/Power Management Next Item Pointer/Power Management
- * Capabilities Register
- *
+ * PCIe EP Power Management Capability ID Register
  * This register contains the seventeenth 32-bits of PCIe type 0 configuration space.
  */
 typedef union

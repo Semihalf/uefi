@@ -817,9 +817,7 @@ static inline uint64_t BDK_PCIERCX_CFG015(unsigned long a)
 /**
  * Register (PCICONFIGRC) pcierc#_cfg016
  *
- * Power Management Capability ID/Power Management Next Item Pointer/Power Management
- * Capabilities Register
- *
+ * PCIe RC Power Management Capability ID Register
  * This register contains the seventeenth 32-bits of PCIe type 1 configuration space.
  */
 typedef union

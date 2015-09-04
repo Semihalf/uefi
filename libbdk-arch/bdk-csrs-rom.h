@@ -568,7 +568,7 @@ union bdk_rom_csib_s
 /**
  * Register (NCB) rom_mem#
  *
- * Internal Boot ROM Registers
+ * ROM Internal Boot Memory Registers
  */
 typedef union
 {

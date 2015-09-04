@@ -370,7 +370,7 @@ union bdk_pko_mem_result_s
 /**
  * Structure pko_meta_desc_s
  *
- * Meta Packet Descriptor Structure
+ * PKO Meta-Packet Descriptor Structure
  * A meta packet descriptor represents its corresponding PKO Send descriptor during PKOs
  * queueing, conditioning, and scheduling before transferring the packet. PKO_META_DESC_S is the
  * meta packet structure queued in DQs (in L2/DRAM). The PKO_*_PICK CSR's are the meta packet
@@ -2442,6 +2442,56 @@ static inline uint64_t BDK_PKO_DPFI_FPA_AURA_FUNC(void)
 #define basename_BDK_PKO_DPFI_FPA_AURA "PKO_DPFI_FPA_AURA"
 #define busnum_BDK_PKO_DPFI_FPA_AURA 0
 #define arguments_BDK_PKO_DPFI_FPA_AURA -1,-1,-1,-1
+
+/**
+ * Register (NCB) pko_dpfi_gmctl
+ *
+ * PKO Descriptor Manager FPA Guest Machine Control Register
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_pko_dpfi_gmctl_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_24_63        : 40;
+        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing descriptor accesses
+                                                                 related to this VF/DQ set.
+
+                                                                 Stream 0x0 corresponds to the PF, and VFs start at 0x1. */
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for descriptor buffer
+                                                                 allocations and frees.
+
+                                                                 See also PKO_PF_VF()_GMCTL[GMID]. */
+#else /* Word 0 - Little Endian */
+        uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for descriptor buffer
+                                                                 allocations and frees.
+
+                                                                 See also PKO_PF_VF()_GMCTL[GMID]. */
+        uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing descriptor accesses
+                                                                 related to this VF/DQ set.
+
+                                                                 Stream 0x0 corresponds to the PF, and VFs start at 0x1. */
+        uint64_t reserved_24_63        : 40;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_pko_dpfi_gmctl_s cn; */
+} bdk_pko_dpfi_gmctl_t;
+
+#define BDK_PKO_DPFI_GMCTL BDK_PKO_DPFI_GMCTL_FUNC()
+static inline uint64_t BDK_PKO_DPFI_GMCTL_FUNC(void) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_PKO_DPFI_GMCTL_FUNC(void)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX))
+        return 0x854000c00020ll;
+    __bdk_csr_fatal("PKO_DPFI_GMCTL", 0, 0, 0, 0, 0);
+}
+
+#define typedef_BDK_PKO_DPFI_GMCTL bdk_pko_dpfi_gmctl_t
+#define bustype_BDK_PKO_DPFI_GMCTL BDK_CSR_TYPE_NCB
+#define basename_BDK_PKO_DPFI_GMCTL "PKO_DPFI_GMCTL"
+#define busnum_BDK_PKO_DPFI_GMCTL 0
+#define arguments_BDK_PKO_DPFI_GMCTL -1,-1,-1,-1
 
 /**
  * Register (NCB) pko_dpfi_status
@@ -10050,7 +10100,7 @@ static inline uint64_t BDK_PKO_PDM_STS_FUNC(void)
 /**
  * Register (NCB) pko_peb_bist_status
  *
- * PEB BIST Status Information Register
+ * PKO PEB BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -10799,7 +10849,7 @@ static inline uint64_t BDK_PKO_PEB_ERR_INT_FUNC(void)
 /**
  * Register (NCB) pko_peb_ext_hdr_def_err_info
  *
- * PEB_EXT_HDR_DEF_ERR Error Information Register
+ * PKO External Error Information Register
  */
 typedef union
 {
@@ -10839,7 +10889,7 @@ static inline uint64_t BDK_PKO_PEB_EXT_HDR_DEF_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_fcs_sop_err_info
  *
- * PEB_FCS_SOP_ERR Error Information Register
+ * PKO FCS Error Information Register
  */
 typedef union
 {
@@ -10879,7 +10929,7 @@ static inline uint64_t BDK_PKO_PEB_FCS_SOP_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_jump_def_err_info
  *
- * PEB_JUMP_DEF_ERR Error Information Register
+ * PKO Jump Error Information Register
  */
 typedef union
 {
@@ -10919,7 +10969,7 @@ static inline uint64_t BDK_PKO_PEB_JUMP_DEF_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_macx_cfg_wr_err_info
  *
- * PEB_MACX_CFG_WR_ERR Error Information Register
+ * PKO MAC Configuration Error Information Register
  */
 typedef union
 {
@@ -10957,7 +11007,7 @@ static inline uint64_t BDK_PKO_PEB_MACX_CFG_WR_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_max_link_err_info
  *
- * PEB_MAX_LINK_ERR Error Information Register
+ * PKO Max link Error Information Register
  */
 typedef union
 {
@@ -11033,7 +11083,7 @@ static inline uint64_t BDK_PKO_PEB_NCB_CFG_FUNC(void)
 /**
  * Register (NCB) pko_peb_pad_err_info
  *
- * PEB_PAD_ERR Error Information Register
+ * PKO PAD Error Information Register
  */
 typedef union
 {
@@ -11073,7 +11123,7 @@ static inline uint64_t BDK_PKO_PEB_PAD_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_pse_fifo_err_info
  *
- * PEB_PSE_FIFO_ERR Error Information Register
+ * PKO PSE Error Information Register
  */
 typedef union
 {
@@ -11113,7 +11163,7 @@ static inline uint64_t BDK_PKO_PEB_PSE_FIFO_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_subd_addr_err_info
  *
- * PEB_SUBD_ADDR_ERR Error Information Register
+ * PKO Subdecriptor Error Information Register
  */
 typedef union
 {
@@ -11153,7 +11203,7 @@ static inline uint64_t BDK_PKO_PEB_SUBD_ADDR_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_subd_size_err_info
  *
- * PEB_SUBD_SIZE_ERR Error Information Register
+ * PKO Size_ERR Error Information Register
  */
 typedef union
 {
@@ -11193,7 +11243,7 @@ static inline uint64_t BDK_PKO_PEB_SUBD_SIZE_ERR_INFO_FUNC(void)
 /**
  * Register (NCB) pko_peb_trunc_err_info
  *
- * PEB_TRUNC_ERR Error Information Register
+ * PKO Truncation Error Information Register
  */
 typedef union
 {
@@ -11445,12 +11495,16 @@ typedef union
 
                                                                  Reset such that VF0/index 0 is 0x1, VF1/index 1 is 0x2, etc. */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
-                                                                 buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests. */
+                                                                 send buffer frees, or to SSO for all submit work operations initiated by this queue.
+                                                                 Must be non-zero or FPA/SSO will drop requests.
+
+                                                                 See also PKI_DPFI_GMCTL[GMID]. */
 #else /* Word 0 - Little Endian */
         uint64_t gmid                  : 16; /**< [ 15:  0](R/W) Guest machine identifier. The GMID to send to FPA for all
-                                                                 buffer free, or to SSO for all submit work operations initiated by this queue.
-                                                                 Must be non-zero or FPA/SSO will drop requests. */
+                                                                 send buffer frees, or to SSO for all submit work operations initiated by this queue.
+                                                                 Must be non-zero or FPA/SSO will drop requests.
+
+                                                                 See also PKI_DPFI_GMCTL[GMID]. */
         uint64_t strm                  : 8;  /**< [ 23: 16](R/W) Low 8 bits of the SMMU stream identifier to use when issuing DQ or data returns
                                                                  related to this VF/DQ set.
 
@@ -11694,7 +11748,7 @@ static inline uint64_t BDK_PKO_PQB_DEBUG_FUNC(void)
 /**
  * Register (NCB) pko_pse_dq_bist_status
  *
- * PSE DQ BIST Status Information Register
+ * PKO PSE DQ BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -11967,7 +12021,7 @@ static inline uint64_t BDK_PKO_PSE_DQ_ECC_SBE_STS_CMB0_FUNC(void)
 /**
  * Register (NCB) pko_pse_pq_bist_status
  *
- * PSE PQ BIST Status Information Register
+ * PKO PSE PQ BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -12316,7 +12370,7 @@ static inline uint64_t BDK_PKO_PSE_PQ_ECC_SBE_STS_CMB0_FUNC(void)
 /**
  * Register (NCB) pko_pse_sq1_bist_status
  *
- * PSE SQ1 BIST Status Information Register
+ * PKO PSE SQ1 BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union
@@ -12848,7 +12902,7 @@ static inline uint64_t BDK_PKO_PSE_SQ1_ECC_SBE_STS_CMB0_FUNC(void)
 /**
  * Register (NCB) pko_pse_sq2_bist_status
  *
- * PSE SQ2 BIST Status Information Register
+ * PKO PSE SQ2 BIST Status Information Register
  * Each bit is the BIST result of an individual memory (per bit, 0 = pass and 1 = fail).
  */
 typedef union

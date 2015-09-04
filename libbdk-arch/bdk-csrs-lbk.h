@@ -55,7 +55,7 @@
 /**
  * Enumeration lbk_bar_e
  *
- * LBK Base Address Register Enumeration
+ * Loopback Base Address Register Enumeration
  * Enumerates the base address registers.
  */
 #define BDK_LBK_BAR_E_LBKX_PF_BAR0(a) (0x87e018000000ll + 0x1000000ll * (a)) /**< Base address for standard registers. */

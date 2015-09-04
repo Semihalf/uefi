@@ -504,7 +504,7 @@ static inline uint64_t BDK_FPA_AURAX_POOL_LEVELS(unsigned long a)
 /**
  * Register (NCB) fpa_bist_status
  *
- * BIST Status of FPA Memories Register
+ * FPA BIST Status Register
  * This register provides the result of the BIST run on the FPA memories.
  */
 typedef union

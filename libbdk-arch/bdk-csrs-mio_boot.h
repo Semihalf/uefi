@@ -55,7 +55,7 @@
 /**
  * Enumeration mio_boot_bar_e
  *
- * MIO BOOT Base Address Register Enumeration
+ * MIO Boot Base Address Register Enumeration
  * Enumerates the base address registers.
  */
 #define BDK_MIO_BOOT_BAR_E_MIO_BOOT_PF_BAR0 (0x87e000000000ll) /**< Base address for standard registers. */
