@@ -67,9 +67,9 @@
  * TWSI MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_MIO_TWS_INT_VEC_E_INT_ST (0) /**< See interrupt clears MIO_TWS(0..5)_INT[ST_INT], MIO_TWS(0..5)_INT[TS_INT],
-                                       MIO_TWS(0..5)_INT[CORE_INT], interrupt sets MIO_TWS(0..5)_INT_W1S, enable clears
-                                       MIO_TWS(0..5)_INT_ENA_W1C, and enable sets MIO_TWS(0..5)_INT_ENA_W1S. */
+#define BDK_MIO_TWS_INT_VEC_E_INT_ST (0) /**< See interrupt clears MIO_TWS()_INT[ST_INT], MIO_TWS()_INT[TS_INT],
+                                       MIO_TWS()_INT[CORE_INT], interrupt sets MIO_TWS()_INT_W1S, enable clears
+                                       MIO_TWS()_INT_ENA_W1C, and enable sets MIO_TWS()_INT_ENA_W1S. */
 
 /**
  * Register (RSL) mio_tws#_int

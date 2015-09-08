@@ -67,7 +67,15 @@
  * PEM MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_PEM_INT_VEC_E_DBG_INFO (0xd) /**< See interrupt clears PEM(0..5)_DBG_INFO,
+#define BDK_PEM_INT_VEC_E_DBG_INFO_CN81XX (0xd) /**< See interrupt clears PEM(0..5)_DBG_INFO,
+                                       interrupt sets PEM(0..5)_DBG_INFO_W1S,
+                                       enable clears PEM(0..5)_DBG_ENA_W1C,
+                                       and enable sets PEM(0..5)_DBG_ENA_W1S. */
+#define BDK_PEM_INT_VEC_E_DBG_INFO_CN88XX (0xd) /**< See interrupt clears PEM()_DBG_INFO,
+                                       interrupt sets PEM()_DBG_INFO_W1S,
+                                       enable clears PEM()_DBG_ENA_W1C,
+                                       and enable sets PEM()_DBG_ENA_W1S. */
+#define BDK_PEM_INT_VEC_E_DBG_INFO_CN83XX (0xd) /**< See interrupt clears PEM(0..5)_DBG_INFO,
                                        interrupt sets PEM(0..5)_DBG_INFO_W1S,
                                        enable clears PEM(0..5)_DBG_ENA_W1C,
                                        and enable sets PEM(0..5)_DBG_ENA_W1S. */
@@ -89,7 +97,15 @@
 #define BDK_PEM_INT_VEC_E_INTC_CLEAR (9) /**< Level sensitive interrupt clear vector. */
 #define BDK_PEM_INT_VEC_E_INTD (0xa) /**< PCI INTD legacy interrupt set vector. */
 #define BDK_PEM_INT_VEC_E_INTD_CLEAR (0xb) /**< Level sensitive interrupt clear vector. */
-#define BDK_PEM_INT_VEC_E_INT_SUM (0xc) /**< See interrupt clears PEM(0..5)_INT_SUM,
+#define BDK_PEM_INT_VEC_E_INT_SUM_CN81XX (0xc) /**< See interrupt clears PEM(0..5)_INT_SUM,
+                                       interrupt sets PEM(0..5)_INT_SUM_W1S,
+                                       enable clears PEM(0..5)_INT_ENA_W1C,
+                                       and enable sets PEM(0..5)_INT_ENA_W1S. */
+#define BDK_PEM_INT_VEC_E_INT_SUM_CN88XX (0xc) /**< See interrupt clears PEM()_INT_SUM,
+                                       interrupt sets PEM()_INT_SUM_W1S,
+                                       enable clears PEM()_INT_ENA_W1C,
+                                       and enable sets PEM()_INT_ENA_W1S. */
+#define BDK_PEM_INT_VEC_E_INT_SUM_CN83XX (0xc) /**< See interrupt clears PEM(0..5)_INT_SUM,
                                        interrupt sets PEM(0..5)_INT_SUM_W1S,
                                        enable clears PEM(0..5)_INT_ENA_W1C,
                                        and enable sets PEM(0..5)_INT_ENA_W1S. */
@@ -3302,10 +3318,10 @@ typedef union
         uint64_t reserved_2_63         : 62;
         uint64_t pemoor                : 1;  /**< [  1:  1](RO/H) Indication to software that the PEM has been taken out of reset (i.e. BIST is done) and it
                                                                  is safe to configure core CSRs. */
-        uint64_t pemon                 : 1;  /**< [  0:  0](R/W/H) Indication to the QLM that the PEM is out of reset, configured, and ready to send/receive
+        uint64_t pemon                 : 1;  /**< [  0:  0](R/W/H) Indication to the GSER that the PEM is out of reset, configured, and ready to send/receive
                                                                  traffic. Setting this bit takes the configured PIPE out of reset. */
 #else /* Word 0 - Little Endian */
-        uint64_t pemon                 : 1;  /**< [  0:  0](R/W/H) Indication to the QLM that the PEM is out of reset, configured, and ready to send/receive
+        uint64_t pemon                 : 1;  /**< [  0:  0](R/W/H) Indication to the GSER that the PEM is out of reset, configured, and ready to send/receive
                                                                  traffic. Setting this bit takes the configured PIPE out of reset. */
         uint64_t pemoor                : 1;  /**< [  1:  1](RO/H) Indication to software that the PEM has been taken out of reset (i.e. BIST is done) and it
                                                                  is safe to configure core CSRs. */

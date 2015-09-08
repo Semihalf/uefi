@@ -1511,7 +1511,7 @@ static inline uint64_t BDK_TIM_VRINGX_BASE(unsigned long a)
  * Register (NCB) tim_vring#_ctl0
  *
  * TIM Ring Control 0 Registers
- * This register is a read-only copy of TIM_RING(0..63)_CTL0.
+ * This register is a read-only copy of TIM_RING()_CTL0.
  */
 typedef union
 {
@@ -1547,7 +1547,7 @@ static inline uint64_t BDK_TIM_VRINGX_CTL0(unsigned long a)
  * Register (NCB) tim_vring#_ctl1
  *
  * TIM Ring Control 1 Registers
- * This register is a read-only copy of TIM_RING(0..63)_CTL1.
+ * This register is a read-only copy of TIM_RING()_CTL1.
  */
 typedef union
 {
@@ -1605,7 +1605,7 @@ static inline uint64_t BDK_TIM_VRINGX_CTL1(unsigned long a)
  * Register (NCB) tim_vring#_ctl2
  *
  * TIM Ring Control 2 Registers
- * This register is a read-only copy of TIM_RING(0..63)_CTL2.
+ * This register is a read-only copy of TIM_RING()_CTL2.
  */
 typedef union
 {

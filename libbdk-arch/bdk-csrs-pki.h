@@ -5580,7 +5580,6 @@ static inline uint64_t BDK_PKI_GEN_INT_W1S_FUNC(void)
  *
  * PKI Cluster Group Control Register
  * Configures a cluster group.
- * INTERNAL: Only document a ICG(0..0)
  */
 typedef union
 {

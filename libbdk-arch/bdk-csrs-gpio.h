@@ -373,25 +373,27 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_12_63        : 52;
-        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which QLM(0..7) to select from. */
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..7) to select from. */
         uint64_t reserved_4_7          : 4;
-        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to QLM SerDes CLOCK_SYNCE. The maximum
+        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
                                                                  supported GPIO output frequency is 125 MHz.
                                                                  0x0 = Divide by 20.
                                                                  0x1 = Divide by 40.
                                                                  0x2 = Divide by 80.
                                                                  0x3 = Divide by 160. */
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Selects which RX lane clock from QLMx to use as the GPIO internal QLMx clock. */
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
+                                                                 internal QLMx clock. */
 #else /* Word 0 - Little Endian */
-        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Selects which RX lane clock from QLMx to use as the GPIO internal QLMx clock. */
-        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to QLM SerDes CLOCK_SYNCE. The maximum
+        uint64_t lane_sel              : 2;  /**< [  1:  0](R/W) Which RX lane within the GSER selected with [QLM_SEL] to use as the GPIO
+                                                                 internal QLMx clock. */
+        uint64_t div                   : 2;  /**< [  3:  2](R/W) GPIO internal clock divider setting relative to GSER SerDes CLOCK_SYNCE. The maximum
                                                                  supported GPIO output frequency is 125 MHz.
                                                                  0x0 = Divide by 20.
                                                                  0x1 = Divide by 40.
                                                                  0x2 = Divide by 80.
                                                                  0x3 = Divide by 160. */
         uint64_t reserved_4_7          : 4;
-        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which QLM(0..7) to select from. */
+        uint64_t qlm_sel               : 4;  /**< [ 11:  8](R/W) Selects which GSER(0..7) to select from. */
         uint64_t reserved_12_63        : 52;
 #endif /* Word 0 - End */
     } s;

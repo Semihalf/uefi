@@ -133,31 +133,31 @@
  * USBH MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP1_1 (0) /**< Changed in pass 1.1. See UAHC(0)_IMAN(0)[IP]. */
-#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP1_0 (2) /**< Changed in pass 1.1. See UAHC(0)_IMAN(0)[IP]. */
+#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP1_1 (0) /**< Changed in pass 1.1. See UAHC()_IMAN()[IP]. */
+#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP1_0 (2) /**< Changed in pass 1.1. See UAHC()_IMAN()[IP]. */
 #define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN81XX (0) /**< Changed in pass 1.1. See UAHC(0)_IMAN(0)[IP]. */
 #define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN83XX (0) /**< Changed in pass 1.1. See UAHC(0)_IMAN(0)[IP]. */
-#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP2 (0) /**< Changed in pass 1.1. See UAHC(0)_IMAN(0)[IP]. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP1_1 (2) /**< Changed in pass 1.1. See UAHC(0..1)_USBSTS[HSE]. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP1_0 (0) /**< Changed in pass 1.1. See UAHC(0..1)_USBSTS[HSE]. */
+#define BDK_USBH_INT_VEC_E_UAHC_IMAN_IP_CN88XXP2 (0) /**< Changed in pass 1.1. See UAHC()_IMAN()[IP]. */
+#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP1_1 (2) /**< Changed in pass 1.1. See UAHC()_USBSTS[HSE]. */
+#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP1_0 (0) /**< Changed in pass 1.1. See UAHC()_USBSTS[HSE]. */
 #define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN81XX (2) /**< Changed in pass 1.1. See UAHC(0..1)_USBSTS[HSE]. */
 #define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN83XX (2) /**< Changed in pass 1.1. See UAHC(0..1)_USBSTS[HSE]. */
-#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP2 (2) /**< Changed in pass 1.1. See UAHC(0..1)_USBSTS[HSE]. */
+#define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CN88XXP2 (2) /**< Changed in pass 1.1. See UAHC()_USBSTS[HSE]. */
 #define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP1_1 (3) /**< Changed in pass 1.1. Level sensitive interrupt clear vector. */
 #define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP1_0 (1) /**< Changed in pass 1.1. Level sensitive interrupt clear vector. */
 #define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN81XX (3) /**< Changed in pass 1.1. Level sensitive interrupt clear vector. */
 #define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN83XX (3) /**< Changed in pass 1.1. Level sensitive interrupt clear vector. */
 #define BDK_USBH_INT_VEC_E_UAHC_USBSTS_HSE_CLEAR_CN88XXP2 (3) /**< Changed in pass 1.1. Level sensitive interrupt clear vector. */
 #define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP1_1 (1) /**< Changed in pass 1.1.
-                                       See interrupt clears USBH(0..1)_UCTL_INTSTAT,
-                                       interrupt sets USBH(0..1)_UCTL_INTSTAT_W1S,
-                                       enable clears USBH(0..1)_UCTL_INTENA_W1C,
-                                       and enable sets USBH(0..1)_UCTL_INTENA_W1S. */
+                                       See interrupt clears USBH()_UCTL_INTSTAT,
+                                       interrupt sets USBH()_UCTL_INTSTAT_W1S,
+                                       enable clears USBH()_UCTL_INTENA_W1C,
+                                       and enable sets USBH()_UCTL_INTENA_W1S. */
 #define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP1_0 (3) /**< Changed in pass 1.1.
-                                       See interrupt clears USBH(0..1)_UCTL_INTSTAT,
-                                       interrupt sets USBH(0..1)_UCTL_INTSTAT_W1S,
-                                       enable clears USBH(0..1)_UCTL_INTENA_W1C,
-                                       and enable sets USBH(0..1)_UCTL_INTENA_W1S. */
+                                       See interrupt clears USBH()_UCTL_INTSTAT,
+                                       interrupt sets USBH()_UCTL_INTSTAT_W1S,
+                                       enable clears USBH()_UCTL_INTENA_W1C,
+                                       and enable sets USBH()_UCTL_INTENA_W1S. */
 #define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN81XX (1) /**< Changed in pass 1.1.
                                        See interrupt clears USBH(0..1)_UCTL_INTSTAT,
                                        interrupt sets USBH(0..1)_UCTL_INTSTAT_W1S,
@@ -169,10 +169,10 @@
                                        enable clears USBH(0..1)_UCTL_INTENA_W1C,
                                        and enable sets USBH(0..1)_UCTL_INTENA_W1S. */
 #define BDK_USBH_INT_VEC_E_UCTL_INTSTAT_CN88XXP2 (1) /**< Changed in pass 1.1.
-                                       See interrupt clears USBH(0..1)_UCTL_INTSTAT,
-                                       interrupt sets USBH(0..1)_UCTL_INTSTAT_W1S,
-                                       enable clears USBH(0..1)_UCTL_INTENA_W1C,
-                                       and enable sets USBH(0..1)_UCTL_INTENA_W1S. */
+                                       See interrupt clears USBH()_UCTL_INTSTAT,
+                                       interrupt sets USBH()_UCTL_INTSTAT_W1S,
+                                       enable clears USBH()_UCTL_INTENA_W1C,
+                                       and enable sets USBH()_UCTL_INTENA_W1S. */
 
 /**
  * Register (NCB) usbh#_msix_pba#

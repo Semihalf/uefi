@@ -67,10 +67,10 @@
  * IOBN MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_IOBN_INT_VEC_E_INTS (0) /**< See interrupt clears IOBN(0..1)_INT_SUM,
-                                       interrupt sets IOBN(0..1)_INT_SUM_W1S,
-                                       enable clears IOBN(0..1)_INT_ENA_W1C,
-                                       and enable sets IOBN(0..1)_INT_ENA_W1S. */
+#define BDK_IOBN_INT_VEC_E_INTS (0) /**< See interrupt clears IOBN()_INT_SUM,
+                                       interrupt sets IOBN()_INT_SUM_W1S,
+                                       enable clears IOBN()_INT_ENA_W1C,
+                                       and enable sets IOBN()_INT_ENA_W1S. */
 
 /**
  * Register (RSL) iobn#_bistr_reg

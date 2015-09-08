@@ -82,7 +82,7 @@
  * OCX COM Memory BIST Status Register
  * Contains status from last memory BIST for all RX FIFO memories. BIST status for TX FIFO
  * memories and REPLAY memories are organized by link and are located in
- * OCX_TLK(0..2)_BIST_STATUS.
+ * OCX_TLK()_BIST_STATUS.
  */
 typedef union
 {

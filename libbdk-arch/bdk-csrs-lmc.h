@@ -67,18 +67,10 @@
  * LMC MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_LMC_INT_VEC_E_INTS_CN81XX (0) /**< See interrupt clears LMC(0..1)_INT,
-                                       interrupt sets LMC(0..1)_INT_W1S,
-                                       enable clears LMC(0..1)_INT_ENA_W1C,
-                                       and enable sets LMC(0..1)_INT_ENA_W1S. */
-#define BDK_LMC_INT_VEC_E_INTS_CN88XX (0) /**< See interrupt clears LMC(0..3)_INT,
-                                       interrupt sets LMC(0..3)_INT_W1S,
-                                       enable clears LMC(0..3)_INT_ENA_W1C,
-                                       and enable sets LMC(0..3)_INT_ENA_W1S. */
-#define BDK_LMC_INT_VEC_E_INTS_CN83XX (0) /**< See interrupt clears LMC(0..1)_INT,
-                                       interrupt sets LMC(0..1)_INT_W1S,
-                                       enable clears LMC(0..1)_INT_ENA_W1C,
-                                       and enable sets LMC(0..1)_INT_ENA_W1S. */
+#define BDK_LMC_INT_VEC_E_INTS (0) /**< See interrupt clears LMC()_INT,
+                                       interrupt sets LMC()_INT_W1S,
+                                       enable clears LMC()_INT_ENA_W1C,
+                                       and enable sets LMC()_INT_ENA_W1S. */
 
 /**
  * Enumeration lmc_seq_sel_e

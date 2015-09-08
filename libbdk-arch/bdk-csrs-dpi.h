@@ -71,10 +71,10 @@
  */
 #define BDK_DPI_HDR_PT_E_CNT (3) /**< Increment a CSR Counter after completing the DPI DMA instruction.
                                        
-                                       DPI_DMA_INSTR_HDR_S[PTR]-1 selects a DPI(0)_DMA_PP()_CNT[CNT] CSR
+                                       DPI_DMA_INSTR_HDR_S[PTR]-1 selects a DPI()_DMA_PP()_CNT[CNT] CSR
                                        that DPI increments by one on completion with CNT, which can cause
                                        an interrupt. DPI_DMA_INSTR_HDR_S[PTR]-1 must select an existing
-                                       DPI(0)_DMA_PP()_CNT[CNT] with CNT. */
+                                       DPI()_DMA_PP()_CNT[CNT] with CNT. */
 #define BDK_DPI_HDR_PT_E_WQP (2) /**< Work-queue Pointer add after completing the DPI DMA instruction.
                                        
                                        DPI_DMA_INSTR_HDR_S[PTR<2:0>] is a DPI_HDR_PT_WQP_E with WQP, selecting
@@ -89,26 +89,26 @@
                                        (if DPI_DMA_INSTR_HDR_S[PTR] != 0).
                                        
                                        DPI_DMA_INSTR_HDR_S[PTR] indicates the byte in L2/DRAM to write, and
-                                       DPI(0)_DMA_CONTROL[B0_LEND] selects the endianness of DPI_DMA_INSTR_HDR_S[PTR]
+                                       DPI()_DMA_CONTROL[B0_LEND] selects the endianness of DPI_DMA_INSTR_HDR_S[PTR]
                                        with ZBW_CA. DPI_DMA_INSTR_HDR_S[PTR] must be >= 128 or zero with ZBW_CA.
                                        When DPI_DMA_INSTR_HDR_S[PTR] is zero with ZBW_CA, no zero-byte-write occurs.
                                        
-                                       When DPI(0)_DMA_CONTROL[ZBWCSEN] is clear, DPI always writes DPI_CS_E::NOERR
+                                       When DPI()_DMA_CONTROL[ZBWCSEN] is clear, DPI always writes DPI_CS_E::NOERR
                                        (i.e. zero) to the selected byte, regardless whether the DPI DMA instruction
-                                       encounters an error or not. When DPI(0)_DMA_CONTROL[ZBWCSEN] is set, DPI
+                                       encounters an error or not. When DPI()_DMA_CONTROL[ZBWCSEN] is set, DPI
                                        writes the appropriate DPI_CS_E status for the instruction to
                                        the selected byte. */
 #define BDK_DPI_HDR_PT_E_ZBW_NC (1) /**< Byte-write with no cache allocate after completing the DPI DMA instruction
                                        (if DPI_DMA_INSTR_HDR_S[PTR] != 0).
                                        
                                        DPI_DMA_INSTR_HDR_S[PTR] indicates the byte in L2/DRAM to write, and
-                                       DPI(0)_DMA_CONTROL[B0_LEND] selects the endianness of DPI_DMA_INSTR_HDR_S[PTR]
+                                       DPI()_DMA_CONTROL[B0_LEND] selects the endianness of DPI_DMA_INSTR_HDR_S[PTR]
                                        with ZBW_NC. DPI_DMA_INSTR_HDR_S[PTR] must be >= 128 or zero with ZBW_NC.
                                        When DPI_DMA_INSTR_HDR_S[PTR] is zero with ZBW_NC, no zero-byte-write occurs.
                                        
-                                       When DPI(0)_DMA_CONTROL[ZBWCSEN] is clear, DPI always writes DPI_CS_E::NOERR
+                                       When DPI()_DMA_CONTROL[ZBWCSEN] is clear, DPI always writes DPI_CS_E::NOERR
                                        (i.e. zero) to the selected byte, regardless whether the DPI DMA instruction
-                                       encounters an error or not. When DPI(0)_DMA_CONTROL[ZBWCSEN] is set, DPI
+                                       encounters an error or not. When DPI()_DMA_CONTROL[ZBWCSEN] is set, DPI
                                        writes the appropriate DPI_CS_E status for the instruction to the
                                        selected byte. */
 
@@ -124,17 +124,17 @@
                                        the WQE before submitting the work. */
 #define BDK_DPI_HDR_PT_WQP_E_STATUSCA (1) /**< Status write with cache allocate. If the DPI_CS_E status of the instruction is
                                        other than DPI_CS_E::NOERR (i.e. zero), then DPI will write the DPI_CS_E
-                                       status of the instruction into the WQE (at offset DPI(0)_DMA_CONTROL[WQECSOFF],
+                                       status of the instruction into the WQE (at offset DPI()_DMA_CONTROL[WQECSOFF],
                                        with cache allocation on a miss) before submitting the work.
                                        
-                                       DPI(0)_DMA_CONTROL[WQECSDIS]!=0 or DPI(0)_DMA_CONTROL[WQECSMODE]!=0 can give
+                                       DPI()_DMA_CONTROL[WQECSDIS]!=0 or DPI()_DMA_CONTROL[WQECSMODE]!=0 can give
                                        other behavior. */
 #define BDK_DPI_HDR_PT_WQP_E_STATUSNC (3) /**< Status write with no cache allocate. If the DPI_CS_E status of the instruction
                                        is other than DPI_CS_E::NOERR (i.e. zero), then DPI will write the DPI_CS_E
-                                       status of the instruction into the WQE (at offset DPI(0)_DMA_CONTROL[WQECSOFF],
+                                       status of the instruction into the WQE (at offset DPI()_DMA_CONTROL[WQECSOFF],
                                        preferrably without cache allocation on a miss) before submitting the work.
                                        
-                                       DPI(0)_DMA_CONTROL[WQECSDIS]!=0 or DPI(0)_DMA_CONTROL[WQECSMODE]!=0 can give
+                                       DPI()_DMA_CONTROL[WQECSDIS]!=0 or DPI()_DMA_CONTROL[WQECSMODE]!=0 can give
                                        other behavior. */
 
 /**
@@ -160,19 +160,19 @@
  * DPI Interrupt Source Enumeration
  * Enumerates the different DPI-generated interrupts.
  */
-#define BDK_DPI_INTSN_E_DPI_DMA_PPX_INT(a) (0xdf040 + (a)) /**< See DPI(0)_DMA_PP_INT[COMPLETE<{a}>]. */
-#define BDK_DPI_INTSN_E_DPI_ERR_RAM_DBEX(a) (0xdf080 + (a)) /**< See DPI(0)_ECC_INT[RAM_DBE<{a}>]. */
-#define BDK_DPI_INTSN_E_DPI_ERR_RAM_SBEX(a) (0xdf0a0 + (a)) /**< See DPI(0)_ECC_INT[RAM_SBE<{a}>]. */
-#define BDK_DPI_INTSN_E_DPI_INT_DMADBOX(a) (0xdf008 + (a)) /**< See DPI(0)_INT_REG[DMADBO<{a}>]. */
-#define BDK_DPI_INTSN_E_DPI_INT_NDERR (0xdf000) /**< See DPI(0)_INT_REG[NDERR]. */
-#define BDK_DPI_INTSN_E_DPI_INT_NFOVR (0xdf001) /**< See DPI(0)_INT_REG[NFOVR]. */
-#define BDK_DPI_INTSN_E_DPI_INT_REQ_ANULL (0xdf014) /**< See DPI(0)_INT_REG[REQ_ANULL]. */
-#define BDK_DPI_INTSN_E_DPI_INT_REQ_BADADR (0xdf010) /**< See DPI(0)_INT_REG[REQ_BADADR]. */
-#define BDK_DPI_INTSN_E_DPI_INT_REQ_BADFIL (0xdf016) /**< See DPI(0)_INT_REG[REQ_BADFIL]. */
-#define BDK_DPI_INTSN_E_DPI_INT_REQ_BADLEN (0xdf011) /**< See DPI(0)_INT_REG[REQ_BADLEN]. */
-#define BDK_DPI_INTSN_E_DPI_INT_REQ_INULL (0xdf015) /**< See DPI(0)_INT_REG[REQ_INULL]. */
-#define BDK_DPI_INTSN_E_DPI_INT_REQ_OVRFLW (0xdf012) /**< See DPI(0)_INT_REG[REQ_OVRFLW]. */
-#define BDK_DPI_INTSN_E_DPI_INT_REQ_UNDFLW (0xdf013) /**< See DPI(0)_INT_REG[REQ_UNDFLW]. */
+#define BDK_DPI_INTSN_E_DPIX_DMA_PPX_INT(a,b) (0xdf040 + 0 * (a) + (b)) /**< See DPI(0)_DMA_PP_INT[COMPLETE<{b}>]. */
+#define BDK_DPI_INTSN_E_DPIX_ERR_RAM_DBEX(a,b) (0xdf080 + 0 * (a) + (b)) /**< See DPI(0)_ECC_INT[RAM_DBE<{b}>]. */
+#define BDK_DPI_INTSN_E_DPIX_ERR_RAM_SBEX(a,b) (0xdf0a0 + 0 * (a) + (b)) /**< See DPI(0)_ECC_INT[RAM_SBE<{b}>]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_DMADBOX(a,b) (0xdf008 + 0 * (a) + (b)) /**< See DPI(0)_INT_REG[DMADBO<{b}>]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_NDERR(a) (0xdf000 + 0 * (a)) /**< See DPI(0)_INT_REG[NDERR]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_NFOVR(a) (0xdf001 + 0 * (a)) /**< See DPI(0)_INT_REG[NFOVR]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_ANULL(a) (0xdf014 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_ANULL]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADADR(a) (0xdf010 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADADR]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADFIL(a) (0xdf016 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADFIL]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_BADLEN(a) (0xdf011 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_BADLEN]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_INULL(a) (0xdf015 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_INULL]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_OVRFLW(a) (0xdf012 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_OVRFLW]. */
+#define BDK_DPI_INTSN_E_DPIX_INT_REQ_UNDFLW(a) (0xdf013 + 0 * (a)) /**< See DPI(0)_INT_REG[REQ_UNDFLW]. */
 
 /**
  * Structure dpi_dma_func_sel_s
@@ -187,14 +187,14 @@ union bdk_dpi_dma_func_sel_s
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint32_t reserved_16_31        : 16;
-        uint32_t pf                    : 4;  /**< [ 15: 12] Selects the PCIe physical function within the referenced MAC.
+        uint32_t pf                    : 3;  /**< [ 15: 13] Selects the PCIe physical function within the referenced MAC.
 
                                                                  [PF] must select a valid physical function in a PCIe MAC.
                                                                  SPEM_EP_FUNCTIONS_E (MAC=0) and PEM_EP_FUNCTIONS_E (MAC=1..3)
                                                                  list possible physical functions.
 
                                                                  [PF] must be zero for any non-PCIe MAC. */
-        uint32_t func                  : 12; /**< [ 11:  0] Selects the function within the physical function [PF]
+        uint32_t func                  : 13; /**< [ 12:  0] Selects the function within the physical function [PF]
                                                                  within the referenced MAC.
 
                                                                  0x0 = The physical function [PF].
@@ -211,7 +211,7 @@ union bdk_dpi_dma_func_sel_s
                                                                  support the PCIe SR-IOV standard, or doesn't have PCIe SR-IOV
                                                                  enabled. */
 #else /* Word 0 - Little Endian */
-        uint32_t func                  : 12; /**< [ 11:  0] Selects the function within the physical function [PF]
+        uint32_t func                  : 13; /**< [ 12:  0] Selects the function within the physical function [PF]
                                                                  within the referenced MAC.
 
                                                                  0x0 = The physical function [PF].
@@ -227,7 +227,7 @@ union bdk_dpi_dma_func_sel_s
                                                                  [FUNC] must be zero for any MAC that isn't PCIe, doesn't
                                                                  support the PCIe SR-IOV standard, or doesn't have PCIe SR-IOV
                                                                  enabled. */
-        uint32_t pf                    : 4;  /**< [ 15: 12] Selects the PCIe physical function within the referenced MAC.
+        uint32_t pf                    : 3;  /**< [ 15: 13] Selects the PCIe physical function within the referenced MAC.
 
                                                                  [PF] must select a valid physical function in a PCIe MAC.
                                                                  SPEM_EP_FUNCTIONS_E (MAC=0) and PEM_EP_FUNCTIONS_E (MAC=1..3)
@@ -2123,7 +2123,7 @@ typedef union
         uint64_t base                  : 6;  /**< [  9:  4](RO/H) The base address in 512-byte blocks of the DMA engine FIFO. */
         uint64_t blks                  : 4;  /**< [  3:  0](R/W) The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
                                                                  DPI()_ENG()_BUF[BLKS] registers must not exceed the overall RDB memory size of
-                                                                 16 KB.
+                                                                 32 KB.
                                                                  0x0 = Engine disabled.
                                                                  0x1 = 0.5 KB FIFO.
                                                                  0x2 = 1.0 KB FIFO.
@@ -2139,7 +2139,7 @@ typedef union
 #else /* Word 0 - Little Endian */
         uint64_t blks                  : 4;  /**< [  3:  0](R/W) The size of the DMA engine FIFO. The sum of the allocated FIFOs across all six
                                                                  DPI()_ENG()_BUF[BLKS] registers must not exceed the overall RDB memory size of
-                                                                 16 KB.
+                                                                 32 KB.
                                                                  0x0 = Engine disabled.
                                                                  0x1 = 0.5 KB FIFO.
                                                                  0x2 = 1.0 KB FIFO.
@@ -2841,8 +2841,7 @@ typedef union
                                                                  TYPE, REQQ, or ADDR fields until the internal lock state is cleared.
 
                                                                  Software can clear the internal lock state by writing a 1 to the appropriate bit in either
-                                                                 DPI(0)_REQ_ERR_RSP or DPI(0)_PKT_ERR_RSP depending on the TYPE field. Once the internal
-                                                                 lock
+                                                                 DPI()_REQ_ERR_RSP or DPI()_PKT_ERR_RSP depending on the TYPE field. Once the internal lock
                                                                  state is cleared, the next ErrorResponse will set the TYPE, REQQ, and ADDR for the new
                                                                  transaction. */
         uint64_t reserved_5_7          : 3;
@@ -2867,8 +2866,7 @@ typedef union
                                                                  TYPE, REQQ, or ADDR fields until the internal lock state is cleared.
 
                                                                  Software can clear the internal lock state by writing a 1 to the appropriate bit in either
-                                                                 DPI(0)_REQ_ERR_RSP or DPI(0)_PKT_ERR_RSP depending on the TYPE field. Once the internal
-                                                                 lock
+                                                                 DPI()_REQ_ERR_RSP or DPI()_PKT_ERR_RSP depending on the TYPE field. Once the internal lock
                                                                  state is cleared, the next ErrorResponse will set the TYPE, REQQ, and ADDR for the new
                                                                  transaction. */
         uint64_t reserved_9_15         : 7;

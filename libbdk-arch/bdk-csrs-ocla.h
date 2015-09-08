@@ -67,13 +67,13 @@
  * OCLA MSI-X Vector Enumeration
  * Enumerates the MSI-X interrupt vectors.
  */
-#define BDK_OCLA_INT_VEC_E_INTS (0) /**< See interrupt clears OCLA(0..4)_STATE_INT[DDRFULL, WMARK, OVERFULL,
+#define BDK_OCLA_INT_VEC_E_INTS (0) /**< See interrupt clears OCLA()_STATE_INT[DDRFULL, WMARK, OVERFULL,
                                        TRIGFULL, CAPTURED, FSM1_INT, FSM0_INT, MCD, TRIG, OVFL],
-                                       interrupt sets OCLA(0..4)_STATE_SET[DDRFULL, WMARK, OVERFULL,
+                                       interrupt sets OCLA()_STATE_SET[DDRFULL, WMARK, OVERFULL,
                                        TRIGFULL, CAPTURED, FSM1_INT, FSM0_INT, MCD, TRIG, OVFL],
-                                       enable clears OCLA(0..4)_STATE_ENA_W1C[DDRFULL, WMARK, OVERFULL,
+                                       enable clears OCLA()_STATE_ENA_W1C[DDRFULL, WMARK, OVERFULL,
                                        TRIGFULL, CAPTURED, FSM1_INT, FSM0_INT, MCD, TRIG, OVFL],
-                                       and enable sets OCLA(0..4)_STATE_ENA_W1S[DDRFULL, WMARK, OVERFULL,
+                                       and enable sets OCLA()_STATE_ENA_W1S[DDRFULL, WMARK, OVERFULL,
                                        TRIGFULL, CAPTURED, FSM1_INT, FSM0_INT, MCD, TRIG, OVFL]. */
 
 /**

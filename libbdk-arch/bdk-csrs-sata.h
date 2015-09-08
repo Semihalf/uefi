@@ -75,18 +75,18 @@
                                        SATA()_UAHC_P0_IS[SDBS] and
                                        SATA()_UAHC_P0_SNTF[PMN]. */
 #define BDK_SATA_INT_VEC_E_UAHC_PME_REQ_IP_CLEAR (3) /**< Level sensitive interrupt clear vector. */
-#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN88XXP1 (4) /**< See interrupt clears SATA(0..15)_UCTL_INTSTAT, interrupt sets
-                                       SATA(0..15)_UCTL_INTSTAT_W1S, enable clears
-                                       SATA(0..15)_UCTL_INTENA_W1C, and enable sets SATA(0..15)_UCTL_INTENA_W1S. */
-#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN81XX (1) /**< See interrupt clears SATA(0..15)_UCTL_INTSTAT, interrupt sets
-                                       SATA(0..15)_UCTL_INTSTAT_W1S, enable clears
-                                       SATA(0..15)_UCTL_INTENA_W1C, and enable sets SATA(0..15)_UCTL_INTENA_W1S. */
-#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN83XX (1) /**< See interrupt clears SATA(0..15)_UCTL_INTSTAT, interrupt sets
-                                       SATA(0..15)_UCTL_INTSTAT_W1S, enable clears
-                                       SATA(0..15)_UCTL_INTENA_W1C, and enable sets SATA(0..15)_UCTL_INTENA_W1S. */
-#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN88XXP2 (1) /**< See interrupt clears SATA(0..15)_UCTL_INTSTAT, interrupt sets
-                                       SATA(0..15)_UCTL_INTSTAT_W1S, enable clears
-                                       SATA(0..15)_UCTL_INTENA_W1C, and enable sets SATA(0..15)_UCTL_INTENA_W1S. */
+#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN88XXP1 (4) /**< See interrupt clears SATA()_UCTL_INTSTAT, interrupt sets
+                                       SATA()_UCTL_INTSTAT_W1S, enable clears
+                                       SATA()_UCTL_INTENA_W1C, and enable sets SATA()_UCTL_INTENA_W1S. */
+#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN81XX (1) /**< See interrupt clears SATA()_UCTL_INTSTAT, interrupt sets
+                                       SATA()_UCTL_INTSTAT_W1S, enable clears
+                                       SATA()_UCTL_INTENA_W1C, and enable sets SATA()_UCTL_INTENA_W1S. */
+#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN83XX (1) /**< See interrupt clears SATA()_UCTL_INTSTAT, interrupt sets
+                                       SATA()_UCTL_INTSTAT_W1S, enable clears
+                                       SATA()_UCTL_INTENA_W1C, and enable sets SATA()_UCTL_INTENA_W1S. */
+#define BDK_SATA_INT_VEC_E_UCTL_INTSTAT_CN88XXP2 (1) /**< See interrupt clears SATA()_UCTL_INTSTAT, interrupt sets
+                                       SATA()_UCTL_INTSTAT_W1S, enable clears
+                                       SATA()_UCTL_INTENA_W1C, and enable sets SATA()_UCTL_INTENA_W1S. */
 
 /**
  * Enumeration sata_uctl_dma_read_cmd_e

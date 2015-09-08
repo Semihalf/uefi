@@ -14539,7 +14539,7 @@ static inline uint64_t BDK_PKO_VDQX_SW_XOFF(unsigned long a)
  * Register (NCB) pko_vdq#_wm_cnt
  *
  * PKO DQ Watermark Count Register
- * This register is a read-only copy of PKO_DQ(0..255)_WM_CNT.
+ * This register is a read-only copy of PKO_DQ()_WM_CNT.
  */
 typedef union
 {

@@ -2251,17 +2251,45 @@ typedef union
     {
 #if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
         uint64_t reserved_16_63        : 48;
-        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO.
-                                                                 0 = channel is available.
-                                                                 1 = channel should be backpressured. */
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to NIC.
+                                                                 0 = Channel is available.
+                                                                 1 = Channel is backpressured. */
 #else /* Word 0 - Little Endian */
-        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO.
-                                                                 0 = channel is available.
-                                                                 1 = channel should be backpressured. */
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to NIC.
+                                                                 0 = Channel is available.
+                                                                 1 = Channel is backpressured. */
         uint64_t reserved_16_63        : 48;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmrx_tx_ovr_bp_s cn; */
+    /* struct bdk_bgxx_cmrx_tx_ovr_bp_s cn81xx; */
+    struct bdk_bgxx_cmrx_tx_ovr_bp_cn88xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to TNS/NIC.
+                                                                 0 = Channel is available.
+                                                                 1 = Channel is backpressured. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to TNS/NIC.
+                                                                 0 = Channel is available.
+                                                                 1 = Channel is backpressured. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn88xx;
+    struct bdk_bgxx_cmrx_tx_ovr_bp_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_16_63        : 48;
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO/NIC.
+                                                                 0 = Channel is available.
+                                                                 1 = Channel is backpressured. */
+#else /* Word 0 - Little Endian */
+        uint64_t tx_chan_bp            : 16; /**< [ 15:  0](R/W) Per-channel backpressure status sent to PKO/NIC.
+                                                                 0 = Channel is available.
+                                                                 1 = Channel is backpressured. */
+        uint64_t reserved_16_63        : 48;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmrx_tx_ovr_bp_t;
 
 static inline uint64_t BDK_BGXX_CMRX_TX_OVR_BP(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -3475,7 +3503,7 @@ typedef union
         uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
-        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or TNS block is reset, software also needs to reset the X2P interface in the
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC block is reset, software also needs to reset the X2P interface in the
                                                                  BGX by
                                                                  setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
                                                                  requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
@@ -3484,21 +3512,21 @@ typedef union
                                                                  setting this bit.
 
                                                                  Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC/TNS comes out of reset, software should clear CMR_X2P_RESET. */
+                                                                 After NIC comes out of reset, software should clear CMR_X2P_RESET. */
         uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
                                                                  BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
                                                                  clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
                                                                  BGX()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/QLM output select. Must be 0. */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/QLM output select. Must be 0. */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
         uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
                                                                  BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
                                                                  clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
                                                                  BGX()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or TNS block is reset, software also needs to reset the X2P interface in the
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC block is reset, software also needs to reset the X2P interface in the
                                                                  BGX by
                                                                  setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
                                                                  requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
@@ -3507,7 +3535,7 @@ typedef union
                                                                  setting this bit.
 
                                                                  Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
-                                                                 After NIC/TNS comes out of reset, software should clear CMR_X2P_RESET. */
+                                                                 After NIC comes out of reset, software should clear CMR_X2P_RESET. */
         uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
         uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
         uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
@@ -3582,9 +3610,9 @@ typedef union
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
                                                                  clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
                                                                  BGX()_CMR()_CONFIG[LMAC_TYPE]. */
-        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/QLM output select. Must be 0. */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
 #else /* Word 0 - Little Endian */
-        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/QLM output select. Must be 0. */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
         uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
                                                                  BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
                                                                  turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
@@ -3632,8 +3660,182 @@ typedef union
 #endif /* Word 0 - End */
     } cn88xxp1;
     /* struct bdk_bgxx_cmr_global_config_s cn81xx; */
-    /* struct bdk_bgxx_cmr_global_config_s cn83xx; */
-    /* struct bdk_bgxx_cmr_global_config_s cn88xxp2; */
+    struct bdk_bgxx_cmr_global_config_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
+                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
+                                                                 commanded by the
+                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
+                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
+                                                                 configure
+                                                                 the rest of the BGX csr for pass through traffic.
+
+                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
+                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
+        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
+                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
+                                                                 with with CMR_X2P_RESET=1 (in the same write operation) to avoid partial packets
+                                                                 to the NCSI interface while performing a X2P partner reset.
+                                                                 0 = Allow traffic to flow through the NCSI block. */
+        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
+                                                                 is
+                                                                 also the LMAC_ID that is eligible for steering. */
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
+                                                                 bytes, the packet will be removed.
+                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
+        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or PKO block is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by
+                                                                 setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set CMR_NCSI_DROP bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC/PKO comes out of reset, software should clear CMR_X2P_RESET. */
+        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
+                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
+                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
+                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
+                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
+        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
+                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
+                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
+                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
+                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or PKO block is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by
+                                                                 setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set CMR_NCSI_DROP bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC/PKO comes out of reset, software should clear CMR_X2P_RESET. */
+        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
+        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
+                                                                 bytes, the packet will be removed.
+                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
+        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
+                                                                 is
+                                                                 also the LMAC_ID that is eligible for steering. */
+        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
+                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
+                                                                 with with CMR_X2P_RESET=1 (in the same write operation) to avoid partial packets
+                                                                 to the NCSI interface while performing a X2P partner reset.
+                                                                 0 = Allow traffic to flow through the NCSI block. */
+        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
+                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
+                                                                 commanded by the
+                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
+                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
+                                                                 configure
+                                                                 the rest of the BGX csr for pass through traffic.
+
+                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
+                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } cn83xx;
+    struct bdk_bgxx_cmr_global_config_cn88xxp2
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_11_63        : 53;
+        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
+                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
+                                                                 commanded by the
+                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
+                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
+                                                                 configure
+                                                                 the rest of the BGX csr for pass through traffic.
+
+                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
+                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
+        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
+                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
+                                                                 with with CMR_X2P_RESET=1 (in the same write operation) to avoid partial packets
+                                                                 to the NCSI interface while performing a X2P partner reset.
+                                                                 0 = Allow traffic to flow through the NCSI block. */
+        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
+                                                                 is
+                                                                 also the LMAC_ID that is eligible for steering. */
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
+                                                                 bytes, the packet will be removed.
+                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
+        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or TNS block is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by
+                                                                 setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set CMR_NCSI_DROP bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC/TNS comes out of reset, software should clear CMR_X2P_RESET. */
+        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
+                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
+                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
+                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
+                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
+#else /* Word 0 - Little Endian */
+        uint64_t pmux_sds_sel          : 1;  /**< [  0:  0](R/W) SerDes/GSER output select. Must be 0. */
+        uint64_t bgx_clk_enable        : 1;  /**< [  1:  1](R/W) The global clock enable for BGX. Setting this bit overrides clock enables set by
+                                                                 BGX()_CMR()_CONFIG[ENABLE] and BGX()_CMR()_CONFIG[LMAC_TYPE], essentially
+                                                                 turning on clocks for the entire BGX. Setting this bit to 0 results in not overriding
+                                                                 clock enables set by BGX()_CMR()_CONFIG[ENABLE] and
+                                                                 BGX()_CMR()_CONFIG[LMAC_TYPE]. */
+        uint64_t cmr_x2p_reset         : 1;  /**< [  2:  2](R/W) If the NIC or TNS block is reset, software also needs to reset the X2P interface in the
+                                                                 BGX by
+                                                                 setting this bit to 1. It resets the X2P interface state in the BGX (skid FIFO and pending
+                                                                 requests to NIC) and prevents the RXB FIFOs for all LMACs from pushing data to the
+                                                                 interface. Because the X2P and NCSI interfaces share the main RXB fifos it will also
+                                                                 impact the NCSI interface therefore it is required to set CMR_NCSI_DROP bit first before
+                                                                 setting this bit.
+
+                                                                 Setting this bit to 0 does not reset the X2P interface nor NCSI interface.
+                                                                 After NIC/TNS comes out of reset, software should clear CMR_X2P_RESET. */
+        uint64_t cmr_mix0_reset        : 1;  /**< [  3:  3](R/W) Must be 0. */
+        uint64_t cmr_mix1_reset        : 1;  /**< [  4:  4](R/W) Must be 0. */
+        uint64_t interleave_mode       : 1;  /**< [  5:  5](RAZ) Reserved. */
+        uint64_t fcs_strip             : 1;  /**< [  6:  6](R/W) A setting of 1 means the BGX strip the FCS bytes of every packet.  For packets less than 4
+                                                                 bytes, the packet will be removed.
+                                                                 A setting of 0 means the BGX will not modify or remove the FCS bytes. */
+        uint64_t ncsi_lmac_id          : 2;  /**< [  8:  7](R/W) Logical MAC ID that carries NCSI traffic for both RX and TX side of CMR.  On the RX side
+                                                                 is
+                                                                 also the LMAC_ID that is eligible for steering. */
+        uint64_t cmr_ncsi_drop         : 1;  /**< [  9:  9](R/W) NCSI drop.
+                                                                 1 = Cleanly drop traffic going into the NCSI block of BGX.  Must set asserted
+                                                                 with with CMR_X2P_RESET=1 (in the same write operation) to avoid partial packets
+                                                                 to the NCSI interface while performing a X2P partner reset.
+                                                                 0 = Allow traffic to flow through the NCSI block. */
+        uint64_t cmr_ncsi_reset        : 1;  /**< [ 10: 10](R/W) Interface reset for the CMR NCSI block.
+                                                                 Upon power up the CMR NCSI is in reset and the companion CNXXXX NCSI block will be
+                                                                 commanded by the
+                                                                 external BMC to enable one of the CNXXXX BGX NCSI interfaces for passing network traffic.
+                                                                 Only one NCSI interface can be enabled in CNXXXX.  The BMC/NCSI will then proceed to
+                                                                 configure
+                                                                 the rest of the BGX csr for pass through traffic.
+
+                                                                 When set, will reset the CMR NCSI interface effectively disabling it at a traffic boundary
+                                                                 should traffic be flowing.  This bit will not reset the main RXB fifos. */
+        uint64_t reserved_11_63        : 53;
+#endif /* Word 0 - End */
+    } cn88xxp2;
 } bdk_bgxx_cmr_global_config_t;
 
 static inline uint64_t BDK_BGXX_CMR_GLOBAL_CONFIG(unsigned long a) __attribute__ ((pure, always_inline));
@@ -4946,7 +5148,75 @@ typedef union
         uint64_t reserved_52_63        : 12;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmr_rx_steeringx_s cn; */
+    struct bdk_bgxx_cmr_rx_steeringx_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_52_63        : 12;
+        uint64_t dest                  : 2;  /**< [ 51: 50](R/W) Destination for traffic that meets all criteria of the matching algorithm:
+                                                                 0x0 = Steer this traffic exclusively to NCSI.
+                                                                 0x1 = Steer this traffic exclusively to NIC.
+                                                                 0x2 = Steer this traffic to BOTH NIC and NCSI.
+                                                                 0x3 = Steer this traffic to the bit bucket (drop). */
+        uint64_t mcst_en               : 1;  /**< [ 49: 49](R/W) Enable for identifying multicast packets:
+                                                                 1 = Include multicast packets in the matching algorithm.
+                                                                 0 = Do not include multicast packets in the matching algorithm. */
+        uint64_t dmac_en               : 1;  /**< [ 48: 48](R/W) Enable DMAC address check:
+                                                                 1 = Include DMAC address checking in the matching algorithm.
+                                                                 0 = Do not include DMAC address checking in the matching algorithm. */
+        uint64_t dmac                  : 48; /**< [ 47:  0](R/W) DMAC address used for the matching algorithm when [DMAC_EN] is set. Broadcast can be
+                                                                 specified with value 0xFFFF_FFFFFFFF. */
+#else /* Word 0 - Little Endian */
+        uint64_t dmac                  : 48; /**< [ 47:  0](R/W) DMAC address used for the matching algorithm when [DMAC_EN] is set. Broadcast can be
+                                                                 specified with value 0xFFFF_FFFFFFFF. */
+        uint64_t dmac_en               : 1;  /**< [ 48: 48](R/W) Enable DMAC address check:
+                                                                 1 = Include DMAC address checking in the matching algorithm.
+                                                                 0 = Do not include DMAC address checking in the matching algorithm. */
+        uint64_t mcst_en               : 1;  /**< [ 49: 49](R/W) Enable for identifying multicast packets:
+                                                                 1 = Include multicast packets in the matching algorithm.
+                                                                 0 = Do not include multicast packets in the matching algorithm. */
+        uint64_t dest                  : 2;  /**< [ 51: 50](R/W) Destination for traffic that meets all criteria of the matching algorithm:
+                                                                 0x0 = Steer this traffic exclusively to NCSI.
+                                                                 0x1 = Steer this traffic exclusively to NIC.
+                                                                 0x2 = Steer this traffic to BOTH NIC and NCSI.
+                                                                 0x3 = Steer this traffic to the bit bucket (drop). */
+        uint64_t reserved_52_63        : 12;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_bgxx_cmr_rx_steeringx_s cn88xx; */
+    struct bdk_bgxx_cmr_rx_steeringx_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_52_63        : 12;
+        uint64_t dest                  : 2;  /**< [ 51: 50](R/W) Destination for traffic that meets all criteria of the matching algorithm:
+                                                                 0x0 = Steer this traffic exclusively to NCSI.
+                                                                 0x1 = Steer this traffic exclusively to PKO/NIC.
+                                                                 0x2 = Steer this traffic to BOTH PKO/NIC and NCSI.
+                                                                 0x3 = Steer this traffic to the bit bucket (drop). */
+        uint64_t mcst_en               : 1;  /**< [ 49: 49](R/W) Enable for identifying multicast packets:
+                                                                 1 = Include multicast packets in the matching algorithm.
+                                                                 0 = Do not include multicast packets in the matching algorithm. */
+        uint64_t dmac_en               : 1;  /**< [ 48: 48](R/W) Enable DMAC address check:
+                                                                 1 = Include DMAC address checking in the matching algorithm.
+                                                                 0 = Do not include DMAC address checking in the matching algorithm. */
+        uint64_t dmac                  : 48; /**< [ 47:  0](R/W) DMAC address used for the matching algorithm when [DMAC_EN] is set. Broadcast can be
+                                                                 specified with value 0xFFFF_FFFFFFFF. */
+#else /* Word 0 - Little Endian */
+        uint64_t dmac                  : 48; /**< [ 47:  0](R/W) DMAC address used for the matching algorithm when [DMAC_EN] is set. Broadcast can be
+                                                                 specified with value 0xFFFF_FFFFFFFF. */
+        uint64_t dmac_en               : 1;  /**< [ 48: 48](R/W) Enable DMAC address check:
+                                                                 1 = Include DMAC address checking in the matching algorithm.
+                                                                 0 = Do not include DMAC address checking in the matching algorithm. */
+        uint64_t mcst_en               : 1;  /**< [ 49: 49](R/W) Enable for identifying multicast packets:
+                                                                 1 = Include multicast packets in the matching algorithm.
+                                                                 0 = Do not include multicast packets in the matching algorithm. */
+        uint64_t dest                  : 2;  /**< [ 51: 50](R/W) Destination for traffic that meets all criteria of the matching algorithm:
+                                                                 0x0 = Steer this traffic exclusively to NCSI.
+                                                                 0x1 = Steer this traffic exclusively to PKO/NIC.
+                                                                 0x2 = Steer this traffic to BOTH PKO/NIC and NCSI.
+                                                                 0x3 = Steer this traffic to the bit bucket (drop). */
+        uint64_t reserved_52_63        : 12;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_rx_steeringx_t;
 
 static inline uint64_t BDK_BGXX_CMR_RX_STEERINGX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -4991,7 +5261,47 @@ typedef union
         uint64_t reserved_2_63         : 62;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_cmr_rx_steering_default_s cn; */
+    struct bdk_bgxx_cmr_rx_steering_default_cn81xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t dest                  : 2;  /**< [  1:  0](R/W) Destination for traffic that does not match any of the steering filters specified by
+                                                                 BGX()_CMR_RX_STEERING() and and BGX()_CMR_RX_STEERING_VETYPE():
+                                                                 0x0 = Steer traffic exclusively to NCSI.
+                                                                 0x1 = Steer traffic exclusively to NIC.
+                                                                 0x2 = Steer traffic to BOTH NIC and NCSI.
+                                                                 0x3 = Steer traffic to the bit bucket (drop). */
+#else /* Word 0 - Little Endian */
+        uint64_t dest                  : 2;  /**< [  1:  0](R/W) Destination for traffic that does not match any of the steering filters specified by
+                                                                 BGX()_CMR_RX_STEERING() and and BGX()_CMR_RX_STEERING_VETYPE():
+                                                                 0x0 = Steer traffic exclusively to NCSI.
+                                                                 0x1 = Steer traffic exclusively to NIC.
+                                                                 0x2 = Steer traffic to BOTH NIC and NCSI.
+                                                                 0x3 = Steer traffic to the bit bucket (drop). */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn81xx;
+    /* struct bdk_bgxx_cmr_rx_steering_default_s cn88xx; */
+    struct bdk_bgxx_cmr_rx_steering_default_cn83xx
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_2_63         : 62;
+        uint64_t dest                  : 2;  /**< [  1:  0](R/W) Destination for traffic that does not match any of the steering filters specified by
+                                                                 BGX()_CMR_RX_STEERING() and and BGX()_CMR_RX_STEERING_VETYPE():
+                                                                 0x0 = Steer traffic exclusively to NCSI.
+                                                                 0x1 = Steer traffic exclusively to PKO/NIC.
+                                                                 0x2 = Steer traffic to BOTH PKO/NIC and NCSI.
+                                                                 0x3 = Steer traffic to the bit bucket (drop). */
+#else /* Word 0 - Little Endian */
+        uint64_t dest                  : 2;  /**< [  1:  0](R/W) Destination for traffic that does not match any of the steering filters specified by
+                                                                 BGX()_CMR_RX_STEERING() and and BGX()_CMR_RX_STEERING_VETYPE():
+                                                                 0x0 = Steer traffic exclusively to NCSI.
+                                                                 0x1 = Steer traffic exclusively to PKO/NIC.
+                                                                 0x2 = Steer traffic to BOTH PKO/NIC and NCSI.
+                                                                 0x3 = Steer traffic to the bit bucket (drop). */
+        uint64_t reserved_2_63         : 62;
+#endif /* Word 0 - End */
+    } cn83xx;
 } bdk_bgxx_cmr_rx_steering_default_t;
 
 static inline uint64_t BDK_BGXX_CMR_RX_STEERING_DEFAULT(unsigned long a) __attribute__ ((pure, always_inline));
@@ -5129,6 +5439,55 @@ static inline uint64_t BDK_BGXX_CMR_TX_LMACS(unsigned long a)
 #define arguments_BDK_BGXX_CMR_TX_LMACS(a) (a),-1,-1,-1
 
 /**
+ * Register (RSL) bgx#_gmp_gmi_pause_ctl#
+ *
+ * BGX GMI Pause Control Registers
+ */
+typedef union
+{
+    uint64_t u;
+    struct bdk_bgxx_gmp_gmi_pause_ctlx_s
+    {
+#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
+        uint64_t reserved_50_63        : 14;
+        uint64_t rx_fc_type            : 1;  /**< [ 49: 49](R/W) Receive side flow control type select.
+                                                                 0 = GMI MAC recieves and processes ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC recieves and processes 802.3 pause frames. */
+        uint64_t tx_fc_type            : 1;  /**< [ 48: 48](R/W) Receive side flow control type select.
+                                                                 0 = GMI MAC transmits ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC transmits 802.3 pause frames. */
+        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
+#else /* Word 0 - Little Endian */
+        uint64_t smac                  : 48; /**< [ 47:  0](R/W) The SMAC field is used for generating and accepting control PAUSE packets. */
+        uint64_t tx_fc_type            : 1;  /**< [ 48: 48](R/W) Receive side flow control type select.
+                                                                 0 = GMI MAC transmits ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC transmits 802.3 pause frames. */
+        uint64_t rx_fc_type            : 1;  /**< [ 49: 49](R/W) Receive side flow control type select.
+                                                                 0 = GMI MAC recieves and processes ITU G.999.1 pause frames.
+                                                                 1 = GMI MAC recieves and processes 802.3 pause frames. */
+        uint64_t reserved_50_63        : 14;
+#endif /* Word 0 - End */
+    } s;
+    /* struct bdk_bgxx_gmp_gmi_pause_ctlx_s cn; */
+} bdk_bgxx_gmp_gmi_pause_ctlx_t;
+
+static inline uint64_t BDK_BGXX_GMP_GMI_PAUSE_CTLX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
+static inline uint64_t BDK_BGXX_GMP_GMI_PAUSE_CTLX(unsigned long a, unsigned long b)
+{
+    if (CAVIUM_IS_MODEL(CAVIUM_CN81XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    if (CAVIUM_IS_MODEL(CAVIUM_CN83XX) && ((a<=1) && (b<=3)))
+        return 0x87e0e0038230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
+    __bdk_csr_fatal("BGXX_GMP_GMI_PAUSE_CTLX", 2, a, b, 0, 0);
+}
+
+#define typedef_BDK_BGXX_GMP_GMI_PAUSE_CTLX(a,b) bdk_bgxx_gmp_gmi_pause_ctlx_t
+#define bustype_BDK_BGXX_GMP_GMI_PAUSE_CTLX(a,b) BDK_CSR_TYPE_RSL
+#define basename_BDK_BGXX_GMP_GMI_PAUSE_CTLX(a,b) "BGXX_GMP_GMI_PAUSE_CTLX"
+#define busnum_BDK_BGXX_GMP_GMI_PAUSE_CTLX(a,b) (a)
+#define arguments_BDK_BGXX_GMP_GMI_PAUSE_CTLX(a,b) (a),(b),-1,-1
+
+/**
  * Register (RSL) bgx#_gmp_gmi_prt#_cfg
  *
  * BGX GMP GMI LMAC Configuration Registers
@@ -5230,52 +5589,7 @@ typedef union
         uint64_t reserved_14_63        : 50;
 #endif /* Word 0 - End */
     } cn88xx;
-    struct bdk_bgxx_gmp_gmi_prtx_cfg_cn83xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_14_63        : 50;
-        uint64_t tx_idle               : 1;  /**< [ 13: 13](RO/H) TX machine is idle. */
-        uint64_t rx_idle               : 1;  /**< [ 12: 12](RO/H) RX machine is idle. */
-        uint64_t reserved_9_11         : 3;
-        uint64_t speed_msb             : 1;  /**< [  8:  8](R/W) Link speed MSB (SGMII/QSGMII/1000Base-X only). See [SPEED]. */
-        uint64_t reserved_4_7          : 4;
-        uint64_t slottime              : 1;  /**< [  3:  3](R/W) Slot time for half-duplex operation
-                                                                 (SGMII/QSGMII/1000Base-X only):
-                                                                 0 = 512 bit times (10/100 Mb/s operation)
-                                                                 1 = 4096 bit times (1000 Mb/s operation) */
-        uint64_t duplex                : 1;  /**< [  2:  2](R/W) Duplex mode
-                                                                 (SGMII/QSGMII/1000Base-X only):
-                                                                 0 = half-duplex (collisions/extensions/bursts):
-                                                                 1 = full-duplex. */
-        uint64_t speed                 : 1;  /**< [  1:  1](R/W) Link Speed LSB (SGMII/QSGMII/1000Base-X only):
-                                                                 _ [SPEED_MSB:SPEED] = 0x0: 100 Mb/s operation.
-                                                                 _ [SPEED_MSB:SPEED] = 0x1: 1000 Mb/s operation.
-                                                                 _ [SPEED_MSB:SPEED] = 0x2: 10 Mb/s operation.
-                                                                 _ [SPEED_MSB:SPEED] = 0x3: Reserved. */
-        uint64_t reserved_0            : 1;
-#else /* Word 0 - Little Endian */
-        uint64_t reserved_0            : 1;
-        uint64_t speed                 : 1;  /**< [  1:  1](R/W) Link Speed LSB (SGMII/QSGMII/1000Base-X only):
-                                                                 _ [SPEED_MSB:SPEED] = 0x0: 100 Mb/s operation.
-                                                                 _ [SPEED_MSB:SPEED] = 0x1: 1000 Mb/s operation.
-                                                                 _ [SPEED_MSB:SPEED] = 0x2: 10 Mb/s operation.
-                                                                 _ [SPEED_MSB:SPEED] = 0x3: Reserved. */
-        uint64_t duplex                : 1;  /**< [  2:  2](R/W) Duplex mode
-                                                                 (SGMII/QSGMII/1000Base-X only):
-                                                                 0 = half-duplex (collisions/extensions/bursts):
-                                                                 1 = full-duplex. */
-        uint64_t slottime              : 1;  /**< [  3:  3](R/W) Slot time for half-duplex operation
-                                                                 (SGMII/QSGMII/1000Base-X only):
-                                                                 0 = 512 bit times (10/100 Mb/s operation)
-                                                                 1 = 4096 bit times (1000 Mb/s operation) */
-        uint64_t reserved_4_7          : 4;
-        uint64_t speed_msb             : 1;  /**< [  8:  8](R/W) Link speed MSB (SGMII/QSGMII/1000Base-X only). See [SPEED]. */
-        uint64_t reserved_9_11         : 3;
-        uint64_t rx_idle               : 1;  /**< [ 12: 12](RO/H) RX machine is idle. */
-        uint64_t tx_idle               : 1;  /**< [ 13: 13](RO/H) TX machine is idle. */
-        uint64_t reserved_14_63        : 50;
-#endif /* Word 0 - End */
-    } cn83xx;
+    /* struct bdk_bgxx_gmp_gmi_prtx_cfg_s cn83xx; */
 } bdk_bgxx_gmp_gmi_prtx_cfg_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_PRTX_CFG(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
@@ -6350,7 +6664,7 @@ typedef union
 static inline uint64_t BDK_BGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b) __attribute__ ((pure, always_inline));
 static inline uint64_t BDK_BGXX_GMP_GMI_SMACX(unsigned long a, unsigned long b)
 {
-    if ((a<=1) && (b<=3))
+    if (CAVIUM_IS_MODEL(CAVIUM_CN88XX) && ((a<=1) && (b<=3)))
         return 0x87e0e0038230ll + 0x1000000ll * ((a) & 0x1) + 0x100000ll * ((b) & 0x3);
     __bdk_csr_fatal("BGXX_GMP_GMI_SMACX", 2, a, b, 0, 0);
 }
@@ -7316,18 +7630,7 @@ typedef union
         uint64_t reserved_48_63        : 16;
 #endif /* Word 0 - End */
     } s;
-    /* struct bdk_bgxx_gmp_gmi_tx_pause_pkt_dmac_s cn81xx; */
-    struct bdk_bgxx_gmp_gmi_tx_pause_pkt_dmac_cn88xx
-    {
-#if __BYTE_ORDER == __BIG_ENDIAN /* Word 0 - Big Endian */
-        uint64_t reserved_48_63        : 16;
-        uint64_t dmac                  : 48; /**< [ 47:  0](R/W) The DMAC field, which is placed is outbound PAUSE packets. */
-#else /* Word 0 - Little Endian */
-        uint64_t dmac                  : 48; /**< [ 47:  0](R/W) The DMAC field, which is placed is outbound PAUSE packets. */
-        uint64_t reserved_48_63        : 16;
-#endif /* Word 0 - End */
-    } cn88xx;
-    /* struct bdk_bgxx_gmp_gmi_tx_pause_pkt_dmac_s cn83xx; */
+    /* struct bdk_bgxx_gmp_gmi_tx_pause_pkt_dmac_s cn; */
 } bdk_bgxx_gmp_gmi_tx_pause_pkt_dmac_t;
 
 static inline uint64_t BDK_BGXX_GMP_GMI_TX_PAUSE_PKT_DMAC(unsigned long a) __attribute__ ((pure, always_inline));
