@@ -63,6 +63,8 @@ mm8 0x854000d00040 0x1000 secure
 mm8 0x860000001000 0x20100010000040 secure
 # SSO_CONST1
 mm8 0x860000001008 0x1601000 secure
+# LBK(0)_CONST -Setup for NIC
+mm8 0x87e018000010 0x4000001000 secure
 
 # Make 2nd node remote boot
 control n1.gpio0 set strap 0x8
