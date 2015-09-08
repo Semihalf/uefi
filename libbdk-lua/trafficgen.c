@@ -239,7 +239,7 @@ static int trafficgen_do_update(bool do_clear)
             }
             case BDK_IF_PCIE:
             case BDK_IF_FAKE:
-            case BDK_IF_LOOP:
+            case BDK_IF_LBK:
             case __BDK_IF_LAST:
                 break;
         }

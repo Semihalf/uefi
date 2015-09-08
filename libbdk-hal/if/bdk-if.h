@@ -48,7 +48,7 @@ typedef enum
     BDK_IF_BGX,
     BDK_IF_PCIE,
     BDK_IF_FAKE,
-    BDK_IF_LOOP,
+    BDK_IF_LBK,
     __BDK_IF_LAST
 } bdk_if_t;
 

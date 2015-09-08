@@ -282,7 +282,7 @@ int bdk_pko_port_init(bdk_if_handle_t handle)
             skid_max_cnt = 2;
             compressed_channel_id = BDK_PKI_CHAN_E_DPI_CHX(handle->index);
             break;
-        case BDK_IF_LOOP:
+        case BDK_IF_LBK:
             lmac = 0;
             fifo_size = 4;
             fcs_ena = 0;
