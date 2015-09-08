@@ -32,6 +32,7 @@
 #include "bdk-pki.h"
 #include "bdk-pko.h"
 #include "bdk-sso.h"
+#include "bdk-nic.h"
 #include "bdk-key.h"
 #include "bdk-l2c.h"
 #include "bdk-mdio.h"
