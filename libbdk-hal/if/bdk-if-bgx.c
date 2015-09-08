@@ -1947,31 +1947,15 @@ static int if_loopback(bdk_if_handle_t handle, bdk_if_loopback_t loopback)
  */
 static const bdk_if_stats_t *if_get_stats(bdk_if_handle_t handle)
 {
-    const bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
+    if (handle->pki_channel == -1)
+        bdk_nic_fill_rx_stats(handle);
+    else
+        bdk_pki_fill_rx_stats(handle);
 
-    /* Read the RX statistics. These do not include the ethernet FCS */
-    BDK_CSR_INIT(rx_red, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_RX_E_RX_RED));
-    BDK_CSR_INIT(rx_red_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_RX_E_RX_RED_OCTS));
-    BDK_CSR_INIT(rx_ovr, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_RX_E_RX_ORUN));
-    BDK_CSR_INIT(rx_ovr_octets, handle->node, BDK_NIC_VNICX_RX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_RX_E_RX_ORUN_OCTS));
-
-    /* Drop and error counters */
-    handle->stats.rx.dropped_octets -= handle->stats.rx.dropped_packets * 4;
-    handle->stats.rx.dropped_octets = bdk_update_stat_with_overflow(
-        rx_red_octets.u + rx_ovr_octets.u, handle->stats.rx.dropped_octets, 48);
-    handle->stats.rx.dropped_packets = bdk_update_stat_with_overflow(
-        rx_red.u + rx_ovr.u, handle->stats.rx.dropped_packets, 48);
-    handle->stats.rx.dropped_octets += handle->stats.rx.dropped_packets * 4;
-
-    /* Read the TX statistics. These don't include the ethernet FCS */
-    BDK_CSR_INIT(tx_octets, handle->node, BDK_NIC_VNICX_TX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_TX_E_TX_OCTS));
-    BDK_CSR_INIT(tx_packets, handle->node, BDK_NIC_VNICX_TX_STATX(priv->vnic, BDK_NIC_STAT_VNIC_TX_E_TX_UCAST));
-
-    /* Update the TX stats */
-    handle->stats.tx.octets -= handle->stats.tx.packets * 4;
-    handle->stats.tx.octets = bdk_update_stat_with_overflow(tx_octets.u, handle->stats.tx.octets, 48);
-    handle->stats.tx.packets = bdk_update_stat_with_overflow(tx_packets.u, handle->stats.tx.packets, 48);
-    handle->stats.tx.octets += handle->stats.tx.packets * 4;
+    if (handle->pko_queue == -1)
+        bdk_nic_fill_tx_stats(handle);
+    else
+        bdk_pko_fill_tx_stats(handle);
 
     return &handle->stats;
 }
