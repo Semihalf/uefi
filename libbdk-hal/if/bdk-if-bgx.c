@@ -379,6 +379,7 @@ static int if_probe(bdk_if_handle_t handle)
     bgx_priv_t *priv = (bgx_priv_t *)handle->priv;
     create_priv(handle->node, handle->interface, handle->index, priv);
     priv->vnic = next_free_vnic++;
+    handle->vnic = priv->vnic;
     /* Share CQ/RBDR for ports on the same interface unless DRAM is
        setup. Sharing saves lots of memory at the cost of performance */
     priv->shares_cq = handle->index > 0;

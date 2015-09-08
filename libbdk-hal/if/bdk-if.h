@@ -94,10 +94,11 @@ typedef struct __bdk_if_port
     int         index       : 8;
     bdk_if_flags_t flags    : 8;
     int         pknd        : 8;    /* NIC/PKI packet kind */
-    int16_t     pki_channel;        /* PKI/SSO channel number */
+    int16_t     pki_channel;        /* PKI/SSO channel number, or -1 if not used */
     int16_t     pki_dstat;          /* PKI DSTAT ID used for receive stats */
-    int16_t     pko_queue;          /* PKO DQ number */
+    int16_t     pko_queue;          /* PKO DQ number, or -1 if not used */
     int16_t     aura;               /* FPA aura number */
+    int16_t     vnic;               /* NIC number in use, or -1 if not used */
     void *      receiver;           /* This is a bdk_if_packet_receiver_t */
     void *      receiver_arg;
     bdk_if_stats_t stats;
