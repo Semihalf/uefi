@@ -106,6 +106,9 @@ def process(yaml_all):
         # Loop through all blocks
         yaml_root = yaml_all[file]
         for block in yaml_root:
+            # Trickbox doesn't exist in the chip as in only useful to Asim
+            if block == "TRICKBOX":
+                continue
             yaml_block = yaml_root[block]
             # Find the yaml enums section
             yaml_enums = getChild(yaml_block, "enums", True)

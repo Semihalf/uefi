@@ -208,6 +208,9 @@ def process(yaml_all):
         yaml_root = yaml_all[file]
         # Loop through all blocks
         for block in yaml_root:
+            # Trickbox doesn't exist in the chip as in only useful to Asim
+            if block == "TRICKBOX":
+                continue
             yaml_block = yaml_root[block]
             # Find the yaml registers section
             yaml_regs = getChild(yaml_block, "registers", True)

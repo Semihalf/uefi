@@ -123,7 +123,6 @@ extern void __bdk_csr_fatal(const char *name, int num_args, unsigned long arg1, 
 #include "bdk-csrs-tim.h"
 #include "bdk-csrs-tns.h"
 #include "bdk-csrs-tns_sst.h"
-#include "bdk-csrs-trickbox.h"
 #include "bdk-csrs-uaa.h"
 #include "bdk-csrs-usbh.h"
 #include "bdk-csrs-vrm.h"
