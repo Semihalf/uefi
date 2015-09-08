@@ -291,6 +291,20 @@ local function do_eye()
     cavium.c.bdk_qlm_eye_display(menu.node, qlm_tuning.qlm, lane, 1, nil)
 end
 
+local function adjust_eye_params()
+    local num_zeros = cavium.c.bdk_brd_cfg_get_int(2, "QLM.EYE.NUM_ZEROS")
+    num_zeros = menu.prompt_number("Number of consecutive zeros that starts an eye", num_zeros, 1, 63)
+    cavium.c.bdk_brd_cfg_set_int(num_zeros, "QLM.EYE.NUM_ZEROS")
+
+    local settle_time = cavium.c.bdk_brd_cfg_get_int(50, "QLM.EYE.SETTLE_TIME");
+    settle_time = menu.prompt_number("Time (us) to settle between location movements", settle_time, 1, 100000)
+    cavium.c.bdk_brd_cfg_set_int(settle_time, "QLM.EYE.SETTLE_TIME");
+
+    local sample_time = cavium.c.bdk_brd_cfg_get_int(400, "QLM.EYE.SAMPLE_TIME");
+    sample_time = menu.prompt_number("Time (us) to count errors at each location", sample_time, 1, 10000000)
+    cavium.c.bdk_brd_cfg_set_int(sample_time, "QLM.EYE.SAMPLE_TIME");
+end
+
 local function do_loopback()
     local old = cavium.csr[menu.node].GSERX_LANEX_MISC_CFG_0(qlm_tuning.qlm, 0).CFG_PCS_LOOPBACK
     local loopback = (old == 0) and 1 or 0
@@ -329,6 +343,7 @@ function qlm_tuning.run()
         m:item("rx_eval",  "Perform a RX equalization evaluation", manual_rx_evaluation, qlm_tuning.qlm)
         m:item("loop", "Toggle loopback of TX to RX", do_loopback)
         m:item("eye", "Display Eye", do_eye)
+        --m:item("eye-param", "Configure EYE capture parameters", adjust_eye_params)
 
         m:item("quit",   "Main menu")
     until (m:show() == "quit")

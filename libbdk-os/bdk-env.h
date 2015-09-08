@@ -84,6 +84,13 @@ extern void bdk_showenv(void);
 #define BDK_BRD_CFG_DRAM_NODE               "BRD.CFG.DRAM.N%d"
 
 /*
+ * Definitions controlling how EYE diagrams are captured from a QLM
+ */
+#define BDK_QLM_CFG_EYE_ZEROS               "QLM.EYE.NUM_ZEROS"     /* Number of consecutive zeros that signals an eye (default 2) */
+#define BDK_QLM_CFG_EYE_SAMPLE_TIME         "QLM.EYE.SAMPLE_TIME"   /* Time (us) to count errors at each location (default 400us) */
+#define BDK_QLM_CFG_EYE_SETTLE_TIME         "QLM.EYE.SETTLE_TIME"   /* Time (us) to settle between location movements (Default 50us) */
+
+/*
  * Which peripherals to configure at boot time.
  *
  * By default the generic boot code tries to initialize all peripherals on the
