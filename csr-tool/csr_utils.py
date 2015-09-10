@@ -289,44 +289,70 @@ def createSubset(arch, struct_reg):
         subset = csr_data.Register(struct_reg["name"])
     else:
         subset = csr_data.Struct(struct_reg["name"])
+    # Go through all the fields, skipping reserved bits
     subset["description"]["s"] = "Common subset"
-    fields = subset["fields"]
+    subset_fields = subset["fields"]
     for name in struct_reg["fields"]:
         if isReserved(name):
             continue
-        common_all_chips = True
+        start_bit_changed = False
         start_bit = None
         stop_bit = None
         description = ""
         access = ""
         f = struct_reg["fields"][name]
-        for chip in struct_reg["description"]:
+        # Go through all the chips for this field and expand it so that
+        # start_bit and stop_bit encompass the largest version of the field.
+        # Remember if the start_bit changed as we can't handle that in C code.
+        for chip in f["bits"]:
+            # Skip other architecture as we don't care about conflicts
             if not isChipArch(arch, chip):
                 continue
-            if not chip in f["bits"]:
-                common_all_chips = False
-                break
-            elif start_bit == None:
+            if start_bit == None:
                 start_bit, stop_bit = f["bits"][chip]
                 description = f["description"][chip]
                 if isReg:
                     access = f["access"][chip]
-            elif f["bits"][chip][0] != start_bit:
-                common_all_chips = False
-                break
-            elif f["bits"][chip][1] != stop_bit:
-                common_all_chips = False
-                break
-            else:
-                pass # Good so far
-        if common_all_chips:
-            if isReg:
-                fields[name] = csr_data.RegisterField(name)
-                fields[name]["access"]["s"] = access
-            else:
-                fields[name] = csr_data.StructField(name)
-            fields[name]["bits"]["s"] = (start_bit, stop_bit)
-            fields[name]["description"]["s"] = description
+            elif f["bits"][chip][0] < start_bit:
+                start_bit = f["bits"][chip][0]
+                start_bit_changed = True
+            elif f["bits"][chip][0] > start_bit:
+                start_bit_changed = True
+            elif f["bits"][chip][1] > stop_bit:
+                stop_bit = f["bits"][chip][1]
+        if start_bit == None:
+            continue
+        # Add this field to the subset
+        if isReg:
+            subset_fields[name] = csr_data.RegisterField(name)
+            subset_fields[name]["access"]["s"] = access
+        else:
+            subset_fields[name] = csr_data.StructField(name)
+        subset_fields[name]["bits"]["s"] = (start_bit, stop_bit)
+        subset_fields[name]["description"]["s"] = description
+        # Remember if the start_bit changed, causing this field to be a conflict
+        subset_fields[name]["conflict_bits"] = start_bit_changed
+    # Loop through all the fields in the subset looking for overlaps
+    for name in subset_fields:
+        start_bit, stop_bit = subset_fields[name]["bits"]["s"]
+        # Check against all fields except myself
+        for n in subset_fields:
+            if n == name:
+                continue
+            # Mark both fields as conflicts if they overlap
+            if start_bit <= subset_fields[n]["bits"]["s"][1] and stop_bit >= subset_fields[n]["bits"]["s"][0]:
+                subset_fields[name]["conflict_bits"] = True
+                subset_fields[n]["conflict_bits"] = True
+    # Loop through the subset fields deleting the ones we flagged as conflicts
+    names = subset_fields.keys()
+    for name in names:
+        if subset_fields[name]["conflict_bits"]:
+            # Delete the conflict
+            del subset_fields[name]
+        else:
+            # Delete the false conflict marker
+            del subset_fields[name]["conflict_bits"]
+    # Fields should only be a valid subset. Now fill in the holes
     holes = findBitHoles(subset, multipleOf)
     subset_size = getSizeBits(subset, multipleOf=0)
     while subset_size < bit_size:
@@ -347,12 +373,12 @@ def createSubset(arch, struct_reg):
         for hole in holes["s"]:
             n = getReservedName(hole)
             #print "Filling hole in %s for subset: %s" % (struct_reg["name"], n)
-            assert not n in fields
+            assert not n in subset_fields
             if isReg:
-                fields[n] = csr_data.RegisterField(n)
+                subset_fields[n] = csr_data.RegisterField(n)
             else:
-                fields[n] = csr_data.StructField(n)
-            fields[n]["bits"]["s"] = hole
+                subset_fields[n] = csr_data.StructField(n)
+            subset_fields[n]["bits"]["s"] = hole
     subset_size = getSizeBits(subset, multipleOf)
     assert subset_size == bit_size, "%s subset %d, original %d" % (struct_reg["name"], subset_size, bit_size)
     return subset
