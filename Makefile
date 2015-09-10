@@ -5,7 +5,6 @@ endif
 include $(BDK_ROOT)/libbdk/bdk.mk
 
 TFTPBOOT?=/tftpboot/
-ASIM_CHIP?=CN88XX:2.0
 
 .PHONY: all
 all: version
@@ -65,19 +64,42 @@ tftp: all
 suid: all
 	$(MAKE) -C utils/bdk-lua suid
 
-.PHONY: run
-run:
-ifndef ASIM
-	echo ERROR: Define ASIM in the environment, the directory of asim && false
-endif
-	ASIM_CHIP=$(ASIM_CHIP) UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/bdk.bin SYMBOL_IMAGE=$(BDK_ROOT)/bdk-boot/diagnostics $(ASIM)/asim -e bdk.asim
+#
+# User targets to run Asim
+#
 
-.PHONY: run-normal
-run-normal:
+.PHONY: run # Runs bdk.bin
+run: run-asim
+
+.PHONY: run-normal # Runs normal-ebb8800.bin
+run-normal: ASIM_IMAGE=$(BDK_ROOT)/target-bin/normal-ebb8800.bin
+run-normal: ASIM_ELF=$(BDK_ROOT)/normal-boot/ebb8800/diagnostics
+run-normal: run-asim
+
+#
+# Defines controlling the command line for Asim
+#
+ASIM_CHIP ?= CN88XX:2.0
+ASIM_IMAGE = $(BDK_ROOT)/target-bin/bdk.bin
+ASIM_ELF = $(BDK_ROOT)/bdk-boot/diagnostics
+ASIM_ENV = ASIM_CHIP=$(ASIM_CHIP)
+ASIM_ENV += UART0PORT=2000
+ASIM_ENV += UART1PORT=2001
+ASIM_ENV += BIN_IMAGE=$(ASIM_IMAGE)
+ASIM_ENV += SYMBOL_IMAGE=$(ASIM_ELF)
+ASIM_SCRIPT = $(firstword $(subst :, ,$(ASIM_CHIP))).asim
+ASIM_CMD = $(ASIM_ENV) $(ASIM)/asim -e $(ASIM_SCRIPT)
+
+#
+# Target to run asim. Use other targets to change defines before executing this target
+#
+.PHONY: run-asim
+run-asim:
 ifndef ASIM
 	echo ERROR: Define ASIM in the environment, the directory of asim && false
 endif
-	ASIM_CHIP=$(ASIM_CHIP) UART0PORT=2000 UART1PORT=2001 BIN_IMAGE=$(BDK_ROOT)/target-bin/normal-ebb8800.bin SYMBOL_IMAGE=$(BDK_ROOT)/normal-boot/ebb8800/diagnostics $(ASIM)/asim -e bdk.asim
+	echo $(ASIM_CMD)
+	$(ASIM_CMD)
 
 #
 # Determine the BDK version based on the last change in the version

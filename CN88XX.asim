@@ -25,46 +25,6 @@ device io_memory n1.tns_bar2 config 0x40000000 0x942040000000
 device io_memory n1.tns_bar4 config 0x100000 0x942000f00000
 device io_memory n0.gti config 0x1000000 0x844000000000
 device io_memory n1.gti config 0x1000000 0x944000000000
-# CN83XX
-device io_memory n0.fpa_bar0 config 0x200000000 0x828000000000
-device io_memory n0.fpa_bar4 config 0x100000 0x828300000000
-device io_memory n0.fpa_vbar0 config 0x8000000 0x828400000000
-device io_memory n0.fpa_vbar4 config 0x8000000 0x828700000000
-device io_memory n0.pki_bar0 config 0x1000000 0x86c000000000
-device io_memory n0.pki_bar4 config 0x100000 0x86c001000000
-device io_memory n0.pko_bar0 config 0x200000000 0x854000000000
-device io_memory n0.pko_bar4 config 0x100000 0x854300000000
-device io_memory n0.pko_vbar0 config 0x4000000 0x854400000000
-device io_memory n0.pko_vbar4 config 0x4000000 0x854700000000
-device io_memory n0.sso_bar0 config 0x400000000 0x860000000000
-device io_memory n0.sso_bar4 config 0x100000 0x860700000000
-device io_memory n0.sso_vbar0 config 0x4000000 0x860800000000
-device io_memory n0.sso_vbar4 config 0x4000000 0x860c00000000
-device io_memory n0.lbk_bar0-0 config 0x100000 0x87e018000000
-device io_memory n0.lbk_bar0-1 config 0x100000 0x87e019000000
-device io_memory n0.lbk_bar0-2 config 0x100000 0x87e01a000000
-device io_memory n0.lbk_bar0-3 config 0x100000 0x87e01b000000
-device io_memory n0.lbk_bar4-0 config 0x100000 0x87e018f00000
-device io_memory n0.lbk_bar4-1 config 0x100000 0x87e019f00000
-device io_memory n0.lbk_bar4-2 config 0x100000 0x87e01af00000
-device io_memory n0.lbk_bar4-3 config 0x100000 0x87e01bf00000
-# Set constants
-# FPA_CONST
-mm8 0x828000000010 0x1d1b0002000020 secure
-# PKI_CONST
-mm8 0x86c000000000 0x40004002000200 secure
-# PKI_CONST1
-mm8 0x86c000000008 0x21402 secure
-# PKI_CONST2
-mm8 0x86c000000010 0x400400080000c0 secure
-# PKO_CONST
-mm8 0x854000d00040 0x1000 secure
-# SSO_CONST
-mm8 0x860000001000 0x20100010000040 secure
-# SSO_CONST1
-mm8 0x860000001008 0x1601000 secure
-# LBK(0)_CONST -Setup for NIC
-mm8 0x87e018000010 0x4000001000 secure
 
 # Make 2nd node remote boot
 control n1.gpio0 set strap 0x8
@@ -72,11 +32,6 @@ control n1.gpio0 set strap 0x8
 # Listen for uart connections on port 2000, 2001
 control n0.uaa0 connect ${UART0PORT}
 control n0.uaa1 connect ${UART1PORT}
-
-#trace n0.nic0 debug step
-#trace n0.nic_bridge on
-#trace n1.nic0 debug step
-#trace n1.nic_bridge on
 
 # Load BOOT ROM
 load ${BDK_ROOT}/target-bin/mio_boot_rom $(NODEIOBASE + 0x87d000000000)
@@ -97,10 +52,6 @@ control n0.emm0 connect ${BIN_IMAGE}
 
 # Load the BDK symbols
 symbols ${SYMBOL_IMAGE}
-
-# Control tracing
-#trace cpu0 step
-#show_source on
 
 # Break ROM not booting
 #bp fatal_spin
@@ -123,7 +74,10 @@ bp __bdk_exception_lower_el_sync_spx
 bp __bdk_exception_lower_el_irq_spx
 bp __bdk_exception_lower_el_fiq_spx
 bp __bdk_exception_lower_el_serror_spx
-#bp __bdk_thread_switch
-#bp bdk_thread_destroy
 
+echo
+echo
+echo "Wait for the uart program to connect to asim, then"
+echo "type 'start 0' to start execution"
+echo
 

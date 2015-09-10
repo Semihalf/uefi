@@ -61,7 +61,7 @@ def wait_for(wait_str):
 #
 # Load the common config
 #
-assert sim.command("@%s/bdk.asim" % BDK_ROOT)
+assert sim.command("@%s/%s.asim" % (BDK_ROOT, os.environ["ASIM_CHIP"].split(":")[0]))
 assert sim.command("start 0")
 
 wait_for("Cavium THUNDERX")

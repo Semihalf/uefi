@@ -1,0 +1,71 @@
+
+# Load the CN83XX IOs
+@${ASIM}/tests/io/cn83xx-1s24p.asim
+
+# Set constants
+# FPA_CONST
+mm8 0x828000000010 0x1d1b0002000020 secure
+# PKI_CONST
+mm8 0x86c000000000 0x40004002000200 secure
+# PKI_CONST1
+mm8 0x86c000000008 0x21402 secure
+# PKI_CONST2
+mm8 0x86c000000010 0x400400080000c0 secure
+# PKO_CONST
+mm8 0x854000d00040 0x1000 secure
+# SSO_CONST
+mm8 0x860000001000 0x20100010000040 secure
+# SSO_CONST1
+mm8 0x860000001008 0x1601000 secure
+# LBK(0)_CONST -Setup for NIC
+mm8 0x87e018000010 0x4000001000 secure
+
+# Listen for uart connections on port 2000, 2001
+control n0.uaa0 connect ${UART0PORT}
+control n0.uaa1 connect ${UART1PORT}
+
+# Load BOOT ROM
+load ${BDK_ROOT}/target-bin/mio_boot_rom $(NODEIOBASE + 0x87d000000000)
+
+# Set GPIO strap pins (boot method)
+# 24bit SPI
+control n0.gpio0 set strap 0x5
+# 32bit SPI
+#control n0.gpio0 set strap 0x6
+# eMMC
+#control n0.gpio0 set strap 0x2
+
+# Load SPI image
+control n0.mpi0 connect 0 ${BIN_IMAGE}
+
+# Load eMMC image
+control n0.emm0 connect ${BIN_IMAGE}
+
+# Load the BDK symbols
+symbols ${SYMBOL_IMAGE}
+
+# Break on BDK exceptions
+bp 0
+bp __bdk_exception_current_el_sync_sp0
+bp __bdk_exception_current_el_irq_sp0
+bp __bdk_exception_current_el_fiq_sp0
+bp __bdk_exception_current_el_serror_sp0
+bp __bdk_exception_current_el_sync_spx
+bp __bdk_exception_current_el_irq_spx
+bp __bdk_exception_current_el_fiq_spx
+bp __bdk_exception_current_el_serror_spx
+bp __bdk_exception_lower_el_sync_sp0
+bp __bdk_exception_lower_el_irq_sp0
+bp __bdk_exception_lower_el_fiq_sp0
+bp __bdk_exception_lower_el_serror_sp0
+bp __bdk_exception_lower_el_sync_spx
+bp __bdk_exception_lower_el_irq_spx
+bp __bdk_exception_lower_el_fiq_spx
+bp __bdk_exception_lower_el_serror_spx
+
+echo
+echo
+echo "Wait for the uart program to connect to asim, then"
+echo "type 'start 0' to start execution"
+echo
+
